@@ -14,7 +14,7 @@ describe('decodeResponse', (): void => {
 
   it('expects a non-empty input object', (): void => {
     expect(
-      (): any => coder.decodeResponse((undefined as any) as JsonRpcResponse)
+      (): any => coder.decodeResponse(undefined as unknown as JsonRpcResponse)
     ).toThrow(/Empty response/);
   });
 

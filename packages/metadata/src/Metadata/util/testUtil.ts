@@ -47,31 +47,27 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
-    metadata.asLatest.modules
-      .filter(({ storage }): boolean => storage.isSome)
-      .forEach((mod): void => {
-        mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
-          const inner = unwrapStorageType(type);
-          const location = `${mod.name}.${name}: ${inner}`;
+    metadata.asLatest.modules.filter(({ storage }): boolean => storage.isSome).forEach((mod): void => {
+      mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
+        const inner = unwrapStorageType(type);
+        const location = `${mod.name}.${name}: ${inner}`;
 
-          it(`creates default types for ${location}`, (): void => {
-            expect(
-              (): void => {
-                try {
-                  createTypeUnsafe(registry, inner, [fallback]);
-                } catch (error) {
-                  const message = `${location}:: ${error.message}`;
+        it(`creates default types for ${location}`, (): void => {
+          expect((): void => {
+            try {
+              createTypeUnsafe(registry, inner, [fallback]);
+            } catch (error) {
+              const message = `${location}:: ${error.message}`;
 
-                  if (withThrow) {
-                    throw new Error(message);
-                  } else {
-                    console.warn(message);
-                  }
-                }
+              if (withThrow) {
+                throw new Error(message);
+              } else {
+                console.warn(message);
               }
-            ).not.toThrow();
-          });
+            }
+          }).not.toThrow();
         });
       });
+    });
   });
 }

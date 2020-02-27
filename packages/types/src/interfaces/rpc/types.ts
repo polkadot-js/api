@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { BTreeMap, Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Enum, HashMap, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { Balance, BlockNumber, DispatchClass, Hash, StorageData, Weight } from '@polkadot/types/interfaces/runtime';
 
@@ -62,8 +62,8 @@ export interface NetworkState extends Struct {
   readonly peerId: Text;
   readonly listenedAddresses: Vec<Text>;
   readonly externalAddresses: Vec<Text>;
-  readonly connectedPeers: BTreeMap<Text, Peer>;
-  readonly notConnectedPeers: BTreeMap<Text, NotConnectedPeer>;
+  readonly connectedPeers: HashMap<Text, Peer>;
+  readonly notConnectedPeers: HashMap<Text, NotConnectedPeer>;
   readonly averageDownloadPerSec: u64;
   readonly averageUploadPerSec: u64;
   readonly peerset: NetworkStatePeerset;
@@ -72,7 +72,7 @@ export interface NetworkState extends Struct {
 /** @name NetworkStatePeerset */
 export interface NetworkStatePeerset extends Struct {
   readonly messageQueue: u64;
-  readonly nodes: BTreeMap<Text, NetworkStatePeersetInfo>;
+  readonly nodes: HashMap<Text, NetworkStatePeersetInfo>;
 }
 
 /** @name NetworkStatePeersetInfo */

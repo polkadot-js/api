@@ -1,3 +1,15 @@
+# 1.5.0-beta.x
+
+- Allow `BTreeMap` to be initialized with a `Record<string, any>` object (in addition to `Map`)
+- Allow for `HashMap<KeyType, ValueType>` definitions
+- `Bool` will now correctly return `isEmpty` on false/default values
+- Refresh the `NetworkState` types as returned by the `rpc.system.networkState()` call to current
+- Expose `registry.createClass(<typeName>)`, to allow for creating type classes. If you are using `createClass` or `ClassOf` in your code, it is recommended to swap to this instance.
+
+# 1.4.2 Feb 27, 2020
+
+- Fix `api.tx(<extrinsic>): Submittable` decoration (non-working in 1.4.1, now with proper test)
+
 # 1.4.1 Feb 26, 2020
 
 - **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features (specifically `#private`), which is not usable in TS versions < 3.8

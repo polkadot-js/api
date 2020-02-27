@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0-beta.2",
+  "version": "1.5.0-beta.11",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -26,7 +26,7 @@
     "@babel/core": "^7.8.4",
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.4",
-    "@polkadot/dev": "^0.41.4",
+    "@polkadot/dev": "^0.41.6",
     "@polkadot/ts": "^0.2.3",
     "copyfiles": "^2.2.0"
   }

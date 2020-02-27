@@ -34,9 +34,8 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
     return [];
   }
 
-  setImports(allDefs, imports, ['SubmittableExtrinsic']);
+  setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
-  // NOTE Not removing this concat yet, first see the fallout
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     .concat(isStrict ? '' : indent(6)('[index: string]: SubmittableExtrinsicFunction<ApiType>;'))
     .concat(allCalls.map(({ args, documentation, name }): string => {
@@ -87,7 +86,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const interfaceEnd = `\n${indent(2)('}')}\n\n`;
     const submittableExtrinsicsInterface = indent(2)('export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {')
       .concat('\n')
-      .concat(indent(4)('(extrinsic: Uint8Array | string): SubmittableExtrinsic<ApiType>;\n'))
+      .concat(indent(4)('(extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;\n'))
       .concat(isStrict ? '' : indent(4)('[index: string]: SubmittableModuleExtrinsics<ApiType>;\n'))
       .concat(indent(2)('}\n'));
 

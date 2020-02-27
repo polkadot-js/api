@@ -12,6 +12,7 @@ import BTreeMap from '../codec/BTreeMap';
 import BTreeSet from '../codec/BTreeSet';
 import Compact from '../codec/Compact';
 import Enum from '../codec/Enum';
+import HashMap from '../codec/HashMap';
 import Int from '../codec/Int';
 import Option from '../codec/Option';
 import Result from '../codec/Result';
@@ -83,19 +84,22 @@ function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof
   return Clazz.with(length as UIntBitLength, displayName);
 }
 
-const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor => {
-    const [keyType, valueType] = getTypeClassArray(value);
+function createHashMap (value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap): Constructor {
+  const [keyType, valueType] = getTypeClassArray(value);
 
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return BTreeMap.with(keyType, valueType);
-  },
+  return Clazz.with(keyType, valueType);
+}
+
+const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
+  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, BTreeMap),
 
   [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor => BTreeSet.with(getSubType(value)),
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
+
+  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, HashMap),
 
   [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor => createInt(value, Int),
 
@@ -112,7 +116,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => ClassOf(registry, 'Null'),
+  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => createClass(registry, 'Null'),
 
   [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor => Option.with(getSubType(value)),
 
@@ -150,7 +154,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return (
       subType === 'u8'
-        ? ClassOf(registry, 'Bytes')
+        ? createClass(registry, 'Bytes')
         : Vec.with(subType)
     );
   },

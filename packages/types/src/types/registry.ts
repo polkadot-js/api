@@ -92,6 +92,7 @@ export interface Registry {
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
+  createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
   createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K];
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;

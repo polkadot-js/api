@@ -21,6 +21,10 @@ describe('Vote', (): void => {
       expect(new Vote(registry, false).isAye).toBe(false);
     });
 
+    it('constructs via undefined', (): void => {
+      expect(new Vote(registry).isNay).toBe(true);
+    });
+
     it('has isYay for positive', (): void => {
       // eslint-disable-next-line no-new-wrappers
       expect(new Vote(registry, true).isAye).toBe(true);

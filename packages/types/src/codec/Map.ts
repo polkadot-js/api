@@ -5,41 +5,51 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, hexToU8a, isObject, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
 import Raw from './Raw';
-import { compareSet, decodeU8a, typeToConstructor } from './utils';
+import compareMap from './utils/compareMap';
+import decodeU8a from './utils/decodeU8a';
+import typeToConstructor from './utils/typeToConstructor';
 
 /** @internal */
-function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
-  const output = new Set<V>();
+function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
+  const output = new Map<K, V>();
   const [offset, length] = Compact.decodeU8a(u8a);
   const types = [];
 
   for (let i = 0; i < length.toNumber(); i++) {
-    types.push(ValClass);
+    types.push(KeyClass, ValClass);
   }
 
   const values = decodeU8a(registry, u8a.subarray(offset), types);
 
-  for (let i = 0; i < values.length; i++) {
-    output.add(values[i] as V);
+  for (let i = 0; i < values.length; i += 2) {
+    output.set(values[i] as K, values[i + 1] as V);
   }
 
   return output;
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
-  const output = new Set<V>();
+function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
+  const output = new Map<K, V>();
 
-  value.forEach((val: any) => {
+  value.forEach((val: any, key: any) => {
     try {
-      output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
+      output.set(
+        key instanceof KeyClass
+          ? key
+          : new KeyClass(registry, key),
+        val instanceof ValClass
+          ? val
+          : new ValClass(registry, val)
+      );
     } catch (error) {
-      console.error('Failed to decode BTreeSet key or value:', error.message);
+      console.error('Failed to decode Map key or value:', error.message);
+
       throw error;
     }
   });
@@ -50,53 +60,53 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
 /**
  * Decode input to pass into constructor.
  *
+ * @param KeyClass - Type of the map key
  * @param ValClass - Type of the map value
  * @param value - Value to decode, one of:
  * - null
  * - undefined
  * - hex
  * - Uint8Array
- * - Set<any>, where both key and value types are either
+ * - Map<any, any>, where both key and value types are either
  *   constructors or decodeable values for their types.
- * @param jsonSet
+ * @param jsonMap
  * @internal
  */
-function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Set<any>): Set<V> {
-  if (!value) {
-    return new Set<V>();
-  }
-
+function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Map<any, any>): Map<K, V> {
+  const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
-  if (isHex(value)) {
-    return decodeSet(registry, ValClass, hexToU8a(value));
+  if (!value) {
+    return new Map<K, V>();
+  } else if (isHex(value)) {
+    return decodeMap(registry, KeyClass, ValClass, hexToU8a(value));
   } else if (isU8a(value)) {
-    return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
-  } else if (value instanceof Set) {
-    return decodeSetFromSet<V>(registry, ValClass, value);
+    return decodeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
+  } else if (value instanceof Map) {
+    return decodeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
+  } else if (isObject(value)) {
+    return decodeMapFromMap<K, V>(registry, KeyClass, ValClass, new Map(Object.entries(value)));
   }
 
-  throw new Error('BTreeSet: cannot decode type');
+  throw new Error('Map: cannot decode type');
 }
 
-export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
+export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
   public readonly registry: Registry;
+
+  readonly #KeyClass: Constructor<K>;
 
   readonly #ValClass: Constructor<V>;
 
-  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
-    super(decodeSet(registry, valType, rawValue));
+  readonly #type: string;
+
+  constructor (registry: Registry, type: 'BTreeMap' | 'HashMap', keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
+    super(decodeMap(registry, keyType, valType, rawValue));
 
     this.registry = registry;
+    this.#KeyClass = typeToConstructor(registry, keyType);
     this.#ValClass = typeToConstructor(registry, valType);
-  }
-
-  public static with<V extends Codec> (valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
-    return class extends BTreeSet<V> {
-      constructor (registry: Registry, value?: any) {
-        super(registry, valType, value);
-      }
-    };
+    this.#type = type;
   }
 
   /**
@@ -105,8 +115,8 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   public get encodedLength (): number {
     let len = Compact.encodeU8a(this.size).length;
 
-    this.forEach((v: V) => {
-      len += v.encodedLength;
+    this.forEach((v: V, k: K) => {
+      len += v.encodedLength + k.encodedLength;
     });
 
     return len;
@@ -130,7 +140,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
-    return compareSet(this, other);
+    return compareMap(this, other);
   }
 
   /**
@@ -144,10 +154,10 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    const json: any = [];
+    const json: any = {};
 
-    this.forEach((v: V) => {
-      json.push(v.toHuman(isExtended));
+    this.forEach((v: V, k: K) => {
+      json[k.toString()] = v.toHuman(isExtended);
     });
 
     return json;
@@ -157,10 +167,10 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    const json: any = [];
+    const json: any = {};
 
-    this.forEach((v: V) => {
-      json.push(v.toJSON());
+    this.forEach((v: V, k: K) => {
+      json[k.toString()] = v.toJSON();
     });
 
     return json;
@@ -170,7 +180,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeSet<${new this.#ValClass(this.registry).toRawType()}>`;
+    return `${this.#type}<${new this.#KeyClass(this.registry).toRawType()},${new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**
@@ -191,8 +201,8 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
       encoded.push(Compact.encodeU8a(this.size));
     }
 
-    this.forEach((v: V) => {
-      encoded.push(v.toU8a(isBare));
+    this.forEach((v: V, k: K) => {
+      encoded.push(k.toU8a(isBare), v.toU8a(isBare));
     });
 
     return u8aConcat(...encoded);

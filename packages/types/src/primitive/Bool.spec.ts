@@ -42,11 +42,11 @@ describe('Bool', (): void => {
   });
 
   describe('utils', (): void => {
-    it('compares agains a boolean', (): void => {
+    it('compares against a boolean', (): void => {
       expect(new Bool(registry, true).eq(true)).toBe(true);
     });
 
-    it('compares agains a Bool', (): void => {
+    it('compares against a Bool', (): void => {
       expect(new Bool(registry, false).eq(new Bool(registry, false))).toBe(true);
     });
 
@@ -56,6 +56,12 @@ describe('Bool', (): void => {
 
     it('has isFalse', (): void => {
       expect(new Bool(registry, true).isFalse).toBe(false);
+    });
+
+    it('has sane isEmpty aligning with the rest', (): void => {
+      expect(new Bool(registry).isEmpty).toBe(true);
+      expect(new Bool(registry, false).isEmpty).toBe(true);
+      expect(new Bool(registry, true).isEmpty).toBe(false);
     });
   });
 });
