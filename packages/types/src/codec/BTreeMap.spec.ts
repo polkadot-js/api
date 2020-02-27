@@ -29,7 +29,7 @@ describe('BTreeMap', (): void => {
     const val = new Text(registry, 'bar');
 
     expect(
-      (new BTreeMap(registry, Text, Text, new Map([[key, val]]))).eq(new Map([[key, val]]))
+      (new (BTreeMap.with(Text, Text))(registry, new Map([[key, val]]))).eq(new Map([[key, val]]))
     ).toBe(true);
   });
 
