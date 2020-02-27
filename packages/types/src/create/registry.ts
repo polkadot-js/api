@@ -129,6 +129,13 @@ export class TypeRegistry implements Registry {
   }
 
   /**
+   * @describe Creates an instance of the class
+   */
+  public createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]> {
+    return createClass(this, type) as any;
+  }
+
+  /**
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {

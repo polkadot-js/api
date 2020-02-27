@@ -10,7 +10,6 @@ import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentR
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { ClassOf } from '@polkadot/types';
 import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
@@ -32,7 +31,7 @@ const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
-  const Extrinsic = ClassOf(api.registry, 'Extrinsic');
+  const Extrinsic = api.registry.createClass('Extrinsic');
 
   return class Submittable extends Extrinsic implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;

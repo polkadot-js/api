@@ -23,6 +23,7 @@ export enum TypeDefInfo {
   Tuple,
   Vec,
   VecFixed,
+  HashMap,
   Int,
   UInt,
   // anything not fully supported (keep this as the last entry)
@@ -34,6 +35,7 @@ export interface TypeDefExtEnumDiscriminant {
 }
 
 export interface TypeDef {
+  alias?: Map<string, string>;
   info: TypeDefInfo;
   index?: number;
   displayName?: string;

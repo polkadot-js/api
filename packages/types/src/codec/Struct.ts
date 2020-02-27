@@ -119,9 +119,9 @@ export default class Struct<
     this.#Types = mapToTypeMap(registry, Types);
   }
 
-  public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
+  public static with<S extends TypesDef> (Types: S, jsonMap?: Map<keyof S, string>): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      constructor (registry: Registry, value?: any, jsonMap?: Map<keyof S, string>) {
+      constructor (registry: Registry, value?: any) {
         super(registry, Types, value, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
@@ -233,10 +233,9 @@ export default class Struct<
    */
   public toHuman (isExtended?: boolean): AnyJson {
     return [...this.keys()].reduce((json, key): any => {
-      const jsonKey = this.#jsonMap.get(key) || key;
       const value = this.get(key);
 
-      json[jsonKey] = value && value.toHuman(isExtended);
+      json[key] = value && value.toHuman(isExtended);
 
       return json;
     }, {} as any);
