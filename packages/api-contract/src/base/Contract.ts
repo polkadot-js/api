@@ -41,8 +41,8 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     return {
       send: this.decorateMethod(
         as === 'rpc' && this.hasRpcContractsCall
-          ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> => {
-            return this.rpcContractsCall(
+          ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>
+            this.rpcContractsCall(
               this.registry.createType('ContractCallRequest', {
                 origin: account,
                 dest: this.address.toString(),
@@ -50,18 +50,13 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
                 gasLimit,
                 inputData: fn(...params)
               })
-            )
-              .pipe(
-                map((result: ContractExecResult): ContractCallOutcome =>
-                  this.createOutcome(result, this.registry.createType('AccountId', account), def, params)
-                )
-              );
-          }
-          : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> => {
-            return this.apiContracts
+            ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
+              this.createOutcome(result, this.registry.createType('AccountId', account), def, params)
+            ))
+          : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
+            this.apiContracts
               .call(this.address, value, gasLimit, fn(...params))
-              .signAndSend(account);
-          }
+              .signAndSend(account)
       )
     };
   }
