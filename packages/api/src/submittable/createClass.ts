@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import { Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
@@ -31,12 +31,12 @@ const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
-  const Extrinsic = api.registry.createClass('Extrinsic');
+  const ExtrinsicBase = api.registry.createClass('Extrinsic');
 
-  return class Submittable extends Extrinsic implements SubmittableExtrinsic<ApiType> {
+  return class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
 
-    constructor (registry: Registry, extrinsic: Call | Uint8Array | string) {
+    constructor (registry: Registry, extrinsic: Call | Extrinsic | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });
 
       this.#ignoreStatusCb = apiType === 'rxjs';
