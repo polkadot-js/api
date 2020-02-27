@@ -129,6 +129,9 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   second.signAndSend('123', (result): void => {
     console.log(result);
   });
+
+  /// it can create fro a hex string or extrinsic
+  await api.tx('0x12345').signAndSend(keyring.alice.address);
 }
 
 async function main (): Promise<void> {

@@ -52,9 +52,9 @@ function query (api: ApiInterfaceRx): Observable<Result> {
     api.query.staking.validatorCount
   ]).pipe(
     map(([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]): Result => [
-      activeEra.unwrapOr(createType(api.registry, 'EraIndex', 1)),
+      activeEra.unwrapOrDefault(),
       activeEraStart,
-      currentEra.unwrapOr(createType(api.registry, 'EraIndex', 1)),
+      currentEra.unwrapOrDefault(),
       currentIndex,
       validatorCount
     ])

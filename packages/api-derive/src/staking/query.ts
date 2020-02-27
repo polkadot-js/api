@@ -19,7 +19,7 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], 
   const sessionIds = (queuedKeys.find(([currentId]): boolean =>
     currentId.eq(stashId)
   ) || [undefined, [] as AccountId[]])[1];
-  const nextSessionIds = nextKeys.unwrapOr([] as AccountId[]);
+  const nextSessionIds = nextKeys.unwrapOrDefault();
 
   return {
     nextSessionIds,
@@ -62,7 +62,7 @@ function retrieveController (api: ApiInterfaceRx, stashId: AccountId, [queuedKey
         accountId: stashId,
         controllerId,
         exposure,
-        nominators: nominatorsOpt.unwrapOr([{ targets: [] }])[0].targets,
+        nominators: nominatorsOpt.unwrapOrDefault()[0].targets,
         rewardDestination,
         stakingLedger: stakingLedgerOpt.unwrapOr(undefined),
         stashId,

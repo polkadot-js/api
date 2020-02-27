@@ -30,7 +30,7 @@ function queryEnumSet (api: ApiInterfaceRx, _accountIndex: AccountIndex | string
 function query (api: ApiInterfaceRx, accountIndex: AccountIndex | string): Observable<AccountId | undefined> {
   return api.query.indices.accounts<Option<ITuple<[AccountId, BalanceOf]>>>(accountIndex).pipe(
     map((optResult): AccountId | undefined =>
-      optResult.unwrapOr([])[0]
+      optResult.unwrapOrDefault()[0]
     )
   );
 }
