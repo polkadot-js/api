@@ -8,8 +8,8 @@ const DELAY = 1750;
 
 /** @internal */
 function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
-  // 0 = disconnected, 1 = disconnecting, 2 = connecting, 3 = connected
-  let [refCount, state, connection, scheduler] = [0, 0, Subscription.EMPTY, Subscription.EMPTY];
+  // state: 0 = disconnected, 1 = disconnecting, 2 = connecting, 3 = connected
+  let [state, refCount, connection, scheduler] = [0, 0, Subscription.EMPTY, Subscription.EMPTY];
 
   return new Observable((ob) => {
     source.subscribe(ob);
@@ -30,7 +30,7 @@ function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
           state = 0;
           scheduler.unsubscribe();
         } else {
-          // connected === 3
+          // state === 3
           state = 1;
           scheduler = asapScheduler.schedule((): void => {
             connection.unsubscribe();
