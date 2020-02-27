@@ -92,7 +92,7 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
 // current (balances  vesting)
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
   return (
-    api.query.vesting.vesting
+    api.query.vesting?.vesting
       ? api.queryMulti<[Vec<BalanceLock>, Option<VestingInfo>]>([
         [api.query.balances.locks, accountId],
         [api.query.vesting.vesting, accountId]
