@@ -71,6 +71,7 @@ export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
 
 export interface QueryableStorageMultiPromise<ApiType extends ApiTypes> {
   <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Promise<T>;
 }
 
 export type QueryableStorageMulti<ApiType extends ApiTypes> =

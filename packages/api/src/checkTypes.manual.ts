@@ -60,6 +60,15 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
     multiUnsub();
   });
 
+  // check multi , Promise result
+  const multiRes = await api.queryMulti([
+    [api.query.system.account, keyring.eve.address],
+    // older chains only
+    [api.query.system.accountNonce, keyring.bob.address]
+  ]);
+
+  console.log(multiRes);
+
   // check entries()
   await api.query.system.account.entries(); // should not take a param
   await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
