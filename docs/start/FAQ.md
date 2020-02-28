@@ -12,6 +12,14 @@ If however you are running against a master branch of either Polkadot or Substra
 
 Update your version of the API to the [latest version](install.md). Like types, the [metadata interfaces](basics.md) are continuously evolving. For instance with the Polkadot Alexander network, only metadata v3 is available. By the time Kusama launched, this has been bumped to v7. As these versions are added to the Polkadot/Substrate codebase, they are added to the API.
 
+## The node returns a "Could not convert" error on send
+
+The typical error that you would see is `Verification Error: Execution(ApiError("Could not convert parameter 'tx' between node and runtime`. This means that the transaction data serialized from the API cannot be deserialized on the node.
+
+All data transferred between the API and the Node is in a SCALE-encoded binary format, so the [definition of the types](types.extend.md) between the API and the node needs to match 100%. When you find the above, it would mean the definition of the types on the API side does not match what is on the node. Specifically the API encodes against the definition, but since there is a mismatch the Node cannot parse the data correctly.
+
+To fix this, you should look at the specific `api.tx.*` params and adjust the type definitions for those param types to match what is found on the node side. In some rare cases the cause could be extrinsic formatting related, to track these make an `api.tx.system.remark(data: Bytes)` call, if it fails, the API and node cannot agree on an extrinsic format. (Ensure that there are no signed extension warnings in the API itself)
+
 ## I would like to sign transactions offline
 
 The API itself is independent on where the signature comes from and how it is injected. Additionally it implements a signer interface, that can be used for external signing - an example of this is the [polkadot-js/apps](https://github.com/polkadot-js/apps) support for signing via extensions and even the [polkadot-js/extension](https://github.com/polkadot-js/extension) support for tools such as the [Parity Signer](https://github.com/paritytech/parity-signer).
