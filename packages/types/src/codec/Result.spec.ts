@@ -44,6 +44,19 @@ describe('Result', (): void => {
     expect(result.toHex()).toEqual('0x01146572726f72');
   });
 
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      new Result(
+        registry,
+        Text,
+        Text,
+        { Ok: foo }
+      ).asOk
+    ).toBe(foo);
+  });
+
   it('returns a proper raw typedef rom a built-in', (): void => {
     expect(registry.createType('DispatchResult').toRawType()).toEqual('Result<(),{"_enum":{"Other":"Null","CannotLookup":"Null","BadOrigin":"Null","Module":"{\\"index\\":\\"u8\\",\\"error\\":\\"u8\\"}"}}>');
   });

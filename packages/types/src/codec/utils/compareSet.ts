@@ -15,9 +15,9 @@ export default function compareSet (a: Set<any>, b?: any): boolean {
   if (Array.isArray(b)) {
     return compareSetArray(a, b);
   } else if (b instanceof Set) {
-    return compareSetArray(a, [...b.entries()]);
+    return compareSetArray(a, [...b.values()]);
   } else if (isObject(b)) {
-    return compareSetArray(a, Object.entries(b));
+    return compareSetArray(a, Object.values(b));
   }
 
   return false;

@@ -61,6 +61,14 @@ describe('BTreeSet', (): void => {
     ).toEqual('[]');
   });
 
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      (new BTreeSet(registry, Text, new Set([foo]))).eq(new Set([foo]))
+    ).toBe(true);
+  });
+
   it('decodes within more complicated types', (): void => {
     const s = new Struct(registry, {
       placeholder: U32,
