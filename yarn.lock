@@ -1974,10 +1974,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@polkadot/dev@^0.50.4":
-  version "0.50.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.50.4.tgz#8231d5d05b9dab528aea68788bc1f077704e859f"
-  integrity sha512-KYiAhuuIwNIKgZ20BZjl3wZNx1RdxEBIHLPow2diTU/OiVRGCj0gHLBW+8YZ5kEsCwOcaQnRMt6mTnQY+YayJA==
+"@polkadot/dev@^0.50.6":
+  version "0.50.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.50.6.tgz#8c5a2ee11990cacd46045dfcf0e274ecc79406ed"
+  integrity sha512-+qJ+HqNhTuQDFqaYA/zAFoCOY9rBm3u/6iL9CmOEdDN70zT8oJpj/U/ZFHutkGVFxhXT6FgzN22dknMI9Hhzlw==
   dependencies:
     "@babel/cli" "^7.8.4"
     "@babel/core" "^7.8.4"
@@ -2049,10 +2049,10 @@
     "@polkadot/util" "2.5.1"
     "@polkadot/util-crypto" "2.5.1"
 
-"@polkadot/ts@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.2.3.tgz#03963933e8ad4ae513a081a27a03d52e6a4be32e"
-  integrity sha512-hEDc7ibTARuhAj/XmS8mGKTTJqjUHOhDgIfg708n5qQDJ6DWhVt8XkGHqfwXD4MEbmiKAcRS0+vutYYmZHOwYw==
+"@polkadot/ts@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.3.1.tgz#90e8c39925b96de73a0973ffe0e41dae1e34830d"
+  integrity sha512-cKY9ObHUDlhlze5quW3L3WzpHcO6Mn4/Dib2H/LeTG3ukobWIl2nYPcYSHIGvveP3oRdTdQSMT2fBSvPuQIndw==
   dependencies:
     "@types/chrome" "^0.0.95"
 
