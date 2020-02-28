@@ -13,6 +13,10 @@ tmp/
 .env.production.local
 .npmrc
 .rpt2_cache
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
 .vscode/
 cc-test-reporter
 lerna-debug.log*
