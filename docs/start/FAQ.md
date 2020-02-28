@@ -14,11 +14,11 @@ Update your version of the API to the [latest version](install.md). Like types, 
 
 ## The node returns a "Could not convert" error on send
 
-The typical error that you would see is `Verification Error: Execution(ApiError("Could not convert parameter 'tx' between node and runtime`. This means that the data serialized from the API cannot be deserialized on the node.
+The typical error that you would see is `Verification Error: Execution(ApiError("Could not convert parameter 'tx' between node and runtime`. This means that the transaction data serialized from the API cannot be deserialized on the node.
 
 All data transferred between the API and the Node is in a SCALE-encoded binary format, so the [definition of the types](types.extend.md) between the API and the node needs to match 100%. When you find the above, it would mean the definition of the types on the API side does not match what is on the node. Specifically the API encodes against the definition, but since there is a mismatch the Node cannot parse the data correctly.
 
-To fix this, you should look at the specific tx params and adjust the type definitions for those param types to match what is found on the node side.
+To fix this, you should look at the specific `api.tx.*` params and adjust the type definitions for those param types to match what is found on the node side. In some rare cases the cause could be extrinsic formatting related, to track these make an `api.tx.system.remark(data: Bytes)` call, if it fails, the API and node cannot agree on an extrinsic format. (Ensure that there are no signed extension warnings in the API itself)
 
 ## I would like to sign transactions offline
 
