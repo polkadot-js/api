@@ -313,9 +313,6 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.between = decorateMethod((from: Hash, to: Hash, arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
-      this.decorateStorageBetween(decorated, [arg1, arg2], from, to));
-
     decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
       this.retrieveMapEntries(creator, doubleMapArg));
 
@@ -335,13 +332,16 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
     }
 
+    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
+      this.decorateStorageRange(decorated, [arg1, arg2], range));
+
     decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageBetween<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [any?, any?], from: Hash, to: Hash): Observable<[Hash, Codec][]> {
+  private decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [any?, any?], [from, to]: [Hash, Hash?]): Observable<[Hash, Codec][]> {
     const outputType = unwrapStorageType(decorated.creator.meta.type);
 
     return this._rpcCore.state

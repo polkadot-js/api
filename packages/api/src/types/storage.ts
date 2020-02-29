@@ -27,12 +27,12 @@ export type QueryableStorageEntry<ApiType extends ApiTypes> =
 
 export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction> {
   at: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<F>>>;
-  between: (from: Hash | Uint8Array | string, to: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, ObsInnerType<ReturnType<F>>][]>;
   creator: StorageEntry;
   entries: (arg?: any) => PromiseOrObs<ApiType, [StorageKey, ObsInnerType<ReturnType<F>>][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   key: (...args: Parameters<F>) => string;
   keyPrefix: () => string;
+  range: ([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, ObsInnerType<ReturnType<F>>][]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
   multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }
