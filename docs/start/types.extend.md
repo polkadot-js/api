@@ -10,7 +10,7 @@ There is a the [recommendation](install.md#betas) to use a `@polkadot/api@beta` 
 
 ## Extension
 
-As a blockchain toolkit, Substrate makes it easy to add your own modules and types. In most non-trivial implementations, this would mean that developers are adding specific types for their implementation as well. The API will get to know the names of these types via the metadata, however it won't understand what they are, which means it cannot encode or decode them.
+As a blockchain toolkit, Substrate makes it easy to add your own modules and types. In most non-trivial implementations, this would mean that developers are adding specific types for their implementation as well. The API will get to know the names of these types via the metadata, however it won't understand what they are, which means it cannot encode or decode them. Additionally, when a type is mismatched between the node and the API, the decoding can fail, yielding issues such as [Could not convert errors](FAQ.md#the-node-returns-a-could-not-convert-error-on-send) when submitting transactions.
 
 To close this gap, the API allows for the injection of types, i.e. you can explicitly define (or override) types for the node/chain you are connecting to. In the simplest example, assuming you have a chain where your `Balance` type is a `u64` (as opposed to the default `u128`), you need to let the API know -
 
@@ -160,6 +160,46 @@ const api = await ApiPromise.create({
 ```
 
 `Balance` would be defined as an `u128` at the end. Effectively based on the flow it is first registered as a `u32`, then overridden as a `u64` and finally overridden once more as a `u128` by the chain types.
+
+## Impact on extrinsics
+
+When configuring your chain, be cognizant of the types you are using, and always ensure that any changes are replicated back to the API. In an earlier example we configures `Balance` as `u64` - the same changes needs to be applied on the API when there are mismatches to Substrate master, otherwise failures will occur.
+
+This also applies to any other chain-specific configured types, for instance you can customize `Lookup` and `Address` on your chain. A real example of this is the Substrate master node vs the Substrate master node-template -
+
+```rust
+/// The lookup mechanism to get account ID from whatever is passed in dispatchers.
+type Lookup = Indices;
+...
+/// The address format for describing accounts.
+pub type Address = <Indices as StaticLookup>::Source;
+```
+
+vs what is defined on the node-template -
+
+```rust
+/// The lookup mechanism to get account ID from whatever is passed in dispatchers.
+type Lookup = IdentityLookup<AccountId>;
+...
+/// The address format for describing accounts.
+pub type Address = AccountId;
+```
+
+Here the template was customized from the node defaults and the API needs to know how to map these types otherwise transactions will fail. As such the correct types that needs to be added here would be -
+
+```js
+const api = await ApiPromise.create({
+  ...,
+  types: {
+    // mapping the actual specified address format
+    Address: 'AccountId',
+    // mapping the lookup
+    LookupSource: 'AccountId'
+  }
+});
+```
+
+Always look at customization and understand the impacts, replicating these changes between the node and the API. For the above the `Address` type is used in the construction of the `UncheckedExtrinsic` type, while the lookup type is applicable on transactions such as `balances.transfer(to: LookupSource, value: Balance)`
 
 ## Type creation
 
