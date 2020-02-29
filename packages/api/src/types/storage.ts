@@ -27,6 +27,7 @@ export type QueryableStorageEntry<ApiType extends ApiTypes> =
 
 export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction> {
   at: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<F>>>;
+  between: (from: Hash | Uint8Array | string, to: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, ObsInnerType<ReturnType<F>>][]>;
   creator: StorageEntry;
   entries: (arg?: any) => PromiseOrObs<ApiType, [StorageKey, ObsInnerType<ReturnType<F>>][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;

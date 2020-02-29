@@ -5,7 +5,6 @@
 import { Codec, Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
 
-import { createTypeUnsafe } from '@polkadot/types/create';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 import getUniqTypes from './getUniqTypes';
@@ -55,7 +54,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
-              createTypeUnsafe(registry, inner, [fallback]);
+              registry.createType(inner, [fallback]);
             } catch (error) {
               const message = `${location}:: ${error.message}`;
 

@@ -4,7 +4,7 @@
 
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
-import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Call, Hash, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
@@ -20,7 +20,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, Option, Text, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
-import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isNull, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
@@ -313,6 +313,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
+    decorated.between = decorateMethod((from: Hash, to: Hash, arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
+      this.decorateStorageBetween(decorated, [arg1, arg2], from, to));
+
     decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
       this.retrieveMapEntries(creator, doubleMapArg));
 
@@ -336,6 +339,21 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
+  }
+
+  private decorateStorageBetween<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [any?, any?], from: Hash, to: Hash): Observable<[Hash, Codec][]> {
+    const outputType = unwrapStorageType(decorated.creator.meta.type);
+
+    return this._rpcCore.state
+      .queryStorage([decorated.key(...args)], from, to)
+      .pipe(map((result: StorageChangeSet[]): [Hash, Codec][] =>
+        result
+          .filter((change): change is StorageChangeSet => !!change.changes.length)
+          .map(({ block, changes: [[, value]] }): [Hash, Codec] => [
+            block,
+            this.createType(outputType, value.unwrapOrDefault())
+          ])
+      ));
   }
 
   private decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
