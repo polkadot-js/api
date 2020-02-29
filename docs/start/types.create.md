@@ -21,6 +21,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 
 ...
 // unwrap out option into a zero Balance whn not found
+// (This can be done via `.unwrapOrDefault()`, which does the same underlying)
 const balance: Balance = balanceOpt.unwrapOr(api.createType('Balance'));
 ```
 
@@ -45,7 +46,7 @@ api.createType('Balance', 123);
 // via registry (`.registry` is on all API and Codec objects)
 api.registry.createType('Balance', 123n);
 
-// via the low-level approach
+// via the low-level approach (not recommended)
 createType(api.registry, 'Balance', '123');
 ```
 

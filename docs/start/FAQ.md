@@ -18,7 +18,7 @@ The typical error that you would see is `Verification Error: Execution(ApiError(
 
 All data transferred between the API and the Node is in a SCALE-encoded binary format, so the [definition of the types](types.extend.md) between the API and the node needs to match 100%. When you find the above, it would mean the definition of the types on the API side does not match what is on the node. Specifically the API encodes against the definition, but since there is a mismatch the Node cannot parse the data correctly.
 
-To fix this, you should look at the specific `api.tx.*` params and adjust the type definitions for those param types to match what is found on the node side. In some rare cases the cause could be extrinsic formatting related, to track these make an `api.tx.system.remark(data: Bytes)` call, if it fails, the API and node cannot agree on an extrinsic format. (Ensure that there are no signed extension warnings in the API itself)
+To fix this, you should look at the specific `api.tx.*` params and adjust the type definitions for those param types to match what is found on the node side. In some rare cases the cause could be extrinsic formatting related, to track these make an `api.tx.system.remark(data: Bytes)` call, if it fails, the API and node cannot agree on [an extrinsic format and adjustments are required](types.extend.md#impact-on-extrinsics).
 
 ## I would like to sign transactions offline
 
