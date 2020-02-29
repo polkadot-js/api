@@ -133,7 +133,7 @@ In the same way `typesChain` can be used to match on the actual chain name, i.e.
 const api = await ApiPromise.create({
   ...,
   typesChain: {
-    'Kusama CC1': {
+    Kusama: {
       BlockNumber: 'u32',
       Index: 'u32'
     }
@@ -163,9 +163,9 @@ const api = await ApiPromise.create({
 
 ## Impact on extrinsics
 
-When configuring your chain, be cognizant of the types you are using, and always ensure that any changes are replicated back to the API. In an earlier example we configures `Balance` as `u64` - the same changes needs to be applied on the API when there are mismatches to Substrate master, otherwise failures will occur.
+When configuring your chain, be cognizant of the types you are using, and always ensure that any changes are replicated back to the API. In an earlier example we configures `Balance` as `u64` - the same changes needs to be applied on the API when there are mismatches to Substrate master, otherwise failures will occur. The same would happen when your own types have mismatched fields types or miss fields on structs or enums.
 
-This also applies to any other chain-specific configured types, for instance you can customize `Lookup` and `Address` on your chain. A real example of this is the Substrate master node vs the Substrate master node-template -
+Mismatches also applies to any other chain-specific configured types, for instance you can customize `Lookup` and `Address` on your chain. A real example of this is the Substrate master node vs the Substrate master node-template -
 
 ```rust
 /// The lookup mechanism to get account ID from whatever is passed in dispatchers.
@@ -203,4 +203,4 @@ Always look at customization and understand the impacts, replicating these chang
 
 ## Type creation
 
-While the API always converts all the inputs into the underlying type required by the operation, in some cases you may want to [cret an instance of a type](types.create.md) yourself.
+While the API always converts all the inputs into the underlying type required by the operation, in some cases you may want to [create an instance of a type](types.create.md) yourself.

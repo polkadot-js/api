@@ -38,7 +38,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
-        yarn install | grep -v 'YN0013'
+        yarn install --immutable | grep -v 'YN0013'
         yarn polkadot-ci-ghact-build
 
   build_docs:
@@ -71,7 +71,7 @@ jobs:
         GH_PAGES_SRC: build-docs
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        yarn install | grep -v 'YN0013'
+        yarn install --immutable | grep -v 'YN0013'
         yarn polkadot-ci-ghact-docs
 
   dummy:
