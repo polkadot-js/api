@@ -56,6 +56,7 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
 
     switch (info) {
       case TypeDefInfo.Plain:
+      case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
         return `${isGetter}${asGetter}`;
 
