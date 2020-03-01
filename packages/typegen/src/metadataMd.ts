@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { InterfaceTypes } from '@polkadot/types/types';
 
 import fs from 'fs';
 import interfaces from '@polkadot/jsonrpc';
@@ -176,7 +177,7 @@ function addStorage (metadata: MetadataLatest): string {
             let result = unwrapStorageType(func.type);
 
             if (func.modifier.isOptional) {
-              result = `Option<${result}>`;
+              result = `Option<${result}>` as keyof InterfaceTypes;
             }
 
             return {

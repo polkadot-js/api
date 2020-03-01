@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryMetadataLatest, StorageEntryTypeLatest } from '../interfaces/metadata';
-import { AnyU8a, Codec, Registry } from '../types';
+import { AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
@@ -33,20 +33,20 @@ interface StorageKeyExtra {
 
 // we unwrap the type here, turning into an output usable for createType
 /** @internal */
-export function unwrapStorageType (type: StorageEntryTypeLatest): string {
+export function unwrapStorageType (type: StorageEntryTypeLatest): keyof InterfaceTypes {
   if (type.isPlain) {
-    return type.asPlain.toString();
+    return type.asPlain.toString() as keyof InterfaceTypes;
   } else if (type.isDoubleMap) {
-    return type.asDoubleMap.value.toString();
+    return type.asDoubleMap.value.toString() as keyof InterfaceTypes;
   }
 
   const map = type.asMap;
 
   if (map.linked.isTrue) {
-    return `(${map.value.toString()}, Linkage<${map.key.toString()}>)`;
+    return `(${map.value.toString()}, Linkage<${map.key.toString()}>)` as keyof InterfaceTypes;
   }
 
-  return map.value.toString();
+  return map.value.toString() as keyof InterfaceTypes;
 }
 
 /**
