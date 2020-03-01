@@ -18,11 +18,8 @@ export interface BidKind extends Enum {
   readonly isDeposit: boolean;
   readonly asDeposit: Balance;
   readonly isVouch: boolean;
-  readonly asVouch: BidKindVouch;
+  readonly asVouch: ITuple<[AccountId, Balance]>;
 }
-
-/** @name BidKindVouch */
-export interface BidKindVouch extends ITuple<[AccountId, Balance]> {}
 
 /** @name SocietyJudgement */
 export interface SocietyJudgement extends Enum {

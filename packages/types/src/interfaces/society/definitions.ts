@@ -9,11 +9,10 @@ export default {
       kind: 'BidKind',
       value: 'Balance'
     },
-    BidKindVouch: '(AccountId, Balance)',
     BidKind: {
       _enum: {
         Deposit: 'Balance',
-        Vouch: 'BidKindVouch'
+        Vouch: '(AccountId, Balance)'
       }
     },
     // a society-specific Judgement (not the same as identity Judgement)
