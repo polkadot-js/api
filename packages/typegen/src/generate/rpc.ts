@@ -12,17 +12,21 @@ import { FOOTER, HEADER, createDocComments, createImportCode, createImports, get
 export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.ts'): void {
   writeFile(dest, (): string => {
     const registry = new TypeRegistry();
-    const imports = createImports({ '@polkadot/types/interfaces': definitions });
+    const allTypes = { '@polkadot/types/interfaces': definitions };
+    const imports = createImports(allTypes);
+    const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
+      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
+    }, {});
     const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
       const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
         const method = interfaces[section].methods[key];
 
-        setImports(definitions, imports, [method.type]);
+        setImports(allDefs, imports, [method.type]);
 
         // FIXME These 2 are too hard to type, I give up
         if (section === 'state') {
           if (method.method === 'getStorage') {
-            setImports(definitions, imports, ['Codec']);
+            setImports(allDefs, imports, ['Codec']);
             return '      getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
           } else if (method.method === 'subscribeStorage') {
             return '      subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
@@ -31,7 +35,8 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
 
         const args = method.params.map((param): string => {
           const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
-          setImports(definitions, imports, [param.type, ...similarTypes]);
+
+          setImports(allDefs, imports, [param.type, ...similarTypes]);
 
           return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
         });
@@ -49,9 +54,9 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
     }, []).join('\n');
 
     const header = createImportCode(HEADER('chain'), imports, [
-      ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
-        file: `@polkadot/types/interfaces/${moduleName}`,
-        types: Object.keys(imports.localTypes[moduleName])
+      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        file: packagePath,
+        types: Object.keys(imports.localTypes[packagePath])
       })),
       {
         file: 'rxjs',

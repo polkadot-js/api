@@ -96,16 +96,16 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
   writeFile(dest, (): string => {
     const allTypes: Record<string, Record<string, { types: Record<string, any> }>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
     const imports = createImports(allTypes);
-    const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
-      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
+    const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
+      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const body = meta.asLatest.modules.reduce((acc: string[], mod): string[] => {
       return acc.concat(generateModule(allDefs, registry, mod, imports, isStrict));
     }, []);
     const header = createImportCode(HEADER('chain'), imports, [
-      ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
-        file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
-        types: Object.keys(imports.localTypes[moduleName])
+      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        file: packagePath,
+        types: Object.keys(imports.localTypes[packagePath])
       })),
       {
         file: 'rxjs',

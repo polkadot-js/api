@@ -188,9 +188,9 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
 
   const header = createImportCode(HEADER('defs'), imports, [
-    ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
-      file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
-      types: Object.keys(imports.localTypes[moduleName])
+    ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+      file: packagePath,
+      types: Object.keys(imports.localTypes[packagePath])
     }))
   ]);
 
