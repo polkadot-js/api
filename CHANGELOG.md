@@ -1,6 +1,7 @@
 # 1.5.0-beta.x
 
 - Add proper support for type generation with an Enum containing an Tuple (Thanks to https://github.com/monitz87)
+- Type generation will now handle the same sub-module name across packages, i.e. `@polkadot/types/interfaces/runtime` & `@mine/interfaces/runtime`)
 - Add `.range([from, to]: [Hash, Hash?], ...args: any[]): [Hash, Codec][]` on all storage entries
 - Allow `BTreeMap` to be initialized with a `Record<string, any>` object (in addition to `Map`)
 - Allow for `HashMap<KeyType, ValueType>` definitions

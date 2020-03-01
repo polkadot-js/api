@@ -28,7 +28,6 @@ export interface TypeImports {
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
   definitions: object; // all definitions
   typeToModule: Record<string, string>;
-  moduleToPackage: Record<string, string>;
 }
 
 // Maps the types as found to the source location. This is used to generate the
@@ -83,34 +82,35 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
   });
 }
 
-// Create an Imports object, can be prefilled with `ignoredTypes`
+// Create an Imports object, can be pre-filled with `ignoredTypes`
 /** @internal */
 export function createImports (importDefinitions: Record<string, object>, { types }: { types: Record<string, any> } = { types: {} }): TypeImports {
   const definitions = {} as Record<string, object>;
   const typeToModule = {} as Record<string, string>;
-  const moduleToPackage = {} as Record<string, string>;
 
   Object.entries(importDefinitions).forEach(([packagePath, packageDef]): void => {
     Object.entries(packageDef).forEach(([name, moduleDef]): void => {
-      if (definitions[name]) {
-        throw new Error(`Duplicated module: ${name}. Packages: ${packagePath}, ${moduleToPackage[name]}`);
+      const fullName = `${packagePath}/${name}`;
+
+      if (definitions[fullName]) {
+        throw new Error(`Duplicated module imports ${fullName}`);
       }
 
-      definitions[name] = moduleDef;
-      moduleToPackage[name] = packagePath;
+      definitions[fullName] = moduleDef;
 
       Object.keys(moduleDef.types).forEach((type): void => {
         if (typeToModule[type]) {
-          throw new Error(`Duplicated type: ${type}, found in: ${name}, ${typeToModule[type]}`);
+          throw new Error(`Duplicated type: ${type}, found in: ${fullName}, ${typeToModule[type]}`);
         }
 
-        typeToModule[type] = name;
+        typeToModule[type] = fullName;
       });
     });
   });
 
   return {
     codecTypes: {},
+    definitions,
     extrinsicTypes: {},
     genericTypes: {},
     ignoredTypes: Object.keys(types),
@@ -121,8 +121,6 @@ export function createImports (importDefinitions: Record<string, object>, { type
     }, {}),
     primitiveTypes: {},
     typesTypes: {},
-    definitions,
-    typeToModule,
-    moduleToPackage
+    typeToModule
   };
 }
