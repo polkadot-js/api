@@ -51,7 +51,7 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
     const asGetter = type === 'Null'
       ? ''
-      : createGetter(definitions, `as${getter}`, type, imports);
+      : createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, type, imports) : type, imports);
     const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
