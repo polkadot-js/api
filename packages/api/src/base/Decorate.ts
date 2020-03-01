@@ -341,11 +341,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [any?, any?], [from, to]: [Hash, Hash?]): Observable<[Hash, Codec][]> {
+  private decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
     const outputType = unwrapStorageType(decorated.creator.meta.type);
 
     return this._rpcCore.state
-      .queryStorage([decorated.key(...args)], from, to)
+      .queryStorage([decorated.key(...args)], ...range)
       .pipe(map((result: StorageChangeSet[]): [Hash, Codec][] =>
         result
           .filter((change): change is StorageChangeSet => !!change.changes.length)
