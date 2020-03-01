@@ -4,12 +4,10 @@
 
 export default {
   types: {
-    InclusionHeight: 'BlockNumber',
-    Uncle: '(Hash, Option<AccountId>)',
     UncleEntryItem: {
       _enum: {
-        InclusionHeight: 'InclusionHeight',
-        Uncle: 'Uncle'
+        InclusionHeight: 'BlockNumber',
+        Uncle: '(Hash, Option<AccountId>)'
       }
     }
   }
