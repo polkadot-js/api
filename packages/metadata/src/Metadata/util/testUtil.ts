@@ -54,7 +54,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
-              registry.createType(inner, [fallback]);
+              registry.createType(inner, fallback);
             } catch (error) {
               const message = `${location}:: ${error.message}`;
 
