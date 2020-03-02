@@ -236,6 +236,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         //  skip subscriptions where we have a non-subscribe interface
         if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
           (section as any)[methodName] = decorateMethod(method, { methodName });
+          (section as any)[methodName].raw = decorateMethod(method.raw, { methodName });
         }
 
         return section;
