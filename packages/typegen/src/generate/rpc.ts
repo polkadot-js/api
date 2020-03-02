@@ -27,9 +27,10 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
         if (section === 'state') {
           if (method.method === 'getStorage') {
             setImports(allDefs, imports, ['Codec']);
-            return '      getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
+
+            return indent(6)('getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;');
           } else if (method.method === 'subscribeStorage') {
-            return '      subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
+            return indent(6)('subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;');
           }
         }
 
@@ -41,7 +42,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
           return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
         });
 
-        return createDocComments(6, [method.description]) + indent(6)(`${method.method}(${args.join(', ')}): Observable<${method.type}>;`);
+        return createDocComments(6, [method.description]) + indent(6)(`${method.method}: AugmentedRpc<ApiType, (${args.join(', ')}) => Observable<${method.type}>> & RpcEntry<ApiType>;`);
       });
 
       return allSections.concat(
