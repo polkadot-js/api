@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ChainProperties, DispatchErrorModule } from '../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
@@ -94,6 +94,8 @@ export class TypeRegistry implements Registry {
 
   #metadataExtensions: string[] = defaultExtensions;
 
+  #knownTypes: RegisteredTypes = {};
+
   constructor () {
     // we only want to import these on creation, i.e. we want to avoid types
     // weird side-effects from circular references. (Since registry is injected
@@ -126,6 +128,10 @@ export class TypeRegistry implements Registry {
     return this.#chainProperties?.tokenSymbol.isSome
       ? this.#chainProperties.tokenSymbol.unwrap().toString()
       : formatBalance.getDefaults().unit;
+  }
+
+  public get knownTypes (): RegisteredTypes {
+    return this.#knownTypes;
   }
 
   /**
@@ -292,6 +298,10 @@ export class TypeRegistry implements Registry {
     if (properties) {
       this.#chainProperties = properties;
     }
+  }
+
+  setKnownTypes (knownTypes: RegisteredTypes): void {
+    this.#knownTypes = knownTypes;
   }
 
   // sets the metadata

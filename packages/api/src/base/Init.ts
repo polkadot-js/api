@@ -31,11 +31,21 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
 
+    // all injected types added to the registry for overrides
+    this.registry.setKnownTypes({
+      types: options.types,
+      typesAlias: options.typesAlias,
+      typesChain: options.typesChain,
+      typesSpec: options.typesSpec
+    });
+
     // We only register the types (global) if this is not a cloned instance.
     // Do right up-front, so we get in the user types before we are actually
     // doing anything on-chain, this ensures we have the overrides in-place
-    if (!options.source && options.types) {
+    if (!options.source) {
       this.registerTypes(options.types);
+    } else {
+      this.registry.setKnownTypes(options.source.registry.knownTypes);
     }
 
     this._rpc = this.decorateRpc(this._rpcCore, this.decorateMethod);
@@ -130,7 +140,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
         this._runtimeMetadata = metadata;
         this._runtimeVersion = version;
 
-        this.registerTypes(getSpecTypes(this._runtimeChain as Text, version));
+        this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version));
         this.injectMetadata(metadata, false);
 
         return true;
@@ -139,7 +149,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   }
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const { typesChain, typesSpec } = this._options;
     const [runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
@@ -152,8 +161,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
-    this.registerTypes(getSpecTypes(chain, runtimeVersion));
-    this.registerTypes(getUserTypes(chain, runtimeVersion, typesChain, typesSpec));
+    this.registerTypes(getSpecTypes(this.registry, chain, runtimeVersion));
+    this.registerTypes(getUserTypes(this.registry, chain, runtimeVersion));
     this.subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
@@ -173,7 +182,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {
     // inject types based on metadata, if applicable
-    this.registerTypes(getMetadataTypes(metadata.version));
+    this.registerTypes(getMetadataTypes(this.registry, metadata.version));
 
     const metaExtrinsic = metadata.asLatest.extrinsic;
 
