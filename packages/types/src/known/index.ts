@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RuntimeVersion } from '../interfaces';
-import { RegistryTypes } from '../types';
+import { Registry, RegistryTypes } from '../types';
 import { OverrideModuleType, OverrideVersionedType } from './types';
 
 import { Text } from '@polkadot/types';
@@ -27,13 +27,13 @@ function filterVersions (versions: OverrideVersionedType[] = [], version: number
 
 // based on the metadata version, return the registry types
 /** @internal */
-export function getMetadataTypes (version: number): RegistryTypes {
+export function getMetadataTypes (_registry: Registry, version: number): RegistryTypes {
   return filterVersions(TYPES_META, version);
 }
 
 // based on the chain and runtimeVersion, get the applicable types (ready for registration)
 /** @internal */
-export function getSpecTypes (chainName: Text | string, { specName, specVersion }: RuntimeVersion): RegistryTypes {
+export function getSpecTypes (_registry: Registry, chainName: Text | string, { specName, specVersion }: RuntimeVersion): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
   const _specVersion = specVersion.toNumber();
@@ -46,18 +46,21 @@ export function getSpecTypes (chainName: Text | string, { specName, specVersion 
 
 // based on the spec and chain, get the specific user-defind types
 /** @internal */
-export function getUserTypes (chainName: Text | string, { specName }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
+export function getUserTypes ({ knownTypes }: Registry, chainName: Text | string, { specName }: RuntimeVersion): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
 
   return {
-    ...(typesSpec[_specName] || {}),
-    ...(typesChain[_chainName] || {})
+    ...(knownTypes.typesSpec?.[_specName] || {}),
+    ...(knownTypes.typesChain?.[_chainName] || {})
   };
 }
 
 // get types for specific modules (metadata override)
 /** @internal */
-export function getModuleTypes (section: string): OverrideModuleType {
-  return TYPES_MODULES[section] || {};
+export function getModuleTypes ({ knownTypes }: Registry, section: string): OverrideModuleType {
+  return {
+    ...(TYPES_MODULES[section] || {}),
+    ...(knownTypes.typesAlias?.[section] || {})
+  };
 }

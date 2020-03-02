@@ -71,7 +71,7 @@ export default function toLatest (registry: Registry, { modules, extrinsic }: Me
     modules: modules.map((mod): ModuleMetadataLatest => {
       const calls = mod.calls.unwrapOr(null);
       const storage = mod.storage.unwrapOr(null);
-      const sectionTypes = getModuleTypes(stringCamelCase(mod.name.toString()));
+      const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name.toString()));
 
       return registry.createType('ModuleMetadataLatest', {
         ...mod,
