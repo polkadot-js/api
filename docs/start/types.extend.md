@@ -163,9 +163,9 @@ const api = await ApiPromise.create({
 
 ## Impact on extrinsics
 
-When configuring your chain, be cognizant of the types you are using, and always ensure that any changes are replicated back to the API. In an earlier example we configures `Balance` as `u64` - the same changes needs to be applied on the API when there are mismatches to Substrate master, otherwise failures will occur. The same would happen when your own types have mismatched fields types or miss fields on structs or enums.
+When configuring your chain, be cognizant of the types you are using, and always ensure that any changes are replicated back to the API. In an earlier example we configured `Balance` as `u64`, in this case the same changes needs to be applied on the API, as made on the node, especially when there are mismatches compared to Substrate master. Not doing so means failures will occur. The same would happen when your own types have mismatched fields or types are lacking fields on structs or enums.
 
-Mismatches also applies to any other chain-specific configured types, for instance you can customize `Lookup` and `Address` on your chain. A real example of this is the Substrate master node vs the Substrate master node-template -
+Mismatches also applies to any other chain-specific configured types and can have impacts on transactions. Gor instance you can customize `Lookup` and `Address` on your chain, changing the default lookup behavior. A real example of this is the Substrate master node vs the Substrate master node-template -
 
 ```rust
 /// The lookup mechanism to get account ID from whatever is passed in dispatchers.
@@ -175,7 +175,7 @@ type Lookup = Indices;
 pub type Address = <Indices as StaticLookup>::Source;
 ```
 
-vs what is defined on the node-template -
+And this is what is defined on the node-template -
 
 ```rust
 /// The lookup mechanism to get account ID from whatever is passed in dispatchers.
@@ -185,7 +185,7 @@ type Lookup = IdentityLookup<AccountId>;
 pub type Address = AccountId;
 ```
 
-Here the template was customized from the node defaults and the API needs to know how to map these types otherwise transactions will fail. As such the correct types that needs to be added here would be -
+Here the template was customized from the Substrate node defaults and the API needs to know how to map these types. Failure to make adjustments means transactions will fail. With this in mind the correct types that needs to be added here would be -
 
 ```js
 const api = await ApiPromise.create({
