@@ -86,8 +86,6 @@ async function rpc (api: ApiPromise): Promise<void> {
   await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
     console.log('current balance:', balance.toString());
   });
-
-  await api.rpc.chain.getBlock.raw();
 }
 
 function types (api: ApiPromise): void {

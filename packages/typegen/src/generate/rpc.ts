@@ -42,7 +42,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
           return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
         });
 
-        return createDocComments(6, [method.description]) + indent(6)(`${method.method}: AugmentedRpc<ApiType, (${args.join(', ')}) => Observable<${method.type}>> & RpcEntry<ApiType>;`);
+        return createDocComments(6, [method.description]) + indent(6)(`${method.method}: AugmentedRpc<ApiType, (${args.join(', ')}) => Observable<${method.type}>>;`);
       });
 
       return allSections.concat(
