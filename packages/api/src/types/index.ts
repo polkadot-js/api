@@ -72,7 +72,7 @@ export interface ApiInterfaceRx {
   runtimeVersion?: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
-  rpc: DecoratedRpc<'rxjs', RpcInterface<'rxjs'>>;
+  rpc: DecoratedRpc<'rxjs', RpcInterface>;
   tx: SubmittableExtrinsics<'rxjs'>;
   signer?: Signer;
 }

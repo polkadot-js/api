@@ -49,6 +49,7 @@ export interface RxResult<F extends AnyFunction> {
   (...args: Parameters<F>): Observable<ObsInnerType<ReturnType<F>>>;
   <T>(...args: Parameters<F>): Observable<T>;
 }
+
 export interface PromiseResult<F extends AnyFunction> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;

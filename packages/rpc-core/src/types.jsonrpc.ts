@@ -5,9 +5,8 @@
 // FIXME, this whole file needs to move to API
 
 import { AnyFunction } from '@polkadot/types/types';
-import { ApiTypes } from '@polkadot/api/types/base';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface RpcInterface<ApiType extends ApiTypes> {}
+export interface RpcInterface {}
 
-export type AugmentedRpc<_ApiType extends ApiTypes, F extends AnyFunction> = F;
+export type AugmentedRpc<F extends AnyFunction> = F;

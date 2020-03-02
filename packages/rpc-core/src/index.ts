@@ -64,7 +64,7 @@ function createErrorMessage ({ method, params, type }: RpcMethod, error: Error):
  * const rpc = new Rpc(provider);
  * ```
  */
-export default class Rpc<ApiType extends any> implements RpcInterface<ApiType> {
+export default class Rpc implements RpcInterface {
   readonly #storageCache = new Map<string, string | null>();
 
   public readonly mapping: Map<string, RpcMethod> = new Map();
@@ -79,21 +79,21 @@ export default class Rpc<ApiType extends any> implements RpcInterface<ApiType> {
   // these via the createInterfaces inside the constructor. However... this is not quite visible. The reason
   // why we don't do for individual assignments is to allow user-defined RPCs to also be defined
 
-  public readonly account!: RpcInterface<ApiType>['account'];
+  public readonly account!: RpcInterface['account'];
 
-  public readonly author!: RpcInterface<ApiType>['author'];
+  public readonly author!: RpcInterface['author'];
 
-  public readonly chain!: RpcInterface<ApiType>['chain'];
+  public readonly chain!: RpcInterface['chain'];
 
-  public readonly contracts!: RpcInterface<ApiType>['contracts'];
+  public readonly contracts!: RpcInterface['contracts'];
 
-  public readonly payment!: RpcInterface<ApiType>['payment'];
+  public readonly payment!: RpcInterface['payment'];
 
-  public readonly rpc!: RpcInterface<ApiType>['rpc'];
+  public readonly rpc!: RpcInterface['rpc'];
 
-  public readonly state!: RpcInterface<ApiType>['state'];
+  public readonly state!: RpcInterface['state'];
 
-  public readonly system!: RpcInterface<ApiType>['system'];
+  public readonly system!: RpcInterface['system'];
 
   /**
    * @constructor
@@ -117,7 +117,7 @@ export default class Rpc<ApiType extends any> implements RpcInterface<ApiType> {
     this.provider.disconnect();
   }
 
-  private createInterfaces<Section extends keyof RpcInterface<ApiType>> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
+  private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
     // these are the base keys (i.e. part of jsonrpc)
     this.sections.push(...Object.keys(interfaces));
 
@@ -151,10 +151,10 @@ export default class Rpc<ApiType extends any> implements RpcInterface<ApiType> {
     });
   }
 
-  private createInterface<Section extends keyof RpcInterface<ApiType>> (section: string, methods: Record<string, RpcMethod>): RpcInterface<ApiType>[Section] {
+  private createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, RpcMethod>): RpcInterface[Section] {
     return Object
       .keys(methods)
-      .reduce((exposed, method): RpcInterface<ApiType>[Section] => {
+      .reduce((exposed, method): RpcInterface[Section] => {
         const def = methods[method];
 
         this.mapping.set(`${section}_${method}`, def);
@@ -162,7 +162,7 @@ export default class Rpc<ApiType extends any> implements RpcInterface<ApiType> {
         // FIXME Remove any here
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
         // every method inside this class to take:
-        // `<S extends keyof RpcInterface<ApiType>, M extends keyof RpcInterface<ApiType>[S]>`
+        // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
         // Not doing so, because it makes this class a little bit less readable,
         // and leaving it as-is doesn't harm much
         (exposed as any)[method] = def.isSubscription
@@ -170,7 +170,7 @@ export default class Rpc<ApiType extends any> implements RpcInterface<ApiType> {
           : this.createMethodSend(def);
 
         return exposed;
-      }, {} as RpcInterface<ApiType>[Section]);
+      }, {} as RpcInterface[Section]);
   }
 
   private createMethodWithRaw (creator: (isRaw: boolean) => (...values: any[]) => Observable<any>): RpcInterfaceMethod {
