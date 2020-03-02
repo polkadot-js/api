@@ -92,15 +92,11 @@ export function createImports (importDefinitions: Record<string, object>, { type
     Object.entries(packageDef).forEach(([name, moduleDef]): void => {
       const fullName = `${packagePath}/${name}`;
 
-      if (definitions[fullName]) {
-        throw new Error(`Duplicated module imports ${fullName}`);
-      }
-
       definitions[fullName] = moduleDef;
 
       Object.keys(moduleDef.types).forEach((type): void => {
         if (typeToModule[type]) {
-          throw new Error(`Duplicated type: ${type}, found in: ${fullName}, ${typeToModule[type]}`);
+          console.warn(`\t\tWARN: Overwriting duplicated type '${type}' ${typeToModule[type]} -> ${fullName}`);
         }
 
         typeToModule[type] = fullName;
