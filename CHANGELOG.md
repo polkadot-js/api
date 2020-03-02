@@ -4,6 +4,7 @@
 - Fix storage parsing not resulting in rejected Promises (Fix from https://github.com/aniiantt applied)
 - Type generation will now handle the same sub-module name across packages, i.e. `@polkadot/types/interfaces/runtime` & `@mine/interfaces/runtime`)
 - Add `.range([from, to]: [Hash, Hash?], ...args: any[]): [Hash, Codec][]` on all storage entries
+- Add `.raw(...args: any[]): Promise<Uint8Array & Codec>` to all RPC calls, returning the un-encoded result
 - Allow pre-module type aliasing with `typesAlias: { <moduleName>: { <meta-type>: <alias-type> } }`on API construction options
 - Allow `BTreeMap` to be initialized with a `Record<string, any>` object (in addition to `Map`)
 - Allow for `HashMap<KeyType, ValueType>` definitions
