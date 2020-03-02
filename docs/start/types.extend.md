@@ -163,9 +163,9 @@ const api = await ApiPromise.create({
 
 ## Impact on extrinsics
 
-When configuring your chain, be cognizant of the types you are using, and always ensure that any changes are replicated back to the API. In an earlier example we configured `Balance` as `u64`, in this case the same changes needs to be applied on the API, as made on the node, especially when there are mismatches compared to Substrate master. Not doing so means failures will occur. The same would happen when your own types have mismatched fields or types are lacking fields on structs or enums.
+When configuring your chain, be cognizant of the types you are using, and always ensure that any changes are replicated back to the API. In an earlier example we configured `Balance` as `u64`, in this case the same changes needs to be applied on the API, especially when there are mismatches compared to Substrate master. Not doing so means that failures will occur. The same would happen when your own types have mismatched fields or types are lacking fields on structs or enums.
 
-Mismatches also applies to any other chain-specific configured types and can have impacts on transactions. Gor instance you can customize `Lookup` and `Address` on your chain, changing the default lookup behavior. A real example of this is the Substrate master node vs the Substrate master node-template -
+Mismatches also applies to any other chain-specific configured types and can have impacts on transactions. For instance you can customize `Lookup` and `Address` on your chain, changing the default lookup behavior. A real example of this is the Substrate master node vs the Substrate master node-template -
 
 ```rust
 /// The lookup mechanism to get account ID from whatever is passed in dispatchers.
