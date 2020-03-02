@@ -64,7 +64,7 @@ function createErrorMessage ({ method, params, type }: RpcMethod, error: Error):
  * const rpc = new Rpc(provider);
  * ```
  */
-export default class Rpc implements RpcInterface {
+export default class Rpc<ApiType extends any> implements RpcInterface<ApiType> {
   readonly #storageCache = new Map<string, string | null>();
 
   public readonly mapping: Map<string, RpcMethod> = new Map();
@@ -79,21 +79,21 @@ export default class Rpc implements RpcInterface {
   // these via the createInterfaces inside the constructor. However... this is not quite visible. The reason
   // why we don't do for individual assignments is to allow user-defined RPCs to also be defined
 
-  public readonly account!: RpcInterface['account'];
+  public readonly account!: RpcInterface<ApiType>['account'];
 
-  public readonly author!: RpcInterface['author'];
+  public readonly author!: RpcInterface<ApiType>['author'];
 
-  public readonly chain!: RpcInterface['chain'];
+  public readonly chain!: RpcInterface<ApiType>['chain'];
 
-  public readonly contracts!: RpcInterface['contracts'];
+  public readonly contracts!: RpcInterface<ApiType>['contracts'];
 
-  public readonly payment!: RpcInterface['payment'];
+  public readonly payment!: RpcInterface<ApiType>['payment'];
 
-  public readonly rpc!: RpcInterface['rpc'];
+  public readonly rpc!: RpcInterface<ApiType>['rpc'];
 
-  public readonly state!: RpcInterface['state'];
+  public readonly state!: RpcInterface<ApiType>['state'];
 
-  public readonly system!: RpcInterface['system'];
+  public readonly system!: RpcInterface<ApiType>['system'];
 
   /**
    * @constructor
@@ -117,7 +117,7 @@ export default class Rpc implements RpcInterface {
     this.provider.disconnect();
   }
 
-  private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
+  private createInterfaces<Section extends keyof RpcInterface<ApiType>> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
     // these are the base keys (i.e. part of jsonrpc)
     this.sections.push(...Object.keys(interfaces));
 
@@ -151,10 +151,10 @@ export default class Rpc implements RpcInterface {
     });
   }
 
-  private createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, RpcMethod>): RpcInterface[Section] {
+  private createInterface<Section extends keyof RpcInterface<ApiType>> (section: string, methods: Record<string, RpcMethod>): RpcInterface<ApiType>[Section] {
     return Object
       .keys(methods)
-      .reduce((exposed, method): RpcInterface[Section] => {
+      .reduce((exposed, method): RpcInterface<ApiType>[Section] => {
         const def = methods[method];
 
         this.mapping.set(`${section}_${method}`, def);
@@ -162,7 +162,7 @@ export default class Rpc implements RpcInterface {
         // FIXME Remove any here
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
         // every method inside this class to take:
-        // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
+        // `<S extends keyof RpcInterface<ApiType>, M extends keyof RpcInterface<ApiType>[S]>`
         // Not doing so, because it makes this class a little bit less readable,
         // and leaving it as-is doesn't harm much
         (exposed as any)[method] = def.isSubscription
@@ -170,13 +170,21 @@ export default class Rpc implements RpcInterface {
           : this.createMethodSend(def);
 
         return exposed;
-      }, {} as RpcInterface[Section]);
+      }, {} as RpcInterface<ApiType>[Section]);
+  }
+
+  private createMethodWithRaw (creator: (isRaw: boolean) => (...values: any[]) => Observable<any>): RpcInterfaceMethod {
+    const call = creator(false) as Partial<RpcInterfaceMethod>;
+
+    call.raw = creator(true);
+
+    return call as RpcInterfaceMethod;
   }
 
   private createMethodSend (method: RpcMethod): RpcInterfaceMethod {
     const rpcName = `${method.section}_${method.method}`;
-
-    const call = (...values: any[]): Observable<any> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       // TODO Warn on deprecated methods
 
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
@@ -193,7 +201,11 @@ export default class Rpc implements RpcInterface {
             from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
           ])
         ),
-        map(([params, result]): any => this.formatOutput(method, params, result)),
+        map(([params, result]): any =>
+          isRaw
+            ? this.registry.createType('Raw', result)
+            : this.formatOutput(method, params, result)
+        ),
         catchError((error): any => {
           const message = createErrorMessage(method, error);
 
@@ -210,7 +222,7 @@ export default class Rpc implements RpcInterface {
     // We voluntarily don't cache the "one-shot" RPC calls. For example,
     // `getStorage('123')` returns the current value, but this value can change
     // over time, so we wouldn't want to cache the Observable.
-    return call as RpcInterfaceMethod;
+    return this.createMethodWithRaw(creator);
   }
 
   // create a subscriptor, it subscribes once and resolves with the id as subscribe
@@ -231,8 +243,8 @@ export default class Rpc implements RpcInterface {
     const subName = `${method.section}_${subMethod}`;
     const unsubName = `${method.section}_${unsubMethod}`;
     const subType = `${method.section}_${updateType}`;
-
-    const call = (...values: any[]): Observable<any> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
@@ -254,7 +266,11 @@ export default class Rpc implements RpcInterface {
             }
 
             try {
-              observer.next(this.formatOutput(method, params, result));
+              observer.next(
+                isRaw
+                  ? this.registry.createType('Raw', result)
+                  : this.formatOutput(method, params, result)
+              );
             } catch (error) {
               observer.error(error);
             }
@@ -291,7 +307,7 @@ export default class Rpc implements RpcInterface {
       }).pipe(drr());
     };
 
-    const memoized = memoizee(call, {
+    const memoized = memoizee(this.createMethodWithRaw(creator), {
       // Dynamic length for argument
       length: false,
       // Normalize args so that different args that should be cached

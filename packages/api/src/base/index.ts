@@ -183,7 +183,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    * });
    * ```
    */
-  public get rpc (): DecoratedRpc<ApiType, RpcInterface> {
+  public get rpc (): DecoratedRpc<ApiType, RpcInterface<ApiType>> {
     return assertResult(this._rpc);
   }
 

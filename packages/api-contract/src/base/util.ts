@@ -70,7 +70,7 @@ export abstract class BaseWithTxAndRpcCall<ApiType extends ApiTypes> extends Bas
     return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
-  protected get rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
+  protected get rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface<ApiType>>['contracts']['call'] {
     assert(this.hasRpcContractsCall, 'You need to connect to a node with the contracts.call RPC method.');
 
     return this.api.rx.rpc.contracts.call;

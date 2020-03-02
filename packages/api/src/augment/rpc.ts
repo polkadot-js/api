@@ -12,7 +12,7 @@ import { AccountId, BlockNumber, H256, Hash, Header, Index, SignedBlock, Storage
 import { Observable } from 'rxjs';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
-  export interface RpcInterface {
+  export interface RpcInterface<ApiType> {
     account: {
       /**
        * Retrieves the next accountIndex as available on the node

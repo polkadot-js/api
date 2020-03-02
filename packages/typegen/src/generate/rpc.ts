@@ -63,7 +63,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
         types: ['Observable']
       }
     ]);
-    const interfaceStart = "declare module '@polkadot/rpc-core/types.jsonrpc' {\n  export interface RpcInterface {\n";
+    const interfaceStart = "declare module '@polkadot/rpc-core/types.jsonrpc' {\n  export interface RpcInterface<ApiType> {\n";
     const interfaceEnd = '\n  }\n}';
 
     return header

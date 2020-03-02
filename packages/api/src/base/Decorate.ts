@@ -64,9 +64,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   protected _queryMulti?: QueryableStorageMulti<ApiType>;
 
-  protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
+  protected _rpc?: DecoratedRpc<ApiType, RpcInterface<ApiType>>;
 
-  protected _rpcCore: RpcCore;
+  protected _rpcCore: RpcCore<'rxjs'>;
 
   protected _runtimeChain?: Text;
 
@@ -227,22 +227,22 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       });
   }
 
-  protected decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
-    return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
-      const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
+  protected decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore<ApiType>, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface<ApiType>> {
+    return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface<ApiType>> => {
+      const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface<ApiType>>;
 
       // out and section here are horrors to get right from a typing perspective :(
-      (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+      (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface<ApiType>[typeof sectionName]> => {
         //  skip subscriptions where we have a non-subscribe interface
         if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
           (section as any)[methodName] = decorateMethod(method, { methodName });
         }
 
         return section;
-      }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+      }, {} as DecoratedRpcSection<ApiType, RpcInterface<ApiType>[typeof sectionName]>);
 
       return out;
-    }, {} as DecoratedRpc<ApiType, RpcInterface>);
+    }, {} as DecoratedRpc<ApiType, RpcInterface<ApiType>>);
   }
 
   protected decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
