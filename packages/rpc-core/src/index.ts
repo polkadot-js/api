@@ -253,7 +253,11 @@ export default class Rpc implements RpcInterface {
               return;
             }
 
-            observer.next(this.formatOutput(method, params, result));
+            try {
+              observer.next(this.formatOutput(method, params, result));
+            } catch (error) {
+              observer.error(error);
+            }
           };
 
           subscriptionPromise = this.createSubscriber({ subType, subName, paramsJson, update }, errorHandler);
