@@ -183,7 +183,6 @@ export default class Rpc implements RpcInterface {
 
   private createMethodSend (method: RpcMethod): RpcInterfaceMethod {
     const rpcName = `${method.section}_${method.method}`;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       // TODO Warn on deprecated methods
 
@@ -243,7 +242,6 @@ export default class Rpc implements RpcInterface {
     const subName = `${method.section}_${subMethod}`;
     const unsubName = `${method.section}_${unsubMethod}`;
     const subType = `${method.section}_${updateType}`;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
