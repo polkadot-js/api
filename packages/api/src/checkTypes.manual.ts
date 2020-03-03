@@ -79,12 +79,22 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
-  await api.rpc.chain.subscribeNewHeads((header: Header): void => {
-    console.log('current header:', header);
+  // defaults
+  await api.rpc.chain.subscribeNewHeads((header): void => {
+    console.log('current header #', header.number.toNumber());
   });
 
+  // with generic params
   await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
     console.log('current balance:', balance.toString());
+  });
+
+  // using raw
+  await api.rpc.chain.getBlock.raw('0x123456');
+
+  // using raw subs
+  api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
+    console.log(result);
   });
 }
 

@@ -7,7 +7,7 @@ import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
-type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer R) => void)
+export type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer R) => void)
   ? R
   : never;
 
@@ -15,7 +15,7 @@ type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer 
 // Push<[1,2,3],4> is [1,2,3,4]
 // note that this DOES NOT PRESERVE optionality/readonly in tuples.
 // So unfortunately Push<[1, 2?, 3?], 4> is [1,2|undefined,3|undefined,4]
-type Push<T extends any[], V> = (
+export type Push<T extends any[], V> = (
   (
     Cons<any, Required<T>> extends infer R
       ? { [K in keyof R]: K extends keyof T ? T[K] : V }
@@ -49,6 +49,7 @@ export interface RxResult<F extends AnyFunction> {
   (...args: Parameters<F>): Observable<ObsInnerType<ReturnType<F>>>;
   <T>(...args: Parameters<F>): Observable<T>;
 }
+
 export interface PromiseResult<F extends AnyFunction> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;

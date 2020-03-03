@@ -173,10 +173,17 @@ export default class Rpc implements RpcInterface {
       }, {} as RpcInterface[Section]);
   }
 
+  private createMethodWithRaw (creator: (isRaw: boolean) => (...values: any[]) => Observable<any>): RpcInterfaceMethod {
+    const call = creator(false) as Partial<RpcInterfaceMethod>;
+
+    call.raw = creator(true);
+
+    return call as RpcInterfaceMethod;
+  }
+
   private createMethodSend (method: RpcMethod): RpcInterfaceMethod {
     const rpcName = `${method.section}_${method.method}`;
-
-    const call = (...values: any[]): Observable<any> => {
+    const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       // TODO Warn on deprecated methods
 
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
@@ -193,7 +200,11 @@ export default class Rpc implements RpcInterface {
             from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
           ])
         ),
-        map(([params, result]): any => this.formatOutput(method, params, result)),
+        map(([params, result]): any =>
+          isRaw
+            ? this.registry.createType('Raw', result)
+            : this.formatOutput(method, params, result)
+        ),
         catchError((error): any => {
           const message = createErrorMessage(method, error);
 
@@ -210,7 +221,7 @@ export default class Rpc implements RpcInterface {
     // We voluntarily don't cache the "one-shot" RPC calls. For example,
     // `getStorage('123')` returns the current value, but this value can change
     // over time, so we wouldn't want to cache the Observable.
-    return call as RpcInterfaceMethod;
+    return this.createMethodWithRaw(creator);
   }
 
   // create a subscriptor, it subscribes once and resolves with the id as subscribe
@@ -231,8 +242,7 @@ export default class Rpc implements RpcInterface {
     const subName = `${method.section}_${subMethod}`;
     const unsubName = `${method.section}_${unsubMethod}`;
     const subType = `${method.section}_${updateType}`;
-
-    const call = (...values: any[]): Observable<any> => {
+    const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
@@ -254,7 +264,11 @@ export default class Rpc implements RpcInterface {
             }
 
             try {
-              observer.next(this.formatOutput(method, params, result));
+              observer.next(
+                isRaw
+                  ? this.registry.createType('Raw', result)
+                  : this.formatOutput(method, params, result)
+              );
             } catch (error) {
               observer.error(error);
             }
@@ -291,7 +305,7 @@ export default class Rpc implements RpcInterface {
       }).pipe(drr());
     };
 
-    const memoized = memoizee(call, {
+    const memoized = memoizee(this.createMethodWithRaw(creator), {
       // Dynamic length for argument
       length: false,
       // Normalize args so that different args that should be cached
