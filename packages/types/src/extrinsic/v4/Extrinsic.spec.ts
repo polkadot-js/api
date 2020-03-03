@@ -19,10 +19,13 @@ const keyring = testingPairs({ type: 'ed25519' }, false);
 new Metadata(registry, metadataStatic);
 
 describe('ExtrinsicV4', (): void => {
-  it('constructs a sane Uint8Array (default)', (): void => {
+  it.only('constructs a sane Uint8Array (default)', (): void => {
     expect(
       new Extrinsic(registry).toU8a()
-    ).toEqual(new Uint8Array([0, 0]));
+    ).toEqual(new Uint8Array([
+      0, 0, // index
+      0, 0, 0, 0 // fillBlock Perbill
+    ]));
   });
 
   it('creates a unsigned extrinsic', (): void => {
