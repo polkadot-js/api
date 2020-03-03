@@ -10,18 +10,18 @@ import { AccountData, BalanceLock } from '@polkadot/types/interfaces/balances';
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { CodeHash, ContractInfo, Gas, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
-import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { Conviction, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
 import { Vote, VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { AuthorityList, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
 import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
-import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, Index, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { EraIndex, EraPoints, Exposure, Forcing, MomentOf, Nominations, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
-import { DigestOf, EventIndex, EventRecord } from '@polkadot/types/interfaces/system';
+import { ActiveEraInfo, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { AccountInfo, DigestOf, EventIndex, EventRecord } from '@polkadot/types/interfaces/system';
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig } from '@polkadot/types/interfaces/utility';
@@ -36,7 +36,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The full account information for a particular account ID.
        **/
-      account: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[Index, AccountData]>>> & QueryableStorageEntry<ApiType>;
+      account: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<AccountInfo>> & QueryableStorageEntry<ApiType>;
       /**
        * Total extrinsics count for the current block.
        **/
@@ -215,6 +215,14 @@ declare module '@polkadot/api/types/storage' {
     staking: {
       [index: string]: QueryableStorageEntry<ApiType>;
       /**
+       * Number of era to keep in history.
+       * Information is kept for eras in `[current_era - history_depth; current_era]
+       * Must be more than the number of era delayed by session otherwise.
+       * i.e. active era must always be in history.
+       * i.e. `active_era > current_era - history_depth` must be guaranteed.
+       **/
+      historyDepth: AugmentedQuery<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
+      /**
        * The ideal number of staking participants.
        **/
       validatorCount: AugmentedQuery<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
@@ -246,41 +254,62 @@ declare module '@polkadot/api/types/storage' {
       validators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ValidatorPrefs>> & QueryableStorageEntry<ApiType>;
       /**
        * The map from nominator stash key to the set of stash keys of all validators to nominate.
-       * NOTE: is private so that we can ensure upgraded before all typical accesses.
-       * Direct storage APIs can still bypass this protection.
        **/
       nominators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<Nominations>>> & QueryableStorageEntry<ApiType>;
       /**
-       * Nominators for a particular account that is in action right now. You can't iterate
-       * through validators here, but you can find them in the Session module.
-       * This is keyed by the stash account.
-       **/
-      stakers: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Exposure>> & QueryableStorageEntry<ApiType>;
-      /**
-       * The currently elected validator set keyed by stash account ID.
-       **/
-      currentElected: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
-      /**
        * The current era index.
+       * This is the latest planned era, depending on how session module queues the validator
+       * set, it might be active or not.
        **/
-      currentEra: AugmentedQuery<ApiType, () => Observable<EraIndex>> & QueryableStorageEntry<ApiType>;
+      currentEra: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
       /**
-       * The start of the current era.
+       * The active era information, it holds index and start.
+       * The active era is the era currently rewarded.
+       * Validator set of this era must be equal to `SessionInterface::validators`.
        **/
-      currentEraStart: AugmentedQuery<ApiType, () => Observable<MomentOf>> & QueryableStorageEntry<ApiType>;
+      activeEra: AugmentedQuery<ApiType, () => Observable<Option<ActiveEraInfo>>> & QueryableStorageEntry<ApiType>;
       /**
-       * The session index at which the current era started.
+       * The session index at which the era start for the last `HISTORY_DEPTH` eras
        **/
-      currentEraStartSessionIndex: AugmentedQuery<ApiType, () => Observable<SessionIndex>> & QueryableStorageEntry<ApiType>;
+      erasStartSessionIndex: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<Option<SessionIndex>>> & QueryableStorageEntry<ApiType>;
       /**
-       * Rewards for the current era. Using indices of current elected set.
+       * Exposure of validator at era.
+       * This is keyed first by the era index to allow bulk deletion and then the stash account.
+       * Is it removed after `HISTORY_DEPTH` eras.
+       * If stakers hasn't been set or has been removed then empty exposure is returned.
        **/
-      currentEraPointsEarned: AugmentedQuery<ApiType, () => Observable<EraPoints>> & QueryableStorageEntry<ApiType>;
+      erasStakers: AugmentedQueryDoubleMap<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Exposure>> & QueryableStorageEntry<ApiType>;
       /**
-       * The amount of balance actively at stake for each validator slot, currently.
-       * This is used to derive rewards and punishments.
+       * Clipped Exposure of validator at era.
+       * This is similar to [`ErasStakers`] but number of nominators exposed is reduce to the
+       * `T::MaxNominatorRewardedPerValidator` biggest stakers.
+       * This is used to limit the i/o cost for the nominator payout.
+       * This is keyed fist by the era index to allow bulk deletion and then the stash account.
+       * Is it removed after `HISTORY_DEPTH` eras.
+       * If stakers hasn't been set or has been removed then empty exposure is returned.
        **/
-      slotStake: AugmentedQuery<ApiType, () => Observable<BalanceOf>> & QueryableStorageEntry<ApiType>;
+      erasStakersClipped: AugmentedQueryDoubleMap<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Exposure>> & QueryableStorageEntry<ApiType>;
+      /**
+       * Similarly to `ErasStakers` this holds the preferences of validators.
+       * This is keyed fist by the era index to allow bulk deletion and then the stash account.
+       * Is it removed after `HISTORY_DEPTH` eras.
+       **/
+      erasValidatorPrefs: AugmentedQueryDoubleMap<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<ValidatorPrefs>> & QueryableStorageEntry<ApiType>;
+      /**
+       * The total validator era payout for the last `HISTORY_DEPTH` eras.
+       * Eras that haven't finished yet or has been removed doesn't have reward.
+       **/
+      erasValidatorReward: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<Option<BalanceOf>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * Rewards for the last `HISTORY_DEPTH` eras.
+       * If reward hasn't been set or has been removed then 0 reward is returned.
+       **/
+      erasRewardPoints: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<EraRewardPoints>> & QueryableStorageEntry<ApiType>;
+      /**
+       * The total amount staked for the last `HISTORY_DEPTH` eras.
+       * If total hasn't been set or has been removed then 0 stake is returned.
+       **/
+      erasTotalStake: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<BalanceOf>> & QueryableStorageEntry<ApiType>;
       /**
        * True if the next session change will be a new era regardless of index.
        **/
@@ -301,6 +330,8 @@ declare module '@polkadot/api/types/storage' {
       unappliedSlashes: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<Vec<UnappliedSlash>>> & QueryableStorageEntry<ApiType>;
       /**
        * A mapping from still-bonded eras to the first session index of that era.
+       * Must contains information for eras for the range:
+       * `[active_era - bounding_duration; active_era]`
        **/
       bondedEras: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[EraIndex, SessionIndex]>>>> & QueryableStorageEntry<ApiType>;
       /**
@@ -325,6 +356,11 @@ declare module '@polkadot/api/types/storage' {
        * The earliest era for which we have a pending, unapplied slash.
        **/
       earliestUnappliedSlash: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * True if network has been upgraded to this version.
+       * True for new networks.
+       **/
+      isUpgraded: AugmentedQuery<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
     };
     session: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -415,7 +451,7 @@ declare module '@polkadot/api/types/storage' {
        * Who is able to vote for whom. Value is the fund-holding account, key is the
        * vote-transaction-sending account.
        **/
-      proxy: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
+      proxy: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<ProxyState>>> & QueryableStorageEntry<ApiType>;
       /**
        * Get the account (and lock periods) to which another account is delegating vote.
        **/
@@ -533,7 +569,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * DEPRECATED
        * This used to store the current authority set, which has been migrated to the well-known
-       * GRANDPA_AUTHORITES_KEY unhashed key.
+       * GRANDPA_AUTHORITIES_KEY unhashed key.
        **/
       authorities: AugmentedQuery<ApiType, () => Observable<AuthorityList>> & QueryableStorageEntry<ApiType>;
       /**
@@ -782,10 +818,10 @@ declare module '@polkadot/api/types/storage' {
        **/
       activeRecoveries: AugmentedQueryDoubleMap<ApiType, (key1: AccountId | string | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<ActiveRecovery>>> & QueryableStorageEntry<ApiType>;
       /**
-       * The final list of recovered accounts.
-       * Map from the recovered account to the user who can access it.
+       * The list of allowed proxy accounts.
+       * Map from the user who can access it to the recovered account.
        **/
-      recovered: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
+      proxy: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
     };
     vesting: {
       [index: string]: QueryableStorageEntry<ApiType>;

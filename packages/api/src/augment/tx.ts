@@ -11,7 +11,7 @@ import { Vote } from '@polkadot/types/interfaces/elections';
 import { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
 import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
-import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 import { Keys } from '@polkadot/types/interfaces/session';
 import { SocietyJudgement } from '@polkadot/types/interfaces/society';
 import { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
@@ -24,9 +24,9 @@ declare module '@polkadot/api/types/submittable' {
     system: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
-       * A big dispatch that will disallow any other transaction to be included.
+       * A dispatch that will fill the block weight up to the given ratio.
        **/
-      fillBlock: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
+      fillBlock: AugmentedSubmittable<(ratio: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Make some on-chain remark.
        **/
@@ -59,6 +59,11 @@ declare module '@polkadot/api/types/submittable' {
        * Kill all storage items with a key that starts with the given prefix.
        **/
       killPrefix: AugmentedSubmittable<(prefix: Key | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Kill the sending account, assuming there are no references outstanding and the composite
+       * data is equal to its default value.
+       **/
+      suicide: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
     };
     utility: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -82,7 +87,7 @@ declare module '@polkadot/api/types/submittable' {
        * Send a call through an indexed pseudonym of the sender.
        * The dispatch origin for this call must be _Signed_.
        * # <weight>
-       * - The weight of the `call`.
+       * - The weight of the `call` + 10,000.
        * # </weight>
        **/
       asSub: AugmentedSubmittable<(index: u16 | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -213,7 +218,7 @@ declare module '@polkadot/api/types/submittable' {
       claim: AugmentedSubmittable<(index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Assign an index already owned by the sender to another account. The balance reservation
-       * is effectively transfered to the new account.
+       * is effectively transferred to the new account.
        * The dispatch origin for this call must be _Signed_.
        * - `index`: the index to be re-assigned. This must be owned by the sender.
        * - `new`: the new owner of the index. This function is a no-op if it is equal to sender.
@@ -351,7 +356,8 @@ declare module '@polkadot/api/types/submittable' {
        * - Contains a limited number of reads.
        * - Each call (requires the remainder of the bonded balance to be above `minimum_balance`)
        * will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage.
-       * The only way to clean the aforementioned storage item is also user-controlled via `withdraw_unbonded`.
+       * The only way to clean the aforementioned storage item is also user-controlled via
+       * `withdraw_unbonded`.
        * - One DB entry.
        * </weight>
        **/
@@ -470,6 +476,42 @@ declare module '@polkadot/api/types/submittable' {
        **/
       cancelDeferredSlash: AugmentedSubmittable<(era: EraIndex | AnyNumber | Uint8Array, slashIndices: Vec<u32> | (u32 | AnyNumber | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
+       * Make one nominator's payout for one era.
+       * - `who` is the controller account of the nominator to pay out.
+       * - `era` may not be lower than one following the most recently paid era. If it is higher,
+       * then it indicates an instruction to skip the payout of all previous eras.
+       * - `validators` is the list of all validators that `who` had exposure to during `era`.
+       * If it is incomplete, then less than the full reward will be paid out.
+       * It must not exceed `MAX_NOMINATIONS`.
+       * WARNING: once an era is payed for a validator such validator can't claim the payout of
+       * previous era.
+       * WARNING: Incorrect arguments here can result in loss of payout. Be very careful.
+       * # <weight>
+       * - Number of storage read of `O(validators)`; `validators` is the argument of the call,
+       * and is bounded by `MAX_NOMINATIONS`.
+       * - Each storage read is `O(N)` size and decode complexity; `N` is the  maximum
+       * nominations that can be given to a single validator.
+       * - Computation complexity: `O(MAX_NOMINATIONS * logN)`; `MAX_NOMINATIONS` is the
+       * maximum number of validators that may be nominated by a single nominator, it is
+       * bounded only economically (all nominators are required to place a minimum stake).
+       * # </weight>
+       **/
+      payoutNominator: AugmentedSubmittable<(era: EraIndex | AnyNumber | Uint8Array, validators: Vec<ITuple<[AccountId, u32]>> | ([AccountId | string | Uint8Array, u32 | AnyNumber | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Make one validator's payout for one era.
+       * - `who` is the controller account of the validator to pay out.
+       * - `era` may not be lower than one following the most recently paid era. If it is higher,
+       * then it indicates an instruction to skip the payout of all previous eras.
+       * WARNING: once an era is payed for a validator such validator can't claim the payout of
+       * previous era.
+       * WARNING: Incorrect arguments here can result in loss of payout. Be very careful.
+       * # <weight>
+       * - Time complexity: O(1).
+       * - Contains a limited number of reads and writes.
+       * # </weight>
+       **/
+      payoutValidator: AugmentedSubmittable<(era: EraIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
        * Rebond a portion of the stash scheduled to be unlocked.
        * # <weight>
        * - Time complexity: O(1). Bounded by `MAX_UNLOCKING_CHUNKS`.
@@ -477,6 +519,19 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       rebond: AugmentedSubmittable<(value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Set history_depth value.
+       * Origin must be root.
+       **/
+      setHistoryDepth: AugmentedSubmittable<(newHistoryDepth: Compact<EraIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Remove all data structure concerning a staker/stash once its balance is zero.
+       * This is essentially equivalent to `withdraw_unbonded` except it can be called by anyone
+       * and the target `stash` must have no funds left.
+       * This can be called from any origin.
+       * - `stash`: The stash account to reap. Its balance must be zero.
+       **/
+      reapStash: AugmentedSubmittable<(stash: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     session: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -488,9 +543,22 @@ declare module '@polkadot/api/types/submittable' {
        * # <weight>
        * - O(log n) in number of accounts.
        * - One extra DB entry.
+       * - Increases system account refs by one on success iff there were previously no keys set.
+       * In this case, purge_keys will need to be called before the account can be removed.
        * # </weight>
        **/
       setKeys: AugmentedSubmittable<(keys: Keys, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Removes any session key(s) of the function caller.
+       * This doesn't take effect until the next session.
+       * The dispatch origin of this function must be signed.
+       * # <weight>
+       * - O(N) in number of key types.
+       * - Removes N + 1 DB entries.
+       * - Reduces system account refs by one on success.
+       * # </weight>
+       **/
+      purgeKeys: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
     };
     democracy: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -576,26 +644,30 @@ declare module '@polkadot/api/types/submittable' {
        **/
       cancelQueued: AugmentedSubmittable<(which: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Specify a proxy. Called by the stash.
+       * Specify a proxy that is already open to us. Called by the stash.
+       * NOTE: Used to be called `set_proxy`.
        * # <weight>
        * - One extra DB entry.
        * # </weight>
        **/
-      setProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      activateProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Clear the proxy. Called by the proxy.
+       * NOTE: Used to be called `resign_proxy`.
        * # <weight>
        * - One DB clear.
        * # </weight>
        **/
-      resignProxy: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
+      closeProxy: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
       /**
-       * Clear the proxy. Called by the stash.
+       * Deactivate the proxy, but leave open to this account. Called by the stash.
+       * The proxy must already be active.
+       * NOTE: Used to be called `remove_proxy`.
        * # <weight>
        * - One DB clear.
        * # </weight>
        **/
-      removeProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      deactivateProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Delegate vote.
        * # <weight>
@@ -632,6 +704,17 @@ declare module '@polkadot/api/types/submittable' {
        **/
       reapPreimage: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       unlock: AugmentedSubmittable<(target: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Become a proxy.
+       * This must be called prior to a later `activate_proxy`.
+       * Origin must be a Signed.
+       * - `target`: The account whose votes will later be proxied.
+       * `close_proxy` must be called before the account can be destroyed.
+       * # <weight>
+       * - One extra DB entry.
+       * # </weight>
+       **/
+      openProxy: AugmentedSubmittable<(target: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     council: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -978,10 +1061,10 @@ declare module '@polkadot/api/types/submittable' {
        * - O(1).
        * - Limited storage reads.
        * - One DB write (event).
-       * - Unknown weight of derivative `proposal` execution.
+       * - Weight of derivative `call` execution + 10,000.
        * # </weight>
        **/
-      sudo: AugmentedSubmittable<(proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      sudo: AugmentedSubmittable<(call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.
        * The dispatch origin for this call must be _Signed_.
@@ -1000,10 +1083,10 @@ declare module '@polkadot/api/types/submittable' {
        * - O(1).
        * - Limited storage reads.
        * - One DB write (event).
-       * - Unknown weight of derivative `proposal` execution.
+       * - Weight of derivative `call` execution + 10,000.
        * # </weight>
        **/
-      sudoAs: AugmentedSubmittable<(who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      sudoAs: AugmentedSubmittable<(who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     imOnline: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -1077,7 +1160,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `reg_index`: The index of the registrar whose judgement is requested.
        * - `max_fee`: The maximum fee that may be paid. This should just be auto-populated as:
        * ```nocompile
-       * Self::registrars(reg_index).uwnrap().fee
+       * Self::registrars(reg_index).unwrap().fee
        * ```
        * Emits `JudgementRequested` if successful.
        * # <weight>
@@ -1351,7 +1434,7 @@ declare module '@polkadot/api/types/submittable' {
        **/
       found: AugmentedSubmittable<(founder: AccountId | string | Uint8Array, maxMembers: u32 | AnyNumber | Uint8Array, rules: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Anull the founding of the society.
+       * Annul the founding of the society.
        * The dispatch origin for this call must be Signed, and the signing account must be both
        * the `Founder` and the `Head`. This implies that it may only be done when there is one
        * member.
@@ -1447,7 +1530,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `account`: The recovered account you want to make a call on-behalf-of.
        * - `call`: The call you want to make with the recovered account.
        * # <weight>
-       * - The weight of the `call`.
+       * - The weight of the `call` + 10,000.
        * - One storage lookup to check account is recovered by `who`. O(1)
        * # </weight>
        **/
@@ -1571,7 +1654,7 @@ declare module '@polkadot/api/types/submittable' {
        **/
       closeRecovery: AugmentedSubmittable<(rescuer: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Remove the recovery process for your account.
+       * Remove the recovery process for your account. Recovered accounts are still accessible.
        * NOTE: The user must make sure to call `close_recovery` on all active
        * recovery attempts before calling this function else it will fail.
        * Payment: By calling this function the recoverable account will unreserve
@@ -1589,6 +1672,17 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       removeRecovery: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Cancel the ability to use `as_recovered` for `account`.
+       * The dispatch origin for this call must be _Signed_ and registered to
+       * be able to make calls on behalf of the recovered account.
+       * Parameters:
+       * - `account`: The recovered account you are able to call on-behalf-of.
+       * # <weight>
+       * - One storage mutation to check account is recovered by `who`. O(1)
+       * # </weight>
+       **/
+      cancelRecovered: AugmentedSubmittable<(account: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     vesting: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;

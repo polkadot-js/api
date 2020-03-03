@@ -22,7 +22,10 @@ describe('ExtrinsicV3', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {
     expect(
       new Extrinsic(registry).toU8a()
-    ).toEqual(new Uint8Array([0, 0]));
+    ).toEqual(new Uint8Array([
+      0, 0, // index
+      0, 0, 0, 0 // fillBlock Perbill
+    ]));
   });
 
   it('creates a unsigned extrinsic', (): void => {
