@@ -26,7 +26,7 @@ function queryClipped (api: ApiInterfaceRx): Observable<[[EraIndex, string][], E
       return combineLatest([
         of(indexes),
         indexes.length
-          ? api.query.staking.eraStakersClipped.multi<Exposure>(indexes)
+          ? api.query.staking.erasStakersClipped.multi<Exposure>(indexes)
           : of([] as Exposure[])
       ]);
     })
