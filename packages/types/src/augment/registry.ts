@@ -29,7 +29,7 @@ import { ApiId, BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, He
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, Moment, Origin, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, PhragmenScore, Points, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerNew, StakingLedgerTo223, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
+import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, PhragmenScore, Points, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerNew, StakingLedgerTo223, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { AccountInfo, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase, RefCount } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -698,6 +698,9 @@ declare module '@polkadot/types/types/registry' {
     EraPoints: EraPoints;
     'Option<EraPoints>': Option<EraPoints>;
     'Vec<EraPoints>': Vec<EraPoints>;
+    ActiveEraInfo: ActiveEraInfo;
+    'Option<ActiveEraInfo>': Option<ActiveEraInfo>;
+    'Vec<ActiveEraInfo>': Vec<ActiveEraInfo>;
     CompactAssignments: CompactAssignments;
     'Option<CompactAssignments>': Option<CompactAssignments>;
     'Vec<CompactAssignments>': Vec<CompactAssignments>;
