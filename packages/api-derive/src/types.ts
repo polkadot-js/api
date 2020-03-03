@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, CollatorId, EraIndex, EraRewardPoints, Exposure, Hash, Index, Keys, MomentOf, ParaId, ParaInfo, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, UpwardMessage, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, CollatorId, EraIndex, EraRewardPoints, Exposure, Hash, Index, Keys, MomentOf, ParaId, ParaInfo, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, UpwardMessage, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus, RewardPoint } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { Bytes, Option, u32, Vec } from '@polkadot/types';
@@ -85,6 +85,23 @@ export interface DerivedElectionsInfo {
   voteCount?: VoteIndex;
   voterCount?: SetIndex;
   votingBond?: Balance;
+}
+
+export interface DeriveEraPointsAll {
+  all: Record<string, RewardPoint>;
+  era: EraIndex;
+  total: RewardPoint;
+}
+
+export interface DeriveEraPoints {
+  era: EraIndex;
+  own: RewardPoint;
+  total: RewardPoint;
+}
+
+export interface DeriveEraExposure {
+  all: Record<string, Exposure>;
+  era: EraIndex;
 }
 
 export interface DerivedFees {
