@@ -13,6 +13,10 @@ const deprecated = {
 export default {
   types: {
     ...deprecated,
+    ActiveEraInfo: {
+      index: 'EraIndex',
+      start: 'Option<Moment>'
+    },
     CompactAssignments: {
       votes1: 'Vec<(AccountId, [CompactScore; 0], AccountId)>',
       votes2: 'Vec<(AccountId, [CompactScore; 1], AccountId)>',

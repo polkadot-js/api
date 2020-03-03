@@ -176,7 +176,7 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        **/
       tombstoneDeposit: AugmentedConst<BalanceOf>;
       /**
-       * Size of a contract at the time of instantiaion. This is a simple way to ensure that
+       * Size of a contract at the time of instantiation. This is a simple way to ensure that
        * empty contracts eventually gets deleted.
        **/
       storageSizeOffset: AugmentedConst<u32>;
