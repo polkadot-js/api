@@ -23,20 +23,22 @@ In the subscription example, we explicitly define `lastHead: Header`, although t
 
 As indicated, most of the Polkadot/Substrate default types are available via `types/interfaces`. However, for primitives types where there is an actual implementation, these are made available via `@polkadot/types` directly. For instance, `import { u32 } from '@polkadot/types` is valid in this context.
 
-## Metadata injected
+## Storage generics
 
-For any interface injected by metadata, the types are not available by default (although it may be in the future for default interfaces), but rather what the API understands is that all results need to comply to the `Codec` interface. (The base of all our types)
+For any interface injected by metadata, the types are not fully described but rather names and the API will decode all these into an instance that complies with the `Codec` interface. (The base of all our types)
 
-However, to make this sane from a developer perspective the injected methods are generic, effectively making the following possible -
+However, this does allow you to perform overrides via generics, making the following possible -
 
 ```js
-import { AccountData, Index } from '@polkadot/types/interfaces';
+import { Balance } from '@polkadot/types/interfaces';
+
+type Balance2 = Balance;
 
 ...
-const { nonce, data: balances } = await api.query.system.account<[Index, AccountData]>(ADDR);
+const total = await api.query.balances.totalIssuance<Balance2>();
 ```
 
-In both these case we can instruct the TypeScript compiler that the type we are expecting in `Index` and `Balance` respectively, not just pure `Codec`. This means that functions like `.toNumber()` is available on both these types - as opposed to just the [general type defaults](types.basics.md#everything-is-a-type) with `.toHex()` and friends.
+In this example (although the query does indeed return a `Balance`) we can instruct the TypeScript compiler that we are expecting a `Balance2`, not just the interface as generated. This means that functions like `.toNumber()` is available on both these types - as opposed to just the [general type defaults](types.basics.md#everything-is-a-type) with `.toHex()` and friends.
 
 ## Adding user types
 
