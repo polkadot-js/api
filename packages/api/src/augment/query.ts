@@ -509,6 +509,11 @@ declare module '@polkadot/api/types/storage' {
        * The current members of the collective. This is stored sorted (just by value).
        **/
       members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * The member who provides the default vote for any other members that do not vote before
+       * the timeout. If None, then no member has that privilege.
+       **/
+      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
     };
     technicalCommittee: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -532,6 +537,11 @@ declare module '@polkadot/api/types/storage' {
        * The current members of the collective. This is stored sorted (just by value).
        **/
       members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * The member who provides the default vote for any other members that do not vote before
+       * the timeout. If None, then no member has that privilege.
+       **/
+      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
     };
     elections: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -567,6 +577,10 @@ declare module '@polkadot/api/types/storage' {
        * The current membership, stored as an ordered Vec.
        **/
       members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * The current prime member, if one exists.
+       **/
+      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
     };
     grandpa: {
       [index: string]: QueryableStorageEntry<ApiType>;

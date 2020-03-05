@@ -832,11 +832,12 @@ declare module '@polkadot/api/types/submittable' {
     council: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
-       * Set the collective's membership manually to `new_members`. Be nice to the chain and
-       * provide it pre-sorted.
+       * Set the collective's membership.
+       * - `new_members`: The new member list. Be nice to the chain and
+       * - `prime`: The prime member whose vote sets the default.
        * Requires root origin.
        **/
-      setMembers: AugmentedSubmittable<(newMembers: Vec<AccountId> | (AccountId | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
+      setMembers: AugmentedSubmittable<(newMembers: Vec<AccountId> | (AccountId | string | Uint8Array)[], prime: Option<AccountId> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Dispatch a proposal from a member using the `Member` origin.
        * Origin must be a member of the collective.
@@ -856,15 +857,30 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vote: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, approve: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * May be called by any signed account after the voting duration has ended in order to
+       * finish voting and close the proposal.
+       * Abstentions are counted as rejections unless there is a prime member set and the prime
+       * member cast an approval.
+       * - the weight of `proposal` preimage.
+       * - up to three events deposited.
+       * - one read, two removals, one mutation. (plus three static reads.)
+       * - computation and i/o `O(P + L + M)` where:
+       * - `M` is number of members,
+       * - `P` is number of active proposals,
+       * - `L` is the encoded length of `proposal` preimage.
+       **/
+      close: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     technicalCommittee: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
-       * Set the collective's membership manually to `new_members`. Be nice to the chain and
-       * provide it pre-sorted.
+       * Set the collective's membership.
+       * - `new_members`: The new member list. Be nice to the chain and
+       * - `prime`: The prime member whose vote sets the default.
        * Requires root origin.
        **/
-      setMembers: AugmentedSubmittable<(newMembers: Vec<AccountId> | (AccountId | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
+      setMembers: AugmentedSubmittable<(newMembers: Vec<AccountId> | (AccountId | string | Uint8Array)[], prime: Option<AccountId> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Dispatch a proposal from a member using the `Member` origin.
        * Origin must be a member of the collective.
@@ -884,6 +900,20 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vote: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, approve: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * May be called by any signed account after the voting duration has ended in order to
+       * finish voting and close the proposal.
+       * Abstentions are counted as rejections unless there is a prime member set and the prime
+       * member cast an approval.
+       * - the weight of `proposal` preimage.
+       * - up to three events deposited.
+       * - one read, two removals, one mutation. (plus three static reads.)
+       * - computation and i/o `O(P + L + M)` where:
+       * - `M` is number of members,
+       * - `P` is number of active proposals,
+       * - `L` is the encoded length of `proposal` preimage.
+       **/
+      close: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     elections: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -980,6 +1010,7 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Swap out one member `remove` for another `add`.
        * May only be called from `SwapOrigin` or root.
+       * Prime membership is *not* passed from `remove` to `add`, if extant.
        **/
       swapMember: AugmentedSubmittable<(remove: AccountId | string | Uint8Array, add: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
@@ -991,8 +1022,17 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Swap out the sending member for some other key `new`.
        * May only be called from `Signed` origin of a current member.
+       * Prime membership is passed from the origin account to `new`, if extant.
        **/
       changeKey: AugmentedSubmittable<(updated: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Set the prime member. Must be a current member.
+       **/
+      setPrime: AugmentedSubmittable<(who: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Remove the prime member if it exists.
+       **/
+      clearPrime: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
     };
     finalityTracker: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
