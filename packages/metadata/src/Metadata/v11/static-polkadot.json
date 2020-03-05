@@ -9,19 +9,19 @@
             "prefix": "System",
             "items": [
               {
-                "name": "AccountNonce",
+                "name": "Account",
                 "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
                     "key": "AccountId",
-                    "value": "Index",
+                    "value": "AccountInfo",
                     "linked": false
                   }
                 },
-                "fallback": "0x00000000",
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
-                  " Extrinsics nonce for accounts."
+                  " The full account information for a particular account ID."
                 ]
               },
               {
@@ -78,7 +78,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "u32",
                     "value": "Bytes",
                     "linked": false
@@ -185,9 +185,14 @@
           "calls": [
             {
               "name": "fill_block",
-              "args": [],
+              "args": [
+                {
+                  "name": "_ratio",
+                  "type": "Perbill"
+                }
+              ],
               "documentation": [
-                " A big dispatch that will disallow any other transaction to be included."
+                " A dispatch that will fill the block weight up to the given ratio."
               ]
             },
             {
@@ -285,6 +290,14 @@
               "documentation": [
                 " Kill all storage items with a key that starts with the given prefix."
               ]
+            },
+            {
+              "name": "suicide",
+              "args": [],
+              "documentation": [
+                " Kill the sending account, assuming there are no references outstanding and the composite",
+                " data is equal to its default value."
+              ]
             }
           ],
           "events": [
@@ -312,6 +325,24 @@
               "args": [],
               "documentation": [
                 " `:code` was updated."
+              ]
+            },
+            {
+              "name": "NewAccount",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A new account was created."
+              ]
+            },
+            {
+              "name": "KilledAccount",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " An account was reaped."
               ]
             }
           ],
@@ -351,6 +382,18 @@
                 " Failed to extract the runtime version from the new runtime.",
                 "",
                 " Either calling `Core_version` or decoding `RuntimeVersion` failed."
+              ]
+            },
+            {
+              "name": "NonDefaultComposite",
+              "documentation": [
+                " Suicide called when the account has non-default composite data."
+              ]
+            },
+            {
+              "name": "NonZeroRefCount",
+              "documentation": [
+                " There is a non-zero reference count preventing the account from being purged."
               ]
             }
           ]
@@ -608,47 +651,159 @@
             "prefix": "Indices",
             "items": [
               {
-                "name": "NextEnumSet",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "AccountIndex"
-                },
-                "fallback": "0x00000000",
-                "documentation": [
-                  " The next free enumeration set."
-                ]
-              },
-              {
-                "name": "EnumSet",
-                "modifier": "Default",
+                "name": "Accounts",
+                "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountIndex",
-                    "value": "Vec<AccountId>",
+                    "value": "(AccountId,BalanceOf)",
                     "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The enumeration sets."
+                  " The lookup from index to account."
                 ]
               }
             ]
           },
-          "calls": [],
+          "calls": [
+            {
+              "name": "claim",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "AccountIndex"
+                }
+              ],
+              "documentation": [
+                " Assign an previously unassigned index.",
+                "",
+                " Payment: `Deposit` is reserved from the sender account.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `index`: the index to be claimed. This must not be in use.",
+                "",
+                " Emits `IndexAssigned` if successful.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One storage mutation (codec `O(1)`).",
+                " - One reserve operation.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "transfer",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "index",
+                  "type": "AccountIndex"
+                }
+              ],
+              "documentation": [
+                " Assign an index already owned by the sender to another account. The balance reservation",
+                " is effectively transferred to the new account.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `index`: the index to be re-assigned. This must be owned by the sender.",
+                " - `new`: the new owner of the index. This function is a no-op if it is equal to sender.",
+                "",
+                " Emits `IndexAssigned` if successful.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One storage mutation (codec `O(1)`).",
+                " - One transfer operation.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "free",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "AccountIndex"
+                }
+              ],
+              "documentation": [
+                " Free up an index owned by the sender.",
+                "",
+                " Payment: Any previous deposit placed for the index is unreserved in the sender account.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must own the index.",
+                "",
+                " - `index`: the index to be freed. This must be owned by the sender.",
+                "",
+                " Emits `IndexFreed` if successful.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One storage mutation (codec `O(1)`).",
+                " - One reserve operation.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "force_transfer",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "index",
+                  "type": "AccountIndex"
+                }
+              ],
+              "documentation": [
+                " Force an index to an account. This doesn't require a deposit. If the index is already",
+                " held, then any deposit is reimbursed to its current owner.",
+                "",
+                " The dispatch origin for this call must be _Root_.",
+                "",
+                " - `index`: the index to be (re-)assigned.",
+                " - `new`: the new owner of the index. This function is a no-op if it is equal to sender.",
+                "",
+                " Emits `IndexAssigned` if successful.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One storage mutation (codec `O(1)`).",
+                " - Up to one reserve operation.",
+                " - One event.",
+                " # </weight>"
+              ]
+            }
+          ],
           "events": [
             {
-              "name": "NewAccountIndex",
+              "name": "IndexAssigned",
               "args": [
                 "AccountId",
                 "AccountIndex"
               ],
               "documentation": [
-                " A new account index was assigned.",
-                "",
-                " This event is not triggered when an existing index is reassigned",
-                " to another `AccountId`."
+                " A account index was assigned."
+              ]
+            },
+            {
+              "name": "IndexFreed",
+              "args": [
+                "AccountIndex"
+              ],
+              "documentation": [
+                " A account index has been freed up (unassigned)."
               ]
             }
           ],
@@ -672,71 +827,24 @@
                 ]
               },
               {
-                "name": "Vesting",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "VestingSchedule",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Information regarding the vesting of a given account."
-                ]
-              },
-              {
-                "name": "FreeBalance",
+                "name": "Account",
                 "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
                     "key": "AccountId",
-                    "value": "Balance",
+                    "value": "AccountData",
                     "linked": false
                   }
                 },
-                "fallback": "0x00000000000000000000000000000000",
+                "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
-                  " The 'free' balance of a given account.",
+                  " The balance of an account.",
                   "",
-                  " This is the only balance that matters in terms of most operations on tokens. It",
-                  " alone is used to determine the balance when in the contract execution environment. When this",
-                  " balance falls below the value of `ExistentialDeposit`, then the 'current account' is",
-                  " deleted: specifically `FreeBalance`. Further, the `OnFreeBalanceZero` callback",
-                  " is invoked, giving a chance to external modules to clean up data associated with",
-                  " the deleted account.",
+                  " NOTE: THIS MAY NEVER BE IN EXISTENCE AND YET HAVE A `total().is_zero()`. If the total",
+                  " is ever zero, then the entry *MUST* be removed.",
                   "",
-                  " `frame_system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
-                  " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
-                ]
-              },
-              {
-                "name": "ReservedBalance",
-                "modifier": "Default",
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "Balance",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
-                  " The amount of the balance of a given account that is externally reserved; this can still get",
-                  " slashed, but gets slashed last of all.",
-                  "",
-                  " This balance is a 'reserve' balance that other subsystems use in order to set aside tokens",
-                  " that are still 'owned' by the account holder, but which are suspendable.",
-                  "",
-                  " When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'",
-                  " is deleted: specifically, `ReservedBalance`.",
-                  "",
-                  " `frame_system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
-                  " collapsed to zero if it ever becomes less than `ExistentialDeposit`.)"
+                  " NOTE: This is only used in the case that this module is used to store balances."
                 ]
               },
               {
@@ -752,7 +860,21 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Any liquidity locks on some account balances."
+                  " Any liquidity locks on some account balances.",
+                  " NOTE: Should only be accessed when setting, changing and freeing a lock."
+                ]
+              },
+              {
+                "name": "IsUpgraded",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "bool"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " True if network has been upgraded to this version.",
+                  "",
+                  " True for new networks."
                 ]
               }
             ]
@@ -790,8 +912,7 @@
                 "   - `ensure_can_withdraw` is always called internally but has a bounded complexity.",
                 "   - Transferring balances to accounts that did not exist before will cause",
                 "      `T::OnNewAccount::on_new_account` to be called.",
-                "   - Removing enough funds from an account will trigger",
-                "     `T::DustRemoval::on_unbalanced` and `T::OnFreeBalanceZero::on_free_balance_zero`.",
+                "   - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced`.",
                 "   - `transfer_keep_alive` works the same way as `transfer`, but has an additional",
                 "     check that the transfer will not kill the origin account.",
                 "",
@@ -875,23 +996,24 @@
           ],
           "events": [
             {
-              "name": "NewAccount",
+              "name": "Endowed",
               "args": [
                 "AccountId",
                 "Balance"
               ],
               "documentation": [
-                " A new account was created."
+                " An account was created with some free balance."
               ]
             },
             {
-              "name": "ReapedAccount",
+              "name": "DustLost",
               "args": [
                 "AccountId",
                 "Balance"
               ],
               "documentation": [
-                " An account was reaped."
+                " An account was removed whose balance was non-zero but below ExistentialDeposit,",
+                " resulting in an outright loss."
               ]
             },
             {
@@ -899,11 +1021,10 @@
               "args": [
                 "AccountId",
                 "AccountId",
-                "Balance",
                 "Balance"
               ],
               "documentation": [
-                " Transfer succeeded (from, to, value, fees)."
+                " Transfer succeeded (from, to, value)."
               ]
             },
             {
@@ -935,22 +1056,6 @@
               "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " The minimum amount required to keep an account open."
-              ]
-            },
-            {
-              "name": "TransferFee",
-              "type": "Balance",
-              "value": "0x00e1f505000000000000000000000000",
-              "documentation": [
-                " The fee required to make a transfer."
-              ]
-            },
-            {
-              "name": "CreationFee",
-              "type": "Balance",
-              "value": "0x00e1f505000000000000000000000000",
-              "documentation": [
-                " The fee required to create an account."
               ]
             }
           ],
@@ -1150,6 +1255,23 @@
             "prefix": "Staking",
             "items": [
               {
+                "name": "HistoryDepth",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x54000000",
+                "documentation": [
+                  " Number of era to keep in history.",
+                  "",
+                  " Information is kept for eras in `[current_era - history_depth; current_era]",
+                  "",
+                  " Must be more than the number of era delayed by session otherwise.",
+                  " i.e. active era must always be in history.",
+                  " i.e. `active_era > current_era - history_depth` must be guaranteed."
+                ]
+              },
+              {
                 "name": "ValidatorCount",
                 "modifier": "Default",
                 "type": {
@@ -1261,97 +1383,172 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The map from nominator stash key to the set of stash keys of all validators to nominate.",
-                  "",
-                  " NOTE: is private so that we can ensure upgraded before all typical accesses.",
-                  " Direct storage APIs can still bypass this protection."
-                ]
-              },
-              {
-                "name": "Stakers",
-                "modifier": "Default",
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "Exposure",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x000000",
-                "documentation": [
-                  " Nominators for a particular account that is in action right now. You can't iterate",
-                  " through validators here, but you can find them in the Session module.",
-                  "",
-                  " This is keyed by the stash account."
-                ]
-              },
-              {
-                "name": "CurrentElected",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "Vec<AccountId>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " The currently elected validator set keyed by stash account ID."
+                  " The map from nominator stash key to the set of stash keys of all validators to nominate."
                 ]
               },
               {
                 "name": "CurrentEra",
-                "modifier": "Default",
+                "modifier": "Optional",
                 "type": {
                   "Plain": "EraIndex"
                 },
-                "fallback": "0x00000000",
+                "fallback": "0x00",
                 "documentation": [
-                  " The current era index."
+                  " The current era index.",
+                  "",
+                  " This is the latest planned era, depending on how session module queues the validator",
+                  " set, it might be active or not."
                 ]
               },
               {
-                "name": "CurrentEraStart",
-                "modifier": "Default",
+                "name": "ActiveEra",
+                "modifier": "Optional",
                 "type": {
-                  "Plain": "MomentOf"
+                  "Plain": "ActiveEraInfo"
                 },
-                "fallback": "0x0000000000000000",
+                "fallback": "0x00",
                 "documentation": [
-                  " The start of the current era."
+                  " The active era information, it holds index and start.",
+                  "",
+                  " The active era is the era currently rewarded.",
+                  " Validator set of this era must be equal to `SessionInterface::validators`."
                 ]
               },
               {
-                "name": "CurrentEraStartSessionIndex",
-                "modifier": "Default",
+                "name": "ErasStartSessionIndex",
+                "modifier": "Optional",
                 "type": {
-                  "Plain": "SessionIndex"
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "SessionIndex",
+                    "linked": false
+                  }
                 },
-                "fallback": "0x00000000",
+                "fallback": "0x00",
                 "documentation": [
-                  " The session index at which the current era started."
+                  " The session index at which the era start for the last `HISTORY_DEPTH` eras"
                 ]
               },
               {
-                "name": "CurrentEraPointsEarned",
+                "name": "ErasStakers",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "EraPoints"
+                  "DoubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "EraIndex",
+                    "key2": "AccountId",
+                    "value": "Exposure",
+                    "key2Hasher": "Twox64Concat"
+                  }
+                },
+                "fallback": "0x000000",
+                "documentation": [
+                  " Exposure of validator at era.",
+                  "",
+                  " This is keyed first by the era index to allow bulk deletion and then the stash account.",
+                  "",
+                  " Is it removed after `HISTORY_DEPTH` eras.",
+                  " If stakers hasn't been set or has been removed then empty exposure is returned."
+                ]
+              },
+              {
+                "name": "ErasStakersClipped",
+                "modifier": "Default",
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "EraIndex",
+                    "key2": "AccountId",
+                    "value": "Exposure",
+                    "key2Hasher": "Twox64Concat"
+                  }
+                },
+                "fallback": "0x000000",
+                "documentation": [
+                  " Clipped Exposure of validator at era.",
+                  "",
+                  " This is similar to [`ErasStakers`] but number of nominators exposed is reduce to the",
+                  " `T::MaxNominatorRewardedPerValidator` biggest stakers.",
+                  " This is used to limit the i/o cost for the nominator payout.",
+                  "",
+                  " This is keyed fist by the era index to allow bulk deletion and then the stash account.",
+                  "",
+                  " Is it removed after `HISTORY_DEPTH` eras.",
+                  " If stakers hasn't been set or has been removed then empty exposure is returned."
+                ]
+              },
+              {
+                "name": "ErasValidatorPrefs",
+                "modifier": "Default",
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "EraIndex",
+                    "key2": "AccountId",
+                    "value": "ValidatorPrefs",
+                    "key2Hasher": "Twox64Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Similarly to `ErasStakers` this holds the preferences of validators.",
+                  "",
+                  " This is keyed fist by the era index to allow bulk deletion and then the stash account.",
+                  "",
+                  " Is it removed after `HISTORY_DEPTH` eras."
+                ]
+              },
+              {
+                "name": "ErasValidatorReward",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "BalanceOf",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The total validator era payout for the last `HISTORY_DEPTH` eras.",
+                  "",
+                  " Eras that haven't finished yet or has been removed doesn't have reward."
+                ]
+              },
+              {
+                "name": "ErasRewardPoints",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "EraRewardPoints",
+                    "linked": false
+                  }
                 },
                 "fallback": "0x0000000000",
                 "documentation": [
-                  " Rewards for the current era. Using indices of current elected set."
+                  " Rewards for the last `HISTORY_DEPTH` eras.",
+                  " If reward hasn't been set or has been removed then 0 reward is returned."
                 ]
               },
               {
-                "name": "SlotStake",
+                "name": "ErasTotalStake",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "BalanceOf"
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "BalanceOf",
+                    "linked": false
+                  }
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
-                  " The amount of balance actively at stake for each validator slot, currently.",
-                  "",
-                  " This is used to derive rewards and punishments."
+                  " The total amount staked for the last `HISTORY_DEPTH` eras.",
+                  " If total hasn't been set or has been removed then 0 stake is returned."
                 ]
               },
               {
@@ -1414,7 +1611,10 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " A mapping from still-bonded eras to the first session index of that era."
+                  " A mapping from still-bonded eras to the first session index of that era.",
+                  "",
+                  " Must contains information for eras for the range:",
+                  " `[active_era - bounding_duration; active_era]`"
                 ]
               },
               {
@@ -1497,14 +1697,16 @@
                 ]
               },
               {
-                "name": "StorageVersion",
+                "name": "IsUpgraded",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "Plain": "bool"
                 },
-                "fallback": "0x00000000",
+                "fallback": "0x00",
                 "documentation": [
-                  " The version of storage for upgrade."
+                  " True if network has been upgraded to this version.",
+                  "",
+                  " True for new networks."
                 ]
               }
             ]
@@ -1598,7 +1800,8 @@
                 " - Contains a limited number of reads.",
                 " - Each call (requires the remainder of the bonded balance to be above `minimum_balance`)",
                 "   will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage.",
-                "   The only way to clean the aforementioned storage item is also user-controlled via `withdraw_unbonded`.",
+                "   The only way to clean the aforementioned storage item is also user-controlled via",
+                "   `withdraw_unbonded`.",
                 " - One DB entry.",
                 " </weight>"
               ]
@@ -1823,6 +2026,70 @@
               ]
             },
             {
+              "name": "payout_nominator",
+              "args": [
+                {
+                  "name": "era",
+                  "type": "EraIndex"
+                },
+                {
+                  "name": "validators",
+                  "type": "Vec<(AccountId,u32)>"
+                }
+              ],
+              "documentation": [
+                " Make one nominator's payout for one era.",
+                "",
+                " - `who` is the controller account of the nominator to pay out.",
+                " - `era` may not be lower than one following the most recently paid era. If it is higher,",
+                "   then it indicates an instruction to skip the payout of all previous eras.",
+                " - `validators` is the list of all validators that `who` had exposure to during `era`.",
+                "   If it is incomplete, then less than the full reward will be paid out.",
+                "   It must not exceed `MAX_NOMINATIONS`.",
+                "",
+                " WARNING: once an era is payed for a validator such validator can't claim the payout of",
+                " previous era.",
+                "",
+                " WARNING: Incorrect arguments here can result in loss of payout. Be very careful.",
+                "",
+                " # <weight>",
+                " - Number of storage read of `O(validators)`; `validators` is the argument of the call,",
+                "   and is bounded by `MAX_NOMINATIONS`.",
+                " - Each storage read is `O(N)` size and decode complexity; `N` is the  maximum",
+                "   nominations that can be given to a single validator.",
+                " - Computation complexity: `O(MAX_NOMINATIONS * logN)`; `MAX_NOMINATIONS` is the",
+                "   maximum number of validators that may be nominated by a single nominator, it is",
+                "   bounded only economically (all nominators are required to place a minimum stake).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "payout_validator",
+              "args": [
+                {
+                  "name": "era",
+                  "type": "EraIndex"
+                }
+              ],
+              "documentation": [
+                " Make one validator's payout for one era.",
+                "",
+                " - `who` is the controller account of the validator to pay out.",
+                " - `era` may not be lower than one following the most recently paid era. If it is higher,",
+                "   then it indicates an instruction to skip the payout of all previous eras.",
+                "",
+                " WARNING: once an era is payed for a validator such validator can't claim the payout of",
+                " previous era.",
+                "",
+                " WARNING: Incorrect arguments here can result in loss of payout. Be very careful.",
+                "",
+                " # <weight>",
+                " - Time complexity: O(1).",
+                " - Contains a limited number of reads and writes.",
+                " # </weight>"
+              ]
+            },
+            {
               "name": "rebond",
               "args": [
                 {
@@ -1838,18 +2105,49 @@
                 " - Storage changes: Can't increase storage, only decrease it.",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "set_history_depth",
+              "args": [
+                {
+                  "name": "new_history_depth",
+                  "type": "Compact<EraIndex>"
+                }
+              ],
+              "documentation": [
+                " Set history_depth value.",
+                "",
+                " Origin must be root."
+              ]
+            },
+            {
+              "name": "reap_stash",
+              "args": [
+                {
+                  "name": "stash",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Remove all data structure concerning a staker/stash once its balance is zero.",
+                " This is essentially equivalent to `withdraw_unbonded` except it can be called by anyone",
+                " and the target `stash` must have no funds left.",
+                "",
+                " This can be called from any origin.",
+                "",
+                " - `stash`: The stash account to reap. Its balance must be zero."
+              ]
             }
           ],
           "events": [
             {
               "name": "Reward",
               "args": [
-                "Balance",
+                "AccountId",
                 "Balance"
               ],
               "documentation": [
-                " All validators have been rewarded by the first balance; the second is the remainder",
-                " from the maximum amount of reward."
+                " The staker has been rewarded by this amount. AccountId is controller account."
               ]
             },
             {
@@ -1950,6 +2248,24 @@
               "name": "NoUnlockChunk",
               "documentation": [
                 " Can not rebond without unlocking chunks."
+              ]
+            },
+            {
+              "name": "FundedTarget",
+              "documentation": [
+                " Attempting to target a stash that still has funds."
+              ]
+            },
+            {
+              "name": "InvalidEraToReward",
+              "documentation": [
+                " Invalid era to reward."
+              ]
+            },
+            {
+              "name": "InvalidNumberOfNominations",
+              "documentation": [
+                " Invalid number of nominations."
               ]
             }
           ]
@@ -2161,6 +2477,24 @@
                 " # <weight>",
                 " - O(log n) in number of accounts.",
                 " - One extra DB entry.",
+                " - Increases system account refs by one on success iff there were previously no keys set.",
+                "   In this case, purge_keys will need to be called before the account can be removed.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "purge_keys",
+              "args": [],
+              "documentation": [
+                " Removes any session key(s) of the function caller.",
+                " This doesn't take effect until the next session.",
+                "",
+                " The dispatch origin of this function must be signed.",
+                "",
+                " # <weight>",
+                " - O(N) in number of key types.",
+                " - Removes N + 1 DB entries.",
+                " - Reduces system account refs by one on success.",
                 " # </weight>"
               ]
             }
@@ -2205,6 +2539,12 @@
               "name": "DuplicatedKey",
               "documentation": [
                 " Registered duplicate key."
+              ]
+            },
+            {
+              "name": "NoKeys",
+              "documentation": [
+                " No keys are associated with this account."
               ]
             }
           ]
@@ -2277,7 +2617,7 @@
                   " DEPRECATED",
                   "",
                   " This used to store the current authority set, which has been migrated to the well-known",
-                  " GRANDPA_AUTHORITES_KEY unhashed key."
+                  " GRANDPA_AUTHORITIES_KEY unhashed key."
                 ]
               },
               {
@@ -2561,132 +2901,6 @@
           "errors": []
         },
         {
-          "name": "Sudo",
-          "storage": {
-            "prefix": "Sudo",
-            "items": [
-              {
-                "name": "Key",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "AccountId"
-                },
-                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
-                  " The `AccountId` of the sudo key."
-                ]
-              }
-            ]
-          },
-          "calls": [
-            {
-              "name": "sudo",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                }
-              ],
-              "documentation": [
-                " Authenticates the sudo key and dispatches a function call with `Root` origin.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB write (event).",
-                " - Unknown weight of derivative `proposal` execution.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "set_key",
-              "args": [
-                {
-                  "name": "new",
-                  "type": "LookupSource"
-                }
-              ],
-              "documentation": [
-                " Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB change.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "sudo_as",
-              "args": [
-                {
-                  "name": "who",
-                  "type": "LookupSource"
-                },
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                }
-              ],
-              "documentation": [
-                " Authenticates the sudo key and dispatches a function call with `Signed` origin from",
-                " a given account.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB write (event).",
-                " - Unknown weight of derivative `proposal` execution.",
-                " # </weight>"
-              ]
-            }
-          ],
-          "events": [
-            {
-              "name": "Sudid",
-              "args": [
-                "bool"
-              ],
-              "documentation": [
-                " A sudo just took place."
-              ]
-            },
-            {
-              "name": "KeyChanged",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " The sudoer just switched identity; the old key is supplied."
-              ]
-            },
-            {
-              "name": "SudoAsDone",
-              "args": [
-                "bool"
-              ],
-              "documentation": [
-                " A sudo just took place."
-              ]
-            }
-          ],
-          "constants": [],
-          "errors": [
-            {
-              "name": "RequireSudo",
-              "documentation": [
-                " Sender must be the Sudo account"
-              ]
-            }
-          ]
-        },
-        {
           "name": "Democracy",
           "storage": {
             "prefix": "Democracy",
@@ -2828,7 +3042,7 @@
                   " Get the vote in a given referendum of a particular voter. The result is meaningful only",
                   " if `voters_for` includes the voter when called with the referendum (you'll get the",
                   " default `Vote` value otherwise). If you don't want to check `voters_for`, then you can",
-                  " also check for simple existence with `VoteOf::exists` first."
+                  " also check for simple existence with `VoteOf::contains_key` first."
                 ]
               },
               {
@@ -2838,7 +3052,7 @@
                   "Map": {
                     "hasher": "Blake2_256",
                     "key": "AccountId",
-                    "value": "AccountId",
+                    "value": "ProxyState",
                     "linked": false
                   }
                 },
@@ -2862,6 +3076,23 @@
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
                   " Get the account (and lock periods) to which another account is delegating vote."
+                ]
+              },
+              {
+                "name": "Locks",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "BlockNumber",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Accounts for which there are locks in action which may be removed at some point in the",
+                  " future. The value is the block number at which the lock expires and may be removed."
                 ]
               },
               {
@@ -2941,8 +3172,16 @@
               "documentation": [
                 " Propose a sensitive action to be taken.",
                 "",
+                " The dispatch origin of this call must be _Signed_ and the sender must",
+                " have funds to cover the deposit.",
+                "",
+                " - `proposal_hash`: The hash of the proposal preimage.",
+                " - `value`: The amount of deposit (must be at least `MinimumDeposit`).",
+                "",
+                " Emits `Proposed`.",
+                "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - Two DB changes, one DB entry.",
                 " # </weight>"
               ]
@@ -2956,10 +3195,15 @@
                 }
               ],
               "documentation": [
-                " Propose a sensitive action to be taken.",
+                " Signals agreement with a particular proposal.",
+                "",
+                " The dispatch origin of this call must be _Signed_ and the sender",
+                " must have funds to cover the deposit, equal to the original deposit.",
+                "",
+                " - `proposal`: The index of the proposal to second.",
                 "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - One DB entry.",
                 " # </weight>"
               ]
@@ -2980,8 +3224,13 @@
                 " Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;",
                 " otherwise it is a vote to keep the status quo.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `ref_index`: The index of the referendum to vote for.",
+                " - `vote`: The vote configuration.",
+                "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - One DB change, one DB entry.",
                 " # </weight>"
               ]
@@ -3002,8 +3251,13 @@
                 " Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact",
                 " the proposal; otherwise it is a vote to keep the status quo.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `ref_index`: The index of the referendum to proxy vote for.",
+                " - `vote`: The vote configuration.",
+                "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - One DB change, one DB entry.",
                 " # </weight>"
               ]
@@ -3018,7 +3272,15 @@
               ],
               "documentation": [
                 " Schedule an emergency cancellation of a referendum. Cannot happen twice to the same",
-                " referendum."
+                " referendum.",
+                "",
+                " The dispatch origin of this call must be `CancellationOrigin`.",
+                "",
+                " -`ref_index`: The index of the referendum to cancel.",
+                "",
+                " # <weight>",
+                " - Depends on size of storage vec `VotersFor` for this referendum.",
+                " # </weight>"
               ]
             },
             {
@@ -3031,7 +3293,16 @@
               ],
               "documentation": [
                 " Schedule a referendum to be tabled once it is legal to schedule an external",
-                " referendum."
+                " referendum.",
+                "",
+                " The dispatch origin of this call must be `ExternalOrigin`.",
+                "",
+                " - `proposal_hash`: The preimage hash of the proposal.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -3046,8 +3317,17 @@
                 " Schedule a majority-carries referendum to be tabled next once it is legal to schedule",
                 " an external referendum.",
                 "",
+                " The dispatch of this call must be `ExternalMajorityOrigin`.",
+                " ",
+                " - `proposal_hash`: The preimage hash of the proposal.",
+                "",
                 " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
-                " pre-scheduled `external_propose` call."
+                " pre-scheduled `external_propose` call.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -3062,8 +3342,17 @@
                 " Schedule a negative-turnout-bias referendum to be tabled next once it is legal to",
                 " schedule an external referendum.",
                 "",
+                " The dispatch of this call must be `ExternalDefaultOrigin`.",
+                "",
+                " - `proposal_hash`: The preimage hash of the proposal.",
+                "",
                 " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
-                " pre-scheduled `external_propose` call."
+                " pre-scheduled `external_propose` call.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -3087,11 +3376,21 @@
                 " immediately. If there is no externally-proposed referendum currently, or if there is one",
                 " but it is not a majority-carries referendum then it fails.",
                 "",
+                " The dispatch of this call must be `FastTrackOrigin`.",
+                "",
                 " - `proposal_hash`: The hash of the current external proposal.",
                 " - `voting_period`: The period that is allowed for voting on this proposal. Increased to",
                 "   `EmergencyVotingPeriod` if too low.",
                 " - `delay`: The number of block after voting has ended in approval and this should be",
-                "   enacted. This doesn't have a minimum amount."
+                "   enacted. This doesn't have a minimum amount.",
+                "",
+                " Emits `Started`.",
+                "",
+                " # <weight>",
+                " - One DB clear.",
+                " - One DB change.",
+                " - One extra DB entry.",
+                " # </weight>"
               ]
             },
             {
@@ -3103,7 +3402,20 @@
                 }
               ],
               "documentation": [
-                " Veto and blacklist the external proposal hash."
+                " Veto and blacklist the external proposal hash.",
+                "",
+                " The dispatch origin of this call must be `VetoOrigin`.",
+                " ",
+                " - `proposal_hash`: The preimage hash of the proposal to veto and blacklist.",
+                "",
+                " Emits `Vetoed`.",
+                "",
+                " # <weight>",
+                " - Two DB entries.",
+                " - One DB clear.",
+                " - Performs a binary search on `existing_vetoers` which should not",
+                "   be very large.",
+                " # </weight>"
               ]
             },
             {
@@ -3115,7 +3427,15 @@
                 }
               ],
               "documentation": [
-                " Remove a referendum."
+                " Remove a referendum.",
+                "",
+                " The dispatch origin of this call must be _Root_.",
+                "",
+                " - `ref_index`: The index of the referendum to cancel.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " # </weight>"
               ]
             },
             {
@@ -3127,11 +3447,19 @@
                 }
               ],
               "documentation": [
-                " Cancel a proposal queued for enactment."
+                " Cancel a proposal queued for enactment.",
+                "",
+                " The dispatch origin of this call must be _Root_.",
+                "",
+                " - `which`: The index of the referendum to cancel.",
+                "",
+                " # <weight>",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
-              "name": "set_proxy",
+              "name": "activate_proxy",
               "args": [
                 {
                   "name": "proxy",
@@ -3139,7 +3467,13 @@
                 }
               ],
               "documentation": [
-                " Specify a proxy. Called by the stash.",
+                " Specify a proxy that is already open to us. Called by the stash.",
+                "",
+                " NOTE: Used to be called `set_proxy`.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `proxy`: The account that will be activated as proxy.",
                 "",
                 " # <weight>",
                 " - One extra DB entry.",
@@ -3147,10 +3481,14 @@
               ]
             },
             {
-              "name": "resign_proxy",
+              "name": "close_proxy",
               "args": [],
               "documentation": [
                 " Clear the proxy. Called by the proxy.",
+                "",
+                " NOTE: Used to be called `resign_proxy`.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
                 "",
                 " # <weight>",
                 " - One DB clear.",
@@ -3158,7 +3496,7 @@
               ]
             },
             {
-              "name": "remove_proxy",
+              "name": "deactivate_proxy",
               "args": [
                 {
                   "name": "proxy",
@@ -3166,7 +3504,15 @@
                 }
               ],
               "documentation": [
-                " Clear the proxy. Called by the stash.",
+                " Deactivate the proxy, but leave open to this account. Called by the stash.",
+                "",
+                " The proxy must already be active.",
+                "",
+                " NOTE: Used to be called `remove_proxy`.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `proxy`: The account that will be deactivated as proxy.",
                 "",
                 " # <weight>",
                 " - One DB clear.",
@@ -3188,6 +3534,16 @@
               "documentation": [
                 " Delegate vote.",
                 "",
+                " Currency is locked indefinitely for as long as it's delegated.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `to`: The account to make a delegate of the sender.",
+                " - `conviction`: The conviction that will be attached to the delegated",
+                "   votes.",
+                "",
+                " Emits `Delegated`.",
+                "",
                 " # <weight>",
                 " - One extra DB entry.",
                 " # </weight>"
@@ -3199,6 +3555,14 @@
               "documentation": [
                 " Undelegate vote.",
                 "",
+                " Must be sent from an account that has called delegate previously.",
+                " The tokens will be reduced from an indefinite lock to the maximum",
+                " possible according to the conviction of the prior delegation.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " Emits `Undelegated`.",
+                "",
                 " # <weight>",
                 " - O(1).",
                 " # </weight>"
@@ -3208,7 +3572,14 @@
               "name": "clear_public_proposals",
               "args": [],
               "documentation": [
-                " Veto and blacklist the proposal hash. Must be from Root origin."
+                " Clears all public proposals.",
+                "",
+                " The dispatch origin of this call must be _Root_.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB clear.",
+                " # </weight>"
               ]
             },
             {
@@ -3221,7 +3592,18 @@
               ],
               "documentation": [
                 " Register the preimage for an upcoming proposal. This doesn't require the proposal to be",
-                " in the dispatch queue but does require a deposit, returned once enacted."
+                " in the dispatch queue but does require a deposit, returned once enacted.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `encoded_proposal`: The preimage of a proposal.",
+                "",
+                " Emits `PreimageNoted`.",
+                "",
+                " # <weight>",
+                " - Dependent on the size of `encoded_proposal` but protected by a ",
+                "   required deposit.",
+                " # </weight>"
               ]
             },
             {
@@ -3234,7 +3616,17 @@
               ],
               "documentation": [
                 " Register the preimage for an upcoming proposal. This requires the proposal to be",
-                " in the dispatch queue. No deposit is needed."
+                " in the dispatch queue. No deposit is needed.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `encoded_proposal`: The preimage of a proposal.",
+                "",
+                " Emits `PreimageNoted`.",
+                "",
+                " # <weight>",
+                " - Dependent on the size of `encoded_proposal`.",
+                " # </weight>"
               ]
             },
             {
@@ -3248,9 +3640,65 @@
               "documentation": [
                 " Remove an expired proposal preimage and collect the deposit.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `proposal_hash`: The preimage hash of a proposal.",
+                "",
                 " This will only work after `VotingPeriod` blocks from the time that the preimage was",
                 " noted, if it's the same account doing it. If it's a different account, then it'll only",
-                " work an additional `EnactmentPeriod` later."
+                " work an additional `EnactmentPeriod` later.",
+                "",
+                " Emits `PreimageReaped`.",
+                "",
+                " # <weight>",
+                " - One DB clear.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "unlock",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Unlock tokens that have an expired lock.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `target`: The account to remove the lock on.",
+                "",
+                " Emits `Unlocked`.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "open_proxy",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Become a proxy.",
+                "",
+                " This must be called prior to a later `activate_proxy`.",
+                "",
+                " Origin must be a Signed.",
+                "",
+                " - `target`: The account whose votes will later be proxied.",
+                "",
+                " `close_proxy` must be called before the account can be destroyed.",
+                "",
+                " # <weight>",
+                " - One extra DB entry.",
+                " # </weight>"
               ]
             }
           ],
@@ -3412,6 +3860,15 @@
               ],
               "documentation": [
                 " A registered preimage was removed and the deposit collected by the reaper (last item)."
+              ]
+            },
+            {
+              "name": "Unlocked",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " An account has been unlocked successfully."
               ]
             }
           ],
@@ -3608,6 +4065,36 @@
               "name": "NoneWaiting",
               "documentation": [
                 " No proposals waiting"
+              ]
+            },
+            {
+              "name": "NotLocked",
+              "documentation": [
+                " The target account does not have a lock."
+              ]
+            },
+            {
+              "name": "NotExpired",
+              "documentation": [
+                " The lock on the account to be unlocked has not yet expired."
+              ]
+            },
+            {
+              "name": "NotOpen",
+              "documentation": [
+                " A proxy-pairing was attempted to an account that was not open."
+              ]
+            },
+            {
+              "name": "WrongOpen",
+              "documentation": [
+                " A proxy-pairing was attempted to an account that was open to another account."
+              ]
+            },
+            {
+              "name": "NotActive",
+              "documentation": [
+                " A proxy-de-pairing was attempted to an account that was not active."
               ]
             }
           ]
@@ -5169,131 +5656,6 @@
           ]
         },
         {
-          "name": "Claims",
-          "storage": {
-            "prefix": "Claims",
-            "items": [
-              {
-                "name": "Claims",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "EthereumAddress",
-                    "value": "BalanceOf",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": []
-              },
-              {
-                "name": "Total",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "BalanceOf"
-                },
-                "fallback": "0x00000000000000000000000000000000",
-                "documentation": []
-              },
-              {
-                "name": "Vesting",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "EthereumAddress",
-                    "value": "(BalanceOf,BalanceOf,BlockNumber)",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Vesting schedule for a claim.",
-                  " First balance is the total amount that should be held for vesting.",
-                  " Second balance is how much should be unlocked per block.",
-                  " The block number is when the vesting should start."
-                ]
-              }
-            ]
-          },
-          "calls": [
-            {
-              "name": "claim",
-              "args": [
-                {
-                  "name": "dest",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "ethereum_signature",
-                  "type": "EcdsaSignature"
-                }
-              ],
-              "documentation": [
-                " Make a claim."
-              ]
-            },
-            {
-              "name": "mint_claim",
-              "args": [
-                {
-                  "name": "who",
-                  "type": "EthereumAddress"
-                },
-                {
-                  "name": "value",
-                  "type": "BalanceOf"
-                },
-                {
-                  "name": "vesting_schedule",
-                  "type": "Option<(BalanceOf,BalanceOf,BlockNumber)>"
-                }
-              ],
-              "documentation": [
-                " Add a new claim, if you are root."
-              ]
-            }
-          ],
-          "events": [
-            {
-              "name": "Claimed",
-              "args": [
-                "AccountId",
-                "EthereumAddress",
-                "Balance"
-              ],
-              "documentation": [
-                " Someone claimed some DOTs."
-              ]
-            }
-          ],
-          "constants": [
-            {
-              "name": "Prefix",
-              "type": "Bytes",
-              "value": "0x8450617920444f547320746f2074686520506f6c6b61646f74206163636f756e743a",
-              "documentation": [
-                " The Prefix that is used in signed Ethereum messages for this network"
-              ]
-            }
-          ],
-          "errors": [
-            {
-              "name": "InvalidEthereumSignature",
-              "documentation": [
-                " Invalid Ethereum signature."
-              ]
-            },
-            {
-              "name": "SignerHasNoClaim",
-              "documentation": [
-                " Ethereum address has no claim."
-              ]
-            }
-          ]
-        },
-        {
           "name": "Parachains",
           "storage": {
             "prefix": "Parachains",
@@ -5339,43 +5701,6 @@
                 "fallback": "0x00",
                 "documentation": [
                   " The heads of the parachains registered at present."
-                ]
-              },
-              {
-                "name": "Watermarks",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "ParaId",
-                    "value": "BlockNumber",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " The watermark heights of the parachains registered at present.",
-                  " For every parachain, this is the block height from which all messages targeting",
-                  " that parachain have been processed. Can be `None` only if the parachain doesn't exist."
-                ]
-              },
-              {
-                "name": "UnroutedIngress",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "(BlockNumber,ParaId)",
-                    "value": "Vec<(ParaId,Hash)>",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Unrouted ingress. Maps (BlockNumber, to_chain) pairs to [(from_chain, egress_root)].",
-                  "",
-                  " There may be an entry under (i, p) in this map for every i between the parachain's",
-                  " watermark and the current block."
                 ]
               },
               {
@@ -5500,30 +5825,6 @@
               ]
             },
             {
-              "name": "EgressOutOfOrder",
-              "documentation": [
-                " Egress routes should be in ascending order by parachain ID without duplicates."
-              ]
-            },
-            {
-              "name": "SelfAddressed",
-              "documentation": [
-                " A parachain cannot route a message to itself."
-              ]
-            },
-            {
-              "name": "EmptyTrieRoot",
-              "documentation": [
-                " The trie root cannot be empty."
-              ]
-            },
-            {
-              "name": "DestinationDoesNotExist",
-              "documentation": [
-                " Cannot route to a non-existing parachain."
-              ]
-            },
-            {
               "name": "NoValidatorGroup",
               "documentation": [
                 " No validator group for parachain."
@@ -5557,6 +5858,30 @@
               "name": "UntaggedVotes",
               "documentation": [
                 " Extra untagged validity votes along with candidate."
+              ]
+            },
+            {
+              "name": "ParentMismatch",
+              "documentation": [
+                " Wrong parent head for parachain receipt."
+              ]
+            },
+            {
+              "name": "HeadDataTooLarge",
+              "documentation": [
+                " Head data was too large."
+              ]
+            },
+            {
+              "name": "CannotPayFees",
+              "documentation": [
+                " Para does not have enough balance to pay fees."
+              ]
+            },
+            {
+              "name": "UnexpectedRelayParent",
+              "documentation": [
+                " Unexpected relay-parent for a candidate receipt."
               ]
             }
           ]
@@ -5931,6 +6256,10 @@
                   "type": "Hash"
                 },
                 {
+                  "name": "code_size",
+                  "type": "u32"
+                },
+                {
                   "name": "initial_head_data",
                   "type": "Bytes"
                 }
@@ -6119,6 +6448,18 @@
               "documentation": [
                 " Not an auction."
               ]
+            },
+            {
+              "name": "CodeTooLarge",
+              "documentation": [
+                " Given code size is too large."
+              ]
+            },
+            {
+              "name": "HeadDataTooLarge",
+              "documentation": [
+                " Given initial head data is too large."
+              ]
             }
           ]
         },
@@ -6270,8 +6611,11 @@
                 }
               ],
               "documentation": [
-                " Register a parachain with given code.",
-                " Fails if given ID is already used."
+                " Register a parachain with given code. Must be called by root.",
+                " Fails if given ID is already used.",
+                "",
+                " Unlike the `Registrar` trait function of the same name, this",
+                " checks the code and head data against size limits."
               ]
             },
             {
@@ -6318,7 +6662,11 @@
                 " Register a parathread for immediate use.",
                 "",
                 " Must be sent from a Signed origin that is able to have ParathreadDeposit reserved.",
-                " `code` and `initial_head_data` are used to initialize the parathread's state."
+                " `code` and `initial_head_data` are used to initialize the parathread's state.",
+                "",
+                " Unlike `register_para`, this function does check that the maximum code size",
+                " and head data size are respected, as parathread registration is an atomic",
+                " action."
               ]
             },
             {
@@ -6416,6 +6764,391 @@
               "name": "InvalidThreadId",
               "documentation": [
                 " Invalid parathread ID."
+              ]
+            },
+            {
+              "name": "CodeTooLarge",
+              "documentation": [
+                " Invalid para code size."
+              ]
+            },
+            {
+              "name": "HeadDataTooLarge",
+              "documentation": [
+                " Invalid para head data size."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Claims",
+          "storage": {
+            "prefix": "Claims",
+            "items": [
+              {
+                "name": "Claims",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EthereumAddress",
+                    "value": "BalanceOf",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": []
+              },
+              {
+                "name": "Total",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "BalanceOf"
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "documentation": []
+              },
+              {
+                "name": "Vesting",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EthereumAddress",
+                    "value": "(BalanceOf,BalanceOf,BlockNumber)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Vesting schedule for a claim.",
+                  " First balance is the total amount that should be held for vesting.",
+                  " Second balance is how much should be unlocked per block.",
+                  " The block number is when the vesting should start."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "claim",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "ethereum_signature",
+                  "type": "EcdsaSignature"
+                }
+              ],
+              "documentation": [
+                " Make a claim."
+              ]
+            },
+            {
+              "name": "mint_claim",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "EthereumAddress"
+                },
+                {
+                  "name": "value",
+                  "type": "BalanceOf"
+                },
+                {
+                  "name": "vesting_schedule",
+                  "type": "Option<(BalanceOf,BalanceOf,BlockNumber)>"
+                }
+              ],
+              "documentation": [
+                " Add a new claim, if you are root."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Claimed",
+              "args": [
+                "AccountId",
+                "EthereumAddress",
+                "Balance"
+              ],
+              "documentation": [
+                " Someone claimed some DOTs."
+              ]
+            }
+          ],
+          "constants": [
+            {
+              "name": "Prefix",
+              "type": "Bytes",
+              "value": "0x8450617920444f547320746f2074686520506f6c6b61646f74206163636f756e743a",
+              "documentation": [
+                " The Prefix that is used in signed Ethereum messages for this network"
+              ]
+            }
+          ],
+          "errors": [
+            {
+              "name": "InvalidEthereumSignature",
+              "documentation": [
+                " Invalid Ethereum signature."
+              ]
+            },
+            {
+              "name": "SignerHasNoClaim",
+              "documentation": [
+                " Ethereum address has no claim."
+              ]
+            },
+            {
+              "name": "DestinationVesting",
+              "documentation": [
+                " The destination is already vesting and cannot be the target of a further claim."
+              ]
+            },
+            {
+              "name": "PotUnderflow",
+              "documentation": [
+                " There's not enough in the pot to pay out some unvested amount. Generally implies a logic",
+                " error."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Vesting",
+          "storage": {
+            "prefix": "Vesting",
+            "items": [
+              {
+                "name": "Vesting",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "VestingInfo",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Information regarding the vesting of a given account."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "vest",
+              "args": [],
+              "documentation": [
+                " Unlock any vested funds of the sender account.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have funds still",
+                " locked under this module.",
+                "",
+                " Emits either `VestingCompleted` or `VestingUpdated`.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One balance-lock operation.",
+                " - One storage read (codec `O(1)`) and up to one removal.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "vest_other",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Unlock any vested funds of a `target` account.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `target`: The account whose vested funds should be unlocked. Must have funds still",
+                " locked under this module.",
+                "",
+                " Emits either `VestingCompleted` or `VestingUpdated`.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - Up to one account lookup.",
+                " - One balance-lock operation.",
+                " - One storage read (codec `O(1)`) and up to one removal.",
+                " - One event.",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "VestingUpdated",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " The amount vested has been updated. This could indicate more funds are available. The",
+                " balance given is the amount which is left unvested (and thus locked)."
+              ]
+            },
+            {
+              "name": "VestingCompleted",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " An account (given) has become fully vested. No further vesting can happen."
+              ]
+            }
+          ],
+          "constants": [],
+          "errors": [
+            {
+              "name": "NotVesting",
+              "documentation": [
+                " The account given is not vesting."
+              ]
+            },
+            {
+              "name": "ExistingVestingSchedule",
+              "documentation": [
+                " An existing vesting schedule already exists for this account that cannot be clobbered."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sudo",
+          "storage": {
+            "prefix": "Sudo",
+            "items": [
+              {
+                "name": "Key",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "AccountId"
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " The `AccountId` of the sudo key."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "sudo",
+              "args": [
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Authenticates the sudo key and dispatches a function call with `Root` origin.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB write (event).",
+                " - Weight of derivative `call` execution + 10,000.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_key",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "sudo_as",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Authenticates the sudo key and dispatches a function call with `Signed` origin from",
+                " a given account.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB write (event).",
+                " - Weight of derivative `call` execution + 10,000.",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Sudid",
+              "args": [
+                "bool"
+              ],
+              "documentation": [
+                " A sudo just took place."
+              ]
+            },
+            {
+              "name": "KeyChanged",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " The sudoer just switched identity; the old key is supplied."
+              ]
+            },
+            {
+              "name": "SudoAsDone",
+              "args": [
+                "bool"
+              ],
+              "documentation": [
+                " A sudo just took place."
+              ]
+            }
+          ],
+          "constants": [],
+          "errors": [
+            {
+              "name": "RequireSudo",
+              "documentation": [
+                " Sender must be the Sudo account"
               ]
             }
           ]

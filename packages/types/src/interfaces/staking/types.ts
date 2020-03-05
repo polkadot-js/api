@@ -118,6 +118,12 @@ export interface PhragmenScore extends Vec<u128> {}
 /** @name Points */
 export interface Points extends u32 {}
 
+/** @name ReleasesStaking */
+export interface ReleasesStaking extends Enum {
+  readonly isV100: boolean;
+  readonly isV200: boolean;
+}
+
 /** @name RewardDestination */
 export interface RewardDestination extends Enum {
   readonly isStaked: boolean;
