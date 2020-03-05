@@ -265,5 +265,12 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        **/
       challengePeriod: AugmentedConst<BlockNumber>;
     };
+    vesting: {
+      [index: string]: AugmentedConst<object & Codec>;
+      /**
+       * The minimum amount to be transferred to create a new vesting schedule.
+       **/
+      minVestedTransfer: AugmentedConst<BalanceOf>;
+    };
   }
 }

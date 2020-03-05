@@ -6,7 +6,7 @@ import { Option, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';
-import { AccountData, BalanceLock } from '@polkadot/types/interfaces/balances';
+import { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/interfaces/balances';
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { CodeHash, ContractInfo, Gas, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
@@ -20,7 +20,7 @@ import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recov
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { ActiveEraInfo, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { ActiveEraInfo, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { AccountInfo, DigestOf, EventIndex, EventRecord } from '@polkadot/types/interfaces/system';
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -92,6 +92,10 @@ declare module '@polkadot/api/types/storage' {
        * no notification will be triggered thus the event might be lost.
        **/
       eventTopics: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Vec<ITuple<[BlockNumber, EventIndex]>>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * A bool to track if the runtime was upgraded last block.
+       **/
+      runtimeUpgraded: AugmentedQuery<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
     };
     utility: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -203,10 +207,10 @@ declare module '@polkadot/api/types/storage' {
        **/
       locks: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Vec<BalanceLock>>> & QueryableStorageEntry<ApiType>;
       /**
-       * True if network has been upgraded to this version.
-       * True for new networks.
+       * Storage version of the pallet.
+       * This is set to v2.0.0 for new networks.
        **/
-      isUpgraded: AugmentedQuery<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
+      storageVersion: AugmentedQuery<ApiType, () => Observable<ReleasesBalances>> & QueryableStorageEntry<ApiType>;
     };
     transactionPayment: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -357,10 +361,10 @@ declare module '@polkadot/api/types/storage' {
        **/
       earliestUnappliedSlash: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
       /**
-       * True if network has been upgraded to this version.
-       * True for new networks.
+       * Storage version of the pallet.
+       * This is set to v2.0.0 for new networks.
        **/
-      isUpgraded: AugmentedQuery<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
+      storageVersion: AugmentedQuery<ApiType, () => Observable<ReleasesStaking>> & QueryableStorageEntry<ApiType>;
     };
     session: {
       [index: string]: QueryableStorageEntry<ApiType>;

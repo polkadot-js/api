@@ -179,6 +179,17 @@
                   " the `EventIndex` then in case if the topic has the same contents on the next block",
                   " no notification will be triggered thus the event might be lost."
                 ]
+              },
+              {
+                "name": "RuntimeUpgraded",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "bool"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " A bool to track if the runtime was upgraded last block."
+                ]
               }
             ]
           },
@@ -1326,16 +1337,16 @@
                 ]
               },
               {
-                "name": "IsUpgraded",
+                "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "bool"
+                  "Plain": "ReleasesBalances"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " True if network has been upgraded to this version.",
+                  " Storage version of the pallet.",
                   "",
-                  " True for new networks."
+                  " This is set to v2.0.0 for new networks."
                 ]
               }
             ]
@@ -2057,16 +2068,16 @@
                 ]
               },
               {
-                "name": "IsUpgraded",
+                "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "bool"
+                  "Plain": "ReleasesStaking"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " True if network has been upgraded to this version.",
+                  " Storage version of the pallet.",
                   "",
-                  " True for new networks."
+                  " This is set to v2.0.0 for new networks."
                 ]
               }
             ]
@@ -3103,8 +3114,16 @@
               "documentation": [
                 " Propose a sensitive action to be taken.",
                 "",
+                " The dispatch origin of this call must be _Signed_ and the sender must",
+                " have funds to cover the deposit.",
+                "",
+                " - `proposal_hash`: The hash of the proposal preimage.",
+                " - `value`: The amount of deposit (must be at least `MinimumDeposit`).",
+                "",
+                " Emits `Proposed`.",
+                "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - Two DB changes, one DB entry.",
                 " # </weight>"
               ]
@@ -3118,10 +3137,15 @@
                 }
               ],
               "documentation": [
-                " Propose a sensitive action to be taken.",
+                " Signals agreement with a particular proposal.",
+                "",
+                " The dispatch origin of this call must be _Signed_ and the sender",
+                " must have funds to cover the deposit, equal to the original deposit.",
+                "",
+                " - `proposal`: The index of the proposal to second.",
                 "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - One DB entry.",
                 " # </weight>"
               ]
@@ -3142,8 +3166,13 @@
                 " Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;",
                 " otherwise it is a vote to keep the status quo.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `ref_index`: The index of the referendum to vote for.",
+                " - `vote`: The vote configuration.",
+                "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - One DB change, one DB entry.",
                 " # </weight>"
               ]
@@ -3164,8 +3193,13 @@
                 " Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact",
                 " the proposal; otherwise it is a vote to keep the status quo.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `ref_index`: The index of the referendum to proxy vote for.",
+                " - `vote`: The vote configuration.",
+                "",
                 " # <weight>",
-                " - O(1).",
+                " - `O(1)`.",
                 " - One DB change, one DB entry.",
                 " # </weight>"
               ]
@@ -3180,7 +3214,15 @@
               ],
               "documentation": [
                 " Schedule an emergency cancellation of a referendum. Cannot happen twice to the same",
-                " referendum."
+                " referendum.",
+                "",
+                " The dispatch origin of this call must be `CancellationOrigin`.",
+                "",
+                " -`ref_index`: The index of the referendum to cancel.",
+                "",
+                " # <weight>",
+                " - Depends on size of storage vec `VotersFor` for this referendum.",
+                " # </weight>"
               ]
             },
             {
@@ -3193,7 +3235,16 @@
               ],
               "documentation": [
                 " Schedule a referendum to be tabled once it is legal to schedule an external",
-                " referendum."
+                " referendum.",
+                "",
+                " The dispatch origin of this call must be `ExternalOrigin`.",
+                "",
+                " - `proposal_hash`: The preimage hash of the proposal.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -3208,8 +3259,17 @@
                 " Schedule a majority-carries referendum to be tabled next once it is legal to schedule",
                 " an external referendum.",
                 "",
+                " The dispatch of this call must be `ExternalMajorityOrigin`.",
+                " ",
+                " - `proposal_hash`: The preimage hash of the proposal.",
+                "",
                 " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
-                " pre-scheduled `external_propose` call."
+                " pre-scheduled `external_propose` call.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -3224,8 +3284,17 @@
                 " Schedule a negative-turnout-bias referendum to be tabled next once it is legal to",
                 " schedule an external referendum.",
                 "",
+                " The dispatch of this call must be `ExternalDefaultOrigin`.",
+                "",
+                " - `proposal_hash`: The preimage hash of the proposal.",
+                "",
                 " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
-                " pre-scheduled `external_propose` call."
+                " pre-scheduled `external_propose` call.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -3249,11 +3318,21 @@
                 " immediately. If there is no externally-proposed referendum currently, or if there is one",
                 " but it is not a majority-carries referendum then it fails.",
                 "",
+                " The dispatch of this call must be `FastTrackOrigin`.",
+                "",
                 " - `proposal_hash`: The hash of the current external proposal.",
                 " - `voting_period`: The period that is allowed for voting on this proposal. Increased to",
                 "   `EmergencyVotingPeriod` if too low.",
                 " - `delay`: The number of block after voting has ended in approval and this should be",
-                "   enacted. This doesn't have a minimum amount."
+                "   enacted. This doesn't have a minimum amount.",
+                "",
+                " Emits `Started`.",
+                "",
+                " # <weight>",
+                " - One DB clear.",
+                " - One DB change.",
+                " - One extra DB entry.",
+                " # </weight>"
               ]
             },
             {
@@ -3265,7 +3344,20 @@
                 }
               ],
               "documentation": [
-                " Veto and blacklist the external proposal hash."
+                " Veto and blacklist the external proposal hash.",
+                "",
+                " The dispatch origin of this call must be `VetoOrigin`.",
+                " ",
+                " - `proposal_hash`: The preimage hash of the proposal to veto and blacklist.",
+                "",
+                " Emits `Vetoed`.",
+                "",
+                " # <weight>",
+                " - Two DB entries.",
+                " - One DB clear.",
+                " - Performs a binary search on `existing_vetoers` which should not",
+                "   be very large.",
+                " # </weight>"
               ]
             },
             {
@@ -3277,7 +3369,15 @@
                 }
               ],
               "documentation": [
-                " Remove a referendum."
+                " Remove a referendum.",
+                "",
+                " The dispatch origin of this call must be _Root_.",
+                "",
+                " - `ref_index`: The index of the referendum to cancel.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " # </weight>"
               ]
             },
             {
@@ -3289,7 +3389,15 @@
                 }
               ],
               "documentation": [
-                " Cancel a proposal queued for enactment."
+                " Cancel a proposal queued for enactment.",
+                "",
+                " The dispatch origin of this call must be _Root_.",
+                "",
+                " - `which`: The index of the referendum to cancel.",
+                "",
+                " # <weight>",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -3305,6 +3413,10 @@
                 "",
                 " NOTE: Used to be called `set_proxy`.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `proxy`: The account that will be activated as proxy.",
+                "",
                 " # <weight>",
                 " - One extra DB entry.",
                 " # </weight>"
@@ -3317,6 +3429,8 @@
                 " Clear the proxy. Called by the proxy.",
                 "",
                 " NOTE: Used to be called `resign_proxy`.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
                 "",
                 " # <weight>",
                 " - One DB clear.",
@@ -3338,6 +3452,10 @@
                 "",
                 " NOTE: Used to be called `remove_proxy`.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `proxy`: The account that will be deactivated as proxy.",
+                "",
                 " # <weight>",
                 " - One DB clear.",
                 " # </weight>"
@@ -3358,6 +3476,16 @@
               "documentation": [
                 " Delegate vote.",
                 "",
+                " Currency is locked indefinitely for as long as it's delegated.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `to`: The account to make a delegate of the sender.",
+                " - `conviction`: The conviction that will be attached to the delegated",
+                "   votes.",
+                "",
+                " Emits `Delegated`.",
+                "",
                 " # <weight>",
                 " - One extra DB entry.",
                 " # </weight>"
@@ -3369,6 +3497,14 @@
               "documentation": [
                 " Undelegate vote.",
                 "",
+                " Must be sent from an account that has called delegate previously.",
+                " The tokens will be reduced from an indefinite lock to the maximum",
+                " possible according to the conviction of the prior delegation.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " Emits `Undelegated`.",
+                "",
                 " # <weight>",
                 " - O(1).",
                 " # </weight>"
@@ -3378,7 +3514,14 @@
               "name": "clear_public_proposals",
               "args": [],
               "documentation": [
-                " Veto and blacklist the proposal hash. Must be from Root origin."
+                " Clears all public proposals.",
+                "",
+                " The dispatch origin of this call must be _Root_.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - One DB clear.",
+                " # </weight>"
               ]
             },
             {
@@ -3391,7 +3534,18 @@
               ],
               "documentation": [
                 " Register the preimage for an upcoming proposal. This doesn't require the proposal to be",
-                " in the dispatch queue but does require a deposit, returned once enacted."
+                " in the dispatch queue but does require a deposit, returned once enacted.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `encoded_proposal`: The preimage of a proposal.",
+                "",
+                " Emits `PreimageNoted`.",
+                "",
+                " # <weight>",
+                " - Dependent on the size of `encoded_proposal` but protected by a ",
+                "   required deposit.",
+                " # </weight>"
               ]
             },
             {
@@ -3404,7 +3558,17 @@
               ],
               "documentation": [
                 " Register the preimage for an upcoming proposal. This requires the proposal to be",
-                " in the dispatch queue. No deposit is needed."
+                " in the dispatch queue. No deposit is needed.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `encoded_proposal`: The preimage of a proposal.",
+                "",
+                " Emits `PreimageNoted`.",
+                "",
+                " # <weight>",
+                " - Dependent on the size of `encoded_proposal`.",
+                " # </weight>"
               ]
             },
             {
@@ -3418,9 +3582,19 @@
               "documentation": [
                 " Remove an expired proposal preimage and collect the deposit.",
                 "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `proposal_hash`: The preimage hash of a proposal.",
+                "",
                 " This will only work after `VotingPeriod` blocks from the time that the preimage was",
                 " noted, if it's the same account doing it. If it's a different account, then it'll only",
-                " work an additional `EnactmentPeriod` later."
+                " work an additional `EnactmentPeriod` later.",
+                "",
+                " Emits `PreimageReaped`.",
+                "",
+                " # <weight>",
+                " - One DB clear.",
+                " # </weight>"
               ]
             },
             {
@@ -3431,7 +3605,19 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Unlock tokens that have an expired lock.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `target`: The account to remove the lock on.",
+                "",
+                " Emits `Unlocked`.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " # </weight>"
+              ]
             },
             {
               "name": "open_proxy",
@@ -8552,6 +8738,35 @@
                 " - One event.",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "vested_transfer",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "schedule",
+                  "type": "VestingInfo"
+                }
+              ],
+              "documentation": [
+                " Create a vested transfer. ",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `target`: The account that should be transferred the vested funds.",
+                " - `amount`: The amount of funds to transfer and will be vested.",
+                " - `schedule`: The vesting schedule attached to the transfer.",
+                "",
+                " Emits `VestingCreated`.",
+                "",
+                " # <weight>",
+                " - Creates a new storage entry, but is protected by a minimum transfer",
+                "\t   amount needed to succeed.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -8576,7 +8791,16 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "MinVestedTransfer",
+              "type": "BalanceOf",
+              "value": "0x0000c16ff28623000000000000000000",
+              "documentation": [
+                " The minimum amount to be transferred to create a new vesting schedule."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "NotVesting",
@@ -8588,6 +8812,12 @@
               "name": "ExistingVestingSchedule",
               "documentation": [
                 " An existing vesting schedule already exists for this account that cannot be clobbered."
+              ]
+            },
+            {
+              "name": "AmountLow",
+              "documentation": [
+                " Amount being transferred is too low to create a vesting schedule."
               ]
             }
           ]

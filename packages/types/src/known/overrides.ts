@@ -12,6 +12,9 @@ const TYPES_MODULES: Record<string, OverrideModuleType> = {
     AccountInfo: 'ContractAccountInfo'
   },
   // current from here on
+  balances: {
+    Releases: 'ReleasesBalances'
+  },
   contracts: {
     StorageKey: 'ContractStorageKey'
   },
@@ -26,7 +29,8 @@ const TYPES_MODULES: Record<string, OverrideModuleType> = {
     Vote: 'SocietyVote'
   },
   staking: {
-    Compact: 'CompactAssignments'
+    Compact: 'CompactAssignments',
+    Releases: 'ReleasesStaking'
   },
   treasury: {
     Proposal: 'TreasuryProposal'

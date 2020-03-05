@@ -17,6 +17,7 @@ import { SocietyJudgement } from '@polkadot/types/interfaces/society';
 import { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { Key } from '@polkadot/types/interfaces/system';
 import { Timepoint } from '@polkadot/types/interfaces/utility';
+import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import { ApiTypes, SubmittableExtrinsic } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/submittable' {
@@ -564,16 +565,24 @@ declare module '@polkadot/api/types/submittable' {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
        * Propose a sensitive action to be taken.
+       * The dispatch origin of this call must be _Signed_ and the sender must
+       * have funds to cover the deposit.
+       * - `proposal_hash`: The hash of the proposal preimage.
+       * - `value`: The amount of deposit (must be at least `MinimumDeposit`).
+       * Emits `Proposed`.
        * # <weight>
-       * - O(1).
+       * - `O(1)`.
        * - Two DB changes, one DB entry.
        * # </weight>
        **/
       propose: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Propose a sensitive action to be taken.
+       * Signals agreement with a particular proposal.
+       * The dispatch origin of this call must be _Signed_ and the sender
+       * must have funds to cover the deposit, equal to the original deposit.
+       * - `proposal`: The index of the proposal to second.
        * # <weight>
-       * - O(1).
+       * - `O(1)`.
        * - One DB entry.
        * # </weight>
        **/
@@ -581,8 +590,11 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;
        * otherwise it is a vote to keep the status quo.
+       * The dispatch origin of this call must be _Signed_.
+       * - `ref_index`: The index of the referendum to vote for.
+       * - `vote`: The vote configuration.
        * # <weight>
-       * - O(1).
+       * - `O(1)`.
        * - One DB change, one DB entry.
        * # </weight>
        **/
@@ -590,8 +602,11 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact
        * the proposal; otherwise it is a vote to keep the status quo.
+       * The dispatch origin of this call must be _Signed_.
+       * - `ref_index`: The index of the referendum to proxy vote for.
+       * - `vote`: The vote configuration.
        * # <weight>
-       * - O(1).
+       * - `O(1)`.
        * - One DB change, one DB entry.
        * # </weight>
        **/
@@ -599,53 +614,104 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Schedule an emergency cancellation of a referendum. Cannot happen twice to the same
        * referendum.
+       * The dispatch origin of this call must be `CancellationOrigin`.
+       * -`ref_index`: The index of the referendum to cancel.
+       * # <weight>
+       * - Depends on size of storage vec `VotersFor` for this referendum.
+       * # </weight>
        **/
       emergencyCancel: AugmentedSubmittable<(refIndex: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule a referendum to be tabled once it is legal to schedule an external
        * referendum.
+       * The dispatch origin of this call must be `ExternalOrigin`.
+       * - `proposal_hash`: The preimage hash of the proposal.
+       * # <weight>
+       * - `O(1)`.
+       * - One DB change.
+       * # </weight>
        **/
       externalPropose: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule a majority-carries referendum to be tabled next once it is legal to schedule
        * an external referendum.
+       * The dispatch of this call must be `ExternalMajorityOrigin`.
+       * - `proposal_hash`: The preimage hash of the proposal.
        * Unlike `external_propose`, blacklisting has no effect on this and it may replace a
        * pre-scheduled `external_propose` call.
+       * # <weight>
+       * - `O(1)`.
+       * - One DB change.
+       * # </weight>
        **/
       externalProposeMajority: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule a negative-turnout-bias referendum to be tabled next once it is legal to
        * schedule an external referendum.
+       * The dispatch of this call must be `ExternalDefaultOrigin`.
+       * - `proposal_hash`: The preimage hash of the proposal.
        * Unlike `external_propose`, blacklisting has no effect on this and it may replace a
        * pre-scheduled `external_propose` call.
+       * # <weight>
+       * - `O(1)`.
+       * - One DB change.
+       * # </weight>
        **/
       externalProposeDefault: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule the currently externally-proposed majority-carries referendum to be tabled
        * immediately. If there is no externally-proposed referendum currently, or if there is one
        * but it is not a majority-carries referendum then it fails.
+       * The dispatch of this call must be `FastTrackOrigin`.
        * - `proposal_hash`: The hash of the current external proposal.
        * - `voting_period`: The period that is allowed for voting on this proposal. Increased to
        * `EmergencyVotingPeriod` if too low.
        * - `delay`: The number of block after voting has ended in approval and this should be
        * enacted. This doesn't have a minimum amount.
+       * Emits `Started`.
+       * # <weight>
+       * - One DB clear.
+       * - One DB change.
+       * - One extra DB entry.
+       * # </weight>
        **/
       fastTrack: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, votingPeriod: BlockNumber | AnyNumber | Uint8Array, delay: BlockNumber | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Veto and blacklist the external proposal hash.
+       * The dispatch origin of this call must be `VetoOrigin`.
+       * - `proposal_hash`: The preimage hash of the proposal to veto and blacklist.
+       * Emits `Vetoed`.
+       * # <weight>
+       * - Two DB entries.
+       * - One DB clear.
+       * - Performs a binary search on `existing_vetoers` which should not
+       * be very large.
+       * # </weight>
        **/
       vetoExternal: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove a referendum.
+       * The dispatch origin of this call must be _Root_.
+       * - `ref_index`: The index of the referendum to cancel.
+       * # <weight>
+       * - `O(1)`.
+       * # </weight>
        **/
       cancelReferendum: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Cancel a proposal queued for enactment.
+       * The dispatch origin of this call must be _Root_.
+       * - `which`: The index of the referendum to cancel.
+       * # <weight>
+       * - One DB change.
+       * # </weight>
        **/
       cancelQueued: AugmentedSubmittable<(which: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Specify a proxy that is already open to us. Called by the stash.
        * NOTE: Used to be called `set_proxy`.
+       * The dispatch origin of this call must be _Signed_.
+       * - `proxy`: The account that will be activated as proxy.
        * # <weight>
        * - One extra DB entry.
        * # </weight>
@@ -654,6 +720,7 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Clear the proxy. Called by the proxy.
        * NOTE: Used to be called `resign_proxy`.
+       * The dispatch origin of this call must be _Signed_.
        * # <weight>
        * - One DB clear.
        * # </weight>
@@ -663,6 +730,8 @@ declare module '@polkadot/api/types/submittable' {
        * Deactivate the proxy, but leave open to this account. Called by the stash.
        * The proxy must already be active.
        * NOTE: Used to be called `remove_proxy`.
+       * The dispatch origin of this call must be _Signed_.
+       * - `proxy`: The account that will be deactivated as proxy.
        * # <weight>
        * - One DB clear.
        * # </weight>
@@ -670,6 +739,12 @@ declare module '@polkadot/api/types/submittable' {
       deactivateProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Delegate vote.
+       * Currency is locked indefinitely for as long as it's delegated.
+       * The dispatch origin of this call must be _Signed_.
+       * - `to`: The account to make a delegate of the sender.
+       * - `conviction`: The conviction that will be attached to the delegated
+       * votes.
+       * Emits `Delegated`.
        * # <weight>
        * - One extra DB entry.
        * # </weight>
@@ -677,32 +752,70 @@ declare module '@polkadot/api/types/submittable' {
       delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Undelegate vote.
+       * Must be sent from an account that has called delegate previously.
+       * The tokens will be reduced from an indefinite lock to the maximum
+       * possible according to the conviction of the prior delegation.
+       * The dispatch origin of this call must be _Signed_.
+       * Emits `Undelegated`.
        * # <weight>
        * - O(1).
        * # </weight>
        **/
       undelegate: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
       /**
-       * Veto and blacklist the proposal hash. Must be from Root origin.
+       * Clears all public proposals.
+       * The dispatch origin of this call must be _Root_.
+       * # <weight>
+       * - `O(1)`.
+       * - One DB clear.
+       * # </weight>
        **/
       clearPublicProposals: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
       /**
        * Register the preimage for an upcoming proposal. This doesn't require the proposal to be
        * in the dispatch queue but does require a deposit, returned once enacted.
+       * The dispatch origin of this call must be _Signed_.
+       * - `encoded_proposal`: The preimage of a proposal.
+       * Emits `PreimageNoted`.
+       * # <weight>
+       * - Dependent on the size of `encoded_proposal` but protected by a
+       * required deposit.
+       * # </weight>
        **/
       notePreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Register the preimage for an upcoming proposal. This requires the proposal to be
        * in the dispatch queue. No deposit is needed.
+       * The dispatch origin of this call must be _Signed_.
+       * - `encoded_proposal`: The preimage of a proposal.
+       * Emits `PreimageNoted`.
+       * # <weight>
+       * - Dependent on the size of `encoded_proposal`.
+       * # </weight>
        **/
       noteImminentPreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove an expired proposal preimage and collect the deposit.
+       * The dispatch origin of this call must be _Signed_.
+       * - `proposal_hash`: The preimage hash of a proposal.
        * This will only work after `VotingPeriod` blocks from the time that the preimage was
        * noted, if it's the same account doing it. If it's a different account, then it'll only
        * work an additional `EnactmentPeriod` later.
+       * Emits `PreimageReaped`.
+       * # <weight>
+       * - One DB clear.
+       * # </weight>
        **/
       reapPreimage: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Unlock tokens that have an expired lock.
+       * The dispatch origin of this call must be _Signed_.
+       * - `target`: The account to remove the lock on.
+       * Emits `Unlocked`.
+       * # <weight>
+       * - `O(1)`.
+       * # </weight>
+       **/
       unlock: AugmentedSubmittable<(target: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Become a proxy.
@@ -1714,6 +1827,19 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vestOther: AugmentedSubmittable<(target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Create a vested transfer.
+       * The dispatch origin for this call must be _Signed_.
+       * - `target`: The account that should be transferred the vested funds.
+       * - `amount`: The amount of funds to transfer and will be vested.
+       * - `schedule`: The vesting schedule attached to the transfer.
+       * Emits `VestingCreated`.
+       * # <weight>
+       * - Creates a new storage entry, but is protected by a minimum transfer
+       * amount needed to succeed.
+       * # </weight>
+       **/
+      vestedTransfer: AugmentedSubmittable<(target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, schedule: VestingInfo | { locked?: any; perBlock?: any; startingBlock?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
   }
 
