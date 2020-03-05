@@ -2,6 +2,7 @@
 
 - Add proper support for type generation with an Enum containing an Tuple (Thanks to https://github.com/monitz87)
 - Fix storage parsing not resulting in rejected Promises (Fix from https://github.com/aniiantt applied)
+- Remove use of deprecated `Observable.create` (Thanks to https://github.com/Himself65)
 - Type generation will now handle the same sub-module name across packages, i.e. `@polkadot/types/interfaces/runtime` & `@mine/interfaces/runtime`)
 - Add `.range([from, to]: [Hash, Hash?], ...args: any[]): [Hash, Codec][]` on all storage entries
 - Add `.raw(...args: any[]): Promise<Uint8Array & Codec>` to all RPC calls, returning the un-encoded result
@@ -11,6 +12,7 @@
 - `Bool` will now correctly return `isEmpty` on false/default values
 - Refresh the `NetworkState` types as returned by the `rpc.system.networkState()` call to current
 - Expose `registry.createClass(<typeName>)`, to allow for creating type classes. If you are using `createClass` or `ClassOf` in your code, it is recommended to swap to this instance.
+- Add additional derives to `api.derive.staking` to handle lazy-payout calculations
 
 # 1.4.2 Feb 27, 2020
 
