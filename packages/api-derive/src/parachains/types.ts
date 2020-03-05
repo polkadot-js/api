@@ -18,3 +18,33 @@ export type RelayDispatchQueue = Vec<UpwardMessage>
 export type RelayDispatchQueueSize = ITuple<[u32, u32]>;
 export type Watermarks = Option<BlockNumber>;
 export type DidUpdate = Option<Vec<ParaId>>;
+
+export interface DeriveParachainActive {
+  collatorId: CollatorId;
+  isRetriable: boolean;
+  retries: number;
+}
+
+export interface DeriveParachainInfo extends ParaInfo {
+  id: ParaId;
+  icon?: string;
+  name?: string;
+  owner?: string;
+}
+
+export interface DeriveParachain {
+  didUpdate: boolean;
+  pendingSwapId: ParaId | null;
+  id: ParaId;
+  info: DeriveParachainInfo | null;
+  relayDispatchQueueSize?: number;
+  watermark: BlockNumber | null;
+}
+
+export interface DeriveParachainFull extends DeriveParachain {
+  active: DeriveParachainActive | null;
+  heads: Bytes | null;
+  relayDispatchQueue: UpwardMessage[];
+  retryCollators: (CollatorId | null)[];
+  selectedCollators: (CollatorId | null)[];
+}
