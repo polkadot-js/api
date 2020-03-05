@@ -9,7 +9,7 @@ import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
-import { MemberCount, ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
+import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import { Conviction, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
@@ -351,6 +351,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<ProposalIndex>': Compact<ProposalIndex>;
     'Option<ProposalIndex>': Option<ProposalIndex>;
     'Vec<ProposalIndex>': Vec<ProposalIndex>;
+    VotesTo230: VotesTo230;
+    'Option<VotesTo230>': Option<VotesTo230>;
+    'Vec<VotesTo230>': Vec<VotesTo230>;
     Votes: Votes;
     'Option<Votes>': Option<Votes>;
     'Vec<Votes>': Vec<Votes>;

@@ -48,7 +48,8 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
-      StakingLedger: 'StakingLedgerTo223'
+      StakingLedger: 'StakingLedgerTo223',
+      Votes: 'VotesTo230'
     }
   },
   {
@@ -71,7 +72,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
       SlashingSpans: 'SlashingSpansTo204',
-      StakingLedger: 'StakingLedgerTo223'
+      StakingLedger: 'StakingLedgerTo223',
+      Votes: 'VotesTo230'
     }
   },
   {
@@ -81,7 +83,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
       SlashingSpans: 'SlashingSpansTo204',
-      StakingLedger: 'StakingLedgerTo223'
+      StakingLedger: 'StakingLedgerTo223',
+      Votes: 'VotesTo230'
     }
   },
   {
@@ -90,7 +93,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
-      StakingLedger: 'StakingLedgerTo223'
+      StakingLedger: 'StakingLedgerTo223',
+      Votes: 'VotesTo230'
     }
   },
   {
