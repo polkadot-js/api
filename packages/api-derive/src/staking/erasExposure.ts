@@ -36,10 +36,8 @@ function queryClipped (api: ApiInterfaceRx): Observable<[[EraIndex, string][], E
 export function erasExposure (api: ApiInterfaceRx): () => Observable<DeriveEraExposure[]> {
   return memo((): Observable<DeriveEraExposure[]> =>
     queryClipped(api).pipe(
-      map(([indexes, exposures]): DeriveEraExposure[] => {
-        const result: DeriveEraExposure[] = [];
-
-        indexes.forEach(([era, validatorId], index): void => {
+      map(([indexes, exposures]): DeriveEraExposure[] =>
+        indexes.reduce((result: DeriveEraExposure[], [era, validatorId], index): DeriveEraExposure[] => {
           let entry = result.find((entry): boolean => entry.era.eq(era));
 
           if (!entry) {
@@ -49,10 +47,10 @@ export function erasExposure (api: ApiInterfaceRx): () => Observable<DeriveEraEx
           }
 
           entry.all[validatorId] = exposures[index];
-        });
 
-        return result;
-      })
+          return result;
+        }, [])
+      )
     )
   );
 }

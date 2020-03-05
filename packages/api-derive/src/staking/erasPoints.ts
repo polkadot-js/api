@@ -29,7 +29,8 @@ function getAvailableIndexes (api: ApiInterfaceRx): Observable<EraIndex[]> {
           lastEra = lastEra.subn(1);
         }
 
-        return result;
+        // go from oldest to newest
+        return result.reverse();
       })
     )
     : of([]);
@@ -48,11 +49,13 @@ export function erasPoints (api: ApiInterfaceRx): () => Observable<DeriveEraPoin
       ),
       map(([eras, rewards]): DeriveEraPointsAll[] =>
         eras.map((era, index): DeriveEraPointsAll => ({
-          all: [...rewards[index].individual.entries()].reduce((all: Record<string, RewardPoint>, [validatorId, points]): Record<string, RewardPoint> => {
-            all[validatorId.toString()] = points;
+          all: [...rewards[index].individual.entries()]
+            .filter(([, points]): boolean => points.gtn(0))
+            .reduce((all: Record<string, RewardPoint>, [validatorId, points]): Record<string, RewardPoint> => {
+              all[validatorId.toString()] = points;
 
-            return all;
-          }, {}),
+              return all;
+            }, {}),
           era,
           total: rewards[index].total
         }))
