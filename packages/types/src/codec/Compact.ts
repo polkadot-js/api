@@ -13,7 +13,7 @@ import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 
 export interface CompactEncodable extends Codec {
-  bitLength (): UIntBitLength;
+  bitLength (): number;
   toBn (): BN;
   toNumber (): number;
 }
@@ -64,7 +64,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
       return new Type(registry, value);
     }
 
-    const [, _value] = Compact.decodeU8a(value, new Type(registry, 0).bitLength());
+    const [, _value] = Compact.decodeU8a(value, new Type(registry, 0).bitLength() as UIntBitLength);
 
     return new Type(registry, _value);
   }
@@ -72,7 +72,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
   /**
    * @description Returns the number of bits in the value
    */
-  public bitLength (): UIntBitLength {
+  public bitLength (): number {
     return this.raw.bitLength();
   }
 
