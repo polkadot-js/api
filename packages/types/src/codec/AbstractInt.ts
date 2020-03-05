@@ -103,7 +103,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns the number of bits in the value
    */
-  public bitLength (): UIntBitLength {
+  public bitLength (): number {
     return this.#bitLength;
   }
 

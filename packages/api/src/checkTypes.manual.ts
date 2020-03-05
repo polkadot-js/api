@@ -69,13 +69,20 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   console.log(multiRes);
 
+  // at queries
+  const events = await api.query.system.events.at('0x12345');
+  console.log(`Received ${events.length} events:`);
+
   // check entries()
   await api.query.system.account.entries(); // should not take a param
   await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
 
   // check range
   await api.query.balances.freeBalance.range<Balance>(['0x1234'], keyring.bob.address);
-  await api.query.system.events.range(['0x12345', '0x7890']);
+
+  // check range types
+  const entries = await api.query.system.events.range(['0x12345', '0x7890']);
+  console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`)}`);
 }
 
 async function rpc (api: ApiPromise): Promise<void> {

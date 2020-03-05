@@ -94,8 +94,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      StakingLedger: 'StakingLedgerTo223'
+      Keys: 'SessionKeys5'
     }
   }
 ];

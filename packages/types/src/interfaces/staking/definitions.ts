@@ -122,14 +122,13 @@ export default {
       unlocking: 'Vec<UnlockChunk>'
     },
     // TODO Enable as default when new staking payouts go live
-    StakingLedgerNew: {
+    StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>',
-      nextReward: 'EraIndex'
+      lastReward: 'Option<EraIndex>'
     },
-    StakingLedger: 'StakingLedgerTo223',
     UnappliedSlashOther: '(AccountId, Balance)',
     UnappliedSlash: {
       validator: 'AccountId',

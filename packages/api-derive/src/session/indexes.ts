@@ -44,28 +44,32 @@ function queryNoActive (api: ApiInterfaceRx): Observable<Result> {
 
 // query based on latest
 function query (api: ApiInterfaceRx): Observable<Result> {
-  return api.queryMulti<[ActiveEraInfo, Option<EraIndex>, SessionIndex, u32]>([
+  return api.queryMulti<[Option<ActiveEraInfo>, Option<EraIndex>, SessionIndex, u32]>([
     api.query.staking.activeEra,
     api.query.staking.currentEra,
     api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
-    map(([{ index: activeEra, start: activeEraStart }, currentEra, currentIndex, validatorCount]): Result => [
-      activeEra,
-      activeEraStart,
-      currentEra.unwrapOr(createType(api.registry, 'EraIndex', 1)),
-      currentIndex,
-      validatorCount
-    ])
+    map(([activeOpt, currentEra, currentIndex, validatorCount]): Result => {
+      const { index: activeEra, start: activeEraStart } = activeOpt.unwrapOrDefault();
+
+      return [
+        activeEra,
+        activeEraStart,
+        currentEra.unwrapOr(createType(api.registry, 'EraIndex')),
+        currentIndex,
+        validatorCount
+      ];
+    })
   );
 }
 
 // empty set when none is available
 function empty (api: ApiInterfaceRx): Observable<Result> {
   return of([
-    createType(api.registry, 'EraIndex', 1),
+    createType(api.registry, 'EraIndex'),
     createType(api.registry, 'Option<Moment>'),
-    createType(api.registry, 'EraIndex', 1),
+    createType(api.registry, 'EraIndex'),
     createType(api.registry, 'SessionIndex', 1),
     createType(api.registry, 'u32')
   ]);
