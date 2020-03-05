@@ -19,7 +19,7 @@ const normalizer = JSON.stringify;
 export function memo <T> (inner: ObsFn<T>): ObsFn<T> {
   const cached = createMemo(
     (...params: any[]): Observable<T> =>
-      Observable.create((observer: Observer<T>): VoidCallback => {
+      new Observable((observer: Observer<T>): VoidCallback => {
         const sub = inner(...params).subscribe(observer);
 
         return (): void => {
