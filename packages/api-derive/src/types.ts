@@ -104,6 +104,19 @@ export interface DeriveEraExposure {
   era: EraIndex;
 }
 
+export interface DeriveEraRewardsAll {
+  era: EraIndex;
+  nominators: Record<string, string[]>;
+  validators: Record<string, Exposure>;
+}
+
+export interface DeriveStakerReward {
+  era: EraIndex;
+  isValidator: boolean;
+  nominating: string[];
+  validators: Record<string, Exposure>;
+}
+
 export interface DerivedFees {
   creationFee: Balance;
   existentialDeposit: Balance;
