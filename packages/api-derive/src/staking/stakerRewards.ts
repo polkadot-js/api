@@ -21,14 +21,14 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
           .map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerReward => {
             const isValidator = !!allValidators[stakerId];
             const validators: Record<string, Exposure> = {};
-            let nominating: string[] = [];
+            let nominating: [string, number][] = [];
 
             if (isValidator) {
               validators[stakerId] = allValidators[stakerId];
             } else if (allNominators[stakerId]) {
               nominating = allNominators[stakerId];
 
-              nominating.forEach((validatorId): void => {
+              nominating.forEach(([validatorId]): void => {
                 validators[validatorId] = allValidators[validatorId];
               });
             }

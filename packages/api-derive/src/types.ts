@@ -106,14 +106,14 @@ export interface DeriveEraExposure {
 
 export interface DeriveEraRewardsAll {
   era: EraIndex;
-  nominators: Record<string, string[]>;
+  nominators: Record<string, [string, number][]>;
   validators: Record<string, Exposure>;
 }
 
 export interface DeriveStakerReward {
   era: EraIndex;
   isValidator: boolean;
-  nominating: string[];
+  nominating: [string, number][];
   validators: Record<string, Exposure>;
 }
 

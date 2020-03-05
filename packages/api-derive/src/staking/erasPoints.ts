@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { EraIndex, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
+import { ActiveEraInfo, EraIndex, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
 import { DeriveEraPointsAll } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -14,14 +14,14 @@ import { memo } from '../util';
 
 function getAvailableIndexes (api: ApiInterfaceRx): Observable<EraIndex[]> {
   return api.query.staking?.activeEra
-    ? api.queryMulti<[Option<EraIndex>, u32]>([
+    ? api.queryMulti<[Option<ActiveEraInfo>, u32]>([
       api.query.staking.activeEra,
       api.query.staking.historyDepth
     ]).pipe(
       map(([activeEraOpt, historyDepth]): EraIndex[] => {
         const result: EraIndex[] = [];
         const max = historyDepth.toNumber();
-        let lastEra = activeEraOpt.unwrapOrDefault().subn(1);
+        let lastEra = activeEraOpt.unwrapOrDefault().index.subn(1);
 
         while (lastEra.gten(0) && result.length < max) {
           result.push(api.registry.createType('EraIndex', lastEra));

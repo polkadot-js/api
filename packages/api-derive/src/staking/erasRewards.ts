@@ -20,11 +20,11 @@ export function erasRewards (api: ApiInterfaceRx): () => Observable<DeriveEraRew
             .reduce((rewards: DeriveEraRewardsAll, [validatorId, exposure]): DeriveEraRewardsAll => {
               rewards.validators[validatorId] = exposure;
 
-              exposure.others.forEach(({ who }): void => {
+              exposure.others.forEach(({ who }, index): void => {
                 const nominatorId = who.toString();
 
                 rewards.nominators[nominatorId] = rewards.nominators[nominatorId] || [];
-                rewards.nominators[nominatorId].push(validatorId);
+                rewards.nominators[nominatorId].push([validatorId, index]);
               });
 
               return rewards;
