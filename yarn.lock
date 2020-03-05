@@ -3516,7 +3516,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/component-compiler-utils@npm:^3.1.0":
+"@vue/component-compiler-utils@npm:^3.1.0, @vue/component-compiler-utils@npm:^3.1.1":
   version: 3.1.1
   resolution: "@vue/component-compiler-utils@npm:3.1.1"
   dependencies:
@@ -15593,6 +15593,7 @@ resolve@1.1.7:
     "@polkadot/dev": ^0.50.26
     "@polkadot/ts": ^0.3.7
     "@polkadot/typegen": "workspace:packages/typegen"
+    "@vue/component-compiler-utils": ^3.1.1
     copyfiles: ^2.2.0
   languageName: unknown
   linkType: soft
