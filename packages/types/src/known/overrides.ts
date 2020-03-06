@@ -43,7 +43,7 @@ const TYPES_MODULES: Record<string, OverrideModuleType> = {
 // definition as applicable. (4 keys in substrate vs 5 in Polkadot/CC3).
 const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
   {
-    minmax: [1000, undefined],
+    minmax: [1000, 1003],
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
