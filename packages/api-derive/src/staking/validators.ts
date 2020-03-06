@@ -3,13 +3,30 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, Exposure } from '@polkadot/types/interfaces';
 import { DeriveStakingValidators } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
+
+function queryNextStakers (api: ApiInterfaceRx): Observable<AccountId[]> {
+  // only populate for next era in the last session, so track both here - entries are not
+  // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
+  return api.derive.session.indexes().pipe(
+    switchMap(({ activeEra }): Observable<[StorageKey, Exposure][]> =>
+      api.query.staking.erasStakers.entries(activeEra.addn(1))
+    ),
+    map((entries): AccountId[] =>
+      // key is from concat with AccountId bytes right at the end
+      entries.map(([key]): AccountId =>
+        api.registry.createType('AccountId', key.toU8a().slice(-32))
+      )
+    )
+  );
+}
 
 /**
  * @description Retrieve latest list of validators
@@ -23,15 +40,16 @@ export function validators (api: ApiInterfaceRx): () => Observable<DeriveStaking
       api.query.session
         ? api.query.session.validators()
         : of([]),
-      // FIXME need a replacement for currentElected in new
-      api.query.staking?.currentElected
+      api.query.staking
         ? api.query.staking.erasStakers
-          ? of(null)
+          ? queryNextStakers(api)
           : api.query.staking.currentElected<AccountId[]>()
         : of([])
     ]).pipe(
       map(([validators, nextElected]): DeriveStakingValidators => ({
-        nextElected: nextElected || validators,
+        nextElected: nextElected.length
+          ? nextElected
+          : validators,
         validators
       }))
     ));

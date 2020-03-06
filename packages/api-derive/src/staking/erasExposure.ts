@@ -3,53 +3,51 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { EraIndex, Exposure } from '@polkadot/types/interfaces';
-import { DeriveEraExposure } from '../types';
+import { AccountId, EraIndex, Exposure } from '@polkadot/types/interfaces';
+import { DeriveEraExposure, DeriveEraPointsAll } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function queryClipped (api: ApiInterfaceRx): Observable<[[EraIndex, string][], Exposure[]]> {
+function queryClipped (api: ApiInterfaceRx): Observable<[EraIndex, [AccountId, Exposure][]][]> {
   return api.derive.staking.erasPoints().pipe(
-    switchMap((allPoints): Observable<[[EraIndex, string][], Exposure[]]> => {
-      const indexes: [EraIndex, string][] = [];
-
-      allPoints.forEach(({ all, era }): void => {
-        Object.keys(all).forEach((validatorId): void => {
-          indexes.push([era, validatorId]);
-        });
-      });
-
-      // FIXME use prefix queries, get going first
-      return combineLatest([
-        of(indexes),
-        indexes.length
-          ? api.query.staking.erasStakersClipped.multi<Exposure>(indexes)
-          : of([] as Exposure[])
-      ]);
-    })
+    switchMap((allPoints): Observable<[DeriveEraPointsAll[], [StorageKey, Exposure][][]]> =>
+      combineLatest([
+        of(allPoints),
+        combineLatest(
+          allPoints.map(({ era }): Observable<[StorageKey, Exposure][]> =>
+            api.query.staking.erasStakersClipped.entries(era)
+          )
+        )
+      ])
+    ),
+    map(([allPoints, erasStakers]): [EraIndex, [AccountId, Exposure][]][] =>
+      allPoints.map(({ era }, index): [EraIndex, [AccountId, Exposure][]] => [
+        era,
+        erasStakers[index].map(([key, exposure]): [AccountId, Exposure] => [
+          api.registry.createType('AccountId', key.toU8a().slice(-32)),
+          exposure
+        ])
+      ])
+    )
   );
 }
 
 export function erasExposure (api: ApiInterfaceRx): () => Observable<DeriveEraExposure[]> {
   return memo((): Observable<DeriveEraExposure[]> =>
     queryClipped(api).pipe(
-      map(([indexes, exposures]): DeriveEraExposure[] =>
-        indexes.reduce((result: DeriveEraExposure[], [era, validatorId], index): DeriveEraExposure[] => {
-          let entry = result.find((entry): boolean => entry.era.eq(era));
+      map((clipped): DeriveEraExposure[] =>
+        clipped.map(([era, validators]): DeriveEraExposure => ({
+          all: validators.reduce((all: Record<string, Exposure>, [validtorId, exposure]): Record<string, Exposure> => {
+            all[validtorId.toString()] = exposure;
 
-          if (!entry) {
-            entry = { all: {}, era };
-
-            result.push(entry);
-          }
-
-          entry.all[validatorId] = exposures[index];
-
-          return result;
-        }, [])
+            return all;
+          }, {}),
+          era
+        }))
       )
     )
   );
