@@ -7,6 +7,7 @@ import { AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
+import metadataDefs from '../interfaces/metadata/definitions';
 import Bytes from './Bytes';
 
 export interface StorageEntry {
@@ -30,6 +31,17 @@ interface StorageKeyExtra {
   method: string;
   section: string;
 }
+
+// order important, matching enum
+const HASHER_MAP: Record<keyof typeof metadataDefs.types.StorageHasherV10._enum, [number, boolean]> = {
+  Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
+  Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase
+  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
+  Twox128: [16, false],
+  Twox256: [32, false],
+  Twox64Concat: [8, true]
+};
+const HASHER_OPTS = Object.values(HASHER_MAP);
 
 // we unwrap the type here, turning into an output usable for createType
 /** @internal */
@@ -82,15 +94,18 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
   throw new Error(`Unable to convert input ${value} to StorageKey`);
 }
 
-function decodeHashers (registry: Registry, encoded: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
+function decodeHashers (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
+  // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
+  const encoded = value.subarray(32);
   let offset = 0;
 
   return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
-    const decoded = hasher.isTwox64Concat
-      ? registry.createType(type as any, encoded.subarray(offset + 8))
-      : registry.createType('Null');
+    const [hashLen, canDecode] = HASHER_OPTS[hasher.index];
+    const decoded = canDecode
+      ? registry.createType(type as 'Raw', encoded.subarray(offset + hashLen))
+      : registry.createType('Raw', encoded.subarray(offset, offset + hashLen));
 
-    offset += hasher.isTwox64Concat ? (8 + decoded.encodedLength) : 0;
+    offset += hashLen + (canDecode ? decoded.encodedLength : 0);
     result.push(decoded);
 
     return result;
@@ -103,20 +118,17 @@ function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: Stora
     return [];
   }
 
-  // the prefix is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
-  const encoded = value.subarray(32);
-
   if (meta.type.isMap) {
     const mapInfo = meta.type.asMap;
 
-    return decodeHashers(registry, encoded, [
+    return decodeHashers(registry, value, [
       [mapInfo.hasher, mapInfo.value.toString()]
     ]);
   }
 
   const mapInfo = meta.type.asDoubleMap;
 
-  return decodeHashers(registry, encoded, [
+  return decodeHashers(registry, value, [
     [mapInfo.hasher, mapInfo.key1.toString()],
     [mapInfo.key2Hasher, mapInfo.key2.toString()]
   ]);
