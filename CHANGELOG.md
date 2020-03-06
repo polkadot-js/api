@@ -16,6 +16,7 @@
 - Refresh the `NetworkState` types as returned by the `rpc.system.networkState()` call to current
 - Expose `registry.createClass(<typeName>)` to allow for creating type classes. If you are using `createClass` or `ClassOf` in your code, it is recommended to swap to this instance.
 - Add additional derives to `api.derive.staking` to handle lazy-payout retrievals
+- Update `@polkadot/{util, util-crypto, keyring}` to 1.6.1 & `@polkadot/wasm` to 1.2.1
 
 # 1.4.2 Feb 27, 2020
 
