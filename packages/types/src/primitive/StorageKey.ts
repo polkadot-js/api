@@ -227,9 +227,7 @@ export default class StorageKey extends Bytes {
   public setMeta (meta?: StorageEntryMetadataLatest): this {
     this._meta = meta;
 
-    this.decodeArgsFromMeta();
-
-    return this;
+    return this.decodeArgsFromMeta();
   }
 
   /**
