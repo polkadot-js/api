@@ -432,13 +432,13 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private retrieveMapEntries (creator: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
     assert(creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
 
-    const outputType = creator.meta.type.isMap
+    const outputType: any = creator.meta.type.isMap
       ? creator.meta.type.asMap.value.toString()
       : creator.meta.type.asDoubleMap.value.toString();
 
     return this._rpcCore.state
-      // FIXME This should really be some sort of subscription, so we can get stuff as
-      // it changes (as of now it is a one-shot query). Not sure how to do this though...
+      // TODO This should really be some sort of subscription, so we can get stuff as
+      // it changes (as of now it is a one-shot query). Not available on Substrate.
       .getKeys(
         this.createType('Raw', u8aConcat(
           creator.iterKey,
@@ -453,14 +453,14 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         switchMap((keys): Observable<[StorageKey[], Vec<Codec>]> =>
           combineLatest([
             of(keys),
-            // Not 100% sure about this, surely this is just a vec?
-            this._rpcCore.state.subscribeStorage<Vec<Codec>>(
-              keys.map((key) => key.setOutputType(outputType))
-            )
+            this._rpcCore.state.subscribeStorage<Vec<Codec>>(keys)
           ])
         ),
         map(([keys, values]): [StorageKey, Codec][] =>
-          keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
+          keys.map((key, index): [StorageKey, Codec] => [
+            key,
+            this.createType(outputType, values[index])
+          ])
         )
       );
   }

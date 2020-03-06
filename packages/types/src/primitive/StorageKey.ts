@@ -49,6 +49,39 @@ export function unwrapStorageType (type: StorageEntryTypeLatest): keyof Interfac
   return map.value.toString() as keyof InterfaceTypes;
 }
 
+/** @internal */
+function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  if (value instanceof StorageKey) {
+    return {
+      key: value,
+      method: value.method,
+      section: value.section
+    };
+  } else if (!value || isString(value) || isU8a(value)) {
+    // let Bytes handle these inputs
+    return { key: value };
+  } else if (isFunction(value)) {
+    return {
+      key: value(),
+      method: value.method,
+      section: value.section
+    };
+  } else if (Array.isArray(value)) {
+    const [fn, ...arg]: [StorageEntry, ...any[]] = value as any;
+
+    assert(isFunction(fn), 'Expected function input for key construction');
+
+    return {
+      key: fn(...arg),
+      method: fn.method,
+      section: fn.section
+    };
+  }
+
+  throw new Error(`Unable to convert input ${value} to StorageKey`);
+}
+
 /**
  * @name StorageKey
  * @description
@@ -58,14 +91,14 @@ export function unwrapStorageType (type: StorageEntryTypeLatest): keyof Interfac
 export default class StorageKey extends Bytes {
   private _meta?: StorageEntryMetadataLatest;
 
-  private _method?: string;
+  private readonly _method?: string;
 
-  private _outputType?: string;
+  private readonly _outputType: string;
 
-  private _section?: string;
+  private readonly _section?: string;
 
   constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
-    const { key, method, section } = StorageKey.decodeStorageKey(value);
+    const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);
 
@@ -73,38 +106,6 @@ export default class StorageKey extends Bytes {
     this._method = override.method || method;
     this._outputType = StorageKey.getType(value as StorageKey);
     this._section = override.section || section;
-  }
-
-  /** @internal */
-  public static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
-    if (value instanceof StorageKey) {
-      return {
-        key: value,
-        method: value.method,
-        section: value.section
-      };
-    } else if (!value || isString(value) || isU8a(value)) {
-      // let Bytes handle these inputs
-      return { key: value };
-    } else if (isFunction(value)) {
-      return {
-        key: value(),
-        method: value.method,
-        section: value.section
-      };
-    } else if (Array.isArray(value)) {
-      const [fn, ...arg]: [StorageEntry, ...any[]] = value as any;
-
-      assert(isFunction(fn), 'Expected function input for key construction');
-
-      return {
-        key: fn(...arg),
-        method: fn.method,
-        section: fn.section
-      };
-    }
-
-    throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
   public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
@@ -121,7 +122,7 @@ export default class StorageKey extends Bytes {
     return undefined;
   }
 
-  public static getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string | undefined {
+  public static getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
@@ -134,7 +135,8 @@ export default class StorageKey extends Bytes {
       }
     }
 
-    return undefined;
+    // If we have no type set, default to Raw
+    return 'Raw';
   }
 
   /**
@@ -152,9 +154,9 @@ export default class StorageKey extends Bytes {
   }
 
   /**
-   * @description The output type, `null` when not available
+   * @description The output type
    */
-  public get outputType (): string | undefined {
+  public get outputType (): string {
     return this._outputType;
   }
 
@@ -170,15 +172,6 @@ export default class StorageKey extends Bytes {
    */
   public setMeta (meta?: StorageEntryMetadataLatest): this {
     this._meta = meta;
-
-    return this;
-  }
-
-  /**
-   * @description Sets the output type for this storage key
-   */
-  public setOutputType (outputType?: string): this {
-    this._outputType = outputType;
 
     return this;
   }
