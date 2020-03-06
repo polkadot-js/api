@@ -18,6 +18,8 @@ function queryClipped (api: ApiInterfaceRx): Observable<[EraIndex, [AccountId, E
       combineLatest([
         of(allPoints),
         combineLatest(
+          // we could just do entries over the full set, however the resultset can be quite large - split it into
+          // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
           allPoints.map(({ era }): Observable<[StorageKey, Exposure][]> =>
             api.query.staking.erasStakersClipped.entries(era)
           )
@@ -28,7 +30,7 @@ function queryClipped (api: ApiInterfaceRx): Observable<[EraIndex, [AccountId, E
       allPoints.map(({ era }, index): [EraIndex, [AccountId, Exposure][]] => [
         era,
         erasStakers[index].map(([key, exposure]): [AccountId, Exposure] => [
-          api.registry.createType('AccountId', key.toU8a().slice(-32)),
+          key.args[1] as AccountId,
           exposure
         ])
       ])

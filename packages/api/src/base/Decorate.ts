@@ -17,7 +17,7 @@ import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, Option, Text, TypeRegistry, u64, Vec } from '@polkadot/types';
+import { Metadata, Null, Option, Text, TypeRegistry, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
@@ -429,36 +429,37 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private retrieveMapEntries (creator: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    assert(creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
+  private retrieveMapEntries ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
+    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
 
-    const outputType: any = creator.meta.type.isMap
-      ? creator.meta.type.asMap.value.toString()
-      : creator.meta.type.asDoubleMap.value.toString();
+    const _outputType = unwrapStorageType(meta.type);
+    const outputType: any = meta.modifier.isOptional
+      ? `Option<${_outputType}>`
+      : _outputType;
 
     return this._rpcCore.state
       // TODO This should really be some sort of subscription, so we can get stuff as
       // it changes (as of now it is a one-shot query). Not available on Substrate.
       .getKeys(
         this.createType('Raw', u8aConcat(
-          creator.iterKey,
-          creator.meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
-            ? getHasher(creator.meta.type.asDoubleMap.hasher)(
-              this.createType(creator.meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
+          iterKey,
+          meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
+            ? getHasher(meta.type.asDoubleMap.hasher)(
+              this.createType(meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
             )
             : new Uint8Array([])
         ))
       )
       .pipe(
-        switchMap((keys): Observable<[StorageKey[], Vec<Codec>]> =>
+        switchMap((keys): Observable<[StorageKey[], Codec[]]> =>
           combineLatest([
             of(keys),
-            this._rpcCore.state.subscribeStorage<Vec<Codec>>(keys)
+            this._rpcCore.state.subscribeStorage(keys)
           ])
         ),
         map(([keys, values]): [StorageKey, Codec][] =>
           keys.map((key, index): [StorageKey, Codec] => [
-            key,
+            key.decodeArgsFromMeta(meta),
             this.createType(outputType, values[index])
           ])
         )

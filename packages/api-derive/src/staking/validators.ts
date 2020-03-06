@@ -20,10 +20,7 @@ function queryNextStakers (api: ApiInterfaceRx): Observable<AccountId[]> {
       api.query.staking.erasStakers.entries(activeEra.addn(1))
     ),
     map((entries): AccountId[] =>
-      // key is from concat with AccountId bytes right at the end
-      entries.map(([key]): AccountId =>
-        api.registry.createType('AccountId', key.toU8a().slice(-32))
-      )
+      entries.map(([key]): AccountId => key.args[1] as AccountId)
     )
   );
 }
