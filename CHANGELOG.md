@@ -1,19 +1,22 @@
-# 1.5.0-beta.x
+# 1.5.1 Mar 06, 2020
 
+- **Important** Substrate master has updated staking, on older chains supply `StakingLedger: 'StakingLedgerTo223'`
+- **Important** Substrate master has updated collective, on older chains supply `Votes: 'VotesTo230'`
 - Add proper support for type generation with an Enum containing an Tuple (Thanks to https://github.com/monitz87)
 - Fix storage parsing not resulting in rejected Promises (Fix from https://github.com/aniiantt applied)
 - Remove use of deprecated `Observable.create` (Thanks to https://github.com/Himself65)
-- Type generation will now handle the same sub-module name across packages, i.e. `@polkadot/types/interfaces/runtime` & `@mine/interfaces/runtime`)
+- Add types & metadata for the latest Polkadot/Substrate runtime versions (master branches)
+- Type extraction will now allow the same sub-module name across packages, i.e. `@polkadot/types/interfaces/runtime` & `@mine/interfaces/runtime` will be valid
 - Add `.range([from, to]: [Hash, Hash?], ...args: any[]): [Hash, Codec][]` on all storage entries
 - Add `.raw(...args: any[]): Promise<Uint8Array & Codec>` to all RPC calls, returning the un-encoded result
-- Allow pre-module type aliasing with `typesAlias: { <moduleName>: { <meta-type>: <alias-type> } }`on API construction options
+- Allow pre-module type aliasing with `typesAlias: { <moduleName>: { <meta-type>: <alias-type> } }` in API construction options
 - Allow `BTreeMap` to be initialized with a `Record<string, any>` object (in addition to `Map`)
 - Allow for `HashMap<KeyType, ValueType>` definitions
 - `Bool` will now correctly return `isEmpty` on false/default values
 - Refresh the `NetworkState` types as returned by the `rpc.system.networkState()` call to current
-- Expose `registry.createClass(<typeName>)`, to allow for creating type classes. If you are using `createClass` or `ClassOf` in your code, it is recommended to swap to this instance.
-- Add additional derives to `api.derive.staking` to handle lazy-payout calculations
-- Add types & metadata for the latest Polkadot/Substrate versions
+- Expose `registry.createClass(<typeName>)` to allow for creating type classes. If you are using `createClass` or `ClassOf` in your code, it is recommended to swap to this instance.
+- Add additional derives to `api.derive.staking` to handle lazy-payout retrievals
+- Update `@polkadot/{util, util-crypto, keyring}` to 1.6.1 & `@polkadot/wasm` to 1.2.1
 
 # 1.4.2 Feb 27, 2020
 
