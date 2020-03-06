@@ -432,10 +432,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private retrieveMapEntries ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
 
-    const _outputType = unwrapStorageType(meta.type);
-    const outputType: any = meta.modifier.isOptional
-      ? `Option<${_outputType}>`
-      : _outputType;
+    let outputType: any = unwrapStorageType(meta.type);
+
+    if (meta.modifier.isOptional) {
+      outputType = `Option<${outputType}>`;
+    }
 
     return this._rpcCore.state
       // TODO This should really be some sort of subscription, so we can get stuff as

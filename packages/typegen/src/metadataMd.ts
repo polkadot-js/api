@@ -64,20 +64,27 @@ function renderPage (page: Page): string {
   }
 
   // index
-  page.sections.forEach(section => {
+  page.sections.forEach((section) => {
     md += `- **[${stringCamelCase(section.name)}](#${stringCamelCase(section.name).toLowerCase()})**\n\n`;
   });
 
   // contents
   page.sections.forEach(section => {
     md += `\n___\n\n\n## ${section.name}\n`;
-    if (section.description) { md += `\n_${section.description}_\n`; }
+
+    if (section.description) {
+      md += `\n_${section.description}_\n`;
+    }
 
     section.items.forEach((item) => {
       md += ` \n### ${item.name}`;
 
       Object.keys(item).filter(i => i !== 'name').forEach(bullet => {
-        md += `\n- **${bullet}**: ${item[bullet] instanceof Vec ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2) : item[bullet]}`;
+        md += `\n- **${bullet}**: ${
+          item[bullet] instanceof Vec
+            ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2)
+            : item[bullet]
+        }`;
       });
 
       md += '\n';
@@ -116,8 +123,8 @@ function addRpc (): string {
 
               return {
                 name: `${methodName}(${args}): ${type}`,
-                jsonrpc: `${sectionName}_${methodName}`,
-                interface: `api.rpc.${sectionName}.${methodName}`,
+                jsonrpc: '`' + `${sectionName}_${methodName}` + '`',
+                interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
                 ...(method.description && { summary: method.description })
               };
             })
@@ -146,7 +153,7 @@ function addConstants (metadata: MetadataLatest): string {
 
               return {
                 name: `${methodName}: ` + '`' + func.type + '`',
-                interface: `api.consts.${sectionName}.${methodName}`,
+                interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
                 ...(func.documentation.length && { summary: func.documentation })
               };
             })
@@ -182,7 +189,7 @@ function addStorage (metadata: MetadataLatest): string {
 
             return {
               name: `${methodName}(${arg}): ` + '`' + result + '`',
-              interface: `api.query.${sectionName}.${methodName}`,
+              interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
               ...(func.documentation.length && { summary: func.documentation })
             };
           })
@@ -220,7 +227,7 @@ function addExtrinsics (metadata: MetadataLatest): string {
 
               return {
                 name: `${methodName}(${args})`,
-                interface: `api.tx.${sectionName}.${methodName}`,
+                interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
                 ...(func.documentation.length && { summary: func.documentation })
               };
             })
