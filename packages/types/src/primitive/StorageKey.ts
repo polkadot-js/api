@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryMetadataLatest, StorageEntryTypeLatest } from '../interfaces/metadata';
+import { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import { AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
@@ -82,6 +82,46 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
   throw new Error(`Unable to convert input ${value} to StorageKey`);
 }
 
+function decodeHashers (registry: Registry, encoded: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
+  let offset = 0;
+
+  return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
+    const decoded = hasher.isTwox64Concat
+      ? registry.createType(type as any, encoded.subarray(offset + 8))
+      : registry.createType('Null');
+
+    offset += hasher.isTwox64Concat ? (8 + decoded.encodedLength) : 0;
+    result.push(decoded);
+
+    return result;
+  }, []);
+}
+
+/** @internal */
+function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): Codec[] {
+  if (!meta || !(meta.type.isDoubleMap || meta.type.isMap)) {
+    return [];
+  }
+
+  // the prefix is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
+  const encoded = value.subarray(32);
+
+  if (meta.type.isMap) {
+    const mapInfo = meta.type.asMap;
+
+    return decodeHashers(registry, encoded, [
+      [mapInfo.hasher, mapInfo.value.toString()]
+    ]);
+  }
+
+  const mapInfo = meta.type.asDoubleMap;
+
+  return decodeHashers(registry, encoded, [
+    [mapInfo.hasher, mapInfo.key1.toString()],
+    [mapInfo.key2Hasher, mapInfo.key2.toString()]
+  ]);
+}
+
 /**
  * @name StorageKey
  * @description
@@ -89,6 +129,10 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore This is assigned via this.decodeArgsFromMeta()
+  private _args: Codec[];
+
   private _meta?: StorageEntryMetadataLatest;
 
   private readonly _method?: string;
@@ -106,6 +150,9 @@ export default class StorageKey extends Bytes {
     this._method = override.method || method;
     this._outputType = StorageKey.getType(value as StorageKey);
     this._section = override.section || section;
+
+    // decode the args (as applicable based on the key and the hashers, after all init)
+    this.decodeArgsFromMeta();
   }
 
   public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
@@ -137,6 +184,13 @@ export default class StorageKey extends Bytes {
 
     // If we have no type set, default to Raw
     return 'Raw';
+  }
+
+  /**
+   * @description Return the decoded arguments (applicable to map/doublemap with decodable values)
+   */
+  public get args (): Codec[] {
+    return this._args;
   }
 
   /**
@@ -172,6 +226,15 @@ export default class StorageKey extends Bytes {
    */
   public setMeta (meta?: StorageEntryMetadataLatest): this {
     this._meta = meta;
+
+    return this.decodeArgsFromMeta();
+  }
+
+  /**
+   * @description Decode the args embedded in the key (assuming we have decodable hashers)
+   */
+  public decodeArgsFromMeta (meta?: StorageEntryMetadataLatest): this {
+    this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta || this.meta);
 
     return this;
   }

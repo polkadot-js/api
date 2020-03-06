@@ -1,3 +1,8 @@
+# 1.6.0-beta.x
+
+- `StorageKey` now have an `.args` property, decoded from meta in the cases twox64concat is used on maps
+- Fix storage `.entries` type conversions to return exact types (not `Option` in some cases)
+
 # 1.5.1 Mar 06, 2020
 
 - **Important** Substrate master has updated staking, on older chains supply `StakingLedger: 'StakingLedgerTo223'`
