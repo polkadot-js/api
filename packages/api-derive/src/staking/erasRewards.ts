@@ -10,17 +10,17 @@ import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function erasRewards (api: ApiInterfaceRx): () => Observable<DeriveEraRewardsAll[]> {
-  return memo((): Observable<DeriveEraRewardsAll[]> =>
-    api.derive.staking.erasExposure().pipe(
+export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewardsAll[]> {
+  return memo((withActive?: boolean): Observable<DeriveEraRewardsAll[]> =>
+    api.derive.staking.erasExposure(withActive).pipe(
       map((exposures): DeriveEraRewardsAll[] =>
-        exposures.map(({ era, all }): DeriveEraRewardsAll =>
+        exposures.map(({ all, era, eraPoints }): DeriveEraRewardsAll =>
           Object
             .entries(all)
-            .reduce((rewards: DeriveEraRewardsAll, [validatorId, exposure]): DeriveEraRewardsAll => {
-              rewards.validators[validatorId] = exposure;
+            .reduce((rewards: DeriveEraRewardsAll, [validatorId, data]): DeriveEraRewardsAll => {
+              rewards.validators[validatorId] = data;
 
-              exposure.others.forEach(({ who }, index): void => {
+              data.exposure.others.forEach(({ who }, index): void => {
                 const nominatorId = who.toString();
 
                 rewards.nominators[nominatorId] = rewards.nominators[nominatorId] || [];
@@ -28,7 +28,7 @@ export function erasRewards (api: ApiInterfaceRx): () => Observable<DeriveEraRew
               });
 
               return rewards;
-            }, { era, nominators: {}, validators: {} })
+            }, { era, eraPoints, nominators: {}, validators: {} })
         )
       )
     )

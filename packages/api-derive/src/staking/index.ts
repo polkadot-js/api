@@ -12,4 +12,3 @@ export * from './overview';
 export * from './query';
 export * from './stakerRewards';
 export * from './validators';
-export * from './validatorPoints';

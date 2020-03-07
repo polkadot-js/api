@@ -12,7 +12,7 @@ import { Option, u32 } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function getAvailableIndexes (api: ApiInterfaceRx): Observable<EraIndex[]> {
+function getAvailableIndexes (api: ApiInterfaceRx, withActive?: boolean): Observable<EraIndex[]> {
   return api.query.staking?.activeEra
     ? api.queryMulti<[Option<ActiveEraInfo>, u32]>([
       api.query.staking.activeEra,
@@ -21,7 +21,7 @@ function getAvailableIndexes (api: ApiInterfaceRx): Observable<EraIndex[]> {
       map(([activeEraOpt, historyDepth]): EraIndex[] => {
         const result: EraIndex[] = [];
         const max = historyDepth.toNumber();
-        let lastEra = activeEraOpt.unwrapOrDefault().index.subn(1);
+        let lastEra = activeEraOpt.unwrapOrDefault().index.subn(withActive ? 0 : 1);
 
         while (lastEra.gten(0) && result.length < max) {
           result.push(api.registry.createType('EraIndex', lastEra));
@@ -36,9 +36,9 @@ function getAvailableIndexes (api: ApiInterfaceRx): Observable<EraIndex[]> {
     : of([]);
 }
 
-export function erasPoints (api: ApiInterfaceRx): () => Observable<DeriveEraPointsAll[]> {
-  return memo((): Observable<DeriveEraPointsAll[]> =>
-    getAvailableIndexes(api).pipe(
+export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPointsAll[]> {
+  return memo((withActive?: boolean): Observable<DeriveEraPointsAll[]> =>
+    getAvailableIndexes(api, withActive).pipe(
       switchMap((indexes): Observable<[EraIndex[], EraRewardPoints[]]> =>
         combineLatest([
           of(indexes),
@@ -57,7 +57,7 @@ export function erasPoints (api: ApiInterfaceRx): () => Observable<DeriveEraPoin
               return all;
             }, {}),
           era,
-          total: rewards[index].total
+          eraPoints: rewards[index].total
         }))
       )
     )
