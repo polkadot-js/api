@@ -122,7 +122,7 @@ function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: Stora
     const mapInfo = meta.type.asMap;
 
     return decodeHashers(registry, value, [
-      [mapInfo.hasher, mapInfo.value.toString()]
+      [mapInfo.hasher, mapInfo.key.toString()]
     ]);
   }
 
@@ -249,7 +249,7 @@ export default class StorageKey extends Bytes {
     try {
       this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta || this.meta);
     } catch (error) {
-      // ignore
+      // ignore...
     }
 
     return this;
