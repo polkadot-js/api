@@ -246,7 +246,11 @@ export default class StorageKey extends Bytes {
    * @description Decode the args embedded in the key (assuming we have decodable hashers)
    */
   public decodeArgsFromMeta (meta?: StorageEntryMetadataLatest): this {
-    this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta || this.meta);
+    try {
+      this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta || this.meta);
+    } catch (error) {
+      // ignore
+    }
 
     return this;
   }
