@@ -117,7 +117,7 @@ export default class Raw extends Uint8Array implements IU8a {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return '&[u8]';
+    return 'Raw';
   }
 
   /**
