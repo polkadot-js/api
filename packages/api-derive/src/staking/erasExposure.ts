@@ -21,7 +21,7 @@ function queryClipped (api: ApiInterfaceRx, withActive?: boolean): Observable<[E
           // we could just do entries over the full set, however the set can be quite large - split it into
           // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
           allPoints.map(({ era }): Observable<[StorageKey, Exposure][]> =>
-            api.query.staking.erasStakersClipped.entries(era)
+            api.query.staking.erasStakers.entries(era)
           )
         )
       ])
