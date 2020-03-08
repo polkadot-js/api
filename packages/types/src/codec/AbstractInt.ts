@@ -156,7 +156,9 @@ export default abstract class AbstractInt extends BN implements Codec {
   public toHuman (isExpanded?: boolean): any {
     // FIXME we need proper expansion here
     return this instanceof this.registry.createClass('Balance')
-      ? formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
+      ? this.isMax()
+        ? 'everything'
+        : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
       : formatNumber(this);
   }
 
