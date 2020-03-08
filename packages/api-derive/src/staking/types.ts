@@ -8,31 +8,40 @@ import { DeriveSessionIndexes } from '../session/types';
 export interface DeriveEraPointsAll {
   all: Record<string, RewardPoint>;
   era: EraIndex;
-  total: RewardPoint;
+  eraPoints: RewardPoint;
 }
 
 export interface DeriveEraPoints {
   era: EraIndex;
+  eraPoints: RewardPoint;
   own: RewardPoint;
-  total: RewardPoint;
 }
 
+export type DeriveEraExposures = Record<string, {
+  exposure: Exposure;
+  points: RewardPoint;
+}>;
+
 export interface DeriveEraExposure {
-  all: Record<string, Exposure>;
+  all: DeriveEraExposures;
   era: EraIndex;
+  eraPoints: RewardPoint;
 }
 
 export interface DeriveEraRewardsAll {
   era: EraIndex;
+  eraPoints: RewardPoint;
   nominators: Record<string, [string, number][]>;
-  validators: Record<string, Exposure>;
+  validators: DeriveEraExposures;
 }
 
 export interface DeriveStakerReward {
   era: EraIndex;
+  eraPoints: RewardPoint;
+  isEmpty: boolean;
   isValidator: boolean;
   nominating: [string, number][];
-  validators: Record<string, Exposure>;
+  validators: DeriveEraExposures;
 }
 
 export interface DerivedStakingElected {

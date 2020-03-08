@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, EraIndex, Exposure } from '@polkadot/types/interfaces';
-import { DeriveEraExposure, DeriveEraPointsAll } from '../types';
+import { AccountId, EraIndex, Exposure, RewardPoint } from '@polkadot/types/interfaces';
+import { DeriveEraExposure, DeriveEraExposures, DeriveEraPointsAll } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -12,13 +12,13 @@ import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function queryClipped (api: ApiInterfaceRx): Observable<[EraIndex, [AccountId, Exposure][]][]> {
-  return api.derive.staking.erasPoints().pipe(
+function queryClipped (api: ApiInterfaceRx, withActive?: boolean): Observable<[EraIndex, RewardPoint, [AccountId, Exposure, RewardPoint][]][]> {
+  return api.derive.staking.erasPoints(withActive).pipe(
     switchMap((allPoints): Observable<[DeriveEraPointsAll[], [StorageKey, Exposure][][]]> =>
       combineLatest([
         of(allPoints),
         combineLatest(
-          // we could just do entries over the full set, however the resultset can be quite large - split it into
+          // we could just do entries over the full set, however the set can be quite large - split it into
           // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
           allPoints.map(({ era }): Observable<[StorageKey, Exposure][]> =>
             api.query.staking.erasStakersClipped.entries(era)
@@ -26,29 +26,35 @@ function queryClipped (api: ApiInterfaceRx): Observable<[EraIndex, [AccountId, E
         )
       ])
     ),
-    map(([allPoints, erasStakers]): [EraIndex, [AccountId, Exposure][]][] =>
-      allPoints.map(({ era }, index): [EraIndex, [AccountId, Exposure][]] => [
+    map(([allPoints, erasStakers]): [EraIndex, RewardPoint, [AccountId, Exposure, RewardPoint][]][] =>
+      allPoints.map(({ all, era, eraPoints }, index): [EraIndex, RewardPoint, [AccountId, Exposure, RewardPoint][]] => [
         era,
-        erasStakers[index].map(([key, exposure]): [AccountId, Exposure] => [
+        eraPoints,
+        erasStakers[index].map(([key, exposure]): [AccountId, Exposure, RewardPoint] => [
           key.args[1] as AccountId,
-          exposure
+          exposure,
+          all[key.args[1].toString()]
         ])
       ])
     )
   );
 }
 
-export function erasExposure (api: ApiInterfaceRx): () => Observable<DeriveEraExposure[]> {
-  return memo((): Observable<DeriveEraExposure[]> =>
-    queryClipped(api).pipe(
+export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
+  return memo((withActive?: boolean): Observable<DeriveEraExposure[]> =>
+    queryClipped(api, withActive).pipe(
       map((clipped): DeriveEraExposure[] =>
-        clipped.map(([era, validators]): DeriveEraExposure => ({
-          all: validators.reduce((all: Record<string, Exposure>, [validtorId, exposure]): Record<string, Exposure> => {
-            all[validtorId.toString()] = exposure;
+        clipped.map(([era, eraPoints, validators]): DeriveEraExposure => ({
+          all: validators.reduce((all: DeriveEraExposures, [validtorId, exposure, points]): DeriveEraExposures => {
+            all[validtorId.toString()] = {
+              exposure,
+              points
+            };
 
             return all;
           }, {}),
-          era
+          era,
+          eraPoints
         }))
       )
     )
