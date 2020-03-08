@@ -14,7 +14,7 @@ describe('Exposure', (): void => {
     ).toEqual({
       others: [{
         value: '12.344k Unit',
-        who: '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc',
+        who: '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc'
       }],
       own: '30.805k Unit',
       total: '43.150k Unit'
