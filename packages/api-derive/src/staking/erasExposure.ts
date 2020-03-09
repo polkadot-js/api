@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, EraIndex, Exposure, RewardPoint } from '@polkadot/types/interfaces';
+import { AccountId, Balance, EraIndex, Exposure, RewardPoint } from '@polkadot/types/interfaces';
 import { DeriveEraExposure, DeriveEraExposures, DeriveEraPointsAll } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -12,7 +12,7 @@ import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function queryClipped (api: ApiInterfaceRx, withActive?: boolean): Observable<[EraIndex, RewardPoint, [AccountId, Exposure, RewardPoint][]][]> {
+function queryClipped (api: ApiInterfaceRx, withActive?: boolean): Observable<[EraIndex, RewardPoint, Balance, [AccountId, Exposure, RewardPoint][]][]> {
   return api.derive.staking.erasPoints(withActive).pipe(
     switchMap((allPoints): Observable<[DeriveEraPointsAll[], [StorageKey, Exposure][][]]> =>
       combineLatest([
@@ -26,10 +26,11 @@ function queryClipped (api: ApiInterfaceRx, withActive?: boolean): Observable<[E
         )
       ])
     ),
-    map(([allPoints, erasStakers]): [EraIndex, RewardPoint, [AccountId, Exposure, RewardPoint][]][] =>
-      allPoints.map(({ all, era, eraPoints }, index): [EraIndex, RewardPoint, [AccountId, Exposure, RewardPoint][]] => [
+    map(([allPoints, erasStakers]): [EraIndex, RewardPoint, Balance, [AccountId, Exposure, RewardPoint][]][] =>
+      allPoints.map(({ all, era, eraPoints, eraReward }, index): [EraIndex, RewardPoint, Balance, [AccountId, Exposure, RewardPoint][]] => [
         era,
         eraPoints,
+        eraReward,
         erasStakers[index].map(([key, exposure]): [AccountId, Exposure, RewardPoint] => [
           key.args[1] as AccountId,
           exposure,
@@ -44,7 +45,7 @@ export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Ob
   return memo((withActive?: boolean): Observable<DeriveEraExposure[]> =>
     queryClipped(api, withActive).pipe(
       map((clipped): DeriveEraExposure[] =>
-        clipped.map(([era, eraPoints, validators]): DeriveEraExposure => ({
+        clipped.map(([era, eraPoints, eraReward, validators]): DeriveEraExposure => ({
           all: validators.reduce((all: DeriveEraExposures, [validtorId, exposure, points]): DeriveEraExposures => {
             all[validtorId.toString()] = {
               exposure,
@@ -54,7 +55,8 @@ export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Ob
             return all;
           }, {}),
           era,
-          eraPoints
+          eraPoints,
+          eraReward
         }))
       )
     )

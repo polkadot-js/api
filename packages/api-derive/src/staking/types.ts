@@ -5,15 +5,17 @@
 import { AccountId, Balance, BlockNumber, EraIndex, EraRewardPoints, Exposure, Keys, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { DeriveSessionIndexes } from '../session/types';
 
-export interface DeriveEraPointsAll {
-  all: Record<string, RewardPoint>;
+interface EraPointInfo {
   era: EraIndex;
   eraPoints: RewardPoint;
+  eraReward: Balance;
 }
 
-export interface DeriveEraPoints {
-  era: EraIndex;
-  eraPoints: RewardPoint;
+export interface DeriveEraPointsAll extends EraPointInfo {
+  all: Record<string, RewardPoint>;
+}
+
+export interface DeriveEraPoints extends EraPointInfo {
   own: RewardPoint;
 }
 
@@ -22,22 +24,16 @@ export type DeriveEraExposures = Record<string, {
   points: RewardPoint;
 }>;
 
-export interface DeriveEraExposure {
+export interface DeriveEraExposure extends EraPointInfo {
   all: DeriveEraExposures;
-  era: EraIndex;
-  eraPoints: RewardPoint;
 }
 
-export interface DeriveEraRewardsAll {
-  era: EraIndex;
-  eraPoints: RewardPoint;
+export interface DeriveEraRewardsAll extends EraPointInfo {
   nominators: Record<string, [string, number][]>;
   validators: DeriveEraExposures;
 }
 
-export interface DeriveStakerReward {
-  era: EraIndex;
-  eraPoints: RewardPoint;
+export interface DeriveStakerReward extends EraPointInfo {
   isEmpty: boolean;
   isValidator: boolean;
   nominating: [string, number][];

@@ -14,7 +14,7 @@ export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Obs
   return memo((withActive?: boolean): Observable<DeriveEraRewardsAll[]> =>
     api.derive.staking.erasExposure(withActive).pipe(
       map((exposures): DeriveEraRewardsAll[] =>
-        exposures.map(({ all, era, eraPoints }): DeriveEraRewardsAll =>
+        exposures.map(({ all, era, eraPoints, eraReward }): DeriveEraRewardsAll =>
           Object
             .entries(all)
             .reduce((rewards: DeriveEraRewardsAll, [validatorId, data]): DeriveEraRewardsAll => {
@@ -28,7 +28,7 @@ export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Obs
               });
 
               return rewards;
-            }, { era, eraPoints, nominators: {}, validators: {} })
+            }, { era, eraPoints, eraReward, nominators: {}, validators: {} })
         )
       )
     )

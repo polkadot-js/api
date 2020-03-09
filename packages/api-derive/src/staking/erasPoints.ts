@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ActiveEraInfo, EraIndex, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
+import { ActiveEraInfo, Balance, EraIndex, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
 import { DeriveEraPointsAll } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -39,17 +39,20 @@ function getAvailableIndexes (api: ApiInterfaceRx, withActive?: boolean): Observ
 export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPointsAll[]> {
   return memo((withActive?: boolean): Observable<DeriveEraPointsAll[]> =>
     getAvailableIndexes(api, withActive).pipe(
-      switchMap((indexes): Observable<[EraIndex[], EraRewardPoints[]]> =>
+      switchMap((indexes): Observable<[EraIndex[], EraRewardPoints[], Option<Balance>[]]> =>
         combineLatest([
           of(indexes),
           indexes.length
             ? api.query.staking.erasRewardPoints.multi<EraRewardPoints>(indexes)
+            : of([]),
+          indexes.length
+            ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(indexes)
             : of([])
         ])
       ),
-      map(([eras, rewards]): DeriveEraPointsAll[] =>
+      map(([eras, points, rewards]): DeriveEraPointsAll[] =>
         eras.map((era, index): DeriveEraPointsAll => ({
-          all: [...rewards[index].individual.entries()]
+          all: [...points[index].individual.entries()]
             .filter(([, points]): boolean => points.gtn(0))
             .reduce((all: Record<string, RewardPoint>, [validatorId, points]): Record<string, RewardPoint> => {
               all[validatorId.toString()] = points;
@@ -57,7 +60,8 @@ export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Obse
               return all;
             }, {}),
           era,
-          eraPoints: rewards[index].total
+          eraPoints: points[index].total,
+          eraReward: rewards[index].unwrapOrDefault()
         }))
       )
     )
