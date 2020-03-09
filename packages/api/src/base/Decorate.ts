@@ -11,7 +11,7 @@ import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, Dec
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
@@ -367,6 +367,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> =>
       this._rpcCore.state.subscribeStorage<[LinkageData | Option<LinkageData>]>([[creator, key]]).pipe(
+        first(),
         switchMap(([_data]: [LinkageData | Option<LinkageData>]): Observable<LinkageResult> => {
           const data = creator.meta.modifier.isOptional
             ? (_data as Option<LinkageData>).unwrapOr(null)
@@ -456,7 +457,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           combineLatest([
             of(keys.map((key) => key.decodeArgsFromMeta(meta))),
             // since we have a default constructed key, we have Option<Raw> as the result
-            this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys)
+            // TODO Don't keep the subscription here active, retrieve and get out of Dodge
+            this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys).pipe(first())
           ])
         ),
         map(([keys, values]): [StorageKey, Codec][] =>
