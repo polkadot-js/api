@@ -360,6 +360,10 @@ export default class Rpc implements RpcInterface {
       //   - null - The storage key is empty
       return keys.reduce((results, key: StorageKey): Codec[] => {
         try {
+          // if (changes.some(([, val]) => val && val.length > 5000)) {
+          //   console.error(`LARGE ${key.section}.${key.method}`);
+          // }
+
           results.push(this.formatStorageSet(key, changes, withCache));
         } catch (error) {
           console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);

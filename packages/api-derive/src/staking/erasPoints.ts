@@ -7,7 +7,7 @@ import { ActiveEraInfo, Balance, EraIndex, EraRewardPoints } from '@polkadot/typ
 import { DeriveEraPointsAll, DeriveEraValPoints } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { Option, u32 } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -53,10 +53,10 @@ export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Obse
         combineLatest([
           of(indexes),
           indexes.length
-            ? api.query.staking.erasRewardPoints.multi<EraRewardPoints>(indexes)
+            ? api.query.staking.erasRewardPoints.multi<EraRewardPoints>(indexes).pipe(take(1))
             : of([]),
           indexes.length
-            ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(indexes)
+            ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(indexes).pipe(take(1))
             : of([])
         ])
       ),

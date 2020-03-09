@@ -7,7 +7,7 @@ import { Exposure } from '@polkadot/types/interfaces';
 import { DeriveEraExposure, DeriveEraExposures, DeriveEraPointsAll, DeriveEraValPoints } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -35,7 +35,7 @@ export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Ob
             // we could just do entries over the full set, however the set can be quite large - split it into
             // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
             allPoints.map(({ era }): Observable<[StorageKey, Exposure][]> =>
-              api.query.staking.erasStakers.entries(era)
+              api.query.staking.erasStakers.entries(era).pipe(take(1))
             )
           )
         ])

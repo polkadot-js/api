@@ -11,8 +11,9 @@ import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, Dec
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
+import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
@@ -314,8 +315,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-      this.retrieveMapEntries(creator, doubleMapArg));
+    decorated.entries = decorateMethod(memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+      this.retrieveMapEntries(creator, doubleMapArg)));
 
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
@@ -333,8 +334,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
     }
 
-    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
-      this.decorateStorageRange(decorated, [arg1, arg2], range));
+    decorated.range = decorateMethod(memo((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
+      this.decorateStorageRange(decorated, [arg1, arg2], range)));
 
     decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
@@ -457,7 +458,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             of(keys.map((key) => key.decodeArgsFromMeta(meta))),
             // since we have a default constructed key, we have Option<Raw> as the result
             // TODO Don't keep the subscription here active, retrieve and get out of Dodge
-            this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys).pipe(first())
+            this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys).pipe(take(1))
           ])
         ),
         map(([keys, values]): [StorageKey, Codec][] =>

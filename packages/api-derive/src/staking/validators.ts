@@ -7,7 +7,7 @@ import { AccountId, Exposure } from '@polkadot/types/interfaces';
 import { DeriveStakingValidators } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -17,7 +17,7 @@ function queryNextStakers (api: ApiInterfaceRx): Observable<AccountId[]> {
   // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
   return api.derive.session.indexes().pipe(
     switchMap(({ activeEra }): Observable<[StorageKey, Exposure][]> =>
-      api.query.staking.erasStakers.entries(activeEra.addn(1))
+      api.query.staking.erasStakers.entries(activeEra.addn(1)).pipe(take(1))
     ),
     map((entries): AccountId[] =>
       entries.map(([key]): AccountId => key.args[1] as AccountId)
