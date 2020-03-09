@@ -79,7 +79,7 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
 
 function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observable<DeriveAccountRegistration> {
   return ((
-    accountId && api.query.identity?.identityOfFALSE
+    accountId && api.query.identity?.identityOf
       ? api.queryMulti([
         [api.query.identity.identityOf, accountId],
         [api.query.identity.superOf, accountId]
