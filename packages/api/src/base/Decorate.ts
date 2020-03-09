@@ -366,9 +366,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> =>
-      this._rpcCore.state.subscribeStorage<[LinkageData | Option<LinkageData>]>([[creator, key]]).pipe(
-        first(),
-        switchMap(([_data]: [LinkageData | Option<LinkageData>]): Observable<LinkageResult> => {
+      this._rpcCore.state.getStorage<LinkageData | Option<LinkageData>>([creator, key]).pipe(
+        switchMap((_data: LinkageData | Option<LinkageData>): Observable<LinkageResult> => {
           const data = creator.meta.modifier.isOptional
             ? (_data as Option<LinkageData>).unwrapOr(null)
             : _data as LinkageData;
