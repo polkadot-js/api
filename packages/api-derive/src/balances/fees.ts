@@ -29,13 +29,13 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
   return memo((): Observable<DerivedFees> =>
     of([
       // deprecated - remove
-      (api.consts.balances.creationFee as Balance) || createType(api.registry, 'Balance'),
-      (api.consts.balances.transferFee as Balance) || createType(api.registry, 'Balance'),
+      (api.consts.balances?.creationFee as Balance) || createType(api.registry, 'Balance'),
+      (api.consts.balances?.transferFee as Balance) || createType(api.registry, 'Balance'),
 
       // current
-      api.consts.balances.existentialDeposit,
-      api.consts.transactionPayment.transactionBaseFee,
-      api.consts.transactionPayment.transactionByteFee
+      (api.consts.balances?.existentialDeposit as Balance) || createType(api.registry, 'Balance'),
+      (api.consts.transactionPayment?.transactionBaseFee as Balance) || createType(api.registry, 'Balance'),
+      (api.consts.transactionPayment?.transactionByteFee as Balance) || createType(api.registry, 'Balance')
     ]).pipe(
       map(([creationFee, transferFee, existentialDeposit, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
