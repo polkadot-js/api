@@ -42,6 +42,12 @@ describe('decodeResponse', (): void => {
     ).toThrow(/123: test error/);
   });
 
+  it('throws any error found, with data', (): void => {
+    expect(
+      (): any => coder.decodeResponse({ id: 1, jsonrpc: '2.0', error: { code: 123, data: 'Error("Some random error description")', message: 'test error' } } as JsonRpcResponse)
+    ).toThrow(/123: test error: Some random error description/);
+  });
+
   it('returns the result', (): void => {
     expect(
       coder.decodeResponse({ id: 1, jsonrpc: '2.0', result: 'some result' } as JsonRpcResponse)
