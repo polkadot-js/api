@@ -16,7 +16,7 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
 
     return api.derive.staking.erasRewards(withActive).pipe(
       map((rewards): DeriveStakerReward[] =>
-        rewards.map(({ era, eraPoints, nominators: allNominators, validators: allValidators }): DeriveStakerReward => {
+        rewards.map(({ era, eraPoints, eraReward, nominators: allNominators, validators: allValidators }): DeriveStakerReward => {
           const isValidator = !!allValidators[stakerId];
           const validators: DeriveEraExposures = {};
           let nominating: [string, number][] = [];
@@ -31,7 +31,7 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
             });
           }
 
-          return { era, eraPoints, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
+          return { era, eraPoints, eraReward, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
         })
       )
     );
