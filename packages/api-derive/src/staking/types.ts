@@ -11,8 +11,10 @@ interface EraPointInfo {
   eraReward: Balance;
 }
 
+export type DeriveEraValPoints = Record<string, RewardPoint>;
+
 export interface DeriveEraPointsAll extends EraPointInfo {
-  all: Record<string, RewardPoint>;
+  validators: DeriveEraValPoints;
 }
 
 export interface DeriveEraPoints extends EraPointInfo {
@@ -25,7 +27,7 @@ export type DeriveEraExposures = Record<string, {
 }>;
 
 export interface DeriveEraExposure extends EraPointInfo {
-  all: DeriveEraExposures;
+  validators: DeriveEraExposures;
 }
 
 export interface DeriveEraRewardsAll extends EraPointInfo {

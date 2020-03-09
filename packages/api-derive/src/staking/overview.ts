@@ -41,7 +41,9 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
           of({ ...indexes, nextElected, validators }),
           api.query.staking.erasRewardPoints
             ? api.query.staking.erasRewardPoints<EraRewardPoints>(indexes.activeEra)
-            : retrievePointsPrev(api, indexes.activeEra, nextElected)
+            : api.query.staking.currentEraPointsEarned
+              ? retrievePointsPrev(api, indexes.activeEra, nextElected)
+              : of(createType(api.registry, 'EraRewardPoints'))
         ])
       ),
       map(([info, eraPoints]): DerivedStakingOverview => ({

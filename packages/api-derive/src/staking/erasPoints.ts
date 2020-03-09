@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ActiveEraInfo, Balance, EraIndex, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
-import { DeriveEraPointsAll } from '../types';
+import { ActiveEraInfo, Balance, EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
+import { DeriveEraPointsAll, DeriveEraValPoints } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -36,6 +36,16 @@ function getAvailableIndexes (api: ApiInterfaceRx, withActive?: boolean): Observ
     : of([]);
 }
 
+function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
+  return [...individual.entries()]
+    .filter(([, points]): boolean => points.gtn(0))
+    .reduce((result: DeriveEraValPoints, [validatorId, points]): DeriveEraValPoints => {
+      result[validatorId.toString()] = points;
+
+      return result;
+    }, {});
+}
+
 export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPointsAll[]> {
   return memo((withActive?: boolean): Observable<DeriveEraPointsAll[]> =>
     getAvailableIndexes(api, withActive).pipe(
@@ -52,16 +62,10 @@ export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Obse
       ),
       map(([eras, points, rewards]): DeriveEraPointsAll[] =>
         eras.map((era, index): DeriveEraPointsAll => ({
-          all: [...points[index].individual.entries()]
-            .filter(([, points]): boolean => points.gtn(0))
-            .reduce((all: Record<string, RewardPoint>, [validatorId, points]): Record<string, RewardPoint> => {
-              all[validatorId.toString()] = points;
-
-              return all;
-            }, {}),
           era,
           eraPoints: points[index].total,
-          eraReward: rewards[index].unwrapOrDefault()
+          eraReward: rewards[index].unwrapOrDefault(),
+          validators: mapValidators(points[index])
         }))
       )
     )

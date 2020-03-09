@@ -63,7 +63,7 @@ function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Resul
 
 export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
   return memo((): Observable<DeriveProposal[]> =>
-    api.query.democracy?.publicProps
+    api.query.democracy?.publicProps && api.query.democracy?.preimages
       ? api.query.democracy.publicProps<Proposals>().pipe(
         switchMap((proposals) =>
           combineLatest([
