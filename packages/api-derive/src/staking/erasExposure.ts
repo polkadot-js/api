@@ -41,20 +41,22 @@ function mapStakers (stakers: [StorageKey, Exposure][]): Mapped {
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN) => Observable<DeriveEraExposure[]> {
   return memo((withActive?: boolean | BN): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((allEras): Observable<[EraIndex[], [StorageKey, Exposure][][]]> =>
+      switchMap((eras): Observable<[EraIndex[], [StorageKey, Exposure][][]]> =>
         combineLatest([
-          of(allEras),
-          combineLatest(
-            // we could just do entries over the full set, however the set can be quite large - split it into
-            // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
-            allEras.map((era): Observable<[StorageKey, Exposure][]> =>
-              api.query.staking.erasStakers.entries(era).pipe(take(1))
+          of(eras),
+          eras.length
+            ? combineLatest(
+              // we could just do entries over the full set, however the set can be quite large - split it into
+              // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
+              eras.map((era): Observable<[StorageKey, Exposure][]> =>
+                api.query.staking.erasStakers.entries(era).pipe(take(1))
+              )
             )
-          )
+            : of([])
         ])
       ),
-      map(([allEras, erasStakers]): DeriveEraExposure[] =>
-        allEras.map((era, index): DeriveEraExposure => ({
+      map(([eras, erasStakers]): DeriveEraExposure[] =>
+        eras.map((era, index): DeriveEraExposure => ({
           era,
           ...mapStakers(erasStakers[index])
         }))

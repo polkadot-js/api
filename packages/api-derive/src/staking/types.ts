@@ -13,10 +13,15 @@ export interface DeriveEraPoints {
   validators: DeriveEraValPoints;
 }
 
-export interface DeriveStakersPoints {
+export interface DeriveEraRewards {
+  era: EraIndex;
+  eraReward: Balance;
+}
+
+export interface DeriveStakerPoints {
   era: EraIndex;
   eraPoints: RewardPoint;
-  own: RewardPoint;
+  points: RewardPoint;
 }
 
 export type DeriveEraNominatorExposure = Record<string, [string, number][]>;
