@@ -48,7 +48,7 @@ function retrieveCurr (api: ApiInterfaceRx, stashId: AccountId): Observable<Mult
         [api.query.staking.validators, stashId],
         api.consts.session.dedupKeyPrefix
           ? [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]
-          : [api.query.session.nextKeys, [stashId]],
+          : [api.query.session.nextKeys, stashId],
         [api.query.staking.erasStakers, [activeEra, stashId]]
       ])
     )
