@@ -49,7 +49,7 @@ export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN) 
               // we could just do entries over the full set, however the set can be quite large - split it into
               // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
               eras.map((era): Observable<[StorageKey, Exposure][]> =>
-                api.query.staking.erasStakers.entries(era).pipe(take(1))
+                api.query.staking.erasStakersClipped.entries(era).pipe(take(1))
               )
             )
             : of([])
