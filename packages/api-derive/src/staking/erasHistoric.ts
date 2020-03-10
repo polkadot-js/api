@@ -21,22 +21,29 @@ export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN) 
         api.query.staking.historyDepth
       ]).pipe(
         map(([activeEraOpt, historyDepth]): EraIndex[] => {
-          const result: EraIndex[] = [];
+          const result: (EraIndex | null)[] = [];
           const max = historyDepth.toNumber();
-          let lastEra = activeEraOpt.unwrapOrDefault().index.subn(withActive === true ? 0 : 1);
+          const activeEra = activeEraOpt.unwrapOrDefault().index.toBn();
+          let lastEra = activeEra;
 
-          while (lastEra.gten(0) && result.length < max) {
-            result.push(api.registry.createType('EraIndex', lastEra));
+          while (lastEra.gten(0) && (result.length < max)) {
+            result.push(
+              ((lastEra !== activeEra) || (withActive === true))
+                ? api.registry.createType('EraIndex', lastEra)
+                : null
+            );
 
             lastEra = lastEra.subn(1);
           }
 
           // go from oldest to newest
           return result
-            .filter((era): boolean =>
-              isUndefined(withActive) || isBoolean(withActive)
-                ? true
-                : era.gte(withActive)
+            .filter((era): era is EraIndex =>
+              era
+                ? isUndefined(withActive) || isBoolean(withActive)
+                  ? true
+                  : era.gte(withActive)
+                : false
             )
             .reverse();
         })
