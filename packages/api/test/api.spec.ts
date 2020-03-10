@@ -17,6 +17,15 @@ describe.skip('misc quick tests', (): void => {
     ));
   });
 
+  it.skip('handles map entries', async (): Promise<void> => {
+    const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
+    const api = await new ApiPromise({ provider }).isReady;
+
+    console.error(JSON.stringify(
+      await api.query.indices.accounts.entries()
+    ));
+  });
+
   it.skip('handles doublemap entries', async (): Promise<void> => {
     const api = await new ApiPromise().isReady;
     const activeEra = await api.query.staking.activeEra();
