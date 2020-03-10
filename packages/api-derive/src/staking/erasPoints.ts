@@ -3,38 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ActiveEraInfo, Balance, EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
-import { DeriveEraPointsAll, DeriveEraValPoints } from '../types';
+import { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
+import { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { Option, u32 } from '@polkadot/types';
 
 import { memo } from '../util';
-
-function getAvailableIndexes (api: ApiInterfaceRx, withActive?: boolean): Observable<EraIndex[]> {
-  return api.query.staking?.activeEra
-    ? api.queryMulti<[Option<ActiveEraInfo>, u32]>([
-      api.query.staking.activeEra,
-      api.query.staking.historyDepth
-    ]).pipe(
-      map(([activeEraOpt, historyDepth]): EraIndex[] => {
-        const result: EraIndex[] = [];
-        const max = historyDepth.toNumber();
-        let lastEra = activeEraOpt.unwrapOrDefault().index.subn(withActive ? 0 : 1);
-
-        while (lastEra.gten(0) && result.length < max) {
-          result.push(api.registry.createType('EraIndex', lastEra));
-
-          lastEra = lastEra.subn(1);
-        }
-
-        // go from oldest to newest
-        return result.reverse();
-      })
-    )
-    : of([]);
-}
 
 function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
   return [...individual.entries()]
@@ -46,25 +21,21 @@ function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
     }, {});
 }
 
-export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPointsAll[]> {
-  return memo((withActive?: boolean): Observable<DeriveEraPointsAll[]> =>
-    getAvailableIndexes(api, withActive).pipe(
-      switchMap((indexes): Observable<[EraIndex[], EraRewardPoints[], Option<Balance>[]]> =>
+export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
+  return memo((withActive?: boolean): Observable<DeriveEraPoints[]> =>
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((indexes): Observable<[EraIndex[], EraRewardPoints[]]> =>
         combineLatest([
           of(indexes),
           indexes.length
             ? api.query.staking.erasRewardPoints.multi<EraRewardPoints>(indexes).pipe(take(1))
-            : of([]),
-          indexes.length
-            ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(indexes).pipe(take(1))
             : of([])
         ])
       ),
-      map(([eras, points, rewards]): DeriveEraPointsAll[] =>
-        eras.map((era, index): DeriveEraPointsAll => ({
+      map(([eras, points]): DeriveEraPoints[] =>
+        eras.map((era, index): DeriveEraPoints => ({
           era,
           eraPoints: points[index].total,
-          eraReward: rewards[index].unwrapOrDefault(),
           validators: mapValidators(points[index])
         }))
       )

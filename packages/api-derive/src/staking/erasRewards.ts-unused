@@ -20,6 +20,11 @@ function includeExposure (validatorId: string, { others }: Exposure, nominators:
   });
 }
 
+// ,
+//           indexes.length
+//             ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(indexes).pipe(take(1))
+//             : of([])
+
 export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewardsAll[]> {
   return memo((withActive?: boolean): Observable<DeriveEraRewardsAll[]> =>
     api.derive.staking.erasExposure(withActive).pipe(

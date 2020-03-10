@@ -3,49 +3,60 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Exposure } from '@polkadot/types/interfaces';
-import { DeriveEraExposure, DeriveEraExposures, DeriveEraPointsAll, DeriveEraValPoints } from '../types';
+import { EraIndex, Exposure } from '@polkadot/types/interfaces';
+import { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
 
+import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function mapValidators (stakers: [StorageKey, Exposure][], validators: DeriveEraValPoints): DeriveEraExposures {
-  return stakers.reduce((result: DeriveEraExposures, [key, exposure]): DeriveEraExposures => {
-    const validatorId = key.args[1].toString();
-
-    result[validatorId] = {
-      exposure,
-      points: validators[validatorId]
-    };
-
-    return result;
-  }, {});
+interface Mapped {
+  nominators: DeriveEraNominatorExposure;
+  validators: DeriveEraValidatorExposure;
 }
 
-export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
-  return memo((withActive?: boolean): Observable<DeriveEraExposure[]> =>
-    api.derive.staking.erasPoints(withActive).pipe(
-      switchMap((allPoints): Observable<[DeriveEraPointsAll[], [StorageKey, Exposure][][]]> =>
+function mapStakers (stakers: [StorageKey, Exposure][]): Mapped {
+  const nominators: DeriveEraNominatorExposure = {};
+  const validators: DeriveEraValidatorExposure = {};
+
+  stakers.forEach(([key, exposure]): void => {
+    const validatorId = key.args[1].toString();
+
+    validators[validatorId] = exposure;
+
+    exposure.others.forEach(({ who }, index): void => {
+      const nominatorId = who.toString();
+
+      nominators[nominatorId] = nominators[nominatorId] || [];
+      nominators[nominatorId].push([validatorId, index]);
+    });
+  });
+
+  return { nominators, validators };
+}
+
+export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN) => Observable<DeriveEraExposure[]> {
+  return memo((withActive?: boolean | BN): Observable<DeriveEraExposure[]> =>
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((allEras): Observable<[EraIndex[], [StorageKey, Exposure][][]]> =>
         combineLatest([
-          of(allPoints),
+          of(allEras),
           combineLatest(
             // we could just do entries over the full set, however the set can be quite large - split it into
             // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
-            allPoints.map(({ era }): Observable<[StorageKey, Exposure][]> =>
+            allEras.map((era): Observable<[StorageKey, Exposure][]> =>
               api.query.staking.erasStakers.entries(era).pipe(take(1))
             )
           )
         ])
       ),
-      map(([allPoints, erasStakers]): DeriveEraExposure[] =>
-        allPoints.map(({ era, eraPoints, eraReward, validators }, index): DeriveEraExposure => ({
+      map(([allEras, erasStakers]): DeriveEraExposure[] =>
+        allEras.map((era, index): DeriveEraExposure => ({
           era,
-          eraPoints,
-          eraReward,
-          validators: mapValidators(erasStakers[index], validators)
+          ...mapStakers(erasStakers[index])
         }))
       )
     )
