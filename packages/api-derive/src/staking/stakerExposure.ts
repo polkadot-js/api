@@ -3,22 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DeriveEraExposures, DeriveStakerReward } from '../types';
+import { DeriveStakerExpoure, DeriveEraValidatorExposure } from '../types';
 
+import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerReward[]> => {
+export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN) => Observable<DeriveStakerExpoure[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean | BN): Observable<DeriveStakerExpoure[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
-    return api.derive.staking.erasRewards(withActive).pipe(
-      map((rewards): DeriveStakerReward[] =>
-        rewards.map(({ era, eraPoints, eraReward, nominators: allNominators, validators: allValidators }): DeriveStakerReward => {
+    return api.derive.staking.erasExposure(withActive).pipe(
+      map((exposures): DeriveStakerExpoure[] =>
+        exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExpoure => {
           const isValidator = !!allValidators[stakerId];
-          const validators: DeriveEraExposures = {};
+          const validators: DeriveEraValidatorExposure = {};
           let nominating: [string, number][] = [];
 
           if (isValidator) {
@@ -31,7 +32,7 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
             });
           }
 
-          return { era, eraPoints, eraReward, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
+          return { era, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
         })
       )
     );
