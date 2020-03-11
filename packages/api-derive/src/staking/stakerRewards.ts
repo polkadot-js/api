@@ -73,3 +73,13 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
     );
   });
 }
+
+export function stakerRewardsMulti (api: ApiInterfaceRx): (...params: [Uint8Array | string, BN | number][]) => Observable<DeriveStakerReward[][]> {
+  return memo((...params: [Uint8Array | string, BN | number][]): Observable<DeriveStakerReward[][]> =>
+    combineLatest(
+      params.map(([accountId, startEra]) =>
+        api.derive.staking.stakerRewards(accountId, startEra)
+      )
+    )
+  );
+}

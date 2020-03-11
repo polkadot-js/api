@@ -94,3 +94,11 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
     );
   });
 }
+
+export function queryMulti (api: ApiInterfaceRx): (...accountIds: (Uint8Array | string)[]) => Observable<DerivedStakingQuery[]> {
+  return memo((...accountIds: (Uint8Array | string)[]): Observable<DerivedStakingQuery[]> =>
+    combineLatest(
+      accountIds.map((accountId) => api.derive.staking.query(accountId))
+    )
+  );
+}
