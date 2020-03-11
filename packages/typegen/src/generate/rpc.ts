@@ -8,6 +8,8 @@ import { TypeRegistry } from '@polkadot/types/create';
 
 import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
+const StorageKeyTye = 'StorageKey | string | Uint8Array | any';
+
 /** @internal */
 export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.ts'): void {
   writeFile(dest, (): string => {
@@ -21,18 +23,20 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
       const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
         const method = interfaces[section].methods[key];
 
-        setImports(allDefs, imports, [method.type]);
-
-        // FIXME These 2 are too hard to type, I give up
+        // These are too hard to type with generics, do manual overrides
         if (section === 'state') {
-          if (method.method === 'getStorage') {
-            setImports(allDefs, imports, ['Codec']);
+          setImports(allDefs, imports, ['Codec', 'Hash', 'StorageKey', 'Vec']);
 
-            return indent(6)('getStorage: AugmentedRpc<<T = Codec>(key: any, block?: Hash | Uint8Array | string) => Observable<T>>;');
+          if (method.method === 'getStorage') {
+            return createDocComments(6, [method.description]) + indent(6)(`getStorage: AugmentedRpc<<T = Codec>(key: ${StorageKeyTye}, block?: Hash | Uint8Array | string) => Observable<T>>;`);
+          } else if (method.method === 'queryStorage') {
+            return createDocComments(6, [method.description]) + indent(6)(`queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;`);
           } else if (method.method === 'subscribeStorage') {
-            return indent(6)('subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: any[]) => Observable<T>>;');
+            return createDocComments(6, [method.description]) + indent(6)(`subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[]) => Observable<T>>;`);
           }
         }
+
+        setImports(allDefs, imports, [method.type]);
 
         const args = method.params.map((param): string => {
           const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);

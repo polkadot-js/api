@@ -4,10 +4,17 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
+function createApi (): Promise<ApiPromise> {
+  process.env.NODE_ENV = 'test';
+
+  const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
+
+  return new ApiPromise({ provider }).isReady;
+}
+
 describe.skip('misc quick tests', (): void => {
   it.skip('retrieves balances correctly', async (): Promise<void> => {
-    const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
-    const api = await new ApiPromise({ provider }).isReady;
+    const api = await createApi();
 
     console.error(JSON.stringify(
       await api.query.system.account('FPzukZw2mphWsXDqdkNzLaxnanjZEWH9i2vqwobTdtde5me')
@@ -18,8 +25,7 @@ describe.skip('misc quick tests', (): void => {
   });
 
   it.skip('handles map entries', async (): Promise<void> => {
-    const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
-    const api = await new ApiPromise({ provider }).isReady;
+    const api = await createApi();
 
     console.error(JSON.stringify(
       await api.query.indices.accounts.entries()
@@ -27,7 +33,7 @@ describe.skip('misc quick tests', (): void => {
   });
 
   it.skip('handles doublemap entries', async (): Promise<void> => {
-    const api = await new ApiPromise().isReady;
+    const api = await createApi();
     const activeEra = await api.query.staking.activeEra();
 
     console.error(JSON.stringify(
@@ -36,11 +42,20 @@ describe.skip('misc quick tests', (): void => {
   });
 
   it.skip('does something in society', async (): Promise<void> => {
-    const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
-    const api = await new ApiPromise({ provider }).isReady;
+    const api = await createApi();
 
     console.error(JSON.stringify(
       await api.query.society.defenderVotes('Dab4bfYTZRUDMWjYAUQuFbDreQ9mt7nULWu3Dw7jodbzVe9')
+    ));
+  });
+
+  it.skip('allows for range queries', async (): Promise<void> => {
+    const api = await createApi();
+    const header = await api.rpc.chain.getHeader();
+
+    console.error(JSON.stringify(
+      (await api.query.staking.activeEra.range([header.parentHash, header.hash], 'Dab4bfYTZRUDMWjYAUQuFbDreQ9mt7nULWu3Dw7jodbzVe9'))
+        .map(([block, value]) => [block, value.toRawType(), value.toHuman()])
     ));
   });
 });
