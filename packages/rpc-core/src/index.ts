@@ -4,6 +4,7 @@
 
 import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
+import { Hash } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod, UserRpc } from './types';
 
@@ -349,30 +350,12 @@ export default class Rpc implements RpcInterface {
         throw error;
       }
     } else if (method.type === 'StorageChangeSet') {
-      // For StorageChangeSet, the changes has the [key, value] mappings
-      const changes: [string, string | null][] = result.changes;
-      const keys = params[0] as Vec<StorageKey>;
-      const withCache = keys.length !== 1;
-
-      // multiple return values (via state.storage subscription), decode the values
-      // one at a time, all based on the query types. Three values can be returned -
-      //   - Codec - There is a valid value, non-empty
-      //   - null - The storage key is empty
-      return keys.reduce((results, key: StorageKey): Codec[] => {
-        try {
-          // if (changes.some(([, val]) => val && val.length > 5000)) {
-          //   console.error(`LARGE ${key.section}.${key.method}`);
-          // }
-
-          results.push(this.formatStorageSet(key, changes, withCache));
-        } catch (error) {
-          console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
-
-          throw error;
-        }
-
-        return results;
-      }, [] as Codec[]);
+      return this.formatStorageSet(params[0] as Vec<StorageKey>, result.changes);
+    } else if (method.type === 'Vec<StorageChangeSet>') {
+      return result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
+        this.registry.createType('Hash', block),
+        this.formatStorageSet(params[0] as Vec<StorageKey>, changes)
+      ]);
     }
 
     return createTypeUnsafe(this.registry, method.type, [result]);
@@ -406,7 +389,28 @@ export default class Rpc implements RpcInterface {
     return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
   }
 
-  private formatStorageSet (key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
+  private formatStorageSet (keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
+    // For StorageChangeSet, the changes has the [key, value] mappings
+    const withCache = keys.length !== 1;
+
+    // multiple return values (via state.storage subscription), decode the values
+    // one at a time, all based on the query types. Three values can be returned -
+    //   - Codec - There is a valid value, non-empty
+    //   - null - The storage key is empty
+    return keys.reduce((results: Codec[], key: StorageKey): Codec[] => {
+      try {
+        results.push(this.formatStorageSetEntry(key, changes, withCache));
+      } catch (error) {
+        console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
+
+        throw error;
+      }
+
+      return results;
+    }, []);
+  }
+
+  private formatStorageSetEntry (key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
     // Fallback to Raw (i.e. just the encoding) if we don't have a specific type
     const type = key.outputType || 'Raw';
     const hexKey = key.toHex();

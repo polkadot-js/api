@@ -1,5 +1,6 @@
 # 1.6.0-beta.x
 
+- **Breaking change** `api.rpc.state.queryStorage(...)` now properly decodes the `Vec<StorageChangeSet>`. this means that results will come back as `[Hash, Codec[]][]` when using this RPC.
 - `StorageKey` now have an `.args` property, decoded from meta in the cases twox64concat is used on maps
 - Fix storage `.entries` type conversions to return exact types (not `Option` in some cases)
 - Full linked map retrievals will now use direct getStorage queries for faster operation

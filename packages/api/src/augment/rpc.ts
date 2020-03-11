@@ -7,7 +7,7 @@ import { Bytes, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primiti
 import { Metadata } from '@polkadot/types';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
-import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
+import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { Observable } from 'rxjs';
 
@@ -138,7 +138,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Get the runtime version
        **/
       getRuntimeVersion: AugmentedRpc<(at?: BlockHash | string | Uint8Array) => Observable<RuntimeVersion>>;
-      getStorage: AugmentedRpc<<T = Codec>(key: any, block?: Hash | Uint8Array | string) => Observable<T>>;
+      /**
+       * Retrieves the storage for a key
+       **/
+      getStorage: AugmentedRpc<<T = Codec>(key: StorageKey | string | Uint8Array | any, block?: Hash | Uint8Array | string) => Observable<T>>;
       /**
        * Retrieves the storage hash
        **/
@@ -150,12 +153,15 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Query historical storage entries (by key) starting from a start block
        **/
-      queryStorage: AugmentedRpc<(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], startBlock: Hash | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Vec<StorageChangeSet>>>;
+      queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;
       /**
        * Retrieves the runtime version via subscription
        **/
       subscribeRuntimeVersion: AugmentedRpc<() => Observable<RuntimeVersion>>;
-      subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: any[]) => Observable<T>>;
+      /**
+       * Subscribes to storage changes for the provided keys
+       **/
+      subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[]) => Observable<T>>;
     };
     system: {
       /**
