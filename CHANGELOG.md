@@ -2,6 +2,11 @@
 
 - `StorageKey` now have an `.args` property, decoded from meta in the cases twox64concat is used on maps
 - Fix storage `.entries` type conversions to return exact types (not `Option` in some cases)
+- Full linked map retrievals will now use direct getStorage queries for faster operation
+- Underlying rpc-core interfaces now unwraps `Error("...")` when found in responses
+- Added `derive.eras*` interfaces for queries to new Substrate staking interfaces
+- Update `derive.account` to cater for new indices module storage (detected, fallbacks)
+- Adjust derive queries for session move away from module prefix (DoubleMap -> Map), detected on use
 
 # 1.5.1 Mar 06, 2020
 
