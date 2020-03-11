@@ -13,8 +13,8 @@ import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
-export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean | BN) => Observable<DeriveEraRewards[]> {
-  return memo((withActive?: boolean | BN): Observable<DeriveEraRewards[]> =>
+export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraRewards[]> {
+  return memo((withActive?: boolean | BN | number): Observable<DeriveEraRewards[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras): Observable<[EraIndex[], Option<Balance>[]]> =>
         combineLatest([

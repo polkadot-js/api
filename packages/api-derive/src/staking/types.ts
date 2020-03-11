@@ -34,12 +34,21 @@ export interface DeriveEraExposure {
   validators: DeriveEraValidatorExposure;
 }
 
-export interface DeriveStakerExpoure {
+export interface DeriveStakerExposure {
   era: EraIndex;
   isEmpty: boolean;
   isValidator: boolean;
   nominating: [string, number][];
   validators: DeriveEraValidatorExposure;
+}
+
+export interface DeriveStakerReward {
+  era: EraIndex;
+  isEmpty: boolean;
+  isValidator: boolean;
+  nominating: [string, number][];
+  validators: Record<string, Balance>;
+  total: Balance;
 }
 
 export interface DerivedStakingElected {

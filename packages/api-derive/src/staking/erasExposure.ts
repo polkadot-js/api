@@ -38,8 +38,8 @@ function mapStakers (stakers: [StorageKey, Exposure][]): Mapped {
   return { nominators, validators };
 }
 
-export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN) => Observable<DeriveEraExposure[]> {
-  return memo((withActive?: boolean | BN): Observable<DeriveEraExposure[]> =>
+export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraExposure[]> {
+  return memo((withActive?: boolean | BN | number): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras): Observable<[EraIndex[], [StorageKey, Exposure][][]]> =>
         combineLatest([

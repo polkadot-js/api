@@ -22,8 +22,8 @@ function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
     }, {});
 }
 
-export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean | BN) => Observable<DeriveEraPoints[]> {
-  return memo((withActive?: boolean): Observable<DeriveEraPoints[]> =>
+export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraPoints[]> {
+  return memo((withActive?: boolean | number): Observable<DeriveEraPoints[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras): Observable<[EraIndex[], EraRewardPoints[]]> =>
         combineLatest([

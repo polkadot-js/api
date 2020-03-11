@@ -13,4 +13,5 @@ export * from './overview';
 export * from './query';
 export * from './stakerExposure';
 export * from './stakerPoints';
+export * from './stakerRewards';
 export * from './validators';
