@@ -9,12 +9,12 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Option, u32 } from '@polkadot/types';
-import { isBoolean, isUndefined } from '@polkadot/util';
+import { isBoolean, isUndefined, bnToBn } from '@polkadot/util';
 
 import { memo } from '../util';
 
-export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN) => Observable<EraIndex[]> {
-  return memo((withActive?: boolean | BN): Observable<EraIndex[]> =>
+export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<EraIndex[]> {
+  return memo((withActive?: boolean | BN | number): Observable<EraIndex[]> =>
     api.query.staking?.activeEra
       ? api.queryMulti<[Option<ActiveEraInfo>, u32]>([
         api.query.staking.activeEra,
@@ -36,13 +36,15 @@ export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN) 
             lastEra = lastEra.subn(1);
           }
 
+          const startEra = isUndefined(withActive) || isBoolean(withActive)
+            ? new BN(0)
+            : bnToBn(withActive);
+
           // go from oldest to newest
           return result
             .filter((era): era is EraIndex =>
               era
-                ? isUndefined(withActive) || isBoolean(withActive)
-                  ? true
-                  : era.gte(withActive)
+                ? era.gte(startEra)
                 : false
             )
             .reverse();
