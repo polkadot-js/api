@@ -10,6 +10,7 @@
 - Update `derive.account` to cater for new indices module storage (detected, fallbacks)
 - Adjust derive queries for session move away from module prefix (DoubleMap -> Map), detected on use
 - Add runtime validation for map arguments to `api.query.*`
+- TypeScript interfaces for linked maps now correctly generates as `[Type, Linkage<Next>]`
 
 # 1.5.1 Mar 06, 2020
 
