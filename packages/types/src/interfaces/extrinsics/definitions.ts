@@ -37,7 +37,7 @@ export default {
     Signature: 'H512',
     SignerPayload: 'GenericSignerPayload',
     EcdsaSignature: '[u8; 65]',
-    Ed25519Signature: 'Signature',
-    Sr25519Signature: 'Signature'
+    Ed25519Signature: 'H512',
+    Sr25519Signature: 'H512'
   }
 };
