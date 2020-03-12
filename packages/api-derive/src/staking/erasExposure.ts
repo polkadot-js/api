@@ -13,7 +13,9 @@ import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function mapStakers (era: EraIndex, stakers: [StorageKey, Exposure][]): DeriveEraExposure {
+type KeysAndExposures = [StorageKey, Exposure][];
+
+function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposure {
   const nominators: DeriveEraNominatorExposure = {};
   const validators: DeriveEraValidatorExposure = {};
 
@@ -33,27 +35,22 @@ function mapStakers (era: EraIndex, stakers: [StorageKey, Exposure][]): DeriveEr
   return { era, nominators, validators };
 }
 
+export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraExposure> {
+  return memo((era: EraIndex): Observable<DeriveEraExposure> =>
+    api.query.staking.erasStakersClipped.entries(era).pipe(
+      take(1),
+      map((stakers) => mapStakers(era, stakers))
+    )
+  );
+}
+
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraExposure[]> {
   return memo((withActive?: boolean | BN | number): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras): Observable<[EraIndex[], [StorageKey, Exposure][][]]> =>
-        combineLatest([
-          of(eras),
-          eras.length
-            ? combineLatest(
-              // we could just do entries over the full set, however the set can be quite large - split it into
-              // batches - may need to re-visit this, or alternatively use pages keys for exceptionally large sets
-              eras.map((era): Observable<[StorageKey, Exposure][]> =>
-                api.query.staking.erasStakersClipped.entries(era).pipe(take(1))
-              )
-            )
-            : of([])
-        ])
-      ),
-      map(([eras, erasStakers]): DeriveEraExposure[] =>
-        eras.map((era, index): DeriveEraExposure =>
-          mapStakers(era, erasStakers[index])
-        )
+      switchMap((eras): Observable<DeriveEraExposure[]> =>
+        eras.length
+          ? combineLatest(eras.map((era) => api.derive.staking.eraExposure(era)))
+          : of([])
       )
     )
   );
