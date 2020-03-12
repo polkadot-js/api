@@ -11,7 +11,7 @@ import { TypeRegistry } from '@polkadot/types';
 
 import { extractStorageArgs } from './validate';
 
-describe.skip('extractStorageArgs', (): void => {
+describe('extractStorageArgs', (): void => {
   const registry = new TypeRegistry();
   let storage: Storage;
 
@@ -24,6 +24,12 @@ describe.skip('extractStorageArgs', (): void => {
   it('validates no-arg plain', (): void => {
     expect(
       extractStorageArgs(storage.timestamp.now, [])
+    ).toEqual([storage.timestamp.now]);
+  });
+
+  it('validates no-arg plain (with undefined, undefined)', (): void => {
+    expect(
+      extractStorageArgs(storage.timestamp.now, [undefined, undefined])
     ).toEqual([storage.timestamp.now]);
   });
 
