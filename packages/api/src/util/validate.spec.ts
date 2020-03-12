@@ -34,24 +34,44 @@ describe('extractStorageArgs', (): void => {
     ).toThrow('timestamp.now(): Moment does not take any arguments, 2 found');
   });
 
-  it('validates map, single arg', (): void => {
+  it('validates map, 1 arg', (): void => {
     expect(
       extractStorageArgs(storage.staking.payee, ['abc'])
     ).toEqual([storage.staking.payee, 'abc']);
   });
 
-  it('validates map, single arg  (failing with no args)', (): void => {
+  it('validates map, 1 arg (failing with no args)', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.payee, [])
-    ).toThrow('staking.payee(AccountId): RewardDestination is a map, requiring a single argument, 0 found');
+    ).toThrow('staking.payee(AccountId): RewardDestination is a map, requiring 1 argument, 0 found');
   });
 
-  it('validates map, single arg  (failing with no args)', (): void => {
+  it('validates map, 1 arg (failing with no args)', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.payee, ['abc', 'def'])
-    ).toThrow('staking.payee(AccountId): RewardDestination is a map, requiring a single argument, 2 found');
+    ).toThrow('staking.payee(AccountId): RewardDestination is a map, requiring 1 argument, 2 found');
+  });
+
+  it('validates doublemap, 2 args', (): void => {
+    expect(
+      extractStorageArgs(storage.staking.erasStakers, [1, '0x1234'])
+    ).toEqual([storage.staking.erasStakers, [1, '0x1234']]);
+  });
+
+  it('validates doublemap, 2 args (failing with no args)', (): void => {
+    expect(
+      (): any =>
+        extractStorageArgs(storage.staking.erasStakers, [])
+    ).toThrow('staking.erasStakers(EraIndex, AccountId): Exposure is a doublemap, requiring 2 arguments, 0 found');
+  });
+
+  it('validates doublemap, 2 args (failing with 1 arg)', (): void => {
+    expect(
+      (): any =>
+        extractStorageArgs(storage.staking.erasStakers, [123])
+    ).toThrow('staking.erasStakers(EraIndex, AccountId): Exposure is a doublemap, requiring 2 arguments, 1 found');
   });
 
   it('validates linked map, no args', (): void => {

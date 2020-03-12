@@ -13,7 +13,7 @@ export function extractStorageArgs (creator: StorageEntry, args: any[]): any[] {
 
   if (meta.type.isDoubleMap) {
     const dmType = meta.type.asDoubleMap;
-    assert(args.length === 2, `${section}.${method}([${dmType.key1}, ${dmType.key2}]): ${type} needs an tuple param, ${args.length} found`);
+    assert(args.length === 2, `${section}.${method}(${dmType.key1}, ${dmType.key2}): ${type} is a doublemap, requiring 2 arguments, ${args.length} found`);
 
     return [creator, args];
   } else if (meta.type.isMap) {
@@ -22,10 +22,12 @@ export function extractStorageArgs (creator: StorageEntry, args: any[]): any[] {
 
     mType.linked.isTrue
       ? assert(args.length <= 1, `${sig} is a linked map, requiring either no arguments (retrieving all recursively) or a single argument, ${args.length} found`)
-      : assert(args.length === 1, `${sig} is a map, requiring a single argument, ${args.length} found`);
-  } else {
-    assert(args.length === 0, `${section}.${method}(): ${type} does not take any arguments, ${args.length} found`);
+      : assert(args.length === 1, `${sig} is a map, requiring 1 argument, ${args.length} found`);
+
+    return [creator, ...args];
   }
 
-  return [creator, ...args];
+  assert(args.length === 0, `${section}.${method}(): ${type} does not take any arguments, ${args.length} found`);
+
+  return [creator];
 }
