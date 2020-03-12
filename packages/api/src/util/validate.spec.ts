@@ -27,7 +27,7 @@ describe('extractStorageArgs', (): void => {
     ).toEqual([storage.timestamp.now]);
   });
 
-  t('validates no-arg plain (with undefined, undefined)', (): void => {
+  it('validates no-arg plain (with undefined, undefined)', (): void => {
     expect(
       extractStorageArgs(storage.timestamp.now, [undefined, undefined])
     ).toEqual([storage.timestamp.now]);
