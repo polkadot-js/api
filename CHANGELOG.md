@@ -1,6 +1,10 @@
+# 1.6.2 Feb 27, 2020
+
+- Revert checks for arg, not working on `.at()` queries (proper fix in next version)
+
 # 1.6.1 Mar 12, 2020
 
-- **Breaking change** `api.rpc.state.queryStorage(...)` now full decodes the `Vec<StorageChangeSet>` and returns a decoded `[Hash, Codec[]][]` when using this RPC.
+- **Breaking change** `api.rpc.state.queryStorage(...)` now fully decodes the `Vec<StorageChangeSet>` and returns a decoded `[Hash, Codec[]][]` when using this RPC.
 - `StorageKey` now has an `.args` property, decoded from meta where `twox64_concat` or `blake128_concat` are used on maps
 - Fix `api.query.*.*.entries` type conversions to return exact types (not `Option` in some cases)
 - Add `api.query.*.*.keys` to retrieve only the storage keys, similar to `.entries`

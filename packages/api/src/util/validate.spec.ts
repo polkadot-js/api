@@ -11,7 +11,7 @@ import { TypeRegistry } from '@polkadot/types';
 
 import { extractStorageArgs } from './validate';
 
-describe('extractStorageArgs', (): void => {
+describe.skip('extractStorageArgs', (): void => {
   const registry = new TypeRegistry();
   let storage: Storage;
 
