@@ -13,6 +13,7 @@ export function extractStorageArgs (creator: StorageEntry, args: any[]): any[] {
 
   if (meta.type.isDoubleMap) {
     const dmType = meta.type.asDoubleMap;
+
     assert(args.length === 2, `${section}.${method}(${dmType.key1}, ${dmType.key2}): ${type} is a doublemap, requiring 2 arguments, ${args.length} found`);
 
     // pass as tuple
