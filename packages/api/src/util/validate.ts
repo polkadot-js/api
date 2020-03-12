@@ -37,7 +37,7 @@ import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 // sets up the arguments in the form of [creator, args] ready to be used in a storage
 // call. Additionally, it verifies that the correct number of arguments have been passed
-export function extractStorageArgs (isAt: boolean, creator: StorageEntry, args: any[]): any[] {
+export function extractStorageArgs (creator: StorageEntry, args: any[]): any[] {
   return creator.meta.type.isDoubleMap
     ? [creator, args]
     : [creator, ...args];
