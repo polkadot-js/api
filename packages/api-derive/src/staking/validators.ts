@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Exposure } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingValidators } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -16,11 +16,11 @@ function queryNextStakers (api: ApiInterfaceRx): Observable<AccountId[]> {
   // only populate for next era in the last session, so track both here - entries are not
   // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
   return api.derive.session.indexes().pipe(
-    switchMap(({ activeEra }): Observable<[StorageKey, Exposure][]> =>
-      api.query.staking.erasStakers.entries(activeEra.addn(1)).pipe(take(1))
+    switchMap(({ activeEra }): Observable<StorageKey[]> =>
+      api.query.staking.erasStakers.keys(activeEra.addn(1)).pipe(take(1))
     ),
-    map((entries): AccountId[] =>
-      entries.map(([key]): AccountId => key.args[1] as AccountId)
+    map((keys): AccountId[] =>
+      keys.map((key): AccountId => key.args[1] as AccountId)
     )
   );
 }
