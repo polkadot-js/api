@@ -312,7 +312,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.creator = creator;
 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
-      this._rpcCore.state.getStorage(getArgs(true, arg1, arg2), hash));
+      this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
     decorated.entries = decorateMethod(memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
       this.retrieveMapEntries(creator, doubleMapArg)));
