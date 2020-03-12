@@ -326,6 +326,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.keyPrefix = (): string =>
       u8aToHex(creator.keyPrefix);
 
+    decorated.keys = decorateMethod(memo((doubleMapArg?: Arg): Observable<StorageKey[]> =>
+      this.retrieveMapKeys(creator, doubleMapArg)));
+
     if (this.hasSubscriptions) {
       // When using double map storage function, user need to pass double map key as an array
       decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
@@ -343,11 +346,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
-    let outputType: any = unwrapStorageType(decorated.creator.meta.type);
-
-    if (decorated.creator.meta.modifier.isOptional) {
-      outputType = `Option<${outputType}>`;
-    }
+    const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
@@ -431,34 +430,36 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private retrieveMapEntries ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
+  private retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
+    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
-    let outputType: any = unwrapStorageType(meta.type);
+    const startKey = this.createType('Raw', u8aConcat(
+      iterKey,
+      meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
+        ? getHasher(meta.type.asDoubleMap.hasher)(
+          this.createType(meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
+        )
+        : new Uint8Array([])
+    ));
 
-    if (meta.modifier.isOptional) {
-      outputType = `Option<${outputType}>`;
-    }
-
-    return this._rpcCore.state
-      // TODO This should really be some sort of subscription, so we can get stuff as
-      // it changes (as of now it is a one-shot query). Not available on Substrate.
-      .getKeys(
-        this.createType('Raw', u8aConcat(
-          iterKey,
-          meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
-            ? getHasher(meta.type.asDoubleMap.hasher)(
-              this.createType(meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
-            )
-            : new Uint8Array([])
-        ))
+    return this._rpcCore.state.getKeys(startKey).pipe(
+      map((keys): StorageKey[] =>
+        keys.map((key) => key.decodeArgsFromMeta(meta))
       )
+    );
+  }
+
+  private retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
+    const outputType = unwrapStorageType(entry.meta.type, entry.meta.modifier.isOptional);
+
+    return this.retrieveMapKeys(entry, arg)
       .pipe(
         switchMap((keys): Observable<[StorageKey[], Option<Raw>[]]> =>
           combineLatest([
-            of(keys.map((key) => key.decodeArgsFromMeta(meta))),
-            // since we have a default constructed key, we have Option<Raw> as the result
-            // TODO Don't keep the subscription here active, retrieve and get out of Dodge
+            of(keys),
+            // Since we have a default constructed key, we have Option<Raw> as the result
+            // Don't keep the subscription here active, retrieve and get out of Dodge
+            // TODO Once we have a multiple key RPC available, use that via fallback
             this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys).pipe(take(1))
           ])
         ),
