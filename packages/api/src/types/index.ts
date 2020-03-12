@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// Module augmentation so that `api.{consts,query,rpc,tx}.*.*` work
-import './augment';
+// Augment the modules
+import '@polkadot/api/augment';
 
 import BN from 'bn.js';
 import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
@@ -11,7 +11,7 @@ import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface, UserRpc } from '@polkadot/rpc-core/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { RegistryTypes, Signer, SignerResult, SignatureOptions, Registry } from '@polkadot/types/types';
+import { Signer, SignerResult, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
 
 import ApiBase from '../base';
 import { DeriveAllSections } from '../util/decorate';
@@ -26,13 +26,13 @@ export * from './rpc';
 export * from './storage';
 export * from './submittable';
 
-export interface ApiOptions {
+export interface ApiOptions extends RegisteredTypes {
   /**
    * @description Add custom derives to be injected
    */
   derives?: DeriveCustom;
   /**
-   * @description prebundles is a map of 'genesis hash and runtime spec version' as key to metadata's hex string
+   * @description pre-bundles is a map of 'genesis hash and runtime spec version' as key to a metadata hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
    */
   metadata?: Record<string, string>;
@@ -57,19 +57,6 @@ export interface ApiOptions {
    * @description The source object to use for runtime information (only used when cloning)
    */
   source?: ApiBase<any>;
-  /**
-   * @description Additional types used by runtime modules. This is nessusary if the runtime modules
-   * uses types not available in the base Substrate runtime.
-   */
-  types?: RegistryTypes;
-  /**
-   * @description Additional types that are injected based on the chain we are connecting to. There are keyed by the chain, i.e. `{ 'Kusama CC1': { ... } }`
-   */
-  typesChain?: Record<string, RegistryTypes>;
-  /**
-   * @description Additional types that are injected based on the type of node we are connecting to, as set via specName in the runtime version. There are keyed by the node, i.e. `{ 'edgeware': { ... } }`
-   */
-  typesSpec?: Record<string, RegistryTypes>;
 }
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic

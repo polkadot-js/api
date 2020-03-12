@@ -12,7 +12,7 @@ async function main () {
   const api = await ApiPromise.create();
 
   // Make our basic chain state/storage queries, all in one go
-  const [[accountNonce], now, validators] = await Promise.all([
+  const [{ nonce: accountNonce }, now, validators] = await Promise.all([
     api.query.system.account(ALICE),
     api.query.timestamp.now(),
     api.query.session.validators()
@@ -32,8 +32,8 @@ async function main () {
     // Print out the authorityIds and balances of all validators
     console.log('validators', validators.map((authorityId, index) => ({
       address: authorityId.toString(),
-      balance: validatorBalances[index][1].free.toString(),
-      nonce: validatorBalances[index][0].toString()
+      balance: validatorBalances[index].data.free.toHuman(),
+      nonce: validatorBalances[index].nonce.toHuman()
     })));
   }
 }

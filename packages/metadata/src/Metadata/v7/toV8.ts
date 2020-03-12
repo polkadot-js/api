@@ -5,13 +5,11 @@
 import { MetadataV7, MetadataV8, ModuleMetadataV8 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/create';
-
 /** @internal */
 export default function toV8 (registry: Registry, { modules }: MetadataV7): MetadataV8 {
-  return createType(registry, 'MetadataV8', {
+  return registry.createType('MetadataV8', {
     modules: modules.map(({ calls, constants, events, name, storage }): ModuleMetadataV8 =>
-      createType(registry, 'ModuleMetadataV8', {
+      registry.createType('ModuleMetadataV8', {
         calls,
         constants,
         errors: [],

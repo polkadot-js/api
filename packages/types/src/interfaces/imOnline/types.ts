@@ -3,7 +3,8 @@
 
 import { Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, u32 } from '@polkadot/types/primitive';
-import { BlockNumber, Signature } from '@polkadot/types/interfaces/runtime';
+import { Signature } from '@polkadot/types/interfaces/extrinsics';
+import { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** @name AuthIndex */

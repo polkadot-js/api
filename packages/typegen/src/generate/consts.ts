@@ -10,7 +10,7 @@ import Metadata from '@polkadot/metadata/Metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, indent, setImports, writeFile } from '../util';
+import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, indent, registerDefinitions, setImports, writeFile } from '../util';
 
 // Generate types for one module
 /** @internal */
@@ -19,10 +19,12 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
     return [];
   }
 
-  setImports(allDefs, imports, ['Codec']);
+  if (!isStrict) {
+    setImports(allDefs, imports, ['Codec']);
+  }
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
-    .concat(isStrict ? '' : indent(6)('[index: string]: Codec;'))
+    .concat(isStrict ? '' : indent(6)('[index: string]: AugmentedConst<object & Codec>;'))
     .concat(constants.map(({ documentation, name, type }): string => {
       setImports(allDefs, imports, [type.toString()]);
 
@@ -33,20 +35,20 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
 }
 
 /** @internal */
-function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>, isStrict: boolean): void {
+function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>>, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes: Record<string, Record<string, { types: Record<string, any> }>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
     const imports = createImports(allTypes);
-    const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
-      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
+    const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
+      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
       return acc.concat(generateModule(allDefs, mod, imports, isStrict));
     }, [] as string[]);
-    const header = createImportCode(HEADER, imports, [
-      ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-        file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
-        types: Object.keys(imports.localTypes[moduleName])
+    const header = createImportCode(HEADER('chain'), imports, [
+      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        file: packagePath,
+        types: Object.keys(imports.localTypes[packagePath])
       }))
     ]);
     const interfaceStart = [
@@ -57,6 +59,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
     return header
       .concat(interfaceStart)
+      .concat(isStrict ? '' : indent(4)('[index: string]: ModuleConstants;\n'))
       .concat(body.join('\n'))
       .concat(interfaceEnd)
       .concat(FOOTER);
@@ -65,8 +68,10 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateConsts (dest = 'packages/api/src/types/augment/consts.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}, isStrict = false): void {
+export default function generateConsts (dest = 'packages/api/src/augment/consts.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
   const registry = new TypeRegistry();
+
+  registerDefinitions(registry, extraTypes);
 
   return generateForMeta(new Metadata(registry, data), dest, extraTypes, isStrict);
 }

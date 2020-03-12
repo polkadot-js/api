@@ -5,7 +5,6 @@
 import { MetadataAll, MetadataLatest, MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8, MetadataV9, MetadataV10, MetadataV11 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/create/createType';
 import Struct from '@polkadot/types/codec/Struct';
 import { assert } from '@polkadot/util';
 
@@ -34,7 +33,7 @@ type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'a
  * The versioned runtime metadata as a decoded structure
  */
 export default class MetadataVersioned extends Struct {
-  private _converted: Map<number, MetaMapped> = new Map();
+  readonly #converted: Map<number, MetaMapped> = new Map();
 
   constructor (registry: Registry, value?: any) {
     super(registry, {
@@ -59,11 +58,11 @@ export default class MetadataVersioned extends Struct {
       return this.metadata[asCurr] as T;
     }
 
-    if (!this._converted.has(version)) {
-      this._converted.set(version, fromPrev(this.registry, this[asPrev] as F));
+    if (!this.#converted.has(version)) {
+      this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F));
     }
 
-    return this._converted.get(version) as T;
+    return this.#converted.get(version) as T;
   }
 
   /**
@@ -72,7 +71,7 @@ export default class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: createType(this.registry, 'MetadataAll', toCallsOnly(this.registry, this.asLatest), this.version)
+      metadata: this.registry.createType('MetadataAll', toCallsOnly(this.registry, this.asLatest), this.version)
     });
   }
 

@@ -4,9 +4,6 @@
 
 import { AnyNumber, Constructor, Registry } from '../types';
 
-import { bnToHex, bnToU8a, formatBalance } from '@polkadot/util';
-
-import { ClassOf } from '../create/createClass';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
@@ -34,52 +31,5 @@ export default class UInt extends AbstractInt {
         return typeName || super.toRawType();
       }
     };
-  }
-
-  /**
-   * @description Returns a hex string representation of the value
-   */
-  public toHex (isLe = false): string {
-    // For display/JSON, this is BE, for compare, use isLe
-    return bnToHex(this, {
-      bitLength: this._bitLength,
-      isLe,
-      isNegative: false
-    });
-  }
-
-  /**
-   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
-   */
-  public toHuman (isExpanded?: boolean): any {
-    // FIXME we need proper expansion here
-    return this instanceof ClassOf(this.registry, 'Balance')
-      ? formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
-      : super.toHuman(isExpanded);
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  public toRawType (): string {
-    // NOTE In the case of balances, which have a special meaning on the UI
-    // and can be interpreted differently, return a specific value for it so
-    // underlying it always matches (no matter which length it actually is)
-    return this instanceof ClassOf(this.registry, 'Balance')
-      ? 'Balance'
-      : `u${this._bitLength}`;
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this, {
-      bitLength: this._bitLength,
-      isLe: true,
-      isNegative: false
-    });
   }
 }

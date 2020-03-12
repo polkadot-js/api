@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, Hash, Index } from '../interfaces/runtime';
-import { AnyJsonObject, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
+import { ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
+import { Balance, Hash, Index } from '../interfaces/runtime';
+import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import { createType } from '../create';
 import Base from '../codec/Base';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
@@ -22,7 +22,7 @@ interface ExtrinsicPayloadOptions {
 // all our known types that can be returned
 type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 | ExtrinsicPayloadV4;
 
-const VERSIONS: InterfaceTypes[] = [
+const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
   'ExtrinsicPayloadV1',
   'ExtrinsicPayloadV2',
@@ -47,7 +47,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
       return value.raw;
     }
 
-    return createType(registry, VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
+    return registry.createType(VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
   }
 
   /**
@@ -69,7 +69,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType(this.registry, 'Hash');
+    return (this.raw as ExtrinsicPayloadV3).genesisHash || this.registry.createType('Hash');
   }
 
   /**
@@ -91,7 +91,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).specVersion || createType(this.registry, 'u32');
+    return (this.raw as ExtrinsicPayloadV3).specVersion || this.registry.createType('u32');
   }
 
   /**
@@ -99,7 +99,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return (this.raw as ExtrinsicPayloadV2).tip || createType(this.registry, 'Compact<Balance>');
+    return (this.raw as ExtrinsicPayloadV2).tip || this.registry.createType('Compact<Balance>');
   }
 
   /**
@@ -127,7 +127,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonObject {
+  public toHuman (isExtended?: boolean): AnyJson {
     return this.raw.toHuman(isExtended);
   }
 

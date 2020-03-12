@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJsonObject, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
+import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
 import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -11,7 +11,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
+type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
@@ -105,24 +105,23 @@ export default class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
   public readonly registry: Registry;
 
-  protected _jsonMap: Map<keyof S, string>;
+  readonly #jsonMap: Map<keyof S, string>;
 
-  protected _Types: ConstructorDef;
+  readonly #Types: ConstructorDef;
 
   constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
-    const Clazzes = mapToTypeMap(registry, Types);
-    const decoded: T = decodeStruct(registry, Clazzes, value, jsonMap);
-
-    super(Object.entries(decoded));
+    super(Object.entries(
+      decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)
+    ) as [keyof S, Codec][]);
 
     this.registry = registry;
-    this._jsonMap = jsonMap;
-    this._Types = Clazzes;
+    this.#jsonMap = jsonMap;
+    this.#Types = mapToTypeMap(registry, Types);
   }
 
-  public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
+  public static with<S extends TypesDef> (Types: S, jsonMap?: Map<keyof S, string>): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      constructor (registry: Registry, value?: any, jsonMap?: Map<keyof S, string>) {
+      constructor (registry: Registry, value?: any) {
         super(registry, Types, value, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
@@ -144,7 +143,7 @@ export default class Struct<
    * @description The available keys for this enum
    */
   public get defKeys (): string[] {
-    return Object.keys(this._Types);
+    return Object.keys(this.#Types);
   }
 
   /**
@@ -167,7 +166,7 @@ export default class Struct<
    */
   public get Type (): E {
     return (Object
-      .entries(this._Types) as [keyof S, Constructor][])
+      .entries(this.#Types) as [keyof S, Constructor][])
       .reduce((result: E, [key, Type]): E => {
         (result as any)[key] = new Type(this.registry).toRawType();
 
@@ -232,12 +231,11 @@ export default class Struct<
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonObject {
+  public toHuman (isExtended?: boolean): AnyJson {
     return [...this.keys()].reduce((json, key): any => {
-      const jsonKey = this._jsonMap.get(key) || key;
       const value = this.get(key);
 
-      json[jsonKey] = value && value.toHuman(isExtended);
+      json[key] = value && value.toHuman(isExtended);
 
       return json;
     }, {} as any);
@@ -246,11 +244,11 @@ export default class Struct<
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJsonObject {
+  public toJSON (): AnyJson {
     // FIXME the return type string is only used by Extrinsic (extends Struct),
     // but its toJSON is the hex value
     return [...this.keys()].reduce((json, key): any => {
-      const jsonKey = this._jsonMap.get(key) || key;
+      const jsonKey = this.#jsonMap.get(key) || key;
       const value = this.get(key);
 
       json[jsonKey] = value && value.toJSON();
@@ -272,7 +270,7 @@ export default class Struct<
    */
   public toRawType (): string {
     return JSON.stringify(
-      Struct.typesToMap(this.registry, this._Types)
+      Struct.typesToMap(this.registry, this.#Types)
     );
   }
 

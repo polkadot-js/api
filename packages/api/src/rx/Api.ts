@@ -114,7 +114,7 @@ export function decorateMethod <Method extends AnyFunction> (method: Method): Me
  * ```
  */
 export default class ApiRx extends ApiBase<'rxjs'> {
-  private _isReadyRx: Observable<ApiRx>;
+  #isReadyRx: Observable<ApiRx>;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
@@ -163,14 +163,14 @@ export default class ApiRx extends ApiBase<'rxjs'> {
   constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
-    this._isReadyRx = from(
+    this.#isReadyRx = from<Promise<ApiRx>>(
       // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
         super.on('ready', (): void => {
           resolve(this);
         });
       })
-    ) as Observable<ApiRx>;
+    );
   }
 
   /**
@@ -184,7 +184,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    * @description Observable that returns the first time we are connected and loaded
    */
   public get isReady (): Observable<ApiRx> {
-    return this._isReadyRx;
+    return this.#isReadyRx;
   }
 
   /**

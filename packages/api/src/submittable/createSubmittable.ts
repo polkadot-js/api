@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call } from '@polkadot/types/interfaces';
+import { Call, Extrinsic } from '@polkadot/types/interfaces';
 import { Constructor } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from '../types';
 import { SubmittableExtrinsic } from './types';
@@ -15,7 +15,7 @@ type Creator<ApiType extends ApiTypes> = (extrinsic: Call | Uint8Array | string)
 let Submittable: Constructor<SubmittableExtrinsic<any>>;
 
 export default function createSubmittable<ApiType extends ApiTypes> (apiType: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): Creator<ApiType> {
-  return (extrinsic: Call | Uint8Array | string): SubmittableExtrinsic<ApiType> => {
+  return (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType> => {
     // This is not great, but basically what we do here is to only require the
     // class right at the point it is actually needed - delaying initialization
     if (!Submittable) {

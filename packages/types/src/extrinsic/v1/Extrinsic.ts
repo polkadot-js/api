@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Call, ExtrinsicSignatureV1 } from '../../interfaces/runtime';
+import { ExtrinsicSignatureV1 } from '../../interfaces/extrinsics';
+import { Address, Call } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
-import { createType } from '../../create';
 import Struct from '../../codec/Struct';
 
 export interface ExtrinsicValueV1 {
@@ -37,8 +37,8 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
       return value;
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = createType(registry, 'ExtrinsicSignatureV1', value, { isSigned });
-      const method = createType(registry, 'Call', value.subarray(signature.encodedLength));
+      const signature = registry.createType('ExtrinsicSignatureV1', value, { isSigned });
+      const method = registry.createType('Call', value.subarray(signature.encodedLength));
 
       return {
         method,

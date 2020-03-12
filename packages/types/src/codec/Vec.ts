@@ -22,7 +22,7 @@ const MAX_LENGTH = 32768;
 export default class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
     super(registry, ...Vec.decodeVec(registry, Clazz, value));
@@ -54,7 +54,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
     return decodeU8a(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
   }
 
-  public static with<O extends Codec> (Type: Constructor<O> | InterfaceTypes): Constructor<Vec<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Vec<O>> {
     return class extends Vec<O> {
       constructor (registry: Registry, value?: any[]) {
         super(registry, Type, value);

@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicEra, Index, MultiSignature, Sr25519Signature } from '../../interfaces/runtime';
+import { EcdsaSignature, Ed25519Signature, ExtrinsicEra, MultiSignature, Sr25519Signature } from '../../interfaces/extrinsics';
+import { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
 import { u8aConcat } from '@polkadot/util';
 
-import { createType } from '../../create';
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
@@ -114,8 +114,8 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      createType(this.registry, 'Address', signer),
-      createType(this.registry, 'MultiSignature', signature),
+      this.registry.createType('Address', signer),
+      this.registry.createType('MultiSignature', signature),
       new ExtrinsicPayloadV4(this.registry, payload)
     );
   }
@@ -139,9 +139,9 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    const signer = createType(this.registry, 'Address', account.publicKey);
+    const signer = this.registry.createType('Address', account.publicKey);
     const payload = this.createPayload(method, options);
-    const signature = createType(this.registry, 'MultiSignature', payload.sign(account));
+    const signature = this.registry.createType('MultiSignature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }
@@ -150,9 +150,9 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    const signer = createType(this.registry, 'Address', address);
+    const signer = this.registry.createType('Address', address);
     const payload = this.createPayload(method, options);
-    const signature = createType(this.registry, 'MultiSignature', u8aConcat(new Uint8Array([1]), new Uint8Array(64).fill(0x42)));
+    const signature = this.registry.createType('MultiSignature', u8aConcat(new Uint8Array([1]), new Uint8Array(64).fill(0x42)));
 
     return this.injectSignature(signer, signature, payload);
   }

@@ -777,7 +777,6 @@ export interface StorageHasherV4 extends Enum {
   readonly isTwox128: boolean;
   readonly isTwox256: boolean;
   readonly isTwox64Concat: boolean;
-  readonly isInvalidEntry: boolean;
 }
 
 /** @name StorageHasherV5 */

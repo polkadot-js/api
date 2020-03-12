@@ -14,7 +14,7 @@ describe('decodeResponse', (): void => {
 
   it('expects a non-empty input object', (): void => {
     expect(
-      (): any => coder.decodeResponse((undefined as any) as JsonRpcResponse)
+      (): any => coder.decodeResponse(undefined as unknown as JsonRpcResponse)
     ).toThrow(/Empty response/);
   });
 
@@ -40,6 +40,12 @@ describe('decodeResponse', (): void => {
     expect(
       (): any => coder.decodeResponse({ id: 1, jsonrpc: '2.0', error: { code: 123, message: 'test error' } } as JsonRpcResponse)
     ).toThrow(/123: test error/);
+  });
+
+  it('throws any error found, with data', (): void => {
+    expect(
+      (): any => coder.decodeResponse({ id: 1, jsonrpc: '2.0', error: { code: 123, data: 'Error("Some random error description")', message: 'test error' } } as JsonRpcResponse)
+    ).toThrow(/123: test error: Some random error description/);
   });
 
   it('returns the result', (): void => {

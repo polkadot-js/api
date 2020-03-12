@@ -26,6 +26,6 @@ import { memo } from '../util';
 export function bestNumberFinalized (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return memo((): Observable<BlockNumber> =>
     api.rpc.chain.subscribeFinalizedHeads().pipe(
-      map((header): BlockNumber => header.number.unwrap())
+      map((header) => header.number.unwrap())
     ));
 }

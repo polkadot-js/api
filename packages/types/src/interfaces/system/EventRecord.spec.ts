@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadataV0 from '@polkadot/metadata/Metadata/v0/static';
+import rpcMetadataV1 from '@polkadot/metadata/Metadata/v1/static';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
-import { createType, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
 
@@ -16,11 +16,11 @@ describe('EventRecord', (): void => {
   describe('EventRecordTo76', (): void => {
     beforeEach((): void => {
       // eslint-disable-next-line no-new
-      new Metadata(registry, rpcMetadataV0);
+      new Metadata(registry, rpcMetadataV1);
     });
 
     it('decodes correctly', (): void => {
-      const records = createType(registry, 'Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
+      const records = registry.createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
@@ -33,16 +33,16 @@ describe('EventRecord', (): void => {
       new Metadata(registry, rpcMetadata);
     });
 
-    it('decodes older eventrecord correctly', (): void => {
-      const records = createType(registry, 'Vec<EventRecord>', json1.params.result.changes[0][1], true) as any;
+    it('decodes older EventRecord correctly', (): void => {
+      const records = registry.createType('Vec<EventRecord>', json1.params.result.changes[0][1], true) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
     });
 
-    it('decodes eventrecord with topics correctly', (): void => {
+    it('decodes EventRecord with topics correctly', (): void => {
       const hex = json3.params.result.changes[0][1];
-      const records = createType(registry, 'Vec<EventRecord>', hex, true) as any;
+      const records = registry.createType('Vec<EventRecord>', hex, true) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');

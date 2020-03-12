@@ -1,18 +1,64 @@
-# 1.4.0-beta.x
+# 1.6.0-beta.x
 
-- Add support for `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
-- Add support for `api.rpc.engine.*` for manual seal support
-- Add runtime validation of number of arguments to `api.query.*`
-- Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
-- Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
-- Move `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
-- Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
-- Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
+- **Breaking change** `api.rpc.state.queryStorage(...)` now properly decodes the `Vec<StorageChangeSet>`. this means that results will come back as `[Hash, Codec[]][]` when using this RPC.
+- `StorageKey` now have an `.args` property, decoded from meta in the cases twox64concat is used on maps
+- Fix storage `.entries` type conversions to return exact types (not `Option` in some cases)
+- Full linked map retrievals will now use direct getStorage queries for faster operation
+- Underlying rpc-core interfaces now unwraps `Error("...")` when found in responses
+- Added `derive.eras*` interfaces for queries to new Substrate staking interfaces
+- Update `derive.account` to cater for new indices module storage (detected, fallbacks)
+- Adjust derive queries for session move away from module prefix (DoubleMap -> Map), detected on use
+- Add runtime validation for map arguments to `api.query.*`
+
+# 1.5.1 Mar 06, 2020
+
+- **Important** Substrate master has updated staking, on older chains supply `StakingLedger: 'StakingLedgerTo223'`
+- **Important** Substrate master has updated collective, on older chains supply `Votes: 'VotesTo230'`
+- Add proper support for type generation with an Enum containing an Tuple (Thanks to https://github.com/monitz87)
+- Fix storage parsing not resulting in rejected Promises (Fix from https://github.com/aniiantt applied)
+- Remove use of deprecated `Observable.create` (Thanks to https://github.com/Himself65)
+- Add types & metadata for the latest Polkadot/Substrate runtime versions (master branches)
+- Type extraction will now allow the same sub-module name across packages, i.e. `@polkadot/types/interfaces/runtime` & `@mine/interfaces/runtime` will be valid
+- Add `.range([from, to]: [Hash, Hash?], ...args: any[]): [Hash, Codec][]` on all storage entries
+- Add `.raw(...args: any[]): Promise<Uint8Array & Codec>` to all RPC calls, returning the un-encoded result
+- Allow pre-module type aliasing with `typesAlias: { <moduleName>: { <meta-type>: <alias-type> } }` in API construction options
+- Allow `BTreeMap` to be initialized with a `Record<string, any>` object (in addition to `Map`)
+- Allow for `HashMap<KeyType, ValueType>` definitions
+- `Bool` will now correctly return `isEmpty` on false/default values
+- Refresh the `NetworkState` types as returned by the `rpc.system.networkState()` call to current
+- Expose `registry.createClass(<typeName>)` to allow for creating type classes. If you are using `createClass` or `ClassOf` in your code, it is recommended to swap to this instance.
+- Add additional derives to `api.derive.staking` to handle lazy-payout retrievals
+- Update `@polkadot/{util, util-crypto, keyring}` to 1.6.1 & `@polkadot/wasm` to 1.2.1
+
+# 1.4.2 Feb 27, 2020
+
+- Fix `api.tx(<extrinsic>): Submittable` decoration (non-working in 1.4.1, now with proper test)
+
+# 1.4.1 Feb 26, 2020
+
+- **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features (specifically `#private`), which is not usable in TS versions < 3.8
+- **Breaking change** - `api.derive.staking.*` has updated result types and detects support for lazy payouts queries
+- Rework type generation for `api.{query, tx}` to properly handle complex type inputs (Thanks to https://github.com/monitz87)
+- Rework metadata `--strict` mode to effectively decorate chain metadata (Thanks to https://github.com/monitz87)
+- Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
+- Add `api.rpc.engine.*` for manual seal support
+- Add `api.injectMetadata(metadata)` to initialize API with a specific metadata version
+- The api now checks for runtime upgrades, augmenting the interfaces with new metadata when found
+- Support types & interfaces required for lazy reaping, lazy payouts & offchain phragmen
+- `Option` types now has an `.unwrapOrDefault` as an complement to `.unwrap` & `.unwrapOr`
+- Support JS `BigInt` inputs in any derived `UInt` and `Int` object, e.g. `api.tx.balances.transfer(..., 9876543210123456789n)`
 - `UInt` & `Int` now does source bitLength checks upon construction
-- Support for arbitrary UInt types via `UInt<bitLength>` definitions
-- Add `api.injectMetadata(metadata)` to initialize with a specific version
-- The api now checks for runtime upgrades, decorating with new metadata
-- Remove old [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
+- Registry now exposes `.createType(<type>, ...args)` as an additional helper (like the API)
+- Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
+- Move `DigestItem`, `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
+- Align construction of unknown types in `registry.get` consistently warn on detection, throw on use
+- Support for arbitrary `u*`` types via `UInt<bitLength>` type definitions
+- Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
+- Remove [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
+- Use ES `#field` on private class fields as applicable
+- Move `types/primitive/{extrinsics, generic}` to `types/{extrinsics, generic}`
+- Cleanup augmentation and generation scripts for type definitions, aligning with api augmentation
+- Bump to `@polkadot/{util, util-crypto, keyring}` 2.5.1
 
 # 1.3.1 Feb 18, 2020
 
@@ -26,8 +72,8 @@
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
 - Storage `.entries(arg?: any)` now has the correct argument type for DoubleMap (Thanks to https://github.com/monitz87)
-- Swap Kusama and Polkadot aliasses for `Address` to `AccountId` (future update)
-- Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
+- Swap Kusama and Polkadot aliases for `Address` to `AccountId` (future update)
+- Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliasing
 - Add `BitVec` type primitive
 - Add support for `system.account` for balance & nonce queries in derives as well as Submittables (Substrate composites)
 - Add `rpc.author.hasKey` and `rpc.author.hasSessionKeys` RPCs
@@ -75,7 +121,7 @@
 
 # 0.100.1 Jan 13, 2020
 
-- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chans, dependent libraries such as sr25519 may not be compatible.
+- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chains, dependent libraries such as sr25519 may not be compatible.
 - Add support for the Substrate identity module
 - Remove the `codec/Data` type, to remove a conflict with Substrate. This type is now named `Raw`
 - Fix for linked maps using `Option`
@@ -89,7 +135,7 @@
 - **Breaking change** The `Data` and `U8a` type has been renamed and just replaced with the `Raw` type
 - **Breaking change** The `api.derive.staking.info` has been split into 2 - `staking.query` for non-balance related information (more effective) and `staking.account` that enhances query for all the information previously found `.info`
 - Cleanup `DoubleMap` hashing to always hash over the full value (in the case of `Vec<T>`, this includes the length)
-- Update democracy derives to take care of nextTally and lowestU*nbaked
+- Update democracy derives to take care of nextTally and lowestUnbaked
 - Add additional derives for both council & treasury
 - Alignment with latest Polkadot/Substrate master branch types
 
@@ -144,7 +190,7 @@
 - Adjust API cloning now takes RPC filters from source into account
 - Simplification of isPedantic checks and less overhead on StorageData types
 - Cleanups and fixes around RPC and derive type definitions
-- Fix `derive.imOnline.receivedHeatbeats` to query via indexes
+- Fix `derive.imOnline.receivedHeartbeats` to query via indexes
 - Adjustment of `api.derive.elections.{approvalsOf|approvalsOfAt}` to allow ss58 address input
 - Cleanup `Enum` `.eq` handling to be more exhaustive
 - Add documentation for custom extrinsic formats (advanced chains)
@@ -178,7 +224,7 @@
 - Redeemed balance calculation if `api.derive` now returns the correct  values again (bug fix)
 - added the `yarn chain:info [--ws URL]` utility to extract a calls-only metadata version
 - Missing types are now logged via a `console.warn`, not via `.error`
-- `Extrinsic`, `ExtrinsicPayload` & `SignerPayload` is registered in the type registry and can be overriden now
+- `Extrinsic`, `ExtrinsicPayload` & `SignerPayload` is registered in the type registry and can be overridden now
   - **Breaking change** `SignerPayload` is renamed to `SignerPayloadJSON`
   - **Breaking change** `SignerPayloadJSON`, `SignerPayloadRawBase` and `SignerPayloadRaw` are all moved to `@polkadot/types`
 
@@ -204,7 +250,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 
 - Support for substrate 2.x (master) has been extended,
   - Additional types have been addedd for the modules
-  - `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
+  - `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feature detection is used so it supports both 1.x and 2.x chains)
   - Addition of `api.derive.elections`
 
 - Support latest substrate 2 v6 metadata with module constants using `api.consts`.

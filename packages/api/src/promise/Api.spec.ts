@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiOptions } from '../types';
+import { ApiOptions, SubmittableExtrinsic } from '../types';
 
 import createPair from '@polkadot/keyring/pair';
 import testKeyring from '@polkadot/keyring/testing';
 import Mock from '@polkadot/rpc-provider/mock/index';
-import { createType, TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
 import { SingleAccountSigner } from '../../test/util';
 import ApiPromise from './Api';
+
+const TRANSFER_SIG = '0x62bfcd07a9f50ba32ed9e2c41ca11267ac62a24c95949e25efdccc4989d48573f84754dbbaa1d0937ceb888ad8a2cf71daced1545a839d9d6cceac33a5771401';
 
 describe('ApiPromise', (): void => {
   const registry = new TypeRegistry();
@@ -25,6 +27,23 @@ describe('ApiPromise', (): void => {
   );
   let provider: Mock;
 
+  async function createTransfer (): Promise<{ api: ApiPromise; transfer: SubmittableExtrinsic<'promise'> }> {
+    provider.subscriptions.state_subscribeStorage.lastValue = {
+      changes: [
+        [
+          '0x26aa394eea5630e07c48ae0c9558cef79c2f82b23e5fd031fb54c292794b4cc4d560eb8d00e57357cf76492334e43bb2ecaa9f28df6a8c4426d7b6090f7ad3c9',
+          '0x00'
+        ]
+      ]
+    };
+
+    const signer = new SingleAccountSigner(registry, aliceEd);
+    const api = await ApiPromise.create({ provider, registry, signer });
+    const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321_564_789_876_512_345n);
+
+    return { api, transfer: await transfer.signAsync(aliceEd.address, {}) };
+  }
+
   beforeEach((): void => {
     jest.setTimeout(3000000);
     provider = new Mock(registry);
@@ -33,7 +52,7 @@ describe('ApiPromise', (): void => {
   describe('initialization', (): void => {
     it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
       const rpcData = await provider.send('state_getMetadata', []);
-      const genesisHash = createType(registry, 'Hash', await provider.send('chain_getBlockHash', [])).toHex();
+      const genesisHash = registry.createType('Hash', await provider.send('chain_getBlockHash', [])).toHex();
       const specVersion = 0;
       const metadata: any = {};
       const key = `${genesisHash}-${specVersion}`;
@@ -110,27 +129,18 @@ describe('ApiPromise', (): void => {
 
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
-      provider.subscriptions.state_subscribeStorage.lastValue = {
-        changes: [
-          [
-            '0x26aa394eea5630e07c48ae0c9558cef79c2f82b23e5fd031fb54c292794b4cc4d560eb8d00e57357cf76492334e43bb2ecaa9f28df6a8c4426d7b6090f7ad3c9',
-            '0x00'
-          ]
-        ]
-      };
+      const { transfer } = await createTransfer();
 
-      const signer = new SingleAccountSigner(registry, aliceEd);
-      const api = await ApiPromise.create({ provider, registry, signer });
-      const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 12345);
+      expect(transfer.signature.toHex()).toEqual(TRANSFER_SIG);
+    });
+  });
 
-      await transfer.signAsync(aliceEd.address, {});
+  describe('api.tx(...)', (): void => {
+    it('allows construction from existing extrinsic', async (): Promise<void> => {
+      const { api, transfer } = await createTransfer();
 
-      expect(transfer.signature.toHex()).toEqual(
-        // v1 extrinsic
-        // '0x6b9ccc95afbd4e916d30c65c720f4f7b70a77db545735b48a763844aa5210e695aa346686bad1224af77d00bcfbf6fc8d2c216a60731027835d5a414186a2607'
-        // v4 extrinsic
-        '0x0716cbdc3b649dad8741238bcc8e4336f859c518cf2b17a3427b2f5d0b8a79cf518da71b9ac71d92c517342e0978f297f5e05362babf5987d3f1c5ba3314af08'
-      );
+      expect(api.tx(transfer.toHex()).signature.toHex()).toEqual(TRANSFER_SIG);
+      expect(api.tx(transfer).signature.toHex()).toEqual(TRANSFER_SIG);
     });
   });
 });

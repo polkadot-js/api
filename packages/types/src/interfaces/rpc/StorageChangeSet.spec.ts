@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types';
 
 import json from '../../json/StorageChangeSet.001.json';
 
@@ -10,7 +10,7 @@ describe('StorageChangeSet', (): void => {
   const registry = new TypeRegistry();
 
   describe('construction', (): void => {
-    const set = createType(registry, 'StorageChangeSet', {
+    const set = registry.createType('StorageChangeSet', {
       block: '0x1234',
       changes: [
         ['0xab', '0xcd']
@@ -31,7 +31,7 @@ describe('StorageChangeSet', (): void => {
   });
 
   describe('json', (): void => {
-    const set = createType(registry, 'StorageChangeSet', json.params.result);
+    const set = registry.createType('StorageChangeSet', json.params.result);
 
     it('has the correct hash', (): void => {
       expect(

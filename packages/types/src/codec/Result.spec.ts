@@ -5,7 +5,7 @@
 import { hexToString } from '@polkadot/util';
 
 import { u32, Text } from '../primitive';
-import { createType, TypeRegistry } from '../create';
+import { TypeRegistry } from '../create';
 import Result from './Result';
 
 describe('Result', (): void => {
@@ -44,7 +44,20 @@ describe('Result', (): void => {
     expect(result.toHex()).toEqual('0x01146572726f72');
   });
 
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      new Result(
+        registry,
+        Text,
+        Text,
+        { Ok: foo }
+      ).asOk
+    ).toBe(foo);
+  });
+
   it('returns a proper raw typedef rom a built-in', (): void => {
-    expect(createType(registry, 'DispatchResult').toRawType()).toEqual('Result<(),{"_enum":{"Other":"Null","CannotLookup":"Null","BadOrigin":"Null","Module":"{\\"index\\":\\"u8\\",\\"error\\":\\"u8\\"}"}}>');
+    expect(registry.createType('DispatchResult').toRawType()).toEqual('Result<(),{"_enum":{"Other":"Null","CannotLookup":"Null","BadOrigin":"Null","Module":"{\\"index\\":\\"u8\\",\\"error\\":\\"u8\\"}"}}>');
   });
 });

@@ -12,7 +12,7 @@ import { Text } from '@polkadot/types/primitive';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
+import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, registerDefinitions, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {
   new: 'updated'
@@ -34,20 +34,15 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
     return [];
   }
 
-  setImports(allDefs, imports, ['SubmittableExtrinsic']);
+  setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
-  // NOTE Not removing this concat yet, first see the fallout
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     .concat(isStrict ? '' : indent(6)('[index: string]: SubmittableExtrinsicFunction<ApiType>;'))
     .concat(allCalls.map(({ args, documentation, name }): string => {
       const params = args
         .map(({ name, type }): [string, string, string] => {
           const typeStr = type.toString();
-          const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string =>
-            type.startsWith('(') || type.startsWith('{')
-              ? type
-              : formatType(allDefs, type, imports)
-          );
+          const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
           const nameStr = mapName(name);
 
           setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(') && !type.startsWith('{')), typeStr]);
@@ -64,44 +59,53 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
 }
 
 /** @internal */
-function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>, isStrict: boolean): void {
+function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>>, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes: Record<string, Record<string, { types: Record<string, any> }>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
     const imports = createImports(allTypes);
-    const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
-      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
+    const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
+      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
       return acc.concat(generateModule(registry, allDefs, mod, imports, isStrict));
     }, [] as string[]);
-    const header = createImportCode(HEADER, imports, [
-      ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-        file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
-        types: Object.keys(imports.localTypes[moduleName])
+    const header = createImportCode(HEADER('chain'), imports, [
+      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        file: packagePath,
+        types: Object.keys(imports.localTypes[packagePath])
       })),
       {
-        file: '@polkadot/api/submittable/types',
-        types: ['SubmittableExtrinsic']
+        file: '@polkadot/api/types',
+        types: ['ApiTypes', 'SubmittableExtrinsic']
       }
     ]);
     const interfaceStart = [
       "declare module '@polkadot/api/types/submittable' {",
       indent(2)('export interface AugmentedSubmittables<ApiType> {\n')
     ].join('\n');
-    const interfaceEnd = `\n${indent(2)('}')}\n}`;
+    const interfaceEnd = `\n${indent(2)('}')}\n\n`;
+    const submittableExtrinsicsInterface = indent(2)('export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {')
+      .concat('\n')
+      .concat(indent(4)('(extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;\n'))
+      .concat(isStrict ? '' : indent(4)('[index: string]: SubmittableModuleExtrinsics<ApiType>;\n'))
+      .concat(indent(2)('}\n'));
 
     return header
       .concat(interfaceStart)
       .concat(body.join('\n'))
       .concat(interfaceEnd)
+      .concat(submittableExtrinsicsInterface)
+      .concat('}')
       .concat(FOOTER);
   });
 }
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateTx (dest = 'packages/api/src/types/augment/tx.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}, isStrict = false): void {
+export default function generateTx (dest = 'packages/api/src/augment/tx.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
   const registry = new TypeRegistry();
+
+  registerDefinitions(registry, extraTypes);
 
   return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes, isStrict);
 }

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtUInt, TypeDefExtVecFixed } from '../../create/types';
+import { TypeDef, TypeDefInfo } from '../../create/types';
 
-import { assert } from '@polkadot/util';
+import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 export const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
@@ -27,6 +27,7 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
     case TypeDefInfo.BTreeMap:
     case TypeDefInfo.BTreeSet:
     case TypeDefInfo.Compact:
+    case TypeDefInfo.HashMap:
     case TypeDefInfo.Linkage:
     case TypeDefInfo.Option:
     case TypeDefInfo.Result:
@@ -103,20 +104,16 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
   })`;
 }
 
-function encodeUInt (typeDef: Pick<TypeDef, any>, type: 'Int' | 'UInt'): string {
-  assert(typeDef.ext, 'Unable to encode VecFixed type');
-
-  const { length } = typeDef.ext as TypeDefExtUInt;
+function encodeUInt ({ length }: Pick<TypeDef, any>, type: 'Int' | 'UInt'): string {
+  assert(isNumber(length), 'Unable to encode VecFixed type');
 
   return `${type}<${length}>`;
 }
 
-function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
-  assert(typeDef.ext, 'Unable to encode VecFixed type');
+function encodeVecFixed ({ length, sub }: Pick<TypeDef, any>): string {
+  assert(isNumber(length) && !isUndefined(sub), 'Unable to encode VecFixed type');
 
-  const { type, length } = typeDef.ext as TypeDefExtVecFixed;
-
-  return `[${type};${length}]`;
+  return `[${sub.type};${length}]`;
 }
 
 // We setup a record here to ensure we have comprehensive coverage (any item not covered will result
@@ -126,6 +123,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeSet]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeSet'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
+  [TypeDefInfo.HashMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'HashMap'),
   [TypeDefInfo.Int]: (typeDef: TypeDef): string => encodeUInt(typeDef, 'Int'),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

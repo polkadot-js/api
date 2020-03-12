@@ -49,7 +49,7 @@ describe('Option', (): void => {
     // Option<Option<Bytes>> (hence the length, since it is from storage)
     const HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
 
-    // whatc the hex prefix and length
+    // watch the hex prefix and length
     expect(
       new Option(registry, Bytes, HEX).toHex().substr(6)
     ).toEqual(HEX.substr(2));
@@ -59,8 +59,16 @@ describe('Option', (): void => {
     const HEX = '0x12345678';
 
     expect(
-      (new Option(registry, U32, HEX).unwrap() as U32).toNumber()
+      new Option(registry, U32, HEX).unwrap().toNumber()
     ).toEqual(0x12345678);
+  });
+
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      (new Option(registry, Text, foo)).value
+    ).toBe(foo);
   });
 
   testDecode('string (with)', 'foo', 'foo');
@@ -97,22 +105,30 @@ describe('Option', (): void => {
   });
 
   describe('utils', (): void => {
-    const testeq = new Option(registry, Text, '1234');
+    const test = new Option(registry, Text, '1234');
 
     it('compares against other option', (): void => {
-      expect(testeq.eq(new Option(registry, Text, '1234'))).toBe(true);
+      expect(test.eq(new Option(registry, Text, '1234'))).toBe(true);
     });
 
     it('compares against raw value', (): void => {
-      expect(testeq.eq('1234')).toBe(true);
+      expect(test.eq('1234')).toBe(true);
     });
 
-    it('unwraps to default if empty', (): void => {
-      expect(new Option(registry, Text).unwrapOr('6789')).toBe('6789');
+    it('unwrapOr to specified if empty', (): void => {
+      expect(new Option(registry, Text).unwrapOr('6789').toString()).toEqual('6789');
     });
 
-    it('unwraps to value if non-empty', (): void => {
-      expect((new Option(registry, Text, '1234').unwrapOr(null) as Text).toString()).toBe('1234');
+    it('unwrapOr to specified if non-empty', (): void => {
+      expect(new Option(registry, Text, '1234').unwrapOr(null)?.toString()).toEqual('1234');
+    });
+
+    it('unwrapOrDefault to default if empty', (): void => {
+      expect(new Option(registry, U32).unwrapOrDefault().toNumber()).toEqual(0);
+    });
+
+    it('unwrapOrDefault to specified if non-empty', (): void => {
+      expect(new Option(registry, U32, '1234').unwrapOrDefault().toNumber()).toEqual(1234);
     });
   });
 });

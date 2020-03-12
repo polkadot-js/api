@@ -3,13 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { AnyJsonObject, Registry } from '@polkadot/types/types';
-
-import { createType } from '@polkadot/types/create';
+import { AnyJson, Registry } from '@polkadot/types/types';
 
 /** @internal */
-export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJsonObject | string {
-  return createType(registry, 'MetadataLatest', {
+export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJson {
+  return registry.createType('MetadataLatest', {
     // FIXME, this needs typing, not any
     modules: modules.map(({ calls, name }): any => ({
       name,

@@ -14,13 +14,12 @@ const primitiveClasses = {
 };
 
 /** @internal */
-export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string): void {
+export function generateInterfaceTypes (importDefinitions: { [importPath: string]: object }, dest: string): void {
   writeFile(dest, (): string => {
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions;
-
     const primitives = Object
       .keys(primitiveClasses)
       .filter((name): boolean => !!name.indexOf('Generic'))
@@ -29,7 +28,7 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 
         return [
           accumulator,
-          getDerivedTypes(definitions, primitiveName, primitiveName, imports).map(indent(2)).join('\n')
+          getDerivedTypes(definitions, primitiveName, primitiveName, imports).map(indent(4)).join('\n')
         ].join('\n');
       }, '');
 
@@ -40,20 +39,20 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
       return [
         accumulator,
         ...Object.keys(types).map((type): string =>
-          getDerivedTypes(definitions, type, types[type], imports).map(indent(2)).join('\n')
+          getDerivedTypes(definitions, type, types[type], imports).map(indent(4)).join('\n')
         )
       ].join('\n');
     }, '');
 
-    const header = createImportCode(HEADER, imports, [
-      ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-        file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
-        types: Object.keys(imports.localTypes[moduleName])
+    const header = createImportCode(HEADER('defs'), imports, [
+      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        file: packagePath,
+        types: Object.keys(imports.localTypes[packagePath])
       }))
     ]);
 
-    const interfaceStart = 'export interface InterfaceRegistry {';
-    const interfaceEnd = '\n}';
+    const interfaceStart = "declare module '@polkadot/types/types/registry' {\n  export interface InterfaceTypes {";
+    const interfaceEnd = '\n  }\n}';
 
     return header
       .concat(interfaceStart)
@@ -65,9 +64,9 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 }
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
-export default function generateDefaultInterfaceRegistry (): void {
-  generateInterfaceRegistry(
+export default function generateDefaultInterfaceTypes (): void {
+  generateInterfaceTypes(
     { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/types/src/interfaceRegistry.ts'
+    'packages/types/src/augment/registry.ts'
   );
 }

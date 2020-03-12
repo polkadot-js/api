@@ -2,26 +2,40 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+const deprecated = {
+  Points: 'u32',
+  EraPoints: {
+    total: 'Points',
+    individual: 'Vec<Points>'
+  }
+};
+
 export default {
   types: {
-    CompactAssignments: {
-      votes1: 'Vec<(AccountId, AccountId)>',
-      votes2: 'Vec<(AccountId, (AccountId, u128), AccountId)>',
-      votes3: 'Vec<(AccountId, [(AccountId, u128); 2], AccountId)>',
-      votes4: 'Vec<(AccountId, [(AccountId, u128); 3], AccountId)>',
-      votes5: 'Vec<(AccountId, [(AccountId, u128); 4], AccountId)>',
-      votes6: 'Vec<(AccountId, [(AccountId, u128); 5], AccountId)>',
-      votes7: 'Vec<(AccountId, [(AccountId, u128); 6], AccountId)>',
-      votes8: 'Vec<(AccountId, [(AccountId, u128); 7], AccountId)>',
-      votes9: 'Vec<(AccountId, [(AccountId, u128); 8], AccountId)>',
-      votes10: 'Vec<(AccountId, [(AccountId, u128); 9], AccountId)>',
-      votes11: 'Vec<(AccountId, [(AccountId, u128); 10], AccountId)>',
-      votes12: 'Vec<(AccountId, [(AccountId, u128); 11], AccountId)>',
-      votes13: 'Vec<(AccountId, [(AccountId, u128); 12], AccountId)>',
-      votes14: 'Vec<(AccountId, [(AccountId, u128); 13], AccountId)>',
-      votes15: 'Vec<(AccountId, [(AccountId, u128); 14], AccountId)>',
-      votes16: 'Vec<(AccountId, [(AccountId, u128); 15], AccountId)>',
+    ...deprecated,
+    ActiveEraInfo: {
+      index: 'EraIndex',
+      start: 'Option<Moment>'
     },
+    CompactAssignments: {
+      votes1: 'Vec<(AccountId, [CompactScore; 0], AccountId)>',
+      votes2: 'Vec<(AccountId, [CompactScore; 1], AccountId)>',
+      votes3: 'Vec<(AccountId, [CompactScore; 2], AccountId)>',
+      votes4: 'Vec<(AccountId, [CompactScore; 3], AccountId)>',
+      votes5: 'Vec<(AccountId, [CompactScore; 4], AccountId)>',
+      votes6: 'Vec<(AccountId, [CompactScore; 5], AccountId)>',
+      votes7: 'Vec<(AccountId, [CompactScore; 6], AccountId)>',
+      votes8: 'Vec<(AccountId, [CompactScore; 7], AccountId)>',
+      votes9: 'Vec<(AccountId, [CompactScore; 8], AccountId)>',
+      votes10: 'Vec<(AccountId, [CompactScore; 9], AccountId)>',
+      votes11: 'Vec<(AccountId, [CompactScore; 10], AccountId)>',
+      votes12: 'Vec<(AccountId, [CompactScore; 11], AccountId)>',
+      votes13: 'Vec<(AccountId, [CompactScore; 12], AccountId)>',
+      votes14: 'Vec<(AccountId, [CompactScore; 13], AccountId)>',
+      votes15: 'Vec<(AccountId, [CompactScore; 14], AccountId)>',
+      votes16: 'Vec<(AccountId, [CompactScore; 15], AccountId)>'
+    },
+    CompactScore: '(AccountId, u128)',
     ElectionCompute: {
       _enum: ['OnChain', 'Signed', 'Authority']
     },
@@ -38,9 +52,9 @@ export default {
       }
     },
     EraIndex: 'u32',
-    EraPoints: {
-      total: 'Points',
-      individual: 'Vec<Points>'
+    EraRewardPoints: {
+      total: 'RewardPoint',
+      individual: 'BTreeMap<AccountId, RewardPoint>'
     },
     EraRewards: {
       total: 'u32',
@@ -72,6 +86,9 @@ export default {
     },
     PhragmenScore: '[u128; 3]',
     Points: 'u32',
+    ReleasesStaking: {
+      _enum: ['V1_0_0', 'V2_0_0']
+    },
     RewardDestination: {
       _enum: [
         'Staked',
@@ -79,6 +96,7 @@ export default {
         'Controller'
       ]
     },
+    RewardPoint: 'u32',
     SlashJournalEntry: {
       who: 'AccountId',
       amount: 'Balance',
@@ -100,11 +118,19 @@ export default {
       slashed: 'Balance',
       paidOut: 'Balance'
     },
-    StakingLedger: {
+    StakingLedgerTo223: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>'
+    },
+    // TODO Enable as default when new staking payouts go live
+    StakingLedger: {
+      stash: 'AccountId',
+      total: 'Compact<Balance>',
+      active: 'Compact<Balance>',
+      unlocking: 'Vec<UnlockChunk>',
+      lastReward: 'Option<EraIndex>'
     },
     UnappliedSlashOther: '(AccountId, Balance)',
     UnappliedSlash: {

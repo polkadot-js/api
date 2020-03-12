@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
 import { getTypeDef } from '@polkadot/types/create';
 import { paramsNotation } from '@polkadot/types/codec/utils';
 
 import { setImports, TypeImports } from './imports';
 
-export const HEADER = '// Auto-generated via `yarn polkadot-types-from-defs`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
+export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n`;
 export const FOOTER = '\n';
 
 const TYPES_NON_PRIMITIVE = ['Metadata'];
@@ -98,6 +98,14 @@ function formatCompact (inner: string): string {
 }
 
 /**
+ * Given the inner `K` & `V`, return a `BTreeMap<K, V>`  string
+ */
+/** @internal */
+function formatHashMap (key: string, val: string): string {
+  return `HashMap<${key}, ${val}>`;
+}
+
+/**
  * Given the inner `O` & `E`, return a `Result<O, E>`  string
  */
 /** @internal */
@@ -137,6 +145,12 @@ export function formatType (definitions: object, type: string | TypeDef, imports
   let typeDef: TypeDef;
 
   if (typeof type === 'string') {
+    // If type is "unorthodox" (i.e. `{ something: any }` for an Enum input or `[a | b | c, d | e | f]` for a Tuple's similar types),
+    // we return it as-is
+    if (/(^{.+:.+})|^\([^,]+\)|^\(.+\)\[\]|^\[.+\]/.exec(type) && !/\[\w+;\w+\]/.exec(type)) {
+      return type;
+    }
+
     typeDef = getTypeDef(type);
   } else {
     typeDef = type;
@@ -144,13 +158,16 @@ export function formatType (definitions: object, type: string | TypeDef, imports
 
   setImports(definitions, imports, [typeDef.type]);
 
+  // FIXME Swap to Record<TypeDefInfo, fn> to check all types
   switch (typeDef.info) {
     case TypeDefInfo.Compact: {
       setImports(definitions, imports, ['Compact']);
+
       return formatCompact(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Option: {
       setImports(definitions, imports, ['Option']);
+
       return formatOption(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Plain: {
@@ -158,6 +175,7 @@ export function formatType (definitions: object, type: string | TypeDef, imports
     }
     case TypeDefInfo.Vec: {
       setImports(definitions, imports, ['Vec']);
+
       return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Tuple: {
@@ -170,32 +188,48 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       );
     }
     case TypeDefInfo.VecFixed: {
-      if ((typeDef.ext as TypeDefExtVecFixed).type === 'u8') {
+      const type = (typeDef.sub as TypeDef).type;
+
+      if (type === 'u8') {
         setImports(definitions, imports, ['U8aFixed']);
 
         return 'U8aFixed';
       }
 
       setImports(definitions, imports, ['Vec']);
-      return formatVec(formatType(definitions, (typeDef.ext as TypeDefExtVecFixed).type, imports));
+
+      return formatVec(formatType(definitions, type, imports));
     }
     case TypeDefInfo.BTreeMap: {
       setImports(definitions, imports, ['BTreeMap']);
+
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
+
       return formatBTreeMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
     }
     case TypeDefInfo.BTreeSet: {
       setImports(definitions, imports, ['BTreeSet']);
+
       const valDef = typeDef.sub as TypeDef;
+
       return formatBTreeSet(formatType(definitions, valDef.type, imports));
+    }
+    case TypeDefInfo.HashMap: {
+      setImports(definitions, imports, ['HashMap']);
+
+      const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
+
+      return formatHashMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
     }
     case TypeDefInfo.Result: {
       setImports(definitions, imports, ['Result']);
+
       const [okDef, errorDef] = (typeDef.sub as TypeDef[]);
+
       return formatResult(formatType(definitions, okDef.type, imports), formatType(definitions, errorDef.type, imports));
     }
     default: {
-      throw new Error(`Cannot format ${type}.`);
+      throw new Error(`Cannot format ${JSON.stringify(type)}`);
     }
   }
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ClassOf, Metadata, TypeRegistry } from '@polkadot/types';
+import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import rpcMetadata from '../../../Metadata/static';
 import fromMetadata from '../fromMetadata';
@@ -14,7 +14,7 @@ const consts = fromMetadata(registry, metadata);
 
 describe('fromMetadata', (): void => {
   it('should return constants with the correct type and value', (): void => {
-    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(ClassOf(registry, 'BlockNumber'));
+    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
     // 3 second blocks, 28 days
     expect(consts.democracy.cooloffPeriod.toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
   });

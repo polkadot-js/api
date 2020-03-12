@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
-import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/types/interfaces/runtime';
+import { Enum, HashMap, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Bytes, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Balance, BlockNumber, DispatchClass, Hash, StorageData, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApiId */
 export interface ApiId extends U8aFixed {}
@@ -60,6 +60,53 @@ export interface KeyValueOption extends ITuple<[StorageKey, Option<StorageData>]
 /** @name NetworkState */
 export interface NetworkState extends Struct {
   readonly peerId: Text;
+  readonly listenedAddresses: Vec<Text>;
+  readonly externalAddresses: Vec<Text>;
+  readonly connectedPeers: HashMap<Text, Peer>;
+  readonly notConnectedPeers: HashMap<Text, NotConnectedPeer>;
+  readonly averageDownloadPerSec: u64;
+  readonly averageUploadPerSec: u64;
+  readonly peerset: NetworkStatePeerset;
+}
+
+/** @name NetworkStatePeerset */
+export interface NetworkStatePeerset extends Struct {
+  readonly messageQueue: u64;
+  readonly nodes: HashMap<Text, NetworkStatePeersetInfo>;
+}
+
+/** @name NetworkStatePeersetInfo */
+export interface NetworkStatePeersetInfo extends Struct {
+  readonly connected: bool;
+  readonly reputation: u64;
+}
+
+/** @name NotConnectedPeer */
+export interface NotConnectedPeer extends Struct {
+  readonly knownAddresses: Vec<Text>;
+  readonly latestPingTime: Option<PeerPing>;
+  readonly versionString: Option<Text>;
+}
+
+/** @name Peer */
+export interface Peer extends Struct {
+  readonly enabled: bool;
+  readonly endpoint: PeerEndpoint;
+  readonly knownAddresses: Vec<Text>;
+  readonly latestPingTime: PeerPing;
+  readonly open: bool;
+  readonly versionString: Text;
+}
+
+/** @name PeerEndpoint */
+export interface PeerEndpoint extends Struct {
+  readonly listening: PeerEndpointAddr;
+}
+
+/** @name PeerEndpointAddr */
+export interface PeerEndpointAddr extends Struct {
+  readonly localAddr: Text;
+  readonly sendBackAddr: Text;
 }
 
 /** @name PeerInfo */
@@ -69,6 +116,12 @@ export interface PeerInfo extends Struct {
   readonly protocolVersion: u32;
   readonly bestHash: Hash;
   readonly bestNumber: BlockNumber;
+}
+
+/** @name PeerPing */
+export interface PeerPing extends Struct {
+  readonly nanos: u64;
+  readonly secs: u64;
 }
 
 /** @name RpcMethods */

@@ -17,6 +17,14 @@ describe('VecFixed', (): void => {
     it('constructs via Uint8Array', (): void => {
       expect(new VecFixed(registry, Text, 2, new Uint8Array([0x00, 0x04, 0x31])).toHex()).toEqual('0x000431');
     });
+
+    it('decodes reusing instanciated inputs', (): void => {
+      const foo = new Text(registry, 'bar');
+
+      expect(
+        (new VecFixed(registry, Text, 1, [foo]))[0]
+      ).toBe(foo);
+    });
   });
 
   describe('utils', (): void => {

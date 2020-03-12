@@ -214,25 +214,21 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
   /** @internal */
   // eslint-disable-next-line @typescript-eslint/ban-types
   private static decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (!value) {
-      return new Uint8Array([0]);
-    } else if (value instanceof ExtrinsicEra) {
+    if (value instanceof ExtrinsicEra) {
       return ExtrinsicEra.decodeExtrinsicEra(value.toU8a());
     } else if (isHex(value)) {
       return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
-    } else if (isU8a(value)) {
-      return (!value.length || value[0] === 0)
+    } else if (!value || isU8a(value)) {
+      return (!value?.length || value[0] === 0)
         ? new Uint8Array([0])
         : new Uint8Array([1, value[0], value[1]]);
     } else if (isObject(value)) {
       // this is to de-serialize from JSON
-      if ((value as MortalEnumDef).MortalEra) {
-        return { MortalEra: (value as MortalEnumDef).MortalEra };
-      } else if ((value as ImmortalEnumDef).ImmortalEra) {
-        return { ImmortalEra: (value as ImmortalEnumDef).ImmortalEra };
-      }
-
-      return { MortalEra: value };
+      return (value as MortalEnumDef).MortalEra
+        ? { MortalEra: (value as MortalEnumDef).MortalEra }
+        : (value as ImmortalEnumDef).ImmortalEra
+          ? { ImmortalEra: (value as ImmortalEnumDef).ImmortalEra }
+          : { MortalEra: value };
     }
 
     throw new Error('Invalid data passed to Era');
@@ -242,11 +238,9 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Override the encoded length method
    */
   public get encodedLength (): number {
-    if (this.index === 0) {
-      return this.asImmortalEra.encodedLength;
-    } else {
-      return this.asMortalEra.encodedLength;
-    }
+    return this.isImmortalEra
+      ? this.asImmortalEra.encodedLength
+      : this.asMortalEra.encodedLength;
   }
 
   /**

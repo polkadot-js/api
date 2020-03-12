@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefExtUInt, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { TypeDef, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -34,12 +34,16 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
 //   { _set: { A: 0b0001, B: 0b0010, C: 0b0100 } }
 function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
   value.info = TypeDefInfo.Set;
-  value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
-    index,
-    info: TypeDefInfo.Plain,
-    name,
-    type: name
-  }));
+  value.length = details._bitLength;
+  value.sub = Object
+    .entries(details)
+    .filter(([name]): boolean => !name.startsWith('_'))
+    .map(([name, index]): TypeDef => ({
+      index,
+      info: TypeDefInfo.Plain,
+      name,
+      type: name
+    }));
 
   return value;
 }
@@ -56,7 +60,10 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
     return _decodeSet(value, parsed[keys[0]]);
   }
 
-  value.sub = keys.map((name): TypeDef =>
+  value.alias = parsed._alias
+    ? new Map(Object.entries(parsed._alias))
+    : undefined;
+  value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     getTypeDef(parsed[name], { name })
   );
@@ -67,13 +74,16 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
 // decode a fixed vector, e.g. [u8;32]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
-  const [vecType, _vecLen, rawName] = type.substr(1, type.length - 2).split(';');
-  const vecLen = parseInt(_vecLen.trim(), 10);
+  const [vecType, strLength, displayName] = type.substr(1, type.length - 2).split(';');
+  const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
-  assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
+  assert(length <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
-  value.ext = { length: vecLen, rawName, type: vecType } as TypeDefExtVecFixed;
+  value.displayName = displayName;
+  value.length = length;
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  value.sub = getTypeDef(vecType);
 
   return value;
 }
@@ -93,13 +103,14 @@ function _decodeTuple (value: TypeDef, _: string, subType: string): TypeDef {
 // decode a Int/UInt<bitLength[, name]>
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UInt' = 'Int'): TypeDef {
-  const [strLength, typeName] = type.substr(clazz.length + 1, type.length - clazz.length - 1 - 1).split(',');
+  const [strLength, displayName] = type.substr(clazz.length + 1, type.length - clazz.length - 1 - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
   assert(length <= 8192 && (length % 8) === 0, `${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
 
-  value.ext = { length, typeName } as TypeDefExtUInt;
+  value.displayName = displayName;
+  value.length = length;
 
   return value;
 }
@@ -124,6 +135,7 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['(', ')', TypeDefInfo.Tuple, _decodeTuple],
   // the inner for these are the same as tuple, multiple values
   ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
+  ['HashMap<', '>', TypeDefInfo.HashMap, _decodeTuple],
   ['Int<', '>', TypeDefInfo.Int, _decodeInt],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
   ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt]

@@ -3,8 +3,8 @@
 
 import { Enum, Struct } from '@polkadot/types/codec';
 import { u32 } from '@polkadot/types/primitive';
-import { BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
+import { AccountId, BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name Conviction */
 export interface Conviction extends Enum {
@@ -22,6 +22,12 @@ export interface PropIndex extends u32 {}
 
 /** @name Proposal */
 export interface Proposal extends Call {}
+
+/** @name ProxyState */
+export interface ProxyState extends Struct {
+  readonly Open: AccountId;
+  readonly Active: AccountId;
+}
 
 /** @name ReferendumIndex */
 export interface ReferendumIndex extends u32 {}

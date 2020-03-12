@@ -24,7 +24,7 @@ async function main () {
   const keyring = testKeyring.default();
 
   // Get the nonce for the admin key
-  const [nonce] = await api.query.system.account(ALICE);
+  const { nonce } = await api.query.system.account(ALICE);
 
   // Find the actual keypair in the keyring
   const alicePair = keyring.getPair(ALICE);
@@ -40,13 +40,15 @@ async function main () {
     .signAndSend(alicePair, { nonce }, ({ events = [], status }) => {
       console.log('Transaction status:', status.type);
 
-      if (status.isFinalized) {
-        console.log('Completed at block hash', status.asFinalized.toHex());
+      if (status.isInBlock) {
+        console.log('Included at block hash', status.asInBlock.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {
           console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
         });
+      } else if (status.isFinalized) {
+        console.log('Finalized block hash', status.asFinalized.toHex());
 
         process.exit(0);
       }

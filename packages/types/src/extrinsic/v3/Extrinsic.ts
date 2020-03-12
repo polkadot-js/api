@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Call, ExtrinsicSignatureV3 } from '../../interfaces/runtime';
+import { ExtrinsicSignatureV3 } from '../../interfaces/extrinsics';
+import { Address, Call } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
-import { createType, ClassOf } from '../../create';
 import Struct from '../../codec/Struct';
 
 const TRANSACTION_VERSION = 3;
@@ -35,12 +35,12 @@ export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV3, isSigned = false): ExtrinsicValueV3 {
     if (value instanceof ExtrinsicV3) {
       return value;
-    } else if (value instanceof ClassOf(registry, 'Call')) {
+    } else if (value instanceof registry.createClass('Call')) {
       return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = createType(registry, 'ExtrinsicSignatureV3', value, { isSigned });
-      const method = createType(registry, 'Call', value.subarray(signature.encodedLength));
+      const signature = registry.createType('ExtrinsicSignatureV3', value, { isSigned });
+      const method = registry.createType('Call', value.subarray(signature.encodedLength));
 
       return {
         method,

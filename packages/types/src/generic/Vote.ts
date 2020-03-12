@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, ArrayElementType, Registry } from '../types';
+import { AnyJson, ArrayElementType, Registry } from '../types';
 import democracyDef from '../interfaces/democracy/definitions';
 import { Conviction } from '../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 
-import { createType } from '../create';
 import U8aFixed from '../codec/U8aFixed';
 import Bool from '../primitive/Bool';
 
@@ -42,9 +41,7 @@ function decodeVoteU8a (value: Uint8Array): Uint8Array {
 
 /** @internal */
 function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
-  if (isUndefined(value)) {
-    return decodeVoteBool(false);
-  } else if (value instanceof Boolean || isBoolean(value)) {
+  if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
     return decodeVoteBool(new Bool(registry, value).isTrue);
   } else if (isNumber(value)) {
     return decodeVoteBool(value < 0);
@@ -53,7 +50,7 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
   }
 
   const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
-  const conviction = createType(registry, 'Conviction', isUndefined(value.conviction) ? DEF_CONV : value.conviction);
+  const conviction = registry.createType('Conviction', isUndefined(value.conviction) ? DEF_CONV : value.conviction);
 
   return new Uint8Array([vote | conviction.index]);
 }
@@ -77,7 +74,7 @@ export default class Vote extends U8aFixed {
     super(registry, decoded, 8);
 
     this._aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this._conviction = createType(this.registry, 'Conviction', decoded[0] & CON_MASK);
+    this._conviction = this.registry.createType('Conviction', decoded[0] & CON_MASK);
   }
 
   /**
@@ -104,7 +101,7 @@ export default class Vote extends U8aFixed {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): AnyJsonObject {
+  public toHuman (isExpanded?: boolean): AnyJson {
     return {
       vote: this.isAye ? 'Aye' : 'Nay',
       conviction: this.conviction.toHuman(isExpanded)

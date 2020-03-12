@@ -61,6 +61,14 @@ describe('Vec', (): void => {
     expect(vector.Type).toEqual('Text');
   });
 
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      (new Vec(registry, Text, [foo]))[0]
+    ).toBe(foo);
+  });
+
   it('decodes a complex type via construction', (): void => {
     const test = createTypeUnsafe(registry, 'Vec<(PropIndex, AccountId)>', [new Uint8Array([
       4, 10, 0, 0, 0, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79

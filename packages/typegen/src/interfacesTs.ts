@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import generateConstsTypes from './generate/consts';
-import generateInterfaceRegistry from './generate/interfaceRegistry';
+import generateInterfaceTypes from './generate/interfaceRegistry';
 import generateQueryTypes from './generate/query';
 import generateRpcTypes from './generate/rpc';
 import generateTsDef from './generate/tsDef';
 import generateTxTypes from './generate/tx';
 
 export default function main (): void {
-  generateInterfaceRegistry();
+  generateInterfaceTypes();
 
   generateConstsTypes();
   generateQueryTypes();

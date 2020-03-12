@@ -19,17 +19,20 @@ const keyring = testingPairs({ type: 'ed25519' }, false);
 new Metadata(registry, metadataStatic);
 
 describe('ExtrinsicV4', (): void => {
-  it('constructs a sane Uint8Array (default)', (): void => {
+  it.only('constructs a sane Uint8Array (default)', (): void => {
     expect(
       new Extrinsic(registry).toU8a()
-    ).toEqual(new Uint8Array([0, 0]));
+    ).toEqual(new Uint8Array([
+      0, 0, // index
+      0, 0, 0, 0 // fillBlock Perbill
+    ]));
   });
 
   it('creates a unsigned extrinsic', (): void => {
     expect(
       new Extrinsic(
         registry,
-        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
+        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969n)
       ).toHex()
     ).toEqual(
       '0x' +
@@ -44,7 +47,7 @@ describe('ExtrinsicV4', (): void => {
     expect(
       new Extrinsic(
         registry,
-        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
+        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969n)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',

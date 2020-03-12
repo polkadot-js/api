@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadataLatest } from '../interfaces/metadata/types';
-import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index, Sr25519Signature } from '../interfaces/runtime';
-import { ArgsDef, AnyJsonObject, AnyU8a, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../types';
+import { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
+import { Address, Balance, Call, Index } from '../interfaces/runtime';
+import { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { createType, ClassOf } from '../create';
 import Base from '../codec/Base';
 import Compact from '../codec/Compact';
 import { ExtrinsicValueV1 } from './v1/Extrinsic';
@@ -28,7 +28,7 @@ interface CreateOptions {
 type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
 
-const VERSIONS: InterfaceTypes[] = [
+const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicV1',
   'ExtrinsicV2',
@@ -38,64 +38,7 @@ const VERSIONS: InterfaceTypes[] = [
 
 export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
-/**
- * @name GenericExtrinsic
- * @description
- * Representation of an Extrinsic in the system. It contains the actual call,
- * (optional) signature and encodes with an actual length prefix
- *
- * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
- *
- * Can be:
- * - signed, to create a transaction
- * - left as is, to create an inherent
- */
-export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> implements IExtrinsic {
-  constructor (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
-    super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
-  }
-
-  /** @internal */
-  private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (value instanceof Extrinsic) {
-      return value.raw;
-    }
-
-    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
-
-    // we cast here since the VERSION definition is incredibly broad - we don't have a
-    // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return createType(registry, type, value, { isSigned, version }) as ExtrinsicVx;
-  }
-
-  /** @internal */
-  public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
-    if (isU8a(value) || Array.isArray(value) || isHex(value)) {
-      return Extrinsic.decodeU8a(registry, u8aToU8a(value), version);
-    } else if (value instanceof ClassOf(registry, 'Call')) {
-      return Extrinsic.newFromValue(registry, { method: value }, version);
-    }
-
-    return Extrinsic.newFromValue(registry, value, version);
-  }
-
-  /** @internal */
-  private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (!value.length) {
-      return Extrinsic.newFromValue(registry, new Uint8Array(), version);
-    }
-
-    const [offset, length] = Compact.decodeU8a(value);
-    const total = offset + length.toNumber();
-
-    assert(total <= value.length, `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
-
-    const data = value.subarray(offset, total);
-
-    return Extrinsic.newFromValue(registry, data.subarray(1), data[0]);
-  }
-
+abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
@@ -214,6 +157,65 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   public get version (): number {
     return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
   }
+}
+
+/**
+ * @name GenericExtrinsic
+ * @description
+ * Representation of an Extrinsic in the system. It contains the actual call,
+ * (optional) signature and encodes with an actual length prefix
+ *
+ * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
+ *
+ * Can be:
+ * - signed, to create a transaction
+ * - left as is, to create an inherent
+ */
+export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
+  constructor (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
+    super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
+  }
+
+  /** @internal */
+  private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+    if (value instanceof Extrinsic) {
+      return value.raw;
+    }
+
+    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
+    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
+
+    // we cast here since the VERSION definition is incredibly broad - we don't have a
+    // slice for "only add extrinsic types", and more string definitions become unwieldy
+    return registry.createType(type, value, { isSigned, version }) as ExtrinsicVx;
+  }
+
+  /** @internal */
+  public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+    if (isU8a(value) || Array.isArray(value) || isHex(value)) {
+      return Extrinsic.decodeU8a(registry, u8aToU8a(value), version);
+    } else if (value instanceof registry.createClass('Call')) {
+      return Extrinsic.newFromValue(registry, { method: value }, version);
+    }
+
+    return Extrinsic.newFromValue(registry, value, version);
+  }
+
+  /** @internal */
+  private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+    if (!value.length) {
+      return Extrinsic.newFromValue(registry, new Uint8Array(), version);
+    }
+
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    const data = value.subarray(offset, total);
+
+    return Extrinsic.newFromValue(registry, data.subarray(1), data[0]);
+  }
 
   /**
    * @description Injects an already-generated signature into the extrinsic
@@ -252,9 +254,9 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): AnyJsonObject {
+  public toHuman (isExpanded?: boolean): AnyJson {
     return {
-      call: this.method.toHuman(isExpanded),
+      method: this.method.toHuman(isExpanded),
       isSigned: this.isSigned,
       ...(this.isSigned
         ? {
@@ -289,7 +291,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
    */
   public toU8a (isBare?: boolean): Uint8Array {
     // we do not apply bare to the internal values, rather this only determines out length addition,
-    // where we strip all lengths this creates an un-decodable extrinsic
+    // where we strip all lengths this creates an extrinsic that cannot be decoded
     const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a());
 
     return isBare

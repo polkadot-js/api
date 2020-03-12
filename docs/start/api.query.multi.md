@@ -11,7 +11,7 @@ Where possible, the use of multi queries are encouraged since it tracks a number
 
 // Subscribe to balance changes for 2 accounts, ADDR1 & ADDR2 (already defined)
 const unsub = await api.query.system.account.multi([ADDR1, ADDR2], (balances) => {
-  const [[, balance1], [, balance2]] = balances;
+  const [{ data: balance1 }, { data: balance2 }] = balances;
 
   console.log(`The balances are ${balance1.free} and ${balance2.free}`);
 });
@@ -44,7 +44,7 @@ The previous `.multi` examples assumes that we do queries for the same types, i.
 const unsub = await api.queryMulti([
   api.query.timestamp.now,
   [api.query.system.account, ADDR]
-], ([now, [nonce, balance]]) => {
+], ([now, { nonce, data: balance }]) => {
   console.log(`${now}: balance of ${balance.free} and a nonce of ${nonce}`);
 });
 ```

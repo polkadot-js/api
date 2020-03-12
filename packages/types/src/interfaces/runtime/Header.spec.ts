@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { createType, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 import json1 from '../../json/Header.001.json';
 import json2 from '../../json/Header.002.json';
 import json3 from '../../json/Header.003.json';
@@ -15,7 +15,7 @@ describe('Header', (): void => {
   const registry = new TypeRegistry();
 
   it('decodes an actual JSON response', (): void => {
-    const header = createType(registry, 'Header', json1.result);
+    const header = registry.createType('Header', json1.result);
 
     expect(
       header.number.toNumber()
@@ -35,7 +35,7 @@ describe('Header', (): void => {
   });
 
   it('parses old-style JSON headers (deprecated)', (): void => {
-    const header = createType(registry, 'Header', json2.result);
+    const header = registry.createType('Header', json2.result);
 
     expect(
       header.digest.logs
@@ -43,7 +43,7 @@ describe('Header', (): void => {
   });
 
   it('creates a valid hash (incl. digest & compact)', (): void => {
-    const header = createType(registry, 'Header', json3.result);
+    const header = registry.createType('Header', json3.result);
 
     expect(
       header.hash.toHex()
@@ -54,7 +54,7 @@ describe('Header', (): void => {
   });
 
   it('calculates correct hash, matching with parentHash', (): void => {
-    const blockHash = createType(registry, 'Header', block00300.result.block.header).hash.toHex();
+    const blockHash = registry.createType('Header', block00300.result.block.header).hash.toHex();
 
     expect(blockHash).toEqual(block00301.result.block.header.parentHash);
   });

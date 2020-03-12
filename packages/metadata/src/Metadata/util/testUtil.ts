@@ -5,7 +5,6 @@
 import { Codec, Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
 
-import { createTypeUnsafe } from '@polkadot/types/create';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 import getUniqTypes from './getUniqTypes';
@@ -29,43 +28,45 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
 }
 
 /** @internal */
-export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string): void {
+export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
     const metadataLatest = new Metadata(registry, rpcData).asLatest;
 
     expect(
-      getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, true)
+      getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, withThrow)
     ).toEqual(
-      getUniqTypes(registry, metadataLatest, true)
+      getUniqTypes(registry, metadataLatest, withThrow)
     );
   });
 }
 
 /** @internal */
-export function defaultValues (registry: Registry, rpcData: string): void {
+export function defaultValues (registry: Registry, rpcData: string, withThrow = true): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
-    metadata.asLatest.modules
-      .filter(({ storage }): boolean => storage.isSome)
-      .forEach((mod): void => {
-        mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
-          const inner = unwrapStorageType(type);
-          const location = `${mod.name}.${name}: ${inner}`;
+    metadata.asLatest.modules.filter(({ storage }): boolean => storage.isSome).forEach((mod): void => {
+      mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
+        const inner = unwrapStorageType(type);
+        const location = `${mod.name}.${name}: ${inner}`;
 
-          it(`creates default types for ${location}`, (): void => {
-            expect(
-              (): Codec => {
-                try {
-                  return createTypeUnsafe(registry, inner, [fallback]);
-                } catch (error) {
-                  throw new Error(`${location}:: ${error.message}`);
-                }
+        it(`creates default types for ${location}`, (): void => {
+          expect((): void => {
+            try {
+              registry.createType(inner, fallback);
+            } catch (error) {
+              const message = `${location}:: ${error.message}`;
+
+              if (withThrow) {
+                throw new Error(message);
+              } else {
+                console.warn(message);
               }
-            ).not.toThrow();
-          });
+            }
+          }).not.toThrow();
         });
       });
+    });
   });
 }

@@ -8,35 +8,45 @@ import { TypeRegistry } from '@polkadot/types/create';
 
 import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
+const StorageKeyTye = 'StorageKey | string | Uint8Array | any';
+
 /** @internal */
-export default function generateRpcTypes (dest = 'packages/api/src/types/augment/rpc.ts'): void {
+export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.ts'): void {
   writeFile(dest, (): string => {
     const registry = new TypeRegistry();
-    const imports = createImports({ '@polkadot/types/interfaces': definitions });
+    const allTypes = { '@polkadot/types/interfaces': definitions };
+    const imports = createImports(allTypes);
+    const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
+      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
+    }, {});
     const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
       const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
         const method = interfaces[section].methods[key];
 
-        setImports(definitions, imports, [method.type]);
-
-        // FIXME These 2 are too hard to type, I give up
+        // These are too hard to type with generics, do manual overrides
         if (section === 'state') {
+          setImports(allDefs, imports, ['Codec', 'Hash', 'StorageKey', 'Vec']);
+
           if (method.method === 'getStorage') {
-            setImports(definitions, imports, ['Codec']);
-            return '      getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
+            return createDocComments(6, [method.description]) + indent(6)(`getStorage: AugmentedRpc<<T = Codec>(key: ${StorageKeyTye}, block?: Hash | Uint8Array | string) => Observable<T>>;`);
+          } else if (method.method === 'queryStorage') {
+            return createDocComments(6, [method.description]) + indent(6)(`queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;`);
           } else if (method.method === 'subscribeStorage') {
-            return '      subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
+            return createDocComments(6, [method.description]) + indent(6)(`subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[]) => Observable<T>>;`);
           }
         }
 
+        setImports(allDefs, imports, [method.type]);
+
         const args = method.params.map((param): string => {
           const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
-          setImports(definitions, imports, [param.type, ...similarTypes]);
+
+          setImports(allDefs, imports, [param.type, ...similarTypes]);
 
           return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
         });
 
-        return createDocComments(6, [method.description]) + indent(6)(`${method.method}(${args.join(', ')}): Observable<${method.type}>;`);
+        return createDocComments(6, [method.description]) + indent(6)(`${method.method}: AugmentedRpc<(${args.join(', ')}) => Observable<${method.type}>>;`);
       });
 
       return allSections.concat(
@@ -48,10 +58,10 @@ export default function generateRpcTypes (dest = 'packages/api/src/types/augment
       );
     }, []).join('\n');
 
-    const header = createImportCode(HEADER, imports, [
-      ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-        file: `@polkadot/types/interfaces/${moduleName}`,
-        types: Object.keys(imports.localTypes[moduleName])
+    const header = createImportCode(HEADER('chain'), imports, [
+      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        file: packagePath,
+        types: Object.keys(imports.localTypes[packagePath])
       })),
       {
         file: 'rxjs',

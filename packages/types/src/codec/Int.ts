@@ -4,8 +4,6 @@
 
 import { AnyNumber, Constructor, Registry } from '../types';
 
-import { bnToHex, bnToU8a } from '@polkadot/util';
-
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
@@ -33,36 +31,5 @@ export default class Int extends AbstractInt {
         return typeName || super.toRawType();
       }
     };
-  }
-
-  /**
-   * @description Returns a hex string representation of the value
-   */
-  public toHex (isLe = false): string {
-    return bnToHex(this, {
-      bitLength: this._bitLength,
-      isLe,
-      isNegative: true
-    });
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  public toRawType (): string {
-    return `i${this._bitLength}`;
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this, {
-      bitLength: this._bitLength,
-      isLe: true,
-      isNegative: true
-    });
   }
 }

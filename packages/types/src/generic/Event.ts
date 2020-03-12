@@ -5,7 +5,7 @@
 import { TypeDef } from '../create/types';
 import { EventMetadataLatest } from '../interfaces/metadata';
 import { EventId } from '../interfaces/system';
-import { AnyJsonObject, Constructor, Registry, RegistryMetadataEvent } from '../types';
+import { AnyJson, Constructor, Registry, RegistryMetadataEvent } from '../types';
 
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
@@ -17,49 +17,49 @@ import Null from '../primitive/Null';
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class EventData extends Tuple {
-  private _meta: EventMetadataLatest;
+  readonly #meta: EventMetadataLatest;
 
-  private _method: string;
+  readonly #method: string;
 
-  private _section: string;
+  readonly #section: string;
 
-  private _typeDef: TypeDef[];
+  readonly #typeDef: TypeDef[];
 
   constructor (registry: Registry, Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: RegistryMetadataEvent, section: string, method: string) {
     super(registry, Types, value);
 
-    this._meta = meta as EventMetadataLatest;
-    this._method = method;
-    this._section = section;
-    this._typeDef = typeDef;
+    this.#meta = meta as EventMetadataLatest;
+    this.#method = method;
+    this.#section = section;
+    this.#typeDef = typeDef;
   }
 
   /**
    * @description The wrapped [[EventMetadata]]
    */
   public get meta (): EventMetadataLatest {
-    return this._meta;
+    return this.#meta;
   }
 
   /**
    * @description The method as a string
    */
   public get method (): string {
-    return this._method;
+    return this.#method;
   }
 
   /**
    * @description The section as a string
    */
   public get section (): string {
-    return this._section;
+    return this.#section;
   }
 
   /**
    * @description The [[TypeDef]] for this event
    */
   public get typeDef (): TypeDef[] {
-    return this._typeDef;
+    return this.#typeDef;
   }
 }
 
@@ -146,7 +146,7 @@ export default class Event extends Struct {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toHuman (isExpanded?: boolean): AnyJsonObject {
+  public toHuman (isExpanded?: boolean): AnyJson {
     // FIXME May this human-friendly
     return this.toJSON();
   }

@@ -44,13 +44,17 @@ async function main () {
       console.log('Transfer status:', status.type);
 
       // Log system events once the transfer is finalised
-      if (status.isFinalized) {
-        console.log('Completed at block hash', status.asFinalized.toHex());
+      if (status.isInBlock) {
+        console.log('Included at block hash', status.asInBlock.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {
           console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
         });
+      } else if (status.isFinalized) {
+        console.log('Finalized block hash', status.asFinalized.toHex());
+
+        process.exit(0);
       }
     });
 }

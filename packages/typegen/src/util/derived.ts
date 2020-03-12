@@ -5,21 +5,23 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 import { Constructor, Registry } from '@polkadot/types/types';
 
-import { stringLowerFirst } from '@polkadot/util';
-import { isChildClass, isCompactEncodable } from './class';
-import { ClassOf, ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
+import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
 import AbstractInt from '@polkadot/types/codec/AbstractInt';
 import Compact from '@polkadot/types/codec/Compact';
 import Enum from '@polkadot/types/codec/Enum';
 import Option from '@polkadot/types/codec/Option';
 import Struct from '@polkadot/types/codec/Struct';
+import UInt from '@polkadot/types/codec/UInt';
 import Vec from '@polkadot/types/codec/Vec';
+import Tuple from '@polkadot/types/codec/Tuple';
 import GenericAccountId from '@polkadot/types/generic/AccountId';
 import GenericAddress from '@polkadot/types/generic/Address';
 import Vote, { convictionNames as _voteConvictions } from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
+import { isChildClass, stringLowerFirst } from '@polkadot/util';
 
+import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
 
@@ -68,7 +70,9 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
 /** @internal */
-export function getSimilarTypes (definitions: object, registry: Registry, type: string, imports: TypeImports): string[] {
+export function getSimilarTypes (definitions: object, registry: Registry, _type: string, imports: TypeImports): string[] {
+  const typeParts = _type.split('::');
+  const type = typeParts[typeParts.length - 1];
   const possibleTypes = [type];
 
   if (type === 'Extrinsic') {
@@ -77,6 +81,8 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
   } else if (type === 'StorageKey') {
     // TODO We can do better
     return ['StorageKey', 'string', 'Uint8Array', 'any'];
+  } else if (type === '()') {
+    return ['null'];
   }
 
   const Clazz = ClassOfUnsafe(registry, type);
@@ -96,7 +102,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
       throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
     }
   } else if (isChildClass(Enum, Clazz)) {
-    const e = new Clazz(registry) as Enum;
+    const e = new (Clazz as Constructor)(registry) as Enum;
 
     if (e.isBasic) {
       possibleTypes.push(arrayToStrType(e.defKeys), 'number');
@@ -106,19 +112,18 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     }
 
     possibleTypes.push('Uint8Array');
-  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
+  } else if (isChildClass(AbstractInt as unknown as Constructor<UInt>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
   } else if (isChildClass(GenericAddress, Clazz)) {
     possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'string', 'Uint8Array');
   } else if (isChildClass(GenericAccountId, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
+  } else if (isChildClass(registry.createClass('bool'), Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
   } else if (isChildClass(Null, Clazz)) {
     possibleTypes.push('null');
   } else if (isChildClass(Struct, Clazz)) {
-    // TODO We don't really want any here, these should be expanded
-    const s = new Clazz(registry) as Struct;
+    const s = new (Clazz as Constructor)(registry) as Struct;
     const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
 
     possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
@@ -131,6 +136,14 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, Clazz)) {
     possibleTypes.push('string');
+  } else if (isChildClass(Tuple, Clazz)) {
+    const subDef = getTypeDef(type).sub;
+
+    if (Array.isArray(subDef)) {
+      const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
+
+      possibleTypes.push(`[${subs.join(', ')}]`);
+    }
   }
 
   return possibleTypes;

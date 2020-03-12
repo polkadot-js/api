@@ -19,8 +19,3 @@ export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes> extends 
 export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {
   [index: string]: SubmittableExtrinsicFunction<ApiType>;
 }
-
-export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
-  (extrinsic: Uint8Array | string): SubmittableExtrinsic<ApiType>;
-  [index: string]: SubmittableModuleExtrinsics<ApiType>;
-}

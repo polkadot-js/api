@@ -7,7 +7,6 @@ import { AccountId } from '../interfaces/runtime';
 import BN from 'bn.js';
 import { bnToBn } from '@polkadot/util';
 
-import { createType } from '../create';
 import Bytes from '../primitive/Bytes';
 import U32 from '../primitive/U32';
 
@@ -60,7 +59,7 @@ export default class ConsensusEngineId extends U32 {
 
   private getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     return sessionValidators[
-      createType(this.registry, 'RawAuraPreDigest', bytes.toU8a(true))
+      this.registry.createType('RawAuraPreDigest', bytes.toU8a(true))
         .slotNumber
         .mod(new BN(sessionValidators.length))
         .toNumber()
@@ -68,7 +67,7 @@ export default class ConsensusEngineId extends U32 {
   }
 
   private getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    const digest = createType(this.registry, 'RawBabePreDigestCompat', bytes.toU8a(true));
+    const digest = this.registry.createType('RawBabePreDigestCompat', bytes.toU8a(true));
 
     return sessionValidators[
       (digest.value as U32).toNumber()

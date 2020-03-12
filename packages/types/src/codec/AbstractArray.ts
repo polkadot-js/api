@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJson, AnyJsonArray, Codec, Registry } from '../types';
+import { AnyJson, Codec, Registry } from '../types';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -83,7 +83,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonArray {
+  public toHuman (isExtended?: boolean): AnyJson {
     return this.map((entry): AnyJson =>
       entry.toHuman(isExtended)
     );
@@ -92,7 +92,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJsonArray {
+  public toJSON (): AnyJson {
     return this.map((entry): AnyJson =>
       entry.toJSON()
     );

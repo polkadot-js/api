@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import { AnyJsonObject, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../types';
+import { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -202,7 +202,7 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): AnyJsonObject {
+  public toHuman (isExpanded?: boolean): AnyJson {
     let call: CallFunction | undefined;
 
     try {

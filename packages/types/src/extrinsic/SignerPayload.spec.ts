@@ -5,7 +5,7 @@
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
-import { createType, TypeRegistry } from '../create';
+import { TypeRegistry } from '../create';
 import SignerPayload from './SignerPayload';
 
 const registry = new TypeRegistry();
@@ -33,9 +33,9 @@ describe('SignerPayload', (): void => {
         address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
         blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
         blockNumber: '0x231d30',
-        era: createType(registry, 'ExtrinsicEra', { current: 2301232, period: 200 }),
+        era: registry.createType('ExtrinsicEra', { current: 2301232, period: 200 }),
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
-        method: createType(registry, 'Call', '0x0600ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
+        method: registry.createType('Call', '0x0600ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
         nonce: 0x1234,
         tip: 0x5678,
         version: 3
@@ -71,7 +71,7 @@ describe('SignerPayload', (): void => {
 
   it('can be used as a feed to ExtrinsicPayload', (): void => {
     const signer = new SignerPayload(registry, TEST).toPayload();
-    const payload = createType(registry, 'ExtrinsicPayload', signer, { version: signer.version });
+    const payload = registry.createType('ExtrinsicPayload', signer, { version: signer.version });
 
     expect(payload.era.toHex()).toEqual(TEST.era);
     expect(payload.method.toHex()).toEqual(TEST.method);

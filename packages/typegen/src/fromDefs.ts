@@ -6,7 +6,7 @@ import path from 'path';
 import yargs from 'yargs';
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
 
-import { generateInterfaceRegistry } from './generate/interfaceRegistry';
+import { generateInterfaceTypes } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
 
 export default function main (): void {
@@ -49,5 +49,5 @@ export default function main (): void {
   };
 
   generateTsDef(allDefs, path.join(process.cwd(), input), pkg);
-  generateInterfaceRegistry(allDefs, path.join(process.cwd(), input, 'interfaceRegistry.ts'));
+  generateInterfaceTypes(allDefs, path.join(process.cwd(), input, 'augment-types.ts'));
 }

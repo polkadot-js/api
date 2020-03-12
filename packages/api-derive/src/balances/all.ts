@@ -20,12 +20,15 @@ type Result = [DerivedBalancesAccount, BlockNumber, ResultBalance];
 function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DerivedBalancesAll {
   let lockedBalance = createType(api.registry, 'Balance');
   let lockedBreakdown: (BalanceLock | BalanceLockTo212)[] = [];
+  let allLocked = false;
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
     lockedBreakdown = (locks as BalanceLockTo212[]).filter(({ until }): boolean => !until || (bestNumber && until.gt(bestNumber)));
 
     const notAll = lockedBreakdown.filter(({ amount }): boolean => !amount.isMax());
+
+    allLocked = lockedBreakdown.some(({ amount }): boolean => amount.isMax());
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     if (notAll.length) {
@@ -50,7 +53,7 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
   // ""
   const floating = freeBalance.sub(lockedBalance);
   const extraReceived = isVesting ? freeBalance.sub(vestingTotal) : new BN(0);
-  const availableBalance = createType(api.registry, 'Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance.add(extraReceived) : floating));
+  const availableBalance = createType(api.registry, 'Balance', allLocked ? 0 : bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance.add(extraReceived) : floating));
 
   return {
     accountId,
@@ -92,7 +95,7 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
 // current (balances  vesting)
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
   return (
-    api.query.vesting.vesting
+    api.query.vesting?.vesting
       ? api.queryMulti<[Vec<BalanceLock>, Option<VestingInfo>]>([
         [api.query.balances.locks, accountId],
         [api.query.vesting.vesting, accountId]

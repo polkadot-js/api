@@ -28,7 +28,6 @@ export interface TypeImports {
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
   definitions: object; // all definitions
   typeToModule: Record<string, string>;
-  moduleToPackage: Record<string, string>;
 }
 
 // Maps the types as found to the source location. This is used to generate the
@@ -50,9 +49,10 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
       genericTypes[type] = true;
     } else if ((primitiveClasses as any)[type] || type === 'Metadata') {
       primitiveTypes[type] = true;
-    } else if (type.includes('<') || type.includes('(') || type.includes('[')) {
+    } else if (type.includes('<') || type.includes('(') || (type.includes('[') && !type.includes('|'))) {
       // If the type is a bit special (tuple, fixed u8, nested type...), then we
-      // need to parse it with `getTypeDef`.
+      // need to parse it with `getTypeDef`. We skip the case where type ~ [a | b | c ... , ... , ... w | y | z ]
+      // since that represents a tuple's similar types, which are covered in the next block
       const typeDef = getTypeDef(type);
 
       setImports(allDefs, imports, [TypeDefInfo[typeDef.info]]);
@@ -60,10 +60,15 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
         typeDef.sub.forEach((subType): void => setImports(allDefs, imports, [subType.type]));
-      } else if (typeDef.sub) {
+      } else if (typeDef.sub && (typeDef.info !== TypeDefInfo.VecFixed || typeDef.sub.type !== 'u8')) {
         // typeDef.sub is a TypeDef in this case
         setImports(allDefs, imports, [typeDef.sub.type]);
       }
+    } else if (type.includes('[') && type.includes('|')) {
+      // We split the types
+      const splitTypes = /\[\s?(.+?)\s?\]/.exec(type)![1].split(/\s?\|\s?/);
+
+      setImports(allDefs, imports, splitTypes);
     } else {
       // find this module inside the exports from the rest
       const [moduleName] = Object.entries(allDefs).find(([, { types }]): boolean =>
@@ -77,34 +82,31 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
   });
 }
 
-// Create an Imports object, can be prefilled with `ignoredTypes`
+// Create an Imports object, can be pre-filled with `ignoredTypes`
 /** @internal */
 export function createImports (importDefinitions: Record<string, object>, { types }: { types: Record<string, any> } = { types: {} }): TypeImports {
   const definitions = {} as Record<string, object>;
   const typeToModule = {} as Record<string, string>;
-  const moduleToPackage = {} as Record<string, string>;
 
   Object.entries(importDefinitions).forEach(([packagePath, packageDef]): void => {
     Object.entries(packageDef).forEach(([name, moduleDef]): void => {
-      if (definitions[name]) {
-        throw new Error(`Duplicated module: ${name}. Packages: ${packagePath}, ${moduleToPackage[name]}`);
-      }
+      const fullName = `${packagePath}/${name}`;
 
-      definitions[name] = moduleDef;
-      moduleToPackage[name] = packagePath;
+      definitions[fullName] = moduleDef;
 
       Object.keys(moduleDef.types).forEach((type): void => {
         if (typeToModule[type]) {
-          throw new Error(`Duplicated type: ${type}. Modules: ${name}, ${typeToModule[type]}`);
+          console.warn(`\t\tWARN: Overwriting duplicated type '${type}' ${typeToModule[type]} -> ${fullName}`);
         }
 
-        typeToModule[type] = name;
+        typeToModule[type] = fullName;
       });
     });
   });
 
   return {
     codecTypes: {},
+    definitions,
     extrinsicTypes: {},
     genericTypes: {},
     ignoredTypes: Object.keys(types),
@@ -115,8 +117,6 @@ export function createImports (importDefinitions: Record<string, object>, { type
     }, {}),
     primitiveTypes: {},
     typesTypes: {},
-    definitions,
-    typeToModule,
-    moduleToPackage
+    typeToModule
   };
 }

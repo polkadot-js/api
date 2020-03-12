@@ -7,7 +7,6 @@ import { FunctionMetadataV11, FunctionMetadataLatest, MetadataV11, MetadataLates
 import { Registry } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types/known';
-import { createType } from '@polkadot/types/create';
 import { Type } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -33,7 +32,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV11[], section
   return calls.map(({ args, documentation, name }): FunctionMetadataLatest => {
     args.forEach(({ type }): void => setTypeOverride(sectionTypes, type));
 
-    return createType(registry, 'FunctionMetadataLatest', { args, name, documentation });
+    return registry.createType('FunctionMetadataLatest', { args, name, documentation });
   });
 }
 
@@ -42,7 +41,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV11[], section
  * @internal
  **/
 function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV11, sectionTypes: OverrideModuleType): StorageMetadataLatest {
-  return createType(registry, 'StorageMetadataLatest', {
+  return registry.createType('StorageMetadataLatest', {
     items: items.map(({ documentation, fallback, modifier, name, type }): StorageEntryMetadataLatest => {
       let resultType: Type;
 
@@ -56,7 +55,7 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
 
       setTypeOverride(sectionTypes, resultType);
 
-      return createType(registry, 'StorageEntryMetadataLatest', { documentation, fallback, modifier, name, type });
+      return registry.createType('StorageEntryMetadataLatest', { documentation, fallback, modifier, name, type });
     }),
     prefix
   });
@@ -68,13 +67,13 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
  * @internal
  **/
 export default function toLatest (registry: Registry, { modules, extrinsic }: MetadataV11): MetadataLatest {
-  return createType(registry, 'MetadataLatest', {
+  return registry.createType('MetadataLatest', {
     modules: modules.map((mod): ModuleMetadataLatest => {
       const calls = mod.calls.unwrapOr(null);
       const storage = mod.storage.unwrapOr(null);
-      const sectionTypes = getModuleTypes(stringCamelCase(mod.name.toString()));
+      const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name.toString()));
 
-      return createType(registry, 'ModuleMetadataLatest', {
+      return registry.createType('ModuleMetadataLatest', {
         ...mod,
         calls: calls
           ? convertCalls(registry, calls, sectionTypes)

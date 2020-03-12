@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
 import fs from 'fs';
 import path from 'path';
@@ -38,6 +38,7 @@ function tsExport (definitions: object, def: TypeDef, imports: TypeImports): str
 const tsBTreeMap = tsExport;
 const tsBTreeSet = tsExport;
 const tsCompact = tsExport;
+const tsHashMap = tsExport;
 const tsOption = tsExport;
 const tsPlain = tsExport;
 const tsTuple = tsExport;
@@ -50,11 +51,12 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
     const asGetter = type === 'Null'
       ? ''
-      : createGetter(definitions, `as${getter}`, type, imports);
+      : createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, type, imports) : type, imports);
     const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
       case TypeDefInfo.Plain:
+      case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
         return `${isGetter}${asGetter}`;
 
@@ -135,9 +137,7 @@ function tsUInt (definitions: object, def: TypeDef, imports: TypeImports): strin
 
 /** @internal */
 function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string {
-  const type = def.info === TypeDefInfo.VecFixed
-    ? (def.ext as TypeDefExtVecFixed).type
-    : (def.sub as TypeDef).type;
+  const type = (def.sub as TypeDef).type;
 
   if (def.info === TypeDefInfo.VecFixed && type === 'u8') {
     setImports(definitions, imports, ['U8aFixed']);
@@ -158,6 +158,7 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
     [TypeDefInfo.BTreeSet]: tsBTreeSet,
     [TypeDefInfo.Compact]: tsCompact,
     [TypeDefInfo.Enum]: tsEnum,
+    [TypeDefInfo.HashMap]: tsHashMap,
     [TypeDefInfo.Int]: tsInt,
     [TypeDefInfo.Linkage]: errorUnhandled,
     [TypeDefInfo.Null]: errorUnhandled,
@@ -186,15 +187,15 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
   const interfaces = generateInterfaces(definitions, { types }, imports);
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
 
-  const header = createImportCode(HEADER, imports, [
-    ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
-      types: Object.keys(imports.localTypes[moduleName])
+  const header = createImportCode(HEADER('defs'), imports, [
+    ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+      file: packagePath,
+      types: Object.keys(imports.localTypes[packagePath])
     }))
   ]);
 
   fs.writeFileSync(path.join(outputDir, defName, 'types.ts'), header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 /** @internal */
@@ -208,7 +209,7 @@ export function generateTsDef (importDefinitions: { [importPath: string]: object
       generateTsDefFor(importDefinitions, defName, obj, outputDir);
     });
 
-    return HEADER
+    return HEADER('defs')
       .concat(
         Object
           .keys(definitions)
@@ -218,7 +219,7 @@ export function generateTsDef (importDefinitions: { [importPath: string]: object
       .concat(FOOTER);
   });
 
-  fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 /** @internal */

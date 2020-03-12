@@ -11,7 +11,6 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import { createType } from '@polkadot/types';
 import { assert } from '@polkadot/util';
 
 import Abi from '../Abi';
@@ -41,7 +40,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
   constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
     super(api, abi, decorateMethod);
 
-    this.codeHash = createType(this.registry, 'Hash', codeHash);
+    this.codeHash = this.registry.createType('Hash', codeHash);
   }
 
   public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate<ApiType> {

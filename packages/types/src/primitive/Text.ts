@@ -8,7 +8,6 @@ import { AnyU8a, Codec, Registry } from '../types';
 import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../create';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
@@ -50,7 +49,8 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
   public readonly registry: Registry;
-  private _override: string | null = null;
+
+  #override: string | null = null;
 
   constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(decodeText(value));
@@ -69,7 +69,7 @@ export default class Text extends String implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
+    return this.registry.createType('H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -100,7 +100,7 @@ export default class Text extends String implements Codec {
    * @description Set an override value for this
    */
   public setOverride (override: string): void {
-    this._override = override;
+    this.#override = override;
   }
 
   /**
@@ -137,7 +137,7 @@ export default class Text extends String implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this._override || super.toString();
+    return this.#override || super.toString();
   }
 
   /**

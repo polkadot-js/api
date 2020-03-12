@@ -8,7 +8,6 @@ import BN from 'bn.js';
 import { isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { createType } from '../create';
 import Base from '../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
@@ -22,8 +21,8 @@ function decodeString (registry: Registry, value: string): AccountId | AccountIn
   const decoded = decodeAddress(value);
 
   return decoded.length === 32
-    ? createType(registry, 'AccountId', decoded)
-    : createType(registry, 'AccountIndex', u8aToBn(decoded, true));
+    ? registry.createType('AccountId', decoded)
+    : registry.createType('AccountIndex', u8aToBn(decoded, true));
 }
 
 /** @internal */
@@ -31,14 +30,14 @@ function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountI
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 32) {
-    return createType(registry, 'AccountId', value);
+    return registry.createType('AccountId', value);
   } else if (value[0] === 0xff) {
-    return createType(registry, 'AccountId', value.subarray(1));
+    return registry.createType('AccountId', value.subarray(1));
   }
 
   const [offset, length] = AccountIndex.readLength(value);
 
-  return createType(registry, 'AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+  return registry.createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
 }
 
 /**
@@ -55,13 +54,13 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   /** @internal */
-  public static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
+  private static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
     } else if (value instanceof Address) {
       return value.raw;
     } else if (isBn(value) || isNumber(value)) {
-      return createType(registry, 'AccountIndex', value);
+      return registry.createType('AccountIndex', value);
     } else if (Array.isArray(value) || isHex(value) || isU8a(value)) {
       return decodeU8a(registry, u8aToU8a(value));
     }

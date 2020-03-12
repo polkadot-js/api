@@ -54,6 +54,16 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
     email: dataAsString(info.email),
     image: dataAsString(info.image),
     legal: dataAsString(info.legal),
+    other: info.additional.reduce((other: Record<string, string>, [_key, _value]): Record<string, string> => {
+      const key = dataAsString(_key);
+      const value = dataAsString(_value);
+
+      if (key && value) {
+        other[key] = value;
+      }
+
+      return other;
+    }, {}),
     parent: superOf
       ? superOf[0]
       : undefined,

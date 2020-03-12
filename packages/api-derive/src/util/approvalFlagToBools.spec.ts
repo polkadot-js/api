@@ -4,7 +4,7 @@
 
 import { ApprovalFlag } from '@polkadot/types/interfaces';
 
-import { createType, TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types';
 
 import { approvalFlagsToBools } from './approvalFlagsToBools';
 
@@ -20,7 +20,7 @@ describe('approvalFlagsToBools', (): void => {
   it('translates a single input', (): void => {
     expect(
       approvalFlagsToBools([
-        createType(registry, 'ApprovalFlag', 0b1010)
+        registry.createType('ApprovalFlag', 0b1010)
       ])
     ).toEqual([false, true, false, true]);
   });
@@ -28,8 +28,8 @@ describe('approvalFlagsToBools', (): void => {
   it('translates multiple inputs', (): void => {
     expect(
       approvalFlagsToBools([
-        createType(registry, 'ApprovalFlag', 0b0000),
-        createType(registry, 'ApprovalFlag', 0b1100)
+        registry.createType('ApprovalFlag', 0b0000),
+        registry.createType('ApprovalFlag', 0b1100)
       ])
     ).toEqual([false, false, false, true, true]);
   });
