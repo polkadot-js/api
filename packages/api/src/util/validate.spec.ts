@@ -31,7 +31,7 @@ describe('extractStorageArgs', (): void => {
     expect(
       (): any[] =>
         extractStorageArgs(storage.timestamp.now, [123, 456])
-    ).toThrow('timestamp.now(): Moment does not take any arguments, 2 found');
+    ).toThrow('timestamp.now() does not take any arguments, 2 found');
   });
 
   it('validates map, 1 arg', (): void => {
@@ -44,14 +44,14 @@ describe('extractStorageArgs', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.payee, [])
-    ).toThrow('staking.payee(AccountId): RewardDestination is a map, requiring 1 argument, 0 found');
+    ).toThrow('staking.payee(AccountId) is a map, requiring 1 argument, 0 found');
   });
 
   it('validates map, 1 arg (failing with no args)', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.payee, ['abc', 'def'])
-    ).toThrow('staking.payee(AccountId): RewardDestination is a map, requiring 1 argument, 2 found');
+    ).toThrow('staking.payee(AccountId) is a map, requiring 1 argument, 2 found');
   });
 
   it('validates doublemap, 2 args', (): void => {
@@ -64,14 +64,14 @@ describe('extractStorageArgs', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.erasStakers, [])
-    ).toThrow('staking.erasStakers(EraIndex, AccountId): Exposure is a doublemap, requiring 2 arguments, 0 found');
+    ).toThrow('staking.erasStakers(EraIndex, AccountId) is a doublemap, requiring 2 arguments, 0 found');
   });
 
   it('validates doublemap, 2 args (failing with 1 arg)', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.erasStakers, [123])
-    ).toThrow('staking.erasStakers(EraIndex, AccountId): Exposure is a doublemap, requiring 2 arguments, 1 found');
+    ).toThrow('staking.erasStakers(EraIndex, AccountId) is a doublemap, requiring 2 arguments, 1 found');
   });
 
   it('validates linked map, no args', (): void => {
@@ -90,6 +90,6 @@ describe('extractStorageArgs', (): void => {
     expect(
       (): any[] =>
         extractStorageArgs(storage.staking.validators, [123, 456])
-    ).toThrow('staking.validators(AccountId): (ValidatorPrefs, Linkage<AccountId>) is a linked map, requiring either 0 arguments (retrieving all) or 1 argument, 2 found');
+    ).toThrow('staking.validators(AccountId) is a linked map, requiring either 0 arguments (retrieving all) or 1 argument, 2 found');
   });
 });
