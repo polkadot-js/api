@@ -1,14 +1,14 @@
-# 1.6.0-beta.x
+# 1.6.1 Mar 12, 2020
 
-- **Breaking change** `api.rpc.state.queryStorage(...)` now properly decodes the `Vec<StorageChangeSet>`. this means that results will come back as `[Hash, Codec[]][]` when using this RPC.
-- `StorageKey` now have an `.args` property, decoded from meta in the cases twox64concat is used on maps
+- **Breaking change** `api.rpc.state.queryStorage(...)` now full decodes the `Vec<StorageChangeSet>` and returns a decoded `[Hash, Codec[]][]` when using this RPC.
+- `StorageKey` now has an `.args` property, decoded from meta where `twox64_concat` or `blake128_concat` are used on maps
 - Fix `api.query.*.*.entries` type conversions to return exact types (not `Option` in some cases)
 - Add `api.query.*.*.keys` to retrieve only the storage keys, similar to `.entries`
 - Full linked map retrievals will now use direct getStorage queries for faster operation
 - Underlying rpc-core interfaces now unwraps `Error("...")` when found in responses
 - Added `derive.eras*` interfaces for queries to new Substrate staking interfaces
-- Update `derive.account` to cater for new indices module storage (detected, fallbacks)
-- Adjust derive queries for session move away from module prefix (DoubleMap -> Map), detected on use
+- Update `derive.account` to cater for new indices module storage (detected with fallbacks)
+- Adjust derive queries for session without module prefix (DoubleMap -> Map), detected on use
 - Add runtime validation for map arguments to `api.query.*`
 - TypeScript interfaces for linked maps now correctly generates as `[Type, Linkage<Next>]`
 
