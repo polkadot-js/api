@@ -7,7 +7,7 @@ import { Type } from '@polkadot/types';
 import { assert } from '@polkadot/util';
 
 function sig ({ method, section }: StorageEntry, ...args: Type[]): string {
-  return `${section}.${method}(${args.map((arg) => arg.toString()).join(', ')})`;
+  return `${section}.${method}(${args.join(', ')})`;
 }
 
 function doDoubleMap (creator: StorageEntry, args: any[]): [StorageEntry, [any, any]] {
