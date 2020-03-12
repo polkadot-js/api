@@ -90,6 +90,6 @@ describe('extractStorageArgs', (): void => {
     expect(
       (): any[] =>
         extractStorageArgs(storage.staking.validators, [123, 456])
-    ).toThrow('staking.validators(AccountId): (ValidatorPrefs, Linkage<AccountId>) is a linked map, requiring either no arguments (retrieving all recursively) or a single argument, 2 found');
+    ).toThrow('staking.validators(AccountId): (ValidatorPrefs, Linkage<AccountId>) is a linked map, requiring either 0 arguments (retrieving all) or 1 argument, 2 found');
   });
 });
