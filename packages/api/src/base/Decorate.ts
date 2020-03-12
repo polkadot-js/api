@@ -293,7 +293,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   private decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (...args: any[]): any[] => extractStorageArgs(creator, args);
+    const getArgs = (isAt: boolean, ...args: any[]): any[] => extractStorageArgs(isAt, creator, args);
 
     // FIXME We probably want to be able to query the full list with non-subs as well
     const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
@@ -302,23 +302,23 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         this.hasSubscriptions
           ? this._rpcCore.state
             // Unfortunately for one-shot calls we also use .subscribeStorage here
-            .subscribeStorage<[Codec]>([getArgs(...args)])
+            .subscribeStorage<[Codec]>([getArgs(false, ...args)])
             // state_storage returns an array of values, since we have just subscribed to
             // a single entry, we pull that from the array and return it as-is
             .pipe(map(([data]): Codec => data))
-          : this._rpcCore.state.getStorage(getArgs(...args))
+          : this._rpcCore.state.getStorage(getArgs(false, ...args))
       ), { methodName: creator.method });
 
     decorated.creator = creator;
 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
-      this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
+      this._rpcCore.state.getStorage(getArgs(true, arg1, arg2), hash));
 
     decorated.entries = decorateMethod(memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
       this.retrieveMapEntries(creator, doubleMapArg)));
 
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
-      this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
+      this._rpcCore.state.getStorageHash(getArgs(false, arg1, arg2)));
 
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
@@ -340,7 +340,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       this.decorateStorageRange(decorated, [arg1, arg2], range)));
 
     decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
-      this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
+      this._rpcCore.state.getStorageSize(getArgs(false, arg1, arg2)));
 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
