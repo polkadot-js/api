@@ -43,9 +43,7 @@ const HASHER_MAP: Record<keyof typeof metadataDefs.types.StorageHasherV10._enum,
 };
 const HASHER_OPTS = Object.values(HASHER_MAP);
 
-// we unwrap the type here, turning into an output usable for createType
-/** @internal */
-export function unwrapStorageType (type: StorageEntryTypeLatest): keyof InterfaceTypes {
+function getStorageType (type: StorageEntryTypeLatest): string {
   if (type.isPlain) {
     return type.asPlain.toString() as keyof InterfaceTypes;
   } else if (type.isDoubleMap) {
@@ -58,7 +56,17 @@ export function unwrapStorageType (type: StorageEntryTypeLatest): keyof Interfac
     return `(${map.value.toString()}, Linkage<${map.key.toString()}>)` as keyof InterfaceTypes;
   }
 
-  return map.value.toString() as keyof InterfaceTypes;
+  return map.value.toString();
+}
+
+// we unwrap the type here, turning into an output usable for createType
+/** @internal */
+export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+  const outputType = getStorageType(type);
+
+  return isOptional
+    ? `Option<${outputType}>` as keyof InterfaceTypes
+    : outputType as keyof InterfaceTypes;
 }
 
 /** @internal */

@@ -13,12 +13,7 @@ import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-interface Mapped {
-  nominators: DeriveEraNominatorExposure;
-  validators: DeriveEraValidatorExposure;
-}
-
-function mapStakers (stakers: [StorageKey, Exposure][]): Mapped {
+function mapStakers (era: EraIndex, stakers: [StorageKey, Exposure][]): DeriveEraExposure {
   const nominators: DeriveEraNominatorExposure = {};
   const validators: DeriveEraValidatorExposure = {};
 
@@ -35,7 +30,7 @@ function mapStakers (stakers: [StorageKey, Exposure][]): Mapped {
     });
   });
 
-  return { nominators, validators };
+  return { era, nominators, validators };
 }
 
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraExposure[]> {
@@ -56,10 +51,9 @@ export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN |
         ])
       ),
       map(([eras, erasStakers]): DeriveEraExposure[] =>
-        eras.map((era, index): DeriveEraExposure => ({
-          era,
-          ...mapStakers(erasStakers[index])
-        }))
+        eras.map((era, index): DeriveEraExposure =>
+          mapStakers(era, erasStakers[index])
+        )
       )
     )
   );
