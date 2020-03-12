@@ -25,8 +25,9 @@ import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/pri
 import { assert, compactStripLength, isNull, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
-import { decorateSections, DeriveAllSections } from '../util/decorate';
 import augmentObject from '../util/augmentObject';
+import { decorateSections, DeriveAllSections } from '../util/decorate';
+import { extractStorageArgs } from '../util/validate';
 import Events from './Events';
 
 interface MetaDecoration {
@@ -292,9 +293,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   private decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (...args: any[]): any[] => creator.meta.type.isDoubleMap
-      ? [creator, args]
-      : [creator, ...args];
+    const getArgs = (...args: any[]): any[] => extractStorageArgs(creator, args);
 
     // FIXME We probably want to be able to query the full list with non-subs as well
     const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
