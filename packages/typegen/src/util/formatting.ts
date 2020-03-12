@@ -106,6 +106,14 @@ function formatHashMap (key: string, val: string): string {
 }
 
 /**
+ * Given the inner `T`, return a `Vec<T>` string
+ */
+/** @internal */
+function formatLinkage (inner: string): string {
+  return paramsNotation('Linkage', inner);
+}
+
+/**
  * Given the inner `O` & `E`, return a `Result<O, E>`  string
  */
 /** @internal */
@@ -220,6 +228,13 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
 
       return formatHashMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
+    }
+    case TypeDefInfo.Linkage: {
+      const type = (typeDef.sub as TypeDef).type;
+
+      setImports(definitions, imports, ['Linkage']);
+
+      return formatLinkage(formatType(definitions, type, imports));
     }
     case TypeDefInfo.Result: {
       setImports(definitions, imports, ['Result']);

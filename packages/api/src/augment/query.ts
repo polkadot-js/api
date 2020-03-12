@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { AnyNumber, ITuple } from '@polkadot/types/types';
-import { Option, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Linkage, Option, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';
@@ -255,11 +255,11 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The map from (wannabe) validator stash key to the preferences of that validator.
        **/
-      validators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ValidatorPrefs>> & QueryableStorageEntry<ApiType>;
+      validators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[ValidatorPrefs, Linkage<AccountId>]>>> & QueryableStorageEntry<ApiType>;
       /**
        * The map from nominator stash key to the set of stash keys of all validators to nominate.
        **/
-      nominators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<Nominations>>> & QueryableStorageEntry<ApiType>;
+      nominators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<ITuple<[Nominations, Linkage<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
       /**
        * The current era index.
        * This is the latest planned era, depending on how session module queues the validator
@@ -459,7 +459,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Get the account (and lock periods) to which another account is delegating vote.
        **/
-      delegations: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[AccountId, Conviction]>>> & QueryableStorageEntry<ApiType>;
+      delegations: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[ITuple<[AccountId, Conviction]>, Linkage<AccountId>]>>> & QueryableStorageEntry<ApiType>;
       /**
        * Accounts for which there are locks in action which may be removed at some point in the
        * future. The value is the block number at which the lock expires and may be removed.
@@ -560,7 +560,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Votes of a particular voter, with the round index of the votes.
        **/
-      votesOf: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      votesOf: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[Vec<AccountId>, Linkage<AccountId>]>>> & QueryableStorageEntry<ApiType>;
       /**
        * Locked stake of a voter.
        **/

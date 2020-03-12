@@ -8,30 +8,22 @@ import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 
 import staticData from '@polkadot/metadata/Metadata/static';
 import Metadata from '@polkadot/metadata/Metadata';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringLowerFirst } from '@polkadot/util';
 
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, registerDefinitions, setImports, writeFile } from '../util';
 
-// If the StorageEntry returns T, output `Option<T>` if the modifier is optional
-/** @internal */
-function addModifier (storageEntry: StorageEntryMetadataLatest, returnType: string): string {
-  if (storageEntry.modifier.isOptional) {
-    return `Option<${returnType}>`;
-  }
-
-  return returnType;
-}
-
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
   const format = (type: string): string => formatType(allDefs, type, imports);
+  const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', formatType(allDefs, addModifier(storageEntry, storageEntry.type.asPlain.toString()), imports)];
+    return ['', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
     const similarTypes = getSimilarTypes(allDefs, registry, storageEntry.type.asMap.key.toString(), imports);
@@ -43,7 +35,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
 
     return [
       `arg: ${similarTypes.map(format).join(' | ')}`,
-      formatType(allDefs, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
+      formatType(allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similar types of `key1` and `key2` types
@@ -61,7 +53,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
 
     return [
       `key1: ${key1Types}, key2: ${key2Types}`,
-      formatType(allDefs, addModifier(storageEntry, storageEntry.type.asDoubleMap.value.toString()), imports)
+      formatType(allDefs, outputType, imports)
     ];
   }
 

@@ -346,11 +346,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
-    let outputType: any = unwrapStorageType(decorated.creator.meta.type);
-
-    if (decorated.creator.meta.modifier.isOptional) {
-      outputType = `Option<${outputType}>`;
-    }
+    const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
@@ -454,11 +450,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    let outputType: any = unwrapStorageType(entry.meta.type);
-
-    if (entry.meta.modifier.isOptional) {
-      outputType = `Option<${outputType}>`;
-    }
+    const outputType = unwrapStorageType(entry.meta.type, entry.meta.modifier.isOptional);
 
     return this.retrieveMapKeys(entry, arg)
       .pipe(
