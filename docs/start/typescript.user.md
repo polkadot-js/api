@@ -1,6 +1,6 @@
 # TypeScript user generated
 
-In the previous section we looked at the TypeScript definitions that are available and is generated from both the chain and definitions. Here we will expand upon the use of the infrastructure created to define types as part of the `@polkadot/types` library and see how to use them to generate your onw definitions and chain types.
+In the previous section we looked at the TypeScript definitions that are available and is generated from both the chain and definitions. Here we will expand upon the use of the infrastructure created to define types as part of the `@polkadot/types` library and see how to use them to generate your own definitions and chain types.
 
 ## Definitions
 
