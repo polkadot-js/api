@@ -10,8 +10,8 @@ import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
-import { BehaviorSubject, Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, from, of } from 'rxjs';
+import { concatMap, map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
@@ -39,6 +39,9 @@ interface MetaDecoration {
 }
 
 type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
+
+const PAGE_SIZE_KEYS = 256;
+const PAGE_SIZE_VALS = PAGE_SIZE_KEYS / 2;
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
   public readonly registry: Registry;
@@ -433,7 +436,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
-    const startKey = this.createType('Raw', u8aConcat(
+    const headKey = this.createType('Raw', u8aConcat(
       iterKey,
       meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
         ? getHasher(meta.type.asDoubleMap.hasher)(
@@ -441,38 +444,71 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         )
         : new Uint8Array([])
     ));
+    const startSubject = new BehaviorSubject<Codec | string | undefined>(headKey);
 
-    return this._rpcCore.state.getKeys(startKey).pipe(
-      map((keys): StorageKey[] =>
-        keys.map((key) => key.decodeArgsFromMeta(meta))
+    return this._rpcCore.state.getKeysPaged
+      ? startSubject.pipe(
+        switchMap((startKey) =>
+          this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey).pipe(
+            map((keys): StorageKey[] =>
+              keys.map((key) => key.decodeArgsFromMeta(meta))
+            )
+          )
+        ),
+        tap((keys): void => {
+          keys.length === PAGE_SIZE_KEYS
+            ? startSubject.next(keys[PAGE_SIZE_KEYS - 1].toHex())
+            : startSubject.complete();
+        }),
+        toArray(), // toArray since we want to startSubject to be completed
+        map((keysArr: StorageKey[][]): StorageKey[] =>
+          keysArr.reduce((result: StorageKey[], keys): StorageKey[] =>
+            result.concat(keys), []
+          )
+        )
       )
-    );
+      : this._rpcCore.state.getKeys(headKey).pipe(
+        map((keys): StorageKey[] =>
+          keys.map((key) => key.decodeArgsFromMeta(meta))
+        )
+      );
   }
 
   private retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
     const outputType = unwrapStorageType(entry.meta.type, entry.meta.modifier.isOptional);
 
-    return this.retrieveMapKeys(entry, arg)
-      .pipe(
-        switchMap((keys): Observable<[StorageKey[], Option<Raw>[]]> =>
-          combineLatest([
-            of(keys),
-            // Since we have a default constructed key, we have Option<Raw> as the result
-            // Don't keep the subscription here active, retrieve and get out of Dodge
-            // TODO Once we have a multiple key RPC available, use that via fallback
-            this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys).pipe(
-              take(1),
-              observeOn(asyncScheduler)
+    return this.retrieveMapKeys(entry, arg).pipe(
+      switchMap((keys): Observable<[StorageKey[], Option<Raw>[]]> =>
+        combineLatest([
+          of(keys),
+          from(Array(Math.ceil(keys.length / PAGE_SIZE_VALS)).fill(0)).pipe(
+            // FIXME New RPC to take care of this in the works...
+            concatMap((_, index): Observable<Option<Raw>[]> =>
+              this._rpcCore.state.subscribeStorage<Option<Raw>[]>(
+                keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS)
+              ).pipe(take(1))
+            ),
+            toArray(),
+            map((valsArr: Option<Raw>[][]): Option<Raw>[] =>
+              valsArr.reduce((result: Option<Raw>[], vals): Option<Raw>[] =>
+                result.concat(vals), []
+              )
             )
-          ])
-        ),
-        map(([keys, values]): [StorageKey, Codec][] =>
-          keys.map((key, index): [StorageKey, Codec] => [
-            key,
-            this.createType(outputType, values[index].isSome ? values[index].unwrap().toHex() : undefined)
-          ])
-        )
-      );
+          )
+        ])
+      ),
+      map(([keys, vals]): [StorageKey, Codec][] =>
+        keys.map((key, index): [StorageKey, Codec] => [
+          key,
+          this.createType(
+            outputType,
+            vals[index].isSome
+              ? vals[index].unwrap().toHex()
+              : undefined
+          )
+        ])
+      )
+    );
   }
 
   protected decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {

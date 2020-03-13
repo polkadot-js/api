@@ -7,8 +7,8 @@ import { Balance } from '@polkadot/types/interfaces';
 import { DeriveEraPoints, DeriveEraRewards, DeriveStakerExposure, DeriveStakerReward } from '../types';
 
 import BN from 'bn.js';
-import { Observable, asyncScheduler, combineLatest } from 'rxjs';
-import { map, observeOn } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
@@ -67,7 +67,6 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
       api.derive.staking.erasRewards(startEra),
       api.derive.staking.stakerExposure(stakerId, startEra)
     ]).pipe(
-      observeOn(asyncScheduler),
       map((result): DeriveStakerReward[] =>
         parseRewards(api, stakerId, result)
       )

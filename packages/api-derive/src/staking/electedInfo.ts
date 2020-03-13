@@ -6,15 +6,14 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedStakingQuery, DerivedStakingElected } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
 export function electedInfo (api: ApiInterfaceRx): () => Observable<DerivedStakingElected> {
   return memo((): Observable<DerivedStakingElected> =>
     api.derive.staking.validators().pipe(
-      observeOn(asyncScheduler),
       switchMap(({ nextElected }): Observable<[AccountId[], DerivedStakingQuery[]]> =>
         combineLatest([
           of(nextElected),
@@ -25,7 +24,6 @@ export function electedInfo (api: ApiInterfaceRx): () => Observable<DerivedStaki
           )
         ])
       ),
-      observeOn(asyncScheduler),
       map(([nextElected, info]): DerivedStakingElected => ({
         info,
         nextElected

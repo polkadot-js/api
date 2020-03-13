@@ -6,8 +6,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveSocietyMember } from '../types';
 
-import { Observable, asyncScheduler, combineLatest } from 'rxjs';
-import { observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
@@ -17,7 +17,6 @@ import { memo } from '../util';
 export function members (api: ApiInterfaceRx): () => Observable<DeriveSocietyMember[]> {
   return memo((): Observable<DeriveSocietyMember[]> =>
     api.query.society.members<AccountId[]>().pipe(
-      observeOn(asyncScheduler),
       switchMap((members): Observable<DeriveSocietyMember[]> =>
         combineLatest(
           members.map((accountId): Observable<DeriveSocietyMember> =>

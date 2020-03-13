@@ -6,8 +6,8 @@ import { AccountId, AccountData, AccountIndex, AccountInfo, Address, Balance, In
 import { ITuple } from '@polkadot/types/types';
 import { DerivedBalancesAccount } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
@@ -82,7 +82,6 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
 export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalancesAccount> {
   return memo((address: AccountIndex | AccountId | Address | string): Observable<DerivedBalancesAccount> =>
     api.derive.accounts.info(address).pipe(
-      observeOn(asyncScheduler),
       switchMap(({ accountId }): Observable<[AccountId, Result]> =>
         (accountId
           ? combineLatest([
@@ -96,7 +95,6 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
           : of([api.registry.createType('AccountId'), [api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Index')]])
         )
       ),
-      observeOn(asyncScheduler),
       map((result): DerivedBalancesAccount => calcBalances(api, result))
     ));
 }

@@ -7,8 +7,8 @@ import { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveSocietyCandidate } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -22,7 +22,6 @@ type Result = [Bid[], ResultSuspend[]]
 export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
   return memo((): Observable<DeriveSocietyCandidate[]> =>
     api.query.society.candidates<Vec<Bid>>().pipe(
-      observeOn(asyncScheduler),
       switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([
           of(candidates),
@@ -30,7 +29,6 @@ export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSociety
             candidates.map(({ who }): AccountId => who))
         ])
       ),
-      observeOn(asyncScheduler),
       map(([candidates, suspended]: Result): DeriveSocietyCandidate[] =>
         candidates.map(({ who, kind, value }, index) => ({
           accountId: who,

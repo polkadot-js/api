@@ -6,8 +6,8 @@ import { AccountId, EraIndex, EraPoints, EraRewardPoints, RewardPoint } from '@p
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStakingOverview } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
@@ -35,7 +35,6 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
       api.derive.session.indexes(),
       api.derive.staking.validators()
     ]).pipe(
-      observeOn(asyncScheduler),
       switchMap(([indexes, { nextElected, validators }]) =>
         combineLatest([
           of({ ...indexes, nextElected, validators }),
@@ -46,7 +45,6 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
               : of(api.registry.createType('EraRewardPoints'))
         ])
       ),
-      observeOn(asyncScheduler),
       map(([info, eraPoints]): DerivedStakingOverview => ({
         ...info, eraPoints
       }))

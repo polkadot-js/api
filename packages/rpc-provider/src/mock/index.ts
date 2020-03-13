@@ -60,6 +60,7 @@ export default class Mock implements ProviderInterface {
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
     chain_getHeader: (): any => this.registry.createType('Header', rpcHeader.result).toJSON(),
     state_getKeys: (): string[] => [],
+    state_getKeysPaged: (): string[] => [],
     state_getRuntimeVersion: (): string => this.registry.createType('RuntimeVersion').toHex(),
     state_getMetadata: (): string => rpcMetadata,
     state_getStorage: (storage: MockStateDb, params: any[]): string => u8aToHex(storage[(params[0] as string)]),

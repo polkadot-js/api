@@ -6,8 +6,8 @@ import { ParaId } from '@polkadot/types/interfaces';
 import { DeriveParachain, DeriveParachainInfo } from '../types';
 import { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
@@ -38,7 +38,6 @@ export function overview (api: ApiInterfaceRx): () => Observable<DeriveParachain
   return memo((): Observable<DeriveParachain[]> =>
     api.query.registrar?.parachains && api.query.parachains
       ? api.query.registrar.parachains<ParaId[]>().pipe(
-        observeOn(asyncScheduler),
         switchMap((paraIds) =>
           combineLatest([
             of(paraIds),
@@ -48,7 +47,6 @@ export function overview (api: ApiInterfaceRx): () => Observable<DeriveParachain
             api.query.parachains.relayDispatchQueueSize.multi<RelayDispatchQueueSize>(paraIds)
           ])
         ),
-        observeOn(asyncScheduler),
         map((result: Result): DeriveParachain[] =>
           parse(result)
         )
