@@ -38,7 +38,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     .concat(isStrict ? '' : indent(6)('[index: string]: SubmittableExtrinsicFunction<ApiType>;'))
-    .concat(allCalls.map(({ args, documentation, name }): string => {
+    .concat(allCalls.sort((a, b) => a.name.localeCompare(b.name.toString())).map(({ args, documentation, name }): string => {
       const params = args
         .map(({ name, type }): [string, string, string] => {
           const typeStr = type.toString();
@@ -66,7 +66,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
+    const body = meta.asLatest.modules.sort((a, b) => a.name.localeCompare(b.name.toString())).reduce((acc, mod): string[] => {
       return acc.concat(generateModule(registry, allDefs, mod, imports, isStrict));
     }, [] as string[]);
     const header = createImportCode(HEADER('chain'), imports, [
