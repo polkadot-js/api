@@ -1,6 +1,7 @@
 # 1.6.2 Feb 27, 2020
 
 - Revert checks for arg, not working on `.at()` queries (proper fix in next version)
+- Add `staking.nextElected(): AccountId[]` derive, returning the validators for the next session
 
 # 1.6.1 Mar 12, 2020
 
