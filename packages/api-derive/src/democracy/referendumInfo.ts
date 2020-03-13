@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, createType } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -25,11 +25,11 @@ function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<R
   }
 
   return {
-    index: createType(api.registry, 'PropIndex', index),
+    index: api.registry.createType('PropIndex', index),
     info,
     hash: info.proposalHash,
     proposal: preImage
-      ? createType(api.registry, 'Proposal', preImage[0].toU8a(true))
+      ? api.registry.createType('Proposal', preImage[0].toU8a(true))
       : undefined,
     preimage: preImage
       ? {

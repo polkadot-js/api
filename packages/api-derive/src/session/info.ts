@@ -5,10 +5,10 @@
 import { SessionIndex } from '@polkadot/types/interfaces';
 import { DerivedSessionInfo, DeriveSessionIndexes } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
+import { map, observeOn, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType, Option, u64 } from '@polkadot/types';
+import { Option, u64 } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -27,12 +27,12 @@ function createDerived (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsP
     activeEraStart,
     currentEra,
     currentIndex,
-    eraLength: createType(api.registry, 'BlockNumber', sessionsPerEra.mul(epochDuration)),
-    eraProgress: createType(api.registry, 'BlockNumber', eraProgress),
+    eraLength: api.registry.createType('BlockNumber', sessionsPerEra.mul(epochDuration)),
+    eraProgress: api.registry.createType('BlockNumber', eraProgress),
     isEpoch: hasBabe,
     sessionLength: epochDuration,
     sessionsPerEra,
-    sessionProgress: createType(api.registry, 'BlockNumber', sessionProgress),
+    sessionProgress: api.registry.createType('BlockNumber', sessionProgress),
     validatorCount
   };
 }
@@ -43,15 +43,15 @@ function queryAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
       createDerived(api, [
         [
           false,
-          createType(api.registry, 'u64', 1),
-          api.consts.staking?.sessionsPerEra || createType(api.registry, 'SessionIndex', 1)
+          api.registry.createType('u64', 1),
+          api.consts.staking?.sessionsPerEra || api.registry.createType('SessionIndex', 1)
         ],
         indexes,
         [
-          createType(api.registry, 'u64', 1),
-          createType(api.registry, 'u64', 1),
-          createType(api.registry, 'u64', 1),
-          createType(api.registry, 'SessionIndex', 1)
+          api.registry.createType('u64', 1),
+          api.registry.createType('u64', 1),
+          api.registry.createType('u64', 1),
+          api.registry.createType('SessionIndex', 1)
         ]
       ])
     )
@@ -60,6 +60,7 @@ function queryAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
 
 function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionIndexes, ResultSlotsFlat]> {
   return api.derive.session.indexes().pipe(
+    observeOn(asyncScheduler),
     switchMap((indexes): Observable<[DeriveSessionIndexes, ResultSlots]> =>
       combineLatest([
         of(indexes),
@@ -71,8 +72,9 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionIndexes, Resu
         ])
       ])
     ),
+    observeOn(asyncScheduler),
     map(([indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionIndexes, ResultSlotsFlat] => [
-      indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(createType(api.registry, 'SessionIndex', 1))]
+      indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(api.registry.createType('SessionIndex', 1))]
     ])
   );
 }
@@ -99,6 +101,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
         ? queryBabe(api) // 2.x with Babe
         : queryBabeNoHistory(api)
       ).pipe(
+        observeOn(asyncScheduler),
         map(([indexes, slots]: [DeriveSessionIndexes, ResultSlotsFlat]): DerivedSessionInfo =>
           createDerived(api, [
             [true, api.consts.babe.epochDuration, api.consts.staking.sessionsPerEra],

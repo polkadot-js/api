@@ -8,7 +8,6 @@ import { DerivedContractFees } from '../types';
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -18,8 +17,8 @@ type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN];
 function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
   return of([
     // deprecated
-    api.consts.contracts.creationFee || createType(api.registry, 'Balance'),
-    api.consts.contracts.transferFee || createType(api.registry, 'Balance'),
+    api.consts.contracts.creationFee || api.registry.createType('Balance'),
+    api.consts.contracts.transferFee || api.registry.createType('Balance'),
 
     // current
     api.consts.contracts.callBaseFee,

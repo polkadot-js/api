@@ -8,7 +8,7 @@ import { DeriveSessionIndexes } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { createType, Option, u32 } from '@polkadot/types';
+import { Option, u32 } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -34,7 +34,7 @@ function queryNoActive (api: ApiInterfaceRx): Observable<Result> {
   ]).pipe(
     map(([currentEra, currentIndex, validatorCount]): Result => [
       currentEra,
-      createType(api.registry, 'Option<Moment>'),
+      api.registry.createType('Option<Moment>'),
       currentEra,
       currentIndex,
       validatorCount
@@ -56,7 +56,7 @@ function query (api: ApiInterfaceRx): Observable<Result> {
       return [
         activeEra,
         activeEraStart,
-        currentEra.unwrapOr(createType(api.registry, 'EraIndex')),
+        currentEra.unwrapOr(api.registry.createType('EraIndex')),
         currentIndex,
         validatorCount
       ];
@@ -67,11 +67,11 @@ function query (api: ApiInterfaceRx): Observable<Result> {
 // empty set when none is available
 function empty (api: ApiInterfaceRx): Observable<Result> {
   return of([
-    createType(api.registry, 'EraIndex'),
-    createType(api.registry, 'Option<Moment>'),
-    createType(api.registry, 'EraIndex'),
-    createType(api.registry, 'SessionIndex', 1),
-    createType(api.registry, 'u32')
+    api.registry.createType('EraIndex'),
+    api.registry.createType('Option<Moment>'),
+    api.registry.createType('EraIndex'),
+    api.registry.createType('SessionIndex', 1),
+    api.registry.createType('u32')
   ]);
 }
 
