@@ -9,7 +9,7 @@ import { H512 } from '@polkadot/types/interfaces/runtime';
 export interface EcdsaSignature extends U8aFixed {}
 
 /** @name Ed25519Signature */
-export interface Ed25519Signature extends Signature {}
+export interface Ed25519Signature extends H512 {}
 
 /** @name Extrinsic */
 export interface Extrinsic extends GenericExtrinsic {}
@@ -85,4 +85,4 @@ export interface Signature extends H512 {}
 export interface SignerPayload extends GenericSignerPayload {}
 
 /** @name Sr25519Signature */
-export interface Sr25519Signature extends Signature {}
+export interface Sr25519Signature extends H512 {}
