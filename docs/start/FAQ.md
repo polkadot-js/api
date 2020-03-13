@@ -34,7 +34,7 @@ To submit these transactions, it needs to be send as a [wrapped transaction](api
 
 ## How do I call a function with a Tuple input
 
-Tuples, as defined in the Polkadot/Substrate types appear as `(TypeA, TypeB)`. For instance we may have an `(AccountId, u64)` input as defined in the metadata or as part of the user types. To specify a Tuple as an input, wrap it is an  array format, for instance to call `query.module.get((u32, u64))` where a `(u32, u64)` Tuple input is expected, you would do  `query.module.get([123, 456])`
+Tuples, as defined in the Polkadot/Substrate types appear as `(TypeA, TypeB)`. For instance we may have an `(AccountId, u64)` input as defined in the metadata or as part of the user types. To specify a Tuple as an input, wrap it in an  array format, for instance to call `query.module.get((u32, u64))` where a `(u32, u64)` Tuple input is expected, you would do  `query.module.get([123, 456])`
 
 ## How long do transactions live
 
