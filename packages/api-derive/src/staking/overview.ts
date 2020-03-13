@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, EraIndex, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
+import { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStakingOverview } from '../types';
 
@@ -11,8 +11,8 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-function retrievePointsPrev (api: ApiInterfaceRx, activeEra: EraIndex, currentElected: AccountId[]): Observable<EraRewardPoints> {
-  return api.query.staking.currentEraPointsEarned<EraPoints>(activeEra).pipe(
+function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): Observable<EraRewardPoints> {
+  return api.query.staking.currentEraPointsEarned<EraPoints>().pipe(
     map(({ individual, total }): EraRewardPoints =>
       api.registry.createType('EraRewardPoints', {
         total,
@@ -41,7 +41,7 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
           api.query.staking.erasRewardPoints
             ? api.query.staking.erasRewardPoints<EraRewardPoints>(indexes.activeEra)
             : api.query.staking.currentEraPointsEarned
-              ? retrievePointsPrev(api, indexes.activeEra, nextElected)
+              ? retrievePointsPrev(api, nextElected)
               : of(api.registry.createType('EraRewardPoints'))
         ])
       ),

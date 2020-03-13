@@ -443,8 +443,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           this.createType(meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
         )
         : new Uint8Array([])
-    ));
-    const startSubject = new BehaviorSubject<Codec | string | undefined>(headKey);
+    )).toHex();
+    const startSubject = new BehaviorSubject<string>(headKey);
 
     return this._rpcCore.state.getKeysPaged
       ? startSubject.pipe(
