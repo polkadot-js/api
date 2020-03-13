@@ -11,7 +11,7 @@ export type HasherInput = string | Buffer | Uint8Array;
 
 export type HasherFunction = (data: HasherInput) => Uint8Array;
 
-const DEFAULT = (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
+const DEFAULT_FN = (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
 
 const HASHERS: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, HasherFunction> = {
   Blake2_128: (data: HasherInput): Uint8Array => // eslint-disable-line @typescript-eslint/camelcase
@@ -32,5 +32,5 @@ const HASHERS: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, Ha
 
 /** @internal */
 export default function getHasher (hasher?: StorageHasher): HasherFunction {
-  return HASHERS[hasher?.type as 'Identity'] || [undefined, DEFAULT];
+  return HASHERS[hasher?.type as 'Identity'] || DEFAULT_FN;
 }
