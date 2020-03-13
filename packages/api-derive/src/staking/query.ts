@@ -7,8 +7,8 @@ import { AccountId, Exposure, Keys, Nominations, RewardDestination, ValidatorPre
 import { ITuple } from '@polkadot/types/types';
 import { DerivedStakingQuery } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -88,7 +88,6 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
         ? retrieveCurr(api, stashId)
         : retrievePrev(api, stashId)
     ]).pipe(
-      observeOn(asyncScheduler),
       switchMap((result): Observable<DerivedStakingQuery> =>
         retrieveController(api, stashId, result)
       )

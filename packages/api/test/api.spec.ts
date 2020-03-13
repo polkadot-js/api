@@ -5,6 +5,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 function createApi (): Promise<ApiPromise> {
+  jest.setTimeout(30000);
   process.env.NODE_ENV = 'test';
 
   const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
@@ -24,12 +25,28 @@ describe.skip('misc quick tests', (): void => {
     ));
   });
 
+  it.skip('handles map keys', async (): Promise<void> => {
+    const api = await createApi();
+
+    console.time('map.keys');
+
+    const keys = await api.query.system.account.keys();
+
+    console.error('# keys', keys.length);
+
+    console.timeEnd('map.keys');
+  });
+
   it.skip('handles map entries', async (): Promise<void> => {
     const api = await createApi();
 
-    console.error(JSON.stringify(
-      await api.query.indices.accounts.entries()
-    ));
+    console.time('map.entries');
+
+    const entries = await api.query.system.account.entries(); // api.query.indices.accounts.entries();
+
+    console.error('# entries', entries.length);
+
+    console.timeEnd('map.entries');
   });
 
   it.skip('handles doublemap entries', async (): Promise<void> => {

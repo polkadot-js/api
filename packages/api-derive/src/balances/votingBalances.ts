@@ -5,8 +5,7 @@
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { DerivedBalancesAccount } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { observeOn } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
@@ -19,6 +18,6 @@ export function votingBalances (api: ApiInterfaceRx): (addresses?: (AccountId | 
         addresses.map((accountId): Observable<DerivedBalancesAccount> =>
           api.derive.balances.account(accountId)
         )
-      ).pipe(observeOn(asyncScheduler))
+      )
   );
 }

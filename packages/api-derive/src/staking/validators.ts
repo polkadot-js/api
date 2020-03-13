@@ -6,8 +6,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingValidators } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap, take } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -19,7 +19,7 @@ export function nextElected (api: ApiInterfaceRx): () => Observable<AccountId[]>
         // only populate for next era in the last session, so track both here - entries are not
         // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
         switchMap(({ currentEra }): Observable<StorageKey[]> =>
-          api.query.staking.erasStakers.keys(currentEra).pipe(take(1))
+          api.query.staking.erasStakers.keys(currentEra)
         ),
         map((keys): AccountId[] =>
           keys.map((key): AccountId => key.args[1] as AccountId)
@@ -45,7 +45,6 @@ export function validators (api: ApiInterfaceRx): () => Observable<DeriveStaking
         ? api.derive.staking.nextElected()
         : of([])
     ]).pipe(
-      observeOn(asyncScheduler),
       map(([validators, nextElected]): DeriveStakingValidators => ({
         nextElected: nextElected.length
           ? nextElected

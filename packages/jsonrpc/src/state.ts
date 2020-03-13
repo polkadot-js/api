@@ -30,6 +30,17 @@ const getKeys: RpcMethodOpt = {
   type: 'Vec<StorageKey>'
 };
 
+const getKeysPaged: RpcMethodOpt = {
+  description: 'Returns the keys with prefix with pagination support.',
+  params: [
+    createParam('key', 'StorageKey'),
+    createParam('count', 'u32'),
+    createParam('startKey', 'StorageKey', { isOptional: true }),
+    createParam('at', 'BlockHash', { isOptional: true })
+  ],
+  type: 'Vec<StorageKey>'
+};
+
 const getStorage: RpcMethodOpt = {
   description: 'Retrieves the storage for a key',
   params: KEY_QUERY_PARAMS,
@@ -148,6 +159,7 @@ export default {
     getChildStorageHash: createMethod(section, 'getChildStorageHash', getChildStorageHash),
     getChildStorageSize: createMethod(section, 'getChildStorageSize', getChildStorageSize),
     getKeys: createMethod(section, 'getKeys', getKeys),
+    getKeysPaged: createMethod(section, 'getKeysPaged', getKeysPaged),
     getMetadata: createMethod(section, 'getMetadata', getMetadata),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     getStorage: createMethod(section, 'getStorage', getStorage),

@@ -7,8 +7,8 @@ import { Balance, BlockNumber, StakingLedger, UnlockChunk } from '@polkadot/type
 import { DerivedSessionInfo, DerivedStakingAccount, DerivedStakingQuery, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
-import { Observable, asyncScheduler, combineLatest } from 'rxjs';
-import { map, observeOn } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -93,7 +93,6 @@ export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) 
       api.derive.session.info(),
       api.derive.staking.query(accountId)
     ]).pipe(
-      observeOn(asyncScheduler),
       map(([sessionInfo, query]: [DerivedSessionInfo, DerivedStakingQuery]) =>
         parseResult(api, sessionInfo, query))
     ));

@@ -6,8 +6,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces';
 import { DerivedCollectiveProposals, DerivedTreasuryProposal, DerivedTreasuryProposals } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -65,7 +65,6 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
     api.query.treasury.proposals.multi<Option<TreasuryProposal>>(allIds),
     api.derive.council.proposals()
   ]).pipe(
-    observeOn(asyncScheduler),
     map(([allProposals, councilProposals]: [Option<TreasuryProposal>[], DerivedCollectiveProposals]): DerivedTreasuryProposals =>
       parseResult(api, { allIds, allProposals, approvalIds, councilProposals, proposalCount })
     )
@@ -82,7 +81,6 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DerivedTreasur
         api.query.treasury.proposalCount(),
         api.query.treasury.approvals()
       ]).pipe(
-        observeOn(asyncScheduler),
         switchMap(([proposalCount, approvalIds]: [ProposalIndex, ProposalIndex[]]) =>
           retrieveProposals(api, proposalCount, approvalIds)
         )

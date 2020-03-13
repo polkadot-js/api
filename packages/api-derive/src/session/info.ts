@@ -5,8 +5,8 @@
 import { SessionIndex } from '@polkadot/types/interfaces';
 import { DerivedSessionInfo, DeriveSessionIndexes } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64 } from '@polkadot/types';
 
@@ -60,7 +60,6 @@ function queryAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
 
 function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionIndexes, ResultSlotsFlat]> {
   return api.derive.session.indexes().pipe(
-    observeOn(asyncScheduler),
     switchMap((indexes): Observable<[DeriveSessionIndexes, ResultSlots]> =>
       combineLatest([
         of(indexes),
@@ -72,7 +71,6 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionIndexes, Resu
         ])
       ])
     ),
-    observeOn(asyncScheduler),
     map(([indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionIndexes, ResultSlotsFlat] => [
       indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(api.registry.createType('SessionIndex', 1))]
     ])
@@ -101,7 +99,6 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
         ? queryBabe(api) // 2.x with Babe
         : queryBabeNoHistory(api)
       ).pipe(
-        observeOn(asyncScheduler),
         map(([indexes, slots]: [DeriveSessionIndexes, ResultSlotsFlat]): DerivedSessionInfo =>
           createDerived(api, [
             [true, api.consts.babe.epochDuration, api.consts.staking.sessionsPerEra],

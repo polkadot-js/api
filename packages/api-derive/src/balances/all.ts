@@ -6,8 +6,8 @@ import { AccountId, AccountIndex, Address, Balance, BalanceLock, BalanceLockTo21
 import { DerivedBalancesAccount, DerivedBalancesAll } from '../types';
 
 import BN from 'bn.js';
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
@@ -130,7 +130,6 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
 export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalancesAll> {
   return memo((address: AccountIndex | AccountId | Address | string): Observable<DerivedBalancesAll> =>
     api.derive.balances.account(address).pipe(
-      observeOn(asyncScheduler),
       switchMap((account): Observable<Result> =>
         (!account.accountId.isEmpty
           ? combineLatest([
@@ -143,7 +142,6 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
           : of([account, api.registry.createType('BlockNumber'), [null, api.registry.createType('Vec<BalanceLock>')]])
         )
       ),
-      observeOn(asyncScheduler),
       map((result): DerivedBalancesAll => calcBalances(api, result))
     ));
 }

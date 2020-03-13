@@ -7,8 +7,8 @@ import { EraIndex, Exposure } from '@polkadot/types/interfaces';
 import { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
 
 import BN from 'bn.js';
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap, take } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -38,8 +38,6 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
 export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraExposure> {
   return memo((era: EraIndex): Observable<DeriveEraExposure> =>
     api.query.staking.erasStakersClipped.entries(era).pipe(
-      observeOn(asyncScheduler),
-      take(1),
       map((stakers) => mapStakers(era, stakers))
     )
   );
@@ -48,7 +46,6 @@ export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraExposure[]> {
   return memo((withActive?: boolean | BN | number): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      observeOn(asyncScheduler),
       switchMap((eras): Observable<DeriveEraExposure[]> =>
         eras.length
           ? combineLatest(

@@ -7,8 +7,8 @@ import { AccountId, AccountIndex, Address, Balance, Registration } from '@polkad
 import { ITuple } from '@polkadot/types/types';
 import { DeriveAccountInfo, DeriveAccountRegistration } from '../types';
 
-import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
-import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Bytes, Data, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
@@ -86,7 +86,6 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
       ])
       : of([undefined, undefined])
   ) as Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]>).pipe(
-    observeOn(asyncScheduler),
     switchMap(([identityOfOpt, superOfOpt]): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> => {
       if (identityOfOpt?.isSome) {
         // this identity has something set
@@ -104,7 +103,6 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
       // nothing of value returned
       return of([undefined, undefined]);
     }),
-    observeOn(asyncScheduler),
     map(([identityOfOpt, superOf]): DeriveAccountRegistration =>
       extractIdentity(identityOfOpt, superOf)
     )
@@ -118,7 +116,6 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
 export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
   return memo((address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     api.derive.accounts.idAndIndex(address).pipe(
-      observeOn(asyncScheduler),
       switchMap(([accountId, accountIndex]): Observable<[Partial<DeriveAccountInfo>, DeriveAccountRegistration, string?]> =>
         combineLatest([
           of({ accountId, accountIndex }),
@@ -126,7 +123,6 @@ export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId 
           retrieveNick(api, accountId)
         ])
       ),
-      observeOn(asyncScheduler),
       map(([{ accountId, accountIndex }, identity, nickname]): DeriveAccountInfo => ({
         accountId, accountIndex, identity, nickname
       }))

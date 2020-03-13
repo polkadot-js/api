@@ -4,8 +4,8 @@
 
 import { BlockNumber } from '@polkadot/types/interfaces';
 
-import { Observable, asyncScheduler, combineLatest } from 'rxjs';
-import { map, observeOn } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
@@ -29,7 +29,6 @@ export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumbe
       api.derive.chain.bestNumber(),
       api.derive.chain.bestNumberFinalized()
     ]).pipe(
-      observeOn(asyncScheduler),
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
         api.registry.createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
       )
