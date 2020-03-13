@@ -457,7 +457,14 @@ export default {
       extrinsic: 'ExtrinsicMetadataV11'
     },
     ModuleConstantMetadataV11: 'ModuleConstantMetadataV10',
-    ModuleMetadataV11: 'ModuleMetadataV10',
+    ModuleMetadataV11: {
+      name: 'Text',
+      storage: 'Option<StorageMetadataV11>',
+      calls: 'Option<Vec<FunctionMetadataV11>>',
+      events: 'Option<Vec<EventMetadataV11>>',
+      constants: 'Vec<ModuleConstantMetadataV11>',
+      errors: 'Vec<ErrorMetadataV11>'
+    },
     PlainTypeV11: 'Type',
     StorageEntryModifierV11: 'StorageEntryModifierV10',
     StorageEntryMetadataV11: {
@@ -474,7 +481,10 @@ export default {
         DoubleMap: 'DoubleMapTypeV11'
       }
     },
-    StorageMetadataV11: 'StorageMetadataV10',
+    StorageMetadataV11: {
+      prefix: 'Text',
+      items: 'Vec<StorageEntryMetadataV11>'
+    },
     StorageHasherV11: {
       _enum: {
         Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase

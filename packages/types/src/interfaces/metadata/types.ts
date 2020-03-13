@@ -432,7 +432,14 @@ export interface ModuleMetadataV10 extends Struct {
 }
 
 /** @name ModuleMetadataV11 */
-export interface ModuleMetadataV11 extends ModuleMetadataV10 {}
+export interface ModuleMetadataV11 extends Struct {
+  readonly name: Text;
+  readonly storage: Option<StorageMetadataV11>;
+  readonly calls: Option<Vec<FunctionMetadataV11>>;
+  readonly events: Option<Vec<EventMetadataV11>>;
+  readonly constants: Vec<ModuleConstantMetadataV11>;
+  readonly errors: Vec<ErrorMetadataV11>;
+}
 
 /** @name ModuleMetadataV2 */
 export interface ModuleMetadataV2 extends Struct {
@@ -842,7 +849,10 @@ export interface StorageMetadataV10 extends Struct {
 }
 
 /** @name StorageMetadataV11 */
-export interface StorageMetadataV11 extends StorageMetadataV10 {}
+export interface StorageMetadataV11 extends Struct {
+  readonly prefix: Text;
+  readonly items: Vec<StorageEntryMetadataV11>;
+}
 
 /** @name StorageMetadataV7 */
 export interface StorageMetadataV7 extends Struct {
