@@ -32,17 +32,18 @@ interface StorageKeyExtra {
   section: string;
 }
 
-// order important, matching enum
 const HASHER_MAP: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, [number, boolean]> = {
+  // opaque
   Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
   Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase
-  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
-  Identity: [0, true],
   Twox128: [16, false],
   Twox256: [32, false],
-  Twox64Concat: [8, true]
+
+  // can decode
+  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
+  Twox64Concat: [8, true],
+  Identity: [0, true]
 };
-const HASHER_OPTS = Object.values(HASHER_MAP);
 
 function getStorageType (type: StorageEntryTypeLatest, isOptionalLinked?: boolean): [boolean, string] {
   if (type.isPlain) {
@@ -109,14 +110,13 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
 
 function decodeHashers (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
-  const encoded = value.subarray(32);
-  let offset = 0;
+  let offset = 32;
 
   return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
-    const [hashLen, canDecode] = HASHER_OPTS[hasher.index];
+    const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createType(type as 'Raw', encoded.subarray(offset + hashLen))
-      : registry.createType('Raw', encoded.subarray(offset, offset + hashLen));
+      ? registry.createType(type as 'Raw', value.subarray(offset + hashLen))
+      : registry.createType('Raw', value.subarray(offset, offset + hashLen));
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
     result.push(decoded);
