@@ -33,38 +33,43 @@ interface StorageKeyExtra {
 }
 
 // order important, matching enum
-const HASHER_MAP: Record<keyof typeof metadataDefs.types.StorageHasherV10._enum, [number, boolean]> = {
+const HASHER_MAP: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, [number, boolean]> = {
   Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
   Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase
   Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
+  Identity: [0, true],
   Twox128: [16, false],
   Twox256: [32, false],
   Twox64Concat: [8, true]
 };
 const HASHER_OPTS = Object.values(HASHER_MAP);
 
-function getStorageType (type: StorageEntryTypeLatest): string {
+function getStorageType (type: StorageEntryTypeLatest, isOptionalLinked?: boolean): [boolean, string] {
   if (type.isPlain) {
-    return type.asPlain.toString() as keyof InterfaceTypes;
+    return [false, type.asPlain.toString()];
   } else if (type.isDoubleMap) {
-    return type.asDoubleMap.value.toString() as keyof InterfaceTypes;
+    return [false, type.asDoubleMap.value.toString()];
   }
 
   const map = type.asMap;
 
   if (map.linked.isTrue) {
-    return `(${map.value.toString()}, Linkage<${map.key.toString()}>)` as keyof InterfaceTypes;
+    const [pre, post] = isOptionalLinked
+      ? ['Option<', '>']
+      : ['', ''];
+
+    return [true, `(${pre}${map.value.toString()}${post}, Linkage<${map.key.toString()}>)`];
   }
 
-  return map.value.toString();
+  return [false, map.value.toString()];
 }
 
 // we unwrap the type here, turning into an output usable for createType
 /** @internal */
 export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = getStorageType(type);
+  const [hasWrapper, outputType] = getStorageType(type, isOptional);
 
-  return isOptional
+  return isOptional && !hasWrapper
     ? `Option<${outputType}>` as keyof InterfaceTypes
     : outputType as keyof InterfaceTypes;
 }

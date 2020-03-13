@@ -259,7 +259,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The map from nominator stash key to the set of stash keys of all validators to nominate.
        **/
-      nominators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<ITuple<[Nominations, Linkage<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
+      nominators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[Option<Nominations>, Linkage<AccountId>]>>> & QueryableStorageEntry<ApiType>;
       /**
        * The current era index.
        * This is the latest planned era, depending on how session module queues the validator
