@@ -9,7 +9,7 @@ import { AccountIndexes } from '../types';
 import { Observable, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
-import { Vec, createType } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -31,7 +31,7 @@ function queryEnumSet (api: ApiInterfaceRx): Observable<AccountIndexes> {
           // 64 (0..63 in first) is [1][0] (the first index value in set 2)
           const index = (outerIndex * enumsetSize) + innerIndex;
 
-          indexes[accountId.toString()] = createType(api.registry, 'AccountIndex', index);
+          indexes[accountId.toString()] = api.registry.createType('AccountIndex', index);
         });
 
         return indexes;

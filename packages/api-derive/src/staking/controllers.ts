@@ -6,8 +6,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
+import { observeOn, switchMap } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -20,6 +20,7 @@ type DeriveControllers = [AccountId[], Option<AccountId>[]];
 export function controllers (api: ApiInterfaceRx): () => Observable<DeriveControllers> {
   return memo((): Observable<[AccountId[], Option<AccountId>[]]> =>
     api.query.staking.validators<ITuple<[Vec<AccountId>, Vec<ValidatorPrefs>]>>().pipe(
+      observeOn(asyncScheduler),
       switchMap(([stashIds]): Observable<DeriveControllers> =>
         combineLatest([
           of(stashIds),
@@ -28,6 +29,7 @@ export function controllers (api: ApiInterfaceRx): () => Observable<DeriveContro
             ? of([])
             : api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
         ])
-      )
+      ),
+      observeOn(asyncScheduler)
     ));
 }

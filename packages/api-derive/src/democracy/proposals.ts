@@ -6,10 +6,10 @@ import { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal } from '@pol
 import { ITuple } from '@polkadot/types/types';
 import { DeriveProposal } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
+import { map, observeOn, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Option, Vec, createType } from '@polkadot/types';
+import { Bytes, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -37,7 +37,7 @@ function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Resul
       // we could end up in a situation where the proposal is non-decodable, e.g. after an upgrade
       if (preimage) {
         try {
-          proposal = createType(api.registry, 'Proposal', preimage[0].toU8a(true));
+          proposal = api.registry.createType('Proposal', preimage[0].toU8a(true));
         } catch (error) {
           console.error(error);
         }
@@ -65,6 +65,7 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal
   return memo((): Observable<DeriveProposal[]> =>
     api.query.democracy?.publicProps && api.query.democracy?.preimages
       ? api.query.democracy.publicProps<Proposals>().pipe(
+        observeOn(asyncScheduler),
         switchMap((proposals) =>
           combineLatest([
             of(proposals),
@@ -74,6 +75,7 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal
               proposals.map(([index]): PropIndex => index))
           ])
         ),
+        observeOn(asyncScheduler),
         map(([proposals, preimages, depositors]): DeriveProposal[] =>
           parse(api, { depositors, proposals, preimages })
         )

@@ -4,8 +4,8 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
+import { map, observeOn } from 'rxjs/operators';
 
 import { HeaderExtended } from '../type';
 import { memo } from '../util';
@@ -31,6 +31,7 @@ export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<Header
         ? api.query.session.validators()
         : of([])
     ]).pipe(
+      observeOn(asyncScheduler),
       map(([header, validators]): HeaderExtended =>
         new HeaderExtended(api.registry, header, validators)
       )

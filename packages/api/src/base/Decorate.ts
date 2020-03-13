@@ -10,8 +10,8 @@ import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, asyncScheduler, combineLatest, of } from 'rxjs';
+import { map, observeOn, switchMap, take } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
@@ -460,7 +460,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             // Since we have a default constructed key, we have Option<Raw> as the result
             // Don't keep the subscription here active, retrieve and get out of Dodge
             // TODO Once we have a multiple key RPC available, use that via fallback
-            this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys).pipe(take(1))
+            this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keys).pipe(
+              take(1),
+              observeOn(asyncScheduler)
+            )
           ])
         ),
         map(([keys, values]): [StorageKey, Codec][] =>
