@@ -1,6 +1,7 @@
 # 1.7.0-beta.x
 
 - Re-add fixed (with tests) checks for query args
+- Add `staking.nextElected(): AccountId[]` derive, returning the validators for the next session
 
 # 1.6.2 Mar 12, 2020
 
