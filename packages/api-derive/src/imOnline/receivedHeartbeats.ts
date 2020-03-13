@@ -5,8 +5,8 @@
 import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedHeartbeats } from '../types';
 
-import { of, Observable, combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, asyncScheduler, of, combineLatest } from 'rxjs';
+import { map, observeOn, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, u32 } from '@polkadot/types';
 
@@ -19,6 +19,7 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
   return memo((): Observable<DerivedHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(
+        observeOn(asyncScheduler),
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
             of(validators),
@@ -28,6 +29,7 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
               validators.map((address) => [currentIndex, address]))
           ])
         ),
+        observeOn(asyncScheduler),
         map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>
           validators.reduce((result: DerivedHeartbeats, validator, index): DerivedHeartbeats => ({
             ...result,

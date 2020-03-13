@@ -6,8 +6,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingValidators } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
+import { map, observeOn, switchMap, take } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
@@ -45,6 +45,7 @@ export function validators (api: ApiInterfaceRx): () => Observable<DeriveStaking
         ? api.derive.staking.nextElected()
         : of([])
     ]).pipe(
+      observeOn(asyncScheduler),
       map(([validators, nextElected]): DeriveStakingValidators => ({
         nextElected: nextElected.length
           ? nextElected

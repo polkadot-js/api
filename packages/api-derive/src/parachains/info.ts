@@ -9,7 +9,6 @@ import { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQue
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -92,7 +91,7 @@ export function info (api: ApiInterfaceRx): (id: ParaId | number) => Observable<
       ])
         .pipe(
           map((result: Result): DeriveParachainFull | null =>
-            parse(createType(api.registry, 'ParaId', id), result)
+            parse(api.registry.createType('ParaId', id), result)
           )
         )
       : of(null)

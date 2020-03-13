@@ -7,9 +7,9 @@ import { AccountId, Exposure, Keys, Nominations, RewardDestination, ValidatorPre
 import { ITuple } from '@polkadot/types/types';
 import { DerivedStakingQuery } from '../types';
 
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { createType, Option, Vec } from '@polkadot/types';
+import { Observable, asyncScheduler, combineLatest, of } from 'rxjs';
+import { map, observeOn, switchMap } from 'rxjs/operators';
+import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -80,7 +80,7 @@ function retrieveController (api: ApiInterfaceRx, stashId: AccountId, [queuedKey
  */
 export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DerivedStakingQuery> {
   return memo((accountId: Uint8Array | string): Observable<DerivedStakingQuery> => {
-    const stashId = createType(api.registry, 'AccountId', accountId);
+    const stashId = api.registry.createType('AccountId', accountId);
 
     return combineLatest([
       api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
@@ -88,6 +88,7 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
         ? retrieveCurr(api, stashId)
         : retrievePrev(api, stashId)
     ]).pipe(
+      observeOn(asyncScheduler),
       switchMap((result): Observable<DerivedStakingQuery> =>
         retrieveController(api, stashId, result)
       )
