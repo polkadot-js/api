@@ -1,6 +1,10 @@
-# 1.6.2 Feb 27, 2020
+# 1.7.0-beta.x
 
-- Revert checks for arg, not working on `.at()` queries (proper fix in next version)
+- Re-add fixed (with tests) checks for query args
+
+# 1.6.2 Mar 12, 2020
+
+- Revert checks for query args, not working on `.at()` queries (proper fix in next version)
 
 # 1.6.1 Mar 12, 2020
 
