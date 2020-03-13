@@ -40,7 +40,7 @@ interface MetaDecoration {
 
 type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
 
-const PAGE_SIZE_KEYS = 128;
+const PAGE_SIZE_KEYS = 256;
 const PAGE_SIZE_VALS = PAGE_SIZE_KEYS / 2;
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
