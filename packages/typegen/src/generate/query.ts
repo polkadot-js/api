@@ -69,7 +69,7 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
 
   return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
     .concat(isStrict ? '' : indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
-    .concat(storage.unwrap().items.map((storageEntry): string => {
+    .concat(storage.unwrap().items.sort((a, b) => a.name.localeCompare(b.name.toString())).map((storageEntry): string => {
       const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
       let entryType = 'AugmentedQuery';
 
@@ -91,7 +91,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const body = meta.asLatest.modules.reduce((acc: string[], mod): string[] => {
+    const body = meta.asLatest.modules.sort((a, b) => a.name.localeCompare(b.name.toString())).reduce((acc: string[], mod): string[] => {
       return acc.concat(generateModule(allDefs, registry, mod, imports, isStrict));
     }, []);
     const header = createImportCode(HEADER('chain'), imports, [

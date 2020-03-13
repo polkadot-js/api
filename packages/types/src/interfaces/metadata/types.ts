@@ -24,7 +24,13 @@ export interface DoubleMapTypeV10 extends Struct {
 }
 
 /** @name DoubleMapTypeV11 */
-export interface DoubleMapTypeV11 extends DoubleMapTypeV10 {}
+export interface DoubleMapTypeV11 extends Struct {
+  readonly hasher: StorageHasherV11;
+  readonly key1: Type;
+  readonly key2: Type;
+  readonly value: Type;
+  readonly key2Hasher: StorageHasherV11;
+}
 
 /** @name DoubleMapTypeV3 */
 export interface DoubleMapTypeV3 extends Struct {
@@ -239,7 +245,12 @@ export interface MapTypeV10 extends Struct {
 }
 
 /** @name MapTypeV11 */
-export interface MapTypeV11 extends MapTypeV10 {}
+export interface MapTypeV11 extends Struct {
+  readonly hasher: StorageHasherV11;
+  readonly key: Type;
+  readonly value: Type;
+  readonly linked: bool;
+}
 
 /** @name MapTypeV2 */
 export interface MapTypeV2 extends Struct {
@@ -421,7 +432,14 @@ export interface ModuleMetadataV10 extends Struct {
 }
 
 /** @name ModuleMetadataV11 */
-export interface ModuleMetadataV11 extends ModuleMetadataV10 {}
+export interface ModuleMetadataV11 extends Struct {
+  readonly name: Text;
+  readonly storage: Option<StorageMetadataV11>;
+  readonly calls: Option<Vec<FunctionMetadataV11>>;
+  readonly events: Option<Vec<EventMetadataV11>>;
+  readonly constants: Vec<ModuleConstantMetadataV11>;
+  readonly errors: Vec<ErrorMetadataV11>;
+}
 
 /** @name ModuleMetadataV2 */
 export interface ModuleMetadataV2 extends Struct {
@@ -572,7 +590,13 @@ export interface StorageEntryMetadataV10 extends Struct {
 }
 
 /** @name StorageEntryMetadataV11 */
-export interface StorageEntryMetadataV11 extends StorageEntryMetadataV10 {}
+export interface StorageEntryMetadataV11 extends Struct {
+  readonly name: Text;
+  readonly modifier: StorageEntryModifierV11;
+  readonly type: StorageEntryTypeV11;
+  readonly fallback: Bytes;
+  readonly documentation: Vec<Text>;
+}
 
 /** @name StorageEntryMetadataV6 */
 export interface StorageEntryMetadataV6 extends StorageFunctionMetadataV5 {}
@@ -621,7 +645,14 @@ export interface StorageEntryTypeV10 extends Enum {
 }
 
 /** @name StorageEntryTypeV11 */
-export interface StorageEntryTypeV11 extends StorageEntryTypeV10 {}
+export interface StorageEntryTypeV11 extends Enum {
+  readonly isPlain: boolean;
+  readonly asPlain: PlainTypeV11;
+  readonly isMap: boolean;
+  readonly asMap: MapTypeV11;
+  readonly isDoubleMap: boolean;
+  readonly asDoubleMap: DoubleMapTypeV11;
+}
 
 /** @name StorageEntryTypeV6 */
 export interface StorageEntryTypeV6 extends StorageFunctionTypeV5 {}
@@ -768,7 +799,15 @@ export interface StorageHasherV10 extends Enum {
 }
 
 /** @name StorageHasherV11 */
-export interface StorageHasherV11 extends StorageHasherV10 {}
+export interface StorageHasherV11 extends Enum {
+  readonly isBlake2128: boolean;
+  readonly isBlake2256: boolean;
+  readonly isBlake2128Concat: boolean;
+  readonly isTwox128: boolean;
+  readonly isTwox256: boolean;
+  readonly isTwox64Concat: boolean;
+  readonly isIdentity: boolean;
+}
 
 /** @name StorageHasherV4 */
 export interface StorageHasherV4 extends Enum {
@@ -810,7 +849,10 @@ export interface StorageMetadataV10 extends Struct {
 }
 
 /** @name StorageMetadataV11 */
-export interface StorageMetadataV11 extends StorageMetadataV10 {}
+export interface StorageMetadataV11 extends Struct {
+  readonly prefix: Text;
+  readonly items: Vec<StorageEntryMetadataV11>;
+}
 
 /** @name StorageMetadataV7 */
 export interface StorageMetadataV7 extends Struct {

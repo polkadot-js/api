@@ -25,7 +25,7 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     .concat(isStrict ? '' : indent(6)('[index: string]: AugmentedConst<object & Codec>;'))
-    .concat(constants.map(({ documentation, name, type }): string => {
+    .concat(constants.sort((a, b) => a.name.localeCompare(b.name.toString())).map(({ documentation, name, type }): string => {
       setImports(allDefs, imports, [type.toString()]);
 
       return createDocComments(6, documentation) +
@@ -42,7 +42,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
+    const body = meta.asLatest.modules.sort((a, b) => a.name.localeCompare(b.name.toString())).reduce((acc, mod): string[] => {
       return acc.concat(generateModule(allDefs, mod, imports, isStrict));
     }, [] as string[]);
     const header = createImportCode(HEADER('chain'), imports, [
