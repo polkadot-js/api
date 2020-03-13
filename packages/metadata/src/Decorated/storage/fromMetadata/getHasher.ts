@@ -13,7 +13,7 @@ export type HasherFunction = (data: HasherInput) => Uint8Array;
 
 const DEFAULT = (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
 
-const map: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, HasherFunction> = {
+const HASHERS: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, HasherFunction> = {
   Blake2_128: (data: HasherInput): Uint8Array => // eslint-disable-line @typescript-eslint/camelcase
     blake2AsU8a(data, 128),
   Blake2_128Concat: (data: HasherInput): Uint8Array => // eslint-disable-line @typescript-eslint/camelcase
@@ -32,9 +32,5 @@ const map: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, Hasher
 
 /** @internal */
 export default function getHasher (hasher?: StorageHasher): HasherFunction {
-  const [, fn] = Object.entries(map).find(([check]): boolean =>
-    hasher?.type === check
-  ) || [undefined, DEFAULT];
-
-  return fn;
+  return HASHERS[hasher?.type as 'Identity'] || [undefined, DEFAULT];
 }
