@@ -33,9 +33,9 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/register": "^7.8.3",
-    "@babel/runtime": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/register": "^7.8.6",
+    "@babel/runtime": "^7.8.7",
     "@polkadot/api": "1.7.0-beta.9",
     "@polkadot/jsonrpc": "1.7.0-beta.9",
     "@polkadot/metadata": "1.7.0-beta.9",
@@ -43,10 +43,10 @@
     "@polkadot/types": "1.7.0-beta.9",
     "@polkadot/util": "^2.6.2",
     "websocket": "^1.0.31",
-    "yargs": "^15.1.0"
+    "yargs": "^15.3.0"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.0",
-    "@types/yargs": "^15.0.3"
+    "@types/yargs": "^15.0.4"
   }
 }
