@@ -2582,9 +2582,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.50.33":
-  version: 0.50.35
-  resolution: "@polkadot/dev@npm:0.50.35"
+"@polkadot/dev@npm:^0.51.1":
+  version: 0.51.1
+  resolution: "@polkadot/dev@npm:0.51.1"
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.8.7
@@ -2662,11 +2662,12 @@ __metadata:
     polkadot-dev-yarn-only: scripts/polkadot-dev-yarn-only.js
     polkadot-exec-eslint: scripts/polkadot-exec-eslint.js
     polkadot-exec-ghpages: scripts/polkadot-exec-ghpages.js
+    polkadot-exec-lerna: scripts/polkadot-exec-lerna.js
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.js
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 2/b083a64079ee709c1d2601d7abb296f0f0230977a804014768e52202d23f8d63668cb6f16d0eb3e53935ecc420dc9f7410f4b91aa26fe14acc86a42c83a04686
+  checksum: 2/0419da3d3333764965d45c3d735c641dd8c6a355ba75e447bfbec4d2cf58648d1067984a9f7e84767a9a334e5d3b68aeb9cd9e575573bc96033834ceaa10d9d3
   languageName: node
   linkType: hard
 
@@ -2740,12 +2741,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.10":
-  version: 0.3.10
-  resolution: "@polkadot/ts@npm:0.3.10"
+"@polkadot/ts@npm:^0.3.11":
+  version: 0.3.11
+  resolution: "@polkadot/ts@npm:0.3.11"
   dependencies:
     "@types/chrome": ^0.0.100
-  checksum: 2/f3469cc60371ce60d92c028e25c39f5c3cd89868bf2e2d57acaac81483fddf019fb8e078ae1516adb495a600ac367c43817fe420e2f50e2b9294edfcb57bb9fd
+  checksum: 2/1d99c03b83d5de42b294b72cb4cc5fbb665174dd4e7abb451ad43bd8ae3a20ef8893601964d4ca1806b86180eac9f806d73852acac07f49094dccbd0d53d7a33
   languageName: node
   linkType: hard
 
@@ -15296,8 +15297,8 @@ __metadata:
     "@babel/core": ^7.8.7
     "@babel/register": ^7.8.6
     "@babel/runtime": ^7.8.7
-    "@polkadot/dev": ^0.50.33
-    "@polkadot/ts": ^0.3.10
+    "@polkadot/dev": ^0.51.1
+    "@polkadot/ts": ^0.3.11
     "@polkadot/typegen": "workspace:packages/typegen"
     copyfiles: ^2.2.0
   languageName: unknown
