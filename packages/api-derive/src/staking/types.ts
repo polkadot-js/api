@@ -9,6 +9,8 @@ export type DeriveEraValPoints = Record<string, RewardPoint>;
 
 export type DeriveEraValPrefs = Record<string, ValidatorPrefs>;
 
+export type DeriveEraValSlash = Record<string, Balance>;
+
 export interface DeriveEraPoints {
   era: EraIndex;
   eraPoints: RewardPoint;
@@ -23,6 +25,12 @@ export interface DeriveEraPrefs {
 export interface DeriveEraRewards {
   era: EraIndex;
   eraReward: Balance;
+}
+
+export interface DeriveEraSlashes {
+  era: EraIndex;
+  nominators: DeriveEraValSlash;
+  validators: DeriveEraValSlash;
 }
 
 export interface DeriveStakerPoints {
@@ -55,6 +63,12 @@ export interface DeriveStakerReward {
   isValidator: boolean;
   nominating: [string, number][];
   validators: Record<string, Balance>;
+  total: Balance;
+}
+
+export interface DeriveStakerSlashes {
+  era: EraIndex;
+  isValidator: boolean;
   total: Balance;
 }
 
