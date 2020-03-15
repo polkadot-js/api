@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance } from '@polkadot/types/interfaces';
-import { DeriveEraPoints, DeriveEraRewards, DeriveStakerExposure, DeriveStakerReward } from '../types';
+import { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
@@ -12,18 +12,24 @@ import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-type Result = [DeriveEraPoints[], DeriveEraRewards[], DeriveStakerExposure[]];
-const ZERO = new BN(0);
+type Result = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[], DeriveStakerExposure[]];
 
-function parseRewards (api: ApiInterfaceRx, stakerId: string, [erasPoints, erasRewards, exposures]: Result): DeriveStakerReward[] {
+const ZERO = new BN(0);
+const COMM_DIV = new BN(1_000_000_000);
+
+function parseRewards (api: ApiInterfaceRx, stakerId: string, [erasPoints, erasPrefs, erasRewards, exposures]: Result): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
     const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: new BN(0), validators: {} };
-    const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: new BN(0) };
+    const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: ZERO };
+    const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
     const validators: Record<string, Balance> = {};
     let total = ZERO;
 
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
-      const valPoints = allValPoints[validatorId] || new BN(0);
+      const valPoints = allValPoints[validatorId] || ZERO;
+      const valComm = allValPrefs[validatorId]?.commission.unwrap() || ZERO;
+      const avail = eraReward.mul(valPoints).div(eraPoints);
+      const valCut = valComm.mul(avail).div(COMM_DIV);
       const expTotal = exposure.total.unwrap();
       let value: BN | undefined;
 
@@ -40,7 +46,7 @@ function parseRewards (api: ApiInterfaceRx, stakerId: string, [erasPoints, erasR
             : ZERO;
         }
 
-        value = eraReward.mul(valPoints).mul(staked).div(eraPoints).div(expTotal);
+        value = avail.sub(valCut).mul(staked).div(expTotal).add(validatorId === stakerId ? valCut : ZERO);
         total = total.add(value);
       }
 
@@ -64,6 +70,7 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
 
     return combineLatest([
       api.derive.staking.erasPoints(startEra),
+      api.derive.staking.erasPrefs(startEra),
       api.derive.staking.erasRewards(startEra),
       api.derive.staking.stakerExposure(stakerId, startEra)
     ]).pipe(
