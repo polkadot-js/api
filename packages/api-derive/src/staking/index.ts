@@ -6,6 +6,7 @@ export * from './account';
 export * from './erasExposure';
 export * from './erasHistoric';
 export * from './erasPoints';
+export * from './erasPrefs';
 export * from './erasRewards';
 export * from './controllers';
 export * from './electedInfo';

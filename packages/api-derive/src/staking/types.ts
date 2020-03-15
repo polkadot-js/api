@@ -7,10 +7,17 @@ import { DeriveSessionIndexes } from '../session/types';
 
 export type DeriveEraValPoints = Record<string, RewardPoint>;
 
+export type DeriveEraValPrefs = Record<string, ValidatorPrefs>;
+
 export interface DeriveEraPoints {
   era: EraIndex;
   eraPoints: RewardPoint;
   validators: DeriveEraValPoints;
+}
+
+export interface DeriveEraPrefs {
+  era: EraIndex;
+  validators: DeriveEraValPrefs;
 }
 
 export interface DeriveEraRewards {
