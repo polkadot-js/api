@@ -13,9 +13,7 @@ import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type KeysAndPrefs = [StorageKey, ValidatorPrefs][];
-
-function mapPrefs (era: EraIndex, all: KeysAndPrefs): DeriveEraPrefs {
+function mapPrefs (era: EraIndex, all: [StorageKey, ValidatorPrefs][]): DeriveEraPrefs {
   const validators: DeriveEraValPrefs = {};
 
   all.forEach(([key, prefs]): void => {
