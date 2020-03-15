@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function copy_folder () {
   SRC="packages/$1/build"
