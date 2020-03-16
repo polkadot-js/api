@@ -19,7 +19,6 @@ export function stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | st
       map((slashes): DeriveStakerSlashes[] =>
         slashes.map(({ era, nominators, validators }): DeriveStakerSlashes => ({
           era,
-          isValidator: !!validators[stakerId],
           total: nominators[stakerId] || validators[stakerId] || api.registry.createType('Balance')
         }))
       )
