@@ -49,6 +49,14 @@ export interface DeriveEraExposure {
   validators: DeriveEraValidatorExposure;
 }
 
+export interface DeriveOwnExposure {
+  clipped: Exposure;
+  era: EraIndex;
+  exposure: Exposure;
+}
+
+export type DeriveOwnSlashes = DeriveStakerSlashes;
+
 export interface DeriveStakerExposure {
   era: EraIndex;
   isEmpty: boolean;
@@ -68,7 +76,6 @@ export interface DeriveStakerReward {
 
 export interface DeriveStakerSlashes {
   era: EraIndex;
-  isValidator: boolean;
   total: Balance;
 }
 
