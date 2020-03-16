@@ -1,7 +1,10 @@
 # 1.7.0-beta.x
 
+- Add support for new Substrate `state_getKeysPaged` RPC
 - Re-add fixed (with tests) checks for query args
-- Add `staking.nextElected(): AccountId[]` derive, returning the validators for the next session
+- Move `derive.staking.controllers` to `derive.staking.stashes`, reflecting actual content
+- Cater for adjusted storage (non-linked maps) for `derive.staking.stashes` (with old-compat)
+- Expanded `derive.staking.*` derives, including addition of `derive.staking.own*`
 
 # 1.6.2 Mar 12, 2020
 

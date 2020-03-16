@@ -61,7 +61,7 @@ describe('derive', (): void => {
     testFunction(api)('session', 'sessionProgress', []);
 
     testFunction(api)('staking', 'account', []);
-    testFunction(api)('staking', 'controllers', []);
+    testFunction(api)('staking', 'stashes', []);
   });
 
   describe('custom', (): void => {
