@@ -80,19 +80,20 @@ describe('extractStorageArgs', (): void => {
     ).toThrow('staking.erasStakers(EraIndex, AccountId) is a doublemap, requiring 2 arguments, 1 found');
   });
 
-  it('validates linked map, no args', (): void => {
+  // Linked maps have been removed
+  it.skip('validates linked map, no args', (): void => {
     expect(
       extractStorageArgs(storage.staking.validators, [])
     ).toEqual([storage.staking.validators]);
   });
 
-  it('validates linked map, single arg', (): void => {
+  it.skip('validates linked map, single arg', (): void => {
     expect(
       extractStorageArgs(storage.staking.validators, [123])
     ).toEqual([storage.staking.validators, 123]);
   });
 
-  it('validates linked map (failing with extra args)', (): void => {
+  it.skip('validates linked map (failing with extra args)', (): void => {
     expect(
       (): any[] =>
         extractStorageArgs(storage.staking.validators, [123, 456])

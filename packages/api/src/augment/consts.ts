@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '@polkadot/types/types';
-import { Bytes, u32, u64 } from '@polkadot/types/primitive';
+import { u32, u64 } from '@polkadot/types/primitive';
 import { Gas } from '@polkadot/types/interfaces/contracts';
 import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
@@ -159,14 +159,6 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * The number of recent samples to keep from this chain. Default is 101.
        **/
       windowSize: AugmentedConst<BlockNumber>;
-    };
-    session: {
-      [index: string]: AugmentedConst<object & Codec>;
-      /**
-       * Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch
-       * of the trie.
-       **/
-      dedupKeyPrefix: AugmentedConst<Bytes>;
     };
     society: {
       [index: string]: AugmentedConst<object & Codec>;

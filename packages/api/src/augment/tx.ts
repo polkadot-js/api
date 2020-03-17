@@ -1215,6 +1215,7 @@ declare module '@polkadot/api/types/submittable' {
        * be the account that controls it.
        * `value` must be more than the `minimum_balance` specified by `T::Currency`.
        * The dispatch origin for this call must be _Signed_ by the stash account.
+       * Emits `Bonded`.
        * # <weight>
        * - Independent of the arguments. Moderate complexity.
        * - O(1).
@@ -1231,6 +1232,7 @@ declare module '@polkadot/api/types/submittable' {
        * Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount
        * that can be added.
        * The dispatch origin for this call must be _Signed_ by the stash, not the controller.
+       * Emits `Bonded`.
        * # <weight>
        * - Independent of the arguments. Insignificant complexity.
        * - O(1).
@@ -1300,7 +1302,10 @@ declare module '@polkadot/api/types/submittable' {
        * - `who` is the controller account of the nominator to pay out.
        * - `era` may not be lower than one following the most recently paid era. If it is higher,
        * then it indicates an instruction to skip the payout of all previous eras.
-       * - `validators` is the list of all validators that `who` had exposure to during `era`.
+       * - `validators` is the list of all validators that `who` had exposure to during `era`,
+       * alongside the index of `who` in the clipped exposure of the validator.
+       * I.e. each element is a tuple of
+       * `(validator, index of `who` in clipped exposure of validator)`.
        * If it is incomplete, then less than the full reward will be paid out.
        * It must not exceed `MAX_NOMINATIONS`.
        * WARNING: once an era is payed for a validator such validator can't claim the payout of
@@ -1392,6 +1397,7 @@ declare module '@polkadot/api/types/submittable' {
        * can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need
        * to be called first to remove some of the chunks (if possible).
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
+       * Emits `Unbonded`.
        * See also [`Call::withdraw_unbonded`].
        * # <weight>
        * - Independent of the arguments. Limited but potentially exploitable complexity.
@@ -1420,6 +1426,7 @@ declare module '@polkadot/api/types/submittable' {
        * This essentially frees up that balance to be used by the stash account to do
        * whatever it wants.
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
+       * Emits `Withdrawn`.
        * See also [`Call::unbond`].
        * # <weight>
        * - Could be dependent on the `origin` argument and how much `unlocking` chunks exist.
@@ -1481,6 +1488,7 @@ declare module '@polkadot/api/types/submittable' {
        * Kill some items from storage.
        **/
       killStorage: AugmentedSubmittable<(keys: Vec<Key> | (Key | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
+      migrateAccounts: AugmentedSubmittable<(accounts: Vec<AccountId> | (AccountId | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Make some on-chain remark.
        **/
