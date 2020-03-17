@@ -13,7 +13,7 @@ import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type MultiResult = [Option<AccountId>, Option<ITuple<[Nominations]>> | Option<Nominations>, RewardDestination, ITuple<[ValidatorPrefs]>, Option<Keys>, Exposure];
+type MultiResult = [Option<AccountId>, Option<ITuple<[Nominations]> | Nominations>, RewardDestination, ITuple<[ValidatorPrefs]>, Option<Keys>, Exposure];
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; sessionIds: AccountId[] } {
   const sessionIds = (queuedKeys.find(([currentId]): boolean =>
