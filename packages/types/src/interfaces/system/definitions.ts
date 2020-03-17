@@ -42,6 +42,10 @@ export default {
       event: 'Event'
     },
     Key: 'Bytes',
+    LastRuntimeUpgradeInfo: {
+      specVersion: 'Compact<u32>',
+      specName: 'Text'
+    },
     Phase: {
       _enum: {
         ApplyExtrinsic: 'u32',

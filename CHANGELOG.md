@@ -1,5 +1,6 @@
 # 1.7.0-beta.x
 
+- Support latest Substrate types & metadata
 - Add support for new Substrate `state_getKeysPaged` RPC
 - Re-add fixed (with tests) checks for query args
 - Move `derive.staking.controllers` to `derive.staking.stashes`, reflecting actual content
