@@ -19,7 +19,8 @@ describe('fromMetadata', (): void => {
     expect(consts.democracy.cooloffPeriod.toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
   });
 
-  it('correctly handles bytes', (): void => {
+  // removed from session
+  it.skip('correctly handles bytes', (): void => {
     // 0x34 removes as the length prefix removed
     expect(consts.session.dedupKeyPrefix.toHex()).toEqual('0x3a73657373696f6e3a6b657973');
   });
