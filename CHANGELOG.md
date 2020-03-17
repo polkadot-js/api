@@ -1,12 +1,12 @@
-# 1.7.0-beta.x
+# 1.7.1 Mar 17, 2020
 
-- **Important** Current versions of Polkadot/Substrate has dropped linked maps, if you are using these, e.g. `staking.{nominators,validators}()` to retrieve all entries, and using an upgraded chain, you need to swap to retrieving values via `.entries()`
-- Support latest Substrate types & metadata
-- Add support for new Substrate `state_getKeysPaged` RPC
-- Re-add fixed (with tests) checks for query args, previously disabled in 1.6.2
+- **Important** Current versions of Polkadot/Substrate have dropped support for linked maps on storage entries. If you are using these queries to retriev all entries, for instance `staking.{nominators,validators}()` and using an upgraded chain, you need to swap to retrieving entries via `.entries()` or `.keys()` for the keys.
+- Pull in support and types for latest Polkadot/Substrate
+- Add support for the new Substrate `state_getKeysPaged` RPC, including use in storage keys
 - Move `derive.staking.controllers` to `derive.staking.stashes`, reflecting actual content
-- Cater for adjusted storage (non-linked maps) for `derive.staking.stashes` (with old-compat)
+- Cater for adjusted storage (non-linked mapped) for `derive.staking.stashes` queries (with old-compat)
 - Expanded `derive.staking.*` derives, including addition of `derive.staking.own*`
+- Re-add fixed (with tests) checks for query args, previously disabled in 1.6.2
 
 # 1.6.2 Mar 12, 2020
 
