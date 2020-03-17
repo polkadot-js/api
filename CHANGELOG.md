@@ -1,5 +1,6 @@
 # 1.7.0-beta.x
 
+- **Important** Current versions of Polkadot/Substrate has dropped linked maps, if you are using these, e.g. `staking.{nominators,validators}()` to retrieve all entries, and using an upgraded chain, you need to swap to retrieving values via `.entries()`
 - Support latest Substrate types & metadata
 - Add support for new Substrate `state_getKeysPaged` RPC
 - Re-add fixed (with tests) checks for query args
