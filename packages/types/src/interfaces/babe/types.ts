@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Enum, Option, Struct, U8aFixed } from '@polkadot/types/codec';
 import { u32, u64 } from '@polkadot/types/primitive';

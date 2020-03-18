@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Codec } from '@polkadot/types/types';
 import { u32, u64 } from '@polkadot/types/primitive';

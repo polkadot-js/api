@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct } from '@polkadot/types/codec';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';

@@ -9,7 +9,7 @@ import { paramsNotation } from '@polkadot/types/codec/utils';
 
 import { setImports, TypeImports } from './imports';
 
-export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n`;
+export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 export const FOOTER = '\n';
 
 const TYPES_NON_PRIMITIVE = ['Metadata'];
