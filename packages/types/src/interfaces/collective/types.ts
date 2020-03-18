@@ -27,3 +27,5 @@ export interface VotesTo230 extends Struct {
   readonly ayes: Vec<AccountId>;
   readonly nays: Vec<AccountId>;
 }
+
+export type PHANTOM_COLLECTIVE = 'collective';

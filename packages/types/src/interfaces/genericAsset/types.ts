@@ -32,3 +32,5 @@ export interface PermissionVersions extends Enum {
   readonly isV1: boolean;
   readonly asV1: PermissionsV1;
 }
+
+export type PHANTOM_GENERICASSET = 'genericAsset';

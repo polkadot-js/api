@@ -218,3 +218,5 @@ export interface ValidatorPrefsTo145 extends Struct {
 export interface ValidatorPrefsTo196 extends Struct {
   readonly validatorPayment: Compact<Balance>;
 }
+
+export type PHANTOM_STAKING = 'staking';

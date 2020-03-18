@@ -3,3 +3,5 @@
 
 
 
+
+export type PHANTOM_AUTHOR = 'author';

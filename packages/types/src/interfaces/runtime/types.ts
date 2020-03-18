@@ -185,3 +185,5 @@ export interface Weight extends u32 {}
 
 /** @name WeightMultiplier */
 export interface WeightMultiplier extends Fixed64 {}
+
+export type PHANTOM_RUNTIME = 'runtime';

@@ -81,3 +81,5 @@ export interface VrfData extends U8aFixed {}
 
 /** @name VrfProof */
 export interface VrfProof extends U8aFixed {}
+
+export type PHANTOM_BABE = 'babe';

@@ -50,3 +50,5 @@ export interface StoredState extends Enum {
   readonly isPendingResume: boolean;
   readonly asPendingResume: PendingResume;
 }
+
+export type PHANTOM_GRANDPA = 'grandpa';

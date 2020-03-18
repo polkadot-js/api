@@ -8,3 +8,5 @@ import { u64 } from '@polkadot/types/primitive';
 export interface RawAuraPreDigest extends Struct {
   readonly slotNumber: u64;
 }
+
+export type PHANTOM_AURA = 'aura';

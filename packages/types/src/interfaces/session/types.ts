@@ -35,3 +35,5 @@ export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, A
 
 /** @name SessionKeys6 */
 export interface SessionKeys6 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+
+export type PHANTOM_SESSION = 'session';

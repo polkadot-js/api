@@ -55,3 +55,5 @@ export interface WithdrawReasons extends Set {
   readonly isFee: boolean;
   readonly isTip: boolean;
 }
+
+export type PHANTOM_BALANCES = 'balances';

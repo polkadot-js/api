@@ -98,3 +98,5 @@ export interface Phase extends Enum {
 
 /** @name RefCount */
 export interface RefCount extends u8 {}
+
+export type PHANTOM_SYSTEM = 'system';

@@ -18,3 +18,5 @@ export interface Timepoint extends Struct {
   readonly height: BlockNumber;
   readonly index: u32;
 }
+
+export type PHANTOM_UTILITY = 'utility';

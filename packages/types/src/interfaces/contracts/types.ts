@@ -113,3 +113,5 @@ export interface TombstoneContractInfo extends Hash {}
 
 /** @name TrieId */
 export interface TrieId extends Bytes {}
+
+export type PHANTOM_CONTRACTS = 'contracts';

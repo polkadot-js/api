@@ -39,3 +39,5 @@ export interface ReferendumInfo extends Struct {
   readonly threshold: VoteThreshold;
   readonly delay: BlockNumber;
 }
+
+export type PHANTOM_DEMOCRACY = 'democracy';

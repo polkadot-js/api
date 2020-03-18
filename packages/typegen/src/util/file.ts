@@ -11,7 +11,7 @@ export function writeFile (dest: string, generator: () => string): void {
 
   console.log('\tWriting');
 
-  fs.writeFileSync(dest, generated.replace(/\n\n\n/g, '\n\n'), { flag: 'w' });
+  fs.writeFileSync(dest, generated, { flag: 'w' });
 
   console.log('');
 }

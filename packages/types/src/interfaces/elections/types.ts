@@ -32,3 +32,5 @@ export interface VoteThreshold extends Enum {
   readonly isSupermajorityrejection: boolean;
   readonly isSimplemajority: boolean;
 }
+
+export type PHANTOM_ELECTIONS = 'elections';

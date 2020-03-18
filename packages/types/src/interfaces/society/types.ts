@@ -43,3 +43,5 @@ export interface VouchingStatus extends Enum {
   readonly isVouching: boolean;
   readonly isBanned: boolean;
 }
+
+export type PHANTOM_SOCIETY = 'society';

@@ -17,3 +17,5 @@ export interface Log extends Struct {
   readonly topics: Vec<H256>;
   readonly data: Bytes;
 }
+
+export type PHANTOM_EVM = 'evm';

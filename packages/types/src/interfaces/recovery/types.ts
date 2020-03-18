@@ -19,3 +19,5 @@ export interface RecoveryConfig extends Struct {
   readonly friends: Vec<AccountId>;
   readonly threshold: u16;
 }
+
+export type PHANTOM_RECOVERY = 'recovery';

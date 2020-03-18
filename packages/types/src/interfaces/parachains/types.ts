@@ -151,3 +151,5 @@ export interface WinningData extends Vec<WinningDataEntry> {}
 
 /** @name WinningDataEntry */
 export interface WinningDataEntry extends ITuple<[AccountId, ParaIdOf, BalanceOf]> {}
+
+export type PHANTOM_PARACHAINS = 'parachains';

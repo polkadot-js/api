@@ -65,3 +65,5 @@ export interface Registration extends Struct {
 
 /** @name RegistrationJudgement */
 export interface RegistrationJudgement extends ITuple<[RegistrarIndex, IdentityJudgement]> {}
+
+export type PHANTOM_IDENTITY = 'identity';

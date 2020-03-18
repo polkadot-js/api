@@ -20,3 +20,5 @@ export interface ImportedAux extends Struct {
   readonly needsFinalityProof: bool;
   readonly isNewBest: bool;
 }
+
+export type PHANTOM_ENGINE = 'engine';

@@ -24,3 +24,5 @@ export interface IncludedBlocks extends Struct {
 
 /** @name MoreAttestations */
 export interface MoreAttestations extends Struct {}
+
+export type PHANTOM_ATTESTATIONS = 'attestations';

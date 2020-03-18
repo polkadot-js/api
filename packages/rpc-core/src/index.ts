@@ -86,6 +86,8 @@ export default class Rpc implements RpcInterface {
 
   public readonly contracts!: RpcInterface['contracts'];
 
+  public readonly engine!: RpcInterface['engine'];
+
   public readonly payment!: RpcInterface['payment'];
 
   public readonly rpc!: RpcInterface['rpc'];

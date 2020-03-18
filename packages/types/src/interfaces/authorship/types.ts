@@ -12,3 +12,5 @@ export interface UncleEntryItem extends Enum {
   readonly isUncle: boolean;
   readonly asUncle: ITuple<[Hash, Option<AccountId>]>;
 }
+
+export type PHANTOM_AUTHORSHIP = 'authorship';

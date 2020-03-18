@@ -10,3 +10,5 @@ export interface VestingInfo extends Struct {
   readonly perBlock: Balance;
   readonly startingBlock: BlockNumber;
 }
+
+export type PHANTOM_VESTING = 'vesting';

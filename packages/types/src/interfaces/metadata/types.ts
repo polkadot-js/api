@@ -865,3 +865,5 @@ export interface StorageMetadataV8 extends StorageMetadataV7 {}
 
 /** @name StorageMetadataV9 */
 export interface StorageMetadataV9 extends StorageMetadataV8 {}
+
+export type PHANTOM_METADATA = 'metadata';

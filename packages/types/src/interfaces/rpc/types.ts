@@ -155,3 +155,5 @@ export interface StorageChangeSet extends Struct {
   readonly block: Hash;
   readonly changes: Vec<KeyValueOption>;
 }
+
+export type PHANTOM_RPC = 'rpc';

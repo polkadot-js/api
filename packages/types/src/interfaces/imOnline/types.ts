@@ -32,3 +32,5 @@ export interface OpaqueNetworkState extends Struct {
 
 /** @name OpaquePeerId */
 export interface OpaquePeerId extends Bytes {}
+
+export type PHANTOM_IMONLINE = 'imOnline';

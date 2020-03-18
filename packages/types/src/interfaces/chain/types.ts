@@ -3,3 +3,5 @@
 
 
 
+
+export type PHANTOM_CHAIN = 'chain';

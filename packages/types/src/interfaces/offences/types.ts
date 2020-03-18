@@ -26,3 +26,5 @@ export interface Reporter extends AccountId {}
 
 /** @name ReportIdOf */
 export interface ReportIdOf extends Hash {}
+
+export type PHANTOM_OFFENCES = 'offences';

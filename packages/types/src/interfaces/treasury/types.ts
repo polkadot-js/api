@@ -27,3 +27,5 @@ export interface TreasuryProposal extends Struct {
   readonly beneficiary: AccountId;
   readonly bond: Balance;
 }
+
+export type PHANTOM_TREASURY = 'treasury';

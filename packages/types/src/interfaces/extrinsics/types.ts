@@ -86,3 +86,5 @@ export interface SignerPayload extends GenericSignerPayload {}
 
 /** @name Sr25519Signature */
 export interface Sr25519Signature extends H512 {}
+
+export type PHANTOM_EXTRINSICS = 'extrinsics';
