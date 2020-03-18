@@ -12,11 +12,11 @@ import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/jsonrpc';
-import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
-import jsonrpcParam from '@polkadot/jsonrpc/create/param';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
+import jsonrpcMethod from './create/method';
+import jsonrpcParam from './create/param';
 import { drr } from './rxjs';
 
 type UserRpcConverted = Record<string, Record<string, RpcMethod>>;
