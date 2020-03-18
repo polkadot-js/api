@@ -2668,16 +2668,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/jsonrpc@1.8.0-beta.1, @polkadot/jsonrpc@workspace:packages/jsonrpc":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/jsonrpc@workspace:packages/jsonrpc"
-  dependencies:
-    "@babel/runtime": ^7.8.7
-    "@polkadot/types": 1.8.0-beta.1
-    "@polkadot/util": ^2.6.2
-  languageName: unknown
-  linkType: soft
-
 "@polkadot/keyring@npm:^2.6.2":
   version: 2.6.2
   resolution: "@polkadot/keyring@npm:2.6.2"
@@ -2707,7 +2697,6 @@ __metadata:
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
     "@babel/runtime": ^7.8.7
-    "@polkadot/jsonrpc": 1.8.0-beta.1
     "@polkadot/keyring": ^2.6.2
     "@polkadot/metadata": 1.8.0-beta.1
     "@polkadot/rpc-provider": 1.8.0-beta.1
@@ -2723,7 +2712,6 @@ __metadata:
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
     "@babel/runtime": ^7.8.7
-    "@polkadot/jsonrpc": 1.8.0-beta.1
     "@polkadot/keyring": ^2.6.2
     "@polkadot/metadata": 1.8.0-beta.1
     "@polkadot/types": 1.8.0-beta.1
@@ -2755,7 +2743,6 @@ __metadata:
     "@babel/register": ^7.8.6
     "@babel/runtime": ^7.8.7
     "@polkadot/api": 1.8.0-beta.1
-    "@polkadot/jsonrpc": 1.8.0-beta.1
     "@polkadot/metadata": 1.8.0-beta.1
     "@polkadot/rpc-provider": 1.8.0-beta.1
     "@polkadot/types": 1.8.0-beta.1
