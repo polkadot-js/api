@@ -4,14 +4,15 @@
 
 import fs from 'fs';
 
-export function writeFile (dest: string, generator: () => string): void {
-  console.log(`${dest}\n\tGenerating`);
+export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
+  !noLog && console.log(`${dest}\n\tGenerating`);
 
   const generated = generator();
 
-  console.log('\tWriting');
+  !noLog && console.log('\tWriting');
 
-  fs.writeFileSync(dest, generated, { flag: 'w' });
+  // Just wtf? Beyond words.
+  fs.writeFileSync(dest, generated.replace(/\n\n\n/g, '\n\n').replace(/\n\n\n/g, '\n\n').replace(/\n\n\n/g, '\n\n'), { flag: 'w' });
 
-  console.log('');
+  !noLog && console.log('');
 }
