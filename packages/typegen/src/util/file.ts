@@ -7,12 +7,15 @@ import fs from 'fs';
 export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
   !noLog && console.log(`${dest}\n\tGenerating`);
 
-  const generated = generator();
+  let generated = generator();
+
+  while (generated.includes('\n\n\n')) {
+    generated = generated.replace(/\n\n\n/g, '\n\n');
+  }
 
   !noLog && console.log('\tWriting');
 
-  // Just wtf? Beyond words.
-  fs.writeFileSync(dest, generated.replace(/\n\n\n/g, '\n\n').replace(/\n\n\n/g, '\n\n').replace(/\n\n\n/g, '\n\n'), { flag: 'w' });
+  fs.writeFileSync(dest, generated, { flag: 'w' });
 
   !noLog && console.log('');
 }
