@@ -3,15 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
-import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, Registry } from '@polkadot/types/types';
-import { RpcInterface, RpcInterfaceMethod, UserRpc } from './types';
+import { RpcInterface, RpcInterfaceMethod, RpcMethod, RpcParam, UserRpc } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
-import jsonrpc from '@polkadot/jsonrpc';
+import * as definitions from '@polkadot/types/interfaces/definitions';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
@@ -107,7 +106,7 @@ export default class Rpc implements RpcInterface {
     this.registry = registry;
     this.provider = provider;
 
-    this.createInterfaces(jsonrpc, userRpc);
+    this.createInterfaces(userRpc);
   }
 
   /**
@@ -117,9 +116,13 @@ export default class Rpc implements RpcInterface {
     this.provider.disconnect();
   }
 
-  private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
+  private createInterfaces<Section extends keyof RpcInterface> (userBare: UserRpc): void {
+    const sectionNames = Object
+      .keys(definitions)
+      .filter((key) => (definitions as any)[key].rpc && Object.keys((definitions as any)[key].rpc).length !== 0);
+
     // these are the base keys (i.e. part of jsonrpc)
-    this.sections.push(...Object.keys(interfaces));
+    this.sections.push(...sectionNames);
 
     // add any extra user-defined sections
     this.sections.push(...Object.keys(userBare).filter((key): boolean => !this.sections.includes(key)));
@@ -145,7 +148,7 @@ export default class Rpc implements RpcInterface {
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
       (this as any)[sectionName as Section] = {
-        ...this.createInterface(sectionName, interfaces[sectionName] ? interfaces[sectionName].methods : {}),
+        ...this.createInterface(sectionName, (definitions as any)[sectionName].rpc),
         ...this.createInterface(sectionName, user[sectionName] || {})
       };
     });
