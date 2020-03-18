@@ -6,9 +6,10 @@ import { Option, Vec } from '@polkadot/types/codec';
 import { Bytes, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
+import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion } from '@polkadot/types/interfaces/rpc';
-import { AccountId, BlockNumber, H256, Hash, Header, Index, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { Observable } from 'rxjs';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
@@ -92,6 +93,16 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns the value under a specified storage key in a contract
        **/
       getStorage: AugmentedRpc<(address: AccountId | string | Uint8Array, key: H256 | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<Bytes>>>;
+    };
+    engine: {
+      /**
+       * Instructs the manual-seal authorship task to create a new block
+       **/
+      createBlock: AugmentedRpc<(createEmpty: bool | boolean | Uint8Array, finalize: bool | boolean | Uint8Array, parentHash?: BlockHash | string | Uint8Array) => Observable<CreatedBlock>>;
+      /**
+       * Instructs the manual-seal authorship task to finalize a block
+       **/
+      finalizeBlock: AugmentedRpc<(hash: BlockHash | string | Uint8Array, justification?: Justification | string | Uint8Array) => Observable<bool>>;
     };
     payment: {
       /**

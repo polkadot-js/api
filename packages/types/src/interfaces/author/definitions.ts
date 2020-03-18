@@ -23,7 +23,7 @@ export default {
       params: [
         {
           name: 'sessionKeys',
-          types: 'Bytes'
+          type: 'Bytes'
         }
       ],
       type: 'bool'
@@ -33,7 +33,7 @@ export default {
       params: [
         {
           name: 'bytesOrHash',
-          types: 'Vec<ExtrinsicOrHash>'
+          type: 'Vec<ExtrinsicOrHash>'
         }
       ],
       type: 'Vec<Hash>'
@@ -43,15 +43,15 @@ export default {
       params: [
         {
           name: 'keyType',
-          types: 'Text'
+          type: 'Text'
         },
         {
           name: 'suri',
-          types: 'Text'
+          type: 'Text'
         },
         {
           name: 'publicKey',
-          types: 'Bytes'
+          type: 'Bytes'
         }
       ],
       type: 'Bytes'
@@ -72,7 +72,7 @@ export default {
       params: [
         {
           name: 'extrinsic',
-          types: 'Extrinsic'
+          type: 'Extrinsic'
         }
       ],
       type: 'Hash'
@@ -83,7 +83,7 @@ export default {
       params: [
         {
           name: 'extrinsic',
-          types: 'Extrinsic'
+          type: 'Extrinsic'
         }
       ],
       pubsub: [
