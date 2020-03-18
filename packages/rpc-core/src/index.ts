@@ -15,8 +15,7 @@ import jsonrpc from '@polkadot/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
-import jsonrpcMethod from './create/method';
-import jsonrpcParam from './create/param';
+import { createMethod, createParam } from './create';
 import { drr } from './rxjs';
 
 type UserRpcConverted = Record<string, Record<string, RpcMethod>>;
@@ -130,10 +129,10 @@ export default class Rpc implements RpcInterface {
       user[sectionName] = methods.reduce((section: Record<string, RpcMethod>, def): Record<string, RpcMethod> => {
         const { description = 'User defined', name, params, type } = def;
 
-        section[name] = jsonrpcMethod(sectionName, name, {
+        section[name] = createMethod(sectionName, name, {
           description,
           params: params.map(({ isOptional, name, type }): RpcParam =>
-            jsonrpcParam(name, type as any, { isOptional })),
+            createParam(name, type as any, { isOptional })),
           type: type as any
         });
 
