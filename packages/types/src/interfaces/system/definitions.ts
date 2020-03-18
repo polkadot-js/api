@@ -3,6 +3,43 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export default {
+  rpc: {
+    name: {
+      description: 'Retrieves the node name',
+      params: [],
+      type: 'Text'
+    },
+    version: {
+      description: 'Retrieves the version of the node',
+      params: [],
+      type: 'Text'
+    },
+    chain: {
+      description: 'Retrieves the chain',
+      params: [],
+      type: 'Text'
+    },
+    properties: {
+      description: 'Get a custom set of properties as a JSON object, defined in the chain spec',
+      params: [],
+      type: 'ChainProperties'
+    },
+    health: {
+      description: 'Return health status of the node',
+      params: [],
+      type: 'Health'
+    },
+    peers: {
+      description: 'Returns the currently connected peers',
+      params: [],
+      type: 'Vec<PeerInfo>'
+    },
+    networkState: {
+      description: 'Returns current state of the network',
+      params: [],
+      type: 'NetworkState'
+    }
+  },
   types: {
     AccountInfo: {
       nonce: 'Index',
