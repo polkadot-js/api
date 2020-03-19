@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DefinitionRpc } from '@polkadot/types/types';
+
 import { TypeRegistry } from '@polkadot/types';
 
 import Rpc from '.';
@@ -9,18 +11,20 @@ import Rpc from '.';
 describe('methodSend', (): void => {
   const registry = new TypeRegistry();
   let rpc: Rpc;
-  let methods: any;
+  let methods: Record<string, DefinitionRpc>;
   let provider: any;
 
   beforeEach((): void => {
     methods = {
       blah: {
+        description: 'test',
         params: [
           { name: 'foo', type: 'Bytes' }
         ],
         type: 'Bytes'
       },
       bleh: {
+        description: 'test',
         params: [],
         type: 'Bytes'
       }

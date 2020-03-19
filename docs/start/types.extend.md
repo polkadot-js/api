@@ -201,6 +201,6 @@ const api = await ApiPromise.create({
 
 Always look at customization and understand the impacts, replicating these changes between the node and the API. For the above the `Address` type is used in the construction of the `UncheckedExtrinsic` type, while the lookup type is applicable on transactions such as `balances.transfer(to: LookupSource, value: Balance)`
 
-## Type creation
+## Custom RPC
 
-While the API always converts all the inputs into the underlying type required by the operation, in some cases you may want to [create an instance of a type](types.create.md) yourself.
+In addition to customizing modules and types on your node, you can also add custom RPC definitions. Like the type definitions in ths section, [these can be defined and passed to the API](rpc.custom.md) for decoration.
