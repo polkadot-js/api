@@ -23,13 +23,9 @@ const INTERVAL = 1000;
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
   [], Object.entries(definitions).map(([sectionName, section]: any): string[] =>
     Object
-      .keys(section.rpc || {})
-      .filter((methodName): boolean =>
-        section[methodName].isSubscription
-      )
-      .map((methodName): string =>
-        `${sectionName}_${methodName}`
-      )
+      .keys(section.rpc)
+      .filter((methodName): boolean => !!section.rpc[methodName].pubsub)
+      .map((methodName): string => `${sectionName}_${methodName}`)
       .concat('chain_subscribeNewHead')
   )
 );
