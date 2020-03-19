@@ -129,7 +129,7 @@ function retrieveFlags (api: ApiInterfaceRx, accountId?: AccountId): Observable<
     accountId && api.query[councilSection]?.members
       ? api.query[councilSection].members()
       : of(undefined),
-    accountId && api.query.council.members
+    accountId && api.query.council?.members
       ? api.query.council.members()
       : of([]),
     accountId && api.query.technicalCommittee?.members
