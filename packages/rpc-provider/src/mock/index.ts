@@ -12,7 +12,7 @@ import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
 import Metadata from '@polkadot/metadata/Decorated';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
-import * as definitions from '@polkadot/types/interfaces';
+import * as definitions from '@polkadot/types/interfaces/definitions';
 import testKeyring from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
