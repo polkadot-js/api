@@ -11,7 +11,7 @@ import Call from '@polkadot/types/generic/Call';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Vec } from '@polkadot/types/codec';
-import * as definitions from '@polkadot/types/interfaces';
+import * as definitions from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
@@ -102,7 +102,7 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
 function addRpc (): string {
   const sections = Object
     .keys(definitions)
-    .filter((key) => (definitions as any)[key].rpc && Object.keys((definitions as any)[key].rpc).length !== 0);
+    .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
 
   return renderPage({
     title: 'JSON-RPC',
@@ -110,7 +110,7 @@ function addRpc (): string {
     sections: sections
       .sort()
       .map((sectionName) => {
-        const section = (definitions as any)[sectionName];
+        const section = definitions[sectionName as 'babe'];
 
         return {
           name: sectionName,

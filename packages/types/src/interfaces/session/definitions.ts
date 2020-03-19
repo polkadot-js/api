@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Definitions } from '../../types';
+
 // The runtime definition of SessionKeys are passed as a Trait to session
 // Defined in `node/runtime/src/lib.rs` as follow
 //   impl_opaque_keys! {
@@ -24,10 +26,11 @@ const keyTypes = {
 };
 
 export default {
+  rpc: {},
   types: {
     ...keyTypes,
     FullIdentification: 'Exposure',
     IdentificationTuple: '(ValidatorId, FullIdentification)',
     SessionIndex: 'u32'
   }
-};
+} as Definitions;

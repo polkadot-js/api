@@ -20,28 +20,28 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
     }, {});
     const rpcKeys = Object
       .keys(definitions)
-      .filter((key) => (definitions as any)[key].rpc && Object.keys((definitions as any)[key].rpc).length !== 0)
+      .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0)
       .sort();
     const body = rpcKeys.reduce<string[]>((allSections, section): string[] => {
-      const allMethods = Object.keys((definitions as any)[section].rpc).sort().map((methodName): string => {
-        const method = (definitions as any)[section].rpc[methodName];
+      const allMethods = Object.keys(definitions[section as 'babe'].rpc).sort().map((methodName): string => {
+        const def = definitions[section as 'babe'].rpc[methodName];
 
         // These are too hard to type with generics, do manual overrides
         if (section === 'state') {
           setImports(allDefs, imports, ['Codec', 'Hash', 'StorageKey', 'Vec']);
 
           if (methodName === 'getStorage') {
-            return createDocComments(6, [method.description]) + indent(6)(`getStorage: AugmentedRpc<<T = Codec>(key: ${StorageKeyTye}, block?: Hash | Uint8Array | string) => Observable<T>>;`);
+            return createDocComments(6, [def.description]) + indent(6)(`getStorage: AugmentedRpc<<T = Codec>(key: ${StorageKeyTye}, block?: Hash | Uint8Array | string) => Observable<T>>;`);
           } else if (methodName === 'queryStorage') {
-            return createDocComments(6, [method.description]) + indent(6)(`queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;`);
+            return createDocComments(6, [def.description]) + indent(6)(`queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;`);
           } else if (methodName === 'subscribeStorage') {
-            return createDocComments(6, [method.description]) + indent(6)(`subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[]) => Observable<T>>;`);
+            return createDocComments(6, [def.description]) + indent(6)(`subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[]) => Observable<T>>;`);
           }
         }
 
-        setImports(allDefs, imports, [method.type]);
+        setImports(allDefs, imports, [def.type]);
 
-        const args = method.params.map((param: any): string => {
+        const args = def.params.map((param: any): string => {
           const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
 
           setImports(allDefs, imports, [param.type, ...similarTypes]);
@@ -49,7 +49,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
           return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
         });
 
-        return createDocComments(6, [method.description]) + indent(6)(`${methodName}: AugmentedRpc<(${args.join(', ')}) => Observable<${method.type}>>;`);
+        return createDocComments(6, [def.description]) + indent(6)(`${methodName}: AugmentedRpc<(${args.join(', ')}) => Observable<${def.type}>>;`);
       });
 
       return allSections.concat(
