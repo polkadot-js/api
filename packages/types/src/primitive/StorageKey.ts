@@ -7,7 +7,7 @@ import { AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import metadataDefs from '../interfaces/metadata/definitions';
+import { AllHashers } from '@polkadot/types/interfaces/metadata/definitions';
 import Bytes from './Bytes';
 
 export interface StorageEntry {
@@ -32,7 +32,7 @@ interface StorageKeyExtra {
   section: string;
 }
 
-const HASHER_MAP: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, [number, boolean]> = {
+const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   // opaque
   Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
   Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase

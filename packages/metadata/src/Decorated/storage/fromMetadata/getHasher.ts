@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import metadataDefs from '@polkadot/types/interfaces/metadata/definitions';
+import { AllHashers } from '@polkadot/types/interfaces/metadata/definitions';
 import { StorageHasher } from '@polkadot/types/interfaces';
 import { u8aConcat, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';
@@ -13,7 +13,7 @@ export type HasherFunction = (data: HasherInput) => Uint8Array;
 
 const DEFAULT_FN = (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
 
-const HASHERS: Record<keyof typeof metadataDefs.types.StorageHasherV11._enum, HasherFunction> = {
+const HASHERS: Record<keyof typeof AllHashers, HasherFunction> = {
   Blake2_128: (data: HasherInput): Uint8Array => // eslint-disable-line @typescript-eslint/camelcase
     blake2AsU8a(data, 128),
   Blake2_128Concat: (data: HasherInput): Uint8Array => // eslint-disable-line @typescript-eslint/camelcase

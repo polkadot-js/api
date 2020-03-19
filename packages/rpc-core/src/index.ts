@@ -16,6 +16,11 @@ import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } f
 
 import { drr } from './rxjs';
 
+interface DefinitionRpcExt extends DefinitionRpc {
+  method: string;
+  section: string;
+}
+
 const l = logger('rpc-core');
 
 const EMPTY_META = {
@@ -63,7 +68,7 @@ function createErrorMessage (method: string, { params, type }: DefinitionRpc, er
 export default class Rpc implements RpcInterface {
   readonly #storageCache = new Map<string, string | null>();
 
-  public readonly mapping: Map<string, DefinitionRpc> = new Map();
+  public readonly mapping: Map<string, DefinitionRpcExt> = new Map();
 
   public readonly provider: ProviderInterface;
 
@@ -141,7 +146,7 @@ export default class Rpc implements RpcInterface {
       .reduce((exposed, method): RpcInterface[Section] => {
         const def = methods[method];
 
-        this.mapping.set(`${section}_${method}`, def);
+        this.mapping.set(`${section}_${method}`, { ...def, method, section });
 
         // FIXME Remove any here
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor

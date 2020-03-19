@@ -4,26 +4,30 @@
 
 import { Definitions } from '../../types';
 
+const AllConvictions = [
+  // 0.1x votes, unlocked.
+  'None',
+  // 1x votes, locked for an enactment period following a successful vote.
+  'Locked1x',
+  // 2x votes, locked for 2x enactment periods following a successful vote.
+  'Locked2x',
+  // 3x votes, locked for 4x...
+  'Locked3x',
+  // 4x votes, locked for 8x...
+  'Locked4x',
+  // 5x votes, locked for 16x...
+  'Locked5x',
+  /// 6x votes, locked for 32x...
+  'Locked6x'
+];
+
+export { AllConvictions };
+
 export default {
   rpc: {},
   types: {
     Conviction: {
-      _enum: [
-        // 0.1x votes, unlocked.
-        'None',
-        // 1x votes, locked for an enactment period following a successful vote.
-        'Locked1x',
-        // 2x votes, locked for 2x enactment periods following a successful vote.
-        'Locked2x',
-        // 3x votes, locked for 4x...
-        'Locked3x',
-        // 4x votes, locked for 8x...
-        'Locked4x',
-        // 5x votes, locked for 16x...
-        'Locked5x',
-        /// 6x votes, locked for 32x...
-        'Locked6x'
-      ]
+      _enum: AllConvictions
     },
     PropIndex: 'u32',
     Proposal: 'Call',
