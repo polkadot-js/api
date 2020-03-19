@@ -94,6 +94,7 @@ export interface Phase extends Enum {
   readonly isApplyExtrinsic: boolean;
   readonly asApplyExtrinsic: u32;
   readonly isFinalization: boolean;
+  readonly isInitialization: boolean;
 }
 
 /** @name RefCount */

@@ -86,7 +86,8 @@ export default {
     Phase: {
       _enum: {
         ApplyExtrinsic: 'u32',
-        Finalization: 'Null'
+        Finalization: 'Null',
+        Initialization: 'Null'
       }
     },
     RefCount: 'u8'
