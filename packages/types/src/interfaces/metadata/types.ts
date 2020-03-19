@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
@@ -865,3 +865,5 @@ export interface StorageMetadataV8 extends StorageMetadataV7 {}
 
 /** @name StorageMetadataV9 */
 export interface StorageMetadataV9 extends StorageMetadataV8 {}
+
+export type PHANTOM_METADATA = 'metadata';

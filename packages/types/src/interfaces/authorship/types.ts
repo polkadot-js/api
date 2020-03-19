@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option } from '@polkadot/types/codec';
@@ -12,3 +12,5 @@ export interface UncleEntryItem extends Enum {
   readonly isUncle: boolean;
   readonly asUncle: ITuple<[Hash, Option<AccountId>]>;
 }
+
+export type PHANTOM_AUTHORSHIP = 'authorship';

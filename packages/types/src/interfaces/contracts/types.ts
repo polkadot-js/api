@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Compact, Enum, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
 import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
@@ -113,3 +113,5 @@ export interface TombstoneContractInfo extends Hash {}
 
 /** @name TrieId */
 export interface TrieId extends Bytes {}
+
+export type PHANTOM_CONTRACTS = 'contracts';

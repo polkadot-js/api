@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, HashMap, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
@@ -155,3 +155,5 @@ export interface StorageChangeSet extends Struct {
   readonly block: Hash;
   readonly changes: Vec<KeyValueOption>;
 }
+
+export type PHANTOM_RPC = 'rpc';

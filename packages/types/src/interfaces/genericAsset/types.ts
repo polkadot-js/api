@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Compact, Enum, Struct } from '@polkadot/types/codec';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
@@ -32,3 +32,5 @@ export interface PermissionVersions extends Enum {
   readonly isV1: boolean;
   readonly asV1: PermissionsV1;
 }
+
+export type PHANTOM_GENERICASSET = 'genericAsset';

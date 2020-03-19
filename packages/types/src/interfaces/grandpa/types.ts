@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
@@ -50,3 +50,5 @@ export interface StoredState extends Enum {
   readonly isPendingResume: boolean;
   readonly asPendingResume: PendingResume;
 }
+
+export type PHANTOM_GRANDPA = 'grandpa';

@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Enum, Set, Struct } from '@polkadot/types/codec';
 import { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
@@ -55,3 +55,5 @@ export interface WithdrawReasons extends Set {
   readonly isFee: boolean;
   readonly isTip: boolean;
 }
+
+export type PHANTOM_BALANCES = 'balances';

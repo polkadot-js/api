@@ -12,7 +12,7 @@ import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
 import Metadata from '@polkadot/metadata/Decorated';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
-import interfaces from '@polkadot/jsonrpc';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
@@ -21,15 +21,11 @@ import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
-  [], Object.values(interfaces).map((area): string[] =>
+  [], Object.values(jsonrpc).map((section): string[] =>
     Object
-      .values(area.methods)
-      .filter((method): boolean =>
-        method.isSubscription
-      )
-      .map(({ method, section }): string =>
-        `${section}_${method}`
-      )
+      .values(section)
+      .filter(({ isSubscription }) => isSubscription)
+      .map(({ jsonrpc }) => jsonrpc)
       .concat('chain_subscribeNewHead')
   )
 );

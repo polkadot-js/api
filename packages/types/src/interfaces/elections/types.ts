@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Enum, Struct } from '@polkadot/types/codec';
 import { GenericVote } from '@polkadot/types/generic';
@@ -32,3 +32,5 @@ export interface VoteThreshold extends Enum {
   readonly isSupermajorityrejection: boolean;
   readonly isSimplemajority: boolean;
 }
+
+export type PHANTOM_ELECTIONS = 'elections';

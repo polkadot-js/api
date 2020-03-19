@@ -14,9 +14,10 @@ import Struct from '@polkadot/types/codec/Struct';
 import UInt from '@polkadot/types/codec/UInt';
 import Vec from '@polkadot/types/codec/Vec';
 import Tuple from '@polkadot/types/codec/Tuple';
+import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import GenericAccountId from '@polkadot/types/generic/AccountId';
 import GenericAddress from '@polkadot/types/generic/Address';
-import Vote, { convictionNames as _voteConvictions } from '@polkadot/types/generic/Vote';
+import Vote from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
 import { isChildClass, stringLowerFirst } from '@polkadot/util';
@@ -29,7 +30,7 @@ function arrayToStrType (arr: string[]): string {
   return `(${arr.map((c): string => `'${c}'`).join(' | ')})`;
 }
 
-const voteConvictions = arrayToStrType(_voteConvictions);
+const voteConvictions = arrayToStrType(AllConvictions);
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */

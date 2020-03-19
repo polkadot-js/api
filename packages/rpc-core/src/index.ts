@@ -3,23 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
-import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
 import { Hash } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, Registry } from '@polkadot/types/types';
-import { RpcInterface, RpcInterfaceMethod, UserRpc } from './types';
+import { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
-import jsonrpc from '@polkadot/jsonrpc';
-import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
-import jsonrpcParam from '@polkadot/jsonrpc/create/param';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr } from './rxjs';
-
-type UserRpcConverted = Record<string, Record<string, RpcMethod>>;
 
 const l = logger('rpc-core');
 
@@ -34,7 +29,7 @@ const EMPTY_META = {
 
 // utility method to create a nicely-formatted error
 /** @internal */
-function createErrorMessage ({ method, params, type }: RpcMethod, error: Error): string {
+function createErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): string {
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`
   ).join(', ');
@@ -68,7 +63,7 @@ function createErrorMessage ({ method, params, type }: RpcMethod, error: Error):
 export default class Rpc implements RpcInterface {
   readonly #storageCache = new Map<string, string | null>();
 
-  public readonly mapping: Map<string, RpcMethod> = new Map();
+  public readonly mapping: Map<string, DefinitionRpcExt> = new Map();
 
   public readonly provider: ProviderInterface;
 
@@ -88,6 +83,8 @@ export default class Rpc implements RpcInterface {
 
   public readonly contracts!: RpcInterface['contracts'];
 
+  public readonly engine!: RpcInterface['engine'];
+
   public readonly payment!: RpcInterface['payment'];
 
   public readonly rpc!: RpcInterface['rpc'];
@@ -101,14 +98,14 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (registry: Registry, provider: ProviderInterface, userRpc: UserRpc = {}) {
+  constructor (registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this.registry = registry;
     this.provider = provider;
 
-    this.createInterfaces(jsonrpc, userRpc);
+    this.createInterfaces(userRpc);
   }
 
   /**
@@ -118,47 +115,32 @@ export default class Rpc implements RpcInterface {
     this.provider.disconnect();
   }
 
-  private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
+  private createInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
+    const sectionNames = Object.keys(jsonrpc);
+
     // these are the base keys (i.e. part of jsonrpc)
-    this.sections.push(...Object.keys(interfaces));
+    this.sections.push(...sectionNames);
 
     // add any extra user-defined sections
-    this.sections.push(...Object.keys(userBare).filter((key): boolean => !this.sections.includes(key)));
-
-    // convert the user inputs into the same format as used in jsonrpc
-    const user = Object.entries(userBare).reduce((user: UserRpcConverted, [sectionName, methods]): UserRpcConverted => {
-      user[sectionName] = methods.reduce((section: Record<string, RpcMethod>, def): Record<string, RpcMethod> => {
-        const { description = 'User defined', name, params, type } = def;
-
-        section[name] = jsonrpcMethod(sectionName, name, {
-          description,
-          params: params.map(({ isOptional, name, type }): RpcParam =>
-            jsonrpcParam(name, type as any, { isOptional })),
-          type: type as any
-        });
-
-        return section;
-      }, {});
-
-      return user;
-    }, {});
+    this.sections.push(...Object.keys(userRpc).filter((key): boolean => !this.sections.includes(key)));
 
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
       (this as any)[sectionName as Section] = {
-        ...this.createInterface(sectionName, interfaces[sectionName] ? interfaces[sectionName].methods : {}),
-        ...this.createInterface(sectionName, user[sectionName] || {})
+        ...this.createInterface(sectionName, jsonrpc[sectionName as 'babe'] || {}),
+        ...this.createInterface(sectionName, userRpc[sectionName] || {})
       };
     });
   }
 
-  private createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, RpcMethod>): RpcInterface[Section] {
+  private createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, DefinitionRpc | DefinitionRpcSub>): RpcInterface[Section] {
     return Object
       .keys(methods)
       .reduce((exposed, method): RpcInterface[Section] => {
         const def = methods[method];
+        const isSubscription = !!(def as DefinitionRpcSub).pubsub;
 
-        this.mapping.set(`${section}_${method}`, def);
+        this.mapping.set(`${section}_${method}`, { ...def, isSubscription, jsonrpc: `${section}_${method}`, method, section });
 
         // FIXME Remove any here
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
@@ -166,9 +148,9 @@ export default class Rpc implements RpcInterface {
         // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
         // Not doing so, because it makes this class a little bit less readable,
         // and leaving it as-is doesn't harm much
-        (exposed as any)[method] = def.isSubscription
-          ? this.createMethodSubscribe(def)
-          : this.createMethodSend(def);
+        (exposed as any)[method] = isSubscription
+          ? this.createMethodSubscribe(section, method, def as DefinitionRpcSub)
+          : this.createMethodSend(section, method, def);
 
         return exposed;
       }, {} as RpcInterface[Section]);
@@ -182,11 +164,9 @@ export default class Rpc implements RpcInterface {
     return call as RpcInterfaceMethod;
   }
 
-  private createMethodSend (method: RpcMethod): RpcInterfaceMethod {
-    const rpcName = `${method.section}_${method.method}`;
+  private createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
+    const rpcName = `${section}_${method}`;
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
-      // TODO Warn on deprecated methods
-
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
       // However, formatInputs can throw, and when it does, the above way
       // doesn't throw in the "Observable loop" (which is internally wrapped in
@@ -194,7 +174,7 @@ export default class Rpc implements RpcInterface {
       // - first do `of(1)` - won't throw
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1).pipe(
-        map((): Codec[] => this.formatInputs(method, values)),
+        map((): Codec[] => this.formatInputs(def, values)),
         switchMap((params): Observable<[Codec[], any]> =>
           combineLatest([
             of(params),
@@ -204,10 +184,10 @@ export default class Rpc implements RpcInterface {
         map(([params, result]): any =>
           isRaw
             ? this.registry.createType('Raw', result)
-            : this.formatOutput(method, params, result)
+            : this.formatOutput(def, params, result)
         ),
         catchError((error): any => {
-          const message = createErrorMessage(method, error);
+          const message = createErrorMessage(method, def, error);
 
           // don't scare with old nodes, this is handled transparently
           rpcName !== 'rpc_methods' && l.error(message);
@@ -238,17 +218,17 @@ export default class Rpc implements RpcInterface {
     });
   }
 
-  private createMethodSubscribe (method: RpcMethod): RpcInterfaceMethod {
-    const [updateType, subMethod, unsubMethod] = method.pubsub;
-    const subName = `${method.section}_${subMethod}`;
-    const unsubName = `${method.section}_${unsubMethod}`;
-    const subType = `${method.section}_${updateType}`;
+  private createMethodSubscribe (section: string, method: string, def: DefinitionRpcSub): RpcInterfaceMethod {
+    const [updateType, subMethod, unsubMethod] = def.pubsub;
+    const subName = `${section}_${subMethod}`;
+    const unsubName = `${section}_${unsubMethod}`;
+    const subType = `${section}_${updateType}`;
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
         const errorHandler = (error: Error): void => {
-          const message = createErrorMessage(method, error);
+          const message = createErrorMessage(method, def, error);
 
           l.error(message);
 
@@ -256,11 +236,11 @@ export default class Rpc implements RpcInterface {
         };
 
         try {
-          const params = this.formatInputs(method, values);
+          const params = this.formatInputs(def, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
           const update = (error?: Error | null, result?: any): void => {
             if (error) {
-              l.error(createErrorMessage(method, error));
+              l.error(createErrorMessage(method, def, error));
               return;
             }
 
@@ -268,7 +248,7 @@ export default class Rpc implements RpcInterface {
               observer.next(
                 isRaw
                   ? this.registry.createType('Raw', result)
-                  : this.formatOutput(method, params, result)
+                  : this.formatOutput(def, params, result)
               );
             } catch (error) {
               observer.error(error);
@@ -301,7 +281,7 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void => l.error(createErrorMessage(method, error)));
+            .catch((error: Error): void => l.error(createErrorMessage(method, def, error)));
         };
       }).pipe(drr());
     };
@@ -319,16 +299,16 @@ export default class Rpc implements RpcInterface {
     return memoized;
   }
 
-  private formatInputs (method: RpcMethod, inputs: any[]): Codec[] {
-    const reqArgCount = method.params.filter(({ isOptional }): boolean => !isOptional).length;
-    const optText = reqArgCount === method.params.length
+  private formatInputs (def: DefinitionRpc, inputs: any[]): Codec[] {
+    const reqArgCount = def.params.filter(({ isOptional }): boolean => !isOptional).length;
+    const optText = reqArgCount === def.params.length
       ? ''
-      : ` (${method.params.length - reqArgCount} optional)`;
+      : ` (${def.params.length - reqArgCount} optional)`;
 
-    assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
+    assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      createTypeUnsafe(this.registry, method.params[index].type, [input])
+      createTypeUnsafe(this.registry, def.params[index].type, [input])
     );
   }
 
@@ -338,8 +318,8 @@ export default class Rpc implements RpcInterface {
     return ['0x3a636f6465'].includes(key.toHex());
   }
 
-  private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | Codec[] {
-    if (method.type === 'StorageData') {
+  private formatOutput (rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
+    if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
       try {
@@ -349,16 +329,16 @@ export default class Rpc implements RpcInterface {
 
         throw error;
       }
-    } else if (method.type === 'StorageChangeSet') {
+    } else if (rpc.type === 'StorageChangeSet') {
       return this.formatStorageSet(params[0] as Vec<StorageKey>, result.changes);
-    } else if (method.type === 'Vec<StorageChangeSet>') {
+    } else if (rpc.type === 'Vec<StorageChangeSet>') {
       return result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
         this.registry.createType('Hash', block),
         this.formatStorageSet(params[0] as Vec<StorageKey>, changes)
       ]);
     }
 
-    return createTypeUnsafe(this.registry, method.type, [result]);
+    return createTypeUnsafe(this.registry, rpc.type, [result]);
   }
 
   private formatStorageData (key: StorageKey, value: string | null): Codec {

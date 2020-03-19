@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct } from '@polkadot/types/codec';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
@@ -10,3 +10,5 @@ export interface VestingInfo extends Struct {
   readonly perBlock: Balance;
   readonly startingBlock: BlockNumber;
 }
+
+export type PHANTOM_VESTING = 'vesting';

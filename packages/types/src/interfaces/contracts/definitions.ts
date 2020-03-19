@@ -2,7 +2,45 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Definitions } from '../../types';
+
 export default {
+  rpc: {
+    call: {
+      description: 'Executes a call to a contract',
+      params: [
+        {
+          name: 'callRequest',
+          type: 'ContractCallRequest'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'ContractExecResult'
+    },
+    getStorage: {
+      description: 'Returns the value under a specified storage key in a contract',
+      params: [
+        {
+          name: 'address',
+          type: 'AccountId'
+        },
+        {
+          name: 'key',
+          type: 'H256'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'Option<Bytes>'
+    }
+  },
   types: {
     AliveContractInfo: {
       trieId: 'TrieId',
@@ -85,4 +123,4 @@ export default {
     TombstoneContractInfo: 'Hash',
     TrieId: 'Bytes'
   }
-};
+} as Definitions;

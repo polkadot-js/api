@@ -22,7 +22,7 @@ import { Metadata, Null, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isNull, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, isNull, isUndefined, logger, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import augmentObject from '../util/augmentObject';
@@ -42,6 +42,8 @@ type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
 
 const PAGE_SIZE_KEYS = 256;
 const PAGE_SIZE_VALS = PAGE_SIZE_KEYS / 2;
+
+const l = logger('api/init');
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
   public readonly registry: Registry;
@@ -213,17 +215,35 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this.filterRpcMethods(methods);
   }
 
-  protected filterRpcMethods (methods: string[]): void {
-    // this is true when the RPC has entries
-    const hasResults = methods.length !== 0;
+  protected filterRpcMethods (exposed: string[]): void {
+    const hasResults = exposed.length !== 0;
+    const allKnown = [...this._rpcCore.mapping.entries()];
+    const allKeys = allKnown.reduce((allKeys: string[], [, { alias, method, section, pubsub }]): string[] => {
+      allKeys.push(`${section}_${method}`);
+
+      if (pubsub) {
+        allKeys.push(`${section}_${pubsub[1]}`);
+        allKeys.push(`${section}_${pubsub[2]}`);
+      }
+
+      if (alias) {
+        allKeys.push(...alias);
+      }
+
+      return allKeys;
+    }, []);
+    const unknown = exposed.filter((key) => !allKeys.includes(key));
+
+    if (unknown.length) {
+      l.warn(`RPC methods not decorated: ${unknown.join(', ')}}`);
+    }
 
     // loop through all entries we have (populated in decorate) and filter as required
-    [...this._rpcCore.mapping.entries()]
-      .filter(([key, { isOptional }]): boolean =>
-        // only remove when we have results and method missing, or with no results if optional
-        hasResults
-          ? !methods.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
-          : isOptional || key === 'rpc_methods' // we didn't find this one, remove
+    // only remove when we have results and method missing, or with no results if optional
+    allKnown
+      .filter(([key]): boolean => hasResults
+        ? !exposed.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
+        : key === 'rpc_methods' // we didn't find this one, remove
       )
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .forEach(([_, { method, section }]): void => {

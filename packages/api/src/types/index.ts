@@ -8,10 +8,10 @@ import '@polkadot/api/augment';
 import BN from 'bn.js';
 import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface, UserRpc } from '@polkadot/rpc-core/types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { Signer, SignerResult, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
+import { DefinitionRpc, DefinitionRpcSub, Signer, SignerResult, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
 
 import ApiBase from '../base';
 import { DeriveAllSections } from '../util/decorate';
@@ -48,7 +48,7 @@ export interface ApiOptions extends RegisteredTypes {
   /**
    * @description User-defined RPC methods
    */
-  rpc?: UserRpc;
+  rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   /**
    * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */

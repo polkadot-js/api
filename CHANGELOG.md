@@ -1,3 +1,9 @@
+# 1.8.0-beta.x
+
+- **Breaking change** The format for any custom RPCs have been changed, alongside API-internal changes to allow for better RPC management. If you are currently using custom RPCs (or planning to do so), look at the [updated documentation](https://polkadot.js.org/api/start/rpc.custom.html)
+- **Breaking change** Alongside API RPC changes, the `@polkadot/jsonrpc` package has been removed. Since it was never documented and only used internally, this should not have adverse impacts. All RPC definitions itself has now been moved to the relevant modules inside `@polkadot/types/interfaces`
+- The Substrate extrinsic phase definitions has been expanded with `Initialization` to align with the latest versions
+
 # 1.7.1 Mar 17, 2020
 
 - **Important** Current versions of Polkadot/Substrate have dropped support for linked maps on storage entries. If you are using these queries to retrieve all entries, for instance `staking.{nominators,validators}()` and using an upgraded chain, you need to swap to retrieving entries via `.entries()` or `.keys()` for the keys.

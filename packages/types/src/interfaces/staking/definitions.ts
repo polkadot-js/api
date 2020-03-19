@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Definitions } from '../../types';
+
 const deprecated = {
   Points: 'u32',
   EraPoints: {
@@ -11,6 +13,7 @@ const deprecated = {
 };
 
 export default {
+  rpc: {},
   types: {
     ...deprecated,
     ActiveEraInfo: {
@@ -156,4 +159,4 @@ export default {
       validatorPayment: 'Compact<Balance>'
     }
   }
-};
+} as Definitions;

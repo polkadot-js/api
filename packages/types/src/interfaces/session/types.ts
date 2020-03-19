@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { u32 } from '@polkadot/types/primitive';
@@ -35,3 +35,5 @@ export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, A
 
 /** @name SessionKeys6 */
 export interface SessionKeys6 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+
+export type PHANTOM_SESSION = 'session';

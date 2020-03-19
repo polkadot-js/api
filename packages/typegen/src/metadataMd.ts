@@ -5,13 +5,13 @@
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 
 import fs from 'fs';
-import interfaces from '@polkadot/jsonrpc';
 import Decorated from '@polkadot/metadata/Decorated';
 import rpcdata from '@polkadot/metadata/Metadata/static';
 import Call from '@polkadot/types/generic/Call';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Vec } from '@polkadot/types/codec';
+import * as definitions from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
@@ -100,22 +100,26 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
 
 /** @internal */
 function addRpc (): string {
+  const sections = Object
+    .keys(definitions)
+    .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
+
   return renderPage({
     title: 'JSON-RPC',
     description: DESC_RPC,
-    sections: Object.keys(interfaces)
+    sections: sections
       .sort()
       .map((sectionName) => {
-        const section = interfaces[sectionName];
+        const section = definitions[sectionName as 'babe'];
 
         return {
           name: sectionName,
-          description: section.description,
-          items: Object.keys(section.methods)
+          // description: section.description,
+          items: Object.keys(section.rpc)
             .sort()
             .map((methodName) => {
-              const method = section.methods[methodName];
-              const args = method.params.map(({ name, isOptional, type }): string => {
+              const method = section.rpc[methodName];
+              const args = method.params.map(({ name, isOptional, type }: any): string => {
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
               }).join(', ');
               const type = '`' + method.type + '`';

@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
@@ -151,3 +151,5 @@ export interface WinningData extends Vec<WinningDataEntry> {}
 
 /** @name WinningDataEntry */
 export interface WinningDataEntry extends ITuple<[AccountId, ParaIdOf, BalanceOf]> {}
+
+export type PHANTOM_PARACHAINS = 'parachains';
