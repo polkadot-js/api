@@ -4,22 +4,17 @@
 
 import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import { Hash } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, DefinitionRpc, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
-import * as definitions from '@polkadot/types/interfaces/definitions';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr } from './rxjs';
-
-interface DefinitionRpcExt extends DefinitionRpc {
-  method: string;
-  section: string;
-}
 
 const l = logger('rpc-core');
 
@@ -121,9 +116,7 @@ export default class Rpc implements RpcInterface {
   }
 
   private createInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
-    const sectionNames = Object
-      .keys(definitions)
-      .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
+    const sectionNames = Object.keys(jsonrpc);
 
     // these are the base keys (i.e. part of jsonrpc)
     this.sections.push(...sectionNames);
@@ -134,7 +127,7 @@ export default class Rpc implements RpcInterface {
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
       (this as any)[sectionName as Section] = {
-        ...this.createInterface(sectionName, definitions[sectionName as 'babe']?.rpc || {}),
+        ...this.createInterface(sectionName, jsonrpc[sectionName as 'babe'] || {}),
         ...this.createInterface(sectionName, userRpc[sectionName] || {})
       };
     });
@@ -145,8 +138,9 @@ export default class Rpc implements RpcInterface {
       .keys(methods)
       .reduce((exposed, method): RpcInterface[Section] => {
         const def = methods[method];
+        const isSubscription = !!(def as DefinitionRpcSub).pubsub;
 
-        this.mapping.set(`${section}_${method}`, { ...def, method, section });
+        this.mapping.set(`${section}_${method}`, { ...def, isSubscription, jsonrpc: `${section}_${method}`, method, section });
 
         // FIXME Remove any here
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
@@ -154,7 +148,7 @@ export default class Rpc implements RpcInterface {
         // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
         // Not doing so, because it makes this class a little bit less readable,
         // and leaving it as-is doesn't harm much
-        (exposed as any)[method] = (def as DefinitionRpcSub).pubsub
+        (exposed as any)[method] = isSubscription
           ? this.createMethodSubscribe(section, method, def as DefinitionRpcSub)
           : this.createMethodSend(section, method, def);
 

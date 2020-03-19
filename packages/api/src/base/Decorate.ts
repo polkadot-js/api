@@ -213,17 +213,16 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this.filterRpcMethods(methods);
   }
 
-  protected filterRpcMethods (methods: string[]): void {
-    // this is true when the RPC has entries
-    const hasResults = methods.length !== 0;
+  protected filterRpcMethods (exposed: string[]): void {
+    const hasResults = exposed.length !== 0;
+    const allKnown = [...this._rpcCore.mapping.entries()];
 
     // loop through all entries we have (populated in decorate) and filter as required
-    [...this._rpcCore.mapping.entries()]
-      .filter(([key]): boolean =>
-        // only remove when we have results and method missing, or with no results if optional
-        hasResults
-          ? !methods.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
-          : key === 'rpc_methods' // we didn't find this one, remove
+    // only remove when we have results and method missing, or with no results if optional
+    allKnown
+      .filter(([key]): boolean => hasResults
+        ? !exposed.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
+        : key === 'rpc_methods' // we didn't find this one, remove
       )
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .forEach(([_, { method, section }]): void => {

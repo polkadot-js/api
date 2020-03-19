@@ -8,7 +8,7 @@ export type DefinitionTypeEnum = { _enum: DefinitionTypeType[] } | { _enum: Reco
 
 export type DefinitionTypeSet = { _set: Record<string, number> };
 
-// Don't belive the `& object` here is proper, but cannot do `& Record<string, DefinitionTypeType>`
+// Don't believe the `& object` here is proper, but cannot do `& Record<string, DefinitionTypeType>`
 export type DefinitionTypeStruct = Record<string, DefinitionTypeType> | { _alias?: Record<string, DefinitionTypeType> } & object;
 
 export type DefinitionType = string | DefinitionTypeEnum | DefinitionTypeSet | DefinitionTypeStruct;
@@ -23,6 +23,14 @@ export interface DefinitionRpc {
   description: string;
   params: DefinitionRpcParam[];
   type: DefinitionTypeType;
+}
+
+export interface DefinitionRpcExt extends DefinitionRpc {
+  isSubscription: boolean;
+  jsonrpc: string;
+  method: string;
+  pubsub?: [string, string, string];
+  section: string;
 }
 
 export interface DefinitionRpcSub extends DefinitionRpc {
