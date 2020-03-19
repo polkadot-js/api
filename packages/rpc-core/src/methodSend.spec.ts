@@ -15,17 +15,13 @@ describe('methodSend', (): void => {
   beforeEach((): void => {
     methods = {
       blah: {
-        method: 'blah',
         params: [
           { name: 'foo', type: 'Bytes' }
         ],
-        section: 'test',
         type: 'Bytes'
       },
       bleh: {
-        method: 'bleh',
         params: [],
-        section: 'test',
         type: 'Bytes'
       }
     };
@@ -41,7 +37,7 @@ describe('methodSend', (): void => {
 
   it('wraps errors with the call signature', (done): void => {
     // private access
-    const method = (rpc as any).createMethodSend(methods.blah);
+    const method = (rpc as any).createMethodSend('test', 'blah', methods.blah);
 
     method().subscribe(
       (): void => undefined,
@@ -54,7 +50,7 @@ describe('methodSend', (): void => {
 
   it('checks for mismatched parameters', (done): void => {
     // private method
-    const method = (rpc as any).createMethodSend(methods.bleh);
+    const method = (rpc as any).createMethodSend('test', 'bleh', methods.bleh);
 
     method(1).subscribe(
       (): void => undefined,
@@ -66,7 +62,7 @@ describe('methodSend', (): void => {
 
   it('calls the provider with the correct parameters', (done): void => {
     // private method
-    const method = (rpc as any).createMethodSend(methods.blah);
+    const method = (rpc as any).createMethodSend('test', 'blah', methods.blah);
 
     // Args are length-prefixed, because it's a Bytes
     method(new Uint8Array([2 << 2, 0x12, 0x34])).subscribe((): void => {

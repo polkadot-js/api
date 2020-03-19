@@ -134,7 +134,7 @@ export default class Rpc implements RpcInterface {
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
       (this as any)[sectionName as Section] = {
-        ...this.createInterface(sectionName, definitions[sectionName as 'babe'].rpc || {}),
+        ...this.createInterface(sectionName, definitions[sectionName as 'babe']?.rpc || {}),
         ...this.createInterface(sectionName, userRpc[sectionName] || {})
       };
     });
