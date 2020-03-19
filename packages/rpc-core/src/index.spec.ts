@@ -24,7 +24,7 @@ describe('Api', (): void => {
       Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
     ).toEqual([
       'mapping', 'provider', 'registry', 'sections',
-      'account', 'author', 'chain', 'contracts', 'engine', 'payment', 'rpc', 'state', 'system'
+      'account', 'author', 'chain', 'childstate', 'contracts', 'engine', 'payment', 'rpc', 'state', 'system'
     ]);
   });
 
