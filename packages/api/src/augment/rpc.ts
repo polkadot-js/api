@@ -84,6 +84,24 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       subscribeNewHeads: AugmentedRpc<() => Observable<Header>>;
     };
+    childstate: {
+      /**
+       * Returns the keys with prefix from a child storage, leave empty to get all the keys
+       **/
+      getKeys: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, prefix: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Vec<StorageKey>>>;
+      /**
+       * Returns a child storage entry at a specific block state
+       **/
+      getStorage: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<StorageData>>>;
+      /**
+       * Returns the hash of a child storage entry at a block state
+       **/
+      getStorageHash: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<Hash>>>;
+      /**
+       * Returns the size of a child storage entry at a block state
+       **/
+      getStorageSize: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<u64>>>;
+    };
     contracts: {
       /**
        * Executes a call to a contract

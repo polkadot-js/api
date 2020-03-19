@@ -46,5 +46,6 @@ export { default as rpc } from './rpc/definitions';
 export { default as account } from './account/definitions';
 export { default as author } from './author/definitions';
 export { default as chain } from './chain/definitions';
+export { default as childstate } from './childstate/definitions';
 export { default as payment } from './payment/definitions';
 export { default as state } from './state/definitions';
