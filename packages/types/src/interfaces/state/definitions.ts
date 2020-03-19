@@ -7,6 +7,7 @@ import { Definitions } from '../../types';
 export default {
   rpc: {
     call: {
+      alias: ['state_callAt'],
       description: 'Perform a call to a builtin on the chain',
       params: [
         {
@@ -41,6 +42,7 @@ export default {
       type: 'Vec<StorageKey>'
     },
     getKeysPaged: {
+      alias: ['state_getKeysPagedAt'],
       description: 'Returns the keys with prefix with pagination support.',
       params: [
         {
@@ -65,6 +67,7 @@ export default {
       type: 'Vec<StorageKey>'
     },
     getStorage: {
+      alias: ['state_getStorageAt'],
       description: 'Retrieves the storage for a key',
       params: [
         {
@@ -80,6 +83,7 @@ export default {
       type: 'StorageData'
     },
     getStorageHash: {
+      alias: ['state_getStorageHashAt'],
       description: 'Retrieves the storage hash',
       params: [
         {
@@ -95,6 +99,7 @@ export default {
       type: 'Hash'
     },
     getStorageSize: {
+      alias: ['state_getStorageSizeAt'],
       description: 'Retrieves the storage size',
       params: [
         {
@@ -229,6 +234,7 @@ export default {
       type: 'Metadata'
     },
     getRuntimeVersion: {
+      alias: ['chain_getRuntimeVersion'],
       description: 'Get the runtime version',
       params: [
         {
@@ -259,6 +265,7 @@ export default {
       type: 'Vec<StorageChangeSet>'
     },
     subscribeRuntimeVersion: {
+      alias: ['chain_subscribeRuntimeVersion', 'chain_unsubscribeRuntimeVersion'],
       description: 'Retrieves the runtime version via subscription',
       params: [],
       pubsub: [

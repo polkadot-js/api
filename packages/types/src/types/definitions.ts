@@ -20,6 +20,7 @@ export interface DefinitionRpcParam {
 }
 
 export interface DefinitionRpc {
+  alias?: string[];
   description: string;
   params: DefinitionRpcParam[];
   type: DefinitionTypeType;

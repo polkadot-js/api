@@ -7,6 +7,7 @@ import { Definitions } from '../../types';
 export default {
   rpc: {
     nextIndex: {
+      alias: ['system_accountNextIndex'],
       description: 'Retrieves the next accountIndex as available on the node',
       params: [
         {
