@@ -30,9 +30,11 @@ function dataAsString (data: Data): string | undefined {
       : undefined;
 }
 
-function isIncludedFn (accountId: AccountId): (_: AccountId) => boolean {
+function isIncludedFn (_accountId: AccountId): (_: AccountId) => boolean {
+  const accountId = _accountId.toString();
+  
   return function (id: AccountId): boolean {
-    return id.toString() === accountId.toString();
+    return id.toString() === accountId;
   };
 }
 
@@ -171,7 +173,7 @@ export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId 
         ])
       ),
       map(([{ accountId, accountIndex }, flags, identity, nickname]): DeriveAccountInfo => ({
-        accountId, accountIndex, flags, identity, nickname
+        accountId, accountIndex, ...flags, identity, nickname
       }))
     ));
 }

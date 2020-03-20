@@ -35,10 +35,9 @@ export interface DeriveAccountFlags {
   isTechCommittee: boolean;
 }
 
-export interface DeriveAccountInfo {
+export interface DeriveAccountInfo extends DeriveAccountFlags {
   accountId?: AccountId;
   accountIndex?: AccountIndex;
-  flags: DeriveAccountFlags;
   identity: DeriveAccountRegistration;
   nickname?: string;
 }
