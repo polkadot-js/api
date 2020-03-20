@@ -22,10 +22,10 @@ export default {
           type: 'Bytes'
         }
       ],
-      type: '()'
+      type: 'Null'
     },
     localStorageGet: {
-      description: 'Get offchain local storage under given key and prefixx',
+      description: 'Get offchain local storage under given key and prefix',
       params: [
         {
           name: 'kind',

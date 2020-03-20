@@ -3,14 +3,14 @@
 
 import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 import { Option, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import { StorageKind } from '@polkadot/types/interfaces/offchain';
 import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion } from '@polkadot/types/interfaces/rpc';
-import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { NodeRole } from '@polkadot/types/interfaces/system';
 import { Observable } from 'rxjs';
 
@@ -108,13 +108,13 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
     };
     offchain: {
       /**
-       * Get offchain local storage under given key and prefixx
+       * Get offchain local storage under given key and prefix
        **/
       localStorageGet: AugmentedRpc<(kind: StorageKind | ('__UNUSED' | 'PERSISTENT' | 'LOCAL') | number | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
       /**
        * Set offchain local storage under given key and prefix
        **/
-      localStorageSet: AugmentedRpc<(kind: StorageKind | ('__UNUSED' | 'PERSISTENT' | 'LOCAL') | number | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => Observable<()>>;
+      localStorageSet: AugmentedRpc<(kind: StorageKind | ('__UNUSED' | 'PERSISTENT' | 'LOCAL') | number | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => Observable<Null>>;
     };
     payment: {
       /**
@@ -164,7 +164,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Returns the keys with prefix, leave empty to get all the keys
        **/
-      getPairs: AugmentedRpc<(prefix: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array) => Observable<Vec<(StorageKey, StorageData)>>>;
+      getPairs: AugmentedRpc<(prefix: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array) => Observable<Vec<KeyValue>>>;
       /**
        * Get the runtime version
        **/
