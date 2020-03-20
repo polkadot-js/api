@@ -40,6 +40,31 @@ export default {
       description: 'Returns current state of the network',
       params: [],
       type: 'NetworkState'
+    },
+    addReservedPeer: {
+      description: 'Adds a reserved peer',
+      params: [
+        {
+          name: 'peer',
+          type: 'Text'
+        }
+      ],
+      type: 'Text'
+    },
+    removeReservedPeer: {
+      description: 'Remove a reserved peer',
+      params: [
+        {
+          name: 'peerId',
+          type: 'Text'
+        }
+      ],
+      type: 'Text'
+    },
+    nodeRoles: {
+      description: 'Returns the roles the node is running as',
+      params: [],
+      type: 'Vec<NodeRole>'
     }
   },
   types: {
@@ -84,6 +109,14 @@ export default {
     LastRuntimeUpgradeInfo: {
       specVersion: 'Compact<u32>',
       specName: 'Text'
+    },
+    NodeRole: {
+      _enum: {
+        Full: 'Null',
+        LightClient: 'Null',
+        Authority: 'Null',
+        UnknownRole: 'u8'
+      }
     },
     Phase: {
       _enum: {

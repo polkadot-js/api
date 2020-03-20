@@ -41,6 +41,21 @@ export default {
       ],
       type: 'Vec<StorageKey>'
     },
+    getPairs: {
+      description: 'Returns the keys with prefix, leave empty to get all the keys',
+      params: [
+        {
+          name: 'prefix',
+          type: 'StorageKey'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'Vec<KeyValue>'
+    },
     getKeysPaged: {
       alias: ['state_getKeysPagedAt'],
       description: 'Returns the keys with prefix with pagination support.',
