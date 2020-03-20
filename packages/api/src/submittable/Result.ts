@@ -24,16 +24,16 @@ export default class SubmittableResult implements ISubmittableResult {
     return this.status.isDropped || this.status.isFinalityTimeout || this.status.isInvalid || this.status.isUsurped;
   }
 
-  public get isWarning (): boolean {
-    return this.status.isRetracted;
-  }
-
   public get isFinalized (): boolean {
     return this.status.isFinalized;
   }
 
   public get isInBlock (): boolean {
     return this.status.isInBlock;
+  }
+
+  public get isWarning (): boolean {
+    return this.status.isRetracted;
   }
 
   /**
