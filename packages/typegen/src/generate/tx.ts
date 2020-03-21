@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ModuleMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Registry } from '@polkadot/types/types';
 
 import staticData from '@polkadot/metadata/Metadata/static';
 import Metadata from '@polkadot/metadata/Metadata';
+import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';

@@ -11,15 +11,17 @@ import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { DefinitionRpc, DefinitionRpcSub, Signer, SignerResult, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
+import { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
 
-import ApiBase from '../base';
 import { DeriveAllSections } from '../util/decorate';
+import ApiBase from '../base';
 import { DecoratedRpc } from './rpc';
 import { QueryableStorage, QueryableStorageMulti } from './storage';
 import { SubmittableExtrinsics } from './submittable';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 
+export { Signer, SignerResult } from '@polkadot/types/types';
+export { default as ApiBase } from '../base';
 export * from '../submittable/types';
 export * from './base';
 export * from './rpc';
@@ -83,5 +85,3 @@ export interface SignerOptions extends SignatureOptions {
   blockNumber: BN;
   genesisHash: Hash;
 }
-
-export { ApiBase, Signer, SignerResult };

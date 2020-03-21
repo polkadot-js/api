@@ -6,10 +6,9 @@
 import { SignOptions } from '@polkadot/keyring/types';
 import { Hash } from '../interfaces/runtime';
 import { FunctionMetadataLatest } from '../interfaces/metadata';
+import { ArgsDef, Codec } from './codec';
 
 import BN from 'bn.js';
-
-import { ArgsDef, Codec } from './codec';
 
 export interface ICompact<T> extends Codec {
   toBn (): BN;
