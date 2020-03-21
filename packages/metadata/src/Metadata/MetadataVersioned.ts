@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { MetadataAll, MetadataLatest, MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8, MetadataV9, MetadataV10, MetadataV11 } from '@polkadot/types/interfaces/metadata';
-import type { Registry } from '@polkadot/types/types';
+import { MetadataAll, MetadataLatest, MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8, MetadataV9, MetadataV10, MetadataV11 } from '@polkadot/types/interfaces/metadata';
+import { Registry } from '@polkadot/types/types';
 
 import Struct from '@polkadot/types/codec/Struct';
 import { assert } from '@polkadot/util';

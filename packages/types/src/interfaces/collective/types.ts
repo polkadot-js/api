@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Struct, Vec } from '@polkadot/types/codec';
-import type { u32 } from '@polkadot/types/primitive';
-import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import { Struct, Vec } from '@polkadot/types/codec';
+import { u32 } from '@polkadot/types/primitive';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name MemberCount */
 export interface MemberCount extends u32 {}

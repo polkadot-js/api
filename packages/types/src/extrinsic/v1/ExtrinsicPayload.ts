@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ExtrinsicEra } from '../../interfaces/extrinsics';
-import type { Hash, Index } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
+import { ExtrinsicEra } from '../../interfaces/extrinsics';
+import { Hash, Index } from '../../interfaces/runtime';
+import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';

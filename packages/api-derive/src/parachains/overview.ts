@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ParaId } from '@polkadot/types/interfaces';
-import type { DeriveParachain, DeriveParachainInfo } from '../types';
-import type { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
+import { ParaId } from '@polkadot/types/interfaces';
+import { DeriveParachain, DeriveParachainInfo } from '../types';
+import { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

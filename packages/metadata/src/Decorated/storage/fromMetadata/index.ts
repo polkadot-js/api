@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Registry } from '@polkadot/types/types';
-import type { ModuleStorage, Storage } from '../../types';
+import { Registry } from '@polkadot/types/types';
+import { ModuleStorage, Storage } from '../../types';
 
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 

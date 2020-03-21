@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
-import type { ITuple } from '@polkadot/types/types';
-import type { DeriveEraSlashes, DeriveEraValSlash } from '../types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
+import { DeriveEraSlashes, DeriveEraValSlash } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';

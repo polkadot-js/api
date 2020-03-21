@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces';
-import type { DerivedCollectiveProposals, DerivedTreasuryProposal, DerivedTreasuryProposals } from '../types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces';
+import { DerivedCollectiveProposals, DerivedTreasuryProposal, DerivedTreasuryProposals } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

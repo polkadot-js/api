@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import type { AnyJson, Constructor, Registry } from '@polkadot/types/types';
+import { ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { AnyJson, Constructor, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import democracyTypes from '@polkadot/types/interfaces/democracy/definitions';

@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import type { Bytes } from '@polkadot/types/primitive';
-import type { AccountId, Hash } from '@polkadot/types/interfaces/runtime';
-import type { IdentificationTuple } from '@polkadot/types/interfaces/session';
+import { Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Bytes } from '@polkadot/types/primitive';
+import { AccountId, Hash } from '@polkadot/types/interfaces/runtime';
+import { IdentificationTuple } from '@polkadot/types/interfaces/session';
 
 /** @name Kind */
 export interface Kind extends U8aFixed {}

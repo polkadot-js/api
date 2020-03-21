@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { AccountId, BalanceOf, Bid } from '@polkadot/types/interfaces';
-import type { DeriveSociety } from '../types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { AccountId, BalanceOf, Bid } from '@polkadot/types/interfaces';
+import { DeriveSociety } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

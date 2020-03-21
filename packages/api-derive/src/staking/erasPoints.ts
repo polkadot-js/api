@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
-import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
+import { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';

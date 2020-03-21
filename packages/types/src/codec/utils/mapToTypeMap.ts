@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Constructor, InterfaceTypes, Registry } from '../../types';
+import { Constructor, InterfaceTypes, Registry } from '../../types';
 
-import typeToConstructor from './typeToConstructor';
+importToConstructor from './typeToConstructor';
 
 /**
  * @description takes an input map of the form `{ [string]: string | Constructor }` and returns a map of `{ [string]: Constructor }`

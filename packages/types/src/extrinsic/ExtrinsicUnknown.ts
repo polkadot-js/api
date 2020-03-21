@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Registry } from '../types';
-import type { ExtrinsicOptions } from './types';
+import { Registry } from '../types';
+import { ExtrinsicOptions } from './types';
 
 import Struct from '../codec/Struct';
 import { UNMASK_VERSION } from './constants';

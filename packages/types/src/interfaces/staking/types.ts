@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { ITuple } from '@polkadot/types/types';
-import type { BTreeMap, Compact, Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import type { bool, u128, u16, u32 } from '@polkadot/types/primitive';
-import type { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
+import { ITuple } from '@polkadot/types/types';
+import { BTreeMap, Compact, Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { bool, u128, u16, u32 } from '@polkadot/types/primitive';
+import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 
 /** @name ActiveEraInfo */
 export interface ActiveEraInfo extends Struct {

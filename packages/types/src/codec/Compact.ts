@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
+import { AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
 
 import BN from 'bn.js';
 import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
-import typeToConstructor from './utils/typeToConstructor';
+importToConstructor from './utils/typeToConstructor';
 import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 

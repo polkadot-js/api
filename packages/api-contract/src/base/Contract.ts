@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
-import type { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-import type { Codec, IKeyringPair } from '@polkadot/types/types';
-import type { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome } from '../types';
+import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
+import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
+import { Codec, IKeyringPair } from '@polkadot/types/types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';

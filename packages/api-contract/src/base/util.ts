@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ApiTypes, DecorateMethod, DecoratedRpc, SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import type { RpcInterface } from '@polkadot/rpc-core/types';
-import type { Registry } from '@polkadot/types/types';
-import type { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
+import { ApiTypes, DecorateMethod, DecoratedRpc, SubmittableModuleExtrinsics } from '@polkadot/api/types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
+import { Registry } from '@polkadot/types/types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
 
 import { assert, isFunction, stringCamelCase } from '@polkadot/util';
 import Abi from '../Abi';

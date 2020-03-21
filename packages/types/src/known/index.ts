@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { RuntimeVersion } from '../interfaces';
-import type { Registry, RegistryTypes } from '../types';
-import type { OverrideModuleType, OverrideVersionedType } from './types';
+import { RuntimeVersion } from '../interfaces';
+import { Registry, RegistryTypes } from '../types';
+import { OverrideModuleType, OverrideVersionedType } from './types';
 
 import { Text } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';

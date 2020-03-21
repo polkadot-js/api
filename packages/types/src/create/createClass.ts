@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import type { FromReg, TypeDef } from './types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import { FromReg, TypeDef } from './types';
 
 import { assert, isNumber, isUndefined } from '@polkadot/util';
 

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { AnyNumber, Constructor, Registry } from '../types';
+import { AnyNumber, Constructor, Registry } from '../types';
 
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 

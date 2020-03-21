@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { DerivedStakingOverview } from '../types';
+import { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { DerivedStakingOverview } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { AnyString, AnyU8a, Registry } from '../types';
+import { AnyString, AnyU8a, Registry } from '../types';
 
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';

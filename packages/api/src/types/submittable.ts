@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { AnyFunction, CallBase } from '@polkadot/types/types';
+import { AnyFunction, CallBase } from '@polkadot/types/types';
 
-import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiTypes } from './base';
+import { SubmittableExtrinsic } from '../submittable/types';
+import { ApiTypes } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AugmentedSubmittables<ApiType extends ApiTypes> { }

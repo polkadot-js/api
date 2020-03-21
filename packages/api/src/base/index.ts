@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Constants } from '@polkadot/metadata/Decorated/types';
-import type { RpcInterface } from '@polkadot/rpc-core/types';
-import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import type { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
-import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
+import { Constants } from '@polkadot/metadata/Decorated/types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
+import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Metadata } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';

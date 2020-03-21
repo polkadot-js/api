@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import type { FromReg } from './types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import { FromReg } from './types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 

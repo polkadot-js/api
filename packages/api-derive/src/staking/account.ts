@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Balance, BlockNumber, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
-import type { DerivedSessionInfo, DerivedStakingAccount, DerivedStakingQuery, DerivedUnlocking } from '../types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { Balance, BlockNumber, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
+import { DerivedSessionInfo, DerivedStakingAccount, DerivedStakingQuery, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';

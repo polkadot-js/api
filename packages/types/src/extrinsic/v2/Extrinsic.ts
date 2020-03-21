@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ExtrinsicSignatureV2 } from '../../interfaces/extrinsics';
-import type { Address, Call } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
-import type { ExtrinsicOptions } from '../types';
+import { ExtrinsicSignatureV2 } from '../../interfaces/extrinsics';
+import { Address, Call } from '../../interfaces/runtime';
+import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 

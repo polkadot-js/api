@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Logger } from '@polkadot/util/types';
+import { Logger } from '@polkadot/util/types';
 
-import type Coder from '../coder';
+import Coder from '../coder';
 
 export interface HttpState {
   coder: Coder;

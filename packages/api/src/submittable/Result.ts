@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
-import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
-import type { SubmittableResultValue } from './types';
+import { ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
+import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
+import { SubmittableResultValue } from './types';
 
 export default class SubmittableResult implements ISubmittableResult {
   public readonly events: EventRecord[];

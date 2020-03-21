@@ -51,7 +51,7 @@ export function createImportCode (header: string, imports: TypeImports, checks: 
     ...checks
   ].reduce((result, { file, types }): string => {
     return types.length
-      ? `${result}import type { ${types.sort().join(', ')} } from '${file}';\n`
+      ? `${result}import { ${types.sort().join(', ')} } from '${file}';\n`
       : result;
   }, header) + '\n';
 }

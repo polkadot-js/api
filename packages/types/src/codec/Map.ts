@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { H256 } from '../interfaces/runtime';
-import type { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import { isHex, hexToU8a, isObject, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -12,7 +12,7 @@ import Compact from './Compact';
 import Raw from './Raw';
 import compareMap from './utils/compareMap';
 import decodeU8a from './utils/decodeU8a';
-import typeToConstructor from './utils/typeToConstructor';
+importToConstructor from './utils/typeToConstructor';
 
 /** @internal */
 function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {

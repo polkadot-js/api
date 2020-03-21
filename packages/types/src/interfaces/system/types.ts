@@ -1,12 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { ITuple } from '@polkadot/types/types';
-import type { Compact, Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import type { GenericEvent } from '@polkadot/types/generic';
-import type { Bytes, Text, u32, u8 } from '@polkadot/types/primitive';
-import type { AccountData } from '@polkadot/types/interfaces/balances';
-import type { Digest, Hash, Index } from '@polkadot/types/interfaces/runtime';
+import { ITuple } from '@polkadot/types/types';
+import { Compact, Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { GenericEvent } from '@polkadot/types/generic';
+import { Bytes, Text, u32, u8 } from '@polkadot/types/primitive';
+import { AccountData } from '@polkadot/types/interfaces/balances';
+import { Digest, Hash, Index } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountInfo */
 export interface AccountInfo extends Struct {

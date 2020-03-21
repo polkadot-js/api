@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
+import { Codec, Registry, TypeDef } from '@polkadot/types/types';
 
 import { Option, Raw, createClass, createTypeUnsafe } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types/types';

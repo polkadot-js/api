@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Observable } from 'rxjs';
-import type { u64 } from '@polkadot/types';
-import type { Hash } from '@polkadot/types/interfaces';
-import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
+import { Observable } from 'rxjs';
+import { u64 } from '@polkadot/types';
+import { Hash } from '@polkadot/types/interfaces';
+import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
-import type { ApiTypes, MethodResult, ObsInnerType, PromiseOrObs, UnsubscribePromise } from './base';
+import { ApiTypes, MethodResult, ObsInnerType, PromiseOrObs, UnsubscribePromise } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AugmentedQueries<ApiType extends ApiTypes> { }

@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { ITuple } from '@polkadot/types/types';
-import type { Option, Struct, Vec } from '@polkadot/types/codec';
-import type { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import { ITuple } from '@polkadot/types/types';
+import { Option, Struct, Vec } from '@polkadot/types/codec';
+import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name OpenTip */
 export interface OpenTip extends Struct {

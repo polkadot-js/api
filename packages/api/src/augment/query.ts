@@ -1,33 +1,33 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AnyNumber, ITuple } from '@polkadot/types/types';
-import type { Option, U8aFixed, Vec } from '@polkadot/types/codec';
-import type { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
-import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import type { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';
-import type { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/interfaces/balances';
-import type { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
-import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
-import type { CodeHash, ContractInfo, Gas, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
-import type { Conviction, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import type { Vote, VoteThreshold } from '@polkadot/types/interfaces/elections';
-import type { AuthorityList, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
-import type { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
-import type { AuthIndex } from '@polkadot/types/interfaces/imOnline';
-import type { Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
-import type { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
-import type { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
-import type { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
-import type { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
-import type { AccountInfo, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo } from '@polkadot/types/interfaces/system';
-import type { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
-import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
-import type { Multisig } from '@polkadot/types/interfaces/utility';
-import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { Observable } from 'rxjs';
-import type { ApiTypes } from '@polkadot/api/types';
+import { AnyNumber, ITuple } from '@polkadot/types/types';
+import { Option, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
+import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
+import { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';
+import { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/interfaces/balances';
+import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import { CodeHash, ContractInfo, Gas, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
+import { Conviction, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { Vote, VoteThreshold } from '@polkadot/types/interfaces/elections';
+import { AuthorityList, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
+import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
+import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
+import { Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
+import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
+import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
+import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
+import { ActiveEraInfo, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { AccountInfo, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo } from '@polkadot/types/interfaces/system';
+import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
+import { Multiplier } from '@polkadot/types/interfaces/txpayment';
+import { Multisig } from '@polkadot/types/interfaces/utility';
+import { VestingInfo } from '@polkadot/types/interfaces/vesting';
+import { Observable } from 'rxjs';
+import { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/storage' {
   export interface AugmentedQueries<ApiType> {

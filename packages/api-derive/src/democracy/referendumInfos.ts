@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import type { DerivedReferendum } from '../types';
+import { ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { DerivedReferendum } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';

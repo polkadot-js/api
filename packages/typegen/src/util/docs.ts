@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { Text } from '@polkadot/types';
+import { Text } from '@polkadot/types';
 
 import { indent } from './formatting';
 

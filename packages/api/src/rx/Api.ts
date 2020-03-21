@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import type { AnyFunction } from '@polkadot/types/types';
-import type { ApiOptions } from '../types';
+import { AnyFunction } from '@polkadot/types/types';
+import { ApiOptions } from '../types';
 
 import { from, Observable } from 'rxjs';
 
