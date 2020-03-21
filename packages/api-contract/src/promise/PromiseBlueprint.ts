@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '@polkadot/types/interfaces';
-import { ContractABIPre } from '../types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { ContractABIPre } from '../types';
 
 import { ApiPromise } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/promise';

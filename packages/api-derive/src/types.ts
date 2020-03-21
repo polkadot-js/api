@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import type { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import { u32, Vec } from '@polkadot/types';
+import type BN from 'bn.js';
+import type { u32, Vec } from '@polkadot/types';
 
 export * from './parachains/types';
 export * from './session/types';

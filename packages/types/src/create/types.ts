@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, InterfaceTypes } from '../types';
+import type { Codec, InterfaceTypes } from '../types';
 
 // Type which says: if `K` is in the InterfaceTypes, then return InterfaceTypes[K], else fallback to T
 export type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceTypes

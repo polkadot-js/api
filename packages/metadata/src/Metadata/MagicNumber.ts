@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Registry } from '@polkadot/types/types';
+import type { Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 
@@ -15,7 +15,7 @@ export default class MagicNumber extends U32 {
     super(registry, value);
 
     if (!this.isEmpty) {
-      const magic = new U32(registry, MAGIC_NUMBER);
+      const magic = registry.createType('u32', MAGIC_NUMBER);
 
       assert(this.eq(magic), `MagicNumber mismatch: expected ${magic.toHex()}, found ${this.toHex()}`);
     }

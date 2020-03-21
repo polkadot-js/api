@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, Registry } from '../../types';
+import type { Codec, Constructor, Registry } from '../../types';
 
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the

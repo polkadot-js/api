@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, ArrayElementType, Registry } from '../types';
-import { AllConvictions } from '../interfaces/democracy/definitions';
-import { Conviction } from '../interfaces/democracy';
+import type { AnyJson, ArrayElementType, Registry } from '../types';
+import type { AllConvictions } from '../interfaces/democracy/definitions';
+import type { Conviction } from '../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 

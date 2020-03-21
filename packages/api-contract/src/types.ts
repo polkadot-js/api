@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-import { Codec, CodecArg } from '@polkadot/types/types';
-import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/create/types';
+import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import type { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
+import type { Codec, CodecArg } from '@polkadot/types/types';
+import type { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/create/types';
 
-// import { Observable } from 'rxjs';
-import { ApiPromise, ApiRx } from '@polkadot/api';
+import type { ApiPromise, ApiRx } from '@polkadot/api';
 
 export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx

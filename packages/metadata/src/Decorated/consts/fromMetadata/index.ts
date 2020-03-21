@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Registry } from '@polkadot/types/types';
-import { Constants, ConstantCodec, ModuleConstants } from '../../types';
+import type { Registry } from '@polkadot/types/types';
+import type { Constants, ConstantCodec, ModuleConstants } from '../../types';
 
 import { createTypeUnsafe } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';

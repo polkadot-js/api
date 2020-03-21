@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
-import { DerivedHeartbeats } from '../types';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { DerivedHeartbeats } from '../types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

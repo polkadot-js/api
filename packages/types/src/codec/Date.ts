@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { H256 } from '../interfaces/runtime';
-import { AnyNumber, Codec, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';

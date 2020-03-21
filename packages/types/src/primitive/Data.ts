@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { H256 } from '../interfaces/runtime';
-import { Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { Registry } from '../types';
 
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 

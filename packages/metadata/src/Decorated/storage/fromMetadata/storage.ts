@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { Registry } from '@polkadot/types/types';
-import { Storage } from '../../types';
+import type { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import type { Registry } from '@polkadot/types/types';
+import type { Storage } from '../../types';
 
 import * as substrate from './substrate';
 

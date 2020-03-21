@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, IExtrinsicEra, Registry } from '../types';
+import type { AnyU8a, IExtrinsicEra, Registry } from '../types';
 
 import BN from 'bn.js';
 import { assert, bnToBn, formatNumber, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
