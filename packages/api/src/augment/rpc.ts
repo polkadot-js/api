@@ -5,6 +5,7 @@ import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 import { Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
+import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
@@ -90,19 +91,19 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Returns the keys with prefix from a child storage, leave empty to get all the keys
        **/
-      getKeys: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, prefix: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Vec<StorageKey>>>;
+      getKeys: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, prefix: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Vec<StorageKey>>>;
       /**
        * Returns a child storage entry at a specific block state
        **/
-      getStorage: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<StorageData>>>;
+      getStorage: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<StorageData>>>;
       /**
        * Returns the hash of a child storage entry at a block state
        **/
-      getStorageHash: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<Hash>>>;
+      getStorageHash: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<Hash>>>;
       /**
        * Returns the size of a child storage entry at a block state
        **/
-      getStorageSize: AugmentedRpc<(childKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<u64>>>;
+      getStorageSize: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<u64>>>;
     };
     contracts: {
       /**

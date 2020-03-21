@@ -8,6 +8,7 @@ import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
+import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -1569,6 +1570,9 @@ declare module '@polkadot/types/types/registry' {
     StorageChangeSet: StorageChangeSet;
     'Option<StorageChangeSet>': Option<StorageChangeSet>;
     'Vec<StorageChangeSet>': Vec<StorageChangeSet>;
+    PrefixedStorageKey: PrefixedStorageKey;
+    'Option<PrefixedStorageKey>': Option<PrefixedStorageKey>;
+    'Vec<PrefixedStorageKey>': Vec<PrefixedStorageKey>;
     StorageKind: StorageKind;
     'Option<StorageKind>': Option<StorageKind>;
     'Vec<StorageKind>': Vec<StorageKind>;

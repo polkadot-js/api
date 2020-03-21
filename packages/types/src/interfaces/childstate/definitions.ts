@@ -11,7 +11,7 @@ export default {
       params: [
         {
           name: 'childKey',
-          type: 'StorageKey'
+          type: 'PrefixedStorageKey'
         },
         {
           name: 'prefix',
@@ -30,7 +30,7 @@ export default {
       params: [
         {
           name: 'childKey',
-          type: 'StorageKey'
+          type: 'PrefixedStorageKey'
         },
         {
           name: 'key',
@@ -49,7 +49,7 @@ export default {
       params: [
         {
           name: 'childKey',
-          type: 'StorageKey'
+          type: 'PrefixedStorageKey'
         },
         {
           name: 'key',
@@ -68,7 +68,7 @@ export default {
       params: [
         {
           name: 'childKey',
-          type: 'StorageKey'
+          type: 'PrefixedStorageKey'
         },
         {
           name: 'key',
@@ -83,5 +83,8 @@ export default {
       type: 'Option<u64>'
     }
   },
-  types: {}
+  types: {
+    // StorageKey extends Bytes
+    PrefixedStorageKey: 'StorageKey'
+  }
 } as Definitions;
