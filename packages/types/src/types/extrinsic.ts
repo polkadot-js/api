@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
-import { ExtrinsicStatus } from '../interfaces/rpc';
-import { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
-import { EventRecord } from '../interfaces/system';
-import { Codec } from './codec';
-import { AnyJson, AnyNumber, AnyU8a } from './helpers';
-import { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
+import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
+import type { ExtrinsicStatus } from '../interfaces/rpc';
+import type { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
+import type { EventRecord } from '../interfaces/system';
+import type { Codec } from './codec';
+import type { AnyJson, AnyNumber, AnyU8a } from './helpers';
+import type { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {

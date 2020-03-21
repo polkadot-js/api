@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, BareOpts } from './helpers';
-import { Registry } from './registry';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, BareOpts } from './helpers';
+import type { Registry } from './registry';
 
-import BN from 'bn.js';
+import type BN from 'bn.js';
 
 export type ArgsDef = Record<string, Constructor>;
 

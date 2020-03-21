@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ChainProperties } from '../interfaces/rpc';
-import { OverrideModuleType } from '../known/types';
+import type { ChainProperties } from '../interfaces/rpc';
+import type { OverrideModuleType } from '../known/types';
+import type { CallFunction } from './calls';
+import type { Codec, Constructor } from './codec';
+import type { AnyJson } from './helpers';
 
-import BN from 'bn.js';
-
-import { CallFunction } from './calls';
-import { Codec, Constructor } from './codec';
-import { AnyJson } from './helpers';
+import type BN from 'bn.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }
