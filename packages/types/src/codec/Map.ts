@@ -12,7 +12,7 @@ import Compact from './Compact';
 import Raw from './Raw';
 import compareMap from './utils/compareMap';
 import decodeU8a from './utils/decodeU8a';
-importToConstructor from './utils/typeToConstructor';
+import typeToConstructor from './utils/typeToConstructor';
 
 /** @internal */
 function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {

@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
-importToConstructor from './utils/typeToConstructor';
+import typeToConstructor from './utils/typeToConstructor';
 import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 

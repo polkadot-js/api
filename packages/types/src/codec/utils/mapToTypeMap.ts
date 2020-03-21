@@ -4,7 +4,7 @@
 
 import { Constructor, InterfaceTypes, Registry } from '../../types';
 
-importToConstructor from './typeToConstructor';
+import typeToConstructor from './typeToConstructor';
 
 /**
  * @description takes an input map of the form `{ [string]: string | Constructor }` and returns a map of `{ [string]: Constructor }`
