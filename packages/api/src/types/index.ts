@@ -11,25 +11,22 @@ import type { Constants } from '@polkadot/metadata/Decorated/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Metadata } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import type { DefinitionRpc, DefinitionRpcSub, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
+import type { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
 
 import type { DeriveAllSections } from '../util/decorate';
+import type ApiBase from '../base';
 import type { DecoratedRpc } from './rpc';
 import type { QueryableStorage, QueryableStorageMulti } from './storage';
 import type { SubmittableExtrinsics } from './submittable';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 
-// re-exports, non type imports
-import { Signer, SignerResult } from '@polkadot/types/types';
-import ApiBase from '../base';
-
+export { Signer, SignerResult } from '@polkadot/types/types';
+export { default as ApiBase } from '../base';
 export * from '../submittable/types';
 export * from './base';
 export * from './rpc';
 export * from './storage';
 export * from './submittable';
-
-export { ApiBase, Signer, SignerResult };
 
 export interface ApiOptions extends RegisteredTypes {
   /**
