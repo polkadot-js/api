@@ -79,6 +79,8 @@ export default class Rpc implements RpcInterface {
 
   public readonly author!: RpcInterface['author'];
 
+  public readonly babe!: RpcInterface['babe'];
+
   public readonly chain!: RpcInterface['chain'];
 
   public readonly contracts!: RpcInterface['contracts'];
