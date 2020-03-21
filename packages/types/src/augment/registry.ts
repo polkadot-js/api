@@ -6,7 +6,7 @@ import { BitVec, Bytes, Data, Null, StorageKey, Text, Type, U256, Unconstructabl
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
+import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
@@ -292,6 +292,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<BabeWeight>': Compact<BabeWeight>;
     'Option<BabeWeight>': Option<BabeWeight>;
     'Vec<BabeWeight>': Vec<BabeWeight>;
+    EpochAuthorship: EpochAuthorship;
+    'Option<EpochAuthorship>': Option<EpochAuthorship>;
+    'Vec<EpochAuthorship>': Vec<EpochAuthorship>;
     RawBabePreDigest: RawBabePreDigest;
     'Option<RawBabePreDigest>': Option<RawBabePreDigest>;
     'Vec<RawBabePreDigest>': Vec<RawBabePreDigest>;
