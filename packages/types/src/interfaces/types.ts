@@ -37,5 +37,6 @@ export * from './account/types';
 export * from './author/types';
 export * from './chain/types';
 export * from './childstate/types';
+export * from './offchain/types';
 export * from './payment/types';
 export * from './state/types';

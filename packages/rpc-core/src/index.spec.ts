@@ -17,17 +17,6 @@ describe('Api', (): void => {
     ).toThrow(/Expected Provider/);
   });
 
-  it('creates an instance with all sections', (): void => {
-    const rpc = new Rpc(registry, new MockProvider(registry));
-
-    expect(
-      Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
-    ).toEqual([
-      'mapping', 'provider', 'registry', 'sections',
-      'account', 'author', 'chain', 'childstate', 'contracts', 'engine', 'payment', 'rpc', 'state', 'system'
-    ]);
-  });
-
   it('allows for the definition of user RPCs', (): void => {
     const rpc = new Rpc(registry, new MockProvider(registry), {
       testing: {

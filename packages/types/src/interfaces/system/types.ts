@@ -89,6 +89,15 @@ export interface LastRuntimeUpgradeInfo extends Struct {
   readonly specName: Text;
 }
 
+/** @name NodeRole */
+export interface NodeRole extends Enum {
+  readonly isFull: boolean;
+  readonly isLightClient: boolean;
+  readonly isAuthority: boolean;
+  readonly isUnknownRole: boolean;
+  readonly asUnknownRole: u8;
+}
+
 /** @name Phase */
 export interface Phase extends Enum {
   readonly isApplyExtrinsic: boolean;
