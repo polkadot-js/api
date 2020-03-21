@@ -5,13 +5,23 @@
 import { Definitions } from '../../types';
 
 export default {
-  rpc: {},
+  rpc: {
+    epochAuthorship: {
+      description: 'Returns data about which slots (primary or secondary) can be claimed in the current epoch with the keys in the keystore',
+      params: [],
+      type: 'HashMap<AuthorityId, EpochAuthorship>'
+    }
+  },
   types: {
     BabeAuthorityWeight: 'u64',
     BabeBlockWeight: 'u32',
     MaybeVrf: 'Option<VrfData>',
     // TODO Remove as soon as merged and metadata static updated
     BabeWeight: 'u64',
+    EpochAuthorship: {
+      primary: 'Vec<u64>',
+      secondary: 'Vec<u64>'
+    },
     RawBabePreDigest: {
       _enum: {
         Phantom: 'Null', // index starts at 1... empty slot at 0
