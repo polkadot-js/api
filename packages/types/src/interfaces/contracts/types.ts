@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Compact, Enum, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
-import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
-import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import type { Compact, Enum, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
+import type { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import type { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name AliveContractInfo */
 export interface AliveContractInfo extends Struct {

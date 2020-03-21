@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface } from '@polkadot/rpc-core/types';
-import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
-import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { Constants, Storage } from '@polkadot/metadata/Decorated/types';
+import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { SubmittableExtrinsic } from '../submittable/types';
+import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, from, of } from 'rxjs';

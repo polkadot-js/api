@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Struct } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
-import { VoteThreshold } from '@polkadot/types/interfaces/elections';
-import { AccountId, BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Struct } from '@polkadot/types/codec';
+import type { u32 } from '@polkadot/types/primitive';
+import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
+import type { AccountId, BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name Conviction */
 export interface Conviction extends Enum {

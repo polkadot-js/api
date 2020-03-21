@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
+import type { AnyFunction, Callback, Codec } from '@polkadot/types/types';
 
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 
-import { ApiTypes, Push, PromiseResult, RxResult, UnsubscribePromise } from './base';
+import type { ApiTypes, Push, PromiseResult, RxResult, UnsubscribePromise } from './base';
 
 export interface RpcRxResult<F extends AnyFunction> extends RxResult<F> {
   raw (...args: Parameters<F>): Observable<Uint8Array & Codec>;

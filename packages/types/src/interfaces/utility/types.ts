@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
-import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { Struct, Vec } from '@polkadot/types/codec';
+import type { u32 } from '@polkadot/types/primitive';
+import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name Multisig */
 export interface Multisig extends Struct {

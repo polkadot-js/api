@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
-import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
-import { Signature } from '@polkadot/types/interfaces/extrinsics';
-import { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
+import type { Enum, Struct, Vec } from '@polkadot/types/codec';
+import type { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
+import type { Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name AttestedCandidate */
 export interface AttestedCandidate extends Struct {

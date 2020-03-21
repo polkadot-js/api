@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
-import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
+import type { AnyFunction, Callback, Codec } from '@polkadot/types/types';
+import type { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
 
 import { Observable, EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';

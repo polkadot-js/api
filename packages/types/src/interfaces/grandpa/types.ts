@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
-import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u64 } from '@polkadot/types/primitive';
-import { AuthorityId } from '@polkadot/types/interfaces/consensus';
-import { BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
+import type { Enum, Struct, Vec } from '@polkadot/types/codec';
+import type { u64 } from '@polkadot/types/primitive';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import type { BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name AuthorityIndex */
 export interface AuthorityIndex extends u64 {}

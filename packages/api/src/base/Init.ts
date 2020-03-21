@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
-import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import type { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import { Subscription, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { Type } from '@polkadot/types';
+import type { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import type { Type } from '@polkadot/types';
+
 import { assert, isUndefined } from '@polkadot/util';
 
 function sig ({ method, section }: StorageEntry, ...args: Type[]): string {

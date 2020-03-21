@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
-    "@babel/runtime": "^7.8.7",
+    "@babel/runtime": "^7.9.0",
     "@polkadot/metadata": "1.8.0-beta.7",
     "@polkadot/types": "1.8.0-beta.7",
     "@polkadot/util": "^2.6.2",
@@ -39,6 +39,6 @@
   "devDependencies": {
     "@polkadot/keyring": "^2.6.2",
     "mock-socket": "^9.0.3",
-    "nock": "^12.0.2"
+    "nock": "^12.0.3"
   }
 }

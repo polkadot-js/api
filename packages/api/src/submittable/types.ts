@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsicEra, IKeyringPair, SignatureOptions, Signer, ISubmittableResult } from '@polkadot/types/types';
-import { ApiTypes } from '../types';
+import type { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import type { AnyNumber, AnyU8a, Callback, Codec, IExtrinsicEra, IKeyringPair, SignatureOptions, Signer, ISubmittableResult } from '@polkadot/types/types';
+import type { ApiTypes } from '../types';
 
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 
 export interface SubmittableResultValue {
   events?: EventRecord[];

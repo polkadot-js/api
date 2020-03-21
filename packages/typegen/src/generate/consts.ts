@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModuleMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import * as defaultDefs from '@polkadot/types/interfaces/definitions';
+import type { ModuleMetadataLatest } from '@polkadot/types/interfaces/metadata';
 
 import staticData from '@polkadot/metadata/Metadata/static';
 import Metadata from '@polkadot/metadata/Metadata';
 import { TypeRegistry } from '@polkadot/types/create';
+import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, indent, registerDefinitions, setImports, writeFile } from '../util';

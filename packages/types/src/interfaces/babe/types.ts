@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { u32, u64 } from '@polkadot/types/primitive';
+import type { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import type { u32, u64 } from '@polkadot/types/primitive';
 
 /** @name BabeAuthorityWeight */
 export interface BabeAuthorityWeight extends u64 {}

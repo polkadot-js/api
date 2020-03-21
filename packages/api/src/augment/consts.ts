@@ -1,12 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { Codec } from '@polkadot/types/types';
-import { u32, u64 } from '@polkadot/types/primitive';
-import { Gas } from '@polkadot/types/interfaces/contracts';
-import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
-import { SessionIndex } from '@polkadot/types/interfaces/session';
-import { EraIndex } from '@polkadot/types/interfaces/staking';
+import type { Codec } from '@polkadot/types/types';
+import type { u32, u64 } from '@polkadot/types/primitive';
+import type { Gas } from '@polkadot/types/interfaces/contracts';
+import type { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
+import type { SessionIndex } from '@polkadot/types/interfaces/session';
+import type { EraIndex } from '@polkadot/types/interfaces/staking';
 
 declare module '@polkadot/metadata/Decorated/consts/types' {
   export interface Constants {

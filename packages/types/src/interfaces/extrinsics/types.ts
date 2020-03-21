@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, U8aFixed } from '@polkadot/types/codec';
-import { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types/extrinsic';
-import { H512 } from '@polkadot/types/interfaces/runtime';
+import type { Enum, U8aFixed } from '@polkadot/types/codec';
+import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types/extrinsic';
+import type { H512 } from '@polkadot/types/interfaces/runtime';
 
 /** @name EcdsaSignature */
 export interface EcdsaSignature extends U8aFixed {}

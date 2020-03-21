@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModuleMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Registry } from '@polkadot/types/types';
-import * as defaultDefs from '@polkadot/types/interfaces/definitions';
+import type { ModuleMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { Registry } from '@polkadot/types/types';
 
 import staticData from '@polkadot/metadata/Metadata/static';
 import Metadata from '@polkadot/metadata/Metadata';
+import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringLowerFirst } from '@polkadot/util';

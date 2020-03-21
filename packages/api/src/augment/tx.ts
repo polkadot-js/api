@@ -1,24 +1,24 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { AnyNumber, ITuple } from '@polkadot/types/types';
-import { Compact, Option, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, Data, bool, u16, u32, u64 } from '@polkadot/types/primitive';
-import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
-import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';
-import { Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
-import { Vote } from '@polkadot/types/interfaces/elections';
-import { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
-import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
-import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
-import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
-import { Keys } from '@polkadot/types/interfaces/session';
-import { SocietyJudgement } from '@polkadot/types/interfaces/society';
-import { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
-import { Key } from '@polkadot/types/interfaces/system';
-import { Timepoint } from '@polkadot/types/interfaces/utility';
-import { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import { ApiTypes, SubmittableExtrinsic } from '@polkadot/api/types';
+import type { AnyNumber, ITuple } from '@polkadot/types/types';
+import type { Compact, Option, U8aFixed, Vec } from '@polkadot/types/codec';
+import type { Bytes, Data, bool, u16, u32, u64 } from '@polkadot/types/primitive';
+import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
+import type { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';
+import type { Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
+import type { Vote } from '@polkadot/types/interfaces/elections';
+import type { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
+import type { Heartbeat } from '@polkadot/types/interfaces/imOnline';
+import type { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
+import type { Keys } from '@polkadot/types/interfaces/session';
+import type { SocietyJudgement } from '@polkadot/types/interfaces/society';
+import type { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import type { Key } from '@polkadot/types/interfaces/system';
+import type { Timepoint } from '@polkadot/types/interfaces/utility';
+import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
+import type { ApiTypes, SubmittableExtrinsic } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/submittable' {
   export interface AugmentedSubmittables<ApiType> {

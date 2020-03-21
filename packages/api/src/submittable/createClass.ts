@@ -3,10 +3,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
+import type { Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import type { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
+import type { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
+import type { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';

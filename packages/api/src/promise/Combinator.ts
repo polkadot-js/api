@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Callback } from '@polkadot/types/types';
-import { UnsubscribePromise } from '../types';
+import type { Callback } from '@polkadot/types/types';
+import type { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
