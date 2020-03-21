@@ -2,10 +2,12 @@
 /* eslint-disable */
 
 import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
-import { Option, Vec } from '@polkadot/types/codec';
+import { HashMap, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
+import { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
@@ -56,6 +58,12 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Submit a fully formatted extrinsic for block inclusion
        **/
       submitExtrinsic: AugmentedRpc<(extrinsic: IExtrinsic) => Observable<Hash>>;
+    };
+    babe: {
+      /**
+       * Returns data about which slots (primary or secondary) can be claimed in the current epoch with the keys in the keystore
+       **/
+      epochAuthorship: AugmentedRpc<() => Observable<HashMap<AuthorityId, EpochAuthorship>>>;
     };
     chain: {
       /**
@@ -114,6 +122,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns the value under a specified storage key in a contract
        **/
       getStorage: AugmentedRpc<(address: AccountId | string | Uint8Array, key: H256 | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<Bytes>>>;
+      /**
+       * Returns the projected time a given contract will be able to sustain paying its rent
+       **/
+      rentProjection: AugmentedRpc<(address: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<BlockNumber>>>;
     };
     engine: {
       /**
