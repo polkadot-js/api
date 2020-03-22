@@ -26,9 +26,28 @@ export { AllConvictions };
 export default {
   rpc: {},
   types: {
+    AccountVote: {
+      _enum: {
+        Standard: 'AccountVoteStandard',
+        Split: 'AccountVoteSplit'
+      }
+    },
+    AccountVoteSplit: {
+      aye: 'Balance',
+      nay: 'Balance'
+    },
+    AccountVoteStandard: {
+      vote: 'Vote',
+      balance: 'Balance'
+    },
     Conviction: {
       _enum: AllConvictions
     },
+    Delegations: {
+      votes: 'Balance',
+      capital: 'Balance'
+    },
+    PriorLock: '(BlockNumber, Balance)',
     PropIndex: 'u32',
     Proposal: 'Call',
     ProxyState: {
@@ -41,6 +60,25 @@ export default {
       proposalHash: 'Hash',
       threshold: 'VoteThreshold',
       delay: 'BlockNumber'
+    },
+    Voting: {
+      _enum: {
+        Direct: 'VotingDirect',
+        Delegating: 'VotingDelegating'
+      }
+    },
+    VotingDirect: {
+      votes: 'Vec<VotingDirectVote>',
+      delegations: 'Delegations',
+      prior: 'PriorLock'
+    },
+    VotingDirectVote: '(ReferendumIndex, AccountVote)',
+    VotingDelegating: {
+      balance: 'Balance',
+      target: 'AccountId',
+      conviction: 'Conviction',
+      delegations: 'Delegations',
+      prior: 'PriorLock'
     }
   }
 } as Definitions;
