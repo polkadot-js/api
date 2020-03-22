@@ -1310,6 +1310,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.9.2":
+  version: 7.9.2
+  resolution: "@babel/runtime@npm:7.9.2"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: 2/50c65b4972e62ca260ff6f3f99cf2395585d7f7bcd947ee87d082c2926cb4f0c93c815d5e9071162e689a4d2ba4143ffd5b005893be860088689c963f34e50c8
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.7.4, @babel/template@npm:^7.8.3, @babel/template@npm:^7.8.6":
   version: 7.8.6
   resolution: "@babel/template@npm:7.8.6"
@@ -2587,7 +2596,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/api": 1.8.0-beta.8
     "@polkadot/rpc-core": 1.8.0-beta.8
     "@polkadot/types": 1.8.0-beta.8
@@ -2601,7 +2610,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/api": 1.8.0-beta.8
     "@polkadot/keyring": ^2.6.2
     "@polkadot/rpc-core": 1.8.0-beta.8
@@ -2619,7 +2628,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/api-derive": 1.8.0-beta.8
     "@polkadot/keyring": ^2.6.2
     "@polkadot/metadata": 1.8.0-beta.8
@@ -2735,7 +2744,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/metadata@workspace:packages/metadata"
   dependencies:
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/keyring": ^2.6.2
     "@polkadot/types": 1.8.0-beta.8
     "@polkadot/util": ^2.6.2
@@ -2748,7 +2757,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/keyring": ^2.6.2
     "@polkadot/metadata": 1.8.0-beta.8
     "@polkadot/rpc-provider": 1.8.0-beta.8
@@ -2763,7 +2772,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/keyring": ^2.6.2
     "@polkadot/metadata": 1.8.0-beta.8
     "@polkadot/types": 1.8.0-beta.8
@@ -2793,7 +2802,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.9.0
     "@babel/register": ^7.9.0
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/api": 1.8.0-beta.8
     "@polkadot/metadata": 1.8.0-beta.8
     "@polkadot/rpc-provider": 1.8.0-beta.8
@@ -2816,7 +2825,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/keyring": ^2.6.2
     "@polkadot/metadata": 1.8.0-beta.8
     "@polkadot/util": ^2.6.2
@@ -15300,7 +15309,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.9.0
     "@babel/register": ^7.9.0
-    "@babel/runtime": ^7.9.0
+    "@babel/runtime": ^7.9.2
     "@polkadot/dev": ^0.51.7
     "@polkadot/ts": ^0.3.14
     "@polkadot/typegen": "workspace:packages/typegen"

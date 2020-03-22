@@ -275,7 +275,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
       case 'Result':
         return this.typeDefForResult(id, typeIndex);
       default: {
-        const sub = def['enum.variants'].map(variant => this.typeDefForEnumVariant(variant));
+        const sub = def['enum.variants'].map((variant) => this.typeDefForEnumVariant(variant));
 
         return {
           info: TypeDefInfo.Enum,
