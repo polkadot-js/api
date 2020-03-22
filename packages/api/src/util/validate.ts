@@ -4,6 +4,7 @@
 
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { Type } from '@polkadot/types';
+
 import { assert, isUndefined } from '@polkadot/util';
 
 function sig ({ method, section }: StorageEntry, ...args: Type[]): string {

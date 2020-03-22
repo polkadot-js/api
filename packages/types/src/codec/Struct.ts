@@ -5,7 +5,7 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
-import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
@@ -290,13 +290,16 @@ export default class Struct<
     const entries = [...this.entries()] as [string, Codec][];
 
     return u8aConcat(
-      ...entries.map(([key, value]): Uint8Array =>
-        value.toU8a(
-          !isBare || isBoolean(isBare)
-            ? isBare
-            : isBare[key]
+      ...entries
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        .filter(([, value]) => isFunction(value?.toU8a))
+        .map(([key, value]): Uint8Array =>
+          value.toU8a(
+            !isBare || isBoolean(isBare)
+              ? isBare
+              : isBare[key]
+          )
         )
-      )
     );
   }
 }

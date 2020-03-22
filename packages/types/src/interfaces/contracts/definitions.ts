@@ -39,6 +39,21 @@ export default {
         }
       ],
       type: 'Option<Bytes>'
+    },
+    rentProjection: {
+      description: 'Returns the projected time a given contract will be able to sustain paying its rent',
+      params: [
+        {
+          name: 'address',
+          type: 'AccountId'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'Option<BlockNumber>'
     }
   },
   types: {
