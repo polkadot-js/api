@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
+import { bool, u32 } from '@polkadot/types/primitive';
 import { Vote, VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { AccountId, Balance, BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 
@@ -63,11 +63,41 @@ export interface ProxyState extends Struct {
 export interface ReferendumIndex extends u32 {}
 
 /** @name ReferendumInfo */
-export interface ReferendumInfo extends Struct {
+export interface ReferendumInfo extends Enum {
+  readonly isOngoing: boolean;
+  readonly asOngoing: ReferendumStatus;
+  readonly isFinished: boolean;
+  readonly asFinished: ReferendumInfoFinished;
+}
+
+/** @name ReferendumInfoFinished */
+export interface ReferendumInfoFinished extends Struct {
+  readonly approved: bool;
+  readonly end: BlockNumber;
+}
+
+/** @name ReferendumInfoTo239 */
+export interface ReferendumInfoTo239 extends Struct {
   readonly end: BlockNumber;
   readonly proposalHash: Hash;
   readonly threshold: VoteThreshold;
   readonly delay: BlockNumber;
+}
+
+/** @name ReferendumStatus */
+export interface ReferendumStatus extends Struct {
+  readonly end: BlockNumber;
+  readonly proposalHash: Hash;
+  readonly threshold: VoteThreshold;
+  readonly delay: BlockNumber;
+  readonly tally: Tally;
+}
+
+/** @name Tally */
+export interface Tally extends Struct {
+  readonly ayes: Balance;
+  readonly nays: Balance;
+  readonly turnout: Balance;
 }
 
 /** @name Voting */

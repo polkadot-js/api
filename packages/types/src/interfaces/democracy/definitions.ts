@@ -55,11 +55,33 @@ export default {
       Active: 'AccountId'
     },
     ReferendumIndex: 'u32',
-    ReferendumInfo: {
+    ReferendumInfoTo239: {
       end: 'BlockNumber',
       proposalHash: 'Hash',
       threshold: 'VoteThreshold',
       delay: 'BlockNumber'
+    },
+    ReferendumInfo: {
+      _enum: {
+        Ongoing: 'ReferendumStatus',
+        Finished: 'ReferendumInfoFinished'
+      }
+    },
+    ReferendumInfoFinished: {
+      approved: 'bool',
+      end: 'BlockNumber'
+    },
+    ReferendumStatus: {
+      end: 'BlockNumber',
+      proposalHash: 'Hash',
+      threshold: 'VoteThreshold',
+      delay: 'BlockNumber',
+      tally: 'Tally'
+    },
+    Tally: {
+      ayes: 'Balance',
+      nays: 'Balance',
+      turnout: 'Balance'
     },
     Voting: {
       _enum: {
