@@ -22,7 +22,7 @@ function main () {
         // In the next step, we're checking if the node has active validators.
         // If it does, we're making another call to the api to get the balances for all validators
         const balances = (validators && validators.length > 0)
-          ? combineLatest(validators.map(authorityId => api.query.system.account(authorityId).pipe(first())))
+          ? combineLatest(validators.map((authorityId) => api.query.system.account(authorityId).pipe(first())))
           : of(null);
 
         // We're combining the results together with the emitted value 'validators',

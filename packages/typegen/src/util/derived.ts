@@ -61,7 +61,8 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
     });
   }
 
-  const result = types.map(t => formatType(definitions, t, imports)).map(t => `'${t}': ${t};`);
+  const result = types.map((t) => formatType(definitions, t, imports)).map((t) => `'${t}': ${t};`);
+
   result.unshift(`${type}: ${type};`);
 
   return result;

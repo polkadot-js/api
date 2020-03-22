@@ -52,7 +52,7 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
             .replace(/^#{1,3} /, '#### ')} `
     , '');
   // prefix each line with indentation
-  return md && md.split('\n\n').map(line => `${' '.repeat(indent)}${line}`).join('\n\n');
+  return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
 function renderPage (page: Page): string {
@@ -68,7 +68,7 @@ function renderPage (page: Page): string {
   });
 
   // contents
-  page.sections.forEach(section => {
+  page.sections.forEach((section) => {
     md += `\n___\n\n\n## ${section.name}\n`;
 
     if (section.description) {
@@ -78,7 +78,7 @@ function renderPage (page: Page): string {
     section.items.forEach((item) => {
       md += ` \n### ${item.name}`;
 
-      Object.keys(item).filter(i => i !== 'name').forEach(bullet => {
+      Object.keys(item).filter((i) => i !== 'name').forEach((bullet) => {
         md += `\n- **${bullet}**: ${
           item[bullet] instanceof Vec
             ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2)
