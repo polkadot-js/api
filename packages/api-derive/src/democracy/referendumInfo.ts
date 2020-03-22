@@ -60,15 +60,13 @@ function constructInfo (api: ApiInterfaceRx, index: BN | number, status: Referen
 export function retrieveInfo (api: ApiInterfaceRx, index: BN | number, info: Option<ReferendumInfo | ReferendumInfoTo239>): Observable<DerivedReferendum | null> {
   const status = getStatus(info);
 
-  if (!status) {
-    return of(null);
-  }
-
-  return api.query.democracy.preimages(status.proposalHash).pipe(
-    map((preimage?: PreImage): DerivedReferendum | null =>
-      constructInfo(api, index, status, preimage)
+  return status
+    ? api.query.democracy.preimages(status.proposalHash).pipe(
+      map((preimage?: PreImage): DerivedReferendum | null =>
+        constructInfo(api, index, status, preimage)
+      )
     )
-  );
+    : of(null);
 }
 
 export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Observable<DerivedReferendum | null> {
