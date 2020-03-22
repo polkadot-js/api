@@ -2,6 +2,8 @@
 
 - **Breaking change** The format for any custom RPCs have been changed, alongside API-internal changes to allow for better RPC management. If you are currently using custom RPCs (or planning to do so), look at the [updated documentation](https://polkadot.js.org/api/start/rpc.custom.html)
 - **Breaking change** Alongside API RPC changes, the `@polkadot/jsonrpc` package has been removed. Since it was never documented and only used internally, this should not have adverse impacts. All RPC definitions itself has now been moved to the relevant modules inside `@polkadot/types/interfaces`
+- **Important** Substrate has made changes to democracy, if using an older chain add the `ReferendumInfo: 'ReferendumInfoTo239'` type if using referendums
+- Adjust referendum derives to cater for new and old democracy (`referendumInfo` now includes `status` field, not `info`)
 - The Substrate extrinsic phase definitions has been expanded with `Initialization` to align with the latest versions
 
 # 1.7.1 Mar 17, 2020

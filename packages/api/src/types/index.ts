@@ -34,6 +34,10 @@ export interface ApiOptions extends RegisteredTypes {
    */
   derives?: DeriveCustom;
   /**
+   * @description Control the initialization of the wasm libraries. When not specified, it defaults to `true`, initializing the wasm libraries, set to `false` to not initialize wasm. (No sr25519 support)
+   */
+  initWasm?: boolean;
+  /**
    * @description pre-bundles is a map of 'genesis hash and runtime spec version' as key to a metadata hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
    */
