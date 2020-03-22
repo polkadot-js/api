@@ -14,14 +14,6 @@ import { u8aToString } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type FlagsIntermediate = [
-  Vec<ITuple<[AccountId, Balance]>> | undefined,
-  AccountId[],
-  AccountId[],
-  AccountId[],
-  AccountId | undefined
-];
-
 function dataAsString (data: Data): string | undefined {
   return data.isRaw
     ? u8aToString(data.asRaw.toU8a(true))
@@ -30,11 +22,9 @@ function dataAsString (data: Data): string | undefined {
       : undefined;
 }
 
-function isIncludedFn (_accountId: AccountId): (_: AccountId) => boolean {
-  const accountId = _accountId.toString();
-  
+function includedWrapper (accountId?: AccountId): (_: AccountId) => boolean {
   return function (id: AccountId): boolean {
-    return id.toString() === accountId;
+    return id.eq(accountId);
   };
 }
 
@@ -127,31 +117,32 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
 
 function retrieveFlags (api: ApiInterfaceRx, accountId?: AccountId): Observable<DeriveAccountFlags> {
   const councilSection = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
-  return (combineLatest([
-    accountId && api.query[councilSection]?.members
-      ? api.query[councilSection].members()
+
+  return combineLatest([
+    api.query[councilSection]?.members
+      ? api.query[councilSection].members<Vec<ITuple<[AccountId, Balance]>>>()
       : of(undefined),
-    accountId && api.query.council?.members
+    api.query.council?.members
       ? api.query.council.members()
       : of([]),
-    accountId && api.query.technicalCommittee?.members
+    api.query.technicalCommittee?.members
       ? api.query.technicalCommittee.members()
       : of([]),
-    accountId && api.query.society?.members
+    api.query.society?.members
       ? api.query.society.members()
       : of([]),
-    accountId && api.query.sudo?.key
+    api.query.sudo?.key
       ? api.query.sudo.key()
       : of(undefined)
-  ]) as Observable<FlagsIntermediate>).pipe(
+  ]).pipe(
     map(([electionsMembers, councilMembers, technicalCommitteeMembers, societyMembers, sudoKey]): DeriveAccountFlags => {
-      const isIncluded = accountId ? isIncludedFn(accountId) : (): boolean => false;
+      const checkIncluded = includedWrapper(accountId);
 
       return {
-        isCouncil: (electionsMembers?.map(([id]: ITuple<[AccountId, Balance]>) => id) || councilMembers || []).some(isIncluded),
-        isTechCommittee: (technicalCommitteeMembers || []).some(isIncluded),
-        isSociety: (societyMembers || []).some(isIncluded),
-        isSudo: sudoKey?.toString() === accountId?.toString()
+        isCouncil: (electionsMembers?.map(([id]) => id) || councilMembers || []).some(checkIncluded),
+        isTechCommittee: technicalCommitteeMembers.some(checkIncluded),
+        isSociety: societyMembers.some(checkIncluded),
+        isSudo: !!sudoKey && sudoKey.eq(accountId)
       };
     })
   );
