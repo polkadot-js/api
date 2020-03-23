@@ -24,7 +24,7 @@ async function main () {
   if (validators && validators.length > 0) {
     // Retrieve the balances for all validators
     const validatorBalances = await Promise.all(
-      validators.map(authorityId =>
+      validators.map((authorityId) =>
         api.query.system.account(authorityId)
       )
     );

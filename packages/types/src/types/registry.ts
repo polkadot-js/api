@@ -4,12 +4,11 @@
 
 import { ChainProperties } from '../interfaces/rpc';
 import { OverrideModuleType } from '../known/types';
-
-import BN from 'bn.js';
-
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
 import { AnyJson } from './helpers';
+
+import BN from 'bn.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }

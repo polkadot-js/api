@@ -217,7 +217,9 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     try {
       const [hasMeta, cryptoReady] = await Promise.all([
         this.loadMeta(),
-        cryptoWaitReady()
+        this._options.initWasm === false
+          ? Promise.resolve(true)
+          : cryptoWaitReady()
       ]);
 
       if (hasMeta && !this._isReady && cryptoReady) {

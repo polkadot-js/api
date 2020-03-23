@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, PropIndex, ProposalIndex, ReferendumInfoTo239, ReferendumStatus, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32, Vec } from '@polkadot/types';
@@ -28,7 +28,14 @@ export interface DeriveAccountRegistration {
   judgements: RegistrationJudgement[];
 }
 
-export interface DeriveAccountInfo {
+export interface DeriveAccountFlags {
+  isCouncil: boolean;
+  isSociety: boolean;
+  isSudo: boolean;
+  isTechCommittee: boolean;
+}
+
+export interface DeriveAccountInfo extends DeriveAccountFlags {
   accountId?: AccountId;
   accountIndex?: AccountIndex;
   identity: DeriveAccountRegistration;
@@ -131,9 +138,9 @@ export interface DeriveProposal {
 export interface DerivedReferendum {
   hash: Hash;
   index: PropIndex;
-  info: ReferendumInfo;
   preimage?: DeriveProposalPreImage;
   proposal?: Proposal;
+  status: ReferendumStatus | ReferendumInfoTo239;
 }
 
 export type DerivedRecentlyOffline = Record<string, RecentlyOffline[]>;

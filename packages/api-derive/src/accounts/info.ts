@@ -5,11 +5,11 @@
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Balance, Registration } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
-import { DeriveAccountInfo, DeriveAccountRegistration } from '../types';
+import { DeriveAccountFlags, DeriveAccountInfo, DeriveAccountRegistration } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Bytes, Data, Option, u32 } from '@polkadot/types';
+import { Bytes, Data, Option, u32, Vec } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
 import { memo } from '../util';
@@ -20,6 +20,12 @@ function dataAsString (data: Data): string | undefined {
     : data.isSha256
       ? data.asSha256.toHex()
       : undefined;
+}
+
+function includedWrapper (accountId?: AccountId): (_: AccountId) => boolean {
+  return function (id: AccountId): boolean {
+    return id.eq(accountId);
+  };
 }
 
 function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
@@ -109,6 +115,39 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
   );
 }
 
+function retrieveFlags (api: ApiInterfaceRx, accountId?: AccountId): Observable<DeriveAccountFlags> {
+  const councilSection = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+
+  return combineLatest([
+    api.query[councilSection]?.members
+      ? api.query[councilSection].members<Vec<ITuple<[AccountId, Balance]>>>()
+      : of(undefined),
+    api.query.council?.members
+      ? api.query.council.members()
+      : of([]),
+    api.query.technicalCommittee?.members
+      ? api.query.technicalCommittee.members()
+      : of([]),
+    api.query.society?.members
+      ? api.query.society.members()
+      : of([]),
+    api.query.sudo?.key
+      ? api.query.sudo.key()
+      : of(undefined)
+  ]).pipe(
+    map(([electionsMembers, councilMembers, technicalCommitteeMembers, societyMembers, sudoKey]): DeriveAccountFlags => {
+      const checkIncluded = includedWrapper(accountId);
+
+      return {
+        isCouncil: (electionsMembers?.map(([id]) => id) || councilMembers || []).some(checkIncluded),
+        isTechCommittee: technicalCommitteeMembers.some(checkIncluded),
+        isSociety: societyMembers.some(checkIncluded),
+        isSudo: !!sudoKey && sudoKey.eq(accountId)
+      };
+    })
+  );
+}
+
 /**
  * @name info
  * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex and nickname
@@ -116,15 +155,16 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
 export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
   return memo((address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     api.derive.accounts.idAndIndex(address).pipe(
-      switchMap(([accountId, accountIndex]): Observable<[Partial<DeriveAccountInfo>, DeriveAccountRegistration, string?]> =>
+      switchMap(([accountId, accountIndex]): Observable<[Partial<DeriveAccountInfo>, DeriveAccountFlags, DeriveAccountRegistration, string?]> =>
         combineLatest([
           of({ accountId, accountIndex }),
+          retrieveFlags(api, accountId),
           retrieveIdentity(api, accountId),
           retrieveNick(api, accountId)
         ])
       ),
-      map(([{ accountId, accountIndex }, identity, nickname]): DeriveAccountInfo => ({
-        accountId, accountIndex, identity, nickname
+      map(([{ accountId, accountIndex }, flags, identity, nickname]): DeriveAccountInfo => ({
+        accountId, accountIndex, ...flags, identity, nickname
       }))
     ));
 }

@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import * as definitions from '@polkadot/types/interfaces/definitions';
 import { TypeRegistry } from '@polkadot/types/create';
+import * as definitions from '@polkadot/types/interfaces/definitions';
 
 import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
