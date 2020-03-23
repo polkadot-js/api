@@ -12,7 +12,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
-import { retrieveInfo } from './referendumInfo';
+import { retrieveInfo } from './util';
 
 export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<DerivedReferendum[]> {
   return memo((ids: (BN | number)[] = []): Observable<DerivedReferendum[]> =>

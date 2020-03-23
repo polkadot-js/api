@@ -1,3 +1,7 @@
+# 1.9.0-beta.x
+
+- Additional cleanups of democracy derives, including support for new Polkadot/Substrate vote retrievals
+
 # 1.8.1 Mar 22, 2020
 
 - **Breaking change** The format for any custom RPCs have been changed alongside API-internal changes to allow for better RPC management. If you are currently using custom RPCs (or planning to do so), look at the [updated documentation](https://polkadot.js.org/api/start/rpc.custom.html)
@@ -8,6 +12,7 @@
 - Add support for all known substrate RPC methods
 - Extend account derives to include status flags, e.g. `isCouncil`, `isSudo`, ...
 - Adjusted referendum derives to cater for bot new/old democracy. Derived `referendumInfo` now includes `status` field, not `info`
+- Add `initWasm` flag to API options. When set to `false` does not init the WASM portion (leaving it to the user elsewhere)
 
 # 1.7.1 Mar 17, 2020
 
