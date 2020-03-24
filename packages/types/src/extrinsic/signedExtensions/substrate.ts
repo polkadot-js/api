@@ -48,5 +48,9 @@ export default {
   LockStakingStatus: {
     extra: {},
     types: {}
+  },
+  ValidateUnsigned: {
+    extra: {},
+    types: {}
   }
 } as ExtDef;
