@@ -279,6 +279,21 @@ export default {
       ],
       type: 'Vec<StorageChangeSet>'
     },
+    queryStorageAt: {
+      description: 'Query storage entries (by key) starting at block hash given as the second parameter',
+      params: [
+        {
+          name: 'keys',
+          type: 'Vec<StorageKey>'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'Vec<StorageChangeSet>'
+    },
     subscribeRuntimeVersion: {
       alias: ['chain_subscribeRuntimeVersion', 'chain_unsubscribeRuntimeVersion'],
       description: 'Retrieves the runtime version via subscription',

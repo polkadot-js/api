@@ -11,7 +11,7 @@ import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfa
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import { StorageKind } from '@polkadot/types/interfaces/offchain';
-import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion } from '@polkadot/types/interfaces/rpc';
+import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { NodeRole } from '@polkadot/types/interfaces/system';
 import { Observable } from 'rxjs';
@@ -197,6 +197,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Query historical storage entries (by key) starting from a start block
        **/
       queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;
+      /**
+       * Query storage entries (by key) starting at block hash given as the second parameter
+       **/
+      queryStorageAt: AugmentedRpc<(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: BlockHash | string | Uint8Array) => Observable<Vec<StorageChangeSet>>>;
       /**
        * Retrieves the runtime version via subscription
        **/
