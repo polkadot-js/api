@@ -34,20 +34,20 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   keyPrefix: () => string;
   range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
-  multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
+  multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti<F> : StorageEntryPromiseMulti<F>;
 }
 
 export interface StorageEntryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction> extends StorageEntryBase<ApiType, F> {
   entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey, T][]>;
 }
 
-interface StorageEntryObservableMulti {
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
+interface StorageEntryObservableMulti<F extends AnyFunction> {
+  <T extends Codec | any = ObsInnerType<ReturnType<F>>>(args: Parameters<F>[]): Observable<T[]>;
 }
 
-interface StorageEntryPromiseMulti {
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
+interface StorageEntryPromiseMulti<F extends AnyFunction> {
+  <T extends Codec | any = ObsInnerType<ReturnType<F>>>(args: Parameters<F>[]): Promise<T[]>;
+  <T extends Codec | any = ObsInnerType<ReturnType<F>>>(args: Parameters<F>[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromiseOverloads {
