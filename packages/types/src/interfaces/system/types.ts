@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Compact, Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { GenericEvent } from '@polkadot/types/generic';
 import { Bytes, Text, u32, u8 } from '@polkadot/types/primitive';
 import { AccountData } from '@polkadot/types/interfaces/balances';
@@ -83,12 +83,30 @@ export interface EventRecordTo76 extends Struct {
 /** @name Key */
 export interface Key extends Bytes {}
 
+/** @name LastRuntimeUpgradeInfo */
+export interface LastRuntimeUpgradeInfo extends Struct {
+  readonly specVersion: Compact<u32>;
+  readonly specName: Text;
+}
+
+/** @name NodeRole */
+export interface NodeRole extends Enum {
+  readonly isFull: boolean;
+  readonly isLightClient: boolean;
+  readonly isAuthority: boolean;
+  readonly isUnknownRole: boolean;
+  readonly asUnknownRole: u8;
+}
+
 /** @name Phase */
 export interface Phase extends Enum {
   readonly isApplyExtrinsic: boolean;
   readonly asApplyExtrinsic: u32;
   readonly isFinalization: boolean;
+  readonly isInitialization: boolean;
 }
 
 /** @name RefCount */
 export interface RefCount extends u8 {}
+
+export type PHANTOM_SYSTEM = 'system';

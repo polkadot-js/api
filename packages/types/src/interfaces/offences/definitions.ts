@@ -2,7 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Definitions } from '../../types';
+
 export default {
+  rpc: {},
   types: {
     Kind: '[u8; 16]',
     OffenceDetails: {
@@ -14,4 +17,4 @@ export default {
     ReportIdOf: 'Hash',
     Reporter: 'AccountId'
   }
-};
+} as Definitions;

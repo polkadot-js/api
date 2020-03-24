@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct } from '@polkadot/types/codec';
@@ -43,3 +43,5 @@ export interface VouchingStatus extends Enum {
   readonly isVouching: boolean;
   readonly isBanned: boolean;
 }
+
+export type PHANTOM_SOCIETY = 'society';

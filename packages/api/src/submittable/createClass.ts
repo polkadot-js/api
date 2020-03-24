@@ -166,9 +166,9 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
       return {
         blockHash: api.genesisHash,
+        genesisHash: api.genesisHash,
         ...options,
         ...extras,
-        genesisHash: api.genesisHash,
         runtimeVersion: api.runtimeVersion,
         version: api.extrinsicType
       } as SignatureOptions;

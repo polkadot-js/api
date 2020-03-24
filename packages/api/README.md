@@ -95,6 +95,7 @@ Some of the users of the API (let us know if you are missing from the list), inc
 - [Polkabot](https://gitlab.com/Polkabot) Polkabot is a Matrix chatbot that keeps an eye on the Polkadot network. You can see Polkabot in action in https://matrix.to/#/#polkadot-network-status:matrix.org
 - [Polkawallet.io](https://polkawallet.io) and [Polkawallet (Github)](https://github.com/polkawallet-io/polkawallet-RN/) A mobile wallet for the Polkadot network to manage funds and make transactions, available on both Androind and iOS
 - [PolkaStats.io](https://polkastats.io), [PolkaStats frontend GitHub repository](https://github.com/Colm3na/polkastats-v2) and [PolkaStats backend GitHub repository](https://github.com/Colm3na/polkastats-backend-v2) Polkadot network statistics (currently Kusama and Alexander). Shows network information and staking details from validators and intentions.
+- [Polkadot API Server (GitHub)](https://github.com/SimplyVC/polkadot_api_server) A lightweight server for querying Polkadot nodes from any language, built primarily as a backend for [PANIC for Polkadot (GitHub)](https://github.com/SimplyVC/panic_polkadot/), a validator monitoring and alerting tool.
 
 ## Classes
 

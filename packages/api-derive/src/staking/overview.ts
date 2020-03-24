@@ -2,24 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, EraIndex, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
+import { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStakingOverview } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function retrievePointsPrev (api: ApiInterfaceRx, activeEra: EraIndex, currentElected: AccountId[]): Observable<EraRewardPoints> {
-  return api.query.staking.currentEraPointsEarned<EraPoints>(activeEra).pipe(
+function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): Observable<EraRewardPoints> {
+  return api.query.staking.currentEraPointsEarned<EraPoints>().pipe(
     map(({ individual, total }): EraRewardPoints =>
-      createType(api.registry, 'EraRewardPoints', {
+      api.registry.createType('EraRewardPoints', {
         total,
         individual: new Map<AccountId, RewardPoint>(
           individual
-            .map((points): RewardPoint => createType(api.registry, 'RewardPoint', points))
+            .map((points): RewardPoint => api.registry.createType('RewardPoint', points))
             .map((points, index): [AccountId, RewardPoint] => [currentElected[index], points])
         )
       })
@@ -41,7 +40,9 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
           of({ ...indexes, nextElected, validators }),
           api.query.staking.erasRewardPoints
             ? api.query.staking.erasRewardPoints<EraRewardPoints>(indexes.activeEra)
-            : retrievePointsPrev(api, indexes.activeEra, nextElected)
+            : api.query.staking.currentEraPointsEarned
+              ? retrievePointsPrev(api, nextElected)
+              : of(api.registry.createType('EraRewardPoints'))
         ])
       ),
       map(([info, eraPoints]): DerivedStakingOverview => ({

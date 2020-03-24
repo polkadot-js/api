@@ -6,10 +6,9 @@ import { AccountId, AccountData, AccountIndex, AccountInfo, Address, Balance, In
 import { ITuple } from '@polkadot/types/types';
 import { DerivedBalancesAccount } from '../types';
 
-import { combineLatest, of, Observable } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -23,7 +22,7 @@ function calcBalances (api: ApiInterfaceRx, [accountId, [freeBalance, reservedBa
     frozenFee,
     frozenMisc,
     reservedBalance,
-    votingBalance: createType(api.registry, 'Balance', freeBalance.add(reservedBalance))
+    votingBalance: api.registry.createType('Balance', freeBalance.add(reservedBalance))
   };
 }
 
@@ -35,7 +34,7 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
     [api.query.system.accountNonce, accountId]
   ]).pipe(
     map(([freeBalance, reservedBalance, accountNonce]): Result =>
-      [freeBalance, reservedBalance, createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), accountNonce]
+      [freeBalance, reservedBalance, api.registry.createType('Balance'), api.registry.createType('Balance'), accountNonce]
     )
   );
 }
@@ -93,7 +92,7 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
                 ? queryBalancesAccount(api, accountId)
                 : queryBalancesFree(api, accountId)
           ])
-          : of([createType(api.registry, 'AccountId'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Index')]])
+          : of([api.registry.createType('AccountId'), [api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Index')]])
         )
       ),
       map((result): DerivedBalancesAccount => calcBalances(api, result))

@@ -21,7 +21,7 @@ export default class SubmittableResult implements ISubmittableResult {
   }
 
   public get isError (): boolean {
-    return this.status.isDropped || this.status.isFinalityTimeout || this.status.isInvalid || this.status.isRetracted || this.status.isUsurped;
+    return this.status.isDropped || this.status.isFinalityTimeout || this.status.isInvalid || this.status.isUsurped;
   }
 
   public get isFinalized (): boolean {
@@ -30,6 +30,10 @@ export default class SubmittableResult implements ISubmittableResult {
 
   public get isInBlock (): boolean {
     return this.status.isInBlock;
+  }
+
+  public get isWarning (): boolean {
+    return this.status.isRetracted;
   }
 
   /**

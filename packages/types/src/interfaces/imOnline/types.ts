@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, u32 } from '@polkadot/types/primitive';
@@ -32,3 +32,5 @@ export interface OpaqueNetworkState extends Struct {
 
 /** @name OpaquePeerId */
 export interface OpaquePeerId extends Bytes {}
+
+export type PHANTOM_IMONLINE = 'imOnline';

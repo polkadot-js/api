@@ -4,7 +4,7 @@
 
 import { ParaId } from '@polkadot/types/interfaces';
 import { DeriveParachain, DeriveParachainInfo } from '../types';
-import { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize, Watermarks } from './types';
+import { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -17,11 +17,10 @@ type Result = [
   DidUpdate,
   ParaInfoResult[],
   PendingSwap[],
-  RelayDispatchQueueSize[],
-  Watermarks[],
+  RelayDispatchQueueSize[]
 ];
 
-function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes, watermarks]: Result): DeriveParachain[] {
+function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: Result): DeriveParachain[] {
   return ids.map((id, index): DeriveParachain => {
     return {
       didUpdate: didUpdate.isSome
@@ -30,8 +29,7 @@ function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes, w
       id,
       info: { id, ...infos[index].unwrapOr(null) } as DeriveParachainInfo,
       pendingSwapId: pendingSwaps[index].unwrapOr(null),
-      relayDispatchQueueSize: relayDispatchQueueSizes[index][0].toNumber(),
-      watermark: watermarks[index].unwrapOr(null)
+      relayDispatchQueueSize: relayDispatchQueueSizes[index][0].toNumber()
     };
   });
 }
@@ -46,8 +44,7 @@ export function overview (api: ApiInterfaceRx): () => Observable<DeriveParachain
             api.query.parachains.didUpdate<DidUpdate>(),
             api.query.registrar.paras.multi<ParaInfoResult>(paraIds),
             api.query.registrar.pendingSwap.multi<PendingSwap>(paraIds),
-            api.query.parachains.relayDispatchQueueSize.multi<RelayDispatchQueueSize>(paraIds),
-            api.query.parachains.watermarks.multi<Watermarks>(paraIds)
+            api.query.parachains.relayDispatchQueueSize.multi<RelayDispatchQueueSize>(paraIds)
           ])
         ),
         map((result: Result): DeriveParachain[] =>

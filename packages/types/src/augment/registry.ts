@@ -1,18 +1,18 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
 import { BitVec, Bytes, Data, Null, StorageKey, Text, Type, U256, Unconstructable, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
+import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import { Conviction, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
 import { Account, Log } from '@polkadot/types/interfaces/evm';
@@ -22,6 +22,7 @@ import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingP
 import { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { CallMetadataV0, DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, DoubleMapTypeV8, DoubleMapTypeV9, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV8, ErrorMetadataV9, EventMetadataLatest, EventMetadataV0, EventMetadataV1, EventMetadataV10, EventMetadataV11, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, EventMetadataV8, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionArgumentMetadataV8, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, FunctionMetadataV8, FunctionMetadataV9, MapTypeLatest, MapTypeV0, MapTypeV10, MapTypeV11, MapTypeV2, MapTypeV3, MapTypeV4, MapTypeV5, MapTypeV6, MapTypeV7, MapTypeV8, MapTypeV9, MetadataAll, MetadataLatest, MetadataV0, MetadataV1, MetadataV10, MetadataV11, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8, MetadataV9, ModuleConstantMetadataLatest, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleConstantMetadataV8, ModuleConstantMetadataV9, ModuleMetadataLatest, ModuleMetadataV0, ModuleMetadataV1, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV2, ModuleMetadataV3, ModuleMetadataV4, ModuleMetadataV5, ModuleMetadataV6, ModuleMetadataV7, ModuleMetadataV8, ModuleMetadataV9, OuterDispatchCallV0, OuterDispatchMetadataV0, OuterEventEventMetadataEventsV0, OuterEventEventMetadataV0, OuterEventMetadataV0, PlainTypeLatest, PlainTypeV0, PlainTypeV10, PlainTypeV11, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, PlainTypeV8, PlainTypeV9, RuntimeModuleMetadataV0, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV6, StorageEntryMetadataV7, StorageEntryMetadataV8, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV6, StorageEntryModifierV7, StorageEntryModifierV8, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV6, StorageEntryTypeV7, StorageEntryTypeV8, StorageEntryTypeV9, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionMetadataV2, StorageFunctionMetadataV3, StorageFunctionMetadataV4, StorageFunctionMetadataV5, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageFunctionTypeV2, StorageFunctionTypeV3, StorageFunctionTypeV4, StorageFunctionTypeV5, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV4, StorageHasherV5, StorageHasherV6, StorageHasherV7, StorageHasherV8, StorageHasherV9, StorageMetadataLatest, StorageMetadataV0, StorageMetadataV10, StorageMetadataV11, StorageMetadataV7, StorageMetadataV8, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
+import { StorageKind } from '@polkadot/types/interfaces/offchain';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { AttestedCandidate, AuctionIndex, Bidder, CandidateReceipt, CollatorId, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParaInfo, ParaScheduling, ParachainDispatchOrigin, Retriable, SlotRange, SubId, UpwardMessage, ValidityAttestation, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
@@ -30,7 +31,7 @@ import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, Balanc
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, PhragmenScore, Points, ReleasesStaking, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
-import { AccountInfo, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase, RefCount } from '@polkadot/types/interfaces/system';
+import { AccountInfo, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, LastRuntimeUpgradeInfo, NodeRole, Phase, RefCount } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
@@ -291,6 +292,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<BabeWeight>': Compact<BabeWeight>;
     'Option<BabeWeight>': Option<BabeWeight>;
     'Vec<BabeWeight>': Vec<BabeWeight>;
+    EpochAuthorship: EpochAuthorship;
+    'Option<EpochAuthorship>': Option<EpochAuthorship>;
+    'Vec<EpochAuthorship>': Vec<EpochAuthorship>;
     RawBabePreDigest: RawBabePreDigest;
     'Option<RawBabePreDigest>': Option<RawBabePreDigest>;
     'Vec<RawBabePreDigest>': Vec<RawBabePreDigest>;
@@ -406,9 +410,24 @@ declare module '@polkadot/types/types/registry' {
     TrieId: TrieId;
     'Option<TrieId>': Option<TrieId>;
     'Vec<TrieId>': Vec<TrieId>;
+    AccountVote: AccountVote;
+    'Option<AccountVote>': Option<AccountVote>;
+    'Vec<AccountVote>': Vec<AccountVote>;
+    AccountVoteSplit: AccountVoteSplit;
+    'Option<AccountVoteSplit>': Option<AccountVoteSplit>;
+    'Vec<AccountVoteSplit>': Vec<AccountVoteSplit>;
+    AccountVoteStandard: AccountVoteStandard;
+    'Option<AccountVoteStandard>': Option<AccountVoteStandard>;
+    'Vec<AccountVoteStandard>': Vec<AccountVoteStandard>;
     Conviction: Conviction;
     'Option<Conviction>': Option<Conviction>;
     'Vec<Conviction>': Vec<Conviction>;
+    Delegations: Delegations;
+    'Option<Delegations>': Option<Delegations>;
+    'Vec<Delegations>': Vec<Delegations>;
+    PriorLock: PriorLock;
+    'Option<PriorLock>': Option<PriorLock>;
+    'Vec<PriorLock>': Vec<PriorLock>;
     PropIndex: PropIndex;
     'Compact<PropIndex>': Compact<PropIndex>;
     'Option<PropIndex>': Option<PropIndex>;
@@ -423,9 +442,33 @@ declare module '@polkadot/types/types/registry' {
     'Compact<ReferendumIndex>': Compact<ReferendumIndex>;
     'Option<ReferendumIndex>': Option<ReferendumIndex>;
     'Vec<ReferendumIndex>': Vec<ReferendumIndex>;
+    ReferendumInfoTo239: ReferendumInfoTo239;
+    'Option<ReferendumInfoTo239>': Option<ReferendumInfoTo239>;
+    'Vec<ReferendumInfoTo239>': Vec<ReferendumInfoTo239>;
     ReferendumInfo: ReferendumInfo;
     'Option<ReferendumInfo>': Option<ReferendumInfo>;
     'Vec<ReferendumInfo>': Vec<ReferendumInfo>;
+    ReferendumInfoFinished: ReferendumInfoFinished;
+    'Option<ReferendumInfoFinished>': Option<ReferendumInfoFinished>;
+    'Vec<ReferendumInfoFinished>': Vec<ReferendumInfoFinished>;
+    ReferendumStatus: ReferendumStatus;
+    'Option<ReferendumStatus>': Option<ReferendumStatus>;
+    'Vec<ReferendumStatus>': Vec<ReferendumStatus>;
+    Tally: Tally;
+    'Option<Tally>': Option<Tally>;
+    'Vec<Tally>': Vec<Tally>;
+    Voting: Voting;
+    'Option<Voting>': Option<Voting>;
+    'Vec<Voting>': Vec<Voting>;
+    VotingDirect: VotingDirect;
+    'Option<VotingDirect>': Option<VotingDirect>;
+    'Vec<VotingDirect>': Vec<VotingDirect>;
+    VotingDirectVote: VotingDirectVote;
+    'Option<VotingDirectVote>': Option<VotingDirectVote>;
+    'Vec<VotingDirectVote>': Vec<VotingDirectVote>;
+    VotingDelegating: VotingDelegating;
+    'Option<VotingDelegating>': Option<VotingDelegating>;
+    'Vec<VotingDelegating>': Vec<VotingDelegating>;
     ApprovalFlag: ApprovalFlag;
     'Compact<ApprovalFlag>': Compact<ApprovalFlag>;
     'Option<ApprovalFlag>': Option<ApprovalFlag>;
@@ -850,6 +893,12 @@ declare module '@polkadot/types/types/registry' {
     Key: Key;
     'Option<Key>': Option<Key>;
     'Vec<Key>': Vec<Key>;
+    LastRuntimeUpgradeInfo: LastRuntimeUpgradeInfo;
+    'Option<LastRuntimeUpgradeInfo>': Option<LastRuntimeUpgradeInfo>;
+    'Vec<LastRuntimeUpgradeInfo>': Vec<LastRuntimeUpgradeInfo>;
+    NodeRole: NodeRole;
+    'Option<NodeRole>': Option<NodeRole>;
+    'Vec<NodeRole>': Vec<NodeRole>;
     Phase: Phase;
     'Option<Phase>': Option<Phase>;
     'Vec<Phase>': Vec<Phase>;
@@ -1562,5 +1611,8 @@ declare module '@polkadot/types/types/registry' {
     StorageChangeSet: StorageChangeSet;
     'Option<StorageChangeSet>': Option<StorageChangeSet>;
     'Vec<StorageChangeSet>': Vec<StorageChangeSet>;
+    StorageKind: StorageKind;
+    'Option<StorageKind>': Option<StorageKind>;
+    'Vec<StorageKind>': Vec<StorageKind>;
   }
 }

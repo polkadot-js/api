@@ -8,18 +8,20 @@ import '@polkadot/api/augment';
 import BN from 'bn.js';
 import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface, UserRpc } from '@polkadot/rpc-core/types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { Signer, SignerResult, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
+import { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
 
-import ApiBase from '../base';
 import { DeriveAllSections } from '../util/decorate';
+import ApiBase from '../base';
 import { DecoratedRpc } from './rpc';
 import { QueryableStorage, QueryableStorageMulti } from './storage';
 import { SubmittableExtrinsics } from './submittable';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 
+export { Signer, SignerResult } from '@polkadot/types/types';
+export { default as ApiBase } from '../base';
 export * from '../submittable/types';
 export * from './base';
 export * from './rpc';
@@ -31,6 +33,10 @@ export interface ApiOptions extends RegisteredTypes {
    * @description Add custom derives to be injected
    */
   derives?: DeriveCustom;
+  /**
+   * @description Control the initialization of the wasm libraries. When not specified, it defaults to `true`, initializing the wasm libraries, set to `false` to not initialize wasm. (No sr25519 support)
+   */
+  initWasm?: boolean;
   /**
    * @description pre-bundles is a map of 'genesis hash and runtime spec version' as key to a metadata hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
@@ -48,7 +54,7 @@ export interface ApiOptions extends RegisteredTypes {
   /**
    * @description User-defined RPC methods
    */
-  rpc?: UserRpc;
+  rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   /**
    * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
@@ -83,5 +89,3 @@ export interface SignerOptions extends SignatureOptions {
   blockNumber: BN;
   genesisHash: Hash;
 }
-
-export { ApiBase, Signer, SignerResult };

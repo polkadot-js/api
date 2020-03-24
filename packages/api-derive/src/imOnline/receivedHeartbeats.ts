@@ -5,7 +5,7 @@
 import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedHeartbeats } from '../types';
 
-import { of, Observable, combineLatest } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, u32 } from '@polkadot/types';

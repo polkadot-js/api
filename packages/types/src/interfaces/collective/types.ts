@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct, Vec } from '@polkadot/types/codec';
 import { u32 } from '@polkadot/types/primitive';
@@ -27,3 +27,5 @@ export interface VotesTo230 extends Struct {
   readonly ayes: Vec<AccountId>;
   readonly nays: Vec<AccountId>;
 }
+
+export type PHANTOM_COLLECTIVE = 'collective';

@@ -6,7 +6,7 @@ import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 import { AccountIndexes } from '../types';
 
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
@@ -28,7 +28,6 @@ import { memo } from '../util';
 export function idToIndex (api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
   return memo((accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     api.derive.accounts.indexes().pipe(
-      startWith({}),
       map((indexes: AccountIndexes): AccountIndex | undefined =>
         (indexes || {})[accountId.toString()]
       )

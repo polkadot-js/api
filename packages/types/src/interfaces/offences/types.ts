@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes } from '@polkadot/types/primitive';
@@ -26,3 +26,5 @@ export interface Reporter extends AccountId {}
 
 /** @name ReportIdOf */
 export interface ReportIdOf extends Hash {}
+
+export type PHANTOM_OFFENCES = 'offences';

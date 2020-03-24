@@ -5,43 +5,78 @@
 import { AccountId, Balance, BlockNumber, EraIndex, EraRewardPoints, Exposure, Keys, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { DeriveSessionIndexes } from '../session/types';
 
-export interface DeriveEraPointsAll {
-  all: Record<string, RewardPoint>;
-  era: EraIndex;
-  eraPoints: RewardPoint;
-}
+export type DeriveEraValPoints = Record<string, RewardPoint>;
+
+export type DeriveEraValPrefs = Record<string, ValidatorPrefs>;
+
+export type DeriveEraValSlash = Record<string, Balance>;
 
 export interface DeriveEraPoints {
   era: EraIndex;
   eraPoints: RewardPoint;
-  own: RewardPoint;
+  validators: DeriveEraValPoints;
 }
 
-export type DeriveEraExposures = Record<string, {
-  exposure: Exposure;
+export interface DeriveEraPrefs {
+  era: EraIndex;
+  validators: DeriveEraValPrefs;
+}
+
+export interface DeriveEraRewards {
+  era: EraIndex;
+  eraReward: Balance;
+}
+
+export interface DeriveEraSlashes {
+  era: EraIndex;
+  nominators: DeriveEraValSlash;
+  validators: DeriveEraValSlash;
+}
+
+export interface DeriveStakerPoints {
+  era: EraIndex;
+  eraPoints: RewardPoint;
   points: RewardPoint;
-}>;
+}
+
+export type DeriveEraNominatorExposure = Record<string, [string, number][]>;
+
+export type DeriveEraValidatorExposure = Record<string, Exposure>;
 
 export interface DeriveEraExposure {
-  all: DeriveEraExposures;
   era: EraIndex;
-  eraPoints: RewardPoint;
+  nominators: DeriveEraNominatorExposure;
+  validators: DeriveEraValidatorExposure;
 }
 
-export interface DeriveEraRewardsAll {
+export interface DeriveOwnExposure {
+  clipped: Exposure;
   era: EraIndex;
-  eraPoints: RewardPoint;
-  nominators: Record<string, [string, number][]>;
-  validators: DeriveEraExposures;
+  exposure: Exposure;
+}
+
+export type DeriveOwnSlashes = DeriveStakerSlashes;
+
+export interface DeriveStakerExposure {
+  era: EraIndex;
+  isEmpty: boolean;
+  isValidator: boolean;
+  nominating: [string, number][];
+  validators: DeriveEraValidatorExposure;
 }
 
 export interface DeriveStakerReward {
   era: EraIndex;
-  eraPoints: RewardPoint;
   isEmpty: boolean;
   isValidator: boolean;
   nominating: [string, number][];
-  validators: DeriveEraExposures;
+  validators: Record<string, Balance>;
+  total: Balance;
+}
+
+export interface DeriveStakerSlashes {
+  era: EraIndex;
+  total: Balance;
 }
 
 export interface DerivedStakingElected {

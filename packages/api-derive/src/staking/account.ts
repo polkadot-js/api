@@ -7,9 +7,8 @@ import { Balance, BlockNumber, StakingLedger, UnlockChunk } from '@polkadot/type
 import { DerivedSessionInfo, DerivedStakingAccount, DerivedStakingQuery, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { createType } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -33,7 +32,7 @@ function remainingBlocks (api: ApiInterfaceRx, era: BN, sessionInfo: DerivedSess
   const remaining = era.sub(sessionInfo.currentEra);
 
   // on the Rust side the current-era >= era-for-unlock (removal done on >)
-  return createType(api.registry, 'BlockNumber', remaining.gtn(0)
+  return api.registry.createType('BlockNumber', remaining.gtn(0)
     ? remaining
       .subn(1)
       .mul(sessionInfo.eraLength)
@@ -58,7 +57,7 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
   // group the unlock chunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): DerivedUnlocking => ({
-    value: createType(api.registry, 'Balance', value),
+    value: api.registry.createType('Balance', value),
     remainingBlocks: remainingBlocks(api, new BN(eraString), sessionInfo)
   }));
 
@@ -67,10 +66,10 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
 
 function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DerivedSessionInfo): Balance {
   if (isUndefined(stakingLedger)) {
-    return createType(api.registry, 'Balance');
+    return api.registry.createType('Balance');
   }
 
-  return createType(api.registry, 'Balance', stakingLedger.unlocking.reduce((total, { era, value }): BN => {
+  return api.registry.createType('Balance', stakingLedger.unlocking.reduce((total, { era, value }): BN => {
     return remainingBlocks(api, era.unwrap(), sessionInfo).eqn(0)
       ? total.add(value.unwrap())
       : total;

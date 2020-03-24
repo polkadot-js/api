@@ -4,7 +4,6 @@
 
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
-import fs from 'fs';
 import path from 'path';
 import { getTypeDef } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
@@ -194,8 +193,8 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
     }))
   ]);
 
-  fs.writeFileSync(path.join(outputDir, defName, 'types.ts'), header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  writeFile(path.join(outputDir, defName, 'types.ts'), () => header.concat(sortedDefs).concat(`\n\nexport type PHANTOM_${defName.toUpperCase()} = '${defName}';`).concat(FOOTER), true);
+  writeFile(path.join(outputDir, defName, 'index.ts'), () => HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), true);
 }
 
 /** @internal */
@@ -219,7 +218,7 @@ export function generateTsDef (importDefinitions: { [importPath: string]: object
       .concat(FOOTER);
   });
 
-  fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  writeFile(path.join(outputDir, 'index.ts'), () => HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), true);
 }
 
 /** @internal */

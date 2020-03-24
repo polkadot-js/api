@@ -8,7 +8,7 @@ import { DerivedCollectiveProposals, DerivedTreasuryProposal, DerivedTreasuryPro
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { createType, Option } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -55,7 +55,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
     const isApproval = approvalIds.some((id): boolean => id.eqn(index));
 
     if (!isApproval) {
-      proposalIds.push(createType(api.registry, 'ProposalIndex', index));
+      proposalIds.push(api.registry.createType('ProposalIndex', index));
     }
   }
 
@@ -87,7 +87,7 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DerivedTreasur
       )
       : of({
         approvals: [],
-        proposalCount: createType(api.registry, 'ProposalIndex'),
+        proposalCount: api.registry.createType('ProposalIndex'),
         proposals: []
       } as DerivedTreasuryProposals)
   );

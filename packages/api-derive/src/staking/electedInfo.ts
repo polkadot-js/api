@@ -17,9 +17,11 @@ export function electedInfo (api: ApiInterfaceRx): () => Observable<DerivedStaki
       switchMap(({ nextElected }): Observable<[AccountId[], DerivedStakingQuery[]]> =>
         combineLatest([
           of(nextElected),
-          combineLatest(nextElected.map((accountId): Observable<DerivedStakingQuery> =>
-            api.derive.staking.query(accountId)
-          ))
+          combineLatest(
+            nextElected.map((accountId): Observable<DerivedStakingQuery> =>
+              api.derive.staking.query(accountId)
+            )
+          )
         ])
       ),
       map(([nextElected, info]): DerivedStakingElected => ({

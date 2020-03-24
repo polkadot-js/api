@@ -7,7 +7,6 @@ import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfac
 import { Codec, CodecArg } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/create/types';
 
-// import { Observable } from 'rxjs';
 import { ApiPromise, ApiRx } from '@polkadot/api';
 
 export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'

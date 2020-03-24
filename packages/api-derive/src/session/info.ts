@@ -8,7 +8,7 @@ import { DerivedSessionInfo, DeriveSessionIndexes } from '../types';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType, Option, u64 } from '@polkadot/types';
+import { Option, u64 } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -27,12 +27,12 @@ function createDerived (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsP
     activeEraStart,
     currentEra,
     currentIndex,
-    eraLength: createType(api.registry, 'BlockNumber', sessionsPerEra.mul(epochDuration)),
-    eraProgress: createType(api.registry, 'BlockNumber', eraProgress),
+    eraLength: api.registry.createType('BlockNumber', sessionsPerEra.mul(epochDuration)),
+    eraProgress: api.registry.createType('BlockNumber', eraProgress),
     isEpoch: hasBabe,
     sessionLength: epochDuration,
     sessionsPerEra,
-    sessionProgress: createType(api.registry, 'BlockNumber', sessionProgress),
+    sessionProgress: api.registry.createType('BlockNumber', sessionProgress),
     validatorCount
   };
 }
@@ -43,15 +43,15 @@ function queryAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
       createDerived(api, [
         [
           false,
-          createType(api.registry, 'u64', 1),
-          api.consts.staking?.sessionsPerEra || createType(api.registry, 'SessionIndex', 1)
+          api.registry.createType('u64', 1),
+          api.consts.staking?.sessionsPerEra || api.registry.createType('SessionIndex', 1)
         ],
         indexes,
         [
-          createType(api.registry, 'u64', 1),
-          createType(api.registry, 'u64', 1),
-          createType(api.registry, 'u64', 1),
-          createType(api.registry, 'SessionIndex', 1)
+          api.registry.createType('u64', 1),
+          api.registry.createType('u64', 1),
+          api.registry.createType('u64', 1),
+          api.registry.createType('SessionIndex', 1)
         ]
       ])
     )
@@ -72,7 +72,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionIndexes, Resu
       ])
     ),
     map(([indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionIndexes, ResultSlotsFlat] => [
-      indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(createType(api.registry, 'SessionIndex', 1))]
+      indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(api.registry.createType('SessionIndex', 1))]
     ])
   );
 }

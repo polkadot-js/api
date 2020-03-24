@@ -9,7 +9,7 @@ import { paramsNotation } from '@polkadot/types/codec/utils';
 
 import { setImports, TypeImports } from './imports';
 
-export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n`;
+export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 export const FOOTER = '\n';
 
 const TYPES_NON_PRIMITIVE = ['Metadata'];
@@ -103,6 +103,14 @@ function formatCompact (inner: string): string {
 /** @internal */
 function formatHashMap (key: string, val: string): string {
   return `HashMap<${key}, ${val}>`;
+}
+
+/**
+ * Given the inner `T`, return a `Vec<T>` string
+ */
+/** @internal */
+function formatLinkage (inner: string): string {
+  return paramsNotation('Linkage', inner);
 }
 
 /**
@@ -220,6 +228,13 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
 
       return formatHashMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
+    }
+    case TypeDefInfo.Linkage: {
+      const type = (typeDef.sub as TypeDef).type;
+
+      setImports(definitions, imports, ['Linkage']);
+
+      return formatLinkage(formatType(definitions, type, imports));
     }
     case TypeDefInfo.Result: {
       setImports(definitions, imports, ['Result']);

@@ -8,7 +8,7 @@ import { ITuple } from '@polkadot/types/types';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType, Vec, u32 } from '@polkadot/types';
+import { Vec, u32 } from '@polkadot/types';
 
 import { DerivedElectionsInfo } from '../types';
 import { memo } from '../util';
@@ -28,12 +28,12 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
   ]).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DerivedElectionsInfo => ({
       candidates,
-      candidateCount: createType(api.registry, 'u32', candidates.length),
+      candidateCount: api.registry.createType('u32', candidates.length),
       candidacyBond: api.consts[section].candidacyBond as Balance,
       desiredSeats: api.consts[section].desiredMembers as u32,
       members: members.length
         ? members.sort(sortAccounts)
-        : councilMembers.map((accountId): [AccountId, Balance] => [accountId, createType(api.registry, 'Balance')]),
+        : councilMembers.map((accountId): [AccountId, Balance] => [accountId, api.registry.createType('Balance')]),
       runnersUp: runnersUp.sort(sortAccounts),
       termDuration: api.consts[section].termDuration as BlockNumber,
       votingBond: api.consts[section].votingBond as Balance

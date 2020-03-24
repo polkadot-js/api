@@ -7,9 +7,9 @@ import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 import { AccountIndexes } from '../types';
 
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
-import { Vec, createType } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -25,24 +25,33 @@ function queryEnumSet (api: ApiInterfaceRx): Observable<AccountIndexes> {
       api.query.indices.enumSet.multi<Vec<AccountId>>([...Array(next.toNumber() + 1).keys()])
     ),
     map((all: AccountId[][]): AccountIndexes =>
-      all.reduce((result: AccountIndexes, list, outerIndex): AccountIndexes => {
+      all.reduce((indexes: AccountIndexes, list, outerIndex): AccountIndexes => {
         (list || []).forEach((accountId, innerIndex): void => {
           // re-create the index based on position 0 is [0][0] and likewise
           // 64 (0..63 in first) is [1][0] (the first index value in set 2)
           const index = (outerIndex * enumsetSize) + innerIndex;
 
-          result[accountId.toString()] = createType(api.registry, 'AccountIndex', index);
+          indexes[accountId.toString()] = api.registry.createType('AccountIndex', index);
         });
 
-        return result;
+        return indexes;
       }, {})
     )
   );
 }
 
-// TODO Reverse lookup (via query keys)
-function query (): Observable<AccountIndexes> {
-  return of({} as AccountIndexes);
+function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
+  return api.query.indices.accounts.entries().pipe(
+    map((entries): AccountIndexes =>
+      entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {
+        if (idOpt.isSome) {
+          indexes[idOpt.unwrap()[0].toString()] = key.args[0] as AccountIndex;
+        }
+
+        return indexes;
+      }, {})
+    )
+  );
 }
 
 /**
@@ -62,10 +71,11 @@ function query (): Observable<AccountIndexes> {
  */
 export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
   return memo((): Observable<AccountIndexes> =>
-    api.query.indices
+    (api.query.indices
       ? api.query.indices.accounts
-        ? query()
+        ? queryAccounts(api)
         : queryEnumSet(api)
       : of({} as AccountIndexes)
+    ).pipe(startWith({}))
   );
 }

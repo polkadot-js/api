@@ -49,10 +49,8 @@ describe('derive', (): void => {
     testFunction(api)('chain', 'bestNumber', []);
     testFunction(api)('chain', 'bestNumberFinalized', []);
 
-    testFunction(api)('democracy', 'referendumInfos', []);
+    testFunction(api)('democracy', 'proposals', []);
     testFunction(api)('democracy', 'referendums', []);
-    testFunction(api)('democracy', 'referendumVotesFor', []);
-    testFunction(api)('democracy', 'votes', []);
 
     testFunction(api)('elections', 'info', []);
 
@@ -61,7 +59,7 @@ describe('derive', (): void => {
     testFunction(api)('session', 'sessionProgress', []);
 
     testFunction(api)('staking', 'account', []);
-    testFunction(api)('staking', 'controllers', []);
+    testFunction(api)('staking', 'stashes', []);
   });
 
   describe('custom', (): void => {

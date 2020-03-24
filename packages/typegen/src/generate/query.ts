@@ -4,34 +4,26 @@
 
 import { ModuleMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
-import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 
 import staticData from '@polkadot/metadata/Metadata/static';
 import Metadata from '@polkadot/metadata/Metadata';
+import * as defaultDefs from '@polkadot/types/interfaces/definitions';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringLowerFirst } from '@polkadot/util';
 
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, registerDefinitions, setImports, writeFile } from '../util';
 
-// If the StorageEntry returns T, output `Option<T>` if the modifier is optional
-/** @internal */
-function addModifier (storageEntry: StorageEntryMetadataLatest, returnType: string): string {
-  if (storageEntry.modifier.isOptional) {
-    return `Option<${returnType}>`;
-  }
-
-  return returnType;
-}
-
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
   const format = (type: string): string => formatType(allDefs, type, imports);
+  const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', formatType(allDefs, addModifier(storageEntry, storageEntry.type.asPlain.toString()), imports)];
+    return ['', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
     const similarTypes = getSimilarTypes(allDefs, registry, storageEntry.type.asMap.key.toString(), imports);
@@ -43,7 +35,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
 
     return [
       `arg: ${similarTypes.map(format).join(' | ')}`,
-      formatType(allDefs, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
+      formatType(allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similar types of `key1` and `key2` types
@@ -61,7 +53,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
 
     return [
       `key1: ${key1Types}, key2: ${key2Types}`,
-      formatType(allDefs, addModifier(storageEntry, storageEntry.type.asDoubleMap.value.toString()), imports)
+      formatType(allDefs, outputType, imports)
     ];
   }
 
@@ -77,7 +69,7 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
 
   return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
     .concat(isStrict ? '' : indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
-    .concat(storage.unwrap().items.map((storageEntry): string => {
+    .concat(storage.unwrap().items.sort((a, b) => a.name.localeCompare(b.name.toString())).map((storageEntry): string => {
       const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
       let entryType = 'AugmentedQuery';
 
@@ -99,7 +91,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const body = meta.asLatest.modules.reduce((acc: string[], mod): string[] => {
+    const body = meta.asLatest.modules.sort((a, b) => a.name.localeCompare(b.name.toString())).reduce((acc: string[], mod): string[] => {
       return acc.concat(generateModule(allDefs, registry, mod, imports, isStrict));
     }, []);
     const header = createImportCode(HEADER('chain'), imports, [

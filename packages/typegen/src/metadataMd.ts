@@ -3,16 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { InterfaceTypes } from '@polkadot/types/types';
 
 import fs from 'fs';
-import interfaces from '@polkadot/jsonrpc';
 import Decorated from '@polkadot/metadata/Decorated';
 import rpcdata from '@polkadot/metadata/Metadata/static';
 import Call from '@polkadot/types/generic/Call';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Vec } from '@polkadot/types/codec';
+import * as definitions from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
@@ -53,7 +52,7 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
             .replace(/^#{1,3} /, '#### ')} `
     , '');
   // prefix each line with indentation
-  return md && md.split('\n\n').map(line => `${' '.repeat(indent)}${line}`).join('\n\n');
+  return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
 function renderPage (page: Page): string {
@@ -69,7 +68,7 @@ function renderPage (page: Page): string {
   });
 
   // contents
-  page.sections.forEach(section => {
+  page.sections.forEach((section) => {
     md += `\n___\n\n\n## ${section.name}\n`;
 
     if (section.description) {
@@ -79,7 +78,7 @@ function renderPage (page: Page): string {
     section.items.forEach((item) => {
       md += ` \n### ${item.name}`;
 
-      Object.keys(item).filter(i => i !== 'name').forEach(bullet => {
+      Object.keys(item).filter((i) => i !== 'name').forEach((bullet) => {
         md += `\n- **${bullet}**: ${
           item[bullet] instanceof Vec
             ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2)
@@ -101,22 +100,26 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
 
 /** @internal */
 function addRpc (): string {
+  const sections = Object
+    .keys(definitions)
+    .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
+
   return renderPage({
     title: 'JSON-RPC',
     description: DESC_RPC,
-    sections: Object.keys(interfaces)
+    sections: sections
       .sort()
       .map((sectionName) => {
-        const section = interfaces[sectionName];
+        const section = definitions[sectionName as 'babe'];
 
         return {
           name: sectionName,
-          description: section.description,
-          items: Object.keys(section.methods)
+          // description: section.description,
+          items: Object.keys(section.rpc)
             .sort()
             .map((methodName) => {
-              const method = section.methods[methodName];
-              const args = method.params.map(({ name, isOptional, type }): string => {
+              const method = section.rpc[methodName];
+              const args = method.params.map(({ name, isOptional, type }: any): string => {
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
               }).join(', ');
               const type = '`' + method.type + '`';
@@ -181,14 +184,10 @@ function addStorage (metadata: MetadataLatest): string {
                 ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
                 : '';
             const methodName = stringLowerFirst(func.name.toString());
-            let result = unwrapStorageType(func.type);
-
-            if (func.modifier.isOptional) {
-              result = `Option<${result}>` as keyof InterfaceTypes;
-            }
+            const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
 
             return {
-              name: `${methodName}(${arg}): ` + '`' + result + '`',
+              name: `${methodName}(${arg}): ` + '`' + outputType + '`',
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
               ...(func.documentation.length && { summary: func.documentation })
             };

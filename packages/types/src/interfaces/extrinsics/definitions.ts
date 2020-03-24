@@ -2,7 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Definitions } from '../../types';
+
 export default {
+  rpc: {},
   types: {
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
@@ -37,7 +40,7 @@ export default {
     Signature: 'H512',
     SignerPayload: 'GenericSignerPayload',
     EcdsaSignature: '[u8; 65]',
-    Ed25519Signature: 'Signature',
-    Sr25519Signature: 'Signature'
+    Ed25519Signature: 'H512',
+    Sr25519Signature: 'H512'
   }
-};
+} as Definitions;

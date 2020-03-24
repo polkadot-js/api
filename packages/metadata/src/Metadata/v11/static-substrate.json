@@ -13,7 +13,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountInfo",
                     "linked": false
@@ -62,7 +62,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "BlockNumber",
                     "value": "Hash",
                     "linked": false
@@ -160,7 +160,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "Vec<(BlockNumber,EventIndex)>",
                     "linked": false
@@ -181,14 +181,14 @@
                 ]
               },
               {
-                "name": "RuntimeUpgraded",
-                "modifier": "Default",
+                "name": "LastRuntimeUpgrade",
+                "modifier": "Optional",
                 "type": {
-                  "Plain": "bool"
+                  "Plain": "LastRuntimeUpgradeInfo"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " A bool to track if the runtime was upgraded last block."
+                  " Stores the `spec_version` and `spec_name` of when the last runtime upgrade happened."
                 ]
               }
             ]
@@ -309,6 +309,16 @@
                 " Kill the sending account, assuming there are no references outstanding and the composite",
                 " data is equal to its default value."
               ]
+            },
+            {
+              "name": "migrate_accounts",
+              "args": [
+                {
+                  "name": "accounts",
+                  "type": "Vec<AccountId>"
+                }
+              ],
+              "documentation": []
             }
           ],
           "events": [
@@ -367,24 +377,10 @@
               ]
             },
             {
-              "name": "SpecVersionNotAllowedToDecrease",
+              "name": "SpecVersionNeedsToIncrease",
               "documentation": [
                 " The specification version is not allowed to decrease between the current runtime",
                 " and the new runtime."
-              ]
-            },
-            {
-              "name": "ImplVersionNotAllowedToDecrease",
-              "documentation": [
-                " The implementation version is not allowed to decrease between the current runtime",
-                " and the new runtime."
-              ]
-            },
-            {
-              "name": "SpecOrImplVersionNeedToIncrease",
-              "documentation": [
-                " The specification or the implementation version need to increase between the",
-                " current runtime and the new runtime."
               ]
             },
             {
@@ -899,7 +895,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "u32",
                     "value": "Vec<[u8;32]>",
                     "linked": false
@@ -928,7 +924,7 @@
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0x2800000000000000",
+              "value": "0xc800000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins."
@@ -1303,7 +1299,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountData",
                     "linked": false
@@ -1324,7 +1320,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Vec<BalanceLock>",
                     "linked": false
@@ -1585,7 +1581,7 @@
         {
           "name": "TransactionPayment",
           "storage": {
-            "prefix": "Balances",
+            "prefix": "TransactionPayment",
             "items": [
               {
                 "name": "NextFeeMultiplier",
@@ -1682,7 +1678,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "AccountId",
                     "linked": false
@@ -1698,7 +1694,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "StakingLedger",
                     "linked": false
@@ -1714,7 +1710,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "RewardDestination",
                     "linked": false
@@ -1730,10 +1726,10 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "ValidatorPrefs",
-                    "linked": true
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1746,10 +1742,10 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Nominations",
-                    "linked": true
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1790,7 +1786,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "SessionIndex",
                     "linked": false
@@ -1841,6 +1837,7 @@
                   "",
                   " This is similar to [`ErasStakers`] but number of nominators exposed is reduce to the",
                   " `T::MaxNominatorRewardedPerValidator` biggest stakers.",
+                  " (Note: the field `total` and `own` of the exposure remains unchanged).",
                   " This is used to limit the i/o cost for the nominator payout.",
                   "",
                   " This is keyed fist by the era index to allow bulk deletion and then the stash account.",
@@ -1865,7 +1862,7 @@
                 "documentation": [
                   " Similarly to `ErasStakers` this holds the preferences of validators.",
                   "",
-                  " This is keyed fist by the era index to allow bulk deletion and then the stash account.",
+                  " This is keyed first by the era index to allow bulk deletion and then the stash account.",
                   "",
                   " Is it removed after `HISTORY_DEPTH` eras."
                 ]
@@ -1875,7 +1872,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "BalanceOf",
                     "linked": false
@@ -1893,7 +1890,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "EraRewardPoints",
                     "linked": false
@@ -1910,7 +1907,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "BalanceOf",
                     "linked": false
@@ -1963,7 +1960,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "Vec<UnappliedSlash>",
                     "linked": false
@@ -1993,11 +1990,11 @@
                 "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key1": "EraIndex",
                     "key2": "AccountId",
                     "value": "(Perbill,BalanceOf)",
-                    "key2Hasher": "Twox128"
+                    "key2Hasher": "Twox64Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -2011,11 +2008,11 @@
                 "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key1": "EraIndex",
                     "key2": "AccountId",
                     "value": "BalanceOf",
-                    "key2Hasher": "Twox128"
+                    "key2Hasher": "Twox64Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -2028,7 +2025,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "SlashingSpans",
                     "linked": false
@@ -2044,7 +2041,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "(AccountId,SpanIndex)",
                     "value": "SpanRecord",
                     "linked": false
@@ -2073,7 +2070,7 @@
                 "type": {
                   "Plain": "ReleasesStaking"
                 },
-                "fallback": "0x00",
+                "fallback": "0x01",
                 "documentation": [
                   " Storage version of the pallet.",
                   "",
@@ -2107,6 +2104,8 @@
                 "",
                 " The dispatch origin for this call must be _Signed_ by the stash account.",
                 "",
+                " Emits `Bonded`.",
+                "",
                 " # <weight>",
                 " - Independent of the arguments. Moderate complexity.",
                 " - O(1).",
@@ -2134,6 +2133,8 @@
                 " that can be added.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
+                "",
+                " Emits `Bonded`.",
                 "",
                 " # <weight>",
                 " - Independent of the arguments. Insignificant complexity.",
@@ -2164,6 +2165,8 @@
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
                 "",
+                " Emits `Unbonded`.",
+                "",
                 " See also [`Call::withdraw_unbonded`].",
                 "",
                 " # <weight>",
@@ -2187,6 +2190,8 @@
                 " whatever it wants.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                "",
+                " Emits `Withdrawn`.",
                 "",
                 " See also [`Call::unbond`].",
                 "",
@@ -2414,7 +2419,10 @@
                 " - `who` is the controller account of the nominator to pay out.",
                 " - `era` may not be lower than one following the most recently paid era. If it is higher,",
                 "   then it indicates an instruction to skip the payout of all previous eras.",
-                " - `validators` is the list of all validators that `who` had exposure to during `era`.",
+                " - `validators` is the list of all validators that `who` had exposure to during `era`,",
+                "   alongside the index of `who` in the clipped exposure of the validator.",
+                "   I.e. each element is a tuple of",
+                "   `(validator, index of `who` in clipped exposure of validator)`.",
                 "   If it is incomplete, then less than the full reward will be paid out.",
                 "   It must not exceed `MAX_NOMINATIONS`.",
                 "",
@@ -2540,6 +2548,40 @@
                 " An old slashing report from a prior era was discarded because it could",
                 " not be processed."
               ]
+            },
+            {
+              "name": "Bonded",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " An account has bonded this amount.",
+                "",
+                " NOTE: This event is only emitted when funds are bonded via a dispatchable. Notably,",
+                " it will not be emitted for staking rewards when they are added to stake."
+              ]
+            },
+            {
+              "name": "Unbonded",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " An account has unbonded this amount."
+              ]
+            },
+            {
+              "name": "Withdrawn",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " An account has called `withdraw_unbonded` and removed unbonding chunks worth `Balance`",
+                " from the unlocking queue."
+              ]
             }
           ],
           "constants": [
@@ -2638,6 +2680,12 @@
               "documentation": [
                 " Invalid number of nominations."
               ]
+            },
+            {
+              "name": "NotSortedAndUnique",
+              "documentation": [
+                " Items are not sorted and unique."
+              ]
             }
           ]
         },
@@ -2709,40 +2757,32 @@
                 "name": "NextKeys",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "Map": {
                     "hasher": "Twox64Concat",
-                    "key1": "Bytes",
-                    "key2": "ValidatorId",
+                    "key": "ValidatorId",
                     "value": "Keys",
-                    "key2Hasher": "Blake2_256"
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The next session keys for a validator.",
-                  "",
-                  " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
-                  " the trie. Having all data in the same branch should prevent slowing down other queries."
+                  " The next session keys for a validator."
                 ]
               },
               {
                 "name": "KeyOwner",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "Map": {
                     "hasher": "Twox64Concat",
-                    "key1": "Bytes",
-                    "key2": "(KeyTypeId,Bytes)",
+                    "key": "(KeyTypeId,Bytes)",
                     "value": "ValidatorId",
-                    "key2Hasher": "Blake2_256"
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The owner of a key. The second key is the `KeyTypeId` + the encoded key.",
-                  "",
-                  " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
-                  " the trie. Having all data in the same branch should prevent slowing down other queries."
+                  " The owner of a key. The key is the `KeyTypeId` + the encoded key."
                 ]
               }
             ]
@@ -2804,17 +2844,7 @@
               ]
             }
           ],
-          "constants": [
-            {
-              "name": "DEDUP_KEY_PREFIX",
-              "type": "Bytes",
-              "value": "0x343a73657373696f6e3a6b657973",
-              "documentation": [
-                " Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch",
-                " of the trie."
-              ]
-            }
-          ],
+          "constants": [],
           "errors": [
             {
               "name": "InvalidProof",
@@ -2874,7 +2904,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "(Bytes,AccountId,BalanceOf,BlockNumber)",
                     "linked": false
@@ -2891,7 +2921,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "PropIndex",
                     "value": "(BalanceOf,Vec<AccountId>)",
                     "linked": false
@@ -2930,7 +2960,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "ReferendumIndex",
                     "value": "ReferendumInfo",
                     "linked": false
@@ -2957,7 +2987,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "ReferendumIndex",
                     "value": "Vec<AccountId>",
                     "linked": false
@@ -2973,7 +3003,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "(ReferendumIndex,AccountId)",
                     "value": "Vote",
                     "linked": false
@@ -2992,7 +3022,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "ProxyState",
                     "linked": false
@@ -3009,10 +3039,10 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(AccountId,Conviction)",
-                    "linked": true
+                    "linked": false
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
@@ -3025,7 +3055,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "BlockNumber",
                     "linked": false
@@ -3068,7 +3098,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "(BlockNumber,Vec<AccountId>)",
                     "linked": false
@@ -3085,7 +3115,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "bool",
                     "linked": false
@@ -3260,7 +3290,7 @@
                 " an external referendum.",
                 "",
                 " The dispatch of this call must be `ExternalMajorityOrigin`.",
-                " ",
+                "",
                 " - `proposal_hash`: The preimage hash of the proposal.",
                 "",
                 " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
@@ -3347,7 +3377,7 @@
                 " Veto and blacklist the external proposal hash.",
                 "",
                 " The dispatch origin of this call must be `VetoOrigin`.",
-                " ",
+                "",
                 " - `proposal_hash`: The preimage hash of the proposal to veto and blacklist.",
                 "",
                 " Emits `Vetoed`.",
@@ -3543,7 +3573,7 @@
                 " Emits `PreimageNoted`.",
                 "",
                 " # <weight>",
-                " - Dependent on the size of `encoded_proposal` but protected by a ",
+                " - Dependent on the size of `encoded_proposal` but protected by a",
                 "   required deposit.",
                 " # </weight>"
               ]
@@ -4062,7 +4092,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "Proposal",
                     "linked": false
@@ -4078,7 +4108,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "Votes",
                     "linked": false
@@ -4377,7 +4407,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "Proposal",
                     "linked": false
@@ -4393,7 +4423,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "Votes",
                     "linked": false
@@ -4714,10 +4744,10 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Vec<AccountId>",
-                    "linked": true
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -4730,7 +4760,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "BalanceOf",
                     "linked": false
@@ -5361,7 +5391,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "SetId",
                     "value": "SessionIndex",
                     "linked": false
@@ -5369,7 +5399,8 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " A mapping from grandpa set ID to the index of the *most recent* session for which its members were responsible."
+                  " A mapping from grandpa set ID to the index of the *most recent* session for which its",
+                  " members were responsible."
                 ]
               }
             ]
@@ -5464,7 +5495,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "ProposalIndex",
                     "value": "TreasuryProposal",
                     "linked": false
@@ -5509,7 +5540,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Twox64Concat",
+                    "hasher": "Identity",
                     "key": "Hash",
                     "value": "Bytes",
                     "linked": false
@@ -5974,7 +6005,7 @@
         {
           "name": "Contracts",
           "storage": {
-            "prefix": "Contract",
+            "prefix": "Contracts",
             "items": [
               {
                 "name": "GasSpent",
@@ -6003,7 +6034,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "CodeHash",
                     "value": "Bytes",
                     "linked": false
@@ -6019,7 +6050,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Identity",
                     "key": "CodeHash",
                     "value": "PrefabWasmModule",
                     "linked": false
@@ -6046,7 +6077,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "ContractInfo",
                     "linked": false
@@ -6616,17 +6647,17 @@
                 "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key1": "SessionIndex",
                     "key2": "AuthIndex",
                     "value": "Bytes",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Twox64Concat"
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " For each session index, we keep a mapping of `AuthIndex`",
-                  " to `offchain::OpaqueNetworkState`."
+                  " For each session index, we keep a mapping of `AuthIndex` to",
+                  " `offchain::OpaqueNetworkState`."
                 ]
               },
               {
@@ -6634,11 +6665,11 @@
                 "modifier": "Default",
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key1": "SessionIndex",
                     "key2": "ValidatorId",
                     "value": "u32",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Twox64Concat"
                   }
                 },
                 "fallback": "0x00000000",
@@ -6726,7 +6757,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "ReportIdOf",
                     "value": "OffenceDetails",
                     "linked": false
@@ -6742,11 +6773,11 @@
                 "modifier": "Default",
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key1": "Kind",
                     "key2": "OpaqueTimeSlot",
                     "value": "Vec<ReportIdOf>",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Twox64Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -6759,7 +6790,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "Kind",
                     "value": "Bytes",
                     "linked": false
@@ -6822,14 +6853,14 @@
         {
           "name": "Identity",
           "storage": {
-            "prefix": "Sudo",
+            "prefix": "Identity",
             "items": [
               {
                 "name": "IdentityOf",
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Registration",
                     "linked": false
@@ -6845,7 +6876,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "(AccountId,Data)",
                     "linked": false
@@ -6862,7 +6893,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(BalanceOf,Vec<AccountId>)",
                     "linked": false
@@ -7399,7 +7430,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(BalanceOf,BidKind)",
                     "linked": false
@@ -7448,7 +7479,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "bool",
                     "linked": false
@@ -7475,7 +7506,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "VouchingStatus",
                     "linked": false
@@ -7491,7 +7522,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Vec<(BlockNumber,BalanceOf)>",
                     "linked": false
@@ -7507,7 +7538,7 @@
                 "modifier": "Default",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "StrikeCount",
                     "linked": false
@@ -8329,7 +8360,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "RecoveryConfig",
                     "linked": false
@@ -8365,7 +8396,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountId",
                     "linked": false
@@ -8839,7 +8870,7 @@
                 "modifier": "Optional",
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "VestingInfo",
                     "linked": false
@@ -8912,7 +8943,7 @@
                 }
               ],
               "documentation": [
-                " Create a vested transfer. ",
+                " Create a vested transfer.",
                 "",
                 " The dispatch origin for this call must be _Signed_.",
                 "",

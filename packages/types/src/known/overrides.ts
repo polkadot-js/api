@@ -53,9 +53,17 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [1004, undefined],
+    minmax: [1004, 1004],
     types: {
       // Indices optional, not in transaction
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      ReferendumInfo: 'ReferendumInfoTo239'
+    }
+  },
+  {
+    minmax: [1005, undefined],
+    types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5'
     }
@@ -64,12 +72,14 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
 
 const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
   {
+    // 1020 is first CC3
     minmax: [1019, 1031],
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
+      ReferendumInfo: 'ReferendumInfoTo239',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230'
@@ -81,25 +91,37 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
+      ReferendumInfo: 'ReferendumInfoTo239',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230'
     }
   },
   {
+    // actual at 1045 (1043-1044 is dev)
     minmax: [1043, 1045],
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
+      ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230'
     }
   },
   {
-    minmax: [1046, undefined],
+    // actual at 1050 (1046-1049 is dev)
+    minmax: [1046, 1054],
     types: {
       // Indices optional, not in transaction
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      ReferendumInfo: 'ReferendumInfoTo239'
+    }
+  },
+  {
+    minmax: [1055, undefined],
+    types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5'
     }

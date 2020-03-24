@@ -7,7 +7,7 @@ import { AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import metadataDefs from '../interfaces/metadata/definitions';
+import { AllHashers } from '@polkadot/types/interfaces/metadata/definitions';
 import Bytes from './Bytes';
 
 export interface StorageEntry {
@@ -32,33 +32,47 @@ interface StorageKeyExtra {
   section: string;
 }
 
-// order important, matching enum
-const HASHER_MAP: Record<keyof typeof metadataDefs.types.StorageHasherV10._enum, [number, boolean]> = {
+const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
+  // opaque
   Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
   Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase
-  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
   Twox128: [16, false],
   Twox256: [32, false],
-  Twox64Concat: [8, true]
-};
-const HASHER_OPTS = Object.values(HASHER_MAP);
 
-// we unwrap the type here, turning into an output usable for createType
-/** @internal */
-export function unwrapStorageType (type: StorageEntryTypeLatest): keyof InterfaceTypes {
+  // can decode
+  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
+  Twox64Concat: [8, true],
+  Identity: [0, true]
+};
+
+function getStorageType (type: StorageEntryTypeLatest, isOptionalLinked?: boolean): [boolean, string] {
   if (type.isPlain) {
-    return type.asPlain.toString() as keyof InterfaceTypes;
+    return [false, type.asPlain.toString()];
   } else if (type.isDoubleMap) {
-    return type.asDoubleMap.value.toString() as keyof InterfaceTypes;
+    return [false, type.asDoubleMap.value.toString()];
   }
 
   const map = type.asMap;
 
   if (map.linked.isTrue) {
-    return `(${map.value.toString()}, Linkage<${map.key.toString()}>)` as keyof InterfaceTypes;
+    const [pre, post] = isOptionalLinked
+      ? ['Option<', '>']
+      : ['', ''];
+
+    return [true, `(${pre}${map.value.toString()}${post}, Linkage<${map.key.toString()}>)`];
   }
 
-  return map.value.toString() as keyof InterfaceTypes;
+  return [false, map.value.toString()];
+}
+
+// we unwrap the type here, turning into an output usable for createType
+/** @internal */
+export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+  const [hasWrapper, outputType] = getStorageType(type, isOptional);
+
+  return isOptional && !hasWrapper
+    ? `Option<${outputType}>` as keyof InterfaceTypes
+    : outputType as keyof InterfaceTypes;
 }
 
 /** @internal */
@@ -96,14 +110,13 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
 
 function decodeHashers (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
-  const encoded = value.subarray(32);
-  let offset = 0;
+  let offset = 32;
 
   return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
-    const [hashLen, canDecode] = HASHER_OPTS[hasher.index];
+    const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createType(type as 'Raw', encoded.subarray(offset + hashLen))
-      : registry.createType('Raw', encoded.subarray(offset, offset + hashLen));
+      ? registry.createType(type as 'Raw', value.subarray(offset + hashLen))
+      : registry.createType('Raw', value.subarray(offset, offset + hashLen));
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
     result.push(decoded);

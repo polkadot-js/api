@@ -14,7 +14,6 @@ try {
     plugins: [
       ['module-resolver', {
         alias: {
-          '^@polkadot/jsonrpc(.*)': './packages/jsonrpc/src\\1',
           '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
           '^@polkadot/types(.*)': './packages/types/src\\1'
         }

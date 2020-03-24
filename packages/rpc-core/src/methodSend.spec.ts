@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DefinitionRpc } from '@polkadot/types/types';
+
 import { TypeRegistry } from '@polkadot/types';
 
 import Rpc from '.';
@@ -9,23 +11,21 @@ import Rpc from '.';
 describe('methodSend', (): void => {
   const registry = new TypeRegistry();
   let rpc: Rpc;
-  let methods: any;
+  let methods: Record<string, DefinitionRpc>;
   let provider: any;
 
   beforeEach((): void => {
     methods = {
       blah: {
-        method: 'blah',
+        description: 'test',
         params: [
           { name: 'foo', type: 'Bytes' }
         ],
-        section: 'test',
         type: 'Bytes'
       },
       bleh: {
-        method: 'bleh',
+        description: 'test',
         params: [],
-        section: 'test',
         type: 'Bytes'
       }
     };
@@ -41,7 +41,7 @@ describe('methodSend', (): void => {
 
   it('wraps errors with the call signature', (done): void => {
     // private access
-    const method = (rpc as any).createMethodSend(methods.blah);
+    const method = (rpc as any).createMethodSend('test', 'blah', methods.blah);
 
     method().subscribe(
       (): void => undefined,
@@ -54,7 +54,7 @@ describe('methodSend', (): void => {
 
   it('checks for mismatched parameters', (done): void => {
     // private method
-    const method = (rpc as any).createMethodSend(methods.bleh);
+    const method = (rpc as any).createMethodSend('test', 'bleh', methods.bleh);
 
     method(1).subscribe(
       (): void => undefined,
@@ -66,7 +66,7 @@ describe('methodSend', (): void => {
 
   it('calls the provider with the correct parameters', (done): void => {
     // private method
-    const method = (rpc as any).createMethodSend(methods.blah);
+    const method = (rpc as any).createMethodSend('test', 'blah', methods.blah);
 
     // Args are length-prefixed, because it's a Bytes
     method(new Uint8Array([2 << 2, 0x12, 0x34])).subscribe((): void => {

@@ -1,7 +1,46 @@
-# 1.6.0-beta.x
+# 1.9.0-beta.x
 
-- `StorageKey` now have an `.args` property, decoded from meta in the cases twox64concat is used on maps
-- Fix storage `.entries` type conversions to return exact types (not `Option` in some cases)
+- Additional cleanups of democracy derives, including support for new Polkadot/Substrate vote retrievals
+
+# 1.8.1 Mar 22, 2020
+
+- **Breaking change** The format for any custom RPCs have been changed alongside API-internal changes to allow for better RPC management. If you are currently using custom RPCs (or planning to do so), look at the [updated documentation](https://polkadot.js.org/api/start/rpc.custom.html)
+- **Breaking change** Alongside API RPC changes, the `@polkadot/jsonrpc` package has been removed. Since it was never documented and only used internally, this should not have adverse impacts. All RPC definitions itself has now been moved to the relevant modules inside `@polkadot/types/interfaces`
+- **Important** Substrate has an updated democracy module. If using an older chain add the `ReferendumInfo: 'ReferendumInfoTo239'` type when using referendums
+- The `isRetracted` Extrinsic status is now a warning, not a fatal error, correctly aligning with Polkadot/Substrate
+- The Substrate extrinsic phase definitions has been expanded with `Initialization` to align with the latest versions
+- Add support for all known substrate RPC methods
+- Extend account derives to include status flags, e.g. `isCouncil`, `isSudo`, ...
+- Adjusted referendum derives to cater for bot new/old democracy. Derived `referendumInfo` now includes `status` field, not `info`
+- Add `initWasm` flag to API options. When set to `false` does not init the WASM portion (leaving it to the user elsewhere)
+
+# 1.7.1 Mar 17, 2020
+
+- **Important** Current versions of Polkadot/Substrate have dropped support for linked maps on storage entries. If you are using these queries to retrieve all entries, for instance `staking.{nominators,validators}()` and using an upgraded chain, you need to swap to retrieving entries via `.entries()` or `.keys()` for the keys.
+- Pull in support and types for latest Polkadot/Substrate
+- Add support for the new Substrate `state_getKeysPaged` RPC, including use in storage keys
+- Move `derive.staking.controllers` to `derive.staking.stashes`, reflecting actual content
+- Cater for adjusted storage (non-linked mapped) for `derive.staking.stashes` queries (with old-compat)
+- Expanded `derive.staking.*` derives, including addition of `derive.staking.own*`
+- Re-add fixed (with tests) checks for query args, previously disabled in 1.6.2
+
+# 1.6.2 Mar 12, 2020
+
+- Revert checks for query args, not working on `.at()` queries (proper fix in next version)
+
+# 1.6.1 Mar 12, 2020
+
+- **Breaking change** `api.rpc.state.queryStorage(...)` now fully decodes the `Vec<StorageChangeSet>` and returns a decoded `[Hash, Codec[]][]` when using this RPC.
+- `StorageKey` now has an `.args` property, decoded from meta where `twox64_concat` or `blake128_concat` are used on maps
+- Fix `api.query.*.*.entries` type conversions to return exact types (not `Option` in some cases)
+- Add `api.query.*.*.keys` to retrieve only the storage keys, similar to `.entries`
+- Full linked map retrievals will now use direct getStorage queries for faster operation
+- Underlying rpc-core interfaces now unwraps `Error("...")` when found in responses
+- Added `derive.eras*` interfaces for queries to new Substrate staking interfaces
+- Update `derive.account` to cater for new indices module storage (detected with fallbacks)
+- Adjust derive queries for session without module prefix (DoubleMap -> Map), detected on use
+- Add runtime validation for map arguments to `api.query.*`
+- TypeScript interfaces for linked maps now correctly generates as `[Type, Linkage<Next>]`
 
 # 1.5.1 Mar 06, 2020
 

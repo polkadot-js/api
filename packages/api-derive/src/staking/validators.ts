@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Exposure } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingValidators } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -12,16 +12,20 @@ import { StorageKey } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function queryNextStakers (api: ApiInterfaceRx): Observable<AccountId[]> {
-  // only populate for next era in the last session, so track both here - entries are not
-  // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
-  return api.derive.session.indexes().pipe(
-    switchMap(({ activeEra }): Observable<[StorageKey, Exposure][]> =>
-      api.query.staking.erasStakers.entries(activeEra.addn(1))
-    ),
-    map((entries): AccountId[] =>
-      entries.map(([key]): AccountId => key.args[1] as AccountId)
-    )
+export function nextElected (api: ApiInterfaceRx): () => Observable<AccountId[]> {
+  return memo((): Observable<AccountId[]> =>
+    api.query.staking.erasStakers
+      ? api.derive.session.indexes().pipe(
+        // only populate for next era in the last session, so track both here - entries are not
+        // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
+        switchMap(({ currentEra }): Observable<StorageKey[]> =>
+          api.query.staking.erasStakers.keys(currentEra)
+        ),
+        map((keys): AccountId[] =>
+          keys.map((key): AccountId => key.args[1] as AccountId)
+        )
+      )
+      : api.query.staking.currentElected<AccountId[]>()
   );
 }
 
@@ -38,9 +42,7 @@ export function validators (api: ApiInterfaceRx): () => Observable<DeriveStaking
         ? api.query.session.validators()
         : of([]),
       api.query.staking
-        ? api.query.staking.erasStakers
-          ? queryNextStakers(api)
-          : api.query.staking.currentElected<AccountId[]>()
+        ? api.derive.staking.nextElected()
         : of([])
     ]).pipe(
       map(([validators, nextElected]): DeriveStakingValidators => ({

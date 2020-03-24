@@ -41,3 +41,11 @@ export { default as parachains } from './parachains/definitions';
 // pull in metadata & rpc last, assuming that is uses info from above
 export { default as metadata } from './metadata/definitions';
 export { default as rpc } from './rpc/definitions';
+
+// rpc-only definitions
+export { default as account } from './account/definitions';
+export { default as author } from './author/definitions';
+export { default as chain } from './chain/definitions';
+export { default as offchain } from './offchain/definitions';
+export { default as payment } from './payment/definitions';
+export { default as state } from './state/definitions';

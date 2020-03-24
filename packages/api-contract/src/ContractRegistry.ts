@@ -158,10 +158,10 @@ export default class ContractRegistry extends MetaRegistry {
   public convertContract ({ constructors, messages, name, events, ...contract }: ContractABIContractPre): ContractABIContract {
     return {
       constructors: this.convertConstructors(constructors),
-      messages: messages.map(message => this.convertMessage(message)),
+      messages: messages.map((message) => this.convertMessage(message)),
       name: this.stringAt(name),
       ...(events
-        ? { events: events.map(event => this.convertEvent(event)) }
+        ? { events: events.map((event) => this.convertEvent(event)) }
         : {}),
       ...contract
     };

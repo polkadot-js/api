@@ -3,33 +3,32 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DeriveEraRewardsAll } from '../types';
+import { Balance, EraIndex } from '@polkadot/types/interfaces';
+import { DeriveEraRewards } from '../types';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import BN from 'bn.js';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
-export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewardsAll[]> {
-  return memo((withActive?: boolean): Observable<DeriveEraRewardsAll[]> =>
-    api.derive.staking.erasExposure(withActive).pipe(
-      map((exposures): DeriveEraRewardsAll[] =>
-        exposures.map(({ all, era, eraPoints }): DeriveEraRewardsAll =>
-          Object
-            .entries(all)
-            .reduce((rewards: DeriveEraRewardsAll, [validatorId, data]): DeriveEraRewardsAll => {
-              rewards.validators[validatorId] = data;
-
-              data.exposure.others.forEach(({ who }, index): void => {
-                const nominatorId = who.toString();
-
-                rewards.nominators[nominatorId] = rewards.nominators[nominatorId] || [];
-                rewards.nominators[nominatorId].push([validatorId, index]);
-              });
-
-              return rewards;
-            }, { era, eraPoints, nominators: {}, validators: {} })
-        )
+export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraRewards[]> {
+  return memo((withActive?: boolean | BN | number): Observable<DeriveEraRewards[]> =>
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((eras): Observable<[EraIndex[], Option<Balance>[]]> =>
+        combineLatest([
+          of(eras),
+          eras.length
+            ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(eras)
+            : of([])
+        ])
+      ),
+      map(([eras, rewards]): DeriveEraRewards[] =>
+        eras.map((era, index): DeriveEraRewards => ({
+          era,
+          eraReward: rewards[index].unwrapOrDefault()
+        }))
       )
     )
   );

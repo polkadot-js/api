@@ -15,8 +15,6 @@
       "@polkadot/api-contract/*": ["packages/api-contract/src/*"],
       "@polkadot/api-derive": ["packages/api-derive/src"],
       "@polkadot/api-derive/*": ["packages/api-derive/src/*"],
-      "@polkadot/jsonrpc": ["packages/jsonrpc/src"],
-      "@polkadot/jsonrpc/*": ["packages/jsonrpc/src/*"],
       "@polkadot/metadata": ["packages/metadata/src"],
       "@polkadot/metadata/*": ["packages/metadata/src/*"],
       "@polkadot/rpc-core": ["packages/rpc-core/src"],

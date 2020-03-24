@@ -12,7 +12,9 @@
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts && (cd packages/typegen && copyfiles scripts/* build)",
     "build:interfaces": "polkadot-types-internal-interfaces",
+    "build:release": "polkadot-ci-ghact-build",
     "docs": "polkadot-types-internal-metadata && polkadot-dev-build-docs",
+    "docs:release": "polkadot-ci-ghact-docs",
     "chain:info": "polkadot-types-chain-info",
     "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",
@@ -22,12 +24,13 @@
     "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/register": "^7.8.3",
-    "@babel/runtime": "^7.8.4",
-    "@polkadot/dev": "^0.50.29",
-    "@polkadot/ts": "^0.3.7",
+    "@babel/core": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
+    "@polkadot/dev": "^0.51.8",
+    "@polkadot/ts": "^0.3.14",
     "@polkadot/typegen": "workspace:packages/typegen",
+    "@types/jest": "^25.1.4",
     "copyfiles": "^2.2.0"
   }
 }

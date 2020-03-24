@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyJson, ArrayElementType, Registry } from '../types';
-import democracyDef from '../interfaces/democracy/definitions';
+import { AllConvictions } from '../interfaces/democracy/definitions';
 import { Conviction } from '../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
@@ -11,12 +11,10 @@ import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 import U8aFixed from '../codec/U8aFixed';
 import Bool from '../primitive/Bool';
 
-export const convictionNames = democracyDef.types.Conviction._enum;
-
 // eslint-disable-next-line @typescript-eslint/ban-types
 type InputTypes = boolean | number | Boolean | Uint8Array | {
   aye: boolean;
-  conviction?: number | ArrayElementType<typeof convictionNames>;
+  conviction?: number | ArrayElementType<typeof AllConvictions>;
 };
 
 // For votes, the topmost bit indicated aye/nay, the lower bits indicate the conviction

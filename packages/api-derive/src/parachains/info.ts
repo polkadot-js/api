@@ -4,12 +4,11 @@
 
 import { CollatorId, ParaId } from '@polkadot/types/interfaces';
 import { DeriveParachainInfo, DeriveParachainFull, DeriveParachainActive } from '../types';
-import { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQueue, RetryQueue, SelectedThreads, Watermarks } from './types';
+import { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQueue, RetryQueue, SelectedThreads } from './types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -21,8 +20,7 @@ type Result = [
   ParaInfoResult,
   PendingSwap,
   Heads,
-  RelayDispatchQueue,
-  Watermarks
+  RelayDispatchQueue
 ];
 
 function parseActive (id: ParaId, active: Active): DeriveParachainActive | null {
@@ -58,7 +56,7 @@ function parseCollators (id: ParaId, collatorQueue: SelectedThreads | RetryQueue
     });
 }
 
-function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, info, pendingSwap, heads, relayDispatchQueue, watermarks]: Result): DeriveParachainFull | null {
+function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, info, pendingSwap, heads, relayDispatchQueue]: Result): DeriveParachainFull | null {
   if (info.isNone) {
     return null;
   }
@@ -74,8 +72,7 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
     pendingSwapId: pendingSwap.unwrapOr(null),
     relayDispatchQueue,
     retryCollators: parseCollators(id, retryQueue),
-    selectedCollators: parseCollators(id, selectedThreads),
-    watermark: watermarks.unwrapOr(null)
+    selectedCollators: parseCollators(id, selectedThreads)
   };
 }
 
@@ -90,12 +87,11 @@ export function info (api: ApiInterfaceRx): (id: ParaId | number) => Observable<
         [api.query.registrar.paras, id],
         [api.query.registrar.pendingSwap, id],
         [api.query.parachains.heads, id],
-        [api.query.parachains.relayDispatchQueue, id],
-        [api.query.parachains.watermarks, id]
+        [api.query.parachains.relayDispatchQueue, id]
       ])
         .pipe(
           map((result: Result): DeriveParachainFull | null =>
-            parse(createType(api.registry, 'ParaId', id), result)
+            parse(api.registry.createType('ParaId', id), result)
           )
         )
       : of(null)
