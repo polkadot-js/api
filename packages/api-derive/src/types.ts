@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, PropIndex, ProposalIndex, ReferendumInfoTo239, ReferendumStatus, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { u32, Vec } from '@polkadot/types';
+import { u32 } from '@polkadot/types';
 
+export * from './democracy/types';
 export * from './parachains/types';
 export * from './session/types';
 export * from './staking/types';
@@ -119,37 +120,7 @@ export interface RecentlyOffline {
   count: BN;
 }
 
-export interface DeriveProposalPreImage {
-  at: BlockNumber;
-  balance: Balance;
-  proposer: AccountId;
-}
-
-export interface DeriveProposal {
-  balance?: Balance;
-  hash: Hash;
-  index: PropIndex;
-  preimage?: DeriveProposalPreImage;
-  proposal?: Proposal;
-  proposer: AccountId;
-  seconds: Vec<AccountId>;
-}
-
-export interface DerivedReferendum {
-  hash: Hash;
-  index: PropIndex;
-  preimage?: DeriveProposalPreImage;
-  proposal?: Proposal;
-  status: ReferendumStatus | ReferendumInfoTo239;
-}
-
 export type DerivedRecentlyOffline = Record<string, RecentlyOffline[]>;
-
-export interface DerivedReferendumVote {
-  accountId: AccountId;
-  balance: Balance;
-  vote: Vote;
-}
 
 export interface DeriveSociety {
   bids: Bid[];
