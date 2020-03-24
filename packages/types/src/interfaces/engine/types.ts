@@ -3,7 +3,7 @@
 
 import { Struct } from '@polkadot/types/codec';
 import { bool } from '@polkadot/types/primitive';
-import { BlockHash } from '@polkadot/types/interfaces/rpc';
+import { BlockHash } from '@polkadot/types/interfaces/chain';
 
 /** @name CreatedBlock */
 export interface CreatedBlock extends Struct {

@@ -80,5 +80,7 @@ export default {
       type: 'Header'
     }
   },
-  types: {}
+  types: {
+    BlockHash: 'Hash'
+  }
 } as Definitions;

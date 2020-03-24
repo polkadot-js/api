@@ -306,5 +306,21 @@ export default {
       type: 'StorageChangeSet'
     }
   },
-  types: {}
+  types: {
+    ApiId: '[u8; 8]',
+    KeyValueOption: '(StorageKey, Option<StorageData>)',
+    RuntimeVersionApi: '(ApiId, u32)',
+    RuntimeVersion: {
+      specName: 'Text',
+      implName: 'Text',
+      authoringVersion: 'u32',
+      specVersion: 'u32',
+      implVersion: 'u32',
+      apis: 'Vec<RuntimeVersionApi>'
+    },
+    StorageChangeSet: {
+      block: 'Hash',
+      changes: 'Vec<KeyValueOption>'
+    }
+  }
 } as Definitions;
