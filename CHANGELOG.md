@@ -1,6 +1,8 @@
 # 1.9.0-beta.x
 
-- Additional cleanups of democracy derives, including support for new Polkadot/Substrate vote retrievals
+- Adjust `Error.message` on RPC failures to not include the (already known) method signature
+- Additional cleanups and rework of democracy derives, including support for new Polkadot/Substrate vote retrievals
+- Internal adjustment of interface types to align with modules (no external impact via `@polkadot/types/interfaces`)
 
 # 1.8.1 Mar 22, 2020
 
