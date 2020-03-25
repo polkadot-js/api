@@ -98,9 +98,25 @@ export function flattenSingleTuple (): Mapper {
 
 export function removeColons (): Mapper {
   return (value: string): string => {
-    const parts = value.split('::');
+    let index = 0;
 
-    return parts[parts.length - 1];
+    while (index !== -1) {
+      index = value.indexOf('::');
+
+      if (index === 0) {
+        value = value.substr(2);
+      } else if (index !== -1) {
+        let start = index;
+
+        while (start !== -1 && !BOX_PRECEDING.includes(value[start])) {
+          start--;
+        }
+
+        value = `${value.substr(0, start + 1)}${value.substr(index + 2)}`;
+      }
+    }
+
+    return value;
   };
 }
 
@@ -154,8 +170,6 @@ export function removeTraits (): Mapper {
     return value
       // remove all whitespaces
       .replace(/\s/g, '')
-      // anything `T::<type>` to end up as `<type>`
-      .replace(/(T|Self|wasm)::/g, '')
       // replace `<T as Trait>::` (whitespaces were removed above)
       .replace(/<(T|Self)asTrait>::/g, '')
       // replace `<T as something::Trait>::` (whitespaces were removed above)
@@ -163,9 +177,7 @@ export function removeTraits (): Mapper {
       // replace <Lookup as StaticLookup>
       .replace(/<LookupasStaticLookup>/g, 'Lookup')
       // replace `<...>::Type`
-      .replace(/::Type/g, '')
-      // `sr_std::marker::`
-      .replace(/(sp_std|sr_std|rstd)::/g, '');
+      .replace(/::Type/g, '');
   };
 }
 

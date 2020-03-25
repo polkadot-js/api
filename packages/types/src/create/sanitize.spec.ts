@@ -36,5 +36,13 @@ describe('sanitize', (): void => {
     it('removes middle voting::TallyType -> TallyType', (): void => {
       expect(removeColons()('voting::TallyType')).toEqual('TallyType');
     });
+
+    it('removes on embedded values (one)', (): void => {
+      expect(removeColons()('(T::AccountId, SpanIndex)')).toEqual('(AccountId, SpanIndex)');
+    });
+
+    it('removes on embedded values (all)', (): void => {
+      expect(removeColons()('(T::AccountId, slashing::SpanIndex)')).toEqual('(AccountId, SpanIndex)');
+    });
   });
 });
