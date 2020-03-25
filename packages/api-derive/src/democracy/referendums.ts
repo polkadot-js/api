@@ -132,13 +132,15 @@ function retrieveVotes (api: ApiInterfaceRx, totalIssuance: Balance, referendums
   return combineLatest([
     of(totalIssuance),
     of(referendums),
-    combineLatest(
-      referendums.map((referendum): Observable<DerivedReferendumVote[]> =>
-        api.query.democracy.votingOf
-          ? votesCurr(api, referendum.index)
-          : votesPrev(api, referendum.index)
+    referendums.length
+      ? combineLatest(
+        referendums.map((referendum): Observable<DerivedReferendumVote[]> =>
+          api.query.democracy.votingOf
+            ? votesCurr(api, referendum.index)
+            : votesPrev(api, referendum.index)
+        )
       )
-    )
+      : of([])
   ]);
 }
 
