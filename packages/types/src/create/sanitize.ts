@@ -170,6 +170,8 @@ export function removeTraits (): Mapper {
     return value
       // remove all whitespaces
       .replace(/\s/g, '')
+      // anything `T::<type>` to end up as `<type>`
+      .replace(/(T|Self)::/g, '')
       // replace `<T as Trait>::` (whitespaces were removed above)
       .replace(/<(T|Self)asTrait>::/g, '')
       // replace `<T as something::Trait>::` (whitespaces were removed above)
