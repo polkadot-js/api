@@ -29,12 +29,12 @@ const EMPTY_META = {
 
 // utility method to create a nicely-formatted error
 /** @internal */
-function createErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): string {
+function logErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): void {
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`
   ).join(', ');
 
-  return `${method}(${inputs}): ${type}:: ${error.message}`;
+  l.error(`${method}(${inputs}): ${type}:: ${error.message}`);
 }
 
 /**
@@ -191,12 +191,9 @@ export default class Rpc implements RpcInterface {
             : this.formatOutput(def, params, result)
         ),
         catchError((error): any => {
-          const message = createErrorMessage(method, def, error);
+          logErrorMessage(method, def, error);
 
-          // don't scare with old nodes, this is handled transparently
-          rpcName !== 'rpc_methods' && l.error(message);
-
-          return throwError(new Error(message));
+          return throwError(error);
         }),
         publishReplay(1), // create a Replay(1)
         refCount() // Unsubscribe WS when there are no more subscribers
@@ -232,11 +229,9 @@ export default class Rpc implements RpcInterface {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
         const errorHandler = (error: Error): void => {
-          const message = createErrorMessage(method, def, error);
+          logErrorMessage(method, def, error);
 
-          l.error(message);
-
-          observer.error(new Error(message));
+          observer.error(error);
         };
 
         try {
@@ -244,7 +239,7 @@ export default class Rpc implements RpcInterface {
           const paramsJson = params.map((param): AnyJson => param.toJSON());
           const update = (error?: Error | null, result?: any): void => {
             if (error) {
-              l.error(createErrorMessage(method, def, error));
+              logErrorMessage(method, def, error);
               return;
             }
 
@@ -285,7 +280,7 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void => l.error(createErrorMessage(method, def, error)));
+            .catch((error: Error): void => logErrorMessage(method, def, error));
         };
       }).pipe(drr());
     };

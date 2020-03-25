@@ -49,9 +49,8 @@ describe('derive', (): void => {
     testFunction(api)('chain', 'bestNumber', []);
     testFunction(api)('chain', 'bestNumberFinalized', []);
 
-    testFunction(api)('democracy', 'referendumInfos', []);
+    testFunction(api)('democracy', 'proposals', []);
     testFunction(api)('democracy', 'referendums', []);
-    testFunction(api)('democracy', 'referendumVotes', []);
 
     testFunction(api)('elections', 'info', []);
 

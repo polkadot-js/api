@@ -17,7 +17,7 @@ function formatErrorData (data?: string | number): string {
 
   // We need some sort of cut-off here since these can be very large and
   // very nested, pick a number and trim the result display to it
-  return `: ${formatted.substr(0, 35)}`;
+  return `: ${formatted.substr(0, 100)}`;
 }
 
 /** @internal */
