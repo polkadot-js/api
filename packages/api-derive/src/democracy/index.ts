@@ -4,3 +4,4 @@
 
 export * from './proposals';
 export * from './referendums';
+export * from './referendumsActive';
