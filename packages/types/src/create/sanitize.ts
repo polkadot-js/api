@@ -32,12 +32,10 @@ const mappings: Mapper[] = [
   alias(['Lookup::Target'], 'LookupTarget'),
   // HACK duplication between contracts & primitives, however contracts prefixed with exec
   alias(['exec::StorageKey'], 'ContractStorageKey'),
-  // alias for internal module mappings
-  alias(['exec', 'grandpa', 'marker', 'session', 'slashing'].map((s) => `${s}::`), ''),
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> Proposal
-  removeColonPrefix()
+  removeColons()
 ];
 
 // given a starting index, find the closing >
@@ -98,9 +96,11 @@ export function flattenSingleTuple (): Mapper {
   };
 }
 
-export function removeColonPrefix (): Mapper {
+export function removeColons (): Mapper {
   return (value: string): string => {
-    return value.replace(/^::/, '');
+    const parts = value.split('::');
+
+    return parts[parts.length - 1];
   };
 }
 

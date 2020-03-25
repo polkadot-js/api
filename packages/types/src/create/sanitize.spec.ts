@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { alias } from './sanitize';
+import { alias, removeColons } from './sanitize';
 
 describe('sanitize', (): void => {
   describe('alias', (): void => {
@@ -25,6 +25,16 @@ describe('sanitize', (): void => {
       expect(exec('String String (String,[String;32],String)"String<String>')).toEqual(
         'Text Text (Text,[Text;32],Text)"Text<Text>'
       );
+    });
+  });
+
+  describe('removeColons', (): void => {
+    it('removes preceding ::Text -> Text', (): void => {
+      expect(removeColons()('::Text')).toEqual('Text');
+    });
+
+    it('removes middle voting::TallyType -> TallyType', (): void => {
+      expect(removeColons()('voting::TallyType')).toEqual('TallyType');
     });
   });
 });
