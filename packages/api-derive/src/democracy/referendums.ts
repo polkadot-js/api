@@ -21,13 +21,13 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedRe
     switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DerivedBalancesAccount[]]> =>
       combineLatest([
         of(votersFor),
-        !votersFor || !votersFor.length
-          ? of([] as Vote[])
-          : api.query.democracy.voteOf.multi<Vote>(
+        votersFor.length
+          ? api.query.democracy.voteOf.multi<Vote>(
             votersFor.map((accountId): [BN | number, AccountId] =>
               [referendumId, accountId]
             )
-          ),
+          )
+          : of([]),
         api.derive.balances.votingBalances(votersFor)
       ])
     ),
@@ -36,7 +36,7 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedRe
         accountId,
         balance: balances[index].votingBalance || api.registry.createType('Balance'),
         vote: votes[index] || api.registry.createType('Vote')
-      } as DerivedReferendumVote))
+      }))
     )
   );
 }
@@ -117,9 +117,9 @@ function referendumInfos (api: ApiInterfaceRx, ids: BN[]): Observable<DerivedRef
   );
 }
 
-function retrieveDerived (api: ApiInterfaceRx, totalIssuance: Balance, earliest: ReferendumIndex, referendumCount: ReferendumIndex): Observable<[Balance, DerivedReferendum[]]> {
+function retrieveDerived (api: ApiInterfaceRx, totalIssuance: Balance, earliest: ReferendumIndex, referendumCount: ReferendumIndex): Observable<[BN, DerivedReferendum[]]> {
   return combineLatest([
-    of(totalIssuance),
+    of(bnSqrt(totalIssuance)),
     referendumCount.gt(earliest)
       ? referendumInfos(api, [
         ...Array(referendumCount.sub(earliest).toNumber())
@@ -128,17 +128,19 @@ function retrieveDerived (api: ApiInterfaceRx, totalIssuance: Balance, earliest:
   ]);
 }
 
-function retrieveVotes (api: ApiInterfaceRx, totalIssuance: Balance, referendums: DerivedReferendum[]): Observable<[Balance, DerivedReferendum[], DerivedReferendumVote[][]]> {
+function retrieveVotes (api: ApiInterfaceRx, sqrtElectorate: BN, referendums: DerivedReferendum[]): Observable<[BN, DerivedReferendum[], DerivedReferendumVote[][]]> {
   return combineLatest([
-    of(totalIssuance),
+    of(sqrtElectorate),
     of(referendums),
-    combineLatest(
-      referendums.map((referendum): Observable<DerivedReferendumVote[]> =>
-        api.query.democracy.votingOf
-          ? votesCurr(api, referendum.index)
-          : votesPrev(api, referendum.index)
+    referendums.length
+      ? combineLatest(
+        referendums.map((referendum): Observable<DerivedReferendumVote[]> =>
+          api.query.democracy.votingOf
+            ? votesCurr(api, referendum.index)
+            : votesPrev(api, referendum.index)
+        )
       )
-    )
+      : of([])
   ]);
 }
 
@@ -153,18 +155,16 @@ export function referendums (api: ApiInterfaceRx): () => Observable<DerivedRefer
         switchMap(([totalIssuance, earliest, referendumCount]) =>
           retrieveDerived(api, totalIssuance, earliest, referendumCount)
         ),
-        switchMap(([totalIssuance, referendums]) =>
-          retrieveVotes(api, totalIssuance, referendums)
+        switchMap(([sqrtElectorate, referendums]) =>
+          retrieveVotes(api, sqrtElectorate, referendums)
         ),
-        map(([totalIssuance, referendums, votes]) => {
-          const sqrtElectorate = bnSqrt(totalIssuance);
-
-          return referendums.map((referendum, index): DerivedReferendumExt => ({
+        map(([sqrtElectorate, referendums, votes]) =>
+          referendums.map((referendum, index): DerivedReferendumExt => ({
             ...referendum,
             ...calcVotes(sqrtElectorate, referendum, votes[index])
-          }));
-        })
+          }))
+        )
       )
-      : of([] as DerivedReferendumExt[])
+      : of([])
   );
 }
