@@ -268,8 +268,23 @@ export default {
           type: 'Vec<StorageKey>'
         },
         {
-          name: 'startBlock',
+          name: 'fromBlock',
           type: 'Hash'
+        },
+        {
+          name: 'toBlock',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'Vec<StorageChangeSet>'
+    },
+    queryStorageAt: {
+      description: 'Query storage entries (by key) starting at block hash given as the second parameter',
+      params: [
+        {
+          name: 'keys',
+          type: 'Vec<StorageKey>'
         },
         {
           name: 'at',
@@ -321,5 +336,21 @@ export default {
       type: 'StorageChangeSet'
     }
   },
-  types: {}
+  types: {
+    ApiId: '[u8; 8]',
+    KeyValueOption: '(StorageKey, Option<StorageData>)',
+    RuntimeVersionApi: '(ApiId, u32)',
+    RuntimeVersion: {
+      specName: 'Text',
+      implName: 'Text',
+      authoringVersion: 'u32',
+      specVersion: 'u32',
+      implVersion: 'u32',
+      apis: 'Vec<RuntimeVersionApi>'
+    },
+    StorageChangeSet: {
+      block: 'Hash',
+      changes: 'Vec<KeyValueOption>'
+    }
+  }
 } as Definitions;

@@ -48,6 +48,7 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
+      LookupSource: 'Address',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230'
     }
@@ -58,6 +59,7 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
       // Indices optional, not in transaction
       Address: 'AccountId',
       Keys: 'SessionKeys5',
+      LookupSource: 'AccountId',
       ReferendumInfo: 'ReferendumInfoTo239'
     }
   },
@@ -65,7 +67,8 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     minmax: [1005, undefined],
     types: {
       Address: 'AccountId',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   }
 ];
@@ -79,6 +82,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
+      LookupSource: 'Address',
       ReferendumInfo: 'ReferendumInfoTo239',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
@@ -91,6 +95,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
+      LookupSource: 'Address',
       ReferendumInfo: 'ReferendumInfoTo239',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
@@ -104,6 +109,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
+      LookupSource: 'Address',
       ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230'
@@ -116,6 +122,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       // Indices optional, not in transaction
       Address: 'AccountId',
       Keys: 'SessionKeys5',
+      LookupSource: 'AccountId',
       ReferendumInfo: 'ReferendumInfoTo239'
     }
   },
@@ -123,7 +130,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     minmax: [1055, undefined],
     types: {
       Address: 'AccountId',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   }
 ];

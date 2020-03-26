@@ -122,6 +122,7 @@ export interface Points extends u32 {}
 export interface ReleasesStaking extends Enum {
   readonly isV100: boolean;
   readonly isV200: boolean;
+  readonly isV300: boolean;
 }
 
 /** @name RewardDestination */

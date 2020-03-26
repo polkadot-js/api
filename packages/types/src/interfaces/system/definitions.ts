@@ -73,6 +73,11 @@ export default {
       refcount: 'RefCount',
       data: 'AccountData'
     },
+    ChainProperties: {
+      ss58Format: 'Option<u8>',
+      tokenDecimals: 'Option<u32>',
+      tokenSymbol: 'Option<Text>'
+    },
     DigestOf: 'Digest',
     DispatchError: {
       _enum: {
@@ -105,10 +110,33 @@ export default {
       phase: 'Phase',
       event: 'Event'
     },
+    Health: {
+      peers: 'u64',
+      isSyncing: 'bool',
+      shouldHavePeers: 'bool'
+    },
     Key: 'Bytes',
     LastRuntimeUpgradeInfo: {
       specVersion: 'Compact<u32>',
       specName: 'Text'
+    },
+    NetworkState: {
+      peerId: 'Text',
+      listenedAddresses: 'Vec<Text>',
+      externalAddresses: 'Vec<Text>',
+      connectedPeers: 'HashMap<Text, Peer>',
+      notConnectedPeers: 'HashMap<Text, NotConnectedPeer>',
+      averageDownloadPerSec: 'u64',
+      averageUploadPerSec: 'u64',
+      peerset: 'NetworkStatePeerset'
+    },
+    NetworkStatePeerset: {
+      messageQueue: 'u64',
+      nodes: 'HashMap<Text, NetworkStatePeersetInfo>'
+    },
+    NetworkStatePeersetInfo: {
+      connected: 'bool',
+      reputation: 'u64'
     },
     NodeRole: {
       _enum: {
@@ -117,6 +145,41 @@ export default {
         Authority: 'Null',
         UnknownRole: 'u8'
       }
+    },
+    NotConnectedPeer: {
+      knownAddresses: 'Vec<Text>',
+      latestPingTime: 'Option<PeerPing>',
+      versionString: 'Option<Text>'
+    },
+    Peer: {
+      enabled: 'bool',
+      endpoint: 'PeerEndpoint',
+      knownAddresses: 'Vec<Text>',
+      latestPingTime: 'PeerPing',
+      open: 'bool',
+      versionString: 'Text'
+    },
+    PeerEndpoint: {
+      listening: 'PeerEndpointAddr'
+    },
+    PeerEndpointAddr: {
+      _alias: {
+        localAddr: 'local_addr',
+        sendBackAddr: 'send_back_addr'
+      },
+      localAddr: 'Text',
+      sendBackAddr: 'Text'
+    },
+    PeerPing: {
+      nanos: 'u64',
+      secs: 'u64'
+    },
+    PeerInfo: {
+      peerId: 'Text',
+      roles: 'Text',
+      protocolVersion: 'u32',
+      bestHash: 'Hash',
+      bestNumber: 'BlockNumber'
     },
     Phase: {
       _enum: {

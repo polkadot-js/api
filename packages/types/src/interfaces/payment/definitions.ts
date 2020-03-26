@@ -22,5 +22,11 @@ export default {
       type: 'RuntimeDispatchInfo'
     }
   },
-  types: {}
+  types: {
+    RuntimeDispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      partialFee: 'Balance'
+    }
+  }
 } as Definitions;

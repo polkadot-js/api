@@ -159,6 +159,9 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   second.signAndSend('123', (result): void => {
     console.log(result);
   });
+
+  // it handles enum inputs correctly
+  await api.tx.democracy.proxyVote(123, { Split: { yay: 123, nay: 456 } }).signAndSend(keyring.alice);
 }
 
 async function main (): Promise<void> {

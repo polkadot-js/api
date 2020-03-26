@@ -5,15 +5,19 @@ import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 import { HashMap, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
+import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { EpochAuthorship } from '@polkadot/types/interfaces/babe';
+import { BlockHash } from '@polkadot/types/interfaces/chain';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import { StorageKind } from '@polkadot/types/interfaces/offchain';
-import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
+import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
+import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
-import { NodeRole } from '@polkadot/types/interfaces/system';
+import { RuntimeVersion } from '@polkadot/types/interfaces/state';
+import { ChainProperties, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
 import { Observable } from 'rxjs';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
@@ -44,7 +48,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Remove given extrinsic from the pool and temporarily ban it to prevent reimporting
        **/
-      removeExtrinsic: AugmentedRpc<(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | { hash: any } | { extrinsic: any } | string | Uint8Array)[]) => Observable<Vec<Hash>>>;
+      removeExtrinsic: AugmentedRpc<(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | { Hash: any } | { Extrinsic: any } | string | Uint8Array)[]) => Observable<Vec<Hash>>>;
       /**
        * Generate new session keys and returns the corresponding public keys
        **/
@@ -200,7 +204,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Query storage entries (by key) starting at block hash given as the second parameter
        **/
-      queryStorageAt: AugmentedRpc<(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: BlockHash | string | Uint8Array) => Observable<Vec<StorageChangeSet>>>;
+      queryStorageAt: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], ay?: Hash | Uint8Array | string) => Observable<T>>;
       /**
        * Retrieves the runtime version via subscription
        **/

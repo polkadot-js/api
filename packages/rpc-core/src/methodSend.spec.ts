@@ -39,19 +39,6 @@ describe('methodSend', (): void => {
     rpc = new Rpc(registry, provider);
   });
 
-  it('wraps errors with the call signature', (done): void => {
-    // private access
-    const method = (rpc as any).createMethodSend('test', 'blah', methods.blah);
-
-    method().subscribe(
-      (): void => undefined,
-      (error: Error): void => {
-        expect(error.message).toMatch(/blah\(foo: Bytes\): Bytes/);
-        done();
-      }
-    );
-  });
-
   it('checks for mismatched parameters', (done): void => {
     // private method
     const method = (rpc as any).createMethodSend('test', 'bleh', methods.bleh);

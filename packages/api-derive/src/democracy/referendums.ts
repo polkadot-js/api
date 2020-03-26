@@ -2,33 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ReferendumIndex } from '@polkadot/types/interfaces/democracy';
-import { DerivedReferendum } from '../types';
-
-import BN from 'bn.js';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { DerivedReferendumExt } from '../types';
+
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function referendums (api: ApiInterfaceRx): () => Observable<DerivedReferendum[]> {
-  return memo((): Observable<DerivedReferendum[]> =>
-    api.query.democracy?.lowestUnbaked
-      ? api.queryMulti<[ReferendumIndex, ReferendumIndex]>([
-        api.query.democracy.lowestUnbaked,
-        api.query.democracy.referendumCount
-      ]).pipe(
-        switchMap(([earliest, referendumCount]): Observable<DerivedReferendum[]> =>
-          referendumCount?.gt(earliest) && referendumCount?.gtn(0)
-            ? api.derive.democracy.referendumInfos(
-              [...Array(referendumCount.sub(earliest).toNumber())].map((_, i): BN =>
-                earliest.addn(i)
-              )
-            )
-            : of([])
-        )
+export function referendums (api: ApiInterfaceRx): () => Observable<DerivedReferendumExt[]> {
+  return memo((): Observable<DerivedReferendumExt[]> =>
+    api.derive.democracy.referendumsActive().pipe(
+      switchMap((referendums) =>
+        combineLatest([
+          of(referendums),
+          api.derive.democracy._referendumsVotes(referendums)
+        ])
+      ),
+      map(([referendums, votes]) =>
+        referendums.map((referendum, index): DerivedReferendumExt => ({
+          ...referendum,
+          ...votes[index]
+        }))
       )
-      : of([] as DerivedReferendum[])
+    )
   );
 }

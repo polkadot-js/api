@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ChainProperties } from '../interfaces/rpc';
+import { ChainProperties } from '../interfaces/system';
 import { OverrideModuleType } from '../known/types';
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
