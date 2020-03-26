@@ -35,7 +35,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
           } else if (methodName === 'queryStorage') {
             return createDocComments(6, [def.description]) + indent(6)(`queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;`);
           } else if (methodName === 'queryStorageAt') {
-            return createDocComments(6, [def.description]) + indent(6)(`queryStorageAt: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[], ay?: Hash | Uint8Array | string) => Observable<T>>;`);
+            return createDocComments(6, [def.description]) + indent(6)(`queryStorageAt: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[], at?: Hash | Uint8Array | string) => Observable<T>>;`);
           } else if (methodName === 'subscribeStorage') {
             return createDocComments(6, [def.description]) + indent(6)(`subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (${StorageKeyTye})[]) => Observable<T>>;`);
           }

@@ -204,7 +204,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Query storage entries (by key) starting at block hash given as the second parameter
        **/
-      queryStorageAt: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], ay?: Hash | Uint8Array | string) => Observable<T>>;
+      queryStorageAt: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: Hash | Uint8Array | string) => Observable<T>>;
       /**
        * Retrieves the runtime version via subscription
        **/
