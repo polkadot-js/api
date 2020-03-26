@@ -178,6 +178,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `which`: The index of the referendum to cancel.
        * # <weight>
        * - One DB change.
+       * - O(d) where d is the items in the dispatch queue.
        * # </weight>
        **/
       cancelQueued: AugmentedSubmittable<(which: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -243,7 +244,7 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin of this call must be `CancellationOrigin`.
        * -`ref_index`: The index of the referendum to cancel.
        * # <weight>
-       * - Depends on size of storage vec `VotersFor` for this referendum.
+       * - `O(1)`.
        * # </weight>
        **/
       emergencyCancel: AugmentedSubmittable<(refIndex: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -309,7 +310,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `encoded_proposal`: The preimage of a proposal.
        * Emits `PreimageNoted`.
        * # <weight>
-       * - Dependent on the size of `encoded_proposal`.
+       * - Dependent on the size of `encoded_proposal` and length of dispatch queue.
        * # </weight>
        **/
       noteImminentPreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -344,7 +345,8 @@ declare module '@polkadot/api/types/submittable' {
        * - `value`: The amount of deposit (must be at least `MinimumDeposit`).
        * Emits `Proposed`.
        * # <weight>
-       * - `O(1)`.
+       * - `O(P)`
+       * - P is the number proposals in the `PublicProps` vec.
        * - Two DB changes, one DB entry.
        * # </weight>
        **/
@@ -466,7 +468,8 @@ declare module '@polkadot/api/types/submittable' {
        * must have funds to cover the deposit, equal to the original deposit.
        * - `proposal`: The index of the proposal to second.
        * # <weight>
-       * - `O(1)`.
+       * - `O(S)`.
+       * - S is the number of seconds a proposal already has.
        * - One DB entry.
        * # </weight>
        **/
@@ -502,6 +505,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB clear.
        * - Performs a binary search on `existing_vetoers` which should not
        * be very large.
+       * - O(log v), v is number of `existing_vetoers`
        * # </weight>
        **/
       vetoExternal: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -512,7 +516,8 @@ declare module '@polkadot/api/types/submittable' {
        * - `ref_index`: The index of the referendum to vote for.
        * - `vote`: The vote configuration.
        * # <weight>
-       * - `O(1)`.
+       * - `O(R)`.
+       * - R is the number of referendums the voter has voted on.
        * - One DB change, one DB entry.
        * # </weight>
        **/

@@ -638,7 +638,7 @@ declare module '@polkadot/api/types/storage' {
       spanSlash: AugmentedQuery<ApiType, (arg: ITuple<[AccountId, SpanIndex]> | [AccountId | string | Uint8Array, SpanIndex | AnyNumber | Uint8Array]) => Observable<SpanRecord>> & QueryableStorageEntry<ApiType>;
       /**
        * Storage version of the pallet.
-       * This is set to v2.0.0 for new networks.
+       * This is set to v3.0.0 for new networks.
        **/
       storageVersion: AugmentedQuery<ApiType, () => Observable<ReleasesStaking>> & QueryableStorageEntry<ApiType>;
       /**
