@@ -15,12 +15,12 @@ import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
 import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
-import { Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
+import { DeferredOffenceOf, Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { ActiveEraInfo, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { ActiveEraInfo, ElectionResult, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, PhragmenScore, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { AccountInfo, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -368,6 +368,11 @@ declare module '@polkadot/api/types/storage' {
        **/
       concurrentReportsIndex: AugmentedQueryDoubleMap<ApiType, (key1: Kind | string | Uint8Array, key2: OpaqueTimeSlot | string | Uint8Array) => Observable<Vec<ReportIdOf>>> & QueryableStorageEntry<ApiType>;
       /**
+       * Deferred reports that have been rejected by the offence handler and need to be submitted
+       * at a later time.
+       **/
+      deferredOffences: AugmentedQuery<ApiType, () => Observable<Vec<DeferredOffenceOf>>> & QueryableStorageEntry<ApiType>;
+      /**
        * The primary structure that holds all offence records keyed by report identifiers.
        **/
       reports: AugmentedQuery<ApiType, (arg: ReportIdOf | string | Uint8Array) => Observable<Option<OffenceDetails>>> & QueryableStorageEntry<ApiType>;
@@ -542,6 +547,11 @@ declare module '@polkadot/api/types/storage' {
        **/
       earliestUnappliedSlash: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
       /**
+       * Flag to control the execution of the offchain election. When `Open(_)`, we accept
+       * solutions to be submitted.
+       **/
+      eraElectionStatus: AugmentedQuery<ApiType, () => Observable<ElectionStatus>> & QueryableStorageEntry<ApiType>;
+      /**
        * Rewards for the last `HISTORY_DEPTH` eras.
        * If reward hasn't been set or has been removed then 0 reward is returned.
        **/
@@ -585,7 +595,7 @@ declare module '@polkadot/api/types/storage' {
        **/
       erasValidatorReward: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<Option<BalanceOf>>> & QueryableStorageEntry<ApiType>;
       /**
-       * True if the next session change will be a new era regardless of index.
+       * Mode of era forcing.
        **/
       forceEra: AugmentedQuery<ApiType, () => Observable<Forcing>> & QueryableStorageEntry<ApiType>;
       /**
@@ -602,6 +612,10 @@ declare module '@polkadot/api/types/storage' {
        * invulnerables) and restricted to testnets.
        **/
       invulnerables: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * True if the current planned session is final.
+       **/
+      isCurrentSessionFinal: AugmentedQuery<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
       /**
        * Map from all (unlocked) "controller" accounts to the info regarding the staking.
        **/
@@ -623,6 +637,16 @@ declare module '@polkadot/api/types/storage' {
        **/
       payee: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<RewardDestination>> & QueryableStorageEntry<ApiType>;
       /**
+       * The next validator set. At the end of an era, if this is available (potentially from the
+       * result of an offchain worker), it is immediately used. Otherwise, the on-chain election
+       * is executed.
+       **/
+      queuedElected: AugmentedQuery<ApiType, () => Observable<Option<ElectionResult>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * The score of the current [`QueuedElected`].
+       **/
+      queuedScore: AugmentedQuery<ApiType, () => Observable<Option<PhragmenScore>>> & QueryableStorageEntry<ApiType>;
+      /**
        * Slashing spans for stash accounts.
        **/
       slashingSpans: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<SlashingSpans>>> & QueryableStorageEntry<ApiType>;
@@ -632,11 +656,22 @@ declare module '@polkadot/api/types/storage' {
        **/
       slashRewardFraction: AugmentedQuery<ApiType, () => Observable<Perbill>> & QueryableStorageEntry<ApiType>;
       /**
+       * Snapshot of nominators at the beginning of the current election window. This should only
+       * have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`.
+       **/
+      snapshotNominators: AugmentedQuery<ApiType, () => Observable<Option<Vec<AccountId>>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * Snapshot of validators at the beginning of the current election window. This should only
+       * have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`.
+       **/
+      snapshotValidators: AugmentedQuery<ApiType, () => Observable<Option<Vec<AccountId>>>> & QueryableStorageEntry<ApiType>;
+      /**
        * Records information about the maximum slash of a stash within a slashing span,
        * as well as how much reward has been paid out.
        **/
       spanSlash: AugmentedQuery<ApiType, (arg: ITuple<[AccountId, SpanIndex]> | [AccountId | string | Uint8Array, SpanIndex | AnyNumber | Uint8Array]) => Observable<SpanRecord>> & QueryableStorageEntry<ApiType>;
       /**
+       * True if network has been upgraded to this version.
        * Storage version of the pallet.
        * This is set to v3.0.0 for new networks.
        **/
