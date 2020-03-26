@@ -6,8 +6,7 @@ import { Compact, Option, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';
-import { Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
-import { Vote } from '@polkadot/types/interfaces/elections';
+import { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
 import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
@@ -221,18 +220,23 @@ declare module '@polkadot/api/types/submittable' {
        **/
       deactivateProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Delegate vote.
-       * Currency is locked indefinitely for as long as it's delegated.
-       * The dispatch origin of this call must be _Signed_.
-       * - `to`: The account to make a delegate of the sender.
-       * - `conviction`: The conviction that will be attached to the delegated
-       * votes.
+       * Delegate the voting power (with some given conviction) of the sending account.
+       * The balance delegated is locked for as long as it's delegated, and thereafter for the
+       * time appropriate for the conviction's lock period.
+       * The dispatch origin of this call must be _Signed_, and the signing account must either:
+       * - be delegating already; or
+       * - have no voting activity (if there is, then it will need to be removed/consolidated
+       * through `reap_vote` or `unvote`).
+       * - `to`: The account whose voting the `target` account's voting power will follow.
+       * - `conviction`: The conviction that will be attached to the delegated votes. When the
+       * account is undelegated, the funds will be locked for the corresponding period.
+       * - `balance`: The amount of the account's balance to be used in delegating. This must
+       * not be more than the account's current balance.
        * Emits `Delegated`.
        * # <weight>
-       * - One extra DB entry.
        * # </weight>
        **/
-      delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule an emergency cancellation of a referendum. Cannot happen twice to the same
        * referendum.
@@ -287,7 +291,7 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch of this call must be `FastTrackOrigin`.
        * - `proposal_hash`: The hash of the current external proposal.
        * - `voting_period`: The period that is allowed for voting on this proposal. Increased to
-       * `EmergencyVotingPeriod` if too low.
+       * `FastTrackVotingPeriod` if too low.
        * - `delay`: The number of block after voting has ended in approval and this should be
        * enacted. This doesn't have a minimum amount.
        * Emits `Started`.
@@ -346,6 +350,51 @@ declare module '@polkadot/api/types/submittable' {
        **/
       propose: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
+       * Delegate the voting power (with some given conviction) of a proxied account.
+       * The balance delegated is locked for as long as it's delegated, and thereafter for the
+       * time appropriate for the conviction's lock period.
+       * The dispatch origin of this call must be _Signed_, and the signing account must have
+       * been set as the proxy account for `target`.
+       * - `target`: The account whole voting power shall be delegated and whose balance locked.
+       * This account must either:
+       * - be delegating already; or
+       * - have no voting activity (if there is, then it will need to be removed/consolidated
+       * through `reap_vote` or `unvote`).
+       * - `to`: The account whose voting the `target` account's voting power will follow.
+       * - `conviction`: The conviction that will be attached to the delegated votes. When the
+       * account is undelegated, the funds will be locked for the corresponding period.
+       * - `balance`: The amount of the account's balance to be used in delegating. This must
+       * not be more than the account's current balance.
+       * Emits `Delegated`.
+       * # <weight>
+       * # </weight>
+       **/
+      proxyDelegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Remove a proxied vote for a referendum.
+       * Exactly equivalent to `remove_vote` except that it operates on the account that the
+       * sender is a proxy for.
+       * The dispatch origin of this call must be _Signed_ and the signing account must be a
+       * proxy for some other account which has a registered vote for the referendum of `index`.
+       * - `index`: The index of referendum of the vote to be removed.
+       * # <weight>
+       * - `O(R + log R)` where R is the number of referenda that `target` has voted on.
+       * # </weight>
+       **/
+      proxyRemoveVote: AugmentedSubmittable<(index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Undelegate the voting power of a proxied account.
+       * Tokens may be unlocked following once an amount of time consistent with the lock period
+       * of the conviction with which the delegation was issued.
+       * The dispatch origin of this call must be _Signed_ and the signing account must be a
+       * proxy for some other account which is currently delegating.
+       * Emits `Undelegated`.
+       * # <weight>
+       * - O(1).
+       * # </weight>
+       **/
+      proxyUndelegate: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
+      /**
        * Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact
        * the proposal; otherwise it is a vote to keep the status quo.
        * The dispatch origin of this call must be _Signed_.
@@ -356,7 +405,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change, one DB entry.
        * # </weight>
        **/
-      proxyVote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: Vote | { aye: boolean; conviction?: ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number } | boolean | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      proxyVote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { standard: any } | { split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove an expired proposal preimage and collect the deposit.
        * The dispatch origin of this call must be _Signed_.
@@ -371,6 +420,47 @@ declare module '@polkadot/api/types/submittable' {
        **/
       reapPreimage: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
+       * Remove a vote for a referendum.
+       * If the `target` is equal to the signer, then this function is exactly equivalent to
+       * `remove_vote`. If not equal to the signer, then the vote must have expired,
+       * either because the referendum was cancelled, because the voter lost the referendum or
+       * because the conviction period is over.
+       * The dispatch origin of this call must be _Signed_.
+       * - `target`: The account of the vote to be removed; this account must have voted for
+       * referendum `index`.
+       * - `index`: The index of referendum of the vote to be removed.
+       * # <weight>
+       * - `O(R + log R)` where R is the number of referenda that `target` has voted on.
+       * # </weight>
+       **/
+      removeOtherVote: AugmentedSubmittable<(target: AccountId | string | Uint8Array, index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Remove a vote for a referendum.
+       * If:
+       * - the referendum was cancelled, or
+       * - the referendum is ongoing, or
+       * - the referendum has ended such that
+       * - the vote of the account was in opposition to the result; or
+       * - there was no conviction to the account's vote; or
+       * - the account made a split vote
+       * ...then the vote is removed cleanly and a following call to `unlock` may result in more
+       * funds being available.
+       * If, however, the referendum has ended and:
+       * - it finished corresponding to the vote of the account, and
+       * - the account made a standard vote with conviction, and
+       * - the lock period of the conviction is not over
+       * ...then the lock will be aggregated into the overall account's lock, which may involve
+       * *overlocking* (where the two locks are combined into a single lock that is the maximum
+       * of both the amount locked and the time is it locked for).
+       * The dispatch origin of this call must be _Signed_, and the signer must have a vote
+       * registered for referendum `index`.
+       * - `index`: The index of referendum of the vote to be removed.
+       * # <weight>
+       * - `O(R + log R)` where R is the number of referenda that `target` has voted on.
+       * # </weight>
+       **/
+      removeVote: AugmentedSubmittable<(index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
        * Signals agreement with a particular proposal.
        * The dispatch origin of this call must be _Signed_ and the sender
        * must have funds to cover the deposit, equal to the original deposit.
@@ -382,11 +472,11 @@ declare module '@polkadot/api/types/submittable' {
        **/
       second: AugmentedSubmittable<(proposal: Compact<PropIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Undelegate vote.
-       * Must be sent from an account that has called delegate previously.
-       * The tokens will be reduced from an indefinite lock to the maximum
-       * possible according to the conviction of the prior delegation.
-       * The dispatch origin of this call must be _Signed_.
+       * Undelegate the voting power of the sending account.
+       * Tokens may be unlocked following once an amount of time consistent with the lock period
+       * of the conviction with which the delegation was issued.
+       * The dispatch origin of this call must be _Signed_ and the signing account must be
+       * currently delegating.
        * Emits `Undelegated`.
        * # <weight>
        * - O(1).
@@ -397,7 +487,6 @@ declare module '@polkadot/api/types/submittable' {
        * Unlock tokens that have an expired lock.
        * The dispatch origin of this call must be _Signed_.
        * - `target`: The account to remove the lock on.
-       * Emits `Unlocked`.
        * # <weight>
        * - `O(1)`.
        * # </weight>
@@ -427,7 +516,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change, one DB entry.
        * # </weight>
        **/
-      vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: Vote | { aye: boolean; conviction?: ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number } | boolean | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { standard: any } | { split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     elections: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -1488,7 +1577,6 @@ declare module '@polkadot/api/types/submittable' {
        * Kill some items from storage.
        **/
       killStorage: AugmentedSubmittable<(keys: Vec<Key> | (Key | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
-      migrateAccounts: AugmentedSubmittable<(accounts: Vec<AccountId> | (AccountId | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Make some on-chain remark.
        **/

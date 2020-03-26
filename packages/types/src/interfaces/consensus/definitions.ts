@@ -7,6 +7,7 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    AuthorityId: 'AccountId'
+    AuthorityId: 'AccountId',
+    RawVRFOutput: '[u8; 32]'
   }
 } as Definitions;
