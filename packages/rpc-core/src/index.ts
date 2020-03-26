@@ -188,7 +188,7 @@ export default class Rpc implements RpcInterface {
         map(([params, result]): any =>
           isRaw
             ? this.registry.createType('Raw', result)
-            : this.formatOutput(def, params, result)
+            : this.formatOutput(method, def, params, result)
         ),
         catchError((error): any => {
           logErrorMessage(method, def, error);
@@ -247,7 +247,7 @@ export default class Rpc implements RpcInterface {
               observer.next(
                 isRaw
                   ? this.registry.createType('Raw', result)
-                  : this.formatOutput(def, params, result)
+                  : this.formatOutput(method, def, params, result)
               );
             } catch (error) {
               observer.error(error);
@@ -317,7 +317,7 @@ export default class Rpc implements RpcInterface {
     return ['0x3a636f6465'].includes(key.toHex());
   }
 
-  private formatOutput (rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
+  private formatOutput (method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
@@ -331,10 +331,15 @@ export default class Rpc implements RpcInterface {
     } else if (rpc.type === 'StorageChangeSet') {
       return this.formatStorageSet(params[0] as Vec<StorageKey>, result.changes);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      return result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
+      const mapped = result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
         this.registry.createType('Hash', block),
         this.formatStorageSet(params[0] as Vec<StorageKey>, changes)
       ]);
+
+      // we only query at a specific block, not a range - flatten
+      return method === 'queryStorageAt'
+        ? mapped[0][1]
+        : mapped;
     }
 
     return createTypeUnsafe(this.registry, rpc.type, [result]);
