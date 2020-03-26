@@ -407,7 +407,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change, one DB entry.
        * # </weight>
        **/
-      proxyVote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { standard: any } | { split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      proxyVote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove an expired proposal preimage and collect the deposit.
        * The dispatch origin of this call must be _Signed_.
@@ -521,7 +521,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change, one DB entry.
        * # </weight>
        **/
-      vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { standard: any } | { split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     elections: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -695,7 +695,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, judgement: IdentityJudgement | { unknown: any } | { feePaid: any } | { reasonable: any } | { knownGood: any } | { outOfDate: any } | { lowQuality: any } | { erroneous: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, judgement: IdentityJudgement | { Unknown: any } | { FeePaid: any } | { Reasonable: any } | { KnownGood: any } | { OutOfDate: any } | { LowQuality: any } | { Erroneous: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Request a judgement from a registrar.
        * Payment: At most `max_fee` will be reserved for payment to the registrar if judgement
@@ -782,7 +782,7 @@ declare module '@polkadot/api/types/submittable' {
        * one storage-exists.
        * # </weight>
        **/
-      setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | { none: any } | { raw: any } | { blakeTwo256: any } | { sha256: any } | { keccak256: any } | { shaThree256: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
+      setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | { None: any } | { Raw: any } | { BlakeTwo256: any } | { Sha256: any } | { Keccak256: any } | { ShaThree256: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
     };
     imOnline: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
