@@ -3,6 +3,7 @@
 
 import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { u32, u64 } from '@polkadot/types/primitive';
+import { Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name BabeAuthorityWeight */
 export interface BabeAuthorityWeight extends u64 {}
@@ -21,6 +22,9 @@ export interface EpochAuthorship extends Struct {
 
 /** @name MaybeVrf */
 export interface MaybeVrf extends Option<VrfData> {}
+
+/** @name Randomness */
+export interface Randomness extends Hash {}
 
 /** @name RawBabePreDigest */
 export interface RawBabePreDigest extends Enum {

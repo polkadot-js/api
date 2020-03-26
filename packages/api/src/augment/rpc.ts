@@ -48,7 +48,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Remove given extrinsic from the pool and temporarily ban it to prevent reimporting
        **/
-      removeExtrinsic: AugmentedRpc<(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | { hash: any } | { extrinsic: any } | string | Uint8Array)[]) => Observable<Vec<Hash>>>;
+      removeExtrinsic: AugmentedRpc<(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | { Hash: any } | { Extrinsic: any } | string | Uint8Array)[]) => Observable<Vec<Hash>>>;
       /**
        * Generate new session keys and returns the corresponding public keys
        **/

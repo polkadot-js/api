@@ -7,12 +7,12 @@ import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/t
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
+import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeVrf, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
-import { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
@@ -299,6 +299,9 @@ declare module '@polkadot/types/types/registry' {
     EpochAuthorship: EpochAuthorship;
     'Option<EpochAuthorship>': Option<EpochAuthorship>;
     'Vec<EpochAuthorship>': Vec<EpochAuthorship>;
+    Randomness: Randomness;
+    'Option<Randomness>': Option<Randomness>;
+    'Vec<Randomness>': Vec<Randomness>;
     RawBabePreDigest: RawBabePreDigest;
     'Option<RawBabePreDigest>': Option<RawBabePreDigest>;
     'Vec<RawBabePreDigest>': Vec<RawBabePreDigest>;
@@ -368,6 +371,9 @@ declare module '@polkadot/types/types/registry' {
     AuthorityId: AuthorityId;
     'Option<AuthorityId>': Option<AuthorityId>;
     'Vec<AuthorityId>': Vec<AuthorityId>;
+    RawVRFOutput: RawVRFOutput;
+    'Option<RawVRFOutput>': Option<RawVRFOutput>;
+    'Vec<RawVRFOutput>': Vec<RawVRFOutput>;
     AliveContractInfo: AliveContractInfo;
     'Option<AliveContractInfo>': Option<AliveContractInfo>;
     'Vec<AliveContractInfo>': Vec<AliveContractInfo>;

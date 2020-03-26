@@ -190,6 +190,17 @@
                 "documentation": [
                   " Stores the `spec_version` and `spec_name` of when the last runtime upgrade happened."
                 ]
+              },
+              {
+                "name": "ExecutionPhase",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "Phase"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The execution phase of the block."
+                ]
               }
             ]
           },
@@ -309,16 +320,6 @@
                 " Kill the sending account, assuming there are no references outstanding and the composite",
                 " data is equal to its default value."
               ]
-            },
-            {
-              "name": "migrate_accounts",
-              "args": [
-                {
-                  "name": "accounts",
-                  "type": "Vec<AccountId>"
-                }
-              ],
-              "documentation": []
             }
           ],
           "events": [
@@ -844,7 +845,7 @@
                 "name": "Randomness",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "[u8;32]"
+                  "Plain": "Randomness"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -864,7 +865,7 @@
                 "name": "NextRandomness",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "[u8;32]"
+                  "Plain": "Randomness"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -897,7 +898,7 @@
                   "Map": {
                     "hasher": "Twox64Concat",
                     "key": "u32",
-                    "value": "Vec<[u8;32]>",
+                    "value": "Vec<RawVRFOutput>",
                     "linked": false
                   }
                 },
@@ -924,7 +925,7 @@
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0xc800000000000000",
+              "value": "0x1400000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins."
@@ -2070,11 +2071,11 @@
                 "type": {
                   "Plain": "ReleasesStaking"
                 },
-                "fallback": "0x01",
+                "fallback": "0x02",
                 "documentation": [
                   " Storage version of the pallet.",
                   "",
-                  " This is set to v2.0.0 for new networks."
+                  " This is set to v3.0.0 for new networks."
                 ]
               }
             ]
@@ -2900,6 +2901,22 @@
                 ]
               },
               {
+                "name": "DepositOf",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "PropIndex",
+                    "value": "(BalanceOf,Vec<AccountId>)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Those who have locked a deposit."
+                ]
+              },
+              {
                 "name": "Preimages",
                 "modifier": "Optional",
                 "type": {
@@ -2914,22 +2931,6 @@
                 "documentation": [
                   " Map of hashes to the proposal preimage, along with who registered it and their deposit.",
                   " The block number is the block at which it was deposited."
-                ]
-              },
-              {
-                "name": "DepositOf",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Twox64Concat",
-                    "key": "PropIndex",
-                    "value": "(BalanceOf,Vec<AccountId>)",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Those who have locked a deposit."
                 ]
               },
               {
@@ -2983,38 +2984,20 @@
                 ]
               },
               {
-                "name": "VotersFor",
+                "name": "VotingOf",
                 "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Twox64Concat",
-                    "key": "ReferendumIndex",
-                    "value": "Vec<AccountId>",
+                    "key": "AccountId",
+                    "value": "Voting",
                     "linked": false
                   }
                 },
-                "fallback": "0x00",
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
-                  " Get the voters for the current proposal."
-                ]
-              },
-              {
-                "name": "VoteOf",
-                "modifier": "Default",
-                "type": {
-                  "Map": {
-                    "hasher": "Twox64Concat",
-                    "key": "(ReferendumIndex,AccountId)",
-                    "value": "Vote",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Get the vote in a given referendum of a particular voter. The result is meaningful only",
-                  " if `voters_for` includes the voter when called with the referendum (you'll get the",
-                  " default `Vote` value otherwise). If you don't want to check `voters_for`, then you can",
-                  " also check for simple existence with `VoteOf::contains_key` first."
+                  " All votes for a particular voter. We store the balance for the number of votes that we",
+                  " have recorded. The second item is the total amount of delegations, that will be added."
                 ]
               },
               {
@@ -3032,22 +3015,6 @@
                 "documentation": [
                   " Who is able to vote for whom. Value is the fund-holding account, key is the",
                   " vote-transaction-sending account."
-                ]
-              },
-              {
-                "name": "Delegations",
-                "modifier": "Default",
-                "type": {
-                  "Map": {
-                    "hasher": "Twox64Concat",
-                    "key": "AccountId",
-                    "value": "(AccountId,Conviction)",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
-                  " Get the account (and lock periods) to which another account is delegating vote."
                 ]
               },
               {
@@ -3153,7 +3120,8 @@
                 " Emits `Proposed`.",
                 "",
                 " # <weight>",
-                " - `O(1)`.",
+                " - `O(P)`",
+                " - P is the number proposals in the `PublicProps` vec.",
                 " - Two DB changes, one DB entry.",
                 " # </weight>"
               ]
@@ -3175,7 +3143,8 @@
                 " - `proposal`: The index of the proposal to second.",
                 "",
                 " # <weight>",
-                " - `O(1)`.",
+                " - `O(S)`.",
+                " - S is the number of seconds a proposal already has.",
                 " - One DB entry.",
                 " # </weight>"
               ]
@@ -3189,7 +3158,7 @@
                 },
                 {
                   "name": "vote",
-                  "type": "Vote"
+                  "type": "AccountVote"
                 }
               ],
               "documentation": [
@@ -3202,7 +3171,8 @@
                 " - `vote`: The vote configuration.",
                 "",
                 " # <weight>",
-                " - `O(1)`.",
+                " - `O(R)`.",
+                " - R is the number of referendums the voter has voted on.",
                 " - One DB change, one DB entry.",
                 " # </weight>"
               ]
@@ -3216,7 +3186,7 @@
                 },
                 {
                   "name": "vote",
-                  "type": "Vote"
+                  "type": "AccountVote"
                 }
               ],
               "documentation": [
@@ -3251,7 +3221,7 @@
                 " -`ref_index`: The index of the referendum to cancel.",
                 "",
                 " # <weight>",
-                " - Depends on size of storage vec `VotersFor` for this referendum.",
+                " - `O(1)`.",
                 " # </weight>"
               ]
             },
@@ -3352,7 +3322,7 @@
                 "",
                 " - `proposal_hash`: The hash of the current external proposal.",
                 " - `voting_period`: The period that is allowed for voting on this proposal. Increased to",
-                "   `EmergencyVotingPeriod` if too low.",
+                "   `FastTrackVotingPeriod` if too low.",
                 " - `delay`: The number of block after voting has ended in approval and this should be",
                 "   enacted. This doesn't have a minimum amount.",
                 "",
@@ -3387,6 +3357,7 @@
                 " - One DB clear.",
                 " - Performs a binary search on `existing_vetoers` which should not",
                 "   be very large.",
+                " - O(log v), v is number of `existing_vetoers`",
                 " # </weight>"
               ]
             },
@@ -3427,6 +3398,7 @@
                 "",
                 " # <weight>",
                 " - One DB change.",
+                " - O(d) where d is the items in the dispatch queue.",
                 " # </weight>"
               ]
             },
@@ -3501,23 +3473,32 @@
                 {
                   "name": "conviction",
                   "type": "Conviction"
+                },
+                {
+                  "name": "balance",
+                  "type": "BalanceOf"
                 }
               ],
               "documentation": [
-                " Delegate vote.",
+                " Delegate the voting power (with some given conviction) of the sending account.",
                 "",
-                " Currency is locked indefinitely for as long as it's delegated.",
+                " The balance delegated is locked for as long as it's delegated, and thereafter for the",
+                " time appropriate for the conviction's lock period.",
                 "",
-                " The dispatch origin of this call must be _Signed_.",
+                " The dispatch origin of this call must be _Signed_, and the signing account must either:",
+                "   - be delegating already; or",
+                "   - have no voting activity (if there is, then it will need to be removed/consolidated",
+                "     through `reap_vote` or `unvote`).",
                 "",
-                " - `to`: The account to make a delegate of the sender.",
-                " - `conviction`: The conviction that will be attached to the delegated",
-                "   votes.",
+                " - `to`: The account whose voting the `target` account's voting power will follow.",
+                " - `conviction`: The conviction that will be attached to the delegated votes. When the",
+                "   account is undelegated, the funds will be locked for the corresponding period.",
+                " - `balance`: The amount of the account's balance to be used in delegating. This must",
+                "   not be more than the account's current balance.",
                 "",
                 " Emits `Delegated`.",
                 "",
                 " # <weight>",
-                " - One extra DB entry.",
                 " # </weight>"
               ]
             },
@@ -3525,13 +3506,13 @@
               "name": "undelegate",
               "args": [],
               "documentation": [
-                " Undelegate vote.",
+                " Undelegate the voting power of the sending account.",
                 "",
-                " Must be sent from an account that has called delegate previously.",
-                " The tokens will be reduced from an indefinite lock to the maximum",
-                " possible according to the conviction of the prior delegation.",
+                " Tokens may be unlocked following once an amount of time consistent with the lock period",
+                " of the conviction with which the delegation was issued.",
                 "",
-                " The dispatch origin of this call must be _Signed_.",
+                " The dispatch origin of this call must be _Signed_ and the signing account must be",
+                " currently delegating.",
                 "",
                 " Emits `Undelegated`.",
                 "",
@@ -3597,7 +3578,7 @@
                 " Emits `PreimageNoted`.",
                 "",
                 " # <weight>",
-                " - Dependent on the size of `encoded_proposal`.",
+                " - Dependent on the size of `encoded_proposal` and length of dispatch queue.",
                 " # </weight>"
               ]
             },
@@ -3642,8 +3623,6 @@
                 "",
                 " - `target`: The account to remove the lock on.",
                 "",
-                " Emits `Unlocked`.",
-                "",
                 " # <weight>",
                 " - `O(1)`.",
                 " # </weight>"
@@ -3670,6 +3649,161 @@
                 "",
                 " # <weight>",
                 " - One extra DB entry.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "remove_vote",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "ReferendumIndex"
+                }
+              ],
+              "documentation": [
+                " Remove a vote for a referendum.",
+                "",
+                " If:",
+                " - the referendum was cancelled, or",
+                " - the referendum is ongoing, or",
+                " - the referendum has ended such that",
+                "   - the vote of the account was in opposition to the result; or",
+                "   - there was no conviction to the account's vote; or",
+                "   - the account made a split vote",
+                " ...then the vote is removed cleanly and a following call to `unlock` may result in more",
+                " funds being available.",
+                "",
+                " If, however, the referendum has ended and:",
+                " - it finished corresponding to the vote of the account, and",
+                " - the account made a standard vote with conviction, and",
+                " - the lock period of the conviction is not over",
+                " ...then the lock will be aggregated into the overall account's lock, which may involve",
+                " *overlocking* (where the two locks are combined into a single lock that is the maximum",
+                " of both the amount locked and the time is it locked for).",
+                "",
+                " The dispatch origin of this call must be _Signed_, and the signer must have a vote",
+                " registered for referendum `index`.",
+                "",
+                " - `index`: The index of referendum of the vote to be removed.",
+                "",
+                " # <weight>",
+                " - `O(R + log R)` where R is the number of referenda that `target` has voted on.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "remove_other_vote",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "index",
+                  "type": "ReferendumIndex"
+                }
+              ],
+              "documentation": [
+                " Remove a vote for a referendum.",
+                "",
+                " If the `target` is equal to the signer, then this function is exactly equivalent to",
+                " `remove_vote`. If not equal to the signer, then the vote must have expired,",
+                " either because the referendum was cancelled, because the voter lost the referendum or",
+                " because the conviction period is over.",
+                "",
+                " The dispatch origin of this call must be _Signed_.",
+                "",
+                " - `target`: The account of the vote to be removed; this account must have voted for",
+                "   referendum `index`.",
+                " - `index`: The index of referendum of the vote to be removed.",
+                "",
+                " # <weight>",
+                " - `O(R + log R)` where R is the number of referenda that `target` has voted on.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "proxy_delegate",
+              "args": [
+                {
+                  "name": "to",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "conviction",
+                  "type": "Conviction"
+                },
+                {
+                  "name": "balance",
+                  "type": "BalanceOf"
+                }
+              ],
+              "documentation": [
+                " Delegate the voting power (with some given conviction) of a proxied account.",
+                "",
+                " The balance delegated is locked for as long as it's delegated, and thereafter for the",
+                " time appropriate for the conviction's lock period.",
+                "",
+                " The dispatch origin of this call must be _Signed_, and the signing account must have",
+                " been set as the proxy account for `target`.",
+                "",
+                " - `target`: The account whole voting power shall be delegated and whose balance locked.",
+                "   This account must either:",
+                "   - be delegating already; or",
+                "   - have no voting activity (if there is, then it will need to be removed/consolidated",
+                "     through `reap_vote` or `unvote`).",
+                " - `to`: The account whose voting the `target` account's voting power will follow.",
+                " - `conviction`: The conviction that will be attached to the delegated votes. When the",
+                "   account is undelegated, the funds will be locked for the corresponding period.",
+                " - `balance`: The amount of the account's balance to be used in delegating. This must",
+                "   not be more than the account's current balance.",
+                "",
+                " Emits `Delegated`.",
+                "",
+                " # <weight>",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "proxy_undelegate",
+              "args": [],
+              "documentation": [
+                " Undelegate the voting power of a proxied account.",
+                "",
+                " Tokens may be unlocked following once an amount of time consistent with the lock period",
+                " of the conviction with which the delegation was issued.",
+                "",
+                " The dispatch origin of this call must be _Signed_ and the signing account must be a",
+                " proxy for some other account which is currently delegating.",
+                "",
+                " Emits `Undelegated`.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "proxy_remove_vote",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "ReferendumIndex"
+                }
+              ],
+              "documentation": [
+                " Remove a proxied vote for a referendum.",
+                "",
+                " Exactly equivalent to `remove_vote` except that it operates on the account that the",
+                " sender is a proxy for.",
+                "",
+                " The dispatch origin of this call must be _Signed_ and the signing account must be a",
+                " proxy for some other account which has a registered vote for the referendum of `index`.",
+                "",
+                " - `index`: The index of referendum of the vote to be removed.",
+                "",
+                " # <weight>",
+                " - `O(R + log R)` where R is the number of referenda that `target` has voted on.",
                 " # </weight>"
               ]
             }
@@ -3882,7 +4016,7 @@
               ]
             },
             {
-              "name": "EmergencyVotingPeriod",
+              "name": "FastTrackVotingPeriod",
               "type": "BlockNumber",
               "value": "0x80510100",
               "documentation": [
@@ -4004,7 +4138,7 @@
               ]
             },
             {
-              "name": "Early",
+              "name": "TooEarly",
               "documentation": [
                 " Too early"
               ]
@@ -4067,6 +4201,67 @@
               "name": "NotActive",
               "documentation": [
                 " A proxy-de-pairing was attempted to an account that was not active."
+              ]
+            },
+            {
+              "name": "NotVoter",
+              "documentation": [
+                " The given account did not vote on the referendum."
+              ]
+            },
+            {
+              "name": "NoPermission",
+              "documentation": [
+                " The actor has no permission to conduct the action."
+              ]
+            },
+            {
+              "name": "AlreadyDelegating",
+              "documentation": [
+                " The account is already delegating."
+              ]
+            },
+            {
+              "name": "Overflow",
+              "documentation": [
+                " An unexpected integer overflow occurred."
+              ]
+            },
+            {
+              "name": "Underflow",
+              "documentation": [
+                " An unexpected integer underflow occurred."
+              ]
+            },
+            {
+              "name": "InsufficientFunds",
+              "documentation": [
+                " Too high a balance was provided that the account cannot afford."
+              ]
+            },
+            {
+              "name": "NotDelegating",
+              "documentation": [
+                " The account is not currently delegating."
+              ]
+            },
+            {
+              "name": "VotesExist",
+              "documentation": [
+                " The account currently has votes attached to it and the operation cannot succeed until",
+                " these are removed, either through `unvote` or `reap_vote`."
+              ]
+            },
+            {
+              "name": "InstantNotAllowed",
+              "documentation": [
+                " The instant referendum origin is currently disallowed."
+              ]
+            },
+            {
+              "name": "Nonsense",
+              "documentation": [
+                " Delegation to oneself makes no sense."
               ]
             }
           ]
@@ -4740,35 +4935,19 @@
                 ]
               },
               {
-                "name": "VotesOf",
+                "name": "Voting",
                 "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
-                    "value": "Vec<AccountId>",
+                    "value": "(BalanceOf,Vec<AccountId>)",
                     "linked": false
                   }
                 },
-                "fallback": "0x00",
+                "fallback": "0x0000000000000000000000000000000000",
                 "documentation": [
-                  " Votes of a particular voter, with the round index of the votes."
-                ]
-              },
-              {
-                "name": "StakeOf",
-                "modifier": "Default",
-                "type": {
-                  "Map": {
-                    "hasher": "Twox64Concat",
-                    "key": "AccountId",
-                    "value": "BalanceOf",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
-                  " Locked stake of a voter."
+                  " Votes and locked stake of a particular voter."
                 ]
               },
               {
@@ -4779,8 +4958,8 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The present candidate list. Sorted based on account-id. A current member or a runner can",
-                  " never enter this vector and is always implicitly assumed to be a candidate."
+                  " The present candidate list. Sorted based on account-id. A current member or runner-up",
+                  " can never enter this vector and is always implicitly assumed to be a candidate."
                 ]
               }
             ]
@@ -5316,20 +5495,6 @@
           "storage": {
             "prefix": "GrandpaFinality",
             "items": [
-              {
-                "name": "Authorities",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "AuthorityList"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " DEPRECATED",
-                  "",
-                  " This used to store the current authority set, which has been migrated to the well-known",
-                  " GRANDPA_AUTHORITIES_KEY unhashed key."
-                ]
-              },
               {
                 "name": "State",
                 "modifier": "Default",
