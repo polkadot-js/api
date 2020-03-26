@@ -7,25 +7,32 @@ import { AnyJson, Registry } from '@polkadot/types/types';
 
 import { Option, Text, Vec } from '@polkadot/types';
 
-interface ModuleMetadataCallsOnly {
+interface ModuleMetadataTrimmed {
   name: Text;
-  calls: FunctionMetadataLatest[];
+  calls: Option<Vec<FunctionMetadataLatest>>;
 }
 
-function mapCalls (registry: Registry, calls: Option<Vec<FunctionMetadataLatest>>): FunctionMetadataLatest[] {
-  return calls.unwrapOr([] as FunctionMetadataLatest[]).map(({ args, documentation, name }) =>
-    registry.createType('FunctionMetadataLatest', {
-      args,
-      name,
-      documentation: documentation.map((doc) => doc.toString().trim())
-    })
+function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest>>): Option<Vec<FunctionMetadataLatest>> {
+  const calls = _calls.unwrapOr(null);
+
+  return registry.createType(
+    'Option<Vec<FunctionMetadataLatest>>' as any,
+    calls
+      ? calls.map(({ args, documentation, name }) =>
+        registry.createType('FunctionMetadataLatest', {
+          args,
+          name,
+          documentation: documentation.map((doc) => doc.toString().trim())
+        })
+      )
+      : null
   );
 }
 
 /** @internal */
 export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJson {
   return registry.createType('MetadataLatest', {
-    modules: modules.map(({ calls, name }): ModuleMetadataCallsOnly => ({
+    modules: modules.map(({ calls, name }): ModuleMetadataTrimmed => ({
       name,
       calls: mapCalls(registry, calls)
     })),
