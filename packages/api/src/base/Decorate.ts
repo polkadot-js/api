@@ -502,12 +502,13 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         combineLatest([
           of(keys),
           from(Array(Math.ceil(keys.length / PAGE_SIZE_VALS)).fill(0)).pipe(
-            // FIXME New RPC to take care of this in the works...
-            concatMap((_, index): Observable<Option<Raw>[]> =>
-              this._rpcCore.state.subscribeStorage<Option<Raw>[]>(
-                keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS)
-              ).pipe(take(1))
-            ),
+            concatMap((_, index): Observable<Option<Raw>[]> => {
+              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
+
+              return this._rpcCore.state.queryStorageAt
+                ? this._rpcCore.state.queryStorageAt<Option<Raw>[]>(keyset)
+                : this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keyset).pipe(take(1));
+            }),
             toArray(),
             map((valsArr: Option<Raw>[][]): Option<Raw>[] =>
               valsArr.reduce((result: Option<Raw>[], vals): Option<Raw>[] =>

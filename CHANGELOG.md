@@ -1,5 +1,6 @@
 # 1.9.0-beta.x
 
+- Add support for `api.rpc.state.queryStorageAt`, optionally using it in `api.query.*` entries
 - Adjust `Error.message` on RPC failures to not include the (already known) method signature
 - Additional cleanups and rework of democracy derives, including support for new Polkadot/Substrate vote retrievals
 - Internal adjustment of interface types to align with modules (no external impact via `@polkadot/types/interfaces`)
