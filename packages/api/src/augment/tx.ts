@@ -13,7 +13,7 @@ import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
 import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 import { Keys } from '@polkadot/types/interfaces/session';
 import { SocietyJudgement } from '@polkadot/types/interfaces/society';
-import { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { CompactAssignments, EraIndex, PhragmenScore, RewardDestination, ValidatorIndex, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { Key } from '@polkadot/types/interfaces/system';
 import { Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
@@ -1314,8 +1314,8 @@ declare module '@polkadot/api/types/submittable' {
        * - Independent of the arguments. Moderate complexity.
        * - O(1).
        * - Three extra DB entries.
-       * NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless
-       * the `origin` falls below _existential deposit_ and gets removed as dust.
+       * NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned
+       * unless the `origin` falls below _existential deposit_ and gets removed as dust.
        * # </weight>
        **/
       bond: AugmentedSubmittable<(controller: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, payee: RewardDestination | ('Staked' | 'Stash' | 'Controller') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -1386,7 +1386,7 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
        * # <weight>
        * - The transaction's complexity is proportional to the size of `targets`,
-       * which is capped at `MAX_NOMINATIONS`.
+       * which is capped at CompactAssignments::LIMIT.
        * - Both the reads and writes follow a similar pattern.
        * # </weight>
        **/
@@ -1481,6 +1481,69 @@ declare module '@polkadot/api/types/submittable' {
        * The ideal number of validators.
        **/
       setValidatorCount: AugmentedSubmittable<(updated: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Submit a phragmen result to the chain. If the solution:
+       * 1. is valid.
+       * 2. has a better score than a potentially existing solution on chain.
+       * then, it will be _put_ on chain.
+       * A solution consists of two pieces of data:
+       * 1. `winners`: a flat vector of all the winners of the round.
+       * 2. `assignments`: the compact version of an assignment vector that encodes the edge
+       * weights.
+       * Both of which may be computed using [`phragmen`], or any other algorithm.
+       * Additionally, the submitter must provide:
+       * - The `score` that they claim their solution has.
+       * Both validators and nominators will be represented by indices in the solution. The
+       * indices should respect the corresponding types ([`ValidatorIndex`] and
+       * [`NominatorIndex`]). Moreover, they should be valid when used to index into
+       * [`SnapshotValidators`] and [`SnapshotNominators`]. Any invalid index will cause the
+       * solution to be rejected. These two storage items are set during the election window and
+       * may be used to determine the indices.
+       * A solution is valid if:
+       * 0. It is submitted when [`EraElectionStatus`] is `Open`.
+       * 1. Its claimed score is equal to the score computed on-chain.
+       * 2. Presents the correct number of winners.
+       * 3. All indexes must be value according to the snapshot vectors. All edge values must
+       * also be correct and should not overflow the granularity of the ratio type (i.e. 256
+       * or billion).
+       * 4. For each edge, all targets are actually nominated by the voter.
+       * 5. Has correct self-votes.
+       * A solutions score is consisted of 3 parameters:
+       * 1. `min { support.total }` for each support of a winner. This value should be maximized.
+       * 2. `sum { support.total }` for each support of a winner. This value should be minimized.
+       * 3. `sum { support.total^2 }` for each support of a winner. This value should be
+       * minimized (to ensure less variance)
+       * # <weight>
+       * E: number of edges. m: size of winner committee. n: number of nominators. d: edge degree
+       * (16 for now) v: number of on-chain validator candidates.
+       * NOTE: given a solution which is reduced, we can enable a new check the ensure `|E| < n +
+       * m`. We don't do this _yet_, but our offchain worker code executes it nonetheless.
+       * major steps (all done in `check_and_replace_solution`):
+       * - Storage: O(1) read `ElectionStatus`.
+       * - Storage: O(1) read `PhragmenScore`.
+       * - Storage: O(1) read `ValidatorCount`.
+       * - Storage: O(1) length read from `SnapshotValidators`.
+       * - Storage: O(v) reads of `AccountId` to fetch `snapshot_validators`.
+       * - Memory: O(m) iterations to map winner index to validator id.
+       * - Storage: O(n) reads `AccountId` to fetch `snapshot_nominators`.
+       * - Memory: O(n + m) reads to map index to `AccountId` for un-compact.
+       * - Storage: O(e) accountid reads from `Nomination` to read correct nominations.
+       * - Storage: O(e) calls into `slashable_balance_of_extended` to convert ratio to staked.
+       * - Memory: build_support_map. O(e).
+       * - Memory: evaluate_support: O(E).
+       * - Storage: O(e) writes to `QueuedElected`.
+       * - Storage: O(1) write to `QueuedScore`
+       * The weight of this call is 1/10th of the blocks total weight.
+       * # </weight>
+       **/
+      submitElectionSolution: AugmentedSubmittable<(winners: Vec<ValidatorIndex> | (ValidatorIndex | AnyNumber | Uint8Array)[], compactAssignments: CompactAssignments | { votes1?: any; votes2?: any; votes3?: any; votes4?: any; votes5?: any; votes6?: any; votes7?: any; votes8?: any; votes9?: any; votes10?: any; votes11?: any; votes12?: any; votes13?: any; votes14?: any; votes15?: any; votes16?: any } | string | Uint8Array, score: PhragmenScore, era: EraIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Unsigned version of `submit_election_solution`.
+       * Note that this must pass the [`ValidateUnsigned`] check which only allows transactions
+       * from the local node to be included. In other words, only the block author can include a
+       * transaction in the block.
+       **/
+      submitElectionSolutionUnsigned: AugmentedSubmittable<(winners: Vec<ValidatorIndex> | (ValidatorIndex | AnyNumber | Uint8Array)[], compactAssignments: CompactAssignments | { votes1?: any; votes2?: any; votes3?: any; votes4?: any; votes5?: any; votes6?: any; votes7?: any; votes8?: any; votes9?: any; votes10?: any; votes11?: any; votes12?: any; votes13?: any; votes14?: any; votes15?: any; votes16?: any } | string | Uint8Array, score: PhragmenScore, era: EraIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule a portion of the stash to be unlocked ready for transfer out after the bond
        * period ends. If this leaves an amount actively bonded less than
