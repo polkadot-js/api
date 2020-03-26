@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
 import { u64 } from '@polkadot/types/primitive';
-import { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import { BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name AuthorityIndex */
 export interface AuthorityIndex extends u64 {}
@@ -50,3 +50,5 @@ export interface StoredState extends Enum {
   readonly isPendingResume: boolean;
   readonly asPendingResume: PendingResume;
 }
+
+export type PHANTOM_GRANDPA = 'grandpa';

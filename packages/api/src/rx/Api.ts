@@ -91,11 +91,11 @@ export function decorateMethod <Method extends AnyFunction> (method: Method): Me
  *
  * // retrieve nonce for the account
  * api.query.system
- *   .accountNonce(keyring.alice.address)
+ *   .account(keyring.alice.address)
  *   .pipe(
  *      first(),
  *      // pipe nonce into transfer
- *      switchMap((nonce) =>
+ *      switchMap(([nonce]) =>
  *        api.tx.balances
  *          // create transfer
  *          .transfer(keyring.bob.address, 12345)
@@ -107,14 +107,14 @@ export function decorateMethod <Method extends AnyFunction> (method: Method): Me
  *   )
  *   // subscribe to overall result
  *   .subscribe(({ status }) => {
- *     if (status.isFinalized) {
+ *     if (status.isInBlock) {
  *       console.log('Completed at block hash', status.asFinalized.toHex());
  *     }
  *   });
  * ```
  */
 export default class ApiRx extends ApiBase<'rxjs'> {
-  private _isReadyRx: Observable<ApiRx>;
+  #isReadyRx: Observable<ApiRx>;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
@@ -163,14 +163,14 @@ export default class ApiRx extends ApiBase<'rxjs'> {
   constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
-    this._isReadyRx = from(
+    this.#isReadyRx = from<Promise<ApiRx>>(
       // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
         super.on('ready', (): void => {
           resolve(this);
         });
       })
-    ) as Observable<ApiRx>;
+    );
   }
 
   /**
@@ -184,7 +184,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    * @description Observable that returns the first time we are connected and loaded
    */
   public get isReady (): Observable<ApiRx> {
-    return this._isReadyRx;
+    return this.#isReadyRx;
   }
 
   /**

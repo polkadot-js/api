@@ -18,8 +18,10 @@ const unsub = await api.tx.balances
   .signAndSend(alice, (result) => {
     console.log(`Current status is ${result.status}`);
 
-    if (result.status.isFinalized) {
-      console.log(`Transaction included at blockHash ${result.status.asFinalized}`);
+    if (result.status.isInBlock) {
+      console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
+    } else if (result.status.isFinalized) {
+      console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
       unsub();
     }
   });
@@ -27,7 +29,7 @@ const unsub = await api.tx.balances
 
 As per all previous subscriptions, the transaction subscription returns in `unsub()` and the actual method has a subscription callback. The `result` object has 2 parts, `events` (to to covered in the next section) and the `status` enum.
 
-When the `status` enum is in `Finalized` state (checked via `isFinalized`), the underlying value contains the block hash of the block where the transaction has been included. This does not mean the block is finalized, but rather applies to the transaction state, as no further updates will be received for this subscription.
+When the `status` enum is in `Finalized` state (checked via `isFinalized`), the underlying value contains the block hash of the block where the transaction has been finalized. `Finalized` will follow `InBlock`, which is the block where the transaction has been included. `InBlock` does not mean the block is finalized, but rather applies to the transaction state, where `Finalized` means that the transaction cannot be forked off the chain.
 
 ## Transaction events
 
@@ -59,6 +61,23 @@ const unsub = await api.tx.balances
 ```
 
 Be aware that when a transaction status is `isFinalized`, it means it is included, but it may still have failed - for instance if you try to send a larger amount that you have free, the transaction is included in a block, however from a end-user perspective the transaction failed since the transfer did not occur. In these cases a `system.ExtrinsicFailed` event will be available in the events array.
+
+## Payment information
+
+The Polkadot/Substrate RPC endpoints exposes weight/payment information that takes an encoded extrinsic and calculates the on-chain weight fees for it. A wrapper for this is available on the tx itself, taking exactly the same parameters as you would pass to a normal `.signAndSend` operation, specifically `.paymentInfo(sender, <any options>)`. To expand on our previous example -
+
+```js
+// construct a transaction
+const transfer = api.tx.balances.transfer(BOB, 12345);
+
+// retrieve the payment info
+const { partialFee, weight } = await transfer.paymentInfo(alice);
+
+console.log(`transaction will have a weight of ${weight}, with ${partialFee.toHuman()} weight fees`);
+
+// send the tx
+transfer.signAndSend(alice, ({ events = [], status }) => { ... });
+```
 
 ## Complex transactions
 

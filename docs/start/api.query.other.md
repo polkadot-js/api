@@ -13,16 +13,16 @@ Quite often is is useful (taking pruning into account, more on this later) to re
 const lastHdr = await api.rpc.chain.getHeader();
 
 // Retrieve the balance at both the current and the parent hashes
-const [balanceNow, balancePrev] = await Promise.all([
-  api.query.balances.freeBalance.at(lastHdr.hash, ADDR),
-  api.query.balances.freeBalance.at(lastHdr.parentHash, ADDR)
+const [{ data: balanceNow }, { data: balancePrev }] = await Promise.all([
+  api.query.system.account.at(lastHdr.hash, ADDR),
+  api.query.system.account.at(lastHdr.parentHash, ADDR)
 ]);
 
 // Display the difference
-console.log(`The delta was ${balanceNow.sub(balancePrev)}`);
+console.log(`The delta was ${balanceNow.free.sub(balancePrev.free)}`);
 ```
 
-In the above example, we introduce the `.at(<hash>[, ...params])` query. For all `.at` queries, the first parameter is always the block hash at which we want to make the query, in our example we use both the last retrieved block and the parent thereof. The params are optional as per the type of query made, for instance to retrieve the timestamp for a previous block, it would be -
+In the above example, we introduce the `.at(<hash>[, ...params]): Type` query. For all `.at` queries, the first parameter is always the block hash at which we want to make the query, in our example we use both the last retrieved block and the parent thereof. The params are optional as per the type of query made, for instance to retrieve the timestamp for a previous block, it would be -
 
 ```js
 ...
@@ -35,6 +35,46 @@ The `.at` queries are all single-shot, i.e. there are no subscription option to 
 
 An additional point to take care of (briefly mentioned above), is state pruning. By default a Polkadot/Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generally most public RPC nodes only run with default settings, which includes aggressive state pruning)
 
+## State for a range of blocks
+
+In addition to the `.at` queries, you can also query state starting at a specific historic block and up to either a specified or the latest blocks. This is done via the `.range([from, to?], <...opt params>): [Hash, Type][]` query. As an example -
+
+```js
+...
+// Retrieve the current block header
+const lastHdr = await api.rpc.chain.getHeader();
+const startHdr = await api.rpc.chain.getBlockHash(lastHdr.number.unwrap().subn(500));
+
+// retrieve the range of changes
+const changes = await api.query.system.account.range([startHdr]);
+
+changes.forEach(([hash, value]) => {
+  console.log(hash.toHex(), value.toHuman());
+});
+```
+
+## Map keys & entries
+
+When working maps and double-maps, it is possible to retrieve a list of all the keys and entries for the map. For this we can use the `.entries(<args>): [StorageKey, Type][]` queries. For example we may want to know the current list of validator exposures at a current era in the staking module -
+
+```js
+...
+// Retrieve the active era
+const activeEra = await api.query.staking.activeEra();
+
+// retrieve all exposures int the active era
+const exposures = await api.query.staking.erasStakers.entries(activeEra.index);
+
+exposures.forEach(([key, exposure]) => {
+  console.log('key arguments:', key.args.map((k) => k.toHuman()));
+  console.log('     exposure:', exposure.toHuman());
+});
+```
+
+Here we are querying a double-map, so we supply 1 argument. No arguments on double-maps will be very costly, retrieving all the eras and associated entries. Additionally when `twox64_concat` & `blake2_concat` is used, the key `.args` will contain decoded values of the params, in this case it will contain the actual `AccountId` of the staker. (Since that was not supplied)
+
+In the same way as above we can simply do `.keys(activeEra.index): StorageKey[]` to retrieve all the keys here, including the individual keys args decoding, as available on maps with decodable hashing functions.
+
 ## State entries
 
 In addition to using `api.query` to make actual on-chain queries, it can also be used to retrieve some information on the state entries. For instance to retrieve both the hash and size of an existing entry, we can make the following calls -
@@ -44,8 +84,8 @@ In addition to using `api.query` to make actual on-chain queries, it can also be
 
 // Retrieve the hash & size of the entry as stored on-chain
 const [entryHash, entrySize] = await Promise.all([
-  api.query.balances.freeBalance.hash(ADDR),
-  api.query.balances.freeBalance.size(ADDR)
+  api.query.system.account.hash(ADDR),
+  api.query.system.account.size(ADDR)
 ]);
 
 // Output the info
@@ -60,11 +100,11 @@ It has been explained that the `api.query` interfaces are decorated from the met
 
 ```js
 // Extract the info
-const { meta, method, section } = api.query.balances.freeBalance;
+const { meta, method, section } = api.query.system.account;
 
 // Display some info on a specific entry
 console.log(`${section}.${method}: ${meta.documentation.join(' ')}`);
-console.log(`query key: ${api.query.balances.freeBalance.key(ADDR)}`);
+console.log(`query key: ${api.query.system.account.key(ADDR)}`);
 ```
 
 The `section` & `method` is an indication of where it is exposed on the API. In addition the `meta` holds an array with the metadata documentation for the entry.

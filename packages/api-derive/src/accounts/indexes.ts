@@ -6,14 +6,53 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 import { AccountIndexes } from '../types';
 
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
-import { Vec, createType } from '@polkadot/types';
+import { Observable, of } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
+import { Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
 const enumsetSize = ENUMSET_SIZE.toNumber();
+
+function queryEnumSet (api: ApiInterfaceRx): Observable<AccountIndexes> {
+  return api.query.indices.nextEnumSet<AccountIndex>().pipe(
+    // use the nextEnumSet (which is a counter of the number of sets) to construct
+    // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
+    // specific index - each query can return up to ENUMSET_SIZE (64) records, each
+    // containing an AccountId
+    switchMap((next: AccountIndex): Observable<Vec<AccountId>[]> =>
+      api.query.indices.enumSet.multi<Vec<AccountId>>([...Array(next.toNumber() + 1).keys()])
+    ),
+    map((all: AccountId[][]): AccountIndexes =>
+      all.reduce((indexes: AccountIndexes, list, outerIndex): AccountIndexes => {
+        (list || []).forEach((accountId, innerIndex): void => {
+          // re-create the index based on position 0 is [0][0] and likewise
+          // 64 (0..63 in first) is [1][0] (the first index value in set 2)
+          const index = (outerIndex * enumsetSize) + innerIndex;
+
+          indexes[accountId.toString()] = api.registry.createType('AccountIndex', index);
+        });
+
+        return indexes;
+      }, {})
+    )
+  );
+}
+
+function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
+  return api.query.indices.accounts.entries().pipe(
+    map((entries): AccountIndexes =>
+      entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {
+        if (idOpt.isSome) {
+          indexes[idOpt.unwrap()[0].toString()] = key.args[0] as AccountIndex;
+        }
+
+        return indexes;
+      }, {})
+    )
+  );
+}
 
 /**
  * @name indexes
@@ -32,25 +71,11 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  */
 export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
   return memo((): Observable<AccountIndexes> =>
-    api.query.indices.nextEnumSet<AccountIndex>().pipe(
-      // use the nextEnumSet (which is a counter of the number of sets) to construct
-      // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
-      // specific index - each query can return up to ENUMSET_SIZE (64) records, each
-      // containing an AccountId
-      switchMap((next: AccountIndex): Observable<Vec<AccountId>[]> =>
-        api.query.indices.enumSet.multi<Vec<AccountId>>([...Array(next.toNumber() + 1).keys()])
-      ),
-      map((all: AccountId[][]): AccountIndexes =>
-        all.reduce((result: AccountIndexes, list, outerIndex): AccountIndexes => {
-          (list || []).forEach((accountId, innerIndex): void => {
-            // re-create the index based on position 0 is [0][0] and likewise
-            // 64 (0..63 in first) is [1][0] (the first index value in set 2)
-            const index = (outerIndex * enumsetSize) + innerIndex;
-
-            result[accountId.toString()] = createType(api.registry, 'AccountIndex', index);
-          });
-
-          return result;
-        }, {}))
-    ));
+    (api.query.indices
+      ? api.query.indices.accounts
+        ? queryAccounts(api)
+        : queryEnumSet(api)
+      : of({} as AccountIndexes)
+    ).pipe(startWith({}))
+  );
 }

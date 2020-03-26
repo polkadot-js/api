@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber } from '@polkadot/types/interfaces';
-import { DerivedSessionInfo } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,6 +13,6 @@ import { memo } from '../util';
 export function eraLength (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return memo((): Observable<BlockNumber> =>
     api.derive.session.info().pipe(
-      map(({ eraLength }: DerivedSessionInfo): BlockNumber => eraLength)
+      map((info) => info.eraLength)
     ));
 }

@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, IHash, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { Codec, Registry } from '../types';
 
 import { isNull } from '@polkadot/util';
 
@@ -28,7 +29,7 @@ export default class Null implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
+  public get hash (): H256 {
     throw new Error('.hash is not implemented on Null');
   }
 
@@ -51,6 +52,13 @@ export default class Null implements Codec {
    */
   public toHex (): string {
     return '0x';
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): null {
+    return this.toJSON();
   }
 
   /**

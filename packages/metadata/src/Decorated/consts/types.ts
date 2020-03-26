@@ -10,9 +10,8 @@ export type AugmentedConst<T extends Codec> = T & ConstantCodec;
 
 export type ModuleConstants = Record<string, Codec>;
 
-export interface Constants {
-  [index: string]: ModuleConstants;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Constants {}
 
 export interface ConstantCodec extends Codec {
   meta: ModuleConstantMetadataLatest;

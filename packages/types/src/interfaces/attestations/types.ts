@@ -1,11 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct, Vec } from '@polkadot/types/codec';
-import { H256 } from '@polkadot/types/primitive';
-import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
-import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { CandidateReceipt, ParaId } from '@polkadot/types/interfaces/parachains';
+import { AccountId, BlockNumber, H256, Hash } from '@polkadot/types/interfaces/runtime';
+import { SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** @name BlockAttestations */
 export interface BlockAttestations extends Struct {
@@ -25,3 +24,5 @@ export interface IncludedBlocks extends Struct {
 
 /** @name MoreAttestations */
 export interface MoreAttestations extends Struct {}
+
+export type PHANTOM_ATTESTATIONS = 'attestations';

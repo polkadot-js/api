@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiTypes, DecorateMethod, SubmittableResultImpl } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair } from '@polkadot/types/types';
+import { IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject, ContractABIPre } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import { createType } from '@polkadot/types';
 import { assert } from '@polkadot/util';
 
 import Abi from '../Abi';
@@ -27,7 +26,7 @@ export interface BlueprintCreate<ApiType extends ApiTypes> {
 class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
 
-  constructor (result: SubmittableResultImpl, contract?: Contract<ApiType>) {
+  constructor (result: ISubmittableResult, contract?: Contract<ApiType>) {
     super(result);
 
     this.contract = contract;
@@ -41,7 +40,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
   constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
     super(api, abi, decorateMethod);
 
-    this.codeHash = createType(this.registry, 'Hash', codeHash);
+    this.codeHash = this.registry.createType('Hash', codeHash);
   }
 
   public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate<ApiType> {
@@ -62,7 +61,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
   private createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
     let contract: Contract<ApiType> | undefined;
 
-    if (result.isFinalized) {
+    if (result.isInBlock) {
       const record = result.findRecord('contract', 'Instantiated');
 
       if (record) {

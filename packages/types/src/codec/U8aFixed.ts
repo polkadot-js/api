@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isString, u8aToU8a } from '@polkadot/util';
-
 import { AnyU8a, Constructor, Registry } from '../types';
+
+import { isString, u8aToU8a } from '@polkadot/util';
 
 import Raw from './Raw';
 
@@ -46,10 +46,14 @@ export default class U8aFixed extends Raw {
     return u8a;
   }
 
-  public static with (bitLength: BitLength): Constructor<U8aFixed> {
+  public static with (bitLength: BitLength, typeName?: string): Constructor<U8aFixed> {
     return class extends U8aFixed {
       constructor (registry: Registry, value?: any) {
         super(registry, value, bitLength);
+      }
+
+      public toRawType (): string {
+        return typeName || super.toRawType();
       }
     };
   }

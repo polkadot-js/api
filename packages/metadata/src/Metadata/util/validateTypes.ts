@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Registry } from '@polkadot/types/types';
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/codec/types';
+import { Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
-import { getTypeDef } from '@polkadot/types/codec/create';
+import { getTypeDef } from '@polkadot/types/create';
 
 import flattenUniq from './flattenUniq';
 
@@ -21,10 +20,8 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.Compact:
       case TypeDefInfo.Option:
       case TypeDefInfo.Vec:
-        return extractTypes([(decoded.sub as TypeDef).type]);
-
       case TypeDefInfo.VecFixed:
-        return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
+        return extractTypes([(decoded.sub as TypeDef).type]);
 
       case TypeDefInfo.BTreeMap:
       case TypeDefInfo.BTreeSet:

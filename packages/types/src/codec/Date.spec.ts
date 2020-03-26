@@ -6,7 +6,7 @@ import { CodecTo } from '../types';
 
 import BN from 'bn.js';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from '../create';
 import U64 from '../primitive/U64';
 import CodecDate from './Date';
 
@@ -39,11 +39,13 @@ describe('Date', (): void => {
     testEncode('toU8a', Uint8Array.from([165, 1, 0, 0, 0, 0, 0, 0]));
 
     it('can encode toString', (): void => {
+      const date = new Date(Date.UTC(1970, 0, 1, 2, 3, 4));
+
+      date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
       expect(
-        new CodecDate(registry, 421)
-          .toString()
-          .startsWith('Thu Jan 01 1970') // The time depends on the timezone this test is run in
-      ).toBe(true);
+        new CodecDate(registry, date).toString()
+      ).toMatch(/^Thu Jan 01 1970 02:03:04/);
     });
 
     it('encodes default BE hex', (): void => {

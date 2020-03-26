@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, SessionIndex } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedHeartbeats } from '../types';
 
-import { of, Observable, combineLatest } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, u32 } from '@polkadot/types';
@@ -23,9 +23,9 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
           combineLatest([
             of(validators),
             api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(
-              validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
+              validators.map((_address, index) => [currentIndex, index])),
             api.query.imOnline.authoredBlocks.multi<u32>(
-              validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
+              validators.map((address) => [currentIndex, address]))
           ])
         ),
         map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>

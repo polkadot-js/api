@@ -8,9 +8,9 @@ import { Codec, CodecTo } from '../types';
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
-import AccountId from '../primitive/Generic/AccountId';
+import { createTypeUnsafe, TypeRegistry } from '../create';
+import AccountId from '../generic/AccountId';
 import Text from '../primitive/Text';
-import { createTypeUnsafe, TypeRegistry } from './create';
 import Vec from './Vec';
 import Tuple from './Tuple';
 
@@ -59,6 +59,14 @@ describe('Vec', (): void => {
 
   it('exposes the type', (): void => {
     expect(vector.Type).toEqual('Text');
+  });
+
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      (new Vec(registry, Text, [foo]))[0]
+    ).toBe(foo);
   });
 
   it('decodes a complex type via construction', (): void => {

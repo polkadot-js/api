@@ -2,7 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Definitions } from '../../types';
+
 export default {
+  rpc: {},
   types: {
     AccountData: {
       free: 'Balance',
@@ -21,6 +24,9 @@ export default {
       amount: 'Balance',
       reasons: 'Reasons'
     },
+    ReleasesBalances: {
+      _enum: ['V1_0_0', 'V2_0_0']
+    },
     Reasons: {
       _enum: ['Fee', 'Misc', 'All']
     },
@@ -31,12 +37,12 @@ export default {
     },
     WithdrawReasons: {
       _set: {
-        TransactionPayment: 0b00000001,
-        Transfer: 0b00000010,
-        Reserve: 0b00000100,
-        Fee: 0b00001000,
-        Tip: 0b00010000
+        TransactionPayment: 0b0000_0001,
+        Transfer: 0b0000_0010,
+        Reserve: 0b0000_0100,
+        Fee: 0b0000_1000,
+        Tip: 0b0001_0000
       }
     }
   }
-};
+} as Definitions;

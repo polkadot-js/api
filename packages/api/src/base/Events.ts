@@ -7,10 +7,10 @@ import { ApiInterfaceEvents } from '../types';
 import EventEmitter from 'eventemitter3';
 
 export default class Events {
-  private _eventemitter = new EventEmitter();
+  #eventemitter = new EventEmitter();
 
   protected emit (type: ApiInterfaceEvents, ...args: any[]): boolean {
-    return this._eventemitter.emit(type, ...args);
+    return this.#eventemitter.emit(type, ...args);
   }
 
   /**
@@ -33,7 +33,7 @@ export default class Events {
    * ```
    */
   public on (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this._eventemitter.on(type, handler);
+    this.#eventemitter.on(type, handler);
 
     return this;
   }
@@ -60,7 +60,7 @@ export default class Events {
    * ```
    */
   public off (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this._eventemitter.removeListener(type, handler);
+    this.#eventemitter.removeListener(type, handler);
 
     return this;
   }
@@ -85,7 +85,7 @@ export default class Events {
    * ```
    */
   public once (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this._eventemitter.once(type, handler);
+    this.#eventemitter.once(type, handler);
 
     return this;
   }

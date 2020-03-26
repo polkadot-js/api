@@ -4,16 +4,20 @@
 
 import { isObject } from '@polkadot/util';
 
+function compareSetArray (a: Set<any>, b: any[]): boolean {
+  // equal number of entries and each entry in the array should match
+  return (a.size === b.length) && !b.some((entry): boolean => !a.has(entry));
+}
+
 // NOTE These are used internally and when comparing objects, expects that
 // when the second is an Set<string, Codec> that the first has to be as well
 export default function compareSet (a: Set<any>, b?: any): boolean {
   if (Array.isArray(b)) {
-    // equal number of entries and each entry in the array should match
-    return (a.size === b.length) && !b.some((entry): boolean => !a.has(entry));
+    return compareSetArray(a, b);
   } else if (b instanceof Set) {
-    return compareSet(a, [...b.entries()]);
+    return compareSetArray(a, [...b.values()]);
   } else if (isObject(b)) {
-    return compareSet(a, Object.entries(b));
+    return compareSetArray(a, Object.values(b));
   }
 
   return false;

@@ -1,8 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, H160, H256, U256 } from '@polkadot/types/primitive';
+import { Bytes, U256 } from '@polkadot/types/primitive';
+import { H160, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name Account */
 export interface Account extends Struct {
@@ -16,3 +17,5 @@ export interface Log extends Struct {
   readonly topics: Vec<H256>;
   readonly data: Bytes;
 }
+
+export type PHANTOM_EVM = 'evm';

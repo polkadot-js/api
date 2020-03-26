@@ -17,44 +17,28 @@ describe('Api', (): void => {
     ).toThrow(/Expected Provider/);
   });
 
-  it('creates an instance with all sections', (): void => {
-    const rpc = new Rpc(registry, new MockProvider(registry));
-
-    expect(
-      Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
-    ).toEqual([
-      'mapping', 'provider', 'registry', 'sections',
-      'account', 'author', 'chain', 'contracts', 'payment', 'rpc', 'state', 'system'
-    ]);
-  });
-
   it('allows for the definition of user RPCs', (): void => {
     const rpc = new Rpc(registry, new MockProvider(registry), {
-      testing: [
-        {
-          name: 'foo',
+      testing: {
+        foo: {
+          description: 'foo',
           params: [{ name: 'bar', type: 'u32' }],
           type: 'Balance'
         }
-      ]
+      }
     });
 
     expect(isFunction((rpc as any).testing.foo)).toBe(true);
     expect(rpc.sections.includes('testing')).toBe(true);
     expect(rpc.mapping.get('testing_foo')).toEqual({
-      description: 'User defined',
-      isDeprecated: false,
-      isHidden: false,
-      isOptional: false,
-      isSigned: false,
+      description: 'foo',
       isSubscription: false,
+      jsonrpc: 'testing_foo',
       method: 'foo',
       params: [{
-        isOptional: false,
         name: 'bar',
         type: 'u32'
       }],
-      pubsub: ['', '', ''],
       section: 'testing',
       type: 'Balance'
     });

@@ -154,7 +154,7 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
  * import ApiPromise from '@polkadot/api/promise';
  *
  * ApiPromise.create().then((api) => {
- *   const nonce = await api.query.system.accountNonce(keyring.alice.address);
+ *   const [nonce] = await api.query.system.account(keyring.alice.address);
  *
  *   api.tx.balances
  *     // create transfer
@@ -173,7 +173,7 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
  * ```
  */
 export default class ApiPromise extends ApiBase<'promise'> {
-  private _isReadyPromise: Promise<ApiPromise>;
+  #isReadyPromise: Promise<ApiPromise>;
 
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
@@ -216,7 +216,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
   constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
-    this._isReadyPromise = new Promise((resolve, reject): void => {
+    this.#isReadyPromise = new Promise((resolve, reject): void => {
       super.once('ready', (): void => {
         resolve(this);
       });
@@ -230,7 +230,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * @description Promise that returns the first time we are connected and loaded
    */
   public get isReady (): Promise<ApiPromise> {
-    return this._isReadyPromise;
+    return this.#isReadyPromise;
   }
 
   /**
@@ -256,10 +256,9 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * // combines values from balance & nonce as it updates
    * api.combineLatest([
    *   api.rpc.chain.subscribeNewHeads,
-   *   [api.query.balances.freeBalance, address],
-   *   (cb) => api.query.system.accountNonce(address, cb)
-   * ], ([head, balance, nonce]) => {
-   *   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
+   *   (cb) => api.query.system.account(address, cb)
+   * ], ([head, [balance, nonce]]) => {
+   *   console.log(`#${head.number}: You have ${balance.free} units, with ${nonce} transactions sent`);
    * });
    * ```
    */

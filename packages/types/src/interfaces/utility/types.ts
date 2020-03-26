@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Struct, Vec } from '@polkadot/types/codec';
 import { u32 } from '@polkadot/types/primitive';
@@ -18,3 +18,5 @@ export interface Timepoint extends Struct {
   readonly height: BlockNumber;
   readonly index: u32;
 }
+
+export type PHANTOM_UTILITY = 'utility';

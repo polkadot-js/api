@@ -7,7 +7,6 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -31,7 +30,7 @@ export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumbe
       api.derive.chain.bestNumberFinalized()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
-        createType(api.registry, 'BlockNumber', bestNumber.sub(bestNumberFinalized))
+        api.registry.createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
       )
     ));
 }

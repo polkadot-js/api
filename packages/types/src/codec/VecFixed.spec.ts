@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry } from '../codec';
+import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import VecFixed from './VecFixed';
 
@@ -16,6 +16,14 @@ describe('VecFixed', (): void => {
 
     it('constructs via Uint8Array', (): void => {
       expect(new VecFixed(registry, Text, 2, new Uint8Array([0x00, 0x04, 0x31])).toHex()).toEqual('0x000431');
+    });
+
+    it('decodes reusing instanciated inputs', (): void => {
+      const foo = new Text(registry, 'bar');
+
+      expect(
+        (new VecFixed(registry, Text, 1, [foo]))[0]
+      ).toBe(foo);
     });
   });
 

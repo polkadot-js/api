@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 export * from './runtime/types';
 export * from './authorship/types';
@@ -11,9 +11,10 @@ export * from './consensus/types';
 export * from './contracts/types';
 export * from './contractsAbi/types';
 export * from './democracy/types';
-export * from './deprecated/types';
 export * from './elections/types';
+export * from './engine/types';
 export * from './evm/types';
+export * from './extrinsics/types';
 export * from './genericAsset/types';
 export * from './grandpa/types';
 export * from './identity/types';
@@ -33,3 +34,9 @@ export * from './claims/types';
 export * from './parachains/types';
 export * from './metadata/types';
 export * from './rpc/types';
+export * from './account/types';
+export * from './author/types';
+export * from './chain/types';
+export * from './offchain/types';
+export * from './payment/types';
+export * from './state/types';

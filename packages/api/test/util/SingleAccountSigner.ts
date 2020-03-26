@@ -6,7 +6,6 @@ import { Signer, SignerResult } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
 
 let id = 0;
@@ -31,7 +30,7 @@ export class SingleAccountSigner implements Signer {
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
-        const signed = createType(this.registry, 'ExtrinsicPayload', payload, { version: payload.version }).sign(this.keyringPair);
+        const signed = this.registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.keyringPair);
 
         resolve({
           id: ++id,

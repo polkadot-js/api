@@ -8,10 +8,10 @@ import { InterfaceTypes } from '@polkadot/types/types';
 import { assert, isUndefined } from '@polkadot/util';
 
 import { getInkString, getInkStrings, getInkType } from './inkRegistry';
-import sanitize from '@polkadot/types/codec/create/sanitize';
+import sanitize from '@polkadot/types/create/sanitize';
 
 // this maps through the the enum defintion in types/interfaces/contractsAbi/defintions.ts
-const PRIMITIVES: InterfaceTypes[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
+const PRIMITIVES: (keyof InterfaceTypes)[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
 
 function sanitizeOrNull (type: string | null): string | null {
   return type
@@ -95,7 +95,7 @@ function getTypeIdCustom (project: InkProject, idCustom: MtTypeIdCustom): string
 }
 
 // convert a typeid into a primitive
-function getTypeIdPrimitive (_project: InkProject, idPrim: MtTypeIdPrimitive): InterfaceTypes {
+function getTypeIdPrimitive (_project: InkProject, idPrim: MtTypeIdPrimitive): keyof InterfaceTypes {
   const primitive = PRIMITIVES[idPrim.index];
 
   assert(!isUndefined(primitive), `getInkPrimitive:: Unable to convert ${idPrim} to primitive`);

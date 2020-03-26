@@ -2,12 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, IHash, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { Codec, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../codec/create';
+/** @internal */
+function decodeBool (value: any): boolean {
+  if (value instanceof Boolean) {
+    return value.valueOf();
+  } else if (isU8a(value)) {
+    return value[0] === 1;
+  }
+
+  return !!value;
+}
 
 /**
  * @name Bool
@@ -20,20 +30,9 @@ export default class Bool extends Boolean implements Codec {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor (registry: Registry, value: Bool | Boolean | Uint8Array | boolean | number = false) {
-    super(Bool.decodeBool(value));
+    super(decodeBool(value));
 
     this.registry = registry;
-  }
-
-  /** @internal */
-  private static decodeBool (value: any): boolean {
-    if (value instanceof Boolean) {
-      return value.valueOf();
-    } else if (isU8a(value)) {
-      return value[0] === 1;
-    }
-
-    return !!value;
   }
 
   /**
@@ -46,15 +45,15 @@ export default class Bool extends Boolean implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return createType(this.registry, 'Hash', blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return this.registry.createType('H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
-   * @description Checks if the value is an empty value (always false)
+   * @description Checks if the value is an empty value (true when it wraps false/default)
    */
   public get isEmpty (): boolean {
-    return false;
+    return this.isFalse;
   }
 
   /**
@@ -87,6 +86,13 @@ export default class Bool extends Boolean implements Codec {
    */
   public toHex (): string {
     return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): boolean {
+    return this.toJSON();
   }
 
   /**

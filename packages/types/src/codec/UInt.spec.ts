@@ -4,11 +4,23 @@
 
 import BN from 'bn.js';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from '../create';
 import UInt from './UInt';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
+
+  it('fails on a number that is too large for the bits specified', (): void => {
+    expect(
+      (): UInt => new UInt(registry, '12345678901234567890123456789012345678901234567890', 32)
+    ).toThrow('u32: Input too large. Found input with 164 bits, expected 32');
+  });
+
+  it('allows for construction via BigInt', (): void => {
+    expect(
+      new UInt(registry, 123_456_789_123_456_789_123_456_789n, 128).toHuman()
+    ).toEqual('123,456,789,123,456,789,123,456,789');
+  });
 
   it('provides a toBn interface', (): void => {
     expect(
@@ -81,6 +93,20 @@ describe('UInt', (): void => {
 
     it('is true when full', (): void => {
       expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
+    });
+  });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (UInt.with(64))(registry).toRawType()
+      ).toEqual('u64');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (UInt.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
     });
   });
 });

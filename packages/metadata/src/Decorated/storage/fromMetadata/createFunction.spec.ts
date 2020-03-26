@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, Text, TypeRegistry } from '@polkadot/types';
+import { Text, TypeRegistry } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -82,11 +82,11 @@ describe('createFunction', (): void => {
           type: {
             isDoubleMap: true,
             asDoubleMap: {
-              hasher: createType(registry, 'StorageHasher', 'Blake2_256'),
+              hasher: registry.createType('StorageHasher', 'Blake2_256'),
               key1: new Text(registry, 'AccountId'),
               key2: new Text(registry, 'AccountId'),
               value: new Text(registry, 'Balance'),
-              key2Hasher: createType(registry, 'StorageHasher', 'Twox128')
+              key2Hasher: registry.createType('StorageHasher', 'Twox128')
             }
           }
         } as any
@@ -114,11 +114,11 @@ describe('createFunction', (): void => {
         type: {
           isDoubleMap: true,
           asDoubleMap: {
-            hasher: createType(registry, 'StorageHasher', 'Blake2_256'),
+            hasher: registry.createType('StorageHasher', 'Blake2_256'),
             key1: new Text(registry, 'Null'),
             key2: new Text(registry, 'Hash'),
             value: new Text(registry, 'Vec<(BlockNumber,EventIndex)>'),
-            key2Hasher: createType(registry, 'StorageHasher', 'Blake2_256')
+            key2Hasher: registry.createType('StorageHasher', 'Blake2_256')
           }
         }
       } as any
@@ -139,11 +139,11 @@ describe('createFunction', (): void => {
         type: {
           isDoubleMap: true,
           asDoubleMap: {
-            hasher: createType(registry, 'StorageHasher', 'Twox64Concat'),
+            hasher: registry.createType('StorageHasher', 'Twox64Concat'),
             key1: new Text(registry, 'Bytes'),
             key2: new Text(registry, 'AccountId'),
             value: new Text(registry, 'SessionKeys5'),
-            key2Hasher: createType(registry, 'StorageHasher', 'Blake2_256')
+            key2Hasher: registry.createType('StorageHasher', 'Blake2_256')
           }
         }
       } as any

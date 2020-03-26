@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Option, Struct, Vec } from '@polkadot/types/codec';
@@ -27,3 +27,5 @@ export interface TreasuryProposal extends Struct {
   readonly beneficiary: AccountId;
   readonly bond: Balance;
 }
+
+export type PHANTOM_TREASURY = 'treasury';

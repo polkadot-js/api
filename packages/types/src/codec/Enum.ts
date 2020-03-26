@@ -23,7 +23,7 @@ interface Decoded {
   value: Codec;
 }
 
-function extractDef (registry: Registry, _def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
+function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
   if (!Array.isArray(_def)) {
     const def = mapToTypeMap(registry, _def);
     const isBasic = !Object.values(def).some((type): boolean => type !== Null);
@@ -51,7 +51,7 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
 
   return {
     index,
-    value: new Clazz(registry, value)
+    value: value instanceof Clazz ? value : new Clazz(registry, value)
   };
 }
 
@@ -95,6 +95,20 @@ function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decod
   return createFromValue(registry, def, 0);
 }
 
+function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
+  // NOTE We check the index path first, before looking at values - this allows treating
+  // the optional indexes before anything else, more-specific > less-specific
+  if (isNumber(index)) {
+    return createFromValue(registry, def, index, value);
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  } else if (value instanceof Enum) {
+    return createFromValue(registry, def, value.index, value.value);
+  }
+
+  // Or else, we just look at `value`
+  return decodeFromValue(registry, def, value);
+}
+
 /**
  * @name Enum
  * @description
@@ -113,9 +127,9 @@ export default class Enum extends Base<Codec> {
 
   private _isBasic: boolean;
 
-  constructor (registry: Registry, def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
+  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
     const defInfo = extractDef(registry, def);
-    const decoded = Enum.decodeEnum(registry, defInfo.def, value, index);
+    const decoded = decodeEnum(registry, defInfo.def, value, index);
 
     super(registry, decoded.value);
 
@@ -125,21 +139,7 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  /** @internal */
-  private static decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
-    // NOTE We check the index path first, before looking at values - this allows treating
-    // the optional indexes before anything else, more-specific > less-specific
-    if (isNumber(index)) {
-      return createFromValue(registry, def, index, value);
-    } else if (value instanceof Enum) {
-      return createFromValue(registry, def, value._index, value.raw);
-    }
-
-    // Or else, we just look at `value`
-    return decodeFromValue(registry, def, value);
-  }
-
-  public static with (Types: Record<string, InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (registry: Registry, value?: any, index?: number) {
         super(registry, Types, value, index);
@@ -266,11 +266,20 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return this._isBasic
+      ? this.type
+      : { [this.type]: this.raw.toHuman(isExtended) };
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
     return this._isBasic
-      ? stringCamelCase(this.toString())
+      ? this.type
       : { [this.type]: this.raw.toJSON() };
   }
 

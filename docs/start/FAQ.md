@@ -12,6 +12,14 @@ If however you are running against a master branch of either Polkadot or Substra
 
 Update your version of the API to the [latest version](install.md). Like types, the [metadata interfaces](basics.md) are continuously evolving. For instance with the Polkadot Alexander network, only metadata v3 is available. By the time Kusama launched, this has been bumped to v7. As these versions are added to the Polkadot/Substrate codebase, they are added to the API.
 
+## The node returns a "Could not convert" error on send
+
+The typical error that you would see is `Verification Error: Execution(ApiError("Could not convert parameter 'tx' between node and runtime`. This means that the transaction data serialized from the API cannot be deserialized on the node.
+
+All data transferred between the API and the Node is in a SCALE-encoded binary format, so the [definition of the types](types.extend.md) between the API and the node needs to match 100%. When you find the above, it would mean the definition of the types on the API side does not match what is on the node. Specifically the API encodes against the definition, but since there is a mismatch the Node cannot parse the data correctly.
+
+To fix this, you should look at the specific `api.tx.*` params and adjust the type definitions for those param types to match what is found on the node side. In some rare cases the cause could be extrinsic formatting related, to track these make an `api.tx.system.remark(data: Bytes)` call, if it fails, the API and node cannot agree on [an extrinsic format and adjustments are required](types.extend.md#impact-on-extrinsics).
+
 ## I would like to sign transactions offline
 
 The API itself is independent on where the signature comes from and how it is injected. Additionally it implements a signer interface, that can be used for external signing - an example of this is the [polkadot-js/apps](https://github.com/polkadot-js/apps) support for signing via extensions and even the [polkadot-js/extension](https://github.com/polkadot-js/extension) support for tools such as the [Parity Signer](https://github.com/paritytech/parity-signer).
@@ -26,10 +34,18 @@ To submit these transactions, it needs to be send as a [wrapped transaction](api
 
 ## How do I call a function with a Tuple input
 
-Tuples, as defined in the Polkadot/Substrate types appear as `(TypeA, TypeB)`. For instance we may have an `(AccountId, u64)` input as defined in the metadata or as part of the user types. To specify a Tuple as an input, wrap it is an  array format, for instance to call `query.module.get((u32, u64))` where a `(u32, u64)` Tuple input is expected, you would do  `query.module.get([123, 456])`
+Tuples, as defined in the Polkadot/Substrate types appear as `(TypeA, TypeB)`. For instance we may have an `(AccountId, u64)` input as defined in the metadata or as part of the user types. To specify a Tuple as an input, wrap it in an  array format, for instance to call `query.module.get((u32, u64))` where a `(u32, u64)` Tuple input is expected, you would do  `query.module.get([123, 456])`
 
 ## How long do transactions live
 
 Polkadot/Substrate supports both immortal and mortal transactions. For immortal, this means that the transaction has an infinite lifetime, for mortals, the transactions expire after a defined period. By default the API sends mortal transactions when no explicit extrinsic era has been specified. This means that all transaction has a limited lifetime and will expire if not included in the period set.
 
 The length for this transaction validity is set to 50 blocks, which translates to 5 minutes assuming a default of 6 second blocktimes. (10 blocks per minute in this default configuration).
+
+## My chain does not support system.account queries
+
+The API always tracks the latest Substrate master in terms of examples. This means that nonce & balance queries are done via the `api.query.system.account(<account>)` which returns a struct `{ nonce: Index, data: AccountData }` where the `data` is struct containing the free and reserved balances. As with all `api.query.*` endpoints, this is decorated based on what the chain you connect to support, via the metadata exchange.
+
+It is possible that you are connecting to an older chain that has not been upgraded yet. For these chains, this storage entry won't be available (yet). To query the nonce on older chains, you can do a query to `api.query.system.accountNonce(<account>)` and balances can be retrieved via `api.query.balances.freeBalance(<account>)`.
+
+Likewise, if your chain has been upgraded recently and you are still using the old `system.accountNonce` or `balances.freeBalance` queries in your code (which is now not available in the chain metadata), you need to update it to query the new location.

@@ -4,22 +4,9 @@
 
 import { detectPackage } from '@polkadot/util';
 
-let dirname = 'node_modules';
-let pkgJson;
-
-try {
-  dirname = __dirname;
-} catch (error) {
-  // ignore
-}
-
-try {
-  pkgJson = require('./package.json');
-} catch (error) {
-  pkgJson = require('../package.json');
-}
-
-detectPackage(dirname, pkgJson);
+// FIXME This really should be `import(...).then(...)`, but need to check rejections
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+detectPackage(require('./package.json'), typeof __dirname !== 'undefined' && __dirname);
 
 export { Keyring } from '@polkadot/keyring';
 export { WsProvider } from '@polkadot/rpc-provider';

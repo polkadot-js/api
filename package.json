@@ -1,35 +1,36 @@
 {
-  "version": "1.1.0-beta.14",
+  "repository": "https://github.com/polkadot-js/api",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "Apache-2",
   "private": true,
-  "engines": {
-    "yarn": "^1.10.1"
-  },
   "workspaces": [
     "packages/*"
   ],
   "resolutions": {
-    "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
-    "circular": "madge --circular --extensions ts ./",
-    "docs": "node packages/types/src/scripts/MetadataMdWrapper.js && polkadot-dev-build-docs",
-    "chain:info": "node packages/types/src/scripts/extractChainWrapper.js",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
+    "build": "yarn build:interfaces && polkadot-dev-build-ts && (cd packages/typegen && copyfiles scripts/* build)",
+    "build:interfaces": "polkadot-types-internal-interfaces",
+    "build:release": "polkadot-ci-ghact-build",
+    "docs": "polkadot-types-internal-metadata && polkadot-dev-build-docs",
+    "docs:release": "polkadot-ci-ghact-docs",
+    "chain:info": "polkadot-types-chain-info",
+    "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "jest --coverage --runInBand --testPathIgnorePatterns e2e",
-    "test:all": "jest",
-    "test:one": "jest",
-    "test:watch": "jest --coverage --watch"
+    "test": "polkadot-dev-run-test --coverage --runInBand --testPathIgnorePatterns e2e",
+    "test:one": "polkadot-dev-run-test",
+    "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/register": "^7.8.3",
-    "@babel/runtime": "^7.8.3",
-    "@polkadot/dev": "^0.33.3",
-    "@polkadot/ts": "^0.2.1"
+    "@babel/core": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
+    "@polkadot/dev": "^0.51.8",
+    "@polkadot/ts": "^0.3.14",
+    "@polkadot/typegen": "workspace:packages/typegen",
+    "@types/jest": "^25.1.4",
+    "copyfiles": "^2.2.0"
   }
 }

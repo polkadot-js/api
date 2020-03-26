@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
-import { Codec } from '@polkadot/types/types';
-import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 
 /** @name InkConstructorSpec */
@@ -44,7 +43,7 @@ export interface InkLayoutField extends Struct {
 }
 
 /** @name InkLayoutKey */
-export interface InkLayoutKey extends Uint8Array, Codec {}
+export interface InkLayoutKey extends U8aFixed {}
 
 /** @name InkLayoutRange */
 export interface InkLayoutRange extends Struct {
@@ -83,7 +82,7 @@ export interface InkProject extends Struct {
 }
 
 /** @name InkSelector */
-export interface InkSelector extends Uint8Array, Codec {}
+export interface InkSelector extends U8aFixed {}
 
 /** @name InkStorageLayout */
 export interface InkStorageLayout extends Enum {
@@ -247,3 +246,5 @@ export interface MtTypeIdSlice extends Struct {
 
 /** @name MtTypeIdTuple */
 export interface MtTypeIdTuple extends Vec<MtTypeId> {}
+
+export type PHANTOM_CONTRACTSABI = 'contractsAbi';

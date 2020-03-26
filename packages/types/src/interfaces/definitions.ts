@@ -15,9 +15,10 @@ export { default as consensus } from './consensus/definitions';
 export { default as contracts } from './contracts/definitions';
 export { default as contractsAbi } from './contractsAbi/definitions';
 export { default as democracy } from './democracy/definitions';
-export { default as deprecated } from './deprecated/definitions';
 export { default as elections } from './elections/definitions';
+export { default as engine } from './engine/definitions';
 export { default as evm } from './evm/definitions';
+export { default as extrinsics } from './extrinsics/definitions';
 export { default as genericAsset } from './genericAsset/definitions';
 export { default as grandpa } from './grandpa/definitions';
 export { default as identity } from './identity/definitions';
@@ -41,3 +42,11 @@ export { default as parachains } from './parachains/definitions';
 // pull in metadata & rpc last, assuming that is uses info from above
 export { default as metadata } from './metadata/definitions';
 export { default as rpc } from './rpc/definitions';
+
+// rpc-only definitions
+export { default as account } from './account/definitions';
+export { default as author } from './author/definitions';
+export { default as chain } from './chain/definitions';
+export { default as offchain } from './offchain/definitions';
+export { default as payment } from './payment/definitions';
+export { default as state } from './state/definitions';

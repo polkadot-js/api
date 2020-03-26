@@ -9,7 +9,7 @@ import { DeriveProposal } from '../types';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Option, Vec, createType } from '@polkadot/types';
+import { Bytes, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -37,7 +37,7 @@ function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Resul
       // we could end up in a situation where the proposal is non-decodable, e.g. after an upgrade
       if (preimage) {
         try {
-          proposal = createType(api.registry, 'Proposal', preimage[0].toU8a(true));
+          proposal = api.registry.createType('Proposal', preimage[0].toU8a(true));
         } catch (error) {
           console.error(error);
         }
@@ -63,7 +63,7 @@ function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Resul
 
 export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
   return memo((): Observable<DeriveProposal[]> =>
-    api.query.democracy?.publicProps
+    api.query.democracy?.publicProps && api.query.democracy?.preimages
       ? api.query.democracy.publicProps<Proposals>().pipe(
         switchMap((proposals) =>
           combineLatest([

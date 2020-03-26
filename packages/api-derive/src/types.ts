@@ -2,10 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { u32, Vec } from '@polkadot/types';
+import { u32 } from '@polkadot/types';
+
+export * from './democracy/types';
+export * from './parachains/types';
+export * from './session/types';
+export * from './staking/types';
 
 export type AccountIndexes = Record<string, AccountIndex>;
 
@@ -15,6 +20,7 @@ export interface DeriveAccountRegistration {
   email?: string;
   image?: string;
   legal?: string;
+  other?: Record<string, string>;
   parent?: AccountId;
   pgp?: string;
   riot?: string;
@@ -23,7 +29,14 @@ export interface DeriveAccountRegistration {
   judgements: RegistrationJudgement[];
 }
 
-export interface DeriveAccountInfo {
+export interface DeriveAccountFlags {
+  isCouncil: boolean;
+  isSociety: boolean;
+  isSudo: boolean;
+  isTechCommittee: boolean;
+}
+
+export interface DeriveAccountInfo extends DeriveAccountFlags {
   accountId?: AccountId;
   accountIndex?: AccountIndex;
   identity: DeriveAccountRegistration;
@@ -107,52 +120,7 @@ export interface RecentlyOffline {
   count: BN;
 }
 
-export interface DeriveProposalPreImage {
-  at: BlockNumber;
-  balance: Balance;
-  proposer: AccountId;
-}
-
-export interface DeriveProposal {
-  balance?: Balance;
-  hash: Hash;
-  index: PropIndex;
-  preimage?: DeriveProposalPreImage;
-  proposal?: Proposal;
-  proposer: AccountId;
-  seconds: Vec<AccountId>;
-}
-
-export interface DerivedReferendum {
-  hash: Hash;
-  index: PropIndex;
-  info: ReferendumInfo;
-  preimage?: DeriveProposalPreImage;
-  proposal?: Proposal;
-}
-
 export type DerivedRecentlyOffline = Record<string, RecentlyOffline[]>;
-
-export interface DerivedReferendumVote {
-  accountId: AccountId;
-  balance: Balance;
-  vote: Vote;
-}
-
-export interface DeriveSessionIndexes {
-  currentEra: EraIndex;
-  currentIndex: SessionIndex;
-  validatorCount: u32;
-}
-
-export interface DerivedSessionInfo extends DeriveSessionIndexes {
-  eraLength: BlockNumber;
-  eraProgress: BlockNumber;
-  isEpoch: boolean;
-  sessionLength: BlockNumber;
-  sessionsPerEra: SessionIndex;
-  sessionProgress: BlockNumber;
-}
 
 export interface DeriveSociety {
   bids: Bid[];
@@ -180,44 +148,6 @@ export interface DeriveSocietyMember {
   vouching?: VouchingStatus;
 }
 
-export interface DerivedStakingElected {
-  currentElected: AccountId[];
-  info: DerivedStakingQuery[];
-}
-
-export interface DeriveStakingValidators {
-  currentElected: AccountId[];
-  validators: AccountId[];
-}
-
-export interface DerivedStakingStash {
-  controllerId?: AccountId;
-  nominators?: AccountId[];
-  rewardDestination?: RewardDestination;
-  nextKeys?: Keys;
-  stakers?: Exposure;
-  stashId?: AccountId;
-  validatorPrefs?: ValidatorPrefs;
-}
-
-export interface DerivedStakingQuery extends DerivedStakingStash {
-  accountId: AccountId;
-  nextSessionIds: AccountId[];
-  sessionIds: AccountId[];
-  stakingLedger?: StakingLedger;
-}
-
-export interface DerivedStakingAccount extends DerivedStakingQuery {
-  redeemable?: Balance;
-  unlocking?: DerivedUnlocking[];
-}
-
-export interface DerivedStakingOverview extends DeriveSessionIndexes {
-  currentElected: AccountId[];
-  eraPoints: EraPoints;
-  validators: AccountId[];
-}
-
 export interface DerivedTreasuryProposal {
   council: DerivedCollectiveProposal[];
   id: ProposalIndex;
@@ -229,11 +159,6 @@ export interface DerivedTreasuryProposals {
   proposalCount: ProposalIndex;
   proposals: DerivedTreasuryProposal[];
 }
-
-export type DerivedUnlocking = {
-  remainingBlocks: BlockNumber;
-  value: Balance;
-};
 
 export interface VoterPosition {
   globalIndex: BN;

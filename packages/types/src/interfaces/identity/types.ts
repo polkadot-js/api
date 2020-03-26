@@ -1,10 +1,22 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Data, H160, IdentityFields, u32 } from '@polkadot/types/primitive';
-import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
+import { Enum, Option, Set, Struct, Vec } from '@polkadot/types/codec';
+import { Data, u32 } from '@polkadot/types/primitive';
+import { AccountId, Balance, H160 } from '@polkadot/types/interfaces/runtime';
+
+/** @name IdentityFields */
+export interface IdentityFields extends Set {
+  readonly isDisplay: boolean;
+  readonly isLegal: boolean;
+  readonly isWeb: boolean;
+  readonly isRiot: boolean;
+  readonly isEmail: boolean;
+  readonly isPgpFingerprint: boolean;
+  readonly isImage: boolean;
+  readonly isTwitter: boolean;
+}
 
 /** @name IdentityInfo */
 export interface IdentityInfo extends Struct {
@@ -53,3 +65,5 @@ export interface Registration extends Struct {
 
 /** @name RegistrationJudgement */
 export interface RegistrationJudgement extends ITuple<[RegistrarIndex, IdentityJudgement]> {}
+
+export type PHANTOM_IDENTITY = 'identity';

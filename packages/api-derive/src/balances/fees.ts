@@ -8,22 +8,8 @@ import { DerivedFees } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
-
-type Result = [Balance, Balance, Balance, Balance, Balance];
-
-function query (api: ApiInterfaceRx): Observable<Result> {
-  return of([
-    api.consts.balances.creationFee,
-    api.consts.balances.existentialDeposit,
-    // deprecated - remove
-    (api.consts.balances.transferFee as Balance) || createType(api.registry, 'Balance'),
-    api.consts.transactionPayment.transactionBaseFee,
-    api.consts.transactionPayment.transactionByteFee
-  ]);
-}
 
 /**
  * @name fees
@@ -40,8 +26,17 @@ function query (api: ApiInterfaceRx): Observable<Result> {
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
   return memo((): Observable<DerivedFees> =>
-    query(api).pipe(
-      map(([creationFee, existentialDeposit, transferFee, transactionBaseFee, transactionByteFee]): DerivedFees => ({
+    of([
+      // deprecated - remove
+      (api.consts.balances?.creationFee as Balance) || api.registry.createType('Balance'),
+      (api.consts.balances?.transferFee as Balance) || api.registry.createType('Balance'),
+
+      // current
+      (api.consts.balances?.existentialDeposit as Balance) || api.registry.createType('Balance'),
+      (api.consts.transactionPayment?.transactionBaseFee as Balance) || api.registry.createType('Balance'),
+      (api.consts.transactionPayment?.transactionByteFee as Balance) || api.registry.createType('Balance')
+    ]).pipe(
+      map(([creationFee, transferFee, existentialDeposit, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,

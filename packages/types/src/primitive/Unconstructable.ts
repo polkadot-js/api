@@ -9,18 +9,20 @@ import Null from './Null';
 /**
  * @name Unconstructable
  * @description
- * A type that should not be constructed
+ * An unknown type theat fails on constrction with the type info
  */
 export default class Unconstructable extends Null {
-  constructor (registry: Registry) {
+  constructor (registry: Registry, typeName: string) {
     super(registry);
 
-    throw new Error('Unconstructable should not be constructed, it is only a placeholder for compatibility');
+    throw new Error(`Cannot construct unknown type ${typeName}`);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static with (typeDef: any): Constructor {
+  public static with (typeName: string): Constructor {
     return class extends Unconstructable {
+      constructor (registry: Registry) {
+        super(registry, typeName);
+      }
     };
   }
 }

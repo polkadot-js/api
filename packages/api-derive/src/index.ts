@@ -15,6 +15,7 @@ import * as council from './council';
 import * as democracy from './democracy';
 import * as elections from './elections';
 import * as imOnline from './imOnline';
+import * as parachains from './parachains';
 import * as session from './session';
 import * as society from './society';
 import * as staking from './staking';
@@ -23,7 +24,7 @@ import * as treasury from './treasury';
 
 export * from './type';
 
-export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, session, society, staking, technicalCommittee, treasury };
+export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury };
 
 type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
@@ -45,6 +46,7 @@ const deriveAvail: Record<string, string[]> = {
   democracy: ['democracy'],
   elections: ['electionsPhragmen', 'elections'],
   imOnline: ['imOnline'],
+  parachains: ['parachains', 'registrar'],
   session: ['session'],
   society: ['society'],
   staking: ['staking'],

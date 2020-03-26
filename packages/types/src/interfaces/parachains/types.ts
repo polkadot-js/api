@@ -1,22 +1,21 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, H256, u32, u64 } from '@polkadot/types/primitive';
-import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '@polkadot/types/interfaces/runtime';
+import { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
+import { Signature } from '@polkadot/types/interfaces/extrinsics';
+import { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name AttestedCandidate */
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
-  readonly validityVotes: Vec<ValidityVote>;
+  readonly validityVotes: Vec<ValidityAttestation>;
+  readonly validatorIndices: BitVec;
 }
 
 /** @name AuctionIndex */
 export interface AuctionIndex extends u32 {}
-
-/** @name BalanceUpload */
-export interface BalanceUpload extends ITuple<[AccountId, u64]> {}
 
 /** @name Bidder */
 export interface Bidder extends Enum {
@@ -29,13 +28,14 @@ export interface Bidder extends Enum {
 /** @name CandidateReceipt */
 export interface CandidateReceipt extends Struct {
   readonly parachainIndex: ParaId;
-  readonly collator: AccountId;
+  readonly collator: CollatorId;
   readonly signature: CollatorSignature;
   readonly headData: HeadData;
-  readonly balanceUploads: Vec<BalanceUpload>;
-  readonly egressQueueRoots: Vec<EgressQueueRoot>;
-  readonly fees: u64;
+  readonly egressQueueRoots: Vec<ITuple<[ParaId, Hash]>>;
+  readonly fees: Balance;
   readonly blockDataHash: Hash;
+  readonly upwardMessages: Vec<UpwardMessage>;
+  readonly erasureRoot: Hash;
 }
 
 /** @name CollatorId */
@@ -137,9 +137,6 @@ export interface UpwardMessage extends Struct {
   readonly data: Bytes;
 }
 
-/** @name ValidatorIndex */
-export interface ValidatorIndex extends u32 {}
-
 /** @name ValidityAttestation */
 export interface ValidityAttestation extends Enum {
   readonly isNone: boolean;
@@ -149,11 +146,10 @@ export interface ValidityAttestation extends Enum {
   readonly asExplicit: CollatorSignature;
 }
 
-/** @name ValidityVote */
-export interface ValidityVote extends ITuple<[ValidatorIndex, ValidityAttestation]> {}
-
 /** @name WinningData */
 export interface WinningData extends Vec<WinningDataEntry> {}
 
 /** @name WinningDataEntry */
 export interface WinningDataEntry extends ITuple<[AccountId, ParaIdOf, BalanceOf]> {}
+
+export type PHANTOM_PARACHAINS = 'parachains';

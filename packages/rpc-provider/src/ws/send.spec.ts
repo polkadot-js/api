@@ -39,21 +39,16 @@ describe('send', (): void => {
   });
 
   it('handles internal errors', (): Promise<any> => {
-    createMock([]);
-
-    (global as any).WebSocket = class {
-      public send (): void {
-        throw new Error('send error');
+    createMock([{
+      id: 1,
+      method: 'test_body',
+      reply: {
+        result: 'ok'
       }
-    };
+    }]);
 
-    provider = createWs(true);
-
-    // HACK this is a private method...
-    (provider as any).websocket.onopen();
-
-    return provider
-      .send('test_encoding', ['param'])
+    return createWs(true)
+      .send('test_encoding', [{ error: 'send error' }])
       .catch((error): void => {
         expect(error.message).toEqual('send error');
       });

@@ -4,9 +4,7 @@
 
 import { TypeRegistry } from '@polkadot/types';
 
-import polkadotJson from './static-polkadot.json';
 import substrateJson from './static-substrate.json';
-import polkadotData from './static.polkadot';
 import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
 
@@ -18,14 +16,4 @@ describe('MetadataV7 (substrate)', (): void => {
   toLatest(registry, 7, substrateData);
 
   defaultValues(registry, substrateData);
-});
-
-describe('MetadataV7 (polkadot)', (): void => {
-  const registry = new TypeRegistry();
-
-  decodeLatestSubstrate(registry, 7, polkadotData, polkadotJson);
-
-  toLatest(registry, 7, polkadotData);
-
-  defaultValues(registry, polkadotData);
 });

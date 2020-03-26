@@ -6,9 +6,10 @@ import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata'
 import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import { Compact, Raw, createType, createTypeUnsafe } from '@polkadot/types/codec';
+import { Compact, Raw } from '@polkadot/types/codec';
+import { createTypeUnsafe } from '@polkadot/types/create';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
+import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import getHasher, { HasherFunction } from './getHasher';
@@ -148,15 +149,15 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
-  (iterFn as IterFn).meta = createType(registry, 'StorageEntryMetadataLatest', {
+  (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
     name,
-    modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-    type: createType(registry, 'StorageEntryTypeLatest', createType(registry, 'PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
-    fallback: createType(registry, 'Bytes', createTypeUnsafe(registry, outputType).toHex()),
+    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+    type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
+    fallback: registry.createType('Bytes', createTypeUnsafe(registry, outputType).toHex()),
     documentation
   });
 
-  return createType(registry, 'StorageKey', iterFn, { method, section });
+  return registry.createType('StorageKey', iterFn, { method, section });
 }
 
 // attach the head key hashing for linked maps
@@ -196,7 +197,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   const [hasher, key2Hasher] = getHashers(itemFn);
 
   // Can only have zero or one argument:
-  //   - storage.balances.freeBalance(address)
+  //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
@@ -217,6 +218,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   } else if (type.isDoubleMap) {
     extendDoubleMap(registry, itemFn, storageFn);
   }
+
+  storageFn.keyPrefix = storageFn.iterKey || compactStripLength(storageFn())[1];
 
   return storageFn;
 }

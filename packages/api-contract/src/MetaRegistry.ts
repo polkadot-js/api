@@ -260,7 +260,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
 
     return {
       info: TypeDefInfo.VecFixed,
-      ext: { length: vecLength, type },
+      length: vecLength, // ex: { type: type }
       type: `[${type};${vecLength}]`,
       sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
     };
@@ -275,7 +275,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
       case 'Result':
         return this.typeDefForResult(id, typeIndex);
       default: {
-        const sub = def['enum.variants'].map(variant => this.typeDefForEnumVariant(variant));
+        const sub = def['enum.variants'].map((variant) => this.typeDefForEnumVariant(variant));
 
         return {
           info: TypeDefInfo.Enum,

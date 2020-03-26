@@ -13,6 +13,8 @@ export { default as BTreeSet } from './BTreeSet';
 export { default as Compact } from './Compact';
 // export { default as Date } from './Date';
 export { default as Enum } from './Enum';
+export { default as HashMap } from './HashMap';
+export { default as Linkage } from './Linkage';
 export { default as Option } from './Option';
 export { default as Result } from './Result';
 export { default as Set } from './Set';
@@ -22,9 +24,10 @@ export { default as Tuple } from './Tuple';
 export { default as Vec } from './Vec';
 
 // Convenience base classes, used as "anything of this type" bases
+export { default as Int } from './Int';
 export { default as Raw } from './Raw';
 export { default as UInt } from './UInt';
+export { default as U8aFixed } from './U8aFixed';
 
 // Type management helper functions
-export * from './create';
 export * from './utils/encodeTypes';

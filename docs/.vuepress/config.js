@@ -43,7 +43,8 @@ module.exports = {
           ['start/api.tx.wrap.md', 'Complex transactions'],
           ['start/types.basics.md', 'Type basics'],
           ['start/types.extend.md', 'Extending types'],
-          ['start/extrinsic.extend.md', 'Extending extrinsics'],
+          ['start/rpc.custom.md', 'Custom RPC'],
+          ['start/types.create.md', 'Creating types'],
           ['start/typescript.md', 'TypeScript interfaces'],
           ['start/typescript.user.md', 'TypeScript user generated'],
           ['start/FAQ.md', 'FAQ']
@@ -63,11 +64,13 @@ module.exports = {
           ['examples/promise/06_make_transfer/', 'Make a transfer'],
           ['examples/promise/08_system_events/', 'Display system events'],
           ['examples/promise/09_transfer_events/', 'Transaction with events'],
-          ['examples/promise/10_upgrade_chain/', 'Upgrade via sudo']
+          ['examples/promise/10_upgrade_chain/', 'Upgrade via sudo'],
+          ['examples/promise/90_typegen/', 'TypeScript augmentation']
         ]
       },
       {
         title: 'Substrate defaults',
+        path: '/substrate/',
         collapsable: false,
         sidebarDepth: 0,
         children: [
@@ -75,7 +78,8 @@ module.exports = {
           ['substrate/constants.md', 'Constants'],
           ['substrate/storage.md', 'State storage'],
           ['substrate/extrinsics.md', 'Extrinsics'],
-          ['substrate/events.md', 'System events']
+          ['substrate/events.md', 'System events'],
+          ['substrate/errors.md', 'Errors']
         ]
       },
       ['/api/', '@polkadot/api'],

@@ -7,7 +7,7 @@ import { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveSocietyCandidate } from '../types';
 
-import { combineLatest, of, Observable } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
 

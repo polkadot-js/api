@@ -6,9 +6,23 @@ import { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../ty
 
 import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
 
+function formatErrorData (data?: string | number): string {
+  if (isUndefined(data)) {
+    return '';
+  }
+
+  const formatted = isString(data)
+    ? data.replace('Error("', '').replace('")', '')
+    : JSON.stringify(data);
+
+  // We need some sort of cut-off here since these can be very large and
+  // very nested, pick a number and trim the result display to it
+  return `: ${formatted.substr(0, 100)}`;
+}
+
 /** @internal */
 export default class RpcCoder {
-  private id = 0;
+  #id = 0;
 
   public decodeResponse (response: JsonRpcResponse): any {
     assert(response, 'Empty response object received');
@@ -39,7 +53,7 @@ export default class RpcCoder {
 
   public encodeObject (method: string, params: any | any[]): JsonRpcRequest {
     return {
-      id: ++this.id,
+      id: ++this.#id,
       jsonrpc: '2.0',
       method,
       params
@@ -47,20 +61,14 @@ export default class RpcCoder {
   }
 
   public getId (): number {
-    return this.id;
+    return this.#id;
   }
 
   private checkError (error?: JsonRpcResponseBaseError): void {
     if (error) {
       const { code, data, message } = error;
 
-      // We need some sort of cut-off here since these can be very large and
-      // very nested, pick a number and trim the result display to it
-      const _data = isUndefined(data)
-        ? ''
-        : `: ${isString(data) ? data : JSON.stringify(data)}`.substr(0, 35);
-
-      throw new Error(`${code}: ${message}${_data}`);
+      throw new Error(`${code}: ${message}${formatErrorData(data)}`);
     }
   }
 }

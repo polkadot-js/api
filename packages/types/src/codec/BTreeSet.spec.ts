@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry } from '../codec';
+import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import Struct from './Struct';
@@ -59,6 +59,14 @@ describe('BTreeSet', (): void => {
         BTreeSet.with(U32)
       )(registry, null).toString()
     ).toEqual('[]');
+  });
+
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      (new BTreeSet(registry, Text, new Set([foo]))).eq(new Set([foo]))
+    ).toBe(true);
   });
 
   it('decodes within more complicated types', (): void => {

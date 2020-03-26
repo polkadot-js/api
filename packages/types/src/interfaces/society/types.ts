@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct } from '@polkadot/types/codec';
@@ -18,11 +18,8 @@ export interface BidKind extends Enum {
   readonly isDeposit: boolean;
   readonly asDeposit: Balance;
   readonly isVouch: boolean;
-  readonly asVouch: BidKindVouch;
+  readonly asVouch: ITuple<[AccountId, Balance]>;
 }
-
-/** @name BidKindVouch */
-export interface BidKindVouch extends ITuple<[AccountId, Balance]> {}
 
 /** @name SocietyJudgement */
 export interface SocietyJudgement extends Enum {
@@ -46,3 +43,5 @@ export interface VouchingStatus extends Enum {
   readonly isVouching: boolean;
   readonly isBanned: boolean;
 }
+
+export type PHANTOM_SOCIETY = 'society';

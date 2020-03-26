@@ -1,5 +1,5 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable */
 
 import { Enum, Set, Struct } from '@polkadot/types/codec';
 import { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
@@ -34,6 +34,12 @@ export interface Reasons extends Enum {
   readonly isAll: boolean;
 }
 
+/** @name ReleasesBalances */
+export interface ReleasesBalances extends Enum {
+  readonly isV100: boolean;
+  readonly isV200: boolean;
+}
+
 /** @name VestingSchedule */
 export interface VestingSchedule extends Struct {
   readonly offset: Balance;
@@ -49,3 +55,5 @@ export interface WithdrawReasons extends Set {
   readonly isFee: boolean;
   readonly isTip: boolean;
 }
+
+export type PHANTOM_BALANCES = 'balances';

@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountData, AccountIndex, Address, Balance, Index } from '@polkadot/types/interfaces';
+import { AccountId, AccountData, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { DerivedBalancesAccount } from '../types';
 
-import { combineLatest, of, Observable } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -22,24 +22,24 @@ function calcBalances (api: ApiInterfaceRx, [accountId, [freeBalance, reservedBa
     frozenFee,
     frozenMisc,
     reservedBalance,
-    votingBalance: createType(api.registry, 'Balance', freeBalance.add(reservedBalance))
+    votingBalance: api.registry.createType('Balance', freeBalance.add(reservedBalance))
   };
 }
 
 // old
-function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[Balance, Balance, Index]>([
     [api.query.balances.freeBalance, accountId],
     [api.query.balances.reservedBalance, accountId],
     [api.query.system.accountNonce, accountId]
   ]).pipe(
     map(([freeBalance, reservedBalance, accountNonce]): Result =>
-      [freeBalance, reservedBalance, createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), accountNonce]
+      [freeBalance, reservedBalance, api.registry.createType('Balance'), api.registry.createType('Balance'), accountNonce]
     )
   );
 }
 
-function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[AccountData, Index]>([
     [api.query.balances.account, accountId],
     [api.query.system.accountNonce, accountId]
@@ -47,6 +47,20 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
     map(([{ free, reserved, miscFrozen, feeFrozen }, accountNonce]): Result =>
       [free, reserved, feeFrozen, miscFrozen, accountNonce]
     )
+  );
+}
+
+function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+  // AccountInfo is current, support old, eg. Edgeware
+  return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
+    map((infoOrTuple): Result => {
+      const { free, reserved, miscFrozen, feeFrozen } = (infoOrTuple as AccountInfo).nonce
+        ? (infoOrTuple as AccountInfo).data
+        : (infoOrTuple as [Index, AccountData])[1];
+      const accountNonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
+
+      return [free, reserved, feeFrozen, miscFrozen, accountNonce];
+    })
   );
 }
 
@@ -72,11 +86,13 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
         (accountId
           ? combineLatest([
             of(accountId),
-            api.query.balances.account
+            api.query.system.account
               ? queryCurrent(api, accountId)
-              : queryOld(api, accountId)
+              : api.query.balances.account
+                ? queryBalancesAccount(api, accountId)
+                : queryBalancesFree(api, accountId)
           ])
-          : of([createType(api.registry, 'AccountId'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Index')]])
+          : of([api.registry.createType('AccountId'), [api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Index')]])
         )
       ),
       map((result): DerivedBalancesAccount => calcBalances(api, result))
