@@ -1,5 +1,6 @@
 # 1.9.0-beta.x
 
+- Tx signing via `signAndSend` & `signAsync` now tries to use the last finalized block (depending on finalized drift)
 - Add support for `api.rpc.state.queryStorageAt`, optionally using it in `api.query.*` entries
 - Adjust `Error.message` on RPC failures to not include the (already known) method signature
 - Additional cleanups and rework of democracy derives, including support for new Polkadot/Substrate vote retrievals
