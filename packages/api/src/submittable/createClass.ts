@@ -137,12 +137,12 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         // if we have an era provided already or eraLength is <= 0 (immortal)
         // don't get the latest block, just pass null, handle in mergeMap
         (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-          ? this.#getSignHash()
+          ? this.#getSigningHeader()
           : of(null)
       ]);
     }
 
-    #getSignHash = (): Observable<Header> => {
+    #getSigningHeader = (): Observable<Header> => {
       return combineLatest([
         api.rpc.chain.getHeader(),
         api.rpc.chain.getFinalizedHead().pipe(
