@@ -9,11 +9,10 @@ import {
   MtLookupTextId,
   MtType,
   MtTypeArray,
-  MtTypeComposite,
   MtTypeVariant,
   MtTypePrimitive,
   MtTypeSlice,
-  MtVariant, MtTypeTuple,
+  MtTypeTuple,
 } from '@polkadot/types/interfaces';
 import { InterfaceTypes } from '@polkadot/types/types';
 
@@ -43,36 +42,6 @@ function getTypeName (project: InkProject, lookup: MtLookupTypeId): string {
   const [, id] = convertType(project, getInkType(project, lookup), lookup.toNumber());
 
   return id;
-}
-
-function getTypeDefCEnum (project: InkProject, defCE: MtTypeDefClikeEnum): string {
-  // FIXME We are currently ignoring the discriminant
-  const entries = defCE.variants.map(({ name }): string => getInkString(project, name));
-
-  return entries.length
-    ? `{_enum:[${entries.join(', ')}]}`
-    : 'Null';
-}
-
-function getTypeDefStruct (project: InkProject, defStruct: MtTypeDefStruct): string {
-  const fields = defStruct.fields.map((field): string => {
-    const name = getInkString(project, field.name);
-    const type = getTypeName(project, field.type);
-
-    return `"${name}": ${JSON.stringify(type)}`;
-  });
-
-  return fields.length
-    ? `{${fields.join(',')}}`
-    : 'Null';
-}
-
-function getTypeDefTupleStruct (project: InkProject, defTs: MtTypeDefTupleStruct): string {
-  const types = defTs.types.map((type): string | null => getTypeName(project, type));
-
-  return types.length
-    ? `(${types.join(', ')})`
-    : 'Null';
 }
 
 // convert a typeid into a VecFixed
@@ -131,8 +100,23 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
   throw new Error(`buildTypeDefFields:: Fields must either be *all* named or *all* unnamed`);
 }
 
-function buildTypeDefVariant (project: InkProject, typeTuple: MtTypeVariant): string {
-  // todo: construct variant type def
+function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): string {
+  let allUnitVariants = true;
+  for (let variant of typeVariant.variants) {
+    allUnitVariants = allUnitVariants && variant.fields.length == 0;
+  }
+
+  if (allUnitVariants) {
+    // FIXME We are currently ignoring the discriminant
+    const variants = typeVariant.variants.map(({ name }): string => getInkString(project, name));
+
+    return variants.length
+      ? `{_enum:[${variants.join(', ')}]}`
+      : 'Null';
+  }
+
+  // TODO: mixed enum variants
+  // const variants = typeVariant.variants.map()
 }
 
 // convert a type definition into a primitive
@@ -189,8 +173,8 @@ function buildTypeDef (project: InkProject, type: MtType): string | null {
 }
 
 function convertType (project: InkProject, type: MtType, index: number): [number, string, string | null] {
-  const name = resolveType(project, type);
-  const type_def = buildTypeDef(project, type);
+  const name = sanitize(resolveType(project, type));
+  const type_def = sanitizeOrNull(buildTypeDef(project, type));
   return [index, type_def ? `${index}::${name}` : name, type_def];
 }
 
