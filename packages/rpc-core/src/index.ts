@@ -29,12 +29,12 @@ const EMPTY_META = {
 
 // utility method to create a nicely-formatted error
 /** @internal */
-function createErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): string {
+function logErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): void {
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`
   ).join(', ');
 
-  return `${method}(${inputs}): ${type}:: ${error.message}`;
+  l.error(`${method}(${inputs}): ${type}:: ${error.message}`);
 }
 
 /**
@@ -190,15 +190,12 @@ export default class Rpc implements RpcInterface {
         map(([params, result]): any =>
           isRaw
             ? this.registry.createType('Raw', result)
-            : this.formatOutput(def, params, result)
+            : this.formatOutput(method, def, params, result)
         ),
         catchError((error): any => {
-          const message = createErrorMessage(method, def, error);
+          logErrorMessage(method, def, error);
 
-          // don't scare with old nodes, this is handled transparently
-          rpcName !== 'rpc_methods' && l.error(message);
-
-          return throwError(new Error(message));
+          return throwError(error);
         }),
         publishReplay(1), // create a Replay(1)
         refCount() // Unsubscribe WS when there are no more subscribers
@@ -234,11 +231,9 @@ export default class Rpc implements RpcInterface {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
         const errorHandler = (error: Error): void => {
-          const message = createErrorMessage(method, def, error);
+          logErrorMessage(method, def, error);
 
-          l.error(message);
-
-          observer.error(new Error(message));
+          observer.error(error);
         };
 
         try {
@@ -246,7 +241,7 @@ export default class Rpc implements RpcInterface {
           const paramsJson = params.map((param): AnyJson => param.toJSON());
           const update = (error?: Error | null, result?: any): void => {
             if (error) {
-              l.error(createErrorMessage(method, def, error));
+              logErrorMessage(method, def, error);
               return;
             }
 
@@ -254,7 +249,7 @@ export default class Rpc implements RpcInterface {
               observer.next(
                 isRaw
                   ? this.registry.createType('Raw', result)
-                  : this.formatOutput(def, params, result)
+                  : this.formatOutput(method, def, params, result)
               );
             } catch (error) {
               observer.error(error);
@@ -287,7 +282,7 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void => l.error(createErrorMessage(method, def, error)));
+            .catch((error: Error): void => logErrorMessage(method, def, error));
         };
       }).pipe(drr());
     };
@@ -324,7 +319,7 @@ export default class Rpc implements RpcInterface {
     return ['0x3a636f6465'].includes(key.toHex());
   }
 
-  private formatOutput (rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
+  private formatOutput (method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
@@ -338,10 +333,15 @@ export default class Rpc implements RpcInterface {
     } else if (rpc.type === 'StorageChangeSet') {
       return this.formatStorageSet(params[0] as Vec<StorageKey>, result.changes);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      return result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
+      const mapped = result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
         this.registry.createType('Hash', block),
         this.formatStorageSet(params[0] as Vec<StorageKey>, changes)
       ]);
+
+      // we only query at a specific block, not a range - flatten
+      return method === 'queryStorageAt'
+        ? mapped[0][1]
+        : mapped;
     }
 
     return createTypeUnsafe(this.registry, rpc.type, [result]);

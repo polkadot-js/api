@@ -1,10 +1,14 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
+import { ITuple } from '@polkadot/types/types';
 import { Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes } from '@polkadot/types/primitive';
-import { AccountId, Hash } from '@polkadot/types/interfaces/runtime';
-import { IdentificationTuple } from '@polkadot/types/interfaces/session';
+import { AccountId, Hash, Perbill } from '@polkadot/types/interfaces/runtime';
+import { IdentificationTuple, SessionIndex } from '@polkadot/types/interfaces/session';
+
+/** @name DeferredOffenceOf */
+export interface DeferredOffenceOf extends ITuple<[Vec<OffenceDetails>, Vec<Perbill>, SessionIndex]> {}
 
 /** @name Kind */
 export interface Kind extends U8aFixed {}

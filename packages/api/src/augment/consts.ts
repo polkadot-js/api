@@ -114,16 +114,16 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        **/
       cooloffPeriod: AugmentedConst<BlockNumber>;
       /**
-       * Minimum voting period allowed for an emergency referendum.
-       **/
-      emergencyVotingPeriod: AugmentedConst<BlockNumber>;
-      /**
        * The minimum period of locking and the period between a proposal being approved and enacted.
        * It should generally be a little more than the unstake period to ensure that
        * voting stakers have an opportunity to remove themselves from the system in the case where
        * they are on the losing side of a vote.
        **/
       enactmentPeriod: AugmentedConst<BlockNumber>;
+      /**
+       * Minimum voting period allowed for an emergency referendum.
+       **/
+      fastTrackVotingPeriod: AugmentedConst<BlockNumber>;
       /**
        * How often (in blocks) new public referenda are launched.
        **/

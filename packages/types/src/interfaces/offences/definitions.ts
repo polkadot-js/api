@@ -7,6 +7,7 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
+    DeferredOffenceOf: '(Vec<OffenceDetails>, Vec<Perbill>, SessionIndex)',
     Kind: '[u8; 16]',
     OffenceDetails: {
       offender: 'Offender',

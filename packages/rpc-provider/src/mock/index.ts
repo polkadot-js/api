@@ -54,7 +54,8 @@ export default class Mock implements ProviderInterface {
     chain_getBlock: (hash: string): any => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
-    chain_getHeader: (): any => this.registry.createType('Header', rpcHeader.result).toJSON(),
+    chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).hash,
+    chain_getHeader: () => this.registry.createType('Header', rpcHeader.result).toJSON(),
     state_getKeys: (): string[] => [],
     state_getKeysPaged: (): string[] => [],
     state_getRuntimeVersion: (): string => this.registry.createType('RuntimeVersion').toHex(),
