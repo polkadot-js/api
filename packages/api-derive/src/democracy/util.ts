@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
-import { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { AccountId, Balance, BlockNumber, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
+import { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import BN from 'bn.js';
-import { Option } from '@polkadot/types';
+import { Bytes, Option } from '@polkadot/types';
 import { bnSqrt } from '@polkadot/util';
 
 function isOldInfo (info: ReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
@@ -141,4 +143,21 @@ export function getStatus (info: Option<ReferendumInfo | ReferendumInfoTo239>): 
 
   // done, we don't include it here... only currently active
   return null;
+}
+
+export function parseImage (api: ApiInterfaceRx, imageOpt: Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>): DeriveProposalImage | undefined {
+  if (imageOpt.isNone) {
+    return;
+  }
+
+  let proposal: Proposal | undefined;
+  const [bytes, proposer, balance, at] = imageOpt.unwrap();
+
+  try {
+    proposal = api.registry.createType('Proposal', bytes.toU8a(true));
+  } catch (error) {
+    console.error(error);
+  }
+
+  return { at, balance, proposal, proposer };
 }

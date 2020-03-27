@@ -2,32 +2,38 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber, Hash, Proposal, PropIndex, ReferendumInfoTo239, ReferendumStatus, Vote } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, Hash, Proposal, PropIndex, ReferendumInfoTo239, ReferendumStatus, Vote, ReferendumIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { Vec } from '@polkadot/types';
 
-export interface DeriveProposalPreImage {
+export interface DeriveDispatch {
+  at: BlockNumber;
+  index: ReferendumIndex;
+  imageHash: Hash;
+  image?: DeriveProposalImage;
+}
+
+export interface DeriveProposalImage {
   at: BlockNumber;
   balance: Balance;
+  proposal?: Proposal;
   proposer: AccountId;
 }
 
 export interface DeriveProposal {
   balance?: Balance;
-  hash: Hash;
   index: PropIndex;
-  preimage?: DeriveProposalPreImage;
-  proposal?: Proposal;
+  image?: DeriveProposalImage;
+  imageHash: Hash;
   proposer: AccountId;
   seconds: Vec<AccountId>;
 }
 
 export interface DeriveReferendum {
-  hash: Hash;
-  index: PropIndex;
-  preimage?: DeriveProposalPreImage;
-  proposal?: Proposal;
+  index: ReferendumIndex;
+  image?: DeriveProposalImage;
+  imageHash: Hash;
   status: ReferendumStatus | ReferendumInfoTo239;
 }
 
