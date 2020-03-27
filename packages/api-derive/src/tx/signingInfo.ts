@@ -31,6 +31,12 @@ function mortalLength (api: ApiInterfaceRx): number {
     .toNumber();
 }
 
+function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
+  return api.derive.balances.account(address).pipe(
+    map(({ accountNonce }): Index => accountNonce)
+  );
+}
+
 function signingHeader (api: ApiInterfaceRx): Observable<Header> {
   return combineLatest([
     api.rpc.chain.getHeader(),
@@ -48,21 +54,22 @@ function signingHeader (api: ApiInterfaceRx): Observable<Header> {
 }
 
 export function signingInfo (api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
-  // no memo, no params with once-off queries
+  // no memo, we want to do this fresh on each run
   return (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number): Observable<Result> =>
     combineLatest([
-      // if we have a nonce already, don't retrieve the latest, use what is there
+      // retrieve nonce if none was specified
       isUndefined(nonce)
-        ? api.derive.balances.account(address).pipe(
-          map(({ accountNonce }): Index => accountNonce)
-        )
+        ? latestNonce(api, address)
         : of(api.registry.createType('Index', nonce)),
-      // if we have an era provided already or eraLength is <= 0 (immortal)
-      // don't get the latest block, just pass null, handle in mergeMap
+      // if no era (create) or era > 0 (mortal), do block retrieval
       (isUndefined(era) || (isNumber(era) && era > 0))
         ? signingHeader(api)
         : of(null)
     ]).pipe(
-      map(([nonce, header]) => ({ header, mortalLength: mortalLength(api), nonce }))
+      map(([nonce, header]) => ({
+        header,
+        mortalLength: mortalLength(api),
+        nonce
+      }))
     );
 }
