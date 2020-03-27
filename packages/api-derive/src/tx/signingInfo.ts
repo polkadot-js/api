@@ -22,15 +22,6 @@ const FALLBACK_PERIOD = new BN(6 * 1000);
 const MAX_FINALITY_LAG = new BN(5);
 const MORTAL_PERIOD = new BN(5 * 60 * 1000);
 
-function mortalLength (api: ApiInterfaceRx): number {
-  const blockTime = api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD;
-
-  return MORTAL_PERIOD
-    .div(blockTime)
-    .add(MAX_FINALITY_LAG)
-    .toNumber();
-}
-
 function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
   return api.derive.balances.account(address).pipe(
     map(({ accountNonce }): Index => accountNonce)
@@ -68,8 +59,11 @@ export function signingInfo (api: ApiInterfaceRx): (address: string, nonce?: Any
     ]).pipe(
       map(([nonce, header]) => ({
         header,
-        mortalLength: mortalLength(api),
-        nonce
+        nonce,
+        mortalLength: MORTAL_PERIOD
+          .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
+          .add(MAX_FINALITY_LAG)
+          .toNumber()
       }))
     );
 }
