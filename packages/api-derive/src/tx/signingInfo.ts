@@ -26,8 +26,8 @@ function mortalLength (api: ApiInterfaceRx): number {
   const blockTime = api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD;
 
   return MORTAL_PERIOD
-    .add(blockTime.mul(MAX_FINALITY_LAG))
     .div(blockTime)
+    .add(MAX_FINALITY_LAG)
     .toNumber();
 }
 
