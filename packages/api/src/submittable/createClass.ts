@@ -8,9 +8,9 @@ import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions,
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
@@ -21,14 +21,6 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
   apiType: ApiTypes;
   decorateMethod: ApiBase<ApiType>['decorateMethod'];
 }
-
-// The default of 6 sec allowing for 5 min eras. When translating this to faster blocks -
-//   - 4s = (10 / 15) * 5 = 3.33m
-//   - 2s = (10 / 30) * 5 = 1.66m
-// We bump this to 5.5 mins to take the MAX_LAG from tx.signingHeader into account (5 blocks)
-const BLOCKTIME = 6;
-const ONE_MINUTE = Math.ceil(60 / BLOCKTIME);
-const DEFAULT_MORTAL_LENGTH = Math.ceil(5.5 * ONE_MINUTE);
 
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
@@ -50,11 +42,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
-          this.#getPrelimState(address, allOptions).pipe(
+          api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
             first(),
-            switchMap(([nonce, header]): Observable<RuntimeDispatchInfo> => {
+            switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
               // setup our options (same way as in signAndSend)
-              const eraOptions = this.#makeEraOptions(allOptions, { header, nonce });
+              const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
               const signOptions = this.#makeSignOptions(eraOptions, {});
 
               // add a fake signature to the extrinsic
@@ -126,23 +118,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )(statusCb);
     }
 
-    #getPrelimState = (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null]> => {
-      return combineLatest([
-        // if we have a nonce already, don't retrieve the latest, use what is there
-        isUndefined(options.nonce)
-          ? api.derive.balances.account(address).pipe(
-            map(({ accountNonce }): Index => accountNonce)
-          )
-          : of(this.registry.createType('Index', options.nonce)),
-        // if we have an era provided already or eraLength is <= 0 (immortal)
-        // don't get the latest block, just pass null, handle in mergeMap
-        (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-          ? api.derive.tx.signingHeader()
-          : of(null)
-      ]);
-    }
-
-    #makeEraOptions = (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions => {
+    #makeEraOptions = (options: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions => {
       if (!header) {
         if (isNumber(options.era)) {
           // since we have no header, it is immortal, remove any option overrides
@@ -158,7 +134,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         blockHash: header.hash,
         era: this.registry.createType('ExtrinsicEra', {
           current: header.number,
-          period: options.era || DEFAULT_MORTAL_LENGTH
+          period: options.era || mortalLength
         }),
         nonce
       });
@@ -192,15 +168,15 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const options = this.#optionsOrNonce(optionsOrNonce);
       let updateId: number | undefined;
 
-      return this.#getPrelimState(address, options).pipe(
+      return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
         first(),
-        mergeMap(async ([nonce, header]): Promise<void> => {
-          const eraOptions = this.#makeEraOptions(options, { header, nonce });
+        mergeMap(async (signingInfo): Promise<void> => {
+          const eraOptions = this.#makeEraOptions(options, signingInfo);
 
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
           } else {
-            updateId = await this.#signViaSigner(address, eraOptions, header);
+            updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
           }
         }),
         mapTo(updateId)
