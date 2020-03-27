@@ -25,9 +25,10 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 // The default for 6s allowing for 5min eras. When translating this to faster blocks -
 //   - 4s = (10 / 15) * 5 = 3.33m
 //   - 2s = (10 / 30) * 5 = 1.66m
+const MAX_FINALIZED_DRIFT = 5;
 const BLOCKTIME = 6;
 const ONE_MINUTE = 60 / BLOCKTIME;
-const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
+const DEFAULT_MORTAL_LENGTH = MAX_FINALIZED_DRIFT + (5 * ONE_MINUTE);
 
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
@@ -125,7 +126,9 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )(statusCb);
     }
 
-    #getPrelimState = (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null]> => {
+    #getPrelimState = (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null, Header | null]> => {
+      const retrieveHashes = isUndefined(options.era) || (isNumber(options.era) && options.era > 0);
+
       return combineLatest([
         // if we have a nonce already, don't retrieve the latest, use what is there
         isUndefined(options.nonce)
@@ -135,8 +138,13 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
           : of(this.registry.createType('Index', options.nonce)),
         // if we have an era provided already or eraLength is <= 0 (immortal)
         // don't get the latest block, just pass null, handle in mergeMap
-        (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
+        retrieveHashes
           ? api.rpc.chain.getHeader()
+          : of(null),
+        retrieveHashes
+          ? api.rpc.chain.getFinalizedHead().pipe(
+            switchMap((hash) => api.rpc.chain.getHeader(hash))
+          )
           : of(null)
       ]);
     }
@@ -193,7 +201,13 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return this.#getPrelimState(address, options).pipe(
         first(),
-        mergeMap(async ([nonce, header]): Promise<void> => {
+        mergeMap(async ([nonce, current, finalized]): Promise<void> => {
+          // pick the header to use, depending on the finalized drift
+          const header = current && finalized
+            ? current.number.unwrap().sub(finalized.number.unwrap()).gtn(MAX_FINALIZED_DRIFT)
+              ? current
+              : finalized
+            : null;
           const eraOptions = this.#makeEraOptions(options, { header, nonce });
 
           if (isKeyringPair(account)) {
@@ -229,26 +243,22 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     #observeSend = (updateId = -1): Observable<Hash> => {
-      return api.rpc.author
-        .submitExtrinsic(this)
-        .pipe(
-          tap((hash): void => {
-            this.#updateSigner(updateId, hash);
-          })
-        );
+      return api.rpc.author.submitExtrinsic(this).pipe(
+        tap((hash): void => {
+          this.#updateSigner(updateId, hash);
+        })
+      );
     }
 
     #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
-      return api.rpc.author
-        .submitAndWatchExtrinsic(this)
-        .pipe(
-          switchMap((status): Observable<ISubmittableResult> =>
-            this.#observeStatus(status)
-          ),
-          tap((status): void => {
-            this.#updateSigner(updateId, status);
-          })
-        );
+      return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
+        switchMap((status): Observable<ISubmittableResult> =>
+          this.#observeStatus(status)
+        ),
+        tap((status): void => {
+          this.#updateSigner(updateId, status);
+        })
+      );
     }
 
     // NOTE here we actually override nonce if it was specified (backwards compat for
