@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DerivedContractFees } from '../types';
+import { DeriveContractFees } from '../types';
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
@@ -44,10 +44,10 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
  * });
  * ```
  */
-export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
-  return memo((): Observable<DerivedContractFees> => {
+export function fees (api: ApiInterfaceRx): () => Observable<DeriveContractFees> {
+  return memo((): Observable<DeriveContractFees> => {
     return queryConstants(api).pipe(
-      map(([creationFee, transferFee, callBaseFee, contractFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee]): DerivedContractFees => ({
+      map(([creationFee, transferFee, callBaseFee, contractFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee]): DeriveContractFees => ({
         callBaseFee,
         contractFee,
         creationFee,

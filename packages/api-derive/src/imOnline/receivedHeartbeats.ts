@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { DerivedHeartbeats } from '../types';
+import { DeriveHeartbeats } from '../types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -15,8 +15,8 @@ import { memo } from '../util';
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
-  return memo((): Observable<DerivedHeartbeats> =>
+export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DeriveHeartbeats> {
+  return memo((): Observable<DeriveHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
@@ -28,8 +28,8 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
               validators.map((address) => [currentIndex, address]))
           ])
         ),
-        map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>
-          validators.reduce((result: DerivedHeartbeats, validator, index): DerivedHeartbeats => ({
+        map(([validators, heartbeats, numBlocks]): DeriveHeartbeats =>
+          validators.reduce((result: DeriveHeartbeats, validator, index): DeriveHeartbeats => ({
             ...result,
             [validator.toString()]: {
               blockCount: numBlocks[index],
