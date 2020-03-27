@@ -25,10 +25,10 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 // The default for 6s allowing for 5min eras. When translating this to faster blocks -
 //   - 4s = (10 / 15) * 5 = 3.33m
 //   - 2s = (10 / 30) * 5 = 1.66m
-const MAX_FINALIZED_DRIFT = 5;
+const MAX_FINALIZED_LAG = 5;
 const BLOCKTIME = 6;
 const ONE_MINUTE = 60 / BLOCKTIME;
-const DEFAULT_MORTAL_LENGTH = MAX_FINALIZED_DRIFT + (5 * ONE_MINUTE);
+const DEFAULT_MORTAL_LENGTH = MAX_FINALIZED_LAG + (5 * ONE_MINUTE);
 
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
@@ -126,9 +126,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )(statusCb);
     }
 
-    #getPrelimState = (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null, Header | null]> => {
-      const retrieveHashes = isUndefined(options.era) || (isNumber(options.era) && options.era > 0);
-
+    #getPrelimState = (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null]> => {
       return combineLatest([
         // if we have a nonce already, don't retrieve the latest, use what is there
         isUndefined(options.nonce)
@@ -138,15 +136,26 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
           : of(this.registry.createType('Index', options.nonce)),
         // if we have an era provided already or eraLength is <= 0 (immortal)
         // don't get the latest block, just pass null, handle in mergeMap
-        retrieveHashes
-          ? api.rpc.chain.getHeader()
-          : of(null),
-        retrieveHashes
-          ? api.rpc.chain.getFinalizedHead().pipe(
-            switchMap((hash) => api.rpc.chain.getHeader(hash))
-          )
+        (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
+          ? this.#getSignHash()
           : of(null)
       ]);
+    }
+
+    #getSignHash = (): Observable<Header> => {
+      return combineLatest([
+        api.rpc.chain.getHeader(),
+        api.rpc.chain.getFinalizedHead().pipe(
+          switchMap((hash) => api.rpc.chain.getHeader(hash))
+        )
+      ]).pipe(
+        map(([current, finalized]): Header =>
+          // determine the hash to use, current when lag > max, else finalized
+          current.number.unwrap().sub(finalized.number.unwrap()).gtn(MAX_FINALIZED_LAG)
+            ? current
+            : finalized
+        )
+      );
     }
 
     #makeEraOptions = (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions => {
@@ -201,13 +210,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return this.#getPrelimState(address, options).pipe(
         first(),
-        mergeMap(async ([nonce, current, finalized]): Promise<void> => {
-          // pick the header to use, depending on the finalized drift
-          const header = current && finalized
-            ? current.number.unwrap().sub(finalized.number.unwrap()).gtn(MAX_FINALIZED_DRIFT)
-              ? current
-              : finalized
-            : null;
+        mergeMap(async ([nonce, header]): Promise<void> => {
           const eraOptions = this.#makeEraOptions(options, { header, nonce });
 
           if (isKeyringPair(account)) {
