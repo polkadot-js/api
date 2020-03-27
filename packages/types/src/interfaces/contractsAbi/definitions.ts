@@ -70,93 +70,55 @@ const spec = {
 };
 
 const registry = {
-  MtClikeEnumVariant: {
-    name: 'MtLookupTextId',
-    discriminant: 'u64'
-  },
-  MtEnumVariant: {
-    _enum: {
-      Unit: 'MtEnumVariantUnit',
-      Struct: 'MtEnumVariantStruct',
-      TupleStruct: 'MtEnumVariantTupleStruct'
-    }
-  },
-  MtEnumVariantTupleStruct: {
-    name: 'MtLookupTextId',
-    types: 'Vec<MtLookupTypeId>'
-  },
-  MtEnumVariantStruct: {
-    name: 'MtLookupTextId',
-    fields: 'Vec<MtNamedField>'
-  },
-  MtEnumVariantUnit: {
-    name: 'MtLookupTextId'
-  },
   MtLookupTypeId: 'u32',
   MtLookupTextId: 'u32',
-  MtNamedField: {
-    name: 'MtLookupTextId',
+  MtField: {
+    name: 'Option<MtLookupTextId>',
     type: 'MtLookupTypeId'
   },
   MtRegistry: {
     strings: 'Vec<Text>',
-    types: 'Vec<MtTypeIdDef>'
+    types: 'Vec<MtType>'
   },
-  MtTypeDef: {
+  MtType: {
     _enum: {
-      Builtin: 'Null',
-      Struct: 'MtTypeDefStruct',
-      TupleStruct: 'MtTypeDefTupleStruct',
-      ClikeEnum: 'MtTypeDefClikeEnum',
-      Enum: 'MtTypeDefEnum',
-      Union: 'MtTypeDefUnion'
+      Composite: 'MtTypeComposite',
+      Variant: 'MtTypeVariant',
+      Slice: 'MtTypeSlice',
+      Array: 'MtTypeArray',
+      Tuple: 'MtTypeTuple',
+      Primitive: 'MtTypePrimitive'
     }
   },
-  MtTypeDefClikeEnum: {
-    variants: 'Vec<MtClikeEnumVariant>'
+  MtTypeComposite: {
+    name: 'MtLookupTextId',
+    namespace: 'Vec<MtLookupTextId>',
+    params: 'Vec<MtLookupTypeId>',
+    fields: 'Vec<MtField>'
   },
-  MtTypeDefEnum: {
-    variants: 'Vec<MtEnumVariant>'
+  MtTypeVariant: {
+    name: 'MtLookupTextId',
+    namespace: 'Vec<MtLookupTextId>',
+    params: 'Vec<MtLookupTypeId>',
+    variants: 'Vec<MtVariant>'
   },
-  MtTypeDefStruct: {
-    fields: 'Vec<MtNamedField>'
-  },
-  MtTypeDefTupleStruct: {
-    types: 'Vec<MtLookupTypeId>'
-  },
-  MtTypeDefUnion: {
-    fields: 'Vec<MtNamedField>'
-  },
-  MtTypeId: {
-    _enum: {
-      Custom: 'MtTypeIdCustom',
-      Slice: 'MtTypeIdSlice',
-      Array: 'MtTypeIdArray',
-      Tuple: 'MtTypeIdTuple',
-      Primitive: 'MtTypeIdPrimitive'
-    }
-  },
-  MtTypeIdArray: {
+  MtTypeArray: {
     len: 'u16',
     type: 'MtLookupTypeId'
   },
-  MtTypeIdCustom: {
-    name: 'MtLookupTextId',
-    namespace: 'Vec<MtLookupTextId>',
-    params: 'Vec<MtLookupTypeId>'
-  },
-  MtTypeIdDef: {
-    id: 'MtTypeId',
-    def: 'MtTypeDef'
-  },
-  MtTypeIdPrimitive: {
+  MtTypePrimitive: {
     // this enum definition is mapped in api-contracts/inkTypes.ts
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
   },
-  MtTypeIdSlice: {
+  MtTypeSlice: {
     type: 'MtLookupTypeId'
   },
-  MtTypeIdTuple: 'Vec<MtTypeId>'
+  MtTypeTuple: 'Vec<MtLookupTypeId>',
+  MtVariant: {
+    name: 'MtLookupTextId',
+    fields: `Vec<MtField>`,
+    discriminant: 'Option<u64>'
+  },
 };
 
 export default {

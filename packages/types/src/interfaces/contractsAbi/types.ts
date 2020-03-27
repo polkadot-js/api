@@ -98,37 +98,10 @@ export interface InkTypeSpec extends Struct {
   readonly displayName: MtLookupTextId;
 }
 
-/** @name MtClikeEnumVariant */
-export interface MtClikeEnumVariant extends Struct {
-  readonly name: MtLookupTextId;
-  readonly discriminant: u64;
-}
-
-/** @name MtEnumVariant */
-export interface MtEnumVariant extends Enum {
-  readonly isUnit: boolean;
-  readonly asUnit: MtEnumVariantUnit;
-  readonly isStruct: boolean;
-  readonly asStruct: MtEnumVariantStruct;
-  readonly isTupleStruct: boolean;
-  readonly asTupleStruct: MtEnumVariantTupleStruct;
-}
-
-/** @name MtEnumVariantStruct */
-export interface MtEnumVariantStruct extends Struct {
-  readonly name: MtLookupTextId;
-  readonly fields: Vec<MtNamedField>;
-}
-
-/** @name MtEnumVariantTupleStruct */
-export interface MtEnumVariantTupleStruct extends Struct {
-  readonly name: MtLookupTextId;
-  readonly types: Vec<MtLookupTypeId>;
-}
-
-/** @name MtEnumVariantUnit */
-export interface MtEnumVariantUnit extends Struct {
-  readonly name: MtLookupTextId;
+/** @name MtField */
+export interface MtField extends Struct {
+  readonly name: Option<MtLookupTextId>;
+  readonly type: MtLookupTypeId;
 }
 
 /** @name MtLookupTextId */
@@ -137,93 +110,44 @@ export interface MtLookupTextId extends u32 {}
 /** @name MtLookupTypeId */
 export interface MtLookupTypeId extends u32 {}
 
-/** @name MtNamedField */
-export interface MtNamedField extends Struct {
-  readonly name: MtLookupTextId;
-  readonly type: MtLookupTypeId;
-}
-
 /** @name MtRegistry */
 export interface MtRegistry extends Struct {
   readonly strings: Vec<Text>;
-  readonly types: Vec<MtTypeIdDef>;
+  readonly types: Vec<MtType>;
 }
 
-/** @name MtTypeDef */
-export interface MtTypeDef extends Enum {
-  readonly isBuiltin: boolean;
-  readonly isStruct: boolean;
-  readonly asStruct: MtTypeDefStruct;
-  readonly isTupleStruct: boolean;
-  readonly asTupleStruct: MtTypeDefTupleStruct;
-  readonly isClikeEnum: boolean;
-  readonly asClikeEnum: MtTypeDefClikeEnum;
-  readonly isEnum: boolean;
-  readonly asEnum: MtTypeDefEnum;
-  readonly isUnion: boolean;
-  readonly asUnion: MtTypeDefUnion;
-}
-
-/** @name MtTypeDefClikeEnum */
-export interface MtTypeDefClikeEnum extends Struct {
-  readonly variants: Vec<MtClikeEnumVariant>;
-}
-
-/** @name MtTypeDefEnum */
-export interface MtTypeDefEnum extends Struct {
-  readonly variants: Vec<MtEnumVariant>;
-}
-
-/** @name MtTypeDefStruct */
-export interface MtTypeDefStruct extends Struct {
-  readonly fields: Vec<MtNamedField>;
-}
-
-/** @name MtTypeDefTupleStruct */
-export interface MtTypeDefTupleStruct extends Struct {
-  readonly types: Vec<MtLookupTypeId>;
-}
-
-/** @name MtTypeDefUnion */
-export interface MtTypeDefUnion extends Struct {
-  readonly fields: Vec<MtNamedField>;
-}
-
-/** @name MtTypeId */
-export interface MtTypeId extends Enum {
-  readonly isCustom: boolean;
-  readonly asCustom: MtTypeIdCustom;
+/** @name MtType */
+export interface MtType extends Enum {
+  readonly isComposite: boolean;
+  readonly asComposite: MtTypeComposite;
+  readonly isVariant: boolean;
+  readonly asVariant: MtTypeVariant;
   readonly isSlice: boolean;
-  readonly asSlice: MtTypeIdSlice;
+  readonly asSlice: MtTypeSlice;
   readonly isArray: boolean;
-  readonly asArray: MtTypeIdArray;
+  readonly asArray: MtTypeArray;
   readonly isTuple: boolean;
-  readonly asTuple: MtTypeIdTuple;
+  readonly asTuple: MtTypeTuple;
   readonly isPrimitive: boolean;
-  readonly asPrimitive: MtTypeIdPrimitive;
+  readonly asPrimitive: MtTypePrimitive;
 }
 
-/** @name MtTypeIdArray */
-export interface MtTypeIdArray extends Struct {
+/** @name MtTypeArray */
+export interface MtTypeArray extends Struct {
   readonly len: u16;
   readonly type: MtLookupTypeId;
 }
 
-/** @name MtTypeIdCustom */
-export interface MtTypeIdCustom extends Struct {
+/** @name MtTypeComposite */
+export interface MtTypeComposite extends Struct {
   readonly name: MtLookupTextId;
   readonly namespace: Vec<MtLookupTextId>;
   readonly params: Vec<MtLookupTypeId>;
+  readonly fields: Vec<MtField>;
 }
 
-/** @name MtTypeIdDef */
-export interface MtTypeIdDef extends Struct {
-  readonly id: MtTypeId;
-  readonly def: MtTypeDef;
-}
-
-/** @name MtTypeIdPrimitive */
-export interface MtTypeIdPrimitive extends Enum {
+/** @name MtTypePrimitive */
+export interface MtTypePrimitive extends Enum {
   readonly isBool: boolean;
   readonly isChar: boolean;
   readonly isStr: boolean;
@@ -239,12 +163,27 @@ export interface MtTypeIdPrimitive extends Enum {
   readonly isI128: boolean;
 }
 
-/** @name MtTypeIdSlice */
-export interface MtTypeIdSlice extends Struct {
+/** @name MtTypeSlice */
+export interface MtTypeSlice extends Struct {
   readonly type: MtLookupTypeId;
 }
 
-/** @name MtTypeIdTuple */
-export interface MtTypeIdTuple extends Vec<MtTypeId> {}
+/** @name MtTypeTuple */
+export interface MtTypeTuple extends Vec<MtLookupTypeId> {}
+
+/** @name MtTypeVariant */
+export interface MtTypeVariant extends Struct {
+  readonly name: MtLookupTextId;
+  readonly namespace: Vec<MtLookupTextId>;
+  readonly params: Vec<MtLookupTypeId>;
+  readonly variants: Vec<MtVariant>;
+}
+
+/** @name MtVariant */
+export interface MtVariant extends Struct {
+  readonly name: MtLookupTextId;
+  readonly fields: Vec<MtField>;
+  readonly discriminant: Option<u64>;
+}
 
 export type PHANTOM_CONTRACTSABI = 'contractsAbi';
