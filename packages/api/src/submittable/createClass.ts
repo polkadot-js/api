@@ -137,25 +137,9 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         // if we have an era provided already or eraLength is <= 0 (immortal)
         // don't get the latest block, just pass null, handle in mergeMap
         (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-          ? this.#getSigningHeader()
+          ? api.derive.tx.signingHeader()
           : of(null)
       ]);
-    }
-
-    #getSigningHeader = (): Observable<Header> => {
-      return combineLatest([
-        api.rpc.chain.getHeader(),
-        api.rpc.chain.getFinalizedHead().pipe(
-          switchMap((hash) => api.rpc.chain.getHeader(hash))
-        )
-      ]).pipe(
-        map(([current, finalized]): Header =>
-          // determine the hash to use, current when lag > max, else finalized
-          current.number.unwrap().sub(finalized.number.unwrap()).gtn(MAX_FINALIZED_LAG)
-            ? current
-            : finalized
-        )
-      );
     }
 
     #makeEraOptions = (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions => {
@@ -232,13 +216,10 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         ? status.asInBlock
         : status.asFinalized;
 
-      return combineLatest([
-        api.rpc.chain.getBlock(blockHash),
-        api.query.system.events.at(blockHash)
-      ]).pipe(
-        map(([signedBlock, allEvents]): ISubmittableResult =>
+      return api.derive.tx.events(blockHash).pipe(
+        map(({ block, events }): ISubmittableResult =>
           new SubmittableResult({
-            events: filterEvents(this.hash, signedBlock, allEvents, status),
+            events: filterEvents(this.hash, block, events, status),
             status
           })
         )
