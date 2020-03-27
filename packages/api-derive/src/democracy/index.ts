@@ -6,6 +6,8 @@ export * from './_referendumsVotes';
 export * from './_referendumVotes';
 export * from './_referendumInfo';
 export * from './dispatchQueue';
+export * from './nextExternal';
+export * from './preimage';
 export * from './preimages';
 export * from './proposals';
 export * from './referendums';
