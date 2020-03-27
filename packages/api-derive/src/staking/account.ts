@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance, BlockNumber, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
-import { DerivedSessionInfo, DerivedStakingAccount, DerivedStakingQuery, DerivedUnlocking } from '../types';
+import { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
@@ -28,7 +28,7 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
 }
 
 // calculate the remaining blocks in a specific unlock era
-function remainingBlocks (api: ApiInterfaceRx, era: BN, sessionInfo: DerivedSessionInfo): BlockNumber {
+function remainingBlocks (api: ApiInterfaceRx, era: BN, sessionInfo: DeriveSessionInfo): BlockNumber {
   const remaining = era.sub(sessionInfo.currentEra);
 
   // on the Rust side the current-era >= era-for-unlock (removal done on >)
@@ -41,7 +41,7 @@ function remainingBlocks (api: ApiInterfaceRx, era: BN, sessionInfo: DerivedSess
   );
 }
 
-function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DerivedSessionInfo): DerivedUnlocking[] | undefined {
+function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
@@ -56,7 +56,7 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
 
   // group the unlock chunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
-  const results = Object.entries(groupedResult).map(([eraString, value]): DerivedUnlocking => ({
+  const results = Object.entries(groupedResult).map(([eraString, value]): DeriveUnlocking => ({
     value: api.registry.createType('Balance', value),
     remainingBlocks: remainingBlocks(api, new BN(eraString), sessionInfo)
   }));
@@ -64,7 +64,7 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
   return results.length ? results : undefined;
 }
 
-function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DerivedSessionInfo): Balance {
+function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
   if (isUndefined(stakingLedger)) {
     return api.registry.createType('Balance');
   }
@@ -76,7 +76,7 @@ function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | unde
   }, new BN(0)));
 }
 
-function parseResult (api: ApiInterfaceRx, sessionInfo: DerivedSessionInfo, query: DerivedStakingQuery): DerivedStakingAccount {
+function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query: DeriveStakingQuery): DeriveStakingAccount {
   return {
     ...query,
     redeemable: redeemableSum(api, query.stakingLedger, sessionInfo),
@@ -87,13 +87,13 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DerivedSessionInfo, quer
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DerivedStakingAccount> {
-  return memo((accountId: Uint8Array | string): Observable<DerivedStakingAccount> =>
+export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
+  return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
     combineLatest([
       api.derive.session.info(),
       api.derive.staking.query(accountId)
     ]).pipe(
-      map(([sessionInfo, query]: [DerivedSessionInfo, DerivedStakingQuery]) =>
+      map(([sessionInfo, query]: [DeriveSessionInfo, DeriveStakingQuery]) =>
         parseResult(api, sessionInfo, query))
     ));
 }

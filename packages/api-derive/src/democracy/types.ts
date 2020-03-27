@@ -23,7 +23,7 @@ export interface DeriveProposal {
   seconds: Vec<AccountId>;
 }
 
-export interface DerivedReferendum {
+export interface DeriveReferendum {
   hash: Hash;
   index: PropIndex;
   preimage?: DeriveProposalPreImage;
@@ -31,15 +31,15 @@ export interface DerivedReferendum {
   status: ReferendumStatus | ReferendumInfoTo239;
 }
 
-export interface DerivedReferendumVote {
+export interface DeriveReferendumVote {
   accountId: AccountId;
   balance: Balance;
   vote: Vote;
 }
 
-export interface DerivedReferendumVoteState {
-  allAye: DerivedReferendumVote[];
-  allNay: DerivedReferendumVote[];
+export interface DeriveReferendumVoteState {
+  allAye: DeriveReferendumVote[];
+  allNay: DeriveReferendumVote[];
   voteCount: number;
   voteCountAye: number;
   voteCountNay: number;
@@ -48,10 +48,10 @@ export interface DerivedReferendumVoteState {
   votedTotal: BN;
 }
 
-export interface DerivedReferendumVotes extends DerivedReferendumVoteState {
+export interface DeriveReferendumVotes extends DeriveReferendumVoteState {
   isPassing: boolean;
-  votes: DerivedReferendumVote[];
+  votes: DeriveReferendumVote[];
 }
 
-export interface DerivedReferendumExt extends DerivedReferendum, DerivedReferendumVotes {
+export interface DeriveReferendumExt extends DeriveReferendum, DeriveReferendumVotes {
 }

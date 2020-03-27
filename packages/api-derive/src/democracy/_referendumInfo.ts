@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ReferendumInfo, ReferendumInfoTo239, ReferendumStatus } from '@polkadot/types/interfaces';
-import { DerivedReferendum } from '../types';
+import { DeriveReferendum } from '../types';
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
@@ -15,7 +15,7 @@ import { memo } from '../util';
 import { PreImage } from './proposals';
 import { getStatus } from './util';
 
-function constructInfo (api: ApiInterfaceRx, index: BN | number, status: ReferendumStatus | ReferendumInfoTo239, _preimage?: PreImage): DerivedReferendum | null {
+function constructInfo (api: ApiInterfaceRx, index: BN | number, status: ReferendumStatus | ReferendumInfoTo239, _preimage?: PreImage): DeriveReferendum | null {
   const preImage = _preimage?.isSome
     ? _preimage.unwrap()
     : null;
@@ -36,13 +36,13 @@ function constructInfo (api: ApiInterfaceRx, index: BN | number, status: Referen
     status
   };
 }
-export function _referendumInfo (api: ApiInterfaceRx): (id: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>) => Observable<DerivedReferendum | null> {
-  return memo((id: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>): Observable<DerivedReferendum | null> => {
+export function _referendumInfo (api: ApiInterfaceRx): (id: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>) => Observable<DeriveReferendum | null> {
+  return memo((id: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>): Observable<DeriveReferendum | null> => {
     const status = getStatus(info);
 
     return status
       ? api.query.democracy.preimages(status.proposalHash).pipe(
-        map((preimage?: PreImage): DerivedReferendum | null =>
+        map((preimage?: PreImage): DeriveReferendum | null =>
           constructInfo(api, id, status, preimage)
         )
       )
