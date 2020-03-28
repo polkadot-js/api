@@ -40,7 +40,7 @@ describe('BTreeSet', (): void => {
     testDecode('Uint8Array', mockU32SetUint8Array, mockU32SetString);
   });
 
-  describe('encoding muple values', (): void => {
+  describe('encoding multiple values', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
         const s = new BTreeSet(registry, U32, mockU32Set);
@@ -61,7 +61,7 @@ describe('BTreeSet', (): void => {
     ).toEqual('[]');
   });
 
-  it('decodes reusing instanciated inputs', (): void => {
+  it('decodes reusing instantiated inputs', (): void => {
     const foo = new Text(registry, 'bar');
 
     expect(
