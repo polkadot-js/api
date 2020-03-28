@@ -12,7 +12,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
-import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
+import { assert, hexToU8a, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr } from './rxjs';
 
@@ -370,7 +370,13 @@ export default class Rpc implements RpcInterface {
       );
     }
 
-    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [
+      isEmpty
+        ? meta.fallback
+          ? hexToU8a(meta.fallback.toHex())
+          : undefined
+        : input
+    ], true);
   }
 
   private formatStorageSet (keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
@@ -428,6 +434,12 @@ export default class Rpc implements RpcInterface {
       );
     }
 
-    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [
+      isEmpty
+        ? meta.fallback
+          ? hexToU8a(meta.fallback.toHex())
+          : undefined
+        : input
+    ], true);
   }
 }
