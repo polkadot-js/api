@@ -10,6 +10,7 @@ import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeVrf, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
+import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
@@ -1606,6 +1607,9 @@ declare module '@polkadot/types/types/registry' {
     BlockHash: BlockHash;
     'Option<BlockHash>': Option<BlockHash>;
     'Vec<BlockHash>': Vec<BlockHash>;
+    PrefixedStorageKey: PrefixedStorageKey;
+    'Option<PrefixedStorageKey>': Option<PrefixedStorageKey>;
+    'Vec<PrefixedStorageKey>': Vec<PrefixedStorageKey>;
     StorageKind: StorageKind;
     'Option<StorageKind>': Option<StorageKind>;
     'Vec<StorageKind>': Vec<StorageKind>;
