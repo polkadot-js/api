@@ -12,7 +12,7 @@ import {
   MtTypeVariant,
   MtTypePrimitive,
   MtTypeSlice,
-  MtTypeTuple,
+  MtTypeTuple
 } from '@polkadot/types/interfaces';
 import { InterfaceTypes } from '@polkadot/types/types';
 
@@ -24,17 +24,23 @@ import sanitize from '@polkadot/types/create/sanitize';
 // this maps through the the enum definition in types/interfaces/contractsAbi/defintions.ts
 const PRIMITIVES: (keyof InterfaceTypes)[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
 
-interface ITypePath
+interface TypePath
 {
-  name: MtLookupTextId,
-  namespace: MtLookupTextId[],
-  params: MtLookupTypeId[]
-};
+  name: MtLookupTextId;
+  namespace: MtLookupTextId[];
+  params: MtLookupTypeId[];
+}
+//
+// function sanitizeOrNull (type: string | null): string | null {
+//   return type
+//     ? sanitize(type)
+//     : null;
+// }
 
-function sanitizeOrNull (type: string | null): string | null {
-  return type
-    ? sanitize(type)
-    : null;
+function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string {
+  const type = getInkType(project, typeId);
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  return resolveType(project, type, typeId.toNumber());
 }
 
 // convert a typeid into a VecFixed
@@ -45,7 +51,7 @@ function getTypeArray (project: InkProject, idArray: MtTypeArray): string {
 }
 
 // convert a typeid into the custom
-function resolveTypeFromPath (project: InkProject, path: ITypePath): string {
+function resolveTypeFromPath(project: InkProject, path: TypePath, index: number): string {
   const name = getInkString(project, path.name);
   const namespaces = getInkStrings(project, path.namespace);
   const params = path.params.length
@@ -55,14 +61,14 @@ function resolveTypeFromPath (project: InkProject, path: ITypePath): string {
     ? `${namespaces.join('::')}::`
     : '';
 
-  return `${namespace}${name}${params}`;
+  return `${index}::${namespace}${name}${params}`;
 }
 
 // Fields must either be *all* named (e.g. a struct) or *all* unnamed (e.g a tuple)
 function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string {
   let allNamed = true;
   let allUnnamed = true;
-  for (let field of typeFields) {
+  for (const field of typeFields) {
     allNamed = allNamed && field.name.isSome;
     allUnnamed = allUnnamed && field.name.isNone;
   }
@@ -90,13 +96,13 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
       : 'Null';
   }
 
-  throw new Error(`buildTypeDefFields:: Fields must either be *all* named or *all* unnamed`);
+  throw new Error('buildTypeDefFields:: Fields must either be *all* named or *all* unnamed');
 }
 
 function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): string {
   let allUnitVariants = true;
-  for (let variant of typeVariant.variants) {
-    allUnitVariants = allUnitVariants && variant.fields.length == 0;
+  for (const variant of typeVariant.variants) {
+    allUnitVariants = allUnitVariants && variant.fields.length === 0;
   }
 
   if (allUnitVariants) {
@@ -148,11 +154,11 @@ function getTypeTuple (project: InkProject, typeTuple: MtTypeTuple): string {
     : 'Null';
 }
 
-function resolveType (project: InkProject, type: MtType): string {
+function resolveType (project: InkProject, type: MtType, index: number): string {
   if (type.isComposite) {
-    return resolveTypeFromPath(project, type.asComposite);
+    return resolveTypeFromPath(project, type.asComposite, index);
   } else if (type.isVariant) {
-    return resolveTypeFromPath(project, type.asVariant);
+    return resolveTypeFromPath(project, type.asVariant, index);
   } else if (type.isArray) {
     return getTypeArray(project, type.asArray);
   } else if (type.isPrimitive) {
@@ -164,11 +170,6 @@ function resolveType (project: InkProject, type: MtType): string {
   }
 
   throw new Error(`convertType:: Unable to create type from ${type}`);
-}
-
-function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string {
-  const type = getInkType(project, typeId);
-  return resolveType(project, type);
 }
 
 // builds the type definition for any user defined complex type e.g structs/enums
@@ -183,9 +184,9 @@ function buildTypeDef (project: InkProject, type: MtType): string | null {
 }
 
 function convertType (project: InkProject, type: MtType, index: number): [number, string, string | null] {
-  const name = sanitize(resolveType(project, type));
-  const type_def = sanitizeOrNull(buildTypeDef(project, type));
-  return [index, type_def ? `${index}::${name}` : name, type_def];
+  const name = resolveType(project, type, index);
+  const typeDef = buildTypeDef(project, type);
+  return [index, name, typeDef];
 }
 
 function convertTypes (project: InkProject, types: MtType[]): [number, string, string | null][] {
