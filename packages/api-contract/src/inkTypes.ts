@@ -21,7 +21,7 @@ import { assert, isUndefined } from '@polkadot/util';
 import { getInkString, getInkStrings, getInkType } from './inkRegistry';
 import sanitize from '@polkadot/types/create/sanitize';
 
-// this maps through the the enum defintion in types/interfaces/contractsAbi/defintions.ts
+// this maps through the the enum definition in types/interfaces/contractsAbi/defintions.ts
 const PRIMITIVES: (keyof InterfaceTypes)[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
 
 interface ITypePath
@@ -37,16 +37,9 @@ function sanitizeOrNull (type: string | null): string | null {
     : null;
 }
 
-function getTypeName (project: InkProject, lookup: MtLookupTypeId): string {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const [, id] = convertType(project, getInkType(project, lookup), lookup.toNumber());
-
-  return id;
-}
-
 // convert a typeid into a VecFixed
 function getTypeArray (project: InkProject, idArray: MtTypeArray): string {
-  const type = getTypeName(project, idArray.type);
+  const type = getInkType(project, idArray.type);
 
   return `[${type};${idArray.len}]`;
 }
@@ -56,7 +49,7 @@ function resolveTypeFromPath (project: InkProject, path: ITypePath): string {
   const name = getInkString(project, path.name);
   const namespaces = getInkStrings(project, path.namespace);
   const params = path.params.length
-    ? `<${path.params.map((type): string | null => getTypeName(project, type)).join(', ')}>`
+    ? `<${path.params.map((type): string | null => resolveTypeFromId(project, type)).join(', ')}>`
     : '';
   const namespace = namespaces.length
     ? `${namespaces.join('::')}::`
@@ -76,7 +69,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
 
   if (allNamed) {
     const fields = typeFields.map((field): string => {
-      const type = getTypeName(project, field.type);
+      const type = resolveTypeFromId(project, field.type);
 
       const name = getInkString(project, field.name.unwrap());
       return `"${name}": ${JSON.stringify(type)}`;
@@ -89,7 +82,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
 
   if (allUnnamed) {
     const fields = typeFields.map((field): string =>
-      getTypeName(project, field.type)
+      resolveTypeFromId(project, field.type)
     );
 
     return fields.length
@@ -142,13 +135,13 @@ function getTypePrimitive (_project: InkProject, idPrim: MtTypePrimitive): keyof
 
 // convert a type definition into the underlying Vec
 function getTypeSlice (project: InkProject, idSlice: MtTypeSlice): string {
-  const type = getTypeName(project, idSlice.type);
+  const type = resolveTypeFromId(project, idSlice.type);
 
   return `Vec<${type}>`;
 }
 
 function getTypeTuple (project: InkProject, typeTuple: MtTypeTuple): string {
-  const types = typeTuple.map((type): string | null => getTypeName(project, type));
+  const types = typeTuple.map((type): string | null => resolveTypeFromId(project, type));
 
   return types.length
     ? `(${types.join(', ')})`
@@ -171,6 +164,11 @@ function resolveType (project: InkProject, type: MtType): string {
   }
 
   throw new Error(`convertType:: Unable to create type from ${type}`);
+}
+
+function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string {
+  const type = getInkType(project, typeId);
+  return resolveType(project, type);
 }
 
 // builds the type definition for any user defined complex type e.g structs/enums
