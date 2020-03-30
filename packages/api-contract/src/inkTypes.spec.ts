@@ -38,8 +38,8 @@ describe('inkTypes', (): void => {
       ],
       [
         5,
-        '6::ink_core::storage::key::Key',
-        '[u8;32]'
+        '5::ink_primitives::key::Key',
+        '([u8;32])'
       ],
       [
         6,

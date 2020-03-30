@@ -45,7 +45,7 @@ function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string
 
 // convert a typeid into a VecFixed
 function getTypeArray (project: InkProject, idArray: MtTypeArray): string {
-  const type = getInkType(project, idArray.type);
+  const type = resolveTypeFromId(project, idArray.type);
 
   return `[${type};${idArray.len}]`;
 }
