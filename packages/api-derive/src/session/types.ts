@@ -16,9 +16,12 @@ export interface DeriveSessionIndexes {
 
 export interface DeriveSessionInfo extends DeriveSessionIndexes {
   eraLength: BlockNumber;
-  eraProgress: BlockNumber;
   isEpoch: boolean;
   sessionLength: BlockNumber;
   sessionsPerEra: SessionIndex;
+}
+
+export interface DeriveSessionProgress extends DeriveSessionInfo {
+  eraProgress: BlockNumber;
   sessionProgress: BlockNumber;
 }
