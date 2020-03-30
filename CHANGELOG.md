@@ -6,6 +6,7 @@
 - Adjust `Error.message` on RPC failures to not include the (already known) method signature
 - Internal adjustment of interface types to align with modules (no external impact via `@polkadot/types/interfaces`)
 - Extended `api.derive.democracy` to cater for dispatchQueue and externals
+- Extended `api.derive.council` to cater for new phragmen elections
 
 # 1.8.1 Mar 22, 2020
 

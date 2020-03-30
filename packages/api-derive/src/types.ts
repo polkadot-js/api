@@ -7,6 +7,7 @@ import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, Balanc
 import BN from 'bn.js';
 import { u32 } from '@polkadot/types';
 
+export * from './council/types';
 export * from './democracy/types';
 export * from './parachains/types';
 export * from './session/types';
