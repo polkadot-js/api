@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Balance, BlockNumber, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
+import { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
 import { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import BN from 'bn.js';
@@ -27,27 +27,13 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   }, {});
 }
 
-// calculate the remaining blocks in a specific unlock era
-function remainingBlocks (api: ApiInterfaceRx, era: BN, sessionInfo: DeriveSessionInfo): BlockNumber {
-  const remaining = era.sub(sessionInfo.currentEra);
-
-  // on the Rust side the current-era >= era-for-unlock (removal done on >)
-  return api.registry.createType('BlockNumber', remaining.gtn(0)
-    ? remaining
-      .subn(1)
-      .mul(sessionInfo.eraLength)
-      .add(sessionInfo.eraLength.sub(sessionInfo.eraProgress))
-    : 0
-  );
-}
-
 function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
 
   const unlockingChunks = stakingLedger.unlocking.filter(({ era }): boolean =>
-    remainingBlocks(api, era.unwrap(), sessionInfo).gtn(0)
+    era.unwrap().sub(sessionInfo.activeEra).gtn(0)
   );
 
   if (!unlockingChunks.length) {
@@ -57,8 +43,8 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
   // group the unlock chunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): DeriveUnlocking => ({
-    value: api.registry.createType('Balance', value),
-    remainingBlocks: remainingBlocks(api, new BN(eraString), sessionInfo)
+    remainingEras: new BN(eraString).sub(sessionInfo.activeEra),
+    value: api.registry.createType('Balance', value)
   }));
 
   return results.length ? results : undefined;
@@ -70,7 +56,7 @@ function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | unde
   }
 
   return api.registry.createType('Balance', stakingLedger.unlocking.reduce((total, { era, value }): BN => {
-    return remainingBlocks(api, era.unwrap(), sessionInfo).eqn(0)
+    return sessionInfo.activeEra.gte(era.unwrap())
       ? total.add(value.unwrap())
       : total;
   }, new BN(0)));
