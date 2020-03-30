@@ -88,7 +88,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
   }
 
   if (allUnnamed) {
-    const fields = typeFields.map((field): string | null =>
+    const fields = typeFields.map((field): string =>
       getTypeName(project, field.type)
     );
 
@@ -108,15 +108,27 @@ function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): 
 
   if (allUnitVariants) {
     // FIXME We are currently ignoring the discriminant
-    const variants = typeVariant.variants.map(({ name }): string => getInkString(project, name));
+    const variants = typeVariant.variants.map(({ name }): string =>
+      getInkString(project, name)
+    );
 
     return variants.length
       ? `{_enum:[${variants.join(', ')}]}`
       : 'Null';
   }
 
-  // TODO: mixed enum variants
-  // const variants = typeVariant.variants.map()
+  const variants = typeVariant.variants.map(({ name, fields, discriminant }): string => {
+    assert(discriminant.isNone, "Only enums with all 'unit' variants (i.e. C-like enums) can have discriminants");
+
+    const variantName = getInkString(project, name);
+    const variantFields = buildTypeDefFields(project, fields);
+
+    return `"${variantName}": ${variantFields}`;
+  });
+
+  return variants.length
+    ? `{_enum:{${variants.join(', ')}}}`
+    : 'Null';
 }
 
 // convert a type definition into a primitive
