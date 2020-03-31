@@ -8,7 +8,7 @@ import { InterfaceTypes } from '@polkadot/types/types';
 import { assert, isUndefined } from '@polkadot/util';
 
 import { getInkString, getInkStrings, getInkType } from './inkRegistry';
-// import sanitize from '@polkadot/types/create/sanitize';
+import sanitize from '@polkadot/types/create/sanitize';
 
 // this maps through the the enum definition in types/interfaces/contractsAbi/defintions.ts
 const PRIMITIVES: (keyof InterfaceTypes)[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
@@ -19,12 +19,12 @@ interface TypePath
   namespace: MtLookupTextId[];
   params: MtLookupTypeId[];
 }
-//
-// function sanitizeOrNull (type: string | null): string | null {
-//   return type
-//     ? sanitize(type)
-//     : null;
-// }
+
+function sanitizeOrNull (type: string | null): string | null {
+  return type
+    ? sanitize(type, { allowNamespaces: true })
+    : null;
+}
 
 function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string {
   const type = getInkType(project, typeId);
@@ -173,8 +173,8 @@ function buildTypeDef (project: InkProject, type: MtType): string | null {
 }
 
 function convertType (project: InkProject, type: MtType, index: number): [number, string, string | null] {
-  const name = resolveType(project, type, index);
-  const typeDef = buildTypeDef(project, type);
+  const name = sanitize(resolveType(project, type, index), { allowNamespaces: true });
+  const typeDef = sanitizeOrNull(buildTypeDef(project, type));
   return [index, name, typeDef];
 }
 
