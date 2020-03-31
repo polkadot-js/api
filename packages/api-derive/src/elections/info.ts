@@ -10,14 +10,14 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec, u32 } from '@polkadot/types';
 
-import { DerivedElectionsInfo } from '../types';
+import { DeriveElectionsInfo } from '../types';
 import { memo } from '../util';
 
 function sortAccounts ([, balanceA]: ITuple<[AccountId, Balance]>, [, balanceB]: ITuple<[AccountId, Balance]>): number {
   return balanceB.cmp(balanceA);
 }
 
-function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
+function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
   const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
   return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
@@ -26,7 +26,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
     api.query[section].members,
     api.query[section].runnersUp
   ]).pipe(
-    map(([councilMembers, candidates, members, runnersUp]): DerivedElectionsInfo => ({
+    map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
       candidates,
       candidateCount: api.registry.createType('u32', candidates.length),
       candidacyBond: api.consts[section].candidacyBond as Balance,
@@ -54,6 +54,6 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
  * });
  * ```
  */
-export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInfo> {
-  return memo((): Observable<DerivedElectionsInfo> => queryElections(api));
+export function info (api: ApiInterfaceRx): () => Observable<DeriveElectionsInfo> {
+  return memo((): Observable<DeriveElectionsInfo> => queryElections(api));
 }

@@ -22,6 +22,7 @@ export default {
       primary: 'Vec<u64>',
       secondary: 'Vec<u64>'
     },
+    Randomness: 'Hash',
     RawBabePreDigest: {
       _enum: {
         Phantom: 'Null', // index starts at 1... empty slot at 0

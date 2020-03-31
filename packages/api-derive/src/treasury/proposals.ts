@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces';
-import { DerivedCollectiveProposals, DerivedTreasuryProposal, DerivedTreasuryProposals } from '../types';
+import { DeriveCollectiveProposals, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -16,13 +16,13 @@ interface Result {
   allIds: ProposalIndex[];
   allProposals: Option<TreasuryProposal>[];
   approvalIds: ProposalIndex[];
-  councilProposals: DerivedCollectiveProposals;
+  councilProposals: DeriveCollectiveProposals;
   proposalCount: ProposalIndex;
 }
 
-function parseResult (_api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DerivedTreasuryProposals {
-  const approvals: DerivedTreasuryProposal[] = [];
-  const proposals: DerivedTreasuryProposal[] = [];
+function parseResult (_api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
+  const approvals: DeriveTreasuryProposal[] = [];
+  const proposals: DeriveTreasuryProposal[] = [];
   const councilTreasury = councilProposals.filter(({ proposal: { methodName, sectionName } }): boolean =>
     sectionName === 'treasury' &&
     ['approveProposal', 'rejectProposal'].includes(methodName)
@@ -47,7 +47,7 @@ function parseResult (_api: ApiInterfaceRx, { allIds, allProposals, approvalIds,
   return { approvals, proposalCount, proposals };
 }
 
-function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, approvalIds: ProposalIndex[]): Observable<DerivedTreasuryProposals> {
+function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, approvalIds: ProposalIndex[]): Observable<DeriveTreasuryProposals> {
   const proposalIds: ProposalIndex[] = [];
   const count = proposalCount.toNumber();
 
@@ -65,7 +65,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
     api.query.treasury.proposals.multi<Option<TreasuryProposal>>(allIds),
     api.derive.council.proposals()
   ]).pipe(
-    map(([allProposals, councilProposals]: [Option<TreasuryProposal>[], DerivedCollectiveProposals]): DerivedTreasuryProposals =>
+    map(([allProposals, councilProposals]: [Option<TreasuryProposal>[], DeriveCollectiveProposals]): DeriveTreasuryProposals =>
       parseResult(api, { allIds, allProposals, approvalIds, councilProposals, proposalCount })
     )
   );
@@ -74,8 +74,8 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
 /**
  * @description Retrieve all active and approved treasury proposals, along with their info
  */
-export function proposals (api: ApiInterfaceRx): () => Observable<DerivedTreasuryProposals> {
-  return memo((): Observable<DerivedTreasuryProposals> =>
+export function proposals (api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
+  return memo((): Observable<DeriveTreasuryProposals> =>
     api.query.treasury
       ? combineLatest([
         api.query.treasury.proposalCount(),
@@ -89,6 +89,6 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DerivedTreasur
         approvals: [],
         proposalCount: api.registry.createType('ProposalIndex'),
         proposals: []
-      } as DerivedTreasuryProposals)
+      } as DeriveTreasuryProposals)
   );
 }

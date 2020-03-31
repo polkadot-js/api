@@ -40,7 +40,7 @@ Tuples, as defined in the Polkadot/Substrate types appear as `(TypeA, TypeB)`. F
 
 Polkadot/Substrate supports both immortal and mortal transactions. For immortal, this means that the transaction has an infinite lifetime, for mortals, the transactions expire after a defined period. By default the API sends mortal transactions when no explicit extrinsic era has been specified. This means that all transaction has a limited lifetime and will expire if not included in the period set.
 
-The length for this transaction validity is set to 50 blocks, which translates to 5 minutes assuming a default of 6 second blocktimes. (10 blocks per minute in this default configuration).
+The length for this transaction validity is set to 5 minutes, calculated based on the blocktime for the chain. (10 blocks per minute in this default 6s Substrate configuration).
 
 ## My chain does not support system.account queries
 
@@ -49,3 +49,11 @@ The API always tracks the latest Substrate master in terms of examples. This mea
 It is possible that you are connecting to an older chain that has not been upgraded yet. For these chains, this storage entry won't be available (yet). To query the nonce on older chains, you can do a query to `api.query.system.accountNonce(<account>)` and balances can be retrieved via `api.query.balances.freeBalance(<account>)`.
 
 Likewise, if your chain has been upgraded recently and you are still using the old `system.accountNonce` or `balances.freeBalance` queries in your code (which is now not available in the chain metadata), you need to update it to query the new location.
+
+## I cannot send transactions from my node-template-based chain
+
+For the API defaults, the API always the type definitions as specified by the Substrate master fully-featured node. This means that any customizations needs to be applied as types should there be differences in specific user-implementations.
+
+The Substrate node-template has added customizations for some types in the default template, specifically around the `Address` and `Lookup` types, removing indices lookups from addresses. This means that the transaction payload saves 2 bytes for a transfer and is an approach followed by other chains as well, notably Polkadot & Kusama.
+
+Due to these customizations and differences that bleed through to the transaction formats, out-of-the-box the node-template will have issues when sending transactions. To fix this, you would need to add [the customized Address types into your API](types.extend.md#impact-on-extrinsics) instances (or UIs), allowing the API to have the information required to adjust the encoding.

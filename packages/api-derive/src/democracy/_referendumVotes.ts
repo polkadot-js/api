@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Vote, Voting, VotingDirectVote } from '@polkadot/types/interfaces';
-import { DerivedBalancesAccount, DerivedReferendum, DerivedReferendumVote, DerivedReferendumVotes } from '../types';
+import { DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
 
 import BN from 'bn.js';
 import { Observable, of, combineLatest } from 'rxjs';
@@ -14,9 +14,9 @@ import { Vec } from '@polkadot/types';
 import { memo } from '../util';
 import { calcVotes } from './util';
 
-function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedReferendumVote[]> {
+function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
-    switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DerivedBalancesAccount[]]> =>
+    switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DeriveBalancesAccount[]]> =>
       combineLatest([
         of(votersFor),
         votersFor.length
@@ -29,8 +29,8 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedRe
         api.derive.balances.votingBalances(votersFor)
       ])
     ),
-    map(([votersFor, votes, balances]): DerivedReferendumVote[] =>
-      votersFor.map((accountId, index): DerivedReferendumVote => ({
+    map(([votersFor, votes, balances]): DeriveReferendumVote[] =>
+      votersFor.map((accountId, index): DeriveReferendumVote => ({
         accountId,
         balance: balances[index].votingBalance || api.registry.createType('Balance'),
         vote: votes[index] || api.registry.createType('Vote')
@@ -39,9 +39,9 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedRe
   );
 }
 
-function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedReferendumVote[]> {
+function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votingOf.entries<Voting>().pipe(
-    map((allVoting): DerivedReferendumVote[] =>
+    map((allVoting): DeriveReferendumVote[] =>
       allVoting
         .map(([key, voting]): [AccountId, Voting] => [key.args[0] as AccountId, voting])
         // FIXME We are ignoring delegated votes
@@ -51,9 +51,9 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedRe
           voting.asDirect.votes.filter(([idx]) => idx.eq(referendumId))
         ])
         .filter(([, directVotes]) => !!directVotes.length)
-        .reduce((result: DerivedReferendumVote[], [accountId, votes]) =>
+        .reduce((result: DeriveReferendumVote[], [accountId, votes]) =>
           // FIXME We are ignoring split votes
-          votes.reduce((result: DerivedReferendumVote[], [, vote]): DerivedReferendumVote[] => {
+          votes.reduce((result: DeriveReferendumVote[], [, vote]): DeriveReferendumVote[] => {
             if (vote.isStandard) {
               result.push({
                 accountId,
@@ -68,8 +68,8 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DerivedRe
   );
 }
 
-export function _referendumVotes (api: ApiInterfaceRx): (referendum: DerivedReferendum) => Observable<DerivedReferendumVotes> {
-  return memo((referendum: DerivedReferendum): Observable<DerivedReferendumVotes> =>
+export function _referendumVotes (api: ApiInterfaceRx): (referendum: DeriveReferendum) => Observable<DeriveReferendumVotes> {
+  return memo((referendum: DeriveReferendum): Observable<DeriveReferendumVotes> =>
     combineLatest([
       api.derive.democracy.sqrtElectorate(),
       api.query.democracy.votingOf
