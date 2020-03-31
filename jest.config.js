@@ -9,6 +9,7 @@ module.exports = Object.assign({}, config, {
     '@polkadot/api(.*)$': '<rootDir>/packages/api/src/$1',
     '@polkadot/metadata(.*)$': '<rootDir>/packages/metadata/src/$1',
     '@polkadot/rpc-(core|provider)(.*)$': '<rootDir>/packages/rpc-$1/src/$2',
+    '@polkadot/types-known(.*)$': '<rootDir>/packages/types-known/src/$1',
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
   modulePathIgnorePatterns: [
@@ -18,7 +19,8 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/metadata/build',
     '<rootDir>/packages/rpc-core/build',
     '<rootDir>/packages/rpc-provider/build',
-    '<rootDir>/packages/types/build'
+    '<rootDir>/packages/types/build',
+    '<rootDir>/packages/types-known/build'
   ],
   resolver: './jest.resolver.js'
 });
