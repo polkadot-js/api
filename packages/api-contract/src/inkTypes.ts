@@ -8,7 +8,7 @@ import { InterfaceTypes } from '@polkadot/types/types';
 import { assert, isUndefined } from '@polkadot/util';
 
 import { getInkString, getInkStrings, getInkType } from './inkRegistry';
-import sanitize from '@polkadot/types/create/sanitize';
+// import sanitize from '@polkadot/types/create/sanitize';
 
 // this maps through the the enum definition in types/interfaces/contractsAbi/defintions.ts
 const PRIMITIVES: (keyof InterfaceTypes)[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
