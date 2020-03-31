@@ -29,7 +29,7 @@ function sanitizeOrNull (type: string | null): string | null {
 function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string {
   const type = getInkType(project, typeId);
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return resolveType(project, type, typeId.toNumber());
+  return resolveType(project, type);
 }
 
 // convert a typeid into a VecFixed
