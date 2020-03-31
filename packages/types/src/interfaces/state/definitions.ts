@@ -268,8 +268,23 @@ export default {
           type: 'Vec<StorageKey>'
         },
         {
-          name: 'startBlock',
+          name: 'fromBlock',
           type: 'Hash'
+        },
+        {
+          name: 'toBlock',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'Vec<StorageChangeSet>'
+    },
+    queryStorageAt: {
+      description: 'Query storage entries (by key) starting at block hash given as the second parameter',
+      params: [
+        {
+          name: 'keys',
+          type: 'Vec<StorageKey>'
         },
         {
           name: 'at',

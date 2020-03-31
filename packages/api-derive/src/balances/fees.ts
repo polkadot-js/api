@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance } from '@polkadot/types/interfaces';
-import { DerivedFees } from '../types';
+import { DeriveFees } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -24,8 +24,8 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
-  return memo((): Observable<DerivedFees> =>
+export function fees (api: ApiInterfaceRx): () => Observable<DeriveFees> {
+  return memo((): Observable<DeriveFees> =>
     of([
       // deprecated - remove
       (api.consts.balances?.creationFee as Balance) || api.registry.createType('Balance'),
@@ -36,7 +36,7 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
       (api.consts.transactionPayment?.transactionBaseFee as Balance) || api.registry.createType('Balance'),
       (api.consts.transactionPayment?.transactionByteFee as Balance) || api.registry.createType('Balance')
     ]).pipe(
-      map(([creationFee, transferFee, existentialDeposit, transactionBaseFee, transactionByteFee]): DerivedFees => ({
+      map(([creationFee, transferFee, existentialDeposit, transactionBaseFee, transactionByteFee]): DeriveFees => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,

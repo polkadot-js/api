@@ -17,6 +17,7 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.Plain:
         return decoded.type;
 
+      case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Compact:
       case TypeDefInfo.Option:
       case TypeDefInfo.Vec:
@@ -24,7 +25,7 @@ function extractTypes (types: string[]): any[] {
         return extractTypes([(decoded.sub as TypeDef).type]);
 
       case TypeDefInfo.BTreeMap:
-      case TypeDefInfo.BTreeSet:
+      case TypeDefInfo.HashMap:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
         return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));

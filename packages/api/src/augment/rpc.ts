@@ -8,6 +8,7 @@ import { Metadata } from '@polkadot/types';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
+import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
@@ -48,7 +49,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Remove given extrinsic from the pool and temporarily ban it to prevent reimporting
        **/
-      removeExtrinsic: AugmentedRpc<(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | { hash: any } | { extrinsic: any } | string | Uint8Array)[]) => Observable<Vec<Hash>>>;
+      removeExtrinsic: AugmentedRpc<(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | { Hash: any } | { Extrinsic: any } | string | Uint8Array)[]) => Observable<Vec<Hash>>>;
       /**
        * Generate new session keys and returns the corresponding public keys
        **/
@@ -97,6 +98,24 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the best header via subscription
        **/
       subscribeNewHeads: AugmentedRpc<() => Observable<Header>>;
+    };
+    childstate: {
+      /**
+       * Returns the keys with prefix from a child storage, leave empty to get all the keys
+       **/
+      getKeys: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, prefix: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Vec<StorageKey>>>;
+      /**
+       * Returns a child storage entry at a specific block state
+       **/
+      getStorage: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<StorageData>>>;
+      /**
+       * Returns the hash of a child storage entry at a block state
+       **/
+      getStorageHash: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<Hash>>>;
+      /**
+       * Returns the size of a child storage entry at a block state
+       **/
+      getStorageSize: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<u64>>>;
     };
     contracts: {
       /**
@@ -201,6 +220,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Query historical storage entries (by key) starting from a start block
        **/
       queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;
+      /**
+       * Query storage entries (by key) starting at block hash given as the second parameter
+       **/
+      queryStorageAt: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: Hash | Uint8Array | string) => Observable<T>>;
       /**
        * Retrieves the runtime version via subscription
        **/

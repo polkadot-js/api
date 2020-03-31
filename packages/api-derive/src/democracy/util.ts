@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
-import { DerivedReferendum, DerivedReferendumVote, DerivedReferendumVotes, DerivedReferendumVoteState } from '../types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { AccountId, Balance, BlockNumber, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
+import { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import BN from 'bn.js';
-import { Option } from '@polkadot/types';
+import { Bytes, Option } from '@polkadot/types';
 import { bnSqrt } from '@polkadot/util';
 
 function isOldInfo (info: ReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
@@ -44,7 +46,7 @@ export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
-function isPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: DerivedReferendumVoteState): boolean {
+function isPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: DeriveReferendumVoteState): boolean {
   const sqrtVoters = bnSqrt(votedTotal);
 
   return sqrtVoters.isZero()
@@ -56,8 +58,8 @@ function isPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, vo
         : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
 }
 
-function calcVotesPrev (votesFor: DerivedReferendumVote[]): DerivedReferendumVoteState {
-  return votesFor.reduce((state: DerivedReferendumVoteState, derived): DerivedReferendumVoteState => {
+function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteState {
+  return votesFor.reduce((state: DeriveReferendumVoteState, derived): DeriveReferendumVoteState => {
     const { balance, vote } = derived;
     const isDefault = vote.conviction.index === 0;
     const counted = balance
@@ -90,9 +92,9 @@ function calcVotesPrev (votesFor: DerivedReferendumVote[]): DerivedReferendumVot
   });
 }
 
-function calcVotesCurrent (tally: Tally, votes: DerivedReferendumVote[]): DerivedReferendumVoteState {
-  const allAye: DerivedReferendumVote[] = [];
-  const allNay: DerivedReferendumVote[] = [];
+function calcVotesCurrent (tally: Tally, votes: DeriveReferendumVote[]): DeriveReferendumVoteState {
+  const allAye: DeriveReferendumVote[] = [];
+  const allNay: DeriveReferendumVote[] = [];
 
   votes.forEach((derived): void => {
     if (derived.vote.isAye) {
@@ -114,7 +116,7 @@ function calcVotesCurrent (tally: Tally, votes: DerivedReferendumVote[]): Derive
   };
 }
 
-export function calcVotes (sqrtElectorate: BN, referendum: DerivedReferendum, votes: DerivedReferendumVote[]): DerivedReferendumVotes {
+export function calcVotes (sqrtElectorate: BN, referendum: DeriveReferendum, votes: DeriveReferendumVote[]): DeriveReferendumVotes {
   const state = isCurrentStatus(referendum.status)
     ? calcVotesCurrent(referendum.status.tally, votes)
     : calcVotesPrev(votes);
@@ -141,4 +143,21 @@ export function getStatus (info: Option<ReferendumInfo | ReferendumInfoTo239>): 
 
   // done, we don't include it here... only currently active
   return null;
+}
+
+export function parseImage (api: ApiInterfaceRx, imageOpt: Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>): DeriveProposalImage | undefined {
+  if (imageOpt.isNone) {
+    return;
+  }
+
+  let proposal: Proposal | undefined;
+  const [bytes, proposer, balance, at] = imageOpt.unwrap();
+
+  try {
+    proposal = api.registry.createType('Proposal', bytes.toU8a(true));
+  } catch (error) {
+    console.error(error);
+  }
+
+  return { at, balance, proposal, proposer };
 }

@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DerivedReferendumExt } from '../types';
+import { DeriveReferendumExt } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function referendums (api: ApiInterfaceRx): () => Observable<DerivedReferendumExt[]> {
-  return memo((): Observable<DerivedReferendumExt[]> =>
+export function referendums (api: ApiInterfaceRx): () => Observable<DeriveReferendumExt[]> {
+  return memo((): Observable<DeriveReferendumExt[]> =>
     api.derive.democracy.referendumsActive().pipe(
       switchMap((referendums) =>
         combineLatest([
@@ -20,7 +20,7 @@ export function referendums (api: ApiInterfaceRx): () => Observable<DerivedRefer
         ])
       ),
       map(([referendums, votes]) =>
-        referendums.map((referendum, index): DerivedReferendumExt => ({
+        referendums.map((referendum, index): DeriveReferendumExt => ({
           ...referendum,
           ...votes[index]
         }))

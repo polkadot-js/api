@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ReferendumInfo, ReferendumInfoTo239, ReferendumStatus } from '@polkadot/types/interfaces';
-import { DerivedReferendum } from '../types';
+import { ReferendumInfo, ReferendumInfoTo239 } from '@polkadot/types/interfaces';
+import { DeriveReferendum } from '../types';
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
@@ -12,39 +12,20 @@ import { map } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
-import { PreImage } from './proposals';
-import { getStatus } from './util';
+import { getStatus, parseImage } from './util';
 
-function constructInfo (api: ApiInterfaceRx, index: BN | number, status: ReferendumStatus | ReferendumInfoTo239, _preimage?: PreImage): DerivedReferendum | null {
-  const preImage = _preimage?.isSome
-    ? _preimage.unwrap()
-    : null;
-
-  return {
-    index: api.registry.createType('PropIndex', index),
-    hash: status.proposalHash,
-    proposal: preImage
-      ? api.registry.createType('Proposal', preImage[0].toU8a(true))
-      : undefined,
-    preimage: preImage
-      ? {
-        at: preImage[3],
-        balance: preImage[2],
-        proposer: preImage[1]
-      }
-      : undefined,
-    status
-  };
-}
-export function _referendumInfo (api: ApiInterfaceRx): (id: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>) => Observable<DerivedReferendum | null> {
-  return memo((id: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>): Observable<DerivedReferendum | null> => {
+export function _referendumInfo (api: ApiInterfaceRx): (index: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>) => Observable<DeriveReferendum | null> {
+  return memo((index: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>): Observable<DeriveReferendum | null> => {
     const status = getStatus(info);
 
     return status
       ? api.query.democracy.preimages(status.proposalHash).pipe(
-        map((preimage?: PreImage): DerivedReferendum | null =>
-          constructInfo(api, id, status, preimage)
-        )
+        map((preimage): DeriveReferendum => ({
+          index: api.registry.createType('ReferendumIndex', index),
+          image: parseImage(api, preimage),
+          imageHash: status.proposalHash,
+          status
+        }))
       )
       : of(null);
   });

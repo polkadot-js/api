@@ -20,7 +20,7 @@ import GenericAddress from '@polkadot/types/generic/Address';
 import Vote from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
-import { isChildClass, stringLowerFirst } from '@polkadot/util';
+import { isChildClass } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
@@ -53,6 +53,7 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
       sub: def
     }
   ];
+
   if (isCompact) {
     types.unshift({
       info: TypeDefInfo.Compact,
@@ -110,7 +111,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, _type:
       possibleTypes.push(arrayToStrType(e.defKeys), 'number');
     } else {
       // TODO We don't really want any here, these should be expanded
-      possibleTypes.push(...e.defKeys.map((key): string => `{ ${stringLowerFirst(key)}: any }`), 'string');
+      possibleTypes.push(...e.defKeys.map((key): string => `{ ${key}: any }`), 'string');
     }
 
     possibleTypes.push('Uint8Array');

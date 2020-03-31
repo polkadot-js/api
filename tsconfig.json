@@ -22,7 +22,9 @@
       "@polkadot/rpc-provider": ["packages/rpc-provider/src"],
       "@polkadot/rpc-provider/*": ["packages/rpc-provider/src/*"],
       "@polkadot/types": ["packages/types/src"],
-      "@polkadot/types/*": ["packages/types/src/*"]
+      "@polkadot/types/*": ["packages/types/src/*"],
+      "@polkadot/types-known": ["packages/types-known/src"],
+      "@polkadot/types-known/*": ["packages/types-known/src/*"]
     },
     "skipLibCheck": true,
     "typeRoots": [

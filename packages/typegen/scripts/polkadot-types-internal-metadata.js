@@ -15,6 +15,7 @@ try {
       ['module-resolver', {
         alias: {
           '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
+          '^@polkadot/types-known(.*)': './packages/types-known/src\\1',
           '^@polkadot/types(.*)': './packages/types/src\\1'
         }
       }]

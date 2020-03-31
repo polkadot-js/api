@@ -3,7 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-type Mapper = (value: string) => string;
+type Mapper = (value: string, options?: SanitizeOptions) => string;
+
+interface SanitizeOptions {
+  allowNamespaces?: boolean;
+}
 
 const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'HashMap', 'Int', 'Linkage', 'Result', 'Option', 'UInt', 'Vec'];
 const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple
@@ -97,7 +101,7 @@ export function flattenSingleTuple (): Mapper {
 }
 
 export function removeColons (): Mapper {
-  return (value: string): string => {
+  return (value: string, { allowNamespaces }: SanitizeOptions = {}): string => {
     let index = 0;
 
     while (index !== -1) {
@@ -106,6 +110,10 @@ export function removeColons (): Mapper {
       if (index === 0) {
         value = value.substr(2);
       } else if (index !== -1) {
+        if (allowNamespaces) {
+          return value;
+        }
+
         let start = index;
 
         while (start !== -1 && !BOX_PRECEDING.includes(value[start])) {
@@ -205,8 +213,8 @@ export function removeWrap (_check: string): Mapper {
   };
 }
 
-export default function sanitize (value: string): string {
+export default function sanitize (value: string, options?: SanitizeOptions): string {
   return mappings.reduce((result, fn): string => {
-    return fn(result);
+    return fn(result, options);
   }, value).trim();
 }

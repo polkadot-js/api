@@ -4,27 +4,27 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/interfaces';
-import { DerivedStakingQuery, DerivedStakingElected } from '../types';
+import { DeriveStakingQuery, DeriveStakingElected } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function electedInfo (api: ApiInterfaceRx): () => Observable<DerivedStakingElected> {
-  return memo((): Observable<DerivedStakingElected> =>
+export function electedInfo (api: ApiInterfaceRx): () => Observable<DeriveStakingElected> {
+  return memo((): Observable<DeriveStakingElected> =>
     api.derive.staking.validators().pipe(
-      switchMap(({ nextElected }): Observable<[AccountId[], DerivedStakingQuery[]]> =>
+      switchMap(({ nextElected }): Observable<[AccountId[], DeriveStakingQuery[]]> =>
         combineLatest([
           of(nextElected),
           combineLatest(
-            nextElected.map((accountId): Observable<DerivedStakingQuery> =>
+            nextElected.map((accountId): Observable<DeriveStakingQuery> =>
               api.derive.staking.query(accountId)
             )
           )
         ])
       ),
-      map(([nextElected, info]): DerivedStakingElected => ({
+      map(([nextElected, info]): DeriveStakingElected => ({
         info,
         nextElected
       }))
