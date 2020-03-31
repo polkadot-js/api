@@ -9,6 +9,7 @@
 - Extended `api.derive.democracy` to cater for dispatchQueue and externals
 - Extended `api.derive.council` to cater for new phragmen elections
 - Use new `queryStorageAt` for query `.entries`, removing unneeded subscriptions (as available)
+- Split `@polkadot/types/known` into `@polkadot/types-known`, allowing for base API overrides
 - Fix `BTreeSet` initialization when part of query interfaces
 - Fix encoding for `Vec<u8>`-related types as part of constants
 

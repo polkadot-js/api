@@ -1,11 +1,11 @@
 {
-  "name": "@polkadot/api",
+  "name": "@polkadot/types-known",
   "version": "1.9.0-beta.23",
-  "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
+  "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
   "keywords": [
     "Polkadot",
-    "RxJs"
+    "JsonRPC"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
@@ -24,23 +24,14 @@
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "@polkadot/api-derive": "1.9.0-beta.23",
-    "@polkadot/keyring": "^2.7.0-beta.8",
-    "@polkadot/metadata": "1.9.0-beta.23",
-    "@polkadot/rpc-core": "1.9.0-beta.23",
-    "@polkadot/rpc-provider": "1.9.0-beta.23",
     "@polkadot/types": "1.9.0-beta.23",
-    "@polkadot/types-known": "1.9.0-beta.23",
     "@polkadot/util": "^2.7.0-beta.8",
-    "@polkadot/util-crypto": "^2.7.0-beta.8",
-    "bn.js": "^5.1.1",
-    "eventemitter3": "^4.0.0",
-    "rxjs": "^6.5.4"
+    "bn.js": "^5.1.1"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^2.7.0-beta.8"
+    "@types/bn.js": "^4.11.6"
   }
 }
