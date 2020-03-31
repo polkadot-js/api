@@ -51,7 +51,7 @@ function getTypeArray (project: InkProject, idArray: MtTypeArray): string {
 }
 
 // convert a typeid into the custom
-function resolveTypeFromPath(project: InkProject, path: TypePath, index: number): string {
+function resolveTypeFromPath (project: InkProject, path: TypePath, index: number): string {
   const name = getInkString(project, path.name);
   const namespaces = getInkStrings(project, path.namespace);
   const params = path.params.length

@@ -116,9 +116,9 @@ const registry = {
   MtTypeTuple: 'Vec<MtLookupTypeId>',
   MtVariant: {
     name: 'MtLookupTextId',
-    fields: `Vec<MtField>`,
+    fields: 'Vec<MtField>',
     discriminant: 'Option<u64>'
-  },
+  }
 };
 
 export default {
