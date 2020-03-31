@@ -2,18 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import {
-  InkProject,
-  MtField,
-  MtLookupTypeId,
-  MtLookupTextId,
-  MtType,
-  MtTypeArray,
-  MtTypeVariant,
-  MtTypePrimitive,
-  MtTypeSlice,
-  MtTypeTuple
-} from '@polkadot/types/interfaces';
+import { InkProject, MtField, MtLookupTypeId, MtLookupTextId, MtType, MtTypeArray, MtTypeVariant, MtTypePrimitive, MtTypeSlice, MtTypeTuple } from '@polkadot/types/interfaces';
 import { InterfaceTypes } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
