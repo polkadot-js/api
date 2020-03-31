@@ -46,7 +46,7 @@ describe('sanitize', (): void => {
     });
 
     it('keeps with allowNamespaces', (): void => {
-      expect(removeColons()('::slashing::SpanIndex')).toEqual('slashing::SpanIndex');
+      expect(removeColons()('::slashing::SpanIndex', { allowNamespaces: true })).toEqual('slashing::SpanIndex');
     });
   });
 });
