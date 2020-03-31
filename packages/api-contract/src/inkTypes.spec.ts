@@ -18,13 +18,13 @@ describe('inkTypes', (): void => {
     ).toEqual([
       [
         1,
-        '1::incrementer::incrementer::__ink_private::__ink_storage::Storage',
-        '{"value": "2::ink_core::storage::value::Value<i32>"}'
+        'incrementer::incrementer::__ink_private::__ink_storage::Storage',
+        '{"value":"ink_core::storage::value::Value"}'
       ],
       [
         2,
-        '2::ink_core::storage::value::Value<i32>',
-        '{"cell": "4::ink_core::storage::cell::sync_cell::SyncCell"}'
+        'ink_core::storage::value::Value',
+        '{"cell":"ink_core::storage::cell::sync_cell::SyncCell"}'
       ],
       [
         3,
@@ -33,13 +33,13 @@ describe('inkTypes', (): void => {
       ],
       [
         4,
-        '4::ink_core::storage::cell::sync_cell::SyncCell',
-        '{"cell": "5::ink_primitives::key::Key"}'
+        'ink_core::storage::cell::sync_cell::SyncCell',
+        '{"cell":"ink_primitives::key::Key"}'
       ],
       [
         5,
-        '5::ink_primitives::key::Key',
-        '([u8;32])'
+        'ink_primitives::key::Key',
+        '[u8;32]'
       ],
       [
         6,

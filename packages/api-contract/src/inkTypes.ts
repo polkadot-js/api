@@ -40,7 +40,7 @@ function getTypeArray (project: InkProject, idArray: MtTypeArray): string {
 }
 
 // convert a typeid into the custom
-function resolveTypeFromPath (project: InkProject, path: TypePath, index: number): string {
+function resolveTypeFromPath (project: InkProject, path: TypePath): string {
   const name = getInkString(project, path.name);
   const namespaces = getInkStrings(project, path.namespace);
   const params = path.params.length
@@ -50,7 +50,7 @@ function resolveTypeFromPath (project: InkProject, path: TypePath, index: number
     ? `${namespaces.join('::')}::`
     : '';
 
-  return `${index}::${namespace}${name}${params}`;
+  return `${namespace}${name}${params}`;
 }
 
 // Fields must either be *all* named (e.g. a struct) or *all* unnamed (e.g a tuple)
@@ -143,11 +143,11 @@ function getTypeTuple (project: InkProject, typeTuple: MtTypeTuple): string {
     : 'Null';
 }
 
-function resolveType (project: InkProject, type: MtType, index: number): string {
+function resolveType (project: InkProject, type: MtType): string {
   if (type.isComposite) {
-    return resolveTypeFromPath(project, type.asComposite, index);
+    return resolveTypeFromPath(project, type.asComposite);
   } else if (type.isVariant) {
-    return resolveTypeFromPath(project, type.asVariant, index);
+    return resolveTypeFromPath(project, type.asVariant);
   } else if (type.isArray) {
     return getTypeArray(project, type.asArray);
   } else if (type.isPrimitive) {
@@ -173,7 +173,7 @@ function buildTypeDef (project: InkProject, type: MtType): string | null {
 }
 
 function convertType (project: InkProject, type: MtType, index: number): [number, string, string | null] {
-  const name = sanitize(resolveType(project, type, index), { allowNamespaces: true });
+  const name = sanitize(resolveType(project, type), { allowNamespaces: true });
   const typeDef = sanitizeOrNull(buildTypeDef(project, type));
   return [index, name, typeDef];
 }
