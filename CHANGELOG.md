@@ -1,13 +1,16 @@
 # 1.9.0-beta.x
 
 **Breaking change** (TypeScript with derives only) The type names for `api.derive.*` returns has been adjusted to be consistent with `Derive*` (previously a mixture of `Derived*` and `Derive*`)
-**Breaking change** (derives only) Additional cleanups of democracy proposeal & referenda derives, including support for new Polkadot/Substrate vote retrievals
+**Breaking change** (derives only) Additional cleanups of democracy proposal & referenda derives, including support for new Polkadot/Substrate vote retrievals
 - Tx signing via `signAndSend` & `signAsync` now tries to use the last finalized block (depending on finalized drift)
 - Add support for `api.rpc.childstate.*` Substrate RPCs, older nodes with still populate `api.rpc.state.*` with the child methods
 - Adjust `Error.message` on RPC failures to not include the (already known) method signature
 - Internal adjustment of interface types to align with modules (no external impact via `@polkadot/types/interfaces`)
 - Extended `api.derive.democracy` to cater for dispatchQueue and externals
 - Extended `api.derive.council` to cater for new phragmen elections
+- Use new `queryStorageAt` for query `.entries`, removing unneeded subscriptions (as available)
+- Fix `BTreeSet` initialization when part of query interfaces
+- Fix encoding for `Vec<u8>`-related types as part of constants
 
 # 1.8.1 Mar 22, 2020
 
