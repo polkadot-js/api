@@ -24,7 +24,7 @@
       "@polkadot/types": ["packages/types/src"],
       "@polkadot/types/*": ["packages/types/src/*"],
       "@polkadot/types-known": ["packages/types-known/src"],
-      "@polkadot/types-known/*": ["packages/types/src-known/*"]
+      "@polkadot/types-known/*": ["packages/types-known/src/*"]
     },
     "skipLibCheck": true,
     "typeRoots": [
