@@ -56,7 +56,9 @@ describe('ApiPromise', (): void => {
       const specVersion = 0;
       const metadata: any = {};
       const key = `${genesisHash}-${specVersion}`;
+
       metadata[key] = rpcData;
+
       const api = await ApiPromise.create({ metadata, provider, registry } as ApiOptions);
 
       expect(api.genesisHash).toBeDefined();

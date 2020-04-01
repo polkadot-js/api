@@ -44,6 +44,7 @@ function parseActive (id: ParaId, active: Active): DeriveParachainActive | null 
       )
     };
   }
+
   return null;
 }
 

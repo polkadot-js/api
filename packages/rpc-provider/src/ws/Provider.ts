@@ -182,6 +182,7 @@ export default class WsProvider implements WSProviderInterface {
       try {
         const json = this.#coder.encodeJson(method, params);
         const id = this.#coder.getId();
+
         const callback = (error?: Error | null, result?: any): void => {
           error
             ? reject(error)
@@ -299,6 +300,7 @@ export default class WsProvider implements WSProviderInterface {
 
     if (!handler) {
       l.debug((): string => `Unable to find handler for id=${response.id}`);
+
       return;
     }
 
@@ -341,6 +343,7 @@ export default class WsProvider implements WSProviderInterface {
       this.#waitingForId[subId] = response;
 
       l.debug((): string => `Unable to find handler for subscription=${subId}`);
+
       return;
     }
 

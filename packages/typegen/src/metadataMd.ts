@@ -51,6 +51,7 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
             .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
             .replace(/^#{1,3} /, '#### ')} `
     , '');
+
   // prefix each line with indentation
   return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }

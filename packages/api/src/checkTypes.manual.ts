@@ -31,11 +31,13 @@ async function derive (api: ApiPromise): Promise<void> {
   });
 
   const fees = await api.derive.balances.fees();
+
   console.log('fees', fees);
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.bonded();
+
   console.log('intentions:', intentions);
 
   // api.query.*.* is well-typed
@@ -47,6 +49,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
   // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
   const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
+
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
   // check multi for unsub
@@ -71,6 +74,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // at queries
   const events = await api.query.system.events.at('0x12345');
+
   console.log(`Received ${events.length} events:`);
 
   // check entries()
@@ -82,6 +86,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // check range types
   const entries = await api.query.system.events.range(['0x12345', '0x7890']);
+
   console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`)}`);
 }
 

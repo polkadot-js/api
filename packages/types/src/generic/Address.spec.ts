@@ -13,6 +13,7 @@ describe('Address', (): void => {
   const testDecode = (type: string, input: Address | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
     it(`can decode from ${type}`, (): void => {
       const a = registry.createType('Address', input);
+
       expect(a.toString()).toBe(expected);
     });
 
@@ -98,6 +99,7 @@ describe('Address', (): void => {
     const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: string | Uint8Array): void =>
       it(`can encode ${to}`, (): void => {
         const a = registry.createType('Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
+
         expect(a[to]()).toEqual(expected);
       });
 

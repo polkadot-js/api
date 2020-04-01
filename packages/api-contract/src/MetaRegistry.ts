@@ -240,6 +240,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
 
     const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+
     assert(type && type.length > 0, `MetaRegistry: Invalid builtin Vec type found at index ${typeIndex}`);
 
     return {
@@ -256,6 +257,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
 
     const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+
     assert(type && type.length > 0, `MetaRegistry: Invalid vector type found at index ${typeIndex}`);
 
     return {
@@ -272,8 +274,10 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     switch (name) {
       case 'Option':
         return this.typeDefForOption(id, typeIndex);
+
       case 'Result':
         return this.typeDefForResult(id, typeIndex);
+
       default: {
         const sub = def['enum.variants'].map((variant) => this.typeDefForEnumVariant(variant));
 

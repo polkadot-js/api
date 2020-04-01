@@ -76,7 +76,9 @@ export class MortalEra extends Tuple {
   private static decodeMortalObject (registry: Registry, value: MortalMethod): MortalEraValue {
     const { current, period } = value;
     let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
+
     calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
+
     const phase = current % calPeriod;
     const quantizeFactor = Math.max(calPeriod >> 12, 1);
     const quantizedPhase = phase / quantizeFactor * quantizeFactor;

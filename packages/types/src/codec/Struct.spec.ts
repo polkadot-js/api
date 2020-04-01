@@ -22,6 +22,7 @@ describe('Struct', (): void => {
           foo: Text,
           bar: U32
         }, input);
+
         expect([...s.keys()]).toEqual(['foo', 'bar']);
         expect(
           [...s.values()].map((v): string =>
@@ -43,6 +44,7 @@ describe('Struct', (): void => {
           foo: Text,
           bar: U32
         }, { foo: 'bazzing', bar: 69 });
+
         expect(s[to]()).toEqual(expected);
       });
 
@@ -81,6 +83,7 @@ describe('Struct', (): void => {
         bar: Text
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
+
     expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
   });
 
@@ -94,6 +97,7 @@ describe('Struct', (): void => {
       foo: U32,
       bar: U32
     }, input);
+
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
   });
 
