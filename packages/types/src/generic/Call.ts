@@ -55,8 +55,8 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
   return {
     args,
     argsDef: getArgsDef(registry, meta),
-    meta,
-    callIndex
+    callIndex,
+    meta
   };
 }
 
@@ -123,8 +123,8 @@ export default class Call extends Struct implements IMethod {
     const decoded = decodeCall(registry, value, meta);
 
     super(registry, {
-      callIndex: CallIndex,
-      args: Struct.with(decoded.argsDef)
+      args: Struct.with(decoded.argsDef),
+      callIndex: CallIndex
     }, decoded);
 
     this._meta = decoded.meta;
@@ -212,10 +212,10 @@ export default class Call extends Struct implements IMethod {
     }
 
     return {
-      callIndex: u8aToHex(this.callIndex),
-      section: call?.section,
-      method: call?.method,
       args: this.args.map((arg) => arg.toHuman(isExpanded)),
+      callIndex: u8aToHex(this.callIndex),
+      method: call?.method,
+      section: call?.section,
       ...(isExpanded && call
         ? { documentation: call.meta.documentation.map((d) => d.toString()) }
         : {}

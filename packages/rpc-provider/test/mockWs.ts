@@ -31,14 +31,14 @@ interface ReplyDef {
 }
 
 // should be JSONRPC def return
-function createError ({ id, error: { code, message } }: ErrorDef): any {
+function createError ({ error: { code, message }, id }: ErrorDef): any {
   return {
-    id,
-    jsonrpc: '2.0',
     error: {
       code,
       message
-    }
+    },
+    id,
+    jsonrpc: '2.0'
   };
 }
 

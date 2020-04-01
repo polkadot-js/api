@@ -1,7 +1,7 @@
 # 1.9.1 Apr 1, 2020
 
-**Breaking change** (TypeScript with derives only) The return type names for `api.derive.*` have been adjusted for consistency, all starting with `Derive*` (previously a mixture of `Derived*` and `Derive*`)
-**Breaking change** (derives only) Additional cleanups of democracy proposal & referenda derives, including support for new Polkadot/Substrate vote retrievals
+- **Breaking change** (TypeScript with derives only) The return type names for `api.derive.*` have been adjusted for consistency, all starting with `Derive*` (previously a mixture of `Derived*` and `Derive*`)
+- **Breaking change** (derives only) Additional cleanups of democracy proposal & referenda derives, including support for new Polkadot/Substrate vote retrievals
 - Tx signing via `signAndSend` & `signAsync` now tries to use the last finalized block (depending on finalized drift)
 - Add support for `api.rpc.childstate.*` Substrate RPCs, older nodes with still populate `api.rpc.state.*` with the child methods
 - Adjust `Error.message` on RPC failures to not include the (already known) method signature

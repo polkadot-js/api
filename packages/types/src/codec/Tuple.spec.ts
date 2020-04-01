@@ -127,6 +127,7 @@ describe('Tuple', (): void => {
 
     it('generates sane value with object types', (): void => {
       expect(
+        // eslint-disable-next-line sort-keys
         new Tuple(registry, { number: U128, blockNumber: registry.createClass('BlockNumber') }).toRawType()
       ).toEqual('(u128,u32)');
     });

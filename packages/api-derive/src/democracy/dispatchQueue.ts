@@ -27,9 +27,9 @@ export function dispatchQueue (api: ApiInterfaceRx): () => Observable<DeriveDisp
         map(([dispatches, images]) =>
           dispatches.map(([at, imageHash, index], dispatchIndex): DeriveDispatch => ({
             at,
-            index,
             image: images[dispatchIndex],
-            imageHash
+            imageHash,
+            index
           }))
         )
       )

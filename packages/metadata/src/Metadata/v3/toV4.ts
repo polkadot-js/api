@@ -20,22 +20,22 @@ function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
       ? [registry.createType('MapTypeV4', {
         hasher: registry.createType('StorageHasherV4', 'Twox128'),
         key: type.asMap.key,
-        value: type.asMap.value,
-        linked: type.asMap.linked
+        linked: type.asMap.linked,
+        value: type.asMap.value
       }), 1]
       : [registry.createType('DoubleMapTypeV4', {
         hasher: registry.createType('StorageHasherV4', 'Twox128'),
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
-        value: type.asDoubleMap.value,
-        key2Hasher: type.asDoubleMap.key2Hasher
+        key2Hasher: type.asDoubleMap.key2Hasher,
+        value: type.asDoubleMap.value
       }), 2];
 
   return registry.createType('StorageFunctionMetadataV4', {
     documentation,
     fallback,
-    name,
     modifier,
+    name,
     type: registry.createType('StorageFunctionTypeV4', newType, index)
   });
 }

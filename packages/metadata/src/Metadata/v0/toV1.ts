@@ -41,11 +41,11 @@ export default function toV1 (registry: Registry, metadataV0: MetadataV0): Metad
         : stringUpperFirst(mod.prefix.toString()); // If this module doesn't have storage, we just assume the prefix is the name capitalized
 
       return registry.createType('ModuleMetadataV1', {
+        calls: toV1Calls(registry, mod),
+        events: toV1Events(registry, metadataV0, mod.prefix),
         name: mod.prefix, // Not capitalized
         prefix, // Capitalized
-        storage: toV1Storage(registry, mod),
-        calls: toV1Calls(registry, mod),
-        events: toV1Events(registry, metadataV0, mod.prefix)
+        storage: toV1Storage(registry, mod)
       });
     })
   });

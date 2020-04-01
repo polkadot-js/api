@@ -228,6 +228,9 @@ export default class CodecSet extends Set<string> implements Codec {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this.valueEncoded, { isLe: false, bitLength: this.#byteLength * 8 });
+    return bnToU8a(this.valueEncoded, {
+      bitLength: this.#byteLength * 8,
+      isLe: false
+    });
   }
 }

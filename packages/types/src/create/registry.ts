@@ -23,7 +23,7 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
   metadata.asLatest.modules.forEach((section, sectionIndex): void => {
     const sectionName = stringCamelCase(section.name.toString());
 
-    section.errors.forEach(({ name, documentation }, index): void => {
+    section.errors.forEach(({ documentation, name }, index): void => {
       const eventIndex = new Uint8Array([sectionIndex, index]);
 
       metadataErrors[u8aToHex(eventIndex)] = {

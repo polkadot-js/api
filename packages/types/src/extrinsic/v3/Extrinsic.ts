@@ -27,6 +27,7 @@ export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV3 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV3',
+      // eslint-disable-next-line sort-keys
       method: 'Call'
     }, ExtrinsicV3.decodeExtrinsic(registry, value, isSigned));
   }

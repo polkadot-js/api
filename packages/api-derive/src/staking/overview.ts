@@ -15,12 +15,12 @@ function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): 
   return api.query.staking.currentEraPointsEarned<EraPoints>().pipe(
     map(({ individual, total }): EraRewardPoints =>
       api.registry.createType('EraRewardPoints', {
-        total,
         individual: new Map<AccountId, RewardPoint>(
           individual
             .map((points): RewardPoint => api.registry.createType('RewardPoint', points))
             .map((points, index): [AccountId, RewardPoint] => [currentElected[index], points])
-        )
+        ),
+        total
       })
     )
   );

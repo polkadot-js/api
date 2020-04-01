@@ -76,8 +76,8 @@ export default class Event extends Struct {
     const { DataType, value } = Event.decodeEvent(registry, _value);
 
     super(registry, {
-      index: 'EventId',
-      data: DataType
+      data: DataType,
+      index: 'EventId'
     }, value);
   }
 
@@ -94,8 +94,8 @@ export default class Event extends Struct {
     return {
       DataType: registry.findMetaEvent(index),
       value: {
-        index,
-        data: value.subarray(2)
+        data: value.subarray(2),
+        index
       }
     };
   }

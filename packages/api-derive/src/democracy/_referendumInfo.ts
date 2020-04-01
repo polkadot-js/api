@@ -21,9 +21,9 @@ export function _referendumInfo (api: ApiInterfaceRx): (index: BN, info: Option<
     return status
       ? api.query.democracy.preimages(status.proposalHash).pipe(
         map((preimage): DeriveReferendum => ({
-          index: api.registry.createType('ReferendumIndex', index),
           image: parseImage(api, preimage),
           imageHash: status.proposalHash,
+          index: api.registry.createType('ReferendumIndex', index),
           status
         }))
       )

@@ -42,8 +42,8 @@ describe('getModuleTypes', (): void => {
 
   it('merges pre-defined and user-defined for identity', (): void => {
     expect(getModuleTypes(registry, 'identity')).toEqual({
-      Judgement: 'IdentityJudgement',
-      Id: 'IdentityId'
+      Id: 'IdentityId',
+      Judgement: 'IdentityJudgement'
     });
   });
 });

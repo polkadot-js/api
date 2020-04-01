@@ -26,8 +26,11 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   constructor (registry: Registry, value?: ExtrinsicSignatureV1 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super(registry, {
       signer: 'Address',
+      // eslint-disable-next-line sort-keys
       signature: 'Signature',
+      // eslint-disable-next-line sort-keys
       nonce: 'Compact<Index>',
+      // eslint-disable-next-line sort-keys
       era: 'ExtrinsicEra'
     }, ExtrinsicSignatureV1.decodeExtrinsicSignature(value, isSigned));
   }
