@@ -76,8 +76,9 @@ export default class Event extends Struct {
     const { DataType, value } = Event.decodeEvent(registry, _value);
 
     super(registry, {
-      data: DataType,
-      index: 'EventId'
+      index: 'EventId',
+      // eslint-disable-next-line sort-keys
+      data: DataType
     }, value);
   }
 
