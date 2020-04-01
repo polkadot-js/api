@@ -1,21 +1,21 @@
-# 1.9.0-beta.x
+# 1.9.1 Apr 1, 2020
 
-**Breaking change** (TypeScript with derives only) The type names for `api.derive.*` returns has been adjusted to be consistent with `Derive*` (previously a mixture of `Derived*` and `Derive*`)
+**Breaking change** (TypeScript with derives only) The return type names for `api.derive.*` have been adjusted for consistency, all starting with `Derive*` (previously a mixture of `Derived*` and `Derive*`)
 **Breaking change** (derives only) Additional cleanups of democracy proposal & referenda derives, including support for new Polkadot/Substrate vote retrievals
 - Tx signing via `signAndSend` & `signAsync` now tries to use the last finalized block (depending on finalized drift)
 - Add support for `api.rpc.childstate.*` Substrate RPCs, older nodes with still populate `api.rpc.state.*` with the child methods
 - Adjust `Error.message` on RPC failures to not include the (already known) method signature
-- Internal adjustment of interface types to align with modules (no external impact via `@polkadot/types/interfaces`)
+- Split `@polkadot/types/known` into `@polkadot/types-known`, allowing for base API overrides
 - Extended `api.derive.democracy` to cater for dispatchQueue and externals
 - Extended `api.derive.council` to cater for new phragmen elections
-- Use new `queryStorageAt` for query `.entries`, removing unneeded subscriptions (as available)
-- Split `@polkadot/types/known` into `@polkadot/types-known`, allowing for base API overrides
-- Fix `BTreeSet` initialization when part of query interfaces
+- Use new `queryStorageAt` for query `.entries`, removing unneeded subscriptions (use as available)
+- Fix `BTreeSet` initialization when it forms part of query interfaces
 - Fix encoding for `Vec<u8>`-related types as part of constants
+- Internal adjustment of interface type locations (no impact on imports via `@polkadot/types/interfaces`)
 
 # 1.8.1 Mar 22, 2020
 
-- **Breaking change** The format for any custom RPCs have been changed alongside API-internal changes to allow for better RPC management. If you are currently using custom RPCs (or planning to do so), look at the [updated documentation](https://polkadot.js.org/api/start/rpc.custom.html)
+- **Breaking change** The format for any custom RPCs have been changed (alongside API-internal changes) to allow for better RPC management. If you are currently using custom RPCs (or planning to do so), look at the [updated documentation](https://polkadot.js.org/api/start/rpc.custom.html)
 - **Breaking change** Alongside API RPC changes, the `@polkadot/jsonrpc` package has been removed. Since it was never documented and only used internally, this should not have adverse impacts. All RPC definitions itself has now been moved to the relevant modules inside `@polkadot/types/interfaces`
 - **Important** Substrate has an updated democracy module. If using an older chain add the `ReferendumInfo: 'ReferendumInfoTo239'` type when using referendums
 - The `isRetracted` Extrinsic status is now a warning, not a fatal error, correctly aligning with Polkadot/Substrate
