@@ -123,8 +123,9 @@ export default class Call extends Struct implements IMethod {
     const decoded = decodeCall(registry, value, meta);
 
     super(registry, {
-      args: Struct.with(decoded.argsDef),
-      callIndex: CallIndex
+      callIndex: CallIndex,
+      // eslint-disable-next-line sort-keys
+      args: Struct.with(decoded.argsDef)
     }, decoded);
 
     this._meta = decoded.meta;
