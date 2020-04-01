@@ -196,7 +196,8 @@ describe('getTypeDef', (): void => {
             info: TypeDefInfo.Plain,
             type: 'LookupTarget'
           }
-        ]
+        ],
+        type: '(PropIndex,Proposal,LookupTarget)'
       },
       type: 'Vec<(PropIndex,Proposal,LookupTarget)>'
     });
