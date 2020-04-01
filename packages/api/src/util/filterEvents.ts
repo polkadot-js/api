@@ -20,6 +20,7 @@ export default function filterEvents (extHash: H256, { block: { extrinsics, head
     if (status.isInBlock) {
       l.warn(`block ${header.hash}: Unable to find extrinsic ${myHash} inside ${allHashes}`);
     }
+
     return;
   }
 

@@ -87,6 +87,7 @@ export default function main (): void {
         websocket.onclose = onSocketClose;
         websocket.onerror = onSocketError;
         websocket.onopen = onSocketOpen;
+
         websocket.onmessage = (message: any): void => {
           generate(JSON.parse(message.data).result, pkg, output, isStrict);
         };

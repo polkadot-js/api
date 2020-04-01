@@ -12,6 +12,7 @@ function isNotNested (...counters: number[]): boolean {
 export function typeSplit (type: string): string[] {
   let [cDepth, fDepth, sDepth, tDepth, start] = [0, 0, 0, 0, 0];
   const result = [];
+
   const extract = (index: number): void => {
     if (isNotNested(cDepth, fDepth, sDepth, tDepth)) {
       result.push(type.substr(start, index - start).trim());

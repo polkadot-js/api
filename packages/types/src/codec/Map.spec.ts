@@ -11,17 +11,21 @@ import CodecMap from './Map';
 
 const registry = new TypeRegistry();
 const mockU32TextMap = new Map<Text, U32>();
+
 mockU32TextMap.set(new Text(registry, 'bazzing'), new U32(registry, 69));
+
 const mockU32TextMapString = '{"bazzing":69}';
 const mockU32TextMapObject = { bazzing: 69 };
 const mockU32TextMapHexString = '0x041c62617a7a696e6745000000';
 const mockU32TextMapUint8Array = Uint8Array.from([4, 28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]);
 
 const mockU32U32Map = new Map<U32, U32>();
+
 mockU32U32Map.set(new U32(registry, 1), new U32(registry, 2));
 mockU32U32Map.set(new U32(registry, 23), new U32(registry, 24));
 mockU32U32Map.set(new U32(registry, 28), new U32(registry, 30));
 mockU32U32Map.set(new U32(registry, 45), new U32(registry, 80));
+
 const mockU32U32MapString = '{"1":2,"23":24,"28":30,"45":80}';
 const mockU32U32MapObject = { 1: 2, 23: 24, 28: 30, 45: 80 };
 const mockU32U32MapHexString = '0x10043102000000083233180000000832381e00000008343550000000';
@@ -49,6 +53,7 @@ describe('CodecMap', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
         const s = new CodecMap(registry, 'BTreeMap', Text, U32, mockU32TextMap);
+
         expect(s[to]()).toEqual(expected);
       });
 
@@ -62,6 +67,7 @@ describe('CodecMap', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
         const s = new CodecMap(registry, 'BTreeMap', Text, U32, mockU32U32Map);
+
         expect(s[to]()).toEqual(expected);
       });
 

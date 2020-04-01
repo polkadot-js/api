@@ -38,6 +38,7 @@ describe('BTreeMap', (): void => {
       placeholder: U32,
       value: 'BTreeMap<Text, U32>' as any
     });
+
     s.set('value', new (BTreeMap.with(Text, U32))(registry, mockU32TextMap));
     expect(s.toString()).toBe('{"placeholder":0,"value":{"bazzing":69}}');
   });

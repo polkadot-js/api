@@ -172,6 +172,7 @@ export default class Rpc implements RpcInterface {
 
   private createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = `${section}_${method}`;
+
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
       // However, formatInputs can throw, and when it does, the above way
@@ -226,10 +227,12 @@ export default class Rpc implements RpcInterface {
     const subName = `${section}_${subMethod}`;
     const unsubName = `${section}_${unsubMethod}`;
     const subType = `${section}_${updateType}`;
+
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
+
         const errorHandler = (error: Error): void => {
           logErrorMessage(method, def, error);
 
@@ -239,9 +242,11 @@ export default class Rpc implements RpcInterface {
         try {
           const params = this.formatInputs(def, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
+
           const update = (error?: Error | null, result?: any): void => {
             if (error) {
               logErrorMessage(method, def, error);
+
               return;
             }
 

@@ -77,6 +77,7 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
           const methodName = _methodName as keyof typeof section;
           // Not sure what to do here, casting as any. Though the final types are good
           const method = (section[methodName] as any)(api);
+
           // idem
           (sectionAcc as any)[methodName] = method;
 

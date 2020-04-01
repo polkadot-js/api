@@ -12,6 +12,7 @@ export default function createDescriptor (registry: Registry, section: string, s
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name.toString());
+
   const extrinsicFn = (...args: any[]): Call => {
     assert(
       expectedArgs.length.valueOf() === args.length,

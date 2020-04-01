@@ -34,6 +34,7 @@ describe('Tuple', (): void => {
           Text,
           U32
         ], input);
+
         expect(
           t.toJSON()
         ).toEqual(['bazzing', 69]);

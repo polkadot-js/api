@@ -30,6 +30,7 @@ describe('AccountId', (): void => {
     const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string): void =>
       it(`can decode from ${type}`, (): void => {
         const a = registry.createType('AccountId', input);
+
         expect(a.toString()).toBe(expected);
       });
 

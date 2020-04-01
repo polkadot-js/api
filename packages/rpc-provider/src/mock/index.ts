@@ -104,6 +104,7 @@ export default class Mock implements ProviderInterface {
 
   public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     this.emitter.on(type, sub);
+
     return (): void => {
       this.emitter.removeListener(type, sub);
     };

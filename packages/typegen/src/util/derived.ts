@@ -80,6 +80,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, _type:
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);
+
     return ['IExtrinsic'];
   } else if (type === 'StorageKey') {
     // TODO We can do better
