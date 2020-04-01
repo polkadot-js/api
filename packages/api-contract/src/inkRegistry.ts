@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InkProject, MtLookupTextId, MtLookupTypeId, MtTypeIdDef } from '@polkadot/types/interfaces';
+import { InkProject, MtLookupTextId, MtLookupTypeId, MtType } from '@polkadot/types/interfaces';
 
 import { assert, isUndefined } from '@polkadot/util';
 
@@ -27,7 +27,7 @@ export function getInkStrings (project: InkProject, ids: MtLookupTextId[]): stri
 }
 
 // extract a single ink type defintion from the project
-export function getInkType (project: InkProject, id: MtLookupTypeId): MtTypeIdDef {
+export function getInkType (project: InkProject, id: MtLookupTypeId): MtType {
   const offset = getRegistryOffset(id);
   const type = project.lookup.types[offset];
 
@@ -37,6 +37,6 @@ export function getInkType (project: InkProject, id: MtLookupTypeId): MtTypeIdDe
 }
 
 // extract and array of ink type defs from the project
-export function getInkTypes (project: InkProject, ids: MtLookupTypeId[]): MtTypeIdDef[] {
-  return ids.map((id): MtTypeIdDef => getInkType(project, id));
+export function getInkTypes (project: InkProject, ids: MtLookupTypeId[]): MtType[] {
+  return ids.map((id): MtType => getInkType(project, id));
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MtTypeIdDef } from '@polkadot/types/interfaces';
+import { MtType } from '@polkadot/types/interfaces';
 
 import { TypeRegistry, createType } from '@polkadot/types';
 
@@ -30,7 +30,7 @@ describe('inkRegistry', (): void => {
 
     it('does multiple lookups via getInkStrings', (): void => {
       expect(
-        getInkStrings(project, project.lookup.types[0].id.asCustom.namespace)
+        getInkStrings(project, project.lookup.types[0].asComposite.namespace)
       ).toEqual(['incrementer', 'incrementer', '__ink_private', '__ink_storage']);
     });
   });
@@ -39,20 +39,20 @@ describe('inkRegistry', (): void => {
     it('fails with invalid indexes', (): void => {
       expect(
         // this is a 0, indexes start at 1, so should fail
-        (): MtTypeIdDef => getInkType(project, createType(registry, 'MtLookupTypeId'))
+        (): MtType => getInkType(project, createType(registry, 'MtLookupTypeId'))
       ).toThrow();
     });
 
     it('does single lookups via getInkType', (): void => {
       expect(
         JSON.stringify(getInkType(project, project.contract.messages[0].args[0].type.id))
-      ).toEqual('{"id":{"Primitive":10},"def":{"Builtin":null}}');
+      ).toEqual('{"Primitive":"I32"}');
     });
 
     it('does multiple lookups via getInkTypes', (): void => {
       expect(
         JSON.stringify(getInkTypes(project, [project.contract.messages[1].returnType.unwrap().id]))
-      ).toEqual('[{"id":{"Primitive":10},"def":{"Builtin":null}}]');
+      ).toEqual('[{"Primitive":"I32"}]');
     });
   });
 });
