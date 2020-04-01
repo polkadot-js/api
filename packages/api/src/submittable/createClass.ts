@@ -237,8 +237,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const payload = this.registry.createType('SignerPayload', {
         ...options,
         address,
-        method: this.method,
-        blockNumber: header ? header.number : 0
+        blockNumber: header ? header.number : 0,
+        method: this.method
       });
       let result: SignerResult;
 

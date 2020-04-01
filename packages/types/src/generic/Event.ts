@@ -77,6 +77,7 @@ export default class Event extends Struct {
 
     super(registry, {
       index: 'EventId',
+      // eslint-disable-next-line sort-keys
       data: DataType
     }, value);
   }
@@ -94,8 +95,8 @@ export default class Event extends Struct {
     return {
       DataType: registry.findMetaEvent(index),
       value: {
-        index,
-        data: value.subarray(2)
+        data: value.subarray(2),
+        index
       }
     };
   }

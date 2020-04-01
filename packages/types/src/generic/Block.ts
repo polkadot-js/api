@@ -33,6 +33,7 @@ export default class Block extends Struct {
   constructor (registry: Registry, value?: BlockValue | Uint8Array) {
     super(registry, {
       header: 'Header',
+      // eslint-disable-next-line sort-keys
       extrinsics: 'Vec<Extrinsic>'
     }, value);
   }

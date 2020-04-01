@@ -21,8 +21,8 @@ describe('ApiPromise', (): void => {
   const aliceEd = keyring.addPair(
     // eslint-disable-next-line @typescript-eslint/unbound-method
     createPair({ toSS58: keyring.encodeAddress, type: 'ed25519' }, {
-      secretKey: hexToU8a('0xabf8e5bdbe30c65656c0a3cbd181ff8a56294a69dfedd27982aace4a7690911588dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee'),
-      publicKey: hexToU8a('0x88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee')
+      publicKey: hexToU8a('0x88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee'),
+      secretKey: hexToU8a('0xabf8e5bdbe30c65656c0a3cbd181ff8a56294a69dfedd27982aace4a7690911588dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee')
     })
   );
   let provider: Mock;
@@ -57,7 +57,7 @@ describe('ApiPromise', (): void => {
       const metadata: any = {};
       const key = `${genesisHash}-${specVersion}`;
       metadata[key] = rpcData;
-      const api = await ApiPromise.create({ provider, metadata, registry } as ApiOptions);
+      const api = await ApiPromise.create({ metadata, provider, registry } as ApiOptions);
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();
@@ -70,7 +70,7 @@ describe('ApiPromise', (): void => {
 
     it('Create API instance without metadata and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
       const metadata = {};
-      const api = await ApiPromise.create({ provider, metadata, registry });
+      const api = await ApiPromise.create({ metadata, provider, registry });
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();

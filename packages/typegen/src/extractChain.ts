@@ -35,8 +35,8 @@ export default function main (): void {
       ws: {
         default: 'ws://127.0.0.1:9944',
         description: 'The API endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io',
-        type: 'string',
-        required: true
+        required: true,
+        type: 'string'
       }
     }).argv;
 

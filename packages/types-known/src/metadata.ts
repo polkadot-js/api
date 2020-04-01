@@ -15,10 +15,10 @@ const typesMeta: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BlockNumber: 'u64',
-      Index: 'u64',
       EventRecord: 'EventRecordTo76',
-      ValidatorPrefs: 'ValidatorPrefsTo145',
-      StakingLedger: 'StakingLedgerTo223'
+      Index: 'u64',
+      StakingLedger: 'StakingLedgerTo223',
+      ValidatorPrefs: 'ValidatorPrefsTo145'
     }
   }
 ];

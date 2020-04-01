@@ -158,10 +158,10 @@ interface TypeDefOptions {
   displayName?: string;
 }
 
-export function getTypeDef (_type: string, { name, displayName }: TypeDefOptions = {}): TypeDef {
+export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions = {}): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
-  const value: TypeDef = { info: TypeDefInfo.Plain, displayName, name, type };
+  const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
   const nested = nestedExtraction.find((nested): boolean =>
     hasWrapper(type, nested)
   );

@@ -6,14 +6,12 @@ import { OverrideModuleType } from '@polkadot/types/types';
 
 // type overrides for modules (where duplication between modules exist)
 const typesModules: Record<string, OverrideModuleType> = {
-  // old metadata & naming
-  contract: {
-    // v2 & v3
-    AccountInfo: 'ContractAccountInfo'
-  },
-  // current from here on
   balances: {
     Releases: 'ReleasesBalances'
+  },
+  contract: { // old metadata & naming
+    // v2 & v3
+    AccountInfo: 'ContractAccountInfo'
   },
   contracts: {
     StorageKey: 'ContractStorageKey'

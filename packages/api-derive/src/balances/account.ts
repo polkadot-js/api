@@ -44,7 +44,7 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId): Obser
     [api.query.balances.account, accountId],
     [api.query.system.accountNonce, accountId]
   ]).pipe(
-    map(([{ free, reserved, miscFrozen, feeFrozen }, accountNonce]): Result =>
+    map(([{ feeFrozen, free, miscFrozen, reserved }, accountNonce]): Result =>
       [free, reserved, feeFrozen, miscFrozen, accountNonce]
     )
   );
@@ -54,7 +54,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
   // AccountInfo is current, support old, eg. Edgeware
   return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
     map((infoOrTuple): Result => {
-      const { free, reserved, miscFrozen, feeFrozen } = (infoOrTuple as AccountInfo).nonce
+      const { feeFrozen, free, miscFrozen, reserved } = (infoOrTuple as AccountInfo).nonce
         ? (infoOrTuple as AccountInfo).data
         : (infoOrTuple as [Index, AccountData])[1];
       const accountNonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];

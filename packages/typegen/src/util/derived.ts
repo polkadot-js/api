@@ -44,21 +44,21 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
   const types = [
     {
       info: TypeDefInfo.Option,
-      type,
-      sub: def
+      sub: def,
+      type
     },
     {
       info: TypeDefInfo.Vec,
-      type,
-      sub: def
+      sub: def,
+      type
     }
   ];
 
   if (isCompact) {
     types.unshift({
       info: TypeDefInfo.Compact,
-      type,
-      sub: def
+      sub: def,
+      type
     });
   }
 

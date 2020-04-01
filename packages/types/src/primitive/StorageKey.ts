@@ -35,14 +35,12 @@ interface StorageKeyExtra {
 const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   // opaque
   Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
+  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
   Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase
+  Identity: [0, true],
   Twox128: [16, false],
   Twox256: [32, false],
-
-  // can decode
-  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
-  Twox64Concat: [8, true],
-  Identity: [0, true]
+  Twox64Concat: [8, true]
 };
 
 function getStorageType (type: StorageEntryTypeLatest, isOptionalLinked?: boolean): [boolean, string] {

@@ -83,7 +83,7 @@ export default class ContractRegistry extends MetaRegistry {
 
       assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${message.name}`);
 
-      const { name, selector, return_type: returnType } = message;
+      const { name, return_type: returnType, selector } = message;
 
       assert(isNumber(name) && isString(this.stringAt(name)), `Expected name for ${fnname}`);
       assert(isNull(returnType) || (isNumber(returnType.ty) && isObject(this.typeDefAt(returnType.ty))), `Expected return_type for ${fnname}`);
@@ -150,12 +150,12 @@ export default class ContractRegistry extends MetaRegistry {
     return args.map(({ name, type, ...arg }) => ({ ...arg, name: this.stringAt(name), type: this.convertType(type) }));
   }
 
-  public convertType ({ ty, display_name: displayNameIndices }: ContractABITypePre): TypeDef {
+  public convertType ({ display_name: displayNameIndices, ty }: ContractABITypePre): TypeDef {
     const displayName = this.stringsAt(displayNameIndices).join('::');
     return this.typeDefAt(ty, { displayName });
   }
 
-  public convertContract ({ constructors, messages, name, events, ...contract }: ContractABIContractPre): ContractABIContract {
+  public convertContract ({ constructors, events, messages, name, ...contract }: ContractABIContractPre): ContractABIContract {
     return {
       constructors: this.convertConstructors(constructors),
       messages: messages.map((message) => this.convertMessage(message)),
@@ -202,13 +202,13 @@ export default class ContractRegistry extends MetaRegistry {
     }
   }
 
-  public convertStorageStruct ({ 'struct.type': structType, 'struct.fields': structFields }: ContractABIStorageStructPre): ContractABIStorageStruct {
+  public convertStorageStruct ({ 'struct.fields': structFields, 'struct.type': structType }: ContractABIStorageStructPre): ContractABIStorageStruct {
     return {
-      'struct.type': this.typeDefAt(structType),
-      'struct.fields': structFields.map(({ name, layout }) => ({
-        name: this.stringAt(name),
-        layout: this.convertStorageLayout(layout)
-      }))
+      'struct.fields': structFields.map(({ layout, name }) => ({
+        layout: this.convertStorageLayout(layout),
+        name: this.stringAt(name)
+      })),
+      'struct.type': this.typeDefAt(structType)
     };
   }
 

@@ -59,6 +59,7 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
       : undefined,
     email: dataAsString(info.email),
     image: dataAsString(info.image),
+    judgements,
     legal: dataAsString(info.legal),
     other: info.additional.reduce((other: Record<string, string>, [_key, _value]): Record<string, string> => {
       const key = dataAsString(_key);
@@ -78,8 +79,7 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
       : undefined,
     riot: dataAsString(info.riot),
     twitter: dataAsString(info.twitter),
-    web: dataAsString(info.web),
-    judgements
+    web: dataAsString(info.web)
   };
 }
 
@@ -140,9 +140,9 @@ function retrieveFlags (api: ApiInterfaceRx, accountId?: AccountId): Observable<
 
       return {
         isCouncil: (electionsMembers?.map(([id]) => id) || councilMembers || []).some(checkIncluded),
-        isTechCommittee: technicalCommitteeMembers.some(checkIncluded),
         isSociety: societyMembers.some(checkIncluded),
-        isSudo: !!sudoKey && sudoKey.eq(accountId)
+        isSudo: !!sudoKey && sudoKey.eq(accountId),
+        isTechCommittee: technicalCommitteeMembers.some(checkIncluded)
       };
     })
   );

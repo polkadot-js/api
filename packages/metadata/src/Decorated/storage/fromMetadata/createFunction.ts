@@ -150,11 +150,11 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
-    name,
-    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
-    type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
+    documentation,
     fallback: registry.createType('Bytes', createTypeUnsafe(registry, outputType).toHex()),
-    documentation
+    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+    name,
+    type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0)
   });
 
   return registry.createType('StorageKey', iterFn, { method, section });

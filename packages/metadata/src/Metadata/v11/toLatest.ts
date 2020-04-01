@@ -31,7 +31,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV11[], section
   return calls.map(({ args, documentation, name }): FunctionMetadataLatest => {
     args.forEach(({ type }): void => setTypeOverride(sectionTypes, type));
 
-    return registry.createType('FunctionMetadataLatest', { args, name, documentation });
+    return registry.createType('FunctionMetadataLatest', { args, documentation, name });
   });
 }
 
@@ -65,8 +65,9 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
  * @internal
  **/
-export default function toLatest (registry: Registry, { modules, extrinsic }: MetadataV11): MetadataLatest {
+export default function toLatest (registry: Registry, { extrinsic, modules }: MetadataV11): MetadataLatest {
   return registry.createType('MetadataLatest', {
+    extrinsic,
     modules: modules.map((mod): ModuleMetadataLatest => {
       const calls = mod.calls.unwrapOr(null);
       const storage = mod.storage.unwrapOr(null);
@@ -81,7 +82,6 @@ export default function toLatest (registry: Registry, { modules, extrinsic }: Me
           ? convertStorage(registry, storage, sectionTypes)
           : null
       });
-    }),
-    extrinsic
+    })
   });
 }

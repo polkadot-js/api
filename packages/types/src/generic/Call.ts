@@ -55,8 +55,8 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
   return {
     args,
     argsDef: getArgsDef(registry, meta),
-    meta,
-    callIndex
+    callIndex,
+    meta
   };
 }
 
@@ -124,6 +124,7 @@ export default class Call extends Struct implements IMethod {
 
     super(registry, {
       callIndex: CallIndex,
+      // eslint-disable-next-line sort-keys
       args: Struct.with(decoded.argsDef)
     }, decoded);
 
@@ -212,10 +213,10 @@ export default class Call extends Struct implements IMethod {
     }
 
     return {
-      callIndex: u8aToHex(this.callIndex),
-      section: call?.section,
-      method: call?.method,
       args: this.args.map((arg) => arg.toHuman(isExpanded)),
+      callIndex: u8aToHex(this.callIndex),
+      method: call?.method,
+      section: call?.section,
       ...(isExpanded && call
         ? { documentation: call.meta.documentation.map((d) => d.toString()) }
         : {}

@@ -74,11 +74,11 @@ describe('send', (): void => {
 
   it('throws error when !response.ok', (): Promise<any> => {
     createMock([{
-      id: 1,
       error: {
         code: 666,
         message: 'error'
-      }
+      },
+      id: 1
     }]);
 
     return createWs(true)

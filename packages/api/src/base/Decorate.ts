@@ -218,7 +218,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   protected filterRpcMethods (exposed: string[]): void {
     const hasResults = exposed.length !== 0;
     const allKnown = [...this._rpcCore.mapping.entries()];
-    const allKeys = allKnown.reduce((allKeys: string[], [, { alias, method, section, pubsub }]): string[] => {
+    const allKeys = allKnown.reduce((allKeys: string[], [, { alias, method, pubsub, section }]): string[] => {
       allKeys.push(`${section}_${method}`);
 
       if (pubsub) {

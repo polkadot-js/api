@@ -59,11 +59,11 @@ export function signingInfo (api: ApiInterfaceRx): (address: string, nonce?: Any
     ]).pipe(
       map(([nonce, header]) => ({
         header,
-        nonce,
         mortalLength: MORTAL_PERIOD
           .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
           .add(MAX_FINALITY_LAG)
-          .toNumber()
+          .toNumber(),
+        nonce
       }))
     );
 }

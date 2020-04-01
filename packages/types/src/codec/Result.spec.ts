@@ -10,7 +10,7 @@ import Result from './Result';
 
 describe('Result', (): void => {
   const registry = new TypeRegistry();
-  const Type = Result.with({ Ok: u32, Error: Text });
+  const Type = Result.with({ Error: Text, Ok: u32 });
 
   it('has a sane toRawType representation', (): void => {
     expect(new Type(registry).toRawType()).toEqual('Result<u32,Text>');

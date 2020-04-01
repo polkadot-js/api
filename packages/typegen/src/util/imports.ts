@@ -116,7 +116,7 @@ export function createImports (importDefinitions: Record<string, object>, { type
       return local;
     }, {}),
     primitiveTypes: {},
-    typesTypes: {},
-    typeToModule
+    typeToModule,
+    typesTypes: {}
   };
 }

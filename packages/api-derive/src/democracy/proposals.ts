@@ -26,9 +26,9 @@ function parse ([proposals, images, depositors]: [Proposals, (DeriveProposalImag
 
       return {
         balance,
-        index,
         image: images[proposalIndex],
         imageHash,
+        index,
         proposer,
         seconds
       };

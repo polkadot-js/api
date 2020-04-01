@@ -36,7 +36,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
   public call (as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'rpc'>;
   public call (as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'tx'>;
   public call<CallType extends ContractCallTypes> (as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, CallType> {
-    const { fn, def } = this.getMessage(message);
+    const { def, fn } = this.getMessage(message);
 
     return {
       send: this.decorateMethod(
@@ -44,11 +44,11 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>
             this.rpcContractsCall(
               this.registry.createType('ContractCallRequest', {
-                origin: account,
                 dest: this.address.toString(),
-                value,
                 gasLimit,
-                inputData: fn(...params)
+                inputData: fn(...params),
+                origin: account,
+                value
               })
             ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
               this.createOutcome(result, this.registry.createType('AccountId', account), def, params)
@@ -73,13 +73,13 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     }
 
     return {
-      time: Date.now(),
+      isSuccess: result.isSuccess,
       message,
       origin,
+      output,
       params,
       result,
-      isSuccess: result.isSuccess,
-      output
+      time: Date.now()
     };
   }
 

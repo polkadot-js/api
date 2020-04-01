@@ -15,7 +15,7 @@ export default function toV7 (registry: Registry, { modules }: MetadataV6): Meta
         events,
         name,
         storage: storage.isSome
-          ? registry.createType('StorageMetadataV7', { prefix, items: storage.unwrap() })
+          ? registry.createType('StorageMetadataV7', { items: storage.unwrap(), prefix })
           : null
       })
     )

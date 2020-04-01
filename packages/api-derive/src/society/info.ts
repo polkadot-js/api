@@ -30,9 +30,9 @@ export function info (api: ApiInterfaceRx): () => Observable<DeriveSociety> {
       map(([bids, defender, founder, head, maxMembers, pot]: Result): DeriveSociety => ({
         bids,
         defender: defender.unwrapOr(undefined),
+        founder: founder.unwrapOr(undefined),
         hasDefender: (defender.isSome && head.isSome && !head.eq(defender)) || false,
         head: head.unwrapOr(undefined),
-        founder: founder.unwrapOr(undefined),
         maxMembers,
         pot
       }))

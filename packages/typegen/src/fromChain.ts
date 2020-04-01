@@ -62,13 +62,13 @@ export default function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     },
     output: {
       description: 'The target directory to write the data to',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     },
     package: {
       description: 'Optional package in output location (for extra definitions)',

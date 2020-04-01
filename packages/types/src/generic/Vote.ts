@@ -101,8 +101,8 @@ export default class Vote extends U8aFixed {
    */
   public toHuman (isExpanded?: boolean): AnyJson {
     return {
-      vote: this.isAye ? 'Aye' : 'Nay',
-      conviction: this.conviction.toHuman(isExpanded)
+      conviction: this.conviction.toHuman(isExpanded),
+      vote: this.isAye ? 'Aye' : 'Nay'
     };
   }
 

@@ -13,13 +13,13 @@ export default function main (): void {
   const { input, package: pkg } = yargs.strict().options({
     input: {
       description: 'The directory to use for the user definitions',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     },
     package: {
       description: 'The package name & path to use for the user types',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     }
   }).argv;
 

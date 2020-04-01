@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable sort-keys */
+
 import { TypeRegistry } from '../create';
 import Set from './Set';
 
+// TODO actually import these from definitions, don't re-define here
 const SET_FIELDS = {
   header: 0b00000001,
   body: 0b00000010,
