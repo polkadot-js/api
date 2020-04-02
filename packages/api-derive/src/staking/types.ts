@@ -67,13 +67,19 @@ export interface DeriveStakerExposure {
   validators: DeriveEraValidatorExposure;
 }
 
+export interface DeriveStakerRewardValidator {
+  total: Balance;
+  value: Balance;
+}
+
 export interface DeriveStakerReward {
   era: EraIndex;
+  eraReward: Balance;
   isEmpty: boolean;
   isValidator: boolean;
   nominating: [string, number][];
-  validators: Record<string, Balance>;
   total: Balance;
+  validators: Record<string, DeriveStakerRewardValidator>;
 }
 
 export interface DeriveStakerSlashes {
