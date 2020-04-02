@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-contract",
-  "version": "1.10.0-beta.2",
+  "version": "1.10.0-beta.3",
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "main": "index.js",
   "keywords": [
@@ -27,9 +27,9 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "@polkadot/api": "1.10.0-beta.2",
-    "@polkadot/rpc-core": "1.10.0-beta.2",
-    "@polkadot/types": "1.10.0-beta.2",
+    "@polkadot/api": "1.10.0-beta.3",
+    "@polkadot/rpc-core": "1.10.0-beta.3",
+    "@polkadot/types": "1.10.0-beta.3",
     "@polkadot/util": "^2.7.1",
     "bn.js": "^5.1.1",
     "rxjs": "^6.5.4"
