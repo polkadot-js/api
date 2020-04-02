@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Balance, BlockNumber, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
@@ -11,12 +11,19 @@ import BN from 'bn.js';
 import { Bytes, Option } from '@polkadot/types';
 import { bnSqrt } from '@polkadot/util';
 
+type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
+type OldPreimage = ITuple<PreimageInfo>;
+
 function isOldInfo (info: ReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
   return !!(info as ReferendumInfoTo239).proposalHash;
 }
 
 function isCurrentStatus (status: ReferendumStatus | ReferendumInfoTo239): status is ReferendumStatus {
   return !!(status as ReferendumStatus).tally;
+}
+
+function isCurrentPreimage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
+  return !!imageOpt && !api.query.democracy.dispatchQueue;
 }
 
 export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
@@ -145,13 +152,8 @@ export function getStatus (info: Option<ReferendumInfo | ReferendumInfoTo239>): 
   return null;
 }
 
-export function parseImage (api: ApiInterfaceRx, imageOpt: Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>): DeriveProposalImage | undefined {
-  if (imageOpt.isNone) {
-    return;
-  }
-
+function constructProposal (api: ApiInterfaceRx, [bytes, proposer, balance, at]: PreimageInfo): DeriveProposalImage {
   let proposal: Proposal | undefined;
-  const [bytes, proposer, balance, at] = imageOpt.unwrap();
 
   try {
     proposal = api.registry.createType('Proposal', bytes.toU8a(true));
@@ -160,4 +162,24 @@ export function parseImage (api: ApiInterfaceRx, imageOpt: Option<ITuple<[Bytes,
   }
 
   return { at, balance, proposal, proposer };
+}
+
+export function parseImage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): DeriveProposalImage | undefined {
+  if (imageOpt.isNone) {
+    return;
+  }
+
+  if (isCurrentPreimage(api, imageOpt)) {
+    const status = imageOpt.unwrap();
+
+    if (status.isMissing) {
+      return;
+    }
+
+    const { data, deposit, provider, since } = status.asAvailable;
+
+    return constructProposal(api, [data, provider, deposit, since]);
+  }
+
+  return constructProposal(api, imageOpt.unwrap());
 }

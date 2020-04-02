@@ -24,6 +24,7 @@ export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as offences } from './offences/definitions';
 export { default as recovery } from './recovery/definitions';
+export { default as scheduler } from './scheduler/definitions';
 export { default as session } from './session/definitions';
 export { default as society } from './society/definitions';
 export { default as staking } from './staking/definitions';
