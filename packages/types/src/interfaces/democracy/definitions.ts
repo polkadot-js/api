@@ -50,6 +50,19 @@ export default {
       votes: 'Balance',
       capital: 'Balance'
     },
+    PreimageStatus: {
+      _enum: {
+        Missing: 'BlockNumber',
+        Available: 'PreimageStatusAvailable'
+      }
+    },
+    PreimageStatusAvailable: {
+      data: 'Bytes',
+      provider: 'AccountId',
+      deposit: 'Balance',
+      since: 'BlockNumber',
+      expiry: 'Option<BlockNumber>'
+    },
     PriorLock: '(BlockNumber, Balance)',
     PropIndex: 'u32',
     Proposal: 'Call',

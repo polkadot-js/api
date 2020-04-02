@@ -10,7 +10,7 @@ import { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/inte
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import { CodeHash, ContractInfo, Gas, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
-import { PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
+import { PreimageStatus, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
@@ -18,6 +18,7 @@ import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
 import { DeferredOffenceOf, Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import { ActiveEraInfo, ElectionResult, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, PhragmenScore, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
@@ -196,10 +197,6 @@ declare module '@polkadot/api/types/storage' {
        **/
       depositOf: AugmentedQuery<ApiType, (arg: PropIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[BalanceOf, Vec<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
       /**
-       * Queue of successful referenda to be dispatched. Stored ordered by block number.
-       **/
-      dispatchQueue: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>> & QueryableStorageEntry<ApiType>;
-      /**
        * True if the last referendum tabled was submitted externally. False if it was a public
        * proposal.
        **/
@@ -225,7 +222,7 @@ declare module '@polkadot/api/types/storage' {
        * Map of hashes to the proposal preimage, along with who registered it and their deposit.
        * The block number is the block at which it was deposited.
        **/
-      preimages: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<ITuple<[Bytes, AccountId, BalanceOf, BlockNumber]>>>> & QueryableStorageEntry<ApiType>;
+      preimages: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<PreimageStatus>>> & QueryableStorageEntry<ApiType>;
       /**
        * Who is able to vote for whom. Value is the fund-holding account, key is the
        * vote-transaction-sending account.
@@ -410,6 +407,17 @@ declare module '@polkadot/api/types/storage' {
        * The set of recoverable accounts and their recovery configuration.
        **/
       recoverable: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<RecoveryConfig>>> & QueryableStorageEntry<ApiType>;
+    };
+    scheduler: {
+      [index: string]: QueryableStorageEntry<ApiType>;
+      /**
+       * Items to be executed, indexed by the block number that they should be executed on.
+       **/
+      agenda: AugmentedQuery<ApiType, (arg: BlockNumber | AnyNumber | Uint8Array) => Observable<Vec<Option<Scheduled>>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * Lookup from identity to the block number and index of the task.
+       **/
+      lookup: AugmentedQuery<ApiType, (arg: Bytes | string | Uint8Array) => Observable<Option<TaskAddress>>> & QueryableStorageEntry<ApiType>;
     };
     session: {
       [index: string]: QueryableStorageEntry<ApiType>;
