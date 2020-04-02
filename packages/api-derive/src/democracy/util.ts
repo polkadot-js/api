@@ -165,12 +165,16 @@ function constructProposal (api: ApiInterfaceRx, [bytes, proposer, balance, at]:
 }
 
 export function parseImage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): DeriveProposalImage | undefined {
+  console.error(imageOpt.toHuman());
+
   if (imageOpt.isNone) {
     return;
   }
 
   if (isCurrentPreimage(api, imageOpt)) {
     const status = imageOpt.unwrap();
+
+    console.error(status.toHuman());
 
     if (status.isMissing) {
       return;

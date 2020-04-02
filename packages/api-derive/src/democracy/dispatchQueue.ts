@@ -4,17 +4,23 @@
 
 import { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
-import { DeriveDispatch } from '../types';
+import { DeriveDispatch, DeriveProposalImage } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Vec } from '@polkadot/types';
-// import { stringToU8a } from '@polkadot/util';
+import { Vec, u64 } from '@polkadot/types';
+import { stringToHex } from '@polkadot/util';
 
 import { memo } from '../util';
 
-// const DEMOCRACY_ID = stringToU8a('democrac');
+const DEMOCRACY_ID = stringToHex('democrac');
+
+interface SchedulerInfo {
+  at: BlockNumber;
+  imageHash: Hash;
+  index: ReferendumIndex;
+}
 
 function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   return api.query.democracy.dispatchQueue<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
@@ -37,30 +43,37 @@ function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
 }
 
 function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
-  return api.query.scheduler.agenda.entries().pipe(
-    map((all): DeriveDispatch[] =>
-      all.reduce((result: DeriveDispatch[], [key, allScheduled]): DeriveDispatch[] => {
+  return api.derive.democracy.referendumsFinished().pipe(
+    switchMap(() => api.query.scheduler.agenda.entries()),
+    switchMap((all): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
+      const info = all.reduce((result: SchedulerInfo[], [key, allScheduled]): SchedulerInfo[] => {
         const at = key.args[0] as BlockNumber;
 
-        allScheduled.forEach((optScheduled): void => {
-          if (optScheduled.isSome) {
-            const scheduled = optScheduled.unwrap();
+        allScheduled.filter((optScheduled) => optScheduled.isSome).forEach((optScheduled): void => {
+          const scheduled = optScheduled.unwrap();
 
-            if (scheduled.maybeId.isSome) {
-              // TODO check for democracy specifically
-              console.error(scheduled.maybeId.unwrap().toHex());
+          if (scheduled.maybeId.isSome) {
+            const id = scheduled.maybeId.unwrap().toHex();
 
-              result.push({
-                at,
-                imageHash: scheduled.call.hash,
-                index: api.registry.createType('ReferendumIndex')
-              });
+            if (id.startsWith(DEMOCRACY_ID)) {
+              const [, index] = api.registry.createType('(u64, ReferendumIndex)' as any, id) as ITuple<[u64, ReferendumIndex]>;
+              const imageHash = scheduled.call.args[0] as Hash;
+
+              result.push({ at, imageHash, index });
             }
           }
         });
 
         return result;
-      }, [])
+      }, []);
+
+      return combineLatest([
+        of(info),
+        api.derive.democracy.preimages(info.map(({ imageHash }) => imageHash))
+      ]);
+    }),
+    map(([infos, images]): DeriveDispatch[] =>
+      infos.map((info, index) => ({ ...info, image: images[index] }))
     )
   );
 }
