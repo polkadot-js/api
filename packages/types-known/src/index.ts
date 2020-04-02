@@ -47,10 +47,10 @@ export function getModuleTypes ({ knownTypes }: Registry, section: string): Over
 /**
  * @description Based on the chain and runtimeVersion, get the applicable types (ready for registration)
  */
-export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: BN | number): RegistryTypes {
+export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion?: BN | number): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
-  const _specVersion = bnToBn(specVersion).toNumber();
+  const _specVersion = specVersion !== undefined ? bnToBn(specVersion).toNumber() : Infinity;
 
   return {
     ...filterVersions(typesSpec[_specName], _specVersion),

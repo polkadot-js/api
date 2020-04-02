@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import kusamaVersionedTypes from '@polkadot/types-known/spec/kusama';
 import { TypeRegistry } from '@polkadot/types/create/registry';
-import { getModuleTypes } from './';
+import { getModuleTypes, getSpecTypes } from './';
 
 const registry = new TypeRegistry();
 
@@ -39,11 +40,22 @@ describe('getModuleTypes', (): void => {
       Proposal: 'TreasuryProposals2'
     });
   });
+});
 
-  it('merges pre-defined and user-defined for identity', (): void => {
-    expect(getModuleTypes(registry, 'identity')).toEqual({
-      Id: 'IdentityId',
-      Judgement: 'IdentityJudgement'
+describe('getSpecTypes', (): void => {
+  it('get the specs types for certain network', (): void => {
+    expect(getSpecTypes(registry, '', 'kusama', 1047)).toEqual({
+      // Indices optional, not in transaction
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId',
+      ReferendumInfo: 'ReferendumInfoTo239'
     });
+  });
+
+  it('get the latest specs types for a network', (): void => {
+    const latestKusamaSpecs = kusamaVersionedTypes[kusamaVersionedTypes.length - 1].types;
+
+    expect(getSpecTypes(registry, '', 'kusama')).toEqual(latestKusamaSpecs);
   });
 });
