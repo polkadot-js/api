@@ -15,10 +15,10 @@ export interface DeriveDispatch {
 }
 
 export interface DeriveProposalImage {
-  at?: BlockNumber;
-  balance?: Balance;
+  at: BlockNumber;
+  balance: Balance;
   proposal?: Proposal;
-  proposer?: AccountId;
+  proposer: AccountId;
 }
 
 export interface DeriveProposal {
