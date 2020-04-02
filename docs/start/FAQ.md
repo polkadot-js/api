@@ -52,8 +52,8 @@ Likewise, if your chain has been upgraded recently and you are still using the o
 
 ## I cannot send transactions from my node-template-based chain
 
-For the API defaults, the API always the type definitions as specified by the Substrate master fully-featured node. This means that any customizations needs to be applied as types should there be differences in specific user-implementations.
+The API always injects the default type definitions as specified by the Substrate master fully-featured node. This means that any customizations to chains needs needs to be applied as types, should there be differences in specific user-implementations.
 
-The Substrate node-template has added customizations for some types in the default template, specifically around the `Address` and `Lookup` types, removing indices lookups from addresses. This means that the transaction payload saves 2 bytes for a transfer and is an approach followed by other chains as well, notably Polkadot & Kusama.
+The Substrate node-template has added customizations for some types in the default template, specifically around the `Address` and `Lookup` types, removing any lookups based on indices. This means that the transaction payload saves 2 bytes for a transfer and is an approach followed by other chains as well, notably Polkadot & Kusama.
 
-Due to these customizations and differences that bleed through to the transaction formats, out-of-the-box the node-template will have issues when sending transactions. To fix this, you would need to add [the customized Address types into your API](types.extend.md#impact-on-extrinsics) instances (or UIs), allowing the API to have the information required to adjust the encoding.
+Due to these customizations and differences that bleed through to the transaction formats, out-of-the-box chains based on the node-template will have issues when sending transactions. To fix this, you would need to add [the customized Address types into your API](types.extend.md#impact-on-extrinsics) instances (or UIs), allowing the API to have the information required to adjust the encoding.
