@@ -38,7 +38,7 @@ export default {
       }
     },
     DispatchClass: {
-      _enum: ['Normal', 'Operational']
+      _enum: ['Normal', 'Operational', 'Mandatory']
     },
     DispatchInfo: {
       weight: 'Weight',
