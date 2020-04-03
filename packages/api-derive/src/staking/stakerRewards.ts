@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Balance } from '@polkadot/types/interfaces';
-import { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward } from '../types';
+import { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
@@ -19,10 +18,10 @@ const COMM_DIV = new BN(1_000_000_000);
 
 function parseRewards (api: ApiInterfaceRx, stakerId: string, [erasPoints, erasPrefs, erasRewards, exposures]: Result): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
-    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: new BN(0), validators: {} };
-    const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: ZERO };
+    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: ZERO, validators: {} };
+    const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.registry.createType('Balance') };
     const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
-    const validators: Record<string, Balance> = {};
+    const validators: Record<string, DeriveStakerRewardValidator> = {};
     let total = ZERO;
 
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
@@ -50,11 +49,15 @@ function parseRewards (api: ApiInterfaceRx, stakerId: string, [erasPoints, erasP
         total = total.add(value);
       }
 
-      validators[validatorId] = api.registry.createType('Balance', value);
+      validators[validatorId] = {
+        total: api.registry.createType('Balance', avail),
+        value: api.registry.createType('Balance', value)
+      };
     });
 
     return {
       era,
+      eraReward,
       isEmpty,
       isValidator,
       nominating,

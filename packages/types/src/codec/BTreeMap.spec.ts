@@ -24,7 +24,7 @@ describe('BTreeMap', (): void => {
     ).toEqual('{}');
   });
 
-  it('decodes reusing instanciated inputs', (): void => {
+  it('decodes reusing instantiated inputs', (): void => {
     const key = new Text(registry, 'foo');
     const val = new Text(registry, 'bar');
 
@@ -38,6 +38,7 @@ describe('BTreeMap', (): void => {
       placeholder: U32,
       value: 'BTreeMap<Text, U32>' as any
     });
+
     s.set('value', new (BTreeMap.with(Text, U32))(registry, mockU32TextMap));
     expect(s.toString()).toBe('{"placeholder":0,"value":{"bazzing":69}}');
   });

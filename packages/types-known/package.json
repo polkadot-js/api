@@ -1,0 +1,37 @@
+{
+  "name": "@polkadot/types-known",
+  "version": "1.10.0-beta.7",
+  "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "JsonRPC"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.9.2",
+    "@polkadot/types": "1.10.0-beta.7",
+    "@polkadot/util": "^2.7.1",
+    "bn.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^4.11.6"
+  }
+}

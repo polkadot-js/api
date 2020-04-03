@@ -8,12 +8,12 @@ import { Registry } from '@polkadot/types/types';
 /** @internal */
 export default function toV11 (registry: Registry, { modules }: MetadataV10): MetadataV11 {
   return registry.createType('MetadataV11', {
-    modules,
     // This is new in V11, pass V0 here - something non-existing, telling the API to use
     // the fallback for this information (on-chain detection)
     extrinsic: {
-      version: 0,
-      signedExtensions: []
-    }
+      signedExtensions: [],
+      version: 0
+    },
+    modules
   });
 }

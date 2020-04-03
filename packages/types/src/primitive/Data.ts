@@ -57,8 +57,10 @@ export default class Data extends Enum {
     super(registry, {
       None: 'Null', // 0
       Raw: 'Bytes', // 1
+      // eslint-disable-next-line sort-keys
       BlakeTwo256: 'H256', // 2
       Sha256: 'H256', // 3
+      // eslint-disable-next-line sort-keys
       Keccak256: 'H256', // 4
       ShaThree256: 'H256' // 5
     }, ...decodeData(registry, value));

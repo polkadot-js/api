@@ -14,10 +14,10 @@ describe('createFunction', (): void => {
   it('should create timestamp.now correctly', (): void => {
     expect(
       createFunction(registry, {
-        prefix: 'Timestamp',
-        section: 'timestamp',
+        meta: { type: {} } as any,
         method: 'Now',
-        meta: { type: {} } as any
+        prefix: 'Timestamp',
+        section: 'timestamp'
       }, { metaVersion: 8 })()
     ).toEqual(
       Uint8Array.from([64, 14, 73, 68, 207, 217, 141, 111, 76, 195, 116, 209, 111, 90, 78, 63, 156]) // Length-prefixed
@@ -29,15 +29,15 @@ describe('createFunction', (): void => {
       createFunction(
         registry,
         {
-          prefix: 'Substrate',
-          section: 'substrate',
+          meta: { type: {} } as any,
           method: 'authorityCount',
-          meta: { type: {} } as any
+          prefix: 'Substrate',
+          section: 'substrate'
         },
         {
           key: ':auth:len',
-          skipHashing: true,
-          metaVersion: 8
+          metaVersion: 8,
+          skipHashing: true
         }
       ).method
     ).toEqual('authorityCount');
@@ -50,15 +50,15 @@ describe('createFunction', (): void => {
       createFunction(
         registry,
         {
-          prefix: 'Substrate',
-          section: 'substrate',
+          meta: { type: {} } as any,
           method: 'authorityCount',
-          meta: { type: {} } as any
+          prefix: 'Substrate',
+          section: 'substrate'
         },
         {
           key,
-          skipHashing: true,
-          metaVersion: 8
+          metaVersion: 8,
+          skipHashing: true
         }
       )()
     ).toEqual(
@@ -74,27 +74,28 @@ describe('createFunction', (): void => {
 
     beforeAll((): void => {
       storageFn = createFunction(registry, {
-        prefix: 'GenericAsset',
-        section: 'genericAsset',
-        method: 'FreeBalance',
         meta: {
           name: 'metaName',
           type: {
-            isDoubleMap: true,
             asDoubleMap: {
               hasher: registry.createType('StorageHasher', 'Blake2_256'),
               key1: new Text(registry, 'AccountId'),
               key2: new Text(registry, 'AccountId'),
-              value: new Text(registry, 'Balance'),
-              key2Hasher: registry.createType('StorageHasher', 'Twox128')
-            }
+              key2Hasher: registry.createType('StorageHasher', 'Twox128'),
+              value: new Text(registry, 'Balance')
+            },
+            isDoubleMap: true
           }
-        } as any
+        } as any,
+        method: 'FreeBalance',
+        prefix: 'GenericAsset',
+        section: 'genericAsset'
       }, { metaVersion: 8 });
     });
 
     it('should return correct key', (): void => {
       const result = storageFn(['5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP', '5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP']);
+
       expect(u8aToHex(result)).toEqual('0xc000fa40e72d7173e69ee54b980345ea01cb81e64258502e0247af4303dee91ec0aec2ecd3a60ab080cff7b52a8f6d543b');
     });
 
@@ -107,21 +108,21 @@ describe('createFunction', (): void => {
 
   it('allows creates double map function with a Null type key', (): void => {
     const storageFn = createFunction(registry, {
-      prefix: 'System',
-      section: 'system',
-      method: 'EventTopics',
       meta: {
         type: {
-          isDoubleMap: true,
           asDoubleMap: {
             hasher: registry.createType('StorageHasher', 'Blake2_256'),
             key1: new Text(registry, 'Null'),
             key2: new Text(registry, 'Hash'),
-            value: new Text(registry, 'Vec<(BlockNumber,EventIndex)>'),
-            key2Hasher: registry.createType('StorageHasher', 'Blake2_256')
-          }
+            key2Hasher: registry.createType('StorageHasher', 'Blake2_256'),
+            value: new Text(registry, 'Vec<(BlockNumber,EventIndex)>')
+          },
+          isDoubleMap: true
         }
-      } as any
+      } as any,
+      method: 'EventTopics',
+      prefix: 'System',
+      section: 'system'
     }, { metaVersion: 8 });
 
     // the value of the Null type key does not effect the result
@@ -132,21 +133,21 @@ describe('createFunction', (): void => {
 
   it('allows creating of known DoubleMap keys (with Bytes)', (): void => {
     const storageFn = createFunction(registry, {
-      prefix: 'Session',
-      section: 'session',
-      method: 'NextKeys',
       meta: {
         type: {
-          isDoubleMap: true,
           asDoubleMap: {
             hasher: registry.createType('StorageHasher', 'Twox64Concat'),
             key1: new Text(registry, 'Bytes'),
             key2: new Text(registry, 'AccountId'),
-            value: new Text(registry, 'SessionKeys5'),
-            key2Hasher: registry.createType('StorageHasher', 'Blake2_256')
-          }
+            key2Hasher: registry.createType('StorageHasher', 'Blake2_256'),
+            value: new Text(registry, 'SessionKeys5')
+          },
+          isDoubleMap: true
         }
-      } as any
+      } as any,
+      method: 'NextKeys',
+      prefix: 'Session',
+      section: 'session'
     }, { metaVersion: 9 });
 
     expect(

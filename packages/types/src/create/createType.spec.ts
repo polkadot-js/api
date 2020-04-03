@@ -125,17 +125,19 @@ describe('createType', (): void => {
       registry.register({
         TestComplex: {
           balance: 'Balance',
+          // eslint-disable-next-line sort-keys
           accountId: 'AccountId',
           log: '(u64, u32)',
+          // eslint-disable-next-line sort-keys
           fromSrml: 'Gas'
         }
       });
 
       const value = createTypeUnsafe(registry, 'TestComplex', [{
-        balance: 123,
         accountId: '0x1234567812345678123456781234567812345678123456781234567812345678',
-        log: [456, 789],
-        fromSrml: 0
+        balance: 123,
+        fromSrml: 0,
+        log: [456, 789]
       }]);
 
       expect(value instanceof createClass(registry, 'TestComplex')).toBe(true);
@@ -160,8 +162,10 @@ describe('createType', (): void => {
         Balance: 'u128',
         TestComplex: {
           balance: 'Balance',
+          // eslint-disable-next-line sort-keys
           accountId: 'AccountId',
           log: '(u64, u32)',
+          // eslint-disable-next-line sort-keys
           fromSrml: 'Gas'
         }
       });

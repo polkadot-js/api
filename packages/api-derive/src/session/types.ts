@@ -14,11 +14,14 @@ export interface DeriveSessionIndexes {
   validatorCount: u32;
 }
 
-export interface DerivedSessionInfo extends DeriveSessionIndexes {
+export interface DeriveSessionInfo extends DeriveSessionIndexes {
   eraLength: BlockNumber;
-  eraProgress: BlockNumber;
   isEpoch: boolean;
   sessionLength: BlockNumber;
   sessionsPerEra: SessionIndex;
+}
+
+export interface DeriveSessionProgress extends DeriveSessionInfo {
+  eraProgress: BlockNumber;
   sessionProgress: BlockNumber;
 }

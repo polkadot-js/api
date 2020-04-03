@@ -44,21 +44,21 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
   const types = [
     {
       info: TypeDefInfo.Option,
-      type,
-      sub: def
+      sub: def,
+      type
     },
     {
       info: TypeDefInfo.Vec,
-      type,
-      sub: def
+      sub: def,
+      type
     }
   ];
 
   if (isCompact) {
     types.unshift({
       info: TypeDefInfo.Compact,
-      type,
-      sub: def
+      sub: def,
+      type
     });
   }
 
@@ -80,6 +80,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, _type:
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);
+
     return ['IExtrinsic'];
   } else if (type === 'StorageKey') {
     // TODO We can do better

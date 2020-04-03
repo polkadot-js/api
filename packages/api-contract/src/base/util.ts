@@ -31,9 +31,9 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
   public get messages (): ContractMessage[] {
     return this.abi.abi.contract.messages.map(
       (def: ContractABIMessage, index): ContractMessage => ({
-        index,
         def,
-        fn: this.abi.messages[def.name] || this.abi.messages[stringCamelCase(name)]
+        fn: this.abi.messages[def.name] || this.abi.messages[stringCamelCase(name)],
+        index
       })
     );
   }
@@ -49,7 +49,8 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
     assert(!!def, `Attempted to access a contract message that does not exist: ${typeof nameOrIndex === 'number' ? `index ${nameOrIndex}` : nameOrIndex}`);
 
     const fn = this.abi.messages[def.name] || this.abi.messages[stringCamelCase(def.name)];
-    return { index, def, fn };
+
+    return { def, fn, index };
   }
 }
 

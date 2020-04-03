@@ -16,6 +16,7 @@ import Enum from './Enum';
 export default class Result<O extends Codec, E extends Codec> extends Enum {
   constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceTypes, Error: Constructor<E> | keyof InterfaceTypes, value?: any) {
     // NOTE This is order-dependent, Ok (with index 0) needs to be first
+    // eslint-disable-next-line sort-keys
     super(registry, { Ok, Error }, value);
   }
 

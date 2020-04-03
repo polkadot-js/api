@@ -249,6 +249,10 @@ declare module '@polkadot/api/types/submittable' {
        **/
       emergencyCancel: AugmentedSubmittable<(refIndex: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
+       * Enact a proposal from a referendum. For now we just make the weight be the maximum.
+       **/
+      enactProposal: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
        * Schedule a referendum to be tabled once it is legal to schedule an external
        * referendum.
        * The dispatch origin of this call must be `ExternalOrigin`.

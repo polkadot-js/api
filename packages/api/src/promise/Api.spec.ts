@@ -13,7 +13,7 @@ import { hexToU8a } from '@polkadot/util';
 import { SingleAccountSigner } from '../../test/util';
 import ApiPromise from './Api';
 
-const TRANSFER_SIG = '0x62bfcd07a9f50ba32ed9e2c41ca11267ac62a24c95949e25efdccc4989d48573f84754dbbaa1d0937ceb888ad8a2cf71daced1545a839d9d6cceac33a5771401';
+const TRANSFER_SIG = '0xa1d493ab6b74550da434fbc153a739429be68c9d30e59e631fb5d08f348504deefb5577f4824e138741ad102f479109827e8fa9552812a3e5f505a24d10e820f';
 
 describe('ApiPromise', (): void => {
   const registry = new TypeRegistry();
@@ -21,8 +21,8 @@ describe('ApiPromise', (): void => {
   const aliceEd = keyring.addPair(
     // eslint-disable-next-line @typescript-eslint/unbound-method
     createPair({ toSS58: keyring.encodeAddress, type: 'ed25519' }, {
-      secretKey: hexToU8a('0xabf8e5bdbe30c65656c0a3cbd181ff8a56294a69dfedd27982aace4a7690911588dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee'),
-      publicKey: hexToU8a('0x88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee')
+      publicKey: hexToU8a('0x88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee'),
+      secretKey: hexToU8a('0xabf8e5bdbe30c65656c0a3cbd181ff8a56294a69dfedd27982aace4a7690911588dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee')
     })
   );
   let provider: Mock;
@@ -56,8 +56,10 @@ describe('ApiPromise', (): void => {
       const specVersion = 0;
       const metadata: any = {};
       const key = `${genesisHash}-${specVersion}`;
+
       metadata[key] = rpcData;
-      const api = await ApiPromise.create({ provider, metadata, registry } as ApiOptions);
+
+      const api = await ApiPromise.create({ metadata, provider, registry } as ApiOptions);
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();
@@ -70,7 +72,7 @@ describe('ApiPromise', (): void => {
 
     it('Create API instance without metadata and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
       const metadata = {};
-      const api = await ApiPromise.create({ provider, metadata, registry });
+      const api = await ApiPromise.create({ metadata, provider, registry });
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();

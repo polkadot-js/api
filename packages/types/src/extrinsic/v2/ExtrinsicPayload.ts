@@ -21,9 +21,11 @@ export default class ExtrinsicPayloadV2 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(registry, {
       method: 'Bytes',
+      // eslint-disable-next-line sort-keys
       era: 'ExtrinsicEra',
       nonce: 'Compact<Index>',
       tip: 'Compact<Balance>',
+      // eslint-disable-next-line sort-keys
       blockHash: 'Hash'
     }, value);
   }

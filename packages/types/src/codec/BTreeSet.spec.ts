@@ -13,10 +13,12 @@ import BTreeSet from './BTreeSet';
 const registry = new TypeRegistry();
 
 const mockU32Set = new Set<U32>();
+
 mockU32Set.add(new U32(registry, 2));
 mockU32Set.add(new U32(registry, 24));
 mockU32Set.add(new U32(registry, 30));
 mockU32Set.add(new U32(registry, 80));
+
 const mockU32SetString = '[2,24,30,80]';
 const mockU32SetObject = [2, 24, 30, 80];
 const mockU32SetHexString = '0x1002000000180000001e00000050000000';
@@ -40,10 +42,11 @@ describe('BTreeSet', (): void => {
     testDecode('Uint8Array', mockU32SetUint8Array, mockU32SetString);
   });
 
-  describe('encoding muple values', (): void => {
+  describe('encoding multiple values', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
         const s = new BTreeSet(registry, U32, mockU32Set);
+
         expect(s[to]()).toEqual(expected);
       });
 
@@ -61,7 +64,7 @@ describe('BTreeSet', (): void => {
     ).toEqual('[]');
   });
 
-  it('decodes reusing instanciated inputs', (): void => {
+  it('decodes reusing instantiated inputs', (): void => {
     const foo = new Text(registry, 'bar');
 
     expect(
@@ -74,6 +77,7 @@ describe('BTreeSet', (): void => {
       placeholder: U32,
       value: BTreeSet.with(U32)
     });
+
     s.set('value', new BTreeSet(registry, U32, mockU32Set));
     expect(s.toString()).toBe('{"placeholder":0,"value":[2,24,30,80]}');
   });

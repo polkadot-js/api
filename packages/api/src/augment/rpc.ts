@@ -8,6 +8,7 @@ import { Metadata } from '@polkadot/types';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
+import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
@@ -97,6 +98,24 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the best header via subscription
        **/
       subscribeNewHeads: AugmentedRpc<() => Observable<Header>>;
+    };
+    childstate: {
+      /**
+       * Returns the keys with prefix from a child storage, leave empty to get all the keys
+       **/
+      getKeys: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, prefix: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Vec<StorageKey>>>;
+      /**
+       * Returns a child storage entry at a specific block state
+       **/
+      getStorage: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<StorageData>>>;
+      /**
+       * Returns the hash of a child storage entry at a block state
+       **/
+      getStorageHash: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<Hash>>>;
+      /**
+       * Returns the size of a child storage entry at a block state
+       **/
+      getStorageSize: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<u64>>>;
     };
     contracts: {
       /**

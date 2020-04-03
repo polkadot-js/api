@@ -256,15 +256,15 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
    */
   public toHuman (isExpanded?: boolean): AnyJson {
     return {
-      method: this.method.toHuman(isExpanded),
       isSigned: this.isSigned,
+      method: this.method.toHuman(isExpanded),
       ...(this.isSigned
         ? {
-          signer: this.signer.toHuman(isExpanded),
-          nonce: this.nonce.toHuman(isExpanded),
           era: this.era.toHuman(isExpanded),
-          tip: this.tip.toHuman(isExpanded),
-          signature: this.signature.toHex()
+          nonce: this.nonce.toHuman(isExpanded),
+          signature: this.signature.toHex(),
+          signer: this.signer.toHuman(isExpanded),
+          tip: this.tip.toHuman(isExpanded)
         }
         : {}
       )

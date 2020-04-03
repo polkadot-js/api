@@ -3204,7 +3204,7 @@
                   "Map": {
                     "hasher": "Identity",
                     "key": "Hash",
-                    "value": "(Bytes,AccountId,BalanceOf,BlockNumber)",
+                    "value": "PreimageStatus",
                     "linked": false
                   }
                 },
@@ -3251,17 +3251,6 @@
                 "fallback": "0x00",
                 "documentation": [
                   " Information concerning any given referendum."
-                ]
-              },
-              {
-                "name": "DispatchQueue",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "Vec<(BlockNumber,Hash,ReferendumIndex)>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Queue of successful referenda to be dispatched. Stored ordered by block number."
                 ]
               },
               {
@@ -4086,6 +4075,22 @@
                 " # <weight>",
                 " - `O(R + log R)` where R is the number of referenda that `target` has voted on.",
                 " # </weight>"
+              ]
+            },
+            {
+              "name": "enact_proposal",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                },
+                {
+                  "name": "index",
+                  "type": "ReferendumIndex"
+                }
+              ],
+              "documentation": [
+                " Enact a proposal from a referendum. For now we just make the weight be the maximum."
               ]
             }
           ],
@@ -9472,6 +9477,67 @@
               ]
             }
           ]
+        },
+        {
+          "name": "Scheduler",
+          "storage": {
+            "prefix": "Scheduler",
+            "items": [
+              {
+                "name": "Agenda",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "BlockNumber",
+                    "value": "Vec<Option<Scheduled>>",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Items to be executed, indexed by the block number that they should be executed on."
+                ]
+              },
+              {
+                "name": "Lookup",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "Bytes",
+                    "value": "TaskAddress",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Lookup from identity to the block number and index of the task."
+                ]
+              }
+            ]
+          },
+          "calls": [],
+          "events": [
+            {
+              "name": "Scheduled",
+              "args": [
+                "BlockNumber"
+              ],
+              "documentation": []
+            },
+            {
+              "name": "Dispatched",
+              "args": [
+                "TaskAddress",
+                "Option<Bytes>",
+                "DispatchResult"
+              ],
+              "documentation": []
+            }
+          ],
+          "constants": [],
+          "errors": []
         }
       ],
       "extrinsic": {

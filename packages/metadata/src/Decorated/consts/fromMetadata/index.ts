@@ -6,11 +6,9 @@ import { Registry } from '@polkadot/types/types';
 import { Constants, ConstantCodec, ModuleConstants } from '../../types';
 
 import { createTypeUnsafe } from '@polkadot/types/create';
-import { stringCamelCase } from '@polkadot/util';
+import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
 import Metadata from '../../../Metadata';
-
-const AS_STRIPPED = ['Bytes'];
 
 /** @internal */
 export default function fromMetadata (registry: Registry, metadata: Metadata): Constants {
@@ -23,19 +21,10 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): C
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
-      // in the case of Bytes, the data has a length prefix encoded when received,
-      // leading to double-encoding unless removed
+      // convert to the natural type as received
       const type = meta.type.toString();
-      const codec: ConstantCodec = createTypeUnsafe(registry, type, [
-        AS_STRIPPED.includes(type)
-          ? meta.value.toU8a(true)
-          : meta.value
-      ]);
+      const codec: ConstantCodec = createTypeUnsafe(registry, type, [hexToU8a(meta.value.toHex())]);
 
-      // This is not a perfect idea, however as it stands with number-only constants on the metadata
-      // does not have any effect. However, this could become problematic in cases where items are
-      // exposed that contain their own metadata. As of now, the compatibility with current, e.g.
-      // storage is the driving factor, one consistent way of handling interfaces
       codec.meta = meta;
       newModule[stringCamelCase(meta.name.toString())] = codec;
 

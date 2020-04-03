@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { bool, u32 } from '@polkadot/types/primitive';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, bool, u32 } from '@polkadot/types/primitive';
 import { Vote, VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { AccountId, Balance, BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 
@@ -42,6 +42,23 @@ export interface Conviction extends Enum {
 export interface Delegations extends Struct {
   readonly votes: Balance;
   readonly capital: Balance;
+}
+
+/** @name PreimageStatus */
+export interface PreimageStatus extends Enum {
+  readonly isMissing: boolean;
+  readonly asMissing: BlockNumber;
+  readonly isAvailable: boolean;
+  readonly asAvailable: PreimageStatusAvailable;
+}
+
+/** @name PreimageStatusAvailable */
+export interface PreimageStatusAvailable extends Struct {
+  readonly data: Bytes;
+  readonly provider: AccountId;
+  readonly deposit: Balance;
+  readonly since: BlockNumber;
+  readonly expiry: Option<BlockNumber>;
 }
 
 /** @name PriorLock */

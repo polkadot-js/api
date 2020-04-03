@@ -37,15 +37,15 @@ function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
         hasher: type.asDoubleMap.hasher,
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
-        value: type.asDoubleMap.value,
-        key2Hasher: toStorageHasher(registry, type.asDoubleMap.key2Hasher)
+        key2Hasher: toStorageHasher(registry, type.asDoubleMap.key2Hasher),
+        value: type.asDoubleMap.value
       }), 2];
 
   return registry.createType('StorageFunctionMetadataV5', {
     documentation,
     fallback,
-    name,
     modifier,
+    name,
     type: registry.createType('StorageFunctionTypeV5', newType, index)
   });
 }
@@ -55,6 +55,8 @@ export default function toV5 (registry: Registry, { modules }: MetadataV4): Meta
   return registry.createType('MetadataV5', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>
       registry.createType('ModuleMetadataV5', {
+        calls,
+        events,
         name,
         prefix,
         storage: storage.isSome
@@ -63,9 +65,7 @@ export default function toV5 (registry: Registry, { modules }: MetadataV4): Meta
             'Vec<StorageFunctionMetadataV5>',
             storage.unwrap().map((v): StorageFunctionMetadataV5 => toV5StorageFunction(registry, v))
           )
-          : undefined,
-        calls,
-        events
+          : undefined
       })
     )
   });

@@ -41,6 +41,7 @@ describe('replay', (): void => {
   it('replay(1) works as expected', (done): void => {
     const observable = rpc.system.chain();
     let a: string | undefined;
+
     observable.subscribe((value: any): void => { a = value; });
 
     setTimeout((): void => {

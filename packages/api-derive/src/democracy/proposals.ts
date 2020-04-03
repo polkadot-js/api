@@ -2,61 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal } from '@polkadot/types/interfaces';
+import { AccountId, Balance, Hash, PropIndex } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
-import { DeriveProposal } from '../types';
+import { DeriveProposalImage, DeriveProposal } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Option, Vec } from '@polkadot/types';
+import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
-
-export type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
 
 type Depositors = Option<ITuple<[Balance, Vec<AccountId>]>>;
 type Proposals = Vec<ITuple<[PropIndex, Hash, AccountId]>>;
 
-interface Result {
-  depositors: Depositors[];
-  preimages: PreImage[];
-  proposals: Proposals;
-}
-
-function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Result): DeriveProposal[] {
+function parse ([proposals, images, depositors]: [Proposals, (DeriveProposalImage | undefined)[], Depositors[]]): DeriveProposal[] {
   return proposals
     .filter(([, , proposer], index): boolean =>
       !!(depositors[index]?.isSome) && !proposer.isEmpty
     )
-    .map(([propIndex, hash, proposer], index): DeriveProposal => {
-      const preimage = preimages[index].unwrapOr(null);
-      const depositor = depositors[index].unwrap();
-      let proposal: undefined | Proposal;
-
-      // we could end up in a situation where the proposal is non-decodable, e.g. after an upgrade
-      if (preimage) {
-        try {
-          proposal = api.registry.createType('Proposal', preimage[0].toU8a(true));
-        } catch (error) {
-          console.error(error);
-        }
-      }
+    .map(([index, imageHash, proposer], proposalIndex): DeriveProposal => {
+      const [balance, seconds] = depositors[proposalIndex].unwrap();
 
       return {
-        balance: depositor[0],
-        hash,
-        index: propIndex,
-        preimage: preimage
-          ? {
-            at: preimage[3],
-            balance: preimage[2],
-            proposer: preimage[1]
-          }
-          : undefined,
-        proposal,
+        balance,
+        image: images[proposalIndex],
+        imageHash,
+        index,
         proposer,
-        seconds: depositor[1]
+        seconds
       };
     });
 }
@@ -68,16 +42,14 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal
         switchMap((proposals) =>
           combineLatest([
             of(proposals),
-            api.query.democracy.preimages.multi<PreImage>(
+            api.derive.democracy.preimages(
               proposals.map(([, hash]): Hash => hash)),
             api.query.democracy.depositOf.multi<Depositors>(
               proposals.map(([index]): PropIndex => index))
           ])
         ),
-        map(([proposals, preimages, depositors]): DeriveProposal[] =>
-          parse(api, { depositors, proposals, preimages })
-        )
+        map(parse)
       )
-      : of([] as DeriveProposal[])
+      : of([])
   );
 }

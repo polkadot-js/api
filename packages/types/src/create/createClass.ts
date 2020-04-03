@@ -106,7 +106,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
     const type = `Option<${getSubType(value)}>`;
-    const Clazz = Struct.with({ previous: type, next: type } as any);
+    const Clazz = Struct.with({ next: type, previous: type } as any);
 
     ClassOf.prototype.toRawType = function (): string {
       return `Linkage<${this.next.toRawType(true)}>`;
@@ -127,14 +127,14 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     const [Ok, Error] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return Result.with({ Ok, Error });
+    return Result.with({ Error, Ok });
   },
 
   [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor => {
     const result: Record<string, number> = {};
 
     return CodecSet.with(
-      getSubDefArray(value).reduce((result, { name, index }): Record<string, number> => {
+      getSubDefArray(value).reduce((result, { index, name }): Record<string, number> => {
         result[name as string] = index as number;
 
         return result;

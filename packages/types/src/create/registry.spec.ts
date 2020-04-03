@@ -110,15 +110,15 @@ describe('TypeRegistry', (): void => {
     it('can create structs via definition', (): void => {
       registry.register({
         SomeStruct: {
-          foo: 'u32',
-          bar: 'Text'
+          bar: 'Text',
+          foo: 'u32'
         }
       });
 
       const SomeStruct = registry.getOrThrow('SomeStruct');
       const struct: any = new SomeStruct(registry, {
-        foo: 42,
-        bar: 'testing'
+        bar: 'testing',
+        foo: 42
       });
 
       expect(struct instanceof Struct).toBe(true);

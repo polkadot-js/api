@@ -37,6 +37,7 @@ function extractArgs (args: any[], needsCallback: boolean): [any[], Callback<Cod
 // a Promise completion tracker, wrapping an isComplete variable that ensures the promise only resolves once
 function promiseTracker (resolve: (value: () => void) => void, reject: (value: Error) => void): Tracker {
   let isCompleted = false;
+
   const complete = (fn: Function, value: any): void => {
     if (!isCompleted) {
       isCompleted = true;

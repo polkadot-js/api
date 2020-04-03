@@ -44,5 +44,9 @@ describe('sanitize', (): void => {
     it('removes on embedded values (all)', (): void => {
       expect(removeColons()('(T::AccountId, slashing::SpanIndex)')).toEqual('(AccountId, SpanIndex)');
     });
+
+    it('keeps with allowNamespaces', (): void => {
+      expect(removeColons()('::slashing::SpanIndex', { allowNamespaces: true })).toEqual('slashing::SpanIndex');
+    });
   });
 });

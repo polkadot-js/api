@@ -9,7 +9,7 @@ import { Subscription, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getMetadataTypes, getSpecTypes, getUserTypes } from '@polkadot/types/known';
+import { getMetadataTypes, getSpecTypes } from '@polkadot/types-known';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -140,7 +140,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
         this._runtimeMetadata = metadata;
         this._runtimeVersion = version;
 
-        this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version));
+        this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
         this.injectMetadata(metadata, false);
 
         return true;
@@ -161,8 +161,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
-    this.registerTypes(getSpecTypes(this.registry, chain, runtimeVersion));
-    this.registerTypes(getUserTypes(this.registry, chain, runtimeVersion));
+    this.registerTypes(getSpecTypes(this.registry, chain, runtimeVersion.specName, runtimeVersion.specVersion));
     this.subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)

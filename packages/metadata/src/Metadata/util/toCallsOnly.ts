@@ -21,8 +21,8 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
       ? calls.map(({ args, documentation, name }) =>
         registry.createType('FunctionMetadataLatest', {
           args,
-          name,
-          documentation: documentation.map((doc) => doc.toString().trim())
+          documentation: documentation.map((doc) => doc.toString().trim()),
+          name
         })
       )
       : null
@@ -32,10 +32,10 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
 /** @internal */
 export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJson {
   return registry.createType('MetadataLatest', {
+    extrinsic,
     modules: modules.map(({ calls, name }): ModuleMetadataTrimmed => ({
-      name,
-      calls: mapCalls(registry, calls)
-    })),
-    extrinsic
+      calls: mapCalls(registry, calls),
+      name
+    }))
   }).toJSON();
 }

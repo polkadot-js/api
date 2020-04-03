@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry } from '../create/registry';
+import { TypeRegistry } from '@polkadot/types/create/registry';
 import { getModuleTypes } from './';
 
 const registry = new TypeRegistry();
@@ -42,8 +42,8 @@ describe('getModuleTypes', (): void => {
 
   it('merges pre-defined and user-defined for identity', (): void => {
     expect(getModuleTypes(registry, 'identity')).toEqual({
-      Judgement: 'IdentityJudgement',
-      Id: 'IdentityId'
+      Id: 'IdentityId',
+      Judgement: 'IdentityJudgement'
     });
   });
 });

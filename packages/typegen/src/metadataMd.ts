@@ -51,6 +51,7 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
             .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
             .replace(/^#{1,3} /, '#### ')} `
     , '');
+
   // prefix each line with indentation
   return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
@@ -105,7 +106,6 @@ function addRpc (): string {
     .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
 
   return renderPage({
-    title: 'JSON-RPC',
     description: DESC_RPC,
     sections: sections
       .sort()
@@ -113,33 +113,33 @@ function addRpc (): string {
         const section = definitions[sectionName as 'babe'];
 
         return {
-          name: sectionName,
           // description: section.description,
           items: Object.keys(section.rpc)
             .sort()
             .map((methodName) => {
               const method = section.rpc[methodName];
-              const args = method.params.map(({ name, isOptional, type }: any): string => {
+              const args = method.params.map(({ isOptional, name, type }: any): string => {
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
               }).join(', ');
               const type = '`' + method.type + '`';
 
               return {
-                name: `${methodName}(${args}): ${type}`,
-                jsonrpc: '`' + `${sectionName}_${methodName}` + '`',
                 interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
+                jsonrpc: '`' + `${sectionName}_${methodName}` + '`',
+                name: `${methodName}(${args}): ${type}`,
                 ...(method.description && { summary: method.description })
               };
-            })
+            }),
+          name: sectionName
         };
-      })
+      }),
+    title: 'JSON-RPC'
   });
 }
 
 /** @internal */
 function addConstants (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Constants',
     description: DESC_CONSTANTS,
     sections: metadata.modules
       .sort(sortByName)
@@ -148,20 +148,21 @@ function addConstants (metadata: MetadataLatest): string {
         const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
         return {
-          name: sectionName,
           items: moduleMetadata.constants
             .sort(sortByName)
             .map((func) => {
               const methodName = stringCamelCase(func.name.toString());
 
               return {
-                name: `${methodName}: ` + '`' + func.type + '`',
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
+                name: `${methodName}: ` + '`' + func.type + '`',
                 ...(func.documentation.length && { summary: func.documentation })
               };
-            })
+            }),
+          name: sectionName
         };
-      })
+      }),
+    title: 'Constants'
   });
 }
 
@@ -174,7 +175,6 @@ function addStorage (metadata: MetadataLatest): string {
       const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
       return {
-        name: sectionName,
         items: moduleMetadata.storage.unwrap().items
           .sort(sortByName)
           .map((func) => {
@@ -187,28 +187,28 @@ function addStorage (metadata: MetadataLatest): string {
             const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
 
             return {
-              name: `${methodName}(${arg}): ` + '`' + outputType + '`',
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
+              name: `${methodName}(${arg}): ` + '`' + outputType + '`',
               ...(func.documentation.length && { summary: func.documentation })
             };
-          })
+          }),
+        name: sectionName
       };
     });
 
-  const options = { flags: 'r', encoding: 'utf8' };
+  const options = { encoding: 'utf8', flags: 'r' };
   const knownSection = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', options));
 
   return renderPage({
-    title: 'Storage',
     description: DESC_STORAGE,
-    sections: moduleSections.concat([knownSection])
+    sections: moduleSections.concat([knownSection]),
+    title: 'Storage'
   });
 }
 
 /** @internal */
 function addExtrinsics (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Extrinsics',
     description: DESC_EXTRINSICS,
     sections: metadata.modules
       .sort(sortByName)
@@ -217,7 +217,6 @@ function addExtrinsics (metadata: MetadataLatest): string {
         const sectionName = stringCamelCase(meta.name.toString());
 
         return {
-          name: sectionName,
           items: meta.calls.unwrap()
             .sort(sortByName)
             .map((func) => {
@@ -225,26 +224,26 @@ function addExtrinsics (metadata: MetadataLatest): string {
               const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
 
               return {
-                name: `${methodName}(${args})`,
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
+                name: `${methodName}(${args})`,
                 ...(func.documentation.length && { summary: func.documentation })
               };
-            })
+            }),
+          name: sectionName
         };
-      })
+      }),
+    title: 'Extrinsics'
   });
 }
 
 /** @internal */
 function addEvents (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Events',
     description: DESC_EVENTS,
     sections: metadata.modules
       .sort(sortByName)
       .filter((meta) => !meta.events.isNone && meta.events.unwrap().length)
       .map((meta) => ({
-        name: stringCamelCase(meta.name.toString()),
         items: meta.events.unwrap()
           .sort(sortByName)
           .map((func) => {
@@ -255,34 +254,36 @@ function addEvents (metadata: MetadataLatest): string {
               name: `${methodName}(${args})`,
               ...(func.documentation.length && { summary: func.documentation })
             };
-          })
-      }))
+          }),
+        name: stringCamelCase(meta.name.toString())
+      })),
+    title: 'Events'
   });
 }
 
 /** @internal */
 function addErrors (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Errors',
     description: DESC_ERRORS,
     sections: metadata.modules
       .sort(sortByName)
       .filter((moduleMetadata) => !moduleMetadata.errors.isEmpty)
       .map((moduleMetadata) => ({
-        name: stringLowerFirst(moduleMetadata.name.toString()),
         items: moduleMetadata.errors
           .sort(sortByName)
           .map((error) => ({
             name: error.name.toString(),
             ...(error.documentation.length && { summary: error.documentation })
-          }))
-      }))
+          })),
+        name: stringLowerFirst(moduleMetadata.name.toString())
+      })),
+    title: 'Errors'
   });
 }
 
 /** @internal */
 function writeFile (name: string, ...chunks: any[]): void {
-  const options = { flags: 'w', encoding: 'utf8' };
+  const options = { encoding: 'utf8', flags: 'w' };
   const writeStream = fs.createWriteStream(name, options);
 
   writeStream.on('finish', (): void => {

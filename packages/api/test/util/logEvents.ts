@@ -15,7 +15,7 @@ export const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
       console.log('Completed at block hash', status.value.toHex());
       console.log('Events:');
 
-      events.forEach(({ phase, event: { data, method, section } }: EventRecord): void => {
+      events.forEach(({ event: { data, method, section }, phase }: EventRecord): void => {
         console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
       });
 

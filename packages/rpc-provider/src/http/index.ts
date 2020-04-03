@@ -86,6 +86,7 @@ export default class HttpProvider implements ProviderInterface {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     l.error('HTTP Provider does not have \'on\' emitters, use WebSockets instead');
+
     return (): void => {
       // noop
     };

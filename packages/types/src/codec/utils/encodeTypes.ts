@@ -21,7 +21,7 @@ export function paramsNotation (outer: string, inner?: string | any[], transform
 }
 
 function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
-  const { info, sub, params } = typeDef;
+  const { info, params, sub } = typeDef;
 
   switch (info) {
     case TypeDefInfo.BTreeMap:

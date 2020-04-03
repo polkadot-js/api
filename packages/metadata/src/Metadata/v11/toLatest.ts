@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OverrideModuleType } from '@polkadot/types/known/types';
 import { FunctionMetadataV11, FunctionMetadataLatest, MetadataV11, MetadataLatest, ModuleMetadataLatest, StorageMetadataV11, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Registry } from '@polkadot/types/types';
+import { Registry, OverrideModuleType } from '@polkadot/types/types';
 
-import { getModuleTypes } from '@polkadot/types/known';
+import { getModuleTypes } from '@polkadot/types-known';
 import { Type } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -32,7 +31,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV11[], section
   return calls.map(({ args, documentation, name }): FunctionMetadataLatest => {
     args.forEach(({ type }): void => setTypeOverride(sectionTypes, type));
 
-    return registry.createType('FunctionMetadataLatest', { args, name, documentation });
+    return registry.createType('FunctionMetadataLatest', { args, documentation, name });
   });
 }
 
@@ -66,8 +65,9 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
  * @internal
  **/
-export default function toLatest (registry: Registry, { modules, extrinsic }: MetadataV11): MetadataLatest {
+export default function toLatest (registry: Registry, { extrinsic, modules }: MetadataV11): MetadataLatest {
   return registry.createType('MetadataLatest', {
+    extrinsic,
     modules: modules.map((mod): ModuleMetadataLatest => {
       const calls = mod.calls.unwrapOr(null);
       const storage = mod.storage.unwrapOr(null);
@@ -82,7 +82,6 @@ export default function toLatest (registry: Registry, { modules, extrinsic }: Me
           ? convertStorage(registry, storage, sectionTypes)
           : null
       });
-    }),
-    extrinsic
+    })
   });
 }

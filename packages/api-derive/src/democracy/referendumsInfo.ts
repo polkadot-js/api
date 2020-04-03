@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ReferendumInfo } from '@polkadot/types/interfaces';
-import { DerivedReferendum } from '../types';
+import { DeriveReferendum } from '../types';
 
 import BN from 'bn.js';
 import { Observable, of, combineLatest } from 'rxjs';
@@ -13,19 +13,19 @@ import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
-export function referendumsInfo (api: ApiInterfaceRx): (ids: BN[]) => Observable<DerivedReferendum[]> {
-  return memo((ids: BN[]): Observable<DerivedReferendum[]> =>
+export function referendumsInfo (api: ApiInterfaceRx): (ids: BN[]) => Observable<DeriveReferendum[]> {
+  return memo((ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length
       ? api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo>>(ids).pipe(
-        switchMap((infos): Observable<(DerivedReferendum | null)[]> =>
+        switchMap((infos): Observable<(DeriveReferendum | null)[]> =>
           combineLatest(
-            ids.map((id, index): Observable<DerivedReferendum | null> =>
+            ids.map((id, index): Observable<DeriveReferendum | null> =>
               api.derive.democracy._referendumInfo(id, infos[index])
             )
           )
         ),
         map((infos) =>
-          infos.filter((referendum): referendum is DerivedReferendum => !!referendum)
+          infos.filter((referendum): referendum is DeriveReferendum => !!referendum)
         )
       )
       : of([])

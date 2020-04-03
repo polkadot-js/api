@@ -240,29 +240,31 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
 
     const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+
     assert(type && type.length > 0, `MetaRegistry: Invalid builtin Vec type found at index ${typeIndex}`);
 
     return {
       info: TypeDefInfo.Vec,
-      type: `Vec<${type}>`,
-      sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
+      sub: this.typeDefFromMetaTypeAt(vecTypeIndex),
+      type: `Vec<${type}>`
     };
   }
 
   private typeDefForBuiltinVecFixed (id: MetaTypeIdVecFixed, typeIndex?: TypeIndex): Pick<TypeDef, never> {
-    const { 'array.type': vecTypeIndex, 'array.len': vecLength } = id;
+    const { 'array.len': vecLength, 'array.type': vecTypeIndex } = id;
 
     assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
 
     const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+
     assert(type && type.length > 0, `MetaRegistry: Invalid vector type found at index ${typeIndex}`);
 
     return {
       info: TypeDefInfo.VecFixed,
       length: vecLength, // ex: { type: type }
-      type: `[${type};${vecLength}]`,
-      sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
+      sub: this.typeDefFromMetaTypeAt(vecTypeIndex),
+      type: `[${type};${vecLength}]`
     };
   }
 
@@ -272,8 +274,10 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     switch (name) {
       case 'Option':
         return this.typeDefForOption(id, typeIndex);
+
       case 'Result':
         return this.typeDefForResult(id, typeIndex);
+
       default: {
         const sub = def['enum.variants'].map((variant) => this.typeDefForEnumVariant(variant));
 
@@ -288,7 +292,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
   private typeDefForClikeEnum (def: MetaTypeDefClikeEnum): Pick<TypeDef, never> {
     return {
       info: TypeDefInfo.Enum,
-      sub: def['clike_enum.variants'].map(({ name: nameIndex, discriminant }): TypeDef => ({
+      sub: def['clike_enum.variants'].map(({ discriminant, name: nameIndex }): TypeDef => ({
         ext: { discriminant },
         info: TypeDefInfo.Plain,
         name: this.stringAt(nameIndex),

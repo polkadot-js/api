@@ -4,7 +4,7 @@
 
 import { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DerivedStakingOverview } from '../types';
+import { DeriveStakingOverview } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -15,12 +15,12 @@ function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): 
   return api.query.staking.currentEraPointsEarned<EraPoints>().pipe(
     map(({ individual, total }): EraRewardPoints =>
       api.registry.createType('EraRewardPoints', {
-        total,
         individual: new Map<AccountId, RewardPoint>(
           individual
             .map((points): RewardPoint => api.registry.createType('RewardPoint', points))
             .map((points, index): [AccountId, RewardPoint] => [currentElected[index], points])
-        )
+        ),
+        total
       })
     )
   );
@@ -29,8 +29,8 @@ function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
-export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> {
-  return memo((): Observable<DerivedStakingOverview> =>
+export function overview (api: ApiInterfaceRx): () => Observable<DeriveStakingOverview> {
+  return memo((): Observable<DeriveStakingOverview> =>
     combineLatest([
       api.derive.session.indexes(),
       api.derive.staking.validators()
@@ -45,7 +45,7 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
               : of(api.registry.createType('EraRewardPoints'))
         ])
       ),
-      map(([info, eraPoints]): DerivedStakingOverview => ({
+      map(([info, eraPoints]): DeriveStakingOverview => ({
         ...info, eraPoints
       }))
     ));

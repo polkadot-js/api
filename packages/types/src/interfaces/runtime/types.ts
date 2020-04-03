@@ -75,6 +75,7 @@ export interface DigestItem extends Enum {
 export interface DispatchClass extends Enum {
   readonly isNormal: boolean;
   readonly isOperational: boolean;
+  readonly isMandatory: boolean;
 }
 
 /** @name DispatchInfo */

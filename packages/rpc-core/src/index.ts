@@ -12,7 +12,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
-import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
+import { assert, hexToU8a, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr } from './rxjs';
 
@@ -82,6 +82,8 @@ export default class Rpc implements RpcInterface {
   public readonly babe!: RpcInterface['babe'];
 
   public readonly chain!: RpcInterface['chain'];
+
+  public readonly childstate!: RpcInterface['childstate'];
 
   public readonly contracts!: RpcInterface['contracts'];
 
@@ -170,6 +172,7 @@ export default class Rpc implements RpcInterface {
 
   private createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = `${section}_${method}`;
+
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
       // However, formatInputs can throw, and when it does, the above way
@@ -207,7 +210,7 @@ export default class Rpc implements RpcInterface {
   }
 
   // create a subscriptor, it subscribes once and resolves with the id as subscribe
-  private createSubscriber ({ subType, subName, paramsJson, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: ProviderInterfaceCallback }, errorHandler: (error: Error) => void): Promise<number> {
+  private createSubscriber ({ paramsJson, subName, subType, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: ProviderInterfaceCallback }, errorHandler: (error: Error) => void): Promise<number> {
     return new Promise((resolve, reject): void => {
       this.provider
         .subscribe(subType, subName, paramsJson, update)
@@ -224,10 +227,12 @@ export default class Rpc implements RpcInterface {
     const subName = `${section}_${subMethod}`;
     const unsubName = `${section}_${unsubMethod}`;
     const subType = `${section}_${updateType}`;
+
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
+
         const errorHandler = (error: Error): void => {
           logErrorMessage(method, def, error);
 
@@ -237,9 +242,11 @@ export default class Rpc implements RpcInterface {
         try {
           const params = this.formatInputs(def, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
+
           const update = (error?: Error | null, result?: any): void => {
             if (error) {
               logErrorMessage(method, def, error);
+
               return;
             }
 
@@ -254,7 +261,7 @@ export default class Rpc implements RpcInterface {
             }
           };
 
-          subscriptionPromise = this.createSubscriber({ subType, subName, paramsJson, update }, errorHandler);
+          subscriptionPromise = this.createSubscriber({ paramsJson, subName, subType, update }, errorHandler);
         } catch (error) {
           errorHandler(error);
         }
@@ -370,7 +377,13 @@ export default class Rpc implements RpcInterface {
       );
     }
 
-    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [
+      isEmpty
+        ? meta.fallback
+          ? hexToU8a(meta.fallback.toHex())
+          : undefined
+        : input
+    ], true);
   }
 
   private formatStorageSet (keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
@@ -428,6 +441,12 @@ export default class Rpc implements RpcInterface {
       );
     }
 
-    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [
+      isEmpty
+        ? meta.fallback
+          ? hexToU8a(meta.fallback.toHex())
+          : undefined
+        : input
+    ], true);
   }
 }

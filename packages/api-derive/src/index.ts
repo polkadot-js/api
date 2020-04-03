@@ -21,10 +21,11 @@ import * as society from './society';
 import * as staking from './staking';
 import * as technicalCommittee from './technicalCommittee';
 import * as treasury from './treasury';
+import * as tx from './tx';
 
 export * from './type';
 
-export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury };
+export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
@@ -76,6 +77,7 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
           const methodName = _methodName as keyof typeof section;
           // Not sure what to do here, casting as any. Though the final types are good
           const method = (section[methodName] as any)(api);
+
           // idem
           (sectionAcc as any)[methodName] = method;
 
