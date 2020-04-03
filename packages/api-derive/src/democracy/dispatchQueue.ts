@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
+import { BlockNumber, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveDispatch, DeriveProposalImage } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Vec, u64 } from '@polkadot/types';
+import { Option, Vec, u64 } from '@polkadot/types';
 import { stringToHex } from '@polkadot/util';
 
 import { memo } from '../util';
@@ -44,12 +44,23 @@ function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
 
 function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   return api.derive.democracy.referendumsFinished().pipe(
-    switchMap(() => api.query.scheduler.agenda.entries()),
-    switchMap((all): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
-      const info = all.reduce((result: SchedulerInfo[], [key, allScheduled]): SchedulerInfo[] => {
-        const at = key.args[0] as BlockNumber;
+    // We don't get entries, but rather we get the keys (triggered via finished referendums) and
+    // the subscribe to those keys - this means we pickup when the schedulers actually executes
+    // at a block, the entry for that block will become empty
+    switchMap(() => api.query.scheduler.agenda.keys()),
+    switchMap((keys): Observable<[BlockNumber[], Option<Scheduled>[][]]> => {
+      const blockNumbers = keys.map((key) => key.args[0] as BlockNumber);
 
-        allScheduled.filter((optScheduled) => optScheduled.isSome).forEach((optScheduled): void => {
+      return combineLatest([
+        of(blockNumbers),
+        api.query.scheduler.agenda.multi<Vec<Option<Scheduled>>>(blockNumbers)
+      ]);
+    }),
+    switchMap(([blockNumbers, agendas]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
+      const result: SchedulerInfo[] = [];
+
+      blockNumbers.forEach((at, index): void => {
+        agendas[index].filter((optScheduled) => optScheduled.isSome).forEach((optScheduled): void => {
           const scheduled = optScheduled.unwrap();
 
           if (scheduled.maybeId.isSome) {
@@ -63,13 +74,11 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
             }
           }
         });
-
-        return result;
-      }, []);
+      });
 
       return combineLatest([
-        of(info),
-        api.derive.democracy.preimages(info.map(({ imageHash }) => imageHash))
+        of(result),
+        api.derive.democracy.preimages(result.map(({ imageHash }) => imageHash))
       ]);
     }),
     map(([infos, images]): DeriveDispatch[] =>
