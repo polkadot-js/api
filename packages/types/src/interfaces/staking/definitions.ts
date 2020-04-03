@@ -130,14 +130,14 @@ export default {
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>'
     },
-    StakingLedger: {
+    StakingLedgerTo240: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>',
       lastReward: 'Option<EraIndex>'
     },
-    StakingLedgerFrom240: {
+    StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',

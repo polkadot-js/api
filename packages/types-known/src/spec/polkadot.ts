@@ -27,7 +27,8 @@ const versioned: OverrideVersionedType[] = [
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
-      ReferendumInfo: 'ReferendumInfoTo239'
+      ReferendumInfo: 'ReferendumInfoTo239',
+      StakingLedger: 'StakingLedgerTo240'
     }
   },
   {
@@ -35,7 +36,8 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      LookupSource: 'AccountId',
+      StakingLedger: 'StakingLedgerTo240'
     }
   }
 ];
