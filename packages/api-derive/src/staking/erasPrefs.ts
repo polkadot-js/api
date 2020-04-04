@@ -31,9 +31,9 @@ export function eraPrefs (api: ApiInterfaceRx): (era: EraIndex) => Observable<De
   );
 }
 
-export function erasPrefs (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraPrefs[]> {
-  return memo((withActive?: boolean | BN | number): Observable<DeriveEraPrefs[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
+export function erasPrefs (api: ApiInterfaceRx): (withActive?: boolean | BN | number, exclude?: BN[]) => Observable<DeriveEraPrefs[]> {
+  return memo((withActive?: boolean | BN | number, exclude?: BN[]): Observable<DeriveEraPrefs[]> =>
+    api.derive.staking.erasHistoric(withActive, exclude).pipe(
       switchMap((eras): Observable<DeriveEraPrefs[]> =>
         eras.length
           ? combineLatest(

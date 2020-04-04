@@ -43,9 +43,9 @@ export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable
   );
 }
 
-export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraExposure[]> {
-  return memo((withActive?: boolean | BN | number): Observable<DeriveEraExposure[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
+export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN | number, exclude?: BN[]) => Observable<DeriveEraExposure[]> {
+  return memo((withActive?: boolean | BN | number, exclude?: BN[]): Observable<DeriveEraExposure[]> =>
+    api.derive.staking.erasHistoric(withActive, exclude).pipe(
       switchMap((eras): Observable<DeriveEraExposure[]> =>
         eras.length
           ? combineLatest(

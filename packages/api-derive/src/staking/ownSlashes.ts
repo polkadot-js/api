@@ -11,9 +11,9 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number) => Observable<DeriveStakerSlashes[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number): Observable<DeriveStakerSlashes[]> => {
-    return api.derive.staking.erasHistoric(withActive).pipe(
+export function ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]) => Observable<DeriveStakerSlashes[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]): Observable<DeriveStakerSlashes[]> => {
+    return api.derive.staking.erasHistoric(withActive, exclude).pipe(
       switchMap((eras) =>
         eras.length
           ? combineLatest(

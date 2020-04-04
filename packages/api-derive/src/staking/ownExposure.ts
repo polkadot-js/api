@@ -11,9 +11,9 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function ownExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number) => Observable<DeriveOwnExposure[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number): Observable<DeriveOwnExposure[]> => {
-    return api.derive.staking.erasHistoric(withActive).pipe(
+export function ownExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]) => Observable<DeriveOwnExposure[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]): Observable<DeriveOwnExposure[]> => {
+    return api.derive.staking.erasHistoric(withActive, exclude).pipe(
       switchMap((eras) =>
         eras.length
           ? combineLatest(

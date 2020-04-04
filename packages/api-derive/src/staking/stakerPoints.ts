@@ -11,11 +11,11 @@ import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function stakerPoints (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number) => Observable<DeriveStakerPoints[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number): Observable<DeriveStakerPoints[]> => {
+export function stakerPoints (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]) => Observable<DeriveStakerPoints[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]): Observable<DeriveStakerPoints[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
-    return api.derive.staking.erasPoints(withActive).pipe(
+    return api.derive.staking.erasPoints(withActive, exclude).pipe(
       map((points): DeriveStakerPoints[] =>
         points.map(({ era, eraPoints, validators }): DeriveStakerPoints => ({
           era,

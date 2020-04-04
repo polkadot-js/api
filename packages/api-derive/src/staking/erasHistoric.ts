@@ -13,8 +13,8 @@ import { isBoolean, isUndefined, bnToBn } from '@polkadot/util';
 
 import { memo } from '../util';
 
-export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<EraIndex[]> {
-  return memo((withActive?: boolean | BN | number): Observable<EraIndex[]> =>
+export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN | number, exclude?: BN[]) => Observable<EraIndex[]> {
+  return memo((withActive?: boolean | BN | number, exclude: BN[] = []): Observable<EraIndex[]> =>
     api.query.staking?.activeEra
       ? api.queryMulti<[Option<ActiveEraInfo>, u32]>([
         api.query.staking.activeEra,
@@ -44,7 +44,7 @@ export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN |
           return result
             .filter((era): era is EraIndex =>
               era
-                ? era.gte(startEra)
+                ? era.gte(startEra) && !exclude.some((ex) => ex.eq(era))
                 : false
             )
             .reverse();
