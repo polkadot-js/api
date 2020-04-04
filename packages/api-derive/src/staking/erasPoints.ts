@@ -6,7 +6,6 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
 import { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
-import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -22,8 +21,8 @@ function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
     }, {});
 }
 
-export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraPoints[]> {
-  return memo((withActive?: boolean | number): Observable<DeriveEraPoints[]> =>
+export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
+  return memo((withActive?: boolean): Observable<DeriveEraPoints[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras): Observable<[EraIndex[], EraRewardPoints[]]> =>
         combineLatest([

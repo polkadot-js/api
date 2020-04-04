@@ -3,16 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DeriveStakerExposure, DeriveEraValidatorExposure } from '../types';
+import { DeriveStakerExposure, DeriveEraExposureNominating, DeriveEraValidatorExposure } from '../types';
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number) => Observable<DeriveStakerExposure[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number): Observable<DeriveStakerExposure[]> => {
+export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerExposure[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
     return api.derive.staking.erasExposure(withActive).pipe(
@@ -20,14 +19,14 @@ export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | s
         exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
           const isValidator = !!allValidators[stakerId];
           const validators: DeriveEraValidatorExposure = {};
-          let nominating: [string, number][] = [];
+          let nominating: DeriveEraExposureNominating[] = [];
 
           if (isValidator) {
             validators[stakerId] = allValidators[stakerId];
           } else if (allNominators[stakerId]) {
             nominating = allNominators[stakerId];
 
-            nominating.forEach(([validatorId]): void => {
+            nominating.forEach(({ validatorId }): void => {
               validators[validatorId] = allValidators[validatorId];
             });
           }

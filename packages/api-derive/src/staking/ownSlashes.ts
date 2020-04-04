@@ -5,14 +5,13 @@
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DeriveStakerSlashes } from '../types';
 
-import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number) => Observable<DeriveStakerSlashes[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number): Observable<DeriveStakerSlashes[]> => {
+export function ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerSlashes[]> => {
     return api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) =>
         eras.length

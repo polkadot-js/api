@@ -6,15 +6,14 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance, EraIndex } from '@polkadot/types/interfaces';
 import { DeriveEraRewards } from '../types';
 
-import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
-export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraRewards[]> {
-  return memo((withActive?: boolean | BN | number): Observable<DeriveEraRewards[]> =>
+export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
+  return memo((withActive?: boolean): Observable<DeriveEraRewards[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras): Observable<[EraIndex[], Option<Balance>[]]> =>
         combineLatest([

@@ -6,7 +6,6 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { EraIndex, Exposure } from '@polkadot/types/interfaces';
 import { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
 
-import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
@@ -24,11 +23,11 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
 
     validators[validatorId] = exposure;
 
-    exposure.others.forEach(({ who }, index): void => {
+    exposure.others.forEach(({ who }, validatorIndex): void => {
       const nominatorId = who.toString();
 
       nominators[nominatorId] = nominators[nominatorId] || [];
-      nominators[nominatorId].push([validatorId, index]);
+      nominators[nominatorId].push({ validatorId, validatorIndex });
     });
   });
 
@@ -43,14 +42,12 @@ export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable
   );
 }
 
-export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<DeriveEraExposure[]> {
-  return memo((withActive?: boolean | BN | number): Observable<DeriveEraExposure[]> =>
+export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
+  return memo((withActive?: boolean): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras): Observable<DeriveEraExposure[]> =>
         eras.length
-          ? combineLatest(
-            eras.map((era) => api.derive.staking.eraExposure(era))
-          )
+          ? combineLatest(eras.map((era) => api.derive.staking.eraExposure(era)))
           : of([])
       )
     )

@@ -102,10 +102,10 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
   });
 }
 
-export function queryMulti (api: ApiInterfaceRx): (...accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingQuery[]> {
-  return memo((...accountIds: (Uint8Array | string)[]): Observable<DeriveStakingQuery[]> =>
-    combineLatest(
-      accountIds.map((accountId) => api.derive.staking.query(accountId))
-    )
+export function queryMulti (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingQuery[]> {
+  return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingQuery[]> =>
+    accountIds.length
+      ? combineLatest(accountIds.map((acc) => api.derive.staking.query(acc)))
+      : of([])
   );
 }
