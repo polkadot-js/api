@@ -23,11 +23,11 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
 
     validators[validatorId] = exposure;
 
-    exposure.others.forEach(({ who }, index): void => {
+    exposure.others.forEach(({ who }, validatorIndex): void => {
       const nominatorId = who.toString();
 
       nominators[nominatorId] = nominators[nominatorId] || [];
-      nominators[nominatorId].push([validatorId, index]);
+      nominators[nominatorId].push({ validatorId, validatorIndex });
     });
   });
 

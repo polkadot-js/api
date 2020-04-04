@@ -41,7 +41,7 @@ export interface DeriveStakerPoints {
   points: RewardPoint;
 }
 
-export type DeriveEraNominatorExposure = Record<string, [string, number][]>;
+export type DeriveEraNominatorExposure = Record<string, DeriveEraExposureNominating[]>;
 
 export type DeriveEraValidatorExposure = Record<string, Exposure>;
 
@@ -59,11 +59,16 @@ export interface DeriveOwnExposure {
 
 export type DeriveOwnSlashes = DeriveStakerSlashes;
 
+export interface DeriveEraExposureNominating {
+  validatorId: string;
+  validatorIndex: number;
+}
+
 export interface DeriveStakerExposure {
   era: EraIndex;
   isEmpty: boolean;
   isValidator: boolean;
-  nominating: [string, number][];
+  nominating: DeriveEraExposureNominating[];
   validators: DeriveEraValidatorExposure;
 }
 
@@ -75,9 +80,10 @@ export interface DeriveStakerRewardValidator {
 export interface DeriveStakerReward {
   era: EraIndex;
   eraReward: Balance;
+  isStakerPayout?: boolean;
   isEmpty: boolean;
   isValidator: boolean;
-  nominating: [string, number][];
+  nominating: DeriveEraExposureNominating[];
   total: Balance;
   validators: Record<string, DeriveStakerRewardValidator>;
 }
