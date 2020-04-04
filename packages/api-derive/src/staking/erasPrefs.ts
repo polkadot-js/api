@@ -35,9 +35,7 @@ export function erasPrefs (api: ApiInterfaceRx): (withActive?: boolean) => Obser
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras): Observable<DeriveEraPrefs[]> =>
         eras.length
-          ? combineLatest(
-            eras.map((era) => api.derive.staking.eraPrefs(era))
-          )
+          ? combineLatest(eras.map((era) => api.derive.staking.eraPrefs(era)))
           : of([])
       )
     )

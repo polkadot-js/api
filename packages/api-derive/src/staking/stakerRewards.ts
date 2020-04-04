@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { EraIndex } from '@polkadot/types/interfaces';
+import { EraIndex, StakingLedger, StakingLedgerTo240 } from '@polkadot/types/interfaces';
 import { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 
 import BN from 'bn.js';
@@ -83,8 +83,12 @@ function uniqValidators (rewards: DeriveStakerReward[]): string[] {
   return uniq;
 }
 
+function isOldLedger (ledger: StakingLedger | StakingLedgerTo240): ledger is StakingLedgerTo240 {
+  return !!(ledger as StakingLedgerTo240).lastReward;
+}
+
 function filterRewards (api: ApiInterfaceRx, accountId: Uint8Array | string, rewards: DeriveStakerReward[], withActive?: boolean): Observable<DeriveStakerReward[]> {
-  if (withActive || !api.tx.staking.payoutStakers) {
+  if (withActive) {
     return of(rewards);
   }
 
@@ -93,7 +97,7 @@ function filterRewards (api: ApiInterfaceRx, accountId: Uint8Array | string, rew
   return combineLatest([
     api.query.staking.migrateEra
       ? api.query.staking.migrateEra<Option<EraIndex>>()
-      : of(api.registry.createType('Option<EraIndex>')),
+      : of(api.registry.createType('Option<EraIndex>', api.tx.staking.payoutStakers ? 0 : 1_000_000_000)),
     api.derive.staking.query(accountId),
     api.derive.staking.queryMulti(validators)
   ]).pipe(
@@ -104,7 +108,11 @@ function filterRewards (api: ApiInterfaceRx, accountId: Uint8Array | string, rew
         .filter(({ isEmpty }) => !isEmpty)
         .filter((reward): boolean => {
           if (reward.era.lte(migrateEra)) {
-            return !stakingLedger || !stakingLedger.claimedRewards.some((era) => reward.era.eq(era));
+            return !stakingLedger
+              ? true
+              : isOldLedger(stakingLedger)
+                ? reward.era.gt(stakingLedger.lastReward.unwrapOr(new BN(-1)))
+                : !stakingLedger.claimedRewards.some((claimEra) => reward.era.eq(claimEra));
           }
 
           reward.isStakerPayout = true;
@@ -148,22 +156,15 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
       api.derive.staking.erasRewards(withActive),
       api.derive.staking.stakerExposure(stakerId, withActive)
     ]).pipe(
-      map((result): DeriveStakerReward[] =>
-        parseRewards(api, stakerId, result)
-      ),
-      switchMap((rewards) =>
-        filterRewards(api, accountId, rewards, withActive)
-      )
+      switchMap((result) => filterRewards(api, accountId, parseRewards(api, stakerId, result), withActive))
     );
   });
 }
 
 export function stakerRewardsMulti (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
   return memo((accountIds: (Uint8Array | string)[], withActive?: boolean): Observable<DeriveStakerReward[][]> =>
-    combineLatest(
-      accountIds.map((accountId) =>
-        api.derive.staking.stakerRewards(accountId, withActive)
-      )
-    )
+    accountIds.length
+      ? combineLatest(accountIds.map((acc) => api.derive.staking.stakerRewards(acc, withActive)))
+      : of([])
   );
 }
