@@ -172,7 +172,7 @@ export interface StakingLedger extends Struct {
   readonly total: Compact<Balance>;
   readonly active: Compact<Balance>;
   readonly unlocking: Vec<UnlockChunk>;
-  readonly lastReward: Option<EraIndex>;
+  readonly claimedRewards: Vec<EraIndex>;
 }
 
 /** @name StakingLedgerTo223 */
@@ -181,6 +181,15 @@ export interface StakingLedgerTo223 extends Struct {
   readonly total: Compact<Balance>;
   readonly active: Compact<Balance>;
   readonly unlocking: Vec<UnlockChunk>;
+}
+
+/** @name StakingLedgerTo240 */
+export interface StakingLedgerTo240 extends Struct {
+  readonly stash: AccountId;
+  readonly total: Compact<Balance>;
+  readonly active: Compact<Balance>;
+  readonly unlocking: Vec<UnlockChunk>;
+  readonly lastReward: Option<EraIndex>;
 }
 
 /** @name UnappliedSlash */
