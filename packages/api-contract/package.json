@@ -32,6 +32,6 @@
     "@polkadot/types": "1.10.0-beta.8",
     "@polkadot/util": "^2.7.1",
     "bn.js": "^5.1.1",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.5"
   }
 }
