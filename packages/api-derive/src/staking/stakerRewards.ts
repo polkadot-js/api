@@ -67,15 +67,15 @@ function parseRewards (api: ApiInterfaceRx, stakerId: string, [erasPoints, erasP
   });
 }
 
-export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, startEra: BN | number, exclude?: BN[]) => Observable<DeriveStakerReward[]> {
-  return memo((accountId: Uint8Array | string, startEra: BN | number, exclude?: BN[]): Observable<DeriveStakerReward[]> => {
+export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerReward[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
     return combineLatest([
-      api.derive.staking.erasPoints(startEra, exclude),
-      api.derive.staking.erasPrefs(startEra, exclude),
-      api.derive.staking.erasRewards(startEra, exclude),
-      api.derive.staking.stakerExposure(stakerId, startEra, exclude)
+      api.derive.staking.erasPoints(withActive),
+      api.derive.staking.erasPrefs(withActive),
+      api.derive.staking.erasRewards(withActive),
+      api.derive.staking.stakerExposure(stakerId, withActive)
     ]).pipe(
       map((result): DeriveStakerReward[] =>
         parseRewards(api, stakerId, result)
@@ -84,11 +84,11 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
   });
 }
 
-export function stakerRewardsMulti (api: ApiInterfaceRx): (...params: [Uint8Array | string, BN | number, BN[]?][]) => Observable<DeriveStakerReward[][]> {
-  return memo((...params: [Uint8Array | string, BN | number, BN[]?][]): Observable<DeriveStakerReward[][]> =>
+export function stakerRewardsMulti (api: ApiInterfaceRx): (...params: [Uint8Array | string, boolean?][]) => Observable<DeriveStakerReward[][]> {
+  return memo((...params: [Uint8Array | string, boolean?][]): Observable<DeriveStakerReward[][]> =>
     combineLatest(
-      params.map(([accountId, startEra, exclude = []]) =>
-        api.derive.staking.stakerRewards(accountId, startEra, exclude)
+      params.map(([accountId, withActive]) =>
+        api.derive.staking.stakerRewards(accountId, withActive)
       )
     )
   );

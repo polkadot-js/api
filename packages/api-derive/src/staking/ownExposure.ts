@@ -5,15 +5,14 @@
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DeriveOwnExposure } from '../types';
 
-import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function ownExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]) => Observable<DeriveOwnExposure[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]): Observable<DeriveOwnExposure[]> => {
-    return api.derive.staking.erasHistoric(withActive, exclude).pipe(
+export function ownExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveOwnExposure[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveOwnExposure[]> => {
+    return api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) =>
         eras.length
           ? combineLatest(

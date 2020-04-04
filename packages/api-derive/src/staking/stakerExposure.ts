@@ -5,17 +5,16 @@
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DeriveStakerExposure, DeriveEraValidatorExposure } from '../types';
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]) => Observable<DeriveStakerExposure[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean | BN | number, exclude?: BN[]): Observable<DeriveStakerExposure[]> => {
+export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerExposure[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
-    return api.derive.staking.erasExposure(withActive, exclude).pipe(
+    return api.derive.staking.erasExposure(withActive).pipe(
       map((exposures): DeriveStakerExposure[] =>
         exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
           const isValidator = !!allValidators[stakerId];
