@@ -2631,9 +2631,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.52.5":
-  version: 0.52.5
-  resolution: "@polkadot/dev@npm:0.52.5"
+"@polkadot/dev@npm:^0.52.6":
+  version: 0.52.6
+  resolution: "@polkadot/dev@npm:0.52.6"
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.9.0
@@ -2663,7 +2663,6 @@ __metadata:
     babel-plugin-module-resolver: ^4.0.0
     babel-plugin-styled-components: ^1.10.7
     browserslist: ^4.11.1
-    chalk: ^4.0.0
     coveralls: ^3.0.11
     cpx: ^1.5.0
     eslint: ^6.8.0
@@ -2715,7 +2714,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 2/8c8c97b50705c232912f63fcca4f647b0664311c4c52760c273dd9ef5598a532d2ed844de7e3fd9d1609cb64c90bfd8976dc74a38e5863837a9665038bc98a0d
+  checksum: 2/fbd6fd561d8017da10563fb32e7b873fd84fc019b301ac9269fe6cc4ddb7ab96dbc295c175e87e6c9af492aeff512fa505dce8babe6269804a57d1560b32a948
   languageName: node
   linkType: hard
 
@@ -2778,12 +2777,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.16":
-  version: 0.3.16
-  resolution: "@polkadot/ts@npm:0.3.16"
+"@polkadot/ts@npm:^0.3.17":
+  version: 0.3.17
+  resolution: "@polkadot/ts@npm:0.3.17"
   dependencies:
     "@types/chrome": ^0.0.103
-  checksum: 2/28acf78bb72b321bd0e61624c6c63a560091a227a5a2464d6459987ff03c5d5b24f50c100a9c8ef805594f441ad4826f0a6b54a3c4e25ef18aa83a67b5b9763e
+  checksum: 2/a8cd05606e085eb31662ee5f6d693349e37c3224b4d0c7859a111cfe34ededa301073bc562ca56352d133fc7820dd5757185f9baf6b569b15c53f4483052be69
   languageName: node
   linkType: hard
 
@@ -5146,16 +5145,6 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: 2/4018b0c812880da595d0d7b8159939527b72f58d3370e2fdc1a24d9abd460bab851695d7eca014082f110d5702d1221b05493fec430ccce375de907d50cc48c1
-  languageName: node
-  linkType: hard
-
-"chalk@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "chalk@npm:4.0.0"
-  dependencies:
-    ansi-styles: ^4.1.0
-    supports-color: ^7.1.0
-  checksum: 2/12b01a228b5ca2f03a82684c62d54c06e2ba2f7b81dd08fac56c5b9288958dd24f9cae866e140df5c29cb736059cb4be0165157ebb0b15039cc1ea511a2dab60
   languageName: node
   linkType: hard
 
@@ -11035,13 +11024,13 @@ __metadata:
   linkType: hard
 
 "json5@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "json5@npm:2.1.2"
+  version: 2.1.3
+  resolution: "json5@npm:2.1.3"
   dependencies:
     minimist: ^1.2.5
   bin:
     json5: lib/cli.js
-  checksum: 2/ca20dbb73c4ccb7c9cd8ec5d9c6f005294e25868d435825f147dde58a8f1fc5fe9397d3afcd12d26f765fe14d4b35add81f1bc5fece33c6b1c8d1a69625a43e8
+  checksum: 2/957e4937106cf59975aa0281e68911534d65c8a25be5b4d3559aa55eba351ccab516a943a60ba33e461e4b8af749939986e311de910cbcfd197410b57d971741
   languageName: node
   linkType: hard
 
@@ -15358,8 +15347,8 @@ __metadata:
     "@babel/core": ^7.9.0
     "@babel/register": ^7.9.0
     "@babel/runtime": ^7.9.2
-    "@polkadot/dev": ^0.52.5
-    "@polkadot/ts": ^0.3.16
+    "@polkadot/dev": ^0.52.6
+    "@polkadot/ts": ^0.3.17
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^25.2.1
     copyfiles: ^2.2.0
