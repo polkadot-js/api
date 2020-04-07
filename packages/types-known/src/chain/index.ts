@@ -4,11 +4,8 @@
 
 import { OverrideVersionedType } from '@polkadot/types/types';
 
-import Westend from './westend';
-
 // Type overrides based on specific nodes
 const typesChain: Record<string, OverrideVersionedType[]> = {
-  Westend
 };
 
 export default typesChain;
