@@ -8,7 +8,9 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [1, undefined],
     types: {
-      Keys: 'SessionKeys5'
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   }
 ];
