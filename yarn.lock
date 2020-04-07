@@ -2631,9 +2631,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.52.6":
-  version: 0.52.6
-  resolution: "@polkadot/dev@npm:0.52.6"
+"@polkadot/dev@npm:^0.52.8":
+  version: 0.52.8
+  resolution: "@polkadot/dev@npm:0.52.8"
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.9.0
@@ -2655,8 +2655,8 @@ __metadata:
     "@babel/preset-typescript": ^7.9.0
     "@babel/register": ^7.9.0
     "@babel/runtime": ^7.9.2
-    "@typescript-eslint/eslint-plugin": 2.26.0
-    "@typescript-eslint/parser": 2.26.0
+    "@typescript-eslint/eslint-plugin": 2.27.0
+    "@typescript-eslint/parser": 2.27.0
     "@vue/component-compiler-utils": ^3.1.1
     babel-core: ^7.0.0-bridge.0
     babel-jest: ^25.2.6
@@ -2687,7 +2687,7 @@ __metadata:
     madge: ^3.8.0
     mkdirp: ^1.0.4
     rimraf: ^3.0.2
-    typedoc: ^0.17.3
+    typedoc: ^0.17.4
     typedoc-plugin-markdown: ^2.2.17
     typedoc-plugin-no-inherit: ^1.1.10
     typescript: ^3.8.3
@@ -2714,7 +2714,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 2/fbd6fd561d8017da10563fb32e7b873fd84fc019b301ac9269fe6cc4ddb7ab96dbc295c175e87e6c9af492aeff512fa505dce8babe6269804a57d1560b32a948
+  checksum: 2/4570a58cd964287c6f0e2038aa10f7c691cc3dcae227868c68e5e037519c68401edb39e66268343f758f038475a58f8f48aa0c7f0c027acf7b70273cdb3893e8
   languageName: node
   linkType: hard
 
@@ -2777,12 +2777,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.17":
-  version: 0.3.17
-  resolution: "@polkadot/ts@npm:0.3.17"
+"@polkadot/ts@npm:^0.3.18":
+  version: 0.3.18
+  resolution: "@polkadot/ts@npm:0.3.18"
   dependencies:
     "@types/chrome": ^0.0.103
-  checksum: 2/a8cd05606e085eb31662ee5f6d693349e37c3224b4d0c7859a111cfe34ededa301073bc562ca56352d133fc7820dd5757185f9baf6b569b15c53f4483052be69
+  checksum: 2/413783290d1a5cbcb97539b8817a39fbc565ad5db6d45ab10facd6ecdb1db0a5700f4f28e6cb3dd0a4cf25b1985482a2afb1fca9e51d9ab2d91bd7fa93116dad
   languageName: node
   linkType: hard
 
@@ -3141,11 +3141,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:2.26.0":
-  version: 2.26.0
-  resolution: "@typescript-eslint/eslint-plugin@npm:2.26.0"
+"@typescript-eslint/eslint-plugin@npm:2.27.0":
+  version: 2.27.0
+  resolution: "@typescript-eslint/eslint-plugin@npm:2.27.0"
   dependencies:
-    "@typescript-eslint/experimental-utils": 2.26.0
+    "@typescript-eslint/experimental-utils": 2.27.0
     functional-red-black-tree: ^1.0.1
     regexpp: ^3.0.0
     tsutils: ^3.17.1
@@ -3156,31 +3156,31 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 2/0cb2632af0f6983e6b00d45ce6dca034a30172add8da0b99d30c8525b38a8cffb2cceeaa13d723fc4269c717d7533b27b262c70b0cfbc9a89ada6e9c2f7c1f53
+  checksum: 2/4373cddd9062a4640ab00f3553c839689109f26ed347523924053109bce6ed3adb7c6c89945076480bade28db91530a02911dd549aa252a805ceebf0f285280b
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:2.26.0":
-  version: 2.26.0
-  resolution: "@typescript-eslint/experimental-utils@npm:2.26.0"
+"@typescript-eslint/experimental-utils@npm:2.27.0":
+  version: 2.27.0
+  resolution: "@typescript-eslint/experimental-utils@npm:2.27.0"
   dependencies:
     "@types/json-schema": ^7.0.3
-    "@typescript-eslint/typescript-estree": 2.26.0
+    "@typescript-eslint/typescript-estree": 2.27.0
     eslint-scope: ^5.0.0
     eslint-utils: ^2.0.0
   peerDependencies:
     eslint: "*"
-  checksum: 2/b2df423dcc28946c9977f174e36c079ac4dc2250e5878b149be1627cbf1e3a9cabd91288d61c56b9d4d7cd88d036869f48d58efb8054e3db543d8936b84d8776
+  checksum: 2/3bca6016b3a05d34fd5dfff77876d6b137876fb29747119de4accce5a93ffc59bfad6e9c9c7b85c44a5e372f599b94293748e9e9c60c922cdb7b61e4b176a7ec
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:2.26.0":
-  version: 2.26.0
-  resolution: "@typescript-eslint/parser@npm:2.26.0"
+"@typescript-eslint/parser@npm:2.27.0":
+  version: 2.27.0
+  resolution: "@typescript-eslint/parser@npm:2.27.0"
   dependencies:
     "@types/eslint-visitor-keys": ^1.0.0
-    "@typescript-eslint/experimental-utils": 2.26.0
-    "@typescript-eslint/typescript-estree": 2.26.0
+    "@typescript-eslint/experimental-utils": 2.27.0
+    "@typescript-eslint/typescript-estree": 2.27.0
     eslint-visitor-keys: ^1.1.0
   peerDependencies:
     eslint: ^5.0.0 || ^6.0.0
@@ -3188,11 +3188,31 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 2/2b751d3d3f0e2fdd741249fe8d926e6c9d62fee8f98dfad73d6cc116bb28825c8fc4d4d2b4bb8483baf6ad1e492ef0ef69c0fe8b0115423ca289a0f76aeca522
+  checksum: 2/e9b28622d498ec62467263ca95d2679b9f093ee37e5b7ccaf6930597a3f0f5bfd934d1b85aa8b6b43e48bfa126dac2fba7f094706ac4e261eb7eea8d868255f9
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:2.26.0, @typescript-eslint/typescript-estree@npm:^2.4.0":
+"@typescript-eslint/typescript-estree@npm:2.27.0":
+  version: 2.27.0
+  resolution: "@typescript-eslint/typescript-estree@npm:2.27.0"
+  dependencies:
+    debug: ^4.1.1
+    eslint-visitor-keys: ^1.1.0
+    glob: ^7.1.6
+    is-glob: ^4.0.1
+    lodash: ^4.17.15
+    semver: ^6.3.0
+    tsutils: ^3.17.1
+  peerDependencies:
+    typescript: "*"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 2/121dd5ded4bb880db92415e33ae01a8bb92fe1eb7c30da2e36282522963e8d18dc45becb1d256e6d1b58427d52d8f5dddc618309f59341ed75fb9984d83b6fd3
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:^2.4.0":
   version: 2.26.0
   resolution: "@typescript-eslint/typescript-estree@npm:2.26.0"
   dependencies:
@@ -8945,7 +8965,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"handlebars@npm:^4.4.0, handlebars@npm:^4.7.3":
+"handlebars@npm:^4.4.0, handlebars@npm:^4.7.3, handlebars@npm:^4.7.6":
   version: 4.7.6
   resolution: "handlebars@npm:4.7.6"
   dependencies:
@@ -11764,12 +11784,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:0.8.0":
-  version: 0.8.0
-  resolution: "marked@npm:0.8.0"
+"marked@npm:0.8.2":
+  version: 0.8.2
+  resolution: "marked@npm:0.8.2"
   bin:
     marked: bin/marked
-  checksum: 2/ab4d7b0cce8b5dbf5c41a902f99422838966fcac6848a45c268868d5b607c56089dc922b69f93bc2da8d243e56f8bb283525d5d6b46812525ffa5fe7655978dc
+  checksum: 2/49148dd7898fcd7215458a6ba5dec895a8343f2823c12da527dd40b29ed71c5235cba06a19833cc61e138811fa459484550a69ad89aa42af9f6e87b9dad19b7d
   languageName: node
   linkType: hard
 
@@ -15347,8 +15367,8 @@ __metadata:
     "@babel/core": ^7.9.0
     "@babel/register": ^7.9.0
     "@babel/runtime": ^7.9.2
-    "@polkadot/dev": ^0.52.6
-    "@polkadot/ts": ^0.3.17
+    "@polkadot/dev": ^0.52.8
+    "@polkadot/ts": ^0.3.18
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^25.2.1
     copyfiles: ^2.2.0
@@ -17152,12 +17172,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-default-themes@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "typedoc-default-themes@npm:0.9.0"
+"typedoc-default-themes@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "typedoc-default-themes@npm:0.10.0"
   dependencies:
     lunr: ^2.3.8
-  checksum: 2/0232b5ed08537e7b6d6bdd9a56e641074391ee2960eb7b3a86eba8e4cfd0dba6e4ddee3825839a599c92196302e9d88c1ee0ac511d68cdca56f58b45bea346bf
+  checksum: 2/5ff69892e56197f9dca4e326c071873c04fa995e61f570e87eb7bf7c76eafcfbf7c5b5190803749b2277709070f6a2a75fa30e67a1cc69fc8f619ba3ba0c1c67
   languageName: node
   linkType: hard
 
@@ -17182,24 +17202,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.17.3":
-  version: 0.17.3
-  resolution: "typedoc@npm:0.17.3"
+"typedoc@npm:^0.17.4":
+  version: 0.17.4
+  resolution: "typedoc@npm:0.17.4"
   dependencies:
     fs-extra: ^8.1.0
-    handlebars: ^4.7.3
+    handlebars: ^4.7.6
     highlight.js: ^9.18.1
     lodash: ^4.17.15
-    marked: 0.8.0
+    lunr: ^2.3.8
+    marked: 0.8.2
     minimatch: ^3.0.0
     progress: ^2.0.3
     shelljs: ^0.8.3
-    typedoc-default-themes: ^0.9.0
+    typedoc-default-themes: ^0.10.0
   peerDependencies:
     typescript: ">=3.8.3"
   bin:
     typedoc: bin/typedoc
-  checksum: 2/b0bf2b8cac1c641bb37160306f064c6f18c97ec7b81a6d65cf201fdc746180a38bb1b61cdad044c025787e56f97dc5032ae237fa3e4e123ea2c36e7c898134f5
+  checksum: 2/994624da398f7874db4a1e56be2c4823ed02d6ca7628cac34592ae12f2e2dd67952a8fd898b5cfb77504bd3775a1fa2bb1c8acecfc0b3c7c709a25d9a6f50e64
   languageName: node
   linkType: hard
 

@@ -1,6 +1,7 @@
+/* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/unbound-method */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 // Import the API & Provider and some utility functions
 const { ApiRx, WsProvider } = require('@polkadot/api');
 // Import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
