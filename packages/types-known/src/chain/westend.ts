@@ -6,13 +6,9 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [1000, undefined],
+    minmax: [1, undefined],
     types: {
-      Address: 'GenericAddress',
-      BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5',
-      ReferendumInfo: 'ReferendumInfoTo239',
-      StakingLedger: 'StakingLedgerTo223'
+      Keys: 'SessionKeys5'
     }
   }
 ];
