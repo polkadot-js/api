@@ -30,7 +30,7 @@
     "@polkadot/api": "1.10.0-beta.16",
     "@polkadot/rpc-core": "1.10.0-beta.16",
     "@polkadot/types": "1.10.0-beta.16",
-    "@polkadot/util": "^2.7.1",
+    "@polkadot/util": "^2.8.0-beta.7",
     "bn.js": "^5.1.1",
     "rxjs": "^6.5.5"
   }

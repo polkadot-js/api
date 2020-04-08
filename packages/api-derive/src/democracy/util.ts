@@ -14,6 +14,12 @@ import { bnSqrt } from '@polkadot/util';
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
 type OldPreimage = ITuple<PreimageInfo>;
 
+interface Approx {
+  changeAye: BN;
+  changeNay: BN;
+  isPassing: boolean;
+}
+
 function isOldInfo (info: ReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
   return !!(info as ReferendumInfoTo239).proposalHash;
 }
@@ -53,7 +59,7 @@ export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
-function isPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: DeriveReferendumVoteState): boolean {
+export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, votedAye: BN, votedNay: BN, votedTotal: BN): boolean {
   const sqrtVoters = bnSqrt(votedTotal);
 
   return sqrtVoters.isZero()
@@ -63,6 +69,65 @@ function isPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, vo
       : threshold.isSupermajorityapproval
         ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
         : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
+}
+
+function calcChangeAye (threshold: VoteThreshold, sqrtElectorate: BN, votedAye: BN, votedNay: BN, votedTotal: BN, isPassing: boolean, changeAye: BN, inc: BN, isFinal: boolean): BN {
+  while (true) {
+    const newChangeAye = changeAye.add(inc);
+
+    if (isPassing !== calcPassing(threshold, sqrtElectorate, isPassing ? votedAye.sub(newChangeAye) : votedAye.add(newChangeAye), votedNay, votedTotal)) {
+      return isFinal
+        ? newChangeAye
+        : changeAye;
+    }
+
+    changeAye = newChangeAye;
+  }
+}
+
+function calcChangeNay (threshold: VoteThreshold, sqrtElectorate: BN, votedAye: BN, votedNay: BN, votedTotal: BN, isPassing: boolean, changeNay: BN, inc: BN, isFinal: boolean): BN {
+  while (true) {
+    const newChangeNay = changeNay.add(inc);
+
+    if (isPassing !== calcPassing(threshold, sqrtElectorate, votedAye, isPassing ? votedNay.add(changeNay) : votedNay.sub(changeNay), votedTotal)) {
+      return isFinal
+        ? newChangeNay
+        : changeNay;
+    }
+
+    changeNay = newChangeNay;
+  }
+}
+
+export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, votedAye: BN, votedNay: BN, votedTotal: BN): Approx {
+  const isPassing = calcPassing(threshold, sqrtElectorate, votedAye, votedNay, votedTotal);
+
+  if (threshold.isSimplemajority) {
+    const change = isPassing
+      ? votedAye.sub(votedNay)
+      : votedNay.sub(votedAye);
+
+    return {
+      changeAye: change,
+      changeNay: change,
+      isPassing
+    };
+  }
+
+  const inc = votedTotal.divn(10);
+  let changeAye = new BN(0);
+  let changeNay = new BN(0);
+
+  while (!inc.isZero()) {
+    const isFinal = inc.divn(10).isZero();
+
+    changeAye = calcChangeAye(threshold, sqrtElectorate, votedAye, votedNay, votedTotal, isPassing, changeAye, inc, isFinal);
+    changeNay = calcChangeNay(threshold, sqrtElectorate, votedAye, votedNay, votedTotal, isPassing, changeNay, inc, isFinal);
+
+    inc.idivn(10);
+  }
+
+  return { changeAye, changeNay, isPassing };
 }
 
 function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteState {
@@ -130,7 +195,7 @@ export function calcVotes (sqrtElectorate: BN, referendum: DeriveReferendum, vot
 
   return {
     ...state,
-    isPassing: isPassing(referendum.status.threshold, sqrtElectorate, state),
+    ...approxChanges(referendum.status.threshold, sqrtElectorate, state.votedAye, state.votedNay, state.votedTotal),
     votes
   };
 }
