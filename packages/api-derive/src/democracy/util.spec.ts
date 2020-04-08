@@ -22,18 +22,18 @@ describe('approxChanges', (): void => {
 
     console.time('approxChanges');
 
-    const { changeAye, changeNay, isPassing } = approxChanges(threshold, ACTUAL.sqrtElectorate, ACTUAL.votedAye, ACTUAL.votedNay, ACTUAL.votedTotal);
+    const { changeAye, changeNay, isPassing } = approxChanges(threshold, ACTUAL.sqrtElectorate, ACTUAL);
 
     console.timeEnd('approxChanges');
 
-    console.error(isPassing, changeAye.toString(), changeNay.toString());
+    console.error(isPassing, changeAye.toString().padStart(20).substr(0, 8), changeNay.toString().padStart(20).substr(0, 8));
 
     expect(isPassing).toBe(true);
     expect(
-      calcPassing(threshold, ACTUAL.sqrtElectorate, ACTUAL.votedAye.sub(changeAye), ACTUAL.votedNay, ACTUAL.votedTotal)
+      calcPassing(threshold, ACTUAL.sqrtElectorate, ACTUAL.votedAye.sub(changeAye), ACTUAL.votedNay, ACTUAL.votedTotal.sub(changeAye))
     ).toBe(false);
     expect(
-      calcPassing(threshold, ACTUAL.sqrtElectorate, ACTUAL.votedAye, ACTUAL.votedNay.add(changeNay), ACTUAL.votedTotal)
+      calcPassing(threshold, ACTUAL.sqrtElectorate, ACTUAL.votedAye, ACTUAL.votedNay.add(changeNay), ACTUAL.votedTotal.add(changeNay))
     ).toBe(false);
   });
 });
