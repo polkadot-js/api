@@ -127,7 +127,15 @@ export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, vot
     inc.idivn(10);
   }
 
-  return { changeAye, changeNay, isPassing };
+  return {
+    changeAye: isPassing
+      ? BN.min(changeAye, votedAye)
+      : changeAye,
+    changeNay: isPassing
+      ? changeNay
+      : BN.min(changeNay, votedNay),
+    isPassing
+  };
 }
 
 function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteState {
