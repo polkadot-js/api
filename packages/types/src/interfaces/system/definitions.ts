@@ -24,6 +24,11 @@ export default {
       params: [],
       type: 'Text'
     },
+    chainType: {
+      description: 'Retrieves the chain type',
+      params: [],
+      type: 'ChainType'
+    },
     properties: {
       description: 'Get a custom set of properties as a JSON object, defined in the chain spec',
       params: [],
@@ -80,6 +85,14 @@ export default {
       ss58Format: 'Option<u8>',
       tokenDecimals: 'Option<u32>',
       tokenSymbol: 'Option<Text>'
+    },
+    ChainType: {
+      _enum: {
+        Development: 'Null',
+        Local: 'Null',
+        Live: 'Null',
+        Custom: 'Text'
+      }
     },
     DigestOf: 'Digest',
     DispatchError: {

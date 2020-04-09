@@ -18,7 +18,7 @@ import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { RuntimeVersion } from '@polkadot/types/interfaces/state';
-import { ChainProperties, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
+import { ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
 import { Observable } from 'rxjs';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
@@ -242,6 +242,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the chain
        **/
       chain: AugmentedRpc<() => Observable<Text>>;
+      /**
+       * Retrieves the chain type
+       **/
+      chainType: AugmentedRpc<() => Observable<ChainType>>;
       /**
        * Return health status of the node
        **/

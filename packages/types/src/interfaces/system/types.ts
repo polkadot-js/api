@@ -22,6 +22,15 @@ export interface ChainProperties extends Struct {
   readonly tokenSymbol: Option<Text>;
 }
 
+/** @name ChainType */
+export interface ChainType extends Enum {
+  readonly isDevelopment: boolean;
+  readonly isLocal: boolean;
+  readonly isLive: boolean;
+  readonly isCustom: boolean;
+  readonly asCustom: Text;
+}
+
 /** @name DigestOf */
 export interface DigestOf extends Digest {}
 
