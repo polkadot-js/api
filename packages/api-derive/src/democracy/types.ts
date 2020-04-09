@@ -61,8 +61,6 @@ export interface DeriveReferendumVoteState {
 }
 
 export interface DeriveReferendumVotes extends DeriveReferendumVoteState {
-  changeAye: BN;
-  changeNay: BN;
   isPassing: boolean;
   votes: DeriveReferendumVote[];
 }
