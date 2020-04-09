@@ -72,6 +72,13 @@ declare module '@polkadot/api/types/storage' {
        **/
       initialized: AugmentedQuery<ApiType, () => Observable<Option<MaybeVrf>>> & QueryableStorageEntry<ApiType>;
       /**
+       * How late the current block is compared to its parent.
+       * This entry is populated as part of block execution and is cleaned up
+       * on block finalization. Querying this storage entry outside of block
+       * execution context should always yield zero.
+       **/
+      lateness: AugmentedQuery<ApiType, () => Observable<BlockNumber>> & QueryableStorageEntry<ApiType>;
+      /**
        * Next epoch randomness.
        **/
       nextRandomness: AugmentedQuery<ApiType, () => Observable<Randomness>> & QueryableStorageEntry<ApiType>;
@@ -546,7 +553,7 @@ declare module '@polkadot/api/types/storage' {
       canceledSlashPayout: AugmentedQuery<ApiType, () => Observable<BalanceOf>> & QueryableStorageEntry<ApiType>;
       /**
        * The current era index.
-       * This is the latest planned era, depending on how session module queues the validator
+       * This is the latest planned era, depending on how the Session pallet queues the validator
        * set, it might be active or not.
        **/
       currentEra: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
@@ -573,7 +580,7 @@ declare module '@polkadot/api/types/storage' {
       erasStakers: AugmentedQueryDoubleMap<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Exposure>> & QueryableStorageEntry<ApiType>;
       /**
        * Clipped Exposure of validator at era.
-       * This is similar to [`ErasStakers`] but number of nominators exposed is reduce to the
+       * This is similar to [`ErasStakers`] but number of nominators exposed is reduced to the
        * `T::MaxNominatorRewardedPerValidator` biggest stakers.
        * (Note: the field `total` and `own` of the exposure remains unchanged).
        * This is used to limit the i/o cost for the nominator payout.
@@ -583,7 +590,7 @@ declare module '@polkadot/api/types/storage' {
        **/
       erasStakersClipped: AugmentedQueryDoubleMap<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Exposure>> & QueryableStorageEntry<ApiType>;
       /**
-       * The session index at which the era start for the last `HISTORY_DEPTH` eras
+       * The session index at which the era start for the last `HISTORY_DEPTH` eras.
        **/
       erasStartSessionIndex: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<Option<SessionIndex>>> & QueryableStorageEntry<ApiType>;
       /**
@@ -592,7 +599,7 @@ declare module '@polkadot/api/types/storage' {
        **/
       erasTotalStake: AugmentedQuery<ApiType, (arg: EraIndex | AnyNumber | Uint8Array) => Observable<BalanceOf>> & QueryableStorageEntry<ApiType>;
       /**
-       * Similarly to `ErasStakers` this holds the preferences of validators.
+       * Similar to `ErasStakers`, this holds the preferences of validators.
        * This is keyed first by the era index to allow bulk deletion and then the stash account.
        * Is it removed after `HISTORY_DEPTH` eras.
        **/
@@ -607,11 +614,11 @@ declare module '@polkadot/api/types/storage' {
        **/
       forceEra: AugmentedQuery<ApiType, () => Observable<Forcing>> & QueryableStorageEntry<ApiType>;
       /**
-       * Number of era to keep in history.
-       * Information is kept for eras in `[current_era - history_depth; current_era]
-       * Must be more than the number of era delayed by session otherwise.
-       * i.e. active era must always be in history.
-       * i.e. `active_era > current_era - history_depth` must be guaranteed.
+       * Number of eras to keep in history.
+       * Information is kept for eras in `[current_era - history_depth; current_era]`.
+       * Must be more than the number of eras delayed by session otherwise.
+       * I.e. active era must always be in history.
+       * I.e. `active_era > current_era - history_depth` must be guaranteed.
        **/
       historyDepth: AugmentedQuery<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
       /**
@@ -621,13 +628,18 @@ declare module '@polkadot/api/types/storage' {
        **/
       invulnerables: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
       /**
-       * True if the current planned session is final.
+       * True if the current **planned** session is final. Note that this does not take era
+       * forcing into account.
        **/
       isCurrentSessionFinal: AugmentedQuery<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
       /**
        * Map from all (unlocked) "controller" accounts to the info regarding the staking.
        **/
       ledger: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<StakingLedger>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * The era where we migrated from Lazy Payouts to Simple Payouts
+       **/
+      migrateEra: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
       /**
        * Minimum number of staking participants before emergency conditions are imposed.
        **/

@@ -1329,7 +1329,8 @@ declare module '@polkadot/api/types/submittable' {
        * Use this if there are additional funds in your stash account that you wish to bond.
        * Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount
        * that can be added.
-       * The dispatch origin for this call must be _Signed_ by the stash, not the controller.
+       * The dispatch origin for this call must be _Signed_ by the stash, not the controller and
+       * it can be only called when [`EraElectionStatus`] is `Closed`.
        * Emits `Bonded`.
        * # <weight>
        * - Independent of the arguments. Insignificant complexity.
@@ -1351,6 +1352,7 @@ declare module '@polkadot/api/types/submittable' {
        * Declare no desire to either validate or nominate.
        * Effects will be felt at the beginning of the next era.
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
+       * And, it can be only called when [`EraElectionStatus`] is `Closed`.
        * # <weight>
        * - Independent of the arguments. Insignificant complexity.
        * - Contains one read.
@@ -1386,8 +1388,10 @@ declare module '@polkadot/api/types/submittable' {
       forceUnstake: AugmentedSubmittable<(stash: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Declare the desire to nominate `targets` for the origin controller.
-       * Effects will be felt at the beginning of the next era.
+       * Effects will be felt at the beginning of the next era. This can only be called when
+       * [`EraElectionStatus`] is `Closed`.
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
+       * And, it can be only called when [`EraElectionStatus`] is `Closed`.
        * # <weight>
        * - The transaction's complexity is proportional to the size of `targets`,
        * which is capped at CompactAssignments::LIMIT.
@@ -1396,6 +1400,9 @@ declare module '@polkadot/api/types/submittable' {
        **/
       nominate: AugmentedSubmittable<(targets: Vec<LookupSource> | (LookupSource | Address | AccountId | AccountIndex | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
+       * **This extrinsic will be removed after `MigrationEra + HistoryDepth` has passed, giving
+       * opportunity for users to claim all rewards before moving to Simple Payouts. After this
+       * time, you should use `payout_stakers` instead.**
        * Make one nominator's payout for one era.
        * - `who` is the controller account of the nominator to pay out.
        * - `era` may not be lower than one following the most recently paid era. If it is higher,
@@ -1421,6 +1428,23 @@ declare module '@polkadot/api/types/submittable' {
        **/
       payoutNominator: AugmentedSubmittable<(era: EraIndex | AnyNumber | Uint8Array, validators: Vec<ITuple<[AccountId, u32]>> | ([AccountId | string | Uint8Array, u32 | AnyNumber | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
       /**
+       * Pay out all the stakers behind a single validator for a single era.
+       * - `validator_stash` is the stash account of the validator. Their nominators, up to
+       * `T::MaxNominatorRewardedPerValidator`, will also receive their rewards.
+       * - `era` may be any era between `[current_era - history_depth; current_era]`.
+       * The origin of this call must be _Signed_. Any account can call this function, even if
+       * it is not one of the stakers.
+       * This can only be called when [`EraElectionStatus`] is `Closed`.
+       * # <weight>
+       * - Time complexity: at most O(MaxNominatorRewardedPerValidator).
+       * - Contains a limited number of reads and writes.
+       * # </weight>
+       **/
+      payoutStakers: AugmentedSubmittable<(validatorStash: AccountId | string | Uint8Array, era: EraIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * **This extrinsic will be removed after `MigrationEra + HistoryDepth` has passed, giving
+       * opportunity for users to claim all rewards before moving to Simple Payouts. After this
+       * time, you should use `payout_stakers` instead.**
        * Make one validator's payout for one era.
        * - `who` is the controller account of the validator to pay out.
        * - `era` may not be lower than one following the most recently paid era. If it is higher,
@@ -1444,6 +1468,8 @@ declare module '@polkadot/api/types/submittable' {
       reapStash: AugmentedSubmittable<(stash: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Rebond a portion of the stash scheduled to be unlocked.
+       * The dispatch origin must be signed by the controller, and it can be only called when
+       * [`EraElectionStatus`] is `Closed`.
        * # <weight>
        * - Time complexity: O(1). Bounded by `MAX_UNLOCKING_CHUNKS`.
        * - Storage changes: Can't increase storage, only decrease it.
@@ -1558,6 +1584,7 @@ declare module '@polkadot/api/types/submittable' {
        * can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need
        * to be called first to remove some of the chunks (if possible).
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
+       * And, it can be only called when [`EraElectionStatus`] is `Closed`.
        * Emits `Unbonded`.
        * See also [`Call::withdraw_unbonded`].
        * # <weight>
@@ -1575,6 +1602,7 @@ declare module '@polkadot/api/types/submittable' {
        * Declare the desire to validate for the origin controller.
        * Effects will be felt at the beginning of the next era.
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
+       * And, it can be only called when [`EraElectionStatus`] is `Closed`.
        * # <weight>
        * - Independent of the arguments. Insignificant complexity.
        * - Contains a limited number of reads.
@@ -1587,6 +1615,7 @@ declare module '@polkadot/api/types/submittable' {
        * This essentially frees up that balance to be used by the stash account to do
        * whatever it wants.
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
+       * And, it can be only called when [`EraElectionStatus`] is `Closed`.
        * Emits `Withdrawn`.
        * See also [`Call::unbond`].
        * # <weight>

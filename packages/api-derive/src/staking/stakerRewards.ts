@@ -99,7 +99,9 @@ function filterRewards (api: ApiInterfaceRx, accountId: Uint8Array | string, rew
       ? api.query.staking.migrateEra<Option<EraIndex>>()
       : of(api.registry.createType('Option<EraIndex>', api.tx.staking.payoutStakers ? 0 : 1_000_000_000)),
     api.derive.staking.query(accountId),
-    api.derive.staking.queryMulti(validators)
+    api.tx.staking.payoutStakers
+      ? api.derive.staking.queryMulti(validators)
+      : of([])
   ]).pipe(
     map(([optMigrate, { stakingLedger }, queryValidators]): DeriveStakerReward[] => {
       const migrateEra = optMigrate.unwrapOr(new BN(-1));
