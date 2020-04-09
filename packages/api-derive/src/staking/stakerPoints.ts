@@ -19,9 +19,7 @@ export function stakerPoints (api: ApiInterfaceRx): (accountId: Uint8Array | str
         points.map(({ era, eraPoints, validators }): DeriveStakerPoints => ({
           era,
           eraPoints,
-          points: validators[stakerId]
-            ? validators[stakerId]
-            : api.registry.createType('RewardPoint')
+          points: validators[stakerId] || api.registry.createType('RewardPoint')
         }))
       )
     );

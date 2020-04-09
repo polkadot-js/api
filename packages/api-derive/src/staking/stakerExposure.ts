@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DeriveStakerExposure, DeriveEraExposureNominating, DeriveEraValidatorExposure } from '../types';
+import { DeriveStakerExposure, DeriveEraValidatorExposure } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,13 +19,11 @@ export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | s
         exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
           const isValidator = !!allValidators[stakerId];
           const validators: DeriveEraValidatorExposure = {};
-          let nominating: DeriveEraExposureNominating[] = [];
+          const nominating = allNominators[stakerId] || [];
 
           if (isValidator) {
             validators[stakerId] = allValidators[stakerId];
-          } else if (allNominators[stakerId]) {
-            nominating = allNominators[stakerId];
-
+          } else if (nominating) {
             nominating.forEach(({ validatorId }): void => {
               validators[validatorId] = allValidators[validatorId];
             });

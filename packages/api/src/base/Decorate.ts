@@ -13,7 +13,6 @@ import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, from, of } from 'rxjs';
 import { concatMap, map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
-import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
@@ -319,7 +318,6 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
     const getArgs = (...args: any[]): any[] => extractStorageArgs(creator, args);
 
-    // FIXME We probably want to be able to query the full list with non-subs as well
     const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
       ? this.decorateStorageLinked(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (
@@ -338,9 +336,6 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.entries = decorateMethod(memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-      this.retrieveMapEntries(creator, doubleMapArg)));
-
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
 
@@ -350,21 +345,28 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.keyPrefix = (): string =>
       u8aToHex(creator.keyPrefix);
 
-    decorated.keys = decorateMethod(memo((doubleMapArg?: Arg): Observable<StorageKey[]> =>
-      this.retrieveMapKeys(creator, doubleMapArg)));
+    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
+      this.decorateStorageRange(decorated, [arg1, arg2], range));
 
+    decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
+      this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
+
+    // .keys() & .entries() only available on map types
+    if (creator.iterKey && (creator.meta.type.isMap || creator.prototype.isDoubleMap)) {
+      decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+        this.retrieveMapEntries(creator, doubleMapArg));
+
+      decorated.keys = decorateMethod((doubleMapArg?: Arg): Observable<StorageKey[]> =>
+        this.retrieveMapKeys(creator, doubleMapArg));
+    }
+
+    // only support multi where subs are available
     if (this.hasSubscriptions) {
       // When using double map storage function, user need to pass double map key as an array
       decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
         this._rpcCore.state.subscribeStorage(
           args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
     }
-
-    decorated.range = decorateMethod(memo((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
-      this.decorateStorageRange(decorated, [arg1, arg2], range)));
-
-    decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
-      this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
@@ -471,9 +473,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ? startSubject.pipe(
         switchMap((startKey) =>
           this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey).pipe(
-            map((keys): StorageKey[] =>
-              keys.map((key) => key.decodeArgsFromMeta(meta))
-            )
+            map((keys) => keys.map((key) => key.decodeArgsFromMeta(meta)))
           )
         ),
         tap((keys): void => {
@@ -482,16 +482,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             : startSubject.complete();
         }),
         toArray(), // toArray since we want to startSubject to be completed
-        map((keysArr: StorageKey[][]): StorageKey[] =>
-          keysArr.reduce((result: StorageKey[], keys): StorageKey[] =>
-            result.concat(keys), []
-          )
-        )
+        map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
       )
       : this._rpcCore.state.getKeys(headKey).pipe(
-        map((keys): StorageKey[] =>
-          keys.map((key) => key.decodeArgsFromMeta(meta))
-        )
+        map((keys) => keys.map((key) => key.decodeArgsFromMeta(meta)))
       );
   }
 
@@ -512,9 +506,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             }),
             toArray(),
             map((valsArr: Option<Raw>[][]): Option<Raw>[] =>
-              valsArr.reduce((result: Option<Raw>[], vals): Option<Raw>[] =>
-                result.concat(vals), []
-              )
+              valsArr.reduce((result: Option<Raw>[], vals) => result.concat(vals), [])
             )
           )
         ])
