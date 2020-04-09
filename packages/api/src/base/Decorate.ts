@@ -318,6 +318,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
     const getArgs = (...args: any[]): any[] => extractStorageArgs(creator, args);
 
+    // FIXME We probably want to be able to query the full list with non-subs as well
     const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
       ? this.decorateStorageLinked(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (
@@ -352,7 +353,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
 
     // .keys() & .entries() only available on map types
-    if (creator.iterKey && (creator.meta.type.isMap || creator.prototype.isDoubleMap)) {
+    if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
         this.retrieveMapEntries(creator, doubleMapArg));
 
