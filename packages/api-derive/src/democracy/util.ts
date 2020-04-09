@@ -14,12 +14,6 @@ import { bnSqrt } from '@polkadot/util';
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
 type OldPreimage = ITuple<PreimageInfo>;
 
-interface Approx {
-  changeAye: BN;
-  changeNay: BN;
-  isPassing: boolean;
-}
-
 interface ApproxState {
   votedAye: BN;
   votedNay: BN;
@@ -65,7 +59,7 @@ export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
-export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, votedAye: BN, votedNay: BN, votedTotal: BN): boolean {
+export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
   const sqrtVoters = bnSqrt(votedTotal);
 
   return sqrtVoters.isZero()
@@ -75,76 +69,6 @@ export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, voted
       : threshold.isSupermajorityapproval
         ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
         : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
-}
-
-function calcChangeAye (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState, isPassing: boolean, changeAye: BN, inc: BN, isFinal: boolean): BN {
-  while (true) {
-    const newChangeAye = changeAye.add(inc);
-    const diff = new BN(isPassing ? -1 : 1).mul(newChangeAye);
-
-    if (isPassing !== calcPassing(threshold, sqrtElectorate, votedAye.add(diff), votedNay, votedTotal.add(diff))) {
-      return isFinal
-        ? newChangeAye
-        : changeAye;
-    }
-
-    changeAye = newChangeAye;
-  }
-}
-
-function calcChangeNay (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState, isPassing: boolean, changeNay: BN, inc: BN, isFinal: boolean): BN {
-  while (true) {
-    const newChangeNay = changeNay.add(inc);
-    const diff = new BN(isPassing ? 1 : -1).mul(newChangeNay);
-
-    if (isPassing !== calcPassing(threshold, sqrtElectorate, votedAye, votedNay.add(diff), votedTotal.add(diff))) {
-      return isFinal
-        ? newChangeNay
-        : changeNay;
-    }
-
-    changeNay = newChangeNay;
-  }
-}
-
-export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, state: ApproxState): Approx {
-  const isPassing = calcPassing(threshold, sqrtElectorate, state.votedAye, state.votedNay, state.votedTotal);
-
-  if (threshold.isSimplemajority) {
-    const change = isPassing
-      ? state.votedAye.sub(state.votedNay)
-      : state.votedNay.sub(state.votedAye);
-
-    return {
-      changeAye: change,
-      changeNay: change,
-      isPassing
-    };
-  }
-
-  let inc = state.votedTotal.divn(2);
-  let changeAye = new BN(0);
-  let changeNay = new BN(0);
-
-  while (!inc.isZero()) {
-    const nextInc = inc.divn(2);
-    const isFinal = nextInc.isZero();
-
-    changeAye = calcChangeAye(threshold, sqrtElectorate, state, isPassing, changeAye, inc, isFinal);
-    changeNay = calcChangeNay(threshold, sqrtElectorate, state, isPassing, changeNay, inc, isFinal);
-
-    inc = nextInc;
-  }
-
-  return {
-    changeAye: isPassing
-      ? BN.min(changeAye, state.votedAye)
-      : changeAye,
-    changeNay: isPassing
-      ? changeNay
-      : BN.min(changeNay, state.votedNay),
-    isPassing
-  };
 }
 
 function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteState {
@@ -212,7 +136,7 @@ export function calcVotes (sqrtElectorate: BN, referendum: DeriveReferendum, vot
 
   return {
     ...state,
-    ...approxChanges(referendum.status.threshold, sqrtElectorate, state),
+    isPassing: calcPassing(referendum.status.threshold, sqrtElectorate, state),
     votes
   };
 }
