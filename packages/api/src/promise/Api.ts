@@ -79,7 +79,7 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
           catchError((error): Observable<never> =>
             tracker.reject(error)
           ),
-          // upon the first result, resolve the with the unsub function
+          // upon the first result, resolve with the unsub function
           tap((): void =>
             tracker.resolve((): void => subscription.unsubscribe())
           )

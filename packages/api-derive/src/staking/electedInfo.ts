@@ -18,9 +18,7 @@ export function electedInfo (api: ApiInterfaceRx): () => Observable<DeriveStakin
         combineLatest([
           of(nextElected),
           combineLatest(
-            nextElected.map((accountId): Observable<DeriveStakingQuery> =>
-              api.derive.staking.query(accountId)
-            )
+            nextElected.map((accountId) => api.derive.staking.query(accountId))
           )
         ])
       ),

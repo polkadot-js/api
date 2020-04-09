@@ -181,7 +181,7 @@ export default class Rpc implements RpcInterface {
       // - first do `of(1)` - won't throw
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1).pipe(
-        map((): Codec[] => this.formatInputs(def, values)),
+        map(() => this.formatInputs(def, values)),
         switchMap((params): Observable<[Codec[], any]> =>
           combineLatest([
             of(params),

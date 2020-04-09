@@ -16,7 +16,7 @@ function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): 
       api.registry.createType('EraRewardPoints', {
         individual: new Map<AccountId, RewardPoint>(
           individual
-            .map((points): RewardPoint => api.registry.createType('RewardPoint', points))
+            .map((points) => api.registry.createType('RewardPoint', points))
             .map((points, index): [AccountId, RewardPoint] => [currentElected[index], points])
         ),
         total

@@ -5,6 +5,7 @@
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Option, u32 } from '@polkadot/types';
@@ -21,7 +22,7 @@ export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean) => Ob
         map(([activeEraOpt, historyDepth]): EraIndex[] => {
           const result: EraIndex[] = [];
           const max = historyDepth.toNumber();
-          const activeEra = activeEraOpt.unwrapOrDefault().index.toBn();
+          const activeEra: BN = activeEraOpt.unwrapOrDefault().index;
           let lastEra = activeEra;
 
           while (lastEra.gten(0) && (result.length < max)) {

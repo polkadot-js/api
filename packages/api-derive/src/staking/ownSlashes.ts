@@ -29,9 +29,7 @@ export function ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | strin
           era,
           total: optVal.isSome
             ? optVal.unwrap()[1]
-            : optNom.isSome
-              ? optNom.unwrap()
-              : api.registry.createType('Balance')
+            : optNom.unwrapOrDefault()
         }))
       )
     );
