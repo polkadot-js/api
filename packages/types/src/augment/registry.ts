@@ -40,7 +40,7 @@ import { ApiId, KeyValueOption, RuntimeVersion, RuntimeVersionApi, StorageChange
 import { AccountInfo, ChainProperties, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Health, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, Phase, RefCount } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
-import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
+import { CallHash, Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 
 declare module '@polkadot/types/types/registry' {
@@ -991,6 +991,9 @@ declare module '@polkadot/types/types/registry' {
     Multiplier: Multiplier;
     'Option<Multiplier>': Option<Multiplier>;
     'Vec<Multiplier>': Vec<Multiplier>;
+    CallHash: CallHash;
+    'Option<CallHash>': Option<CallHash>;
+    'Vec<CallHash>': Vec<CallHash>;
     Multisig: Multisig;
     'Option<Multisig>': Option<Multisig>;
     'Vec<Multisig>': Vec<Multisig>;

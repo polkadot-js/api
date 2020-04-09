@@ -670,11 +670,12 @@
               "name": "NewMultisig",
               "args": [
                 "AccountId",
-                "AccountId"
+                "AccountId",
+                "CallHash"
               ],
               "documentation": [
                 " A new multisig operation has begun. First param is the account that is approving,",
-                " second is the multisig account."
+                " second is the multisig account, third is hash of the call."
               ]
             },
             {
@@ -682,11 +683,12 @@
               "args": [
                 "AccountId",
                 "Timepoint",
-                "AccountId"
+                "AccountId",
+                "CallHash"
               ],
               "documentation": [
                 " A multisig operation has been approved by someone. First param is the account that is",
-                " approving, third is the multisig account."
+                " approving, third is the multisig account, fourth is hash of the call."
               ]
             },
             {
@@ -695,11 +697,12 @@
                 "AccountId",
                 "Timepoint",
                 "AccountId",
+                "CallHash",
                 "DispatchResult"
               ],
               "documentation": [
                 " A multisig operation has been executed. First param is the account that is",
-                " approving, third is the multisig account."
+                " approving, third is the multisig account, fourth is hash of the call to be executed."
               ]
             },
             {
@@ -707,11 +710,12 @@
               "args": [
                 "AccountId",
                 "Timepoint",
-                "AccountId"
+                "AccountId",
+                "CallHash"
               ],
               "documentation": [
                 " A multisig operation has been cancelled. First param is the account that is",
-                " cancelling, third is the multisig account."
+                " cancelling, third is the multisig account, fourth is hash of the call."
               ]
             }
           ],
@@ -915,6 +919,21 @@
                 "documentation": [
                   " Temporary value (cleared at block finalization) which is `Some`",
                   " if per-block initialization has already been called for current block."
+                ]
+              },
+              {
+                "name": "Lateness",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "BlockNumber"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " How late the current block is compared to its parent.",
+                  "",
+                  " This entry is populated as part of block execution and is cleaned up",
+                  " on block finalization. Querying this storage entry outside of block",
+                  " execution context should always yield zero."
                 ]
               }
             ]
@@ -1630,13 +1649,13 @@
                 },
                 "fallback": "0x54000000",
                 "documentation": [
-                  " Number of era to keep in history.",
+                  " Number of eras to keep in history.",
                   "",
-                  " Information is kept for eras in `[current_era - history_depth; current_era]",
+                  " Information is kept for eras in `[current_era - history_depth; current_era]`.",
                   "",
-                  " Must be more than the number of era delayed by session otherwise.",
-                  " i.e. active era must always be in history.",
-                  " i.e. `active_era > current_era - history_depth` must be guaranteed."
+                  " Must be more than the number of eras delayed by session otherwise.",
+                  " I.e. active era must always be in history.",
+                  " I.e. `active_era > current_era - history_depth` must be guaranteed."
                 ]
               },
               {
@@ -1764,7 +1783,7 @@
                 "documentation": [
                   " The current era index.",
                   "",
-                  " This is the latest planned era, depending on how session module queues the validator",
+                  " This is the latest planned era, depending on how the Session pallet queues the validator",
                   " set, it might be active or not."
                 ]
               },
@@ -1795,7 +1814,7 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The session index at which the era start for the last `HISTORY_DEPTH` eras"
+                  " The session index at which the era start for the last `HISTORY_DEPTH` eras."
                 ]
               },
               {
@@ -1836,7 +1855,7 @@
                 "documentation": [
                   " Clipped Exposure of validator at era.",
                   "",
-                  " This is similar to [`ErasStakers`] but number of nominators exposed is reduce to the",
+                  " This is similar to [`ErasStakers`] but number of nominators exposed is reduced to the",
                   " `T::MaxNominatorRewardedPerValidator` biggest stakers.",
                   " (Note: the field `total` and `own` of the exposure remains unchanged).",
                   " This is used to limit the i/o cost for the nominator payout.",
@@ -1861,7 +1880,7 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Similarly to `ErasStakers` this holds the preferences of validators.",
+                  " Similar to `ErasStakers`, this holds the preferences of validators.",
                   "",
                   " This is keyed first by the era index to allow bulk deletion and then the stash account.",
                   "",
@@ -2133,7 +2152,8 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " True if the current planned session is final."
+                  " True if the current **planned** session is final. Note that this does not take era",
+                  " forcing into account."
                 ]
               },
               {
@@ -2148,6 +2168,17 @@
                   " Storage version of the pallet.",
                   "",
                   " This is set to v3.0.0 for new networks."
+                ]
+              },
+              {
+                "name": "MigrateEra",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "EraIndex"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The era where we migrated from Lazy Payouts to Simple Payouts"
                 ]
               }
             ]
@@ -2205,7 +2236,8 @@
                 " Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount",
                 " that can be added.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
+                " The dispatch origin for this call must be _Signed_ by the stash, not the controller and",
+                " it can be only called when [`EraElectionStatus`] is `Closed`.",
                 "",
                 " Emits `Bonded`.",
                 "",
@@ -2237,6 +2269,7 @@
                 " to be called first to remove some of the chunks (if possible).",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                " And, it can be only called when [`EraElectionStatus`] is `Closed`.",
                 "",
                 " Emits `Unbonded`.",
                 "",
@@ -2263,6 +2296,7 @@
                 " whatever it wants.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                " And, it can be only called when [`EraElectionStatus`] is `Closed`.",
                 "",
                 " Emits `Withdrawn`.",
                 "",
@@ -2291,6 +2325,7 @@
                 " Effects will be felt at the beginning of the next era.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                " And, it can be only called when [`EraElectionStatus`] is `Closed`.",
                 "",
                 " # <weight>",
                 " - Independent of the arguments. Insignificant complexity.",
@@ -2310,9 +2345,11 @@
               "documentation": [
                 " Declare the desire to nominate `targets` for the origin controller.",
                 "",
-                " Effects will be felt at the beginning of the next era.",
+                " Effects will be felt at the beginning of the next era. This can only be called when",
+                " [`EraElectionStatus`] is `Closed`.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                " And, it can be only called when [`EraElectionStatus`] is `Closed`.",
                 "",
                 " # <weight>",
                 " - The transaction's complexity is proportional to the size of `targets`,",
@@ -2330,6 +2367,7 @@
                 " Effects will be felt at the beginning of the next era.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                " And, it can be only called when [`EraElectionStatus`] is `Closed`.",
                 "",
                 " # <weight>",
                 " - Independent of the arguments. Insignificant complexity.",
@@ -2487,6 +2525,10 @@
                 }
               ],
               "documentation": [
+                " **This extrinsic will be removed after `MigrationEra + HistoryDepth` has passed, giving",
+                " opportunity for users to claim all rewards before moving to Simple Payouts. After this",
+                " time, you should use `payout_stakers` instead.**",
+                "",
                 " Make one nominator's payout for one era.",
                 "",
                 " - `who` is the controller account of the nominator to pay out.",
@@ -2524,6 +2566,10 @@
                 }
               ],
               "documentation": [
+                " **This extrinsic will be removed after `MigrationEra + HistoryDepth` has passed, giving",
+                " opportunity for users to claim all rewards before moving to Simple Payouts. After this",
+                " time, you should use `payout_stakers` instead.**",
+                "",
                 " Make one validator's payout for one era.",
                 "",
                 " - `who` is the controller account of the validator to pay out.",
@@ -2542,6 +2588,36 @@
               ]
             },
             {
+              "name": "payout_stakers",
+              "args": [
+                {
+                  "name": "validator_stash",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "era",
+                  "type": "EraIndex"
+                }
+              ],
+              "documentation": [
+                " Pay out all the stakers behind a single validator for a single era.",
+                "",
+                " - `validator_stash` is the stash account of the validator. Their nominators, up to",
+                "   `T::MaxNominatorRewardedPerValidator`, will also receive their rewards.",
+                " - `era` may be any era between `[current_era - history_depth; current_era]`.",
+                "",
+                " The origin of this call must be _Signed_. Any account can call this function, even if",
+                " it is not one of the stakers.",
+                "",
+                " This can only be called when [`EraElectionStatus`] is `Closed`.",
+                "",
+                " # <weight>",
+                " - Time complexity: at most O(MaxNominatorRewardedPerValidator).",
+                " - Contains a limited number of reads and writes.",
+                " # </weight>"
+              ]
+            },
+            {
               "name": "rebond",
               "args": [
                 {
@@ -2551,6 +2627,9 @@
               ],
               "documentation": [
                 " Rebond a portion of the stash scheduled to be unlocked.",
+                "",
+                " The dispatch origin must be signed by the controller, and it can be only called when",
+                " [`EraElectionStatus`] is `Closed`.",
                 "",
                 " # <weight>",
                 " - Time complexity: O(1). Bounded by `MAX_UNLOCKING_CHUNKS`.",
@@ -2724,7 +2803,7 @@
                 "Balance"
               ],
               "documentation": [
-                " The staker has been rewarded by this amount. AccountId is controller account."
+                " The staker has been rewarded by this amount. `AccountId` is the stash account."
               ]
             },
             {
@@ -2895,6 +2974,12 @@
               ]
             },
             {
+              "name": "AlreadyClaimed",
+              "documentation": [
+                " Rewards for this era have already been claimed for this validator."
+              ]
+            },
+            {
               "name": "PhragmenEarlySubmission",
               "documentation": [
                 " The submitted result is received out of the open window."
@@ -2967,6 +3052,12 @@
               "name": "PhragmenBogusScore",
               "documentation": [
                 " The claimed score does not match with the one computed from the data."
+              ]
+            },
+            {
+              "name": "CallNotAllowed",
+              "documentation": [
+                " The call is not allowed at the given time due to restrictions of election period."
               ]
             }
           ]
@@ -4268,7 +4359,7 @@
             {
               "name": "EnactmentPeriod",
               "type": "BlockNumber",
-              "value": "0x002f0d00",
+              "value": "0x14000000",
               "documentation": [
                 " The minimum period of locking and the period between a proposal being approved and enacted.",
                 "",
@@ -4280,7 +4371,7 @@
             {
               "name": "LaunchPeriod",
               "type": "BlockNumber",
-              "value": "0x004e0c00",
+              "value": "0x14000000",
               "documentation": [
                 " How often (in blocks) new public referenda are launched."
               ]
@@ -4288,7 +4379,7 @@
             {
               "name": "VotingPeriod",
               "type": "BlockNumber",
-              "value": "0x004e0c00",
+              "value": "0x64000000",
               "documentation": [
                 " How often (in blocks) to check for new votes."
               ]
@@ -4304,7 +4395,7 @@
             {
               "name": "FastTrackVotingPeriod",
               "type": "BlockNumber",
-              "value": "0x80510100",
+              "value": "0x14000000",
               "documentation": [
                 " Minimum voting period allowed for an emergency referendum."
               ]
@@ -4312,7 +4403,7 @@
             {
               "name": "CooloffPeriod",
               "type": "BlockNumber",
-              "value": "0x004e0c00",
+              "value": "0x14000000",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
@@ -9549,8 +9640,7 @@
           "CheckNonce",
           "CheckWeight",
           "ChargeTransactionPayment",
-          "CheckBlockGasLimit",
-          "LockStakingStatus"
+          "CheckBlockGasLimit"
         ]
       }
     }
