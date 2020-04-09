@@ -1,3 +1,14 @@
+# 1.10.0-beta.x
+
+- **Important** Substrate master has updated staking, on older chains apply `StakingLedger: 'StakingLedgerTo240'`
+- Add `rpc.system.chainType` to retrieve the chain type (Development. Local, Live & Custom)
+- Adjust types for Westend after the reset
+- Adjust democracy derives, including the support of the frame-scheduler for scheduled deployments
+- Allow staking derives to work with new staking payouts, specifically `tx.staking.payoutStakers`
+- Cleanups to derives for democracy & staking to be more performant
+- Add Centrifuge base types to `@polkadot/types-known`
+- Adjust with all the latest substrate master types
+
 # 1.9.1 Apr 1, 2020
 
 - **Breaking change** (TypeScript with derives only) The return type names for `api.derive.*` have been adjusted for consistency, all starting with `Derive*` (previously a mixture of `Derived*` and `Derive*`)
