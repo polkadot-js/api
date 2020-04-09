@@ -4359,7 +4359,7 @@
             {
               "name": "EnactmentPeriod",
               "type": "BlockNumber",
-              "value": "0x14000000",
+              "value": "0x002f0d00",
               "documentation": [
                 " The minimum period of locking and the period between a proposal being approved and enacted.",
                 "",
@@ -4371,7 +4371,7 @@
             {
               "name": "LaunchPeriod",
               "type": "BlockNumber",
-              "value": "0x14000000",
+              "value": "0x004e0c00",
               "documentation": [
                 " How often (in blocks) new public referenda are launched."
               ]
@@ -4379,7 +4379,7 @@
             {
               "name": "VotingPeriod",
               "type": "BlockNumber",
-              "value": "0x64000000",
+              "value": "0x004e0c00",
               "documentation": [
                 " How often (in blocks) to check for new votes."
               ]
@@ -4395,7 +4395,7 @@
             {
               "name": "FastTrackVotingPeriod",
               "type": "BlockNumber",
-              "value": "0x14000000",
+              "value": "0x80510100",
               "documentation": [
                 " Minimum voting period allowed for an emergency referendum."
               ]
@@ -4403,7 +4403,7 @@
             {
               "name": "CooloffPeriod",
               "type": "BlockNumber",
-              "value": "0x14000000",
+              "value": "0x004e0c00",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
