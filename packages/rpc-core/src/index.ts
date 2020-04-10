@@ -188,7 +188,7 @@ export default class Rpc implements RpcInterface {
             from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
           ])
         ),
-        map(([params, result]): any =>
+        map(([params, result]) =>
           isRaw
             ? this.registry.createType('Raw', result)
             : this.formatOutput(method, def, params, result)

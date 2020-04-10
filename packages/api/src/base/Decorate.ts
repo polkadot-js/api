@@ -10,9 +10,10 @@ import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
-import { BehaviorSubject, Observable, combineLatest, from, of } from 'rxjs';
-import { concatMap, map, switchMap, take, tap, toArray } from 'rxjs/operators';
+import { BehaviorSubject, Observable, forkJoin, combineLatest, of } from 'rxjs';
+import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
+import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
@@ -354,11 +355,13 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
-      decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-        this.retrieveMapEntries(creator, doubleMapArg));
+      decorated.entries = decorateMethod(
+        memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+          this.retrieveMapEntries(creator, doubleMapArg)));
 
-      decorated.keys = decorateMethod((doubleMapArg?: Arg): Observable<StorageKey[]> =>
-        this.retrieveMapKeys(creator, doubleMapArg));
+      decorated.keys = decorateMethod(
+        memo((doubleMapArg?: Arg): Observable<StorageKey[]> =>
+          this.retrieveMapKeys(creator, doubleMapArg)));
     }
 
     // only support multi where subs are available
@@ -494,26 +497,26 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const outputType = unwrapStorageType(entry.meta.type, entry.meta.modifier.isOptional);
 
     return this.retrieveMapKeys(entry, arg).pipe(
-      switchMap((keys): Observable<[StorageKey[], Option<Raw>[]]> =>
+      switchMap((keys): Observable<[StorageKey[], Option<Raw>[][]]> =>
         combineLatest([
           of(keys),
-          from(Array(Math.ceil(keys.length / PAGE_SIZE_VALS)).fill(0)).pipe(
-            concatMap((_, index): Observable<Option<Raw>[]> => {
-              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
+          forkJoin(
+            Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
+              .fill(0)
+              .map((_, index): Observable<Option<Raw>[]> => {
+                const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
 
-              return this._rpcCore.state.queryStorageAt
-                ? this._rpcCore.state.queryStorageAt<Option<Raw>[]>(keyset)
-                : this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keyset).pipe(take(1));
-            }),
-            toArray(),
-            map((valsArr: Option<Raw>[][]): Option<Raw>[] =>
-              valsArr.reduce((result: Option<Raw>[], vals) => result.concat(vals), [])
-            )
+                return this._rpcCore.state.queryStorageAt
+                  ? this._rpcCore.state.queryStorageAt<Option<Raw>[]>(keyset)
+                  : this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keyset).pipe(take(1));
+              })
           )
         ])
       ),
-      map(([keys, vals]): [StorageKey, Codec][] =>
-        keys.map((key, index): [StorageKey, Codec] => [
+      map(([keys, valsArr]): [StorageKey, Codec][] => {
+        const vals = valsArr.reduce((result: Option<Raw>[], vals) => result.concat(vals), []);
+
+        return keys.map((key, index): [StorageKey, Codec] => [
           key,
           this.createType(
             outputType,
@@ -521,8 +524,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
               ? vals[index].unwrap().toHex()
               : undefined
           )
-        ])
-      )
+        ]);
+      })
     );
   }
 

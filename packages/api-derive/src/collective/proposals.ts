@@ -10,6 +10,8 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
+import { memo } from '../util';
+
 type Result = [Hash[], Option<Proposal>[], Option<Votes>[]];
 
 function parse ([hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
@@ -27,7 +29,7 @@ function parse ([hashes, proposals, votes]: Result): DeriveCollectiveProposal[] 
 }
 
 export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DeriveCollectiveProposal[]> {
-  return (): Observable<DeriveCollectiveProposal[]> =>
+  return memo((): Observable<DeriveCollectiveProposal[]> =>
     api.query[section]?.proposals
       ? api.query[section].proposals().pipe(
         switchMap((hashes: Hash[]): Observable<Result> =>
@@ -41,5 +43,6 @@ export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalC
         ),
         map(parse)
       )
-      : of([] as DeriveCollectiveProposal[]);
+      : of([] as DeriveCollectiveProposal[])
+  );
 }
