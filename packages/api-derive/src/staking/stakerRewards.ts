@@ -88,7 +88,7 @@ function isOldLedger (ledger?: StakingLedger | StakingLedgerTo240): ledger is St
   return !!(ledger as StakingLedgerTo240)?.lastReward;
 }
 
-function filterRewards (api: ApiInterfaceRx, rewards: DeriveStakerReward[], stakingLedger?: StakingLedger, withActive?: boolean): Observable<DeriveStakerReward[]> {
+function filterRewards (api: ApiInterfaceRx, rewards: DeriveStakerReward[], withActive?: boolean): Observable<DeriveStakerReward[]> {
   if (withActive) {
     return of(rewards);
   }
@@ -110,11 +110,8 @@ function filterRewards (api: ApiInterfaceRx, rewards: DeriveStakerReward[], stak
         .filter(({ isEmpty }) => !isEmpty)
         .filter((reward): boolean => {
           if (reward.era.lte(migrateEra)) {
-            return !stakingLedger
-              ? true
-              : isOldLedger(stakingLedger)
-                ? reward.era.gt(stakingLedger.lastReward.unwrapOr(new BN(-1)))
-                : !stakingLedger.claimedRewards.some((claimEra) => reward.era.eq(claimEra));
+            // we have already filtered these inside the stakerRewardsOver query, so all are valid
+            return true;
           }
 
           reward.isStakerPayout = true;
@@ -168,7 +165,9 @@ export function stakerRewardsOver (api: ApiInterfaceRx): (accountId: Uint8Array 
           return of([]);
         }
 
-        const eras = filterEras(_eras, stakingLedger);
+        const eras = withActive
+          ? _eras
+          : filterEras(_eras, stakingLedger);
 
         return combineLatest([
           api.derive.staking.erasPointsOver(eras),
@@ -177,7 +176,7 @@ export function stakerRewardsOver (api: ApiInterfaceRx): (accountId: Uint8Array 
           api.derive.staking.stakerExposureOver(stashId, eras)
         ]).pipe(
           switchMap((result): Observable<DeriveStakerReward[]> =>
-            filterRewards(api, parseRewards(api, stashId, result), stakingLedger, withActive)
+            filterRewards(api, parseRewards(api, stashId, result), withActive)
           )
         );
       })
