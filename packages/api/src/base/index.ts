@@ -93,7 +93,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    * });
    * ```
    */
-  public get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
+  public get derive (): ReturnType<ApiBase<ApiType>['_decorateDerive']> {
     return assertResult(this._derive);
   }
 

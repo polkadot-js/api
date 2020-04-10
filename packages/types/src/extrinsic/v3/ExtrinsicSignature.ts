@@ -19,7 +19,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    * @description Adds a raw signature
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
-    return this.injectSignature(
+    return this._injectSignature(
       this.registry.createType('Address', signer),
       this.registry.createType('Signature', signature),
       new ExtrinsicPayloadV3(this.registry, payload)
@@ -49,7 +49,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('Signature', payload.sign(account));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 
   /**
@@ -60,6 +60,6 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('Signature', new Uint8Array(64).fill(0x42));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 }

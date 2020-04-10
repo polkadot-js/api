@@ -40,11 +40,11 @@ export default class Combinator {
       this.#fns.push(fn);
 
       // Not quite 100% how to have a variable number at the front here
-      return (fn as Function)(...args, this.createCallback(index));
+      return (fn as Function)(...args, this._createCallback(index));
     });
   }
 
-  protected allHasFired (): boolean {
+  protected _allHasFired (): boolean {
     if (!this.#allHasFired) {
       this.#allHasFired = this.#fired.filter((hasFired): boolean => !hasFired).length === 0;
     }
@@ -52,17 +52,17 @@ export default class Combinator {
     return this.#allHasFired;
   }
 
-  protected createCallback (index: number): (value: any) => void {
+  protected _createCallback (index: number): (value: any) => void {
     return (value: any): void => {
       this.#fired[index] = true;
       this.#results[index] = value;
 
-      this.triggerUpdate();
+      this._triggerUpdate();
     };
   }
 
-  protected triggerUpdate (): void {
-    if (!this.#isActive || !isFunction(this.#callback) || !this.allHasFired()) {
+  protected _triggerUpdate (): void {
+    if (!this.#isActive || !isFunction(this.#callback) || !this._allHasFired()) {
       return;
     }
 

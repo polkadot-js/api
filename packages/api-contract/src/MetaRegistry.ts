@@ -48,7 +48,7 @@ class MetadataRegistryLookup {
     this._types = types;
   }
 
-  protected hasItemAt (index: number, variant: MetaRegistryItem): boolean {
+  protected _hasItemAt (index: number, variant: MetaRegistryItem): boolean {
     switch (variant) {
       case MetaRegistryItem.String:
         return this._strings && !!this._strings[index - 1];
@@ -59,8 +59,8 @@ class MetadataRegistryLookup {
     }
   }
 
-  protected itemAt (index: number, variant: MetaRegistryItem): any {
-    assert(this.hasItemAt(index, variant), `MetaRegistry: Invalid ${variant} index ${index} found in metadata`);
+  protected _itemAt (index: number, variant: MetaRegistryItem): any {
+    assert(this._hasItemAt(index, variant), `MetaRegistry: Invalid ${variant} index ${index} found in metadata`);
 
     switch (variant) {
       case MetaRegistryItem.String:
@@ -72,33 +72,33 @@ class MetadataRegistryLookup {
     }
   }
 
-  protected itemsAt (indices: number[], variant: MetaRegistryItem): any[] {
-    return indices.map((index: number): string => this.itemAt(index, variant));
+  protected _itemsAt (indices: number[], variant: MetaRegistryItem): any[] {
+    return indices.map((index: number): string => this._itemAt(index, variant));
   }
 
-  protected stringAt (index: StringIndex): string {
-    return this.itemAt(index, MetaRegistryItem.String);
+  protected _stringAt (index: StringIndex): string {
+    return this._itemAt(index, MetaRegistryItem.String);
   }
 
   public stringsAt (indices: StringIndex[]): string[] {
-    return this.itemsAt(indices, MetaRegistryItem.String);
+    return this._itemsAt(indices, MetaRegistryItem.String);
   }
 
   public typeAt (index: TypeIndex): MetaType {
-    return this.itemAt(index, MetaRegistryItem.Type);
+    return this._itemAt(index, MetaRegistryItem.Type);
   }
 
   public typesAt (indices: TypeIndex[]): MetaType[] {
-    return this.itemsAt(indices, MetaRegistryItem.Type);
+    return this._itemsAt(indices, MetaRegistryItem.Type);
   }
 
   public hasTypeDefAt (index: TypeIndex): boolean {
-    return this.hasItemAt(index, MetaRegistryItem.TypeDef);
+    return this._hasItemAt(index, MetaRegistryItem.TypeDef);
   }
 
   public typeDefAt (index: TypeIndex, extra: Pick<TypeDef, never> = {}): TypeDef {
     return {
-      ...this.itemAt(index, MetaRegistryItem.TypeDef),
+      ...this._itemAt(index, MetaRegistryItem.TypeDef),
       ...extra
     };
   }
@@ -124,7 +124,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     }
 
     return {
-      name: this.stringAt(nameIndex),
+      name: this._stringAt(nameIndex),
       ...(namespaceIndices && namespaceIndices.length
         ? { namespace: this.stringsAt(namespaceIndices).join('::') }
         : {}
@@ -195,7 +195,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     if (unitNameIndex) {
       return {
         info: TypeDefInfo.Plain,
-        name: this.stringAt(unitNameIndex),
+        name: this._stringAt(unitNameIndex),
         type: 'Null'
       };
     }
@@ -269,7 +269,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
   }
 
   private typeDefForEnum (def: MetaTypeDefEnum, id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
-    const name = id && this.stringAt(id['custom.name']);
+    const name = id && this._stringAt(id['custom.name']);
 
     switch (name) {
       case 'Option':
@@ -295,7 +295,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
       sub: def['clike_enum.variants'].map(({ discriminant, name: nameIndex }): TypeDef => ({
         ext: { discriminant },
         info: TypeDefInfo.Plain,
-        name: this.stringAt(nameIndex),
+        name: this._stringAt(nameIndex),
         type: 'Null'
       }))
     };
@@ -326,12 +326,12 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     return withTypeString({
       info: TypeDefInfo.Struct,
       ...(structNameIndex
-        ? { name: this.stringAt(structNameIndex) }
+        ? { name: this._stringAt(structNameIndex) }
         : {}
       ),
       sub: structFields.map((field: MetaTypeDefStructField): TypeDef => ({
         ...this.typeDefFromMetaTypeAt(field.type),
-        name: this.stringAt(field.name)
+        name: this._stringAt(field.name)
       }))
     });
   }
@@ -343,7 +343,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     return withTypeString({
       info: TypeDefInfo.Tuple,
       ...(tupleStructNameIndex
-        ? { name: this.stringAt(tupleStructNameIndex) }
+        ? { name: this._stringAt(tupleStructNameIndex) }
         : {}
       ),
       sub: tupleStructTypes.map((fieldIndex: number, index: number): TypeDef => ({

@@ -48,10 +48,10 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       this.registry.setKnownTypes(options.source.registry.knownTypes);
     }
 
-    this._rpc = this.decorateRpc(this._rpcCore, this.decorateMethod);
-    this._rx.rpc = this.decorateRpc(this._rpcCore, this.rxDecorateMethod);
-    this._queryMulti = this.decorateMulti(this.decorateMethod);
-    this._rx.queryMulti = this.decorateMulti(this.rxDecorateMethod);
+    this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
+    this._rx.rpc = this._decorateRpc(this._rpcCore, this._rxDecorateMethod);
+    this._queryMulti = this._decorateMulti(this._decorateMethod);
+    this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     this._rx.signer = options.signer;
 
     this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
@@ -66,7 +66,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
   }
 
-  protected async loadMeta (): Promise<boolean> {
+  protected async _loadMeta (): Promise<boolean> {
     const genesisHash = await this._rpcCore.chain.getBlockHash(0).toPromise();
 
     // on re-connection to the same chain, we don't want to re-do everything from chain again
@@ -112,7 +112,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       });
     });
 
-    this.filterRpcMethods(methods);
+    this._filterRpcMethods(methods);
 
     return source.runtimeMetadata;
   }
@@ -165,7 +165,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this.subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
-    await this.filterRpc();
+    await this._filterRpc();
 
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${this._genesisHash}-${runtimeVersion.specVersion}`;
@@ -203,8 +203,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this.injectMetadata(metadata, true);
 
     // derive is last, since it uses the decorated rx
-    this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);
-    this._derive = this.decorateDerive(this.decorateMethod);
+    this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
+    this._derive = this._decorateDerive(this._decorateMethod);
 
     return true;
   }
@@ -215,7 +215,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     try {
       const [hasMeta, cryptoReady] = await Promise.all([
-        this.loadMeta(),
+        this._loadMeta(),
         this._options.initWasm === false
           ? Promise.resolve(true)
           : cryptoWaitReady()

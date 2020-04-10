@@ -14,7 +14,7 @@ type Creator<ApiType extends ApiTypes> = (extrinsic: Call | Uint8Array | string)
 
 let Submittable: Constructor<SubmittableExtrinsic<any>>;
 
-export default function createSubmittable<ApiType extends ApiTypes> (apiType: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): Creator<ApiType> {
+export default function createSubmittable<ApiType extends ApiTypes> (apiType: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['_decorateMethod']): Creator<ApiType> {
   return (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType> => {
     // This is not great, but basically what we do here is to only require the
     // class right at the point it is actually needed - delaying initialization
