@@ -12,7 +12,7 @@ import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
-export function erasRewardsOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraRewards[]> {
+export function _erasRewards (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraRewards[]> {
   return memo((eras: EraIndex[]): Observable<DeriveEraRewards[]> =>
     eras.length
       ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(eras).pipe(
@@ -28,7 +28,7 @@ export function erasRewardsOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Obs
 export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
   return memo((withActive?: boolean): Observable<DeriveEraRewards[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking.erasRewardsOver(eras))
+      switchMap((eras) => api.derive.staking._erasRewards(eras))
     )
   );
 }

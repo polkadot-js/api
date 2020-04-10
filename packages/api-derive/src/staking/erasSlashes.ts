@@ -39,7 +39,7 @@ export function eraSlashes (api: ApiInterfaceRx): (era: EraIndex) => Observable<
   );
 }
 
-export function erasSlashesOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraSlashes[]> {
+export function _erasSlashes (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraSlashes[]> {
   return memo((eras: EraIndex[]): Observable<DeriveEraSlashes[]> =>
     eras.length
       ? combineLatest(
@@ -52,7 +52,7 @@ export function erasSlashesOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Obs
 export function erasSlashes (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
   return memo((withActive?: boolean): Observable<DeriveEraSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking.erasSlashesOver(eras))
+      switchMap((eras) => api.derive.staking._erasSlashes(eras))
     )
   );
 }

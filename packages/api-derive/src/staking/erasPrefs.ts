@@ -30,7 +30,7 @@ export function eraPrefs (api: ApiInterfaceRx): (era: EraIndex) => Observable<De
   );
 }
 
-export function erasPrefsOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraPrefs[]> {
+export function _erasPrefs (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraPrefs[]> {
   return memo((eras: EraIndex[]): Observable<DeriveEraPrefs[]> =>
     eras.length
       ? combineLatest(eras.map((era) => api.derive.staking.eraPrefs(era)))
@@ -41,7 +41,7 @@ export function erasPrefsOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Obser
 export function erasPrefs (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPrefs[]> {
   return memo((withActive?: boolean): Observable<DeriveEraPrefs[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking.erasPrefsOver(eras))
+      switchMap((eras) => api.derive.staking._erasPrefs(eras))
     )
   );
 }

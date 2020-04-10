@@ -84,7 +84,6 @@ export interface DeriveStakerReward {
   isEmpty: boolean;
   isValidator: boolean;
   nominating: DeriveEraExposureNominating[];
-  total: Balance;
   validators: Record<string, DeriveStakerRewardValidator>;
 }
 
