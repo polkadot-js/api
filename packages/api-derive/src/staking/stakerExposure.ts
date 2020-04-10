@@ -3,18 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { EraIndex } from '@polkadot/types/interfaces';
 import { DeriveStakerExposure, DeriveEraValidatorExposure } from '../types';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerExposure[]> => {
+export function stakerExposureOver (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[]) => Observable<DeriveStakerExposure[]> {
+  return memo((accountId: Uint8Array | string, eras: EraIndex[]): Observable<DeriveStakerExposure[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
-    return api.derive.staking.erasExposure(withActive).pipe(
+    return api.derive.staking.erasExposureOver(eras).pipe(
       map((exposures): DeriveStakerExposure[] =>
         exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
           const isValidator = !!allValidators[stakerId];
@@ -34,4 +35,12 @@ export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | s
       )
     );
   });
+}
+
+export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerExposure[]> =>
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((eras) => api.derive.staking.stakerExposureOver(accountId, eras))
+    )
+  );
 }
