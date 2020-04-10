@@ -42,7 +42,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
       send: this.decorateMethod(
         as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>
-            this.rpcContractsCall(
+            this._rpcContractsCall(
               this.registry.createType('ContractCallRequest', {
                 dest: this.address.toString(),
                 gasLimit,
@@ -54,7 +54,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
               this.createOutcome(result, this.registry.createType('AccountId', account), def, params)
             ))
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
-            this.apiContracts
+            this._apiContracts
               .call(this.address, value, gasLimit, fn(...params))
               .signAndSend(account)
       )

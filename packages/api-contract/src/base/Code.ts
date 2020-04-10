@@ -48,7 +48,7 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
     return {
       signAndSend: this.decorateMethod(
         (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType> =>
-          this.apiContracts
+          this._apiContracts
             .putCode(maxGas, compactAddLength(this.code))
             .signAndSend(account)
             .pipe(map(this.createResult))

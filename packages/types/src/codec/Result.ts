@@ -71,7 +71,7 @@ export default class Result<O extends Codec, E extends Codec> extends Enum {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    const Types = this.toRawStruct() as { Ok: any; Error: any };
+    const Types = this._toRawStruct() as { Ok: any; Error: any };
 
     return `Result<${Types.Ok},${Types.Error}>`;
   }

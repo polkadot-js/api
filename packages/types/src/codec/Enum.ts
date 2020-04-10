@@ -289,7 +289,7 @@ export default class Enum extends Base<Codec> {
   /**
    * @description Returns a raw struct representation of the enum types
    */
-  protected toRawStruct (): string[] | Record<string, string> {
+  protected _toRawStruct (): string[] | Record<string, string> {
     return this._isBasic
       ? this.defKeys
       : Struct.typesToMap(this.registry, this._def);
@@ -299,7 +299,7 @@ export default class Enum extends Base<Codec> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return JSON.stringify({ _enum: this.toRawStruct() });
+    return JSON.stringify({ _enum: this._toRawStruct() });
   }
 
   /**

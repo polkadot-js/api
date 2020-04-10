@@ -61,7 +61,7 @@ export default class ContractRegistry extends MetaRegistry {
       const unknownKeys = Object.keys(arg).filter((key): boolean => !['name', 'type'].includes(key));
 
       assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for ${name}`);
-      assert(isNumber(arg.name) && isString(this.stringAt(arg.name)), `${name} args should have valid name `);
+      assert(isNumber(arg.name) && isString(this._stringAt(arg.name)), `${name} args should have valid name `);
       assert(isNumber(arg.type.ty) && isObject(this.typeDefAt(arg.type.ty)), `${name} args should have valid type`);
     });
   }
@@ -85,7 +85,7 @@ export default class ContractRegistry extends MetaRegistry {
 
       const { name, return_type: returnType, selector } = message;
 
-      assert(isNumber(name) && isString(this.stringAt(name)), `Expected name for ${fnname}`);
+      assert(isNumber(name) && isString(this._stringAt(name)), `Expected name for ${fnname}`);
       assert(isNull(returnType) || (isNumber(returnType.ty) && isObject(this.typeDefAt(returnType.ty))), `Expected return_type for ${fnname}`);
 
       parseSelector(this.registry, fnname, selector);
@@ -100,7 +100,7 @@ export default class ContractRegistry extends MetaRegistry {
 
     const { contract: { constructors, messages, name } } = abi;
 
-    assert(constructors && messages && isString(this.stringAt(name)), 'ABI should have constructors, messages & name sections');
+    assert(constructors && messages && isString(this._stringAt(name)), 'ABI should have constructors, messages & name sections');
 
     this.validateConstructors(abi);
     this.validateMessages(abi);
@@ -151,7 +151,7 @@ export default class ContractRegistry extends MetaRegistry {
   }
 
   public convertArgs (args: ContractABIArgBasePre[]): any[] {
-    return args.map(({ name, type, ...arg }) => ({ ...arg, name: this.stringAt(name), type: this.convertType(type) }));
+    return args.map(({ name, type, ...arg }) => ({ ...arg, name: this._stringAt(name), type: this.convertType(type) }));
   }
 
   public convertType ({ display_name: displayNameIndices, ty }: ContractABITypePre): TypeDef {
@@ -164,7 +164,7 @@ export default class ContractRegistry extends MetaRegistry {
     return {
       constructors: this.convertConstructors(constructors),
       messages: messages.map((message) => this.convertMessage(message)),
-      name: this.stringAt(name),
+      name: this._stringAt(name),
       ...(events
         ? { events: events.map((event) => this.convertEvent(event)) }
         : {}),
@@ -184,7 +184,7 @@ export default class ContractRegistry extends MetaRegistry {
     return {
       ...message,
       args: this.convertArgs(args),
-      name: this.stringAt(name),
+      name: this._stringAt(name),
       returnType: returnType ? this.convertType(returnType) : null
     };
   }
@@ -211,7 +211,7 @@ export default class ContractRegistry extends MetaRegistry {
     return {
       'struct.fields': structFields.map(({ layout, name }) => ({
         layout: this.convertStorageLayout(layout),
-        name: this.stringAt(name)
+        name: this._stringAt(name)
       })),
       'struct.type': this.typeDefAt(structType)
     };

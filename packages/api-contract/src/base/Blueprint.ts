@@ -49,7 +49,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
     return {
       signAndSend: this.decorateMethod(
         (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType> => {
-          return this.apiContracts
+          return this._apiContracts
             .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
             .signAndSend(account)
             .pipe(map(this.createResult));
