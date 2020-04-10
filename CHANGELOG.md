@@ -8,6 +8,7 @@
 - Cleanups to derives for democracy & staking to be more performant
 - Add Centrifuge base types to `@polkadot/types-known`
 - Adjust with all the latest substrate master types
+- Internally all protected methods/variables are now indicated with `_` (Aligning with the `protected` indicators in the TS definitions)
 
 # 1.9.1 Apr 1, 2020
 
