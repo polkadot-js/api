@@ -3,18 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { EraIndex } from '@polkadot/types/interfaces';
 import { DeriveStakerSlashes } from '../types';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerSlashes[]> => {
+export function stakerSlashesOver (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[]) => Observable<DeriveStakerSlashes[]> {
+  return memo((accountId: Uint8Array | string, eras: EraIndex[]): Observable<DeriveStakerSlashes[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
-    return api.derive.staking.erasSlashes(withActive).pipe(
+    return api.derive.staking.erasSlashesOver(eras).pipe(
       map((slashes): DeriveStakerSlashes[] =>
         slashes.map(({ era, nominators, validators }): DeriveStakerSlashes => ({
           era,
@@ -23,4 +24,12 @@ export function stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | st
       )
     );
   });
+}
+
+export function stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
+  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerSlashes[]> =>
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((eras) => api.derive.staking.stakerSlashesOver(accountId, eras))
+    )
+  );
 }

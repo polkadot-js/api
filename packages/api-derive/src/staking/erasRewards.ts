@@ -6,29 +6,29 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance, EraIndex } from '@polkadot/types/interfaces';
 import { DeriveEraRewards } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
+export function erasRewardsOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraRewards[]> {
+  return memo((eras: EraIndex[]): Observable<DeriveEraRewards[]> =>
+    eras.length
+      ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(eras).pipe(
+        map((rewards) => eras.map((era, index): DeriveEraRewards => ({
+          era,
+          eraReward: rewards[index].unwrapOrDefault()
+        })))
+      )
+      : of([])
+  );
+}
+
 export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
   return memo((withActive?: boolean): Observable<DeriveEraRewards[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras): Observable<[EraIndex[], Option<Balance>[]]> =>
-        combineLatest([
-          of(eras),
-          eras.length
-            ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(eras)
-            : of([])
-        ])
-      ),
-      map(([eras, rewards]): DeriveEraRewards[] =>
-        eras.map((era, index): DeriveEraRewards => ({
-          era,
-          eraReward: rewards[index].unwrapOrDefault()
-        }))
-      )
+      switchMap((eras) => api.derive.staking.erasRewardsOver(eras))
     )
   );
 }

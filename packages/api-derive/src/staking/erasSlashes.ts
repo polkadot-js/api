@@ -39,16 +39,20 @@ export function eraSlashes (api: ApiInterfaceRx): (era: EraIndex) => Observable<
   );
 }
 
+export function erasSlashesOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraSlashes[]> {
+  return memo((eras: EraIndex[]): Observable<DeriveEraSlashes[]> =>
+    eras.length
+      ? combineLatest(
+        eras.map((era) => api.derive.staking.eraSlashes(era))
+      )
+      : of([])
+  );
+}
+
 export function erasSlashes (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
   return memo((withActive?: boolean): Observable<DeriveEraSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras): Observable<DeriveEraSlashes[]> =>
-        eras.length
-          ? combineLatest(
-            eras.map((era) => api.derive.staking.eraSlashes(era))
-          )
-          : of([])
-      )
+      switchMap((eras) => api.derive.staking.erasSlashesOver(eras))
     )
   );
 }

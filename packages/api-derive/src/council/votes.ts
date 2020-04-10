@@ -11,6 +11,8 @@ import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Vec } from '@polkadot/types';
 
+import { memo } from '../util';
+
 function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
   const elections = (api.query.electionsPhragmen || api.query.elections);
 
@@ -80,9 +82,9 @@ function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
 }
 
 export function votes (api: ApiInterfaceRx): () => Observable<DeriveCouncilVotes> {
-  // since we are using entries, we are not adding a memo
-  return (): Observable<DeriveCouncilVotes> =>
+  return memo((): Observable<DeriveCouncilVotes> =>
     (api.query.electionsPhragmen || api.query.elections).stakeOf
       ? retrievePrev(api)
-      : retrieveCurrent(api);
+      : retrieveCurrent(api)
+  );
 }
