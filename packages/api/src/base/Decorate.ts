@@ -10,8 +10,8 @@ import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
-import { BehaviorSubject, Observable, forkJoin, combineLatest, of } from 'rxjs';
-import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, from, of } from 'rxjs';
+import { concatMap, map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
@@ -500,16 +500,15 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       switchMap((keys): Observable<[StorageKey[], Option<Raw>[][]]> =>
         combineLatest([
           of(keys),
-          forkJoin(
-            Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
-              .fill(0)
-              .map((_, index): Observable<Option<Raw>[]> => {
-                const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
+          from(Array(Math.ceil(keys.length / PAGE_SIZE_VALS)).fill(0)).pipe(
+            concatMap((_, index): Observable<Option<Raw>[]> => {
+              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
 
-                return this._rpcCore.state.queryStorageAt
-                  ? this._rpcCore.state.queryStorageAt<Option<Raw>[]>(keyset)
-                  : this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keyset).pipe(take(1));
-              })
+              return this._rpcCore.state.queryStorageAt
+                ? this._rpcCore.state.queryStorageAt<Option<Raw>[]>(keyset)
+                : this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keyset).pipe(take(1));
+            }),
+            toArray()
           )
         ])
       ),

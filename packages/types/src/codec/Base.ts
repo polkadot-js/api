@@ -16,11 +16,11 @@ import Raw from './Raw';
 export default abstract class Base<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
-  protected readonly raw: T;
+  protected readonly _raw: T;
 
   protected constructor (registry: Registry, value?: any) {
     this.registry = registry;
-    this.raw = value;
+    this._raw = value;
   }
 
   /**
@@ -41,42 +41,42 @@ export default abstract class Base<T extends Codec> implements Codec {
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    return this.raw.isEmpty;
+    return this._raw.isEmpty;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
-    return this.raw.eq(other);
+    return this._raw.eq(other);
   }
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
   public toHex (isLe?: boolean): string {
-    return this.raw.toHex(isLe);
+    return this._raw.toHex(isLe);
   }
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.raw.toHuman(isExtended);
+    return this._raw.toHuman(isExtended);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.raw.toJSON();
+    return this._raw.toJSON();
   }
 
   /**
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.raw.toString();
+    return this._raw.toString();
   }
 
   /**
@@ -84,7 +84,7 @@ export default abstract class Base<T extends Codec> implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    return this.raw.toU8a(isBare);
+    return this._raw.toU8a(isBare);
   }
 
   /**

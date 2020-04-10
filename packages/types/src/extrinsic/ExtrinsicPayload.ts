@@ -44,7 +44,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /** @internal */
   public static decodeExtrinsicPayload (registry: Registry, value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof ExtrinsicPayload) {
-      return value.raw;
+      return value._raw;
     }
 
     return registry.createType(VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
@@ -54,14 +54,14 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description The block [[Hash]] the signature applies to (mortal/immortal)
    */
   public get blockHash (): Hash {
-    return this.raw.blockHash;
+    return this._raw.blockHash;
   }
 
   /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
-    return this.raw.era;
+    return this._raw.era;
   }
 
   /**
@@ -69,21 +69,21 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).genesisHash || this.registry.createType('Hash');
+    return (this._raw as ExtrinsicPayloadV3).genesisHash || this.registry.createType('Hash');
   }
 
   /**
    * @description The [[Raw]] contained in the payload
    */
   public get method (): Raw {
-    return this.raw.method;
+    return this._raw.method;
   }
 
   /**
    * @description The [[Index]]
    */
   public get nonce (): Compact<Index> {
-    return this.raw.nonce;
+    return this._raw.nonce;
   }
 
   /**
@@ -91,7 +91,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).specVersion || this.registry.createType('u32');
+    return (this._raw as ExtrinsicPayloadV3).specVersion || this.registry.createType('u32');
   }
 
   /**
@@ -99,21 +99,21 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return (this.raw as ExtrinsicPayloadV2).tip || this.registry.createType('Compact<Balance>');
+    return (this._raw as ExtrinsicPayloadV2).tip || this.registry.createType('Compact<Balance>');
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
-    return this.raw.eq(other);
+    return this._raw.eq(other);
   }
 
   /**
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): { signature: string } {
-    const signature = this.raw.sign(signerPair);
+    const signature = this._raw.sign(signerPair);
 
     // This is extensible, so we could quite readily extend to send back extra
     // information, such as for instance the payload, i.e. `payload: this.toHex()`
@@ -128,7 +128,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.raw.toHuman(isExtended);
+    return this._raw.toHuman(isExtended);
   }
 
   /**
