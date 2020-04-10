@@ -253,7 +253,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       });
   }
 
-  _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
+  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
     return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
