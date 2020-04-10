@@ -42,7 +42,7 @@ export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable
   );
 }
 
-export function erasExposureOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraExposure[]> {
+export function _erasExposure (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraExposure[]> {
   return memo((eras: EraIndex[]): Observable<DeriveEraExposure[]> =>
     eras.length
       ? combineLatest(eras.map((era) => api.derive.staking.eraExposure(era)))
@@ -53,7 +53,7 @@ export function erasExposureOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Ob
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
   return memo((withActive?: boolean): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking.erasExposureOver(eras))
+      switchMap((eras) => api.derive.staking._erasExposure(eras))
     )
   );
 }

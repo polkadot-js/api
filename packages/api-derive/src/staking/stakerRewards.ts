@@ -154,7 +154,7 @@ function filterRewards (api: ApiInterfaceRx, rewards: DeriveStakerReward[], stak
   );
 }
 
-export function stakerRewardsOver (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[]> {
+export function _stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[]> {
   return memo((accountId: Uint8Array | string, _eras: EraIndex[], withActive?: boolean): Observable<DeriveStakerReward[]> =>
     api.derive.staking.query(accountId).pipe(
       switchMap(({ stakingLedger, stashId }): Observable<DeriveStakerReward[]> => {
@@ -167,10 +167,10 @@ export function stakerRewardsOver (api: ApiInterfaceRx): (accountId: Uint8Array 
           : filterEras(_eras, stakingLedger);
 
         return combineLatest([
-          api.derive.staking.erasPointsOver(eras),
-          api.derive.staking.erasPrefsOver(eras),
-          api.derive.staking.erasRewardsOver(eras),
-          api.derive.staking.stakerExposureOver(stashId, eras)
+          api.derive.staking._erasPoints(eras),
+          api.derive.staking._erasPrefs(eras),
+          api.derive.staking._erasRewards(eras),
+          api.derive.staking._stakerExposure(stashId, eras)
         ]).pipe(
           switchMap((result): Observable<DeriveStakerReward[]> =>
             filterRewards(api, parseRewards(api, stashId, result), stakingLedger, withActive)
@@ -184,7 +184,7 @@ export function stakerRewardsOver (api: ApiInterfaceRx): (accountId: Uint8Array 
 export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
   return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerReward[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking.stakerRewardsOver(accountId, eras, withActive))
+      switchMap((eras) => api.derive.staking._stakerRewards(accountId, eras, withActive))
     )
   );
 }
@@ -194,7 +194,7 @@ export function stakerRewardsMulti (api: ApiInterfaceRx): (accountIds: (Uint8Arr
     accountIds.length
       ? api.derive.staking.erasHistoric(withActive).pipe(
         switchMap((eras) =>
-          combineLatest(accountIds.map((acc) => api.derive.staking.stakerRewardsOver(acc, eras, withActive)))
+          combineLatest(accountIds.map((acc) => api.derive.staking._stakerRewards(acc, eras, withActive)))
         )
       )
       : of([])

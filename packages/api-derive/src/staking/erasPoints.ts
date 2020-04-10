@@ -21,7 +21,7 @@ function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
     }, {});
 }
 
-export function erasPointsOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraPoints[]> {
+export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraPoints[]> {
   return memo((eras: EraIndex[]): Observable<DeriveEraPoints[]> =>
     eras.length
       ? api.query.staking.erasRewardPoints.multi<EraRewardPoints>(eras).pipe(
@@ -40,7 +40,7 @@ export function erasPointsOver (api: ApiInterfaceRx): (eras: EraIndex[]) => Obse
 export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
   return memo((withActive?: boolean): Observable<DeriveEraPoints[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking.erasPointsOver(eras))
+      switchMap((eras) => api.derive.staking._erasPoints(eras))
     )
   );
 }

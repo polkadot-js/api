@@ -11,11 +11,11 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function stakerSlashesOver (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[]) => Observable<DeriveStakerSlashes[]> {
+export function _stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[]) => Observable<DeriveStakerSlashes[]> {
   return memo((accountId: Uint8Array | string, eras: EraIndex[]): Observable<DeriveStakerSlashes[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
-    return api.derive.staking.erasSlashesOver(eras).pipe(
+    return api.derive.staking._erasSlashes(eras).pipe(
       map((slashes): DeriveStakerSlashes[] =>
         slashes.map(({ era, nominators, validators }): DeriveStakerSlashes => ({
           era,
@@ -29,7 +29,7 @@ export function stakerSlashesOver (api: ApiInterfaceRx): (accountId: Uint8Array 
 export function stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
   return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking.stakerSlashesOver(accountId, eras))
+      switchMap((eras) => api.derive.staking._stakerSlashes(accountId, eras))
     )
   );
 }
