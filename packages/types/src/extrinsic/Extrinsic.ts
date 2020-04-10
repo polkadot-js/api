@@ -71,7 +71,7 @@ abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
    * @description The era for this extrinsic
    */
   public get era (): ExtrinsicEra {
-    return (this.raw as ExtrinsicVx).signature.era;
+    return (this._raw as ExtrinsicVx).signature.era;
   }
 
   /**
@@ -92,7 +92,7 @@ abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return (this.raw as ExtrinsicVx).signature.isSigned;
+    return (this._raw as ExtrinsicVx).signature.isSigned;
   }
 
   /**
@@ -113,42 +113,42 @@ abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
    * @description The [[Call]] this extrinsic wraps
    */
   public get method (): Call {
-    return (this.raw as ExtrinsicVx).method;
+    return (this._raw as ExtrinsicVx).method;
   }
 
   /**
    * @description The nonce for this extrinsic
    */
   public get nonce (): Compact<Index> {
-    return (this.raw as ExtrinsicVx).signature.nonce;
+    return (this._raw as ExtrinsicVx).signature.nonce;
   }
 
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
   public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
-    return (this.raw as ExtrinsicVx).signature.signature;
+    return (this._raw as ExtrinsicVx).signature.signature;
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return (this.raw as ExtrinsicVx).signature.signer;
+    return (this._raw as ExtrinsicVx).signature.signer;
   }
 
   /**
    * @description Forwards compat
    */
   public get tip (): Compact<Balance> {
-    return (this.raw as ExtrinsicVx).signature.tip;
+    return (this._raw as ExtrinsicVx).signature.tip;
   }
 
   /**
    * @description Returns the raw transaction version (not flagged with signing information)
   */
   public get type (): number {
-    return (this.raw as ExtrinsicVx).version;
+    return (this._raw as ExtrinsicVx).version;
   }
 
   /**
@@ -179,7 +179,7 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
   /** @internal */
   private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof Extrinsic) {
-      return value.raw;
+      return value._raw;
     }
 
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
@@ -221,7 +221,7 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
    * @description Injects an already-generated signature into the extrinsic
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): Extrinsic {
-    (this.raw as ExtrinsicVx).addSignature(signer, signature, payload);
+    (this._raw as ExtrinsicVx).addSignature(signer, signature, payload);
 
     return this;
   }
@@ -230,7 +230,7 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
-    (this.raw as ExtrinsicVx).sign(account, options);
+    (this._raw as ExtrinsicVx).sign(account, options);
 
     return this;
   }
@@ -239,7 +239,7 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
    * @describe Adds a fake signature to the extrinsic
    */
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): Extrinsic {
-    (this.raw as ExtrinsicVx).signFake(signer, options);
+    (this._raw as ExtrinsicVx).signFake(signer, options);
 
     return this;
   }
@@ -292,7 +292,7 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
   public toU8a (isBare?: boolean): Uint8Array {
     // we do not apply bare to the internal values, rather this only determines out length addition,
     // where we strip all lengths this creates an extrinsic that cannot be decoded
-    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a());
+    const encoded = u8aConcat(new Uint8Array([this.version]), this._raw.toU8a());
 
     return isBare
       ? encoded

@@ -50,7 +50,7 @@ export default class Result<O extends Codec, E extends Codec> extends Enum {
    * @description Checks if the Result has no value
    */
   public get isEmpty (): boolean {
-    return this.isOk && this.raw.isEmpty;
+    return this.isOk && this._raw.isEmpty;
   }
 
   /**

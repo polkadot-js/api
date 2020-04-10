@@ -70,7 +70,7 @@ export default class Option<T extends Codec> extends Base<T> {
    */
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
-    return 1 + this.raw.encodedLength;
+    return 1 + this._raw.encodedLength;
   }
 
   /**
@@ -84,7 +84,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description Checks if the Option has no value
    */
   public get isNone (): boolean {
-    return this.raw instanceof Null;
+    return this._raw instanceof Null;
   }
 
   /**
@@ -98,7 +98,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description The actual value for the Option
    */
   public get value (): Codec {
-    return this.raw;
+    return this._raw;
   }
 
   /**
@@ -140,14 +140,14 @@ export default class Option<T extends Codec> extends Base<T> {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
-      return this.raw.toU8a(true);
+      return this._raw.toU8a(true);
     }
 
     const u8a = new Uint8Array(this.encodedLength);
 
     if (this.isSome) {
       u8a.set([1]);
-      u8a.set(this.raw.toU8a(), 1);
+      u8a.set(this._raw.toU8a(), 1);
     }
 
     return u8a;
@@ -161,7 +161,7 @@ export default class Option<T extends Codec> extends Base<T> {
       throw new Error('Option: unwrapping a None value');
     }
 
-    return this.raw;
+    return this._raw;
   }
 
   /**
