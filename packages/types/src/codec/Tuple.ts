@@ -17,6 +17,29 @@ type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
   [index: string]: Constructor | keyof InterfaceTypes;
 };
 
+/** @internal */
+function decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
+  if (isU8a(value)) {
+    return decodeU8a(registry, value, _Types);
+  } else if (isHex(value)) {
+    return decodeTuple(registry, _Types, hexToU8a(value));
+  }
+
+  const Types: Constructor[] = Array.isArray(_Types)
+    ? _Types
+    : Object.values(_Types);
+
+  return Types.map((Type, index): Codec => {
+    try {
+      if (value?.[index] instanceof Type) return value[index] as any;
+
+      return new Type(registry, value?.[index]);
+    } catch (error) {
+      throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
+    }
+  });
+}
+
 /**
  * @name Tuple
  * @description
@@ -31,32 +54,9 @@ export default class Tuple extends AbstractArray<Codec> {
       ? Types.map((type): Constructor => typeToConstructor(registry, type))
       : mapToTypeMap(registry, Types);
 
-    super(registry, ...Tuple.decodeTuple(registry, Clazzes, value));
+    super(registry, ...decodeTuple(registry, Clazzes, value));
 
     this._Types = Clazzes;
-  }
-
-  /** @internal */
-  private static decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
-    if (isU8a(value)) {
-      return decodeU8a(registry, value, _Types);
-    } else if (isHex(value)) {
-      return Tuple.decodeTuple(registry, _Types, hexToU8a(value));
-    }
-
-    const Types: Constructor[] = Array.isArray(_Types)
-      ? _Types
-      : Object.values(_Types);
-
-    return Types.map((Type, index): Codec => {
-      try {
-        if (value?.[index] instanceof Type) return value[index] as any;
-
-        return new Type(registry, value?.[index]);
-      } catch (error) {
-        throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
-      }
-    });
   }
 
   public static with (Types: TupleTypes): Constructor<Tuple> {

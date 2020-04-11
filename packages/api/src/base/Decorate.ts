@@ -184,7 +184,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     augmentObject('', decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
 
-  private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
+  private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
     output.method = input.method;
     output.section = input.section;
@@ -300,7 +300,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
       creator(method(...params));
 
-    return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
+    return this._decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
 
   protected _decorateStorage<ApiType extends ApiTypes> (storage: Storage, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
@@ -321,7 +321,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
     // FIXME We probably want to be able to query the full list with non-subs as well
     const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
-      ? this.decorateStorageLinked(creator, decorateMethod)
+      ? this._decorateStorageLinked(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (
         this.hasSubscriptions
           ? this._rpcCore.state
@@ -348,7 +348,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       u8aToHex(creator.keyPrefix);
 
     decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
-      this.decorateStorageRange(decorated, [arg1, arg2], range));
+      this._decorateStorageRange(decorated, [arg1, arg2], range));
 
     decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
@@ -357,11 +357,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
         memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-          this.retrieveMapEntries(creator, doubleMapArg)));
+          this._retrieveMapEntries(creator, doubleMapArg)));
 
       decorated.keys = decorateMethod(
         memo((doubleMapArg?: Arg): Observable<StorageKey[]> =>
-          this.retrieveMapKeys(creator, doubleMapArg)));
+          this._retrieveMapKeys(creator, doubleMapArg)));
     }
 
     // only support multi where subs are available
@@ -372,10 +372,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
     }
 
-    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
+    return this._decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
+  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
     const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
@@ -388,7 +388,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ));
   }
 
-  private decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
+  private _decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     const result: Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -460,7 +460,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
+  private _retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = this.createType('Raw', u8aConcat(
@@ -493,10 +493,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       );
   }
 
-  private retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
+  private _retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
     const outputType = unwrapStorageType(entry.meta.type, entry.meta.modifier.isOptional);
 
-    return this.retrieveMapKeys(entry, arg).pipe(
+    return this._retrieveMapKeys(entry, arg).pipe(
       switchMap((keys): Observable<[StorageKey[], Option<Raw>[][]]> =>
         combineLatest([
           of(keys),

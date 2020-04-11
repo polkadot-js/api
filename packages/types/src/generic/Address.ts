@@ -50,11 +50,11 @@ function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountI
  */
 export default class Address extends Base<AccountId | AccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
-    super(registry, Address.decodeAddress(registry, value));
+    super(registry, Address._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
+  private static _decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
     } else if (value instanceof Address) {

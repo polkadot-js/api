@@ -52,13 +52,13 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
           return this._apiContracts
             .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
             .signAndSend(account)
-            .pipe(map(this.createResult));
+            .pipe(map(this._createResult));
         }
       )
     };
   }
 
-  private createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
+  private _createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
     let contract: Contract<ApiType> | undefined;
 
     if (result.isInBlock) {

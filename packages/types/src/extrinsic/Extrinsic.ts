@@ -173,11 +173,11 @@ abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
  */
 export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
   constructor (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
-    super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
+    super(registry, Extrinsic._decodeExtrinsic(registry, value, version));
   }
 
   /** @internal */
-  private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  private static _newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof Extrinsic) {
       return value._raw;
     }
@@ -191,20 +191,20 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
   }
 
   /** @internal */
-  public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+  private static _decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (isU8a(value) || Array.isArray(value) || isHex(value)) {
-      return Extrinsic.decodeU8a(registry, u8aToU8a(value), version);
+      return Extrinsic._decodeU8a(registry, u8aToU8a(value), version);
     } else if (value instanceof registry.createClass('Call')) {
-      return Extrinsic.newFromValue(registry, { method: value }, version);
+      return Extrinsic._newFromValue(registry, { method: value }, version);
     }
 
-    return Extrinsic.newFromValue(registry, value, version);
+    return Extrinsic._newFromValue(registry, value, version);
   }
 
   /** @internal */
-  private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  private static _decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (!value.length) {
-      return Extrinsic.newFromValue(registry, new Uint8Array(), version);
+      return Extrinsic._newFromValue(registry, new Uint8Array(), version);
     }
 
     const [offset, length] = Compact.decodeU8a(value);
@@ -214,7 +214,7 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
 
     const data = value.subarray(offset, total);
 
-    return Extrinsic.newFromValue(registry, data.subarray(1), data[0]);
+    return Extrinsic._newFromValue(registry, data.subarray(1), data[0]);
   }
 
   /**
