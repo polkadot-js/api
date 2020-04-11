@@ -41,7 +41,7 @@ describe('methodSend', (): void => {
 
   it('checks for mismatched parameters', (done): void => {
     // private method
-    const method = (rpc as any).createMethodSend('test', 'bleh', methods.bleh);
+    const method = (rpc as any)._createMethodSend('test', 'bleh', methods.bleh);
 
     method(1).subscribe(
       (): void => undefined,
@@ -53,7 +53,7 @@ describe('methodSend', (): void => {
 
   it('calls the provider with the correct parameters', (done): void => {
     // private method
-    const method = (rpc as any).createMethodSend('test', 'blah', methods.blah);
+    const method = (rpc as any)._createMethodSend('test', 'blah', methods.blah);
 
     // Args are length-prefixed, because it's a Bytes
     method(new Uint8Array([2 << 2, 0x12, 0x34])).subscribe((): void => {
