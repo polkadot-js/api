@@ -99,7 +99,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     return this.registry.createType('Compact<Balance>', 0);
   }
 
-  private injectSignature (signer: Address, signature: Signature, { era, nonce }: ExtrinsicPayloadV1): IExtrinsicSignature {
+  private _injectSignature (signer: Address, signature: Signature, { era, nonce }: ExtrinsicPayloadV1): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
@@ -112,7 +112,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
    * @description Adds a raw signature
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
-    return this.injectSignature(
+    return this._injectSignature(
       this.registry.createType('Address', signer),
       this.registry.createType('Signature', signature),
       new ExtrinsicPayloadV1(this.registry, payload)
@@ -142,7 +142,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('Signature', payload.sign(account));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 
   /**
@@ -153,7 +153,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('Signature', new Uint8Array(64).fill(0x42));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 
   /**

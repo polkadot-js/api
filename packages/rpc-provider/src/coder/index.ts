@@ -32,12 +32,12 @@ export default class RpcCoder {
 
     assert(isNumber(response.id) || (isSubscription && isNumber(response.params.subscription)), 'Invalid id field in decoded object');
 
-    this.checkError(response.error);
+    this._checkError(response.error);
 
     assert(!isUndefined(response.result) || isSubscription, 'No result found in JsonRpc response');
 
     if (isSubscription) {
-      this.checkError(response.params.error);
+      this._checkError(response.params.error);
 
       return response.params.result;
     }
@@ -64,7 +64,7 @@ export default class RpcCoder {
     return this.#id;
   }
 
-  private checkError (error?: JsonRpcResponseBaseError): void {
+  private _checkError (error?: JsonRpcResponseBaseError): void {
     if (error) {
       const { code, data, message } = error;
 

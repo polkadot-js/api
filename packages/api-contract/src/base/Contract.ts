@@ -33,6 +33,12 @@ export type ContractCallResult<CallType extends ContractCallTypes> = CallType ex
 export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
   public readonly address: Address;
 
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
+    super(api, abi, decorateMethod);
+
+    this.address = this.registry.createType('Address', address);
+  }
+
   public call (as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'rpc'>;
   public call (as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'tx'>;
   public call<CallType extends ContractCallTypes> (as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, CallType> {
@@ -51,7 +57,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
                 value
               })
             ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
-              this.createOutcome(result, this.registry.createType('AccountId', account), def, params)
+              this._createOutcome(result, this.registry.createType('AccountId', account), def, params)
             ))
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
             this._apiContracts
@@ -61,7 +67,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     };
   }
 
-  private createOutcome (result: ContractExecResult, origin: AccountId, message: ContractABIMessage, params: any[]): ContractCallOutcome {
+  private _createOutcome (result: ContractExecResult, origin: AccountId, message: ContractABIMessage, params: any[]): ContractCallOutcome {
     let output: Codec | null = null;
 
     if (result.isSuccess) {
@@ -81,11 +87,5 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
       result,
       time: Date.now()
     };
-  }
-
-  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
-    super(api, abi, decorateMethod);
-
-    this.address = this.registry.createType('Address', address);
   }
 }

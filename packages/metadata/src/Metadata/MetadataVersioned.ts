@@ -44,18 +44,18 @@ export default class MetadataVersioned extends Struct {
     registry.setMetadata(this);
   }
 
-  private assertVersion (version: number): boolean {
+  private _assertVersion (version: number): boolean {
     assert(this.version <= version, `Cannot convert metadata from v${this.version} to v${version}`);
 
     return this.version === version;
   }
 
-  private getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (registry: Registry, input: F) => T): T {
+  private _getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (registry: Registry, input: F) => T): T {
     const asCurr = `asV${version}` as MetaAsX;
     const asPrev = `asV${version - 1}` as MetaAsX;
 
-    if (this.assertVersion(version)) {
-      return this.metadata[asCurr] as T;
+    if (this._assertVersion(version)) {
+      return this._metadata[asCurr] as T;
     }
 
     if (!this.#converted.has(version)) {
@@ -79,86 +79,86 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped metadata as a V0 object
    */
   public get asV0 (): MetadataV0 {
-    this.assertVersion(0);
+    this._assertVersion(0);
 
-    return this.metadata.asV0;
+    return this._metadata.asV0;
   }
 
   /**
    * @description Returns the wrapped values as a V1 object
    */
   public get asV1 (): MetadataV1 {
-    return this.getVersion(1, v0ToV1);
+    return this._getVersion(1, v0ToV1);
   }
 
   /**
    * @description Returns the wrapped values as a V2 object
    */
   public get asV2 (): MetadataV2 {
-    return this.getVersion(2, v1ToV2);
+    return this._getVersion(2, v1ToV2);
   }
 
   /**
    * @description Returns the wrapped values as a V3 object
    */
   public get asV3 (): MetadataV3 {
-    return this.getVersion(3, v2ToV3);
+    return this._getVersion(3, v2ToV3);
   }
 
   /**
    * @description Returns the wrapped values as a V4 object
    */
   public get asV4 (): MetadataV4 {
-    return this.getVersion(4, v3ToV4);
+    return this._getVersion(4, v3ToV4);
   }
 
   /**
    * @description Returns the wrapped values as a V5 object
    */
   public get asV5 (): MetadataV5 {
-    return this.getVersion(5, v4ToV5);
+    return this._getVersion(5, v4ToV5);
   }
 
   /**
    * @description Returns the wrapped values as a V6 object
    */
   public get asV6 (): MetadataV6 {
-    return this.getVersion(6, v5ToV6);
+    return this._getVersion(6, v5ToV6);
   }
 
   /**
    * @description Returns the wrapped values as a V7 object
    */
   public get asV7 (): MetadataV7 {
-    return this.getVersion(7, v6ToV7);
+    return this._getVersion(7, v6ToV7);
   }
 
   /**
    * @description Returns the wrapped values as a V8 object
    */
   public get asV8 (): MetadataV8 {
-    return this.getVersion(8, v7ToV8);
+    return this._getVersion(8, v7ToV8);
   }
 
   /**
    * @description Returns the wrapped values as a V9 object
    */
   public get asV9 (): MetadataV9 {
-    return this.getVersion(9, v8ToV9);
+    return this._getVersion(9, v8ToV9);
   }
 
   /**
    * @description Returns the wrapped values as a V10 object
    */
   public get asV10 (): MetadataV10 {
-    return this.getVersion(10, v9ToV10);
+    return this._getVersion(10, v9ToV10);
   }
 
   /**
    * @description Returns the wrapped values as a V10 object
    */
   public get asV11 (): MetadataV11 {
-    return this.getVersion(11, v10ToV11);
+    return this._getVersion(11, v10ToV11);
   }
 
   /**
@@ -166,7 +166,7 @@ export default class MetadataVersioned extends Struct {
    */
   public get asLatest (): MetadataLatest {
     // This is non-existent & latest - applied here to do the module-specific type conversions
-    return this.getVersion(12, v11ToLatest);
+    return this._getVersion(12, v11ToLatest);
   }
 
   /**
@@ -179,7 +179,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description the metadata wrapped
    */
-  private get metadata (): MetadataAll {
+  private get _metadata (): MetadataAll {
     return this.get('metadata') as MetadataAll;
   }
 
@@ -187,7 +187,7 @@ export default class MetadataVersioned extends Struct {
    * @description the metadata version this structure represents
    */
   public get version (): number {
-    return this.metadata.index;
+    return this._metadata.index;
   }
 
   public getUniqTypes (throwError: boolean): string[] {

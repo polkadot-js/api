@@ -22,10 +22,10 @@ export default class HeaderExtended extends _Header {
   constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
     super(registry, header);
 
-    this.#author = this.extractAuthor(sessionValidators);
+    this.#author = this._extractAuthor(sessionValidators);
   }
 
-  private extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
+  private _extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
     const [pitem] = this.digest.logsWith('PreRuntime');
 
     // extract from the substrate 2.0 PreRuntime digest

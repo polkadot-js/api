@@ -12,6 +12,11 @@ import Raw from './Raw';
 
 import { compareMap } from './utils';
 
+/** @internal */
+function decodeJson (value?: { [index: string]: any } | null): [string, any][] {
+  return Object.entries(value || {});
+}
+
 /**
  * @name Json
  * @description
@@ -24,7 +29,7 @@ export default class StructAny extends Map<string, any> implements Codec {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: { [index: string]: any } | null) {
-    const decoded = StructAny.decodeJson(value);
+    const decoded = decodeJson(value);
 
     super(decoded);
 
@@ -42,11 +47,6 @@ export default class StructAny extends Map<string, any> implements Codec {
         get: (): Codec | undefined => this.get(key)
       });
     });
-  }
-
-  /** @internal */
-  private static decodeJson (value?: { [index: string]: any } | null): [string, any][] {
-    return Object.entries(value || {});
   }
 
   /**

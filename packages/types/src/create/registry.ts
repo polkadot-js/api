@@ -270,11 +270,11 @@ export class TypeRegistry implements Registry {
 
       this.#classes.set(arg1, arg2);
     } else {
-      this.registerObject(arg1);
+      this._registerObject(arg1);
     }
   }
 
-  private registerObject (obj: RegistryTypes): void {
+  private _registerObject (obj: RegistryTypes): void {
     Object.entries(obj).forEach(([name, type]): void => {
       if (isFunction(type)) {
         // This _looks_ a bit funny, but `typeof Clazz === 'function'
