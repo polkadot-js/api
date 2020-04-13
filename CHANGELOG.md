@@ -1,3 +1,7 @@
+# 1.11.0-beta.x
+
+- Fix entries decoding for `Option<Number>`
+
 # 1.10.1 Apr 13, 2020
 
 - **Important** Substrate master has updated staking, on older chains apply `StakingLedger: 'StakingLedgerTo240'`
