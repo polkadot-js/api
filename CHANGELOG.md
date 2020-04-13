@@ -1,4 +1,4 @@
-# 1.10.0-beta.x
+# 1.10.1 Apr 13, 2020
 
 - **Important** Substrate master has updated staking, on older chains apply `StakingLedger: 'StakingLedgerTo240'`
 - Add `rpc.system.chainType` to retrieve the chain type (Development. Local, Live & Custom)
@@ -8,7 +8,8 @@
 - Cleanups to derives for democracy & staking to be more performant
 - Add Centrifuge base types to `@polkadot/types-known`
 - Adjust with all the latest substrate master types
-- Internally all private/protected methods/variables are now indicated with `_` (Aligning with the `private/protected` indicators in the TS definitions)
+- Internally all private/protected methods/variables are now `_` prefixed (Aligning with the `private/protected` indicators in the TS definitions)
+- Update metadata/docs-from-metadata to the latest Substrate
 
 # 1.9.1 Apr 1, 2020
 

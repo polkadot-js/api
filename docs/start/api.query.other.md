@@ -62,7 +62,7 @@ When working maps and double-maps, it is possible to retrieve a list of all the 
 // Retrieve the active era
 const activeEra = await api.query.staking.activeEra();
 
-// retrieve all exposures int the active era
+// retrieve all exposures for the active era
 const exposures = await api.query.staking.erasStakers.entries(activeEra.index);
 
 exposures.forEach(([key, exposure]) => {
@@ -73,7 +73,17 @@ exposures.forEach(([key, exposure]) => {
 
 Here we are querying a double-map, so we supply 1 argument. No arguments on double-maps will be very costly, retrieving all the eras and associated entries. Additionally when `twox64_concat` & `blake2_concat` is used, the key `.args` will contain decoded values of the params, in this case it will contain the actual `AccountId` of the staker. (Since that was not supplied)
 
-In the same way as above we can simply do `.keys(activeEra.index): StorageKey[]` to retrieve all the keys here, including the individual keys args decoding, as available on maps with decodable hashing functions.
+In the same way as above we can simply do `.keys(activeEra.index): StorageKey[]` to retrieve all the keys here, including the individual keys args (available on maps with decodable hashing functions) -
+
+```js
+// retrieve all the nominator keys
+const keys = await api.query.staking.nominators.keys();
+
+// extract the first key argument (AccountId) as string
+const nominatorIds = keys.map((key) => key.args[0].toString());
+
+console.log('all nominators:', nminatorIds.join(', '));
+```
 
 ## State entries
 
