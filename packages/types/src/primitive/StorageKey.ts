@@ -158,9 +158,9 @@ export default class StorageKey extends Bytes {
 
   private _meta?: StorageEntryMetadataLatest;
 
-  private readonly _method?: string;
+  private _outputType: string;
 
-  private readonly _outputType: string;
+  private readonly _method?: string;
 
   private readonly _section?: string;
 
@@ -169,13 +169,12 @@ export default class StorageKey extends Bytes {
 
     super(registry, key);
 
-    this._meta = StorageKey.getMeta(value as StorageKey);
     this._method = override.method || method;
-    this._outputType = StorageKey.getType(value as StorageKey);
     this._section = override.section || section;
+    this._outputType = StorageKey.getType(value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
-    this.decodeArgsFromMeta();
+    this.setMeta(StorageKey.getMeta(value as StorageKey));
   }
 
   public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
@@ -250,15 +249,12 @@ export default class StorageKey extends Bytes {
   public setMeta (meta?: StorageEntryMetadataLatest): this {
     this._meta = meta;
 
-    return this.decodeArgsFromMeta();
-  }
+    if (meta) {
+      this._outputType = unwrapStorageType(meta.type);
+    }
 
-  /**
-   * @description Decode the args embedded in the key (assuming we have decodable hashers)
-   */
-  public decodeArgsFromMeta (meta?: StorageEntryMetadataLatest): this {
     try {
-      this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta || this.meta);
+      this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), this.meta);
     } catch (error) {
       // ignore...
     }

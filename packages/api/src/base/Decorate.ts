@@ -477,7 +477,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ? startSubject.pipe(
         switchMap((startKey) =>
           this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey).pipe(
-            map((keys) => keys.map((key) => key.decodeArgsFromMeta(meta)))
+            map((keys) => keys.map((key) => key.setMeta(meta)))
           )
         ),
         tap((keys): void => {
@@ -489,41 +489,31 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
       )
       : this._rpcCore.state.getKeys(headKey).pipe(
-        map((keys) => keys.map((key) => key.decodeArgsFromMeta(meta)))
+        map((keys) => keys.map((key) => key.setMeta(meta)))
       );
   }
 
   private _retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    const outputType = unwrapStorageType(entry.meta.type, entry.meta.modifier.isOptional);
-
     return this._retrieveMapKeys(entry, arg).pipe(
-      switchMap((keys): Observable<[StorageKey[], Option<Raw>[][]]> =>
+      switchMap((keys): Observable<[StorageKey[], Codec[][]]> =>
         combineLatest([
           of(keys),
           from(Array(Math.ceil(keys.length / PAGE_SIZE_VALS)).fill(0)).pipe(
-            concatMap((_, index): Observable<Option<Raw>[]> => {
+            concatMap((_, index): Observable<Codec[]> => {
               const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
 
               return this._rpcCore.state.queryStorageAt
-                ? this._rpcCore.state.queryStorageAt<Option<Raw>[]>(keyset)
-                : this._rpcCore.state.subscribeStorage<Option<Raw>[]>(keyset).pipe(take(1));
+                ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
+                : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
             }),
             toArray()
           )
         ])
       ),
       map(([keys, valsArr]): [StorageKey, Codec][] => {
-        const vals = valsArr.reduce((result: Option<Raw>[], vals) => result.concat(vals), []);
+        const vals = valsArr.reduce((result: Codec[], vals) => result.concat(vals), []);
 
-        return keys.map((key, index): [StorageKey, Codec] => [
-          key,
-          this.createType(
-            outputType,
-            vals[index].isSome
-              ? vals[index].unwrap().toHex()
-              : undefined
-          )
-        ]);
+        return keys.map((key, index) => [key, vals[index]]);
       })
     );
   }
