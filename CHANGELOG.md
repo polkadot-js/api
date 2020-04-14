@@ -1,5 +1,6 @@
 # 1.11.0-beta.x
 
+- `Digest` has been moved to definitions, removal of `GenericDigest` type
 - Fix entries decoding for `Option<Number>`
 
 # 1.10.1 Apr 13, 2020

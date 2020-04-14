@@ -26,7 +26,7 @@ export default class HeaderExtended extends _Header {
   }
 
   private _extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
-    const [pitem] = this.digest.logsWith('PreRuntime');
+    const [pitem] = this.digest.logs.filter(({ type }) => type === 'PreRuntime');
 
     // extract from the substrate 2.0 PreRuntime digest
     if (pitem) {
@@ -34,7 +34,7 @@ export default class HeaderExtended extends _Header {
 
       return engine.extractAuthor(data, sessionValidators);
     } else {
-      const [citem] = this.digest.logsWith('Consensus');
+      const [citem] = this.digest.logs.filter(({ type }) => type === 'Consensus');
 
       // extract author from the consensus (substrate 1.0, digest)
       if (citem) {
