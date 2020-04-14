@@ -30,14 +30,7 @@ export interface DeriveAccountRegistration {
   judgements: RegistrationJudgement[];
 }
 
-export interface DeriveAccountFlags {
-  isCouncil: boolean;
-  isSociety: boolean;
-  isSudo: boolean;
-  isTechCommittee: boolean;
-}
-
-export interface DeriveAccountInfo extends DeriveAccountFlags {
+export interface DeriveAccountInfo {
   accountId?: AccountId;
   accountIndex?: AccountIndex;
   identity: DeriveAccountRegistration;
