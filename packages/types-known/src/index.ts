@@ -15,11 +15,11 @@ import typesSpec from './spec';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
-function filterVersions (versions: OverrideVersionedType[] = [], version: number): RegistryTypes {
+function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
   return versions
-    .filter(({ minmax: [min, max] }): boolean =>
-      (isUndefined(min) || version >= min) &&
-      (isUndefined(max) || version <= max)
+    .filter(({ minmax: [min, max] }) =>
+      (isUndefined(min) || specVersion >= min) &&
+      (isUndefined(max) || specVersion <= max)
     )
     .reduce((result: RegistryTypes, { types }): RegistryTypes => ({
       ...result,
@@ -30,8 +30,8 @@ function filterVersions (versions: OverrideVersionedType[] = [], version: number
 /**
  * @description Based on the metadata version, return the registry types
  */
-export function getMetadataTypes (_registry: Registry, version: number): RegistryTypes {
-  return filterVersions(typesMeta, version);
+export function getMetadataTypes (_registry: Registry, specVersion: number): RegistryTypes {
+  return filterVersions(typesMeta, specVersion);
 }
 
 /**

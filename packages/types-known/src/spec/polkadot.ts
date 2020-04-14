@@ -32,12 +32,20 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [1005, undefined],
+    minmax: [1005, 1005],
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       StakingLedger: 'StakingLedgerTo240'
+    }
+  },
+  {
+    minmax: [1006, undefined],
+    types: {
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   }
 ];
