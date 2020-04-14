@@ -30,7 +30,7 @@ console.log(sizeN.isZero(), sizeY.toNumber()); // true 0
 
 ## How do I use .entries()/.keys() on double maps?
 
-As [explained elsewhere](../start/api.query.other.md#state-entries) each map-type storage entry exposes the entries/keys helpers to retrieve the whole list. In the case of double maps, with the addition of a single argument, you can retrieve either all entries or a subset based on the first map key.
+As [explained elsewhere](../start/api.query.other.md#map-keys-entries) each map-type storage entry exposes the entries/keys helpers to retrieve the whole list. In the case of double maps, with the addition of a single argument, you can retrieve either all entries or a subset based on the first map key.
 
 In both these cases, entries/keys operate the same way, `.entries()` retrieving `(StorageKey, Codec)[]` and `.keys()` retrieving `StorageKey[]`
 
