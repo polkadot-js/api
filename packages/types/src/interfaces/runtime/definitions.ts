@@ -69,7 +69,7 @@ export default {
     LookupSource: 'Address',
     LookupTarget: 'AccountId',
     Moment: 'u64',
-    Origin: 'GenericOrigin',
+    Origin: 'DoNotConstruct<Origin>',
     Perbill: 'u32',
     Percent: 'u8',
     Permill: 'u32',

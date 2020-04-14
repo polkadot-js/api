@@ -37,6 +37,7 @@ function tsExport (definitions: object, def: TypeDef, imports: TypeImports): str
 const tsBTreeMap = tsExport;
 const tsBTreeSet = tsExport;
 const tsCompact = tsExport;
+const tsDoNotConstruct = tsExport;
 const tsHashMap = tsExport;
 const tsOption = tsExport;
 const tsPlain = tsExport;
@@ -156,6 +157,7 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
     [TypeDefInfo.BTreeMap]: tsBTreeMap,
     [TypeDefInfo.BTreeSet]: tsBTreeSet,
     [TypeDefInfo.Compact]: tsCompact,
+    [TypeDefInfo.DoNotConstruct]: tsDoNotConstruct,
     [TypeDefInfo.Enum]: tsEnum,
     [TypeDefInfo.HashMap]: tsHashMap,
     [TypeDefInfo.Int]: tsInt,

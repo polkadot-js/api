@@ -119,6 +119,15 @@ function _decodeUInt (value: TypeDef, type: string, subType: string): TypeDef {
   return _decodeInt(value, type, subType, 'UInt');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDef {
+  const NAME_LENGTH = 'DoNotConstruct'.length;
+
+  value.displayName = type.substr(NAME_LENGTH + 1, type.length - NAME_LENGTH - 1 - 1);
+
+  return value;
+}
+
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
   if (type.substr(0, start.length) !== start) {
     return false;
@@ -138,7 +147,8 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['HashMap<', '>', TypeDefInfo.HashMap, _decodeTuple],
   ['Int<', '>', TypeDefInfo.Int, _decodeInt],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
-  ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt]
+  ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt],
+  ['DoNotConstruct<', '>', TypeDefInfo.DoNotConstruct, _decodeDoNotConstruct]
 ];
 
 const wrappedExtraction: [string, string, TypeDefInfo][] = [

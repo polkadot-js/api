@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
-import { BitVec, Bytes, Data, Null, StorageKey, Text, Type, U256, Unconstructable, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
+import { BitVec, Bytes, Data, DoNotConstruct, Null, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -57,6 +57,9 @@ declare module '@polkadot/types/types/registry' {
     Data: Data;
     'Option<Data>': Option<Data>;
     'Vec<Data>': Vec<Data>;
+    DoNotConstruct: DoNotConstruct;
+    'Option<DoNotConstruct>': Option<DoNotConstruct>;
+    'Vec<DoNotConstruct>': Vec<DoNotConstruct>;
     i8: i8;
     'Option<i8>': Option<i8>;
     'Vec<i8>': Vec<i8>;
@@ -115,9 +118,6 @@ declare module '@polkadot/types/types/registry' {
     'Compact<U256>': Compact<U256>;
     'Option<U256>': Option<U256>;
     'Vec<U256>': Vec<U256>;
-    Unconstructable: Unconstructable;
-    'Option<Unconstructable>': Option<Unconstructable>;
-    'Vec<Unconstructable>': Vec<Unconstructable>;
     usize: usize;
     'Compact<usize>': Compact<usize>;
     'Option<usize>': Option<usize>;

@@ -9,7 +9,7 @@ interface SanitizeOptions {
   allowNamespaces?: boolean;
 }
 
-const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'HashMap', 'Int', 'Linkage', 'Result', 'Option', 'UInt', 'Vec'];
+const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'DoNotConstruct', 'HashMap', 'Int', 'Linkage', 'Result', 'Option', 'UInt', 'Vec'];
 const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple
 
 const mappings: Mapper[] = [

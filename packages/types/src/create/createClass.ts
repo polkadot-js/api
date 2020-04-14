@@ -23,6 +23,8 @@ import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
 import UInt from '../codec/UInt';
 import Vec from '../codec/Vec';
 import VecFixed from '../codec/VecFixed';
+import DoNotConstruct from '../primitive/DoNotConstruct';
+
 import { getTypeDef } from './getTypeDef';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
@@ -96,6 +98,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor => BTreeSet.with(getSubType(value)),
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
+
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
 

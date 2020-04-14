@@ -54,13 +54,13 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
-// argument here can be any string, which, if not parseable, will yield a
+// argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], isPedantic?: boolean): T {
   try {
-    // Circle back to isPedenatic when it handles all cases 100% - as of now,
-    // it provides false wraning which is more hinderance than help
+    // Circle back to isPedantic when it handles all cases 100% - as of now,
+    // it provides false warning which is more hinderance than help
     return initType(registry, createClass<T, K>(registry, type), params); // , isPedantic);
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);

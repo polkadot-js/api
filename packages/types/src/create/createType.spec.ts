@@ -95,6 +95,14 @@ describe('createType', (): void => {
     ).toThrow('UInt<20>: Only support for UInt<bitLength>, where length <= 8192 and a power of 8');
   });
 
+  it('fails on creation of DoNotConstruct', (): void => {
+    const Clazz = createClass(registry, 'DoNotConstruct<UnknownSomething>');
+
+    expect(
+      () => new Clazz(registry)
+    ).toThrow('Cannot construct unknown type UnknownSomething');
+  });
+
   it('allows creation of a [u8; 8]', (): void => {
     expect(
       createTypeUnsafe(registry, '[u8; 8]', [[0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]]).toHex()

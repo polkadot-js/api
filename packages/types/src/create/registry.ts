@@ -13,7 +13,7 @@ import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, string
 import Raw from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { EventData } from '../generic/Event';
-import Unconstructable from '../primitive/Unconstructable';
+import DoNotConstruct from '../primitive/DoNotConstruct';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';
@@ -194,10 +194,10 @@ export class TypeRegistry implements Registry {
       if (definition) {
         BaseType = createClass(this, definition);
       } else if (withUnknown) {
-        console.warn(`Unable to resolve type ${name}, it will fail on constrution`);
+        console.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
         this.#unknownTypes.set(name, true);
-        BaseType = Unconstructable.with(name);
+        BaseType = DoNotConstruct.with(name);
       }
 
       if (BaseType) {
