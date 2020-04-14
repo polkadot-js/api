@@ -7,14 +7,19 @@ A blockchain is no fun if you are not submitting transactions. Or at least if so
 In addition to the `signAndSend` helper on transactions, `.paymentInfo` (with the exact same parameters) are also exposed. Using the same sender, it applies a dummy signature to the transaction and then gets the fee estimation via RPC.
 
 ```js
-// estimate the fees as RuntimeDispatchInfo, using the signer (either address or locked/unlocked keypair)
-// (When overrides are applied, e.g. nonce, the format would be `paymentInfo(sender, { nonce })`)
+// estimate the fees as RuntimeDispatchInfo, using the signer (either
+// address or locked/unlocked keypair) (When overrides are applied, e.g
+//  nonce, the format would be `paymentInfo(sender, { nonce })`)
 const info = await api.tx.balances
   .transfer(recipient, 123)
   .paymentInfo(sender);
 
-// log relevant info, partialFee is Balance, estmated for current conditions
-console.log(`class=${class.toString()}, weight=${weight.toString()}, partialFee=${partialFee.toHuman()}`);
+// log relevant info, partialFee is Balance, estimated for current
+console.log(`
+  class=${class.toString()},
+  weight=${weight.toString()},
+  partialFee=${partialFee.toHuman()}
+`);
 ```
 
 ## How do I get the decoded enum for an ExtrinsicFailed event?
@@ -28,18 +33,22 @@ api.tx.balances
     if (status.isInBlock || status.isFinalized) {
       events
         // find/filter for failed events
-        .filter(({ section, method }) => section === 'system' && method === 'ExtrinsicFailed')
-        // we know that data for system.ExtrinsicFailed is (DispatchError, DispatchInfo)
-        .forEach(({ data: [dispatchError, dispatchInfo] }) => {
-
-          if (dispatchError.isModule) {
+        .filter(({ section, method }) =>
+          section === 'system' &&
+          method === 'ExtrinsicFailed'
+        )
+        // we know that data for system.ExtrinsicFailed is
+        // (DispatchError, DispatchInfo)
+        .forEach(({ data: [error, info] }) => {
+          if (error.isModule) {
             // for module errors, we have the section indexed, lookup
-            const { documentation, name, section } = this.api.registry.findMetaError(dispatchError.asModule);
+            const decoded = api.registry.findMetaError(error.asModule);
+            const { documentation, method, section } = decoded;
 
-            console.log(`${section}.${name}: ${documentation.join(' ')}`);
+            console.log(`${section}.${method}: ${documentation.join(' ')}`);
           } else {
             // Other, CannotLookup, BadOrigin, no extra info
-            console.log(dispatchError.toString());
+            console.log(error.toString());
           }
         });
     }

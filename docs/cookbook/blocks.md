@@ -12,8 +12,9 @@ const blockHash = await this.api.rpc.chain.getBlockHash(blockNumber);
 // returns SignedBlock
 const signedBlock = await this.api.rpc.chain.getBlock(blockHash);
 
-// the hash for the block, always via header (Hash -> toHex()) - will be the same as
-// blockHash above (also available on any header retrieved, subscription or once-off)
+// the hash for the block, always via header (Hash -> toHex()) - will be
+// the same as blockHash above (also available on any header retrieved,
+// subscription or once-off)
 console.log(signedBlock.header.hash.toHex());
 
 // the hash for each extrinsic in the block
