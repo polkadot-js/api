@@ -27,3 +27,31 @@ const sizeN = await api.query.staking.validators.size('EoukLS2Rzh6dZvMQSkqFy4zGv
 console.log(sizeY.isZero(), sizeY.toNumber()); // false 4
 console.log(sizeN.isZero(), sizeY.toNumber()); // true 0
 ```
+
+## How do I use .entries()/.keys() on double maps?
+
+As [explained elsewhere](../start/api.query.other.md#state-entries) each map-type storage entry exposes the entries/keys helpers to retrieve the whole list. In the case of double maps, with the addition of a single argument, you can retrieve either all entries or a subset based on the first map key.
+
+In both these cases, entries/keys operate the same way, `.entries()` retrieving `(StorageKey, Codec)[]` and `.keys()` retrieving `StorageKey[]`
+
+```js
+// Retrieves the entries for all slashes, in all eras (no arg)
+const allEntries = await api.query.staking.nominatorSlashInEra.entries();
+
+allEntries.forEach(([key, value]) => {
+  const era = key.args[0].toHuman();
+  const nominatorId = key.args[1].toString();
+
+  console.log(`${era}: ${nominatorId} slashed ${value.toHuman()}`);
+});
+```
+
+While we can retrieve only the keys for a specific era, using a argument for the first part of the doublemap (as defined here, an `EraIndex`) -
+
+```js
+// Retrieves the keys for the slashed validators in era 652
+const slashedKeys = await api.query.staking.nominatorSlashInEra(652);
+
+// key still contains (era, nominatorId) decoded, so args[1]
+console.log(`slashed: ${slashedKeys.map((k) => k.args[1].toString())`);
+```
