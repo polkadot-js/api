@@ -119,7 +119,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
   // subscribe to metadata updates, inject the types on changes
   private _subscribeUpdates (): void {
-    if (this.#updateSub) {
+    if (this.#updateSub || !this.hasSubscriptions) {
       return;
     }
 
