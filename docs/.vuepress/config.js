@@ -51,6 +51,17 @@ module.exports = {
         ]
       },
       {
+        title: 'Cookbook',
+        path: '/cookbook/',
+        collapsable: false,
+        sidebarDepth: 0,
+        children: [
+          ['cookbook/blocks.md', 'Blocks'],
+          ['cookbook/storage.md', 'Storage'],
+          ['cookbook/tx.md', 'Transactions']
+        ]
+      },
+      {
         title: 'Examples (Promise API)',
         path: '/examples/promise/',
         collapsable: false,
