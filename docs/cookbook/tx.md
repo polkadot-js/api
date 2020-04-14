@@ -54,3 +54,21 @@ api.tx.balances
     }
   });
 ```
+
+## How do I send an unsigned extrinsic?
+
+For most runtime modules, transactions need to be signed and validation for this happens node-side. There are however modules that accepts unsigned extrinsics, an example would be the Polkadot/Kusama token claims (which is here used as an example).
+
+```js
+// construct the transaction, exactly as per normal
+const utx = api.tx.claims.claim(beneficiary, ethSignature);
+
+// send it without calling sign, pass callback with status/events
+tx.send(({ status }) => {
+  if (status.isInBlock) {
+    console.log(`included in ${status.asInBlock}`);
+  }
+});
+```
+
+The signing is indicated by the first byte in the transaction, so in this case we have called `.send` on it (no `.sign` or `.signAndSend`), so it will be sent using the unsigned state, without signature attached.
