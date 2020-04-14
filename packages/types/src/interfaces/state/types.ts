@@ -20,6 +20,7 @@ export interface RuntimeVersion extends Struct {
   readonly specVersion: u32;
   readonly implVersion: u32;
   readonly apis: Vec<RuntimeVersionApi>;
+  readonly transactionVersion: u32;
 }
 
 /** @name RuntimeVersionApi */

@@ -334,7 +334,8 @@ export default {
       authoringVersion: 'u32',
       specVersion: 'u32',
       implVersion: 'u32',
-      apis: 'Vec<RuntimeVersionApi>'
+      apis: 'Vec<RuntimeVersionApi>',
+      transactionVersion: 'u32'
     },
     StorageChangeSet: {
       block: 'Hash',
