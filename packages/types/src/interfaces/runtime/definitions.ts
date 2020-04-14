@@ -25,7 +25,9 @@ export default {
       digestLevels: 'u32'
     },
     ConsensusEngineId: 'GenericConsensusEngineId',
-    Digest: 'GenericDigest',
+    Digest: {
+      logs: 'Vec<DigestItem>'
+    },
     DigestItem: {
       _enum: {
         Other: 'Bytes', // 0
