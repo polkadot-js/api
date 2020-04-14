@@ -72,3 +72,41 @@ tx.send(({ status }) => {
 ```
 
 The signing is indicated by the first byte in the transaction, so in this case we have called `.send` on it (no `.sign` or `.signAndSend`), so it will be sent using the unsigned state, without signature attached.
+
+## How can I batch transactions?
+
+Polkadot/Substrate provides a `utility.batch` method that can be used to send a number of transactions at once. These are then executed from a single sender (single nonce specified) in sequence. This is very useful in a number of cases, for instance if you wish to create a payout for a validator for multiple eras, you can use this method. Likewise, you can send a number of transfers at once. Or even batch different types of transactions.
+
+```js
+// construct a list of transactions we want to batch
+const txs = [
+  api.tx.balances.transfer(addrBob, 12345),
+  api.tx.balances.transfer(addrEve, 12345),
+  api.tx.staking.unbond(12345)
+];
+
+// construct the batch and send the transactions
+api.tx.utility
+  .batch(txs)
+  .signAndSend(sender, ({ status }) => {
+    if (status.isInBlock) {
+      console.log(`included in ${status.asInBlock}`);
+    }
+  });
+```
+
+## How do I take the pending tx pool into account in my nonce?
+
+The `system.account` query will always contain the current state, i.e. it will reflect the nonce for the last known block. As such when sending multiple transactions in quick succession (see batching above), there may be transactions in the pool that has the same nonce that `signAndSend` would apply - this call doesn't do any magic, it simply reads the state for the nonce. Since we can specify options to the `signandSend` operation, we can override the nonce, either by manually incrementing it o querying it via `nextNonce`.
+
+```js
+for (let i = 0; i < 10; i++) {
+  // retrieve the nextNonce, taking txs in the pool into account
+  const nonce = await api.rpc.account.nextNonce(sender);
+
+  // send, just retrieving the hash, not waiting on status
+  const txhash = await api.tx.balances
+    .transfer(recipient, 123)
+    .signAndSend(sender, { nonce });
+}
+```
