@@ -8,12 +8,12 @@ These questions are added as they do come up and the hope is that the snippets h
 
 The following cookbook sections are available -
 
-- (Blocks)[blocks.md] - Snippets around working with blocks and headers
-- (Storage)[storage.md] - Snippets for working with storage
-- (Transactions)[tx.md] - Snippets for working with transactions
+- [Blocks](blocks.md) - Snippets around working with blocks and headers
+- [Storage](storage.md) - Snippets for working with storage
+- [Transactions)](tx.md) - Snippets for working with transactions
 
 ... more to come.
 
 ## Contribute
 
-And as always, if you have an addition to make, or a question to ask any (any PRs)[https://github.com/polkadot-js/api/tree/master/docs] or (issues)[https://github.com/polkadot-js/api/issues] are appreciated. The initial content was generate from exactly such questions, either in Riot chat or as submitted as issues.
+And as always, if you have an addition to make, or a question to ask any [any PRs](https://github.com/polkadot-js/api/tree/master/docs) or [issues](https://github.com/polkadot-js/api/issues) are appreciated. The initial content was generate from exactly such questions, either in Riot chat or as submitted as issues.
