@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import { AccountIdAndIndex } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,8 +12,6 @@ import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { memo } from '../util';
-
-export type AccountIdAndIndex = [AccountId?, AccountIndex?];
 
 function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIndex | string | null | undefined): Observable<AccountIdAndIndex> {
   try {
