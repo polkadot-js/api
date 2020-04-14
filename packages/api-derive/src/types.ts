@@ -2,47 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, RegistrationJudgement, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32 } from '@polkadot/types';
 
+export * from './accounts/types';
 export * from './council/types';
 export * from './democracy/types';
 export * from './parachains/types';
 export * from './session/types';
 export * from './staking/types';
-
-export type AccountIndexes = Record<string, AccountIndex>;
-
-export interface DeriveAccountRegistration {
-  display?: string;
-  displayParent?: string;
-  email?: string;
-  image?: string;
-  legal?: string;
-  other?: Record<string, string>;
-  parent?: AccountId;
-  pgp?: string;
-  riot?: string;
-  twitter?: string;
-  web?: string;
-  judgements: RegistrationJudgement[];
-}
-
-export interface DeriveAccountFlags {
-  isCouncil: boolean;
-  isSociety: boolean;
-  isSudo: boolean;
-  isTechCommittee: boolean;
-}
-
-export interface DeriveAccountInfo extends DeriveAccountFlags {
-  accountId?: AccountId;
-  accountIndex?: AccountIndex;
-  identity: DeriveAccountRegistration;
-  nickname?: string;
-}
 
 export interface DeriveBalancesAccount {
   accountId: AccountId;
