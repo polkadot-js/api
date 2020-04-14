@@ -9,7 +9,7 @@ import Null from './Null';
 /**
  * @name Unconstructable
  * @description
- * An unknown type theat fails on constrction with the type info
+ * An unknown type that fails on construction with the type info
  */
 export default class Unconstructable extends Null {
   constructor (registry: Registry, typeName: string) {
