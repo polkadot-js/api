@@ -7,9 +7,9 @@ import { Codec, Constructor } from '../types';
 import { isChildClass } from '@polkadot/util';
 
 import Struct from '../codec/Struct';
+import DoNotConstruct from '../primitive/DoNotConstruct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import Unconstructable from '../primitive/Unconstructable';
 import { TypeRegistry } from './registry';
 
 describe('TypeRegistry', (): void => {
@@ -29,7 +29,7 @@ describe('TypeRegistry', (): void => {
 
     expect(Type).toBeDefined();
     // eslint-disable-next-line no-prototype-builtins
-    expect(isChildClass(Unconstructable, Type));
+    expect(isChildClass(DoNotConstruct, Type));
   });
 
   it('can register single type', (): void => {

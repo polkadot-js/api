@@ -98,6 +98,14 @@ function formatCompact (inner: string): string {
 }
 
 /**
+ * Simple return
+ */
+/** @internal */
+function formatDoNoConstruct (): string {
+  return 'DoNotConstruct';
+}
+
+/**
  * Given the inner `K` & `V`, return a `BTreeMap<K, V>`  string
  */
 /** @internal */
@@ -172,6 +180,12 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       setImports(definitions, imports, ['Compact']);
 
       return formatCompact(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+    }
+
+    case TypeDefInfo.DoNotConstruct: {
+      setImports(definitions, imports, ['DoNotConstruct']);
+
+      return formatDoNoConstruct();
     }
 
     case TypeDefInfo.Option: {

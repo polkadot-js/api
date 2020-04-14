@@ -7,19 +7,19 @@ import { Constructor, Registry } from '../types';
 import Null from './Null';
 
 /**
- * @name Unconstructable
+ * @name DoNotConstruct
  * @description
  * An unknown type that fails on construction with the type info
  */
-export default class Unconstructable extends Null {
+export default class DoNotConstruct extends Null {
   constructor (registry: Registry, typeName: string) {
     super(registry);
 
     throw new Error(`Cannot construct unknown type ${typeName}`);
   }
 
-  public static with (typeName: string): Constructor {
-    return class extends Unconstructable {
+  public static with (typeName = 'DoNotConstruct'): Constructor {
+    return class extends DoNotConstruct {
       constructor (registry: Registry) {
         super(registry, typeName);
       }
