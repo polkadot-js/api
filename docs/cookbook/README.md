@@ -10,7 +10,7 @@ The following cookbook sections are available -
 
 - [Blocks](blocks.md) - Snippets around working with blocks and headers
 - [Storage](storage.md) - Snippets for working with storage
-- [Transactions)](tx.md) - Snippets for working with transactions
+- [Transactions](tx.md) - Snippets for working with transactions
 
 ... more to come.
 
