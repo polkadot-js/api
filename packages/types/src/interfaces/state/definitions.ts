@@ -45,7 +45,7 @@ export default {
       type: 'Vec<StorageKey>'
     },
     getPairs: {
-      description: 'Returns the keys with prefix, leave empty to get all the keys',
+      description: 'Returns the keys with prefix, leave empty to get all the keys (deprecated: Use getKeysPaged)',
       params: [
         {
           name: 'prefix',
