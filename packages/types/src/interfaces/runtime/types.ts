@@ -93,6 +93,9 @@ export interface DispatchInfoTo190 extends Struct {
   readonly class: DispatchClass;
 }
 
+/** @name Fixed128 */
+export interface Fixed128 extends Int {}
+
 /** @name Fixed64 */
 export interface Fixed64 extends Int {}
 

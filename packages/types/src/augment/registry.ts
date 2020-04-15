@@ -31,7 +31,7 @@ import { AttestedCandidate, AuctionIndex, Bidder, CandidateReceipt, CollatorId, 
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, Moment, Origin, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, Fixed128, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, Moment, Origin, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { SchedulePeriod, SchedulePriority, Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
@@ -182,6 +182,9 @@ declare module '@polkadot/types/types/registry' {
     Fixed64: Fixed64;
     'Option<Fixed64>': Option<Fixed64>;
     'Vec<Fixed64>': Vec<Fixed64>;
+    Fixed128: Fixed128;
+    'Option<Fixed128>': Option<Fixed128>;
+    'Vec<Fixed128>': Vec<Fixed128>;
     H160: H160;
     'Option<H160>': Option<H160>;
     'Vec<H160>': Vec<H160>;

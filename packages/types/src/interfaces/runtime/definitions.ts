@@ -52,6 +52,7 @@ export default {
       class: 'DispatchClass'
     },
     Fixed64: 'Int<64, Fixed64>',
+    Fixed128: 'Int<128, Fixed128>',
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
