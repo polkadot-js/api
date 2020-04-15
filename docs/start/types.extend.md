@@ -54,6 +54,13 @@ const api = await ApiPromise.create({
 
 The example above defines non-primitive types (as found in the specific implementation) as structures. Additionally it also shows the user-defined types can depend on other user-defined types with `Transaction` referencing both `TransactionInput` and `TransactionOutput`. Here you can reference any known types, i.e. in the above we have referenced primitives such as `u32` and `Signature` (itself an alias for `H512`).
 
+When defining structures, it is critical that the following rules are applied -
+
+- Map exactly to what is defined in the Rust code, i.e. the `sale` field above cannot be `u16` on the one end and `u32` on the other end. If mismatches occur, the serialization will fail.
+- Ensure that the field order is maintained in all definitions. The SCALE serialization is binary and contains no field names in the serialization, only the encoded values - any decoding is therefore done based on the size of the type and the order thereof, as defined.
+
+These rules apply everywhere. Always ensure that the types match exactly and that the ordering is maintained, be it for structs, tuples or enums.
+
 ## Definition clashes
 
 As explained in a previous section, the underlying API Codec types have a [number of built-in properties](type.basics.md) and in some cases it could be that your struct has a field that conflicts. These should be minimal, however it can happen. Take the following example where a defined `hash` property clashes with the same-name Codec property -
