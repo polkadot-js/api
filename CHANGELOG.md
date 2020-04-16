@@ -1,6 +1,7 @@
 # 1.11.0-beta.x
 
-- **Important** Substrate master has an updated `Weight` (to `u64`), on older chains apply `Weight: 'u32'` (This does affect `DispatchInfo` decoding if wrongly set)
+- **Important** Substrate master has an updated `Weight` (to `u64`), on older chains apply `Weight: 'u32'` (This does affect event decoding if wrongly set)
+- Allow user type augmentation to work with different versions of rxjs (Thanks to https://github.com/monitz87)
 - Align augmented generation with camelCase (Thanks to https://github.com/monitz87)
 - Fix bitfield endian encoding (Thanks to investigation by https://github.com/xlc)
 - Fix entries decoding for `Option<Number>` (& simplify, decoding correctly on rpc layer)

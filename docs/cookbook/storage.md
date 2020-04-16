@@ -51,5 +51,5 @@ While we can retrieve only the keys for a specific era, using a argument for the
 const slashedKeys = await api.query.staking.nominatorSlashInEra.keys(652);
 
 // key args still contains [EraIndex, AccountId] decoded
-console.log(`slashed: ${slashedKeys.map(({ args: [era, nominatorId]}) => nominatorId.toString())`);
+console.log(`slashed: ${slashedKeys.map(({ args: [era, nominatorId] }) => nominatorId)`);
 ```
