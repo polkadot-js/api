@@ -85,7 +85,7 @@ In the first example we are querying a double-map, so we supply 1 argument. No a
 const keys = await api.query.staking.nominators.keys();
 
 // extract the first key argument [AccountId] as string
-const nominatorIds = keys.map(({ args: [nominatorId]) => nominatorId);
+const nominatorIds = keys.map(({ args: [nominatorId] }) => nominatorId);
 
 console.log('all nominators:', nominatorIds.join(', '));
 ```

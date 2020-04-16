@@ -57,3 +57,9 @@ The API always injects the default type definitions as specified by the Substrat
 The Substrate node-template has added customizations for some types in the default template, specifically around the `Address` and `Lookup` types, removing any lookups based on indices. This means that the transaction payload saves 2 bytes for a transfer and is an approach followed by other chains as well, notably Polkadot & Kusama.
 
 Due to these customizations and differences that bleed through to the transaction formats, out-of-the-box chains based on the node-template will have issues when sending transactions. To fix this, you would need to add [the customized Address types into your API](types.extend.md#impact-on-extrinsics) instances (or UIs), allowing the API to have the information required to adjust the encoding.
+
+## Using a non-current-master node, I have issues parsing events
+
+Recently Substrate master updated the `Weight` type from `u32` -> `u64`. This type is used in the `DispatchInfo` struct in the `system.ExtrinsicSuccess` events, to return the applied call weights as well as the resulting fees. Since the API master branch tracks Substrate master, this means the change has been applied by default, with the defaul set to `u64`.
+
+If you are on a chain that has been upgraded yet, you need to add `Weight: 'u32'` to your types to allow for successful parsing of all events. Without this override, parsing will fail. As soon as one event in the `Vec<EventRecord>` structure fails to parse, all subsequent events are affected and the decoding will return an error.
