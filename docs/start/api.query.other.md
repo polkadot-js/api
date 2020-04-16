@@ -74,7 +74,7 @@ exposures.forEach(([key, exposure]) => {
 To understand the usage of the `key.args`, you need to understand that map/doublemap keys are stored alongside their lookups. This means that the raw key has hashed parts as well as the raw data. The API will decode the keys and provide the raw key arguments in args. This would mean -
 
 - if we are querying `api.query.staking.validators(validatorId: AccountId)` via `entries`, the `key.args` would be `[AccountId]`
-- if we are querying `api.query.staking.erasStakers(era: EraIndex, validatorId: AccountId)` via `entries`, the `key.args` would be `[eraIndex, AccountId]`
+- if we are querying `api.query.staking.erasStakers(era: EraIndex, validatorId: AccountId)` via `entries`, the `key.args` would be `[EraIndex, AccountId]`
 
 the same applies to `.keys()` - here the list of keys also have the decoded args, as specified. You can think of `.args` as a tuple with the same types as the types required to retrieve a single entry in the map.
 
@@ -84,7 +84,7 @@ In the first example we are querying a double-map, so we supply 1 argument. No a
 // retrieve all the nominator keys
 const keys = await api.query.staking.nominators.keys();
 
-// extract the first key argument (AccountId) as string
+// extract the first key argument [AccountId] as string
 const nominatorIds = keys.map(({ args: [nominatorId]) => nominatorId);
 
 console.log('all nominators:', nominatorIds.join(', '));
