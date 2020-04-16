@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
-import { AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
+import { AnyJson, AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
@@ -260,5 +260,21 @@ export default class StorageKey extends Bytes {
     }
 
     return this;
+  }
+
+  /**
+   * @description Returns the Human representation for this type
+   */
+  public toHuman (): AnyJson {
+    return this._args.length
+      ? this._args.map((arg) => arg.toHuman())
+      : super.toHuman();
+  }
+
+  /**
+   * @description Returns the raw type for this
+   */
+  public toRawType (): string {
+    return 'StorageKey';
   }
 }
