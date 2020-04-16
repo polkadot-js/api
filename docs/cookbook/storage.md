@@ -50,7 +50,7 @@ While we can retrieve only the keys for a specific era, using a argument for the
 
 ```js
 // Retrieves the keys for the slashed validators in era 652
-const slashedKeys = await api.query.staking.nominatorSlashInEra(652);
+const slashedKeys = await api.query.staking.nominatorSlashInEra.keys(652);
 
 // key still contains (era, nominatorId) decoded, so args[1]
 console.log(`slashed: ${slashedKeys.map((k) => k.args[1].toString())`);
