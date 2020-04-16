@@ -11,7 +11,8 @@ const versioned: OverrideVersionedType[] = [
       Address: 'AccountId',
       LookupSource: 'AccountId',
       ReferendumInfo: 'ReferendumInfoTo239',
-      StakingLedger: 'StakingLedgerTo240'
+      StakingLedger: 'StakingLedgerTo240',
+      Weight: 'u32'
     }
   }
 ];

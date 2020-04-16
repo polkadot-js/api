@@ -17,7 +17,8 @@ const versioned: OverrideVersionedType[] = [
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
       StakingLedger: 'StakingLedgerTo223',
-      Votes: 'VotesTo230'
+      Votes: 'VotesTo230',
+      Weight: 'u32'
     }
   },
   {
@@ -28,7 +29,8 @@ const versioned: OverrideVersionedType[] = [
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       ReferendumInfo: 'ReferendumInfoTo239',
-      StakingLedger: 'StakingLedgerTo240'
+      StakingLedger: 'StakingLedgerTo240',
+      Weight: 'u32'
     }
   },
   {
@@ -37,7 +39,8 @@ const versioned: OverrideVersionedType[] = [
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
-      StakingLedger: 'StakingLedgerTo240'
+      StakingLedger: 'StakingLedgerTo240',
+      Weight: 'u32'
     }
   },
   {
@@ -45,7 +48,8 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      LookupSource: 'AccountId',
+      Weight: 'u32'
     }
   }
 ];

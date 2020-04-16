@@ -85,7 +85,7 @@ export default {
     },
     StorageData: 'Bytes',
     ValidatorId: 'AccountId',
-    Weight: 'u32',
+    Weight: 'u64',
     WeightMultiplier: 'Fixed64',
 
     // digest
