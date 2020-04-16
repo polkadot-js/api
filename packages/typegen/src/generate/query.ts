@@ -10,7 +10,7 @@ import Metadata from '@polkadot/metadata/Metadata';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
-import { stringLowerFirst } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, registerDefinitions, setImports, writeFile } from '../util';
 
@@ -67,7 +67,7 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
     return [];
   }
 
-  return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
+  return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     .concat(isStrict ? '' : indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
     .concat(storage.unwrap().items.sort((a, b) => a.name.localeCompare(b.name.toString())).map((storageEntry): string => {
       const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
@@ -78,7 +78,7 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
       }
 
       return createDocComments(6, storageEntry.documentation) +
-      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<ApiType, (${args}) => Observable<${returnType}>>${isStrict ? '' : ' & QueryableStorageEntry<ApiType>'};`);
+      indent(6)(`${stringCamelCase(storageEntry.name.toString())}: ${entryType}<ApiType, (${args}) => Observable<${returnType}>>${isStrict ? '' : ' & QueryableStorageEntry<ApiType>'};`);
     }))
     .concat([indent(4)('};')]);
 }
