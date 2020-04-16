@@ -13,3 +13,5 @@ export * from './extrinsic';
 export * from './helpers';
 export * from './interfaces';
 export * from './registry';
+
+export type { Observable } from 'rxjs';

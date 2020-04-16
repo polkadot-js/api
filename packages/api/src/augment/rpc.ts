@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
+import { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
 import { HashMap, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
@@ -19,7 +19,6 @@ import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import { ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
-import { Observable } from 'rxjs';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {

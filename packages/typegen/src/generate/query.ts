@@ -94,15 +94,14 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const body = meta.asLatest.modules.sort((a, b) => a.name.localeCompare(b.name.toString())).reduce((acc: string[], mod): string[] => {
       return acc.concat(generateModule(allDefs, registry, mod, imports, isStrict));
     }, []);
+
+    imports.typesTypes.Observable = true;
+
     const header = createImportCode(HEADER('chain'), imports, [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
         file: packagePath,
         types: Object.keys(imports.localTypes[packagePath])
       })),
-      {
-        file: 'rxjs',
-        types: ['Observable']
-      },
       {
         file: '@polkadot/api/types',
         types: ['ApiTypes']

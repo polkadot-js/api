@@ -63,15 +63,13 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
       );
     }, []).join('\n');
 
+    imports.typesTypes.Observable = true;
+
     const header = createImportCode(HEADER('chain'), imports, [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
         file: packagePath,
         types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: 'rxjs',
-        types: ['Observable']
-      }
+      }))
     ]);
     const interfaceStart = "declare module '@polkadot/rpc-core/types.jsonrpc' {\n  export interface RpcInterface {\n";
     const interfaceEnd = '\n  }\n}';
