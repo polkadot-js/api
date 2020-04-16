@@ -1,7 +1,15 @@
 # 1.11.0-beta.x
 
+- Align augmented generation with camelCase (Thanks to https://github.com/monitz87)
+- Fix bitfield endian encoding (Thanks to investigation by https://github.com/xlc)
+- Fix entries decoding for `Option<Number>` (& simplify, decoding correctly on rpc layer)
+- Ensure proper propagation of `api.runtimeVersion` (used for signing) after upgrade
+- `derive.account.info` now returns all field types (not only raw)
 - `Digest` has been moved to definitions, removal of `GenericDigest` type
-- Fix entries decoding for `Option<Number>`
+- Support `Fixed128` type
+- Add `transactionVersion` to `RuntimeVersion` struct
+- Enhance API support for non-subscription providers (skip subscription to runtimeVersion)
+- Adjust types for Kusama 1057 (notably the new `StakingLedger`)
 
 # 1.10.1 Apr 13, 2020
 

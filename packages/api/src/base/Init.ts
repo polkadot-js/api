@@ -139,6 +139,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
         this._runtimeMetadata = metadata;
         this._runtimeVersion = version;
+        this._rx.runtimeVersion = version;
 
         this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
         this.injectMetadata(metadata, false);
