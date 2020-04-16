@@ -22,12 +22,12 @@ describe('IdentityFields', (): void => {
   it('encodes to a valid u8a value', (): void => {
     expect(
       registry.createType('IdentityFields', ['Display', 'Legal']).toU8a()
-    ).toEqual(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 3]));
+    ).toEqual(new Uint8Array([3, 0, 0, 0, 0, 0, 0, 0]));
   });
 
   it('decodes from a u8a', (): void => {
     expect(
-      registry.createType('IdentityFields', new Uint8Array([0, 0, 0, 0, 0, 0, 0, 1 + 2 + 64])).toHuman()
+      registry.createType('IdentityFields', new Uint8Array([1 + 2 + 64, 0, 0, 0, 0, 0, 0, 0])).toHuman()
     ).toEqual(['Display', 'Legal', 'Image']);
   });
 });
