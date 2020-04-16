@@ -60,6 +60,6 @@ Due to these customizations and differences that bleed through to the transactio
 
 ## Using a non-current-master node, I have issues parsing events
 
-Recently Substrate master updated the `Weight` type from `u32` -> `u64`. This type is used in the `DispatchInfo` struct in the `system.ExtrinsicSuccess` events, to return the applied call weights as well as the resulting fees. Since the API master branch tracks Substrate master, this means the change has been applied by default, with the defaul set to `u64`.
+Recently Substrate master updated the `Weight` type from `u32` -> `u64`. This type is used in the `DispatchInfo` struct in the `system.ExtrinsicSuccess` events, to return the applied call weights as well as the resulting fees. Since the API master branch tracks Substrate master, this means the change has been applied by default, with the default set to `u64`.
 
-If you are on a chain that has been upgraded yet, you need to add `Weight: 'u32'` to your types to allow for successful parsing of all events. Without this override, parsing will fail. As soon as one event in the `Vec<EventRecord>` structure fails to parse, all subsequent events are affected and the decoding will return an error.
+If you are on a chain that has not been upgraded yet, you need to add `Weight: 'u32'` to your types to allow for successful parsing of all events. Without this override, parsing will fail. As soon as one event in the `Vec<EventRecord>` structure from `system.events` fails to parse, all subsequent events are affected and the decoding will return an error.
