@@ -110,7 +110,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
     const type = `Option<${getSubType(value)}>`;
-    const Clazz = Struct.with({ next: type, previous: type } as any);
+    // eslint-disable-next-line sort-keys
+    const Clazz = Struct.with({ previous: type, next: type } as any);
 
     ClassOf.prototype.toRawType = function (): string {
       return `Linkage<${this.next.toRawType(true)}>`;

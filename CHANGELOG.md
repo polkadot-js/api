@@ -5,6 +5,7 @@
 - Fix bitfield endian encoding (Thanks to investigation by https://github.com/xlc)
 - Fix entries decoding for `Option<Number>` (& simplify, decoding correctly on rpc layer)
 - Ensure proper propagation of `api.runtimeVersion` (used for signing) after upgrade
+- Field ordering fix for deprecated `Linkage` (used in linked maps)
 - `derive.account.info` now returns all field types (not only raw)
 - `Digest` has been moved to definitions, removal of `GenericDigest` type
 - Support `Fixed128` type
