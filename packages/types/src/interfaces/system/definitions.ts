@@ -39,6 +39,16 @@ export default {
       params: [],
       type: 'Health'
     },
+    localPeerId: {
+      description: 'Returns the base58-encoded PeerId of the node',
+      params: [],
+      type: 'Text'
+    },
+    localListenAddresses: {
+      description: 'The addresses include a trailing /p2p/ with the local PeerId, and are thus suitable to be passed to addReservedPeer or as a bootnode address for example',
+      params: [],
+      type: 'Vec<Text>'
+    },
     peers: {
       description: 'Returns the currently connected peers',
       params: [],

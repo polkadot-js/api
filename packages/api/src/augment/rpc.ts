@@ -251,6 +251,14 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       health: AugmentedRpc<() => Observable<Health>>;
       /**
+       * The addresses include a trailing /p2p/ with the local PeerId, and are thus suitable to be passed to addReservedPeer or as a bootnode address for example
+       **/
+      localListenAddresses: AugmentedRpc<() => Observable<Vec<Text>>>;
+      /**
+       * Returns the base58-encoded PeerId of the node
+       **/
+      localPeerId: AugmentedRpc<() => Observable<Text>>;
+      /**
        * Retrieves the node name
        **/
       name: AugmentedRpc<() => Observable<Text>>;
