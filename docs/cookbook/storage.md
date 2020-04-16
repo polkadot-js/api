@@ -38,10 +38,8 @@ In both these cases, entries/keys operate the same way, `.entries()` retrieving 
 // Retrieves the entries for all slashes, in all eras (no arg)
 const allEntries = await api.query.staking.nominatorSlashInEra.entries();
 
-allEntries.forEach(([key, value]) => {
-  const era = key.args[0].toHuman();
-  const nominatorId = key.args[1].toString();
-
+// nominatorSlashInEra(EraIndex, AccountId) for the types of the key args
+allEntries.forEach(([{ args: [era, nominatorId] }, value]) => {
   console.log(`${era}: ${nominatorId} slashed ${value.toHuman()}`);
 });
 ```
@@ -52,6 +50,6 @@ While we can retrieve only the keys for a specific era, using a argument for the
 // Retrieves the keys for the slashed validators in era 652
 const slashedKeys = await api.query.staking.nominatorSlashInEra.keys(652);
 
-// key still contains (era, nominatorId) decoded, so args[1]
-console.log(`slashed: ${slashedKeys.map((k) => k.args[1].toString())`);
+// key args still contains [EraIndex, AccountId] decoded
+console.log(`slashed: ${slashedKeys.map(({ args: [era, nominatorId]}) => nominatorId.toString())`);
 ```
