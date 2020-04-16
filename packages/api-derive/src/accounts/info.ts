@@ -17,9 +17,9 @@ import { memo } from '../util';
 function dataAsString (data: Data): string | undefined {
   return data.isRaw
     ? u8aToString(data.asRaw.toU8a(true))
-    : data.isSha256
-      ? data.asSha256.toHex()
-      : undefined;
+    : data.isNone
+      ? undefined
+      : data.toHex();
 }
 
 function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
