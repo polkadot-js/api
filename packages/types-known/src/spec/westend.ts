@@ -10,7 +10,8 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      LookupSource: 'AccountId',
+      Weight: 'u32'
     }
   }
 ];
