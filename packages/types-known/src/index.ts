@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types-known authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,6 +12,7 @@ import typesChain from './chain';
 import typesMeta from './metadata';
 import typesModules from './modules';
 import typesSpec from './spec';
+import warnings from './warnings';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
@@ -51,6 +52,8 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
   const _chainName = chainName.toString();
   const _specName = specName.toString();
   const _specVersion = bnToBn(specVersion).toNumber();
+
+  (warnings[_specName] || []).forEach((warning) => console.warn(`*** ${warning}`));
 
   return {
     ...filterVersions(typesSpec[_specName], _specVersion),
