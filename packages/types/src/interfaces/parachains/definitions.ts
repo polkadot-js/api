@@ -35,6 +35,19 @@ export default {
     },
     CollatorId: 'H256',
     CollatorSignature: 'Signature',
+    DoubleVoteReport: {
+      identity: 'ValidatorId',
+      first: 'DoubleVoteReportStatement',
+      second: 'DoubleVoteReportStatement',
+      proof: 'DoubleVoteReportProof',
+      signingContext: 'SigningContext'
+    },
+    // session::historical::Proof
+    DoubleVoteReportProof: {
+      session: 'SessionIndex',
+      trieNodes: 'Vec<Bytes>'
+    },
+    DoubleVoteReportStatement: '(Statement, ValidatorSignature)',
     EgressQueueRoot: '(ParaId, Hash)',
     HeadData: 'Bytes',
     IncomingParachainDeploy: {
@@ -75,6 +88,10 @@ export default {
         WithRetries: 'u32'
       }
     },
+    SigningContext: {
+      sessionIndex: 'SessionIndex',
+      parentHash: 'Hash'
+    },
     SlotRange: {
       _enum: [
         'ZeroZero', // 0
@@ -89,6 +106,15 @@ export default {
         'ThreeThree' // 9
       ]
     },
+    Statement: {
+      _enum: {
+        // This Null is not in the original, however indexes start at 1
+        Never: 'Null',
+        Candidate: 'Hash',
+        Valid: 'Hash',
+        Invalid: 'Hash'
+      }
+    },
     SubId: 'u32',
     UpwardMessage: {
       origin: 'ParachainDispatchOrigin',
@@ -96,13 +122,13 @@ export default {
     },
     ValidityAttestation: {
       _enum: {
-        // This Null is not in the original, however indexes start at 1, so add a
-        // placeholder in the first position (which is basically non-valid)
-        None: 'Null',
-        Implicit: 'CollatorSignature', // 1
-        Explicit: 'CollatorSignature' // 2
+        // This Null is not in the original, however indexes start at 1
+        Never: 'Null',
+        Implicit: 'ValidatorSignature', // 1
+        Explicit: 'ValidatorSignature' // 2
       }
     },
+    ValidatorSignature: 'Signature',
     WinningDataEntry: '(AccountId, ParaIdOf, BalanceOf)',
     WinningData: '[WinningDataEntry; 10]'
   }
