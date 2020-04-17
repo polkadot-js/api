@@ -16,5 +16,9 @@ export default {
   RestrictFunctionality: {
     extra: {},
     types: {}
+  },
+  ValidateDoubleVoteReports: {
+    extra: {},
+    types: {}
   }
 } as ExtDef;
