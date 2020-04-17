@@ -53,11 +53,7 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
   const _specName = specName.toString();
   const _specVersion = bnToBn(specVersion).toNumber();
 
-  if (warnings[_specName]) {
-    console.warn();
-    warnings[_specName].forEach((warning) => console.warn(warning));
-    console.warn();
-  }
+  (warnings[_specName] || []).forEach((warning) => console.warn(`*** ${warning}`));
 
   return {
     ...filterVersions(typesSpec[_specName], _specVersion),
