@@ -73,12 +73,12 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
+    // actual upgrade at 1058
     minmax: [1057, undefined],
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
-      LookupSource: 'AccountId',
-      Weight: 'u32'
+      LookupSource: 'AccountId'
     }
   }
 ];
