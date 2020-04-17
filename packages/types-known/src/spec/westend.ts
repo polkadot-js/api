@@ -6,12 +6,20 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [1, undefined],
+    minmax: [1, 2],
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       Weight: 'u32'
+    }
+  },
+  {
+    minmax: [3, undefined],
+    types: {
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   }
 ];
