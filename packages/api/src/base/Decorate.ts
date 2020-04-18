@@ -10,8 +10,8 @@ import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
-import { BehaviorSubject, Observable, combineLatest, from, of } from 'rxjs';
-import { concatMap, map, switchMap, take, tap, toArray } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
@@ -495,26 +495,25 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   private _retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
     return this._retrieveMapKeys(entry, arg).pipe(
-      switchMap((keys): Observable<[StorageKey[], Codec[][]]> =>
-        combineLatest([
+      switchMap((keys) =>
+        combineLatest<[StorageKey[], ...Codec[][]]>([
           of(keys),
-          from(Array(Math.ceil(keys.length / PAGE_SIZE_VALS)).fill(0)).pipe(
-            concatMap((_, index): Observable<Codec[]> => {
+          ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
+            .fill(0)
+            .map((_, index): Observable<Codec[]> => {
               const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
 
               return this._rpcCore.state.queryStorageAt
                 ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
                 : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
-            }),
-            toArray()
-          )
+            })
         ])
       ),
-      map(([keys, valsArr]): [StorageKey, Codec][] => {
-        const vals = valsArr.reduce((result: Codec[], vals) => result.concat(vals), []);
-
-        return keys.map((key, index) => [key, vals[index]]);
-      })
+      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
+        valsArr
+          .reduce((result: Codec[], vals) => result.concat(vals), [])
+          .map((value, index) => [keys[index], value])
+      )
     );
   }
 
