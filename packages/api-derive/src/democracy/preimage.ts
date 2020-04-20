@@ -17,8 +17,8 @@ import { parseImage } from './util';
 type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
 
 export function preimage (api: ApiInterfaceRx): (hash: Hash) => Observable<DeriveProposalImage | undefined> {
-  return memo((hashes: Hash[]): Observable<DeriveProposalImage | undefined> =>
-    api.query.democracy.preimages<PreImage>(hashes).pipe(
+  return memo((hash: Hash): Observable<DeriveProposalImage | undefined> =>
+    api.query.democracy.preimages<PreImage>(hash).pipe(
       map((imageOpt) => parseImage(api, imageOpt))
     )
   );
