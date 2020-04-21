@@ -9,6 +9,8 @@ function createApi (): Promise<ApiPromise> {
   process.env.NODE_ENV = 'test';
 
   const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
+  // const provider = new WsProvider('wss://westend-rpc.polkadot.io/');
+  // const provider = new WsProvider('ws://127.0.0.1:9944/');
 
   return new ApiPromise({ provider }).isReady;
 }

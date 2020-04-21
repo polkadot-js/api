@@ -319,7 +319,7 @@ export class TypeRegistry implements Registry {
     const unknown = findUnknownExtensions(this.#metadataExtensions);
 
     if (unknown.length) {
-      console.warn(`Unknown signed extensions [${unknown.join(', ')}] found, treating them as no-efect`);
+      console.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-efect`);
     }
   }
 }
