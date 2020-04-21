@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Struct, Vec } from '@polkadot/types/codec';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
 import { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, ValidatorId } from '@polkadot/types/interfaces/runtime';
@@ -120,6 +120,12 @@ export interface ParaInfo extends Struct {
   readonly scheduling: ParaScheduling;
 }
 
+/** @name ParaPastCodeMeta */
+export interface ParaPastCodeMeta extends Struct {
+  readonly upgradeTimes: Vec<BlockNumber>;
+  readonly lastPruned: Option<BlockNumber>;
+}
+
 /** @name ParaScheduling */
 export interface ParaScheduling extends Enum {
   readonly isAlways: boolean;
@@ -172,6 +178,9 @@ export interface UpwardMessage extends Struct {
   readonly origin: ParachainDispatchOrigin;
   readonly data: Bytes;
 }
+
+/** @name ValidationCode */
+export interface ValidationCode extends Bytes {}
 
 /** @name ValidatorSignature */
 export interface ValidatorSignature extends Signature {}

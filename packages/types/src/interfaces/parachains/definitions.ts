@@ -76,6 +76,10 @@ export default {
     ParaInfo: {
       scheduling: 'ParaScheduling'
     },
+    ParaPastCodeMeta: {
+      upgradeTimes: 'Vec<BlockNumber>',
+      lastPruned: 'Option<BlockNumber>'
+    },
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain']
     },
@@ -120,6 +124,7 @@ export default {
       origin: 'ParachainDispatchOrigin',
       data: 'Bytes'
     },
+    ValidationCode: 'Bytes',
     ValidityAttestation: {
       _enum: {
         // This Null is not in the original, however indexes start at 1
