@@ -297,6 +297,21 @@ export default {
       ],
       type: 'Vec<StorageChangeSet>'
     },
+    getReadProof: {
+      description: 'Returns proof of storage entries at a specific block state',
+      params: [
+        {
+          name: 'keys',
+          type: 'Vec<StorageKey>'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'ReadProof'
+    },
     subscribeRuntimeVersion: {
       alias: ['chain_subscribeRuntimeVersion', 'chain_unsubscribeRuntimeVersion'],
       description: 'Retrieves the runtime version via subscription',
@@ -327,6 +342,10 @@ export default {
   types: {
     ApiId: '[u8; 8]',
     KeyValueOption: '(StorageKey, Option<StorageData>)',
+    ReadProof: {
+      at: 'Hash',
+      proof: 'Vec<Bytes>'
+    },
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {
       specName: 'Text',

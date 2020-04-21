@@ -235,7 +235,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const unknown = exposed.filter((key) => !allKeys.includes(key));
 
     if (unknown.length) {
-      l.warn(`RPC methods not decorated: ${unknown.join(', ')}}`);
+      l.warn(`RPC methods not decorated: ${unknown.join(', ')}`);
     }
 
     // loop through all entries we have (populated in decorate) and filter as required
