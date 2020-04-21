@@ -4,11 +4,13 @@
 - Allow user type augmentation to work with different versions of rxjs (Thanks to https://github.com/monitz87)
 - Align augmented generation with camelCase (Thanks to https://github.com/monitz87)
 - Fix bitfield endian encoding (Thanks to investigation by https://github.com/xlc)
+- Add account flag derives via `accounts.flags(accountId)` (Thanks to https://github.com/kwingram25)
 - Fix entries decoding for `Option<Number>` (& simplify, decoding correctly on rpc layer)
-- Add `rpc.system.{localPeerId, localListenAddresses}`
+- Add `system.{localPeerId, localListenAddresses}` & `state.getReadProof` RPCs
 - Ensure proper propagation of `api.runtimeVersion` (used for signing) after upgrade
 - Field ordering fix for deprecated `Linkage` (used in linked maps)
-- `derive.account.info` now returns all field types (not only raw)
+- `derive.account.info` now returns all field enum types decoded (not only raw)
+- Add banner with FAQ entries for node-template to aid with common issues
 - `Digest` has been moved to definitions, removal of `GenericDigest` type
 - Support `Fixed128` type
 - Add `transactionVersion` to `RuntimeVersion` struct
