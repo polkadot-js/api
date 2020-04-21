@@ -1,4 +1,4 @@
-# 1.11.0-beta.x
+# 1.11.1 Apr 21, 2020
 
 - **Important** Substrate master has an updated `Weight` (to `u64`), on older chains apply `Weight: 'u32'` (This does affect event decoding if wrongly set)
 - Allow user type augmentation to work with different versions of rxjs (Thanks to https://github.com/monitz87)
