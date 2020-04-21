@@ -17,6 +17,11 @@ const api = await ApiPromise.create({
           {
             name: 'index',
             type: 'u64'
+          },
+          {
+            name: 'at',
+            type: 'Hash',
+            isOptional: true
           }
         ],
         type: 'Balance'
@@ -26,7 +31,9 @@ const api = await ApiPromise.create({
 });
 ```
 
-In the above example we have defined a new method, which is now available on the RPCs as `api.rpc.firstModule.testMethod(u64) => Promise<Balance>`. Do be aware that while defined, the method will only appear if it is in the list as returned by `api.rpc.rpc.methods()`, which is the list of known RPCs the node exposes. When making changes to the node, always ensure that it does expose the RPC method correctly, otherwise it will not be decorated.
+In the above example we have defined a new method, which is now available on the RPCs as `api.rpc.firstModule.testMethod(u64, Hash?) => Promise<Balance>`. In the case of optional params, we have added the `isOptional: true` flag alongside the `name` & `type` in the param definition.
+
+Be aware that while defined, the method will only appear on the API if it is in the list as returned by `api.rpc.rpc.methods()`, which is the list of known RPCs the node exposes. When making changes to the node, always ensure that it does expose the RPC method correctly, otherwise it will not be decorated.
 
 ## Definition breakdown
 
