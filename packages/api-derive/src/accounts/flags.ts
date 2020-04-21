@@ -34,6 +34,7 @@ function isIncludedFn (accountId: AccountId | Address | string): (_: AccountId |
 export function flags (api: ApiInterfaceRx): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
   return memo((address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
     const councilSection = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+
     return (
       combineLatest([
         address && api.query[councilSection]?.members
@@ -58,9 +59,9 @@ export function flags (api: ApiInterfaceRx): (address?: AccountId | Address | st
 
         return {
           isCouncil: (electionsMembers?.map(([id]: ITuple<[AccountId, Balance]>) => id) || councilMembers || []).some(isIncluded),
-          isTechCommittee: (technicalCommitteeMembers || []).some(isIncluded),
           isSociety: (societyMembers || []).some(isIncluded),
-          isSudo: sudoKey?.toString() === address?.toString()
+          isSudo: sudoKey?.toString() === address?.toString(),
+          isTechCommittee: (technicalCommitteeMembers || []).some(isIncluded)
         };
       })
     );
