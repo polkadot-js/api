@@ -17,7 +17,7 @@ import { StorageKind } from '@polkadot/types/interfaces/offchain';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
-import { RuntimeVersion } from '@polkadot/types/interfaces/state';
+import { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
 import { ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
@@ -199,6 +199,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns the keys with prefix, leave empty to get all the keys (deprecated: Use getKeysPaged)
        **/
       getPairs: AugmentedRpc<(prefix: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array) => Observable<Vec<KeyValue>>>;
+      /**
+       * Returns proof of storage entries at a specific block state
+       **/
+      getReadProof: AugmentedRpc<(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: BlockHash | string | Uint8Array) => Observable<ReadProof>>;
       /**
        * Get the runtime version
        **/
