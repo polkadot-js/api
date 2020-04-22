@@ -75,7 +75,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // events destructing
   api.query.system.events((records): void => {
     records.forEach(({ event, phase }): void => {
-      if (phase.isApplyExtrinsic && event.data.length === 2) {
+      if (phase.isApplyExtrinsic) {
         // Dunno... this should work
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
