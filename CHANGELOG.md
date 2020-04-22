@@ -1,3 +1,7 @@
+# 1.11.2 Apr 22, 2020
+
+- Small patch to add missing Polkadot master types (will be in next Kusama update)
+
 # 1.11.1 Apr 21, 2020
 
 - **Important** Substrate master has an updated `Weight` (to `u64`), on older chains apply `Weight: 'u32'` (This does affect event decoding if wrongly set)
