@@ -107,18 +107,18 @@ function filterRewards (api: ApiInterfaceRx, rewards: DeriveStakerReward[], stak
   return combineLatest([
     api.query.staking.migrateEra
       ? api.query.staking.migrateEra<Option<EraIndex>>()
-      : of({ unwrapOr: () => api.tx.staking.payoutStakers ? MIN_ONE : MAX_ERAS }),
+      : of({ unwrapOr: () => api.tx.staking.payoutStakers ? ZERO : MAX_ERAS }),
     api.tx.staking.payoutStakers
       ? api.derive.staking.queryMulti(validators)
       : of([])
   ]).pipe(
     map(([optMigrate, queryValidators]): DeriveStakerReward[] => {
-      const migrateEra: BN = optMigrate.unwrapOr(MIN_ONE);
+      const migrateEra: BN = optMigrate.unwrapOr(ZERO);
 
       return rewards
         .filter(({ isEmpty }) => !isEmpty)
         .filter((reward): boolean => {
-          if (reward.era.lte(migrateEra)) {
+          if (reward.era.lt(migrateEra)) {
             // we filter again here, the actual ledger may have changed, e.g. something has been claimed
             return filterEra(reward.era, stakingLedger);
           }
