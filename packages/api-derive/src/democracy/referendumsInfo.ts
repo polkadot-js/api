@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, ReferendumInfo, ReferendumInfoTo239, Vote, Voting, VotingDirectVote } from '@polkadot/types/interfaces';
+import { AccountId, ReferendumInfo, ReferendumInfoTo239, Vote, Voting, VotingDirectVote, VotingDelegating } from '@polkadot/types/interfaces';
 import { DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
 
 import BN from 'bn.js';
@@ -33,6 +33,7 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
       votersFor.map((accountId, index): DeriveReferendumVote => ({
         accountId,
         balance: balances[index].votingBalance || api.registry.createType('Balance'),
+        isDelegating: false,
         vote: votes[index] || api.registry.createType('Vote')
       }))
     )
@@ -41,10 +42,9 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
 
 function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votingOf.entries<Voting>().pipe(
-    map((allVoting): DeriveReferendumVote[] =>
-      allVoting
-        .map(([key, voting]): [AccountId, Voting] => [key.args[0] as AccountId, voting])
-        // FIXME We are ignoring delegated votes
+    map((allVoting): DeriveReferendumVote[] => {
+      const mapped = allVoting.map(([key, voting]): [AccountId, Voting] => [key.args[0] as AccountId, voting]);
+      const votes = mapped
         .filter(([, voting]) => voting.isDirect)
         .map(([accountId, voting]): [AccountId, VotingDirectVote[]] => [
           accountId,
@@ -57,14 +57,37 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
             if (vote.isStandard) {
               result.push({
                 accountId,
+                isDelegating: false,
                 ...vote.asStandard
               });
             }
 
             return result;
           }, result), []
-        )
-    )
+        );
+      const delegations = mapped
+        .filter(([, voting]) => voting.isDelegating)
+        .map(([accountId, voting]): [AccountId, VotingDelegating] => [accountId, voting.asDelegating]);
+
+      // add delegations
+      delegations.forEach(([accountId, { balance, conviction, target }]): void => {
+        // Are we delegating to a delegator
+        const toDelegator = delegations.find(([accountId]) => accountId.eq(target));
+        const to = votes.find(({ accountId }) => accountId.eq(toDelegator ? toDelegator[0] : target));
+
+        // this delegation has a target
+        if (to) {
+          votes.push({
+            accountId,
+            balance,
+            isDelegating: true,
+            vote: api.registry.createType('Vote', { aye: to.vote.isAye, conviction })
+          });
+        }
+      });
+
+      return votes;
+    })
   );
 }
 
