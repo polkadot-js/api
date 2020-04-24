@@ -237,7 +237,7 @@ declare module '@polkadot/api/types/submittable' {
        * # <weight>
        * # </weight>
        **/
-      delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | 'None'|'Locked1x'|'Locked2x'|'Locked3x'|'Locked4x'|'Locked5x'|'Locked6x' | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule an emergency cancellation of a referendum. Cannot happen twice to the same
        * referendum.
@@ -375,7 +375,7 @@ declare module '@polkadot/api/types/submittable' {
        * # <weight>
        * # </weight>
        **/
-      proxyDelegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      proxyDelegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | 'None'|'Locked1x'|'Locked2x'|'Locked3x'|'Locked4x'|'Locked5x'|'Locked6x' | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove a proxied vote for a referendum.
        * Exactly equivalent to `remove_vote` except that it operates on the account that the
@@ -1144,7 +1144,7 @@ declare module '@polkadot/api/types/submittable' {
        * Total Complexity: O(M + logM + B + X)
        * # </weight>
        **/
-      judgeSuspendedCandidate: AugmentedSubmittable<(who: AccountId | string | Uint8Array, judgement: SocietyJudgement | ('Rebid' | 'Reject' | 'Approve') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      judgeSuspendedCandidate: AugmentedSubmittable<(who: AccountId | string | Uint8Array, judgement: SocietyJudgement | 'Rebid'|'Reject'|'Approve' | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Allow suspension judgement origin to make judgement on a suspended member.
        * If a suspended member is forgiven, we simply add them back as a member, not affecting
@@ -1322,7 +1322,7 @@ declare module '@polkadot/api/types/submittable' {
        * unless the `origin` falls below _existential deposit_ and gets removed as dust.
        * # </weight>
        **/
-      bond: AugmentedSubmittable<(controller: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, payee: RewardDestination | ('Staked' | 'Stash' | 'Controller') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      bond: AugmentedSubmittable<(controller: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, payee: RewardDestination | 'Staked'|'Stash'|'Controller' | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Add some extra amount that have appeared in the stash `free_balance` into the balance up
        * for staking.
@@ -1506,7 +1506,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Writes are limited to the `origin` account key.
        * # </weight>
        **/
-      setPayee: AugmentedSubmittable<(payee: RewardDestination | ('Staked' | 'Stash' | 'Controller') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      setPayee: AugmentedSubmittable<(payee: RewardDestination | 'Staked'|'Stash'|'Controller' | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * The ideal number of validators.
        **/

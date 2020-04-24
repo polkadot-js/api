@@ -27,7 +27,7 @@ import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
 
 function arrayToStrType (arr: string[]): string {
-  return `(${arr.map((c): string => `'${c}'`).join(' | ')})`;
+  return `${arr.map((c): string => `'${c}'`).join(' | ')}`;
 }
 
 const voteConvictions = arrayToStrType(AllConvictions);

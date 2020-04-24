@@ -19,7 +19,8 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
     const imports = createImports(importDefinitions);
-    const definitions = imports.definitions;
+    const definitions = { ...imports.definitions, polymesh: { rpc: {}, types: { Weight: 'u32' } } } as object;
+
     const primitives = Object
       .keys(primitiveClasses)
       .filter((name): boolean => !!name.indexOf('Generic'))
@@ -32,13 +33,19 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
         ].join('\n');
       }, '');
 
+    const existingTypes: Record<string, boolean> = {};
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const srml = Object.entries(definitions).reduce((accumulator, [_defName, { types }]): string => {
       setImports(definitions, imports, Object.keys(types));
 
+      const uniqueTypes = Object.keys(types).filter((type) => !existingTypes[type]);
+
+      uniqueTypes.forEach((type) => { existingTypes[type] = true; });
+
       return [
         accumulator,
-        ...Object.keys(types).map((type): string =>
+        ...uniqueTypes.map((type): string =>
           getDerivedTypes(definitions, type, types[type], imports).map(indent(4)).join('\n')
         )
       ].join('\n');
