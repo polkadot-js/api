@@ -19,7 +19,7 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
     const imports = createImports(importDefinitions);
-    const definitions = { ...imports.definitions, polymesh: { rpc: {}, types: { Weight: 'u32' } } } as object;
+    const definitions = imports.definitions;
 
     const primitives = Object
       .keys(primitiveClasses)
