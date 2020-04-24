@@ -46,6 +46,7 @@ export interface DeriveReferendum {
 export interface DeriveReferendumVote {
   accountId: AccountId;
   balance: Balance;
+  isDelegating: boolean;
   vote: Vote;
 }
 
