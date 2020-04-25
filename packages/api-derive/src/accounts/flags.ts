@@ -40,7 +40,7 @@ export function flags (api: ApiInterfaceRx): (address?: AccountId | Address | st
         address && api.query[councilSection]?.members
           ? api.query[councilSection].members()
           : of(undefined),
-        address && api.query.council.members
+        address && api.query.council?.members
           ? api.query.council.members()
           : of([]),
         address && api.query.technicalCommittee?.members
