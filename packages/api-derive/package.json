@@ -32,13 +32,13 @@
     "@polkadot/rpc-core": "1.12.0-beta.6",
     "@polkadot/rpc-provider": "1.12.0-beta.6",
     "@polkadot/types": "1.12.0-beta.6",
-    "@polkadot/util": "^2.9.0-beta.0",
-    "@polkadot/util-crypto": "^2.9.0-beta.0",
+    "@polkadot/util": "^2.9.0-beta.1",
+    "@polkadot/util-crypto": "^2.9.0-beta.1",
     "bn.js": "^5.1.1",
     "memoizee": "^0.4.14",
     "rxjs": "^6.5.5"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^2.9.0-beta.0"
+    "@polkadot/keyring": "^2.9.0-beta.1"
   }
 }
