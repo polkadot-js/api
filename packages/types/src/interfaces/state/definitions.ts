@@ -328,7 +328,8 @@ export default {
       params: [
         {
           name: 'keys',
-          type: 'Vec<StorageKey>'
+          type: 'Vec<StorageKey>',
+          isOptional: true
         }
       ],
       pubsub: [
