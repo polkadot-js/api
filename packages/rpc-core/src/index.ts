@@ -128,7 +128,7 @@ export default class Rpc implements RpcInterface {
     this.sections.push(...sectionNames);
 
     // add any extra user-defined sections
-    this.sections.push(...Object.keys(userRpc).filter((key): boolean => !this.sections.includes(key)));
+    this.sections.push(...Object.keys(userRpc));
 
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
