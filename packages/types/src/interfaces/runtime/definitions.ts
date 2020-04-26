@@ -71,6 +71,7 @@ export default {
     LockIdentifier: '[u8; 8]',
     LookupSource: 'Address',
     LookupTarget: 'AccountId',
+    ModuleId: 'LockIdentifier',
     Moment: 'u64',
     Origin: 'DoNotConstruct<Origin>',
     Perbill: 'u32',
@@ -79,6 +80,10 @@ export default {
     Perquintill: 'u64',
     Phantom: 'Null',
     PhantomData: 'Null',
+    RuntimeDbWeight: {
+      read: 'Weight',
+      write: 'Weight'
+    },
     SignedBlock: {
       block: 'Block',
       justification: 'Justification'

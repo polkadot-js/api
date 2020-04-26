@@ -226,7 +226,11 @@
                 }
               ],
               "documentation": [
-                " Make some on-chain remark."
+                " Make some on-chain remark.",
+                "",
+                " # <weight>",
+                " - `O(1)`",
+                " # </weight>"
               ]
             },
             {
@@ -238,7 +242,12 @@
                 }
               ],
               "documentation": [
-                " Set the number of pages in the WebAssembly environment's heap."
+                " Set the number of pages in the WebAssembly environment's heap.",
+                "",
+                " # <weight>",
+                " - `O(1)`",
+                " - 1 storage write.",
+                " # </weight>"
               ]
             },
             {
@@ -250,7 +259,14 @@
                 }
               ],
               "documentation": [
-                " Set the new runtime code."
+                " Set the new runtime code.",
+                "",
+                " # <weight>",
+                " - `O(C + S)` where `C` length of `code` and `S` complexity of `can_set_code`",
+                " - 1 storage write (codec `O(C)`).",
+                " - 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is expensive).",
+                " - 1 event.",
+                " # </weight>"
               ]
             },
             {
@@ -262,7 +278,13 @@
                 }
               ],
               "documentation": [
-                " Set the new runtime code without doing any checks of the given `code`."
+                " Set the new runtime code without doing any checks of the given `code`.",
+                "",
+                " # <weight>",
+                " - `O(C)` where `C` length of `code`",
+                " - 1 storage write (codec `O(C)`).",
+                " - 1 event.",
+                " # </weight>"
               ]
             },
             {
@@ -274,7 +296,13 @@
                 }
               ],
               "documentation": [
-                " Set the new changes trie configuration."
+                " Set the new changes trie configuration.",
+                "",
+                " # <weight>",
+                " - `O(D)` where `D` length of `Digest`",
+                " - 1 storage write or delete (codec `O(1)`).",
+                " - 1 call to `deposit_log`: `O(D)` (which depends on the length of `Digest`)",
+                " # </weight>"
               ]
             },
             {
@@ -286,7 +314,12 @@
                 }
               ],
               "documentation": [
-                " Set some items of storage."
+                " Set some items of storage.",
+                "",
+                " # <weight>",
+                " - `O(I)` where `I` length of `items`",
+                " - `I` storage writes (`O(1)`).",
+                " # </weight>"
               ]
             },
             {
@@ -298,7 +331,12 @@
                 }
               ],
               "documentation": [
-                " Kill some items from storage."
+                " Kill some items from storage.",
+                "",
+                " # <weight>",
+                " - `O(VK)` where `V` length of `keys` and `K` length of one key",
+                " - `V` storage deletions.",
+                " # </weight>"
               ]
             },
             {
@@ -310,7 +348,12 @@
                 }
               ],
               "documentation": [
-                " Kill all storage items with a key that starts with the given prefix."
+                " Kill all storage items with a key that starts with the given prefix.",
+                "",
+                " # <weight>",
+                " - `O(P)` where `P` amount of keys with prefix `prefix`",
+                " - `P` storage deletions.",
+                " # </weight>"
               ]
             },
             {
@@ -318,7 +361,14 @@
               "args": [],
               "documentation": [
                 " Kill the sending account, assuming there are no references outstanding and the composite",
-                " data is equal to its default value."
+                " data is equal to its default value.",
+                "",
+                " # <weight>",
+                " - `O(K)` with `K` being complexity of `on_killed_account`",
+                " - 1 storage read and deletion.",
+                " - 1 call to `on_killed_account` callback with unknown complexity `K`",
+                " - 1 event.",
+                " # </weight>"
               ]
             }
           ],
@@ -368,7 +418,48 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "MaximumBlockWeight",
+              "type": "Weight",
+              "value": "0x00204aa9d1010000",
+              "documentation": [
+                " The maximum weight of a block."
+              ]
+            },
+            {
+              "name": "DbWeight",
+              "type": "RuntimeDbWeight",
+              "value": "0x008793030000000000c2eb0b00000000",
+              "documentation": [
+                " The weight of runtime database operations the runtime can invoke."
+              ]
+            },
+            {
+              "name": "BlockExecutionWeight",
+              "type": "Weight",
+              "value": "0x0000000000000000",
+              "documentation": [
+                " The base weight of executing a block, independent of the transactions in the block."
+              ]
+            },
+            {
+              "name": "ExtrinsicBaseWeight",
+              "type": "Weight",
+              "value": "0x8096980000000000",
+              "documentation": [
+                " The base weight of an Extrinsic in the block, independent of the of extrinsic being executed."
+              ]
+            },
+            {
+              "name": "MaximumBlockLength",
+              "type": "u32",
+              "value": "0x00005000",
+              "documentation": [
+                " The maximum length of a block (in bytes)."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "InvalidSpecName",
@@ -944,7 +1035,7 @@
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0x1400000000000000",
+              "value": "0xc800000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins."
@@ -1012,7 +1103,13 @@
                 " The timestamp should be greater than the previous one by the amount specified by",
                 " `MinimumPeriod`.",
                 "",
-                " The dispatch origin for this call must be `Inherent`."
+                " The dispatch origin for this call must be `Inherent`.",
+                "",
+                " # <weight>",
+                " - `O(T)` where `T` complexity of `on_timestamp_set`",
+                " - 2 storage mutations (codec `O(1)`).",
+                " - 1 event handler `on_timestamp_set` `O(T)`.",
+                " # </weight>"
               ]
             }
           ],
@@ -1457,7 +1554,11 @@
               ],
               "documentation": [
                 " Exactly as `transfer`, except the origin must be root and the source account may be",
-                " specified."
+                " specified.",
+                " # <weight>",
+                " - Same as transfer, but additional read and write because the source account is",
+                "   not assumed to be in the overlay.",
+                " # </weight>"
               ]
             },
             {
@@ -1609,7 +1710,7 @@
                 "type": {
                   "Plain": "Multiplier"
                 },
-                "fallback": "0x0000000000000000",
+                "fallback": "0x00000000000000000000000000000000",
                 "documentation": []
               }
             ]
@@ -1617,14 +1718,6 @@
           "calls": null,
           "events": null,
           "constants": [
-            {
-              "name": "TransactionBaseFee",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the base."
-              ]
-            },
             {
               "name": "TransactionByteFee",
               "type": "BalanceOf",
@@ -2754,7 +2847,7 @@
                 " - Memory: O(n + m) reads to map index to `AccountId` for un-compact.",
                 "",
                 " - Storage: O(e) accountid reads from `Nomination` to read correct nominations.",
-                " - Storage: O(e) calls into `slashable_balance_of_extended` to convert ratio to staked.",
+                " - Storage: O(e) calls into `slashable_balance_of_vote_weight` to convert ratio to staked.",
                 "",
                 " - Memory: build_support_map. O(e).",
                 " - Memory: evaluate_support: O(E).",
@@ -2796,6 +2889,18 @@
             }
           ],
           "events": [
+            {
+              "name": "EraPayout",
+              "args": [
+                "EraIndex",
+                "Balance",
+                "Balance"
+              ],
+              "documentation": [
+                " The era payout has been set; the first balance is the validator-payout; the second is",
+                " the remainder from the maximum amount of reward."
+              ]
+            },
             {
               "name": "Reward",
               "args": [
@@ -3181,10 +3286,12 @@
                 " The dispatch origin of this function must be signed.",
                 "",
                 " # <weight>",
-                " - O(log n) in number of accounts.",
-                " - One extra DB entry.",
-                " - Increases system account refs by one on success iff there were previously no keys set.",
-                "   In this case, purge_keys will need to be called before the account can be removed.",
+                " - Complexity: `O(1)`",
+                "   Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.",
+                " - DbReads: `origin account`, `T::ValidatorIdOf`, `NextKeys`",
+                " - DbWrites: `origin account`, `NextKeys`",
+                " - DbReads per key id: `KeyOwner`",
+                " - DbWrites per key id: `KeyOwner`",
                 " # </weight>"
               ]
             },
@@ -3198,9 +3305,11 @@
                 " The dispatch origin of this function must be signed.",
                 "",
                 " # <weight>",
-                " - O(N) in number of key types.",
-                " - Removes N + 1 DB entries.",
-                " - Reduces system account refs by one on success.",
+                " - Complexity: `O(1)` in number of key types.",
+                "   Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.",
+                " - DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`",
+                " - DbWrites: `NextKeys`, `origin account`",
+                " - DbWrites per key id: `KeyOwnder`",
                 " # </weight>"
               ]
             }
@@ -5548,6 +5657,12 @@
               "type": "BlockNumber",
               "value": "0x80130300",
               "documentation": []
+            },
+            {
+              "name": "ModuleId",
+              "type": "LockIdentifier",
+              "value": "0x706872656c656374",
+              "documentation": []
             }
           ],
           "errors": [
@@ -6491,6 +6606,14 @@
               "documentation": [
                 " The amount held on deposit per byte within the tip report reason."
               ]
+            },
+            {
+              "name": "ModuleId",
+              "type": "ModuleId",
+              "value": "0x70792f7472737279",
+              "documentation": [
+                " The treasury's module id, used for deriving its sovereign account ID."
+              ]
             }
           ],
           "errors": [
@@ -6550,23 +6673,12 @@
             "prefix": "Contracts",
             "items": [
               {
-                "name": "GasSpent",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "Gas"
-                },
-                "fallback": "0x0000000000000000",
-                "documentation": [
-                  " Gas spent so far in this block."
-                ]
-              },
-              {
                 "name": "CurrentSchedule",
                 "modifier": "Default",
                 "type": {
                   "Plain": "Schedule"
                 },
-                "fallback": "0x0000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000008700000000000000af00000000000000010000000000000001000000000000006400000000000000040000000000010010000000004000000020000000",
+                "fallback": "0x0000000020a107000000000020a107000000000020a107000000000020a107000000000020a107000000000020a107000000000020a1070000000000e0f7050400000000e024370500000000e0f705040000000020a107000000000020a107000000000080f0fa020000000000e1f50500000000040000000000010010000000004000000020000000",
                 "documentation": [
                   " Current cost schedule for contracts."
                 ]
@@ -6629,17 +6741,6 @@
                 "documentation": [
                   " The code associated with a given account."
                 ]
-              },
-              {
-                "name": "GasPrice",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "BalanceOf"
-                },
-                "fallback": "0x01000000000000000000000000000000",
-                "documentation": [
-                  " The price of one unit of gas."
-                ]
               }
             ]
           },
@@ -6661,10 +6762,6 @@
             {
               "name": "put_code",
               "args": [
-                {
-                  "name": "gas_limit",
-                  "type": "Compact<Gas>"
-                },
                 {
                   "name": "code",
                   "type": "Bytes"
@@ -6918,49 +7015,6 @@
               ]
             },
             {
-              "name": "TransactionBaseFee",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the base."
-              ]
-            },
-            {
-              "name": "TransactionByteFee",
-              "type": "BalanceOf",
-              "value": "0x00e40b54020000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the per-byte portion."
-              ]
-            },
-            {
-              "name": "ContractFee",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The fee required to instantiate a contract instance. A reasonable default value",
-                " is 21."
-              ]
-            },
-            {
-              "name": "CallBaseFee",
-              "type": "Gas",
-              "value": "0xe803000000000000",
-              "documentation": [
-                " The base fee charged for calling into a contract. A reasonable default",
-                " value is 135."
-              ]
-            },
-            {
-              "name": "InstantiateBaseFee",
-              "type": "Gas",
-              "value": "0xe803000000000000",
-              "documentation": [
-                " The base fee charged for instantiating a contract. A reasonable default value",
-                " is 175."
-              ]
-            },
-            {
               "name": "MaxDepth",
               "type": "u32",
               "value": "0x20000000",
@@ -6975,15 +7029,6 @@
               "value": "0x00400000",
               "documentation": [
                 " The maximum size of a storage value in bytes. A reasonable default is 16 KiB."
-              ]
-            },
-            {
-              "name": "BlockGasLimit",
-              "type": "Gas",
-              "value": "0x8096980000000000",
-              "documentation": [
-                " The maximum amount of gas that could be expended per block. A reasonable",
-                " default value is 10_000_000."
               ]
             }
           ],
@@ -7497,9 +7542,12 @@
                 " Emits `RegistrarAdded` if successful.",
                 "",
                 " # <weight>",
-                " - `O(R)` where `R` registrar-count (governance-bounded).",
+                " - `O(R)` where `R` registrar-count (governance-bounded and code-bounded).",
                 " - One storage mutation (codec `O(R)`).",
                 " - One event.",
+                " - Benchmarks:",
+                "   - 78.71 + R * 0.965 µs (min squares analysis)",
+                "   - 94.28 + R * 0.991 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7517,18 +7565,22 @@
                 " If the account already has identity information, the deposit is taken as part payment",
                 " for the new deposit.",
                 "",
-                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
-                " identity.",
+                " The dispatch origin for this call must be _Signed_.",
                 "",
                 " - `info`: The identity information.",
                 "",
                 " Emits `IdentitySet` if successful.",
                 "",
                 " # <weight>",
-                " - `O(X + X' + R)` where `X` additional-field-count (deposit-bounded and code-bounded).",
-                " - At most two balance operations.",
+                " - `O(X + X' + R)`",
+                "   - where `X` additional-field-count (deposit-bounded and code-bounded)",
+                "   - where `R` judgements-count (registrar-count-bounded)",
+                " - One balance reserve operation.",
                 " - One storage mutation (codec-read `O(X' + R)`, codec-write `O(X + R)`).",
                 " - One event.",
+                " - Benchmarks:",
+                "   - 136.6 + R * 0.62 + X * 2.62 µs (min squares analysis)",
+                "   - 146.2 + R * 0.372 + X * 2.98 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7549,13 +7601,21 @@
                 " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
                 " identity.",
                 "",
-                " - `subs`: The identity's sub-accounts.",
+                " - `subs`: The identity's (new) sub-accounts.",
                 "",
                 " # <weight>",
-                " - `O(S)` where `S` subs-count (hard- and deposit-bounded).",
-                " - At most two balance operations.",
-                " - At most O(2 * S + 1) storage mutations; codec complexity `O(1 * S + S * 1)`);",
-                "   one storage-exists.",
+                " - `O(P + S)`",
+                "   - where `P` old-subs-count (hard- and deposit-bounded).",
+                "   - where `S` subs-count (hard- and deposit-bounded).",
+                " - At most one balance operations.",
+                " - DB:",
+                "   - `P + S` storage mutations (codec complexity `O(1)`)",
+                "   - One storage read (codec complexity `O(P)`).",
+                "   - One storage write (codec complexity `O(S)`).",
+                "   - One storage-exists (`IdentityOf::contains_key`).",
+                " - Benchmarks:",
+                "   - 115.2 + P * 5.11 + S * 6.67 µs (min squares analysis)",
+                "   - 121 + P * 4.852 + S * 7.111 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7563,7 +7623,7 @@
               "name": "clear_identity",
               "args": [],
               "documentation": [
-                " Clear an account's identity info and all sub-account and return all deposits.",
+                " Clear an account's identity info and all sub-accounts and return all deposits.",
                 "",
                 " Payment: All reserved balances on the account are returned.",
                 "",
@@ -7573,10 +7633,16 @@
                 " Emits `IdentityCleared` if successful.",
                 "",
                 " # <weight>",
-                " - `O(R + S + X)`.",
-                " - One balance-reserve operation.",
-                " - `S + 2` storage deletions.",
+                " - `O(R + S + X)`",
+                "   - where `R` registrar-count (governance-bounded).",
+                "   - where `S` subs-count (hard- and deposit-bounded).",
+                "   - where `X` additional-field-count (deposit-bounded and code-bounded).",
+                " - One balance-unreserve operation.",
+                " - `2` storage reads and `S + 2` storage deletions.",
                 " - One event.",
+                " - Benchmarks:",
+                "   - 152.3 + R * 0.306 + S * 4.967 + X * 1.697 µs (min squares analysis)",
+                "   - 139.5 + R * 0.466 + S * 5.304 + X * 1.895 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7605,7 +7671,7 @@
                 " - `max_fee`: The maximum fee that may be paid. This should just be auto-populated as:",
                 "",
                 " ```nocompile",
-                " Self::registrars(reg_index).unwrap().fee",
+                " Self::registrars().get(reg_index).unwrap().fee",
                 " ```",
                 "",
                 " Emits `JudgementRequested` if successful.",
@@ -7615,6 +7681,9 @@
                 " - One balance-reserve operation.",
                 " - Storage: 1 read `O(R)`, 1 mutate `O(X + R)`.",
                 " - One event.",
+                " - Benchmarks:",
+                "   - 154 + R * 0.932 + X * 3.302 µs (min squares analysis)",
+                "   - 172.9 + R * 0.69 + X * 3.304 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7643,6 +7712,9 @@
                 " - One balance-reserve operation.",
                 " - One storage mutation `O(R + X)`.",
                 " - One event.",
+                " - Benchmarks:",
+                "   - 135.3 + R * 0.574 + X * 3.394 µs (min squares analysis)",
+                "   - 144.3 + R * 0.316 + X * 3.53 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7670,6 +7742,8 @@
                 " # <weight>",
                 " - `O(R)`.",
                 " - One storage mutation `O(R)`.",
+                " - Benchmarks:",
+                "   - 23.81 + R * 0.774 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7697,6 +7771,7 @@
                 " # <weight>",
                 " - `O(R)`.",
                 " - One storage mutation `O(R)`.",
+                " - Benchmark: 24.59 + R * 0.832 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7724,6 +7799,7 @@
                 " # <weight>",
                 " - `O(R)`.",
                 " - One storage mutation `O(R)`.",
+                " - Benchmark: 22.85 + R * 0.853 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7762,6 +7838,7 @@
                 " - Up to one account-lookup operation.",
                 " - Storage: 1 read `O(R)`, 1 mutate `O(R + X)`.",
                 " - One event.",
+                " - Benchmark: 110.7 + R * 1.066 + X * 3.402 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7792,6 +7869,7 @@
                 " - One balance-reserve operation.",
                 " - `S + 2` storage mutations.",
                 " - One event.",
+                " - Benchmark: 167.4 + R * 1.107 + S * 5.343 + X * 2.294 µs (min squares analysis)",
                 " # </weight>"
               ]
             }
@@ -7866,7 +7944,60 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "BasicDeposit",
+              "type": "BalanceOf",
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "documentation": [
+                " The amount held on deposit for a registered identity."
+              ]
+            },
+            {
+              "name": "FieldDeposit",
+              "type": "BalanceOf",
+              "value": "0x00a031a95fe300000000000000000000",
+              "documentation": [
+                " The amount held on deposit per additional field for a registered identity."
+              ]
+            },
+            {
+              "name": "SubAccountDeposit",
+              "type": "BalanceOf",
+              "value": "0x0080f420e6b500000000000000000000",
+              "documentation": [
+                " The amount held on deposit for a registered subaccount. This should account for the fact",
+                " that one storage item's value will increase by the size of an account ID, and there will be",
+                " another trie item whose value is the size of an account ID plus 32 bytes."
+              ]
+            },
+            {
+              "name": "MaxSubAccounts",
+              "type": "u32",
+              "value": "0x64000000",
+              "documentation": [
+                " The maximum number of sub-accounts allowed per identified account."
+              ]
+            },
+            {
+              "name": "MaxAdditionalFields",
+              "type": "u32",
+              "value": "0x64000000",
+              "documentation": [
+                " Maximum number of additional fields that may be stored in an ID. Needed to bound the I/O",
+                " required to access an identity, but can be pretty high."
+              ]
+            },
+            {
+              "name": "MaxRegistrars",
+              "type": "u32",
+              "value": "0x14000000",
+              "documentation": [
+                " Maxmimum number of registrars allowed in the system. Needed to bound the complexity",
+                " of, e.g., updating judgements."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "TooManySubAccounts",
@@ -7938,6 +8069,12 @@
               "name": "TooManyFields",
               "documentation": [
                 " Too many additional fields."
+              ]
+            },
+            {
+              "name": "TooManyRegistrars",
+              "documentation": [
+                " Maximum amount of registrars reached. Cannot add any more."
               ]
             }
           ]
@@ -8793,6 +8930,14 @@
               "documentation": [
                 " The number of blocks between membership challenges."
               ]
+            },
+            {
+              "name": "ModuleId",
+              "type": "ModuleId",
+              "value": "0x70792f736f636965",
+              "documentation": [
+                " The societies's module id"
+              ]
             }
           ],
           "errors": [
@@ -9639,8 +9784,7 @@
           "CheckEra",
           "CheckNonce",
           "CheckWeight",
-          "ChargeTransactionPayment",
-          "CheckBlockGasLimit"
+          "ChargeTransactionPayment"
         ]
       }
     }
