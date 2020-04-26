@@ -234,7 +234,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Subscribes to storage changes for the provided keys
        **/
-      subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[]) => Observable<T>>;
+      subscribeStorage: AugmentedRpc<<T = Codec[]>(keys?: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[]) => Observable<T>>;
     };
     system: {
       /**
