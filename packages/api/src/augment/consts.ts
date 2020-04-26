@@ -3,8 +3,7 @@
 
 import { Codec } from '@polkadot/types/types';
 import { u32, u64 } from '@polkadot/types/primitive';
-import { Gas } from '@polkadot/types/interfaces/contracts';
-import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
+import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
 
@@ -36,26 +35,6 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
     };
     contracts: {
       [index: string]: AugmentedConst<object & Codec>;
-      /**
-       * The maximum amount of gas that could be expended per block. A reasonable
-       * default value is 10_000_000.
-       **/
-      blockGasLimit: AugmentedConst<Gas>;
-      /**
-       * The base fee charged for calling into a contract. A reasonable default
-       * value is 135.
-       **/
-      callBaseFee: AugmentedConst<Gas>;
-      /**
-       * The fee required to instantiate a contract instance. A reasonable default value
-       * is 21.
-       **/
-      contractFee: AugmentedConst<BalanceOf>;
-      /**
-       * The base fee charged for instantiating a contract. A reasonable default value
-       * is 175.
-       **/
-      instantiateBaseFee: AugmentedConst<Gas>;
       /**
        * The maximum nesting level of a call/instantiate stack. A reasonable default
        * value is 100.
@@ -98,14 +77,6 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * The minimum amount required to generate a tombstone.
        **/
       tombstoneDeposit: AugmentedConst<BalanceOf>;
-      /**
-       * The fee to be paid for making a transaction; the base.
-       **/
-      transactionBaseFee: AugmentedConst<BalanceOf>;
-      /**
-       * The fee to be paid for making a transaction; the per-byte portion.
-       **/
-      transactionByteFee: AugmentedConst<BalanceOf>;
     };
     democracy: {
       [index: string]: AugmentedConst<object & Codec>;
@@ -146,6 +117,7 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
       candidacyBond: AugmentedConst<BalanceOf>;
       desiredMembers: AugmentedConst<u32>;
       desiredRunnersUp: AugmentedConst<u32>;
+      moduleId: AugmentedConst<LockIdentifier>;
       termDuration: AugmentedConst<BlockNumber>;
       votingBond: AugmentedConst<BalanceOf>;
     };
@@ -159,6 +131,37 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * The number of recent samples to keep from this chain. Default is 101.
        **/
       windowSize: AugmentedConst<BlockNumber>;
+    };
+    identity: {
+      [index: string]: AugmentedConst<object & Codec>;
+      /**
+       * The amount held on deposit for a registered identity.
+       **/
+      basicDeposit: AugmentedConst<BalanceOf>;
+      /**
+       * The amount held on deposit per additional field for a registered identity.
+       **/
+      fieldDeposit: AugmentedConst<BalanceOf>;
+      /**
+       * Maximum number of additional fields that may be stored in an ID. Needed to bound the I/O
+       * required to access an identity, but can be pretty high.
+       **/
+      maxAdditionalFields: AugmentedConst<u32>;
+      /**
+       * Maxmimum number of registrars allowed in the system. Needed to bound the complexity
+       * of, e.g., updating judgements.
+       **/
+      maxRegistrars: AugmentedConst<u32>;
+      /**
+       * The maximum number of sub-accounts allowed per identified account.
+       **/
+      maxSubAccounts: AugmentedConst<u32>;
+      /**
+       * The amount held on deposit for a registered subaccount. This should account for the fact
+       * that one storage item's value will increase by the size of an account ID, and there will be
+       * another trie item whose value is the size of an account ID plus 32 bytes.
+       **/
+      subAccountDeposit: AugmentedConst<BalanceOf>;
     };
     society: {
       [index: string]: AugmentedConst<object & Codec>;
@@ -175,6 +178,10 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * before they become suspended.
        **/
       maxStrikes: AugmentedConst<u32>;
+      /**
+       * The societies's module id
+       **/
+      moduleId: AugmentedConst<ModuleId>;
       /**
        * The amount of incentive paid within each period. Doesn't include VoterTip.
        **/
@@ -200,6 +207,29 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        **/
       sessionsPerEra: AugmentedConst<SessionIndex>;
     };
+    system: {
+      [index: string]: AugmentedConst<object & Codec>;
+      /**
+       * The base weight of executing a block, independent of the transactions in the block.
+       **/
+      blockExecutionWeight: AugmentedConst<Weight>;
+      /**
+       * The weight of runtime database operations the runtime can invoke.
+       **/
+      dbWeight: AugmentedConst<RuntimeDbWeight>;
+      /**
+       * The base weight of an Extrinsic in the block, independent of the of extrinsic being executed.
+       **/
+      extrinsicBaseWeight: AugmentedConst<Weight>;
+      /**
+       * The maximum length of a block (in bytes).
+       **/
+      maximumBlockLength: AugmentedConst<u32>;
+      /**
+       * The maximum weight of a block.
+       **/
+      maximumBlockWeight: AugmentedConst<Weight>;
+    };
     timestamp: {
       [index: string]: AugmentedConst<object & Codec>;
       /**
@@ -213,10 +243,6 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
     transactionPayment: {
       [index: string]: AugmentedConst<object & Codec>;
       /**
-       * The fee to be paid for making a transaction; the base.
-       **/
-      transactionBaseFee: AugmentedConst<BalanceOf>;
-      /**
        * The fee to be paid for making a transaction; the per-byte portion.
        **/
       transactionByteFee: AugmentedConst<BalanceOf>;
@@ -227,6 +253,10 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * Percentage of spare funds (if any) that are burnt per spend period.
        **/
       burn: AugmentedConst<Permill>;
+      /**
+       * The treasury's module id, used for deriving its sovereign account ID.
+       **/
+      moduleId: AugmentedConst<ModuleId>;
       /**
        * Fraction of a proposal's value that should be bonded in order to place the proposal.
        * An accepted proposal gets these back. A rejected proposal does not.

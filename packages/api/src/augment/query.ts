@@ -9,7 +9,7 @@ import { BabeAuthorityWeight, MaybeVrf, Randomness } from '@polkadot/types/inter
 import { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/interfaces/balances';
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import { CodeHash, ContractInfo, Gas, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
+import { CodeHash, ContractInfo, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
 import { PreimageStatus, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
@@ -146,14 +146,6 @@ declare module '@polkadot/api/types/storage' {
        * Current cost schedule for contracts.
        **/
       currentSchedule: AugmentedQuery<ApiType, () => Observable<Schedule>> & QueryableStorageEntry<ApiType>;
-      /**
-       * The price of one unit of gas.
-       **/
-      gasPrice: AugmentedQuery<ApiType, () => Observable<BalanceOf>> & QueryableStorageEntry<ApiType>;
-      /**
-       * Gas spent so far in this block.
-       **/
-      gasSpent: AugmentedQuery<ApiType, () => Observable<Gas>> & QueryableStorageEntry<ApiType>;
       /**
        * A mapping from an original code hash to the original code, untouched by instrumentation.
        **/

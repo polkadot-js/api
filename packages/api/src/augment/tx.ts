@@ -33,6 +33,10 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Exactly as `transfer`, except the origin must be root and the source account may be
        * specified.
+       * # <weight>
+       * - Same as transfer, but additional read and write because the source account is
+       * not assumed to be in the overlay.
+       * # </weight>
        **/
       forceTransfer: AugmentedSubmittable<(source: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, dest: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
@@ -110,7 +114,7 @@ declare module '@polkadot/api/types/submittable' {
        * Stores the given binary Wasm code into the chain's storage and returns its `codehash`.
        * You can instantiate contracts only with stored code.
        **/
-      putCode: AugmentedSubmittable<(gasLimit: Compact<Gas> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      putCode: AugmentedSubmittable<(code: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Updates the schedule for metering contracts.
        * The schedule must have a greater version than the stored schedule.
@@ -630,9 +634,12 @@ declare module '@polkadot/api/types/submittable' {
        * - `account`: the account of the registrar.
        * Emits `RegistrarAdded` if successful.
        * # <weight>
-       * - `O(R)` where `R` registrar-count (governance-bounded).
+       * - `O(R)` where `R` registrar-count (governance-bounded and code-bounded).
        * - One storage mutation (codec `O(R)`).
        * - One event.
+       * - Benchmarks:
+       * - 78.71 + R * 0.965 µs (min squares analysis)
+       * - 94.28 + R * 0.991 µs (min squares analysis)
        * # </weight>
        **/
       addRegistrar: AugmentedSubmittable<(account: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -648,20 +655,29 @@ declare module '@polkadot/api/types/submittable' {
        * - One balance-reserve operation.
        * - One storage mutation `O(R + X)`.
        * - One event.
+       * - Benchmarks:
+       * - 135.3 + R * 0.574 + X * 3.394 µs (min squares analysis)
+       * - 144.3 + R * 0.316 + X * 3.53 µs (min squares analysis)
        * # </weight>
        **/
       cancelRequest: AugmentedSubmittable<(regIndex: RegistrarIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Clear an account's identity info and all sub-account and return all deposits.
+       * Clear an account's identity info and all sub-accounts and return all deposits.
        * Payment: All reserved balances on the account are returned.
        * The dispatch origin for this call must be _Signed_ and the sender must have a registered
        * identity.
        * Emits `IdentityCleared` if successful.
        * # <weight>
-       * - `O(R + S + X)`.
-       * - One balance-reserve operation.
-       * - `S + 2` storage deletions.
+       * - `O(R + S + X)`
+       * - where `R` registrar-count (governance-bounded).
+       * - where `S` subs-count (hard- and deposit-bounded).
+       * - where `X` additional-field-count (deposit-bounded and code-bounded).
+       * - One balance-unreserve operation.
+       * - `2` storage reads and `S + 2` storage deletions.
        * - One event.
+       * - Benchmarks:
+       * - 152.3 + R * 0.306 + S * 4.967 + X * 1.697 µs (min squares analysis)
+       * - 139.5 + R * 0.466 + S * 5.304 + X * 1.895 µs (min squares analysis)
        * # </weight>
        **/
       clearIdentity: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
@@ -679,6 +695,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One balance-reserve operation.
        * - `S + 2` storage mutations.
        * - One event.
+       * - Benchmark: 167.4 + R * 1.107 + S * 5.343 + X * 2.294 µs (min squares analysis)
        * # </weight>
        **/
       killIdentity: AugmentedSubmittable<(target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -697,6 +714,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Up to one account-lookup operation.
        * - Storage: 1 read `O(R)`, 1 mutate `O(R + X)`.
        * - One event.
+       * - Benchmark: 110.7 + R * 1.066 + X * 3.402 µs (min squares analysis)
        * # </weight>
        **/
       provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, judgement: IdentityJudgement | { Unknown: any } | { FeePaid: any } | { Reasonable: any } | { KnownGood: any } | { OutOfDate: any } | { LowQuality: any } | { Erroneous: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -709,7 +727,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `reg_index`: The index of the registrar whose judgement is requested.
        * - `max_fee`: The maximum fee that may be paid. This should just be auto-populated as:
        * ```nocompile
-       * Self::registrars(reg_index).unwrap().fee
+       * Self::registrars().get(reg_index).unwrap().fee
        * ```
        * Emits `JudgementRequested` if successful.
        * # <weight>
@@ -717,6 +735,9 @@ declare module '@polkadot/api/types/submittable' {
        * - One balance-reserve operation.
        * - Storage: 1 read `O(R)`, 1 mutate `O(X + R)`.
        * - One event.
+       * - Benchmarks:
+       * - 154 + R * 0.932 + X * 3.302 µs (min squares analysis)
+       * - 172.9 + R * 0.69 + X * 3.304 µs (min squares analysis)
        * # </weight>
        **/
       requestJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, maxFee: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -729,6 +750,7 @@ declare module '@polkadot/api/types/submittable' {
        * # <weight>
        * - `O(R)`.
        * - One storage mutation `O(R)`.
+       * - Benchmark: 24.59 + R * 0.832 µs (min squares analysis)
        * # </weight>
        **/
       setAccountId: AugmentedSubmittable<(index: Compact<RegistrarIndex> | AnyNumber | Uint8Array, updated: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -741,6 +763,8 @@ declare module '@polkadot/api/types/submittable' {
        * # <weight>
        * - `O(R)`.
        * - One storage mutation `O(R)`.
+       * - Benchmarks:
+       * - 23.81 + R * 0.774 µs (min squares analysis)
        * # </weight>
        **/
       setFee: AugmentedSubmittable<(index: Compact<RegistrarIndex> | AnyNumber | Uint8Array, fee: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -753,6 +777,7 @@ declare module '@polkadot/api/types/submittable' {
        * # <weight>
        * - `O(R)`.
        * - One storage mutation `O(R)`.
+       * - Benchmark: 22.85 + R * 0.853 µs (min squares analysis)
        * # </weight>
        **/
       setFields: AugmentedSubmittable<(index: Compact<RegistrarIndex> | AnyNumber | Uint8Array, fields: IdentityFields) => SubmittableExtrinsic<ApiType>>;
@@ -760,15 +785,19 @@ declare module '@polkadot/api/types/submittable' {
        * Set an account's identity information and reserve the appropriate deposit.
        * If the account already has identity information, the deposit is taken as part payment
        * for the new deposit.
-       * The dispatch origin for this call must be _Signed_ and the sender must have a registered
-       * identity.
+       * The dispatch origin for this call must be _Signed_.
        * - `info`: The identity information.
        * Emits `IdentitySet` if successful.
        * # <weight>
-       * - `O(X + X' + R)` where `X` additional-field-count (deposit-bounded and code-bounded).
-       * - At most two balance operations.
+       * - `O(X + X' + R)`
+       * - where `X` additional-field-count (deposit-bounded and code-bounded)
+       * - where `R` judgements-count (registrar-count-bounded)
+       * - One balance reserve operation.
        * - One storage mutation (codec-read `O(X' + R)`, codec-write `O(X + R)`).
        * - One event.
+       * - Benchmarks:
+       * - 136.6 + R * 0.62 + X * 2.62 µs (min squares analysis)
+       * - 146.2 + R * 0.372 + X * 2.98 µs (min squares analysis)
        * # </weight>
        **/
       setIdentity: AugmentedSubmittable<(info: IdentityInfo | { additional?: any; display?: any; legal?: any; web?: any; riot?: any; email?: any; pgpFingerprint?: any; image?: any; twitter?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -778,12 +807,20 @@ declare module '@polkadot/api/types/submittable' {
        * and an amount `SubAccountDeposit` will be reserved for each item in `subs`.
        * The dispatch origin for this call must be _Signed_ and the sender must have a registered
        * identity.
-       * - `subs`: The identity's sub-accounts.
+       * - `subs`: The identity's (new) sub-accounts.
        * # <weight>
-       * - `O(S)` where `S` subs-count (hard- and deposit-bounded).
-       * - At most two balance operations.
-       * - At most O(2 * S + 1) storage mutations; codec complexity `O(1 * S + S * 1)`);
-       * one storage-exists.
+       * - `O(P + S)`
+       * - where `P` old-subs-count (hard- and deposit-bounded).
+       * - where `S` subs-count (hard- and deposit-bounded).
+       * - At most one balance operations.
+       * - DB:
+       * - `P + S` storage mutations (codec complexity `O(1)`)
+       * - One storage read (codec complexity `O(P)`).
+       * - One storage write (codec complexity `O(S)`).
+       * - One storage-exists (`IdentityOf::contains_key`).
+       * - Benchmarks:
+       * - 115.2 + P * 5.11 + S * 6.67 µs (min squares analysis)
+       * - 121 + P * 4.852 + S * 7.111 µs (min squares analysis)
        * # </weight>
        **/
       setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | { None: any } | { Raw: any } | { BlakeTwo256: any } | { Sha256: any } | { Keccak256: any } | { ShaThree256: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
@@ -1024,9 +1061,11 @@ declare module '@polkadot/api/types/submittable' {
        * This doesn't take effect until the next session.
        * The dispatch origin of this function must be signed.
        * # <weight>
-       * - O(N) in number of key types.
-       * - Removes N + 1 DB entries.
-       * - Reduces system account refs by one on success.
+       * - Complexity: `O(1)` in number of key types.
+       * Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.
+       * - DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`
+       * - DbWrites: `NextKeys`, `origin account`
+       * - DbWrites per key id: `KeyOwnder`
        * # </weight>
        **/
       purgeKeys: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
@@ -1036,10 +1075,12 @@ declare module '@polkadot/api/types/submittable' {
        * This doesn't take effect until the next session.
        * The dispatch origin of this function must be signed.
        * # <weight>
-       * - O(log n) in number of accounts.
-       * - One extra DB entry.
-       * - Increases system account refs by one on success iff there were previously no keys set.
-       * In this case, purge_keys will need to be called before the account can be removed.
+       * - Complexity: `O(1)`
+       * Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.
+       * - DbReads: `origin account`, `T::ValidatorIdOf`, `NextKeys`
+       * - DbWrites: `origin account`, `NextKeys`
+       * - DbReads per key id: `KeyOwner`
+       * - DbWrites per key id: `KeyOwner`
        * # </weight>
        **/
       setKeys: AugmentedSubmittable<(keys: Keys, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -1558,7 +1599,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Storage: O(n) reads `AccountId` to fetch `snapshot_nominators`.
        * - Memory: O(n + m) reads to map index to `AccountId` for un-compact.
        * - Storage: O(e) accountid reads from `Nomination` to read correct nominations.
-       * - Storage: O(e) calls into `slashable_balance_of_extended` to convert ratio to staked.
+       * - Storage: O(e) calls into `slashable_balance_of_vote_weight` to convert ratio to staked.
        * - Memory: build_support_map. O(e).
        * - Memory: evaluate_support: O(E).
        * - Storage: O(e) writes to `QueuedElected`.
@@ -1672,39 +1713,80 @@ declare module '@polkadot/api/types/submittable' {
       fillBlock: AugmentedSubmittable<(ratio: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Kill all storage items with a key that starts with the given prefix.
+       * # <weight>
+       * - `O(P)` where `P` amount of keys with prefix `prefix`
+       * - `P` storage deletions.
+       * # </weight>
        **/
       killPrefix: AugmentedSubmittable<(prefix: Key | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Kill some items from storage.
+       * # <weight>
+       * - `O(VK)` where `V` length of `keys` and `K` length of one key
+       * - `V` storage deletions.
+       * # </weight>
        **/
       killStorage: AugmentedSubmittable<(keys: Vec<Key> | (Key | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Make some on-chain remark.
+       * # <weight>
+       * - `O(1)`
+       * # </weight>
        **/
       remark: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Set the new changes trie configuration.
+       * # <weight>
+       * - `O(D)` where `D` length of `Digest`
+       * - 1 storage write or delete (codec `O(1)`).
+       * - 1 call to `deposit_log`: `O(D)` (which depends on the length of `Digest`)
+       * # </weight>
        **/
       setChangesTrieConfig: AugmentedSubmittable<(changesTrieConfig: Option<ChangesTrieConfiguration> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Set the new runtime code.
+       * # <weight>
+       * - `O(C + S)` where `C` length of `code` and `S` complexity of `can_set_code`
+       * - 1 storage write (codec `O(C)`).
+       * - 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is expensive).
+       * - 1 event.
+       * # </weight>
        **/
       setCode: AugmentedSubmittable<(code: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Set the new runtime code without doing any checks of the given `code`.
+       * # <weight>
+       * - `O(C)` where `C` length of `code`
+       * - 1 storage write (codec `O(C)`).
+       * - 1 event.
+       * # </weight>
        **/
       setCodeWithoutChecks: AugmentedSubmittable<(code: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Set the number of pages in the WebAssembly environment's heap.
+       * # <weight>
+       * - `O(1)`
+       * - 1 storage write.
+       * # </weight>
        **/
       setHeapPages: AugmentedSubmittable<(pages: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Set some items of storage.
+       * # <weight>
+       * - `O(I)` where `I` length of `items`
+       * - `I` storage writes (`O(1)`).
+       * # </weight>
        **/
       setStorage: AugmentedSubmittable<(items: Vec<KeyValue> | (KeyValue)[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Kill the sending account, assuming there are no references outstanding and the composite
        * data is equal to its default value.
+       * # <weight>
+       * - `O(K)` with `K` being complexity of `on_killed_account`
+       * - 1 storage read and deletion.
+       * - 1 call to `on_killed_account` callback with unknown complexity `K`
+       * - 1 event.
+       * # </weight>
        **/
       suicide: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
     };
@@ -1799,6 +1881,11 @@ declare module '@polkadot/api/types/submittable' {
        * The timestamp should be greater than the previous one by the amount specified by
        * `MinimumPeriod`.
        * The dispatch origin for this call must be `Inherent`.
+       * # <weight>
+       * - `O(T)` where `T` complexity of `on_timestamp_set`
+       * - 2 storage mutations (codec `O(1)`).
+       * - 1 event handler `on_timestamp_set` `O(T)`.
+       * # </weight>
        **/
       set: AugmentedSubmittable<(now: Compact<Moment> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
