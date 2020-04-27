@@ -8,7 +8,7 @@ import { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingQuery, DeriveUnlo
 
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -70,16 +70,31 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query
   };
 }
 
+export function _account (api: ApiInterfaceRx): (sessionInfo: DeriveSessionInfo, accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
+  return memo((sessionInfo: DeriveSessionInfo, accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
+    api.derive.staking.query(accountId).pipe(
+      map((query) => parseResult(api, sessionInfo, query))
+    ));
+}
+
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
 export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
   return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
-    combineLatest([
-      api.derive.session.info(),
-      api.derive.staking.query(accountId)
-    ]).pipe(
-      map(([sessionInfo, query]: [DeriveSessionInfo, DeriveStakingQuery]) =>
-        parseResult(api, sessionInfo, query))
+    api.derive.session.info().pipe(
+      switchMap((sessionInfo) => api.derive.staking._account(sessionInfo, accountId))
+    ));
+}
+
+/**
+ * @description From a list of stashes, fill in all the relevant staking details
+ */
+export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
+  return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
+    api.derive.session.info().pipe(
+      switchMap((sessionInfo) =>
+        combineLatest(accountIds.map((accountId) => api.derive.staking._account(sessionInfo, accountId)))
+      )
     ));
 }

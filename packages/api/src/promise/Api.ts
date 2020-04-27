@@ -264,7 +264,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * ```
    */
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async combineLatest (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback): UnsubscribePromise {
+  public async combineLatest <T extends any[] = any[]> (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback<T>): UnsubscribePromise {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
