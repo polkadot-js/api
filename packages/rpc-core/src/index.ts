@@ -336,7 +336,11 @@ export default class Rpc implements RpcInterface {
         throw error;
       }
     } else if (rpc.type === 'StorageChangeSet') {
-      return this._formatStorageSet(params[0] as Vec<StorageKey>, result.changes);
+      const keys = params[0] as Vec<StorageKey>;
+
+      return keys
+        ? this._formatStorageSet(keys, result.changes)
+        : this.registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
       const mapped = result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
         this.registry.createType('Hash', block),
