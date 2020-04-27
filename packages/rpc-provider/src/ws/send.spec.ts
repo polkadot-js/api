@@ -17,7 +17,7 @@ function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = true): WsProvider {
+function createWs (autoConnect = 1000): WsProvider {
   provider = new WsProvider(TEST_WS_URL, autoConnect);
 
   return provider;
@@ -47,7 +47,7 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_encoding', [{ error: 'send error' }])
       .catch((error): void => {
         expect(error.message).toEqual('send error');
@@ -63,7 +63,7 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_body', ['param'])
       .then((): void => {
         expect(
@@ -81,7 +81,7 @@ describe('send', (): void => {
       id: 1
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_error', [])
       .catch((error): void => {
         expect(error.message).toMatch(/666: error/);
@@ -97,7 +97,7 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_sub', [])
       .then((id): void => {
         expect(id).toEqual(1);

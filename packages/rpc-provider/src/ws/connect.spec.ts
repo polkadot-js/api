@@ -20,19 +20,19 @@ describe('onConnect', (): void => {
   });
 
   it('Does not connect when autoConnect is false', (): void => {
-    const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
+    const provider: WsProvider = new WsProvider(TEST_WS_URL, 0);
 
     expect(provider.isConnected()).toBe(false);
   });
 
   it('Does connect when autoConnect is true', (): void => {
-    const provider: WsProvider = new WsProvider(TEST_WS_URL, true);
+    const provider: WsProvider = new WsProvider(TEST_WS_URL, 1000);
 
     expect(provider.isConnected()).not.toBe(true);
   });
 
   it('Creates a new WebSocket instance by calling the connect() method', (): void => {
-    const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
+    const provider: WsProvider = new WsProvider(TEST_WS_URL, 0);
 
     expect(provider.isConnected()).toBe(false);
 

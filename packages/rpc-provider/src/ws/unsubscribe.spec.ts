@@ -17,7 +17,7 @@ function createMock (requests: any): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = true): WsProvider {
+function createWs (autoConnect = 1000): WsProvider {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
   return ws;
@@ -56,7 +56,7 @@ describe('subscribe', (): void => {
       }
     ]);
 
-    const ws = createWs(true);
+    const ws = createWs();
 
     return ws
       .subscribe('test', 'subscribe_test', [], (cb): void => {
@@ -76,7 +76,7 @@ describe('subscribe', (): void => {
       }
     }]);
 
-    const ws = createWs(true);
+    const ws = createWs();
 
     return ws
       .subscribe('test', 'subscribe_test', [], (cb): void => {
