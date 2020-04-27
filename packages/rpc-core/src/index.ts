@@ -436,13 +436,24 @@ export default class Rpc implements RpcInterface {
     this.#storageCache.set(hexKey, value);
 
     if (meta.modifier.isOptional) {
-      return new Option(
-        this.registry,
-        createClass(this.registry, type),
-        isEmpty
-          ? null
-          : createTypeUnsafe(this.registry, type, [input], true)
-      );
+      try {
+        return new Option(
+          this.registry,
+          createClass(this.registry, type),
+          isEmpty
+            ? null
+            : createTypeUnsafe(this.registry, type, [input], true)
+        );
+      } catch (error) {
+        if (type === 'PreimageStatus') {
+          return new Option(
+            this.registry,
+            createClass(this.registry, type)
+          );
+        }
+
+        throw error;
+      }
     }
 
     return createTypeUnsafe(this.registry, type, [
