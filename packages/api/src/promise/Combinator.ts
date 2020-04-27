@@ -7,15 +7,16 @@ import { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
-export type CombinatorCallback = Callback<any[]>;
+export type CombinatorCallback <T extends any[]> = Callback<T>;
+
 export interface CombinatorFunction {
   (cb: Callback<any>): UnsubscribePromise;
 }
 
-export default class Combinator {
+export default class Combinator<T extends any[] = any[]> {
   #allHasFired = false;
 
-  #callback: CombinatorCallback;
+  #callback: CombinatorCallback<T>;
 
   #fired: boolean[] = [];
 
@@ -27,7 +28,7 @@ export default class Combinator {
 
   #subscriptions: UnsubscribePromise[] = [];
 
-  constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
+  constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback<T>) {
     this.#callback = callback;
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -67,7 +68,7 @@ export default class Combinator {
     }
 
     try {
-      this.#callback(this.#results);
+      this.#callback(this.#results as T);
     } catch (error) {
       // swallow, we don't want the handler to trip us up
     }
