@@ -35,7 +35,7 @@ import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, Balanc
 import { SchedulePeriod, SchedulePriority, Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, PhragmenScore, Points, ReleasesStaking, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
+import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, OffchainAccuracy, PerU16, PhragmenScore, Points, ReleasesStaking, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import { AccountInfo, ChainProperties, ChainType, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Health, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, Phase, RefCount } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
@@ -836,6 +836,17 @@ declare module '@polkadot/types/types/registry' {
     Nominations: Nominations;
     'Option<Nominations>': Option<Nominations>;
     'Vec<Nominations>': Vec<Nominations>;
+    NominatorIndex: NominatorIndex;
+    'Compact<NominatorIndex>': Compact<NominatorIndex>;
+    'Option<NominatorIndex>': Option<NominatorIndex>;
+    'Vec<NominatorIndex>': Vec<NominatorIndex>;
+    OffchainAccuracy: OffchainAccuracy;
+    'Option<OffchainAccuracy>': Option<OffchainAccuracy>;
+    'Vec<OffchainAccuracy>': Vec<OffchainAccuracy>;
+    PerU16: PerU16;
+    'Compact<PerU16>': Compact<PerU16>;
+    'Option<PerU16>': Option<PerU16>;
+    'Vec<PerU16>': Vec<PerU16>;
     PhragmenScore: PhragmenScore;
     'Option<PhragmenScore>': Option<PhragmenScore>;
     'Vec<PhragmenScore>': Vec<PhragmenScore>;

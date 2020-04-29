@@ -14,26 +14,26 @@ export interface ActiveEraInfo extends Struct {
 
 /** @name CompactAssignments */
 export interface CompactAssignments extends Struct {
-  readonly votes1: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes2: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes3: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes4: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes5: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes6: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes7: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes8: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes9: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes10: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes11: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes12: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes13: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes14: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes15: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
-  readonly votes16: Vec<ITuple<[AccountId, Vec<CompactScore>, AccountId]>>;
+  readonly votes1: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes2: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes3: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes4: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes5: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes6: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes7: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes8: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes9: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes10: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes11: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes12: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes13: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes14: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes15: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
+  readonly votes16: Vec<ITuple<[ValidatorIndex, Vec<CompactScore>, NominatorIndex]>>;
 }
 
 /** @name CompactScore */
-export interface CompactScore extends ITuple<[AccountId, u128]> {}
+export interface CompactScore extends ITuple<[u16, OffchainAccuracy]> {}
 
 /** @name ElectionCompute */
 export interface ElectionCompute extends Enum {
@@ -111,6 +111,15 @@ export interface Nominations extends Struct {
   readonly submittedIn: EraIndex;
   readonly suppressed: bool;
 }
+
+/** @name NominatorIndex */
+export interface NominatorIndex extends u32 {}
+
+/** @name OffchainAccuracy */
+export interface OffchainAccuracy extends PerU16 {}
+
+/** @name PerU16 */
+export interface PerU16 extends u16 {}
 
 /** @name PhragmenScore */
 export interface PhragmenScore extends Vec<u128> {}
