@@ -1,8 +1,9 @@
-# 1.12.0-beta.x
+# 1.12.1 Apr 29, 2020
 
 - Fix `CompactAssignments` types (Thanks to https://github.com/arjanz)
+- Provider ayo-connect now allows for interval config (Thanks to https://github.com/jnaviask)
 - Cleanup generation for c-like enums (Thanks to https://github.com/monitz87)
-- All to subscribe to all storage keys, alignment with Substrate (Thanks to https://github.com/xlc)
+- Allow subscription to all storage keys, alignment with Substrate (Thanks to https://github.com/xlc)
 - Cater for vote delegations in democracy derives
 - Cleanup account derive flags where to allow for optional council modules
 - Allow generic types in ApiPromise.combineLatest
