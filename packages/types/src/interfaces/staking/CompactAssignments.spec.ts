@@ -6,27 +6,27 @@ import { TypeRegistry, createTypeUnsafe } from '../../create';
 
 describe('CompactAssignments', (): void => {
   const registry = new TypeRegistry();
-  const votes2 = [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', [['5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', 123456]], '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty']];
+  const votes2 = [[1, [[2, 12345]], 3]];
   const test = registry.createType('CompactAssignments', {
-    votes1: [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', [], '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty']],
+    votes1: [[1, [], 3]],
     votes2
   });
 
   it('has a valid vote1 ([Type; <number>] equivalency)', (): void => {
     expect(test.votes1.toHex()).toEqual(
-      createTypeUnsafe(registry, 'Vec<(AccountId, AccountId)>', [[
-        ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty']
+      createTypeUnsafe(registry, 'Vec<(u16, u32)>', [[
+        [1, 3]
       ]]).toHex()
     );
   });
 
   it('hash valid vot2 (actual tuple values)', (): void => {
     expect(test.votes2.toHex()).toEqual(
-      createTypeUnsafe(registry, 'Vec<(AccountId, [(AccountId, u128); 1], AccountId)>', [votes2]).toHex()
+      createTypeUnsafe(registry, 'Vec<(u16, [(u16, u16); 1], u32)>', [votes2]).toHex()
     );
   });
 
   it('has a proper decoded toHuman() available', (): void => {
-    expect(test.votes2.toHuman()).toEqual([['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', [['5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', '123,456']], '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty']]);
+    expect(test.votes2.toHuman()).toEqual([['1', [['2', '12,345']], '3']]);
   });
 });

@@ -1,3 +1,13 @@
+# 1.12.0-beta.x
+
+- Fix `CompactAssignments` types (Thanks to https://github.com/arjanz)
+- Cleanup generation for c-like enums (Thanks to https://github.com/monitz87)
+- All to subscribe to all storage keys, alignment with Substrate (Thanks to https://github.com/xlc)
+- Cater for vote delegations in democracy derives
+- Cleanup account derive flags where to allow for optional council modules
+- Allow generic types in ApiPromise.combineLatest
+- Update to latest substrate metadata
+
 # 1.11.2 Apr 22, 2020
 
 - Small patch to add missing Polkadot master types (will be in next Kusama update)
