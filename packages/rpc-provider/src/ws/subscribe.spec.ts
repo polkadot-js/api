@@ -17,7 +17,7 @@ function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = true): WsProvider {
+function createWs (autoConnect = 1000): WsProvider {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
   return ws;
@@ -47,7 +47,7 @@ describe('subscribe', (): void => {
       }
     }]);
 
-    return createWs(true)
+    return createWs()
       .subscribe('type', 'test_sub', [], (cb): void => {
         expect(cb).toEqual(expect.anything());
       })
