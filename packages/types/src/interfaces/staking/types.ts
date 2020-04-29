@@ -211,7 +211,7 @@ export interface UnappliedSlash extends Struct {
 }
 
 /** @name UnappliedSlashOther */
-export interface UnappliedSlashOther extends ITuple<[ValidatorIndex, Balance]> {}
+export interface UnappliedSlashOther extends ITuple<[AccountId, Balance]> {}
 
 /** @name UnlockChunk */
 export interface UnlockChunk extends Struct {

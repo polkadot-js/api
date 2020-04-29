@@ -147,7 +147,7 @@ export default {
       unlocking: 'Vec<UnlockChunk>',
       claimedRewards: 'Vec<EraIndex>'
     },
-    UnappliedSlashOther: '(ValidatorIndex, Balance)',
+    UnappliedSlashOther: '(AccountId, Balance)',
     UnappliedSlash: {
       validator: 'AccountId',
       own: 'Balance',
