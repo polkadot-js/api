@@ -8,6 +8,7 @@ import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, Sig
 import { ExtrinsicSignatureOptions } from '../types';
 
 import { u8aConcat } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
@@ -140,7 +141,10 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    const signer = this.registry.createType('Address', account.publicKey);
+    const address = account.publicKey.length > 32
+      ? blake2AsU8a(account.publicKey, 256)
+      : account.publicKey;
+    const signer = this.registry.createType('Address', address);
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('MultiSignature', payload.sign(account));
 
