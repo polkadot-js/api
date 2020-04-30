@@ -1,3 +1,7 @@
+# 1.12.2 Apr 30, 2020
+
+- Update @polkadot/util to stable 2.9.1 (sadly missed in the previous version, stable should match to stable)
+
 # 1.12.1 Apr 29, 2020
 
 - Fix `CompactAssignments` types (Thanks to https://github.com/arjanz)
