@@ -2,12 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Handlebars from 'handlebars';
+
 import { Text } from '@polkadot/types';
 
 import { indent } from './formatting';
 
 type AnyString = Text | string;
 type Arg = [AnyString, AnyString];
+
+Handlebars.registerPartial({
+  docs: Handlebars.compile(`
+{{~#if docs.length}}
+/**
+{{~#each docs}}
+
+ * {{{this}}}
+{{~/each}}
+
+ **/
+{{/if}}
+`)
+});
 
 export function createDocComments (spaces: number, docs: AnyString[], args: Arg[] = []): string {
   const contents = [

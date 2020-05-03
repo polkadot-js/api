@@ -2,17 +2,69 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Handlebars from 'handlebars';
+
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
 import { getTypeDef } from '@polkadot/types/create';
 import { paramsNotation } from '@polkadot/types/codec/utils';
 
 import { setImports, TypeImports } from './imports';
+import { readTemplate } from './file';
+
+const TYPES_NON_PRIMITIVE = ['Metadata'];
 
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 export const FOOTER = '\n';
 
-const TYPES_NON_PRIMITIVE = ['Metadata'];
+Handlebars.registerPartial({
+  footer: Handlebars.compile(''),
+  header: Handlebars.compile(readTemplate('header'))
+});
+
+Handlebars.registerHelper({
+  imports () {
+    const { imports, types } = this as any;
+
+    return [
+      {
+        file: '@polkadot/types/types',
+        types: Object.keys(imports.typesTypes)
+      },
+      {
+        file: '@polkadot/types/codec',
+        types: Object
+          .keys(imports.codecTypes)
+          .filter((name): boolean => name !== 'Tuple')
+      },
+      {
+        file: '@polkadot/types/extrinsic',
+        types: Object.keys(imports.extrinsicTypes)
+      },
+      {
+        file: '@polkadot/types/generic',
+        types: Object.keys(imports.genericTypes)
+      },
+      {
+        file: '@polkadot/types/primitive',
+        types: Object
+          .keys(imports.primitiveTypes)
+          .filter((name): boolean => !TYPES_NON_PRIMITIVE.includes(name))
+      },
+      {
+        file: '@polkadot/types',
+        types: Object
+          .keys(imports.primitiveTypes)
+          .filter((name): boolean => TYPES_NON_PRIMITIVE.includes(name))
+      },
+      ...types
+    ].reduce((result, { file, types }): string => {
+      return types.length
+        ? `${result}import { ${types.sort().join(', ')} } from '${file}';\n`
+        : result;
+    }, '');
+  }
+});
 
 // creates the import lines
 /** @internal */
