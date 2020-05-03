@@ -5,13 +5,13 @@
 declare module '@polkadot/api/types/storage' {
   export interface AugmentedQueries<ApiType> {
     {{#each modules}}
-    {{this.name}}: {
-      {{#unless isStrict}}
+    {{name}}: {
+      {{#unless @root.isStrict}}
       [index: string]: QueryableStorageEntry<ApiType>;
       {{/unless}}
-      {{~#each this.items}}
+      {{~#each items}}
       {{> docs}}
-      {{{this.name}}}: {{{this.entryType}}}<ApiType, ({{{this.args}}}) => Observable<{{{this.returnType}}}>>{{#unless isStrict}} & QueryableStorageEntry<ApiType>{{/unless}};
+      {{{name}}}: {{{entryType}}}<ApiType, ({{{args}}}) => Observable<{{{returnType}}}>>{{#unless @root.isStrict}} & QueryableStorageEntry<ApiType>{{/unless}};
       {{/each}}
     };
     {{/each}}
