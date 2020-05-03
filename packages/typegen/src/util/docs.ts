@@ -7,22 +7,13 @@ import Handlebars from 'handlebars';
 import { Text } from '@polkadot/types';
 
 import { indent } from './formatting';
+import { readTemplate } from './file';
 
 type AnyString = Text | string;
 type Arg = [AnyString, AnyString];
 
 Handlebars.registerPartial({
-  docs: Handlebars.compile(`
-{{~#if docs.length}}
-/**
-{{~#each docs}}
-
- * {{{this}}}
-{{~/each}}
-
- **/
-{{/if}}
-`)
+  docs: Handlebars.compile(readTemplate('docs'))
 });
 
 export function createDocComments (spaces: number, docs: AnyString[], args: Arg[] = []): string {
