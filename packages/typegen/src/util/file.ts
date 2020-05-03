@@ -22,4 +22,4 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 
 export function readTemplate (path: string): string {
   return fs.readFileSync(`${__dirname}/../templates/${path}.hbs`).toString();
-};
+}
