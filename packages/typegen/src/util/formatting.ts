@@ -66,6 +66,9 @@ Handlebars.registerHelper({
   },
   trim (options) {
     return options.fn(this).trim();
+  },
+  upper (options) {
+    return options.fn(this).toUpperCase();
   }
 });
 

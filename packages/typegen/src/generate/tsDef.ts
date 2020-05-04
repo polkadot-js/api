@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Handlebars from 'handlebars';
+
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
 import path from 'path';
@@ -9,7 +11,7 @@ import { getTypeDef } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
-import { FOOTER, HEADER, TypeImports, createImportCode, createImports, exportInterface, exportType, formatType, setImports, writeFile } from '../util';
+import { TypeImports, createImports, exportInterface, exportType, readTemplate, formatType, setImports, writeFile } from '../util';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -181,22 +183,37 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
   });
 }
 
+const templateIndex = readTemplate('tsDef/index');
+const generateTsDefIndexTemplate = Handlebars.compile(templateIndex);
+
+const templateModuleTypes = readTemplate('tsDef/moduleTypes');
+const generateTsDefModuleTypesTemplate = Handlebars.compile(templateModuleTypes);
+
+const templateTypes = readTemplate('tsDef/types');
+const generateTsDefTypesTemplate = Handlebars.compile(templateTypes);
+
 /** @internal */
 function generateTsDefFor (importDefinitions: { [importPath: string]: object }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
   const imports = { ...createImports(importDefinitions, { types }), interfaces: [] } as Imports;
   const definitions = imports.definitions;
   const interfaces = generateInterfaces(definitions, { types }, imports);
-  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
+  const items = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition);
 
-  const header = createImportCode(HEADER('defs'), imports, [
+  const importTypes = [
     ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
       file: packagePath,
       types: Object.keys(imports.localTypes[packagePath])
     }))
-  ]);
+  ];
 
-  writeFile(path.join(outputDir, defName, 'types.ts'), () => header.concat(sortedDefs).concat(`\n\nexport type PHANTOM_${defName.toUpperCase()} = '${defName}';`).concat(FOOTER), true);
-  writeFile(path.join(outputDir, defName, 'index.ts'), () => HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), true);
+  writeFile(path.join(outputDir, defName, 'types.ts'), () => generateTsDefModuleTypesTemplate({
+    headerType: 'defs',
+    imports,
+    items,
+    name: defName,
+    types: importTypes
+  }), true);
+  writeFile(path.join(outputDir, defName, 'index.ts'), () => generateTsDefIndexTemplate({ headerType: 'defs' }), true);
 }
 
 /** @internal */
@@ -210,17 +227,13 @@ export function generateTsDef (importDefinitions: { [importPath: string]: object
       generateTsDefFor(importDefinitions, defName, obj, outputDir);
     });
 
-    return HEADER('defs')
-      .concat(
-        Object
-          .keys(definitions)
-          .map((moduleName): string => `export * from './${moduleName}/types';`)
-          .join('\n')
-      )
-      .concat(FOOTER);
+    return generateTsDefTypesTemplate({
+      headerType: 'defs',
+      items: Object.keys(definitions)
+    });
   });
 
-  writeFile(path.join(outputDir, 'index.ts'), () => HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), true);
+  writeFile(path.join(outputDir, 'index.ts'), () => generateTsDefIndexTemplate({ headerType: 'defs' }), true);
 }
 
 /** @internal */
