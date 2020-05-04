@@ -25,9 +25,14 @@ const api = await ApiPromise.create({
           }
         ],
         type: 'Balance'
-      }
-    }
-  }
+      },
+      anotherMethod: { ... },
+      ...
+    },
+    anotherModule: { ... },
+    ...
+  },
+  ...
 });
 ```
 
