@@ -4,7 +4,7 @@
 
 declare module '@polkadot/metadata/Decorated/consts/types' {
   export interface Constants {
-    {{#unless @root.isStrict}}
+    {{#unless isStrict}}
     [index: string]: ModuleConstants;
     {{/unless}}
     {{#each modules}}
