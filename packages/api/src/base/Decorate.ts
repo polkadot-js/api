@@ -344,8 +344,15 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
-    decorated.keyPrefix = (): string =>
-      u8aToHex(creator.keyPrefix);
+    decorated.keyPrefix = (key1?: Arg): string =>
+      creator.meta.type.isDoubleMap && !isUndefined(key1) && !isNull(key1)
+        ? this.createType('Raw', u8aConcat(
+          creator.keyPrefix,
+          getHasher(creator.meta.type.asDoubleMap.hasher)(
+            this.createType(creator.meta.type.asDoubleMap.key1.toString() as 'Raw', key1).toU8a()
+          )
+        )).toHex()
+        : u8aToHex(creator.keyPrefix);
 
     decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
       this._decorateStorageRange(decorated, [arg1, arg2], range));
