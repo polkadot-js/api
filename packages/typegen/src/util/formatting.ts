@@ -18,7 +18,7 @@ export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via
 export const FOOTER = '\n';
 
 Handlebars.registerPartial({
-  footer: Handlebars.compile(''),
+  footer: Handlebars.compile(readTemplate('footer')),
   header: Handlebars.compile(readTemplate('header'))
 });
 

@@ -14,7 +14,7 @@ import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { TypeImports, createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { TypeImports, createImports, compareName, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
@@ -74,31 +74,34 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
-    const compareName = (a: { name: { toString(): string } }, b: { name: { toString(): string } }): number => a.name.toString().localeCompare(b.name.toString());
+    const modules = meta.asLatest.modules
+      .sort(compareName)
+      .filter((mod) => !mod.storage.isNone)
+      .map(({ name, storage }) => {
+        const items = storage.unwrap().items
+          .sort(compareName)
+          .map((storageEntry) => {
+            const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+            let entryType = 'AugmentedQuery';
 
-    const modules = meta.asLatest.modules.sort(compareName).filter((mod) => !mod.storage.isNone).map(({ name, storage }) => {
-      const items = storage.unwrap().items.sort(compareName).map((storageEntry) => {
-        const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
-        let entryType = 'AugmentedQuery';
+            if (storageEntry.type.isDoubleMap) {
+              entryType = `${entryType}DoubleMap`;
+            }
 
-        if (storageEntry.type.isDoubleMap) {
-          entryType = `${entryType}DoubleMap`;
-        }
+            return {
+              args,
+              docs: storageEntry.documentation.map((doc) => doc.trim()).filter((doc) => !!doc),
+              entryType,
+              name: stringCamelCase(storageEntry.name.toString()),
+              returnType
+            };
+          });
 
         return {
-          args,
-          docs: storageEntry.documentation.map((doc) => doc.trim()).filter((doc) => !!doc),
-          entryType,
-          name: stringCamelCase(storageEntry.name.toString()),
-          returnType
+          items,
+          name: stringCamelCase(name.toString())
         };
       });
-
-      return {
-        items,
-        name: stringCamelCase(name.toString())
-      };
-    });
 
     imports.typesTypes.Observable = true;
 
