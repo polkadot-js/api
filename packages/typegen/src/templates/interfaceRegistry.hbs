@@ -1,0 +1,12 @@
+{{> header }}
+
+{{{ imports }}}
+
+declare module '@polkadot/types/types/registry' {
+  export interface InterfaceTypes {
+    {{#each items}}
+    {{{this}}}
+    {{/each}}
+  }
+}
+{{> footer }}
