@@ -14,7 +14,7 @@ import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { TypeImports, createImports, formatType, getSimilarTypes, registerDefinitions, setImports, writeFile, readTemplate } from '../util';
+import { TypeImports, createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
@@ -63,7 +63,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
 }
 
 const template = readTemplate('query');
-const generateForMetaTempalte = Handlebars.compile(template);
+const generateForMetaTemplate = Handlebars.compile(template);
 
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>>, isStrict: boolean): void {
@@ -113,7 +113,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       }
     ];
 
-    return generateForMetaTempalte({
+    return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
