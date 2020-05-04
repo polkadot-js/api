@@ -1,6 +1,7 @@
 # 1.13.0-beta.x
 
 - Add support for ECDSA keypairs in extrinsic signers (Thanks to https://github.com/akru)
+- Rework type generation to use templating for better maintenance (Thanks to https://github.com/xlc)
 - Remove static test-only metadata for Polkadot dev chains (not updated regularly, Substrate dev to remain)
 - Revert error swallow for wrong preimage data (temp. override for Kusama upgrade with no migration)
 
