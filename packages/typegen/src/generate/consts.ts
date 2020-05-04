@@ -38,7 +38,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
             setImports(allDefs, imports, [type.toString()]);
 
             return {
-              docs: documentation.map((doc) => doc.trim()).filter((doc) => !!doc),
+              docs: documentation,
               name: stringCamelCase(name.toString()),
               type: type.toString()
             };

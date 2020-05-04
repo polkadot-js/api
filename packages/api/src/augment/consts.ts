@@ -51,6 +51,7 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
       /**
        * The amount of funds a contract should deposit in order to offset
        * the cost of one byte.
+       * 
        * Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,
        * then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.
        * But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,
@@ -59,6 +60,7 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
       rentDepositOffset: AugmentedConst<BalanceOf>;
       /**
        * Number of block delay an extrinsic claim surcharge has.
+       * 
        * When claim surcharge is called by an extrinsic the rent is checked
        * for current_block - delay
        **/
@@ -86,6 +88,7 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
       cooloffPeriod: AugmentedConst<BlockNumber>;
       /**
        * The minimum period of locking and the period between a proposal being approved and enacted.
+       * 
        * It should generally be a little more than the unstake period to ensure that
        * voting stakers have an opportunity to remove themselves from the system in the case where
        * they are on the losing side of a vote.

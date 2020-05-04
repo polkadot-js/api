@@ -63,6 +63,9 @@ Handlebars.registerHelper({
         ? `${result}import { ${types.sort().join(', ')} } from '${file}';\n`
         : result;
     }, '');
+  },
+  trim (options) {
+    return options.fn(this).trim();
   }
 });
 

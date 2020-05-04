@@ -90,7 +90,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args,
-              docs: storageEntry.documentation.map((doc) => doc.trim()).filter((doc) => !!doc),
+              docs: storageEntry.documentation,
               entryType,
               name: stringCamelCase(storageEntry.name.toString()),
               returnType
