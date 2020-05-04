@@ -20,7 +20,8 @@ module.exports = {
       },
       { text: 'GitHub', link: 'https://github.com/polkadot-js/api' }
     ],
-    search: false,
+    search: true,
+    searchMaxSuggestions: 10,
     sidebar: [
       {
         title: 'Getting started',
@@ -97,5 +98,10 @@ module.exports = {
       ['/types/', '@polkadot/types'],
       '/CONTRIBUTING.md'
     ]
-  }
+  },
+  plugins: [
+    ['@vuepress/search', {
+      searchMaxSuggestions: 10
+    }]
+  ]
 };

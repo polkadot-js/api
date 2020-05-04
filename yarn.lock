@@ -3508,7 +3508,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vuepress/plugin-search@npm:1.4.1":
+"@vuepress/plugin-search@npm:1.4.1, @vuepress/plugin-search@npm:^1.4.1":
   version: 1.4.1
   resolution: "@vuepress/plugin-search@npm:1.4.1"
   checksum: 2/4131f5e8d5ee33bcfb6d6460bbed566c1a2d7ef4c995cfd5842766a69cd037a8938371d1c3a863d6fbf5ef8e4768f9b90bd413047467fde1b0ba15e10884bbc9
@@ -15497,6 +15497,7 @@ __metadata:
     "@polkadot/ts": ^0.3.19
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^25.2.1
+    "@vuepress/plugin-search": ^1.4.1
     copyfiles: ^2.2.0
   languageName: unknown
   linkType: soft
