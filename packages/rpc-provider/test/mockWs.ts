@@ -50,8 +50,8 @@ function createReply ({ id, reply: { result } }: ReplyDef): any {
 }
 
 // scope definition returned
-function mockWs (requests: { method: string }[], ws_url: string = TEST_WS_URL): Scope {
-  const server = new Server(ws_url);
+function mockWs (requests: { method: string }[], wsUrl: string = TEST_WS_URL): Scope {
+  const server = new Server(wsUrl);
 
   let requestCount = 0;
   const scope: Scope = {

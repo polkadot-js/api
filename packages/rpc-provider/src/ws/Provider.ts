@@ -86,12 +86,12 @@ export default class WsProvider implements WSProviderInterface {
   #websocket: WebSocket | null;
 
   /**
-   * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
+   * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
   constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000) {
-    endpoint = (typeof endpoint === "string") ? [endpoint] : endpoint;
-    assert(endpoint.length != 0, `WsProvider requires at least one Endpoint`);
+    endpoint = (typeof endpoint === 'string') ? [endpoint] : endpoint;
+    assert(endpoint.length !== 0, 'WsProvider requires at least one Endpoint');
     endpoint.forEach((endpoint) => {
       assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
     });
