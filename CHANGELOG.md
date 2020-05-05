@@ -4,6 +4,7 @@
 - Rework type generation to use templating for better maintenance (Thanks to https://github.com/xlc)
 - Remove static test-only metadata for Polkadot dev chains (not updated regularly, Substrate dev to remain)
 - Revert error swallow for wrong preimage data (temp. override for Kusama upgrade with no migration)
+- Update types & metadata as per latest Substrate master
 
 # 1.12.2 Apr 30, 2020
 
