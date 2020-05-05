@@ -6,6 +6,10 @@ import WsProvider from './';
 import { Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
+function sleepMs(ms: number = 0) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('onConnect', (): void => {
   let mock: Mock;
 
@@ -25,19 +29,31 @@ describe('onConnect', (): void => {
     expect(provider.isConnected()).toBe(false);
   });
 
-  it('Does connect when autoConnect is true', (): void => {
+  it('Does connect when autoConnect is true', async () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 1000);
 
-    expect(provider.isConnected()).not.toBe(true);
+    try {
+      await provider.connect();
+      await sleepMs(10); // Hack to give the provider time to connect
+    }
+    finally {
+      expect(provider.isConnected()).toBe(true);
+    }
   });
 
-  it('Creates a new WebSocket instance by calling the connect() method', (): void => {
+  it('Creates a new WebSocket instance by calling the connect() method', async () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 0);
 
     expect(provider.isConnected()).toBe(false);
+    expect(mock.server.clients().length).toBe(0);
 
-    provider.connect();
-
-    expect(provider.isConnected()).not.toBe(true);
+    try {
+      await provider.connect();
+      await sleepMs(10); // Hack to give the provider time to connect
+    }
+    finally {
+      expect(provider.isConnected()).toBe(true);
+      expect(mock.server.clients().length).toBe(1);
+    }
   });
 });
