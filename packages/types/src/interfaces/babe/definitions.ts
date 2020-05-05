@@ -18,6 +18,7 @@ export default {
   types: {
     BabeAuthorityWeight: 'u64',
     BabeBlockWeight: 'u32',
+    MaybeRandomness: 'Option<Randomness>',
     MaybeVrf: 'Option<VrfData>',
     // TODO Remove as soon as merged and metadata static updated
     BabeWeight: 'u64',
