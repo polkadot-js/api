@@ -57,12 +57,25 @@ describe('onConnect', (): void => {
     }
   });
 
-  it('Connects to first url when an array is given', async () => {
-    const provider: WsProvider = new WsProvider([TEST_WS_URL], 1000);
+  it('Connects to first endpoint when an array is given', async () => {
+    const provider: WsProvider = new WsProvider([TEST_WS_URL], 0);
 
     try {
       await provider.connect();
       await sleepMs(10); // Hack to give the provider time to connect
+    }
+    finally {
+      expect(provider.isConnected()).toBe(true);
+    }
+  });
+
+  it('Connects to the second endpoint when the first is unreachable', async () => {
+    const endpoints : string[] = ['ws://localhost:9956', TEST_WS_URL];
+    const provider: WsProvider = new WsProvider(endpoints, 10);
+
+    try {
+      await provider.connect();
+      await sleepMs(20); // Hack to give the provider time to connect
     }
     finally {
       expect(provider.isConnected()).toBe(true);
