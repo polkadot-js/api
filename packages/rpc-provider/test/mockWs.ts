@@ -6,7 +6,6 @@ import { Server } from 'mock-socket';
 
 const TEST_WS_URL = 'ws://localhost:9966';
 
-let server: Server;
 interface Scope {
   body: { [index: string]: {} };
   requests: number;
@@ -52,7 +51,7 @@ function createReply ({ id, reply: { result } }: ReplyDef): any {
 
 // scope definition returned
 function mockWs (requests: { method: string }[], ws_url: string = TEST_WS_URL): Scope {
-  server = new Server(ws_url);
+  const server = new Server(ws_url);
 
   let requestCount = 0;
   const scope: Scope = {

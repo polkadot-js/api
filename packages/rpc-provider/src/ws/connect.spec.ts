@@ -11,16 +11,18 @@ function sleepMs(ms: number = 0) {
 }
 
 describe('onConnect', (): void => {
-  let mock: Mock;
+  let mocks: Mock[];
 
   beforeEach((): void => {
-    mock = mockWs([]);
+    mocks = [mockWs([])];
   });
 
   afterEach((): void => {
-    if (mock) {
-      mock.done();
-    }
+    mocks.forEach((m) => {
+      if (m) {
+        m.done();
+      }
+    });
   });
 
   it('Does not connect when autoConnect is false', (): void => {
@@ -38,13 +40,13 @@ describe('onConnect', (): void => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 0);
 
     expect(provider.isConnected()).toBe(false);
-    expect(mock.server.clients().length).toBe(0);
+    expect(mocks[0].server.clients().length).toBe(0);
 
     await provider.connect();
     await sleepMs(10); // Hack to give the provider time to connect
 
     expect(provider.isConnected()).toBe(true);
-    expect(mock.server.clients().length).toBe(1);
+    expect(mocks[0].server.clients().length).toBe(1);
   });
 
   it('Connects to first endpoint when an array is given', async () => {
@@ -62,18 +64,15 @@ describe('onConnect', (): void => {
     const endpoints: string[] = ['ws://localhost:9956', TEST_WS_URL];
     const provider: WsProvider = new WsProvider(endpoints, 10);
 
-    await provider.connect();
-    await sleepMs(20); // Hack to give the provider time to connect
+    await sleepMs(50); // Hack to give the provider time to connect
 
     expect(provider.isConnected()).toBe(true);
   });
 
   it('Connects to the second endpoint when the first is dropped', async () => {
-    const endpoints: string[] = ['ws://localhost:9956', 'ws://localhost:9957'];
-    const mocks = [
-      mockWs([], endpoints[0]),
-      mockWs([], endpoints[1])
-    ];
+    const endpoints: string[] = [TEST_WS_URL, 'ws://localhost:9957'];
+    mocks.push(mockWs([], endpoints[1]));
+
     const provider: WsProvider = new WsProvider(endpoints, 10);
 
     await sleepMs(20); // Hack to give the provider time to connect
@@ -83,13 +82,44 @@ describe('onConnect', (): void => {
 
     // Close connection from first server
     mocks[0].server.clients()[0].close();
-    await sleepMs(1000);
+    await sleepMs(50);
 
     // Check that second server is connected
     expect(mocks[1].server.clients().length).toBe(1);
     expect(provider.isConnected()).toBe(true);
+  });
 
-    // Clean up mocks
-    mocks.forEach((mock) => mock.done());
+  it('Round-robin of endpoints on WsProvider', async () => {
+    const rounds = 5;
+    const endpoints: string[] = [
+      TEST_WS_URL,
+      'ws://localhost:9956',
+      'ws://localhost:9957',
+      'ws://invalid:9956',
+      'ws://localhost:9958',
+    ];
+    mocks.push(mockWs([], endpoints[1]));
+    mocks.push(mockWs([], endpoints[2]));
+    mocks.push(mockWs([], endpoints[4]));
+    const mockNext = [
+      mocks[1],
+      mocks[2],
+      mocks[3],
+      mocks[0],
+    ];
+    const provider: WsProvider = new WsProvider(endpoints, 10);
+
+    for (let round = 0; round < rounds; round++) {
+      for (let index = 0; index < mocks.length; index++) {
+        await sleepMs(50); // Hack to give the provider time to connect
+        // Check that first server is connected and the next one isn't
+        expect(mocks[index].server.clients().length).toBe(1);
+        expect(mockNext[index].server.clients().length).toBe(0);
+        expect(provider.isConnected()).toBe(true);
+
+        // Close connection from first server
+        mocks[index].server.clients()[0].close();
+      }
+    }
   });
 });
