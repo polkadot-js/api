@@ -20,6 +20,9 @@ export interface EpochAuthorship extends Struct {
   readonly secondary: Vec<u64>;
 }
 
+/** @name MaybeRandomness */
+export interface MaybeRandomness extends Option<Randomness> {}
+
 /** @name MaybeVrf */
 export interface MaybeVrf extends Option<VrfData> {}
 

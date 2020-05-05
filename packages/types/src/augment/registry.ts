@@ -7,7 +7,7 @@ import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/t
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeVrf, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
+import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
 import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
@@ -300,6 +300,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<BabeBlockWeight>': Compact<BabeBlockWeight>;
     'Option<BabeBlockWeight>': Option<BabeBlockWeight>;
     'Vec<BabeBlockWeight>': Vec<BabeBlockWeight>;
+    MaybeRandomness: MaybeRandomness;
+    'Option<MaybeRandomness>': Option<MaybeRandomness>;
+    'Vec<MaybeRandomness>': Vec<MaybeRandomness>;
     MaybeVrf: MaybeVrf;
     'Option<MaybeVrf>': Option<MaybeVrf>;
     'Vec<MaybeVrf>': Vec<MaybeVrf>;

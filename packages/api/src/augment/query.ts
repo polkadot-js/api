@@ -5,10 +5,10 @@ import { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import { Option, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { BabeAuthorityWeight, MaybeVrf, Randomness } from '@polkadot/types/interfaces/babe';
+import { BabeAuthorityWeight, MaybeRandomness, Randomness } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/interfaces/balances';
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
-import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { CodeHash, ContractInfo, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
 import { PreimageStatus, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
@@ -69,7 +69,7 @@ declare module '@polkadot/api/types/storage' {
        * Temporary value (cleared at block finalization) which is `Some`
        * if per-block initialization has already been called for current block.
        **/
-      initialized: AugmentedQuery<ApiType, () => Observable<Option<MaybeVrf>>> & QueryableStorageEntry<ApiType>;
+      initialized: AugmentedQuery<ApiType, () => Observable<Option<MaybeRandomness>>> & QueryableStorageEntry<ApiType>;
       /**
        * How late the current block is compared to its parent.
        * 
@@ -107,7 +107,7 @@ declare module '@polkadot/api/types/storage' {
        * epoch.
        **/
       segmentIndex: AugmentedQuery<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
-      underConstruction: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<RawVRFOutput>>> & QueryableStorageEntry<ApiType>;
+      underConstruction: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<Randomness>>> & QueryableStorageEntry<ApiType>;
     };
     balances: {
       [index: string]: QueryableStorageEntry<ApiType>;
