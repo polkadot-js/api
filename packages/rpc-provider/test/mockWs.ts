@@ -4,7 +4,7 @@
 
 import { Server } from 'mock-socket';
 
-const TEST_WS_URL = 'ws://localhost:9966';
+const TEST_WS_URL = 'ws://localhost:9955';
 
 interface Scope {
   body: { [index: string]: {} };
