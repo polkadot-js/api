@@ -56,4 +56,16 @@ describe('onConnect', (): void => {
       expect(mock.server.clients().length).toBe(1);
     }
   });
+
+  it('Connects to first url when an array is given', async () => {
+    const provider: WsProvider = new WsProvider([TEST_WS_URL], 1000);
+
+    try {
+      await provider.connect();
+      await sleepMs(10); // Hack to give the provider time to connect
+    }
+    finally {
+      expect(provider.isConnected()).toBe(true);
+    }
+  });
 });

@@ -65,7 +65,7 @@ const l = logger('api-ws');
 export default class WsProvider implements WSProviderInterface {
   readonly #coder: Coder;
 
-  readonly #endpoint: string;
+  readonly #endpoint: string[];
 
   readonly #eventemitter: EventEmitter;
 
@@ -74,6 +74,8 @@ export default class WsProvider implements WSProviderInterface {
   readonly #queued: Record<string, string> = {};
 
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
+
+  #endpointNext: number;
 
   #autoConnectMs: number;
 
@@ -87,14 +89,19 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string = defaults.WS_URL, autoConnectMs: number | false = 1000) {
-    assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000) {
+    endpoint = (typeof endpoint === "string") ? [endpoint] : endpoint;
+    /// TODO: Add assert that Endpoint array must have at least one entry
+    endpoint.forEach((endpoint) => {
+      assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+    });
 
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new Coder();
     this.#endpoint = endpoint;
     this.#websocket = null;
+    this.#endpointNext = 0;
 
     if (autoConnectMs > 0) {
       this.connect();
@@ -124,7 +131,7 @@ export default class WsProvider implements WSProviderInterface {
     try {
       const WS = await getWSClass();
 
-      this.#websocket = new WS(this.#endpoint);
+      this.#websocket = new WS(this.#endpoint[this.#endpointNext]);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
