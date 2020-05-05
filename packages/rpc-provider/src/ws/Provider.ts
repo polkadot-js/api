@@ -91,7 +91,7 @@ export default class WsProvider implements WSProviderInterface {
    */
   constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000) {
     endpoint = (typeof endpoint === "string") ? [endpoint] : endpoint;
-    /// TODO: Add assert that Endpoint array must have at least one entry
+    assert(endpoint.length != 0, `WsProvider requires at least one Endpoint`);
     endpoint.forEach((endpoint) => {
       assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
     });

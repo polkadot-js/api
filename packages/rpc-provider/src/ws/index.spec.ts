@@ -29,3 +29,32 @@ describe('Ws', (): void => {
     ).toEqual(false);
   });
 });
+
+describe('Endpoint Parsing', (): void => {
+
+  it('Succeeds when WsProvider endpoint is a valid string', () => {
+    new WsProvider(TEST_WS_URL, 0);
+  });
+
+  it('Throws when WsProvider endpoint is an invalid string', () => {
+    expect(() => { new WsProvider("http://127.0.0.1:9955", 0); } )
+    .toThrowError(/^Endpoint should start with /);
+  });
+
+  it('Succeeds when WsProvider endpoint is a valid array', () => {
+    const endpoints: string[] = ["ws://127.0.0.1:9955", 'wss://testnet.io:9944', 'ws://mychain.com:9933'];
+    new WsProvider(endpoints, 0);
+  });
+
+  it('Throws when WsProvider endpoint is an empty array', () => {
+    const endpoints: string[] = [];
+    expect(() => { new WsProvider(endpoints, 0); } )
+    .toThrowError(`WsProvider requires at least one Endpoint`);
+  });
+
+  it('Throws when WsProvider endpoint is an invalid array', () => {
+    const endpoints: string[] = ["ws://127.0.0.1:9955", 'http://bad.co:9944', 'ws://mychain.com:9933'];
+    expect(() => { new WsProvider(endpoints, 0); } )
+    .toThrowError(/^Endpoint should start with /);
+  });
+});
