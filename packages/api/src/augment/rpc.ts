@@ -13,6 +13,7 @@ import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
+import { ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
 import { StorageKind } from '@polkadot/types/interfaces/offchain';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
@@ -139,6 +140,12 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Instructs the manual-seal authorship task to finalize a block
        **/
       finalizeBlock: AugmentedRpc<(hash: BlockHash | string | Uint8Array, justification?: Justification | string | Uint8Array) => Observable<bool>>;
+    };
+    grandpa: {
+      /**
+       * Returns the state of the current best round state as well as the ongoing background rounds
+       **/
+      roundState: AugmentedRpc<() => Observable<ReportedRoundStates>>;
     };
     offchain: {
       /**
