@@ -77,7 +77,7 @@ export default class WsProvider implements WSProviderInterface {
 
   #autoConnectMs: number;
 
-  #endpointNext: number;
+  #endpointIndex: number;
 
   #isConnected = false;
 
@@ -103,7 +103,7 @@ export default class WsProvider implements WSProviderInterface {
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new Coder();
-    this.#endpointNext = 0;
+    this.#endpointIndex = -1;
     this.#endpoints = endpoints;
     this.#websocket = null;
 
@@ -135,13 +135,13 @@ export default class WsProvider implements WSProviderInterface {
     try {
       const WS = await getWSClass();
 
-      this.#websocket = new WS(this.#endpoints[this.#endpointNext]);
+      this.#websocket = new WS(this.#endpoints[this.#endpointIndex]);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
       this.#websocket.onopen = this.#onSocketOpen;
 
-      this.#endpointNext = (this.#endpointNext + 1) % this.#endpoints.length;
+      this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
     } catch (error) {
       l.error(error);
     }
@@ -281,7 +281,7 @@ export default class WsProvider implements WSProviderInterface {
 
   #onSocketClose = (event: CloseEvent): void => {
     if (this.#autoConnectMs > 0) {
-      l.error(`disconnected from ${this.#endpoints} code: '${event.code}' reason: '${event.reason}'`);
+      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]} code: '${event.code}' reason: '${event.reason}'`);
     }
 
     this.#isConnected = false;
@@ -376,7 +376,7 @@ export default class WsProvider implements WSProviderInterface {
   #onSocketOpen = (): boolean => {
     assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
 
-    l.debug((): any[] => ['connected to', this.#endpoints]);
+    l.debug((): any[] => ['connected to', this.#endpoints[this.#endpointIndex]]);
 
     this.#isConnected = true;
 
