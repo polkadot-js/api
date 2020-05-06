@@ -1,4 +1,4 @@
-# 1.13.0-beta.x
+# 1.13.1 May 6, 2020
 
 - Add support for ECDSA keypairs in extrinsic signers (Thanks to https://github.com/akru)
 - Rework type generation to use templating for better maintenance (Thanks to https://github.com/xlc)
@@ -8,6 +8,7 @@
 - Revert error swallow for wrong preimage data (temp. override for Kusama upgrade with no migration)
 - Fix `.encodedLength` calculation on `[Type; N]` types
 - Update types & metadata as per latest Substrate master
+- Adjust Centrifuge starting version
 
 # 1.12.2 Apr 30, 2020
 

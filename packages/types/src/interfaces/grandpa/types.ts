@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u64 } from '@polkadot/types/primitive';
+import { BTreeSet, Enum, Struct, Vec } from '@polkadot/types/codec';
+import { u32, u64 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AuthoritySignature } from '@polkadot/types/interfaces/imOnline';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
@@ -62,6 +62,34 @@ export interface PendingPause extends Struct {
 export interface PendingResume extends Struct {
   readonly scheduledAt: BlockNumber;
   readonly delay: BlockNumber;
+}
+
+/** @name Precommits */
+export interface Precommits extends Struct {
+  readonly currentWeight: u32;
+  readonly missing: BTreeSet<AuthorityId>;
+}
+
+/** @name Prevotes */
+export interface Prevotes extends Struct {
+  readonly currentWeight: u32;
+  readonly missing: BTreeSet<AuthorityId>;
+}
+
+/** @name ReportedRoundStates */
+export interface ReportedRoundStates extends Struct {
+  readonly setId: u32;
+  readonly best: RoundState;
+  readonly background: Vec<RoundState>;
+}
+
+/** @name RoundState */
+export interface RoundState extends Struct {
+  readonly round: u32;
+  readonly totalWeight: u32;
+  readonly thresholdWeight: u32;
+  readonly prevotes: Prevotes;
+  readonly precommits: Precommits;
 }
 
 /** @name SetId */

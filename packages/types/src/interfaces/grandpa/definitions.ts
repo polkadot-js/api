@@ -8,7 +8,13 @@
 import { Definitions } from '../../types';
 
 export default {
-  rpc: {},
+  rpc: {
+    roundState: {
+      description: 'Returns the state of the current best round state as well as the ongoing background rounds',
+      params: [],
+      type: 'ReportedRoundStates'
+    }
+  },
   types: {
     AuthorityIndex: 'u64',
     AuthorityList: 'Vec<NextAuthority>',
@@ -46,6 +52,26 @@ export default {
       scheduledAt: 'BlockNumber',
       /// Number of blocks after which the change will be enacted.
       delay: 'BlockNumber'
+    },
+    Precommits: {
+      currentWeight: 'u32',
+      missing: 'BTreeSet<AuthorityId>'
+    },
+    Prevotes: {
+      currentWeight: 'u32',
+      missing: 'BTreeSet<AuthorityId>'
+    },
+    ReportedRoundStates: {
+      setId: 'u32',
+      best: 'RoundState',
+      background: 'Vec<RoundState>'
+    },
+    RoundState: {
+      round: 'u32',
+      totalWeight: 'u32',
+      thresholdWeight: 'u32',
+      prevotes: 'Prevotes',
+      precommits: 'Precommits'
     },
     SetId: 'u64',
     StoredPendingChange: {
