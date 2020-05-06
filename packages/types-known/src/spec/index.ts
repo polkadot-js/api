@@ -11,6 +11,7 @@ import westend from './westend';
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
 const typesSpec: Record<string, OverrideVersionedType[]> = {
+  'Centrifuge Chain Node': centrifugeChain,
   'centrifuge-chain': centrifugeChain,
   kusama,
   polkadot,
