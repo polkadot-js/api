@@ -28,19 +28,19 @@
   "dependencies": {
     "@babel/runtime": "^7.9.6",
     "@polkadot/api-derive": "1.13.0-beta.13",
-    "@polkadot/keyring": "^2.10.0-beta.1",
+    "@polkadot/keyring": "^2.9.1",
     "@polkadot/metadata": "1.13.0-beta.13",
     "@polkadot/rpc-core": "1.13.0-beta.13",
     "@polkadot/rpc-provider": "1.13.0-beta.13",
     "@polkadot/types": "1.13.0-beta.13",
     "@polkadot/types-known": "1.13.0-beta.13",
-    "@polkadot/util": "^2.10.0-beta.1",
-    "@polkadot/util-crypto": "^2.10.0-beta.1",
+    "@polkadot/util": "^2.9.1",
+    "@polkadot/util-crypto": "^2.9.1",
     "bn.js": "^5.1.1",
     "eventemitter3": "^4.0.0",
     "rxjs": "^6.5.5"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^2.10.0-beta.1"
+    "@polkadot/keyring": "^2.9.1"
   }
 }
