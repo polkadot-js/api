@@ -224,9 +224,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
     // NOTE here we actually override nonce if it was specified (backwards compat for
     // the previous signature - don't let userspace break, but allow then time to upgrade)
-    #optionsOrNonce = (optionsOrNonce?: Partial<SignerOptions>): Partial<SignerOptions> => {
-      if (!optionsOrNonce) return {};
-
+    #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions> = {}): Partial<SignerOptions> => {
       return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
         ? { nonce: optionsOrNonce }
         : optionsOrNonce;
