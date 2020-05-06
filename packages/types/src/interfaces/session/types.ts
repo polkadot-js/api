@@ -2,7 +2,8 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { u32 } from '@polkadot/types/primitive';
+import { Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, u32 } from '@polkadot/types/primitive';
 import { AccountId, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import { Exposure } from '@polkadot/types/interfaces/staking';
 
@@ -14,6 +15,13 @@ export interface IdentificationTuple extends ITuple<[ValidatorId, FullIdentifica
 
 /** @name Keys */
 export interface Keys extends SessionKeys4 {}
+
+/** @name MembershipProof */
+export interface MembershipProof extends Struct {
+  readonly session: SessionIndex;
+  readonly trieNodes: Vec<Bytes>;
+  readonly validatorCount: ValidatorCount;
+}
 
 /** @name SessionIndex */
 export interface SessionIndex extends u32 {}
@@ -35,5 +43,8 @@ export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, A
 
 /** @name SessionKeys6 */
 export interface SessionKeys6 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+
+/** @name ValidatorCount */
+export interface ValidatorCount extends u32 {}
 
 export type PHANTOM_SESSION = 'session';

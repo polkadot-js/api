@@ -34,6 +34,12 @@ export default {
     ...keyTypes,
     FullIdentification: 'Exposure',
     IdentificationTuple: '(ValidatorId, FullIdentification)',
-    SessionIndex: 'u32'
+    MembershipProof: {
+      session: 'SessionIndex',
+      trieNodes: 'Vec<Vec<u8>>',
+      validatorCount: 'ValidatorCount'
+    },
+    SessionIndex: 'u32',
+    ValidatorCount: 'u32'
   }
 } as Definitions;
