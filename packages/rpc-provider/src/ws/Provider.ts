@@ -65,7 +65,7 @@ const l = logger('api-ws');
 export default class WsProvider implements WSProviderInterface {
   readonly #coder: Coder;
 
-  readonly #endpoint: string;
+  readonly #endpoints: string[];
 
   readonly #eventemitter: EventEmitter;
 
@@ -77,6 +77,8 @@ export default class WsProvider implements WSProviderInterface {
 
   #autoConnectMs: number;
 
+  #endpointIndex: number;
+
   #isConnected = false;
 
   #subscriptions: Record<string, WsStateSubscription> = {};
@@ -84,16 +86,25 @@ export default class WsProvider implements WSProviderInterface {
   #websocket: WebSocket | null;
 
   /**
-   * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
+   * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string = defaults.WS_URL, autoConnectMs: number | false = 1000) {
-    assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000) {
+    const endpoints = Array.isArray(endpoint)
+      ? endpoint
+      : [endpoint];
+
+    assert(endpoints.length !== 0, 'WsProvider requires at least one Endpoint');
+
+    endpoints.forEach((endpoint) => {
+      assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+    });
 
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new Coder();
-    this.#endpoint = endpoint;
+    this.#endpointIndex = -1;
+    this.#endpoints = endpoints;
     this.#websocket = null;
 
     if (autoConnectMs > 0) {
@@ -112,7 +123,7 @@ export default class WsProvider implements WSProviderInterface {
    * @description Returns a clone of the object
    */
   public clone (): WsProvider {
-    return new WsProvider(this.#endpoint);
+    return new WsProvider(this.#endpoints);
   }
 
   /**
@@ -122,9 +133,11 @@ export default class WsProvider implements WSProviderInterface {
    */
   public async connect (): Promise<void> {
     try {
+      this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
+
       const WS = await getWSClass();
 
-      this.#websocket = new WS(this.#endpoint);
+      this.#websocket = new WS(this.#endpoints[this.#endpointIndex]);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
@@ -268,7 +281,7 @@ export default class WsProvider implements WSProviderInterface {
 
   #onSocketClose = (event: CloseEvent): void => {
     if (this.#autoConnectMs > 0) {
-      l.error(`disconnected from ${this.#endpoint} code: '${event.code}' reason: '${event.reason}'`);
+      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]} code: '${event.code}' reason: '${event.reason}'`);
     }
 
     this.#isConnected = false;
@@ -363,7 +376,7 @@ export default class WsProvider implements WSProviderInterface {
   #onSocketOpen = (): boolean => {
     assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
 
-    l.debug((): any[] => ['connected to', this.#endpoint]);
+    l.debug((): any[] => ['connected to', this.#endpoints[this.#endpointIndex]]);
 
     this.#isConnected = true;
 
