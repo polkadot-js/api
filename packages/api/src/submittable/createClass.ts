@@ -60,7 +60,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // sign a transaction, returning the this to allow chaining, i.e. .sign(...).send()
-    public sign (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): this {
+    public sign (account: IKeyringPair, optionsOrNonce?: Partial<SignerOptions>): this {
       super.sign(account, this.#makeSignOptions(this.#optionsOrNonce(optionsOrNonce), {}));
 
       return this;
@@ -69,7 +69,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
     //
     // also supports signing through external signers
-    public signAsync (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+    public signAsync (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, optionsOrNonce).pipe(mapTo(this))
@@ -164,7 +164,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return [options, statusCb];
     }
 
-    #observeSign = (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): Observable<number | undefined> => {
+    #observeSign = (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): Observable<number | undefined> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = this.#optionsOrNonce(optionsOrNonce);
       let updateId: number | undefined;
@@ -224,7 +224,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
     // NOTE here we actually override nonce if it was specified (backwards compat for
     // the previous signature - don't let userspace break, but allow then time to upgrade)
-    #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions>): Partial<SignerOptions> => {
+    #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions> = {}): Partial<SignerOptions> => {
       return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
         ? { nonce: optionsOrNonce }
         : optionsOrNonce;
