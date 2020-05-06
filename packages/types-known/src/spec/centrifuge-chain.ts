@@ -6,7 +6,8 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [1000, undefined],
+    // most chains started at 1000 (Fulvous at 224)
+    minmax: [1, undefined],
     types: {
       Address: 'AccountId',
       LookupSource: 'AccountId',
