@@ -133,6 +133,8 @@ export default class WsProvider implements WSProviderInterface {
    */
   public async connect (): Promise<void> {
     try {
+      this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
+
       const WS = await getWSClass();
 
       this.#websocket = new WS(this.#endpoints[this.#endpointIndex]);
@@ -140,8 +142,6 @@ export default class WsProvider implements WSProviderInterface {
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
       this.#websocket.onopen = this.#onSocketOpen;
-
-      this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
     } catch (error) {
       l.error(error);
     }
