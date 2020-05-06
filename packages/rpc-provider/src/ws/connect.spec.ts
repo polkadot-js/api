@@ -14,10 +14,12 @@ describe('onConnect', (): void => {
   let mocks: Mock[];
 
   beforeEach((): void => {
+    jest.setTimeout(30000);
     mocks = [mockWs([])];
   });
 
   afterEach((): void => {
+    jest.setTimeout(5000);
     mocks.forEach((m) => {
       if (m) {
         m.done();
@@ -34,18 +36,18 @@ describe('onConnect', (): void => {
   it('Does connect when autoConnect is true', async () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 1);
 
-    await sleepMs(250); // Hack to give the provider time to connect
+    await sleepMs(100); // Hack to give the provider time to connect
     expect(provider.isConnected()).toBe(true);
   });
 
   it('Creates a new WebSocket instance by calling the connect() method', async () => {
-    const provider: WsProvider = new WsProvider(TEST_WS_URL, 1);
+    const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
 
     expect(provider.isConnected()).toBe(false);
     expect(mocks[0].server.clients().length).toBe(0);
 
     await provider.connect();
-    await sleepMs(10); // Hack to give the provider time to connect
+    await sleepMs(100); // Hack to give the provider time to connect
 
     expect(provider.isConnected()).toBe(true);
     expect(mocks[0].server.clients().length).toBe(1);
@@ -55,7 +57,7 @@ describe('onConnect', (): void => {
     const provider: WsProvider = new WsProvider([TEST_WS_URL], 1);
 
     await provider.connect();
-    await sleepMs(250); // Hack to give the provider time to connect
+    await sleepMs(100); // Hack to give the provider time to connect
 
     expect(provider.isConnected()).toBe(true);
   });
@@ -67,7 +69,7 @@ describe('onConnect', (): void => {
     const endpoints: string[] = ['ws://localhost:9956', TEST_WS_URL];
     const provider: WsProvider = new WsProvider(endpoints, 1);
 
-    await sleepMs(250); // Hack to give the provider time to connect
+    await sleepMs(100); // Hack to give the provider time to connect
 
     expect(provider.isConnected()).toBe(true);
   });
@@ -79,14 +81,14 @@ describe('onConnect', (): void => {
 
     const provider: WsProvider = new WsProvider(endpoints, 1);
 
-    await sleepMs(250); // Hack to give the provider time to connect
+    await sleepMs(100); // Hack to give the provider time to connect
     // Check that first server is connected
     expect(mocks[0].server.clients().length).toBe(1);
     expect(mocks[1].server.clients().length).toBe(0);
 
     // Close connection from first server
     mocks[0].server.clients()[0].close();
-    await sleepMs(250);
+    await sleepMs(100);
 
     // Check that second server is connected
     expect(mocks[1].server.clients().length).toBe(1);
@@ -117,7 +119,7 @@ describe('onConnect', (): void => {
 
     for (let round = 0; round < rounds; round++) {
       for (let index = 0; index < mocks.length; index++) {
-        await sleepMs(250); // Hack to give the provider time to connect
+        await sleepMs(100); // Hack to give the provider time to connect
 
         // Check that first server is connected and the next one isn't
         expect(mocks[index].server.clients().length).toBe(1);
