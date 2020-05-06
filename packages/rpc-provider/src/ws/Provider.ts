@@ -65,7 +65,7 @@ const l = logger('api-ws');
 export default class WsProvider implements WSProviderInterface {
   readonly #coder: Coder;
 
-  readonly #endpoint: string[];
+  readonly #endpoints: string[];
 
   readonly #eventemitter: EventEmitter;
 
@@ -90,9 +90,13 @@ export default class WsProvider implements WSProviderInterface {
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
   constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000) {
-    endpoint = (typeof endpoint === 'string') ? [endpoint] : endpoint;
-    assert(endpoint.length !== 0, 'WsProvider requires at least one Endpoint');
-    endpoint.forEach((endpoint) => {
+    const endpoints = isString(endpoint)
+      ? [endpoint]
+      : endpoint;
+    
+    assert(endpoints.length !== 0, 'WsProvider requires at least one Endpoint');
+    
+    endpoints.forEach((endpoint) => {
       assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
     });
 
@@ -132,7 +136,7 @@ export default class WsProvider implements WSProviderInterface {
       const WS = await getWSClass();
 
       this.#websocket = new WS(this.#endpoint[this.#endpointNext]);
-      this.#endpointNext = (this.#endpointNext + 1) % this.#endpoint.length;
+      this.#endpointNext = (this.#endpointNext + 1) % this.#endpoints.length;
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
