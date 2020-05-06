@@ -18,7 +18,7 @@ describe('VecFixed', (): void => {
       expect(new VecFixed(registry, Text, 2, new Uint8Array([0x00, 0x04, 0x31])).toHex()).toEqual('0x000431');
     });
 
-    it('decodes reusing instanciated inputs', (): void => {
+    it('decodes reusing instance inputs', (): void => {
       const foo = new Text(registry, 'bar');
 
       expect(
@@ -42,6 +42,20 @@ describe('VecFixed', (): void => {
     it('has a correct toHex', (): void => {
       // each entry length 1 << 2, char as hex (0x31 === `1`), one empty
       expect(test.toHex()).toEqual('0x043104320433000435');
+    });
+
+    it('has empty Uint8Array when length is 0', (): void => {
+      const test = new (VecFixed.with(Text, 0))(registry);
+
+      expect(test.encodedLength).toEqual(0);
+      expect(test.toU8a()).toEqual(new Uint8Array([]));
+    });
+
+    it('has equivalent to 1 Uint8Array when length is 1', (): void => {
+      const test = new (VecFixed.with(Text, 1))(registry, ['hello']);
+
+      expect(test.encodedLength).toEqual(1 + 5);
+      expect(test.toU8a()).toEqual(new Uint8Array([20, 104, 101, 108, 108, 111]));
     });
   });
 });
