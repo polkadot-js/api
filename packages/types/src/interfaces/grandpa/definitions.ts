@@ -13,6 +13,27 @@ export default {
     AuthorityIndex: 'u64',
     AuthorityList: 'Vec<NextAuthority>',
     AuthorityWeight: 'u64',
+    Equivocation: {
+      _enum: {
+        Prevote: 'GrandpaEquivocation',
+        Precommit: 'GrandpaEquivocation'
+      }
+    },
+    EquivocationProof: {
+      setId: 'SetId',
+      equivocation: 'Equivocation'
+    },
+    GrandpaEquivocation: {
+      roundNumber: 'u64',
+      identity: 'AuthorityId',
+      first: '(GrandpaPrevote, AuthoritySignature)',
+      second: '(GrandpaPrevote, AuthoritySignature)'
+    },
+    GrandpaPrevote: {
+      targetHash: 'Hash',
+      targetNumber: 'BlockNumber'
+    },
+    KeyOwnerProof: 'MembershipProof',
     NextAuthority: '(AuthorityId, AuthorityWeight)',
     PendingPause: {
       /// Block at which the intention to pause was scheduled.
