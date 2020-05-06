@@ -136,11 +136,12 @@ export default class WsProvider implements WSProviderInterface {
       const WS = await getWSClass();
 
       this.#websocket = new WS(this.#endpoints[this.#endpointNext]);
-      this.#endpointNext = (this.#endpointNext + 1) % this.#endpoints.length;
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
       this.#websocket.onopen = this.#onSocketOpen;
+
+      this.#endpointNext = (this.#endpointNext + 1) % this.#endpoints.length;
     } catch (error) {
       l.error(error);
     }
