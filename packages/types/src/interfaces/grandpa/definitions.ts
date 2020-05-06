@@ -16,7 +16,7 @@ export default {
     Equivocation: {
       _enum: {
         Prevote: 'GrandpaEquivocation',
-        Precommit: 'Grandpa:Equivocation'
+        Precommit: 'GrandpaEquivocation'
       }
     },
     EquivocationProof: {

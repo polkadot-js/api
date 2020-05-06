@@ -23,7 +23,7 @@ export interface Equivocation extends Enum {
   readonly isPrevote: boolean;
   readonly asPrevote: GrandpaEquivocation;
   readonly isPrecommit: boolean;
-  readonly asPrecommit: Grandpa:Equivocation;
+  readonly asPrecommit: GrandpaEquivocation;
 }
 
 /** @name EquivocationProof */
