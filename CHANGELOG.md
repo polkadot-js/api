@@ -3,6 +3,7 @@
 - Add support for ECDSA keypairs in extrinsic signers (Thanks to https://github.com/akru)
 - Rework type generation to use templating for better maintenance (Thanks to https://github.com/xlc)
 - Adjust extrinsic `sign/signAsync` signature to optional options (Thanks to https://github.com/KiChjang)
+- Support round-robin endpoints in the `WsProvider` with array of urls (Thanks to https://github.com/hoani)
 - Remove static test-only metadata for Polkadot dev chains (not updated regularly, Substrate dev to remain)
 - Revert error swallow for wrong preimage data (temp. override for Kusama upgrade with no migration)
 - Fix `.encodedLength` calculation on `[Type; N]` types
