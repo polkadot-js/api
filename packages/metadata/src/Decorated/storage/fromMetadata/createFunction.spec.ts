@@ -105,7 +105,7 @@ describe('createFunction', (): void => {
       ).toThrow(/requires two arguments/);
     });
 
-    it.only('accepts an optional parameter for key construction', (): void => {
+    it('accepts an optional parameter for key construction', (): void => {
       expect(storageFn.iterKey).not.toBeUndefined();
 
       const result = storageFn.iterKey!('5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP');
