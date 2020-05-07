@@ -63,3 +63,16 @@ Due to these customizations and differences that bleed through to the transactio
 Recently Substrate master updated the `Weight` type from `u32` -> `u64`. This type is used in the `DispatchInfo` struct in the `system.ExtrinsicSuccess` events, to return the applied call weights as well as the resulting fees. Since the API master branch tracks Substrate master, this means the change has been applied by default, with the default set to `u64`.
 
 If you are on a chain that has not been upgraded yet, you need to add `Weight: 'u32'` to your types to allow for successful parsing of all events. Without this override, parsing will fail. As soon as one event in the `Vec<EventRecord>` structure from `system.events` fails to parse, all subsequent events are affected and the decoding will return an error.
+
+## When querying older blocks & events, it fails on parsing
+
+Upon initialization, the API is decorated with the [current on-chain metadata](basics.md#metadata) and (if [available](https://github.com/polkadot-js/api/tree/master/packages/types-known/src)) the specific types for the runtime version is added. This allows the API to decode all current (as per the on-chain info) state and extrinsics.
+
+When the chain is upgraded, new metadata (indicating new events, storage and extrinsics) is added on-chain. Additionally this generally goes hand in-hand with changes in types, i.e. fields may be addedd or removed or state that was used could now be migrated to new locations. In most cases, this would mean that the current chain information cannot be used to parse older entries pre-upgrade. A typical consequence of this is that any `.at(...)` or `.range(...)` queries pre-upgrade may fail.
+
+As of the current time, there is no automatic injection of older metadata (based on the runtime version at a specific block) nor decoration of older types if they are available. It can be emulated with what the API will do to handle these cases when it adds a `.historic(...)` query type -
+
+- querying the runtime version at the parent of older block you wish to retrieve
+- retrieving and injecting the metadata from the parent block (if the runtime version has changed)
+- inject any specific older types for the state at that point
+- finally retrieve the actual entry via an `.at(...)` query
