@@ -156,6 +156,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // set our chain version & genesisHash as returned
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
+    this._rx.runtimeVersion = runtimeVersion;
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
