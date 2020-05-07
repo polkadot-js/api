@@ -1,3 +1,7 @@
+# 1.14.0-beta.x
+
+- Ensure metadata is only requested once upon startup
+
 # 1.13.1 May 6, 2020
 
 - Add support for ECDSA keypairs in extrinsic signers (Thanks to https://github.com/akru)
@@ -7,6 +11,7 @@
 - Remove static test-only metadata for Polkadot dev chains (not updated regularly, Substrate dev to remain)
 - Revert error swallow for wrong preimage data (temp. override for Kusama upgrade with no migration)
 - Fix `.encodedLength` calculation on `[Type; N]` types
+- Add new `rpc.grandpa.roundState` RPC
 - Update types & metadata as per latest Substrate master
 - Adjust Centrifuge starting version
 

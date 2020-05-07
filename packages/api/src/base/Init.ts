@@ -5,7 +5,7 @@
 import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import { Subscription, combineLatest, of } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
@@ -124,28 +124,25 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
 
     this.#updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
-      switchMap((version: RuntimeVersion) =>
-        combineLatest(
-          of(version),
-          this._rpcCore.state.getMetadata()
-        )
-      ),
-      map(([version, metadata]: [RuntimeVersion, Metadata]): boolean => {
-        if (this._runtimeVersion?.specVersion.eq(version.specVersion)) {
-          return false;
-        }
+      switchMap((version: RuntimeVersion): Observable<boolean> =>
+        // only retrieve the metadata when the on-chain version has been changed
+        this._runtimeVersion?.specVersion.eq(version.specVersion)
+          ? of(false)
+          : this._rpcCore.state.getMetadata().pipe(
+            map((metadata: Metadata): boolean => {
+              l.log(`Runtime version updated to ${version.specVersion}`);
 
-        l.log(`Runtime version updated to ${version.specVersion}`);
+              this._runtimeMetadata = metadata;
+              this._runtimeVersion = version;
+              this._rx.runtimeVersion = version;
 
-        this._runtimeMetadata = metadata;
-        this._runtimeVersion = version;
-        this._rx.runtimeVersion = version;
+              this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
+              this.injectMetadata(metadata, false);
 
-        this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
-        this.injectMetadata(metadata, false);
-
-        return true;
-      })
+              return true;
+            })
+          )
+      )
     ).subscribe();
   }
 
@@ -159,6 +156,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // set our chain version & genesisHash as returned
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
+    this._rx.runtimeVersion = runtimeVersion;
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
