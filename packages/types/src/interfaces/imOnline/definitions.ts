@@ -16,7 +16,8 @@ export default {
       blockNumber: 'BlockNumber',
       networkState: 'OpaqueNetworkState',
       sessionIndex: 'SessionIndex',
-      authorityIndex: 'AuthIndex'
+      authorityIndex: 'AuthIndex',
+      validatorsLen: 'u32'
     },
     OpaqueMultiaddr: 'Bytes',
     OpaquePeerId: 'Bytes',
