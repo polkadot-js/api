@@ -104,6 +104,15 @@ describe('createFunction', (): void => {
         (): Uint8Array => storageFn(['5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP'])
       ).toThrow(/requires two arguments/);
     });
+
+    it.only('accepts an optional parameter for key construction', (): void => {
+      expect(storageFn.iterKey).not.toBeUndefined();
+
+      const result = storageFn.iterKey!('5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP');
+
+      expect(u8aToHex(result)).toEqual('0x223416315e3dddca3b5a47fd0ac8e4916482b9ade7bc6657aaca787ba1add3b4c4303117deb55aad9858c8a873273280f78d172b398d5e77e43a2db5e42163e9');
+      expect(u8aToHex(storageFn.iterKey!())).toEqual('0x223416315e3dddca3b5a47fd0ac8e4916482b9ade7bc6657aaca787ba1add3b4');
+    });
   });
 
   it('allows creates double map function with a Null type key', (): void => {

@@ -15,14 +15,13 @@ import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
-import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isNull, isUndefined, logger, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import augmentObject from '../util/augmentObject';
@@ -345,14 +344,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
     decorated.keyPrefix = (key1?: Arg): string =>
-      creator.meta.type.isDoubleMap && !isUndefined(key1) && !isNull(key1)
-        ? this.createType('Raw', u8aConcat(
-          creator.keyPrefix,
-          getHasher(creator.meta.type.asDoubleMap.hasher)(
-            this.createType(creator.meta.type.asDoubleMap.key1.toString() as 'Raw', key1).toU8a()
-          )
-        )).toHex()
-        : u8aToHex(creator.keyPrefix);
+      u8aToHex(creator.keyPrefix(key1));
 
     decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
       this._decorateStorageRange(decorated, [arg1, arg2], range));
@@ -462,7 +454,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
           .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
         : this._rpcCore.state
-          .subscribeStorage<[LinkageResult]>([creator.iterKey])
+          .subscribeStorage<[LinkageResult]>([creator.keyPrefix()])
           .pipe(switchMap(([key]): Observable<LinkageResult> => getNext(head = key)))
     );
   }
@@ -470,14 +462,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private _retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
-    const headKey = this.createType('Raw', u8aConcat(
-      iterKey,
-      meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
-        ? getHasher(meta.type.asDoubleMap.hasher)(
-          this.createType(meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
-        )
-        : new Uint8Array([])
-    )).toHex();
+    const headKey = iterKey(arg).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
 
     return this._rpcCore.state.getKeysPaged

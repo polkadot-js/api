@@ -12,8 +12,8 @@ import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  iterKey?: Uint8Array & Codec;
-  keyPrefix: Uint8Array;
+  iterKey?: (arg?: any) => Uint8Array & Codec;
+  keyPrefix: (arg?: any) => Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;

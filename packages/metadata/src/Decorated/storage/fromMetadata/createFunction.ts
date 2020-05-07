@@ -142,7 +142,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): (arg?: any) => StorageKey {
   const outputType = type.isMap
     ? type.asMap.key.toString()
     : type.asDoubleMap.key1.toString();
@@ -157,7 +157,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
     type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0)
   });
 
-  return registry.createType('StorageKey', iterFn, { method, section });
+  return (arg?: any) => registry.createType('StorageKey', iterFn(arg), { method, section });
 }
 
 // attach the head key hashing for linked maps
@@ -177,8 +177,12 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 // attach the full list hashing for prefixed maps
 /** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
-    new Raw(registry, createPrefixedKey(itemFn))
+  const { meta: { type } } = itemFn;
+
+  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw =>
+    type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
+      ? new Raw(registry, u8aConcat(createPrefixedKey(itemFn), getHasher(type.asDoubleMap.hasher)(registry.createType(type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a())))
+      : new Raw(registry, createPrefixedKey(itemFn))
   );
 
   return storageFn;
@@ -219,7 +223,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
     extendDoubleMap(registry, itemFn, storageFn);
   }
 
-  storageFn.keyPrefix = storageFn.iterKey || compactStripLength(storageFn())[1];
+  storageFn.keyPrefix = (arg?: any) => (storageFn.iterKey && storageFn.iterKey(arg)) || compactStripLength(storageFn())[1];
 
   return storageFn;
 }
