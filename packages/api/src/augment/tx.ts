@@ -1026,7 +1026,7 @@ declare module '@polkadot/api/types/submittable' {
        * - DbWrites: `ReceivedHeartbeats`
        * # </weight>
        **/
-      heartbeat: AugmentedSubmittable<(heartbeat: Heartbeat | { blockNumber?: any; networkState?: any; sessionIndex?: any; authorityIndex?: any } | string | Uint8Array, signature: Signature | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      heartbeat: AugmentedSubmittable<(heartbeat: Heartbeat | { blockNumber?: any; networkState?: any; sessionIndex?: any; authorityIndex?: any; validatorsLen?: any } | string | Uint8Array, signature: Signature | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     indices: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
