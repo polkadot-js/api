@@ -159,9 +159,10 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 
   const prefixKey = registry.createType('StorageKey', iterFn, { method, section });
 
-  return (arg?: any): StorageKey => !isUndefined(arg) && !isNull(arg)
-    ? registry.createType('StorageKey', iterFn(arg), { method, section })
-    : prefixKey;
+  return (arg?: any): StorageKey =>
+    !isUndefined(arg) && !isNull(arg)
+      ? registry.createType('StorageKey', iterFn(arg), { method, section })
+      : prefixKey;
 }
 
 // attach the head key hashing for linked maps
@@ -227,7 +228,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
     extendDoubleMap(registry, itemFn, storageFn);
   }
 
-  storageFn.keyPrefix = (arg?: any): Uint8Array => (storageFn.iterKey && storageFn.iterKey(arg)) || compactStripLength(storageFn())[1];
+  storageFn.keyPrefix = (arg?: any): Uint8Array =>
+    (storageFn.iterKey && storageFn.iterKey(arg)) || compactStripLength(storageFn())[1];
 
   return storageFn;
 }

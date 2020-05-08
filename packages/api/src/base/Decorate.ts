@@ -391,6 +391,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const result: Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
+    const iterKey = creator.iterKey;
+
+    assert(iterKey, 'iterKey field is missing');
 
     // retrieve a value based on the key, iterating if it has a next entry. Since
     // entries can be re-linked in the middle of a list, we subscribe here to make
@@ -454,7 +457,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
           .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
         : this._rpcCore.state
-          .subscribeStorage<[LinkageResult]>([creator.keyPrefix()])
+          .subscribeStorage<[LinkageResult]>([iterKey()])
           .pipe(switchMap(([key]): Observable<LinkageResult> => getNext(head = key)))
     );
   }

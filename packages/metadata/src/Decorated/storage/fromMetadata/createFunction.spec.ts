@@ -4,7 +4,7 @@
 
 import { Text, TypeRegistry } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { stringToU8a, u8aConcat, u8aToHex, assert } from '@polkadot/util';
 
 import createFunction from './createFunction';
 
@@ -106,12 +106,14 @@ describe('createFunction', (): void => {
     });
 
     it('accepts an optional parameter for key construction', (): void => {
-      expect(storageFn.iterKey).not.toBeUndefined();
+      const iterKey = storageFn.iterKey;
 
-      const result = storageFn.iterKey!('5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP');
+      assert(iterKey, 'storageFn.iterKey is undefined');
+
+      const result = iterKey('5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP');
 
       expect(u8aToHex(result)).toEqual('0x223416315e3dddca3b5a47fd0ac8e4916482b9ade7bc6657aaca787ba1add3b4c4303117deb55aad9858c8a873273280f78d172b398d5e77e43a2db5e42163e9');
-      expect(u8aToHex(storageFn.iterKey!())).toEqual('0x223416315e3dddca3b5a47fd0ac8e4916482b9ade7bc6657aaca787ba1add3b4');
+      expect(u8aToHex(iterKey())).toEqual('0x223416315e3dddca3b5a47fd0ac8e4916482b9ade7bc6657aaca787ba1add3b4');
     });
   });
 
