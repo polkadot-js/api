@@ -1,5 +1,6 @@
 # 1.14.0-beta.x
 
+- Align imOnline `Heartbeats` with Substrate (Thanks to https://github.com/arjanz)
 - Ensure metadata is only requested once upon startup
 
 # 1.13.1 May 6, 2020
