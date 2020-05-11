@@ -5,22 +5,18 @@
 import { Header, Index } from '@polkadot/types/interfaces';
 import { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 
-import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { isNumber, isUndefined } from '@polkadot/util';
+
+import { FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
 
 interface Result {
   header: Header | null;
   mortalLength: number;
   nonce: Index;
 }
-
-// default here to 5 min eras, adjusted based on the actual blocktime
-const FALLBACK_PERIOD = new BN(6 * 1000);
-const MAX_FINALITY_LAG = new BN(5);
-const MORTAL_PERIOD = new BN(5 * 60 * 1000);
 
 function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
   return api.derive.balances.account(address).pipe(
