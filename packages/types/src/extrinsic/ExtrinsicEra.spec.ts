@@ -47,12 +47,13 @@ describe('ExtrinsicEra', (): void => {
   });
 
   it('creates from an actual valid era', (): void => {
+    const currBlock = 2251519;
     const mortalEra = new ExtrinsicEra(registry, '0xc503').asMortalEra;
 
     expect(mortalEra.period.toNumber()).toEqual(64);
     expect(mortalEra.phase.toNumber()).toEqual(60);
-    expect(mortalEra.birth(2251516)).toEqual(2251516);
-    expect(mortalEra.death(2251516)).toEqual(2251580);
+    expect(mortalEra.birth(currBlock)).toEqual(2251516);
+    expect(mortalEra.death(currBlock)).toEqual(2251580);
   });
 
   it('creates for an actual era (2)', (): void => {
