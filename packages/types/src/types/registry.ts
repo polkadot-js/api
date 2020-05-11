@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import type BN from 'bn.js';
+
 import { ChainProperties } from '../interfaces/system';
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
 import { AnyJson } from './helpers';
-
-import BN from 'bn.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }

@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
+import type BN from 'bn.js';
 import { SignOptions } from '@polkadot/keyring/types';
 import { Hash } from '../interfaces/runtime';
 import { FunctionMetadataLatest } from '../interfaces/metadata';
 import { ArgsDef, Codec } from './codec';
-
-import BN from 'bn.js';
 
 export interface ICompact<T> extends Codec {
   toBn (): BN;
