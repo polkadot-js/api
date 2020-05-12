@@ -13,6 +13,10 @@ export default {
     extra: {},
     types: {}
   },
+  PrevalidateAttests: {
+    extra: {},
+    types: {}
+  },
   RestrictFunctionality: {
     extra: {},
     types: {}
