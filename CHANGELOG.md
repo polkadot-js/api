@@ -7,6 +7,9 @@
 - Expand testing around `ExtrinsicEra` construction
 - Expand `Registry` to direct access to available signed extensions (in addition to types)
 - Cater for new `CheckSpecVersion` and `CheckTxVersion` signed extensions (with `SignerPayload` adjustments)
+- Support for both old/new Tuples in `democracy.depositOf` in derives
+- Fix democracy `ProxyState` types
+- Extends types for Polkadot claims
 
 # 1.13.1 May 6, 2020
 

@@ -11,7 +11,7 @@ import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, Mayb
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
 import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
-import { EthereumAddress } from '@polkadot/types/interfaces/claims';
+import { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
@@ -1084,6 +1084,9 @@ declare module '@polkadot/types/types/registry' {
     EthereumAddress: EthereumAddress;
     'Option<EthereumAddress>': Option<EthereumAddress>;
     'Vec<EthereumAddress>': Vec<EthereumAddress>;
+    StatementKind: StatementKind;
+    'Option<StatementKind>': Option<StatementKind>;
+    'Vec<StatementKind>': Vec<StatementKind>;
     AttestedCandidate: AttestedCandidate;
     'Option<AttestedCandidate>': Option<AttestedCandidate>;
     'Vec<AttestedCandidate>': Vec<AttestedCandidate>;

@@ -10,6 +10,9 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    EthereumAddress: 'H160'
+    EthereumAddress: 'H160',
+    StatementKind: {
+      _enum: ['Default', 'Alternative']
+    }
   }
 } as Definitions;
