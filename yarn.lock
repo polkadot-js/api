@@ -2678,9 +2678,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.52.18":
-  version: 0.52.18
-  resolution: "@polkadot/dev@npm:0.52.18"
+"@polkadot/dev@npm:^0.52.19":
+  version: 0.52.19
+  resolution: "@polkadot/dev@npm:0.52.19"
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.9.6
@@ -2738,7 +2738,7 @@ __metadata:
     typedoc-plugin-markdown: ^2.2.17
     typedoc-plugin-no-inherit: ^1.1.10
     typescript: ^3.8.3
-    vuepress: ^1.4.1
+    vuepress: ^1.5.0
     webpack: ^4.43.0
     webpack-cli: ^3.3.11
     yargs: ^15.3.1
@@ -2761,7 +2761,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 3/9ec929504aad48ad97c93cb33c18c4a6d0e86dca66212374c6679e7259b85a18a4bf866dcaba7d0f5ab03cfcbe055e102acff0f28ec6d5597bd6ba809a0204ea
+  checksum: 3/3d9dcb617320a65653dbc87fd6d85b236f42ee6b59376f2833f32c03b6608f368c0b43ce029513f53d586e4d715bf56019aa95dab87750c4fb9e0e61b2adefe0
   languageName: node
   linkType: hard
 
@@ -3444,17 +3444,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vuepress/core@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/core@npm:1.4.1"
+"@vuepress/core@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/core@npm:1.5.0"
   dependencies:
     "@babel/core": ^7.8.4
     "@vue/babel-preset-app": ^4.1.2
-    "@vuepress/markdown": 1.4.1
-    "@vuepress/markdown-loader": 1.4.1
-    "@vuepress/plugin-last-updated": 1.4.1
-    "@vuepress/plugin-register-components": 1.4.1
-    "@vuepress/shared-utils": 1.4.1
+    "@vuepress/markdown": 1.5.0
+    "@vuepress/markdown-loader": 1.5.0
+    "@vuepress/plugin-last-updated": 1.5.0
+    "@vuepress/plugin-register-components": 1.5.0
+    "@vuepress/shared-utils": 1.5.0
     autoprefixer: ^9.5.1
     babel-loader: ^8.0.4
     cache-loader: ^3.0.0
@@ -3486,82 +3486,89 @@ __metadata:
     webpack-dev-server: ^3.5.1
     webpack-merge: ^4.1.2
     webpackbar: 3.2.0
-  checksum: 3/c85da23f77deb4b78634cba217e7f379a194d30466f58853c4f3cbdf44f9c1eb8f5c0fe0da6c1c0cce53d51da043055cd1edc9889b1e0527f02a4a3b4d72c222
+  checksum: 3/9b8eb493550eaaca505a322e415c05dae21d7a6af19737c0beef81caef38455d47db1880125fe27af2fbe8ef5d01eebaaf3b9f399d818d2d90a9bb5fe7aa21e0
   languageName: node
   linkType: hard
 
-"@vuepress/markdown-loader@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/markdown-loader@npm:1.4.1"
+"@vuepress/markdown-loader@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/markdown-loader@npm:1.5.0"
   dependencies:
-    "@vuepress/markdown": 1.4.1
+    "@vuepress/markdown": 1.5.0
     loader-utils: ^1.1.0
     lru-cache: ^5.1.1
-  checksum: 3/6b0d4b44650ce71830cbb08fbbb0e614cce5515e3f13b6e60a1144f19f245351ecd6a6f366728f0d8a45d89e896bed0f2fa9c8462c78681ae8c849c427835d9a
+  checksum: 3/a31a3e33661fe08b98a2ac108b1cf82bf505027d0e32d36e9cc86a69293fcefbf36c6be765034e96f3c27c62543bd55755a5f10fd8e4faf4e36019c9642969b7
   languageName: node
   linkType: hard
 
-"@vuepress/markdown@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/markdown@npm:1.4.1"
+"@vuepress/markdown@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/markdown@npm:1.5.0"
   dependencies:
-    "@vuepress/shared-utils": 1.4.1
+    "@vuepress/shared-utils": 1.5.0
     markdown-it: ^8.4.1
     markdown-it-anchor: ^5.0.2
     markdown-it-chain: ^1.3.0
     markdown-it-emoji: ^1.4.0
     markdown-it-table-of-contents: ^0.4.0
     prismjs: ^1.13.0
-  checksum: 3/c1091fd0da3c5545f401d1c2e81a3b62874f255b10f9f06bd5f0f5353d4882d648bc18d7db8f351f669a05ff93be6f2df94a22c07202de530858907731bf9826
+  checksum: 3/467463e106f2fa21a94b92e3da3fd389f63b14d4ca3f53238b57bfbdea11a4eb178d373892ba2670dcb186ca82d605f4610c2e05f5398e8577a7c3993a9b1f70
   languageName: node
   linkType: hard
 
-"@vuepress/plugin-active-header-links@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/plugin-active-header-links@npm:1.4.1"
+"@vuepress/plugin-active-header-links@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/plugin-active-header-links@npm:1.5.0"
   dependencies:
     lodash.debounce: ^4.0.8
-  checksum: 3/f78844aad9cf3368185dafa579de7351aab235f944907b3f7276413c0ff8bbb7c3a6d5fc6a72fb3c9837fcb0afffe87b03b07d3829bfee75a699860a33133aeb
+  checksum: 3/581de13d934f68e0b288d604d324cb92e6b5120df301faadd34e5d48d7faa45c126d9e65f69aaff6b9dc8e5732a289a8784f81ca96e69afae13a05eba508f746
   languageName: node
   linkType: hard
 
-"@vuepress/plugin-last-updated@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/plugin-last-updated@npm:1.4.1"
+"@vuepress/plugin-last-updated@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/plugin-last-updated@npm:1.5.0"
   dependencies:
     cross-spawn: ^6.0.5
-  checksum: 3/295edd8a21a4fd01c899f11f68420bf7b233c96552b95c9a9230c384cd6c227967b22b0c4e3c7e360f479976e3d7d06a3776c7355f207d00f1829170a7d3ee98
+  checksum: 3/d11cb081fbe84229167c335ffb6fed3c7c142dc90e7fcc88f40244326382b69236449a5898a3740a793e25b14208a66cfbd6530d62ec03bd218fcacdfd414e6e
   languageName: node
   linkType: hard
 
-"@vuepress/plugin-nprogress@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/plugin-nprogress@npm:1.4.1"
+"@vuepress/plugin-nprogress@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/plugin-nprogress@npm:1.5.0"
   dependencies:
     nprogress: ^0.2.0
-  checksum: 3/fad6ca53b742d68875ef8e0ce330a853f75df92508cc0d89591925d48e55a5a7c7437631c9c77ab45be39beb56290cdc00eebae634ea6cec166581a69e622bb3
+  checksum: 3/43683815dae0f668b3f312e161a036de2fecc79b1daa78f89969268383a3c5470dbf6f302a3b24197eaa878b430a2b1975fb4443f05e00dd9e1efc73197c17f9
   languageName: node
   linkType: hard
 
-"@vuepress/plugin-register-components@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/plugin-register-components@npm:1.4.1"
+"@vuepress/plugin-register-components@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/plugin-register-components@npm:1.5.0"
   dependencies:
-    "@vuepress/shared-utils": 1.4.1
-  checksum: 3/6648f4c33632665b25dad88e791a71c4b113da9ca837e746e4bcfbb11fc912f2c8bfb65dbe22140d203805cbcbdf9f91c2ed960ed689110eb9233e55390ea55a
+    "@vuepress/shared-utils": 1.5.0
+  checksum: 3/c6913baaf955293185a3a04a105eee738ad3d828918e17fb85ca86c40e4e2e416a61710e880155d9a44c369eee85d4fd32f356351e21be86d305e733be6cf8bd
   languageName: node
   linkType: hard
 
-"@vuepress/plugin-search@npm:1.4.1, @vuepress/plugin-search@npm:^1.4.1":
+"@vuepress/plugin-search@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/plugin-search@npm:1.5.0"
+  checksum: 3/527d3c22c3de39aedc00e479da4e99bae8353762ae9f7b4e896d4dca29622d99c57620fe808ce46d7f8a696c7935d515706832292418147721048249c5288f10
+  languageName: node
+  linkType: hard
+
+"@vuepress/plugin-search@npm:^1.4.1":
   version: 1.4.1
   resolution: "@vuepress/plugin-search@npm:1.4.1"
   checksum: 3/4131f5e8d5ee33bcfb6d6460bbed566c1a2d7ef4c995cfd5842766a69cd037a8938371d1c3a863d6fbf5ef8e4768f9b90bd413047467fde1b0ba15e10884bbc9
   languageName: node
   linkType: hard
 
-"@vuepress/shared-utils@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/shared-utils@npm:1.4.1"
+"@vuepress/shared-utils@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/shared-utils@npm:1.5.0"
   dependencies:
     chalk: ^2.3.2
     diacritics: ^1.3.0
@@ -3572,24 +3579,24 @@ __metadata:
     hash-sum: ^1.0.2
     semver: ^6.0.0
     upath: ^1.1.0
-  checksum: 3/e3cda7660f90bc91cf59f9a7bc21bd84625ff440bda92352a0bc3084893323e4d53bb5bf776a1bf3d4c53c8e7f6b794253d8da86d1c44a0fee906786305d0a1d
+  checksum: 3/7055b71f931cf67d02f13983e968a87010197b7ee502212d498c38d99860ec33c586981163fd1ea838be89af1ca49dd8e0b9d39c5e294bb577402f149453b917
   languageName: node
   linkType: hard
 
-"@vuepress/theme-default@npm:1.4.1":
-  version: 1.4.1
-  resolution: "@vuepress/theme-default@npm:1.4.1"
+"@vuepress/theme-default@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@vuepress/theme-default@npm:1.5.0"
   dependencies:
-    "@vuepress/plugin-active-header-links": 1.4.1
-    "@vuepress/plugin-nprogress": 1.4.1
-    "@vuepress/plugin-search": 1.4.1
+    "@vuepress/plugin-active-header-links": 1.5.0
+    "@vuepress/plugin-nprogress": 1.5.0
+    "@vuepress/plugin-search": 1.5.0
     docsearch.js: ^2.5.2
     lodash: ^4.17.15
     stylus: ^0.54.5
     stylus-loader: ^3.0.2
     vuepress-plugin-container: ^2.0.2
     vuepress-plugin-smooth-scroll: ^0.0.3
-  checksum: 3/fd3acfce0e5018e865d4ad5ed54ea64bb2ff21b481ad8836b1f27df14534e1e7916980b9d5a787078b7e89679b576c548b78df000bd3cc73b6aa57cd0f42ffc5
+  checksum: 3/f6ce66c9ef1407116849d418e7d46e8b3345bed51b4c11e1b811de7d60abf1da602b43bd7e55d744cc1ee4c1864c8853baa4b46cbcd287d08b0ceb7fb895b213
   languageName: node
   linkType: hard
 
@@ -15617,7 +15624,7 @@ fsevents@^2.1.2:
     "@babel/core": ^7.9.6
     "@babel/register": ^7.9.0
     "@babel/runtime": ^7.9.6
-    "@polkadot/dev": ^0.52.18
+    "@polkadot/dev": ^0.52.19
     "@polkadot/ts": ^0.3.21
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^25.2.1
@@ -18120,19 +18127,19 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"vuepress@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "vuepress@npm:1.4.1"
+"vuepress@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "vuepress@npm:1.5.0"
   dependencies:
-    "@vuepress/core": 1.4.1
-    "@vuepress/theme-default": 1.4.1
+    "@vuepress/core": 1.5.0
+    "@vuepress/theme-default": 1.5.0
     cac: ^6.5.6
     envinfo: ^7.2.0
     opencollective-postinstall: ^2.0.2
     update-notifier: ^4.0.0
   bin:
     vuepress: cli.js
-  checksum: 3/afa4299ae4952f46202e3281938a0432203853609d16ce53c47b231747d27d4735e3f9eb668098211ad342836ec2e2c13e40ee37cb378bcd1a280c19a8f986d0
+  checksum: 3/0fcd212d0c09efbebb5f97dc92f468f9dc25b72fec327fcdbb7072f28ec9b38858e98e9091dc603132285301c9b20c880b818b4429a7063b119e3012388b8ecc
   languageName: node
   linkType: hard
 

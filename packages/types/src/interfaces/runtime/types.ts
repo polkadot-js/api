@@ -84,13 +84,20 @@ export interface DispatchClass extends Enum {
 export interface DispatchInfo extends Struct {
   readonly weight: Weight;
   readonly class: DispatchClass;
-  readonly paysFee: bool;
+  readonly paysFee: Pays;
 }
 
 /** @name DispatchInfoTo190 */
 export interface DispatchInfoTo190 extends Struct {
   readonly weight: Weight;
   readonly class: DispatchClass;
+}
+
+/** @name DispatchInfoTo244 */
+export interface DispatchInfoTo244 extends Struct {
+  readonly weight: Weight;
+  readonly class: DispatchClass;
+  readonly paysFee: bool;
 }
 
 /** @name Fixed128 */
@@ -149,6 +156,12 @@ export interface Moment extends u64 {}
 
 /** @name Origin */
 export interface Origin extends DoNotConstruct {}
+
+/** @name Pays */
+export interface Pays extends Enum {
+  readonly isYes: boolean;
+  readonly isNo: boolean;
+}
 
 /** @name Perbill */
 export interface Perbill extends u32 {}

@@ -45,11 +45,16 @@ export default {
     DispatchInfo: {
       weight: 'Weight',
       class: 'DispatchClass',
-      paysFee: 'bool'
+      paysFee: 'Pays'
     },
     DispatchInfoTo190: {
       weight: 'Weight',
       class: 'DispatchClass'
+    },
+    DispatchInfoTo244: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      paysFee: 'bool'
     },
     Fixed64: 'Int<64, Fixed64>',
     Fixed128: 'Int<128, Fixed128>',
@@ -74,6 +79,9 @@ export default {
     ModuleId: 'LockIdentifier',
     Moment: 'u64',
     Origin: 'DoNotConstruct<Origin>',
+    Pays: {
+      _enum: ['Yes', 'No']
+    },
     Perbill: 'u32',
     Percent: 'u8',
     Permill: 'u32',
