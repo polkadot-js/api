@@ -67,8 +67,10 @@ export default {
     PropIndex: 'u32',
     Proposal: 'Call',
     ProxyState: {
-      Open: 'AccountId',
-      Active: 'AccountId'
+      _enum: {
+        Open: 'AccountId',
+        Active: 'AccountId'
+      }
     },
     ReferendumIndex: 'u32',
     ReferendumInfoTo239: {
