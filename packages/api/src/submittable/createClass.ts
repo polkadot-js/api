@@ -148,6 +148,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         ...options,
         ...extras,
         runtimeVersion: api.runtimeVersion,
+        signedExtensions: api.registry.signedExtensions,
         version: api.extrinsicType
       } as SignatureOptions;
     }

@@ -135,6 +135,10 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes;
   }
 
+  public get signedExtensions (): string[] {
+    return this.#metadataExtensions;
+  }
+
   /**
    * @describe Creates an instance of the class
    */
@@ -306,15 +310,24 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the metadata
-  public setMetadata (metadata: RegistryMetadata): void {
+  public setMetadata (metadata: RegistryMetadata, signedExtensions?: string[]): void {
     decorateExtrinsics(this, metadata, this.#metadataCalls);
     decorateErrors(this, metadata, this.#metadataErrors);
     decorateEvents(this, metadata, this.#metadataEvents);
 
     // setup the available extensions
-    this.#metadataExtensions = metadata.asLatest.extrinsic.version.gtn(0)
-      ? metadata.asLatest.extrinsic.signedExtensions.map((key): string => key.toString())
-      : defaultExtensions;
+    this.setSignedExtensions(
+      signedExtensions || (
+        metadata.asLatest.extrinsic.version.gtn(0)
+          ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
+          : defaultExtensions
+      )
+    );
+  }
+
+  // sets the available signed extensions
+  setSignedExtensions (signedExtensions: string[]): void {
+    this.#metadataExtensions = signedExtensions;
 
     const unknown = findUnknownExtensions(this.#metadataExtensions);
 

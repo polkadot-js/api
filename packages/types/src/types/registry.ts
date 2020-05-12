@@ -112,6 +112,7 @@ export interface Registry {
   readonly chainSS58: number | undefined;
   readonly chainToken: string;
   readonly knownTypes: RegisteredTypes;
+  readonly signedExtensions: string[];
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
   findMetaError (errorIndex: Uint8Array): any;
@@ -137,4 +138,5 @@ export interface Registry {
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
   setMetadata (metadata: RegistryMetadata): void;
+  setSignedExtensions (signedExtensions: string[]): void;
 }
