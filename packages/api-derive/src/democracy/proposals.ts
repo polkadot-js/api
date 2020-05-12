@@ -10,27 +10,41 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type Depositors = Option<ITuple<[Balance, Vec<AccountId>]>>;
+type DepositorsNew = Option<ITuple<[Vec<AccountId>, Balance]>>;
+type DepositorsOld = Option<ITuple<[Balance, Vec<AccountId>]>>;
+type Depositors = DepositorsNew | DepositorsOld;
 type Proposals = Vec<ITuple<[PropIndex, Hash, AccountId]>>;
+type Result = [Proposals, (DeriveProposalImage | undefined)[], Depositors[]];
 
-function parse ([proposals, images, depositors]: [Proposals, (DeriveProposalImage | undefined)[], Depositors[]]): DeriveProposal[] {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple<[Balance, Vec<AccountId>]>): depositors is ITuple<[Vec<AccountId>, Balance]> {
+  // Detect balance...
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  return isFunction((depositors[1] as Balance).mul);
+}
+
+function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
   return proposals
     .filter(([, , proposer], index): boolean =>
-      !!(depositors[index]?.isSome) && !proposer.isEmpty
+      !!(optDepositors[index]?.isSome) && !proposer.isEmpty
     )
     .map(([index, imageHash, proposer], proposalIndex): DeriveProposal => {
-      const [balance, seconds] = depositors[proposalIndex].unwrap();
+      const depositors = optDepositors[proposalIndex].unwrap();
 
       return {
-        balance,
+        ...(
+          isNewDepositors(depositors)
+            ? { balance: depositors[1], seconds: depositors[0] }
+            : { balance: depositors[0], seconds: depositors[1] }
+        ),
         image: images[proposalIndex],
         imageHash,
         index,
-        proposer,
-        seconds
+        proposer
       };
     });
 }
