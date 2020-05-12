@@ -7,6 +7,14 @@ import { AccountId, Balance, BlockNumber, Hash, Proposal, PropIndex, ReferendumI
 
 import { Vec } from '@polkadot/types';
 
+export interface DeriveDemocracyLock {
+  balance: Balance;
+  isFinished: boolean;
+  referendumId: ReferendumIndex;
+  unlockAt: BN;
+  vote: Vote;
+}
+
 export interface DeriveDispatch {
   at: BlockNumber;
   index: ReferendumIndex;

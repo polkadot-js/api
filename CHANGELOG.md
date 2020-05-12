@@ -1,6 +1,7 @@
 # 1.14.0-beta.x
 
-- Align imOnline `Heartbeats` with Substrate (Thanks to https://github.com/arjanz)
+- Align imOnline `Heartbeat` with Substrate (Thanks to https://github.com/arjanz)
+- Add `derive.democracy.locks` to return extended lock info based on votes
 - Ensure metadata is only requested once upon startup (bypass on upgrade subscriptions)
 - Expand testing around `ExtrinsicEra` construction
 
