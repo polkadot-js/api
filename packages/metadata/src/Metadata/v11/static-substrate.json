@@ -7369,7 +7369,7 @@
                 "Vec<IdentificationTuple>"
               ],
               "documentation": [
-                " At the end of the session, at least once validator was found to be offline."
+                " At the end of the session, at least one validator was found to be offline."
               ]
             }
           ],
