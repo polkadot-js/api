@@ -49,7 +49,7 @@ describe('SignerPayload', (): void => {
       method: '0x0600ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
       nonce: '0x00001234',
       specVersion: '0x00000000',
-      txVersion: '0x00000000',
+      tip: '0x00000000000000000000000000005678',
       version: 3
     });
   });
