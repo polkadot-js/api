@@ -125,7 +125,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
   /**
    * @description Creates a payload from the supplied options
    */
-  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): ExtrinsicPayloadV4 {
+  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): ExtrinsicPayloadV4 {
     return new ExtrinsicPayloadV4(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
@@ -133,7 +133,8 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
       method: method.toHex(),
       nonce,
       specVersion,
-      tip: tip || 0
+      tip: tip || 0,
+      transactionVersion: transactionVersion || 0
     });
   }
 

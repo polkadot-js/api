@@ -131,8 +131,10 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
       genesisHash,
       method: method.toHex(),
       nonce,
-      specVersion: 0, // unused for v1, added for compat
-      tip: 0
+      // unused for v1, added for compat
+      specVersion: 0,
+      tip: 0,
+      transactionVersion: 0
     });
   }
 

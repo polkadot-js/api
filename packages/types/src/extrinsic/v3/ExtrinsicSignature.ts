@@ -39,7 +39,8 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
       method: method.toHex(),
       nonce,
       specVersion,
-      tip: tip || 0
+      tip: tip || 0,
+      transactionVersion: 0
     });
   }
 

@@ -82,6 +82,7 @@ export interface ExtrinsicPayloadValue {
   nonce: AnyNumber;
   specVersion: AnyNumber;
   tip: AnyNumber;
+  transactionVersion: AnyNumber;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -164,6 +165,11 @@ export interface SignerPayloadJSON {
    * @description The tip for this transaction, in hex
    */
   tip: string;
+
+  /**
+   * @description The current transaction version for the runtime
+   */
+  transactionVersion: string;
 
   /**
    * @description The version of the extrinsic we are dealing with

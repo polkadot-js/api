@@ -58,7 +58,8 @@ describe('ExtrinsicV3', (): void => {
           implName: 'test',
           implVersion: new BN(123),
           specName: 'test',
-          specVersion: new BN(123)
+          specVersion: new BN(123),
+          transactionVersion: new BN(123)
         },
         tip: 2
       }).toHex()
