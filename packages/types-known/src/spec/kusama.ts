@@ -12,6 +12,7 @@ const versioned: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
       ReferendumInfo: 'ReferendumInfoTo239',
@@ -26,6 +27,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
       ReferendumInfo: 'ReferendumInfoTo239',
@@ -41,6 +43,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
       ReferendumInfo: 'ReferendumInfoTo239',
@@ -50,11 +53,11 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    // actual at 1050 (1046-1049 is dev)
     minmax: [1046, 1054],
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       ReferendumInfo: 'ReferendumInfoTo239',
@@ -66,6 +69,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1055, 1056],
     types: {
       Address: 'AccountId',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       StakingLedger: 'StakingLedgerTo240',
@@ -73,8 +77,16 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    // actual upgrade at 1058
-    minmax: [1057, undefined],
+    minmax: [1057, 1061],
+    types: {
+      Address: 'AccountId',
+      DispatchInfo: 'DispatchInfoTo244',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
+    }
+  },
+  {
+    minmax: [1062, undefined],
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
