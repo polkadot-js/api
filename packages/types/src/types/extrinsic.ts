@@ -156,11 +156,6 @@ export interface SignerPayloadJSON {
   nonce: string;
 
   /**
-   * @description The current signed extensions for the network
-   */
-  signedExtensions: string[];
-
-  /**
    * @description The current spec version for the runtime
    */
   specVersion: string;
@@ -169,11 +164,6 @@ export interface SignerPayloadJSON {
    * @description The tip for this transaction, in hex
    */
   tip: string;
-
-  /**
-   * @description The current transaction version for the runtime
-   */
-  txVersion: string;
 
   /**
    * @description The version of the extrinsic we are dealing with
