@@ -27,7 +27,7 @@ function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple
   return isFunction((depositors[1] as Balance).mul);
 }
 
-function parse (api: ApiInterfaceRx, [proposals, images, optDepositors]: Result): DeriveProposal[] {
+function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
   return proposals
     .filter(([, , proposer], index): boolean =>
       !!(optDepositors[index]?.isSome) && !proposer.isEmpty
@@ -62,7 +62,7 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal
               proposals.map(([index]): PropIndex => index))
           ])
         ),
-        map((result) => parse(api, result))
+        map(parse)
       )
       : of([])
   );
