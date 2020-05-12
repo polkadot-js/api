@@ -71,9 +71,11 @@ export interface PropIndex extends u32 {}
 export interface Proposal extends Call {}
 
 /** @name ProxyState */
-export interface ProxyState extends Struct {
-  readonly Open: AccountId;
-  readonly Active: AccountId;
+export interface ProxyState extends Enum {
+  readonly isOpen: boolean;
+  readonly asOpen: AccountId;
+  readonly isActive: boolean;
+  readonly asActive: AccountId;
 }
 
 /** @name ReferendumIndex */
