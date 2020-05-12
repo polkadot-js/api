@@ -24,6 +24,7 @@ describe('SignerPayload', (): void => {
     nonce: '0x00001234',
     specVersion: '0x00000006',
     tip: '0x00000000000000000000000000005678',
+    transactionVersion: '0x00000007',
     version: 3
   };
 
@@ -50,6 +51,7 @@ describe('SignerPayload', (): void => {
       nonce: '0x00001234',
       specVersion: '0x00000000',
       tip: '0x00000000000000000000000000005678',
+      transactionVersion: '0x00000000',
       version: 3
     });
   });
