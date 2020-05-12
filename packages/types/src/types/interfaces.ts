@@ -42,6 +42,7 @@ export interface IRuntimeVersion {
   // eslint-disable-next-line @typescript-eslint/ban-types
   readonly specName: String;
   readonly specVersion: BN;
+  readonly transactionVersion: BN;
 }
 
 // A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)

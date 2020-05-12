@@ -49,7 +49,7 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this;
+    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion, transactionVersion }, tip, version } = this;
 
     return {
       address: address.toString(),
@@ -61,6 +61,7 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
       nonce: nonce.toHex(),
       specVersion: specVersion.toHex(),
       tip: tip.toHex(),
+      transactionVersion: transactionVersion.toHex(),
       version: version.toNumber()
     };
   }
