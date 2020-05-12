@@ -17,6 +17,21 @@ import { memo } from '../util';
 const LOCKUPS = [0, 1, 2, 4, 8, 16, 32];
 const ZERO = new BN(0);
 
+function parseLock (api: ApiInterfaceRx, [referendumId, accountVote]: VotingDirectVote, referendum: ReferendumInfo): DeriveDemocracyLock {
+  const { balance, vote } = accountVote.asStandard;
+  let unlockAt = ZERO;
+
+  if (referendum.isFinished) {
+    const { approved, end } = referendum.asFinished;
+
+    if ((approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)) {
+      unlockAt = end.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[vote.conviction.index]));
+    }
+  }
+
+  return { balance, isFinished: referendum.isFinished, referendumId, unlockAt, vote };
+}
+
 function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<DeriveDemocracyLock[]> {
   if (!votes.length) {
     return of([]);
@@ -31,20 +46,9 @@ function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<
         .filter((item): item is [VotingDirectVote, ReferendumInfo] =>
           !!item[1] && isUndefined((item[1] as ReferendumInfoTo239).end) && item[0][1].isStandard
         )
-        .map(([[referendumId, directVote], referendum]): DeriveDemocracyLock => {
-          const { balance, vote } = directVote.asStandard;
-          let unlockAt = ZERO;
-
-          if (referendum.isFinished) {
-            const { approved, end } = referendum.asFinished;
-
-            if ((approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)) {
-              unlockAt = end.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[vote.conviction.index]));
-            }
-          }
-
-          return { balance, isFinished: referendum.isFinished, referendumId, unlockAt, vote };
-        })
+        .map(([directVote, referendum]) =>
+          parseLock(api, directVote, referendum)
+        )
     )
   );
 }
