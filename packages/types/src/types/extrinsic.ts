@@ -60,7 +60,6 @@ export interface SignatureOptions {
   genesisHash: AnyU8a;
   nonce: AnyNumber;
   runtimeVersion: IRuntimeVersion;
-  // eslint-disable-next-line @typescript-eslint/ban-types
   signedExtensions: string[];
   signer?: Signer;
   tip?: AnyNumber;
