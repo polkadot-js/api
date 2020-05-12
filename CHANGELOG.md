@@ -1,5 +1,6 @@
 # 1.14.0-beta.x
 
+- **Important** `DistpatchInfo` changed `paysFee` to an enum, if using an older version use, `DistpatchInfo: 'DistpatchInfoTo244'`
 - Align imOnline `Heartbeat` with Substrate (Thanks to https://github.com/arjanz)
 - Add `derive.democracy.locks` to return extended lock info based on votes
 - Ensure metadata is only requested once upon startup (bypass on upgrade subscriptions)
