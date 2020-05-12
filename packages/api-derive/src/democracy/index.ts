@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export * from './dispatchQueue';
+export * from './locks';
 export * from './nextExternal';
 export * from './preimage';
 export * from './preimages';
