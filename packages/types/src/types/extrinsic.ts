@@ -60,7 +60,7 @@ export interface SignatureOptions {
   genesisHash: AnyU8a;
   nonce: AnyNumber;
   runtimeVersion: IRuntimeVersion;
-  signedExtensions: string[];
+  signedExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
 }
