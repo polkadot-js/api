@@ -5,7 +5,7 @@
 - Add `derive.democracy.locks` to return extended lock info based on votes
 - Ensure metadata is only requested once upon startup (bypass on upgrade subscriptions)
 - Expand testing around `ExtrinsicEra` construction
-- Expand `SignerPayload` to supply both the `txVersion` and active `signedExtensions`
+- Expand `Registry` to direct access to available signed extensions (in addition to types)
 
 # 1.13.1 May 6, 2020
 

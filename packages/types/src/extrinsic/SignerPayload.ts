@@ -9,8 +9,6 @@ import { u8aToHex } from '@polkadot/util';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import Vec from '../codec/Vec';
-import Text from '../primitive/Text';
 import u8 from '../primitive/U8';
 
 export interface SignerPayloadType extends Codec {
@@ -22,7 +20,6 @@ export interface SignerPayloadType extends Codec {
   method: Call;
   nonce: Compact<Index>;
   runtimeVersion: RuntimeVersion;
-  signedExtensions: Vec<Text>;
   tip: Compact<Balance>;
   version: u8;
 }
@@ -38,7 +35,6 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   method: 'Call',
   nonce: 'Compact<Index>',
   runtimeVersion: 'RuntimeVersion',
-  signedExtensions: 'Vec<Text>',
   tip: 'Compact<Balance>',
   version: 'u8'
 }) as any;
@@ -53,7 +49,7 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion, transactionVersion }, signedExtensions, tip, version } = this;
+    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this;
 
     return {
       address: address.toString(),
@@ -63,10 +59,8 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
       genesisHash: genesisHash.toHex(),
       method: method.toHex(),
       nonce: nonce.toHex(),
-      signedExtensions: signedExtensions.map((ext) => ext.toString()),
       specVersion: specVersion.toHex(),
       tip: tip.toHex(),
-      txVersion: transactionVersion.toHex(),
       version: version.toNumber()
     };
   }
