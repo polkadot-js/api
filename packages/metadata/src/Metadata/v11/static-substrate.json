@@ -37,13 +37,13 @@
               },
               {
                 "name": "AllExtrinsicsWeight",
-                "modifier": "Optional",
+                "modifier": "Default",
                 "type": {
-                  "Plain": "Weight"
+                  "Plain": "ExtrinsicsWeight"
                 },
-                "fallback": "0x00",
+                "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
-                  " Total weight for all extrinsics put together, for the current block."
+                  " Total weight for all extrinsics for the current block."
                 ]
               },
               {
@@ -230,6 +230,8 @@
                 "",
                 " # <weight>",
                 " - `O(1)`",
+                " - Base Weight: 0.665 µs, independent of remark length.",
+                " - No DB operations.",
                 " # </weight>"
               ]
             },
@@ -247,6 +249,8 @@
                 " # <weight>",
                 " - `O(1)`",
                 " - 1 storage write.",
+                " - Base Weight: 1.405 µs",
+                " - 1 write to HEAP_PAGES",
                 " # </weight>"
               ]
             },
@@ -266,6 +270,8 @@
                 " - 1 storage write (codec `O(C)`).",
                 " - 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is expensive).",
                 " - 1 event.",
+                " The weight of this function is dependent on the runtime, but generally this is very expensive.",
+                " We will treat this as a full block.",
                 " # </weight>"
               ]
             },
@@ -284,6 +290,7 @@
                 " - `O(C)` where `C` length of `code`",
                 " - 1 storage write (codec `O(C)`).",
                 " - 1 event.",
+                " The weight of this function is dependent on the runtime. We will treat this as a full block.",
                 " # </weight>"
               ]
             },
@@ -299,9 +306,12 @@
                 " Set the new changes trie configuration.",
                 "",
                 " # <weight>",
-                " - `O(D)` where `D` length of `Digest`",
+                " - `O(1)`",
                 " - 1 storage write or delete (codec `O(1)`).",
-                " - 1 call to `deposit_log`: `O(D)` (which depends on the length of `Digest`)",
+                " - 1 call to `deposit_log`: Uses `append` API, so O(1)",
+                " - Base Weight: 7.218 µs",
+                " - DB Weight:",
+                "     - Writes: Changes Trie, System Digest",
                 " # </weight>"
               ]
             },
@@ -319,6 +329,8 @@
                 " # <weight>",
                 " - `O(I)` where `I` length of `items`",
                 " - `I` storage writes (`O(1)`).",
+                " - Base Weight: 0.568 * i µs",
+                " - Writes: Number of items",
                 " # </weight>"
               ]
             },
@@ -334,8 +346,10 @@
                 " Kill some items from storage.",
                 "",
                 " # <weight>",
-                " - `O(VK)` where `V` length of `keys` and `K` length of one key",
-                " - `V` storage deletions.",
+                " - `O(IK)` where `I` length of `keys` and `K` length of one key",
+                " - `I` storage deletions.",
+                " - Base Weight: .378 * i µs",
+                " - Writes: Number of items",
                 " # </weight>"
               ]
             },
@@ -345,14 +359,23 @@
                 {
                   "name": "prefix",
                   "type": "Key"
+                },
+                {
+                  "name": "_subkeys",
+                  "type": "u32"
                 }
               ],
               "documentation": [
                 " Kill all storage items with a key that starts with the given prefix.",
                 "",
+                " **NOTE:** We rely on the Root origin to provide us the number of subkeys under",
+                " the prefix we are removing to accurately calculate the weight of this function.",
+                "",
                 " # <weight>",
                 " - `O(P)` where `P` amount of keys with prefix `prefix`",
                 " - `P` storage deletions.",
+                " - Base Weight: 0.834 * P µs",
+                " - Writes: Number of subkeys + 1",
                 " # </weight>"
               ]
             },
@@ -366,6 +389,9 @@
                 " # <weight>",
                 " - `O(1)`",
                 " - 1 storage read and deletion.",
+                " --------------------",
+                " Base Weight: 8.626 µs",
+                " No DB Read or Write operations because caller is already in overlay",
                 " # </weight>"
               ]
             }
@@ -417,6 +443,14 @@
             }
           ],
           "constants": [
+            {
+              "name": "BlockHashCount",
+              "type": "BlockNumber",
+              "value": "0xfa000000",
+              "documentation": [
+                " The maximum number of blocks to allow in mortal eras."
+              ]
+            },
             {
               "name": "MaximumBlockWeight",
               "type": "Weight",
@@ -1056,7 +1090,7 @@
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0x1400000000000000",
+              "value": "0xc800000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins."
@@ -1130,7 +1164,7 @@
                 " - `O(T)` where `T` complexity of `on_timestamp_set`",
                 " - 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in `on_finalize`)",
                 " - 1 event handler `on_timestamp_set` `O(T)`.",
-                " - Benchmark: 8.523 (min squares analysis)",
+                " - Benchmark: 7.678 (min squares analysis)",
                 "   - NOTE: This benchmark was done for a runtime with insignificant `on_timestamp_set` handlers.",
                 "     New benchmarking is needed when adding new handlers.",
                 " # </weight>"
@@ -6104,15 +6138,26 @@
           },
           "calls": [
             {
-              "name": "report_misbehavior",
+              "name": "report_equivocation",
               "args": [
                 {
-                  "name": "_report",
-                  "type": "Bytes"
+                  "name": "equivocation_proof",
+                  "type": "EquivocationProof"
+                },
+                {
+                  "name": "key_owner_proof",
+                  "type": "KeyOwnerProof"
                 }
               ],
               "documentation": [
-                " Report some misbehavior."
+                " Report voter equivocation/misbehavior. This method will verify the",
+                " equivocation proof and validate the given key ownership proof",
+                " against the extracted offender. If both are valid, the offence",
+                " will be reported.",
+                "",
+                " Since the weight of the extrinsic is 0, in order to avoid DoS by",
+                " submission of invalid equivocation reports, a mandatory pre-validation of",
+                " the extrinsic is implemented in a `SignedExtension`."
               ]
             }
           ],
@@ -6167,6 +6212,18 @@
               "name": "TooSoon",
               "documentation": [
                 " Cannot signal forced change so soon after last."
+              ]
+            },
+            {
+              "name": "InvalidKeyOwnershipProof",
+              "documentation": [
+                " A key ownership proof provided as part of an equivocation report is invalid."
+              ]
+            },
+            {
+              "name": "DuplicateOffenceReport",
+              "documentation": [
+                " A given equivocation report is valid but already previously reported."
               ]
             }
           ]
@@ -7164,6 +7221,31 @@
               ]
             },
             {
+              "name": "sudo_unchecked_weight",
+              "args": [
+                {
+                  "name": "call",
+                  "type": "Call"
+                },
+                {
+                  "name": "_weight",
+                  "type": "Weight"
+                }
+              ],
+              "documentation": [
+                " Authenticates the sudo key and dispatches a function call with `Root` origin.",
+                " This function does not check the weight of the call, and instead allows the",
+                " Sudo user to specify the weight of the call.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - The weight of this call is defined by the caller.",
+                " # </weight>"
+              ]
+            },
+            {
               "name": "set_key",
               "args": [
                 {
@@ -7369,7 +7451,7 @@
                 "Vec<IdentificationTuple>"
               ],
               "documentation": [
-                " At the end of the session, at least once validator was found to be offline."
+                " At the end of the session, at least one validator was found to be offline."
               ]
             }
           ],
@@ -7486,6 +7568,14 @@
               ]
             }
           ],
+          "constants": [],
+          "errors": []
+        },
+        {
+          "name": "Historical",
+          "storage": null,
+          "calls": null,
+          "events": null,
           "constants": [],
           "errors": []
         },
@@ -7608,7 +7698,6 @@
                 " - `O(R)` where `R` registrar-count (governance-bounded and code-bounded).",
                 " - One storage mutation (codec `O(R)`).",
                 " - One event.",
-                " - Benchmark: 24.63 + R * 0.53 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7639,7 +7728,6 @@
                 " - One balance reserve operation.",
                 " - One storage mutation (codec-read `O(X' + R)`, codec-write `O(X + R)`).",
                 " - One event.",
-                " - Benchmark: 59.44 + R * 0.389 + X * 1.434 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7672,7 +7760,6 @@
                 "   - One storage read (codec complexity `O(P)`).",
                 "   - One storage write (codec complexity `O(S)`).",
                 "   - One storage-exists (`IdentityOf::contains_key`).",
-                " - Benchmark: 39.43 + P * 2.522 + S * 3.698 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7697,9 +7784,6 @@
                 " - One balance-unreserve operation.",
                 " - `2` storage reads and `S + 2` storage deletions.",
                 " - One event.",
-                " - Benchmarks:",
-                "   - 57.36 + R * 0.019 + S * 2.577 + X * 0.874 µs (median slopes analysis)",
-                "   - 57.06 + R * 0.006 + S * 2.579 + X * 0.878 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7738,7 +7822,6 @@
                 " - One balance-reserve operation.",
                 " - Storage: 1 read `O(R)`, 1 mutate `O(X + R)`.",
                 " - One event.",
-                " - Benchmark: 59.02 + R * 0.488 + X * 1.7 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7766,8 +7849,7 @@
                 " - `O(R + X)`.",
                 " - One balance-reserve operation.",
                 " - One storage mutation `O(R + X)`.",
-                " - One event.",
-                " - Benchmark: 50.05 + R * 0.321 + X * 1.688 µs (min squares analysis)",
+                " - One event",
                 " # </weight>"
               ]
             },
@@ -7795,7 +7877,7 @@
                 " # <weight>",
                 " - `O(R)`.",
                 " - One storage mutation `O(R)`.",
-                " - Benchmark: 8.848 + R * 0.425 µs (min squares analysis)",
+                " - Benchmark: 7.315 + R * 0.329 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7823,7 +7905,7 @@
                 " # <weight>",
                 " - `O(R)`.",
                 " - One storage mutation `O(R)`.",
-                " - Benchmark: 10.05 + R * 0.438 µs (min squares analysis)",
+                " - Benchmark: 8.823 + R * 0.32 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7851,7 +7933,7 @@
                 " # <weight>",
                 " - `O(R)`.",
                 " - One storage mutation `O(R)`.",
-                " - Benchmark: 8.985 + R * 0.413 µs (min squares analysis)",
+                " - Benchmark: 7.464 + R * 0.325 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7890,7 +7972,6 @@
                 " - Up to one account-lookup operation.",
                 " - Storage: 1 read `O(R)`, 1 mutate `O(R + X)`.",
                 " - One event.",
-                " - Benchmark: 47.77 + R * 0.336 + X * 1.664 µs (min squares analysis)",
                 " # </weight>"
               ]
             },
@@ -7921,7 +8002,6 @@
                 " - One balance-reserve operation.",
                 " - `S + 2` storage mutations.",
                 " - One event.",
-                " - Benchmark: 101.9 + R * 0.091 + S * 2.589 + X * 0.871 µs (min squares analysis)",
                 " # </weight>"
               ]
             }
@@ -9816,12 +9896,138 @@
               }
             ]
           },
-          "calls": [],
+          "calls": [
+            {
+              "name": "schedule",
+              "args": [
+                {
+                  "name": "when",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "maybe_periodic",
+                  "type": "Option<Period>"
+                },
+                {
+                  "name": "priority",
+                  "type": "Priority"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Anonymously schedule a task.",
+                "",
+                " # <weight>",
+                " - S = Number of already scheduled calls",
+                " - Base Weight: 22.29 + .126 * S µs",
+                " - DB Weight:",
+                "     - Read: Agenda",
+                "     - Write: Agenda",
+                " - Will use base weight of 25 which should be good for up to 30 scheduled calls",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "cancel",
+              "args": [
+                {
+                  "name": "when",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "index",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " Cancel an anonymously scheduled task.",
+                "",
+                " # <weight>",
+                " - S = Number of already scheduled calls",
+                " - Base Weight: 22.15 + 2.869 * S µs",
+                " - DB Weight:",
+                "     - Read: Agenda",
+                "     - Write: Agenda, Lookup",
+                " - Will use base weight of 100 which should be good for up to 30 scheduled calls",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "schedule_named",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "when",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "maybe_periodic",
+                  "type": "Option<Period>"
+                },
+                {
+                  "name": "priority",
+                  "type": "Priority"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Schedule a named task.",
+                "",
+                " # <weight>",
+                " - S = Number of already scheduled calls",
+                " - Base Weight: 29.6 + .159 * S µs",
+                " - DB Weight:",
+                "     - Read: Agenda, Lookup",
+                "     - Write: Agenda, Lookup",
+                " - Will use base weight of 35 which should be good for more than 30 scheduled calls",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "cancel_named",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Cancel a named scheduled task.",
+                "",
+                " # <weight>",
+                " - S = Number of already scheduled calls",
+                " - Base Weight: 24.91 + 2.907 * S µs",
+                " - DB Weight:",
+                "     - Read: Agenda, Lookup",
+                "     - Write: Agenda, Lookup",
+                " - Will use base weight of 100 which should be good for up to 30 scheduled calls",
+                " # </weight>"
+              ]
+            }
+          ],
           "events": [
             {
               "name": "Scheduled",
               "args": [
-                "BlockNumber"
+                "BlockNumber",
+                "u32"
+              ],
+              "documentation": []
+            },
+            {
+              "name": "Canceled",
+              "args": [
+                "BlockNumber",
+                "u32"
               ],
               "documentation": []
             },
@@ -9847,7 +10053,8 @@
           "CheckEra",
           "CheckNonce",
           "CheckWeight",
-          "ChargeTransactionPayment"
+          "ChargeTransactionPayment",
+          "ValidateEquivocationReport"
         ]
       }
     }
