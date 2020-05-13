@@ -185,7 +185,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       );
     }
 
-    #observeStatus = (status: ExtrinsicStatus): Observable<ISubmittableResult> => {
+    #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
         return of(new SubmittableResult({ status }));
       }
@@ -197,7 +197,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
           new SubmittableResult({
-            events: filterEvents(this.hash, block, events, status),
+            events: filterEvents(hash, block, events, status),
             status
           })
         )
@@ -213,9 +213,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
+      const hash = this.hash;
+
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
-          this.#observeStatus(status)
+          this.#observeStatus(hash, status)
         ),
         tap((status): void => {
           this.#updateSigner(updateId, status);
