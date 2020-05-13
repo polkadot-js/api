@@ -18,6 +18,10 @@ export default {
       address: 'H160',
       topics: 'Vec<H256>',
       data: 'Bytes'
+    },
+    Vicinity: {
+      gas_price: 'U256',
+      origin: 'H160'
     }
   }
 } as Definitions;
