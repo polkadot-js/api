@@ -100,6 +100,12 @@ export interface DispatchInfoTo244 extends Struct {
   readonly paysFee: bool;
 }
 
+/** @name ExtrinsicsWeight */
+export interface ExtrinsicsWeight extends Struct {
+  readonly normal: Weight;
+  readonly operational: Weight;
+}
+
 /** @name Fixed128 */
 export interface Fixed128 extends Int {}
 

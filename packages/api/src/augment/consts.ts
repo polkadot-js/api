@@ -217,6 +217,10 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        **/
       blockExecutionWeight: AugmentedConst<Weight>;
       /**
+       * The maximum number of blocks to allow in mortal eras.
+       **/
+      blockHashCount: AugmentedConst<BlockNumber>;
+      /**
        * The weight of runtime database operations the runtime can invoke.
        **/
       dbWeight: AugmentedConst<RuntimeDbWeight>;
