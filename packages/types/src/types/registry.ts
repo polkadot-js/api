@@ -138,5 +138,5 @@ export interface Registry {
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
   setMetadata (metadata: RegistryMetadata, signedExtensions?: string[]): void;
-  setSignedExtensions (signedExtensions: string[]): void;
+  setSignedExtensions (signedExtensions?: string[]): void;
 }

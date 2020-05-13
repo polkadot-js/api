@@ -172,6 +172,11 @@ export interface SignerPayloadJSON {
   transactionVersion: string;
 
   /**
+   * @description The applicable signed extensions for this runtime
+   */
+  signedExtensions: string[];
+
+  /**
    * @description The version of the extrinsic we are dealing with
    */
   version: number;

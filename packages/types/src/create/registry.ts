@@ -93,9 +93,9 @@ export class TypeRegistry implements Registry {
 
   #chainProperties?: ChainProperties;
 
-  #metadataExtensions: string[] = defaultExtensions;
-
   #knownTypes: RegisteredTypes = {};
+
+  #signedExtensions: string[] = defaultExtensions;
 
   constructor () {
     // we only want to import these on creation, i.e. we want to avoid types
@@ -136,7 +136,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get signedExtensions (): string[] {
-    return this.#metadataExtensions;
+    return this.#signedExtensions;
   }
 
   /**
@@ -240,11 +240,11 @@ export class TypeRegistry implements Registry {
   }
 
   public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
-    return expandExtensionTypes(this.#metadataExtensions, 'extra');
+    return expandExtensionTypes(this.#signedExtensions, 'extra');
   }
 
   public getSignedExtensionTypes (): Record<string, keyof InterfaceTypes> {
-    return expandExtensionTypes(this.#metadataExtensions, 'types');
+    return expandExtensionTypes(this.#signedExtensions, 'types');
   }
 
   public hasClass (name: string): boolean {
@@ -326,10 +326,10 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[]): void {
-    this.#metadataExtensions = signedExtensions;
+  setSignedExtensions (signedExtensions: string[] = defaultExtensions): void {
+    this.#signedExtensions = signedExtensions;
 
-    const unknown = findUnknownExtensions(this.#metadataExtensions);
+    const unknown = findUnknownExtensions(this.#signedExtensions);
 
     if (unknown.length) {
       console.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-efect`);
