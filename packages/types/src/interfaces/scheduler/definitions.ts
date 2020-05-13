@@ -10,8 +10,10 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    SchedulePeriod: '(BlockNumber, u32)',
-    SchedulePriority: 'u8',
+    Period: '(BlockNumber, u32)',
+    Priority: 'u8',
+    SchedulePeriod: 'Period',
+    SchedulePriority: 'Priority',
     Scheduled: {
       maybeId: 'Option<Bytes>',
       priority: 'SchedulePriority',

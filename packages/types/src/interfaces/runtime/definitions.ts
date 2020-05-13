@@ -56,6 +56,10 @@ export default {
       class: 'DispatchClass',
       paysFee: 'bool'
     },
+    ExtrinsicsWeight: {
+      normal: 'Weight',
+      operational: 'Weight'
+    },
     Fixed64: 'Int<64, Fixed64>',
     Fixed128: 'Int<128, Fixed128>',
     H160: '[u8; 20; H160]',
