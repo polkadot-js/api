@@ -20,7 +20,7 @@ export default {
       data: 'Bytes'
     },
     Vicinity: {
-      gas_price: 'U256',
+      gasPrice: 'U256',
       origin: 'H160'
     }
   }
