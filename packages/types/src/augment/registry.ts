@@ -18,7 +18,7 @@ import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, C
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
-import { Account, Log } from '@polkadot/types/interfaces/evm';
+import { Account, Log, Vicinity } from '@polkadot/types/interfaces/evm';
 import { EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicSignatureV1, ExtrinsicSignatureV2, ExtrinsicSignatureV3, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, Equivocation, EquivocationProof, GrandpaEquivocation, GrandpaPrevote, KeyOwnerProof, NextAuthority, PendingPause, PendingResume, Precommits, Prevotes, ReportedRoundStates, RoundState, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
@@ -541,6 +541,9 @@ declare module '@polkadot/types/types/registry' {
     Log: Log;
     'Option<Log>': Option<Log>;
     'Vec<Log>': Vec<Log>;
+    Vicinity: Vicinity;
+    'Option<Vicinity>': Option<Vicinity>;
+    'Vec<Vicinity>': Vec<Vicinity>;
     Extrinsic: Extrinsic;
     'Option<Extrinsic>': Option<Extrinsic>;
     'Vec<Extrinsic>': Vec<Extrinsic>;
