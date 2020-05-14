@@ -2,15 +2,18 @@
 
 - **Important** `DispatchInfo` changed `paysFee` to an enum, if using an older version use, `DispatchInfo: 'DispatchInfoTo244'`
 - Align imOnline `Heartbeat` with Substrate (Thanks to https://github.com/arjanz)
+- Adust EVM types to include `Vicinity` (Thanks to https://github.com/drewstone)
 - Add `derive.democracy.locks` to return extended lock info based on votes
 - Ensure metadata is only requested once upon startup (bypass on upgrade subscriptions)
 - Expand testing around `ExtrinsicEra` construction
-- Expand `Registry` to direct access to available signed extensions (in addition to types)
+- Expand `Registry` to direct access to available signed extensions (in addition to exposed types)
 - Cater for new `CheckSpecVersion` and `CheckTxVersion` signed extensions (with `SignerPayload` adjustments)
 - Cater for new `PrevalidateAttests` signed extensions (Polkadot claims)
+- Don't re-calculate submittable extrinsic hash on status checks (optimization)
 - Support for both old/new Tuples in `democracy.depositOf` in derives
 - Fix democracy `ProxyState` types
 - Extends types for Polkadot claims
+- Update `@polkadot/util` to 2.10
 
 # 1.13.1 May 6, 2020
 
@@ -27,7 +30,7 @@
 
 # 1.12.2 Apr 30, 2020
 
-- Update @polkadot/util to stable 2.9.1 (sadly missed in the previous version, stable should match to stable)
+- Update `@polkadot/util` to stable 2.9.1 (sadly missed in the previous version, stable should match to stable)
 
 # 1.12.1 Apr 29, 2020
 
