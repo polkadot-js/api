@@ -103,6 +103,14 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   }
 
   /**
+   * @description The transaction version as a [[u32]] for this payload
+   */
+  public get transactionVersion (): u32 {
+    // NOTE only v4+
+    return (this._raw as ExtrinsicPayloadV4).transactionVersion || this.registry.createType('u32');
+  }
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
