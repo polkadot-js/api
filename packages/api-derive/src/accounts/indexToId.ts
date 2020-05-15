@@ -10,6 +10,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
 import { Option, Vec } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -51,7 +52,7 @@ function query (api: ApiInterfaceRx, accountIndex: AccountIndex | string): Obser
 export function indexToId (api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
   return memo((accountIndex: AccountIndex | string): Observable<AccountId | undefined> =>
     api.query.indices
-      ? api.query.indices.accounts
+      ? isFunction(api.query.indices.accounts)
         ? query(api, accountIndex)
         : queryEnumSet(api, accountIndex)
       : of(undefined)

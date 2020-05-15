@@ -196,8 +196,7 @@ function addStorage (metadata: MetadataLatest): string {
       };
     });
 
-  const options = { encoding: 'utf8', flags: 'r' };
-  const knownSection = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', options));
+  const knownSection = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', 'utf8'));
 
   return renderPage({
     description: DESC_STORAGE,
@@ -283,8 +282,7 @@ function addErrors (metadata: MetadataLatest): string {
 
 /** @internal */
 function writeFile (name: string, ...chunks: any[]): void {
-  const options = { encoding: 'utf8', flags: 'w' };
-  const writeStream = fs.createWriteStream(name, options);
+  const writeStream = fs.createWriteStream(name, { encoding: 'utf8', flags: 'w' });
 
   writeStream.on('finish', (): void => {
     console.log(`Completed writing ${name}`);

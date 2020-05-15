@@ -10,7 +10,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec, u64 } from '@polkadot/types';
-import { stringToHex } from '@polkadot/util';
+import { isFunction, stringToHex } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -96,7 +96,7 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
 
 export function dispatchQueue (api: ApiInterfaceRx): () => Observable<DeriveDispatch[]> {
   return memo((): Observable<DeriveDispatch[]> =>
-    api.query.scheduler?.agenda
+    isFunction(api.query.scheduler?.agenda)
       ? queryScheduler(api)
       : api.query.democracy.dispatchQueue
         ? queryQueue(api)

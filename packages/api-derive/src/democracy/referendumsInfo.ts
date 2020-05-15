@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 import { calcVotes, getStatus, parseImage } from './util';
@@ -95,7 +96,7 @@ export function _referendumVotes (api: ApiInterfaceRx): (referendum: DeriveRefer
   return memo((referendum: DeriveReferendum): Observable<DeriveReferendumVotes> =>
     combineLatest([
       api.derive.democracy.sqrtElectorate(),
-      api.query.democracy.votingOf
+      isFunction(api.query.democracy.votingOf)
         ? votesCurr(api, referendum.index)
         : votesPrev(api, referendum.index)
     ]).pipe(
