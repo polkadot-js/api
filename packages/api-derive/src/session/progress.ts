@@ -9,6 +9,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64 } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -77,9 +78,10 @@ function queryBabeNoHistory (api: ApiInterfaceRx): Observable<[DeriveSessionInfo
 export function progress (api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
   return memo((): Observable<DeriveSessionProgress> =>
     api.consts.babe
-      ? (api.query.staking.erasStartSessionIndex
-        ? queryBabe(api) // 2.x with Babe
-        : queryBabeNoHistory(api)
+      ? (
+        isFunction(api.query.staking.erasStartSessionIndex)
+          ? queryBabe(api) // 2.x with Babe
+          : queryBabeNoHistory(api)
       ).pipe(
         map(([info, slots]: [DeriveSessionInfo, ResultSlotsFlat]): DeriveSessionProgress =>
           createDerive(api, info, slots)

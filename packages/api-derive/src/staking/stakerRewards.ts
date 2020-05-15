@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -103,12 +104,13 @@ function filterRewards (api: ApiInterfaceRx, rewards: DeriveStakerReward[], stak
   }
 
   const validators = uniqValidators(rewards);
+  const isNewPayouts = isFunction(api.tx.staking.payoutStakers);
 
   return combineLatest([
-    api.query.staking.migrateEra
+    isFunction(api.query.staking.migrateEra)
       ? api.query.staking.migrateEra<Option<EraIndex>>()
-      : of({ unwrapOr: () => api.tx.staking.payoutStakers ? ZERO : MAX_ERAS }),
-    api.tx.staking.payoutStakers
+      : of({ unwrapOr: () => isNewPayouts ? ZERO : MAX_ERAS }),
+    isNewPayouts
       ? api.derive.staking.queryMulti(validators)
       : of([])
   ]).pipe(

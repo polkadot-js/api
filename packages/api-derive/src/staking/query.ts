@@ -10,6 +10,7 @@ import { DeriveStakingQuery } from '../types';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -87,7 +88,7 @@ export function queryWithQueued (api: ApiInterfaceRx): (accountId: Uint8Array | 
     const stashId = api.registry.createType('AccountId', accountId);
 
     return (
-      api.query.staking.erasStakers
+      isFunction(api.query.staking.erasStakers)
         ? retrieveCurr(api, stashId)
         : retrievePrev(api, stashId)
     ).pipe(

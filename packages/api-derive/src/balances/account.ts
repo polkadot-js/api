@@ -9,6 +9,7 @@ import { DeriveBalancesAccount } from '../types';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -86,9 +87,9 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
         (accountId
           ? combineLatest([
             of(accountId),
-            api.query.system.account
+            isFunction(api.query.system.account)
               ? queryCurrent(api, accountId)
-              : api.query.balances.account
+              : isFunction(api.query.balances.account)
                 ? queryBalancesAccount(api, accountId)
                 : queryBalancesFree(api, accountId)
           ])

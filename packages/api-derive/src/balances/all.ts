@@ -10,7 +10,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec } from '@polkadot/types';
-import { bnMax } from '@polkadot/util';
+import { bnMax, isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -135,7 +135,7 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
           ? combineLatest([
             of(account),
             api.derive.chain.bestNumber(),
-            api.query.balances.account
+            isFunction(api.query.balances.account)
               ? queryCurrent(api, account.accountId)
               : queryOld(api, account.accountId)
           ])
