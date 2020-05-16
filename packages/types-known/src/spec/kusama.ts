@@ -15,6 +15,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
+      Multiplier: 'Fixed128',
       ReferendumInfo: 'ReferendumInfoTo239',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
@@ -30,6 +31,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
+      Multiplier: 'Fixed128',
       ReferendumInfo: 'ReferendumInfoTo239',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
@@ -46,6 +48,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
+      Multiplier: 'Fixed128',
       ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
@@ -60,6 +63,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
+      Multiplier: 'Fixed128',
       ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
@@ -72,6 +76,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
+      Multiplier: 'Fixed128',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }

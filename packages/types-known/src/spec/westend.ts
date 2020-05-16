@@ -11,6 +11,7 @@ const versioned: OverrideVersionedType[] = [
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
+      Multiplier: 'Fixed128',
       Weight: 'u32'
     }
   },
