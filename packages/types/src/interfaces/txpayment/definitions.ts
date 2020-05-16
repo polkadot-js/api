@@ -7,6 +7,6 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    Multiplier: 'Fixed64'
+    Multiplier: 'Fixed128'
   }
 } as Definitions;
