@@ -16,7 +16,7 @@ const versioned: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
-      Multiplier: 'Fixed128',
+      Multiplier: 'Fixed64',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
       Weight: 'u32'
@@ -29,7 +29,7 @@ const versioned: OverrideVersionedType[] = [
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
-      Multiplier: 'Fixed128',
+      Multiplier: 'Fixed64',
       ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
@@ -41,7 +41,7 @@ const versioned: OverrideVersionedType[] = [
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
-      Multiplier: 'Fixed128',
+      Multiplier: 'Fixed64',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }
@@ -52,7 +52,7 @@ const versioned: OverrideVersionedType[] = [
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
-      Multiplier: 'Fixed128',
+      Multiplier: 'Fixed64',
       Weight: 'u32'
     }
   },

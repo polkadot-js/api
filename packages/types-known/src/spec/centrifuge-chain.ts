@@ -11,7 +11,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'AccountId',
       LookupSource: 'AccountId',
-      Multiplier: 'Fixed128',
+      Multiplier: 'Fixed64',
       ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
