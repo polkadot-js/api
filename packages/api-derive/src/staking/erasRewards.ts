@@ -10,9 +10,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
-import { deriveCache, memo } from '../util';
-
-const CACHE_KEY = '_erasRewards';
+import { memo } from '../util';
 
 function mapRewards (eras: EraIndex[], optRewards: Option<Balance>[]): DeriveEraRewards[] {
   return eras.map((era, index): DeriveEraRewards => ({
@@ -22,40 +20,14 @@ function mapRewards (eras: EraIndex[], optRewards: Option<Balance>[]): DeriveEra
 }
 
 export function _erasRewards (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
-  return memo((_eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> => {
-    if (!_eras.length) {
-      return of([]);
-    }
-
-    const cached: DeriveEraRewards[] = deriveCache.get(CACHE_KEY) || [];
-    const eras = withActive
-      ? _eras
-      : _eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
-
-    if (!eras.length) {
-      return of(
-        _eras
-          .map((era) => cached.find((cached) => era.eq(cached.era)))
-          .filter((value): value is DeriveEraRewards => !!value)
-      );
-    }
-
-    return api.query.staking.erasValidatorReward.multi<Option<Balance>>(eras).pipe(
-      map((optRewards) => {
-        const retrieved = mapRewards(eras, optRewards);
-
-        return deriveCache.set(
-          CACHE_KEY,
-          _eras
-            .map((era) =>
-              cached.find((cached) => era.eq(cached.era)) ||
-              retrieved.find((retrieved) => era.eq(retrieved.era))
-            )
-            .filter((value): value is DeriveEraRewards => !!value)
-        );
-      })
-    );
-  });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> =>
+    eras.length
+      ? api.query.staking.erasValidatorReward.multi<Option<Balance>>(eras).pipe(
+        map((optRewards) => mapRewards(eras, optRewards))
+      )
+      : of([])
+  );
 }
 
 export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {

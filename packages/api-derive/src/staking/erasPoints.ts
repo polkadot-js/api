@@ -9,9 +9,7 @@ import { DeriveEraPoints, DeriveEraValPoints } from '../types';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { deriveCache, memo } from '../util';
-
-const CACHE_KEY = '_erasPoints';
+import { memo } from '../util';
 
 function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
   return [...individual.entries()]
@@ -32,40 +30,14 @@ function mapPoints (eras: EraIndex[], points: EraRewardPoints[]): DeriveEraPoint
 }
 
 export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPoints[]> {
-  return memo((_eras: EraIndex[], withActive: boolean): Observable<DeriveEraPoints[]> => {
-    if (!_eras.length) {
-      return of([]);
-    }
-
-    const cached: DeriveEraPoints[] = deriveCache.get(CACHE_KEY) || [];
-    const eras = withActive
-      ? _eras
-      : _eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
-
-    if (!eras.length) {
-      return of(
-        _eras
-          .map((era) => cached.find((cached) => era.eq(cached.era)))
-          .filter((value): value is DeriveEraPoints => !!value)
-      );
-    }
-
-    return api.query.staking.erasRewardPoints.multi<EraRewardPoints>(eras).pipe(
-      map((points) => {
-        const retrieved = mapPoints(eras, points);
-
-        return deriveCache.set(
-          CACHE_KEY,
-          _eras
-            .map((era) =>
-              cached.find((cached) => era.eq(cached.era)) ||
-              retrieved.find((retrieved) => era.eq(retrieved.era))
-            )
-            .filter((value): value is DeriveEraPoints => !!value)
-        );
-      })
-    );
-  });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraPoints[]> =>
+    eras.length
+      ? api.query.staking.erasRewardPoints.multi<EraRewardPoints>(eras).pipe(
+        map((points) => mapPoints(eras, points))
+      )
+      : of([])
+  );
 }
 
 export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {

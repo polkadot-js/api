@@ -10,9 +10,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
-import { deriveCache, memo } from '../util';
-
-const CACHE_KEY = '_erasPrefs';
+import { memo } from '../util';
 
 function mapPrefs (era: EraIndex, all: [StorageKey, ValidatorPrefs][]): DeriveEraPrefs {
   const validators: DeriveEraValPrefs = {};
@@ -33,36 +31,12 @@ export function eraPrefs (api: ApiInterfaceRx): (era: EraIndex) => Observable<De
 }
 
 export function _erasPrefs (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPrefs[]> {
-  return memo((_eras: EraIndex[], withActive: boolean): Observable<DeriveEraPrefs[]> => {
-    if (!_eras.length) {
-      return of([]);
-    }
-
-    const cached: DeriveEraPrefs[] = deriveCache.get(CACHE_KEY) || [];
-    const eras = withActive
-      ? _eras
-      : _eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
-
-    if (!eras.length) {
-      return of(
-        _eras
-          .map((era) => cached.find((cached) => era.eq(cached.era)))
-          .filter((value): value is DeriveEraPrefs => !!value)
-      );
-    }
-
-    return combineLatest(eras.map((era) => api.derive.staking.eraPrefs(era))).pipe(
-      map((retrieved) => deriveCache.set(
-        CACHE_KEY,
-        _eras
-          .map((era) =>
-            cached.find((cached) => era.eq(cached.era)) ||
-            retrieved.find((retrieved) => era.eq(retrieved.era))
-          )
-          .filter((value): value is DeriveEraPrefs => !!value)
-      ))
-    );
-  });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraPrefs[]> =>
+    eras.length
+      ? combineLatest(eras.map((era) => api.derive.staking.eraPrefs(era)))
+      : of([])
+  );
 }
 
 export function erasPrefs (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPrefs[]> {

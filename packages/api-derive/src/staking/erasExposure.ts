@@ -12,9 +12,39 @@ import { StorageKey } from '@polkadot/types';
 
 import { deriveCache, memo } from '../util';
 
+interface DeriveEraExposureJSON {
+  era: string;
+  nominators: DeriveEraNominatorExposure;
+  validators: Record<string, string>;
+}
+
 type KeysAndExposures = [StorageKey, Exposure][];
 
-const CACHE_KEY = '_erasExposure';
+const CACHE_KEY = '_eraExposure';
+
+function deserialize ({ registry }: ApiInterfaceRx, { era, nominators, validators }: DeriveEraExposureJSON): DeriveEraExposure {
+  return {
+    era: registry.createType('EraIndex', era),
+    nominators,
+    validators: Object.keys(validators).reduce((result: Record<string, Exposure>, id: string): Record<string, Exposure> => {
+      result[id] = registry.createType('Exposure', validators[id]);
+
+      return result;
+    }, {})
+  };
+}
+
+function serialize ({ era, nominators, validators }: DeriveEraExposure): DeriveEraExposureJSON {
+  return {
+    era: era.toHex(),
+    nominators,
+    validators: Object.keys(validators).reduce((result: Record<string, string>, id: string): Record<string, string> => {
+      result[id] = validators[id].toHex();
+
+      return result;
+    }, {})
+  };
+}
 
 function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposure {
   const nominators: DeriveEraNominatorExposure = {};
@@ -36,45 +66,42 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
   return { era, nominators, validators };
 }
 
+export function _eraExposure (api: ApiInterfaceRx): (era: EraIndex, withCache: boolean) => Observable<DeriveEraExposure> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return memo((era: EraIndex, withCache: boolean): Observable<DeriveEraExposure> => {
+    const cacheKey = `${CACHE_KEY}-${era}`;
+    const cached = withCache
+      ? deriveCache.get<DeriveEraExposureJSON>(cacheKey)
+      : undefined;
+
+    return cached
+      ? of(deserialize(api, cached))
+      : api.query.staking.erasStakersClipped.entries(era).pipe(
+        map((stakers): DeriveEraExposure => {
+          const value = mapStakers(era, stakers);
+
+          if (withCache) {
+            deriveCache.set(cacheKey, serialize(value));
+          }
+
+          return value;
+        })
+      );
+  });
+}
+
 export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraExposure> {
   return memo((era: EraIndex): Observable<DeriveEraExposure> =>
-    api.query.staking.erasStakersClipped.entries(era).pipe(
-      map((stakers) => mapStakers(era, stakers))
-    )
+    api.derive.staking._eraExposure(era, false)
   );
 }
 
 export function _erasExposure (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraExposure[]> {
-  return memo((_eras: EraIndex[], withActive: boolean): Observable<DeriveEraExposure[]> => {
-    if (!_eras.length) {
-      return of([]);
-    }
-
-    const cached: DeriveEraExposure[] = deriveCache.get(CACHE_KEY) || [];
-    const eras = withActive
-      ? _eras
-      : _eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
-
-    if (!eras.length) {
-      return of(
-        _eras
-          .map((era) => cached.find((cached) => era.eq(cached.era)))
-          .filter((value): value is DeriveEraExposure => !!value)
-      );
-    }
-
-    return combineLatest(eras.map((era) => api.derive.staking.eraExposure(era))).pipe(
-      map((retrieved) => deriveCache.set(
-        CACHE_KEY,
-        _eras
-          .map((era) =>
-            cached.find((cached) => era.eq(cached.era)) ||
-            retrieved.find((retrieved) => era.eq(retrieved.era))
-          )
-          .filter((value): value is DeriveEraExposure => !!value)
-      ))
-    );
-  });
+  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraExposure[]> =>
+    eras.length
+      ? combineLatest(eras.map((era) => api.derive.staking._eraExposure(era, !withActive)))
+      : of([])
+  );
 }
 
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
