@@ -156,25 +156,25 @@ function filterRewards (api: ApiInterfaceRx, eras: EraIndex[], migrateEra: BN, r
   );
 }
 
-export function _stakerRewardsEras (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<ErasResult> {
-  return memo((eras: EraIndex[]): Observable<ErasResult> =>
+export function _stakerRewardsEras (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<ErasResult> {
+  return memo((eras: EraIndex[], withActive: boolean): Observable<ErasResult> =>
     combineLatest([
       isFunction(api.query.staking.migrateEra)
         ? api.query.staking.migrateEra<Option<EraIndex>>()
         : of({ unwrapOr: () => isFunction(api.tx.staking.payoutStakers) ? ZERO : MAX_ERAS }),
-      api.derive.staking._erasPoints(eras),
-      api.derive.staking._erasPrefs(eras),
-      api.derive.staking._erasRewards(eras)
+      api.derive.staking._erasPoints(eras, withActive),
+      api.derive.staking._erasPrefs(eras, withActive),
+      api.derive.staking._erasRewards(eras, withActive)
     ])
   );
 }
 
-export function _stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[]> {
-  return memo((accountId: Uint8Array | string, eras: EraIndex[], withActive = false): Observable<DeriveStakerReward[]> =>
+export function _stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerReward[]> {
+  return memo((accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerReward[]> =>
     combineLatest([
       api.derive.staking.query(accountId),
-      api.derive.staking._stakerExposure(accountId, eras),
-      api.derive.staking._stakerRewardsEras(eras)
+      api.derive.staking._stakerExposure(accountId, eras, withActive),
+      api.derive.staking._stakerRewardsEras(eras, withActive)
     ]).pipe(
       switchMap(([{ stakingLedger, stashId }, exposures, erasResult]): Observable<DeriveStakerReward[]> => {
         const migrateEra: BN = erasResult[0].unwrapOr(ZERO);
@@ -190,7 +190,7 @@ export function _stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | s
 }
 
 export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerReward[]> =>
+  return memo((accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerReward[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._stakerRewards(accountId, eras, withActive))
     )
@@ -198,7 +198,7 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
 }
 
 export function stakerRewardsMulti (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
-  return memo((accountIds: (Uint8Array | string)[], withActive?: boolean): Observable<DeriveStakerReward[][]> =>
+  return memo((accountIds: (Uint8Array | string)[], withActive = false): Observable<DeriveStakerReward[][]> =>
     accountIds.length
       ? api.derive.staking.erasHistoric(withActive).pipe(
         switchMap((eras) =>

@@ -39,8 +39,9 @@ export function eraSlashes (api: ApiInterfaceRx): (era: EraIndex) => Observable<
   );
 }
 
-export function _erasSlashes (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraSlashes[]> {
-  return memo((eras: EraIndex[]): Observable<DeriveEraSlashes[]> =>
+export function _erasSlashes (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraSlashes[]> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraSlashes[]> =>
     eras.length
       ? combineLatest(
         eras.map((era) => api.derive.staking.eraSlashes(era))
@@ -50,9 +51,9 @@ export function _erasSlashes (api: ApiInterfaceRx): (eras: EraIndex[]) => Observ
 }
 
 export function erasSlashes (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
-  return memo((withActive?: boolean): Observable<DeriveEraSlashes[]> =>
+  return memo((withActive = false): Observable<DeriveEraSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasSlashes(eras))
+      switchMap((eras) => api.derive.staking._erasSlashes(eras, false))
     )
   );
 }

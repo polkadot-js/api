@@ -10,9 +10,11 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
-import { memo } from '../util';
+import { deriveCache, memo } from '../util';
 
 type KeysAndExposures = [StorageKey, Exposure][];
+
+const CACHE_KEY = '_erasExposure';
 
 function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposure {
   const nominators: DeriveEraNominatorExposure = {};
@@ -42,18 +44,43 @@ export function eraExposure (api: ApiInterfaceRx): (era: EraIndex) => Observable
   );
 }
 
-export function _erasExposure (api: ApiInterfaceRx): (eras: EraIndex[]) => Observable<DeriveEraExposure[]> {
-  return memo((eras: EraIndex[]): Observable<DeriveEraExposure[]> =>
-    eras.length
-      ? combineLatest(eras.map((era) => api.derive.staking.eraExposure(era)))
-      : of([])
-  );
+export function _erasExposure (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraExposure[]> {
+  return memo((_eras: EraIndex[], withActive: boolean): Observable<DeriveEraExposure[]> => {
+    if (!_eras.length) {
+      return of([]);
+    }
+
+    const cached: DeriveEraExposure[] = deriveCache.get(CACHE_KEY) || [];
+    const eras = withActive
+      ? _eras
+      : _eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
+
+    if (!eras.length) {
+      return of(
+        _eras
+          .map((era) => cached.find((cached) => era.eq(cached.era)))
+          .filter((value): value is DeriveEraExposure => !!value)
+      );
+    }
+
+    return combineLatest(eras.map((era) => api.derive.staking.eraExposure(era))).pipe(
+      map((retrieved) => deriveCache.set(
+        CACHE_KEY,
+        _eras
+          .map((era) =>
+            cached.find((cached) => era.eq(cached.era)) ||
+            retrieved.find((retrieved) => era.eq(retrieved.era))
+          )
+          .filter((value): value is DeriveEraExposure => !!value)
+      ))
+    );
+  });
 }
 
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
-  return memo((withActive?: boolean): Observable<DeriveEraExposure[]> =>
+  return memo((withActive = false): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasExposure(eras))
+      switchMap((eras) => api.derive.staking._erasExposure(eras, withActive))
     )
   );
 }

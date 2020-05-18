@@ -2,10 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { drr } from '@polkadot/rpc-core/rxjs';
-
-export * from './approvalFlagsToBools';
-export * from './cache';
-export * from './memo';
-
-export { drr };
+export interface DeriveCache {
+  get: <T = any> (ket: string) => T | undefined;
+  set: <T = any> (key: string, value: T) => T;
+}
