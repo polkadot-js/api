@@ -20,39 +20,43 @@ const deriveNoopCache: DeriveCache = {
 
 let deriveCache: DeriveCache;
 
-export function setDeriveCache (prefix = '', cache = deriveNoopCache): void {
+export function setDeriveCache (prefix = '', cache?: DeriveCache): void {
   const keyStart = `derive:${prefix}:`;
 
-  deriveCache = {
-    del: (partial: string): void => cache.del(`${keyStart}${partial}`),
-    forEach: cache.forEach,
-    get: <T = any> (partial: string): T | undefined => {
-      const key = `${keyStart}${partial}`;
-      const cached = cache.get<CacheValue<T>>(key);
+  deriveCache = cache
+    ? {
+      del: (partial: string): void => cache.del(`${keyStart}${partial}`),
+      forEach: cache.forEach,
+      get: <T = any> (partial: string): T | undefined => {
+        const key = `${keyStart}${partial}`;
+        const cached = cache.get<CacheValue<T>>(key);
 
-      if (cached) {
-        cached.x = Date.now();
-        cache.set(key, cached);
+        if (cached) {
+          cached.x = Date.now();
+          cache.set(key, cached);
 
-        return cached.v;
+          return cached.v;
+        }
+
+        return undefined;
+      },
+      set: (partial: string, v: any): void => {
+        cache.set(`${keyStart}${partial}`, { v, x: Date.now() });
       }
-
-      return undefined;
-    },
-    set: (partial: string, v: any): void => {
-      cache.set(`${keyStart}${partial}`, { v, x: Date.now() });
     }
-  };
+    : deriveNoopCache;
 
-  // clear all expired values
-  const now = Date.now();
-  const all: any[] = [];
+  if (cache) {
+    // clear all expired values
+    const now = Date.now();
+    const all: any[] = [];
 
-  cache.forEach((key: string, { x }: CacheValue<any>): void => {
-    ((now - x) > CHACHE_EXPIRY) && all.push(key);
-  });
+    cache.forEach((key: string, { x }: CacheValue<any>): void => {
+      ((now - x) > CHACHE_EXPIRY) && all.push(key);
+    });
 
-  all.forEach((key) => cache.del(key));
+    all.forEach((key) => cache.del(key));
+  }
 }
 
 setDeriveCache();
