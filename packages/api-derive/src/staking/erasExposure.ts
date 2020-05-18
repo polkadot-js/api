@@ -50,6 +50,16 @@ export function _erasExposure (api: ApiInterfaceRx): (eras: EraIndex[]) => Obser
   );
 }
 
+export function _erasExposureFiltered (api: ApiInterfaceRx): (eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveEraExposure[]> {
+  return memo((eras: EraIndex[], filter: EraIndex[]): Observable<DeriveEraExposure[]> =>
+    api.derive.staking._erasExposure(eras).pipe(
+      map((exposure) =>
+        exposure.filter(({ era }) => filter.some((filter) => era.eq(filter)))
+      )
+    )
+  );
+}
+
 export function erasExposure (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
   return memo((withActive?: boolean): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

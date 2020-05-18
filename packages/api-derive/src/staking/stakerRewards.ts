@@ -157,22 +157,22 @@ function filterRewards (api: ApiInterfaceRx, rewards: DeriveStakerReward[], stak
 }
 
 export function _stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[]> {
-  return memo((accountId: Uint8Array | string, _eras: EraIndex[], withActive?: boolean): Observable<DeriveStakerReward[]> =>
+  return memo((accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean): Observable<DeriveStakerReward[]> =>
     api.derive.staking.query(accountId).pipe(
       switchMap(({ stakingLedger, stashId }): Observable<DeriveStakerReward[]> => {
         if (!stashId || !stakingLedger) {
           return of([]);
         }
 
-        const eras = withActive
-          ? _eras
-          : filterEras(_eras, stakingLedger);
+        const filter = withActive
+          ? eras
+          : filterEras(eras, stakingLedger);
 
         return combineLatest([
-          api.derive.staking._erasPoints(eras),
-          api.derive.staking._erasPrefs(eras),
-          api.derive.staking._erasRewards(eras),
-          api.derive.staking._stakerExposure(stashId, eras)
+          api.derive.staking._erasPointsFiltered(eras, filter),
+          api.derive.staking._erasPrefsFiltered(eras, filter),
+          api.derive.staking._erasRewardsFiltered(eras, filter),
+          api.derive.staking._stakerExposureFiltered(stashId, eras, filter)
         ]).pipe(
           switchMap((result): Observable<DeriveStakerReward[]> =>
             filterRewards(api, parseRewards(api, stashId, result), stakingLedger, withActive)

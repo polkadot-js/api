@@ -38,6 +38,16 @@ export function _erasPrefs (api: ApiInterfaceRx): (eras: EraIndex[]) => Observab
   );
 }
 
+export function _erasPrefsFiltered (api: ApiInterfaceRx): (eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveEraPrefs[]> {
+  return memo((eras: EraIndex[], filter: EraIndex[]): Observable<DeriveEraPrefs[]> =>
+    api.derive.staking._erasPrefs(eras).pipe(
+      map((prefs) =>
+        prefs.filter(({ era }) => filter.some((filter) => era.eq(filter)))
+      )
+    )
+  );
+}
+
 export function erasPrefs (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPrefs[]> {
   return memo((withActive?: boolean): Observable<DeriveEraPrefs[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

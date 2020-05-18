@@ -26,6 +26,16 @@ export function _stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | s
   });
 }
 
+export function _stakerSlashesFiltered (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveStakerSlashes[]> {
+  return memo((accountId: Uint8Array | string, eras: EraIndex[], filter: EraIndex[]): Observable<DeriveStakerSlashes[]> =>
+    api.derive.staking._stakerSlashes(accountId, eras).pipe(
+      map((slashes) =>
+        slashes.filter(({ era }) => filter.some((filter) => era.eq(filter)))
+      )
+    )
+  );
+}
+
 export function stakerSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
   return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

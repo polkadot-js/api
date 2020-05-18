@@ -25,6 +25,16 @@ export function _erasRewards (api: ApiInterfaceRx): (eras: EraIndex[]) => Observ
   );
 }
 
+export function _erasRewardsFiltered (api: ApiInterfaceRx): (eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveEraRewards[]> {
+  return memo((eras: EraIndex[], filter: EraIndex[]): Observable<DeriveEraRewards[]> =>
+    api.derive.staking._erasRewards(eras).pipe(
+      map((rewards) =>
+        rewards.filter(({ era }) => filter.some((filter) => era.eq(filter)))
+      )
+    )
+  );
+}
+
 export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
   return memo((withActive?: boolean): Observable<DeriveEraRewards[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

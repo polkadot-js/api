@@ -14,6 +14,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
       Multiplier: 'Fixed64',
@@ -27,6 +28,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       Multiplier: 'Fixed64',
@@ -39,6 +41,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1005, 1005],
     types: {
       Address: 'AccountId',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       Multiplier: 'Fixed64',
@@ -50,6 +53,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1006, 1006],
     types: {
       Address: 'AccountId',
+      DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       Multiplier: 'Fixed64',

@@ -37,6 +37,16 @@ export function _stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | 
   });
 }
 
+export function _stakerExposureFiltered (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveStakerExposure[]> {
+  return memo((accountId: Uint8Array | string, eras: EraIndex[], filter: EraIndex[]): Observable<DeriveStakerExposure[]> =>
+    api.derive.staking._stakerExposure(accountId, eras).pipe(
+      map((exposure) =>
+        exposure.filter(({ era }) => filter.some((filter) => era.eq(filter)))
+      )
+    )
+  );
+}
+
 export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
   return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

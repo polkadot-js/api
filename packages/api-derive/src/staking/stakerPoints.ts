@@ -27,6 +27,16 @@ export function _stakerPoints (api: ApiInterfaceRx): (accountId: Uint8Array | st
   });
 }
 
+export function _stakerPointsFiltered (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveStakerPoints[]> {
+  return memo((accountId: Uint8Array | string, eras: EraIndex[], filter: EraIndex[]): Observable<DeriveStakerPoints[]> =>
+    api.derive.staking._stakerPoints(accountId, eras).pipe(
+      map((points) =>
+        points.filter(({ era }) => filter.some((filter) => era.eq(filter)))
+      )
+    )
+  );
+}
+
 export function stakerPoints (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerPoints[]> {
   return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerPoints[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

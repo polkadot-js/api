@@ -49,6 +49,16 @@ export function _erasSlashes (api: ApiInterfaceRx): (eras: EraIndex[]) => Observ
   );
 }
 
+export function _erasSlashesFiltered (api: ApiInterfaceRx): (eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveEraSlashes[]> {
+  return memo((eras: EraIndex[], filter: EraIndex[]): Observable<DeriveEraSlashes[]> =>
+    api.derive.staking._erasSlashes(eras).pipe(
+      map((slashes) =>
+        slashes.filter(({ era }) => filter.some((filter) => era.eq(filter)))
+      )
+    )
+  );
+}
+
 export function erasSlashes (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
   return memo((withActive?: boolean): Observable<DeriveEraSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

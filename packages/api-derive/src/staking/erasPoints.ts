@@ -37,6 +37,16 @@ export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[]) => Observa
   );
 }
 
+export function _erasPointsFiltered (api: ApiInterfaceRx): (eras: EraIndex[], filter: EraIndex[]) => Observable<DeriveEraPoints[]> {
+  return memo((eras: EraIndex[], filter: EraIndex[]): Observable<DeriveEraPoints[]> =>
+    api.derive.staking._erasPoints(eras).pipe(
+      map((points) =>
+        points.filter(({ era }) => filter.some((filter) => filter.eq(era)))
+      )
+    )
+  );
+}
+
 export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
   return memo((withActive?: boolean): Observable<DeriveEraPoints[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
