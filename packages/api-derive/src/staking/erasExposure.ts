@@ -49,9 +49,7 @@ export function _eraExposure (api: ApiInterfaceRx): (era: EraIndex, withActive: 
         map((stakers): DeriveEraExposure => {
           const value = mapStakers(era, stakers);
 
-          if (!withActive) {
-            deriveCache.set(cacheKey, value);
-          }
+          !withActive && deriveCache.set(cacheKey, value);
 
           return value;
         })

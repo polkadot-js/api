@@ -37,9 +37,7 @@ export function _eraPrefs (api: ApiInterfaceRx): (era: EraIndex, withActive: boo
         map((prefs): DeriveEraPrefs => {
           const value = mapPrefs(era, prefs);
 
-          if (!withActive) {
-            deriveCache.set(cacheKey, value);
-          }
+          !withActive && deriveCache.set(cacheKey, value);
 
           return value;
         })

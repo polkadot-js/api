@@ -50,11 +50,7 @@ export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[], withActive
         map((points): DeriveEraPoints[] => {
           const query = mapPoints(remaining, points);
 
-          if (!withActive) {
-            query.forEach((query): void => {
-              deriveCache.set(`${CACHE_KEY}-${query.era}`, query);
-            });
-          }
+          !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era}`, q));
 
           return eras.map((era): DeriveEraPoints =>
             cached.find((cached) => era.eq(cached.era)) ||

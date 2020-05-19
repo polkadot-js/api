@@ -46,9 +46,7 @@ export function _eraSlashes (api: ApiInterfaceRx): (era: EraIndex, withActive: b
         map(([noms, vals]): DeriveEraSlashes => {
           const value = mapSlashes(era, noms, vals);
 
-          if (!withActive) {
-            deriveCache.set(cacheKey, value);
-          }
+          !withActive && deriveCache.set(cacheKey, value);
 
           return value;
         })
