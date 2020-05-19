@@ -10,7 +10,9 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from '@polkadot/types';
 
-import { memo } from '../util';
+import { deriveCache, memo } from '../util';
+
+const CACHE_KEY = 'eraPrefs';
 
 function mapPrefs (era: EraIndex, all: [StorageKey, ValidatorPrefs][]): DeriveEraPrefs {
   const validators: DeriveEraValPrefs = {};
@@ -22,19 +24,39 @@ function mapPrefs (era: EraIndex, all: [StorageKey, ValidatorPrefs][]): DeriveEr
   return { era, validators };
 }
 
+export function _eraPrefs (api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraPrefs> {
+  return memo((era: EraIndex, withActive: boolean): Observable<DeriveEraPrefs> => {
+    const cacheKey = `${CACHE_KEY}-${era}`;
+    const cached = withActive
+      ? undefined
+      : deriveCache.get<DeriveEraPrefs>(cacheKey);
+
+    return cached
+      ? of(cached)
+      : api.query.staking.erasValidatorPrefs.entries(era).pipe(
+        map((prefs): DeriveEraPrefs => {
+          const value = mapPrefs(era, prefs);
+
+          if (!withActive) {
+            deriveCache.set(cacheKey, value);
+          }
+
+          return value;
+        })
+      );
+  });
+}
+
 export function eraPrefs (api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraPrefs> {
   return memo((era: EraIndex): Observable<DeriveEraPrefs> =>
-    api.query.staking.erasValidatorPrefs.entries(era).pipe(
-      map((prefs) => mapPrefs(era, prefs))
-    )
+    api.derive.staking._eraPrefs(era, true)
   );
 }
 
 export function _erasPrefs (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPrefs[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraPrefs[]> =>
     eras.length
-      ? combineLatest(eras.map((era) => api.derive.staking.eraPrefs(era)))
+      ? combineLatest(eras.map((era) => api.derive.staking._eraPrefs(era, withActive)))
       : of([])
   );
 }

@@ -11,6 +11,27 @@ interface CacheValue<T> {
 
 const CHACHE_EXPIRY = 7 * (24 * 60) * (60 * 1000);
 
+const mapCache: Map<string, any> = new Map();
+
+const deriveMapCache: DeriveCache = {
+  del: (key: string): void => {
+    mapCache.delete(key);
+  },
+  forEach: (cb: (key: string, value: any) => void): void => {
+    const entries = mapCache.entries();
+
+    for (const entry in entries) {
+      cb(entry[0], entry[1]);
+    }
+  },
+  get: <T = any> (key: string): T | undefined => {
+    return mapCache.get(key);
+  },
+  set: (key: string, value: any): void => {
+    mapCache.set(key, value);
+  }
+};
+
 const deriveNoopCache: DeriveCache = {
   del: (): void => undefined,
   forEach: () => undefined,
@@ -61,4 +82,4 @@ export function setDeriveCache (prefix = '', cache?: DeriveCache): void {
 
 setDeriveCache();
 
-export { deriveCache };
+export { deriveCache, deriveMapCache, deriveNoopCache };
