@@ -11,11 +11,11 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function _stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[]) => Observable<DeriveStakerExposure[]> {
-  return memo((accountId: Uint8Array | string, eras: EraIndex[]): Observable<DeriveStakerExposure[]> => {
+export function _stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerExposure[]> {
+  return memo((accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerExposure[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
-    return api.derive.staking._erasExposure(eras).pipe(
+    return api.derive.staking._erasExposure(eras, withActive).pipe(
       map((exposures): DeriveStakerExposure[] =>
         exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
           const isValidator = !!allValidators[stakerId];
@@ -38,9 +38,9 @@ export function _stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | 
 }
 
 export function stakerExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
-  return memo((accountId: Uint8Array | string, withActive?: boolean): Observable<DeriveStakerExposure[]> =>
+  return memo((accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerExposure(accountId, eras))
+      switchMap((eras) => api.derive.staking._stakerExposure(accountId, eras, withActive))
     )
   );
 }
