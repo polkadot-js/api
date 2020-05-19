@@ -25,7 +25,7 @@ signedBlock.block.extrinsics.forEach((ex, index) => {
 
 ## How do I extract the block author?
 
-Th block author is encoded inside the consensus logs for the block. To extract, you need to decode the log (which the API does do) and then map the index of the validator to the list of session validators. This extraction is however available on the api derive for new head subscriptions, which returns an extended header with the author populated (assuming that the digest logs are known).
+The block author is encoded inside the consensus logs for the block. To extract, you need to decode the log (which the API does do) and then map the index of the validator to the list of session validators. This extraction is however available on the api derive for new head subscriptions, which returns an extended header with the author populated (assuming that the digest logs are known).
 
 ```js
 // subscribe to all new headers (with extended info)
