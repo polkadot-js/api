@@ -37,6 +37,7 @@ import { FullIdentification, IdentificationTuple, Keys, MembershipProof, Session
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, OffchainAccuracy, PerU16, PhragmenScore, Points, ReleasesStaking, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
+import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import { AccountInfo, ChainProperties, ChainType, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Health, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, Phase, RefCount } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -965,6 +966,9 @@ declare module '@polkadot/types/types/registry' {
     ValidatorPrefsTo145: ValidatorPrefsTo145;
     'Option<ValidatorPrefsTo145>': Option<ValidatorPrefsTo145>;
     'Vec<ValidatorPrefsTo145>': Vec<ValidatorPrefsTo145>;
+    WeightToFeeCoefficient: WeightToFeeCoefficient;
+    'Option<WeightToFeeCoefficient>': Option<WeightToFeeCoefficient>;
+    'Vec<WeightToFeeCoefficient>': Vec<WeightToFeeCoefficient>;
     AccountInfo: AccountInfo;
     'Option<AccountInfo>': Option<AccountInfo>;
     'Vec<AccountInfo>': Vec<AccountInfo>;
