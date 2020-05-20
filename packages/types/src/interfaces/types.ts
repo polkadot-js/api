@@ -24,6 +24,7 @@ export * from './scheduler/types';
 export * from './session/types';
 export * from './society/types';
 export * from './staking/types';
+export * from './support/types';
 export * from './system/types';
 export * from './treasury/types';
 export * from './txpayment/types';
