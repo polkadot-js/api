@@ -36,7 +36,7 @@
     "@polkadot/types-known": "1.15.0-beta.7",
     "@polkadot/util": "^2.10.1",
     "@polkadot/util-crypto": "^2.10.1",
-    "bn.js": "^5.1.1",
+    "bn.js": "^5.1.2",
     "eventemitter3": "^4.0.4",
     "rxjs": "^6.5.5"
   },

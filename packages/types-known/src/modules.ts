@@ -16,6 +16,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   contracts: {
     StorageKey: 'ContractStorageKey'
   },
+  democracy: {
+    Releases: 'ReleasesDemocracy'
+  },
   identity: {
     Judgement: 'IdentityJudgement'
   },

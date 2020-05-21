@@ -57,6 +57,7 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
     const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
+      case TypeDefInfo.Compact:
       case TypeDefInfo.Plain:
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
