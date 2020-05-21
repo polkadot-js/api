@@ -31,7 +31,7 @@
     "@polkadot/rpc-core": "1.15.0-beta.7",
     "@polkadot/types": "1.15.0-beta.7",
     "@polkadot/util": "^2.10.1",
-    "bn.js": "^5.1.1",
+    "bn.js": "^5.1.2",
     "rxjs": "^6.5.5"
   }
 }
