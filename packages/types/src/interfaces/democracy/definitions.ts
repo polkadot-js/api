@@ -96,6 +96,9 @@ export default {
       delay: 'BlockNumber',
       tally: 'Tally'
     },
+    ReleasesDemocracy: {
+      _enum: ['V1']
+    },
     Tally: {
       ayes: 'Balance',
       nays: 'Balance',

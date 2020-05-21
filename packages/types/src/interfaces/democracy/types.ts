@@ -112,6 +112,11 @@ export interface ReferendumStatus extends Struct {
   readonly tally: Tally;
 }
 
+/** @name ReleasesDemocracy */
+export interface ReleasesDemocracy extends Enum {
+  readonly isV1: boolean;
+}
+
 /** @name Tally */
 export interface Tally extends Struct {
   readonly ayes: Balance;

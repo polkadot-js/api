@@ -1,9 +1,17 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
+import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { u32, u64 } from '@polkadot/types/primitive';
 import { Hash } from '@polkadot/types/interfaces/runtime';
+
+/** @name AllowedSlots */
+export interface AllowedSlots extends Enum {
+  readonly isPrimarySlots: boolean;
+  readonly isPrimaryAndSecondaryPlainSlots: boolean;
+  readonly isPrimaryAndSecondaryVrfSlots: boolean;
+}
 
 /** @name BabeAuthorityWeight */
 export interface BabeAuthorityWeight extends u64 {}
@@ -25,6 +33,19 @@ export interface MaybeRandomness extends Option<Randomness> {}
 
 /** @name MaybeVrf */
 export interface MaybeVrf extends Option<VrfData> {}
+
+/** @name NextConfigDescriptor */
+export interface NextConfigDescriptor extends Enum {
+  readonly isV0: boolean;
+  readonly isV1: boolean;
+  readonly asV1: NextConfigDescriptorV1;
+}
+
+/** @name NextConfigDescriptorV1 */
+export interface NextConfigDescriptorV1 extends Struct {
+  readonly c: ITuple<[u64, u64]>;
+  readonly allowedSlots: AllowedSlots;
+}
 
 /** @name Randomness */
 export interface Randomness extends Hash {}

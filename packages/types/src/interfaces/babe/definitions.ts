@@ -16,6 +16,9 @@ export default {
     }
   },
   types: {
+    AllowedSlots: {
+      _enum: ['PrimarySlots', 'PrimaryAndSecondaryPlainSlots', 'PrimaryAndSecondaryVRFSlots']
+    },
     BabeAuthorityWeight: 'u64',
     BabeBlockWeight: 'u32',
     MaybeRandomness: 'Option<Randomness>',
@@ -25,6 +28,16 @@ export default {
     EpochAuthorship: {
       primary: 'Vec<u64>',
       secondary: 'Vec<u64>'
+    },
+    NextConfigDescriptor: {
+      _enum: {
+        V0: 'Null',
+        V1: 'NextConfigDescriptorV1'
+      }
+    },
+    NextConfigDescriptorV1: {
+      c: '(u64, u64)',
+      allowedSlots: 'AllowedSlots'
     },
     Randomness: 'Hash',
     RawBabePreDigest: {
