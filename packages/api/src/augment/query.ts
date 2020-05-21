@@ -5,12 +5,12 @@ import { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import { Option, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { BabeAuthorityWeight, MaybeRandomness, Randomness } from '@polkadot/types/interfaces/babe';
+import { BabeAuthorityWeight, MaybeRandomness, NextConfigDescriptor, Randomness } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/interfaces/balances';
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { CodeHash, ContractInfo, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
-import { PreimageStatus, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
+import { PreimageStatus, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReleasesDemocracy, Voting } from '@polkadot/types/interfaces/democracy';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
@@ -78,6 +78,10 @@ declare module '@polkadot/api/types/storage' {
        * execution context should always yield zero.
        **/
       lateness: AugmentedQuery<ApiType, () => Observable<BlockNumber>> & QueryableStorageEntry<ApiType>;
+      /**
+       * Next epoch configuration, if changed.
+       **/
+      nextEpochConfig: AugmentedQuery<ApiType, () => Observable<Option<NextConfigDescriptor>>> & QueryableStorageEntry<ApiType>;
       /**
        * Next epoch randomness.
        **/
@@ -201,7 +205,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Those who have locked a deposit.
        **/
-      depositOf: AugmentedQuery<ApiType, (arg: PropIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[BalanceOf, Vec<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
+      depositOf: AugmentedQuery<ApiType, (arg: PropIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[Vec<AccountId>, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
       /**
        * True if the last referendum tabled was submitted externally. False if it was a public
        * proposal.
@@ -250,6 +254,12 @@ declare module '@polkadot/api/types/storage' {
        * Information concerning any given referendum.
        **/
       referendumInfoOf: AugmentedQuery<ApiType, (arg: ReferendumIndex | AnyNumber | Uint8Array) => Observable<Option<ReferendumInfo>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * Storage version of the pallet.
+       * 
+       * New networks start with last version.
+       **/
+      storageVersion: AugmentedQuery<ApiType, () => Observable<Option<ReleasesDemocracy>>> & QueryableStorageEntry<ApiType>;
       /**
        * All votes for a particular voter. We store the balance for the number of votes that we
        * have recorded. The second item is the total amount of delegations, that will be added.
