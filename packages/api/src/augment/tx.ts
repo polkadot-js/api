@@ -503,13 +503,14 @@ declare module '@polkadot/api/types/submittable' {
        * Emits `PreimageNoted`.
        * 
        * # <weight>
-       * - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-       * - Db reads: `Preimages`
-       * - Db writes: `Preimages`
-       * - Base Weight: 28.04 + .003 * b µs
+       * see `weight_for::note_preimage`
        * # </weight>
        **/
       noteImminentPreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Same as `note_imminent_preimage` but origin is `OperationalPreimageOrigin`.
+       **/
+      noteImminentPreimageOperational: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Register the preimage for an upcoming proposal. This doesn't require the proposal to be
        * in the dispatch queue but does require a deposit, returned once enacted.
@@ -521,13 +522,14 @@ declare module '@polkadot/api/types/submittable' {
        * Emits `PreimageNoted`.
        * 
        * # <weight>
-       * - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-       * - Db reads: `Preimages`
-       * - Db writes: `Preimages`
-       * - Base Weight: 37.93 + .004 * b µs
+       * see `weight_for::note_preimage`
        * # </weight>
        **/
       notePreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Same as `note_preimage` but origin is `OperationalPreimageOrigin`.
+       **/
+      notePreimageOperational: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Become a proxy.
        * 
