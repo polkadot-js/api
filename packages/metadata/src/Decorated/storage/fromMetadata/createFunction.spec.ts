@@ -14,6 +14,7 @@ describe('createFunction', (): void => {
   it('should create timestamp.now correctly', (): void => {
     expect(
       createFunction(registry, {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         meta: { type: {} } as any,
         method: 'Now',
         prefix: 'Timestamp',
@@ -29,6 +30,7 @@ describe('createFunction', (): void => {
       createFunction(
         registry,
         {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           meta: { type: {} } as any,
           method: 'authorityCount',
           prefix: 'Substrate',
@@ -50,6 +52,7 @@ describe('createFunction', (): void => {
       createFunction(
         registry,
         {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           meta: { type: {} } as any,
           method: 'authorityCount',
           prefix: 'Substrate',
@@ -74,6 +77,7 @@ describe('createFunction', (): void => {
 
     beforeAll((): void => {
       storageFn = createFunction(registry, {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         meta: {
           name: 'metaName',
           type: {
@@ -119,6 +123,7 @@ describe('createFunction', (): void => {
 
   it('allows creates double map function with a Null type key', (): void => {
     const storageFn = createFunction(registry, {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       meta: {
         type: {
           asDoubleMap: {
@@ -144,6 +149,7 @@ describe('createFunction', (): void => {
 
   it('allows creating of known DoubleMap keys (with Bytes)', (): void => {
     const storageFn = createFunction(registry, {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       meta: {
         type: {
           asDoubleMap: {

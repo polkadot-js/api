@@ -33,13 +33,13 @@ type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'a
  * The versioned runtime metadata as a decoded structure
  */
 export default class MetadataVersioned extends Struct {
-  readonly #converted: Map<number, MetaMapped> = new Map();
+  readonly #converted = new Map<number, MetaMapped>();
 
-  constructor (registry: Registry, value?: any) {
+  constructor (registry: Registry, value?: unknown) {
     super(registry, {
       magicNumber: MagicNumber,
       metadata: 'MetadataAll'
-    }, value);
+    }, value as Map<unknown, unknown>);
 
     registry.setMetadata(this);
   }

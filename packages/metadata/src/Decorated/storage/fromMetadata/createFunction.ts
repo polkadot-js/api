@@ -73,10 +73,7 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey
   const { meta: { name, type } } = itemFn;
 
   // since we are passing an almost-unknown through, trust, but verify
-  assert(
-    Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]),
-    `${name} is a DoubleMap and requires two arguments`
-  );
+  assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), `${name.toString()} is a DoubleMap and requires two arguments`);
 
   // if this fails, we have bigger issues
   assert(!isUndefined(hasher2), '2 hashing functions should be defined for DoubleMaps');
@@ -110,7 +107,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string,
   if (type.isMap) {
     const map = type.asMap;
 
-    assert(!isUndefined(arg) && !isNull(arg), `${name} is a Map and requires one argument`);
+    assert(!isUndefined(arg) && !isNull(arg), `${name.toString()} is a Map and requires one argument`);
 
     param = createTypeUnsafe(registry, map.key.toString(), [arg]).toU8a();
   }
@@ -134,7 +131,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
   // explicitly add the actual method in the toJSON, this gets used to determine caching and without it
   // instances (e.g. collective) will not work since it is only matched on param meta
   storageFn.toJSON = (): any => ({
-    ...(meta.toJSON() as any),
+    ...(meta.toJSON() as Record<string, unknown>),
     storage: { method, prefix, section }
   });
 
