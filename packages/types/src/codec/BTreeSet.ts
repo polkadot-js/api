@@ -39,8 +39,8 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
     try {
       output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      console.error('Failed to decode BTreeSet key or value:', error.message);
+      console.error('Failed to decode BTreeSet key or value:', (error as Error).message);
+
       throw error;
     }
   });

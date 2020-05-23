@@ -45,8 +45,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
       }
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
-      throw new Error(`Struct: failed on '${jsonKey as string}':: ${error.message}`);
+      throw new Error(`Struct: failed on '${jsonKey as string}':: ${(error as Error).message}`);
     }
 
     return raw;

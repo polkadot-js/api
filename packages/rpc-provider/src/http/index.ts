@@ -109,6 +109,7 @@ export default class HttpProvider implements ProviderInterface {
 
     assert(response.ok, `[${response.status}]: ${response.statusText}`);
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result = await response.json();
 
     return this.#coder.decodeResponse(result);

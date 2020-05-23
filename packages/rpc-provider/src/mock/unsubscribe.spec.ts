@@ -25,7 +25,7 @@ describe('unsubscribe', (): void => {
     return mock
       .unsubscribe('chain_newHead', 'chain_subscribeNewHead', 5)
       .catch((error): boolean => {
-        expect(error.message).toMatch(/Unable to find/);
+        expect((error as Error).message).toMatch(/Unable to find/);
 
         return false;
       });
@@ -41,7 +41,7 @@ describe('unsubscribe', (): void => {
         mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id)
       )
       .catch((error): boolean => {
-        expect(error.message).toMatch(/Unable to find/);
+        expect((error as Error).message).toMatch(/Unable to find/);
 
         return false;
       });

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 import { Header } from '@polkadot/types/interfaces';
 import { Codec, Registry } from '@polkadot/types/types';
@@ -22,14 +22,15 @@ import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
-  [], Object.values(jsonrpc).map((section): string[] =>
+  [],
+  Object.values(jsonrpc).map((section): string[] =>
     Object
       .values(section)
       .filter(({ isSubscription }) => isSubscription)
       .map(({ jsonrpc }) => jsonrpc)
       .concat('chain_subscribeNewHead')
   )
-);
+) as string[];
 
 const keyring = testKeyring({ type: 'ed25519' });
 const l = logger('api-mock');
@@ -50,12 +51,14 @@ export default class Mock implements ProviderInterface {
 
   private prevNumber = new BN(-1);
 
-  private requests: Record<string, (...params: any[]) => any> = {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private requests: Record<string, (...params: any[]) => unknown> = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-unsafe-member-access
     chain_getBlock: (hash: string): any => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).hash,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getHeader: () => this.registry.createType('Header', rpcHeader.result).toJSON(),
     state_getKeys: (): string[] => [],
     state_getKeysPaged: (): string[] => [],
@@ -112,7 +115,7 @@ export default class Mock implements ProviderInterface {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async send (method: string, params: any[]): Promise<any> {
+  public async send (method: string, params: any[]): Promise<unknown> {
     if (!this.requests[method]) {
       throw new Error(`provider.send: Invalid method '${method}'`);
     }
@@ -121,11 +124,11 @@ export default class Mock implements ProviderInterface {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async subscribe (type: string, method: string, ...params: any[]): Promise<number> {
+  public async subscribe (type: string, method: string, ...params: unknown[]): Promise<number> {
     l.debug((): any => ['subscribe', method, params]);
 
     if (this.subscriptions[method]) {
-      const callback: MockStateSubscriptionCallback = params.pop();
+      const callback = params.pop() as MockStateSubscriptionCallback;
       const id = ++this.subscriptionId;
 
       this.subscriptions[method].callbacks[id] = callback;

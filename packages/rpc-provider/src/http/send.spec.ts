@@ -21,6 +21,7 @@ describe('send', (): void => {
   });
 
   it('passes the body through correctly', (): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     mock = mockHttp([{
       method: 'test_body',
       reply: {
@@ -31,6 +32,7 @@ describe('send', (): void => {
     return http
       .send('test_body', ['param'])
       .then((): void => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         expect((mock.body as any).test_body).toEqual({
           id: 1,
           jsonrpc: '2.0',
@@ -41,6 +43,7 @@ describe('send', (): void => {
   });
 
   it('throws error when !response.ok', (): Promise<any> => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     mock = mockHttp([{
       code: 500,
       method: 'test_error'
@@ -49,7 +52,7 @@ describe('send', (): void => {
     return http
       .send('test_error', [])
       .catch((error): void => {
-        expect(error.message).toMatch(/\[500\]: Internal Server/);
+        expect((error as Error).message).toMatch(/\[500\]: Internal Server/);
       });
   });
 });

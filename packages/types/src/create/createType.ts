@@ -64,8 +64,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
     // it provides false warning which is more hinderance than help
     return initType(registry, createClass<T, K>(registry, type), params); // , isPedantic);
   } catch (error) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
-    throw new Error(`createType(${type}):: ${error.message}`);
+    throw new Error(`createType(${type}):: ${(error as Error).message}`);
   }
 }
 

@@ -62,6 +62,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // 'connected' event, then the `on('connected')` won't fire anymore. To
     // cater for this case, we call manually `this._onProviderConnect`.
     if (this._rpcCore.provider.isConnected()) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#onProviderConnect();
     }
   }
@@ -107,7 +108,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // manually build a list of all available methods in this RPC, we are
     // going to filter on it to align the cloned RPC without making a call
     Object.keys(source.rpc).forEach((section): void => {
-      Object.keys((source.rpc as any)[section]).forEach((method): void => {
+      Object.keys((source.rpc as Record<string, Record<string, unknown>>)[section]).forEach((method): void => {
         methods.push(`${section}_${method}`);
       });
     });
@@ -130,7 +131,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
           ? of(false)
           : this._rpcCore.state.getMetadata().pipe(
             map((metadata: Metadata): boolean => {
-              l.log(`Runtime version updated to ${version.specVersion}`);
+              l.log(`Runtime version updated to spec=${version.specVersion.toString()}, tx=${version.transactionVersion.toString()}`);
 
               this._runtimeMetadata = metadata;
               this._runtimeVersion = version;
@@ -167,7 +168,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     await this._filterRpc();
 
     // retrieve metadata, either from chain  or as pass-in via options
-    const metadataKey = `${this._genesisHash}-${runtimeVersion.specVersion}`;
+    const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
@@ -232,7 +233,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
         });
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
-      const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
+      const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
       l.error(error);
 

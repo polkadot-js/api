@@ -48,8 +48,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
           : new ValClass(registry, val)
       );
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      console.error('Failed to decode Map key or value:', error.message);
+      console.error('Failed to decode Map key or value:', (error as Error).message);
 
       throw error;
     }
