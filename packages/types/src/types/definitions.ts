@@ -8,8 +8,7 @@ export type DefinitionTypeEnum = { _enum: DefinitionTypeType[] } | { _enum: Reco
 
 export type DefinitionTypeSet = { _set: Record<string, number> };
 
-// Don't believe the `& object` here is proper, but cannot do `& Record<string, DefinitionTypeType>`
-export type DefinitionTypeStruct = Record<string, DefinitionTypeType> | { _alias?: Record<string, DefinitionTypeType> } & object;
+export type DefinitionTypeStruct = Record<string, DefinitionTypeType> | { _alias?: Record<string, DefinitionTypeType> } & Record<string, unknown>;
 
 export type DefinitionType = string | DefinitionTypeEnum | DefinitionTypeSet | DefinitionTypeStruct;
 

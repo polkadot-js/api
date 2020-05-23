@@ -73,7 +73,7 @@ export default class Bool extends Boolean implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return this.valueOf() === (
       other instanceof Boolean
         ? other.valueOf()
@@ -113,7 +113,7 @@ export default class Bool extends Boolean implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return `${this.toJSON()}`;
+    return this.toJSON().toString();
   }
 
   /**

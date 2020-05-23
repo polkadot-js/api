@@ -8,9 +8,9 @@
 import { Definitions } from '../../types';
 
 const AllHashers = {
-  Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
-  Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
-  Blake2_128Concat: null, // eslint-disable-line @typescript-eslint/camelcase
+  Blake2_128: null, // eslint-disable-line camelcase
+  Blake2_256: null, // eslint-disable-line camelcase
+  Blake2_128Concat: null, // eslint-disable-line camelcase
   Twox128: null,
   Twox256: null,
   Twox64Concat: null,
@@ -238,8 +238,8 @@ export default {
     },
     StorageHasherV4: {
       _enum: {
-        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
-        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_128: null, // eslint-disable-line camelcase
+        Blake2_256: null, // eslint-disable-line camelcase
         Twox128: null,
         Twox256: null,
         Twox64Concat: null
@@ -440,9 +440,9 @@ export default {
     },
     StorageHasherV10: {
       _enum: {
-        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
-        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
-        Blake2_128Concat: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_128: null, // eslint-disable-line camelcase
+        Blake2_256: null, // eslint-disable-line camelcase
+        Blake2_128Concat: null, // eslint-disable-line camelcase
         Twox128: null,
         Twox256: null,
         Twox64Concat: null

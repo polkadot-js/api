@@ -34,9 +34,9 @@ interface StorageKeyExtra {
 
 const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   // opaque
-  Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
-  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
-  Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase
+  Blake2_128: [16, false], // eslint-disable-line camelcase
+  Blake2_128Concat: [16, true], // eslint-disable-line camelcase
+  Blake2_256: [32, false], // eslint-disable-line camelcase
   Identity: [0, true],
   Twox128: [16, false],
   Twox256: [32, false],
@@ -92,7 +92,7 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
       section: value.section
     };
   } else if (Array.isArray(value)) {
-    const [fn, ...arg]: [StorageEntry, ...any[]] = value as any;
+    const [fn, ...arg] = value as [StorageEntry, ...any[]];
 
     assert(isFunction(fn), 'Expected function input for key construction');
 
@@ -103,7 +103,7 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
     };
   }
 
-  throw new Error(`Unable to convert input ${value} to StorageKey`);
+  throw new Error(`Unable to convert input ${value as string} to StorageKey`);
 }
 
 function decodeHashers (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
@@ -152,7 +152,7 @@ function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: Stora
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
   private _args: Codec[];
 

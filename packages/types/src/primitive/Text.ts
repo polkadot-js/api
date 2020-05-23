@@ -34,7 +34,7 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
     return u8aToString(value.subarray(offset, total));
   }
 
-  return `${value}`;
+  return value.toString();
 }
 
 /**
@@ -90,7 +90,7 @@ export default class Text extends String implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return isString(other)
       ? this.toString() === other.toString()
       : false;

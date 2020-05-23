@@ -10,7 +10,6 @@ import { Codec } from './codec';
 import { AnyJson, AnyNumber, AnyU8a } from './helpers';
 import { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {
   readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
@@ -85,34 +84,29 @@ export interface ExtrinsicPayloadValue {
   transactionVersion: AnyNumber;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
   sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
   signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicEra extends Codec {
   asImmortalEra: Codec;
   asMortalEra: Codec;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 interface IExtrinsicSignable<T> {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
   sign (account: IKeyringPair, options: SignatureOptions): T;
   signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
   readonly method: Call;
   readonly signature: IExtrinsicSignature;
   readonly version: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
   readonly length: number;
   readonly method: Call;
@@ -206,7 +200,6 @@ export interface SignerPayloadRaw extends SignerPayloadRawBase {
   type: 'bytes' | 'payload';
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISignerPayload {
   toPayload (): SignerPayloadJSON;
   toRaw (): SignerPayloadRaw;
