@@ -35,7 +35,7 @@ function doMap (creator: StorageEntry, args: any[]): [StorageEntry] | [StorageEn
 
 // sets up the arguments in the form of [creator, args] ready to be used in a storage
 // call. Additionally, it verifies that the correct number of arguments have been passed
-export function extractStorageArgs (creator: StorageEntry, _args: any[]): any[] {
+export function extractStorageArgs (creator: StorageEntry, _args: any[]): [StorageEntry, [any, any]] | [StorageEntry] | [StorageEntry, any] {
   const args = _args.filter((arg) => !isUndefined(arg));
 
   if (creator.meta.type.isDoubleMap) {

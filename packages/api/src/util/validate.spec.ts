@@ -35,8 +35,7 @@ describe('extractStorageArgs', (): void => {
 
   it('validates no-arg plain (failing when there are args)', (): void => {
     expect(
-      (): any[] =>
-        extractStorageArgs(storage.timestamp.now, [123, 456])
+      (): unknown => extractStorageArgs(storage.timestamp.now, [123, 456])
     ).toThrow('timestamp.now() does not take any arguments, 2 found');
   });
 
