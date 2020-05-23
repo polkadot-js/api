@@ -26,7 +26,7 @@ describe('Linkage', (): void => {
     ).toEqual(LINKA);
     expect(
       registry.createType(
-        'Linkage<AccountId>' as any,
+        'Linkage<AccountId>' as 'u32',
         '0x0001da30b68f54f686f586ddb29de12b682dd8bd1404566fb8a8db5dec20aa5b6b36'
       ).toHuman()
     ).toEqual(LINKA);
@@ -34,7 +34,7 @@ describe('Linkage', (): void => {
     // actual check
     expect(
       registry.createType(
-        '(ValidatorPrefs, Linkage<AccountId>)' as any,
+        '(ValidatorPrefs, Linkage<AccountId>)' as 'u32',
         '0x0284d7170001da30b68f54f686f586ddb29de12b682dd8bd1404566fb8a8db5dec20aa5b6b36'
       ).toHuman()
     ).toEqual([PREFS, LINKA]);

@@ -18,7 +18,7 @@ describe('UInt', (): void => {
 
   it('allows for construction via BigInt', (): void => {
     expect(
-      new UInt(registry, 123_456_789_123_456_789_123_456_789n, 128).toHuman()
+      new UInt(registry, 123456789123456789123456789n, 128).toHuman()
     ).toEqual('123,456,789,123,456,789,123,456,789');
   });
 

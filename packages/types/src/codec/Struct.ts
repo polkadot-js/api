@@ -69,7 +69,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
  * @param jsonMap
  * @internal
  */
-function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): T {
   if (isHex(value)) {
     return decodeStruct(registry, Types, hexToU8a(value as string), jsonMap);
   } else if (isU8a(value)) {
@@ -117,7 +117,7 @@ export default class Struct<
   readonly #Types: ConstructorDef;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (registry: Registry, Types: S, value: V | Map<unknown, unknown> | unknown[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(Object.entries(
       decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)
     ) as [keyof S, Codec][]);

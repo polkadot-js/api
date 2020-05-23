@@ -73,7 +73,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Map<any, any>): Map<K, V> {
+function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
@@ -101,7 +101,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
 
   readonly #type: string;
 
-  constructor (registry: Registry, type: 'BTreeMap' | 'HashMap', keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: Uint8Array | string | Map<any, any>) {
+  constructor (registry: Registry, type: 'BTreeMap' | 'HashMap', keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | Map<any, any>) {
     super(decodeMap(registry, keyType, valType, rawValue));
 
     this.registry = registry;

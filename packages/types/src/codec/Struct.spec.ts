@@ -143,7 +143,9 @@ describe('Struct', (): void => {
       })
     )(registry, { txt: 'foo', u32: 0x123456 });
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     expect((struct as any).txt.toString()).toEqual('foo');
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     expect((struct as any).u32.toNumber()).toEqual(0x123456);
   });
 

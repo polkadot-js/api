@@ -23,7 +23,7 @@ export default class Int extends AbstractInt {
 
   public static with (bitLength: UIntBitLength, typeName?: string): Constructor<Int> {
     return class extends Int {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: AnyNumber) {
         super(registry, value, bitLength);
       }
 

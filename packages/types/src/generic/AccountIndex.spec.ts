@@ -18,7 +18,7 @@ describe('AccountIndex', (): void => {
 
   it('creates from BigInt', (): void => {
     expect(
-      registry.createType('AccountIndex', 336_794_129n).toNumber()
+      registry.createType('AccountIndex', 336794129n).toNumber()
     ).toEqual(336794129);
   });
 

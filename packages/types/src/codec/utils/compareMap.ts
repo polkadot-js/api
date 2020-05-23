@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isFunction, isObject, isUndefined } from '@polkadot/util';
+import { isObject, isUndefined } from '@polkadot/util';
 
-function hasMismatch (a?: any, b?: any): boolean {
+import { hasEq } from './util';
+
+function hasMismatch (a?: unknown, b?: unknown): boolean {
   return isUndefined(a) || (
-    // Codec has .eq, use it here
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    isFunction(a.eq)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    hasEq(a)
       ? !a.eq(b)
       : a !== b
   );

@@ -109,7 +109,7 @@ describe('Compact', (): void => {
   describe('constructor', (): void => {
     it('has support for BigInt', (): void => {
       expect(
-        new Compact(registry, 'u128', 123_456_789_000_123_456_789n).toHuman()
+        new Compact(registry, 'u128', 123456789000123456789n).toHuman()
       ).toEqual('123,456,789,000,123,456,789');
     });
 
