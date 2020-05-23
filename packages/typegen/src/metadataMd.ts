@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { Codec } from '@polkadot/types/types';
 
 import fs from 'fs';
 import Decorated from '@polkadot/metadata/Decorated';
@@ -81,8 +82,9 @@ function renderPage (page: Page): string {
 
       Object.keys(item).filter((i) => i !== 'name').forEach((bullet) => {
         md += `\n- **${bullet}**: ${
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           item[bullet] instanceof Vec
-            ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2)
+            ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
             : item[bullet]
         }`;
       });
@@ -94,8 +96,9 @@ function renderPage (page: Page): string {
   return md;
 }
 
-function sortByName<T extends { name: any }> (a: T, b: T): number {
+function sortByName<T extends { name: Codec | string }> (a: T, b: T): number {
   // case insensitive (all-uppercase) sorting
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
   return a.name.toString().toUpperCase().localeCompare(b.name.toString().toUpperCase());
 }
 
@@ -119,6 +122,7 @@ function addRpc (): string {
             .map((methodName) => {
               const method = section.rpc[methodName];
               const args = method.params.map(({ isOptional, name, type }: any): string => {
+                // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
               }).join(', ');
               const type = '`' + method.type + '`';
@@ -155,7 +159,7 @@ function addConstants (metadata: MetadataLatest): string {
 
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
-                name: `${methodName}: ` + '`' + func.type + '`',
+                name: `${methodName}: ` + '`' + func.type.toString() + '`',
                 ...(func.documentation.length && { summary: func.documentation })
               };
             }),
@@ -196,7 +200,8 @@ function addStorage (metadata: MetadataLatest): string {
       };
     });
 
-  const knownSection = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', 'utf8'));
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const knownSection: any = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', 'utf8'));
 
   return renderPage({
     description: DESC_STORAGE,
@@ -211,7 +216,7 @@ function addExtrinsics (metadata: MetadataLatest): string {
     description: DESC_EXTRINSICS,
     sections: metadata.modules
       .sort(sortByName)
-      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length)
+      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
       .map((meta) => {
         const sectionName = stringCamelCase(meta.name.toString());
 
@@ -220,7 +225,7 @@ function addExtrinsics (metadata: MetadataLatest): string {
             .sort(sortByName)
             .map((func) => {
               const methodName = stringCamelCase(func.name.toString());
-              const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
+              const args = Call.filterOrigin(func).map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
 
               return {
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
@@ -241,13 +246,13 @@ function addEvents (metadata: MetadataLatest): string {
     description: DESC_EVENTS,
     sections: metadata.modules
       .sort(sortByName)
-      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length)
+      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length !== 0)
       .map((meta) => ({
         items: meta.events.unwrap()
           .sort(sortByName)
           .map((func) => {
             const methodName = func.name.toString();
-            const args = func.args.map((type): string => '`' + type + '`').join(', ');
+            const args = func.args.map((type): string => '`' + type.toString() + '`').join(', ');
 
             return {
               name: `${methodName}(${args})`,
