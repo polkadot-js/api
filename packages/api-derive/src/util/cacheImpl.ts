@@ -4,7 +4,7 @@
 
 import { DeriveCache } from './types';
 
-const mapCache: Map<string, any> = new Map();
+const mapCache = new Map<string, any>();
 
 const deriveMapCache: DeriveCache = {
   del: (key: string): void => {
@@ -18,7 +18,7 @@ const deriveMapCache: DeriveCache = {
     }
   },
   get: <T = any> (key: string): T | undefined => {
-    return mapCache.get(key);
+    return mapCache.get(key) as T;
   },
   set: (key: string, value: any): void => {
     mapCache.set(key, value);
@@ -29,7 +29,7 @@ const deriveNoopCache: DeriveCache = {
   del: (): void => undefined,
   forEach: () => undefined,
   get: (): undefined => undefined,
-  set: (_: string, value: any): any => value
+  set: (_: string, value: unknown): unknown => value
 };
 
 export { deriveMapCache, deriveNoopCache };

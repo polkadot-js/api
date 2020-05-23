@@ -38,7 +38,7 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
 
 export function _eraExposure (api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraExposure> {
   return memo((era: EraIndex, withActive: boolean): Observable<DeriveEraExposure> => {
-    const cacheKey = `${CACHE_KEY}-${era}`;
+    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
     const cached = withActive
       ? undefined
       : deriveCache.get<DeriveEraExposure>(cacheKey);

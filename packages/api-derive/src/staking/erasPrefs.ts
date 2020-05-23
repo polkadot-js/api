@@ -26,7 +26,7 @@ function mapPrefs (era: EraIndex, all: [StorageKey, ValidatorPrefs][]): DeriveEr
 
 export function _eraPrefs (api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraPrefs> {
   return memo((era: EraIndex, withActive: boolean): Observable<DeriveEraPrefs> => {
-    const cacheKey = `${CACHE_KEY}-${era}`;
+    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
     const cached = withActive
       ? undefined
       : deriveCache.get<DeriveEraPrefs>(cacheKey);

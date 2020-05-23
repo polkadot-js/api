@@ -2,6 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import { Observable, from } from 'rxjs';
 import ApiRx from '@polkadot/api/rx/Api';
 import MockProvider from '@polkadot/rpc-provider/mock';
@@ -33,7 +37,7 @@ describe('derive', (): void => {
     const api = new ApiRx({ provider: new MockProvider(registry), registry });
 
     beforeAll((done): void => {
-      api.isReady.subscribe((): void => done());
+      api.isReady.subscribe(() => done());
     });
 
     testFunction(api)('accounts', 'idAndIndex', []);

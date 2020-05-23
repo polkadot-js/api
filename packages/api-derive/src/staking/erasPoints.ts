@@ -40,7 +40,7 @@ export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[], withActive
     const cached: DeriveEraPoints[] = withActive
       ? []
       : eras
-        .map((era) => deriveCache.get(`${CACHE_KEY}-${era}`))
+        .map((era) => deriveCache.get<DeriveEraPoints>(`${CACHE_KEY}-${era.toString()}`))
         .filter((value): value is DeriveEraPoints => !!value);
     const remaining = eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
 
@@ -50,7 +50,7 @@ export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[], withActive
         map((points): DeriveEraPoints[] => {
           const query = mapPoints(remaining, points);
 
-          !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era}`, q));
+          !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
 
           return eras.map((era): DeriveEraPoints =>
             cached.find((cached) => era.eq(cached.era)) ||

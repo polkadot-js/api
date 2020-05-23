@@ -32,7 +32,7 @@ function mapSlashes (era: EraIndex, noms: [StorageKey, Option<BalanceOf>][], val
 
 export function _eraSlashes (api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraSlashes> {
   return memo((era: EraIndex, withActive: boolean): Observable<DeriveEraSlashes> => {
-    const cacheKey = `${CACHE_KEY}-${era}`;
+    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
     const cached = withActive
       ? undefined
       : deriveCache.get<DeriveEraSlashes>(cacheKey);

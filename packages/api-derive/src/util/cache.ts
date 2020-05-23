@@ -32,7 +32,7 @@ function wrapCache (keyStart: string, cache: DeriveCache): DeriveCache {
 
       return undefined;
     },
-    set: (partial: string, v: any): void => {
+    set: (partial: string, v: unknown): void => {
       cache.set(`${keyStart}${partial}`, { v, x: Date.now() });
     }
   };
