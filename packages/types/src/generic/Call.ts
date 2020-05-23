@@ -12,7 +12,7 @@ import Struct from '../codec/Struct';
 import U8aFixed from '../codec/U8aFixed';
 
 interface DecodeMethodInput {
-  args: any;
+  args: unknown;
   callIndex: CallIndex | Uint8Array;
 }
 
@@ -90,14 +90,14 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * necessary.
  * @internal
  */
-function decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
   if (isHex(value) || isU8a(value)) {
-    return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
+    return decodeCallViaU8a(registry, u8aToU8a(value as string), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
-    return decodeCallViaObject(registry, value, _meta);
+    return decodeCallViaObject(registry, value as DecodedMethod, _meta);
   }
 
-  throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
+  throw new Error(`Call: Cannot decode value '${value as string}' of type ${typeof value}`);
 }
 
 /**
@@ -120,7 +120,7 @@ export class CallIndex extends U8aFixed {
 export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
-  constructor (registry: Registry, value: any, meta?: FunctionMetadataLatest) {
+  constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
     const decoded = decodeCall(registry, value, meta);
 
     super(registry, {

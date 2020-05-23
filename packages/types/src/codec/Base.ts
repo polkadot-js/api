@@ -18,7 +18,7 @@ export default abstract class Base<T extends Codec> implements Codec {
 
   protected readonly _raw: T;
 
-  protected constructor (registry: Registry, value?: any) {
+  protected constructor (registry: Registry, value: T) {
     this.registry = registry;
     this._raw = value;
   }
@@ -47,7 +47,7 @@ export default abstract class Base<T extends Codec> implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return this._raw.eq(other);
   }
 

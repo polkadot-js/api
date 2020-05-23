@@ -62,7 +62,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return compareArray(this, other);
   }
 
@@ -141,7 +141,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    * @param callbackfn The filter function
    * @param thisArg The `this` object to apply the result to
    */
-  public filter (callbackfn: (value: T, index: number, array: T[]) => any, thisArg?: any): T[] {
+  public filter (callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: unknown): T[] {
     return this.toArray().filter(callbackfn, thisArg);
   }
 
@@ -150,14 +150,14 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    * @param callbackfn The mapping function
    * @param thisArg The `this` onject to apply the result to
    */
-  public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[] {
+  public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: unknown): U[] {
     return this.toArray().map(callbackfn, thisArg);
   }
 
   /**
    * @description Checks if the array includes a specific value
    */
-  public includes (check: any): boolean {
-    return this.some((value: T): boolean => value.eq(check));
+  public includes (check: unknown): boolean {
+    return this.some((value: T) => value.eq(check));
   }
 }

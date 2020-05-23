@@ -203,11 +203,11 @@ export class MortalEra extends Tuple {
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
 export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
-  constructor (registry: Registry, value?: any) {
+  constructor (registry: Registry, value?: unknown) {
     super(registry, {
       ImmortalEra,
       MortalEra
-    }, ExtrinsicEra._decodeExtrinsicEra(value));
+    }, ExtrinsicEra._decodeExtrinsicEra(value as string));
   }
 
   /** @internal */

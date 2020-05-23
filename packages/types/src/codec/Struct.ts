@@ -18,21 +18,26 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
   return Object.keys(Types).reduce((raw, key, index): T => {
     // The key in the JSON can be snake_case (or other cases), but in our
     // Types, result or any other maps, it's camelCase
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
     try {
       if (Array.isArray(value)) {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
         (raw as any)[key] = value[index] instanceof Types[key]
           ? value[index]
           : new Types[key](registry, value[index]);
       } else if (value instanceof Map) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const mapped = value.get(jsonKey);
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         (raw as any)[key] = mapped instanceof Types[key]
           ? mapped
           : new Types[key](registry, mapped);
       } else if (isObject(value)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
         (raw as any)[key] = value[jsonKey as string] instanceof Types[key]
           ? value[jsonKey as string]
           : new Types[key](registry, value[jsonKey as string]);
@@ -40,7 +45,8 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
       }
     } catch (error) {
-      throw new Error(`Struct: failed on '${jsonKey}':: ${error.message}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+      throw new Error(`Struct: failed on '${jsonKey as string}':: ${error.message}`);
     }
 
     return raw;
@@ -72,6 +78,7 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: any
     // Transform array of values to {key: value} mapping
     return Object.keys(Types).reduce((raw, key, index): T => {
       // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       (raw as any)[key] = values[index];
 
       return raw;
@@ -109,6 +116,7 @@ export default class Struct<
 
   readonly #Types: ConstructorDef;
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(Object.entries(
       decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)
@@ -121,11 +129,12 @@ export default class Struct<
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<keyof S, string>): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      constructor (registry: Registry, value?: any) {
-        super(registry, Types, value, jsonMap);
+      constructor (registry: Registry, value?: unknown) {
+        super(registry, Types, value as string, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
           // do not clobber existing properties on the object
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (!isUndefined((this as any)[key])) {
             return;
           }
@@ -168,6 +177,7 @@ export default class Struct<
     return (Object
       .entries(this.#Types) as [keyof S, Constructor][])
       .reduce((result: E, [key, Type]): E => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         (result as any)[key] = new Type(this.registry).toRawType();
 
         return result;
@@ -195,7 +205,7 @@ export default class Struct<
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return compareMap(this, other);
   }
 
@@ -232,13 +242,13 @@ export default class Struct<
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return [...this.keys()].reduce((json, key): any => {
+    return [...this.keys()].reduce((json, key): Record<keyof S, AnyJson> => {
       const value = this.get(key);
 
       json[key] = value && value.toHuman(isExtended);
 
       return json;
-    }, {} as any);
+    }, {} as Record<keyof S, AnyJson>);
   }
 
   /**
@@ -247,14 +257,14 @@ export default class Struct<
   public toJSON (): AnyJson {
     // FIXME the return type string is only used by Extrinsic (extends Struct),
     // but its toJSON is the hex value
-    return [...this.keys()].reduce((json, key): any => {
+    return [...this.keys()].reduce((json, key): Record<keyof S, AnyJson> => {
       const jsonKey = this.#jsonMap.get(key) || key;
       const value = this.get(key);
 
       json[jsonKey] = value && value.toJSON();
 
       return json;
-    }, {} as any);
+    }, {} as Record<keyof S, AnyJson>);
   }
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {

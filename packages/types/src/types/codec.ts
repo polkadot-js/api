@@ -56,7 +56,7 @@ export interface Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean;
+  eq (other?: unknown): boolean;
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation

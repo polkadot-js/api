@@ -85,9 +85,9 @@ export default class AccountIndex extends U32 {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     // shortcut for BN or Number, don't create an object
-    if (isBn(other) || isNumber(other)) {
+    if (isBn(other as string) || isNumber(other)) {
       return super.eq(other);
     }
 

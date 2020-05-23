@@ -29,7 +29,7 @@ export interface SignerPayloadType extends Codec {
 
 // We explicitly cast the type here to get the actual TypeScript exports right
 // We can ignore the properties, added via Struct.with
-const _Payload: Constructor<SignerPayloadType> = Struct.with({
+const _Payload = Struct.with({
   address: 'Address',
   blockHash: 'Hash',
   blockNumber: 'BlockNumber',
@@ -41,7 +41,7 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   signedExtensions: 'Vec<Text>',
   tip: 'Compact<Balance>',
   version: 'u8'
-}) as any;
+}) as unknown as Constructor<SignerPayloadType>;
 
 /**
  * @name SignerPayload

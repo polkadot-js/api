@@ -33,7 +33,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
         super(registry, Type, value);
       }
     };
@@ -79,7 +79,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return this._raw.eq(
       other instanceof Compact
         ? other._raw
