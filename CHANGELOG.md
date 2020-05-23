@@ -1,12 +1,14 @@
-# 1.15.0-beta.x
+# 1.15.1 May 23, 2020
 
+- Adjust `keyPrefix()` with DoubleMap args (Thanks to https://github.com/KiChjang)
 - Added `WeightToFeeCoefficient` type (Thanks to https://github.com/danforbes)
 - Spelling fixes for console logs (Thanks to https://github.com/JoshOrndorff)
 - Spelling fixes in cookbook (Thanks to https://github.com/pawelnguyen)
 - Add `transactionVersion` getter in payloads (Thanks to https://github.com/amaurymartiny)
 - Adjust `stakerRewards` derive ordering for improved on-payout refreshes
 - Baseline implementation for derive caching infrastructure
-- Updated to latest Substrate metadata & types
+- Adjust `Multiplier` type to `Fixed128` (as per latest Substrate)
+- Updated to latest Substrate metadata & add new types
 
 # 1.14.1 May 14, 2020
 
