@@ -9,6 +9,7 @@ import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
 
 import { createImports, getDerivedTypes, readTemplate, setImports, writeFile } from '../util';
+import { ModuleTypes } from '../util/imports';
 
 const primitiveClasses = {
   ...defaultPrimitives,
@@ -19,9 +20,9 @@ const template = readTemplate('interfaceRegistry');
 const generateInterfaceTypesTemplate = Handlebars.compile(template);
 
 /** @internal */
-export function generateInterfaceTypes (importDefinitions: { [importPath: string]: object }, dest: string): void {
+export function generateInterfaceTypes (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, dest: string): void {
   writeFile(dest, (): string => {
-    Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
+    Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {});
 
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions;
@@ -46,7 +47,8 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 
       uniqueTypes.forEach((type) => {
         existingTypes[type] = true;
-        items.push(...getDerivedTypes(definitions, type, types[type], imports));
+
+        items.push(...getDerivedTypes(definitions, type, types[type] as string, imports));
       });
     });
 
