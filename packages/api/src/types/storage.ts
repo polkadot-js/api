@@ -40,6 +40,7 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
 
 export interface StorageEntryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction> extends StorageEntryBase<ApiType, F> {
   entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey, T][]>;
+  keyPrefix: (key1?: Parameters<F>[0]) => string;
 }
 
 interface StorageEntryObservableMulti {
