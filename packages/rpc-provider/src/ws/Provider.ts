@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
@@ -108,6 +108,7 @@ export default class WsProvider implements WSProviderInterface {
     this.#websocket = null;
 
     if (autoConnectMs > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect();
     }
   }
@@ -247,9 +248,9 @@ export default class WsProvider implements WSProviderInterface {
    * ```
    */
   public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number> {
-    const id = await this.send(method, params, { callback, type });
+    const id = await this.send(method, params, { callback, type }) as Promise<number>;
 
-    return id as number;
+    return id;
   }
 
   /**
@@ -270,9 +271,9 @@ export default class WsProvider implements WSProviderInterface {
 
     delete this.#subscriptions[subscription];
 
-    const result = await this.send(method, [id]);
+    const result = await this.send(method, [id]) as Promise<boolean>;
 
-    return result as boolean;
+    return result;
   }
 
   #emit = (type: ProviderInterfaceEmitted, ...args: any[]): void => {
@@ -289,6 +290,7 @@ export default class WsProvider implements WSProviderInterface {
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.connect();
       }, this.#autoConnectMs);
     }
@@ -300,9 +302,10 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   #onSocketMessage = (message: MessageEvent): void => {
-    l.debug((): any => ['received', message.data]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    l.debug(() => ['received', message.data]);
 
-    const response: JsonRpcResponse = JSON.parse(message.data as string);
+    const response = JSON.parse(message.data as string) as JsonRpcResponse;
 
     return isUndefined(response.method)
       ? this.#onSocketMessageResult(response)
@@ -320,7 +323,7 @@ export default class WsProvider implements WSProviderInterface {
 
     try {
       const { method, params, subscription } = handler;
-      const result = this.#coder.decodeResponse(response);
+      const result = this.#coder.decodeResponse(response) as string;
 
       // first send the result - in case of subs, we may have an update
       // immediately if we have some queued results already
@@ -348,7 +351,7 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
-    const method = ALIASSES[response.method as string] || response.method;
+    const method = ALIASSES[response.method as string] || response.method || 'invalid';
     const subId = `${method}::${response.params.subscription}`;
     const handler = this.#subscriptions[subId];
 

@@ -7,7 +7,7 @@ import { Server } from 'mock-socket';
 const TEST_WS_URL = 'ws://localhost:9955';
 
 interface Scope {
-  body: { [index: string]: {} };
+  body: { [index: string]: Record<string, any> };
   requests: number;
   server: Server;
   done: any;
@@ -24,7 +24,7 @@ interface ErrorDef {
 interface ReplyDef {
   id: number;
   reply: {
-    result: any;
+    result: unknown;
   };
 }
 
@@ -50,7 +50,7 @@ function createReply ({ id, reply: { result } }: ReplyDef): any {
 }
 
 // scope definition returned
-function mockWs (requests: { method: string }[], wsUrl: string = TEST_WS_URL): Scope {
+function mockWs (requests: ({ method: string } & ErrorDef)[], wsUrl: string = TEST_WS_URL): Scope {
   const server = new Server(wsUrl);
 
   let requestCount = 0;
@@ -68,11 +68,13 @@ function mockWs (requests: { method: string }[], wsUrl: string = TEST_WS_URL): S
   server.on('connection', (socket): void => {
     // FIXME This whole any mess is a mess
     socket.on('message', (body: any): void => {
-      const request = requests[requestCount];
-      const response = (request as any).error
-        ? createError(request as any)
-        : createReply(request as any);
+      const request: any = requests[requestCount];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+      const response: any = request.error
+        ? createError(request)
+        : createReply(request);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
       scope.body[request.method] = body;
       requestCount++;
 

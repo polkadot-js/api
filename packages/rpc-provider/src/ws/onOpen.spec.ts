@@ -33,6 +33,7 @@ describe('onOpen', (): void => {
     }], 0);
     const sendPromise = ws.send('test_queue', []);
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     ws.connect();
 
     return sendPromise.then((result): void => {
