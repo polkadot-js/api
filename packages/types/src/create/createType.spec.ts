@@ -178,14 +178,18 @@ describe('createType', (): void => {
         }
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const cmpDef: any = createTypeUnsafe(registry, 'TestComplex');
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       expect(cmpDef.balance.bitLength()).toEqual(128);
 
       registry.register({ Balance: 'u32' });
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const cmpu32: any = createTypeUnsafe(registry, 'TestComplex');
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       expect(cmpu32.balance.bitLength()).toEqual(32);
     });
   });

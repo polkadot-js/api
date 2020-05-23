@@ -11,7 +11,7 @@ function compareSetArray (a: Set<any>, b: any[]): boolean {
 
 // NOTE These are used internally and when comparing objects, expects that
 // when the second is an Set<string, Codec> that the first has to be as well
-export default function compareSet (a: Set<any>, b?: any): boolean {
+export default function compareSet (a: Set<any>, b?: unknown): boolean {
   if (Array.isArray(b)) {
     return compareSetArray(a, b);
   } else if (b instanceof Set) {

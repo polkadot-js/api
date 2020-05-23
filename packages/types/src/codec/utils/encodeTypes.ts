@@ -20,6 +20,7 @@ export function paramsNotation (outer: string, inner?: string | any[], transform
   return `${outer}${arrayStr}`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
   const { info, params, sub } = typeDef;
 
@@ -39,11 +40,13 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
         (param: TypeDef) => displayType(param)
       );
     default:
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return outer;
   }
 }
 
 function encodeDoNotConstruct ({ displayName }: TypeDef): string {
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   return `DoNotEncode<${displayName}>`;
 }
 
@@ -79,6 +82,7 @@ function encodeEnum (typeDef: Pick<TypeDef, any>): string {
   if (isClikeEnum) {
     return `[${
       sub
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         .map(({ name }: TypeDef): string => `"${name}"`)
         .join(', ')
     }]`;
@@ -117,6 +121,7 @@ function encodeUInt ({ length }: Pick<TypeDef, any>, type: 'Int' | 'UInt'): stri
 function encodeVecFixed ({ length, sub }: Pick<TypeDef, any>): string {
   assert(isNumber(length) && !isUndefined(sub), 'Unable to encode VecFixed type');
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
   return `[${sub.type};${length}]`;
 }
 
@@ -147,7 +152,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
 export function encodeType (typeDef: Pick<TypeDef, any>): string {
   const encoder = encoders[(typeDef as TypeDef).info];
 
-  assert(encoder, `Cannot encode type: ${typeDef}.`);
+  assert(encoder, `Cannot encode type: ${typeDef.toString()}`);
 
   return encoder(typeDef as TypeDef);
 }
@@ -168,12 +173,14 @@ export function displayType (typeDef: Pick<TypeDef, any>): string {
 }
 
 export function withTypeString (typeDef: Pick<TypeDef, any>): Pick<TypeDef, any> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const type = SPECIAL_TYPES.includes(typeDef.displayName)
     ? typeDef.displayName
     : encodeType(typeDef);
 
   return {
     ...typeDef,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     type
   };
 }

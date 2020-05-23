@@ -28,6 +28,8 @@ export interface CompactEncodable extends Codec {
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
