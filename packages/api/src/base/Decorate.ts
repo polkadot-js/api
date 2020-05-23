@@ -31,7 +31,7 @@ import Events from './Events';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
-  meta: any;
+  meta: Record<string, unknown>;
   method: string;
   section: string;
   toJSON: () => any;
@@ -246,9 +246,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       )
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .forEach(([_, { method, section }]): void => {
-        delete (this._rpc as any)[section][method];
-        delete (this._rpcCore as any)[section][method];
-        delete (this._rx.rpc as any)[section][method];
+        delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
+        delete (this._rpcCore as unknown as Record<string, Record<string, unknown>>)[section][method];
+        delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
       });
   }
 
@@ -257,11 +257,12 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
       // out and section here are horrors to get right from a typing perspective :(
-      (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+      (out as Record<string, unknown>)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
         //  skip subscriptions where we have a non-subscribe interface
         if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
-          (section as any)[methodName] = decorateMethod(method, { methodName });
-          (section as any)[methodName].raw = decorateMethod(method.raw, { methodName });
+          (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
         }
 
         return section;
@@ -272,10 +273,12 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
       this._rpcCore.state.subscribeStorage(
         calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Arg[]] =>
           // the input is a QueryableStorageEntry, convert to StorageEntry
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
             : [arg.creator] as any)));
@@ -299,7 +302,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
       creator(method(...params));
 
-    return this._decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this._decorateFunctionMeta(method, decorated as any) as unknown as SubmittableExtrinsicFunction<ApiType>;
   }
 
   protected _decorateStorage<ApiType extends ApiTypes> (storage: Storage, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
@@ -388,7 +392,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private _decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    const result: Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null> = new Map();
+    const result = new Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null>();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
     const iterKey = creator.iterKey;
@@ -451,9 +455,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((...args: any[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
       args.length
         ? this._rpcCore.state
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
           .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
         : this._rpcCore.state

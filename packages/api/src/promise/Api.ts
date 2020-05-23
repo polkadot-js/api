@@ -25,6 +25,7 @@ function extractArgs (args: any[], needsCallback: boolean): [any[], Callback<Cod
   // If the last arg is a function, we pop it, put it into callback.
   // actualArgs will then hold the actual arguments to be passed to `method`
   if (args.length && isFunction(args[args.length - 1])) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     callback = actualArgs.pop();
   }
 
@@ -38,6 +39,7 @@ function extractArgs (args: any[], needsCallback: boolean): [any[], Callback<Cod
 function promiseTracker (resolve: (value: () => void) => void, reject: (value: Error) => void): Tracker {
   let isCompleted = false;
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const complete = (fn: Function, value: any): void => {
     if (!isCompleted) {
       isCompleted = true;
@@ -68,24 +70,22 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
     const [actualArgs, callback] = extractArgs(args, !!needsCallback);
 
     if (!callback) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       return method(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
     }
 
     return new Promise((resolve, reject): void => {
       const tracker = promiseTracker(resolve, reject);
-      const subscription = method(...actualArgs)
-        .pipe(
-          // if we find an error (invalid params, etc), reject the promise
-          catchError((error): Observable<never> =>
-            tracker.reject(error)
-          ),
-          // upon the first result, resolve with the unsub function
-          tap((): void =>
-            tracker.resolve((): void => subscription.unsubscribe())
-          )
-        )
-        .subscribe(callback);
-    }) as any; // ???
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      const subscription: { unsubscribe: () => void } = method(...actualArgs).pipe(
+        // if we find an error (invalid params, etc), reject the promise
+        catchError((error): Observable<never> => tracker.reject(error)),
+        // upon the first result, resolve with the unsub function
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
+        tap(() => tracker.resolve(() => subscription.unsubscribe()))
+      ).subscribe(callback);
+    }) as UnsubscribePromise;
   } as StorageEntryPromiseOverloads;
 }
 

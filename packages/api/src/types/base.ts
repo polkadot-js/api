@@ -68,4 +68,4 @@ export interface DecorateMethodOptions {
   methodName?: string;
 }
 
-export type DecorateMethod<ApiType extends ApiTypes> = <Method extends (...args: any[]) => Observable<any>>(method: Method, options?: DecorateMethodOptions) => unknown;
+export type DecorateMethod<ApiType extends ApiTypes> = <Method extends (...args: any[]) => Observable<any>>(method: Method, options?: DecorateMethodOptions) => any;
