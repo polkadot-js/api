@@ -36,14 +36,14 @@
                 ]
               },
               {
-                "name": "AllExtrinsicsWeight",
+                "name": "BlockWeight",
                 "modifier": "Default",
                 "type": {
                   "Plain": "ExtrinsicsWeight"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
-                  " Total weight for all extrinsics for the current block."
+                  " The current weight for the block."
                 ]
               },
               {
@@ -1064,7 +1064,9 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "documentation": [
+                  " TWOX-NOTE: `SegmentIndex` is an increasing integer, so this is okay."
+                ]
               },
               {
                 "name": "Initialized",
@@ -1806,6 +1808,14 @@
               "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            },
+            {
+              "name": "WeightToFee",
+              "type": "Vec<WeightToFeeCoefficient>",
+              "value": "0x0401000000000000000000000000000000000000000001",
+              "documentation": [
+                " The polynomial that is applied in order to derive fee from weight."
               ]
             }
           ],
@@ -3641,7 +3651,9 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Those who have locked a deposit."
+                  " Those who have locked a deposit.",
+                  "",
+                  " TWOX-NOTE: Safe, as increasing integer keys are safe."
                 ]
               },
               {
@@ -3697,7 +3709,9 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Information concerning any given referendum."
+                  " Information concerning any given referendum.",
+                  "",
+                  " TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
                 ]
               },
               {
@@ -3714,7 +3728,9 @@
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
                   " All votes for a particular voter. We store the balance for the number of votes that we",
-                  " have recorded. The second item is the total amount of delegations, that will be added."
+                  " have recorded. The second item is the total amount of delegations, that will be added.",
+                  "",
+                  " TWOX-NOTE: SAFE as `AccountId`s are crypto hashes anyway."
                 ]
               },
               {
@@ -3731,7 +3747,9 @@
                 "fallback": "0x00",
                 "documentation": [
                   " Who is able to vote for whom. Value is the fund-holding account, key is the",
-                  " vote-transaction-sending account."
+                  " vote-transaction-sending account.",
+                  "",
+                  " TWOX-NOTE: OK ― `AccountId` is a secure hash."
                 ]
               },
               {
@@ -3748,7 +3766,9 @@
                 "fallback": "0x00",
                 "documentation": [
                   " Accounts for which there are locks in action which may be removed at some point in the",
-                  " future. The value is the block number at which the lock expires and may be removed."
+                  " future. The value is the block number at which the lock expires and may be removed.",
+                  "",
+                  " TWOX-NOTE: OK ― `AccountId` is a secure hash."
                 ]
               },
               {
@@ -4342,11 +4362,20 @@
                 " Emits `PreimageNoted`.",
                 "",
                 " # <weight>",
-                " - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).",
-                " - Db reads: `Preimages`",
-                " - Db writes: `Preimages`",
-                " - Base Weight: 37.93 + .004 * b µs",
+                " see `weight_for::note_preimage`",
                 " # </weight>"
+              ]
+            },
+            {
+              "name": "note_preimage_operational",
+              "args": [
+                {
+                  "name": "encoded_proposal",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Same as `note_preimage` but origin is `OperationalPreimageOrigin`."
               ]
             },
             {
@@ -4368,11 +4397,20 @@
                 " Emits `PreimageNoted`.",
                 "",
                 " # <weight>",
-                " - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).",
-                " - Db reads: `Preimages`",
-                " - Db writes: `Preimages`",
-                " - Base Weight: 28.04 + .003 * b µs",
+                " see `weight_for::note_preimage`",
                 " # </weight>"
+              ]
+            },
+            {
+              "name": "note_imminent_preimage_operational",
+              "args": [
+                {
+                  "name": "encoded_proposal",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Same as `note_imminent_preimage` but origin is `OperationalPreimageOrigin`."
               ]
             },
             {
@@ -4881,6 +4919,14 @@
               "value": "0x0010a5d4e80000000000000000000000",
               "documentation": [
                 " The amount of balance that must be deposited per byte of preimage stored."
+              ]
+            },
+            {
+              "name": "MaxVotes",
+              "type": "u32",
+              "value": "0x64000000",
+              "documentation": [
+                " The maximum number of votes for an account."
               ]
             }
           ],
@@ -6019,7 +6065,9 @@
                 },
                 "fallback": "0x0000000000000000000000000000000000",
                 "documentation": [
-                  " Votes and locked stake of a particular voter."
+                  " Votes and locked stake of a particular voter.",
+                  "",
+                  " TWOX-NOTE: SAFE as `AccountId` is a crypto hash"
                 ]
               },
               {
@@ -6750,7 +6798,9 @@
                 "fallback": "0x00",
                 "documentation": [
                   " A mapping from grandpa set ID to the index of the *most recent* session for which its",
-                  " members were responsible."
+                  " members were responsible.",
+                  "",
+                  " TWOX-NOTE: `SetId` is not under user control."
                 ]
               }
             ]
@@ -7467,7 +7517,9 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The code associated with a given account."
+                  " The code associated with a given account.",
+                  "",
+                  " TWOX-NOTE: SAFE since `AccountId` is a secure hash."
                 ]
               }
             ]
@@ -8241,7 +8293,9 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Information that is pertinent to identify the entity behind an account."
+                  " Information that is pertinent to identify the entity behind an account.",
+                  "",
+                  " TWOX-NOTE: OK ― `AccountId` is a secure hash."
                 ]
               },
               {
@@ -8276,7 +8330,9 @@
                 "documentation": [
                   " Alternative \"sub\" identities of this account.",
                   "",
-                  " The first item is the deposit, the second is a vector of the accounts."
+                  " The first item is the deposit, the second is a vector of the accounts.",
+                  "",
+                  " TWOX-NOTE: OK ― `AccountId` is a secure hash."
                 ]
               },
               {
