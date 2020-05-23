@@ -2,10 +2,12 @@
 /* eslint-disable */
 
 import { Codec } from '@polkadot/types/types';
+import { Vec } from '@polkadot/types/codec';
 import { u32, u64 } from '@polkadot/types/primitive';
 import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
+import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 
 declare module '@polkadot/metadata/Decorated/consts/types' {
   export interface Constants {
@@ -102,6 +104,10 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * How often (in blocks) new public referenda are launched.
        **/
       launchPeriod: AugmentedConst<BlockNumber>;
+      /**
+       * The maximum number of votes for an account.
+       **/
+      maxVotes: AugmentedConst<u32>;
       /**
        * The minimum amount to be used as a deposit for a public referendum proposal.
        **/
@@ -253,6 +259,10 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * The fee to be paid for making a transaction; the per-byte portion.
        **/
       transactionByteFee: AugmentedConst<BalanceOf>;
+      /**
+       * The polynomial that is applied in order to derive fee from weight.
+       **/
+      weightToFee: AugmentedConst<Vec<WeightToFeeCoefficient>>;
     };
     treasury: {
       [index: string]: AugmentedConst<object & Codec>;
