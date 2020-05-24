@@ -21,7 +21,6 @@ type ContractCallResultSubscription<ApiType extends ApiTypes, CallType extends C
   ? Observable<ContractCallResult<CallType>>
   : Promise<ObsInnerType<ContractCallResult<CallType>>>;
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ContractCall<ApiType extends ApiTypes, CallType extends ContractCallTypes> {
   send (account: IKeyringPair | string | AccountId | Address): ContractCallResultSubscription<ApiType, CallType>;
 }
@@ -45,6 +44,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     const { def, fn } = this.getMessage(message);
 
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this.decorateMethod(
         as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>

@@ -19,7 +19,7 @@ function parseSelector (registry: Registry, fnname: string, input: ContractABIMe
     return registry.createType('u32', hexToU8a(input));
   } else if (typeof input === 'string') {
     try {
-      const array = JSON.parse(input);
+      const array = JSON.parse(input) as unknown[];
 
       assert(array.length === 4, `${fnname}: Invalid selector length`);
 
@@ -108,7 +108,7 @@ export default class ContractRegistry extends MetaRegistry {
 
   public createMessage (name: string, message: Partial<ContractABIMessage> & ContractABIMessageBase): ContractABIFn {
     const args = message.args.map(({ name, type }): ContractABIFnArg => {
-      assert(isObject(type), `Invalid type at index ${type}`);
+      assert(isObject(type), `Invalid type at index ${type.toString()}`);
 
       return {
         name: stringCamelCase(name),
@@ -183,6 +183,7 @@ export default class ContractRegistry extends MetaRegistry {
   public convertMessage ({ args, name, return_type: returnType, ...message }: ContractABIMessagePre): ContractABIMessage {
     return {
       ...message,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       args: this.convertArgs(args),
       name: this._stringAt(name),
       returnType: returnType ? this.convertType(returnType) : null
@@ -191,6 +192,7 @@ export default class ContractRegistry extends MetaRegistry {
 
   public convertEvent ({ args }: ContractABIEventPre): ContractABIEvent {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       args: this.convertArgs(args)
     };
   }

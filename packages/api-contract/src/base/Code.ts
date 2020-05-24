@@ -19,7 +19,6 @@ import { BaseWithTx } from './util';
 
 type CodePutCodeResultSubscription<ApiType extends ApiTypes> = Observable<CodePutCodeResult<ApiType>>;
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface CodePutCode<ApiType extends ApiTypes> {
   signAndSend (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType>;
 }
@@ -46,6 +45,7 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
 
   public createBlueprint = (maxGas: number | BN): CodePutCode<ApiType> => {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this.decorateMethod(
         (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType> =>
           this._apiContracts

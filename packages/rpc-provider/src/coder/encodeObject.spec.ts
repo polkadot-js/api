@@ -17,7 +17,7 @@ describe('encodeObject', (): void => {
 
   it('encodes a valid JsonRPC object', (): void => {
     expect(
-      coder.encodeObject('method', 'params')
+      coder.encodeObject('method', ['params'])
     ).toEqual({
       id: 1,
       jsonrpc: '2.0',

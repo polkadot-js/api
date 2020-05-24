@@ -47,6 +47,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
     assert(!!this.abi.constructors[constructorIndex], `Specified constructor index ${constructorIndex} does not exist`);
 
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this.decorateMethod(
         (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType> => {
           return this._apiContracts

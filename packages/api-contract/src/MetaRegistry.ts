@@ -7,11 +7,11 @@ import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, Met
 import { assert } from '@polkadot/util';
 import { displayType, withTypeString } from '@polkadot/types';
 
-const builtinMap: [(id: any) => boolean, MetaTypeInfo][] = [
-  [(id: any): boolean => typeof id === 'string', MetaTypeInfo.BuiltinPlain],
-  [(id: any): boolean => Array.isArray(id), MetaTypeInfo.BuiltinTuple],
-  [(id: any): boolean => !!(id['array.type']), MetaTypeInfo.BuiltinVecFixed],
-  [(id: any): boolean => !!(id['slice.type']), MetaTypeInfo.BuiltinVec]
+const builtinMap: [(id: unknown | unknown[] | { 'array.type': unknown } | { 'slice.type': unknown }) => boolean, MetaTypeInfo][] = [
+  [(id: any) => typeof id === 'string', MetaTypeInfo.BuiltinPlain],
+  [(id: any) => Array.isArray(id), MetaTypeInfo.BuiltinTuple],
+  [(id: any) => !!((id as { 'array.type': unknown })['array.type']), MetaTypeInfo.BuiltinVecFixed],
+  [(id: any) => !!((id as { 'slice.type': unknown })['slice.type']), MetaTypeInfo.BuiltinVec]
 ];
 
 const typeMap: [string, MetaTypeInfo][] = [
@@ -25,8 +25,8 @@ function detectedType ({ def, id }: MetaType): MetaTypeInfo {
   assert(!(def as MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
 
   const lookup = def === 'builtin'
-    ? builtinMap.find(([test]): boolean => test(id))
-    : typeMap.find(([test]): boolean => !!(def as any)[test]);
+    ? builtinMap.find(([test]) => test(id))
+    : typeMap.find(([test]) => !!(def as unknown as Record<string, unknown>)[test]);
 
   return lookup
     ? lookup[1]
@@ -59,7 +59,7 @@ class MetadataRegistryLookup {
     }
   }
 
-  protected _itemAt (index: number, variant: MetaRegistryItem): any {
+  protected _itemAt (index: number, variant: MetaRegistryItem): string | MetaType | TypeDef {
     assert(this._hasItemAt(index, variant), `MetaRegistry: Invalid ${variant} index ${index} found in metadata`);
 
     switch (variant) {
@@ -72,24 +72,24 @@ class MetadataRegistryLookup {
     }
   }
 
-  protected _itemsAt (indices: number[], variant: MetaRegistryItem): any[] {
-    return indices.map((index: number): string => this._itemAt(index, variant));
+  protected _itemsAt (indices: number[], variant: MetaRegistryItem): (string | MetaType | TypeDef)[] {
+    return indices.map((index: number) => this._itemAt(index, variant));
   }
 
   protected _stringAt (index: StringIndex): string {
-    return this._itemAt(index, MetaRegistryItem.String);
+    return this._itemAt(index, MetaRegistryItem.String) as string;
   }
 
   public stringsAt (indices: StringIndex[]): string[] {
-    return this._itemsAt(indices, MetaRegistryItem.String);
+    return this._itemsAt(indices, MetaRegistryItem.String) as string[];
   }
 
   public typeAt (index: TypeIndex): MetaType {
-    return this._itemAt(index, MetaRegistryItem.Type);
+    return this._itemAt(index, MetaRegistryItem.Type) as MetaType;
   }
 
   public typesAt (indices: TypeIndex[]): MetaType[] {
-    return this._itemsAt(indices, MetaRegistryItem.Type);
+    return this._itemsAt(indices, MetaRegistryItem.Type) as MetaType[];
   }
 
   public hasTypeDefAt (index: TypeIndex): boolean {
@@ -98,7 +98,7 @@ class MetadataRegistryLookup {
 
   public typeDefAt (index: TypeIndex, extra: Pick<TypeDef, never> = {}): TypeDef {
     return {
-      ...this._itemAt(index, MetaRegistryItem.TypeDef),
+      ...this._itemAt(index, MetaRegistryItem.TypeDef) as TypeDef,
       ...extra
     };
   }
@@ -136,7 +136,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     };
   }
 
-  private _typeDefDefFields (metaType: MetaType, typeIndex?: TypeIndex): Pick<TypeDef, never> {
+  private _typeDefDefFields (metaType: MetaType, typeIndex: TypeIndex = -1): Pick<TypeDef, never> {
     let typeDef;
 
     switch (detectedType(metaType)) {
@@ -234,7 +234,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     };
   }
 
-  private _typeDefForBuiltinVec (id: MetaTypeIdVec, typeIndex?: TypeIndex): Pick<TypeDef, never> {
+  private _typeDefForBuiltinVec (id: MetaTypeIdVec, typeIndex: TypeIndex = -1): Pick<TypeDef, never> {
     const { 'slice.type': vecTypeIndex } = id;
 
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
@@ -250,7 +250,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     };
   }
 
-  private _typeDefForBuiltinVecFixed (id: MetaTypeIdVecFixed, typeIndex?: TypeIndex): Pick<TypeDef, never> {
+  private _typeDefForBuiltinVecFixed (id: MetaTypeIdVecFixed, typeIndex: TypeIndex = -1): Pick<TypeDef, never> {
     const { 'array.len': vecLength, 'array.type': vecTypeIndex } = id;
 
     assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
@@ -301,7 +301,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     };
   }
 
-  public typeDefForOption (id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
+  public typeDefForOption (id: MetaTypeIdCustom, typeIndex: TypeIndex = -1): Pick<TypeDef, any> {
     assert(id['custom.params'] && id['custom.params'][0], `Invalid Option type defined at index ${typeIndex}`);
 
     return {
@@ -310,7 +310,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     };
   }
 
-  public typeDefForResult (id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
+  public typeDefForResult (id: MetaTypeIdCustom, typeIndex: TypeIndex = -1): Pick<TypeDef, any> {
     assert(id['custom.params'] && id['custom.params'][0] && id['custom.params'][1], `Invalid Result type defined at index ${typeIndex}`);
 
     return {

@@ -39,7 +39,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
     const modules = meta.asLatest.modules
       .sort(compareName)
-      .filter(({ calls }) => calls.unwrapOr([]).length)
+      .filter(({ calls }) => calls.unwrapOr([]).length !== 0)
       .map(({ calls, name }) => {
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
