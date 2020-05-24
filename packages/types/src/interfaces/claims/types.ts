@@ -9,8 +9,8 @@ export interface EthereumAddress extends H160 {}
 
 /** @name StatementKind */
 export interface StatementKind extends Enum {
-  readonly isDefault: boolean;
-  readonly isAlternative: boolean;
+  readonly isRegular: boolean;
+  readonly isSaft: boolean;
 }
 
 export type PHANTOM_CLAIMS = 'claims';

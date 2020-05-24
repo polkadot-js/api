@@ -12,7 +12,7 @@ export default {
   types: {
     EthereumAddress: 'H160',
     StatementKind: {
-      _enum: ['Default', 'Alternative']
+      _enum: ['Regular', 'Saft']
     }
   }
 } as Definitions;
