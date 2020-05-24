@@ -14,7 +14,7 @@ export default function getStorage (registry: Registry, metaVersion: number): St
     substrate: Object
       .entries(substrate)
       .reduce((storage: Record<string, StorageEntry>, [key, fn]): Record<string, StorageEntry> => {
-        (storage as any)[key] = fn(registry, metaVersion);
+        (storage as Record<string, unknown>)[key] = fn(registry, metaVersion);
 
         return storage;
       }, {})

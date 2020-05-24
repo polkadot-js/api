@@ -113,7 +113,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return this._raw.eq(other);
   }
 

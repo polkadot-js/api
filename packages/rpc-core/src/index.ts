@@ -63,7 +63,7 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
 export default class Rpc implements RpcInterface {
   readonly #storageCache = new Map<string, string | null>();
 
-  public readonly mapping: Map<string, DefinitionRpcExt> = new Map();
+  public readonly mapping = new Map<string, DefinitionRpcExt>();
 
   public readonly provider: ProviderInterface;
 
@@ -134,7 +134,7 @@ export default class Rpc implements RpcInterface {
 
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
-      (this as any)[sectionName as Section] = {
+      (this as Record<string, unknown>)[sectionName as Section] = {
         ...this._createInterface(sectionName, jsonrpc[sectionName as 'babe'] || {}),
         ...this._createInterface(sectionName, userRpc[sectionName] || {})
       };
@@ -156,7 +156,7 @@ export default class Rpc implements RpcInterface {
         // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
         // Not doing so, because it makes this class a little bit less readable,
         // and leaving it as-is doesn't harm much
-        (exposed as any)[method] = isSubscription
+        (exposed as Record<string, unknown>)[method] = isSubscription
           ? this._createMethodSubscribe(section, method, def as DefinitionRpcSub)
           : this._createMethodSend(section, method, def);
 
@@ -333,7 +333,7 @@ export default class Rpc implements RpcInterface {
       try {
         return this._formatStorageData(key, result);
       } catch (error) {
-        console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
+        console.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
 
         throw error;
       }
@@ -341,10 +341,10 @@ export default class Rpc implements RpcInterface {
       const keys = params[0] as Vec<StorageKey>;
 
       return keys
-        ? this._formatStorageSet(keys, result.changes)
+        ? this._formatStorageSet(keys, (result as { changes: [string, string | null][] }).changes)
         : this.registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      const mapped = result.map(({ block, changes }: { block: string; changes: [string, string | null][] }): [Hash, Codec[]] => [
+      const mapped = (result as { block: string; changes: [string, string | null][] }[]).map(({ block, changes }): [Hash, Codec[]] => [
         this.registry.createType('Hash', block),
         this._formatStorageSet(params[0] as Vec<StorageKey>, changes)
       ]);
@@ -352,7 +352,7 @@ export default class Rpc implements RpcInterface {
       // we only query at a specific block, not a range - flatten
       return method === 'queryStorageAt'
         ? mapped[0][1]
-        : mapped;
+        : mapped as unknown as Codec[];
     }
 
     return createTypeUnsafe(this.registry, rpc.type, [result]);
@@ -404,7 +404,7 @@ export default class Rpc implements RpcInterface {
       try {
         results.push(this._formatStorageSetEntry(key, changes, withCache));
       } catch (error) {
-        console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
+        console.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
 
         throw error;
       }

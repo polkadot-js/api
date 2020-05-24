@@ -48,6 +48,7 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
       section.events.unwrap().forEach((meta, methodIndex): void => {
         const methodName = meta.name.toString();
         const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
         let Types: Constructor<Codec>[] = [];
 
@@ -79,9 +80,9 @@ function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, met
 }
 
 export class TypeRegistry implements Registry {
-  readonly #classes: Map<string, Constructor> = new Map();
+  readonly #classes = new Map<string, Constructor>();
 
-  readonly #definitions: Map<string, string> = new Map();
+  readonly #definitions = new Map<string, string>();
 
   readonly #metadataCalls: Record<string, CallFunction> = {};
 
@@ -89,7 +90,7 @@ export class TypeRegistry implements Registry {
 
   readonly #metadataEvents: Record<string, Constructor<EventData>> = {};
 
-  readonly #unknownTypes: Map<string, boolean> = new Map();
+  readonly #unknownTypes = new Map<string, boolean>();
 
   #chainProperties?: ChainProperties;
 
@@ -101,7 +102,9 @@ export class TypeRegistry implements Registry {
     // we only want to import these on creation, i.e. we want to avoid types
     // weird side-effects from circular references. (Since registry is injected
     // into types, this can  be a real concern now)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const baseTypes: RegistryTypes = require('../index.types');
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
     // since these are classes, they are injected first
@@ -143,6 +146,7 @@ export class TypeRegistry implements Registry {
    * @describe Creates an instance of the class
    */
   public createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createClass(this, type) as any;
   }
 
@@ -158,7 +162,7 @@ export class TypeRegistry implements Registry {
     const hexIndex = u8aToHex(callIndex);
     const fn = this.#metadataCalls[hexIndex];
 
-    assert(!isUndefined(fn), `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex}]`);
+    assert(!isUndefined(fn), `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex.toString()}]`);
 
     return fn;
   }
@@ -172,7 +176,7 @@ export class TypeRegistry implements Registry {
     );
     const error = this.#metadataErrors[hexIndex];
 
-    assert(!isUndefined(error), `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex}]`);
+    assert(!isUndefined(error), `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex.toString()}]`);
 
     return error;
   }
@@ -181,7 +185,7 @@ export class TypeRegistry implements Registry {
     const hexIndex = u8aToHex(eventIndex);
     const Event = this.#metadataEvents[hexIndex];
 
-    assert(!isUndefined(Event), `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex}]`);
+    assert(!isUndefined(Event), `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
 
     return Event;
   }

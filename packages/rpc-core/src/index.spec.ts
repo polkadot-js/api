@@ -28,6 +28,7 @@ describe('Api', (): void => {
       }
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(isFunction((rpc as any).testing.foo)).toBe(true);
     expect(rpc.sections.includes('testing')).toBe(true);
     expect(rpc.mapping.get('testing_foo')).toEqual({

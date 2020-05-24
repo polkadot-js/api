@@ -22,7 +22,7 @@ const MAX_LENGTH = 32768;
 export default class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
     super(registry, ...Vec.decodeVec(registry, Clazz, value));
@@ -31,15 +31,16 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
   }
 
   /** @internal */
-  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[]): T[] {
+  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<Codec> | Uint8Array | string | unknown[]): T[] {
     if (Array.isArray(value)) {
-      return value.map((entry, index): T => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return (value as unknown[]).map((entry: unknown, index: number): T => {
         try {
           return entry instanceof Type
             ? entry
             : new Type(registry, entry);
         } catch (error) {
-          console.error(`Unable to decode Vec on index ${index}`, error.message);
+          console.error(`Unable to decode Vec on index ${index}`, (error as Error).message);
 
           throw error;
         }
@@ -72,7 +73,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Finds the index of the value in the array
    */
-  public indexOf (_other?: any): number {
+  public indexOf (_other?: unknown): number {
     // convert type first, this removes overhead from the eq
     const other = _other instanceof this._Type
       ? _other

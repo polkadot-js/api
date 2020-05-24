@@ -12,6 +12,7 @@ describe('augmentObject', (): void => {
   });
 
   afterEach((): void => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     spy.mockClear();
   });
 

@@ -76,9 +76,11 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
         .reduce((sectionAcc, _methodName): DeriveSection<typeof section> => {
           const methodName = _methodName as keyof typeof section;
           // Not sure what to do here, casting as any. Though the final types are good
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
           const method = (section[methodName] as any)(api);
 
           // idem
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
           (sectionAcc as any)[methodName] = method;
 
           return sectionAcc;

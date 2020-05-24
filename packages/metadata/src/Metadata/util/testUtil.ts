@@ -11,7 +11,7 @@ import getUniqTypes from './getUniqTypes';
 import Metadata from '../Metadata';
 
 /** @internal */
-export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: object): void {
+export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>): void {
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
@@ -49,14 +49,14 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
     metadata.asLatest.modules.filter(({ storage }): boolean => storage.isSome).forEach((mod): void => {
       mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
         const inner = unwrapStorageType(type);
-        const location = `${mod.name}.${name}: ${inner}`;
+        const location = `${mod.name.toString()}.${name.toString()}: ${inner}`;
 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
               registry.createType(inner, fallback);
             } catch (error) {
-              const message = `${location}:: ${error.message}`;
+              const message = `${location}:: ${(error as Error).message}`;
 
               if (withThrow) {
                 throw new Error(message);

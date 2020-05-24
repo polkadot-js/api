@@ -24,7 +24,7 @@ import { isChildClass } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
-import { setImports, TypeImports } from './imports';
+import { setImports, ModuleTypes, TypeImports } from './imports';
 
 function arrayToStrType (arr: string[]): string {
   return `${arr.map((c): string => `'${c}'`).join(' | ')}`;
@@ -34,9 +34,9 @@ const voteConvictions = arrayToStrType(AllConvictions);
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */
-export function getDerivedTypes (definitions: object, type: string, primitiveName: string, imports: TypeImports): string[] {
+export function getDerivedTypes (definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
+  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName]);
   const def = getTypeDef(type);
 
   setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
@@ -73,7 +73,7 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
 /** @internal */
-export function getSimilarTypes (definitions: object, registry: Registry, _type: string, imports: TypeImports): string[] {
+export function getSimilarTypes (definitions: Record<string, ModuleTypes>, registry: Registry, _type: string, imports: TypeImports): string[] {
   const typeParts = _type.split('::');
   const type = typeParts[typeParts.length - 1];
   const possibleTypes = [type];

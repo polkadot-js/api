@@ -30,7 +30,7 @@ export function _erasRewards (api: ApiInterfaceRx): (eras: EraIndex[], withActiv
     const cached: DeriveEraRewards[] = withActive
       ? []
       : eras
-        .map((era) => deriveCache.get(`${CACHE_KEY}-${era}`))
+        .map((era) => deriveCache.get<DeriveEraRewards>(`${CACHE_KEY}-${era.toString()}`))
         .filter((value): value is DeriveEraRewards => !!value);
     const remaining = eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
 
@@ -42,7 +42,7 @@ export function _erasRewards (api: ApiInterfaceRx): (eras: EraIndex[], withActiv
       map((optRewards) => {
         const query = mapRewards(remaining, optRewards);
 
-        !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era}`, q));
+        !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
 
         return eras.map((era): DeriveEraRewards =>
           cached.find((cached) => era.eq(cached.era)) ||

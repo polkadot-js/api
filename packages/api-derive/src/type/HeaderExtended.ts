@@ -9,7 +9,7 @@ import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 import { Struct } from '@polkadot/types';
 
 // We can ignore the properties, added via Struct.with
-const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header as any) as any;
+const _Header = Struct.with(runtimeTypes.types.Header as any) as Constructor<Header>;
 
 /**
  * @name HeaderExtended

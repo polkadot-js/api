@@ -50,7 +50,7 @@ describe('send', (): void => {
     return createWs()
       .send('test_encoding', [{ error: 'send error' }])
       .catch((error): void => {
-        expect(error.message).toEqual('send error');
+        expect((error as Error).message).toEqual('send error');
       });
   });
 
@@ -67,6 +67,7 @@ describe('send', (): void => {
       .send('test_body', ['param'])
       .then((): void => {
         expect(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           (mock.body as any).test_body
         ).toEqual('{"id":1,"jsonrpc":"2.0","method":"test_body","params":["param"]}');
       });
@@ -84,7 +85,7 @@ describe('send', (): void => {
     return createWs()
       .send('test_error', [])
       .catch((error): void => {
-        expect(error.message).toMatch(/666: error/);
+        expect((error as Error).message).toMatch(/666: error/);
       });
   });
 

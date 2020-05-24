@@ -13,7 +13,7 @@ import Struct from '../codec/Struct';
  * A default handler for payloads where the version is not known (default throw)
  */
 export default class ExtrinsicPayloadUnknown extends Struct {
-  constructor (registry: Registry, value?: any, { version = 0 }: Partial<ExtrinsicPayloadOptions> = {}) {
+  constructor (registry: Registry, value?: unknown, { version = 0 }: Partial<ExtrinsicPayloadOptions> = {}) {
     super(registry, {});
 
     throw new Error(`Unsupported extrinsic payload version ${version}`);

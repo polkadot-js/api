@@ -26,7 +26,7 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
         })
       )
       : null
-  );
+  ) as Option<Vec<FunctionMetadataLatest>>;
 }
 
 /** @internal */

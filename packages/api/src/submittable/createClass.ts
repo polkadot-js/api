@@ -41,6 +41,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const [allOptions] = this.#makeSignAndSendOptions(options);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
           api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
@@ -70,6 +71,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     //
     // also supports signing through external signers
     public signAsync (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, optionsOrNonce).pipe(mapTo(this))
@@ -90,6 +92,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const [options, statusCb] = this.#makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<Codec> => (
           this.#observeSign(account, options).pipe(
@@ -112,6 +115,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         isSubscription
           ? this.#observeSubscribe

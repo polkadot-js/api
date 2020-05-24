@@ -9,8 +9,16 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 import { getTypeDef } from '@polkadot/types/create';
 import { paramsNotation } from '@polkadot/types/codec/utils';
 
-import { setImports, TypeImports } from './imports';
+import { setImports, ModuleTypes, TypeImports } from './imports';
 import { readTemplate } from './file';
+
+interface This {
+  imports: TypeImports;
+  types: {
+    file: string;
+    types: string[];
+  }[]
+}
 
 const TYPES_NON_PRIMITIVE = ['Metadata'];
 
@@ -23,9 +31,8 @@ Handlebars.registerPartial({
 
 Handlebars.registerHelper({
   imports () {
-    const { imports, types } = this as any;
-
-    return [
+    const { imports, types } = this as unknown as This;
+    const defs = [
       {
         file: '@polkadot/types/types',
         types: Object.keys(imports.typesTypes)
@@ -34,7 +41,7 @@ Handlebars.registerHelper({
         file: '@polkadot/types/codec',
         types: Object
           .keys(imports.codecTypes)
-          .filter((name): boolean => name !== 'Tuple')
+          .filter((name) => name !== 'Tuple')
       },
       {
         file: '@polkadot/types/extrinsic',
@@ -48,25 +55,27 @@ Handlebars.registerHelper({
         file: '@polkadot/types/primitive',
         types: Object
           .keys(imports.primitiveTypes)
-          .filter((name): boolean => !TYPES_NON_PRIMITIVE.includes(name))
+          .filter((name) => !TYPES_NON_PRIMITIVE.includes(name))
       },
       {
         file: '@polkadot/types',
         types: Object
           .keys(imports.primitiveTypes)
-          .filter((name): boolean => TYPES_NON_PRIMITIVE.includes(name))
+          .filter((name) => TYPES_NON_PRIMITIVE.includes(name))
       },
       ...types
-    ].reduce((result, { file, types }): string => {
+    ];
+
+    return defs.reduce((result, { file, types }): string => {
       return types.length
         ? `${result}import { ${types.sort().join(', ')} } from '${file}';\n`
         : result;
     }, '');
   },
-  trim (options) {
+  trim (options: { fn: (self: unknown) => string }) {
     return options.fn(this).trim();
   },
-  upper (options) {
+  upper (options: { fn: (self: unknown) => string }) {
     return options.fn(this).toUpperCase();
   }
 });
@@ -172,7 +181,7 @@ function formatVec (inner: string): string {
  * Correctly format a given type
  */
 /** @internal */
-export function formatType (definitions: object, type: string | TypeDef, imports: TypeImports): string {
+export function formatType (definitions: Record<string, ModuleTypes>, type: string | TypeDef, imports: TypeImports): string {
   let typeDef: TypeDef;
 
   if (typeof type === 'string') {

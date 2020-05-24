@@ -124,7 +124,7 @@ describe('Vec', (): void => {
 
     it('exposes a working reduce', (): void => {
       expect(
-        vector.reduce((r, e): string => `${r}${e}`, '')
+        vector.reduce((r, e): string => `${r}${e.toString()}`, '')
       ).toEqual('123345456756789');
     });
 

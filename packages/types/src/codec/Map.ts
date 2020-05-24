@@ -48,7 +48,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
           : new ValClass(registry, val)
       );
     } catch (error) {
-      console.error('Failed to decode Map key or value:', error.message);
+      console.error('Failed to decode Map key or value:', (error as Error).message);
 
       throw error;
     }
@@ -72,7 +72,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Map<any, any>): Map<K, V> {
+function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
@@ -100,7 +100,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
 
   readonly #type: string;
 
-  constructor (registry: Registry, type: 'BTreeMap' | 'HashMap', keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, type: 'BTreeMap' | 'HashMap', keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | Map<any, any>) {
     super(decodeMap(registry, keyType, valType, rawValue));
 
     this.registry = registry;
@@ -139,7 +139,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return compareMap(this, other);
   }
 
@@ -154,7 +154,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    const json: any = {};
+    const json: AnyJson = {};
 
     this.forEach((v: V, k: K) => {
       json[k.toString()] = v.toHuman(isExtended);
@@ -167,7 +167,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    const json: any = {};
+    const json: AnyJson = {};
 
     this.forEach((v: V, k: K) => {
       json[k.toString()] = v.toJSON();

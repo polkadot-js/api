@@ -20,6 +20,7 @@ export function referendumIds (api: ApiInterfaceRx): () => Observable<BN[]> {
       ]).pipe(
         map(([first, total]): BN[] =>
           total.gt(first)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             ? [...Array(total.sub(first).toNumber())].map((_, i): BN => first.addn(i))
             : []
         )

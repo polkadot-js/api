@@ -22,6 +22,6 @@ export default function createSubmittable<ApiType extends ApiTypes> (apiType: Ap
       Submittable = createClass<ApiType>({ api, apiType, decorateMethod });
     }
 
-    return new Submittable(api.registry, extrinsic);
+    return new Submittable(api.registry, extrinsic) as SubmittableExtrinsic<ApiType>;
   };
 }

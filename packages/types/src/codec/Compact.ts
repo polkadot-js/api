@@ -28,12 +28,14 @@ export interface CompactEncodable extends Codec {
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
         super(registry, Type, value);
       }
     };
@@ -79,7 +81,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return this._raw.eq(
       other instanceof Compact
         ? other._raw

@@ -18,7 +18,7 @@ describe('send', (): void => {
     return mock
       .send('something_invalid', [])
       .catch((error): void => {
-        expect(error.message).toMatch(/Invalid method/);
+        expect((error as Error).message).toMatch(/Invalid method/);
       });
   });
 

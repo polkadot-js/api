@@ -18,7 +18,7 @@ function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Arr
 }
 
 /** @internal */
-function decodeOption (registry: Registry, typeName: Constructor | keyof InterfaceTypes, value?: any): Codec {
+function decodeOption (registry: Registry, typeName: Constructor | keyof InterfaceTypes, value?: unknown): Codec {
   if (isNull(value) || isUndefined(value) || value instanceof Null) {
     return new Null(registry);
   }
@@ -51,7 +51,9 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
 export default class Option<T extends Codec> extends Base<T> {
   readonly #Type: Constructor<T>;
 
-  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: any) {
+  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: unknown) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     super(registry, decodeOption(registry, typeName, value));
 
     this.#Type = typeToConstructor(registry, typeName);
@@ -59,7 +61,7 @@ export default class Option<T extends Codec> extends Base<T> {
 
   public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);
       }
     };
@@ -104,7 +106,7 @@ export default class Option<T extends Codec> extends Base<T> {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     if (other instanceof Option) {
       return (this.isSome === other.isSome) && this.value.eq(other.value);
     }

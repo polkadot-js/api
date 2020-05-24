@@ -9,6 +9,8 @@ import { isU8a, u8aConcat, isHex, hexToU8a } from '@polkadot/util';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
 import AbstractArray from './AbstractArray';
 
+type AnyTuple = AnyU8a | string | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];
+
 type TupleConstructors = Constructor[] | {
   [index: string]: Constructor;
 };
@@ -18,7 +20,7 @@ type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
 };
 
 /** @internal */
-function decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
+function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTuple): Codec[] {
   if (isU8a(value)) {
     return decodeU8a(registry, value, _Types);
   } else if (isHex(value)) {
@@ -31,11 +33,15 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU
 
   return Types.map((Type, index): Codec => {
     try {
-      if (value?.[index] instanceof Type) return value[index] as any;
+      const entry = value?.[index];
 
-      return new Type(registry, value?.[index]);
+      if (entry instanceof Type) {
+        return entry;
+      }
+
+      return new Type(registry, entry);
     } catch (error) {
-      throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
+      throw new Error(`Tuple: failed on ${index}:: ${(error as Error).message}`);
     }
   });
 }
@@ -49,7 +55,7 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  constructor (registry: Registry, Types: TupleTypes, value?: any) {
+  constructor (registry: Registry, Types: TupleTypes, value?: AnyTuple) {
     const Clazzes = Array.isArray(Types)
       ? Types.map((type): Constructor => typeToConstructor(registry, type))
       : mapToTypeMap(registry, Types);
@@ -61,7 +67,7 @@ export default class Tuple extends AbstractArray<Codec> {
 
   public static with (Types: TupleTypes): Constructor<Tuple> {
     return class extends Tuple {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: AnyTuple) {
         super(registry, Types, value);
       }
     };

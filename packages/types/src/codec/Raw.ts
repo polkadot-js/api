@@ -74,7 +74,7 @@ export default class Raw extends Uint8Array implements IU8a {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     if (other instanceof Uint8Array) {
       return (this.length === other.length) &&
         !this.some((value, index): boolean => value !== other[index]);

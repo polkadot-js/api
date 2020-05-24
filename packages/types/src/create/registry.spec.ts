@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { Codec, Constructor } from '../types';
 
 import { isChildClass } from '@polkadot/util';
@@ -70,6 +72,7 @@ describe('TypeRegistry', (): void => {
       const first = new Recursive(registry, { next: last });
 
       expect((first as any).next.isSome).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect((first as any).next.unwrap().next.isSome).toBe(false);
     });
 
@@ -122,7 +125,9 @@ describe('TypeRegistry', (): void => {
       });
 
       expect(struct instanceof Struct).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(struct.foo.toNumber()).toEqual(42);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(struct.bar.toString()).toEqual('testing');
     });
   });

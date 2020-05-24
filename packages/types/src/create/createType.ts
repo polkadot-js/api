@@ -44,6 +44,7 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 // where isPedantic is specified (storage decoding), also check the format/structure
 function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor<FromReg<T, K>>, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   const created = new Type(registry, ...params);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [value] = params;
 
   if (isPedantic && isU8a(value)) {
@@ -63,7 +64,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
     // it provides false warning which is more hinderance than help
     return initType(registry, createClass<T, K>(registry, type), params); // , isPedantic);
   } catch (error) {
-    throw new Error(`createType(${type}):: ${error.message}`);
+    throw new Error(`createType(${type}):: ${(error as Error).message}`);
   }
 }
 

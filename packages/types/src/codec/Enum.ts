@@ -123,7 +123,7 @@ export default class Enum extends Base<Codec> {
 
   private _isBasic: boolean;
 
-  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
+  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | string[], value?: unknown, index?: number) {
     const defInfo = extractDef(registry, def);
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
@@ -137,7 +137,7 @@ export default class Enum extends Base<Codec> {
 
   public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
-      constructor (registry: Registry, value?: any, index?: number) {
+      constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
         Object.keys(this._def).forEach((_key): void => {
@@ -146,6 +146,7 @@ export default class Enum extends Base<Codec> {
           const iskey = `is${name}`;
 
           // do not clobber existing properties on the object
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (isUndefined((this as any)[iskey])) {
             Object.defineProperty(this, iskey, {
               enumerable: true,
@@ -153,10 +154,12 @@ export default class Enum extends Base<Codec> {
             });
           }
 
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (isUndefined((this as any)[askey])) {
             Object.defineProperty(this, askey, {
               enumerable: true,
               get: (): Codec => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 assert((this as any)[iskey], `Cannot convert '${this.type}' via ${askey}`);
 
                 return this.value;
@@ -234,7 +237,7 @@ export default class Enum extends Base<Codec> {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     // cater for the case where we only pass the enum index
     if (isNumber(other)) {
       return this.toNumber() === other;

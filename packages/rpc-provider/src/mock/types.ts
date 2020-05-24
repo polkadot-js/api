@@ -5,6 +5,7 @@
 import { Server } from 'mock-socket';
 import { Constructor } from '@polkadot/types/types';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export interface Global extends NodeJS.Global {
   WebSocket: Constructor<WebSocket>;
   fetch: any;
@@ -14,7 +15,7 @@ export interface Mock {
   body: Record<string, any>;
   requests: number;
   server: Server;
-  done: () => {};
+  done: () => Record<string, unknown>;
 }
 
 export type MockStateSubscriptionCallback = (error: Error | null, value: any) => void;

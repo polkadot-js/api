@@ -51,7 +51,8 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
 // decode a struct, set or enum
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
-  const parsed = JSON.parse(type);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const parsed: Record<string, any> = JSON.parse(type);
   const keys = Object.keys(parsed);
 
   if (keys.length === 1 && keys[0] === '_enum') {

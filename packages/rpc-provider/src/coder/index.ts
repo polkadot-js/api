@@ -24,7 +24,7 @@ function formatErrorData (data?: string | number): string {
 export default class RpcCoder {
   #id = 0;
 
-  public decodeResponse (response: JsonRpcResponse): any {
+  public decodeResponse (response: JsonRpcResponse): unknown {
     assert(response, 'Empty response object received');
     assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
 
@@ -51,7 +51,7 @@ export default class RpcCoder {
     );
   }
 
-  public encodeObject (method: string, params: any | any[]): JsonRpcRequest {
+  public encodeObject (method: string, params: unknown[]): JsonRpcRequest {
     return {
       id: ++this.#id,
       jsonrpc: '2.0',

@@ -41,6 +41,7 @@ export default class Combinator<T extends any[] = any[]> {
       this.#fns.push(fn);
 
       // Not quite 100% how to have a variable number at the front here
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/ban-types
       return (fn as Function)(...args, this._createCallback(index));
     });
   }
@@ -54,7 +55,7 @@ export default class Combinator<T extends any[] = any[]> {
   }
 
   protected _createCallback (index: number): (value: any) => void {
-    return (value: any): void => {
+    return (value: unknown): void => {
       this.#fired[index] = true;
       this.#results[index] = value;
 
@@ -68,6 +69,7 @@ export default class Combinator<T extends any[] = any[]> {
     }
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#callback(this.#results as T);
     } catch (error) {
       // swallow, we don't want the handler to trip us up

@@ -25,7 +25,7 @@ function decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNeg
     // NOTE When passing u8a in (typically from decoded data), it is always Little Endian
     return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
   } catch (error) {
-    throw new Error(`AbstractInt: failed on ${JSON.stringify(value)}:: ${error.message}`);
+    throw new Error(`AbstractInt: failed on ${JSON.stringify(value)}:: ${(error as Error).message}`);
   }
 }
 
@@ -111,13 +111,13 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Compares the value of the input to see if there is a match
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     // Here we are actually overriding the built-in .eq to take care of both
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
         ? hexToBn(other.toString(), { isLe: false, isNegative: this.#isSigned })
-        : bnToBn(other)
+        : bnToBn(other as string)
     );
   }
 

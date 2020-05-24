@@ -18,7 +18,7 @@ describe('subscribe', (): void => {
     return mock
       .subscribe('test', 'test_notFound')
       .catch((error): void => {
-        expect(error.message).toMatch(/Invalid method 'test_notFound'/);
+        expect((error as Error).message).toMatch(/Invalid method 'test_notFound'/);
       });
   });
 
@@ -41,7 +41,7 @@ describe('subscribe', (): void => {
   });
 
   it('calls back with new headers', (done): Promise<number> => {
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: any): void => {
+    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
       if (header.number === 4) {
         done();
       }
@@ -51,7 +51,7 @@ describe('subscribe', (): void => {
   it('handles errors withing callbacks gracefully', (done): Promise<number> => {
     let hasThrown = false;
 
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: any): void => {
+    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
       if (!hasThrown) {
         hasThrown = true;
 

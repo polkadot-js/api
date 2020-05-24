@@ -15,10 +15,11 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
 import { TypeImports, createImports, compareName, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
+function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
   const format = (type: string): string => formatType(allDefs, type, imports);
   const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
@@ -59,7 +60,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
     ];
   }
 
-  throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name}`);
+  throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name.toString()}`);
 }
 
 const template = readTemplate('query');

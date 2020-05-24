@@ -60,7 +60,8 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
 
         if (args === undefined) {
           setImports(allDefs, imports, [def.type]);
-          args = def.params.map((param: any) => {
+
+          args = def.params.map((param) => {
             const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
 
             setImports(allDefs, imports, [param.type, ...similarTypes]);

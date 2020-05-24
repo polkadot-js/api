@@ -18,7 +18,7 @@ interface Options {
 
 const l = logger('drr');
 
-const CMP = (a: any, b: any): boolean =>
+const CMP = (a: unknown, b: unknown): boolean =>
   JSON.stringify({ t: a }) === JSON.stringify({ t: b });
 
 const ERR = (error: Error): Observable<never> => {
@@ -40,7 +40,7 @@ export const drr = ({ skipChange = false, skipTimeout = false }: Options = {}): 
     catchError(ERR),
     skipChange
       ? tap(NOOP)
-      : distinctUntilChanged(CMP),
+      : distinctUntilChanged<T>(CMP),
     publishReplay(1),
     skipTimeout
       ? refCount()

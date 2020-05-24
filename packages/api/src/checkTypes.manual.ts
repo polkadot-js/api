@@ -87,7 +87,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // check range types
   const entries = await api.query.system.events.range(['0x12345', '0x7890']);
 
-  console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`)}`);
+  console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`).join(', ')}`);
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
@@ -105,6 +105,7 @@ async function rpc (api: ApiPromise): Promise<void> {
   await api.rpc.chain.getBlock.raw('0x123456');
 
   // using raw subs
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
     console.log(result);
   });
@@ -125,7 +126,7 @@ function types (api: ApiPromise): void {
 
 async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // transfer, also allows for BigInt inputs here
-  const transfer = api.tx.balances.transfer(keyring.bob.address, 123_456_789n);
+  const transfer = api.tx.balances.transfer(keyring.bob.address, 123456789n);
 
   console.log('transfer as Call', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);
@@ -161,6 +162,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // it allows for query & then using the submittable
   const second = api.tx.democracy.second(123, 5);
 
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   second.signAndSend('123', (result): void => {
     console.log(result);
   });
@@ -173,12 +175,15 @@ async function main (): Promise<void> {
   const api = await ApiPromise.create();
   const keyring = testKeyring();
 
-  consts(api);
-  derive(api);
-  query(api, keyring);
-  rpc(api);
-  types(api);
-  tx(api, keyring);
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  Promise.all([
+    consts(api),
+    derive(api),
+    query(api, keyring),
+    rpc(api),
+    types(api),
+    tx(api, keyring)
+  ]);
 }
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
