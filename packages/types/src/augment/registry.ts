@@ -35,7 +35,7 @@ import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, Balanc
 import { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, ValidatorCount } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, OffchainAccuracy, PerU16, PhragmenScore, Points, ReleasesStaking, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
+import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, ElectionResult, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, OffchainAccuracy, PerU16, PhragmenScore, Points, ReleasesStaking, RewardDestination, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import { AccountInfo, ChainProperties, ChainType, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Health, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, Phase, RefCount } from '@polkadot/types/interfaces/system';
@@ -882,6 +882,9 @@ declare module '@polkadot/types/types/registry' {
     ElectionResult: ElectionResult;
     'Option<ElectionResult>': Option<ElectionResult>;
     'Vec<ElectionResult>': Vec<ElectionResult>;
+    ElectionSize: ElectionSize;
+    'Option<ElectionSize>': Option<ElectionSize>;
+    'Vec<ElectionSize>': Vec<ElectionSize>;
     ElectionStatus: ElectionStatus;
     'Option<ElectionStatus>': Option<ElectionStatus>;
     'Vec<ElectionStatus>': Vec<ElectionStatus>;
