@@ -51,6 +51,10 @@ export default {
       electedStashes: 'Vec<AccountId>',
       exposures: 'Vec<(AccountId, Exposure)>'
     },
+    ElectionSize: {
+      validators: 'ValidatorIndex',
+      nominators: 'NominatorIndex'
+    },
     ElectionStatus: {
       _enum: {
         Close: 'Null',
