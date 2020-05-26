@@ -1,8 +1,9 @@
-# 1.16.0-beta.x
+# 1.16.1 May 26, 2020
 
+- Support for Polkadot CC1 types & signed extensions
+- Add support for Babe VRF secondary digests (author extraction)
 - Adjust `Perbill/Permill` `toHuman()` formatting to output percentage
-- Support for final Polkadot types & signed extensions
-- support for latest Substrate types
+- Support for latest Substrate types & metadata
 - Update to latest TypeScript, eslint & typescript-eslint
 - `@polkadot/util` 2.11
 
