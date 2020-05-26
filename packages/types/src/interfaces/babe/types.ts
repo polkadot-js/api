@@ -86,7 +86,7 @@ export interface RawBabePreDigestPrimaryTo159 extends Struct {
   readonly authorityIndex: u32;
   readonly slotNumber: SlotNumber;
   readonly weight: BabeBlockWeight;
-  readonly vrfOutput: VrfData;
+  readonly vrfOutput: VrfOutput;
   readonly vrfProof: VrfProof;
 }
 
@@ -107,8 +107,8 @@ export interface RawBabePreDigestSecondaryTo159 extends Struct {
 export interface RawBabePreDigestSecondaryVRF extends Struct {
   readonly authorityIndex: u32;
   readonly slotNumber: SlotNumber;
-  readonly vrfOutput: VRFOutput;
-  readonly vrfProof: VRFProof;
+  readonly vrfOutput: VrfOutput;
+  readonly vrfProof: VrfProof;
 }
 
 /** @name RawBabePreDigestTo159 */

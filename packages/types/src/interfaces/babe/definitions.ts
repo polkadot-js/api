@@ -61,8 +61,8 @@ export default {
     RawBabePreDigestSecondaryVRF: {
       authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
-      vrfOutput: 'VRFOutput',
-      vrfProof: 'VRFProof'
+      vrfOutput: 'VrfOutput',
+      vrfProof: 'VrfProof'
     },
     RawBabePreDigestTo159: {
       _enum: {
@@ -74,7 +74,7 @@ export default {
       authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight',
-      vrfOutput: 'VrfData',
+      vrfOutput: 'VrfOutput',
       vrfProof: 'VrfProof'
     },
     RawBabePreDigestSecondaryTo159: {
