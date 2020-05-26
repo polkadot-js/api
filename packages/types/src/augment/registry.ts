@@ -7,7 +7,7 @@ import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/t
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
+import { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
 import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
@@ -341,9 +341,12 @@ declare module '@polkadot/types/types/registry' {
     RawBabePreDigestPrimary: RawBabePreDigestPrimary;
     'Option<RawBabePreDigestPrimary>': Option<RawBabePreDigestPrimary>;
     'Vec<RawBabePreDigestPrimary>': Vec<RawBabePreDigestPrimary>;
-    RawBabePreDigestSecondary: RawBabePreDigestSecondary;
-    'Option<RawBabePreDigestSecondary>': Option<RawBabePreDigestSecondary>;
-    'Vec<RawBabePreDigestSecondary>': Vec<RawBabePreDigestSecondary>;
+    RawBabePreDigestSecondaryPlain: RawBabePreDigestSecondaryPlain;
+    'Option<RawBabePreDigestSecondaryPlain>': Option<RawBabePreDigestSecondaryPlain>;
+    'Vec<RawBabePreDigestSecondaryPlain>': Vec<RawBabePreDigestSecondaryPlain>;
+    RawBabePreDigestSecondaryVRF: RawBabePreDigestSecondaryVRF;
+    'Option<RawBabePreDigestSecondaryVRF>': Option<RawBabePreDigestSecondaryVRF>;
+    'Vec<RawBabePreDigestSecondaryVRF>': Vec<RawBabePreDigestSecondaryVRF>;
     RawBabePreDigestTo159: RawBabePreDigestTo159;
     'Option<RawBabePreDigestTo159>': Option<RawBabePreDigestTo159>;
     'Vec<RawBabePreDigestTo159>': Vec<RawBabePreDigestTo159>;
@@ -363,6 +366,9 @@ declare module '@polkadot/types/types/registry' {
     VrfData: VrfData;
     'Option<VrfData>': Option<VrfData>;
     'Vec<VrfData>': Vec<VrfData>;
+    VrfOutput: VrfOutput;
+    'Option<VrfOutput>': Option<VrfOutput>;
+    'Vec<VrfOutput>': Vec<VrfOutput>;
     VrfProof: VrfProof;
     'Option<VrfProof>': Option<VrfProof>;
     'Vec<VrfProof>': Vec<VrfProof>;
