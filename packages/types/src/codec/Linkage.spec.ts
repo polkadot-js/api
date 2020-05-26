@@ -10,7 +10,7 @@ const registry = new TypeRegistry();
 describe('Linkage', (): void => {
   it('decodes with ValidatorPrefs', (): void => {
     const LINKA = { next: '5GznmRvdi5htUJKnMSWJgJUzSJJXSvWuHRSEdyUbHJZDNcwU', previous: null };
-    const PREFS = { commission: '100,000,000' };
+    const PREFS = { commission: '10.00%' };
 
     // prefs sanity check
     expect(
