@@ -44,18 +44,25 @@ export default {
       _enum: {
         Phantom: 'Null', // index starts at 1... empty slot at 0
         Primary: 'RawBabePreDigestPrimary',
-        Secondary: 'RawBabePreDigestSecondary'
+        SecondaryPlain: 'RawBabePreDigestSecondaryPlain',
+        SecondaryVRF: 'RawBabePreDigestSecondaryVRF'
       }
     },
     RawBabePreDigestPrimary: {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber',
-      vrfOutput: 'VrfData',
+      vrfOutput: 'VrfOutput',
       vrfProof: 'VrfProof'
     },
-    RawBabePreDigestSecondary: {
+    RawBabePreDigestSecondaryPlain: {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber'
+    },
+    RawBabePreDigestSecondaryVRF: {
+      authorityIndex: 'u32',
+      slotNumber: 'SlotNumber',
+      vrfOutput: 'VRFOutput',
+      vrfProof: 'VRFProof'
     },
     RawBabePreDigestTo159: {
       _enum: {
@@ -83,11 +90,13 @@ export default {
       _enum: {
         Zero: 'u32',
         One: 'u32',
-        Two: 'u32'
+        Two: 'u32',
+        Three: 'u32'
       }
     },
     SlotNumber: 'u64',
     VrfData: '[u8; 32]',
+    VrfOutput: '[u8; 32]',
     VrfProof: '[u8; 64]'
   }
 } as Definitions;
