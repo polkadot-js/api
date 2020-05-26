@@ -21,6 +21,10 @@ export default {
     extra: {},
     types: {}
   },
+  TransactionCallFilter: {
+    extra: {},
+    types: {}
+  },
   ValidateDoubleVoteReports: {
     extra: {},
     types: {}
