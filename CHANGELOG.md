@@ -1,5 +1,6 @@
 # 1.16.0-beta.x
 
+- Adjust `Perbill/Permill` `toHuman()` formatting to output percentage
 - Support for final Polkadot types & signed extensions
 - support for latest Substrate types
 - Update to latest TypeScript, eslint & typescript-eslint

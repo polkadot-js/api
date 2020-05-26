@@ -15,6 +15,14 @@ export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
 
+const PER_B = new BN(1_000_000_000);
+const PER_M = new BN(1_000_000);
+const MUL_P = new BN(1_00_00);
+
+function toPercentage (value: BN, divisor: BN): string {
+  return `${(value.mul(MUL_P).div(divisor).toNumber() / 100).toFixed(2)}%`;
+}
+
 /** @internal */
 function decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNegative: boolean): string {
   if (!value.length) {
@@ -159,7 +167,11 @@ export default abstract class AbstractInt extends BN implements Codec {
       ? this.isMax()
         ? 'everything'
         : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
-      : formatNumber(this);
+      : this instanceof this.registry.createClass('Perbill')
+        ? toPercentage(this, PER_B)
+        : this instanceof this.registry.createClass('Permill')
+          ? toPercentage(this, PER_M)
+          : formatNumber(this);
   }
 
   /**
