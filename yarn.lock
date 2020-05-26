@@ -2628,11 +2628,11 @@ __metadata:
   linkType: hard
 
 "@octokit/types@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@octokit/types@npm:4.0.1"
+  version: 4.0.2
+  resolution: "@octokit/types@npm:4.0.2"
   dependencies:
     "@types/node": ">= 8"
-  checksum: 3/167047c28fa5435718ef20c760b46a76cd21ee391bd8ead2942c879933fb8f6efd790e4224f83266c08b0f5e4b3cb4d9da1512e7b48b098763759869b7822107
+  checksum: 3/3ddeefd099657e6982f03a98dae2655701cde0dfb1612095d4871dba594e36bda934c5b37e24c0a8f2d43bc6bdef1cdf3d04e6145a3940e827b7a3d876840e8f
   languageName: node
   linkType: hard
 
@@ -2644,7 +2644,7 @@ __metadata:
     "@polkadot/api": 1.16.0-beta.3
     "@polkadot/rpc-core": 1.16.0-beta.3
     "@polkadot/types": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
     bn.js: ^5.1.2
     rxjs: ^6.5.5
   languageName: unknown
@@ -2656,12 +2656,12 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.6
     "@polkadot/api": 1.16.0-beta.3
-    "@polkadot/keyring": ^2.11.0-beta.2
+    "@polkadot/keyring": ^2.11.1
     "@polkadot/rpc-core": 1.16.0-beta.3
     "@polkadot/rpc-provider": 1.16.0-beta.3
     "@polkadot/types": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
-    "@polkadot/util-crypto": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
+    "@polkadot/util-crypto": ^2.11.1
     bn.js: ^5.1.2
     memoizee: ^0.4.14
     rxjs: ^6.5.5
@@ -2674,14 +2674,14 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.6
     "@polkadot/api-derive": 1.16.0-beta.3
-    "@polkadot/keyring": ^2.11.0-beta.2
+    "@polkadot/keyring": ^2.11.1
     "@polkadot/metadata": 1.16.0-beta.3
     "@polkadot/rpc-core": 1.16.0-beta.3
     "@polkadot/rpc-provider": 1.16.0-beta.3
     "@polkadot/types": 1.16.0-beta.3
     "@polkadot/types-known": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
-    "@polkadot/util-crypto": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
+    "@polkadot/util-crypto": ^2.11.1
     bn.js: ^5.1.2
     eventemitter3: ^4.0.4
     rxjs: ^6.5.5
@@ -2775,14 +2775,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/keyring@npm:^2.11.0-beta.2":
-  version: 2.11.0-beta.2
-  resolution: "@polkadot/keyring@npm:2.11.0-beta.2"
+"@polkadot/keyring@npm:^2.11.1":
+  version: 2.11.1
+  resolution: "@polkadot/keyring@npm:2.11.1"
   dependencies:
     "@babel/runtime": ^7.9.6
-    "@polkadot/util": 2.11.0-beta.2
-    "@polkadot/util-crypto": 2.11.0-beta.2
-  checksum: 3/f5bf0117757b32138a1c7f26f7f22ef5c9ddf934f184ecf36385121c44a6295b492d6da5260f5e33a086075019c6d724fc3e24710d920931f88149fb8a94a094
+    "@polkadot/util": 2.11.1
+    "@polkadot/util-crypto": 2.11.1
+  checksum: 3/31a9bf50ea3d3dc64de629439fe3f75d0d7fa61e3334acbd7cceda61248947e980728836836695c7ce7fbd973752e4c6d1a5c9f1f27bdd899997e19911e819f3
   languageName: node
   linkType: hard
 
@@ -2791,11 +2791,11 @@ __metadata:
   resolution: "@polkadot/metadata@workspace:packages/metadata"
   dependencies:
     "@babel/runtime": ^7.9.6
-    "@polkadot/keyring": ^2.11.0-beta.2
+    "@polkadot/keyring": ^2.11.1
     "@polkadot/types": 1.16.0-beta.3
     "@polkadot/types-known": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
-    "@polkadot/util-crypto": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
+    "@polkadot/util-crypto": ^2.11.1
     bn.js: ^5.1.2
   languageName: unknown
   linkType: soft
@@ -2805,11 +2805,11 @@ __metadata:
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
     "@babel/runtime": ^7.9.6
-    "@polkadot/keyring": ^2.11.0-beta.2
+    "@polkadot/keyring": ^2.11.1
     "@polkadot/metadata": 1.16.0-beta.3
     "@polkadot/rpc-provider": 1.16.0-beta.3
     "@polkadot/types": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
     memoizee: ^0.4.14
     rxjs: ^6.5.5
   languageName: unknown
@@ -2820,11 +2820,11 @@ __metadata:
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
     "@babel/runtime": ^7.9.6
-    "@polkadot/keyring": ^2.11.0-beta.2
+    "@polkadot/keyring": ^2.11.1
     "@polkadot/metadata": 1.16.0-beta.3
     "@polkadot/types": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
-    "@polkadot/util-crypto": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
+    "@polkadot/util-crypto": ^2.11.1
     bn.js: ^5.1.2
     eventemitter3: ^4.0.4
     isomorphic-fetch: ^2.2.1
@@ -2854,7 +2854,7 @@ __metadata:
     "@polkadot/metadata": 1.16.0-beta.3
     "@polkadot/rpc-provider": 1.16.0-beta.3
     "@polkadot/types": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
     "@types/websocket": ^1.0.0
     "@types/yargs": ^15.0.5
     handlebars: ^4.7.6
@@ -2875,7 +2875,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.6
     "@polkadot/types": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
     "@types/bn.js": ^4.11.6
     bn.js: ^5.1.2
   languageName: unknown
@@ -2886,10 +2886,10 @@ __metadata:
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.9.6
-    "@polkadot/keyring": ^2.11.0-beta.2
+    "@polkadot/keyring": ^2.11.1
     "@polkadot/metadata": 1.16.0-beta.3
-    "@polkadot/util": ^2.11.0-beta.2
-    "@polkadot/util-crypto": ^2.11.0-beta.2
+    "@polkadot/util": ^2.11.1
+    "@polkadot/util-crypto": ^2.11.1
     "@types/bn.js": ^4.11.6
     "@types/memoizee": ^0.4.4
     bn.js: ^5.1.2
@@ -2898,12 +2898,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/util-crypto@npm:2.11.0-beta.2, @polkadot/util-crypto@npm:^2.11.0-beta.2":
-  version: 2.11.0-beta.2
-  resolution: "@polkadot/util-crypto@npm:2.11.0-beta.2"
+"@polkadot/util-crypto@npm:2.11.1, @polkadot/util-crypto@npm:^2.11.1":
+  version: 2.11.1
+  resolution: "@polkadot/util-crypto@npm:2.11.1"
   dependencies:
     "@babel/runtime": ^7.9.6
-    "@polkadot/util": 2.11.0-beta.2
+    "@polkadot/util": 2.11.1
     "@polkadot/wasm-crypto": ^1.2.1
     base-x: ^3.0.8
     bip39: ^3.0.2
@@ -2915,13 +2915,13 @@ __metadata:
     pbkdf2: ^3.0.17
     tweetnacl: ^1.0.3
     xxhashjs: ^0.2.2
-  checksum: 3/72c814d7d1950ae2bbdd1fb68a7a77261315f94a7f3c76b017be9fd386c38dc4edb6812c753aa7162aecb7352785ede14d5af96c7e89f2f1fe52412776f1cf1a
+  checksum: 3/b91c8d5a7cd5f5b98927880035cc3ed8004e0243bbae75cd87209bb9c0bd153268ddb75a24daddf79ad3bd29fc4bc7b2ce36e1be17f923ccdefdf63990131397
   languageName: node
   linkType: hard
 
-"@polkadot/util@npm:2.11.0-beta.2, @polkadot/util@npm:^2.11.0-beta.2":
-  version: 2.11.0-beta.2
-  resolution: "@polkadot/util@npm:2.11.0-beta.2"
+"@polkadot/util@npm:2.11.1, @polkadot/util@npm:^2.11.1":
+  version: 2.11.1
+  resolution: "@polkadot/util@npm:2.11.1"
   dependencies:
     "@babel/runtime": ^7.9.6
     "@types/bn.js": ^4.11.6
@@ -2929,7 +2929,7 @@ __metadata:
     camelcase: ^5.3.1
     chalk: ^4.0.0
     ip-regex: ^4.1.0
-  checksum: 3/7d0d6222983984d39441dc68113439a178b90ab3670fe8e145180adf6f80f9952b175949154a6f725913d41888194641afe4e158a95a1bd7479e7d1757cb8b2d
+  checksum: 3/93659e39722a75004011074413c8c71be94df8cf4294275ee9ee90e9ddc66f110f89170ba4daa53f18f92c25f66ccd57bf36d78f123b8fa73cd3792fc5dfaa4f
   languageName: node
   linkType: hard
 
@@ -3365,8 +3365,8 @@ __metadata:
   linkType: hard
 
 "@vue/babel-preset-app@npm:^4.1.2":
-  version: 4.4.0
-  resolution: "@vue/babel-preset-app@npm:4.4.0"
+  version: 4.4.1
+  resolution: "@vue/babel-preset-app@npm:4.4.1"
   dependencies:
     "@babel/core": ^7.9.6
     "@babel/helper-compilation-targets": ^7.9.6
@@ -3382,9 +3382,14 @@ __metadata:
     babel-plugin-dynamic-import-node: ^2.3.3
     core-js: ^3.6.5
     core-js-compat: ^3.6.5
+    semver: ^6.1.0
   peerDependencies:
     "@babel/core": "*"
-  checksum: 3/b4306804e8dbfc2026211cdc0c912283805230b9c9126ddf443f192deb8b6b268b84f6c2fa64f22dc300528cd649830415fe78a619a45273a5c9513a9bdafb56
+    core-js: ^3
+  peerDependenciesMeta:
+    core-js:
+      optional: true
+  checksum: 3/b4fa7dfb389f479979d22a7c2e76719d173312642a8ddd324260917badb4afd6d0d53ba67c71e9a627b7b756556b6a0352af41a88bbc59120a1d30bf9c5f8742
   languageName: node
   linkType: hard
 
@@ -5264,9 +5269,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001043, caniuse-lite@npm:^1.0.30001061":
-  version: 1.0.30001065
-  resolution: "caniuse-lite@npm:1.0.30001065"
-  checksum: 3/b71885aa5bc731bf46a2e49782f094a62c54adde1109743bd1c94efc792a48ca4d78016d06e34bd57a5ea1fbcc9f0b93b5d3ff64da0c59b777789aefe568cd88
+  version: 1.0.30001066
+  resolution: "caniuse-lite@npm:1.0.30001066"
+  checksum: 3/998397a0188a66fcdce84e1e55681e02bb7a15e6365bd204ad976f4cb266a0737f7007611e6c00890d3ec2224172c188af15381de85566e6b6644aa21575ca9b
   languageName: node
   linkType: hard
 
@@ -6207,13 +6212,13 @@ __metadata:
   linkType: hard
 
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "cross-spawn@npm:7.0.2"
+  version: 7.0.3
+  resolution: "cross-spawn@npm:7.0.3"
   dependencies:
     path-key: ^3.1.0
     shebang-command: ^2.0.0
     which: ^2.0.1
-  checksum: 3/31ad173414e82588537fb00b7c14533c8cfcfbfc87b4eb61c8d12aeb77c89c9afd0f0ef0f5bbe8a5204f888b127c7d8fb42ad22eeab5ac93502aa5f119a09846
+  checksum: 3/51f10036f5f1de781be98f4738d58b50c6d44f4f471069b8ab075b21605893ba1548654880f7310a29a732d6fc7cd481da6026169b9f0831cab0148a62fb397a
   languageName: node
   linkType: hard
 
@@ -7256,9 +7261,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.413":
-  version: 1.3.451
-  resolution: "electron-to-chromium@npm:1.3.451"
-  checksum: 3/5cd94ad18dd4bef3d1854fbff0d70364424953b03776f3962b1a23767ac106bc27132df4dde5acf01822e4333920afc8f753946dd39bc3ec9d0bcebd769088b9
+  version: 1.3.452
+  resolution: "electron-to-chromium@npm:1.3.452"
+  checksum: 3/e25775f0e6051b33b5dd682cc62aeed7ed3c9d7c5b8f5748868c66c6a874593faefafb2f4bcfc874c8b1614b411f9d5ee1ab4d4776d8b41bbc45d1a3c9cc5527
   languageName: node
   linkType: hard
 
@@ -14466,13 +14471,13 @@ __metadata:
   linkType: hard
 
 "postcss@npm:^7.0.0, postcss@npm:^7.0.1, postcss@npm:^7.0.14, postcss@npm:^7.0.2, postcss@npm:^7.0.26, postcss@npm:^7.0.27, postcss@npm:^7.0.30, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
-  version: 7.0.30
-  resolution: "postcss@npm:7.0.30"
+  version: 7.0.31
+  resolution: "postcss@npm:7.0.31"
   dependencies:
     chalk: ^2.4.2
     source-map: ^0.6.1
     supports-color: ^6.1.0
-  checksum: 3/965203dcfe345370278da767a9b0c5f2d3b4f8728cb14071557591988aec25332de22c743ad1a1cd33fdbadf3390caf0931658243026d119890949bd834660ca
+  checksum: 3/455f18b6e250c456e02b91ea11c1860928be5908bdf79291e9199f1a9cb469b06b1a13122b2197e7c742c179c9804c0b6adb74f2e33ce97a819fdabdfc02cac8
   languageName: node
   linkType: hard
 

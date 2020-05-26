@@ -1,3 +1,10 @@
+# 1.16.0-beta.x
+
+- Support for final Polkadot types & signed extensions
+- support for latest Substrate types
+- Update to latest TypeScript, eslint & typescript-eslint
+- `@polkadot/util` 2.11
+
 # 1.15.1 May 23, 2020
 
 - Adjust `keyPrefix()` with DoubleMap args (Thanks to https://github.com/KiChjang)

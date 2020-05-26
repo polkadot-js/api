@@ -4,60 +4,10 @@
 
 import { OverrideVersionedType } from '@polkadot/types/types';
 
-// these are override types for Polkadot & Kusama chains
-// NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
-// implementation) are different. Detect Polkadot and inject the `Keys`
-// definition as applicable. (4 keys in substrate vs 5 in Polkadot/CC3).
+// these are override types for Polkadot
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [1000, 1003],
-    types: {
-      Address: 'GenericAddress',
-      BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5',
-      LookupSource: 'Address',
-      Multiplier: 'Fixed64',
-      StakingLedger: 'StakingLedgerTo223',
-      Votes: 'VotesTo230',
-      Weight: 'u32'
-    }
-  },
-  {
-    minmax: [1004, 1004],
-    types: {
-      // Indices optional, not in transaction
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId',
-      Multiplier: 'Fixed64',
-      ReferendumInfo: 'ReferendumInfoTo239',
-      StakingLedger: 'StakingLedgerTo240',
-      Weight: 'u32'
-    }
-  },
-  {
-    minmax: [1005, 1005],
-    types: {
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId',
-      Multiplier: 'Fixed64',
-      StakingLedger: 'StakingLedgerTo240',
-      Weight: 'u32'
-    }
-  },
-  {
-    minmax: [1006, 1006],
-    types: {
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId',
-      Multiplier: 'Fixed64',
-      Weight: 'u32'
-    }
-  },
-  {
-    minmax: [1007, undefined],
+    minmax: [0, undefined],
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
