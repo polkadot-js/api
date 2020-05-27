@@ -52,8 +52,8 @@ export interface ElectionResult extends Struct {
 
 /** @name ElectionSize */
 export interface ElectionSize extends Struct {
-  readonly validators: ValidatorIndex;
-  readonly nominators: NominatorIndex;
+  readonly validators: Compact<ValidatorIndex>;
+  readonly nominators: Compact<NominatorIndex>;
 }
 
 /** @name ElectionStatus */
