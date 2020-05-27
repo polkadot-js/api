@@ -1,3 +1,7 @@
+# 1.17.0-beta.x
+
+- Fix `ElectionSize` type (Thanks to https://github.com/arjanz)
+
 # 1.16.1 May 26, 2020
 
 - Support for Polkadot CC1 types & signed extensions
