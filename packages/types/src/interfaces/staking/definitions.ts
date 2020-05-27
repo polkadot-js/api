@@ -52,8 +52,8 @@ export default {
       exposures: 'Vec<(AccountId, Exposure)>'
     },
     ElectionSize: {
-      validators: 'ValidatorIndex',
-      nominators: 'NominatorIndex'
+      validators: 'Compact<ValidatorIndex>',
+      nominators: 'Compact<NominatorIndex>'
     },
     ElectionStatus: {
       _enum: {
