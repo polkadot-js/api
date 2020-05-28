@@ -32,7 +32,7 @@ function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
+function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): Set<V> {
   const output = new Set<V>();
 
   value.forEach((val: any) => {
@@ -62,7 +62,7 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
  * @param jsonSet
  * @internal
  */
-function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | Set<any>): Set<V> {
+function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
   if (!value) {
     return new Set<V>();
   }
@@ -73,7 +73,7 @@ function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constr
     return decodeSet(registry, ValClass, hexToU8a(value));
   } else if (isU8a(value)) {
     return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
-  } else if (value instanceof Set) {
+  } else if (Array.isArray(value) || value instanceof Set) {
     return decodeSetFromSet<V>(registry, ValClass, value);
   }
 
@@ -85,7 +85,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
 
   readonly #ValClass: Constructor<V>;
 
-  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | Set<any>) {
+  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | string[] | Set<any>) {
     super(decodeSet(registry, valType, rawValue));
 
     this.registry = registry;
