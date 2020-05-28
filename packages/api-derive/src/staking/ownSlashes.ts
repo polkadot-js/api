@@ -17,7 +17,7 @@ const CACHE_KEY = 'ownSlash';
 
 export function _ownSlash (api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex, withActive: boolean) => Observable<DeriveStakerSlashes> {
   return memo((accountId: Uint8Array | string, era: EraIndex, withActive: boolean): Observable<DeriveStakerSlashes> => {
-    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
+    const cacheKey = `${CACHE_KEY}-${era.toString()}-${accountId.toString()}`;
     const cached = withActive
       ? undefined
       : deriveCache.get<DeriveStakerSlashes>(cacheKey);

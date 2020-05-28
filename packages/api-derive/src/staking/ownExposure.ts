@@ -15,7 +15,7 @@ const CACHE_KEY = 'ownExposure';
 
 export function _ownExposure (api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex, withActive: boolean) => Observable<DeriveOwnExposure> {
   return memo((accountId: Uint8Array | string, era: EraIndex, withActive: boolean): Observable<DeriveOwnExposure> => {
-    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
+    const cacheKey = `${CACHE_KEY}-${era.toString()}-${accountId.toString()}`;
     const cached = withActive
       ? undefined
       : deriveCache.get<DeriveOwnExposure>(cacheKey);
