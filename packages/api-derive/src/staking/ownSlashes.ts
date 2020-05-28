@@ -22,7 +22,6 @@ export function _ownSlash (api: ApiInterfaceRx): (accountId: Uint8Array | string
       ? undefined
       : deriveCache.get<DeriveStakerSlashes>(cacheKey);
 
-    // Option<BalanceOf> Option<ITuple<[Perbill, BalanceOf]>>
     return cached
       ? of(cached)
       : api.queryMulti<[Option<BalanceOf>, Option<ITuple<[Perbill, BalanceOf]>>]>([
