@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EraIndex } from '@polkadot/types/interfaces';
+import { EraIndex, Exposure } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DeriveOwnExposure } from '../types';
 
@@ -22,9 +22,9 @@ export function _ownExposure (api: ApiInterfaceRx): (accountId: Uint8Array | str
 
     return cached
       ? of(cached)
-      : combineLatest([
-        api.query.staking.erasStakersClipped(era, accountId),
-        api.query.staking.erasStakers(era, accountId)
+      : api.queryMulti<[Exposure, Exposure]>([
+        [api.query.staking.erasStakersClipped, [era, accountId]],
+        [api.query.staking.erasStakers, [era, accountId]]
       ]).pipe(
         map(([clipped, exposure]): DeriveOwnExposure => {
           const value = { clipped, era, exposure };

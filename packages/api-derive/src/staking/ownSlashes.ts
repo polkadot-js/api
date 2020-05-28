@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EraIndex } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { DeriveStakerSlashes } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { Option } from '@polkadot/types';
 
 import { deriveCache, memo } from '../util';
 
@@ -22,9 +24,9 @@ export function _ownSlash (api: ApiInterfaceRx): (accountId: Uint8Array | string
 
     return cached
       ? of(cached)
-      : combineLatest([
-        api.query.staking.nominatorSlashInEra(era, accountId),
-        api.query.staking.validatorSlashInEra(era, accountId)
+      : api.queryMulti<[Option<BalanceOf>, Option<ITuple<[Perbill, BalanceOf]>>]>([
+        [api.query.staking.nominatorSlashInEra, [era, accountId]],
+        [api.query.staking.validatorSlashInEra, [era, accountId]]
       ]).pipe(
         map(([optNom, optVal]): DeriveStakerSlashes => {
           const value = {
