@@ -32,18 +32,20 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, e
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
       const valPoints = allValPoints[validatorId] || ZERO;
       const valComm = allValPrefs[validatorId]?.commission.unwrap() || ZERO;
-      const avail = eraReward.mul(valPoints).div(eraPoints);
-      const valCut = valComm.mul(avail).div(COMM_DIV);
       const expTotal = exposure.total.unwrap();
+      let avail = ZERO;
       let value: BN | undefined;
 
-      if (!expTotal.isZero() && !valPoints.isZero()) {
+      if (!(expTotal.isZero() || valPoints.isZero() || eraPoints.isZero())) {
+        avail = eraReward.mul(valPoints).div(eraPoints);
+
+        const valCut = valComm.mul(avail).div(COMM_DIV);
         let staked: BN;
 
         if (validatorId === stakerId) {
           staked = exposure.own.unwrap();
         } else {
-          const stakerExp = exposure.others.find(({ who }): boolean => who.eq(stakerId));
+          const stakerExp = exposure.others.find(({ who }) => who.eq(stakerId));
 
           staked = stakerExp
             ? stakerExp.value.unwrap()
