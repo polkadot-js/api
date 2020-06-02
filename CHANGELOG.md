@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.17.0-beta.x
+## 1.17.1 Jun 2, 2020
 
 - Fix `ElectionSize` type (Thanks to https://github.com/arjanz)
 - Allow `BTreeSet` decoding from Array/JSON inputs
