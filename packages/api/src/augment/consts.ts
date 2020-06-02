@@ -68,8 +68,12 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        **/
       signedClaimHandicap: AugmentedConst<BlockNumber>;
       /**
-       * Size of a contract at the time of instantiation. This is a simple way to ensure that
-       * empty contracts eventually gets deleted.
+       * A size offset for an contract. A just created account with untouched storage will have that
+       * much of storage from the perspective of the state rent.
+       * 
+       * This is a simple way to ensure that contracts with empty storage eventually get deleted
+       * by making them pay rent. This creates an incentive to remove them early in order to save
+       * rent.
        **/
       storageSizeOffset: AugmentedConst<u32>;
       /**

@@ -184,7 +184,24 @@ declare module '@polkadot/api/types/submittable' {
        * - up to 3 events
        * # </weight>
        **/
-      close: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      close: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Disapprove a proposal, close, and remove it from the system, regardless of its current state.
+       * 
+       * Must be called by the Root origin.
+       * 
+       * Parameters:
+       * * `proposal_hash`: The hash of the proposal that should be disapproved.
+       * 
+       * # <weight>
+       * Complexity: O(P) where P is the number of max proposals
+       * Base Weight: .49 * P
+       * DB Weight:
+       * * Reads: Proposals
+       * * Writes: Voting, Proposals, ProposalOf
+       * # </weight>
+       **/
+      disapproveProposal: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Dispatch a proposal from a member using the `Member` origin.
        * 
@@ -2668,7 +2685,24 @@ declare module '@polkadot/api/types/submittable' {
        * - up to 3 events
        * # </weight>
        **/
-      close: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      close: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Disapprove a proposal, close, and remove it from the system, regardless of its current state.
+       * 
+       * Must be called by the Root origin.
+       * 
+       * Parameters:
+       * * `proposal_hash`: The hash of the proposal that should be disapproved.
+       * 
+       * # <weight>
+       * Complexity: O(P) where P is the number of max proposals
+       * Base Weight: .49 * P
+       * DB Weight:
+       * * Reads: Proposals
+       * * Writes: Voting, Proposals, ProposalOf
+       * # </weight>
+       **/
+      disapproveProposal: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Dispatch a proposal from a member using the `Member` origin.
        * 
@@ -3026,7 +3060,8 @@ declare module '@polkadot/api/types/submittable' {
        * Register approval for a dispatch to be made from a deterministic composite account if
        * approved by a total of `threshold - 1` of `other_signatories`.
        * 
-       * If there are enough, then dispatch the call.
+       * If there are enough, then dispatch the call. Calls must each fulfil the `IsCallable`
+       * filter.
        * 
        * Payment: `MultisigDepositBase` will be reserved if this is the first approval, plus
        * `threshold` times `MultisigDepositFactor`. It is returned once this dispatch happens or
@@ -3078,6 +3113,8 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Send a call through an indexed pseudonym of the sender.
        * 
+       * Calls must each fulfil the `IsCallable` filter.
+       * 
        * The dispatch origin for this call must be _Signed_.
        * 
        * # <weight>
@@ -3089,7 +3126,8 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Send a batch of dispatch calls.
        * 
-       * This will execute until the first one fails and then stop.
+       * This will execute until the first one fails and then stop. Calls must fulfil the
+       * `IsCallable` filter unless the origin is `Root`.
        * 
        * May be called from any origin.
        * 
