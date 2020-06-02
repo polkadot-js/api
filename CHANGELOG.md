@@ -6,7 +6,9 @@
 - Allow `BTreeSet` decoding from Array/JSON inputs
 - Adjust Call-only metadata output to trim documentation to first full line
 - Safeguard against divide-by-zero for total era points (expired reward eras)
-- Internal derive optimizations
+- Internal derive optimizations with combining calls
+- Support for latest Substrate types & metadata
+- `@polkadot/util` 2.12
 
 ## 1.16.1 May 26, 2020
 

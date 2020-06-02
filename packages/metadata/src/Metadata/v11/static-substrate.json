@@ -565,7 +565,8 @@
               "documentation": [
                 " Send a batch of dispatch calls.",
                 "",
-                " This will execute until the first one fails and then stop.",
+                " This will execute until the first one fails and then stop. Calls must fulfil the",
+                " `IsCallable` filter unless the origin is `Root`.",
                 "",
                 " May be called from any origin.",
                 "",
@@ -599,6 +600,8 @@
               "documentation": [
                 " Send a call through an indexed pseudonym of the sender.",
                 "",
+                " Calls must each fulfil the `IsCallable` filter.",
+                "",
                 " The dispatch origin for this call must be _Signed_.",
                 "",
                 " # <weight>",
@@ -631,7 +634,8 @@
                 " Register approval for a dispatch to be made from a deterministic composite account if",
                 " approved by a total of `threshold - 1` of `other_signatories`.",
                 "",
-                " If there are enough, then dispatch the call.",
+                " If there are enough, then dispatch the call. Calls must each fulfil the `IsCallable`",
+                " filter.",
                 "",
                 " Payment: `MultisigDepositBase` will be reserved if this is the first approval, plus",
                 " `threshold` times `MultisigDepositFactor`. It is returned once this dispatch happens or",
@@ -863,6 +867,15 @@
                 " A multisig operation has been cancelled. First param is the account that is",
                 " cancelling, third is the multisig account, fourth is hash of the call."
               ]
+            },
+            {
+              "name": "Uncallable",
+              "args": [
+                "u32"
+              ],
+              "documentation": [
+                " A call with a `false` IsCallable filter was attempted."
+              ]
             }
           ],
           "constants": [],
@@ -937,6 +950,12 @@
               "name": "UnexpectedTimepoint",
               "documentation": [
                 " A timepoint was given, yet no multisig operation is underway."
+              ]
+            },
+            {
+              "name": "Uncallable",
+              "documentation": [
+                " A call with a `false` IsCallable filter was attempted."
               ]
             }
           ]
@@ -3171,6 +3190,15 @@
               ]
             },
             {
+              "name": "SolutionStored",
+              "args": [
+                "ElectionCompute"
+              ],
+              "documentation": [
+                " A new solution for the upcoming election has been stored."
+              ]
+            },
+            {
               "name": "Bonded",
               "args": [
                 "AccountId",
@@ -5393,7 +5421,7 @@
               "name": "close",
               "args": [
                 {
-                  "name": "proposal",
+                  "name": "proposal_hash",
                   "type": "Hash"
                 },
                 {
@@ -5436,6 +5464,31 @@
                 "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)",
                 "  - any mutations done while executing `proposal` (`P1`)",
                 " - up to 3 events",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "disapprove_proposal",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Disapprove a proposal, close, and remove it from the system, regardless of its current state.",
+                "",
+                " Must be called by the Root origin.",
+                "",
+                " Parameters:",
+                " * `proposal_hash`: The hash of the proposal that should be disapproved.",
+                "",
+                " # <weight>",
+                " Complexity: O(P) where P is the number of max proposals",
+                " Base Weight: .49 * P",
+                " DB Weight:",
+                " * Reads: Proposals",
+                " * Writes: Voting, Proposals, ProposalOf",
                 " # </weight>"
               ]
             }
@@ -5816,7 +5869,7 @@
               "name": "close",
               "args": [
                 {
-                  "name": "proposal",
+                  "name": "proposal_hash",
                   "type": "Hash"
                 },
                 {
@@ -5859,6 +5912,31 @@
                 "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)",
                 "  - any mutations done while executing `proposal` (`P1`)",
                 " - up to 3 events",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "disapprove_proposal",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Disapprove a proposal, close, and remove it from the system, regardless of its current state.",
+                "",
+                " Must be called by the Root origin.",
+                "",
+                " Parameters:",
+                " * `proposal_hash`: The hash of the proposal that should be disapproved.",
+                "",
+                " # <weight>",
+                " Complexity: O(P) where P is the number of max proposals",
+                " Base Weight: .49 * P",
+                " DB Weight:",
+                " * Reads: Proposals",
+                " * Writes: Voting, Proposals, ProposalOf",
                 " # </weight>"
               ]
             }
@@ -7750,8 +7828,12 @@
               "type": "u32",
               "value": "0x08000000",
               "documentation": [
-                " Size of a contract at the time of instantiation. This is a simple way to ensure that",
-                " empty contracts eventually gets deleted."
+                " A size offset for an contract. A just created account with untouched storage will have that",
+                " much of storage from the perspective of the state rent.",
+                "",
+                " This is a simple way to ensure that contracts with empty storage eventually get deleted",
+                " by making them pay rent. This creates an incentive to remove them early in order to save",
+                " rent."
               ]
             },
             {
