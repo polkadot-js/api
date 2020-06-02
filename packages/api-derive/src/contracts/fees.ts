@@ -48,7 +48,7 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
 export function fees (api: ApiInterfaceRx): () => Observable<DeriveContractFees> {
   return memo((): Observable<DeriveContractFees> => {
     return queryConstants(api).pipe(
-      map(([callBaseFee, contractFee, creationFee, rentByteFee, rentDepositOffset, surchargeReward, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DeriveContractFees => ({
+      map(([callBaseFee, contractFee, creationFee, transactionBaseFee, transactionByteFee, transferFee, rentByteFee, rentDepositOffset, surchargeReward, tombstoneDeposit]): DeriveContractFees => ({
         callBaseFee,
         contractFee,
         creationFee,
