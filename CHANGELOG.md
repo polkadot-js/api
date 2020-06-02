@@ -4,6 +4,9 @@
 
 - Fix `ElectionSize` type (Thanks to https://github.com/arjanz)
 - Allow `BTreeSet` decoding from Array/JSON inputs
+- Adjust Call-only metadata output to trim documentation to first full line
+- Safeguard against divide-by-zero for total era points (expired reward eras)
+- Internal derive optimizations
 
 ## 1.16.1 May 26, 2020
 

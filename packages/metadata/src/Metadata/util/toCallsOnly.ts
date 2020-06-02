@@ -12,6 +12,15 @@ interface ModuleMetadataTrimmed {
   calls: Option<Vec<FunctionMetadataLatest>>;
 }
 
+function trimDocs (documentation: Vec<Text>): string[] {
+  const strings = documentation.map((doc) => doc.toString().trim());
+  const firstEmpty = strings.findIndex((doc) => !doc.length);
+
+  return firstEmpty === -1
+    ? strings
+    : strings.slice(0, firstEmpty);
+}
+
 function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest>>): Option<Vec<FunctionMetadataLatest>> {
   const calls = _calls.unwrapOr(null);
 
@@ -21,7 +30,7 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
       ? calls.map(({ args, documentation, name }) =>
         registry.createType('FunctionMetadataLatest', {
           args,
-          documentation: documentation.map((doc) => doc.toString().trim()),
+          documentation: trimDocs(documentation),
           name
         })
       )
