@@ -18,6 +18,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
   const extraTypes = pkg
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
     : {};
 
@@ -97,7 +98,7 @@ export default function main (): void {
         process.exit(1);
       });
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access
     generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
   }
 }

@@ -49,7 +49,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.10.1, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.4, @babel/core@npm:^7.9.6":
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.10.2, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.4, @babel/core@npm:^7.9.6":
   version: 7.10.2
   resolution: "@babel/core@npm:7.10.2"
   dependencies:
@@ -1197,7 +1197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.10.1, @babel/preset-env@npm:^7.9.6":
+"@babel/preset-env@npm:^7.10.2, @babel/preset-env@npm:^7.9.6":
   version: 7.10.2
   resolution: "@babel/preset-env@npm:7.10.2"
   dependencies:
@@ -1340,7 +1340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.6":
+"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.6":
   version: 7.10.2
   resolution: "@babel/runtime@npm:7.10.2"
   dependencies:
@@ -2656,11 +2656,11 @@ __metadata:
   linkType: hard
 
 "@octokit/types@npm:^4.0.1":
-  version: 4.1.2
-  resolution: "@octokit/types@npm:4.1.2"
+  version: 4.1.4
+  resolution: "@octokit/types@npm:4.1.4"
   dependencies:
     "@types/node": ">= 8"
-  checksum: 3/59d7d392bcc20e333788a887622b0082477382bdd64bc0171f88426eef574549dcc022689748177030c28d8eea538d4d1d116f3561772584f57199df32a6bc98
+  checksum: 3/a51fb98620e5c3befcc5c9b4f9924fe501f0e657f4a72c0eb0cb0b16bc67766fb114805ce47820b3e8c6ba6abf6c9038e4e8e67a2e6de1f8f2718770edf6ea60
   languageName: node
   linkType: hard
 
@@ -2668,7 +2668,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/api": 1.17.0-beta.7
     "@polkadot/rpc-core": 1.17.0-beta.7
     "@polkadot/types": 1.17.0-beta.7
@@ -2682,7 +2682,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/api": 1.17.0-beta.7
     "@polkadot/keyring": ^2.12.2
     "@polkadot/rpc-core": 1.17.0-beta.7
@@ -2700,7 +2700,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/api-derive": 1.17.0-beta.7
     "@polkadot/keyring": ^2.12.2
     "@polkadot/metadata": 1.17.0-beta.7
@@ -2716,12 +2716,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.55.6":
-  version: 0.55.6
-  resolution: "@polkadot/dev@npm:0.55.6"
+"@polkadot/dev@npm:^0.55.7":
+  version: 0.55.7
+  resolution: "@polkadot/dev@npm:0.55.7"
   dependencies:
     "@babel/cli": ^7.10.1
-    "@babel/core": ^7.10.1
+    "@babel/core": ^7.10.2
     "@babel/plugin-proposal-class-properties": ^7.10.1
     "@babel/plugin-proposal-decorators": ^7.10.1
     "@babel/plugin-proposal-nullish-coalescing-operator": ^7.10.1
@@ -2735,13 +2735,13 @@ __metadata:
     "@babel/plugin-syntax-import-meta": ^7.10.1
     "@babel/plugin-syntax-top-level-await": ^7.10.1
     "@babel/plugin-transform-runtime": ^7.10.1
-    "@babel/preset-env": ^7.10.1
+    "@babel/preset-env": ^7.10.2
     "@babel/preset-react": ^7.10.1
     "@babel/preset-typescript": ^7.10.1
     "@babel/register": ^7.10.1
-    "@babel/runtime": ^7.10.1
-    "@typescript-eslint/eslint-plugin": 3.0.2
-    "@typescript-eslint/parser": 3.0.2
+    "@babel/runtime": ^7.10.2
+    "@typescript-eslint/eslint-plugin": 3.1.0
+    "@typescript-eslint/parser": 3.1.0
     "@vue/component-compiler-utils": ^3.1.2
     babel-core: ^7.0.0-bridge.0
     babel-jest: ^26.0.1
@@ -2801,7 +2801,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 3/02e4d5b40af762f8eef1efaff808aa64a16f8b0cd0b96f516f0fbadf774716b9fe481e6d15d1d74199ddf212f7da689a30e21cca20c7ce41098c80982754a45b
+  checksum: 3/bf26f07121ef8e3ffd433c5f867fc323cf68d511962a016805783b4235e6638a187c6dee9617d1d0f6a172ae5fa87eec6bb457a2da24f32ba041ed65701d1b2b
   languageName: node
   linkType: hard
 
@@ -2820,7 +2820,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/metadata@workspace:packages/metadata"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/keyring": ^2.12.2
     "@polkadot/types": 1.17.0-beta.7
     "@polkadot/types-known": 1.17.0-beta.7
@@ -2834,7 +2834,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/keyring": ^2.12.2
     "@polkadot/metadata": 1.17.0-beta.7
     "@polkadot/rpc-provider": 1.17.0-beta.7
@@ -2849,7 +2849,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/keyring": ^2.12.2
     "@polkadot/metadata": 1.17.0-beta.7
     "@polkadot/types": 1.17.0-beta.7
@@ -2877,9 +2877,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
-    "@babel/core": ^7.10.1
+    "@babel/core": ^7.10.2
     "@babel/register": ^7.10.1
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/api": 1.17.0-beta.7
     "@polkadot/metadata": 1.17.0-beta.7
     "@polkadot/rpc-provider": 1.17.0-beta.7
@@ -2903,7 +2903,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/types": 1.17.0-beta.7
     "@polkadot/util": ^2.12.2
     "@types/bn.js": ^4.11.6
@@ -2915,7 +2915,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.10.2
     "@polkadot/keyring": ^2.12.2
     "@polkadot/metadata": 1.17.0-beta.7
     "@polkadot/util": ^2.12.2
@@ -3007,15 +3007,15 @@ __metadata:
   linkType: hard
 
 "@types/babel__core@npm:^7.1.7":
-  version: 7.1.7
-  resolution: "@types/babel__core@npm:7.1.7"
+  version: 7.1.8
+  resolution: "@types/babel__core@npm:7.1.8"
   dependencies:
     "@babel/parser": ^7.1.0
     "@babel/types": ^7.0.0
     "@types/babel__generator": "*"
     "@types/babel__template": "*"
     "@types/babel__traverse": "*"
-  checksum: 3/f440303059ca39cf036ddbb13a86dd23ca427c2631f4482f73de9f5a518ef62ebc7d407de727fea1845fabbbec62f8dea00fd559b0c8894f92d920a2c376ded4
+  checksum: 3/297877649dfa507ed7d8b67930b72115164f044b7615aa5f5f10111bdc96064f4c9e0b8679b54a892b2aaa839a50fafd28a206368e215e7a4afc8669b91a3162
   languageName: node
   linkType: hard
 
@@ -3039,11 +3039,11 @@ __metadata:
   linkType: hard
 
 "@types/babel__traverse@npm:*, @types/babel__traverse@npm:^7.0.6":
-  version: 7.0.11
-  resolution: "@types/babel__traverse@npm:7.0.11"
+  version: 7.0.12
+  resolution: "@types/babel__traverse@npm:7.0.12"
   dependencies:
     "@babel/types": ^7.3.0
-  checksum: 3/0d5653c39dd42af7d1056cf1221a99a5ba5848315c369e802a1afd0daf17df96cfde3098b5376d578c07e7275e11b8230d496185c1bb90943052dc989bd5e1fb
+  checksum: 3/b59b0c196d7b37966b49471b517bbbe227705ba6a939d4a9d30a9667dd9aae8683bf2abf17ebdf6791a118da461d90fbc1c044f0c0a71271e17ae1d3b8dc05d7
   languageName: node
   linkType: hard
 
@@ -3204,9 +3204,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>= 8":
-  version: 14.0.6
-  resolution: "@types/node@npm:14.0.6"
-  checksum: 3/14c184ce392941d016aa94479eca2d33517756a9e48d0b03ba6e258128b513dc28dc524f85cc0591e12be9d804beff6aadc4b3159555c6ffdd1d1ab8f46d41da
+  version: 14.0.9
+  resolution: "@types/node@npm:14.0.9"
+  checksum: 3/4166fd08927bbf73c6de360519e1eae4c032f419c2c5cd9abd939d3f258cac8059cca4add61c7f129cc850b2e28af6565862b67f1142147e8e2498f0fc6b2aff
   languageName: node
   linkType: hard
 
@@ -3279,11 +3279,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@typescript-eslint/eslint-plugin@npm:3.0.2"
+"@typescript-eslint/eslint-plugin@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@typescript-eslint/eslint-plugin@npm:3.1.0"
   dependencies:
-    "@typescript-eslint/experimental-utils": 3.0.2
+    "@typescript-eslint/experimental-utils": 3.1.0
     functional-red-black-tree: ^1.0.1
     regexpp: ^3.0.0
     semver: ^7.3.2
@@ -3295,31 +3295,31 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 3/61e3d6a7735a324c78a9bb7d9c83b5841bc399df7e19591a2429ea33053ccd3eed9b7c60c6b158afc880d7726253cbf34f3275c557890719c281948c444488fe
+  checksum: 3/f90524d6c94ee919d20ce5c68be2468fcdafe459692d203958598d3e317fafd4def3d818dabd1977ca28e9302eb0d9ed0c6a68ead176b34d47859b6a0f67f1af
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@typescript-eslint/experimental-utils@npm:3.0.2"
+"@typescript-eslint/experimental-utils@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@typescript-eslint/experimental-utils@npm:3.1.0"
   dependencies:
     "@types/json-schema": ^7.0.3
-    "@typescript-eslint/typescript-estree": 3.0.2
+    "@typescript-eslint/typescript-estree": 3.1.0
     eslint-scope: ^5.0.0
     eslint-utils: ^2.0.0
   peerDependencies:
     eslint: "*"
-  checksum: 3/a7a67d9876cf01dd17aa25a5f4b4013655ea39ba0cb263868faa58500d20bd90a7883c9807dbea474ae2400eb01be534f62d3cd3494a2eed03b7873161701230
+  checksum: 3/aa86df3e6961c490ef5c974c323f16b1c01b3366592b86d2356de0b7586bf9dc97b19f3bdb205c046bb816dc2b0ac99c6a91d8d762a68f1ef859ef909e62e076
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@typescript-eslint/parser@npm:3.0.2"
+"@typescript-eslint/parser@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@typescript-eslint/parser@npm:3.1.0"
   dependencies:
     "@types/eslint-visitor-keys": ^1.0.0
-    "@typescript-eslint/experimental-utils": 3.0.2
-    "@typescript-eslint/typescript-estree": 3.0.2
+    "@typescript-eslint/experimental-utils": 3.1.0
+    "@typescript-eslint/typescript-estree": 3.1.0
     eslint-visitor-keys: ^1.1.0
   peerDependencies:
     eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -3327,13 +3327,13 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 3/48be9a49c5c6242853a7f046a5a77ec5a34ca9d88b4d914547a606ad7d61bbb789fc1538977230863096c367a0c904feb4b96083d41797b222431b64512b00a1
+  checksum: 3/cc3da339ebcb2ff74f1f801594e619f42332def65824372aa9c9425eaee3096d30d3cfa31fdc6f0b0a94971b92b218071d835565fc7ac0bbb9c2614a5ee06f07
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@typescript-eslint/typescript-estree@npm:3.0.2"
+"@typescript-eslint/typescript-estree@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@typescript-eslint/typescript-estree@npm:3.1.0"
   dependencies:
     debug: ^4.1.1
     eslint-visitor-keys: ^1.1.0
@@ -3347,7 +3347,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 3/71daed73c891d893e7027de423a8c3d8f3db69147c3749a84688a184dbfcc4f8d65b94e73537d6a510015cd11a50edea3f25e5db5b208b86f764d05f0b0818c8
+  checksum: 3/0a58ef638bc0046c90331d7851a3fb0ed6d2b311604fd5f9fde208704ec7b1f903f560bb34f5e130921b0513cc660d5234604b56785938a6ed547ea81bc0e891
   languageName: node
   linkType: hard
 
@@ -6508,9 +6508,9 @@ __metadata:
   linkType: hard
 
 "css-what@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "css-what@npm:3.2.1"
-  checksum: 3/d0123d53664a755ea8cf23a2024b822e7cb86666070ce98b85663a53d440014b90516a88c048d999e47179748bc39c20269245ba26817a9ad5468bf76005867a
+  version: 3.3.0
+  resolution: "css-what@npm:3.3.0"
+  checksum: 3/4e00fc59a9b38f4412a17e5f265b4b019ad7c1512338f17cffe589cfa0e7c1d968fba5425c82c24d6334aa22b82ffafd034e1a6206467774223bd8632609f6c7
   languageName: node
   linkType: hard
 
@@ -7424,9 +7424,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.413":
-  version: 1.3.455
-  resolution: "electron-to-chromium@npm:1.3.455"
-  checksum: 3/c615b74f4d2814916f9144b32e33dacf31b647c6de9da4562fdeff2987b72d1174d6e13eb6d9bb5693067ba87c1877e12bb5d454c059eaf57a1377453cf01f13
+  version: 1.3.456
+  resolution: "electron-to-chromium@npm:1.3.456"
+  checksum: 3/94f3915ab6540d292d2c2b435b32fd2f4edd4c1c45a3f601619ec2fbd9e1108a0af9cc0a8000a1d4b33699dadd139f1026ea82941bcf0fae7d976b77f79fdb18
   languageName: node
   linkType: hard
 
@@ -16115,10 +16115,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@babel/core": ^7.10.1
+    "@babel/core": ^7.10.2
     "@babel/register": ^7.10.1
-    "@babel/runtime": ^7.10.1
-    "@polkadot/dev": ^0.55.6
+    "@babel/runtime": ^7.10.2
+    "@polkadot/dev": ^0.55.7
     "@polkadot/ts": ^0.3.25
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^25.2.3
