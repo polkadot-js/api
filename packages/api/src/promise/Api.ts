@@ -84,7 +84,15 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
         // upon the first result, resolve with the unsub function
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
         tap(() => tracker.resolve(() => subscription.unsubscribe()))
-      ).subscribe(callback);
+      ).subscribe((result: any): void => {
+        if (setImmediate) {
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          setImmediate(() => callback(result) as void);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          callback(result);
+        }
+      });
     }) as UnsubscribePromise;
   } as StorageEntryPromiseOverloads;
 }
