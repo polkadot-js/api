@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.17.2 Jun 2, 2020
+
+- Ensure subscription promise resolves before first result
+
 ## 1.17.1 Jun 2, 2020
 
 - Fix `ElectionSize` type (Thanks to https://github.com/arjanz)
