@@ -92,6 +92,9 @@ export default {
     Perquintill: 'u64',
     Phantom: 'Null',
     PhantomData: 'Null',
+    ProxyType: {
+      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
+    },
     RuntimeDbWeight: {
       read: 'Weight',
       write: 'Weight'
