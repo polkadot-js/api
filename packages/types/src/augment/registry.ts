@@ -31,7 +31,7 @@ import { AttestedCandidate, AuctionIndex, Bidder, CandidateReceipt, CollatorId, 
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, ExtrinsicsWeight, Fixed128, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, Origin, Pays, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, ExtrinsicsWeight, Fixed128, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, Origin, Pays, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, ProxyType, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, ValidatorCount } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
@@ -265,6 +265,9 @@ declare module '@polkadot/types/types/registry' {
     PhantomData: PhantomData;
     'Option<PhantomData>': Option<PhantomData>;
     'Vec<PhantomData>': Vec<PhantomData>;
+    ProxyType: ProxyType;
+    'Option<ProxyType>': Option<ProxyType>;
+    'Vec<ProxyType>': Vec<ProxyType>;
     RuntimeDbWeight: RuntimeDbWeight;
     'Option<RuntimeDbWeight>': Option<RuntimeDbWeight>;
     'Vec<RuntimeDbWeight>': Vec<RuntimeDbWeight>;

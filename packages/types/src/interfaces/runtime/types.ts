@@ -190,6 +190,14 @@ export interface PhantomData extends Null {}
 /** @name PreRuntime */
 export interface PreRuntime extends ITuple<[ConsensusEngineId, Bytes]> {}
 
+/** @name ProxyType */
+export interface ProxyType extends Enum {
+  readonly isAny: boolean;
+  readonly isNonTransfer: boolean;
+  readonly isGovernance: boolean;
+  readonly isStaking: boolean;
+}
+
 /** @name RuntimeDbWeight */
 export interface RuntimeDbWeight extends Struct {
   readonly read: Weight;
