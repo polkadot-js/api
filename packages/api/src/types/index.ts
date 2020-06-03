@@ -11,7 +11,7 @@ import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
+import { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes, CodecArg } from '@polkadot/types/types';
 
 import { DeriveAllSections } from '../util/decorate';
 import ApiBase from '../base';
@@ -88,4 +88,10 @@ export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready';
 export interface SignerOptions extends SignatureOptions {
   blockNumber: BN;
   genesisHash: Hash;
+}
+
+export interface PaginationOptions {
+  pageSize: number;
+  startKey?: string;
+  arg?: CodecArg;
 }
