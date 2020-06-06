@@ -195,10 +195,24 @@ export default class Call extends Struct implements IMethod {
   }
 
   /**
+   * @description Returns the name of the method
+   */
+  public get method (): string {
+    return this.methodName;
+  }
+
+  /**
    * @description Returns the module containing the method
    */
   public get sectionName (): string {
     return this.registry.findMetaCall(this.callIndex).section;
+  }
+
+  /**
+   * @description Returns the module containing the method
+   */
+  public get section (): string {
+    return this.sectionName;
   }
 
   /**
