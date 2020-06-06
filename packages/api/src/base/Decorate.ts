@@ -7,7 +7,7 @@ import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, PaginationOptions } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
@@ -519,14 +519,13 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(opts.arg).toHex();
-
     const getKeysPaged = this._rpcCore.state.getKeysPaged;
 
-    if (!getKeysPaged) {
-      throw new Error('Pagination not supported in this substrate version');
-    }
+    assert(!getKeysPaged, 'Pagination not supported by the chain');
 
-    return getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(map((keys) => keys.map((key) => key.setMeta(meta))));
+    return getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
+      map((keys) => keys.map((key) => key.setMeta(meta)))
+    );
   }
 
   private _retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
