@@ -50,6 +50,9 @@ export interface ElectionResult extends Struct {
   readonly exposures: Vec<ITuple<[AccountId, Exposure]>>;
 }
 
+/** @name ElectionScore */
+export interface ElectionScore extends Vec<u128> {}
+
 /** @name ElectionSize */
 export interface ElectionSize extends Struct {
   readonly validators: Compact<ValidatorIndex>;
