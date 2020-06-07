@@ -30,7 +30,7 @@ export default class RpcCoder {
 
     const isSubscription = !isUndefined(response.params) && !isUndefined(response.method);
 
-    assert(isNumber(response.id) || (isSubscription && isNumber(response.params.subscription)), 'Invalid id field in decoded object');
+    assert(isNumber(response.id) || (isSubscription && (isNumber(response.params.subscription) || isString(response.params.subscription))), 'Invalid id field in decoded object');
 
     this._checkError(response.error);
 
