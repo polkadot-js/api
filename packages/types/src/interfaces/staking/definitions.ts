@@ -51,6 +51,7 @@ export default {
       electedStashes: 'Vec<AccountId>',
       exposures: 'Vec<(AccountId, Exposure)>'
     },
+    ElectionScore: '[u128; 3]',
     ElectionSize: {
       validators: 'Compact<ValidatorIndex>',
       nominators: 'Compact<NominatorIndex>'
