@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.18.0-beta.x
+
+- Expand docs on node-template types (Thanks to https://github.com/g2udevelopment)
+- Update contract fees to current impl. (thanks to https://github.com/djuanit0x)
+- Add types for new Substrate proxy module
+- Adjust types for new Substrate (renamed) npos-elections module
+- `Call` now exposes `method` & `section` fields (aligned with `toHuman()` representation)
+
 ## 1.17.2 Jun 2, 2020
 
 - Ensure subscription promise resolves before first result
