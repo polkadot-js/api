@@ -28,7 +28,7 @@ interface JsonRpcResponseSubscription {
   params: {
     error?: JsonRpcResponseBaseError;
     result: unknown;
-    subscription: number;
+    subscription: number | string;
   };
 }
 
