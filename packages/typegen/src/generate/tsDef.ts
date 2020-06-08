@@ -61,6 +61,7 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
       case TypeDefInfo.Plain:
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
+      case TypeDefInfo.Option:
         return `${isGetter}${asGetter}`;
 
       default:
@@ -89,6 +90,7 @@ function tsResultGetter (definitions: Record<string, ModuleTypes>, resultName = 
     case TypeDefInfo.Plain:
     case TypeDefInfo.Tuple:
     case TypeDefInfo.Vec:
+    case TypeDefInfo.Option:
       return `${isGetter}${asGetter}`;
 
     default:
