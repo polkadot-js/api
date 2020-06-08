@@ -521,7 +521,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const headKey = iterKey(opts.arg).toHex();
     const getKeysPaged = this._rpcCore.state.getKeysPaged;
 
-    assert(!getKeysPaged, 'Pagination not supported by the chain');
+    assert(getKeysPaged, 'Pagination not supported by the chain');
 
     return getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
       map((keys) => keys.map((key) => key.setMeta(meta)))
