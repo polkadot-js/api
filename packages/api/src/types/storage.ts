@@ -8,7 +8,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
-import { ApiTypes, MethodResult, ObsInnerType, PromiseOrObs, UnsubscribePromise } from './base';
+import { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AugmentedQueries<ApiType extends ApiTypes> { }
@@ -29,10 +29,12 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   at: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
   creator: StorageEntry;
   entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(arg?: any) => PromiseOrObs<ApiType, [StorageKey, T][]>;
+  entriesPaged: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(opts: PaginationOptions) => PromiseOrObs<ApiType, [StorageKey, T][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   key: (...args: Parameters<F>) => string;
   keyPrefix: () => string;
   keys: (arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
+  keysPaged: (opts: PaginationOptions) => PromiseOrObs<ApiType, StorageKey[]>;
   range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
   multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;

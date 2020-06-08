@@ -7,7 +7,7 @@ import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
@@ -372,9 +372,19 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           this._retrieveMapEntries(creator, doubleMapArg)));
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      decorated.entriesPaged = decorateMethod(
+        memo((opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntriesPaged(creator, opts)));
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       decorated.keys = decorateMethod(
         memo((doubleMapArg?: Arg): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, doubleMapArg)));
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      decorated.keysPaged = decorateMethod(
+        memo((opts: PaginationOptions): Observable<StorageKey[]> =>
+          this._retrieveMapKeysPaged(creator, opts)));
     }
 
     // only support multi where subs are available
@@ -505,6 +515,19 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       );
   }
 
+  private _retrieveMapKeysPaged ({ iterKey, meta }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
+    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
+
+    const headKey = iterKey(opts.arg).toHex();
+    const getKeysPaged = this._rpcCore.state.getKeysPaged;
+
+    assert(getKeysPaged, 'Pagination not supported by the chain');
+
+    return getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
+      map((keys) => keys.map((key) => key.setMeta(meta)))
+    );
+  }
+
   private _retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
     return this._retrieveMapKeys(entry, arg).pipe(
       switchMap((keys) =>
@@ -519,6 +542,24 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
                 ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
                 : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
             })
+        ])
+      ),
+      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
+        valsArr
+          .reduce((result: Codec[], vals) => result.concat(vals), [])
+          .map((value, index) => [keys[index], value])
+      )
+    );
+  }
+
+  private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
+    return this._retrieveMapKeysPaged(entry, opts).pipe(
+      switchMap((keys) =>
+        combineLatest<[StorageKey[], ...Codec[][]]>([
+          of(keys),
+          this._rpcCore.state.queryStorageAt
+            ? this._rpcCore.state.queryStorageAt<Codec[]>(keys)
+            : this._rpcCore.state.subscribeStorage<Codec[]>(keys).pipe(take(1))
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>
