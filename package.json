@@ -28,11 +28,11 @@
     "@babel/register": "^7.10.1",
     "@babel/runtime": "^7.10.2",
     "@polkadot/dev": "^0.55.8",
-    "@polkadot/ts": "^0.3.25",
+    "@polkadot/ts": "^0.3.26",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^25.2.3",
     "@vuepress/plugin-search": "^1.5.0",
     "copyfiles": "^2.3.0"
   },
-  "version": "1.18.0-beta.10"
+  "version": "1.18.0"
 }

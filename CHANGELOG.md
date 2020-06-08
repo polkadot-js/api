@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.18.0-beta.x
+## 1.18.1 Jun 8, 2020
 
 - Expand docs on node-template types (Thanks to https://github.com/g2udevelopment)
 - Update contract fees to current impl. (Thanks to https://github.com/djuanit0x)
@@ -10,6 +10,7 @@
 - Adjust types for new Substrate (renamed) npos-elections module
 - `Call` now exposes `method` & `section` fields (aligned with `toHuman()` representation)
 - Cater for new Substrate string subscription ids (with backwards compatibility)
+- `@polkadot/util` 2.13
 
 ## 1.17.2 Jun 2, 2020
 
