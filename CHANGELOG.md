@@ -3,10 +3,13 @@
 ## 1.18.0-beta.x
 
 - Expand docs on node-template types (Thanks to https://github.com/g2udevelopment)
-- Update contract fees to current impl. (thanks to https://github.com/djuanit0x)
+- Update contract fees to current impl. (Thanks to https://github.com/djuanit0x)
+- Allow `Option` types in enum/Result type generation (Thanks to http://github.com/xlc)
+- Add `.entriesPaged` and `.keysPaged` methods for state maps (https://github.com/monitz87)
 - Add types for new Substrate proxy module
 - Adjust types for new Substrate (renamed) npos-elections module
 - `Call` now exposes `method` & `section` fields (aligned with `toHuman()` representation)
+- Cater for new Substrate string subscription ids (with backwards compatibility)
 
 ## 1.17.2 Jun 2, 2020
 
