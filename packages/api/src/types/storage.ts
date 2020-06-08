@@ -8,7 +8,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
-import { ApiTypes, MethodResult, ObsInnerType, PromiseOrObs, UnsubscribePromise, PaginationOptions } from './base';
+import { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AugmentedQueries<ApiType extends ApiTypes> { }
