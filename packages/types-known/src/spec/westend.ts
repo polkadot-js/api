@@ -16,11 +16,22 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [3, undefined],
+    minmax: [3, 19],
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId'
+    }
+  },
+  {
+    minmax: [20, undefined],
+    types: {
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId',
+      ProxyType: {
+        _enum: ['Any', 'NonTransfer', 'Staking']
+      }
     }
   }
 ];
