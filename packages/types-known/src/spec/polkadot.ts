@@ -7,11 +7,22 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 // these are override types for Polkadot
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, undefined],
+    minmax: [0, 3],
     types: {
       Address: 'AccountId',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId'
+    }
+  },
+  {
+    minmax: [4, undefined],
+    types: {
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId',
+      ProxyType: {
+        _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'SudoBalances']
+      }
     }
   }
 ];

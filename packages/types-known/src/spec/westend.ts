@@ -30,7 +30,7 @@ const versioned: OverrideVersionedType[] = [
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId',
       ProxyType: {
-        _enum: ['Any', 'NonTransfer', 'Staking']
+        _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances']
       }
     }
   }
