@@ -68,8 +68,8 @@ export interface DecorateMethodOptions {
   methodName?: string;
 }
 
-export interface PaginationOptions {
-  arg?: CodecArg;
+export interface PaginationOptions<ArgType = CodecArg> {
+  arg?: ArgType;
   pageSize: number;
   startKey?: string;
 }
