@@ -93,7 +93,7 @@ export default {
     Phantom: 'Null',
     PhantomData: 'Null',
     ProxyType: {
-      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
+      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'SudoBalances']
     },
     RuntimeDbWeight: {
       read: 'Weight',
