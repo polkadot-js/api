@@ -2,15 +2,26 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
-import { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, ValidatorId } from '@polkadot/types/interfaces/runtime';
-import { SessionIndex } from '@polkadot/types/interfaces/session';
+import { AccountId, Balance, BlockNumber, Hash, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
+
+/** @name AbridgedCandidateReceipt */
+export interface AbridgedCandidateReceipt extends Struct {
+  readonly parachainIndex: ParaId;
+  readonly relayParent: Hash;
+  readonly headData: HeadData;
+  readonly collator: CollatorId;
+  readonly signature: CollatorSignature;
+  readonly povBlockHash: Hash;
+  readonly commitments: CandidateCommitments;
+}
 
 /** @name AttestedCandidate */
 export interface AttestedCandidate extends Struct {
-  readonly candidate: CandidateReceipt;
+  readonly candidate: AbridgedCandidateReceipt;
   readonly validityVotes: Vec<ValidityAttestation>;
   readonly validatorIndices: BitVec;
 }
@@ -26,21 +37,30 @@ export interface Bidder extends Enum {
   readonly asExisting: ParaId;
 }
 
+/** @name CandidateCommitments */
+export interface CandidateCommitments extends Struct {
+  readonly fees: Balance;
+  readonly upwardMessages: Vec<UpwardMessage>;
+  readonly erasureRoot: Hash;
+  readonly newValidationCode: Option<ValidationCode>;
+  readonly processedDownwardMessages: u32;
+}
+
 /** @name CandidateReceipt */
 export interface CandidateReceipt extends Struct {
   readonly parachainIndex: ParaId;
+  readonly relayParent: Hash;
+  readonly head_data: HeadData;
   readonly collator: CollatorId;
   readonly signature: CollatorSignature;
-  readonly headData: HeadData;
-  readonly egressQueueRoots: Vec<ITuple<[ParaId, Hash]>>;
-  readonly fees: Balance;
-  readonly blockDataHash: Hash;
-  readonly upwardMessages: Vec<UpwardMessage>;
-  readonly erasureRoot: Hash;
+  readonly povBlockHash: Hash;
+  readonly globalValidation: GlobalValidationSchedule;
+  readonly localValidation: LocalValidationData;
+  readonly commitments: CandidateCommitments;
 }
 
 /** @name CollatorId */
-export interface CollatorId extends H256 {}
+export interface CollatorId extends U8aFixed {}
 
 /** @name CollatorSignature */
 export interface CollatorSignature extends Signature {}
@@ -48,23 +68,26 @@ export interface CollatorSignature extends Signature {}
 /** @name DoubleVoteReport */
 export interface DoubleVoteReport extends Struct {
   readonly identity: ValidatorId;
-  readonly first: DoubleVoteReportStatement;
-  readonly second: DoubleVoteReportStatement;
-  readonly proof: DoubleVoteReportProof;
+  readonly first: ITuple<[Statement, ValidatorSignature]>;
+  readonly second: ITuple<[Statement, ValidatorSignature]>;
+  readonly proof: MembershipProof;
   readonly signingContext: SigningContext;
 }
 
-/** @name DoubleVoteReportProof */
-export interface DoubleVoteReportProof extends Struct {
-  readonly session: SessionIndex;
-  readonly trieNodes: Vec<Bytes>;
+/** @name DownwardMessage */
+export interface DownwardMessage extends Enum {
+  readonly isTransferInto: boolean;
+  readonly asTransferInto: ITuple<[AccountId, Balance, Remark]>;
+  readonly isOpaque: boolean;
+  readonly asOpaque: Bytes;
 }
 
-/** @name DoubleVoteReportStatement */
-export interface DoubleVoteReportStatement extends ITuple<[Statement, ValidatorSignature]> {}
-
-/** @name EgressQueueRoot */
-export interface EgressQueueRoot extends ITuple<[ParaId, Hash]> {}
+/** @name GlobalValidationSchedule */
+export interface GlobalValidationSchedule extends Struct {
+  readonly maxCodeSize: u32;
+  readonly maxHeadDataSize: u32;
+  readonly blockNumber: BlockNumber;
+}
 
 /** @name HeadData */
 export interface HeadData extends Bytes {}
@@ -81,14 +104,15 @@ export interface IncomingParachain extends Enum {
 
 /** @name IncomingParachainDeploy */
 export interface IncomingParachainDeploy extends Struct {
-  readonly code: Bytes;
-  readonly initialHeadData: Bytes;
+  readonly code: ValidationCode;
+  readonly initialHeadData: HeadData;
 }
 
 /** @name IncomingParachainFixed */
 export interface IncomingParachainFixed extends Struct {
   readonly codeHash: Hash;
-  readonly initialHeadData: Bytes;
+  readonly codeSize: u32;
+  readonly initialHeadData: HeadData;
 }
 
 /** @name LeasePeriod */
@@ -96,6 +120,13 @@ export interface LeasePeriod extends BlockNumber {}
 
 /** @name LeasePeriodOf */
 export interface LeasePeriodOf extends LeasePeriod {}
+
+/** @name LocalValidationData */
+export interface LocalValidationData extends Struct {
+  readonly parentHead: HeadData;
+  readonly balance: Balance;
+  readonly codeUpgradeAllowed: Option<BlockNumber>;
+}
 
 /** @name NewBidder */
 export interface NewBidder extends Struct {
@@ -107,17 +138,15 @@ export interface NewBidder extends Struct {
 export interface ParachainDispatchOrigin extends Enum {
   readonly isSigned: boolean;
   readonly isParachain: boolean;
+  readonly isRoot: boolean;
 }
 
 /** @name ParaId */
 export interface ParaId extends u32 {}
 
-/** @name ParaIdOf */
-export interface ParaIdOf extends ParaId {}
-
 /** @name ParaInfo */
 export interface ParaInfo extends Struct {
-  readonly scheduling: ParaScheduling;
+  readonly scheduling: Scheduling;
 }
 
 /** @name ParaPastCodeMeta */
@@ -132,11 +161,20 @@ export interface ParaScheduling extends Enum {
   readonly isDynamic: boolean;
 }
 
+/** @name Remark */
+export interface Remark extends U8aFixed {}
+
 /** @name Retriable */
 export interface Retriable extends Enum {
   readonly isNever: boolean;
   readonly isWithRetries: boolean;
   readonly asWithRetries: u32;
+}
+
+/** @name Scheduling */
+export interface Scheduling extends Enum {
+  readonly isAlways: boolean;
+  readonly isDynamic: boolean;
 }
 
 /** @name SigningContext */
@@ -198,6 +236,6 @@ export interface ValidityAttestation extends Enum {
 export interface WinningData extends Vec<WinningDataEntry> {}
 
 /** @name WinningDataEntry */
-export interface WinningDataEntry extends ITuple<[AccountId, ParaIdOf, BalanceOf]> {}
+export interface WinningDataEntry extends Option<Bidder> {}
 
 export type PHANTOM_PARACHAINS = 'parachains';
