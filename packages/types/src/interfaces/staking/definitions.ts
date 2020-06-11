@@ -101,7 +101,7 @@ export default {
     PhragmenScore: '[u128; 3]',
     Points: 'u32',
     ReleasesStaking: {
-      _enum: ['V1_0_0', 'V2_0_0', 'V3_0_0']
+      _enum: ['V1_0_0', 'V2_0_0', 'V3_0_0', 'V4_0_0']
     },
     RewardDestination: {
       _enum: [
