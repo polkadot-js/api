@@ -12,11 +12,11 @@ import { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
 import { EquivocationProof, KeyOwnerProof } from '@polkadot/types/interfaces/grandpa';
 import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
-import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill, Weight } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill, ProxyType, Weight } from '@polkadot/types/interfaces/runtime';
 import { Period, Priority } from '@polkadot/types/interfaces/scheduler';
 import { Keys } from '@polkadot/types/interfaces/session';
 import { SocietyJudgement } from '@polkadot/types/interfaces/society';
-import { CompactAssignments, ElectionSize, EraIndex, PhragmenScore, RewardDestination, ValidatorIndex, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { CompactAssignments, ElectionScore, ElectionSize, EraIndex, RewardDestination, ValidatorIndex, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { Key } from '@polkadot/types/interfaces/system';
 import { Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
@@ -291,23 +291,6 @@ declare module '@polkadot/api/types/submittable' {
     democracy: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
-       * Specify a proxy that is already open to us. Called by the stash.
-       * 
-       * NOTE: Used to be called `set_proxy`.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `proxy`: The account that will be activated as proxy.
-       * 
-       * # <weight>
-       * - Complexity: `O(1)`
-       * - Db reads: `Proxy`
-       * - Db writes: `Proxy`
-       * - Base Weight: 7.972 µs
-       * # </weight>
-       **/
-      activateProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
-      /**
        * Cancel a proposal queued for enactment.
        * 
        * The dispatch origin of this call must be _Root_.
@@ -348,40 +331,6 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       clearPublicProposals: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Clear the proxy. Called by the proxy.
-       * 
-       * NOTE: Used to be called `resign_proxy`.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * # <weight>
-       * - Complexity: `O(1)`
-       * - Db reads: `Proxy`, `sender account`
-       * - Db writes: `Proxy`, `sender account`
-       * - Base Weight: 15.41 µs
-       * # </weight>
-       **/
-      closeProxy: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Deactivate the proxy, but leave open to this account. Called by the stash.
-       * 
-       * The proxy must already be active.
-       * 
-       * NOTE: Used to be called `remove_proxy`.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `proxy`: The account that will be deactivated as proxy.
-       * 
-       * # <weight>
-       * - Complexity: `O(1)`
-       * - Db reads: `Proxy`
-       * - Db writes: `Proxy`
-       * - Base Weight: 8.03 µs
-       * # </weight>
-       **/
-      deactivateProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Delegate the voting power (with some given conviction) of the sending account.
        * 
@@ -548,25 +497,6 @@ declare module '@polkadot/api/types/submittable' {
        **/
       notePreimageOperational: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Become a proxy.
-       * 
-       * This must be called prior to a later `activate_proxy`.
-       * 
-       * Origin must be a Signed.
-       * 
-       * - `target`: The account whose votes will later be proxied.
-       * 
-       * `close_proxy` must be called before the account can be destroyed.
-       * 
-       * # <weight>
-       * - Complexity: O(1)
-       * - Db reads: `Proxy`, `proxy account`
-       * - Db writes: `Proxy`, `proxy account`
-       * - Base Weight: 14.86 µs
-       * # </weight>
-       **/
-      openProxy: AugmentedSubmittable<(target: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
-      /**
        * Propose a sensitive action to be taken.
        * 
        * The dispatch origin of this call must be _Signed_ and the sender must
@@ -586,95 +516,6 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       propose: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Delegate the voting power (with some given conviction) of a proxied account.
-       * 
-       * The balance delegated is locked for as long as it's delegated, and thereafter for the
-       * time appropriate for the conviction's lock period.
-       * 
-       * The dispatch origin of this call must be _Signed_, and the signing account must have
-       * been set as the proxy account for `target`.
-       * 
-       * - `target`: The account whole voting power shall be delegated and whose balance locked.
-       * This account must either:
-       * - be delegating already; or
-       * - have no voting activity (if there is, then it will need to be removed/consolidated
-       * through `reap_vote` or `unvote`).
-       * - `to`: The account whose voting the `target` account's voting power will follow.
-       * - `conviction`: The conviction that will be attached to the delegated votes. When the
-       * account is undelegated, the funds will be locked for the corresponding period.
-       * - `balance`: The amount of the account's balance to be used in delegating. This must
-       * not be more than the account's current balance.
-       * 
-       * Emits `Delegated`.
-       * 
-       * # <weight>
-       * same as `delegate with additional:
-       * - Db reads: `Proxy`, `proxy account`
-       * - Db writes: `proxy account`
-       * - Base Weight: 68.61 + 8.039 * R µs
-       * # </weight>
-       **/
-      proxyDelegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | 'None'|'Locked1x'|'Locked2x'|'Locked3x'|'Locked4x'|'Locked5x'|'Locked6x' | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Remove a proxied vote for a referendum.
-       * 
-       * Exactly equivalent to `remove_vote` except that it operates on the account that the
-       * sender is a proxy for.
-       * 
-       * The dispatch origin of this call must be _Signed_ and the signing account must be a
-       * proxy for some other account which has a registered vote for the referendum of `index`.
-       * 
-       * - `index`: The index of referendum of the vote to be removed.
-       * 
-       * # <weight>
-       * - `O(R + log R)` where R is the number of referenda that `target` has voted on.
-       * Weight is calculated for the maximum number of vote.
-       * - Db reads: `ReferendumInfoOf`, `VotingOf`, `Proxy`
-       * - Db writes: `ReferendumInfoOf`, `VotingOf`
-       * - Base Weight: 26.35 + .36 * R µs
-       * # </weight>
-       **/
-      proxyRemoveVote: AugmentedSubmittable<(index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Undelegate the voting power of a proxied account.
-       * 
-       * Tokens may be unlocked following once an amount of time consistent with the lock period
-       * of the conviction with which the delegation was issued.
-       * 
-       * The dispatch origin of this call must be _Signed_ and the signing account must be a
-       * proxy for some other account which is currently delegating.
-       * 
-       * Emits `Undelegated`.
-       * 
-       * # <weight>
-       * same as `undelegate with additional:
-       * Db reads: `Proxy`
-       * Base Weight: 39 + 7.958 * R µs
-       * # </weight>
-       **/
-      proxyUndelegate: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact
-       * the proposal; otherwise it is a vote to keep the status quo.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `ref_index`: The index of the referendum to proxy vote for.
-       * - `vote`: The vote configuration.
-       * 
-       * # <weight>
-       * - Complexity: `O(R)` where R is the number of referendums the proxy has voted on.
-       * weight is charged as if maximum votes.
-       * - Db reads: `ReferendumInfoOf`, `VotingOf`, `balances locks`, `Proxy`, `proxy account`
-       * - Db writes: `ReferendumInfoOf`, `VotingOf`, `balances locks`
-       * ------------
-       * - Base Weight:
-       * - Proxy Vote New: 54.35 + .344 * R µs
-       * - Proxy Vote Existing: 54.35 + .35 * R µs
-       * # </weight>
-       **/
-      proxyVote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove an expired proposal preimage and collect the deposit.
        * 
@@ -861,7 +702,7 @@ declare module '@polkadot/api/types/submittable' {
        * the outgoing member is slashed.
        * 
        * If a runner-up is available, then the best runner-up will be removed and replaces the
-       * outgoing member. Otherwise, a new phragmen round is started.
+       * outgoing member. Otherwise, a new phragmen election is started.
        * 
        * Note that this does not affect the designated block number of the next election.
        * 
@@ -1297,6 +1138,9 @@ declare module '@polkadot/api/types/submittable' {
        * - One storage mutation (codec `O(1)`).
        * - One reserve operation.
        * - One event.
+       * -------------------
+       * - Base Weight: 28.69 µs
+       * - DB Weight: 1 Read/Write (Accounts)
        * # </weight>
        **/
       claim: AugmentedSubmittable<(index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -1308,6 +1152,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * - `index`: the index to be (re-)assigned.
        * - `new`: the new owner of the index. This function is a no-op if it is equal to sender.
+       * - `freeze`: if set to `true`, will freeze the index so it cannot be transferred.
        * 
        * Emits `IndexAssigned` if successful.
        * 
@@ -1316,9 +1161,14 @@ declare module '@polkadot/api/types/submittable' {
        * - One storage mutation (codec `O(1)`).
        * - Up to one reserve operation.
        * - One event.
+       * -------------------
+       * - Base Weight: 26.83 µs
+       * - DB Weight:
+       * - Reads: Indices Accounts, System Account (original owner)
+       * - Writes: Indices Accounts, System Account (original owner)
        * # </weight>
        **/
-      forceTransfer: AugmentedSubmittable<(updated: AccountId | string | Uint8Array, index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      forceTransfer: AugmentedSubmittable<(updated: AccountId | string | Uint8Array, index: AccountIndex | AnyNumber | Uint8Array, freeze: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Free up an index owned by the sender.
        * 
@@ -1335,9 +1185,33 @@ declare module '@polkadot/api/types/submittable' {
        * - One storage mutation (codec `O(1)`).
        * - One reserve operation.
        * - One event.
+       * -------------------
+       * - Base Weight: 25.53 µs
+       * - DB Weight: 1 Read/Write (Accounts)
        * # </weight>
        **/
       free: AugmentedSubmittable<(index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Freeze an index so it will always point to the sender account. This consumes the deposit.
+       * 
+       * The dispatch origin for this call must be _Signed_ and the signing account must have a
+       * non-frozen account `index`.
+       * 
+       * - `index`: the index to be frozen in place.
+       * 
+       * Emits `IndexFrozen` if successful.
+       * 
+       * # <weight>
+       * - `O(1)`.
+       * - One storage mutation (codec `O(1)`).
+       * - Up to one slash operation.
+       * - One event.
+       * -------------------
+       * - Base Weight: 30.86 µs
+       * - DB Weight: 1 Read/Write (Accounts)
+       * # </weight>
+       **/
+      freeze: AugmentedSubmittable<(index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Assign an index already owned by the sender to another account. The balance reservation
        * is effectively transferred to the new account.
@@ -1354,9 +1228,262 @@ declare module '@polkadot/api/types/submittable' {
        * - One storage mutation (codec `O(1)`).
        * - One transfer operation.
        * - One event.
+       * -------------------
+       * - Base Weight: 33.74 µs
+       * - DB Weight:
+       * - Reads: Indices Accounts, System Account (recipient)
+       * - Writes: Indices Accounts, System Account (recipient)
        * # </weight>
        **/
       transfer: AugmentedSubmittable<(updated: AccountId | string | Uint8Array, index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+    };
+    multisig: {
+      [index: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Register approval for a dispatch to be made from a deterministic composite account if
+       * approved by a total of `threshold - 1` of `other_signatories`.
+       * 
+       * Payment: `DepositBase` will be reserved if this is the first approval, plus
+       * `threshold` times `DepositFactor`. It is returned once this dispatch happens or
+       * is cancelled.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * - `threshold`: The total number of approvals for this dispatch before it is executed.
+       * - `other_signatories`: The accounts (other than the sender) who can approve this
+       * dispatch. May not be empty.
+       * - `maybe_timepoint`: If this is the first approval, then this must be `None`. If it is
+       * not the first approval, then it must be `Some`, with the timepoint (block number and
+       * transaction index) of the first approval transaction.
+       * - `call_hash`: The hash of the call to be executed.
+       * 
+       * NOTE: If this is the final approval, you will want to use `as_multi` instead.
+       * 
+       * # <weight>
+       * - `O(S)`.
+       * - Up to one balance-reserve or unreserve operation.
+       * - One passthrough operation, one insert, both `O(S)` where `S` is the number of
+       * signatories. `S` is capped by `MaxSignatories`, with weight being proportional.
+       * - One encode & hash, both of complexity `O(S)`.
+       * - Up to one binary search and insert (`O(logS + S)`).
+       * - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.
+       * - One event.
+       * - Storage: inserts one item, value size bounded by `MaxSignatories`, with a
+       * deposit taken for its lifetime of
+       * `DepositBase + threshold * DepositFactor`.
+       * ----------------------------------
+       * - Base Weight:
+       * - Create: 44.71 + 0.088 * S
+       * - Approve: 31.48 + 0.116 * S
+       * - DB Weight:
+       * - Read: Multisig Storage, [Caller Account]
+       * - Write: Multisig Storage, [Caller Account]
+       * # </weight>
+       **/
+      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Register approval for a dispatch to be made from a deterministic composite account if
+       * approved by a total of `threshold - 1` of `other_signatories`.
+       * 
+       * If there are enough, then dispatch the call. Calls must each fulfil the `IsCallable`
+       * filter.
+       * 
+       * Payment: `DepositBase` will be reserved if this is the first approval, plus
+       * `threshold` times `DepositFactor`. It is returned once this dispatch happens or
+       * is cancelled.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * - `threshold`: The total number of approvals for this dispatch before it is executed.
+       * - `other_signatories`: The accounts (other than the sender) who can approve this
+       * dispatch. May not be empty.
+       * - `maybe_timepoint`: If this is the first approval, then this must be `None`. If it is
+       * not the first approval, then it must be `Some`, with the timepoint (block number and
+       * transaction index) of the first approval transaction.
+       * - `call`: The call to be executed.
+       * 
+       * NOTE: Unless this is the final approval, you will generally want to use
+       * `approve_as_multi` instead, since it only requires a hash of the call.
+       * 
+       * Result is equivalent to the dispatched result if `threshold` is exactly `1`. Otherwise
+       * on success, result is `Ok` and the result from the interior call, if it was executed,
+       * may be found in the deposited `MultisigExecuted` event.
+       * 
+       * # <weight>
+       * - `O(S + Z + Call)`.
+       * - Up to one balance-reserve or unreserve operation.
+       * - One passthrough operation, one insert, both `O(S)` where `S` is the number of
+       * signatories. `S` is capped by `MaxSignatories`, with weight being proportional.
+       * - One call encode & hash, both of complexity `O(Z)` where `Z` is tx-len.
+       * - One encode & hash, both of complexity `O(S)`.
+       * - Up to one binary search and insert (`O(logS + S)`).
+       * - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.
+       * - One event.
+       * - The weight of the `call`.
+       * - Storage: inserts one item, value size bounded by `MaxSignatories`, with a
+       * deposit taken for its lifetime of
+       * `DepositBase + threshold * DepositFactor`.
+       * -------------------------------
+       * - Base Weight:
+       * - Create: 46.55 + 0.089 * S µs
+       * - Approve: 34.03 + .112 * S µs
+       * - Complete: 40.36 + .225 * S µs
+       * - DB Weight:
+       * - Reads: Multisig Storage, [Caller Account]
+       * - Writes: Multisig Storage, [Caller Account]
+       * - Plus Call Weight
+       * # </weight>
+       **/
+      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Cancel a pre-existing, on-going multisig transaction. Any deposit reserved previously
+       * for this operation will be unreserved on success.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * - `threshold`: The total number of approvals for this dispatch before it is executed.
+       * - `other_signatories`: The accounts (other than the sender) who can approve this
+       * dispatch. May not be empty.
+       * - `timepoint`: The timepoint (block number and transaction index) of the first approval
+       * transaction for this dispatch.
+       * - `call_hash`: The hash of the call to be executed.
+       * 
+       * # <weight>
+       * - `O(S)`.
+       * - Up to one balance-reserve or unreserve operation.
+       * - One passthrough operation, one insert, both `O(S)` where `S` is the number of
+       * signatories. `S` is capped by `MaxSignatories`, with weight being proportional.
+       * - One encode & hash, both of complexity `O(S)`.
+       * - One event.
+       * - I/O: 1 read `O(S)`, one remove.
+       * - Storage: removes one item.
+       * ----------------------------------
+       * - Base Weight: 37.6 + 0.084 * S
+       * - DB Weight:
+       * - Read: Multisig Storage, [Caller Account]
+       * - Write: Multisig Storage, [Caller Account]
+       * # </weight>
+       **/
+      cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+    };
+    proxy: {
+      [index: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Register a proxy account for the sender that is able to make calls on its behalf.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * Parameters:
+       * - `proxy`: The account that the `caller` would like to make a proxy.
+       * - `proxy_type`: The permissions allowed for this proxy account.
+       * 
+       * # <weight>
+       * P is the number of proxies the user has
+       * - Base weight: 17.48 + .176 * P µs
+       * - DB weight: 1 storage read and write.
+       * # </weight>
+       **/
+      addProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array, proxyType: ProxyType | 'Any'|'NonTransfer'|'Governance'|'Staking' | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Spawn a fresh new account that is guaranteed to be otherwise inaccessible, and
+       * initialize it with a proxy of `proxy_type` for `origin` sender.
+       * 
+       * Requires a `Signed` origin.
+       * 
+       * - `proxy_type`: The type of the proxy that the sender will be registered as over the
+       * new account. This will almost always be the most permissive `ProxyType` possible to
+       * allow for maximum flexibility.
+       * - `index`: A disambiguation index, in case this is called multiple times in the same
+       * transaction (e.g. with `utility::batch`). Unless you're using `batch` you probably just
+       * want to use `0`.
+       * 
+       * Fails with `Duplicate` if this has already been called in this transaction, from the
+       * same sender, with the same parameters.
+       * 
+       * Fails if there are insufficient funds to pay for deposit.
+       * 
+       * # <weight>
+       * P is the number of proxies the user has
+       * - Base weight: 36.48 + .039 * P µs
+       * - DB weight: 1 storage read and write.
+       * # </weight>
+       **/
+      anonymous: AugmentedSubmittable<(proxyType: ProxyType | 'Any'|'NonTransfer'|'Governance'|'Staking' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Removes a previously spawned anonymous proxy.
+       * 
+       * WARNING: **All access to this account will be lost.** Any funds held in it will be
+       * inaccessible.
+       * 
+       * Requires a `Signed` origin, and the sender account must have been created by a call to
+       * `anonymous` with corresponding parameters.
+       * 
+       * - `spawner`: The account that originally called `anonymous` to create this account.
+       * - `index`: The disambiguation index originally passed to `anonymous`. Probably `0`.
+       * - `proxy_type`: The proxy type originally passed to `anonymous`.
+       * - `height`: The height of the chain when the call to `anonymous` was processed.
+       * - `ext_index`: The extrinsic index in which the call to `anonymous` was processed.
+       * 
+       * Fails with `NoPermission` in case the caller is not a previously created anonymous
+       * account whose `anonymous` call has corresponding parameters.
+       * 
+       * # <weight>
+       * P is the number of proxies the user has
+       * - Base weight: 15.65 + .137 * P µs
+       * - DB weight: 1 storage read and write.
+       * # </weight>
+       **/
+      killAnonymous: AugmentedSubmittable<(spawner: AccountId | string | Uint8Array, proxyType: ProxyType | 'Any'|'NonTransfer'|'Governance'|'Staking' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<BlockNumber> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Dispatch the given `call` from an account that the sender is authorised for through
+       * `add_proxy`.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * Parameters:
+       * - `real`: The account that the proxy will make a call on behalf of.
+       * - `force_proxy_type`: Specify the exact proxy type to be used and checked for this call.
+       * - `call`: The call to be made by the `real` account.
+       * 
+       * # <weight>
+       * P is the number of proxies the user has
+       * - Base weight: 19.87 + .141 * P µs
+       * - DB weight: 1 storage read.
+       * - Plus the weight of the `call`
+       * # </weight>
+       **/
+      proxy: AugmentedSubmittable<(real: AccountId | string | Uint8Array, forceProxyType: Option<ProxyType> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Unregister all proxy accounts for the sender.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * WARNING: This may be called on accounts created by `anonymous`, however if done, then
+       * the unreserved fees will be inaccessible. **All access to this account will be lost.**
+       * 
+       * # <weight>
+       * P is the number of proxies the user has
+       * - Base weight: 13.73 + .129 * P µs
+       * - DB weight: 1 storage read and write.
+       * # </weight>
+       **/
+      removeProxies: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Unregister a proxy account for the sender.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * Parameters:
+       * - `proxy`: The account that the `caller` would like to remove as a proxy.
+       * - `proxy_type`: The permissions currently enabled for the removed proxy account.
+       * 
+       * # <weight>
+       * P is the number of proxies the user has
+       * - Base weight: 14.37 + .164 * P µs
+       * - DB weight: 1 storage read and write.
+       * # </weight>
+       **/
+      removeProxy: AugmentedSubmittable<(proxy: AccountId | string | Uint8Array, proxyType: ProxyType | 'Any'|'NonTransfer'|'Governance'|'Staking' | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     recovery: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -2132,39 +2259,6 @@ declare module '@polkadot/api/types/submittable' {
        **/
       nominate: AugmentedSubmittable<(targets: Vec<LookupSource> | (LookupSource | Address | AccountId | AccountIndex | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
-       * **This extrinsic will be removed after `MigrationEra + HistoryDepth` has passed, giving
-       * opportunity for users to claim all rewards before moving to Simple Payouts. After this
-       * time, you should use `payout_stakers` instead.**
-       * 
-       * Make one nominator's payout for one era.
-       * 
-       * - `who` is the controller account of the nominator to pay out.
-       * - `era` may not be lower than one following the most recently paid era. If it is higher,
-       * then it indicates an instruction to skip the payout of all previous eras.
-       * - `validators` is the list of all validators that `who` had exposure to during `era`,
-       * alongside the index of `who` in the clipped exposure of the validator.
-       * I.e. each element is a tuple of
-       * `(validator, index of `who` in clipped exposure of validator)`.
-       * If it is incomplete, then less than the full reward will be paid out.
-       * It must not exceed `MAX_NOMINATIONS`.
-       * 
-       * WARNING: once an era is payed for a validator such validator can't claim the payout of
-       * previous era.
-       * 
-       * WARNING: Incorrect arguments here can result in loss of payout. Be very careful.
-       * 
-       * # <weight>
-       * - Number of storage read of `O(validators)`; `validators` is the argument of the call,
-       * and is bounded by `MAX_NOMINATIONS`.
-       * - Each storage read is `O(N)` size and decode complexity; `N` is the  maximum
-       * nominations that can be given to a single validator.
-       * - Computation complexity: `O(MAX_NOMINATIONS * logN)`; `MAX_NOMINATIONS` is the
-       * maximum number of validators that may be nominated by a single nominator, it is
-       * bounded only economically (all nominators are required to place a minimum stake).
-       * # </weight>
-       **/
-      payoutNominator: AugmentedSubmittable<(era: EraIndex | AnyNumber | Uint8Array, validators: Vec<ITuple<[AccountId, u32]>> | ([AccountId | string | Uint8Array, u32 | AnyNumber | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
-      /**
        * Pay out all the stakers behind a single validator for a single era.
        * 
        * - `validator_stash` is the stash account of the validator. Their nominators, up to
@@ -2183,35 +2277,13 @@ declare module '@polkadot/api/types/submittable' {
        * N is the Number of payouts for the validator (including the validator)
        * Base Weight: 110 + 54.2 * N µs (Median Slopes)
        * DB Weight:
-       * - Read: EraElectionStatus, CurrentEra, HistoryDepth, MigrateEra, ErasValidatorReward,
+       * - Read: EraElectionStatus, CurrentEra, HistoryDepth, ErasValidatorReward,
        * ErasStakersClipped, ErasRewardPoints, ErasValidatorPrefs (8 items)
        * - Read Each: Bonded, Ledger, Payee, Locks, System Account (5 items)
        * - Write Each: System Account, Locks, Ledger (3 items)
        * # </weight>
        **/
       payoutStakers: AugmentedSubmittable<(validatorStash: AccountId | string | Uint8Array, era: EraIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
-      /**
-       * **This extrinsic will be removed after `MigrationEra + HistoryDepth` has passed, giving
-       * opportunity for users to claim all rewards before moving to Simple Payouts. After this
-       * time, you should use `payout_stakers` instead.**
-       * 
-       * Make one validator's payout for one era.
-       * 
-       * - `who` is the controller account of the validator to pay out.
-       * - `era` may not be lower than one following the most recently paid era. If it is higher,
-       * then it indicates an instruction to skip the payout of all previous eras.
-       * 
-       * WARNING: once an era is payed for a validator such validator can't claim the payout of
-       * previous era.
-       * 
-       * WARNING: Incorrect arguments here can result in loss of payout. Be very careful.
-       * 
-       * # <weight>
-       * - Time complexity: O(1).
-       * - Contains a limited number of reads and writes.
-       * # </weight>
-       **/
-      payoutValidator: AugmentedSubmittable<(era: EraIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove all data structure concerning a staker/stash once its balance is zero.
        * This is essentially equivalent to `withdraw_unbonded` except it can be called by anyone
@@ -2335,7 +2407,7 @@ declare module '@polkadot/api/types/submittable' {
        **/
       setValidatorCount: AugmentedSubmittable<(updated: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Submit a phragmen result to the chain. If the solution:
+       * Submit an election result to the chain. If the solution:
        * 
        * 1. is valid.
        * 2. has a better score than a potentially existing solution on chain.
@@ -2348,7 +2420,7 @@ declare module '@polkadot/api/types/submittable' {
        * 2. `assignments`: the compact version of an assignment vector that encodes the edge
        * weights.
        * 
-       * Both of which may be computed using [`phragmen`], or any other algorithm.
+       * Both of which may be computed using _phragmen_, or any other algorithm.
        * 
        * Additionally, the submitter must provide:
        * 
@@ -2383,7 +2455,7 @@ declare module '@polkadot/api/types/submittable' {
        * See `crate::weight` module.
        * # </weight>
        **/
-      submitElectionSolution: AugmentedSubmittable<(winners: Vec<ValidatorIndex> | (ValidatorIndex | AnyNumber | Uint8Array)[], compact: CompactAssignments | { votes1?: any; votes2?: any; votes3?: any; votes4?: any; votes5?: any; votes6?: any; votes7?: any; votes8?: any; votes9?: any; votes10?: any; votes11?: any; votes12?: any; votes13?: any; votes14?: any; votes15?: any; votes16?: any } | string | Uint8Array, score: PhragmenScore, era: EraIndex | AnyNumber | Uint8Array, size: ElectionSize | { validators?: any; nominators?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      submitElectionSolution: AugmentedSubmittable<(winners: Vec<ValidatorIndex> | (ValidatorIndex | AnyNumber | Uint8Array)[], compact: CompactAssignments | { votes1?: any; votes2?: any; votes3?: any; votes4?: any; votes5?: any; votes6?: any; votes7?: any; votes8?: any; votes9?: any; votes10?: any; votes11?: any; votes12?: any; votes13?: any; votes14?: any; votes15?: any; votes16?: any } | string | Uint8Array, score: ElectionScore, era: EraIndex | AnyNumber | Uint8Array, size: ElectionSize | { validators?: any; nominators?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Unsigned version of `submit_election_solution`.
        * 
@@ -2395,7 +2467,7 @@ declare module '@polkadot/api/types/submittable' {
        * See `crate::weight` module.
        * # </weight>
        **/
-      submitElectionSolutionUnsigned: AugmentedSubmittable<(winners: Vec<ValidatorIndex> | (ValidatorIndex | AnyNumber | Uint8Array)[], compact: CompactAssignments | { votes1?: any; votes2?: any; votes3?: any; votes4?: any; votes5?: any; votes6?: any; votes7?: any; votes8?: any; votes9?: any; votes10?: any; votes11?: any; votes12?: any; votes13?: any; votes14?: any; votes15?: any; votes16?: any } | string | Uint8Array, score: PhragmenScore, era: EraIndex | AnyNumber | Uint8Array, size: ElectionSize | { validators?: any; nominators?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      submitElectionSolutionUnsigned: AugmentedSubmittable<(winners: Vec<ValidatorIndex> | (ValidatorIndex | AnyNumber | Uint8Array)[], compact: CompactAssignments | { votes1?: any; votes2?: any; votes3?: any; votes4?: any; votes5?: any; votes6?: any; votes7?: any; votes8?: any; votes9?: any; votes10?: any; votes11?: any; votes12?: any; votes13?: any; votes14?: any; votes15?: any; votes16?: any } | string | Uint8Array, score: ElectionScore, era: EraIndex | AnyNumber | Uint8Array, size: ElectionSize | { validators?: any; nominators?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule a portion of the stash to be unlocked ready for transfer out after the bond
        * period ends. If this leaves an amount actively bonded less than
@@ -3015,105 +3087,31 @@ declare module '@polkadot/api/types/submittable' {
     utility: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
-       * Register approval for a dispatch to be made from a deterministic composite account if
-       * approved by a total of `threshold - 1` of `other_signatories`.
+       * Send a call through an indexed pseudonym of the sender.
        * 
-       * Payment: `MultisigDepositBase` will be reserved if this is the first approval, plus
-       * `threshold` times `MultisigDepositFactor`. It is returned once this dispatch happens or
-       * is cancelled.
+       * Calls must each fulfil the `IsCallable` filter; it is not cleared before.
        * 
-       * The dispatch origin for this call must be _Signed_.
-       * 
-       * - `threshold`: The total number of approvals for this dispatch before it is executed.
-       * - `other_signatories`: The accounts (other than the sender) who can approve this
-       * dispatch. May not be empty.
-       * - `maybe_timepoint`: If this is the first approval, then this must be `None`. If it is
-       * not the first approval, then it must be `Some`, with the timepoint (block number and
-       * transaction index) of the first approval transaction.
-       * - `call_hash`: The hash of the call to be executed.
-       * 
-       * NOTE: If this is the final approval, you will want to use `as_multi` instead.
-       * 
-       * # <weight>
-       * - `O(S)`.
-       * - Up to one balance-reserve or unreserve operation.
-       * - One passthrough operation, one insert, both `O(S)` where `S` is the number of
-       * signatories. `S` is capped by `MaxSignatories`, with weight being proportional.
-       * - One encode & hash, both of complexity `O(S)`.
-       * - Up to one binary search and insert (`O(logS + S)`).
-       * - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.
-       * - One event.
-       * - Storage: inserts one item, value size bounded by `MaxSignatories`, with a
-       * deposit taken for its lifetime of
-       * `MultisigDepositBase + threshold * MultisigDepositFactor`.
-       * ----------------------------------
-       * - Base Weight:
-       * - Create: 44.71 + 0.088 * S
-       * - Approve: 31.48 + 0.116 * S
-       * - DB Weight:
-       * - Read: Multisig Storage, [Caller Account]
-       * - Write: Multisig Storage, [Caller Account]
-       * # </weight>
-       **/
-      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Register approval for a dispatch to be made from a deterministic composite account if
-       * approved by a total of `threshold - 1` of `other_signatories`.
-       * 
-       * If there are enough, then dispatch the call. Calls must each fulfil the `IsCallable`
-       * filter.
-       * 
-       * Payment: `MultisigDepositBase` will be reserved if this is the first approval, plus
-       * `threshold` times `MultisigDepositFactor`. It is returned once this dispatch happens or
-       * is cancelled.
+       * NOTE: If you need to ensure that any account-based filtering is not honored (i.e.
+       * because you expect `proxy` to have been used prior in the call stack and you do not want
+       * the call restrictions to apply to any sub-accounts), then use `as_sub` instead.
        * 
        * The dispatch origin for this call must be _Signed_.
        * 
-       * - `threshold`: The total number of approvals for this dispatch before it is executed.
-       * - `other_signatories`: The accounts (other than the sender) who can approve this
-       * dispatch. May not be empty.
-       * - `maybe_timepoint`: If this is the first approval, then this must be `None`. If it is
-       * not the first approval, then it must be `Some`, with the timepoint (block number and
-       * transaction index) of the first approval transaction.
-       * - `call`: The call to be executed.
-       * 
-       * NOTE: Unless this is the final approval, you will generally want to use
-       * `approve_as_multi` instead, since it only requires a hash of the call.
-       * 
-       * Result is equivalent to the dispatched result if `threshold` is exactly `1`. Otherwise
-       * on success, result is `Ok` and the result from the interior call, if it was executed,
-       * may be found in the deposited `MultisigExecuted` event.
-       * 
        * # <weight>
-       * - `O(S + Z + Call)`.
-       * - Up to one balance-reserve or unreserve operation.
-       * - One passthrough operation, one insert, both `O(S)` where `S` is the number of
-       * signatories. `S` is capped by `MaxSignatories`, with weight being proportional.
-       * - One call encode & hash, both of complexity `O(Z)` where `Z` is tx-len.
-       * - One encode & hash, both of complexity `O(S)`.
-       * - Up to one binary search and insert (`O(logS + S)`).
-       * - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.
-       * - One event.
-       * - The weight of the `call`.
-       * - Storage: inserts one item, value size bounded by `MaxSignatories`, with a
-       * deposit taken for its lifetime of
-       * `MultisigDepositBase + threshold * MultisigDepositFactor`.
-       * -------------------------------
-       * - Base Weight:
-       * - Create: 46.55 + 0.089 * S µs
-       * - Approve: 34.03 + .112 * S µs
-       * - Complete: 40.36 + .225 * S µs
-       * - DB Weight:
-       * - Reads: Multisig Storage, [Caller Account]
-       * - Writes: Multisig Storage, [Caller Account]
-       * - Plus Call Weight
+       * - Base weight: 2.861 µs
+       * - Plus the weight of the `call`
        * # </weight>
        **/
-      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      asLimitedSub: AugmentedSubmittable<(index: u16 | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Send a call through an indexed pseudonym of the sender.
        * 
-       * Calls must each fulfil the `IsCallable` filter.
+       * The call must fulfil only the pre-cleared `IsCallable` filter (i.e. only the level of
+       * filtering that remains after calling `take()`).
+       * 
+       * NOTE: If you need to ensure that any account-based filtering is honored (i.e. because
+       * you expect `proxy` to have been used prior in the call stack and you want it to apply to
+       * any sub-accounts), then use `as_limited_sub` instead.
        * 
        * The dispatch origin for this call must be _Signed_.
        * 
@@ -3146,36 +3144,6 @@ declare module '@polkadot/api/types/submittable' {
        * event is deposited.
        **/
       batch: AugmentedSubmittable<(calls: Vec<Call> | (Call | { callIndex?: any; args?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
-      /**
-       * Cancel a pre-existing, on-going multisig transaction. Any deposit reserved previously
-       * for this operation will be unreserved on success.
-       * 
-       * The dispatch origin for this call must be _Signed_.
-       * 
-       * - `threshold`: The total number of approvals for this dispatch before it is executed.
-       * - `other_signatories`: The accounts (other than the sender) who can approve this
-       * dispatch. May not be empty.
-       * - `timepoint`: The timepoint (block number and transaction index) of the first approval
-       * transaction for this dispatch.
-       * - `call_hash`: The hash of the call to be executed.
-       * 
-       * # <weight>
-       * - `O(S)`.
-       * - Up to one balance-reserve or unreserve operation.
-       * - One passthrough operation, one insert, both `O(S)` where `S` is the number of
-       * signatories. `S` is capped by `MaxSignatories`, with weight being proportional.
-       * - One encode & hash, both of complexity `O(S)`.
-       * - One event.
-       * - I/O: 1 read `O(S)`, one remove.
-       * - Storage: removes one item.
-       * ----------------------------------
-       * - Base Weight: 37.6 + 0.084 * S
-       * - DB Weight:
-       * - Read: Multisig Storage, [Caller Account]
-       * - Write: Multisig Storage, [Caller Account]
-       * # </weight>
-       **/
-      cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     vesting: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;

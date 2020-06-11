@@ -10,18 +10,18 @@ import { AccountData, BalanceLock, ReleasesBalances } from '@polkadot/types/inte
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { CodeHash, ContractInfo, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
-import { PreimageStatus, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReleasesDemocracy, Voting } from '@polkadot/types/interfaces/democracy';
+import { PreimageStatus, PropIndex, Proposal, ReferendumIndex, ReferendumInfo, ReleasesDemocracy, Voting } from '@polkadot/types/interfaces/democracy';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
 import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
 import { DeferredOffenceOf, Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
-import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, ExtrinsicsWeight, Hash, KeyTypeId, Moment, Perbill, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, ExtrinsicsWeight, Hash, KeyTypeId, Moment, Perbill, ProxyType, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { ActiveEraInfo, ElectionResult, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, PhragmenScore, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { ActiveEraInfo, ElectionResult, ElectionScore, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { AccountInfo, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -120,9 +120,6 @@ declare module '@polkadot/api/types/storage' {
       [index: string]: QueryableStorageEntry<ApiType>;
       /**
        * The balance of an account.
-       * 
-       * NOTE: THIS MAY NEVER BE IN EXISTENCE AND YET HAVE A `total().is_zero()`. If the total
-       * is ever zero, then the entry *MUST* be removed.
        * 
        * NOTE: This is only used in the case that this module is used to store balances.
        **/
@@ -242,13 +239,6 @@ declare module '@polkadot/api/types/storage' {
        * The block number is the block at which it was deposited.
        **/
       preimages: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<PreimageStatus>>> & QueryableStorageEntry<ApiType>;
-      /**
-       * Who is able to vote for whom. Value is the fund-holding account, key is the
-       * vote-transaction-sending account.
-       * 
-       * TWOX-NOTE: OK ― `AccountId` is a secure hash.
-       **/
-      proxy: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<ProxyState>>> & QueryableStorageEntry<ApiType>;
       /**
        * The number of (public) proposals that have been made so far.
        **/
@@ -398,7 +388,14 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The lookup from index to account.
        **/
-      accounts: AugmentedQuery<ApiType, (arg: AccountIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[AccountId, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
+      accounts: AugmentedQuery<ApiType, (arg: AccountIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[AccountId, BalanceOf, bool]>>>> & QueryableStorageEntry<ApiType>;
+    };
+    multisig: {
+      [index: string]: QueryableStorageEntry<ApiType>;
+      /**
+       * The set of open multisig operations.
+       **/
+      multisigs: AugmentedQueryDoubleMap<ApiType, (key1: AccountId | string | Uint8Array, key2: U8aFixed | string | Uint8Array) => Observable<Option<Multisig>>> & QueryableStorageEntry<ApiType>;
     };
     offences: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -424,6 +421,14 @@ declare module '@polkadot/api/types/storage' {
        * different types are not supported at the moment so we are doing the manual serialization.
        **/
       reportsByKindIndex: AugmentedQuery<ApiType, (arg: Kind | string | Uint8Array) => Observable<Bytes>> & QueryableStorageEntry<ApiType>;
+    };
+    proxy: {
+      [index: string]: QueryableStorageEntry<ApiType>;
+      /**
+       * The set of account proxies. Maps the account which has delegated to the accounts
+       * which are being delegated to, together with the amount held on deposit.
+       **/
+      proxies: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[Vec<ITuple<[AccountId, ProxyType]>>, BalanceOf]>>> & QueryableStorageEntry<ApiType>;
     };
     randomnessCollectiveFlip: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -669,9 +674,9 @@ declare module '@polkadot/api/types/storage' {
        * 
        * Information is kept for eras in `[current_era - history_depth; current_era]`.
        * 
-       * Must be more than the number of eras delayed by session otherwise.
-       * I.e. active era must always be in history.
-       * I.e. `active_era > current_era - history_depth` must be guaranteed.
+       * Must be more than the number of eras delayed by session otherwise. I.e. active era must
+       * always be in history. I.e. `active_era > current_era - history_depth` must be
+       * guaranteed.
        **/
       historyDepth: AugmentedQuery<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
       /**
@@ -689,10 +694,6 @@ declare module '@polkadot/api/types/storage' {
        * Map from all (unlocked) "controller" accounts to the info regarding the staking.
        **/
       ledger: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<StakingLedger>>> & QueryableStorageEntry<ApiType>;
-      /**
-       * The era where we migrated from Lazy Payouts to Simple Payouts
-       **/
-      migrateEra: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
       /**
        * Minimum number of staking participants before emergency conditions are imposed.
        **/
@@ -718,7 +719,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The score of the current [`QueuedElected`].
        **/
-      queuedScore: AugmentedQuery<ApiType, () => Observable<Option<PhragmenScore>>> & QueryableStorageEntry<ApiType>;
+      queuedScore: AugmentedQuery<ApiType, () => Observable<Option<ElectionScore>>> & QueryableStorageEntry<ApiType>;
       /**
        * Slashing spans for stash accounts.
        **/
@@ -927,13 +928,6 @@ declare module '@polkadot/api/types/storage' {
        * guaranteed to be a secure hash.
        **/
       tips: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<OpenTip>>> & QueryableStorageEntry<ApiType>;
-    };
-    utility: {
-      [index: string]: QueryableStorageEntry<ApiType>;
-      /**
-       * The set of open multisig operations.
-       **/
-      multisigs: AugmentedQueryDoubleMap<ApiType, (key1: AccountId | string | Uint8Array, key2: U8aFixed | string | Uint8Array) => Observable<Option<Multisig>>> & QueryableStorageEntry<ApiType>;
     };
     vesting: {
       [index: string]: QueryableStorageEntry<ApiType>;

@@ -141,6 +141,7 @@ export interface ReleasesStaking extends Enum {
   readonly isV100: boolean;
   readonly isV200: boolean;
   readonly isV300: boolean;
+  readonly isV400: boolean;
 }
 
 /** @name RewardDestination */
