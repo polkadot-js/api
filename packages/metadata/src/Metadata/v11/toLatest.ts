@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataV11, FunctionMetadataLatest, MetadataV11, MetadataLatest, ModuleMetadataLatest, StorageMetadataV11, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { EventMetadataV11, EventMetadataLatest, FunctionMetadataV11, FunctionMetadataLatest, MetadataV11, MetadataLatest, ModuleMetadataLatest, StorageMetadataV11, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry, OverrideModuleType } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types-known';
@@ -32,6 +32,18 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV11[], section
     args.forEach(({ type }): void => setTypeOverride(sectionTypes, type));
 
     return registry.createType('FunctionMetadataLatest', { args, documentation, name });
+  });
+}
+
+/**
+ * Apply module-specific type overrides (always be done as part of toLatest)
+ * @internal
+ **/
+function convertEvents (registry: Registry, events: EventMetadataV11[], sectionTypes: OverrideModuleType): EventMetadataLatest[] {
+  return events.map(({ args, documentation, name }): EventMetadataLatest => {
+    args.forEach((type): void => setTypeOverride(sectionTypes, type));
+
+    return registry.createType('EventMetadataLatest', { args, documentation, name });
   });
 }
 
@@ -70,6 +82,7 @@ export default function toLatest (registry: Registry, { extrinsic, modules }: Me
     extrinsic,
     modules: modules.map((mod): ModuleMetadataLatest => {
       const calls = mod.calls.unwrapOr(null);
+      const events = mod.events.unwrapOr(null);
       const storage = mod.storage.unwrapOr(null);
       const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name.toString()));
 
@@ -77,6 +90,9 @@ export default function toLatest (registry: Registry, { extrinsic, modules }: Me
         ...mod,
         calls: calls
           ? convertCalls(registry, calls, sectionTypes)
+          : null,
+        events: events
+          ? convertEvents(registry, events, sectionTypes)
           : null,
         storage: storage
           ? convertStorage(registry, storage, sectionTypes)

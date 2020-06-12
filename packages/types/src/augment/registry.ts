@@ -8,7 +8,7 @@ import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
-import { AccountData, BalanceLock, BalanceLockTo212, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
+import { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReleasesBalances, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
 import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
@@ -384,6 +384,9 @@ declare module '@polkadot/types/types/registry' {
     BalanceLock: BalanceLock;
     'Option<BalanceLock>': Option<BalanceLock>;
     'Vec<BalanceLock>': Vec<BalanceLock>;
+    BalanceStatus: BalanceStatus;
+    'Option<BalanceStatus>': Option<BalanceStatus>;
+    'Vec<BalanceStatus>': Vec<BalanceStatus>;
     ReleasesBalances: ReleasesBalances;
     'Option<ReleasesBalances>': Option<ReleasesBalances>;
     'Vec<ReleasesBalances>': Vec<ReleasesBalances>;
