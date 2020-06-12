@@ -179,8 +179,6 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         mergeMap(async (signingInfo): Promise<void> => {
           const eraOptions = this.#makeEraOptions(options, signingInfo);
 
-          console.log('eraOptions', JSON.stringify(eraOptions));
-
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
           } else {
