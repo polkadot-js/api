@@ -1499,6 +1499,39 @@
               "documentation": [
                 " Some amount was deposited (e.g. for transaction fees)."
               ]
+            },
+            {
+              "name": "Reserved",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " Some balance was reserved (moved from free to reserved)."
+              ]
+            },
+            {
+              "name": "Unreserved",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " Some balance was unreserved (moved from reserved to free)."
+              ]
+            },
+            {
+              "name": "ReserveRepatriated",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "Balance",
+                "BalanceStatus"
+              ],
+              "documentation": [
+                " Some balance was moved from the reserve of the first account to the second account.",
+                " Final argument indicates the destination balance type."
+              ]
             }
           ],
           "constants": [
@@ -5829,7 +5862,7 @@
             {
               "name": "DesiredMembers",
               "type": "u32",
-              "value": "0x0d000000",
+              "value": "0x05000000",
               "documentation": []
             },
             {
