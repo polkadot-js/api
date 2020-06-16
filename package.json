@@ -27,12 +27,12 @@
     "@babel/core": "^7.10.2",
     "@babel/register": "^7.10.1",
     "@babel/runtime": "^7.10.2",
-    "@polkadot/dev": "^0.55.9",
+    "@polkadot/dev": "^0.55.10",
     "@polkadot/ts": "^0.3.26",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^25.2.3",
-    "@vuepress/plugin-search": "^1.5.0",
+    "@types/jest": "^26.0.0",
+    "@vuepress/plugin-search": "^1.5.2",
     "copyfiles": "^2.3.0"
   },
-  "version": "1.19.0-beta.3"
+  "version": "1.19.0"
 }

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.19.1 Jun 16, 2020
+
+- Improve typing on `.entries()` queries (Thanks to https://github.com/monitz87)
+- Align metadata and types with latest Substrate
+- Update Polkadot types for current evolution of parachains
+- Allow for type aliasing on events (aligning with calls & queries)
+
 ## 1.18.1 Jun 8, 2020
 
 - Expand docs on node-template types (Thanks to https://github.com/g2udevelopment)
