@@ -18,39 +18,9 @@ describe('inkTypes', (): void => {
     ).toEqual([
       [
         1,
-        'incrementer::incrementer::__ink_private::__ink_storage::Storage',
-        '{"value":"ink_core::storage::value::Value"}'
-      ],
-      [
-        2,
-        'ink_core::storage::value::Value',
-        '{"cell":"ink_core::storage::cell::sync_cell::SyncCell"}'
-      ],
-      [
-        3,
         'i32',
         null
       ],
-      [
-        4,
-        'ink_core::storage::cell::sync_cell::SyncCell',
-        '{"cell":"ink_primitives::key::Key"}'
-      ],
-      [
-        5,
-        'ink_primitives::key::Key',
-        '[u8;32]'
-      ],
-      [
-        6,
-        '[u8;32]',
-        null
-      ],
-      [
-        7,
-        'u8',
-        null
-      ]
     ]);
   });
 });

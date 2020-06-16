@@ -8,18 +8,22 @@ const layout = {
     name: 'MtLookupTextId',
     layout: 'InkStorageLayout'
   },
+  InkLayoutCell: {
+    key: 'InkLayoutKey',
+    ty: 'MtLookupTypeId'
+  },
   InkLayoutRange: {
     offset: 'InkLayoutKey',
     len: 'u32',
     elemType: 'MtLookupTextId'
   },
   InkLayoutStruct: {
-    type: 'MtLookupTextId',
     fields: 'Vec<InkLayoutField>'
   },
   InkStorageLayout: {
     _enum: {
-      Range: 'InkLayoutRange',
+      Cell: 'InkLayoutCell',
+      // todo: Hash, Array, Enum
       Struct: 'InkLayoutStruct'
     }
   }
@@ -81,39 +85,38 @@ const registry = {
     types: 'Vec<MtType>'
   },
   MtType: {
+    path: 'Vec<MtLookupTextId>',
+    params: 'Vec<MtLookupTypeId>',
+    def: 'MtTypeDef'
+  },
+  MtTypeDef: {
     _enum: {
-      Composite: 'MtTypeComposite',
-      Variant: 'MtTypeVariant',
-      Slice: 'MtTypeSlice',
-      Array: 'MtTypeArray',
-      Tuple: 'MtTypeTuple',
-      Primitive: 'MtTypePrimitive'
+      Composite: 'MtTypeDefComposite',
+      Variant: 'MtTypeDefVariant',
+      Slice: 'MtTypeDefSlice',
+      Array: 'MtTypeDefArray',
+      Tuple: 'MtTypeDefTuple',
+      Primitive: 'MtTypeDefPrimitive'
     }
   },
-  MtTypeComposite: {
-    name: 'MtLookupTextId',
-    namespace: 'Vec<MtLookupTextId>',
-    params: 'Vec<MtLookupTypeId>',
+  MtTypeDefComposite: {
     fields: 'Vec<MtField>'
   },
-  MtTypeVariant: {
-    name: 'MtLookupTextId',
-    namespace: 'Vec<MtLookupTextId>',
-    params: 'Vec<MtLookupTypeId>',
+  MtTypeDefVariant: {
     variants: 'Vec<MtVariant>'
   },
-  MtTypeArray: {
+  MtTypeDefArray: {
     len: 'u16',
     type: 'MtLookupTypeId'
   },
-  MtTypePrimitive: {
+  MtTypeDefPrimitive: {
     // this enum definition is mapped in api-contracts/inkTypes.ts
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
   },
-  MtTypeSlice: {
+  MtTypeDefSlice: {
     type: 'MtLookupTypeId'
   },
-  MtTypeTuple: 'Vec<MtLookupTypeId>',
+  MtTypeDefTuple: 'Vec<MtLookupTypeId>',
   MtVariant: {
     name: 'MtLookupTextId',
     fields: 'Vec<MtField>',

@@ -36,6 +36,12 @@ export interface InkEventSpec extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name InkLayoutCell */
+export interface InkLayoutCell extends Struct {
+  readonly key: InkLayoutKey;
+  readonly ty: MtLookupTypeId;
+}
+
 /** @name InkLayoutField */
 export interface InkLayoutField extends Struct {
   readonly name: MtLookupTextId;
@@ -54,7 +60,6 @@ export interface InkLayoutRange extends Struct {
 
 /** @name InkLayoutStruct */
 export interface InkLayoutStruct extends Struct {
-  readonly type: MtLookupTextId;
   readonly fields: Vec<InkLayoutField>;
 }
 
@@ -86,8 +91,8 @@ export interface InkSelector extends U8aFixed {}
 
 /** @name InkStorageLayout */
 export interface InkStorageLayout extends Enum {
-  readonly isRange: boolean;
-  readonly asRange: InkLayoutRange;
+  readonly isCell: boolean;
+  readonly asCell: InkLayoutCell;
   readonly isStruct: boolean;
   readonly asStruct: InkLayoutStruct;
 }
@@ -117,37 +122,41 @@ export interface MtRegistry extends Struct {
 }
 
 /** @name MtType */
-export interface MtType extends Enum {
-  readonly isComposite: boolean;
-  readonly asComposite: MtTypeComposite;
-  readonly isVariant: boolean;
-  readonly asVariant: MtTypeVariant;
-  readonly isSlice: boolean;
-  readonly asSlice: MtTypeSlice;
-  readonly isArray: boolean;
-  readonly asArray: MtTypeArray;
-  readonly isTuple: boolean;
-  readonly asTuple: MtTypeTuple;
-  readonly isPrimitive: boolean;
-  readonly asPrimitive: MtTypePrimitive;
+export interface MtType extends Struct {
+  readonly path: Vec<MtLookupTextId>;
+  readonly params: Vec<MtLookupTypeId>;
+  readonly def: MtTypeDef;
 }
 
-/** @name MtTypeArray */
-export interface MtTypeArray extends Struct {
+/** @name MtTypeDef */
+export interface MtTypeDef extends Enum {
+  readonly isComposite: boolean;
+  readonly asComposite: MtTypeDefComposite;
+  readonly isVariant: boolean;
+  readonly asVariant: MtTypeDefVariant;
+  readonly isSlice: boolean;
+  readonly asSlice: MtTypeDefSlice;
+  readonly isArray: boolean;
+  readonly asArray: MtTypeDefArray;
+  readonly isTuple: boolean;
+  readonly asTuple: MtTypeDefTuple;
+  readonly isPrimitive: boolean;
+  readonly asPrimitive: MtTypeDefPrimitive;
+}
+
+/** @name MtTypeDefArray */
+export interface MtTypeDefArray extends Struct {
   readonly len: u16;
   readonly type: MtLookupTypeId;
 }
 
-/** @name MtTypeComposite */
-export interface MtTypeComposite extends Struct {
-  readonly name: MtLookupTextId;
-  readonly namespace: Vec<MtLookupTextId>;
-  readonly params: Vec<MtLookupTypeId>;
+/** @name MtTypeDefComposite */
+export interface MtTypeDefComposite extends Struct {
   readonly fields: Vec<MtField>;
 }
 
-/** @name MtTypePrimitive */
-export interface MtTypePrimitive extends Enum {
+/** @name MtTypeDefPrimitive */
+export interface MtTypeDefPrimitive extends Enum {
   readonly isBool: boolean;
   readonly isChar: boolean;
   readonly isStr: boolean;
@@ -163,19 +172,16 @@ export interface MtTypePrimitive extends Enum {
   readonly isI128: boolean;
 }
 
-/** @name MtTypeSlice */
-export interface MtTypeSlice extends Struct {
+/** @name MtTypeDefSlice */
+export interface MtTypeDefSlice extends Struct {
   readonly type: MtLookupTypeId;
 }
 
-/** @name MtTypeTuple */
-export interface MtTypeTuple extends Vec<MtLookupTypeId> {}
+/** @name MtTypeDefTuple */
+export interface MtTypeDefTuple extends Vec<MtLookupTypeId> {}
 
-/** @name MtTypeVariant */
-export interface MtTypeVariant extends Struct {
-  readonly name: MtLookupTextId;
-  readonly namespace: Vec<MtLookupTextId>;
-  readonly params: Vec<MtLookupTypeId>;
+/** @name MtTypeDefVariant */
+export interface MtTypeDefVariant extends Struct {
   readonly variants: Vec<MtVariant>;
 }
 

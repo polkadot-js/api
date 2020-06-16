@@ -1,20 +1,8 @@
 {
   "registry": {
     "strings": [
-      "Storage",
-      "incrementer",
-      "__ink_private",
-      "__ink_storage",
       "value",
-      "Value",
-      "ink_core",
-      "storage",
-      "cell",
-      "SyncCell",
-      "sync_cell",
-      "Key",
-      "ink_primitives",
-      "key",
+      "incrementer",
       "new",
       "init_value",
       "i32",
@@ -25,107 +13,21 @@
     ],
     "types": [
       {
-        "composite": {
-          "name": 1,
-          "namespace": [
-            2,
-            2,
-            3,
-            4
-          ],
-          "fields": [
-            {
-              "name": 5,
-              "type": 2
-            }
-          ]
+        "type": {
+          "primitive": "i32"
         }
-      },
-      {
-        "composite": {
-          "name": 6,
-          "namespace": [
-            7,
-            8,
-            5
-          ],
-          "params": [
-            3
-          ],
-          "fields": [
-            {
-              "name": 9,
-              "type": 4
-            }
-          ]
-        }
-      },
-      {
-        "primitive": "i32"
-      },
-      {
-        "composite": {
-          "name": 10,
-          "namespace": [
-            7,
-            8,
-            9,
-            11
-          ],
-          "fields": [
-            {
-              "name": 9,
-              "type": 5
-            }
-          ]
-        }
-      },
-      {
-        "composite": {
-          "name": 12,
-          "namespace": [
-            13,
-            14
-          ],
-          "fields": [
-            {
-              "type": 6
-            }
-          ]
-        }
-      },
-      {
-        "array": {
-          "len": 32,
-          "type": 7
-        }
-      },
-      {
-        "primitive": "u8"
       }
     ]
   },
   "storage": {
-    "struct": {
-      "type": 1,
+    "Struct": {
       "fields": [
         {
-          "name": 5,
+          "name": 1,
           "layout": {
-            "struct": {
-              "type": 2,
-              "fields": [
-                {
-                  "name": 9,
-                  "layout": {
-                    "range": {
-                      "offset": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                      "len": 1,
-                      "elemType": 3
-                    }
-                  }
-                }
-              ]
+            "Cell": {
+              "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "ty": 1
             }
           }
         }
@@ -136,15 +38,15 @@
     "name": 2,
     "constructors": [
       {
-        "name": 15,
+        "name": 3,
         "selector": "0x5ebd88d6",
         "args": [
           {
-            "name": 16,
+            "name": 4,
             "type": {
-              "id": 3,
+              "id": 1,
               "displayName": [
-                17
+                5
               ]
             }
           }
@@ -152,7 +54,7 @@
         "docs": []
       },
       {
-        "name": 18,
+        "name": 6,
         "selector": "0x0222ff18",
         "args": [],
         "docs": []
@@ -160,16 +62,16 @@
     ],
     "messages": [
       {
-        "name": 19,
+        "name": 7,
         "selector": "0xe7d0590f",
         "mutates": true,
         "args": [
           {
-            "name": 20,
+            "name": 8,
             "type": {
-              "id": 3,
+              "id": 1,
               "displayName": [
-                17
+                5
               ]
             }
           }
@@ -178,14 +80,14 @@
         "docs": []
       },
       {
-        "name": 21,
+        "name": 9,
         "selector": "0x25444afe",
         "mutates": false,
         "args": [],
         "returnType": {
-          "id": 3,
+          "id": 1,
           "displayName": [
-            17
+            5
           ]
         },
         "docs": []

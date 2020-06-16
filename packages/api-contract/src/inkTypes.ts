@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InkProject, MtField, MtLookupTypeId, MtLookupTextId, MtType, MtTypeArray, MtTypeVariant, MtTypePrimitive, MtTypeSlice, MtTypeTuple } from '@polkadot/types/interfaces';
+import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefVariant, MtTypeDefPrimitive, MtTypeDefSlice, MtTypeDefTuple } from '@polkadot/types/interfaces';
 import { InterfaceTypes } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
@@ -12,13 +12,6 @@ import sanitize from '@polkadot/types/create/sanitize';
 
 // this maps through the the enum definition in types/interfaces/contractsAbi/defintions.ts
 const PRIMITIVES: (keyof InterfaceTypes)[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
-
-interface TypePath
-{
-  name: MtLookupTextId;
-  namespace: MtLookupTextId[];
-  params: MtLookupTypeId[];
-}
 
 function sanitizeOrNull (type: string | null): string | null {
   return type
@@ -33,24 +26,23 @@ function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string
 }
 
 // convert a typeid into a VecFixed
-function getTypeArray (project: InkProject, idArray: MtTypeArray): string {
+function getTypeArray (project: InkProject, idArray: MtTypeDefArray): string {
   const type = resolveTypeFromId(project, idArray.type);
 
   return `[${type};${idArray.len}]`;
 }
 
 // convert a typeid into the custom
-function resolveTypeFromPath (project: InkProject, path: TypePath): string {
-  const name = getInkString(project, path.name);
-  const namespaces = getInkStrings(project, path.namespace);
-  const params = path.params.length
-    ? `<${path.params.map((type): string | null => resolveTypeFromId(project, type)).join(', ')}>`
+function resolveTypeFromPath (project: InkProject, type: MtType): string {
+  const nameSegments = getInkStrings(project, type.path);
+  const params = type.params.length
+    ? `<${type.params.map((type): string | null => resolveTypeFromId(project, type)).join(', ')}>`
     : '';
-  const namespace = namespaces.length
-    ? `${namespaces.join('::')}::`
+  const name = nameSegments.length
+    ? `${type.path.join('::')}::`
     : '';
 
-  return `${namespace}${name}${params}`;
+  return `${name}${params}`;
 }
 
 // Fields must either be *all* named (e.g. a struct) or *all* unnamed (e.g a tuple)
@@ -88,7 +80,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
   throw new Error('buildTypeDefFields:: Fields must either be *all* named or *all* unnamed');
 }
 
-function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): string {
+function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeDefVariant): string {
   let allUnitVariants = true;
   for (const variant of typeVariant.variants) {
     allUnitVariants = allUnitVariants && variant.fields.length === 0;
@@ -120,7 +112,7 @@ function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): 
 }
 
 // convert a type definition into a primitive
-function getTypePrimitive (_project: InkProject, idPrim: MtTypePrimitive): keyof InterfaceTypes {
+function getTypePrimitive (_project: InkProject, idPrim: MtTypeDefPrimitive): keyof InterfaceTypes {
   const primitive = PRIMITIVES[idPrim.index];
 
   assert(!isUndefined(primitive), `getTypePrimitive:: Unable to convert ${idPrim} to primitive`);
@@ -129,13 +121,13 @@ function getTypePrimitive (_project: InkProject, idPrim: MtTypePrimitive): keyof
 }
 
 // convert a type definition into the underlying Vec
-function getTypeSlice (project: InkProject, idSlice: MtTypeSlice): string {
+function getTypeSlice (project: InkProject, idSlice: MtTypeDefSlice): string {
   const type = resolveTypeFromId(project, idSlice.type);
 
   return `Vec<${type}>`;
 }
 
-function getTypeTuple (project: InkProject, typeTuple: MtTypeTuple): string {
+function getTypeTuple (project: InkProject, typeTuple: MtTypeDefTuple): string {
   const types = typeTuple.map((type): string | null => resolveTypeFromId(project, type));
 
   return types.length
@@ -144,25 +136,25 @@ function getTypeTuple (project: InkProject, typeTuple: MtTypeTuple): string {
 }
 
 function resolveType (project: InkProject, type: MtType): string {
-  if (type.isComposite) {
-    return resolveTypeFromPath(project, type.asComposite);
-  } else if (type.isVariant) {
-    return resolveTypeFromPath(project, type.asVariant);
-  } else if (type.isArray) {
-    return getTypeArray(project, type.asArray);
-  } else if (type.isPrimitive) {
-    return getTypePrimitive(project, type.asPrimitive);
-  } else if (type.isSlice) {
-    return getTypeSlice(project, type.asSlice);
-  } else if (type.isTuple) {
-    return getTypeTuple(project, type.asTuple);
+  if (type.def.isComposite) {
+    return resolveTypeFromPath(project, type);
+  } else if (type.def.isVariant) {
+    return resolveTypeFromPath(project, type);
+  } else if (type.def.isArray) {
+    return getTypeArray(project, type.def.asArray);
+  } else if (type.def.isPrimitive) {
+    return getTypePrimitive(project, type.def.asPrimitive);
+  } else if (type.def.isSlice) {
+    return getTypeSlice(project, type.def.asSlice);
+  } else if (type.def.isTuple) {
+    return getTypeTuple(project, type.def.asTuple);
   }
 
   throw new Error(`convertType:: Unable to create type from ${type}`);
 }
 
 // builds the type definition for any user defined complex type e.g structs/enums
-function buildTypeDef (project: InkProject, type: MtType): string | null {
+function buildTypeDef (project: InkProject, type: MtTypeDef): string | null {
   if (type.isComposite) {
     return buildTypeDefFields(project, type.asComposite.fields);
   } else if (type.isVariant) {
@@ -174,7 +166,7 @@ function buildTypeDef (project: InkProject, type: MtType): string | null {
 
 function convertType (project: InkProject, type: MtType, index: number): [number, string, string | null] {
   const name = sanitize(resolveType(project, type), { allowNamespaces: true });
-  const typeDef = sanitizeOrNull(buildTypeDef(project, type));
+  const typeDef = sanitizeOrNull(buildTypeDef(project, type.def));
   return [index, name, typeDef];
 }
 
