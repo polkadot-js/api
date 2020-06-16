@@ -5,7 +5,7 @@
 - Improve typing on `.entries()` queries (Thanks to https://github.com/monitz87)
 - Align metadata and types with latest Substrate
 - Update Polkadot types for current evolution of parachains
-- allow for type aliasing on events (aligning with calls & queries)
+- Allow for type aliasing on events (aligning with calls & queries)
 
 ## 1.18.1 Jun 8, 2020
 
