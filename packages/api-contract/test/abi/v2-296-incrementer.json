@@ -13,7 +13,7 @@
     ],
     "types": [
       {
-        "type": {
+        "def": {
           "primitive": "i32"
         }
       }
