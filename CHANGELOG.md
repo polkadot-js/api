@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.20.0-beta.x
+
+- Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
+
 ## 1.19.1 Jun 16, 2020
 
 - Improve typing on `.entries()` queries (Thanks to https://github.com/monitz87)
