@@ -18,7 +18,6 @@ export default class VecAny<T extends Codec> extends AbstractArray<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    // FIXME This is basically an any type, cannot instantiate via createType
-    return 'Vec<Codec>';
+    return 'AnyVec';
   }
 }

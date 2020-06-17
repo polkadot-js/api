@@ -29,5 +29,9 @@ export { default as Raw } from './Raw';
 export { default as UInt } from './UInt';
 export { default as U8aFixed } from './U8aFixed';
 
+// any types
+export { default as AnyCodec } from './Base';
+export { default as AnyVec } from './VecAny';
+
 // Type management helper functions
 export * from './utils/encodeTypes';

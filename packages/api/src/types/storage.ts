@@ -45,20 +45,20 @@ export interface StorageEntryDoubleMap<ApiType extends ApiTypes, F extends AnyFu
 }
 
 interface StorageEntryObservableMulti {
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<[T[], Hash]>;
 }
 
 interface StorageEntryPromiseMulti {
   <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[], Hash>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromiseOverloads {
   (arg1?: CodecArg, arg2?: CodecArg): Promise<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Promise<T>;
-  <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
-  <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
-  <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec>(callback: Callback<T, Hash>): UnsubscribePromise;
+  <T extends Codec>(arg: CodecArg, callback: Callback<T, Hash>): UnsubscribePromise;
+  <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T, Hash>): UnsubscribePromise;
 }
 
 export interface QueryableModuleStorage<ApiType extends ApiTypes> {

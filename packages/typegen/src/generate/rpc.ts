@@ -46,7 +46,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
           } else if (methodName === 'queryStorage') {
             generic = 'T = Codec[]';
             args = [`keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string`];
-            type = '[Hash, T][]';
+            type = '[T, Hash][]';
           } else if (methodName === 'queryStorageAt') {
             generic = 'T = Codec[]';
             args = [`keys: Vec<StorageKey> | (${StorageKeyTye})[], at?: Hash | Uint8Array | string`];
@@ -54,7 +54,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
           } else if (methodName === 'subscribeStorage') {
             generic = 'T = Codec[]';
             args = [`keys?: Vec<StorageKey> | (${StorageKeyTye})[]`];
-            type = 'T';
+            type = '[T, Hash]';
           }
         }
 

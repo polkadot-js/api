@@ -16,6 +16,11 @@ import { assert, hexToU8a, isFunction, isNull, isNumber, isUndefined, logger, u8
 
 import { drr } from './rxjs';
 
+interface StorageChanges {
+  block: string;
+  changes: [string, string | null][]
+}
+
 const l = logger('rpc-core');
 
 const EMPTY_META = {
@@ -339,19 +344,20 @@ export default class Rpc implements RpcInterface {
       }
     } else if (rpc.type === 'StorageChangeSet') {
       const keys = params[0] as Vec<StorageKey>;
+      const set = result as StorageChanges;
 
       return keys
-        ? this._formatStorageSet(keys, (result as { changes: [string, string | null][] }).changes)
-        : this.registry.createType('StorageChangeSet', result);
+        ? this.registry.createType('AnyVec', [this._formatStorageSet(keys, set.changes), this.registry.createType('Hash', set.block)]) as Codec
+        : this.registry.createType('StorageChangeSet', result) as Codec;
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      const mapped = (result as { block: string; changes: [string, string | null][] }[]).map(({ block, changes }): [Hash, Codec[]] => [
-        this.registry.createType('Hash', block),
-        this._formatStorageSet(params[0] as Vec<StorageKey>, changes)
+      const mapped = (result as StorageChanges[]).map(({ block, changes }): [Codec[], Hash] => [
+        this._formatStorageSet(params[0] as Vec<StorageKey>, changes),
+        this.registry.createType('Hash', block)
       ]);
 
       // we only query at a specific block, not a range - flatten
       return method === 'queryStorageAt'
-        ? mapped[0][1]
+        ? mapped[0][0] // first entry, value index
         : mapped as unknown as Codec[];
     }
 

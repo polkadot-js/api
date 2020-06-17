@@ -6,7 +6,7 @@ import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
 import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
 
 import { Observable, EMPTY } from 'rxjs';
-import { catchError, first, tap } from 'rxjs/operators';
+import { catchError, first, map, tap } from 'rxjs/operators';
 import { isFunction, assert } from '@polkadot/util';
 
 import ApiBase from '../base';
@@ -67,11 +67,18 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
   const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
   return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
-    const [actualArgs, callback] = extractArgs(args, !!needsCallback);
+    const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
 
-    if (!callback) {
+    if (!resultCb) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      return method(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
+      return method(...actualArgs).pipe(
+        first(),
+        map((result: Codec): Codec =>
+          Array.isArray(result) && (result.length === 2) && result.toRawType() === 'AnyVec'
+            ? (result as unknown as Codec[])[0]
+            : result
+        )
+      ).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
     }
 
     return new Promise((resolve, reject): void => {
@@ -84,14 +91,12 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
         // upon the first result, resolve with the unsub function
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
         tap(() => tracker.resolve(() => subscription.unsubscribe()))
-      ).subscribe((result: any): void => {
-        if (setImmediate) {
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          setImmediate(() => callback(result) as void);
-        } else {
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          callback(result);
-        }
+      ).subscribe((result: Codec): void => {
+        setImmediate(() =>
+          Array.isArray(result) && (result.length === 2) && result.toRawType() === 'AnyVec'
+            ? resultCb(...(result as unknown as [Codec, Codec])) as void
+            : resultCb(result) as void
+        );
       });
     }) as UnsubscribePromise;
   } as StorageEntryPromiseOverloads;

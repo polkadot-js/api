@@ -333,7 +333,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             .subscribeStorage<[Codec]>([getArgs(...args)])
             // state_storage returns an array of values, since we have just subscribed to
             // a single entry, we pull that from the array and return it as-is
-            .pipe(map(([data]): Codec => data))
+            .pipe(map(([[data]]): Codec => data))
           : this._rpcCore.state.getStorage(getArgs(...args))
       ), { methodName: creator.method });
 
@@ -357,7 +357,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       u8aToHex(creator.keyPrefix(key1));
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
+    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Codec, Hash][]> =>
       this._decorateStorageRange(decorated, [arg1, arg2], range));
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
@@ -399,15 +399,15 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
+  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Codec, Hash][]> {
     const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
-      .pipe(map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
-        result.map(([blockHash, [value]]): [Hash, Codec] => [
-          blockHash,
-          this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined)
+      .pipe(map((result: [[Option<Raw>], Hash][]): [Codec, Hash][] =>
+        result.map(([[value], blockHash]): [Codec, Hash] => [
+          this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined),
+          blockHash
         ])
       ));
   }
@@ -535,13 +535,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           of(keys),
           ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
             .fill(0)
-            .map((_, index): Observable<Codec[]> => {
-              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
-
-              return this._rpcCore.state.queryStorageAt
-                ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
-                : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
-            })
+            .map((_, index): Observable<Codec[]> =>
+              this._rpcCore.state.queryStorageAt<Codec[]>(
+                keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS)
+              )
+            )
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>
@@ -557,9 +555,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       switchMap((keys) =>
         combineLatest<[StorageKey[], ...Codec[][]]>([
           of(keys),
-          this._rpcCore.state.queryStorageAt
-            ? this._rpcCore.state.queryStorageAt<Codec[]>(keys)
-            : this._rpcCore.state.subscribeStorage<Codec[]>(keys).pipe(take(1))
+          this._rpcCore.state.queryStorageAt<Codec[]>(keys)
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>
