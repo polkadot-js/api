@@ -357,7 +357,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       u8aToHex(creator.keyPrefix(key1));
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
+    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Codec, Hash][]> =>
       this._decorateStorageRange(decorated, [arg1, arg2], range));
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
@@ -399,15 +399,15 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
+  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Codec, Hash][]> {
     const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
-      .pipe(map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
-        result.map(([blockHash, [value]]): [Hash, Codec] => [
-          blockHash,
-          this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined)
+      .pipe(map((result: [[Option<Raw>], Hash][]): [Codec, Hash][] =>
+        result.map(([[value], blockHash]): [Codec, Hash] => [
+          this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined),
+          blockHash
         ])
       ));
   }

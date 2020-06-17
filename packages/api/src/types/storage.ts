@@ -35,7 +35,7 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   keyPrefix: () => string;
   keys: (arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
   keysPaged: (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey[]>;
-  range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
+  range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [T, Hash][]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
   multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }

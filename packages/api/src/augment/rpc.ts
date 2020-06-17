@@ -229,7 +229,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Query historical storage entries (by key) starting from a start block
        **/
-      queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[Hash, T][]>>;
+      queryStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string) => Observable<[T, Hash][]>>;
       /**
        * Query storage entries (by key) starting at block hash given as the second parameter
        **/
