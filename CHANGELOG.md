@@ -3,6 +3,7 @@
 ## 1.20.0-beta.x
 
 - Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
+- `.range` queries have an result order swap, all values are now `[Codec, Hash]` (consistency alignment)
 
 ## 1.19.1 Jun 16, 2020
 
