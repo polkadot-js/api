@@ -11,7 +11,7 @@ import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, Dec
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
+import { map, switchMap, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
@@ -495,35 +495,28 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const headKey = iterKey(arg).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
 
-    return this._rpcCore.state.getKeysPaged
-      ? startSubject.pipe(
-        switchMap((startKey) =>
-          this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey).pipe(
-            map((keys) => keys.map((key) => key.setMeta(meta)))
-          )
-        ),
-        tap((keys): void => {
-          keys.length === PAGE_SIZE_KEYS
-            ? startSubject.next(keys[PAGE_SIZE_KEYS - 1].toHex())
-            : startSubject.complete();
-        }),
-        toArray(), // toArray since we want to startSubject to be completed
-        map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
-      )
-      : this._rpcCore.state.getKeys(headKey).pipe(
-        map((keys) => keys.map((key) => key.setMeta(meta)))
-      );
+    return startSubject.pipe(
+      switchMap((startKey) =>
+        this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey).pipe(
+          map((keys) => keys.map((key) => key.setMeta(meta)))
+        )
+      ),
+      tap((keys): void => {
+        keys.length === PAGE_SIZE_KEYS
+          ? startSubject.next(keys[PAGE_SIZE_KEYS - 1].toHex())
+          : startSubject.complete();
+      }),
+      toArray(), // toArray since we want to startSubject to be completed
+      map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
+    );
   }
 
   private _retrieveMapKeysPaged ({ iterKey, meta }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(opts.arg).toHex();
-    const getKeysPaged = this._rpcCore.state.getKeysPaged;
 
-    assert(getKeysPaged, 'Pagination not supported by the chain');
-
-    return getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
+    return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
       map((keys) => keys.map((key) => key.setMeta(meta)))
     );
   }
@@ -535,13 +528,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           of(keys),
           ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
             .fill(0)
-            .map((_, index): Observable<Codec[]> => {
-              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
-
-              return this._rpcCore.state.queryStorageAt
-                ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
-                : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
-            })
+            .map((_, index): Observable<Codec[]> =>
+              this._rpcCore.state.queryStorageAt<Codec[]>(
+                keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS)
+              )
+            )
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>
@@ -557,9 +548,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       switchMap((keys) =>
         combineLatest<[StorageKey[], ...Codec[][]]>([
           of(keys),
-          this._rpcCore.state.queryStorageAt
-            ? this._rpcCore.state.queryStorageAt<Codec[]>(keys)
-            : this._rpcCore.state.subscribeStorage<Codec[]>(keys).pipe(take(1))
+          this._rpcCore.state.queryStorageAt<Codec[]>(keys)
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>
