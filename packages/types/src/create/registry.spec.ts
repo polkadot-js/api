@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { Codec, Constructor } from '../types';
 
 import { isChildClass } from '@polkadot/util';
 
 import Struct from '../codec/Struct';
+import DoNotConstruct from '../primitive/DoNotConstruct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import Unconstructable from '../primitive/Unconstructable';
 import { TypeRegistry } from './registry';
 
 describe('TypeRegistry', (): void => {
@@ -29,7 +31,7 @@ describe('TypeRegistry', (): void => {
 
     expect(Type).toBeDefined();
     // eslint-disable-next-line no-prototype-builtins
-    expect(isChildClass(Unconstructable, Type));
+    expect(isChildClass(DoNotConstruct, Type));
   });
 
   it('can register single type', (): void => {
@@ -70,6 +72,7 @@ describe('TypeRegistry', (): void => {
       const first = new Recursive(registry, { next: last });
 
       expect((first as any).next.isSome).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect((first as any).next.unwrap().next.isSome).toBe(false);
     });
 
@@ -110,19 +113,21 @@ describe('TypeRegistry', (): void => {
     it('can create structs via definition', (): void => {
       registry.register({
         SomeStruct: {
-          foo: 'u32',
-          bar: 'Text'
+          bar: 'Text',
+          foo: 'u32'
         }
       });
 
       const SomeStruct = registry.getOrThrow('SomeStruct');
       const struct: any = new SomeStruct(registry, {
-        foo: 42,
-        bar: 'testing'
+        bar: 'testing',
+        foo: 42
       });
 
       expect(struct instanceof Struct).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(struct.foo.toNumber()).toEqual(42);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(struct.bar.toString()).toEqual('testing');
     });
   });

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
+import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
@@ -66,6 +66,12 @@ export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction> = ApiT
 // information. This describes it.
 export interface DecorateMethodOptions {
   methodName?: string;
+}
+
+export interface PaginationOptions<ArgType = CodecArg> {
+  arg?: ArgType;
+  pageSize: number;
+  startKey?: string;
 }
 
 export type DecorateMethod<ApiType extends ApiTypes> = <Method extends (...args: any[]) => Observable<any>>(method: Method, options?: DecorateMethodOptions) => any;

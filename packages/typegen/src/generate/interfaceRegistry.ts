@@ -2,64 +2,69 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Handlebars from 'handlebars';
+
 import Raw from '@polkadot/types/codec/Raw';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
 
-import { FOOTER, HEADER, createImportCode, createImports, getDerivedTypes, indent, setImports, writeFile } from '../util';
+import { createImports, getDerivedTypes, readTemplate, setImports, writeFile } from '../util';
+import { ModuleTypes } from '../util/imports';
 
 const primitiveClasses = {
   ...defaultPrimitives,
   Raw
 };
 
+const template = readTemplate('interfaceRegistry');
+const generateInterfaceTypesTemplate = Handlebars.compile(template);
+
 /** @internal */
-export function generateInterfaceTypes (importDefinitions: { [importPath: string]: object }, dest: string): void {
+export function generateInterfaceTypes (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, dest: string): void {
   writeFile(dest, (): string => {
-    Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
+    Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {});
 
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions;
-    const primitives = Object
+
+    const items: string[] = [];
+
+    Object
       .keys(primitiveClasses)
       .filter((name): boolean => !!name.indexOf('Generic'))
-      .reduce((accumulator, primitiveName): string => {
+      .forEach((primitiveName) => {
         setImports(definitions, imports, [primitiveName]);
 
-        return [
-          accumulator,
-          getDerivedTypes(definitions, primitiveName, primitiveName, imports).map(indent(4)).join('\n')
-        ].join('\n');
-      }, '');
+        items.push(...getDerivedTypes(definitions, primitiveName, primitiveName, imports));
+      });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const srml = Object.entries(definitions).reduce((accumulator, [_defName, { types }]): string => {
+    const existingTypes: Record<string, boolean> = {};
+
+    Object.entries(definitions).forEach(([, { types }]) => {
       setImports(definitions, imports, Object.keys(types));
 
-      return [
-        accumulator,
-        ...Object.keys(types).map((type): string =>
-          getDerivedTypes(definitions, type, types[type], imports).map(indent(4)).join('\n')
-        )
-      ].join('\n');
-    }, '');
+      const uniqueTypes = Object.keys(types).filter((type) => !existingTypes[type]);
 
-    const header = createImportCode(HEADER('defs'), imports, [
+      uniqueTypes.forEach((type) => {
+        existingTypes[type] = true;
+
+        items.push(...getDerivedTypes(definitions, type, types[type] as string, imports));
+      });
+    });
+
+    const types = [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
         file: packagePath,
         types: Object.keys(imports.localTypes[packagePath])
       }))
-    ]);
+    ];
 
-    const interfaceStart = "declare module '@polkadot/types/types/registry' {\n  export interface InterfaceTypes {";
-    const interfaceEnd = '\n  }\n}';
-
-    return header
-      .concat(interfaceStart)
-      .concat(primitives)
-      .concat(srml)
-      .concat(interfaceEnd)
-      .concat(FOOTER);
+    return generateInterfaceTypesTemplate({
+      headerType: 'defs',
+      imports,
+      items,
+      types
+    });
   });
 }
 

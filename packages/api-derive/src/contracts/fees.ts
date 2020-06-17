@@ -11,23 +11,24 @@ import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN];
+type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 
 // query via constants (current applicable path)
 function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
   return of([
     // deprecated
+    api.consts.contracts.callBaseFee || api.registry.createType('Balance'),
+    api.consts.contracts.contractFee || api.registry.createType('Balance'),
     api.consts.contracts.creationFee || api.registry.createType('Balance'),
+    api.consts.contracts.transactionBaseFee || api.registry.createType('Balance'),
+    api.consts.contracts.transactionByteFee || api.registry.createType('Balance'),
     api.consts.contracts.transferFee || api.registry.createType('Balance'),
 
     // current
-    api.consts.contracts.callBaseFee,
-    api.consts.contracts.contractFee,
     api.consts.contracts.rentByteFee,
     api.consts.contracts.rentDepositOffset,
-    api.consts.contracts.tombstoneDeposit,
-    api.consts.contracts.transactionBaseFee,
-    api.consts.contracts.transactionByteFee
+    api.consts.contracts.surchargeReward,
+    api.consts.contracts.tombstoneDeposit
   ]) as unknown as Observable<ResultV2>;
 }
 
@@ -47,12 +48,13 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
 export function fees (api: ApiInterfaceRx): () => Observable<DeriveContractFees> {
   return memo((): Observable<DeriveContractFees> => {
     return queryConstants(api).pipe(
-      map(([creationFee, transferFee, callBaseFee, contractFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee]): DeriveContractFees => ({
+      map(([callBaseFee, contractFee, creationFee, transactionBaseFee, transactionByteFee, transferFee, rentByteFee, rentDepositOffset, surchargeReward, tombstoneDeposit]): DeriveContractFees => ({
         callBaseFee,
         contractFee,
         creationFee,
         rentByteFee,
         rentDepositOffset,
+        surchargeReward,
         tombstoneDeposit,
         transactionBaseFee,
         transactionByteFee,

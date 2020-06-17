@@ -21,5 +21,6 @@ export function approvalFlagsToBools (flags: Vec<ApprovalFlag> | ApprovalFlag[])
 
   // slice off trailing "false" values, as in substrate
   const lastApproval: number = bools.lastIndexOf(true);
+
   return lastApproval >= 0 ? bools.slice(0, lastApproval + 1) : [];
 }

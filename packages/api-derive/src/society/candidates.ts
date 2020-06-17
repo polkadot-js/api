@@ -30,7 +30,7 @@ export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSociety
         ])
       ),
       map(([candidates, suspended]: Result): DeriveSocietyCandidate[] =>
-        candidates.map(({ who, kind, value }, index) => ({
+        candidates.map(({ kind, value, who }, index) => ({
           accountId: who,
           isSuspended: suspended[index].isSome,
           kind,

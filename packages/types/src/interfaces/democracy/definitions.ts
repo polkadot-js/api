@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// order important in structs... :)
+/* eslint-disable sort-keys */
+
 import { Definitions } from '../../types';
 
 const AllConvictions = [
@@ -47,12 +50,27 @@ export default {
       votes: 'Balance',
       capital: 'Balance'
     },
+    PreimageStatus: {
+      _enum: {
+        Missing: 'BlockNumber',
+        Available: 'PreimageStatusAvailable'
+      }
+    },
+    PreimageStatusAvailable: {
+      data: 'Bytes',
+      provider: 'AccountId',
+      deposit: 'Balance',
+      since: 'BlockNumber',
+      expiry: 'Option<BlockNumber>'
+    },
     PriorLock: '(BlockNumber, Balance)',
     PropIndex: 'u32',
     Proposal: 'Call',
     ProxyState: {
-      Open: 'AccountId',
-      Active: 'AccountId'
+      _enum: {
+        Open: 'AccountId',
+        Active: 'AccountId'
+      }
     },
     ReferendumIndex: 'u32',
     ReferendumInfoTo239: {
@@ -77,6 +95,9 @@ export default {
       threshold: 'VoteThreshold',
       delay: 'BlockNumber',
       tally: 'Tally'
+    },
+    ReleasesDemocracy: {
+      _enum: ['V1']
     },
     Tally: {
       ayes: 'Balance',

@@ -1,7 +1,8 @@
-/* eslint-disable no-dupe-class-members */
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+/* eslint-disable no-dupe-class-members */
 
 import { Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
@@ -19,7 +20,7 @@ import SubmittableResult from './Result';
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
   apiType: ApiTypes;
-  decorateMethod: ApiBase<ApiType>['decorateMethod'];
+  decorateMethod: ApiBase<ApiType>['_decorateMethod'];
 }
 
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
@@ -40,6 +41,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const [allOptions] = this.#makeSignAndSendOptions(options);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
           api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
@@ -59,7 +61,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // sign a transaction, returning the this to allow chaining, i.e. .sign(...).send()
-    public sign (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): this {
+    public sign (account: IKeyringPair, optionsOrNonce?: Partial<SignerOptions>): this {
       super.sign(account, this.#makeSignOptions(this.#optionsOrNonce(optionsOrNonce), {}));
 
       return this;
@@ -68,7 +70,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
     //
     // also supports signing through external signers
-    public signAsync (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+    public signAsync (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, optionsOrNonce).pipe(mapTo(this))
@@ -89,6 +92,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const [options, statusCb] = this.#makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<Codec> => (
           this.#observeSign(account, options).pipe(
@@ -111,6 +115,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         isSubscription
           ? this.#observeSubscribe
@@ -147,6 +152,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         ...options,
         ...extras,
         runtimeVersion: api.runtimeVersion,
+        signedExtensions: api.registry.signedExtensions,
         version: api.extrinsicType
       } as SignatureOptions;
     }
@@ -163,7 +169,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return [options, statusCb];
     }
 
-    #observeSign = (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): Observable<number | undefined> => {
+    #observeSign = (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): Observable<number | undefined> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = this.#optionsOrNonce(optionsOrNonce);
       let updateId: number | undefined;
@@ -183,7 +189,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       );
     }
 
-    #observeStatus = (status: ExtrinsicStatus): Observable<ISubmittableResult> => {
+    #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
         return of(new SubmittableResult({ status }));
       }
@@ -195,7 +201,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
           new SubmittableResult({
-            events: filterEvents(this.hash, block, events, status),
+            events: filterEvents(hash, block, events, status),
             status
           })
         )
@@ -211,9 +217,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
+      const hash = this.hash;
+
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
-          this.#observeStatus(status)
+          this.#observeStatus(hash, status)
         ),
         tap((status): void => {
           this.#updateSigner(updateId, status);
@@ -223,7 +231,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
     // NOTE here we actually override nonce if it was specified (backwards compat for
     // the previous signature - don't let userspace break, but allow then time to upgrade)
-    #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions>): Partial<SignerOptions> => {
+    #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions> = {}): Partial<SignerOptions> => {
       return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
         ? { nonce: optionsOrNonce }
         : optionsOrNonce;
@@ -237,8 +245,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const payload = this.registry.createType('SignerPayload', {
         ...options,
         address,
-        method: this.method,
-        blockNumber: header ? header.number : 0
+        blockNumber: header ? header.number : 0,
+        method: this.method
       });
       let result: SignerResult;
 

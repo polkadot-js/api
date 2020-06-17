@@ -2,13 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// order important in structs... :)
+/* eslint-disable sort-keys */
+
 import { Definitions } from '../../types';
+
+const SLOT_RANGE_COUNT = 10;
 
 export default {
   rpc: {},
   types: {
+    AbridgedCandidateReceipt: {
+      parachainIndex: 'ParaId',
+      relayParent: 'Hash',
+      headData: 'HeadData',
+      collator: 'CollatorId',
+      signature: 'CollatorSignature',
+      povBlockHash: 'Hash',
+      commitments: 'CandidateCommitments'
+    },
     AttestedCandidate: {
-      candidate: 'CandidateReceipt',
+      candidate: 'AbridgedCandidateReceipt',
       validityVotes: 'Vec<ValidityAttestation>',
       validatorIndices: 'BitVec'
     },
@@ -19,29 +33,45 @@ export default {
         Existing: 'ParaId'
       }
     },
+    CandidateCommitments: {
+      fees: 'Balance',
+      upwardMessages: 'Vec<UpwardMessage>',
+      erasureRoot: 'Hash',
+      newValidationCode: 'Option<ValidationCode>',
+      processedDownwardMessages: 'u32'
+    },
     CandidateReceipt: {
       parachainIndex: 'ParaId',
+      relayParent: 'Hash',
+      head_data: 'HeadData',
       collator: 'CollatorId',
       signature: 'CollatorSignature',
-      headData: 'HeadData',
-      egressQueueRoots: 'Vec<(ParaId, Hash)>',
-      fees: 'Balance',
-      blockDataHash: 'Hash',
-      upwardMessages: 'Vec<UpwardMessage>',
-      erasureRoot: 'Hash'
+      povBlockHash: 'Hash',
+      globalValidation: 'GlobalValidationSchedule',
+      localValidation: 'LocalValidationData',
+      commitments: 'CandidateCommitments'
     },
-    CollatorId: 'H256',
+    CollatorId: '[u8; 32]',
     CollatorSignature: 'Signature',
-    EgressQueueRoot: '(ParaId, Hash)',
+    DoubleVoteReport: {
+      identity: 'ValidatorId',
+      first: '(Statement, ValidatorSignature)',
+      second: '(Statement, ValidatorSignature)',
+      proof: 'MembershipProof',
+      signingContext: 'SigningContext'
+    },
+    DownwardMessage: {
+      _enum: {
+        TransferInto: '(AccountId, Balance, Remark)',
+        Opaque: 'Vec<u8>'
+      }
+    },
+    GlobalValidationSchedule: {
+      maxCodeSize: 'u32',
+      maxHeadDataSize: 'u32',
+      blockNumber: 'BlockNumber'
+    },
     HeadData: 'Bytes',
-    IncomingParachainDeploy: {
-      code: 'Bytes',
-      initialHeadData: 'Bytes'
-    },
-    IncomingParachainFixed: {
-      codeHash: 'Hash',
-      initialHeadData: 'Bytes'
-    },
     IncomingParachain: {
       _enum: {
         Unset: 'NewBidder',
@@ -49,58 +79,80 @@ export default {
         Deploy: 'IncomingParachainDeploy'
       }
     },
+    IncomingParachainFixed: {
+      codeHash: 'Hash',
+      codeSize: 'u32',
+      initialHeadData: 'HeadData'
+    },
+    IncomingParachainDeploy: {
+      code: 'ValidationCode',
+      initialHeadData: 'HeadData'
+    },
     LeasePeriod: 'BlockNumber',
     LeasePeriodOf: 'LeasePeriod',
+    LocalValidationData: {
+      parentHead: 'HeadData',
+      balance: 'Balance',
+      codeUpgradeAllowed: 'Option<BlockNumber>'
+    },
     NewBidder: {
       who: 'AccountId',
       sub: 'SubId'
     },
-    ParaId: 'u32',
-    ParaIdOf: 'ParaId',
-    ParaInfo: {
-      scheduling: 'ParaScheduling'
-    },
     ParachainDispatchOrigin: {
-      _enum: ['Signed', 'Parachain']
+      _enum: ['Signed', 'Parachain', 'Root']
+    },
+    ParaId: 'u32',
+    ParaInfo: {
+      scheduling: 'Scheduling'
+    },
+    ParaPastCodeMeta: {
+      upgradeTimes: 'Vec<BlockNumber>',
+      lastPruned: 'Option<BlockNumber>'
     },
     ParaScheduling: {
       _enum: ['Always', 'Dynamic']
     },
+    Remark: '[u8; 32]',
     Retriable: {
       _enum: {
         Never: 'Null',
         WithRetries: 'u32'
       }
     },
+    Scheduling: {
+      _enum: ['Always', 'Dynamic']
+    },
+    SigningContext: {
+      sessionIndex: 'SessionIndex',
+      parentHash: 'Hash'
+    },
     SlotRange: {
-      _enum: [
-        'ZeroZero', // 0
-        'ZeroOne', // 1,
-        'ZeroTwo', // 2,
-        'ZeroThree', // 3,
-        'OneOne', // 4,
-        'OneTwo', // 5,
-        'OneThree', // 6,
-        'TwoTwo', // 7,
-        'TwoThree', // 8,
-        'ThreeThree' // 9
-      ]
+      _enum: ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'OneOne', 'OneTwo', 'OneThree', 'TwoTwo', 'TwoThree', 'ThreeThree']
+    },
+    Statement: {
+      _enum: {
+        Never: 'Null', // starts at 1
+        Candidate: 'Hash',
+        Valid: 'Hash',
+        Invalid: 'Hash'
+      }
     },
     SubId: 'u32',
     UpwardMessage: {
       origin: 'ParachainDispatchOrigin',
-      data: 'Bytes'
+      data: 'Vec<u8>'
     },
+    ValidationCode: 'Bytes',
+    ValidatorSignature: 'Signature',
     ValidityAttestation: {
       _enum: {
-        // This Null is not in the original, however indexes start at 1, so add a
-        // placeholder in the first position (which is basically non-valid)
-        None: 'Null',
-        Implicit: 'CollatorSignature', // 1
-        Explicit: 'CollatorSignature' // 2
+        Never: 'Null', // starts at 1
+        Implicit: 'ValidatorSignature',
+        Explicit: 'ValidatorSignature'
       }
     },
-    WinningDataEntry: '(AccountId, ParaIdOf, BalanceOf)',
-    WinningData: '[WinningDataEntry; 10]'
+    WinningData: `[WinningDataEntry; ${SLOT_RANGE_COUNT}]`,
+    WinningDataEntry: 'Option<Bidder>'
   }
 } as Definitions;

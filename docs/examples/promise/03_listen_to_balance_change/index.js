@@ -1,6 +1,8 @@
+/* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/unbound-method */
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 
@@ -13,13 +15,13 @@ async function main () {
 
   // Retrieve the initial balance. Since the call has no callback, it is simply a promise
   // that resolves to the current on-chain value
-  let { nonce: previousNonce, data: { free: previousFree } } = await api.query.system.account(Alice);
+  let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(Alice);
 
   console.log(`${Alice} has a balance of ${previousFree}, nonce ${previousNonce}`);
   console.log(`You may leave this example running and start example 06 or transfer any value to ${Alice}`);
 
   // Here we subscribe to any balance changes and update the on-screen value
-  api.query.system.account(Alice, ({ nonce: currentNonce, data: { free: currentFree } }) => {
+  api.query.system.account(Alice, ({ data: { free: currentFree }, nonce: currentNonce }) => {
     // Calculate the delta
     const change = currentFree.sub(previousFree);
 

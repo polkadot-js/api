@@ -1,6 +1,7 @@
+/* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/unbound-method */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 // Import the API and operators from RxJs
 const { ApiRx } = require('@polkadot/api');
 const { pairwise, startWith } = require('rxjs/operators');
@@ -27,6 +28,7 @@ async function main () {
         // then balance[1] is the initial value of Alice account.
         console.log(`Alice ${Alice} has a balance of ${balance[1].data.free}`);
         console.log('You may leave this example running and start the "Make a transfer" example or transfer any value to Alice address');
+
         return;
       }
 

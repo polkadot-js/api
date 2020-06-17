@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsicEra, IKeyringPair, SignatureOptions, Signer, ISubmittableResult } from '@polkadot/types/types';
+import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsicEra, IKeyringPair, Signer, ISubmittableResult } from '@polkadot/types/types';
 import { ApiTypes } from '../types';
 
 import { Observable } from 'rxjs';
@@ -50,9 +50,9 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends Extrinsi
 
   send(statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
-  sign(account: IKeyringPair, _options: Partial<SignatureOptions>): this;
+  sign(account: IKeyringPair, _options?: Partial<SignerOptions>): this;
 
-  signAsync(account: AddressOrPair, _options: Partial<SignatureOptions>): SubmittableThis<ApiType, this>;
+  signAsync(account: AddressOrPair, _options?: Partial<SignerOptions>): SubmittableThis<ApiType, this>;
 
   signAndSend(account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 

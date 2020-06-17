@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// order important in structs... :)
+/* eslint-disable sort-keys */
+
 import { Definitions } from '../../types';
 
 export default {
@@ -13,8 +16,12 @@ export default {
     }
   },
   types: {
+    AllowedSlots: {
+      _enum: ['PrimarySlots', 'PrimaryAndSecondaryPlainSlots', 'PrimaryAndSecondaryVRFSlots']
+    },
     BabeAuthorityWeight: 'u64',
     BabeBlockWeight: 'u32',
+    MaybeRandomness: 'Option<Randomness>',
     MaybeVrf: 'Option<VrfData>',
     // TODO Remove as soon as merged and metadata static updated
     BabeWeight: 'u64',
@@ -22,23 +29,40 @@ export default {
       primary: 'Vec<u64>',
       secondary: 'Vec<u64>'
     },
+    NextConfigDescriptor: {
+      _enum: {
+        V0: 'Null',
+        V1: 'NextConfigDescriptorV1'
+      }
+    },
+    NextConfigDescriptorV1: {
+      c: '(u64, u64)',
+      allowedSlots: 'AllowedSlots'
+    },
     Randomness: 'Hash',
     RawBabePreDigest: {
       _enum: {
         Phantom: 'Null', // index starts at 1... empty slot at 0
         Primary: 'RawBabePreDigestPrimary',
-        Secondary: 'RawBabePreDigestSecondary'
+        SecondaryPlain: 'RawBabePreDigestSecondaryPlain',
+        SecondaryVRF: 'RawBabePreDigestSecondaryVRF'
       }
     },
     RawBabePreDigestPrimary: {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber',
-      vrfOutput: 'VrfData',
+      vrfOutput: 'VrfOutput',
       vrfProof: 'VrfProof'
     },
-    RawBabePreDigestSecondary: {
+    RawBabePreDigestSecondaryPlain: {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber'
+    },
+    RawBabePreDigestSecondaryVRF: {
+      authorityIndex: 'u32',
+      slotNumber: 'SlotNumber',
+      vrfOutput: 'VrfOutput',
+      vrfProof: 'VrfProof'
     },
     RawBabePreDigestTo159: {
       _enum: {
@@ -50,7 +74,7 @@ export default {
       authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight',
-      vrfOutput: 'VrfData',
+      vrfOutput: 'VrfOutput',
       vrfProof: 'VrfProof'
     },
     RawBabePreDigestSecondaryTo159: {
@@ -66,11 +90,13 @@ export default {
       _enum: {
         Zero: 'u32',
         One: 'u32',
-        Two: 'u32'
+        Two: 'u32',
+        Three: 'u32'
       }
     },
     SlotNumber: 'u64',
     VrfData: '[u8; 32]',
+    VrfOutput: '[u8; 32]',
     VrfProof: '[u8; 64]'
   }
 } as Definitions;

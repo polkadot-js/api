@@ -57,19 +57,21 @@ export default class Data extends Enum {
     super(registry, {
       None: 'Null', // 0
       Raw: 'Bytes', // 1
+      // eslint-disable-next-line sort-keys
       BlakeTwo256: 'H256', // 2
       Sha256: 'H256', // 3
+      // eslint-disable-next-line sort-keys
       Keccak256: 'H256', // 4
       ShaThree256: 'H256' // 5
     }, ...decodeData(registry, value));
   }
 
   get asRaw (): Bytes {
-    return this.raw as Bytes;
+    return this._raw as Bytes;
   }
 
   get asSha256 (): H256 {
-    return this.raw as H256;
+    return this._raw as H256;
   }
 
   get isRaw (): boolean {
@@ -95,7 +97,7 @@ export default class Data extends Enum {
       return new Uint8Array(1);
     } else if (this.index === 1) {
       // don't add the length, just the data
-      const data = this.raw.toU8a(true);
+      const data = this._raw.toU8a(true);
       const length = Math.min(data.length, 32);
       const u8a = new Uint8Array(length + 1);
 
@@ -109,7 +111,7 @@ export default class Data extends Enum {
     const u8a = new Uint8Array(33);
 
     u8a.set([this.index + 32], 0);
-    u8a.set(this.raw.toU8a(), 1);
+    u8a.set(this._raw.toU8a(), 1);
 
     return u8a;
   }

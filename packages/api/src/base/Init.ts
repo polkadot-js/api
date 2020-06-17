@@ -5,7 +5,7 @@
 import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import { Subscription, combineLatest, of } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
@@ -48,10 +48,10 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       this.registry.setKnownTypes(options.source.registry.knownTypes);
     }
 
-    this._rpc = this.decorateRpc(this._rpcCore, this.decorateMethod);
-    this._rx.rpc = this.decorateRpc(this._rpcCore, this.rxDecorateMethod);
-    this._queryMulti = this.decorateMulti(this.decorateMethod);
-    this._rx.queryMulti = this.decorateMulti(this.rxDecorateMethod);
+    this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
+    this._rx.rpc = this._decorateRpc(this._rpcCore, this._rxDecorateMethod);
+    this._queryMulti = this._decorateMulti(this._decorateMethod);
+    this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     this._rx.signer = options.signer;
 
     this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
@@ -62,11 +62,12 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // 'connected' event, then the `on('connected')` won't fire anymore. To
     // cater for this case, we call manually `this._onProviderConnect`.
     if (this._rpcCore.provider.isConnected()) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#onProviderConnect();
     }
   }
 
-  protected async loadMeta (): Promise<boolean> {
+  protected async _loadMeta (): Promise<boolean> {
     const genesisHash = await this._rpcCore.chain.getBlockHash(0).toPromise();
 
     // on re-connection to the same chain, we don't want to re-do everything from chain again
@@ -89,14 +90,14 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
     this._runtimeMetadata = this._options.source?._isReady
-      ? await this.metaFromSource(this._options.source)
-      : await this.metaFromChain(metadata);
+      ? await this._metaFromSource(this._options.source)
+      : await this._metaFromChain(metadata);
 
-    return this.initFromMeta(this._runtimeMetadata);
+    return this._initFromMeta(this._runtimeMetadata);
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  private async metaFromSource (source: ApiBase<any>): Promise<Metadata> {
+  private async _metaFromSource (source: ApiBase<any>): Promise<Metadata> {
     this._extrinsicType = source.extrinsicVersion;
     this._runtimeVersion = source.runtimeVersion;
     this._genesisHash = source.genesisHash;
@@ -107,48 +108,46 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // manually build a list of all available methods in this RPC, we are
     // going to filter on it to align the cloned RPC without making a call
     Object.keys(source.rpc).forEach((section): void => {
-      Object.keys((source.rpc as any)[section]).forEach((method): void => {
+      Object.keys((source.rpc as Record<string, Record<string, unknown>>)[section]).forEach((method): void => {
         methods.push(`${section}_${method}`);
       });
     });
 
-    this.filterRpcMethods(methods);
+    this._filterRpcMethods(methods);
 
     return source.runtimeMetadata;
   }
 
   // subscribe to metadata updates, inject the types on changes
-  private subscribeUpdates (): void {
-    if (this.#updateSub) {
+  private _subscribeUpdates (): void {
+    if (this.#updateSub || !this.hasSubscriptions) {
       return;
     }
 
     this.#updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
-      switchMap((version: RuntimeVersion) =>
-        combineLatest(
-          of(version),
-          this._rpcCore.state.getMetadata()
-        )
-      ),
-      map(([version, metadata]: [RuntimeVersion, Metadata]): boolean => {
-        if (this._runtimeVersion?.specVersion.eq(version.specVersion)) {
-          return false;
-        }
+      switchMap((version: RuntimeVersion): Observable<boolean> =>
+        // only retrieve the metadata when the on-chain version has been changed
+        this._runtimeVersion?.specVersion.eq(version.specVersion)
+          ? of(false)
+          : this._rpcCore.state.getMetadata().pipe(
+            map((metadata: Metadata): boolean => {
+              l.log(`Runtime version updated to spec=${version.specVersion.toString()}, tx=${version.transactionVersion.toString()}`);
 
-        l.log(`Runtime version updated to ${version.specVersion}`);
+              this._runtimeMetadata = metadata;
+              this._runtimeVersion = version;
+              this._rx.runtimeVersion = version;
 
-        this._runtimeMetadata = metadata;
-        this._runtimeVersion = version;
+              this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
+              this.injectMetadata(metadata, false);
 
-        this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
-        this.injectMetadata(metadata, false);
-
-        return true;
-      })
+              return true;
+            })
+          )
+      )
     ).subscribe();
   }
 
-  private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
+  private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
     const [runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
@@ -158,17 +157,18 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // set our chain version & genesisHash as returned
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
+    this._rx.runtimeVersion = runtimeVersion;
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
     this.registerTypes(getSpecTypes(this.registry, chain, runtimeVersion.specName, runtimeVersion.specVersion));
-    this.subscribeUpdates();
+    this._subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
-    await this.filterRpc();
+    await this._filterRpc();
 
     // retrieve metadata, either from chain  or as pass-in via options
-    const metadataKey = `${this._genesisHash}-${runtimeVersion.specVersion}`;
+    const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
@@ -179,7 +179,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     return metadata;
   }
 
-  private async initFromMeta (metadata: Metadata): Promise<boolean> {
+  private async _initFromMeta (metadata: Metadata): Promise<boolean> {
     // inject types based on metadata, if applicable
     this.registerTypes(getMetadataTypes(this.registry, metadata.version));
 
@@ -203,8 +203,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this.injectMetadata(metadata, true);
 
     // derive is last, since it uses the decorated rx
-    this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);
-    this._derive = this.decorateDerive(this.decorateMethod);
+    this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
+    this._derive = this._decorateDerive(this._decorateMethod);
 
     return true;
   }
@@ -215,7 +215,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     try {
       const [hasMeta, cryptoReady] = await Promise.all([
-        this.loadMeta(),
+        this._loadMeta(),
         this._options.initWasm === false
           ? Promise.resolve(true)
           : cryptoWaitReady()
@@ -233,7 +233,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
         });
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
-      const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
+      const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
       l.error(error);
 

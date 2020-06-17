@@ -12,14 +12,15 @@ describe('augmentObject', (): void => {
   });
 
   afterEach((): void => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     spy.mockClear();
   });
 
   it('logs added/removed sections and methods', (): void => {
     augmentObject(
       'test',
-      { foo: { f: 1, d: 1 }, bar: { b: 1 }, new: { z: 1 } },
-      { foo: { f: 1, c: 1 }, bar: { a: 1, c: 1 }, baz: { a: 1 } }
+      { bar: { b: 1 }, foo: { d: 1, f: 1 }, new: { z: 1 } },
+      { bar: { a: 1, c: 1 }, baz: { a: 1 }, foo: { c: 1, f: 1 } }
     );
 
     expect(spy).toHaveBeenCalledWith(
@@ -35,19 +36,19 @@ describe('augmentObject', (): void => {
   });
 
   it('copies sections to the dest', (): void => {
-    const src = { foo: { a: 1 }, bar: { b: 1 } };
+    const src = { bar: { b: 1 }, foo: { a: 1 } };
 
     expect(augmentObject('test', src, {})).toEqual(src);
   });
 
   it('adds fields to existing sections', (): void => {
-    const src = { foo: { a: 1 }, bar: { b: 1 } };
-    const dst = { foo: { b: 2 }, baz: { c: 1 } };
+    const src = { bar: { b: 1 }, foo: { a: 1 } };
+    const dst = { baz: { c: 1 }, foo: { b: 2 } };
 
     expect(augmentObject('test', src, dst)).toEqual({
-      foo: { b: 2, a: 1 },
       bar: { b: 1 },
-      baz: { c: 1 }
+      baz: { c: 1 },
+      foo: { a: 1, b: 2 }
     });
   });
 });

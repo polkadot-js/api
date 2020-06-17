@@ -1,6 +1,8 @@
+/* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
 // Import the API & Provider and some utility functions
 const { ApiPromise } = require('@polkadot/api');
 
@@ -44,7 +46,7 @@ async function main () {
         console.log('Included at block hash', status.asInBlock.toHex());
         console.log('Events:');
 
-        events.forEach(({ phase, event: { data, method, section } }) => {
+        events.forEach(({ event: { data, method, section }, phase }) => {
           console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
         });
       } else if (status.isFinalized) {

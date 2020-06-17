@@ -17,7 +17,7 @@ function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = true): WsProvider {
+function createWs (autoConnect = 1000): WsProvider {
   provider = new WsProvider(TEST_WS_URL, autoConnect);
 
   return provider;
@@ -47,10 +47,10 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_encoding', [{ error: 'send error' }])
       .catch((error): void => {
-        expect(error.message).toEqual('send error');
+        expect((error as Error).message).toEqual('send error');
       });
   });
 
@@ -63,10 +63,11 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_body', ['param'])
       .then((): void => {
         expect(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           (mock.body as any).test_body
         ).toEqual('{"id":1,"jsonrpc":"2.0","method":"test_body","params":["param"]}');
       });
@@ -74,17 +75,17 @@ describe('send', (): void => {
 
   it('throws error when !response.ok', (): Promise<any> => {
     createMock([{
-      id: 1,
       error: {
         code: 666,
         message: 'error'
-      }
+      },
+      id: 1
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_error', [])
       .catch((error): void => {
-        expect(error.message).toMatch(/666: error/);
+        expect((error as Error).message).toMatch(/666: error/);
       });
   });
 
@@ -97,7 +98,7 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs(true)
+    return createWs()
       .send('test_sub', [])
       .then((id): void => {
         expect(id).toEqual(1);

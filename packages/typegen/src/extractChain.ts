@@ -19,7 +19,7 @@ async function run (ws: string): Promise<void> {
   ]);
 
   // output the chain info, for easy re-use
-  console.error(`// Generated via 'yarn run chain:info ${ws}'\n\nexport default {\n  chain: '${chain.toString()}',\n  genesisHash: '${api.genesisHash.toHex()}',\n  specVersion: ${api.runtimeVersion.specVersion.toNumber()},\n  ss58Format: ${props.ss58Format.unwrapOr(42)},\n  tokenDecimals: ${props.tokenDecimals.unwrapOr(0)},\n  tokenSymbol: '${props.tokenSymbol.unwrapOr('UNIT')}',\n  metaCalls: '${Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64')}'\n};`);
+  console.error(`// Generated via 'yarn run chain:info ${ws}'\n\nexport default {\n  chain: '${chain.toString()}',\n  genesisHash: '${api.genesisHash.toHex()}',\n  specVersion: ${api.runtimeVersion.specVersion.toNumber()},\n  ss58Format: ${props.ss58Format.unwrapOr(42).toString()},\n  tokenDecimals: ${props.tokenDecimals.unwrapOr(0).toString()},\n  tokenSymbol: '${props.tokenSymbol.unwrapOr('UNIT').toString()}',\n  metaCalls: '${Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64')}'\n};`);
 
   // show any missing types
   api.runtimeMetadata.getUniqTypes(false);
@@ -35,8 +35,8 @@ export default function main (): void {
       ws: {
         default: 'ws://127.0.0.1:9944',
         description: 'The API endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io',
-        type: 'string',
-        required: true
+        required: true,
+        type: 'string'
       }
     }).argv;
 

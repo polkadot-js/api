@@ -77,6 +77,13 @@ export default class ExtrinsicPayloadV4 extends Struct {
   }
 
   /**
+   * @description The transactionVersion for this signature
+   */
+  public get transactionVersion (): u32 {
+    return this.get('transactionVersion') as u32;
+  }
+
+  /**
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {

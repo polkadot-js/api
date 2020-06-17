@@ -12,13 +12,14 @@ import generateQuery from './generate/query';
 import generateTx from './generate/tx';
 import { HEADER, writeFile } from './util';
 
-let websocket: any = null;
+let websocket: WebSocket;
 
 function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
   const extraTypes = pkg
-    ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) }
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
     : {};
 
   generateConst(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
@@ -38,7 +39,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   process.exit(0);
 }
 
-function onSocketClose (event: any): void {
+function onSocketClose (event: { code: number; reason: string }): void {
   console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
 
   process.exit(1);
@@ -62,13 +63,13 @@ export default function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     },
     output: {
       description: 'The target directory to write the data to',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     },
     package: {
       description: 'Optional package in output location (for extra definitions)',
@@ -87,7 +88,9 @@ export default function main (): void {
         websocket.onclose = onSocketClose;
         websocket.onerror = onSocketError;
         websocket.onopen = onSocketOpen;
+
         websocket.onmessage = (message: any): void => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           generate(JSON.parse(message.data).result, pkg, output, isStrict);
         };
       })
@@ -95,6 +98,7 @@ export default function main (): void {
         process.exit(1);
       });
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access
     generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
   }
 }

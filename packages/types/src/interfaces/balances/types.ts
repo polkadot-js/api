@@ -27,6 +27,12 @@ export interface BalanceLockTo212 extends Struct {
   readonly reasons: WithdrawReasons;
 }
 
+/** @name BalanceStatus */
+export interface BalanceStatus extends Enum {
+  readonly isFree: boolean;
+  readonly isReserved: boolean;
+}
+
 /** @name Reasons */
 export interface Reasons extends Enum {
   readonly isFee: boolean;

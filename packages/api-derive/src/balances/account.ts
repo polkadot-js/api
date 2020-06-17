@@ -9,6 +9,7 @@ import { DeriveBalancesAccount } from '../types';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -44,7 +45,7 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId): Obser
     [api.query.balances.account, accountId],
     [api.query.system.accountNonce, accountId]
   ]).pipe(
-    map(([{ free, reserved, miscFrozen, feeFrozen }, accountNonce]): Result =>
+    map(([{ feeFrozen, free, miscFrozen, reserved }, accountNonce]): Result =>
       [free, reserved, feeFrozen, miscFrozen, accountNonce]
     )
   );
@@ -54,7 +55,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
   // AccountInfo is current, support old, eg. Edgeware
   return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
     map((infoOrTuple): Result => {
-      const { free, reserved, miscFrozen, feeFrozen } = (infoOrTuple as AccountInfo).nonce
+      const { feeFrozen, free, miscFrozen, reserved } = (infoOrTuple as AccountInfo).nonce
         ? (infoOrTuple as AccountInfo).data
         : (infoOrTuple as [Index, AccountData])[1];
       const accountNonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
@@ -86,9 +87,9 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
         (accountId
           ? combineLatest([
             of(accountId),
-            api.query.system.account
+            isFunction(api.query.system.account)
               ? queryCurrent(api, accountId)
-              : api.query.balances.account
+              : isFunction(api.query.balances.account)
                 ? queryBalancesAccount(api, accountId)
                 : queryBalancesFree(api, accountId)
           ])

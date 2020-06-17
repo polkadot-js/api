@@ -2,10 +2,12 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u64 } from '@polkadot/types/primitive';
+import { BTreeSet, Enum, Struct, Vec } from '@polkadot/types/codec';
+import { u32, u64 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
-import { BlockNumber } from '@polkadot/types/interfaces/runtime';
+import { AuthoritySignature } from '@polkadot/types/interfaces/imOnline';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import { MembershipProof } from '@polkadot/types/interfaces/session';
 
 /** @name AuthorityIndex */
 export interface AuthorityIndex extends u64 {}
@@ -15,6 +17,37 @@ export interface AuthorityList extends Vec<NextAuthority> {}
 
 /** @name AuthorityWeight */
 export interface AuthorityWeight extends u64 {}
+
+/** @name Equivocation */
+export interface Equivocation extends Enum {
+  readonly isPrevote: boolean;
+  readonly asPrevote: GrandpaEquivocation;
+  readonly isPrecommit: boolean;
+  readonly asPrecommit: GrandpaEquivocation;
+}
+
+/** @name EquivocationProof */
+export interface EquivocationProof extends Struct {
+  readonly setId: SetId;
+  readonly equivocation: Equivocation;
+}
+
+/** @name GrandpaEquivocation */
+export interface GrandpaEquivocation extends Struct {
+  readonly roundNumber: u64;
+  readonly identity: AuthorityId;
+  readonly first: ITuple<[GrandpaPrevote, AuthoritySignature]>;
+  readonly second: ITuple<[GrandpaPrevote, AuthoritySignature]>;
+}
+
+/** @name GrandpaPrevote */
+export interface GrandpaPrevote extends Struct {
+  readonly targetHash: Hash;
+  readonly targetNumber: BlockNumber;
+}
+
+/** @name KeyOwnerProof */
+export interface KeyOwnerProof extends MembershipProof {}
 
 /** @name NextAuthority */
 export interface NextAuthority extends ITuple<[AuthorityId, AuthorityWeight]> {}
@@ -29,6 +62,34 @@ export interface PendingPause extends Struct {
 export interface PendingResume extends Struct {
   readonly scheduledAt: BlockNumber;
   readonly delay: BlockNumber;
+}
+
+/** @name Precommits */
+export interface Precommits extends Struct {
+  readonly currentWeight: u32;
+  readonly missing: BTreeSet<AuthorityId>;
+}
+
+/** @name Prevotes */
+export interface Prevotes extends Struct {
+  readonly currentWeight: u32;
+  readonly missing: BTreeSet<AuthorityId>;
+}
+
+/** @name ReportedRoundStates */
+export interface ReportedRoundStates extends Struct {
+  readonly setId: u32;
+  readonly best: RoundState;
+  readonly background: Vec<RoundState>;
+}
+
+/** @name RoundState */
+export interface RoundState extends Struct {
+  readonly round: u32;
+  readonly totalWeight: u32;
+  readonly thresholdWeight: u32;
+  readonly prevotes: Prevotes;
+  readonly precommits: Precommits;
 }
 
 /** @name SetId */

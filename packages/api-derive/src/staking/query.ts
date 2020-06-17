@@ -10,6 +10,7 @@ import { DeriveStakingQuery } from '../types';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -55,7 +56,7 @@ function retrieveCurr (api: ApiInterfaceRx, stashId: AccountId): Observable<Mult
   );
 }
 
-function retrieveController (api: ApiInterfaceRx, stashId: AccountId, [queuedKeys, [controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, nextKeys, exposure]]: [Vec<ITuple<[AccountId, Keys]>>, MultiResult]): Observable<DeriveStakingQuery> {
+function retrieveController (api: ApiInterfaceRx, stashId: AccountId, queuedKeys: Vec<ITuple<[AccountId, Keys]>>, [controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, nextKeys, exposure]: MultiResult): Observable<DeriveStakingQuery> {
   const controllerId = controllerIdOpt.unwrapOr(null);
   const nominators = nominatorsOpt.unwrapOr(null);
 
@@ -82,30 +83,41 @@ function retrieveController (api: ApiInterfaceRx, stashId: AccountId, [queuedKey
     : of({ accountId: stashId, nextSessionIds: [], sessionIds: [] });
 }
 
-/**
- * @description From a stash, retrieve the controllerId and all relevant details
- */
-export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingQuery> {
-  return memo((accountId: Uint8Array | string): Observable<DeriveStakingQuery> => {
+export function queryWithQueued (api: ApiInterfaceRx): (accountId: Uint8Array | string, queuedKeys: Vec<ITuple<[AccountId, Keys]>>) => Observable<DeriveStakingQuery> {
+  return memo((accountId: Uint8Array | string, queuedKeys: Vec<ITuple<[AccountId, Keys]>>): Observable<DeriveStakingQuery> => {
     const stashId = api.registry.createType('AccountId', accountId);
 
-    return combineLatest([
-      api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
-      api.query.staking.erasStakers
+    return (
+      isFunction(api.query.staking.erasStakers)
         ? retrieveCurr(api, stashId)
         : retrievePrev(api, stashId)
-    ]).pipe(
+    ).pipe(
       switchMap((result): Observable<DeriveStakingQuery> =>
-        retrieveController(api, stashId, result)
+        retrieveController(api, stashId, queuedKeys, result)
       )
     );
   });
 }
 
-export function queryMulti (api: ApiInterfaceRx): (...accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingQuery[]> {
-  return memo((...accountIds: (Uint8Array | string)[]): Observable<DeriveStakingQuery[]> =>
-    combineLatest(
-      accountIds.map((accountId) => api.derive.staking.query(accountId))
+/**
+ * @description From a stash, retrieve the controllerId and all relevant details
+ */
+export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingQuery> {
+  return memo((accountId: Uint8Array | string): Observable<DeriveStakingQuery> =>
+    api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>().pipe(
+      switchMap((queuedKeys) => api.derive.staking.queryWithQueued(accountId, queuedKeys))
     )
+  );
+}
+
+export function queryMulti (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingQuery[]> {
+  return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingQuery[]> =>
+    accountIds.length
+      ? api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>().pipe(
+        switchMap((queuedKeys) => combineLatest(
+          accountIds.map((acc) => api.derive.staking.queryWithQueued(acc, queuedKeys))
+        ))
+      )
+      : of([])
   );
 }

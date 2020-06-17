@@ -10,6 +10,10 @@ import * as extrinsicClasses from '@polkadot/types/extrinsic';
 import * as genericClasses from '@polkadot/types/generic';
 import * as primitiveClasses from '@polkadot/types/primitive';
 
+export interface ModuleTypes {
+  types: Record<string, unknown>;
+}
+
 // these map all the codec and primitive types for import, see the TypeImports below. If
 // we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`
 type TypeExist = Record<string, boolean>;
@@ -26,14 +30,14 @@ export interface TypeImports {
   localTypes: TypeExistMap; // `import {} from '../something'`
   primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
-  definitions: object; // all definitions
+  definitions: Record<string, ModuleTypes>; // all definitions
   typeToModule: Record<string, string>;
 }
 
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
 /** @internal */
-export function setImports (allDefs: object, imports: TypeImports, types: string[]): void {
+export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeImports, types: string[]): void {
   const { codecTypes, extrinsicTypes, genericTypes, ignoredTypes, localTypes, primitiveTypes, typesTypes } = imports;
 
   types.forEach((type): void => {
@@ -41,13 +45,13 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
       // do nothing
     } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'ITuple'].includes(type)) {
       typesTypes[type] = true;
-    } else if ((codecClasses as any)[type]) {
+    } else if ((codecClasses as Record<string, unknown>)[type]) {
       codecTypes[type] = true;
-    } else if ((extrinsicClasses as any)[type]) {
+    } else if ((extrinsicClasses as Record<string, unknown>)[type]) {
       extrinsicTypes[type] = true;
-    } else if ((genericClasses as any)[type]) {
+    } else if ((genericClasses as Record<string, unknown>)[type]) {
       genericTypes[type] = true;
-    } else if ((primitiveClasses as any)[type] || type === 'Metadata') {
+    } else if ((primitiveClasses as Record<string, unknown>)[type] || type === 'Metadata') {
       primitiveTypes[type] = true;
     } else if (type.includes('<') || type.includes('(') || (type.includes('[') && !type.includes('|'))) {
       // If the type is a bit special (tuple, fixed u8, nested type...), then we
@@ -84,8 +88,8 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
 
 // Create an Imports object, can be pre-filled with `ignoredTypes`
 /** @internal */
-export function createImports (importDefinitions: Record<string, object>, { types }: { types: Record<string, any> } = { types: {} }): TypeImports {
-  const definitions = {} as Record<string, object>;
+export function createImports (importDefinitions: Record<string, Record<string, ModuleTypes>>, { types }: ModuleTypes = { types: {} }): TypeImports {
+  const definitions = {} as Record<string, ModuleTypes>;
   const typeToModule = {} as Record<string, string>;
 
   Object.entries(importDefinitions).forEach(([packagePath, packageDef]): void => {
@@ -116,7 +120,7 @@ export function createImports (importDefinitions: Record<string, object>, { type
       return local;
     }, {}),
     primitiveTypes: {},
-    typesTypes: {},
-    typeToModule
+    typeToModule,
+    typesTypes: {}
   };
 }

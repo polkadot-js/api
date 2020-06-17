@@ -8,7 +8,5 @@ export { default as GenericAddress } from './Address';
 export { default as GenericBlock } from './Block';
 export { default as GenericCall } from './Call';
 export { default as GenericConsensusEngineId } from './ConsensusEngineId';
-export { default as GenericDigest } from './Digest';
 export { default as GenericEvent } from './Event';
-export { default as GenericOrigin } from './Origin';
 export { default as GenericVote } from './Vote';

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types-known authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -42,8 +42,8 @@ describe('getModuleTypes', (): void => {
 
   it('merges pre-defined and user-defined for identity', (): void => {
     expect(getModuleTypes(registry, 'identity')).toEqual({
-      Judgement: 'IdentityJudgement',
-      Id: 'IdentityId'
+      Id: 'IdentityId',
+      Judgement: 'IdentityJudgement'
     });
   });
 });

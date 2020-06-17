@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// order important in structs... :)
+/* eslint-disable sort-keys */
+
 import { Definitions } from '../../types';
 
 export default {
@@ -42,7 +45,7 @@ export default {
       type: 'Vec<StorageKey>'
     },
     getPairs: {
-      description: 'Returns the keys with prefix, leave empty to get all the keys',
+      description: 'Returns the keys with prefix, leave empty to get all the keys (deprecated: Use getKeysPaged)',
       params: [
         {
           name: 'prefix',
@@ -294,6 +297,21 @@ export default {
       ],
       type: 'Vec<StorageChangeSet>'
     },
+    getReadProof: {
+      description: 'Returns proof of storage entries at a specific block state',
+      params: [
+        {
+          name: 'keys',
+          type: 'Vec<StorageKey>'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'ReadProof'
+    },
     subscribeRuntimeVersion: {
       alias: ['chain_subscribeRuntimeVersion', 'chain_unsubscribeRuntimeVersion'],
       description: 'Retrieves the runtime version via subscription',
@@ -310,7 +328,8 @@ export default {
       params: [
         {
           name: 'keys',
-          type: 'Vec<StorageKey>'
+          type: 'Vec<StorageKey>',
+          isOptional: true
         }
       ],
       pubsub: [
@@ -324,6 +343,10 @@ export default {
   types: {
     ApiId: '[u8; 8]',
     KeyValueOption: '(StorageKey, Option<StorageData>)',
+    ReadProof: {
+      at: 'Hash',
+      proof: 'Vec<Bytes>'
+    },
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {
       specName: 'Text',
@@ -331,7 +354,8 @@ export default {
       authoringVersion: 'u32',
       specVersion: 'u32',
       implVersion: 'u32',
-      apis: 'Vec<RuntimeVersionApi>'
+      apis: 'Vec<RuntimeVersionApi>',
+      transactionVersion: 'u32'
     },
     StorageChangeSet: {
       block: 'Hash',

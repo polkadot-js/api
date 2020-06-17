@@ -9,45 +9,32 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Option, u32 } from '@polkadot/types';
-import { isBoolean, isUndefined, bnToBn } from '@polkadot/util';
 
 import { memo } from '../util';
 
-export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean | BN | number) => Observable<EraIndex[]> {
-  return memo((withActive?: boolean | BN | number): Observable<EraIndex[]> =>
+export function erasHistoric (api: ApiInterfaceRx): (withActive?: boolean) => Observable<EraIndex[]> {
+  return memo((withActive?: boolean): Observable<EraIndex[]> =>
     api.query.staking?.activeEra
       ? api.queryMulti<[Option<ActiveEraInfo>, u32]>([
         api.query.staking.activeEra,
         api.query.staking.historyDepth
       ]).pipe(
         map(([activeEraOpt, historyDepth]): EraIndex[] => {
-          const result: (EraIndex | null)[] = [];
+          const result: EraIndex[] = [];
           const max = historyDepth.toNumber();
-          const activeEra = activeEraOpt.unwrapOrDefault().index.toBn();
+          const activeEra: BN = activeEraOpt.unwrapOrDefault().index;
           let lastEra = activeEra;
 
           while (lastEra.gten(0) && (result.length < max)) {
-            result.push(
-              ((lastEra !== activeEra) || (withActive === true))
-                ? api.registry.createType('EraIndex', lastEra)
-                : null
-            );
+            if ((lastEra !== activeEra) || (withActive === true)) {
+              result.push(api.registry.createType('EraIndex', lastEra));
+            }
 
             lastEra = lastEra.subn(1);
           }
 
-          const startEra = isUndefined(withActive) || isBoolean(withActive)
-            ? new BN(0)
-            : bnToBn(withActive);
-
           // go from oldest to newest
-          return result
-            .filter((era): era is EraIndex =>
-              era
-                ? era.gte(startEra)
-                : false
-            )
-            .reverse();
+          return result.reverse();
         })
       )
       : of([])

@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, EraIndex, EraRewardPoints, Exposure, Keys, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type BN from 'bn.js';
+import { AccountId, Balance, EraIndex, Exposure, Keys, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { DeriveSessionIndexes } from '../session/types';
-
-import BN from 'bn.js';
 
 export type DeriveEraValPoints = Record<string, RewardPoint>;
 
@@ -41,7 +40,7 @@ export interface DeriveStakerPoints {
   points: RewardPoint;
 }
 
-export type DeriveEraNominatorExposure = Record<string, [string, number][]>;
+export type DeriveEraNominatorExposure = Record<string, DeriveEraExposureNominating[]>;
 
 export type DeriveEraValidatorExposure = Record<string, Exposure>;
 
@@ -59,21 +58,32 @@ export interface DeriveOwnExposure {
 
 export type DeriveOwnSlashes = DeriveStakerSlashes;
 
+export interface DeriveEraExposureNominating {
+  validatorId: string;
+  validatorIndex: number;
+}
+
 export interface DeriveStakerExposure {
   era: EraIndex;
   isEmpty: boolean;
   isValidator: boolean;
-  nominating: [string, number][];
+  nominating: DeriveEraExposureNominating[];
   validators: DeriveEraValidatorExposure;
+}
+
+export interface DeriveStakerRewardValidator {
+  total: Balance;
+  value: Balance;
 }
 
 export interface DeriveStakerReward {
   era: EraIndex;
+  eraReward: Balance;
+  isStakerPayout?: boolean;
   isEmpty: boolean;
   isValidator: boolean;
-  nominating: [string, number][];
-  validators: Record<string, Balance>;
-  total: Balance;
+  nominating: DeriveEraExposureNominating[];
+  validators: Record<string, DeriveStakerRewardValidator>;
 }
 
 export interface DeriveStakerSlashes {
@@ -115,7 +125,6 @@ export interface DeriveStakingAccount extends DeriveStakingQuery {
 }
 
 export interface DeriveStakingOverview extends DeriveSessionIndexes {
-  eraPoints: EraRewardPoints;
   nextElected: AccountId[];
   validators: AccountId[];
 }

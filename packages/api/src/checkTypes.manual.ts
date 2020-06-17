@@ -31,11 +31,13 @@ async function derive (api: ApiPromise): Promise<void> {
   });
 
   const fees = await api.derive.balances.fees();
+
   console.log('fees', fees);
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.bonded();
+
   console.log('intentions:', intentions);
 
   // api.query.*.* is well-typed
@@ -47,6 +49,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
   // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
   const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
+
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
   // check multi for unsub
@@ -71,6 +74,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // at queries
   const events = await api.query.system.events.at('0x12345');
+
   console.log(`Received ${events.length} events:`);
 
   // check entries()
@@ -82,7 +86,8 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // check range types
   const entries = await api.query.system.events.range(['0x12345', '0x7890']);
-  console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`)}`);
+
+  console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`).join(', ')}`);
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
@@ -100,6 +105,7 @@ async function rpc (api: ApiPromise): Promise<void> {
   await api.rpc.chain.getBlock.raw('0x123456');
 
   // using raw subs
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
     console.log(result);
   });
@@ -120,7 +126,7 @@ function types (api: ApiPromise): void {
 
 async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // transfer, also allows for BigInt inputs here
-  const transfer = api.tx.balances.transfer(keyring.bob.address, 123_456_789n);
+  const transfer = api.tx.balances.transfer(keyring.bob.address, 123456789n);
 
   console.log('transfer as Call', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);
@@ -154,26 +160,30 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
     });
 
   // it allows for query & then using the submittable
-  const second = api.tx.democracy.second(123);
+  const second = api.tx.democracy.second(123, 5);
 
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   second.signAndSend('123', (result): void => {
     console.log(result);
   });
 
   // it handles enum inputs correctly
-  await api.tx.democracy.proxyVote(123, { Split: { yay: 123, nay: 456 } }).signAndSend(keyring.alice);
+  await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(keyring.alice);
 }
 
 async function main (): Promise<void> {
   const api = await ApiPromise.create();
   const keyring = testKeyring();
 
-  consts(api);
-  derive(api);
-  query(api, keyring);
-  rpc(api);
-  types(api);
-  tx(api, keyring);
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  Promise.all([
+    consts(api),
+    derive(api),
+    query(api, keyring),
+    rpc(api),
+    types(api),
+    tx(api, keyring)
+  ]);
 }
 
 // eslint-disable-next-line @typescript-eslint/unbound-method

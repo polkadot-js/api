@@ -20,6 +20,9 @@ All data transferred between the API and the Node is in a SCALE-encoded binary f
 
 To fix this, you should look at the specific `api.tx.*` params and adjust the type definitions for those param types to match what is found on the node side. In some rare cases the cause could be extrinsic formatting related, to track these make an `api.tx.system.remark(data: Bytes)` call, if it fails, the API and node cannot agree on [an extrinsic format and adjustments are required](types.extend.md#impact-on-extrinsics).
 
+If you are using a node-template based version of substrate and you changed the specName you need to add these typings(In addition to other custom types) `{"Address": "AccountId","LookupSource": "AccountId"}`. This is also the case when you use [polkadot-js/apps](https://github.com/polkadot-js/apps) to connect to your node. When the specName stays node-template the API is smart enough to add the custom typings.
+
+
 ## I would like to sign transactions offline
 
 The API itself is independent on where the signature comes from and how it is injected. Additionally it implements a signer interface, that can be used for external signing - an example of this is the [polkadot-js/apps](https://github.com/polkadot-js/apps) support for signing via extensions and even the [polkadot-js/extension](https://github.com/polkadot-js/extension) support for tools such as the [Parity Signer](https://github.com/paritytech/parity-signer).
@@ -52,8 +55,27 @@ Likewise, if your chain has been upgraded recently and you are still using the o
 
 ## I cannot send transactions from my node-template-based chain
 
-For the API defaults, the API always the type definitions as specified by the Substrate master fully-featured node. This means that any customizations needs to be applied as types should there be differences in specific user-implementations.
+The API always injects the default type definitions as specified by the Substrate master fully-featured node. This means that any customizations to chains needs needs to be applied as types, should there be differences in specific user-implementations.
 
-The Substrate node-template has added customizations for some types in the default template, specifically around the `Address` and `Lookup` types, removing indices lookups from addresses. This means that the transaction payload saves 2 bytes for a transfer and is an approach followed by other chains as well, notably Polkadot & Kusama.
+The Substrate node-template has added customizations for some types in the default template, specifically around the `Address` and `Lookup` types, removing any lookups based on indices. This means that the transaction payload saves 2 bytes for a transfer and is an approach followed by other chains as well, notably Polkadot & Kusama.
 
-Due to these customizations and differences that bleed through to the transaction formats, out-of-the-box the node-template will have issues when sending transactions. To fix this, you would need to add [the customized Address types into your API](types.extend.md#impact-on-extrinsics) instances (or UIs), allowing the API to have the information required to adjust the encoding.
+Due to these customizations and differences that bleed through to the transaction formats, out-of-the-box chains based on the node-template will have issues when sending transactions. To fix this, you would need to add [the customized Address types into your API](types.extend.md#impact-on-extrinsics) instances (or UIs), allowing the API to have the information required to adjust the encoding.
+
+## Using a non-current-master node, I have issues parsing events
+
+Recently Substrate master updated the `Weight` type from `u32` -> `u64`. This type is used in the `DispatchInfo` struct in the `system.ExtrinsicSuccess` events, to return the applied call weights as well as the resulting fees. Since the API master branch tracks Substrate master, this means the change has been applied by default, with the default set to `u64`.
+
+If you are on a chain that has not been upgraded yet, you need to add `Weight: 'u32'` to your types to allow for successful parsing of all events. Without this override, parsing will fail. As soon as one event in the `Vec<EventRecord>` structure from `system.events` fails to parse, all subsequent events are affected and the decoding will return an error.
+
+## When querying older blocks & events, it fails on parsing
+
+Upon initialization, the API is decorated with the [current on-chain metadata](basics.md#metadata) and (if [available](https://github.com/polkadot-js/api/tree/master/packages/types-known/src)) the specific types for the runtime version is added. This allows the API to decode all current (as per the on-chain info) state and extrinsics.
+
+When the chain is upgraded, new metadata (indicating new events, storage and extrinsics) is added on-chain. Additionally this generally goes hand in-hand with changes in types, i.e. fields may be addedd or removed or state that was used could now be migrated to new locations. In most cases, this would mean that the current chain information cannot be used to parse older entries pre-upgrade. A typical consequence of this is that any `.at(...)` or `.range(...)` queries pre-upgrade may fail.
+
+As of the current time, there is no automatic injection of older metadata (based on the runtime version at a specific block) nor decoration of older types if they are available. It can be emulated with what the API will do to handle these cases when it adds a `.historic(...)` query type -
+
+- querying the runtime version at the parent of older block you wish to retrieve
+- retrieving and injecting the metadata from the parent block (if the runtime version has changed)
+- inject any specific older types for the state at that point
+- finally retrieve the actual entry via an `.at(...)` query

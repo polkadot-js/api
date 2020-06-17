@@ -1,6 +1,8 @@
+/* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/unbound-method */
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 

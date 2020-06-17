@@ -10,7 +10,7 @@ import Option from './Option';
 
 const registry = new TypeRegistry();
 
-const testDecode = (type: string, input: any, expected: any): void =>
+const testDecode = (type: string, input: any, expected: string): void =>
   it(`can decode from ${type}`, (): void => {
     const o = new Option(registry, Text, input);
 
@@ -18,11 +18,11 @@ const testDecode = (type: string, input: any, expected: any): void =>
     expect(o.isNone).toBe(!expected.length);
   });
 
-const testEncode = (to: string, expected: any): void =>
+const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: any): void =>
   it(`can encode ${to}`, (): void => {
     const e = new Option(registry, Text, 'foo');
 
-    expect((e as any)[to]()).toEqual(expected);
+    expect(e[to]()).toEqual(expected);
   });
 
 describe('Option', (): void => {

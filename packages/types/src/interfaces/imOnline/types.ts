@@ -19,6 +19,15 @@ export interface Heartbeat extends Struct {
   readonly networkState: OpaqueNetworkState;
   readonly sessionIndex: SessionIndex;
   readonly authorityIndex: AuthIndex;
+  readonly validatorsLen: u32;
+}
+
+/** @name HeartbeatTo244 */
+export interface HeartbeatTo244 extends Struct {
+  readonly blockNumber: BlockNumber;
+  readonly networkState: OpaqueNetworkState;
+  readonly sessionIndex: SessionIndex;
+  readonly authorityIndex: AuthIndex;
 }
 
 /** @name OpaqueMultiaddr */

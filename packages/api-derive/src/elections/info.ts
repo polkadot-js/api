@@ -27,9 +27,9 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
     api.query[section].runnersUp
   ]).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
-      candidates,
-      candidateCount: api.registry.createType('u32', candidates.length),
       candidacyBond: api.consts[section].candidacyBond as Balance,
+      candidateCount: api.registry.createType('u32', candidates.length),
+      candidates,
       desiredSeats: api.consts[section].desiredMembers as u32,
       members: members.length
         ? members.sort(sortAccounts)

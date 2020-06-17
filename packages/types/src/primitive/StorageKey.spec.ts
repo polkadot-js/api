@@ -240,9 +240,7 @@ describe('StorageKey', (): void => {
 
       key.setMeta(metadata.query.staking.erasStakers.meta);
 
-      expect(
-        key.args.map((arg) => arg.toHuman())
-      ).toEqual([
+      expect(key.toHuman()).toEqual([
         '16',
         '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY'
       ]);
@@ -253,9 +251,7 @@ describe('StorageKey', (): void => {
 
       key.setMeta(metadata.query.society.defenderVotes.meta);
 
-      expect(
-        key.args.map((arg) => arg.toHuman())
-      ).toEqual([
+      expect(key.toHuman()).toEqual([
         '5D4yQHKfqCQYThhHmTfN1JEDi47uyDJc1xg9eZfAG1R7FC7J'
       ]);
     });

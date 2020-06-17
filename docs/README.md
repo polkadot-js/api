@@ -13,7 +13,7 @@ features:
 - title: Types
   details: Various type interfaces to make using returned values from API calls transparent in your code.
 
-footer: Apache-2 Licensed | Copyright © 2017-2019 polkadot-js authors and contributors
+footer: Apache-2 Licensed | Copyright © 2017-2020 polkadot-js authors and contributors
 ---
 
 ## Welcome
@@ -21,15 +21,8 @@ footer: Apache-2 Licensed | Copyright © 2017-2019 polkadot-js authors and contr
 The API provides application developers the ability to query a node and interact with the Polkadot or Substrate chains using Javascript. Here you will find documentation and examples to get you started.
 
 ::: tip Getting started & Examples
-[Jump right in](/start/) and get an overview on using the API in your projects, from installation all the way through to making it do magic.  Already understand how things work and just want the examples? [The ApiPromise examples](/examples/promise/) provide some basic recipies.
+[Jump right in](/start/) and get an overview on using the API in your projects, from installation all the way through to making it do magic. Have things working and want tips? The [cookbook](/cookbook/) provides some tips and tricks. Getting started and want some full examples? [The ApiPromise examples](/examples/promise/) provide some basic examples.
 :::
-
-## Available packages
-
-This repository split up into a number of internal packages, namely -
-
-- [api](api/README.md) Promise and RxJS-based APIs
-- [types](types/README.md) Type encoding and decoding wrappers
 
 ## The Polkadot Project
 

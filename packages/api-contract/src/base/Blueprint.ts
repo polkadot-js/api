@@ -47,18 +47,19 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
     assert(!!this.abi.constructors[constructorIndex], `Specified constructor index ${constructorIndex} does not exist`);
 
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this.decorateMethod(
         (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType> => {
-          return this.apiContracts
+          return this._apiContracts
             .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
             .signAndSend(account)
-            .pipe(map(this.createResult));
+            .pipe(map(this._createResult));
         }
       )
     };
   }
 
-  private createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
+  private _createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
     let contract: Contract<ApiType> | undefined;
 
     if (result.isInBlock) {

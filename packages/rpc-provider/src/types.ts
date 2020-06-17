@@ -9,7 +9,7 @@ export interface JsonRpcObject {
 
 export interface JsonRpcRequest extends JsonRpcObject {
   method: string;
-  params: any[];
+  params: unknown[];
 }
 
 export interface JsonRpcResponseBaseError {
@@ -20,15 +20,15 @@ export interface JsonRpcResponseBaseError {
 
 interface JsonRpcResponseSingle {
   error?: JsonRpcResponseBaseError;
-  result?: any;
+  result?: unknown;
 }
 
 interface JsonRpcResponseSubscription {
   method?: string;
   params: {
     error?: JsonRpcResponseBaseError;
-    result: any;
-    subscription: number;
+    result: unknown;
+    subscription: number | string;
   };
 }
 

@@ -61,7 +61,7 @@ describe('Vec', (): void => {
     expect(vector.Type).toEqual('Text');
   });
 
-  it('decodes reusing instanciated inputs', (): void => {
+  it('decodes reusing instantiated inputs', (): void => {
     const foo = new Text(registry, 'bar');
 
     expect(
@@ -77,6 +77,14 @@ describe('Vec', (): void => {
 
     expect((first[0] as PropIndex).toNumber()).toEqual(10);
     expect((first[1] as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
+  });
+
+  it('decodes a complex type via construction', (): void => {
+    const INPUT = '0x08cc0200000000ce0200000001';
+    const test = createTypeUnsafe(registry, 'Vec<(u32, [u32; 0], u16)>' as any, [INPUT]);
+
+    expect((test as Vec<any>).length).toEqual(2);
+    expect(test.toHex()).toEqual(INPUT);
   });
 
   describe('vector-like functions', (): void => {
@@ -116,7 +124,7 @@ describe('Vec', (): void => {
 
     it('exposes a working reduce', (): void => {
       expect(
-        vector.reduce((r, e): string => `${r}${e}`, '')
+        vector.reduce((r, e): string => `${r}${e.toString()}`, '')
       ).toEqual('123345456756789');
     });
 

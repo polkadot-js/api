@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable sort-keys */
+
 import { TypeRegistry } from '../create';
 import AccountId from '../generic/AccountId';
 import Text from '../primitive/Text';
@@ -20,6 +22,7 @@ describe('Struct', (): void => {
           foo: Text,
           bar: U32
         }, input);
+
         expect([...s.keys()]).toEqual(['foo', 'bar']);
         expect(
           [...s.values()].map((v): string =>
@@ -41,6 +44,7 @@ describe('Struct', (): void => {
           foo: Text,
           bar: U32
         }, { foo: 'bazzing', bar: 69 });
+
         expect(s[to]()).toEqual(expected);
       });
 
@@ -79,6 +83,7 @@ describe('Struct', (): void => {
         bar: Text
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
+
     expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
   });
 
@@ -92,6 +97,7 @@ describe('Struct', (): void => {
       foo: U32,
       bar: U32
     }, input);
+
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
   });
 
@@ -137,7 +143,9 @@ describe('Struct', (): void => {
       })
     )(registry, { txt: 'foo', u32: 0x123456 });
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     expect((struct as any).txt.toString()).toEqual('foo');
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     expect((struct as any).u32.toNumber()).toEqual(0x123456);
   });
 

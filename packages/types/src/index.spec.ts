@@ -17,8 +17,8 @@ import * as definitions from './interfaces/definitions';
 const UNCONSTRUCTABLE = [
   'ExtrinsicPayloadUnknown', 'GenericExtrinsicPayloadUnknown',
   'ExtrinsicUnknown', 'GenericExtrinsicUnknown',
-  'GenericOrigin', 'Origin',
-  'Unconstructable',
+  'DoNotConstruct',
+  'Origin',
   'usize'
 ].map((v): string => v.toLowerCase());
 

@@ -50,15 +50,15 @@ function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountI
  */
 export default class Address extends Base<AccountId | AccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
-    super(registry, Address.decodeAddress(registry, value));
+    super(registry, Address._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
+  private static _decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
     } else if (value instanceof Address) {
-      return value.raw;
+      return value._raw;
     } else if (isBn(value) || isNumber(value)) {
       return registry.createType('AccountIndex', value);
     } else if (Array.isArray(value) || isHex(value) || isU8a(value)) {
@@ -72,7 +72,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    const rawLength = this.rawLength;
+    const rawLength = this._rawLength;
 
     return rawLength + (
       // for 1 byte AccountIndexes, we are not adding a specific prefix
@@ -85,10 +85,10 @@ export default class Address extends Base<AccountId | AccountIndex> {
   /**
    * @description The length of the raw value, either AccountIndex or AccountId
    */
-  public get rawLength (): number {
-    return this.raw instanceof AccountIndex
-      ? AccountIndex.calcLength(this.raw)
-      : this.raw.encodedLength;
+  protected get _rawLength (): number {
+    return this._raw instanceof AccountIndex
+      ? AccountIndex.calcLength(this._raw)
+      : this._raw.encodedLength;
   }
 
   /**
@@ -110,12 +110,12 @@ export default class Address extends Base<AccountId | AccountIndex> {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.raw.toU8a().subarray(0, this.rawLength);
+    const encoded = this._raw.toU8a().subarray(0, this._rawLength);
 
     return isBare
       ? encoded
       : u8aConcat(
-        this.raw instanceof AccountIndex
+        this._raw instanceof AccountIndex
           ? AccountIndex.writeLength(encoded)
           : ACCOUNT_ID_PREFIX,
         encoded

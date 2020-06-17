@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
+import { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
 import { HashMap, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
@@ -13,13 +13,13 @@ import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
+import { ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
 import { StorageKind } from '@polkadot/types/interfaces/offchain';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
-import { RuntimeVersion } from '@polkadot/types/interfaces/state';
-import { ChainProperties, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
-import { Observable } from 'rxjs';
+import { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
+import { ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
@@ -141,15 +141,21 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       finalizeBlock: AugmentedRpc<(hash: BlockHash | string | Uint8Array, justification?: Justification | string | Uint8Array) => Observable<bool>>;
     };
+    grandpa: {
+      /**
+       * Returns the state of the current best round state as well as the ongoing background rounds
+       **/
+      roundState: AugmentedRpc<() => Observable<ReportedRoundStates>>;
+    };
     offchain: {
       /**
        * Get offchain local storage under given key and prefix
        **/
-      localStorageGet: AugmentedRpc<(kind: StorageKind | ('__UNUSED' | 'PERSISTENT' | 'LOCAL') | number | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
+      localStorageGet: AugmentedRpc<(kind: StorageKind | '__UNUSED' | 'PERSISTENT' | 'LOCAL' | number | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
       /**
        * Set offchain local storage under given key and prefix
        **/
-      localStorageSet: AugmentedRpc<(kind: StorageKind | ('__UNUSED' | 'PERSISTENT' | 'LOCAL') | number | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => Observable<Null>>;
+      localStorageSet: AugmentedRpc<(kind: StorageKind | '__UNUSED' | 'PERSISTENT' | 'LOCAL' | number | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => Observable<Null>>;
     };
     payment: {
       /**
@@ -197,9 +203,13 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       getMetadata: AugmentedRpc<(at?: BlockHash | string | Uint8Array) => Observable<Metadata>>;
       /**
-       * Returns the keys with prefix, leave empty to get all the keys
+       * Returns the keys with prefix, leave empty to get all the keys (deprecated: Use getKeysPaged)
        **/
       getPairs: AugmentedRpc<(prefix: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array) => Observable<Vec<KeyValue>>>;
+      /**
+       * Returns proof of storage entries at a specific block state
+       **/
+      getReadProof: AugmentedRpc<(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: BlockHash | string | Uint8Array) => Observable<ReadProof>>;
       /**
        * Get the runtime version
        **/
@@ -231,7 +241,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Subscribes to storage changes for the provided keys
        **/
-      subscribeStorage: AugmentedRpc<<T = Codec[]>(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[]) => Observable<T>>;
+      subscribeStorage: AugmentedRpc<<T = Codec[]>(keys?: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[]) => Observable<T>>;
     };
     system: {
       /**
@@ -243,9 +253,21 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       chain: AugmentedRpc<() => Observable<Text>>;
       /**
+       * Retrieves the chain type
+       **/
+      chainType: AugmentedRpc<() => Observable<ChainType>>;
+      /**
        * Return health status of the node
        **/
       health: AugmentedRpc<() => Observable<Health>>;
+      /**
+       * The addresses include a trailing /p2p/ with the local PeerId, and are thus suitable to be passed to addReservedPeer or as a bootnode address for example
+       **/
+      localListenAddresses: AugmentedRpc<() => Observable<Vec<Text>>>;
+      /**
+       * Returns the base58-encoded PeerId of the node
+       **/
+      localPeerId: AugmentedRpc<() => Observable<Text>>;
       /**
        * Retrieves the node name
        **/

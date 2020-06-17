@@ -8,10 +8,10 @@ import { DeriveCouncilVote } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { memo } from '../util';
 
 export function votesOf (api: ApiInterfaceRx): (accountId: string | Uint8Array | AccountId) => Observable<DeriveCouncilVote> {
-  // no memo, votes actually pulls the entries without a memo (using entries)
-  return (accountId: string | Uint8Array | AccountId): Observable<DeriveCouncilVote> =>
+  return memo((accountId: string | Uint8Array | AccountId): Observable<DeriveCouncilVote> =>
     api.derive.council.votes().pipe(
       map((votes): DeriveCouncilVote =>
         (
@@ -19,5 +19,6 @@ export function votesOf (api: ApiInterfaceRx): (accountId: string | Uint8Array |
           [null, { stake: api.registry.createType('Balance'), votes: [] as AccountId[] }]
         )[1]
       )
-    );
+    )
+  );
 }

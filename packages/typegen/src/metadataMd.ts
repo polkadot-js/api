@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { Codec } from '@polkadot/types/types';
 
 import fs from 'fs';
 import Decorated from '@polkadot/metadata/Decorated';
@@ -51,6 +52,7 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
             .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
             .replace(/^#{1,3} /, '#### ')} `
     , '');
+
   // prefix each line with indentation
   return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
@@ -80,8 +82,9 @@ function renderPage (page: Page): string {
 
       Object.keys(item).filter((i) => i !== 'name').forEach((bullet) => {
         md += `\n- **${bullet}**: ${
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           item[bullet] instanceof Vec
-            ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2)
+            ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
             : item[bullet]
         }`;
       });
@@ -93,8 +96,9 @@ function renderPage (page: Page): string {
   return md;
 }
 
-function sortByName<T extends { name: any }> (a: T, b: T): number {
+function sortByName<T extends { name: Codec | string }> (a: T, b: T): number {
   // case insensitive (all-uppercase) sorting
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
   return a.name.toString().toUpperCase().localeCompare(b.name.toString().toUpperCase());
 }
 
@@ -105,7 +109,6 @@ function addRpc (): string {
     .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
 
   return renderPage({
-    title: 'JSON-RPC',
     description: DESC_RPC,
     sections: sections
       .sort()
@@ -113,33 +116,34 @@ function addRpc (): string {
         const section = definitions[sectionName as 'babe'];
 
         return {
-          name: sectionName,
           // description: section.description,
           items: Object.keys(section.rpc)
             .sort()
             .map((methodName) => {
               const method = section.rpc[methodName];
-              const args = method.params.map(({ name, isOptional, type }: any): string => {
+              const args = method.params.map(({ isOptional, name, type }: any): string => {
+                // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
               }).join(', ');
               const type = '`' + method.type + '`';
 
               return {
-                name: `${methodName}(${args}): ${type}`,
-                jsonrpc: '`' + `${sectionName}_${methodName}` + '`',
                 interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
+                jsonrpc: '`' + `${sectionName}_${methodName}` + '`',
+                name: `${methodName}(${args}): ${type}`,
                 ...(method.description && { summary: method.description })
               };
-            })
+            }),
+          name: sectionName
         };
-      })
+      }),
+    title: 'JSON-RPC'
   });
 }
 
 /** @internal */
 function addConstants (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Constants',
     description: DESC_CONSTANTS,
     sections: metadata.modules
       .sort(sortByName)
@@ -148,20 +152,21 @@ function addConstants (metadata: MetadataLatest): string {
         const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
         return {
-          name: sectionName,
           items: moduleMetadata.constants
             .sort(sortByName)
             .map((func) => {
               const methodName = stringCamelCase(func.name.toString());
 
               return {
-                name: `${methodName}: ` + '`' + func.type + '`',
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
+                name: `${methodName}: ` + '`' + func.type.toString() + '`',
                 ...(func.documentation.length && { summary: func.documentation })
               };
-            })
+            }),
+          name: sectionName
         };
-      })
+      }),
+    title: 'Constants'
   });
 }
 
@@ -174,7 +179,6 @@ function addStorage (metadata: MetadataLatest): string {
       const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
       return {
-        name: sectionName,
         items: moduleMetadata.storage.unwrap().items
           .sort(sortByName)
           .map((func) => {
@@ -187,103 +191,103 @@ function addStorage (metadata: MetadataLatest): string {
             const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
 
             return {
-              name: `${methodName}(${arg}): ` + '`' + outputType + '`',
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
+              name: `${methodName}(${arg}): ` + '`' + outputType + '`',
               ...(func.documentation.length && { summary: func.documentation })
             };
-          })
+          }),
+        name: sectionName
       };
     });
 
-  const options = { flags: 'r', encoding: 'utf8' };
-  const knownSection = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', options));
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const knownSection: any = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', 'utf8'));
 
   return renderPage({
-    title: 'Storage',
     description: DESC_STORAGE,
-    sections: moduleSections.concat([knownSection])
+    sections: moduleSections.concat([knownSection]),
+    title: 'Storage'
   });
 }
 
 /** @internal */
 function addExtrinsics (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Extrinsics',
     description: DESC_EXTRINSICS,
     sections: metadata.modules
       .sort(sortByName)
-      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length)
+      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
       .map((meta) => {
         const sectionName = stringCamelCase(meta.name.toString());
 
         return {
-          name: sectionName,
           items: meta.calls.unwrap()
             .sort(sortByName)
             .map((func) => {
               const methodName = stringCamelCase(func.name.toString());
-              const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
+              const args = Call.filterOrigin(func).map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
 
               return {
-                name: `${methodName}(${args})`,
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
+                name: `${methodName}(${args})`,
                 ...(func.documentation.length && { summary: func.documentation })
               };
-            })
+            }),
+          name: sectionName
         };
-      })
+      }),
+    title: 'Extrinsics'
   });
 }
 
 /** @internal */
 function addEvents (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Events',
     description: DESC_EVENTS,
     sections: metadata.modules
       .sort(sortByName)
-      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length)
+      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length !== 0)
       .map((meta) => ({
-        name: stringCamelCase(meta.name.toString()),
         items: meta.events.unwrap()
           .sort(sortByName)
           .map((func) => {
             const methodName = func.name.toString();
-            const args = func.args.map((type): string => '`' + type + '`').join(', ');
+            const args = func.args.map((type): string => '`' + type.toString() + '`').join(', ');
 
             return {
               name: `${methodName}(${args})`,
               ...(func.documentation.length && { summary: func.documentation })
             };
-          })
-      }))
+          }),
+        name: stringCamelCase(meta.name.toString())
+      })),
+    title: 'Events'
   });
 }
 
 /** @internal */
 function addErrors (metadata: MetadataLatest): string {
   return renderPage({
-    title: 'Errors',
     description: DESC_ERRORS,
     sections: metadata.modules
       .sort(sortByName)
       .filter((moduleMetadata) => !moduleMetadata.errors.isEmpty)
       .map((moduleMetadata) => ({
-        name: stringLowerFirst(moduleMetadata.name.toString()),
         items: moduleMetadata.errors
           .sort(sortByName)
           .map((error) => ({
             name: error.name.toString(),
             ...(error.documentation.length && { summary: error.documentation })
-          }))
-      }))
+          })),
+        name: stringLowerFirst(moduleMetadata.name.toString())
+      })),
+    title: 'Errors'
   });
 }
 
 /** @internal */
 function writeFile (name: string, ...chunks: any[]): void {
-  const options = { flags: 'w', encoding: 'utf8' };
-  const writeStream = fs.createWriteStream(name, options);
+  const writeStream = fs.createWriteStream(name, { encoding: 'utf8', flags: 'w' });
 
   writeStream.on('finish', (): void => {
     console.log(`Completed writing ${name}`);

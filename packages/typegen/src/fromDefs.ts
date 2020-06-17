@@ -13,21 +13,21 @@ export default function main (): void {
   const { input, package: pkg } = yargs.strict().options({
     input: {
       description: 'The directory to use for the user definitions',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     },
     package: {
       description: 'The package name & path to use for the user types',
-      type: 'string',
-      required: true
+      required: true,
+      type: 'string'
     }
   }).argv;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const userDefs = require(path.join(process.cwd(), input, 'definitions.ts'));
+  const userDefs = require(path.join(process.cwd(), input, 'definitions.ts')) as Record<string, any>;
   const userKeys = Object.keys(userDefs);
   const filteredBase = Object
-    .entries(substrateDefs)
+    .entries(substrateDefs as Record<string, unknown>)
     .filter(([key]) => {
       if (userKeys.includes(key)) {
         console.warn(`Override found for ${key} in user types, ignoring in @polkadot/types`);
@@ -37,7 +37,7 @@ export default function main (): void {
 
       return true;
     })
-    .reduce((defs: any, [key, value]) => {
+    .reduce((defs: Record<string, any>, [key, value]) => {
       defs[key] = value;
 
       return defs;

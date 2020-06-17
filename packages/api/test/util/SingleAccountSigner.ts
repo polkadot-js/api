@@ -11,49 +11,49 @@ import { hexToU8a, u8aToHex } from '@polkadot/util';
 let id = 0;
 
 export class SingleAccountSigner implements Signer {
-  private keyringPair: KeyringPair;
+  readonly #keyringPair: KeyringPair;
 
-  private registry: Registry;
+  readonly #registry: Registry;
 
-  private signDelay: number;
+  readonly #signDelay: number;
 
   constructor (registry: Registry, keyringPair: KeyringPair, signDelay = 0) {
-    this.keyringPair = keyringPair;
-    this.registry = registry;
-    this.signDelay = signDelay;
+    this.#keyringPair = keyringPair;
+    this.#registry = registry;
+    this.#signDelay = signDelay;
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
-    if (payload.address !== this.keyringPair.address) {
+    if (payload.address !== this.#keyringPair.address) {
       throw new Error('does not have the keyringPair');
     }
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
-        const signed = this.registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.keyringPair);
+        const signed = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.#keyringPair);
 
         resolve({
           id: ++id,
           ...signed
         });
-      }, this.signDelay);
+      }, this.#signDelay);
     });
   }
 
   public async signRaw ({ address, data }: SignerPayloadRaw): Promise<SignerResult> {
-    if (address !== this.keyringPair.address) {
+    if (address !== this.#keyringPair.address) {
       throw new Error('does not have the keyringPair');
     }
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
-        const signature = u8aToHex(this.keyringPair.sign(hexToU8a(data)));
+        const signature = u8aToHex(this.#keyringPair.sign(hexToU8a(data)));
 
         resolve({
           id: ++id,
           signature
         });
-      }, this.signDelay);
+      }, this.#signDelay);
     });
   }
 }

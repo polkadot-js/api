@@ -43,7 +43,7 @@ export default class Null implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return other instanceof Null || isNull(other);
   }
 

@@ -13,7 +13,19 @@ export default {
     extra: {},
     types: {}
   },
+  PrevalidateAttests: {
+    extra: {},
+    types: {}
+  },
   RestrictFunctionality: {
+    extra: {},
+    types: {}
+  },
+  TransactionCallFilter: {
+    extra: {},
+    types: {}
+  },
+  ValidateDoubleVoteReports: {
     extra: {},
     types: {}
   }

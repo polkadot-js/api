@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
-import { AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
+import { AnyJson, AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
@@ -12,8 +12,8 @@ import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  iterKey?: Uint8Array & Codec;
-  keyPrefix: Uint8Array;
+  iterKey?: (arg?: any) => Uint8Array & Codec;
+  keyPrefix: (arg?: any) => Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
@@ -34,15 +34,13 @@ interface StorageKeyExtra {
 
 const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   // opaque
-  Blake2_128: [16, false], // eslint-disable-line @typescript-eslint/camelcase
-  Blake2_256: [32, false], // eslint-disable-line @typescript-eslint/camelcase
+  Blake2_128: [16, false], // eslint-disable-line camelcase
+  Blake2_128Concat: [16, true], // eslint-disable-line camelcase
+  Blake2_256: [32, false], // eslint-disable-line camelcase
+  Identity: [0, true],
   Twox128: [16, false],
   Twox256: [32, false],
-
-  // can decode
-  Blake2_128Concat: [16, true], // eslint-disable-line @typescript-eslint/camelcase
-  Twox64Concat: [8, true],
-  Identity: [0, true]
+  Twox64Concat: [8, true]
 };
 
 function getStorageType (type: StorageEntryTypeLatest, isOptionalLinked?: boolean): [boolean, string] {
@@ -94,7 +92,7 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
       section: value.section
     };
   } else if (Array.isArray(value)) {
-    const [fn, ...arg]: [StorageEntry, ...any[]] = value as any;
+    const [fn, ...arg] = value as [StorageEntry, ...any[]];
 
     assert(isFunction(fn), 'Expected function input for key construction');
 
@@ -105,7 +103,7 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
     };
   }
 
-  throw new Error(`Unable to convert input ${value} to StorageKey`);
+  throw new Error(`Unable to convert input ${value as string} to StorageKey`);
 }
 
 function decodeHashers (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
@@ -154,15 +152,15 @@ function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: Stora
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
   private _args: Codec[];
 
   private _meta?: StorageEntryMetadataLatest;
 
-  private readonly _method?: string;
+  private _outputType: string;
 
-  private readonly _outputType: string;
+  private readonly _method?: string;
 
   private readonly _section?: string;
 
@@ -171,13 +169,12 @@ export default class StorageKey extends Bytes {
 
     super(registry, key);
 
-    this._meta = StorageKey.getMeta(value as StorageKey);
     this._method = override.method || method;
-    this._outputType = StorageKey.getType(value as StorageKey);
     this._section = override.section || section;
+    this._outputType = StorageKey.getType(value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
-    this.decodeArgsFromMeta();
+    this.setMeta(StorageKey.getMeta(value as StorageKey));
   }
 
   public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
@@ -252,19 +249,32 @@ export default class StorageKey extends Bytes {
   public setMeta (meta?: StorageEntryMetadataLatest): this {
     this._meta = meta;
 
-    return this.decodeArgsFromMeta();
-  }
+    if (meta) {
+      this._outputType = unwrapStorageType(meta.type);
+    }
 
-  /**
-   * @description Decode the args embedded in the key (assuming we have decodable hashers)
-   */
-  public decodeArgsFromMeta (meta?: StorageEntryMetadataLatest): this {
     try {
-      this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta || this.meta);
+      this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), this.meta);
     } catch (error) {
       // ignore...
     }
 
     return this;
+  }
+
+  /**
+   * @description Returns the Human representation for this type
+   */
+  public toHuman (): AnyJson {
+    return this._args.length
+      ? this._args.map((arg) => arg.toHuman())
+      : super.toHuman();
+  }
+
+  /**
+   * @description Returns the raw type for this
+   */
+  public toRawType (): string {
+    return 'StorageKey';
   }
 }

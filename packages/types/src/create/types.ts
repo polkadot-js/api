@@ -26,6 +26,7 @@ export enum TypeDefInfo {
   HashMap,
   Int,
   UInt,
+  DoNotConstruct,
   // anything not fully supported (keep this as the last entry)
   Null
 }

@@ -8,6 +8,7 @@ import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, Sig
 import { ExtrinsicSignatureOptions } from '../types';
 
 import { u8aConcat } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
@@ -23,6 +24,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
   constructor (registry: Registry, value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super(registry, {
       signer: 'Address',
+      // eslint-disable-next-line sort-keys
       signature: 'MultiSignature',
       ...registry.getSignedExtensionTypes()
     }, ExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
@@ -99,7 +101,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
     return this.get('tip') as Compact<Balance>;
   }
 
-  protected injectSignature (signer: Address, signature: MultiSignature, { era, nonce, tip }: ExtrinsicPayloadV4): IExtrinsicSignature {
+  protected _injectSignature (signer: Address, signature: MultiSignature, { era, nonce, tip }: ExtrinsicPayloadV4): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
@@ -113,7 +115,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    * @description Adds a raw signature
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
-    return this.injectSignature(
+    return this._injectSignature(
       this.registry.createType('Address', signer),
       this.registry.createType('MultiSignature', signature),
       new ExtrinsicPayloadV4(this.registry, payload)
@@ -123,7 +125,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
   /**
    * @description Creates a payload from the supplied options
    */
-  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): ExtrinsicPayloadV4 {
+  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): ExtrinsicPayloadV4 {
     return new ExtrinsicPayloadV4(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
@@ -131,7 +133,8 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
       method: method.toHex(),
       nonce,
       specVersion,
-      tip: tip || 0
+      tip: tip || 0,
+      transactionVersion: transactionVersion || 0
     });
   }
 
@@ -139,11 +142,14 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    const signer = this.registry.createType('Address', account.publicKey);
+    const address = account.publicKey.length > 32
+      ? blake2AsU8a(account.publicKey, 256)
+      : account.publicKey;
+    const signer = this.registry.createType('Address', address);
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('MultiSignature', payload.sign(account));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 
   /**
@@ -154,7 +160,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('MultiSignature', u8aConcat(new Uint8Array([1]), new Uint8Array(64).fill(0x42)));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 
   /**

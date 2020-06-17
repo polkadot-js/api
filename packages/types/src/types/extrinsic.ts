@@ -10,7 +10,6 @@ import { Codec } from './codec';
 import { AnyJson, AnyNumber, AnyU8a } from './helpers';
 import { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {
   readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
@@ -60,6 +59,7 @@ export interface SignatureOptions {
   genesisHash: AnyU8a;
   nonce: AnyNumber;
   runtimeVersion: IRuntimeVersion;
+  signedExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
 }
@@ -81,36 +81,32 @@ export interface ExtrinsicPayloadValue {
   nonce: AnyNumber;
   specVersion: AnyNumber;
   tip: AnyNumber;
+  transactionVersion: AnyNumber;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
   sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
   signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicEra extends Codec {
   asImmortalEra: Codec;
   asMortalEra: Codec;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 interface IExtrinsicSignable<T> {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
   sign (account: IKeyringPair, options: SignatureOptions): T;
   signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
   readonly method: Call;
   readonly signature: IExtrinsicSignature;
   readonly version: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
   readonly length: number;
   readonly method: Call;
@@ -155,7 +151,7 @@ export interface SignerPayloadJSON {
   nonce: string;
 
   /**
-   * @description The current spec version for  the runtime
+   * @description The current spec version for the runtime
    */
   specVersion: string;
 
@@ -163,6 +159,16 @@ export interface SignerPayloadJSON {
    * @description The tip for this transaction, in hex
    */
   tip: string;
+
+  /**
+   * @description The current transaction version for the runtime
+   */
+  transactionVersion: string;
+
+  /**
+   * @description The applicable signed extensions for this runtime
+   */
+  signedExtensions: string[];
 
   /**
    * @description The version of the extrinsic we are dealing with
@@ -194,7 +200,6 @@ export interface SignerPayloadRaw extends SignerPayloadRawBase {
   type: 'bytes' | 'payload';
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISignerPayload {
   toPayload (): SignerPayloadJSON;
   toRaw (): SignerPayloadRaw;

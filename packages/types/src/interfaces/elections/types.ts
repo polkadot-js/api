@@ -1,13 +1,28 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Struct } from '@polkadot/types/codec';
+import { Compact, Enum, Struct } from '@polkadot/types/codec';
 import { GenericVote } from '@polkadot/types/generic';
 import { u32 } from '@polkadot/types/primitive';
-import { Balance } from '@polkadot/types/interfaces/runtime';
+import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApprovalFlag */
 export interface ApprovalFlag extends u32 {}
+
+/** @name DefunctVoter */
+export interface DefunctVoter extends Struct {
+  readonly who: AccountId;
+  readonly voteCount: Compact<u32>;
+  readonly candidateCount: Compact<u32>;
+}
+
+/** @name Renouncing */
+export interface Renouncing extends Enum {
+  readonly isMember: boolean;
+  readonly isRunnerUp: boolean;
+  readonly isCandidate: boolean;
+  readonly asCandidate: Compact<u32>;
+}
 
 /** @name SetIndex */
 export interface SetIndex extends u32 {}

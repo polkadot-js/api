@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { TypeRegistry } from '../create';
 import Raw from '../codec/Raw';
 import jsonVec from '../json/AccountIdVec.001.json';
@@ -30,6 +32,7 @@ describe('AccountId', (): void => {
     const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string): void =>
       it(`can decode from ${type}`, (): void => {
         const a = registry.createType('AccountId', input);
+
         expect(a.toString()).toBe(expected);
       });
 

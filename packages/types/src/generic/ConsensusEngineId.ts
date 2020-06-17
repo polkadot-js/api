@@ -57,7 +57,7 @@ export default class ConsensusEngineId extends U32 {
     return this.eq(CID_GRPA);
   }
 
-  private getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+  private _getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     return sessionValidators[
       this.registry.createType('RawAuraPreDigest', bytes.toU8a(true))
         .slotNumber
@@ -66,7 +66,7 @@ export default class ConsensusEngineId extends U32 {
     ];
   }
 
-  private getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+  private _getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     const digest = this.registry.createType('RawBabePreDigestCompat', bytes.toU8a(true));
 
     return sessionValidators[
@@ -80,9 +80,9 @@ export default class ConsensusEngineId extends U32 {
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId | undefined {
     if (sessionValidators?.length) {
       if (this.isAura) {
-        return this.getAuraAuthor(bytes, sessionValidators);
+        return this._getAuraAuthor(bytes, sessionValidators);
       } else if (this.isBabe) {
-        return this.getBabeAuthor(bytes, sessionValidators);
+        return this._getBabeAuthor(bytes, sessionValidators);
       }
     }
 

@@ -18,7 +18,7 @@ function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Arr
 }
 
 /** @internal */
-function decodeOption (registry: Registry, typeName: Constructor | keyof InterfaceTypes, value?: any): Codec {
+function decodeOption (registry: Registry, typeName: Constructor | keyof InterfaceTypes, value?: unknown): Codec {
   if (isNull(value) || isUndefined(value) || value instanceof Null) {
     return new Null(registry);
   }
@@ -51,7 +51,9 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
 export default class Option<T extends Codec> extends Base<T> {
   readonly #Type: Constructor<T>;
 
-  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: any) {
+  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: unknown) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     super(registry, decodeOption(registry, typeName, value));
 
     this.#Type = typeToConstructor(registry, typeName);
@@ -59,7 +61,7 @@ export default class Option<T extends Codec> extends Base<T> {
 
   public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);
       }
     };
@@ -70,7 +72,7 @@ export default class Option<T extends Codec> extends Base<T> {
    */
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
-    return 1 + this.raw.encodedLength;
+    return 1 + this._raw.encodedLength;
   }
 
   /**
@@ -84,7 +86,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description Checks if the Option has no value
    */
   public get isNone (): boolean {
-    return this.raw instanceof Null;
+    return this._raw instanceof Null;
   }
 
   /**
@@ -98,13 +100,13 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description The actual value for the Option
    */
   public get value (): Codec {
-    return this.raw;
+    return this._raw;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     if (other instanceof Option) {
       return (this.isSome === other.isSome) && this.value.eq(other.value);
     }
@@ -140,14 +142,14 @@ export default class Option<T extends Codec> extends Base<T> {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
-      return this.raw.toU8a(true);
+      return this._raw.toU8a(true);
     }
 
     const u8a = new Uint8Array(this.encodedLength);
 
     if (this.isSome) {
       u8a.set([1]);
-      u8a.set(this.raw.toU8a(), 1);
+      u8a.set(this._raw.toU8a(), 1);
     }
 
     return u8a;
@@ -161,7 +163,7 @@ export default class Option<T extends Codec> extends Base<T> {
       throw new Error('Option: unwrapping a None value');
     }
 
-    return this.raw;
+    return this._raw;
   }
 
   /**

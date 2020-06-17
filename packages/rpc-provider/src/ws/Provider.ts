@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+/* eslint-disable camelcase */
 
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
@@ -64,7 +65,7 @@ const l = logger('api-ws');
 export default class WsProvider implements WSProviderInterface {
   readonly #coder: Coder;
 
-  readonly #endpoint: string;
+  readonly #endpoints: string[];
 
   readonly #eventemitter: EventEmitter;
 
@@ -74,7 +75,9 @@ export default class WsProvider implements WSProviderInterface {
 
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
 
-  #autoConnect: boolean;
+  #autoConnectMs: number;
+
+  #endpointIndex: number;
 
   #isConnected = false;
 
@@ -83,19 +86,29 @@ export default class WsProvider implements WSProviderInterface {
   #websocket: WebSocket | null;
 
   /**
-   * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
+   * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string = defaults.WS_URL, autoConnect = true) {
-    assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000) {
+    const endpoints = Array.isArray(endpoint)
+      ? endpoint
+      : [endpoint];
+
+    assert(endpoints.length !== 0, 'WsProvider requires at least one Endpoint');
+
+    endpoints.forEach((endpoint) => {
+      assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+    });
 
     this.#eventemitter = new EventEmitter();
-    this.#autoConnect = autoConnect;
+    this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new Coder();
-    this.#endpoint = endpoint;
+    this.#endpointIndex = -1;
+    this.#endpoints = endpoints;
     this.#websocket = null;
 
-    if (autoConnect) {
+    if (autoConnectMs > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect();
     }
   }
@@ -111,7 +124,7 @@ export default class WsProvider implements WSProviderInterface {
    * @description Returns a clone of the object
    */
   public clone (): WsProvider {
-    return new WsProvider(this.#endpoint);
+    return new WsProvider(this.#endpoints);
   }
 
   /**
@@ -121,9 +134,11 @@ export default class WsProvider implements WSProviderInterface {
    */
   public async connect (): Promise<void> {
     try {
+      this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
+
       const WS = await getWSClass();
 
-      this.#websocket = new WS(this.#endpoint);
+      this.#websocket = new WS(this.#endpoints[this.#endpointIndex]);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
@@ -142,7 +157,7 @@ export default class WsProvider implements WSProviderInterface {
     }
 
     // switch off autoConnect, we are in manual mode now
-    this.#autoConnect = false;
+    this.#autoConnectMs = 0;
 
     // 1000 - Normal closure; the connection successfully completed
     this.#websocket.close(1000);
@@ -182,6 +197,7 @@ export default class WsProvider implements WSProviderInterface {
       try {
         const json = this.#coder.encodeJson(method, params);
         const id = this.#coder.getId();
+
         const callback = (error?: Error | null, result?: any): void => {
           error
             ? reject(error)
@@ -232,9 +248,9 @@ export default class WsProvider implements WSProviderInterface {
    * ```
    */
   public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number> {
-    const id = await this.send(method, params, { callback, type });
+    const id = await this.send(method, params, { callback, type }) as Promise<number>;
 
-    return id as number;
+    return id;
   }
 
   /**
@@ -255,9 +271,9 @@ export default class WsProvider implements WSProviderInterface {
 
     delete this.#subscriptions[subscription];
 
-    const result = await this.send(method, [id]);
+    const result = await this.send(method, [id]) as Promise<boolean>;
 
-    return result as boolean;
+    return result;
   }
 
   #emit = (type: ProviderInterfaceEmitted, ...args: any[]): void => {
@@ -265,17 +281,18 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   #onSocketClose = (event: CloseEvent): void => {
-    if (this.#autoConnect) {
-      l.error(`disconnected from ${this.#endpoint} code: '${event.code}' reason: '${event.reason}'`);
+    if (this.#autoConnectMs > 0) {
+      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]} code: '${event.code}' reason: '${event.reason}'`);
     }
 
     this.#isConnected = false;
     this.#emit('disconnected');
 
-    if (this.#autoConnect) {
+    if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.connect();
-      }, 1000);
+      }, this.#autoConnectMs);
     }
   }
 
@@ -285,9 +302,10 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   #onSocketMessage = (message: MessageEvent): void => {
-    l.debug((): any => ['received', message.data]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    l.debug(() => ['received', message.data]);
 
-    const response: JsonRpcResponse = JSON.parse(message.data as string);
+    const response = JSON.parse(message.data as string) as JsonRpcResponse;
 
     return isUndefined(response.method)
       ? this.#onSocketMessageResult(response)
@@ -299,12 +317,13 @@ export default class WsProvider implements WSProviderInterface {
 
     if (!handler) {
       l.debug((): string => `Unable to find handler for id=${response.id}`);
+
       return;
     }
 
     try {
       const { method, params, subscription } = handler;
-      const result = this.#coder.decodeResponse(response);
+      const result = this.#coder.decodeResponse(response) as string;
 
       // first send the result - in case of subs, we may have an update
       // immediately if we have some queued results already
@@ -332,7 +351,7 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
-    const method = ALIASSES[response.method as string] || response.method;
+    const method = ALIASSES[response.method as string] || response.method || 'invalid';
     const subId = `${method}::${response.params.subscription}`;
     const handler = this.#subscriptions[subId];
 
@@ -341,6 +360,7 @@ export default class WsProvider implements WSProviderInterface {
       this.#waitingForId[subId] = response;
 
       l.debug((): string => `Unable to find handler for subscription=${subId}`);
+
       return;
     }
 
@@ -359,7 +379,7 @@ export default class WsProvider implements WSProviderInterface {
   #onSocketOpen = (): boolean => {
     assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
 
-    l.debug((): any[] => ['connected to', this.#endpoint]);
+    l.debug((): any[] => ['connected to', this.#endpoints[this.#endpointIndex]]);
 
     this.#isConnected = true;
 

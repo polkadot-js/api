@@ -18,7 +18,9 @@ describe('replay', (): void => {
 
   it('subscribes via the rpc section', (done): void => {
     // we don't honor types or number of params here
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (rpc.chain as any).getBlockHash = jest.fn((): Observable<number> => of(1));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     (rpc.chain as any).getBlockHash(123, false).subscribe((): void => {
       expect(
         // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -32,6 +34,7 @@ describe('replay', (): void => {
   it('returns the observable value', (done): void => {
     rpc.system.chain().subscribe((value: any): void => {
       if (value) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         expect(value.toString()).toEqual('mockChain'); // Defined in MockProvider
         done();
       }
@@ -40,8 +43,9 @@ describe('replay', (): void => {
 
   it('replay(1) works as expected', (done): void => {
     const observable = rpc.system.chain();
-    let a: string | undefined;
-    observable.subscribe((value: any): void => { a = value; });
+    let a: any | undefined;
+
+    observable.subscribe((value?: unknown): void => { a = value; });
 
     setTimeout((): void => {
       // Subscribe again to the same observable, it should fire value immediately

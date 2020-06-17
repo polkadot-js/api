@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "resolutions": {
-    "typescript": "^3.8.3"
+    "babel-core": "^7.0.0-bridge.0"
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts && (cd packages/typegen && copyfiles scripts/* build)",
@@ -24,13 +24,15 @@
     "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/register": "^7.9.0",
-    "@babel/runtime": "^7.9.2",
-    "@polkadot/dev": "^0.51.9",
-    "@polkadot/ts": "^0.3.14",
+    "@babel/core": "^7.10.2",
+    "@babel/register": "^7.10.1",
+    "@babel/runtime": "^7.10.2",
+    "@polkadot/dev": "^0.55.10",
+    "@polkadot/ts": "^0.3.26",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^25.1.4",
-    "copyfiles": "^2.2.0"
-  }
+    "@types/jest": "^26.0.0",
+    "@vuepress/plugin-search": "^1.5.2",
+    "copyfiles": "^2.3.0"
+  },
+  "version": "1.19.1"
 }

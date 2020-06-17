@@ -23,7 +23,7 @@ A couple of items to note in the example above: we don't call `account` directly
 ...
 
 // Retrieve a snapshot of the validators
-const validators = await api.query.session.validators();
+const validatorKeys = await api.query.session.validators.keys();
 
 // Subscribe to the balances for these accounts
 const unsub = await api.query.balances.account.multi(validators, (balances) => {

@@ -23,6 +23,8 @@ import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
 import UInt from '../codec/UInt';
 import Vec from '../codec/Vec';
 import VecFixed from '../codec/VecFixed';
+import DoNotConstruct from '../primitive/DoNotConstruct';
+
 import { getTypeDef } from './getTypeDef';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
@@ -41,6 +43,7 @@ export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string
 export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, name: K): Constructor<InterfaceTypes[K]> {
   // TS2589: Type instantiation is excessively deep and possibly infinite.
   // The above happens with as Constructor<InterfaceTypes[K]>;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
 }
 
@@ -65,7 +68,7 @@ function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceTypes> 
   const result: Record<string, keyof InterfaceTypes> = {};
 
   return getSubDefArray(value).reduce((result, sub): Record<string, keyof InterfaceTypes> => {
-    result[sub.name as string] = sub.type as any;
+    result[sub.name as string] = sub.type as keyof InterfaceTypes;
 
     return result;
   }, result);
@@ -97,6 +100,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName),
+
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
 
   [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, HashMap),
@@ -106,9 +111,12 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
     const type = `Option<${getSubType(value)}>`;
+    // eslint-disable-next-line sort-keys
     const Clazz = Struct.with({ previous: type, next: type } as any);
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ClassOf.prototype.toRawType = function (): string {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       return `Linkage<${this.next.toRawType(true)}>`;
     };
 
@@ -127,14 +135,14 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     const [Ok, Error] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return Result.with({ Ok, Error });
+    return Result.with({ Error, Ok });
   },
 
   [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor => {
     const result: Record<string, number> = {};
 
     return CodecSet.with(
-      getSubDefArray(value).reduce((result, { name, index }): Record<string, number> => {
+      getSubDefArray(value).reduce((result, { index, name }): Record<string, number> => {
         result[name as string] = index as number;
 
         return result;

@@ -23,7 +23,7 @@ export default class UInt extends AbstractInt {
 
   public static with (bitLength: UIntBitLength, typeName?: string): Constructor<UInt> {
     return class extends UInt {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: AnyNumber) {
         super(registry, value, bitLength);
       }
 

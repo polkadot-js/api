@@ -12,6 +12,11 @@ import Raw from './Raw';
 
 import { compareMap } from './utils';
 
+/** @internal */
+function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
+  return Object.entries(value || {});
+}
+
 /**
  * @name Json
  * @description
@@ -23,8 +28,8 @@ import { compareMap } from './utils';
 export default class StructAny extends Map<string, any> implements Codec {
   public readonly registry: Registry;
 
-  constructor (registry: Registry, value?: { [index: string]: any } | null) {
-    const decoded = StructAny.decodeJson(value);
+  constructor (registry: Registry, value?: Record<string, unknown> | null) {
+    const decoded = decodeJson(value);
 
     super(decoded);
 
@@ -33,20 +38,16 @@ export default class StructAny extends Map<string, any> implements Codec {
     // like we are doing with structs, add the keys as getters
     decoded.forEach(([key]): void => {
       // do not clobber existing properties on the object
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (!isUndefined((this as any)[key])) {
         return;
       }
 
       Object.defineProperty(this, key, {
         enumerable: true,
-        get: (): Codec | undefined => this.get(key)
+        get: (): Codec | undefined => this.get(key) as Codec
       });
     });
-  }
-
-  /** @internal */
-  private static decodeJson (value?: { [index: string]: any } | null): [string, any][] {
-    return Object.entries(value || {});
   }
 
   /**
@@ -73,7 +74,7 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return compareMap(this, other);
   }
 
@@ -95,8 +96,8 @@ export default class StructAny extends Map<string, any> implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return [...this.entries()].reduce((json: { [index: string]: AnyJson }, [key, value]): { [index: string]: AnyJson } => {
-      json[key] = value;
+    return [...this.entries()].reduce((json: Record<string, AnyJson>, [key, value]): Record<string, AnyJson> => {
+      json[key] = value as AnyJson;
 
       return json;
     }, {});

@@ -24,20 +24,20 @@ function formatErrorData (data?: string | number): string {
 export default class RpcCoder {
   #id = 0;
 
-  public decodeResponse (response: JsonRpcResponse): any {
+  public decodeResponse (response: JsonRpcResponse): unknown {
     assert(response, 'Empty response object received');
     assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
 
     const isSubscription = !isUndefined(response.params) && !isUndefined(response.method);
 
-    assert(isNumber(response.id) || (isSubscription && isNumber(response.params.subscription)), 'Invalid id field in decoded object');
+    assert(isNumber(response.id) || (isSubscription && (isNumber(response.params.subscription) || isString(response.params.subscription))), 'Invalid id field in decoded object');
 
-    this.checkError(response.error);
+    this._checkError(response.error);
 
     assert(!isUndefined(response.result) || isSubscription, 'No result found in JsonRpc response');
 
     if (isSubscription) {
-      this.checkError(response.params.error);
+      this._checkError(response.params.error);
 
       return response.params.result;
     }
@@ -51,7 +51,7 @@ export default class RpcCoder {
     );
   }
 
-  public encodeObject (method: string, params: any | any[]): JsonRpcRequest {
+  public encodeObject (method: string, params: unknown[]): JsonRpcRequest {
     return {
       id: ++this.#id,
       jsonrpc: '2.0',
@@ -64,7 +64,7 @@ export default class RpcCoder {
     return this.#id;
   }
 
-  private checkError (error?: JsonRpcResponseBaseError): void {
+  private _checkError (error?: JsonRpcResponseBaseError): void {
     if (error) {
       const { code, data, message } = error;
 

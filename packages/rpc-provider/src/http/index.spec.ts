@@ -32,13 +32,13 @@ describe('Http', (): void => {
     return http.subscribe('', '', [], (cb): void => {
       expect(cb).toEqual(expect.anything());
     }).catch((error): void => {
-      expect(error.message).toMatch(/does not have subscriptions/);
+      expect((error as Error).message).toMatch(/does not have subscriptions/);
     });
   });
 
   it('does not (yet) support unsubscribe', (): Promise<boolean | void> => {
     return http.unsubscribe('', '', 0).catch((error): void => {
-      expect(error.message).toMatch(/does not have subscriptions/);
+      expect((error as Error).message).toMatch(/does not have subscriptions/);
     });
   });
 });

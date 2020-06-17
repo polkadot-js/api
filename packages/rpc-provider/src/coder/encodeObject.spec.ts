@@ -17,12 +17,12 @@ describe('encodeObject', (): void => {
 
   it('encodes a valid JsonRPC object', (): void => {
     expect(
-      coder.encodeObject('method', 'params')
+      coder.encodeObject('method', ['a', 'b'])
     ).toEqual({
       id: 1,
       jsonrpc: '2.0',
       method: 'method',
-      params: 'params'
+      params: ['a', 'b']
     });
     expect(coder.getId()).toEqual(1);
   });

@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModuleMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import Handlebars from 'handlebars';
+
+import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import staticData from '@polkadot/metadata/Metadata/static';
@@ -10,13 +12,14 @@ import Metadata from '@polkadot/metadata/Metadata';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
-import { stringLowerFirst } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
-import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, registerDefinitions, setImports, writeFile } from '../util';
+import { TypeImports, createImports, compareName, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
+function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
   const format = (type: string): string => formatType(allDefs, type, imports);
   const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
@@ -57,31 +60,11 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
     ];
   }
 
-  throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name}`);
+  throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name.toString()}`);
 }
 
-// Generate types for one module
-/** @internal */
-function generateModule (allDefs: object, registry: Registry, { name, storage }: ModuleMetadataLatest, imports: TypeImports, isStrict: boolean): string[] {
-  if (storage.isNone) {
-    return [];
-  }
-
-  return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
-    .concat(isStrict ? '' : indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
-    .concat(storage.unwrap().items.sort((a, b) => a.name.localeCompare(b.name.toString())).map((storageEntry): string => {
-      const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
-      let entryType = 'AugmentedQuery';
-
-      if (storageEntry.type.isDoubleMap) {
-        entryType = `${entryType}DoubleMap`;
-      }
-
-      return createDocComments(6, storageEntry.documentation) +
-      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<ApiType, (${args}) => Observable<${returnType}>>${isStrict ? '' : ' & QueryableStorageEntry<ApiType>'};`);
-    }))
-    .concat([indent(4)('};')]);
-}
+const template = readTemplate('query');
+const generateForMetaTemplate = Handlebars.compile(template);
 
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>>, isStrict: boolean): void {
@@ -91,40 +74,56 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const body = meta.asLatest.modules.sort((a, b) => a.name.localeCompare(b.name.toString())).reduce((acc: string[], mod): string[] => {
-      return acc.concat(generateModule(allDefs, registry, mod, imports, isStrict));
-    }, []);
-    const header = createImportCode(HEADER('chain'), imports, [
+
+    const modules = meta.asLatest.modules
+      .sort(compareName)
+      .filter((mod) => !mod.storage.isNone)
+      .map(({ name, storage }) => {
+        const items = storage.unwrap().items
+          .sort(compareName)
+          .map((storageEntry) => {
+            const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+            let entryType = 'AugmentedQuery';
+
+            if (storageEntry.type.isDoubleMap) {
+              entryType = `${entryType}DoubleMap`;
+            }
+
+            return {
+              args,
+              docs: storageEntry.documentation,
+              entryType,
+              name: stringCamelCase(storageEntry.name.toString()),
+              returnType
+            };
+          });
+
+        return {
+          items,
+          name: stringCamelCase(name.toString())
+        };
+      });
+
+    imports.typesTypes.Observable = true;
+
+    const types = [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
         file: packagePath,
         types: Object.keys(imports.localTypes[packagePath])
       })),
       {
-        file: 'rxjs',
-        types: ['Observable']
-      },
-      {
         file: '@polkadot/api/types',
         types: ['ApiTypes']
       }
-    ]);
-    const interfaceStart = [
-      "declare module '@polkadot/api/types/storage' {",
-      indent(2)('export interface AugmentedQueries<ApiType> {\n')
-    ].join('\n');
-    const interfaceEnd = `\n${indent(2)('}')}\n\n`;
-    const queryableStorageInterface = indent(2)('export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {')
-      .concat('\n')
-      .concat(isStrict ? '' : indent(4)('[index: string]: QueryableModuleStorage<ApiType>;\n'))
-      .concat(indent(2)('}\n'));
+    ];
 
-    return header
-      .concat(interfaceStart)
-      .concat(body.join('\n'))
-      .concat(interfaceEnd)
-      .concat(queryableStorageInterface)
-      .concat('}')
-      .concat(FOOTER);
+    return generateForMetaTemplate({
+      headerType: 'chain',
+      imports,
+      isStrict,
+      modules,
+      types
+    });
   });
 }
 

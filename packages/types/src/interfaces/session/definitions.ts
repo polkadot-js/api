@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// order important in structs... :)
+/* eslint-disable sort-keys */
+
 import { Definitions } from '../../types';
 
 // The runtime definition of SessionKeys are passed as a Trait to session
@@ -31,6 +34,12 @@ export default {
     ...keyTypes,
     FullIdentification: 'Exposure',
     IdentificationTuple: '(ValidatorId, FullIdentification)',
-    SessionIndex: 'u32'
+    MembershipProof: {
+      session: 'SessionIndex',
+      trieNodes: 'Vec<Vec<u8>>',
+      validatorCount: 'ValidatorCount'
+    },
+    SessionIndex: 'u32',
+    ValidatorCount: 'u32'
   }
 } as Definitions;

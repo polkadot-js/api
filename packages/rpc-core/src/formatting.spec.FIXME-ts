@@ -153,7 +153,7 @@ function formattingTests (version: string, decorated: Metadata, encodedValues: [
       }
 
       api.state
-        .subscribeStorage([iterKey])
+        .subscribeStorage([iterKey()])
         .subscribe((value: Codec[]): void => {
           expect(value).toHaveLength(1);
           // console.error('head fallback', value);

@@ -19,3 +19,7 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 
   !noLog && console.log('');
 }
+
+export function readTemplate (path: string): string {
+  return fs.readFileSync(`${__dirname}/../templates/${path}.hbs`).toString();
+}

@@ -13,7 +13,7 @@ import { hexToU8a } from '@polkadot/util';
 import { SingleAccountSigner } from '../../test/util';
 import ApiPromise from './Api';
 
-const TRANSFER_SIG = '0xa1d493ab6b74550da434fbc153a739429be68c9d30e59e631fb5d08f348504deefb5577f4824e138741ad102f479109827e8fa9552812a3e5f505a24d10e820f';
+const TRANSFER_SIG = '0x7a10e5ed9a14284eca7bea53f81631981dddda5a3d2dee973b136475947264801465726e4829ae3994d9058df638d959d4e043c7f1924299546790dda1dea20a';
 
 describe('ApiPromise', (): void => {
   const registry = new TypeRegistry();
@@ -21,8 +21,8 @@ describe('ApiPromise', (): void => {
   const aliceEd = keyring.addPair(
     // eslint-disable-next-line @typescript-eslint/unbound-method
     createPair({ toSS58: keyring.encodeAddress, type: 'ed25519' }, {
-      secretKey: hexToU8a('0xabf8e5bdbe30c65656c0a3cbd181ff8a56294a69dfedd27982aace4a7690911588dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee'),
-      publicKey: hexToU8a('0x88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee')
+      publicKey: hexToU8a('0x88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee'),
+      secretKey: hexToU8a('0xabf8e5bdbe30c65656c0a3cbd181ff8a56294a69dfedd27982aace4a7690911588dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee')
     })
   );
   let provider: Mock;
@@ -39,7 +39,7 @@ describe('ApiPromise', (): void => {
 
     const signer = new SingleAccountSigner(registry, aliceEd);
     const api = await ApiPromise.create({ provider, registry, signer });
-    const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321_564_789_876_512_345n);
+    const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321564789876512345n);
 
     return { api, transfer: await transfer.signAsync(aliceEd.address, {}) };
   }
@@ -56,8 +56,12 @@ describe('ApiPromise', (): void => {
       const specVersion = 0;
       const metadata: any = {};
       const key = `${genesisHash}-${specVersion}`;
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       metadata[key] = rpcData;
-      const api = await ApiPromise.create({ provider, metadata, registry } as ApiOptions);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const api = await ApiPromise.create({ metadata, provider, registry } as ApiOptions);
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();
@@ -70,7 +74,7 @@ describe('ApiPromise', (): void => {
 
     it('Create API instance without metadata and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
       const metadata = {};
-      const api = await ApiPromise.create({ provider, metadata, registry });
+      const api = await ApiPromise.create({ metadata, provider, registry });
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();
@@ -87,7 +91,7 @@ describe('ApiPromise', (): void => {
           super({ provider });
         }
 
-        protected loadMeta (): Promise<boolean> {
+        protected _loadMeta (): Promise<boolean> {
           throw new Error('Simulate failure to load meta');
         }
       }

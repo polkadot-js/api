@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadataV1 from '@polkadot/metadata/Metadata/v1/static';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
@@ -42,12 +45,12 @@ describe('EventRecord', (): void => {
 
     it('decodes EventRecord with topics correctly', (): void => {
       const hex = json3.params.result.changes[0][1];
-      const records = registry.createType('Vec<EventRecord>', hex, true) as any;
+      const records = registry.createType('Vec<EventRecord>', hex, true);
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
-      // additional payment info
-      expect(records.toHex()).toEqual(`${hex}000000000000`);
+      // additional payment info, weight u64 (vs u32)
+      expect(records.toHex()).toEqual(`${hex as string}00000000000000000000`);
     });
   });
 });

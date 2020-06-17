@@ -28,6 +28,17 @@ interface ImmortalEnumDef {
   ImmortalEra: string;
 }
 
+function getTrailingZeros (period: number): number {
+  const binary = period.toString(2);
+  let index = 0;
+
+  while (binary[binary.length - 1 - index] === '0') {
+    index++;
+  }
+
+  return index;
+}
+
 /**
  * @name ImmortalEra
  * @description
@@ -52,19 +63,19 @@ export class MortalEra extends Tuple {
     super(registry, {
       period: U64,
       phase: U64
-    }, MortalEra.decodeMortalEra(registry, value));
+    }, MortalEra._decodeMortalEra(registry, value));
   }
 
   /** @internal */
-  private static decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
+  private static _decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
     if (isHex(value)) {
-      return MortalEra.decodeMortalU8a(registry, hexToU8a(value));
+      return MortalEra._decodeMortalU8a(registry, hexToU8a(value));
     } else if (Array.isArray(value)) {
-      return MortalEra.decodeMortalU8a(registry, new Uint8Array(value));
+      return MortalEra._decodeMortalU8a(registry, new Uint8Array(value));
     } else if (isU8a(value)) {
-      return MortalEra.decodeMortalU8a(registry, value);
+      return MortalEra._decodeMortalU8a(registry, value);
     } else if (isObject(value)) {
-      return MortalEra.decodeMortalObject(registry, value);
+      return MortalEra._decodeMortalObject(registry, value);
     } else if (!value) {
       return [new U64(registry), new U64(registry)];
     }
@@ -73,10 +84,12 @@ export class MortalEra extends Tuple {
   }
 
   /** @internal */
-  private static decodeMortalObject (registry: Registry, value: MortalMethod): MortalEraValue {
+  private static _decodeMortalObject (registry: Registry, value: MortalMethod): MortalEraValue {
     const { current, period } = value;
     let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
+
     calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
+
     const phase = current % calPeriod;
     const quantizeFactor = Math.max(calPeriod >> 12, 1);
     const quantizedPhase = phase / quantizeFactor * quantizeFactor;
@@ -85,7 +98,7 @@ export class MortalEra extends Tuple {
   }
 
   /** @internal */
-  private static decodeMortalU8a (registry: Registry, value: Uint8Array): MortalEraValue {
+  private static _decodeMortalU8a (registry: Registry, value: Uint8Array): MortalEraValue {
     if (value.length === 0) {
       return [new U64(registry), new U64(registry)];
     }
@@ -155,7 +168,7 @@ export class MortalEra extends Tuple {
     const period = this.period.toNumber();
     const phase = this.phase.toNumber();
     const quantizeFactor = Math.max(period >> 12, 1);
-    const trailingZeros = this.getTrailingZeros(period);
+    const trailingZeros = getTrailingZeros(period);
     const encoded = Math.min(15, Math.max(1, trailingZeros - 1)) + (((phase / quantizeFactor) << 4));
     const first = encoded >> 8;
     const second = encoded & 0xff;
@@ -182,20 +195,6 @@ export class MortalEra extends Tuple {
     // FIXME No toNumber() here
     return this.birth(current) + this.period.toNumber();
   }
-
-  /**
-   * @description convert the number to binary and get the trailing zero's.
-   */
-  private getTrailingZeros (period: number): number {
-    const binary = period.toString(2);
-    let index = 0;
-
-    while (binary[binary.length - 1 - index] === '0') {
-      index++;
-    }
-
-    return index;
-  }
 }
 
 /**
@@ -204,20 +203,20 @@ export class MortalEra extends Tuple {
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
 export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
-  constructor (registry: Registry, value?: any) {
+  constructor (registry: Registry, value?: unknown) {
     super(registry, {
       ImmortalEra,
       MortalEra
-    }, ExtrinsicEra.decodeExtrinsicEra(value));
+    }, ExtrinsicEra._decodeExtrinsicEra(value as string));
   }
 
   /** @internal */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  private static decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
+  private static _decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
     if (value instanceof ExtrinsicEra) {
-      return ExtrinsicEra.decodeExtrinsicEra(value.toU8a());
+      return ExtrinsicEra._decodeExtrinsicEra(value.toU8a());
     } else if (isHex(value)) {
-      return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
+      return ExtrinsicEra._decodeExtrinsicEra(hexToU8a(value));
     } else if (!value || isU8a(value)) {
       return (!value?.length || value[0] === 0)
         ? new Uint8Array([0])

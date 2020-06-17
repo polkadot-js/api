@@ -13,6 +13,28 @@ import Raw from './Raw';
 // as a result of the Polkadot claims module. (Technically we don't need the 520 in here)
 export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 520 | 1024 | 2048;
 
+/** @internal */
+function decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
+  if (Array.isArray(value) || isString(value)) {
+    return decodeU8aFixed(u8aToU8a(value), bitLength);
+  }
+
+  // ensure that we have an actual u8a with the full length as specified by
+  // the bitLength input (padded with zeros as required)
+  const byteLength = bitLength / 8;
+  const sub = value.subarray(0, byteLength);
+
+  if (sub.length === byteLength) {
+    return sub;
+  }
+
+  const u8a = new Uint8Array(byteLength);
+
+  u8a.set(sub, 0);
+
+  return u8a;
+}
+
 /**
  * @name U8aFixed
  * @description
@@ -21,34 +43,12 @@ export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 520 | 1024 | 
  */
 export default class U8aFixed extends Raw {
   constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
-    super(registry, U8aFixed.decodeU8aFixed(value, bitLength));
-  }
-
-  /** @internal */
-  private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
-    if (Array.isArray(value) || isString(value)) {
-      return U8aFixed.decodeU8aFixed(u8aToU8a(value), bitLength);
-    }
-
-    // ensure that we have an actual u8a with the full length as specified by
-    // the bitLength input (padded with zeros as required)
-    const byteLength = bitLength / 8;
-    const sub = value.subarray(0, byteLength);
-
-    if (sub.length === byteLength) {
-      return sub;
-    }
-
-    const u8a = new Uint8Array(byteLength);
-
-    u8a.set(sub, 0);
-
-    return u8a;
+    super(registry, decodeU8aFixed(value, bitLength));
   }
 
   public static with (bitLength: BitLength, typeName?: string): Constructor<U8aFixed> {
     return class extends U8aFixed {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: AnyU8a) {
         super(registry, value, bitLength);
       }
 

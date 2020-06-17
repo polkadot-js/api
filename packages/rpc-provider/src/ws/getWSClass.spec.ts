@@ -21,6 +21,7 @@ describe('getWebScoket', (): void => {
   });
 
   it('polyfills with no exceptions (with WebSocket)', async (): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (global as any).WebSocket = undefined;
 
     const WS = await getWSClass();
@@ -29,6 +30,7 @@ describe('getWebScoket', (): void => {
   });
 
   it('polyfills with no exceptions (without WebSocket)', async (): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (global as any).WebSocket = (): boolean => true;
 
     const WS = await getWSClass();

@@ -74,7 +74,7 @@ function extractMethods (src: Record<string, Record<string, any>>, dst: Record<s
  * already available, but rather just adds new missing ites into the result object.
  * @internal
  */
-export default function augmentObject (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>, fromEmpty = false): Record<string, Record<string, any>> {
+export default function augmentObject (prefix: string, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>, fromEmpty = false): Record<string, Record<string, any>> {
   if (fromEmpty) {
     Object.keys(dst).forEach((key): void => {
       delete dst[key];
@@ -88,12 +88,12 @@ export default function augmentObject (prefix: string, src: Record<string, Recor
 
   return Object
     .keys(src)
-    .reduce((newSection, sectionName): Record<string, Record<string, any>> => {
+    .reduce((newSection, sectionName): Record<string, Record<string, unknown>> => {
       const section = src[sectionName];
 
       newSection[sectionName] = Object
         .keys(section)
-        .reduce((result, methodName): Record<string, any> => {
+        .reduce((result, methodName): Record<string, unknown> => {
           // TODO When it does match, check the actual details and warn when there are differences
           if (!result[methodName]) {
             result[methodName] = section[methodName];

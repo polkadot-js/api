@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-/* eslint-disable @typescript-eslint/interface-name-prefix */
 
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts } from './helpers';
@@ -57,7 +56,7 @@ export interface Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean;
+  eq (other?: unknown): boolean;
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation

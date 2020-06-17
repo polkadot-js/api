@@ -33,13 +33,13 @@ export default class CodecDate extends Date implements Codec {
   }
 
   /** @internal */
-  public static decodeDate (value: CodecDate | Date | AnyNumber): Date {
+  public static decodeDate (value: CodecDate | Date | AnyNumber | unknown): Date {
     if (value instanceof Date) {
       return value;
     } else if (isU8a(value)) {
       value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
     } else if (isString(value)) {
-      value = new BN(value, 10, 'le');
+      value = new BN(value.toString(), 10, 'le');
     }
 
     return new Date(
@@ -71,7 +71,7 @@ export default class CodecDate extends Date implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return CodecDate.decodeDate(other).getTime() === this.getTime();
   }
 

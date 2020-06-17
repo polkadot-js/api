@@ -20,9 +20,7 @@ export function preimages (api: ApiInterfaceRx): (hashes: Hash[]) => Observable<
   return memo((hashes: Hash[]): Observable<(DeriveProposalImage | undefined)[]> =>
     api.query.democracy.preimages.multi<PreImage>(hashes).pipe(
       map((images): (DeriveProposalImage | undefined)[] =>
-        images.map((imageOpt) =>
-          parseImage(api, imageOpt)
-        )
+        images.map((imageOpt) => parseImage(api, imageOpt))
       )
     )
   );

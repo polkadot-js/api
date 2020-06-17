@@ -1,6 +1,7 @@
+/* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/unbound-method */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 // Required imports
 const { zip } = require('rxjs');
 const { ApiRx } = require('@polkadot/api');

@@ -35,6 +35,18 @@ export default {
       nonce: 'Compact<Index>'
     }
   },
+  CheckSpecVersion: {
+    extra: {
+      specVersion: 'u32'
+    },
+    types: {}
+  },
+  CheckTxVersion: {
+    extra: {
+      transactionVersion: 'u32'
+    },
+    types: {}
+  },
   CheckVersion: {
     extra: {
       specVersion: 'u32'
@@ -46,6 +58,10 @@ export default {
     types: {}
   },
   LockStakingStatus: {
+    extra: {},
+    types: {}
+  },
+  ValidateEquivocationReport: {
     extra: {},
     types: {}
   }

@@ -22,8 +22,10 @@ describe('SignerPayload', (): void => {
     genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
     method: '0x0600ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
     nonce: '0x00001234',
-    specVersion: '0x00000000',
+    signedExtensions: ['CheckNonce', 'CheckWeight'],
+    specVersion: '0x00000006',
     tip: '0x00000000000000000000000000005678',
+    transactionVersion: '0x00000007',
     version: 3
   };
 
@@ -37,6 +39,7 @@ describe('SignerPayload', (): void => {
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
         method: registry.createType('Call', '0x0600ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
         nonce: 0x1234,
+        signedExtensions: ['CheckNonce'],
         tip: 0x5678,
         version: 3
       }).toPayload()
@@ -48,15 +51,20 @@ describe('SignerPayload', (): void => {
       genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
       method: '0x0600ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
       nonce: '0x00001234',
+      signedExtensions: ['CheckNonce'],
       specVersion: '0x00000000',
       tip: '0x00000000000000000000000000005678',
+      transactionVersion: '0x00000000',
       version: 3
     });
   });
 
   it('re-constructs from JSON', (): void => {
     expect(
-      new SignerPayload(registry, TEST).toPayload()
+      new SignerPayload(registry, {
+        ...TEST,
+        runtimeVersion: { specVersion: 0x06, transactionVersion: 0x07 }
+      }).toPayload()
     ).toEqual(TEST);
   });
 
@@ -64,7 +72,10 @@ describe('SignerPayload', (): void => {
     expect(
       new SignerPayload(
         registry,
-        new SignerPayload(registry, TEST)
+        new SignerPayload(registry, {
+          ...TEST,
+          runtimeVersion: { specVersion: 0x06, transactionVersion: 0x07 }
+        })
       ).toPayload()
     ).toEqual(TEST);
   });

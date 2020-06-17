@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { bool, u32 } from '@polkadot/types/primitive';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, bool, u32 } from '@polkadot/types/primitive';
 import { Vote, VoteThreshold } from '@polkadot/types/interfaces/elections';
 import { AccountId, Balance, BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 
@@ -44,6 +44,23 @@ export interface Delegations extends Struct {
   readonly capital: Balance;
 }
 
+/** @name PreimageStatus */
+export interface PreimageStatus extends Enum {
+  readonly isMissing: boolean;
+  readonly asMissing: BlockNumber;
+  readonly isAvailable: boolean;
+  readonly asAvailable: PreimageStatusAvailable;
+}
+
+/** @name PreimageStatusAvailable */
+export interface PreimageStatusAvailable extends Struct {
+  readonly data: Bytes;
+  readonly provider: AccountId;
+  readonly deposit: Balance;
+  readonly since: BlockNumber;
+  readonly expiry: Option<BlockNumber>;
+}
+
 /** @name PriorLock */
 export interface PriorLock extends ITuple<[BlockNumber, Balance]> {}
 
@@ -54,9 +71,11 @@ export interface PropIndex extends u32 {}
 export interface Proposal extends Call {}
 
 /** @name ProxyState */
-export interface ProxyState extends Struct {
-  readonly Open: AccountId;
-  readonly Active: AccountId;
+export interface ProxyState extends Enum {
+  readonly isOpen: boolean;
+  readonly asOpen: AccountId;
+  readonly isActive: boolean;
+  readonly asActive: AccountId;
 }
 
 /** @name ReferendumIndex */
@@ -91,6 +110,11 @@ export interface ReferendumStatus extends Struct {
   readonly threshold: VoteThreshold;
   readonly delay: BlockNumber;
   readonly tally: Tally;
+}
+
+/** @name ReleasesDemocracy */
+export interface ReleasesDemocracy extends Enum {
+  readonly isV1: boolean;
 }
 
 /** @name Tally */

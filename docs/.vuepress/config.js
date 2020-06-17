@@ -20,7 +20,8 @@ module.exports = {
       },
       { text: 'GitHub', link: 'https://github.com/polkadot-js/api' }
     ],
-    search: false,
+    search: true,
+    searchMaxSuggestions: 10,
     sidebar: [
       {
         title: 'Getting started',
@@ -48,6 +49,17 @@ module.exports = {
           ['start/typescript.md', 'TypeScript interfaces'],
           ['start/typescript.user.md', 'TypeScript user generated'],
           ['start/FAQ.md', 'FAQ']
+        ]
+      },
+      {
+        title: 'Cookbook',
+        path: '/cookbook/',
+        collapsable: false,
+        sidebarDepth: 0,
+        children: [
+          ['cookbook/blocks.md', 'Blocks'],
+          ['cookbook/storage.md', 'Storage'],
+          ['cookbook/tx.md', 'Transactions']
         ]
       },
       {
@@ -86,5 +98,10 @@ module.exports = {
       ['/types/', '@polkadot/types'],
       '/CONTRIBUTING.md'
     ]
-  }
+  },
+  plugins: [
+    ['@vuepress/search', {
+      searchMaxSuggestions: 10
+    }]
+  ]
 };

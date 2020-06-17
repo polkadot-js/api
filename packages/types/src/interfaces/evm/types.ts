@@ -18,4 +18,10 @@ export interface Log extends Struct {
   readonly data: Bytes;
 }
 
+/** @name Vicinity */
+export interface Vicinity extends Struct {
+  readonly gasPrice: U256;
+  readonly origin: H160;
+}
+
 export type PHANTOM_EVM = 'evm';

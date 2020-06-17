@@ -29,8 +29,8 @@ interface PkgJson {
 let pkgJson: PkgJson = { name: '@polkadot/api', version: '-' };
 
 import('../package.json')
-  .then((_pkgJson: any): void => {
-    pkgJson = _pkgJson;
+  .then((_pkgJson: unknown): void => {
+    pkgJson = _pkgJson as PkgJson;
   })
   .catch((): void => {
     // ignore
@@ -93,7 +93,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    * });
    * ```
    */
-  public get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
+  public get derive (): ReturnType<ApiBase<ApiType>['_decorateDerive']> {
     return assertResult(this._derive);
   }
 

@@ -10,7 +10,7 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import U8aFixed from '../codec/U8aFixed';
 
 /** @internal */
-function decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
+function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
   if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
   } else if (isHex(value)) {
@@ -41,8 +41,8 @@ export default class AccountId extends U8aFixed {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
-    return super.eq(decodeAccountId(other));
+  public eq (other?: unknown): boolean {
+    return super.eq(decodeAccountId(other as AnyU8a));
   }
 
   /**

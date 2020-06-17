@@ -45,4 +45,42 @@ describe('ExtrinsicEra', (): void => {
     expect(json).toEqual({ MortalEra: '0x4e9c' });
     expect(new ExtrinsicEra(registry, json).toU8a()).toEqual(u8a);
   });
+
+  it('creates from an actual valid era', (): void => {
+    const currBlock = 2251519;
+    const mortalEra = new ExtrinsicEra(registry, '0xc503').asMortalEra;
+
+    expect(mortalEra.period.toNumber()).toEqual(64);
+    expect(mortalEra.phase.toNumber()).toEqual(60);
+    expect(mortalEra.birth(currBlock)).toEqual(2251516);
+    expect(mortalEra.death(currBlock)).toEqual(2251580);
+  });
+
+  it('creates for an actual era (2)', (): void => {
+    const mortalEra = new ExtrinsicEra(registry, '0x8502').asMortalEra;
+
+    expect(mortalEra.period.toNumber()).toEqual(64);
+    expect(mortalEra.phase.toNumber()).toEqual(40);
+  });
+
+  it('creates form an actual era (3)', (): void => {
+    const mortalEra = new ExtrinsicEra(registry, '0x6502').asMortalEra;
+
+    expect(mortalEra.period.toNumber()).toEqual(64);
+    expect(mortalEra.phase.toNumber()).toEqual(38);
+  });
+
+  it('creates from an actual era, 100 block hash count', (): void => {
+    const mortalEra = new ExtrinsicEra(registry, '0xd607').asMortalEra;
+
+    expect(mortalEra.period.toNumber()).toEqual(128);
+    expect(mortalEra.phase.toNumber()).toEqual(125);
+  });
+
+  it('creates from a actual 2400 block hash count', (): void => {
+    const mortalEra = new ExtrinsicEra(registry, '0x9be3').asMortalEra;
+
+    expect(mortalEra.period.toNumber()).toEqual(4096);
+    expect(mortalEra.phase.toNumber()).toEqual(3641);
+  });
 });

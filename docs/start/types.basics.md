@@ -57,7 +57,7 @@ Be aware that in the JS version naming defaults to `camelCase` where names of fi
 
 Each enum has additional getters which are injected based on the fields wrapped. These take the form of `.is<Name>` and `.as<Name>` to allow you to check is the enum is a certain value or to retrieve the underlying value as a specific type.
 
-As a real-world example, when an extrinsic is applied, the `Phase` enum has one of two states, `ApplyExtrinsic(u32)` or `Finalization`. In this case `.isApplyExtrinsic` would be `true` when an extrinsic is being applied, and `.asApplyExtrinsic` would return the value as a `u32` (which is the index of the extrinsic in the block, as it is being applied). When `isisApplyExtrinsic` is `false` and `asApplyExtrinsic` is called, the getter will throw.
+As a real-world example, when an extrinsic is applied, the `Phase` enum has one of two states, `ApplyExtrinsic(u32)` or `Finalization`. In this case `.isApplyExtrinsic` would be `true` when an extrinsic is being applied, and `.asApplyExtrinsic` would return the value as a `u32` (which is the index of the extrinsic in the block, as it is being applied). When `isApplyExtrinsic` is `false` and `asApplyExtrinsic` is called, the getter will throw.
 
 ## Working with Option&lt;Type&gt;
 
@@ -67,6 +67,7 @@ An `Option<Type>` attempts to mimic the Rust approach of having `None` and `Some
 - `.isSome` - this is `true` is a value is wrapped, i.e. if a `Option<u32>` has an actual underlying `u32`
 - `.unwrap()` - when `isSome`, this will return the wrapped value, i.e. for `Option<u32>`, this would return the `u32`. When the value is `isNone`, this call will throw an exception.
 - `.unwrapOr(<default value>)` - this extends `unwrap()`, returning the wrapped value when `isSome` and in the case of `isNone` it will return the `<default value>` passed.
+- `.unwrapOrDefault()` - returns either the rapped value when `isSome`, or the default for the type when `isNone`
 
 ## Working with Tuples
 

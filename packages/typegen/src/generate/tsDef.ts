@@ -3,13 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
+import { ModuleTypes } from '../util/imports';
 
+import Handlebars from 'handlebars';
 import path from 'path';
 import { getTypeDef } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
+import { isString, stringCamelCase, stringUpperFirst, assert } from '@polkadot/util';
 
-import { FOOTER, HEADER, TypeImports, createImportCode, createImports, exportInterface, exportType, formatType, setImports, writeFile } from '../util';
+import { TypeImports, createImports, exportInterface, exportType, readTemplate, formatType, setImports, writeFile } from '../util';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -17,7 +19,7 @@ interface Imports extends TypeImports {
 
 // helper to generate a `readonly <Name>: <Type>;` getter
 /** @internal */
-export function createGetter (definitions: object, name = '', type: string, imports: TypeImports): string {
+export function createGetter (definitions: Record<string, ModuleTypes>, name = '', type: string, imports: TypeImports): string {
   setImports(definitions, imports, [type]);
 
   return `  readonly ${name}: ${type};\n`;
@@ -25,25 +27,26 @@ export function createGetter (definitions: object, name = '', type: string, impo
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function errorUnhandled (definitions: object, def: TypeDef, imports: TypeImports): string {
-  throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
+function errorUnhandled (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
+  throw new Error(`Generate: ${def.name || ''}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
 
 /** @internal */
-function tsExport (definitions: object, def: TypeDef, imports: TypeImports): string {
+function tsExport (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   return exportInterface(def.name, formatType(definitions, def, imports));
 }
 
 const tsBTreeMap = tsExport;
 const tsBTreeSet = tsExport;
 const tsCompact = tsExport;
+const tsDoNotConstruct = tsExport;
 const tsHashMap = tsExport;
 const tsOption = tsExport;
 const tsPlain = tsExport;
 const tsTuple = tsExport;
 
 /** @internal */
-function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports: TypeImports): string {
+function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
 
   const keys = (sub as TypeDef[]).map(({ info, name = '', type }): string => {
@@ -54,27 +57,29 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
     const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
+      case TypeDefInfo.Compact:
       case TypeDefInfo.Plain:
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
+      case TypeDefInfo.Option:
         return `${isGetter}${asGetter}`;
 
       default:
-        throw new Error(`Enum: ${enumName}: Unhandled type ${TypeDefInfo[info]}`);
+        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}`);
     }
   });
 
   return exportInterface(enumName, 'Enum', keys.join(''));
 }
 
-function tsInt (definitions: object, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {
+function tsInt (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {
   setImports(definitions, imports, [type]);
 
   return exportInterface(def.name, type);
 }
 
 /** @internal */
-function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'Error', def: TypeDef, imports: TypeImports): string {
+function tsResultGetter (definitions: Record<string, ModuleTypes>, resultName = '', getter: 'Ok' | 'Error', def: TypeDef, imports: TypeImports): string {
   const { info, type } = def;
   const asGetter = type === 'Null'
     ? ''
@@ -85,6 +90,7 @@ function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'E
     case TypeDefInfo.Plain:
     case TypeDefInfo.Tuple:
     case TypeDefInfo.Vec:
+    case TypeDefInfo.Option:
       return `${isGetter}${asGetter}`;
 
     default:
@@ -93,7 +99,7 @@ function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'E
 }
 
 /** @internal */
-function tsResult (definitions: object, def: TypeDef, imports: TypeImports): string {
+function tsResult (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   const [okDef, errorDef] = (def.sub as TypeDef[]);
   const inner = [
     tsResultGetter(definitions, def.name, 'Error', errorDef, imports),
@@ -106,18 +112,20 @@ function tsResult (definitions: object, def: TypeDef, imports: TypeImports): str
 }
 
 /** @internal */
-function tsSet (definitions: object, { name: setName, sub }: TypeDef, imports: TypeImports): string {
+function tsSet (definitions: Record<string, ModuleTypes>, { name: setName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Set']);
 
-  const types = (sub as TypeDef[]).map(({ name }): string =>
-    createGetter(definitions, `is${name}`, 'boolean', imports)
-  );
+  const types = (sub as TypeDef[]).map(({ name }): string => {
+    assert(!!name, 'Invalid TypeDef found, no name specified');
+
+    return createGetter(definitions, `is${name}`, 'boolean', imports);
+  });
 
   return exportInterface(setName, 'Set', types.join(''));
 }
 
 /** @internal */
-function tsStruct (definitions: object, { name: structName, sub }: TypeDef, imports: TypeImports): string {
+function tsStruct (definitions: Record<string, ModuleTypes>, { name: structName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Struct']);
 
   const keys = (sub as TypeDef[]).map((typedef): string => {
@@ -130,12 +138,12 @@ function tsStruct (definitions: object, { name: structName, sub }: TypeDef, impo
 }
 
 /** @internal */
-function tsUInt (definitions: object, def: TypeDef, imports: TypeImports): string {
+function tsUInt (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   return tsInt(definitions, def, imports, 'UInt');
 }
 
 /** @internal */
-function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string {
+function tsVec (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   const type = (def.sub as TypeDef).type;
 
   if (def.info === TypeDefInfo.VecFixed && type === 'u8') {
@@ -148,7 +156,7 @@ function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string
 }
 
 /** @internal */
-function generateInterfaces (definitions: object, { types }: { types: Record<string, any> }, imports: Imports): [string, string][] {
+function generateInterfaces (definitions: Record<string, ModuleTypes>, { types }: { types: Record<string, any> }, imports: Imports): [string, string][] {
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
   // we are being explicit in having no handlers where we do not support (yet)
@@ -156,6 +164,7 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
     [TypeDefInfo.BTreeMap]: tsBTreeMap,
     [TypeDefInfo.BTreeSet]: tsBTreeSet,
     [TypeDefInfo.Compact]: tsCompact,
+    [TypeDefInfo.DoNotConstruct]: tsDoNotConstruct,
     [TypeDefInfo.Enum]: tsEnum,
     [TypeDefInfo.HashMap]: tsHashMap,
     [TypeDefInfo.Int]: tsInt,
@@ -179,26 +188,41 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
   });
 }
 
+const templateIndex = readTemplate('tsDef/index');
+const generateTsDefIndexTemplate = Handlebars.compile(templateIndex);
+
+const templateModuleTypes = readTemplate('tsDef/moduleTypes');
+const generateTsDefModuleTypesTemplate = Handlebars.compile(templateModuleTypes);
+
+const templateTypes = readTemplate('tsDef/types');
+const generateTsDefTypesTemplate = Handlebars.compile(templateTypes);
+
 /** @internal */
-function generateTsDefFor (importDefinitions: { [importPath: string]: object }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
+function generateTsDefFor (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
   const imports = { ...createImports(importDefinitions, { types }), interfaces: [] } as Imports;
   const definitions = imports.definitions;
   const interfaces = generateInterfaces(definitions, { types }, imports);
-  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
+  const items = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition);
 
-  const header = createImportCode(HEADER('defs'), imports, [
+  const importTypes = [
     ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
       file: packagePath,
       types: Object.keys(imports.localTypes[packagePath])
     }))
-  ]);
+  ];
 
-  writeFile(path.join(outputDir, defName, 'types.ts'), () => header.concat(sortedDefs).concat(`\n\nexport type PHANTOM_${defName.toUpperCase()} = '${defName}';`).concat(FOOTER), true);
-  writeFile(path.join(outputDir, defName, 'index.ts'), () => HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), true);
+  writeFile(path.join(outputDir, defName, 'types.ts'), () => generateTsDefModuleTypesTemplate({
+    headerType: 'defs',
+    imports,
+    items,
+    name: defName,
+    types: importTypes
+  }), true);
+  writeFile(path.join(outputDir, defName, 'index.ts'), () => generateTsDefIndexTemplate({ headerType: 'defs' }), true);
 }
 
 /** @internal */
-export function generateTsDef (importDefinitions: { [importPath: string]: object }, outputDir: string, generatingPackage: string): void {
+export function generateTsDef (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, outputDir: string, generatingPackage: string): void {
   writeFile(path.join(outputDir, 'types.ts'), (): string => {
     const definitions = importDefinitions[generatingPackage];
 
@@ -208,17 +232,13 @@ export function generateTsDef (importDefinitions: { [importPath: string]: object
       generateTsDefFor(importDefinitions, defName, obj, outputDir);
     });
 
-    return HEADER('defs')
-      .concat(
-        Object
-          .keys(definitions)
-          .map((moduleName): string => `export * from './${moduleName}/types';`)
-          .join('\n')
-      )
-      .concat(FOOTER);
+    return generateTsDefTypesTemplate({
+      headerType: 'defs',
+      items: Object.keys(definitions)
+    });
   });
 
-  writeFile(path.join(outputDir, 'index.ts'), () => HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), true);
+  writeFile(path.join(outputDir, 'index.ts'), () => generateTsDefIndexTemplate({ headerType: 'defs' }), true);
 }
 
 /** @internal */

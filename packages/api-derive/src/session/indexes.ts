@@ -9,6 +9,7 @@ import { DeriveSessionIndexes } from '../types';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Option, u32 } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -79,7 +80,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionInd
   return memo((): Observable<DeriveSessionIndexes> =>
     (
       api.query.session && api.query.staking
-        ? api.query.staking.activeEra
+        ? isFunction(api.query.staking.activeEra)
           ? query(api)
           : queryNoActive(api)
         : empty(api)

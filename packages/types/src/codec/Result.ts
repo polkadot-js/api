@@ -14,14 +14,15 @@ import Enum from './Enum';
  * A Result maps to the Rust Result type, that can either wrap a success or error value
  */
 export default class Result<O extends Codec, E extends Codec> extends Enum {
-  constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceTypes, Error: Constructor<E> | keyof InterfaceTypes, value?: any) {
+  constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceTypes, Error: Constructor<E> | keyof InterfaceTypes, value?: unknown) {
     // NOTE This is order-dependent, Ok (with index 0) needs to be first
+    // eslint-disable-next-line sort-keys
     super(registry, { Ok, Error }, value);
   }
 
   public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | keyof InterfaceTypes; Error: Constructor<E> | keyof InterfaceTypes }): Constructor<Result<O, E>> {
     return class extends Result<O, E> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Types.Ok, Types.Error, value);
       }
     };
@@ -49,7 +50,7 @@ export default class Result<O extends Codec, E extends Codec> extends Enum {
    * @description Checks if the Result has no value
    */
   public get isEmpty (): boolean {
-    return this.isOk && this.raw.isEmpty;
+    return this.isOk && this._raw.isEmpty;
   }
 
   /**
@@ -70,8 +71,8 @@ export default class Result<O extends Codec, E extends Codec> extends Enum {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    const Types = this.toRawStruct() as { Ok: any; Error: any };
+    const Types = this._toRawStruct() as { Ok: unknown; Error: unknown };
 
-    return `Result<${Types.Ok},${Types.Error}>`;
+    return `Result<${Types.Ok as string},${Types.Error as string}>`;
   }
 }

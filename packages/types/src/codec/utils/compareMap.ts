@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isFunction, isObject, isUndefined } from '@polkadot/util';
+import { isObject, isUndefined } from '@polkadot/util';
 
-function hasMismatch (a?: any, b?: any): boolean {
+import { hasEq } from './util';
+
+function hasMismatch (a?: unknown, b?: unknown): boolean {
   return isUndefined(a) || (
-    // Codec has .eq, use it here
-    isFunction(a.eq)
+    hasEq(a)
       ? !a.eq(b)
       : a !== b
   );
@@ -26,7 +27,7 @@ function compareMapArray (a: Map<any, any>, b: [any, any][]): boolean {
 
 // NOTE These are used internally and when comparing objects, expects that
 // when the second is an Map<string, Codec> that the first has to be as well
-export default function compareMap (a: Map<any, any>, b?: any): boolean {
+export default function compareMap (a: Map<any, any>, b?: unknown): boolean {
   if (Array.isArray(b)) {
     return compareMapArray(a, b);
   } else if (b instanceof Map) {

@@ -28,12 +28,14 @@ export interface CompactEncodable extends Codec {
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
         super(registry, Type, value);
       }
     };
@@ -59,7 +61,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
   /** @internal */
   public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
-      return new Type(registry, value.raw);
+      return new Type(registry, value._raw);
     } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {
       return new Type(registry, value);
     }
@@ -73,16 +75,16 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
    * @description Returns the number of bits in the value
    */
   public bitLength (): number {
-    return this.raw.bitLength();
+    return this._raw.bitLength();
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
-    return this.raw.eq(
+  public eq (other?: unknown): boolean {
+    return this._raw.eq(
       other instanceof Compact
-        ? other.raw
+        ? other._raw
         : other
     );
   }
@@ -91,21 +93,21 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
    * @description Returns the BN representation of the number
    */
   public toBn (): BN {
-    return this.raw.toBn();
+    return this._raw.toBn();
   }
 
   /**
    * @description Returns the number representation for the value
    */
   public toNumber (): number {
-    return this.raw.toNumber();
+    return this._raw.toNumber();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this.raw.toRawType()}>`;
+    return `Compact<${this._raw.toRawType()}>`;
   }
 
   /**
@@ -114,13 +116,13 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return Compact.encodeU8a(this.raw.toBn());
+    return Compact.encodeU8a(this._raw.toBn());
   }
 
   /**
    * @description Returns the embedded [[UInt]] or [[Moment]] value
    */
   public unwrap (): T {
-    return this.raw;
+    return this._raw;
   }
 }

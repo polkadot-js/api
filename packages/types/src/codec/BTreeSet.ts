@@ -32,14 +32,15 @@ function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
+function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): Set<V> {
   const output = new Set<V>();
 
   value.forEach((val: any) => {
     try {
       output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
     } catch (error) {
-      console.error('Failed to decode BTreeSet key or value:', error.message);
+      console.error('Failed to decode BTreeSet key or value:', (error as Error).message);
+
       throw error;
     }
   });
@@ -61,7 +62,7 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
  * @param jsonSet
  * @internal
  */
-function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Set<any>): Set<V> {
+function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
   if (!value) {
     return new Set<V>();
   }
@@ -72,7 +73,7 @@ function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constr
     return decodeSet(registry, ValClass, hexToU8a(value));
   } else if (isU8a(value)) {
     return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
-  } else if (value instanceof Set) {
+  } else if (Array.isArray(value) || value instanceof Set) {
     return decodeSetFromSet<V>(registry, ValClass, value);
   }
 
@@ -84,7 +85,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
 
   readonly #ValClass: Constructor<V>;
 
-  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | string[] | Set<any>) {
     super(decodeSet(registry, valType, rawValue));
 
     this.registry = registry;
@@ -93,7 +94,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
 
   public static with<V extends Codec> (valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
     return class extends BTreeSet<V> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: Uint8Array | string | Set<any>) {
         super(registry, valType, value);
       }
     };
@@ -129,7 +130,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: any): boolean {
+  public eq (other?: unknown): boolean {
     return compareSet(this, other);
   }
 
@@ -144,7 +145,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    const json: any = [];
+    const json: AnyJson = [];
 
     this.forEach((v: V) => {
       json.push(v.toHuman(isExtended));
@@ -157,7 +158,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    const json: any = [];
+    const json: AnyJson = [];
 
     this.forEach((v: V) => {
       json.push(v.toJSON());

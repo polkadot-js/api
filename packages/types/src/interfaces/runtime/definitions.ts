@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// order important in structs... :)
+/* eslint-disable sort-keys */
+
 import { Definitions } from '../../types';
 
 export default {
@@ -22,7 +25,9 @@ export default {
       digestLevels: 'u32'
     },
     ConsensusEngineId: 'GenericConsensusEngineId',
-    Digest: 'GenericDigest',
+    Digest: {
+      logs: 'Vec<DigestItem>'
+    },
     DigestItem: {
       _enum: {
         Other: 'Bytes', // 0
@@ -35,18 +40,28 @@ export default {
       }
     },
     DispatchClass: {
-      _enum: ['Normal', 'Operational']
+      _enum: ['Normal', 'Operational', 'Mandatory']
     },
     DispatchInfo: {
       weight: 'Weight',
       class: 'DispatchClass',
-      paysFee: 'bool'
+      paysFee: 'Pays'
     },
     DispatchInfoTo190: {
       weight: 'Weight',
       class: 'DispatchClass'
     },
+    DispatchInfoTo244: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      paysFee: 'bool'
+    },
+    ExtrinsicsWeight: {
+      normal: 'Weight',
+      operational: 'Weight'
+    },
     Fixed64: 'Int<64, Fixed64>',
+    Fixed128: 'Int<128, Fixed128>',
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
@@ -65,21 +80,32 @@ export default {
     LockIdentifier: '[u8; 8]',
     LookupSource: 'Address',
     LookupTarget: 'AccountId',
+    ModuleId: 'LockIdentifier',
     Moment: 'u64',
-    Origin: 'GenericOrigin',
+    Origin: 'DoNotConstruct<Origin>',
+    Pays: {
+      _enum: ['Yes', 'No']
+    },
     Perbill: 'u32',
     Percent: 'u8',
     Permill: 'u32',
     Perquintill: 'u64',
     Phantom: 'Null',
     PhantomData: 'Null',
+    ProxyType: {
+      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
+    },
+    RuntimeDbWeight: {
+      read: 'Weight',
+      write: 'Weight'
+    },
     SignedBlock: {
       block: 'Block',
       justification: 'Justification'
     },
     StorageData: 'Bytes',
     ValidatorId: 'AccountId',
-    Weight: 'u32',
+    Weight: 'u64',
     WeightMultiplier: 'Fixed64',
 
     // digest

@@ -26,6 +26,15 @@ const api = await ApiPromise.create({
 
 The above introduces the `types` registry, effectively allowing overrides and the definition of new types. The override above would mean that immediately the API will treat all occurrences of `Balance` not as the default, but rather as the defined size.
 
+## Field ordering
+
+When defining any custom structures or types, it is critical that the following rules are applied -
+
+- Map exactly to what is defined in the Rust code, i.e. defining a `SaleType` cannot be `u16` on the one end and `u32` on the other end. If mismatches occur, the serialization will fail.
+- Ensure that the field order is maintained in all definitions. The SCALE serialization is binary and contains no field names in the serialization, only the encoded values. Any decoding is therefore done based on the size of the type and the order thereof in the definitions.
+
+These rules apply everywhere. Always ensure that the types match exactly between the environments and that the ordering is maintained, be it for structs, tuples or enums.
+
 ## User-defined structs
 
 Registration also applies to any type that can be found on a specific chain, i.e. we can add any types that is available on a specific node -

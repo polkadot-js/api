@@ -89,6 +89,7 @@ describe('Enum', (): void => {
       expect(
         new Enum(
           registry,
+          // eslint-disable-next-line sort-keys
           { foo: 'Text', bar: 'u32' },
           '0x0134120000'
         ).value.toString()
@@ -339,7 +340,9 @@ describe('Enum', (): void => {
 
       it('has a sane output for typed enums', (): void => {
         expect(
+          // eslint-disable-next-line sort-keys
           new Enum(registry, { foo: Text, bar: U32 }).toRawType()
+        // eslint-disable-next-line sort-keys
         ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
       });
     });

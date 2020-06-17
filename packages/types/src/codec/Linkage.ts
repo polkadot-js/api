@@ -18,16 +18,19 @@ const EMPTY = new Uint8Array();
  * @description The wrapper for the result from a LinkedMap
  */
 export default class Linkage<T extends Codec> extends Struct {
-  constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: any) {
+  constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: unknown) {
     super(registry, {
       previous: Option.with(Type),
+      // eslint-disable-next-line sort-keys
       next: Option.with(Type)
-    }, value);
+    }, value as string);
+
+    console.error([...this.entries()]);
   }
 
   public static withKey<O extends Codec> (Type: Constructor | keyof InterfaceTypes): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);
       }
     };

@@ -1,0 +1,23 @@
+{{> header }}
+
+{{{ imports }}}
+
+declare module '@polkadot/metadata/Decorated/consts/types' {
+  export interface Constants {
+    {{#unless isStrict}}
+    [index: string]: ModuleConstants;
+    {{/unless}}
+    {{#each modules}}
+    {{{name}}}: {
+      {{#unless @root.isStrict}}
+      [index: string]: AugmentedConst<object & Codec>;
+      {{/unless}}
+      {{~#each items}}
+      {{> docs}}
+      {{{name}}}: AugmentedConst<{{{type}}}>;
+      {{/each}}
+    };
+    {{/each}}
+  }
+}
+{{> footer }}

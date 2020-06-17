@@ -73,10 +73,7 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey
   const { meta: { name, type } } = itemFn;
 
   // since we are passing an almost-unknown through, trust, but verify
-  assert(
-    Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]),
-    `${name} is a DoubleMap and requires two arguments`
-  );
+  assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), `${(name || 'unknown').toString()} is a DoubleMap and requires two arguments`);
 
   // if this fails, we have bigger issues
   assert(!isUndefined(hasher2), '2 hashing functions should be defined for DoubleMaps');
@@ -110,7 +107,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string,
   if (type.isMap) {
     const map = type.asMap;
 
-    assert(!isUndefined(arg) && !isNull(arg), `${name} is a Map and requires one argument`);
+    assert(!isUndefined(arg) && !isNull(arg), `${name.toString()} is a Map and requires one argument`);
 
     param = createTypeUnsafe(registry, map.key.toString(), [arg]).toU8a();
   }
@@ -134,7 +131,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
   // explicitly add the actual method in the toJSON, this gets used to determine caching and without it
   // instances (e.g. collective) will not work since it is only matched on param meta
   storageFn.toJSON = (): any => ({
-    ...(meta.toJSON() as any),
+    ...(meta.toJSON() as Record<string, unknown>),
     storage: { method, prefix, section }
   });
 
@@ -142,7 +139,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): (arg?: any) => StorageKey {
   const outputType = type.isMap
     ? type.asMap.key.toString()
     : type.asDoubleMap.key1.toString();
@@ -150,14 +147,19 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
-    name,
-    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
-    type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
+    documentation,
     fallback: registry.createType('Bytes', createTypeUnsafe(registry, outputType).toHex()),
-    documentation
+    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+    name,
+    type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0)
   });
 
-  return registry.createType('StorageKey', iterFn, { method, section });
+  const prefixKey = registry.createType('StorageKey', iterFn, { method, section });
+
+  return (arg?: any): StorageKey =>
+    !isUndefined(arg) && !isNull(arg)
+      ? registry.createType('StorageKey', iterFn(arg), { method, section })
+      : prefixKey;
 }
 
 // attach the head key hashing for linked maps
@@ -177,8 +179,12 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 // attach the full list hashing for prefixed maps
 /** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
-    new Raw(registry, createPrefixedKey(itemFn))
+  const { meta: { type } } = itemFn;
+
+  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw =>
+    type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
+      ? new Raw(registry, u8aConcat(createPrefixedKey(itemFn), getHasher(type.asDoubleMap.hasher)(registry.createType(type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a())))
+      : new Raw(registry, createPrefixedKey(itemFn))
   );
 
   return storageFn;
@@ -219,7 +225,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
     extendDoubleMap(registry, itemFn, storageFn);
   }
 
-  storageFn.keyPrefix = storageFn.iterKey || compactStripLength(storageFn())[1];
+  storageFn.keyPrefix = (arg?: any): Uint8Array =>
+    (storageFn.iterKey && storageFn.iterKey(arg)) || compactStripLength(storageFn())[1];
 
   return storageFn;
 }

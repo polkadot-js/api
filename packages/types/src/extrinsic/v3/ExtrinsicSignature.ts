@@ -5,6 +5,8 @@
 import { Address, Call } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../types';
 
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
 import { IMMORTAL_ERA } from '../constants';
 import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
 import ExtrinsicPayloadV3 from './ExtrinsicPayload';
@@ -19,7 +21,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    * @description Adds a raw signature
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
-    return this.injectSignature(
+    return this._injectSignature(
       this.registry.createType('Address', signer),
       this.registry.createType('Signature', signature),
       new ExtrinsicPayloadV3(this.registry, payload)
@@ -37,7 +39,8 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
       method: method.toHex(),
       nonce,
       specVersion,
-      tip: tip || 0
+      tip: tip || 0,
+      transactionVersion: 0
     });
   }
 
@@ -45,11 +48,14 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    const signer = this.registry.createType('Address', account.publicKey);
+    const address = account.publicKey.length > 32
+      ? blake2AsU8a(account.publicKey, 256)
+      : account.publicKey;
+    const signer = this.registry.createType('Address', address);
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('Signature', payload.sign(account));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 
   /**
@@ -60,6 +66,6 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('Signature', new Uint8Array(64).fill(0x42));
 
-    return this.injectSignature(signer, signature, payload);
+    return this._injectSignature(signer, signature, payload);
   }
 }

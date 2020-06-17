@@ -9,6 +9,8 @@ import { u8aToHex } from '@polkadot/util';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
+import Vec from '../codec/Vec';
+import Text from '../primitive/Text';
 import u8 from '../primitive/U8';
 
 export interface SignerPayloadType extends Codec {
@@ -20,13 +22,14 @@ export interface SignerPayloadType extends Codec {
   method: Call;
   nonce: Compact<Index>;
   runtimeVersion: RuntimeVersion;
+  signedExtensions: Vec<Text>;
   tip: Compact<Balance>;
   version: u8;
 }
 
 // We explicitly cast the type here to get the actual TypeScript exports right
 // We can ignore the properties, added via Struct.with
-const _Payload: Constructor<SignerPayloadType> = Struct.with({
+const _Payload = Struct.with({
   address: 'Address',
   blockHash: 'Hash',
   blockNumber: 'BlockNumber',
@@ -35,9 +38,10 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   method: 'Call',
   nonce: 'Compact<Index>',
   runtimeVersion: 'RuntimeVersion',
+  signedExtensions: 'Vec<Text>',
   tip: 'Compact<Balance>',
   version: 'u8'
-}) as any;
+}) as unknown as Constructor<SignerPayloadType>;
 
 /**
  * @name SignerPayload
@@ -49,7 +53,7 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this;
+    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion, transactionVersion }, signedExtensions, tip, version } = this;
 
     return {
       address: address.toString(),
@@ -59,8 +63,10 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
       genesisHash: genesisHash.toHex(),
       method: method.toHex(),
       nonce: nonce.toHex(),
+      signedExtensions: signedExtensions.map((e) => e.toString()),
       specVersion: specVersion.toHex(),
       tip: tip.toHex(),
+      transactionVersion: transactionVersion.toHex(),
       version: version.toNumber()
     };
   }

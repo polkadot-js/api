@@ -9,6 +9,8 @@ import { isU8a, u8aConcat, isHex, hexToU8a } from '@polkadot/util';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
 import AbstractArray from './AbstractArray';
 
+type AnyTuple = AnyU8a | string | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];
+
 type TupleConstructors = Constructor[] | {
   [index: string]: Constructor;
 };
@@ -16,6 +18,33 @@ type TupleConstructors = Constructor[] | {
 type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
   [index: string]: Constructor | keyof InterfaceTypes;
 };
+
+/** @internal */
+function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTuple): Codec[] {
+  if (isU8a(value)) {
+    return decodeU8a(registry, value, _Types);
+  } else if (isHex(value)) {
+    return decodeTuple(registry, _Types, hexToU8a(value));
+  }
+
+  const Types: Constructor[] = Array.isArray(_Types)
+    ? _Types
+    : Object.values(_Types);
+
+  return Types.map((Type, index): Codec => {
+    try {
+      const entry = value?.[index];
+
+      if (entry instanceof Type) {
+        return entry;
+      }
+
+      return new Type(registry, entry);
+    } catch (error) {
+      throw new Error(`Tuple: failed on ${index}:: ${(error as Error).message}`);
+    }
+  });
+}
 
 /**
  * @name Tuple
@@ -26,41 +55,19 @@ type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  constructor (registry: Registry, Types: TupleTypes, value?: any) {
+  constructor (registry: Registry, Types: TupleTypes, value?: AnyTuple) {
     const Clazzes = Array.isArray(Types)
       ? Types.map((type): Constructor => typeToConstructor(registry, type))
       : mapToTypeMap(registry, Types);
 
-    super(registry, ...Tuple.decodeTuple(registry, Clazzes, value));
+    super(registry, ...decodeTuple(registry, Clazzes, value));
 
     this._Types = Clazzes;
   }
 
-  /** @internal */
-  private static decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
-    if (isU8a(value)) {
-      return decodeU8a(registry, value, _Types);
-    } else if (isHex(value)) {
-      return Tuple.decodeTuple(registry, _Types, hexToU8a(value));
-    }
-
-    const Types: Constructor[] = Array.isArray(_Types)
-      ? _Types
-      : Object.values(_Types);
-
-    return Types.map((Type, index): Codec => {
-      try {
-        if (value?.[index] instanceof Type) return value[index] as any;
-        return new Type(registry, value?.[index]);
-      } catch (error) {
-        throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
-      }
-    });
-  }
-
   public static with (Types: TupleTypes): Constructor<Tuple> {
     return class extends Tuple {
-      constructor (registry: Registry, value?: any) {
+      constructor (registry: Registry, value?: AnyTuple) {
         super(registry, Types, value);
       }
     };

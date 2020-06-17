@@ -4,7 +4,7 @@ In the previous section we looked at the TypeScript definitions that are availab
 
 ## Definitions
 
-A large part of the type definitions are defined not as classes, but rather as structures from which type definitions are extracted and that can be used as-is to let the API know how to decode a type. By now you should be familiar with [type extensions](types.extend.md), but effectively the [types library does exactly the same](https://github.com/polkadot-js/api/tree/master/packages/types/src/interfaces).
+A large part of the type definitions are defined not as classes, but rather as structures from which type definitions are extracted and that can be used as-is to let the API know how to decode a type. By now you should be familiar with [type extensions](types.extend.md) and the [rules around fields](types.extend.md#field-ordering), but effectively the [types library does exactly the same](https://github.com/polkadot-js/api/tree/master/packages/types/src/interfaces).
 
 To create TypeScript-aware definitions and keep your files in a single place, you can follow the same approach. Assuming you have a package named `@MeInc/stuff` where you have the definitions in an `stuff/interfaces` folder. Each sub-folder would indicate a runtime module, e.g.
 

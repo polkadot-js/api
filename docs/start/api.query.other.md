@@ -62,7 +62,7 @@ When working maps and double-maps, it is possible to retrieve a list of all the 
 // Retrieve the active era
 const activeEra = await api.query.staking.activeEra();
 
-// retrieve all exposures int the active era
+// retrieve all exposures for the active era
 const exposures = await api.query.staking.erasStakers.entries(activeEra.index);
 
 exposures.forEach(([key, exposure]) => {
@@ -71,9 +71,24 @@ exposures.forEach(([key, exposure]) => {
 });
 ```
 
-Here we are querying a double-map, so we supply 1 argument. No arguments on double-maps will be very costly, retrieving all the eras and associated entries. Additionally when `twox64_concat` & `blake2_concat` is used, the key `.args` will contain decoded values of the params, in this case it will contain the actual `AccountId` of the staker. (Since that was not supplied)
+To understand the usage of the `key.args`, you need to understand that map/doublemap keys are stored alongside their lookups. This means that the raw key has hashed parts as well as the raw data. The API will decode the keys and provide the raw key arguments in args. This would mean -
 
-In the same way as above we can simply do `.keys(activeEra.index): StorageKey[]` to retrieve all the keys here, including the individual keys args decoding, as available on maps with decodable hashing functions.
+- if we are querying `api.query.staking.validators(validatorId: AccountId)` via `entries`, the `key.args` would be `[AccountId]`
+- if we are querying `api.query.staking.erasStakers(era: EraIndex, validatorId: AccountId)` via `entries`, the `key.args` would be `[EraIndex, AccountId]`
+
+the same applies to `.keys()` - here the list of keys also have the decoded args, as specified. You can think of `.args` as a tuple with the same types as the types required to retrieve a single entry in the map.
+
+In the first example we are querying a double-map, so we supply 1 argument. No arguments on double-maps will be very costly, retrieving all the eras and associated entries. In the same way as above we can simply do `.keys(activeEra.index): StorageKey[]` to retrieve all the keys here, including the individual keys args (available on maps with decodable hashing functions) -
+
+```js
+// retrieve all the nominator keys
+const keys = await api.query.staking.nominators.keys();
+
+// extract the first key argument [AccountId] as string
+const nominatorIds = keys.map(({ args: [nominatorId] }) => nominatorId);
+
+console.log('all nominators:', nominatorIds.join(', '));
+```
 
 ## State entries
 
