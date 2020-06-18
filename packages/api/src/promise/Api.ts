@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
-import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
+import { Callback, Codec } from '@polkadot/types/types';
+import { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
 
 import { EMPTY, Observable, Subscription } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
@@ -63,19 +63,19 @@ function promiseTracker (resolve: (value: VoidFn) => void, reject: (value: Error
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-export function decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
   return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
 
     if (!resultCb) {
-      return (method(...actualArgs) as Observable<ObsInnerType<ReturnType<Method>>>).pipe(first()).toPromise();
+      return method(...actualArgs).pipe(first()).toPromise();
     }
 
     return new Promise<VoidFn>((resolve, reject): void => {
       const tracker = promiseTracker(resolve, reject);
-      const subscription: Subscription = (method(...actualArgs) as Observable<Codec>).pipe(
+      const subscription: Subscription = method(...actualArgs).pipe(
         // if we find an error (invalid params, etc), reject the promise
         catchError((error): Observable<never> => tracker.reject(error)),
         // upon the first result, resolve with the unsub function
