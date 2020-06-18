@@ -5,10 +5,11 @@
 // Augment the modules
 import '@polkadot/api/augment';
 
-import BN from 'bn.js';
+import type BN from 'bn.js';
 import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
+import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
@@ -18,7 +19,6 @@ import ApiBase from '../base';
 import { DecoratedRpc } from './rpc';
 import { QueryableStorage, QueryableStorageMulti } from './storage';
 import { SubmittableExtrinsics } from './submittable';
-import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 
 export { Signer, SignerResult } from '@polkadot/types/types';
 export { default as ApiBase } from '../base';

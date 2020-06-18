@@ -6,13 +6,21 @@ import { Compact, Enum, HashMap, Option, Result, Struct, U8aFixed, Vec } from '@
 import { GenericEvent } from '@polkadot/types/generic';
 import { Bytes, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountData } from '@polkadot/types/interfaces/balances';
-import { BlockNumber, Digest, Hash, Index } from '@polkadot/types/interfaces/runtime';
+import { BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountInfo */
 export interface AccountInfo extends Struct {
   readonly nonce: Index;
   readonly refcount: RefCount;
   readonly data: AccountData;
+}
+
+/** @name ApplyExtrinsicResult */
+export interface ApplyExtrinsicResult extends Result<DispatchOutcome, TransactionValidityError> {
+  readonly isError: boolean;
+  readonly asError: TransactionValidityError;
+  readonly isOk: boolean;
+  readonly asOk: DispatchOutcome;
 }
 
 /** @name ChainProperties */
@@ -34,6 +42,13 @@ export interface ChainType extends Enum {
 /** @name DigestOf */
 export interface DigestOf extends Digest {}
 
+/** @name DispatchClass */
+export interface DispatchClass extends Enum {
+  readonly isNormal: boolean;
+  readonly isOperational: boolean;
+  readonly isMandatory: boolean;
+}
+
 /** @name DispatchError */
 export interface DispatchError extends Enum {
   readonly isOther: boolean;
@@ -53,6 +68,34 @@ export interface DispatchErrorModule extends Struct {
 export interface DispatchErrorTo198 extends Struct {
   readonly module: Option<u8>;
   readonly error: u8;
+}
+
+/** @name DispatchInfo */
+export interface DispatchInfo extends Struct {
+  readonly weight: Weight;
+  readonly class: DispatchClass;
+  readonly paysFee: Pays;
+}
+
+/** @name DispatchInfoTo190 */
+export interface DispatchInfoTo190 extends Struct {
+  readonly weight: Weight;
+  readonly class: DispatchClass;
+}
+
+/** @name DispatchInfoTo244 */
+export interface DispatchInfoTo244 extends Struct {
+  readonly weight: Weight;
+  readonly class: DispatchClass;
+  readonly paysFee: bool;
+}
+
+/** @name DispatchOutcome */
+export interface DispatchOutcome extends Result<ITuple<[]>, DispatchError> {
+  readonly isError: boolean;
+  readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: ITuple<[]>;
 }
 
 /** @name DispatchResult */
@@ -101,6 +144,21 @@ export interface Health extends Struct {
   readonly peers: u64;
   readonly isSyncing: bool;
   readonly shouldHavePeers: bool;
+}
+
+/** @name InvalidTransaction */
+export interface InvalidTransaction extends Enum {
+  readonly isCall: boolean;
+  readonly isPayment: boolean;
+  readonly isFuture: boolean;
+  readonly isStale: boolean;
+  readonly isBadProof: boolean;
+  readonly isAncientBirthBlock: boolean;
+  readonly isExhaustsResources: boolean;
+  readonly isCustom: boolean;
+  readonly asCustom: u8;
+  readonly isBadMandatory: boolean;
+  readonly isMandatoryDispatch: boolean;
 }
 
 /** @name Key */
@@ -198,5 +256,21 @@ export interface Phase extends Enum {
 
 /** @name RefCount */
 export interface RefCount extends u8 {}
+
+/** @name TransactionValidityError */
+export interface TransactionValidityError extends Enum {
+  readonly isInvalid: boolean;
+  readonly asInvalid: InvalidTransaction;
+  readonly isUnknown: boolean;
+  readonly asUnknown: UnknownTransaction;
+}
+
+/** @name UnknownTransaction */
+export interface UnknownTransaction extends Enum {
+  readonly isCannotLookup: boolean;
+  readonly isNoUnsignedValidator: boolean;
+  readonly isCustom: boolean;
+  readonly asCustom: u8;
+}
 
 export type PHANTOM_SYSTEM = 'system';

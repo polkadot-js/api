@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 
 // Prepend an element V onto the beginning of a tuple T.
@@ -30,7 +30,9 @@ export type ApiTypes = 'promise' | 'rxjs';
 // Returns the inner type of an Observable
 export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
 
-export type UnsubscribePromise = Promise<() => void>;
+export type VoidFn = () => void;
+
+export type UnsubscribePromise = Promise<VoidFn>;
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
 export type PromiseOrObs<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'
@@ -67,6 +69,8 @@ export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction> = ApiT
 export interface DecorateMethodOptions {
   methodName?: string;
 }
+
+export type DecorateFn <T extends Codec> = (...args: any[]) => Observable<T>;
 
 export interface PaginationOptions<ArgType = CodecArg> {
   arg?: ArgType;

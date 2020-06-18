@@ -9,6 +9,33 @@ import { Definitions } from '../../types';
 
 export default {
   rpc: {
+    accountNextIndex: {
+      alias: ['account_nextIndex'],
+      description: 'Retrieves the next accountIndex as available on the node',
+      params: [
+        {
+          name: 'accountId',
+          type: 'AccountId'
+        }
+      ],
+      type: 'Index'
+    },
+    dryRun: {
+      alias: ['system_dryRunAt'],
+      description: 'Dry run an extrinsic at a given block',
+      params: [
+        {
+          name: 'extrinsic',
+          type: 'Bytes'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'ApplyExtrinsicResult'
+    },
     name: {
       description: 'Retrieves the node name',
       params: [],
@@ -91,6 +118,7 @@ export default {
       refcount: 'RefCount',
       data: 'AccountData'
     },
+    ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
     ChainProperties: {
       ss58Format: 'Option<u8>',
       tokenDecimals: 'Option<u32>',
@@ -105,6 +133,9 @@ export default {
       }
     },
     DigestOf: 'Digest',
+    DispatchClass: {
+      _enum: ['Normal', 'Operational', 'Mandatory']
+    },
     DispatchError: {
       _enum: {
         Other: 'Null',
@@ -121,6 +152,21 @@ export default {
       module: 'Option<u8>',
       error: 'u8'
     },
+    DispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      paysFee: 'Pays'
+    },
+    DispatchInfoTo190: {
+      weight: 'Weight',
+      class: 'DispatchClass'
+    },
+    DispatchInfoTo244: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      paysFee: 'bool'
+    },
+    DispatchOutcome: 'Result<(), DispatchError>',
     DispatchResult: 'Result<(), DispatchError>',
     DispatchResultOf: 'DispatchResult',
     DispatchResultTo198: 'Result<(), Text>',
@@ -140,6 +186,20 @@ export default {
       peers: 'u64',
       isSyncing: 'bool',
       shouldHavePeers: 'bool'
+    },
+    InvalidTransaction: {
+      _enum: {
+        Call: 'Null',
+        Payment: 'Null',
+        Future: 'Null',
+        Stale: 'Null',
+        BadProof: 'Null',
+        AncientBirthBlock: 'Null',
+        ExhaustsResources: 'Null',
+        Custom: 'u8',
+        BadMandatory: 'Null',
+        MandatoryDispatch: 'Null'
+      }
     },
     Key: 'Bytes',
     LastRuntimeUpgradeInfo: {
@@ -214,6 +274,19 @@ export default {
         Initialization: 'Null'
       }
     },
-    RefCount: 'u8'
+    RefCount: 'u8',
+    TransactionValidityError: {
+      _enum: {
+        Invalid: 'InvalidTransaction',
+        Unknown: 'UnknownTransaction'
+      }
+    },
+    UnknownTransaction: {
+      _enum: {
+        CannotLookup: 'Null',
+        NoUnsignedValidator: 'Null',
+        Custom: 'u8'
+      }
+    }
   }
 } as Definitions;

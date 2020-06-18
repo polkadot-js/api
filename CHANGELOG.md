@@ -2,7 +2,9 @@
 
 ## 1.20.0-beta.x
 
+- **Important** RPC for `account_nextIndex` has been moved to `system_accountNextIndex` (Aligning with Substrate as a primary alias)
 - Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
+- Add `system_dryRun` RPC
 - `.range` queries have an result order swap, all values are now `[Codec, Hash]` (consistency alignment)
 
 ## 1.19.1 Jun 16, 2020
