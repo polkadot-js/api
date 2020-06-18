@@ -19,7 +19,7 @@ import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
-import { ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
+import { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
@@ -245,6 +245,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
     };
     system: {
       /**
+       * Retrieves the next accountIndex as available on the node
+       **/
+      accountNextIndex: AugmentedRpc<(accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
        * Adds a reserved peer
        **/
       addReservedPeer: AugmentedRpc<(peer: Text | string) => Observable<Text>>;
@@ -256,6 +260,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the chain type
        **/
       chainType: AugmentedRpc<() => Observable<ChainType>>;
+      /**
+       * Dry run an extrinsic at a given block
+       **/
+      dryRun: AugmentedRpc<(extrinsic: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ApplyExtrinsicResult>>;
       /**
        * Return health status of the node
        **/

@@ -4,7 +4,7 @@
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Int, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId } from '@polkadot/types/generic';
-import { Bytes, DoNotConstruct, Null, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, DoNotConstruct, Null, StorageKey, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
 
@@ -71,33 +71,6 @@ export interface DigestItem extends Enum {
   readonly asSeal: Seal;
   readonly isPreRuntime: boolean;
   readonly asPreRuntime: PreRuntime;
-}
-
-/** @name DispatchClass */
-export interface DispatchClass extends Enum {
-  readonly isNormal: boolean;
-  readonly isOperational: boolean;
-  readonly isMandatory: boolean;
-}
-
-/** @name DispatchInfo */
-export interface DispatchInfo extends Struct {
-  readonly weight: Weight;
-  readonly class: DispatchClass;
-  readonly paysFee: Pays;
-}
-
-/** @name DispatchInfoTo190 */
-export interface DispatchInfoTo190 extends Struct {
-  readonly weight: Weight;
-  readonly class: DispatchClass;
-}
-
-/** @name DispatchInfoTo244 */
-export interface DispatchInfoTo244 extends Struct {
-  readonly weight: Weight;
-  readonly class: DispatchClass;
-  readonly paysFee: bool;
 }
 
 /** @name ExtrinsicsWeight */

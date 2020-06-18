@@ -3,6 +3,7 @@
 ## 1.20.0-beta.x
 
 - Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
+- Add `system_dryRun` RPC
 
 ## 1.19.1 Jun 16, 2020
 
