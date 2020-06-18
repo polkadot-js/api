@@ -2,6 +2,7 @@
 
 ## 1.20.0-beta.x
 
+- **Important** RPC for `account_nextIndex` has been moved to `system_accountNextIndex` (Aligning with Substrate as a primary alias)
 - Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
 - Add `system_dryRun` RPC
 

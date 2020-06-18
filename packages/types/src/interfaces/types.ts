@@ -35,7 +35,6 @@ export * from './claims/types';
 export * from './parachains/types';
 export * from './metadata/types';
 export * from './rpc/types';
-export * from './account/types';
 export * from './author/types';
 export * from './chain/types';
 export * from './childstate/types';

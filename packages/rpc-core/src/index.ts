@@ -75,8 +75,6 @@ export default class Rpc implements RpcInterface {
   // these via the createInterfaces inside the constructor. However... this is not quite visible. The reason
   // why we don't do for individual assignments is to allow user-defined RPCs to also be defined
 
-  public readonly account!: RpcInterface['account'];
-
   public readonly author!: RpcInterface['author'];
 
   public readonly babe!: RpcInterface['babe'];

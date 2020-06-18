@@ -45,7 +45,6 @@ export { default as metadata } from './metadata/definitions';
 export { default as rpc } from './rpc/definitions';
 
 // rpc-only definitions
-export { default as account } from './account/definitions';
 export { default as author } from './author/definitions';
 export { default as chain } from './chain/definitions';
 export { default as childstate } from './childstate/definitions';

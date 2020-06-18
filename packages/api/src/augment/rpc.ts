@@ -23,12 +23,6 @@ import { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState,
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
-    account: {
-      /**
-       * Retrieves the next accountIndex as available on the node
-       **/
-      nextIndex: AugmentedRpc<(accountId: AccountId | string | Uint8Array) => Observable<Index>>;
-    };
     author: {
       /**
        * Returns true if the keystore has private keys for the given public key and key type.

@@ -10,8 +10,7 @@ import { Definitions } from '../../types';
 export default {
   rpc: {
     accountNextIndex: {
-      // duplicated, cross-module aliases are not (yet) supported
-      // alias: ['account_nextIndex'],
+      alias: ['account_nextIndex'],
       description: 'Retrieves the next accountIndex as available on the node',
       params: [
         {
