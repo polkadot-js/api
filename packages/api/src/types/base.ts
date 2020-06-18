@@ -30,7 +30,9 @@ export type ApiTypes = 'promise' | 'rxjs';
 // Returns the inner type of an Observable
 export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
 
-export type UnsubscribePromise = Promise<() => void>;
+export type VoidFn = () => void;
+
+export type UnsubscribePromise = Promise<VoidFn>;
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
 export type PromiseOrObs<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'

@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from './codec';
+
 import BN from 'bn.js';
 
 // We cannot inline this into CodecArg, TS thrws up when building docs
@@ -26,4 +28,6 @@ export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends Reado
 
 export type BareOpts = boolean | Record<string, boolean>;
 
-export type Callback<T> = (result: T) => void | Promise<void>;
+export type Callback<T, E = undefined> = E extends Codec
+  ? (result: T, extra: E) => void | Promise<void>
+  : (result: T) => void | Promise<void>;
