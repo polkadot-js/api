@@ -39,23 +39,6 @@ export default {
         PreRuntime: 'PreRuntime' // 6
       }
     },
-    DispatchClass: {
-      _enum: ['Normal', 'Operational', 'Mandatory']
-    },
-    DispatchInfo: {
-      weight: 'Weight',
-      class: 'DispatchClass',
-      paysFee: 'Pays'
-    },
-    DispatchInfoTo190: {
-      weight: 'Weight',
-      class: 'DispatchClass'
-    },
-    DispatchInfoTo244: {
-      weight: 'Weight',
-      class: 'DispatchClass',
-      paysFee: 'bool'
-    },
     ExtrinsicsWeight: {
       normal: 'Weight',
       operational: 'Weight'
