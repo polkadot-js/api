@@ -30,8 +30,8 @@ describe('inkRegistry', (): void => {
 
     it('does multiple lookups via getInkStrings', (): void => {
       expect(
-        getInkStrings(project, project.lookup.types[0].asComposite.namespace)
-      ).toEqual(['incrementer', 'incrementer', '__ink_private', '__ink_storage']);
+        getInkStrings(project, project.lookup.types[0].path)
+      ).toEqual(['incrementer', 'incrementer']);
     });
   });
 

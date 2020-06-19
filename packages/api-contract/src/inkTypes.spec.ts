@@ -20,7 +20,7 @@ describe('inkTypes', (): void => {
         1,
         'i32',
         null
-      ],
+      ]
     ]);
   });
 });
