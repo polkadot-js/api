@@ -34,6 +34,9 @@ const typesModules: Record<string, OverrideModuleType> = {
     Compact: 'CompactAssignments',
     Releases: 'ReleasesStaking'
   },
+  transactionPayment: {
+    Releases: 'PaymentReleases'
+  },
   treasury: {
     Proposal: 'TreasuryProposal'
   }
