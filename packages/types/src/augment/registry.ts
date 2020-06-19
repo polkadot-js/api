@@ -40,7 +40,7 @@ import { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, St
 import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import { AccountInfo, ApplyExtrinsicResult, ChainProperties, ChainType, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, Phase, RefCount, TransactionValidityError, UnknownTransaction } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
-import { Multiplier } from '@polkadot/types/interfaces/txpayment';
+import { Multiplier, PaymentReleases } from '@polkadot/types/interfaces/txpayment';
 import { CallHash, Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 
@@ -1127,6 +1127,9 @@ declare module '@polkadot/types/types/registry' {
     Multiplier: Multiplier;
     'Option<Multiplier>': Option<Multiplier>;
     'Vec<Multiplier>': Vec<Multiplier>;
+    PaymentReleases: PaymentReleases;
+    'Option<PaymentReleases>': Option<PaymentReleases>;
+    'Vec<PaymentReleases>': Vec<PaymentReleases>;
     CallHash: CallHash;
     'Option<CallHash>': Option<CallHash>;
     'Vec<CallHash>': Vec<CallHash>;
