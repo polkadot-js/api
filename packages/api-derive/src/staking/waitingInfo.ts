@@ -12,10 +12,13 @@ import { memo } from '../util';
 
 export function waitingInfo (api: ApiInterfaceRx): () => Observable<DeriveStakingWaiting> {
   return memo((): Observable<DeriveStakingWaiting> =>
-    api.derive.staking.validators().pipe(
-      switchMap(({ nextElected, validators }): Observable<DeriveStakingWaiting> => {
+    combineLatest([
+      api.derive.staking.validators(),
+      api.derive.staking.stashes()
+    ]).pipe(
+      switchMap(([{ nextElected }, stashes]): Observable<DeriveStakingWaiting> => {
         const elected = nextElected.map((a) => a.toString());
-        const waiting = validators.filter((v) => !elected.includes(v.toString()));
+        const waiting = stashes.filter((v) => !elected.includes(v.toString()));
 
         return combineLatest(
           waiting.map((accountId) => api.derive.staking.query(accountId))
