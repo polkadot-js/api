@@ -30,11 +30,11 @@
     "@polkadot/metadata": "1.20.0-beta.4",
     "@polkadot/rpc-provider": "1.20.0-beta.4",
     "@polkadot/types": "1.20.0-beta.4",
-    "@polkadot/util": "^2.14.1",
+    "@polkadot/util": "^2.15.0-beta.0",
     "memoizee": "^0.4.14",
     "rxjs": "^6.5.5"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^2.14.1"
+    "@polkadot/keyring": "^2.15.0-beta.0"
   }
 }
