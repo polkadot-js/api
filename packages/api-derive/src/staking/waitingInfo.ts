@@ -5,7 +5,7 @@
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DeriveStakingWaiting } from '../types';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
@@ -19,6 +19,10 @@ export function waitingInfo (api: ApiInterfaceRx): () => Observable<DeriveStakin
       switchMap(([{ nextElected }, stashes]): Observable<DeriveStakingWaiting> => {
         const elected = nextElected.map((a) => a.toString());
         const waiting = stashes.filter((v) => !elected.includes(v.toString()));
+
+        if (!waiting.length) {
+          return of({ info: [], waiting: [] });
+        }
 
         return combineLatest(
           waiting.map((accountId) => api.derive.staking.query(accountId))
