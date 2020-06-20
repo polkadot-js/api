@@ -3,10 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { DeriveStakingQuery, DeriveStakingElected } from '../types';
+import { DeriveStakingElected } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
@@ -14,18 +13,16 @@ import { memo } from '../util';
 export function electedInfo (api: ApiInterfaceRx): () => Observable<DeriveStakingElected> {
   return memo((): Observable<DeriveStakingElected> =>
     api.derive.staking.validators().pipe(
-      switchMap(({ nextElected }): Observable<[AccountId[], DeriveStakingQuery[]]> =>
-        combineLatest([
-          of(nextElected),
-          combineLatest(
-            nextElected.map((accountId) => api.derive.staking.query(accountId))
-          )
-        ])
-      ),
-      map(([nextElected, info]): DeriveStakingElected => ({
-        info,
-        nextElected
-      }))
+      switchMap(({ nextElected }): Observable<DeriveStakingElected> =>
+        combineLatest(
+          nextElected.map((accountId) => api.derive.staking.query(accountId))
+        ).pipe(
+          map((info): DeriveStakingElected => ({
+            info,
+            nextElected
+          }))
+        )
+      )
     )
   );
 }
