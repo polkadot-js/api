@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Exposure, Keys, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { AccountId, EraIndex, Exposure, Keys, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveStakingQuery } from '../types';
 
@@ -64,19 +64,21 @@ function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<Mult
   ]);
 }
 
-function retrieveCurr (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResult> {
-  return api.derive.session.indexes().pipe(
-    switchMap(({ activeEra }) =>
-      api.queryMulti<MultiResult>([
-        [api.query.staking.bonded, stashId],
-        [api.query.staking.nominators, stashId],
-        [api.query.staking.payee, stashId],
-        [api.query.staking.validators, stashId],
-        api.consts.session?.dedupKeyPrefix
-          ? [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]
-          : [api.query.session.nextKeys, stashId],
-        [api.query.staking.erasStakers, [activeEra, stashId]]
-      ])
+function retrieveCurr (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex): Observable<MultiResult[]> {
+  return combineLatest([
+    api.query.staking.bonded.multi<Option<AccountId>>(stashIds),
+    api.query.staking.nominators.multi<Option<Nominations>>(stashIds),
+    api.query.staking.payee.multi<RewardDestination>(stashIds),
+    api.query.staking.validators.multi<ValidatorPrefs>(stashIds),
+    api.consts.session?.dedupKeyPrefix
+      ? api.query.session.nextKeys.multi<Option<Keys>>(stashIds.map((stashId) => [api.consts.session.dedupKeyPrefix, stashId]))
+      : api.query.session.nextKeys.multi<Option<Keys>>(stashIds),
+    api.query.staking.erasStakers.multi<Exposure>(stashIds.map((stashId) => [activeEra, stashId]))
+  ]).pipe(
+    map(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, nextKeys, exposure]): MultiResult[] =>
+      controllerIdOpt.map((controllerIdOpt, index): MultiResult =>
+        [controllerIdOpt, nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], nextKeys[index], exposure[index]]
+      )
     )
   );
 }
@@ -115,14 +117,17 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
 export function queryMulti (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingQuery[]> {
   return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingQuery[]> =>
     accountIds.length
-      ? api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>().pipe(
-        switchMap((queuedKeys): Observable<DeriveStakingQuery[]> => {
+      ? combineLatest([
+        api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
+        api.derive.session.indexes()
+      ]).pipe(
+        switchMap(([queuedKeys, { activeEra }]): Observable<DeriveStakingQuery[]> => {
           const stashIds = accountIds.map((accountId) => api.registry.createType('AccountId', accountId));
 
-          return combineLatest(
+          return (
             isFunction(api.query.staking.erasStakers)
-              ? stashIds.map((stashId) => retrieveCurr(api, stashId))
-              : stashIds.map((stashId) => retrievePrev(api, stashId))
+              ? retrieveCurr(api, stashIds, activeEra)
+              : combineLatest(stashIds.map((stashId) => retrievePrev(api, stashId)))
           ).pipe(
             switchMap((results): Observable<DeriveStakingQuery[]> =>
               retrieveControllers(api, results.map(([optController]) => optController)).pipe(
