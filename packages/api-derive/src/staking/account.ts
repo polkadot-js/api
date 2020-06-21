@@ -75,12 +75,8 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query
  */
 export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
   return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
-    api.derive.session.info().pipe(
-      switchMap((sessionInfo) =>
-        api.derive.staking.query(accountId).pipe(
-          map((query) => parseResult(api, sessionInfo, query))
-        )
-      )
+    api.derive.staking.accounts([accountId]).pipe(
+      map(([first]) => first)
     )
   );
 }
