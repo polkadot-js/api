@@ -7,7 +7,7 @@ import { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces'
 import { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import BN from 'bn.js';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { isUndefined } from '@polkadot/util';
@@ -70,21 +70,19 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query
   };
 }
 
-export function _account (api: ApiInterfaceRx): (sessionInfo: DeriveSessionInfo, accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
-  return memo((sessionInfo: DeriveSessionInfo, accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
-    api.derive.staking.query(accountId).pipe(
-      map((query) => parseResult(api, sessionInfo, query))
-    ));
-}
-
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
 export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
   return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
     api.derive.session.info().pipe(
-      switchMap((sessionInfo) => api.derive.staking._account(sessionInfo, accountId))
-    ));
+      switchMap((sessionInfo) =>
+        api.derive.staking.query(accountId).pipe(
+          map((query) => parseResult(api, sessionInfo, query))
+        )
+      )
+    )
+  );
 }
 
 /**
@@ -94,7 +92,12 @@ export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | strin
   return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
     api.derive.session.info().pipe(
       switchMap((sessionInfo) =>
-        combineLatest(accountIds.map((accountId) => api.derive.staking._account(sessionInfo, accountId)))
+        api.derive.staking.queryMulti(accountIds).pipe(
+          map((queries) =>
+            queries.map((query) => parseResult(api, sessionInfo, query))
+          )
+        )
       )
-    ));
+    )
+  );
 }
