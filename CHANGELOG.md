@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.20.0-beta.x
+## 1.20.1 Jun 22, 2020
 
 - **Important** RPC for `account_nextIndex` has been moved to `system_accountNextIndex` (Aligning with Substrate as a primary alias)
 - Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
