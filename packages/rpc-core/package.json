@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "dependencies": {
-    "@babel/runtime": "^7.10.2",
+    "@babel/runtime": "^7.10.3",
     "@polkadot/metadata": "1.20.0-beta.7",
     "@polkadot/rpc-provider": "1.20.0-beta.7",
     "@polkadot/types": "1.20.0-beta.7",

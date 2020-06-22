@@ -1588,7 +1588,16 @@
                 "type": {
                   "Plain": "Multiplier"
                 },
-                "fallback": "0x00000000000000000000000000000000",
+                "fallback": "0x000064a7b3b6e00d0000000000000000",
+                "documentation": []
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "PaymentReleases"
+                },
+                "fallback": "0x00",
                 "documentation": []
               }
             ]
@@ -2461,6 +2470,44 @@
                 " # <weight>",
                 " Base Weight: 1.717 µs",
                 " Write: Validator Count",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "increase_validator_count",
+              "args": [
+                {
+                  "name": "additional",
+                  "type": "Compact<u32>"
+                }
+              ],
+              "documentation": [
+                " Increments the ideal number of validators.",
+                "",
+                " The dispatch origin must be Root.",
+                "",
+                " # <weight>",
+                " Base Weight: 1.717 µs",
+                " Read/Write: Validator Count",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "scale_validator_count",
+              "args": [
+                {
+                  "name": "factor",
+                  "type": "Percent"
+                }
+              ],
+              "documentation": [
+                " Scale up the ideal number of validators by a factor.",
+                "",
+                " The dispatch origin must be Root.",
+                "",
+                " # <weight>",
+                " Base Weight: 1.717 µs",
+                " Read/Write: Validator Count",
                 " # </weight>"
               ]
             },
@@ -9750,7 +9797,40 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "ConfigDepositBase",
+              "type": "BalanceOf",
+              "value": "0x00406352bfc601000000000000000000",
+              "documentation": [
+                " The base amount of currency needed to reserve for creating a recovery configuration."
+              ]
+            },
+            {
+              "name": "FriendDepositFactor",
+              "type": "BalanceOf",
+              "value": "0x00203d88792d00000000000000000000",
+              "documentation": [
+                " The amount of currency needed per additional user when creating a recovery configuration."
+              ]
+            },
+            {
+              "name": "MaxFriends",
+              "type": "u16",
+              "value": "0x0900",
+              "documentation": [
+                " The maximum amount of friends allowed in a recovery configuration."
+              ]
+            },
+            {
+              "name": "RecoveryDeposit",
+              "type": "BalanceOf",
+              "value": "0x00406352bfc601000000000000000000",
+              "documentation": [
+                " The base amount of currency needed to reserve for starting a recovery."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "NotAllowed",
@@ -9955,6 +10035,44 @@
                 " - DbWeight: 3 Reads, 3 Writes",
                 "     - Reads: Vesting Storage, Balances Locks, Target Account, [Sender Account]",
                 "     - Writes: Vesting Storage, Balances Locks, Target Account, [Sender Account]",
+                " - Benchmark: 100.3 + .365 * l µs (min square analysis)",
+                " - Using 100 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "force_vested_transfer",
+              "args": [
+                {
+                  "name": "source",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "schedule",
+                  "type": "VestingInfo"
+                }
+              ],
+              "documentation": [
+                " Force a vested transfer.",
+                "",
+                " The dispatch origin for this call must be _Root_.",
+                "",
+                " - `source`: The account whose funds should be transferred.",
+                " - `target`: The account that should be transferred the vested funds.",
+                " - `amount`: The amount of funds to transfer and will be vested.",
+                " - `schedule`: The vesting schedule attached to the transfer.",
+                "",
+                " Emits `VestingCreated`.",
+                "",
+                " # <weight>",
+                " - `O(1)`.",
+                " - DbWeight: 4 Reads, 4 Writes",
+                "     - Reads: Vesting Storage, Balances Locks, Target Account, Source Account",
+                "     - Writes: Vesting Storage, Balances Locks, Target Account, Source Account",
                 " - Benchmark: 100.3 + .365 * l µs (min square analysis)",
                 " - Using 100 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.",
                 " # </weight>"
@@ -10446,7 +10564,32 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "ProxyDepositBase",
+              "type": "BalanceOf",
+              "value": "0x00f09e544c3900000000000000000000",
+              "documentation": [
+                " The base amount of currency needed to reserve for creating a proxy."
+              ]
+            },
+            {
+              "name": "ProxyDepositFactor",
+              "type": "BalanceOf",
+              "value": "0x0060aa7714b400000000000000000000",
+              "documentation": [
+                " The amount of currency needed per proxy added."
+              ]
+            },
+            {
+              "name": "MaxProxies",
+              "type": "u16",
+              "value": "0x2000",
+              "documentation": [
+                " The maximum amount of proxies allowed for a single account."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "TooMany",
@@ -10507,10 +10650,56 @@
                 "documentation": [
                   " The set of open multisig operations."
                 ]
+              },
+              {
+                "name": "Calls",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Identity",
+                    "key": "[u8;32]",
+                    "value": "(Bytes,AccountId,BalanceOf)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": []
               }
             ]
           },
           "calls": [
+            {
+              "name": "as_multi_threshold_1",
+              "args": [
+                {
+                  "name": "other_signatories",
+                  "type": "Vec<AccountId>"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Immediately dispatch a multi-signature call using a single approval from the caller.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `other_signatories`: The accounts (other than the sender) who are part of the",
+                " multi-signature, but do not participate in the approval process.",
+                " - `call`: The call to be executed.",
+                "",
+                " Result is equivalent to the dispatched result.",
+                "",
+                " # <weight>",
+                " O(Z + C) where Z is the length of the call and C its execution weight.",
+                " -------------------------------",
+                " - Base Weight: 33.72 + 0.002 * Z µs",
+                " - DB Weight: None",
+                " - Plus Call Weight",
+                " # </weight>"
+              ]
+            },
             {
               "name": "as_multi",
               "args": [
@@ -10528,7 +10717,15 @@
                 },
                 {
                   "name": "call",
-                  "type": "Call"
+                  "type": "Bytes"
+                },
+                {
+                  "name": "store_call",
+                  "type": "bool"
+                },
+                {
+                  "name": "max_weight",
+                  "type": "Weight"
                 }
               ],
               "documentation": [
@@ -10574,12 +10771,13 @@
                 "   `DepositBase + threshold * DepositFactor`.",
                 " -------------------------------",
                 " - Base Weight:",
-                "     - Create: 46.55 + 0.089 * S µs",
-                "     - Approve: 34.03 + .112 * S µs",
-                "     - Complete: 40.36 + .225 * S µs",
+                "     - Create:          41.89 + 0.118 * S + .002 * Z µs",
+                "     - Create w/ Store: 53.57 + 0.119 * S + .003 * Z µs",
+                "     - Approve:         31.39 + 0.136 * S + .002 * Z µs",
+                "     - Complete:        39.94 + 0.26  * S + .002 * Z µs",
                 " - DB Weight:",
-                "     - Reads: Multisig Storage, [Caller Account]",
-                "     - Writes: Multisig Storage, [Caller Account]",
+                "     - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)",
+                "     - Writes: Multisig Storage, [Caller Account], Calls (if `store_call`)",
                 " - Plus Call Weight",
                 " # </weight>"
               ]
@@ -10602,6 +10800,10 @@
                 {
                   "name": "call_hash",
                   "type": "[u8;32]"
+                },
+                {
+                  "name": "max_weight",
+                  "type": "Weight"
                 }
               ],
               "documentation": [
@@ -10689,10 +10891,10 @@
                 " - I/O: 1 read `O(S)`, one remove.",
                 " - Storage: removes one item.",
                 " ----------------------------------",
-                " - Base Weight: 37.6 + 0.084 * S",
+                " - Base Weight: 36.07 + 0.124 * S",
                 " - DB Weight:",
-                "     - Read: Multisig Storage, [Caller Account]",
-                "     - Write: Multisig Storage, [Caller Account]",
+                "     - Read: Multisig Storage, [Caller Account], Refund Account, Calls",
+                "     - Write: Multisig Storage, [Caller Account], Refund Account, Calls",
                 " # </weight>"
               ]
             }
@@ -10754,9 +10956,9 @@
           "constants": [],
           "errors": [
             {
-              "name": "ZeroThreshold",
+              "name": "MinimumThreshold",
               "documentation": [
-                " Threshold is too low (zero)."
+                " Threshold must be 2 or greater."
               ]
             },
             {
@@ -10823,6 +11025,18 @@
               "name": "UnexpectedTimepoint",
               "documentation": [
                 " A timepoint was given, yet no multisig operation is underway."
+              ]
+            },
+            {
+              "name": "WeightTooLow",
+              "documentation": [
+                " The maximum weight information provided was too low."
+              ]
+            },
+            {
+              "name": "AlreadyStored",
+              "documentation": [
+                " The data to be stored is already stored."
               ]
             }
           ]
