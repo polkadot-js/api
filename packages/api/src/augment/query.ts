@@ -24,7 +24,7 @@ import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkado
 import { ActiveEraInfo, ElectionResult, ElectionScore, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReleasesStaking, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { AccountInfo, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
-import { Multiplier } from '@polkadot/types/interfaces/txpayment';
+import { Multiplier, PaymentReleases } from '@polkadot/types/interfaces/txpayment';
 import { Multisig } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import { ApiTypes } from '@polkadot/api/types';
@@ -392,6 +392,7 @@ declare module '@polkadot/api/types/storage' {
     };
     multisig: {
       [index: string]: QueryableStorageEntry<ApiType>;
+      calls: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Option<ITuple<[Bytes, AccountId, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
       /**
        * The set of open multisig operations.
        **/
@@ -902,6 +903,7 @@ declare module '@polkadot/api/types/storage' {
     transactionPayment: {
       [index: string]: QueryableStorageEntry<ApiType>;
       nextFeeMultiplier: AugmentedQuery<ApiType, () => Observable<Multiplier>> & QueryableStorageEntry<ApiType>;
+      storageVersion: AugmentedQuery<ApiType, () => Observable<PaymentReleases>> & QueryableStorageEntry<ApiType>;
     };
     treasury: {
       [index: string]: QueryableStorageEntry<ApiType>;

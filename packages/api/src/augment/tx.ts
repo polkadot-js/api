@@ -12,7 +12,7 @@ import { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
 import { EquivocationProof, KeyOwnerProof } from '@polkadot/types/interfaces/grandpa';
 import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
-import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill, ProxyType, Weight } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill, Percent, ProxyType, Weight } from '@polkadot/types/interfaces/runtime';
 import { Period, Priority } from '@polkadot/types/interfaces/scheduler';
 import { Keys } from '@polkadot/types/interfaces/session';
 import { SocietyJudgement } from '@polkadot/types/interfaces/society';
@@ -1280,7 +1280,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Write: Multisig Storage, [Caller Account]
        * # </weight>
        **/
-      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, callHash: U8aFixed | string | Uint8Array, maxWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Register approval for a dispatch to be made from a deterministic composite account if
        * approved by a total of `threshold - 1` of `other_signatories`.
@@ -1324,16 +1324,37 @@ declare module '@polkadot/api/types/submittable' {
        * `DepositBase + threshold * DepositFactor`.
        * -------------------------------
        * - Base Weight:
-       * - Create: 46.55 + 0.089 * S µs
-       * - Approve: 34.03 + .112 * S µs
-       * - Complete: 40.36 + .225 * S µs
+       * - Create:          41.89 + 0.118 * S + .002 * Z µs
+       * - Create w/ Store: 53.57 + 0.119 * S + .003 * Z µs
+       * - Approve:         31.39 + 0.136 * S + .002 * Z µs
+       * - Complete:        39.94 + 0.26  * S + .002 * Z µs
        * - DB Weight:
-       * - Reads: Multisig Storage, [Caller Account]
-       * - Writes: Multisig Storage, [Caller Account]
+       * - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)
+       * - Writes: Multisig Storage, [Caller Account], Calls (if `store_call`)
        * - Plus Call Weight
        * # </weight>
        **/
-      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, call: Bytes | string | Uint8Array, storeCall: bool | boolean | Uint8Array, maxWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Immediately dispatch a multi-signature call using a single approval from the caller.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * - `other_signatories`: The accounts (other than the sender) who are part of the
+       * multi-signature, but do not participate in the approval process.
+       * - `call`: The call to be executed.
+       * 
+       * Result is equivalent to the dispatched result.
+       * 
+       * # <weight>
+       * O(Z + C) where Z is the length of the call and C its execution weight.
+       * -------------------------------
+       * - Base Weight: 33.72 + 0.002 * Z µs
+       * - DB Weight: None
+       * - Plus Call Weight
+       * # </weight>
+       **/
+      asMultiThreshold1: AugmentedSubmittable<(otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Cancel a pre-existing, on-going multisig transaction. Any deposit reserved previously
        * for this operation will be unreserved on success.
@@ -1357,10 +1378,10 @@ declare module '@polkadot/api/types/submittable' {
        * - I/O: 1 read `O(S)`, one remove.
        * - Storage: removes one item.
        * ----------------------------------
-       * - Base Weight: 37.6 + 0.084 * S
+       * - Base Weight: 36.07 + 0.124 * S
        * - DB Weight:
-       * - Read: Multisig Storage, [Caller Account]
-       * - Write: Multisig Storage, [Caller Account]
+       * - Read: Multisig Storage, [Caller Account], Refund Account, Calls
+       * - Write: Multisig Storage, [Caller Account], Refund Account, Calls
        * # </weight>
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
@@ -2236,6 +2257,17 @@ declare module '@polkadot/api/types/submittable' {
        **/
       forceUnstake: AugmentedSubmittable<(stash: AccountId | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
+       * Increments the ideal number of validators.
+       * 
+       * The dispatch origin must be Root.
+       * 
+       * # <weight>
+       * Base Weight: 1.717 µs
+       * Read/Write: Validator Count
+       * # </weight>
+       **/
+      increaseValidatorCount: AugmentedSubmittable<(additional: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
        * Declare the desire to nominate `targets` for the origin controller.
        * 
        * Effects will be felt at the beginning of the next era. This can only be called when
@@ -2320,6 +2352,17 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       rebond: AugmentedSubmittable<(value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Scale up the ideal number of validators by a factor.
+       * 
+       * The dispatch origin must be Root.
+       * 
+       * # <weight>
+       * Base Weight: 1.717 µs
+       * Read/Write: Validator Count
+       * # </weight>
+       **/
+      scaleValidatorCount: AugmentedSubmittable<(factor: Percent | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * (Re-)set the controller of a stash.
        * 
@@ -3144,6 +3187,28 @@ declare module '@polkadot/api/types/submittable' {
     };
     vesting: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Force a vested transfer.
+       * 
+       * The dispatch origin for this call must be _Root_.
+       * 
+       * - `source`: The account whose funds should be transferred.
+       * - `target`: The account that should be transferred the vested funds.
+       * - `amount`: The amount of funds to transfer and will be vested.
+       * - `schedule`: The vesting schedule attached to the transfer.
+       * 
+       * Emits `VestingCreated`.
+       * 
+       * # <weight>
+       * - `O(1)`.
+       * - DbWeight: 4 Reads, 4 Writes
+       * - Reads: Vesting Storage, Balances Locks, Target Account, Source Account
+       * - Writes: Vesting Storage, Balances Locks, Target Account, Source Account
+       * - Benchmark: 100.3 + .365 * l µs (min square analysis)
+       * - Using 100 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.
+       * # </weight>
+       **/
+      forceVestedTransfer: AugmentedSubmittable<(source: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, schedule: VestingInfo | { locked?: any; perBlock?: any; startingBlock?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Unlock any vested funds of the sender account.
        * 

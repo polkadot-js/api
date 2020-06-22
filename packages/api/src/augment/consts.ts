@@ -3,7 +3,7 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Vec } from '@polkadot/types/codec';
-import { u32, u64 } from '@polkadot/types/primitive';
+import { u16, u32, u64 } from '@polkadot/types/primitive';
 import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
@@ -175,6 +175,40 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * another trie item whose value is the size of an account ID plus 32 bytes.
        **/
       subAccountDeposit: AugmentedConst<BalanceOf>;
+    };
+    proxy: {
+      [index: string]: AugmentedConst<object & Codec>;
+      /**
+       * The maximum amount of proxies allowed for a single account.
+       **/
+      maxProxies: AugmentedConst<u16>;
+      /**
+       * The base amount of currency needed to reserve for creating a proxy.
+       **/
+      proxyDepositBase: AugmentedConst<BalanceOf>;
+      /**
+       * The amount of currency needed per proxy added.
+       **/
+      proxyDepositFactor: AugmentedConst<BalanceOf>;
+    };
+    recovery: {
+      [index: string]: AugmentedConst<object & Codec>;
+      /**
+       * The base amount of currency needed to reserve for creating a recovery configuration.
+       **/
+      configDepositBase: AugmentedConst<BalanceOf>;
+      /**
+       * The amount of currency needed per additional user when creating a recovery configuration.
+       **/
+      friendDepositFactor: AugmentedConst<BalanceOf>;
+      /**
+       * The maximum amount of friends allowed in a recovery configuration.
+       **/
+      maxFriends: AugmentedConst<u16>;
+      /**
+       * The base amount of currency needed to reserve for starting a recovery.
+       **/
+      recoveryDeposit: AugmentedConst<BalanceOf>;
     };
     society: {
       [index: string]: AugmentedConst<object & Codec>;
