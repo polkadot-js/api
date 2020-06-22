@@ -6336,7 +6336,7 @@
               "args": [
                 {
                   "name": "equivocation_proof",
-                  "type": "EquivocationProof"
+                  "type": "GrandpaEquivocationProof"
                 },
                 {
                   "name": "key_owner_proof",
