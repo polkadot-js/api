@@ -8,6 +8,7 @@
 - Optimize `derive.staking.queryMulti` retrievals with additional per-type batching
 - Add `derive.staking.waitingInfo` (same as `electedInfo` for waiting validators)
 - Adjust types & metadata for latest Substrate
+- `@polkadot/util` 2.15
 
 ## 1.19.1 Jun 16, 2020
 
@@ -15,6 +16,7 @@
 - Align metadata and types with latest Substrate
 - Update Polkadot types for current evolution of parachains
 - Allow for type aliasing on events (aligning with calls & queries)
+- `@polkadot/util` 2.14
 
 ## 1.18.1 Jun 8, 2020
 
