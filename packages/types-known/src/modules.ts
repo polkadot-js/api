@@ -6,6 +6,9 @@ import { OverrideModuleType } from '@polkadot/types/types';
 
 // type overrides for modules (where duplication between modules exist)
 const typesModules: Record<string, OverrideModuleType> = {
+  babe: {
+    EquivocationProof: 'BabeEquivocationProof'
+  },
   balances: {
     Releases: 'ReleasesBalances',
     Status: 'BalanceStatus'
@@ -19,6 +22,10 @@ const typesModules: Record<string, OverrideModuleType> = {
   },
   democracy: {
     Releases: 'ReleasesDemocracy'
+  },
+  grandpa: {
+    Equivocation: 'GrandpaEquivocation',
+    EquivocationProof: 'GrandpaEquivocationProof'
   },
   identity: {
     Judgement: 'IdentityJudgement'

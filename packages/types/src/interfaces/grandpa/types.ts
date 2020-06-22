@@ -18,22 +18,22 @@ export interface AuthorityList extends Vec<NextAuthority> {}
 /** @name AuthorityWeight */
 export interface AuthorityWeight extends u64 {}
 
-/** @name Equivocation */
-export interface Equivocation extends Enum {
-  readonly isPrevote: boolean;
-  readonly asPrevote: GrandpaEquivocation;
-  readonly isPrecommit: boolean;
-  readonly asPrecommit: GrandpaEquivocation;
-}
-
-/** @name EquivocationProof */
-export interface EquivocationProof extends Struct {
-  readonly setId: SetId;
-  readonly equivocation: Equivocation;
-}
-
 /** @name GrandpaEquivocation */
-export interface GrandpaEquivocation extends Struct {
+export interface GrandpaEquivocation extends Enum {
+  readonly isPrevote: boolean;
+  readonly asPrevote: GrandpaEquivocationValue;
+  readonly isPrecommit: boolean;
+  readonly asPrecommit: GrandpaEquivocationValue;
+}
+
+/** @name GrandpaEquivocationProof */
+export interface GrandpaEquivocationProof extends Struct {
+  readonly setId: SetId;
+  readonly equivocation: GrandpaEquivocation;
+}
+
+/** @name GrandpaEquivocationValue */
+export interface GrandpaEquivocationValue extends Struct {
   readonly roundNumber: u64;
   readonly identity: AuthorityId;
   readonly first: ITuple<[GrandpaPrevote, AuthoritySignature]>;
