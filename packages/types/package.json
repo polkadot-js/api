@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
-    "@babel/runtime": "^7.10.2",
+    "@babel/runtime": "^7.10.3",
     "@polkadot/metadata": "1.20.0-beta.7",
     "@polkadot/util": "^2.15.0-beta.0",
     "@polkadot/util-crypto": "^2.15.0-beta.0",

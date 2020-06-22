@@ -5,6 +5,9 @@
 - **Important** RPC for `account_nextIndex` has been moved to `system_accountNextIndex` (Aligning with Substrate as a primary alias)
 - Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
 - Add `system_dryRun` RPC
+- Optimize `derive.staking.queryMulti` retrievals with additional per-type batching
+- Add `derive.staking.waitingInfo` (same as `electedInfo` for waiting validators)
+- Adjust types & metadata for latest Substrate
 
 ## 1.19.1 Jun 16, 2020
 
