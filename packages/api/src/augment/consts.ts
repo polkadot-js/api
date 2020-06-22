@@ -4,7 +4,7 @@
 import { Codec } from '@polkadot/types/types';
 import { Vec } from '@polkadot/types/codec';
 import { u16, u32, u64 } from '@polkadot/types/primitive';
-import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
+import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
 import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
@@ -250,9 +250,44 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        **/
       bondingDuration: AugmentedConst<EraIndex>;
       /**
+       * The number of blocks before the end of the era from which election submissions are allowed.
+       * 
+       * Setting this to zero will disable the offchain compute and only on-chain seq-phragmen will
+       * be used.
+       * 
+       * This is bounded by being within the last session. Hence, setting it to a value more than the
+       * length of a session will be pointless.
+       **/
+      electionLookahead: AugmentedConst<BlockNumber>;
+      /**
+       * Maximum number of balancing iterations to run in the offchain submission.
+       * 
+       * If set to 0, balance_solution will not be executed at all.
+       **/
+      maxIterations: AugmentedConst<u32>;
+      /**
+       * The maximum number of nominators rewarded for each validator.
+       * 
+       * For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can claim
+       * their reward. This used to limit the i/o cost for the nominator payout.
+       **/
+      maxNominatorRewardedPerValidator: AugmentedConst<u32>;
+      /**
+       * The threshold of improvement that should be provided for a new solution to be accepted.
+       **/
+      minSolutionScoreBump: AugmentedConst<Perbill>;
+      /**
        * Number of sessions per era.
        **/
       sessionsPerEra: AugmentedConst<SessionIndex>;
+      /**
+       * Number of eras that slashes are deferred by, after computation.
+       * 
+       * This should be less than the bonding duration.
+       * Set to 0 if slashes should be applied immediately, without opportunity for
+       * intervention.
+       **/
+      slashDeferDuration: AugmentedConst<EraIndex>;
     };
     system: {
       [index: string]: AugmentedConst<object & Codec>;
