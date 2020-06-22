@@ -2985,6 +2985,61 @@
               "documentation": [
                 " Number of eras that staked funds must remain bonded for."
               ]
+            },
+            {
+              "name": "SlashDeferDuration",
+              "type": "EraIndex",
+              "value": "0xa8000000",
+              "documentation": [
+                " Number of eras that slashes are deferred by, after computation. ",
+                "",
+                " This should be less than the bonding duration. ",
+                " Set to 0 if slashes should be applied immediately, without opportunity for",
+                " intervention."
+              ]
+            },
+            {
+              "name": "ElectionLookahead",
+              "type": "BlockNumber",
+              "value": "0x32000000",
+              "documentation": [
+                " The number of blocks before the end of the era from which election submissions are allowed.",
+                "",
+                " Setting this to zero will disable the offchain compute and only on-chain seq-phragmen will",
+                " be used.",
+                "",
+                " This is bounded by being within the last session. Hence, setting it to a value more than the",
+                " length of a session will be pointless."
+              ]
+            },
+            {
+              "name": "MaxIterations",
+              "type": "u32",
+              "value": "0x0a000000",
+              "documentation": [
+                " Maximum number of balancing iterations to run in the offchain submission. ",
+                "",
+                " If set to 0, balance_solution will not be executed at all."
+              ]
+            },
+            {
+              "name": "MinSolutionScoreBump",
+              "type": "Perbill",
+              "value": "0x20a10700",
+              "documentation": [
+                " The threshold of improvement that should be provided for a new solution to be accepted."
+              ]
+            },
+            {
+              "name": "MaxNominatorRewardedPerValidator",
+              "type": "u32",
+              "value": "0x40000000",
+              "documentation": [
+                " The maximum number of nominators rewarded for each validator.",
+                "",
+                " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can claim",
+                " their reward. This used to limit the i/o cost for the nominator payout."
+              ]
             }
           ],
           "errors": [
@@ -5002,7 +5057,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A motion was executed; `bool` is true if returned without error."
+                " A motion was executed; result will be `Ok` if it returned without error."
               ]
             },
             {
@@ -5012,7 +5067,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A single member did some action; `bool` is true if returned without error."
+                " A single member did some action; result will be `Ok` if it returned without error."
               ]
             },
             {
@@ -5023,7 +5078,7 @@
                 "MemberCount"
               ],
               "documentation": [
-                " A proposal was closed after its duration was up."
+                " A proposal was closed because its threshold was reached or after its duration was up."
               ]
             }
           ],
@@ -5068,7 +5123,7 @@
             {
               "name": "TooEarly",
               "documentation": [
-                " The close call is made too early, before the end of the voting."
+                " The close call was made too early, before the end of the voting."
               ]
             },
             {
@@ -5450,7 +5505,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A motion was executed; `bool` is true if returned without error."
+                " A motion was executed; result will be `Ok` if it returned without error."
               ]
             },
             {
@@ -5460,7 +5515,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A single member did some action; `bool` is true if returned without error."
+                " A single member did some action; result will be `Ok` if it returned without error."
               ]
             },
             {
@@ -5471,7 +5526,7 @@
                 "MemberCount"
               ],
               "documentation": [
-                " A proposal was closed after its duration was up."
+                " A proposal was closed because its threshold was reached or after its duration was up."
               ]
             }
           ],
@@ -5516,7 +5571,7 @@
             {
               "name": "TooEarly",
               "documentation": [
-                " The close call is made too early, before the end of the voting."
+                " The close call was made too early, before the end of the voting."
               ]
             },
             {
