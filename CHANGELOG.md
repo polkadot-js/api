@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.21.0-beta.x
+## 1.21.1 Jun 23, 2020
 
 - Add support for `CheckMortality` signed extension (old `CheckEra` is now an alias)
 - Fix subscriptions never unsubscribing after the id type swap in 1.18.1
