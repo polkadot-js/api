@@ -21,7 +21,7 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
 
     map[key] = !map[key]
       ? value.unwrap()
-      : map[key].add(value.unwrap());
+      : map[key].iadd(value.unwrap());
 
     return map;
   }, {});
@@ -32,8 +32,8 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
     return undefined;
   }
 
-  const unlockingChunks = stakingLedger.unlocking.filter(({ era }): boolean =>
-    era.unwrap().sub(sessionInfo.activeEra).gtn(0)
+  const unlockingChunks = stakingLedger.unlocking.filter(({ era }) =>
+    era.unwrap().gt(sessionInfo.activeEra)
   );
 
   if (!unlockingChunks.length) {
@@ -43,11 +43,13 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
   // group the unlock chunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): DeriveUnlocking => ({
-    remainingEras: new BN(eraString).sub(sessionInfo.activeEra),
+    remainingEras: new BN(eraString).isub(sessionInfo.activeEra),
     value: api.registry.createType('Balance', value)
   }));
 
-  return results.length ? results : undefined;
+  return results.length
+    ? results
+    : undefined;
 }
 
 function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
@@ -57,7 +59,7 @@ function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | unde
 
   return api.registry.createType('Balance', stakingLedger.unlocking.reduce((total, { era, value }): BN => {
     return sessionInfo.activeEra.gte(era.unwrap())
-      ? total.add(value.unwrap())
+      ? total.iadd(value.unwrap())
       : total;
   }, new BN(0)));
 }
@@ -71,17 +73,6 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query
 }
 
 /**
- * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
- */
-export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
-  return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
-    api.derive.staking.accounts([accountId]).pipe(
-      map(([first]) => first)
-    )
-  );
-}
-
-/**
  * @description From a list of stashes, fill in all the relevant staking details
  */
 export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
@@ -89,11 +80,20 @@ export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | strin
     api.derive.session.info().pipe(
       switchMap((sessionInfo) =>
         api.derive.staking.queryMulti(accountIds).pipe(
-          map((queries) =>
-            queries.map((query) => parseResult(api, sessionInfo, query))
-          )
+          map((queries) => queries.map((query) => parseResult(api, sessionInfo, query)))
         )
       )
+    )
+  );
+}
+
+/**
+ * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
+ */
+export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
+  return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
+    api.derive.staking.accounts([accountId]).pipe(
+      map(([first]) => first)
     )
   );
 }

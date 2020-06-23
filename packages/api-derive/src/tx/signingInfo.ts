@@ -20,7 +20,7 @@ interface Result {
 
 function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
   return api.derive.balances.account(address).pipe(
-    map(({ accountNonce }): Index => accountNonce)
+    map(({ accountNonce }) => accountNonce)
   );
 }
 
@@ -31,7 +31,7 @@ function signingHeader (api: ApiInterfaceRx): Observable<Header> {
       switchMap((hash) => api.rpc.chain.getHeader(hash))
     )
   ]).pipe(
-    map(([current, finalized]): Header =>
+    map(([current, finalized]) =>
       // determine the hash to use, current when lag > max, else finalized
       current.number.unwrap().sub(finalized.number.unwrap()).gt(MAX_FINALITY_LAG)
         ? current
@@ -57,7 +57,7 @@ export function signingInfo (api: ApiInterfaceRx): (address: string, nonce?: Any
         header,
         mortalLength: MORTAL_PERIOD
           .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
-          .add(MAX_FINALITY_LAG)
+          .iadd(MAX_FINALITY_LAG)
           .toNumber(),
         nonce
       }))
