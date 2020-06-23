@@ -52,7 +52,7 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, e
             : ZERO;
         }
 
-        value = avail.sub(valCut).mul(staked).div(expTotal).add(validatorId === stakerId ? valCut : ZERO);
+        value = avail.sub(valCut).imul(staked).div(expTotal).iadd(validatorId === stakerId ? valCut : ZERO);
       }
 
       validators[validatorId] = {
