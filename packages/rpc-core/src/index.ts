@@ -234,8 +234,8 @@ export default class Rpc implements RpcInterface {
     const subType = `${section}_${updateType}`;
     let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
 
-    const creator = (isRaw: boolean) => (...values: any[]): Observable<unknown> => {
-      return new Observable((observer: Observer<unknown>): VoidCallback => {
+    const creator = (isRaw: boolean) => (...values: unknown[]): Observable<any> => {
+      return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
 
@@ -249,7 +249,7 @@ export default class Rpc implements RpcInterface {
           const params = this._formatInputs(def, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
 
-          const update = (error?: Error | null, result?: unknown): void => {
+          const update = (error?: Error | null, result?: any): void => {
             if (error) {
               logErrorMessage(method, def, error);
 
