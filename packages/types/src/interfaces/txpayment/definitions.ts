@@ -7,9 +7,6 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    Multiplier: 'Fixed128',
-    PaymentReleases: {
-      _enum: ['V1Ancient', 'V2']
-    }
+    Multiplier: 'Fixed128'
   }
 } as Definitions;

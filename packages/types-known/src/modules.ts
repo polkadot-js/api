@@ -10,7 +10,6 @@ const typesModules: Record<string, OverrideModuleType> = {
     EquivocationProof: 'BabeEquivocationProof'
   },
   balances: {
-    Releases: 'ReleasesBalances',
     Status: 'BalanceStatus'
   },
   contract: { // old metadata & naming
@@ -19,9 +18,6 @@ const typesModules: Record<string, OverrideModuleType> = {
   },
   contracts: {
     StorageKey: 'ContractStorageKey'
-  },
-  democracy: {
-    Releases: 'ReleasesDemocracy'
   },
   grandpa: {
     Equivocation: 'GrandpaEquivocation',
@@ -38,11 +34,7 @@ const typesModules: Record<string, OverrideModuleType> = {
     Vote: 'SocietyVote'
   },
   staking: {
-    Compact: 'CompactAssignments',
-    Releases: 'ReleasesStaking'
-  },
-  transactionPayment: {
-    Releases: 'PaymentReleases'
+    Compact: 'CompactAssignments'
   },
   treasury: {
     Proposal: 'TreasuryProposal'
