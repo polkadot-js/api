@@ -4,6 +4,7 @@
 
 - Fix subscriptions never unsubscribing after the id type swap in 1.18.1
 - Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
+- Optimize derive BN allocations, using in-place operators as applicable
 
 ## 1.20.1 Jun 22, 2020
 
