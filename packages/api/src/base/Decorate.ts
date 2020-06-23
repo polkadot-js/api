@@ -178,7 +178,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     augmentObject('query', this._decorateStorage(decoratedMeta.query, this._decorateMethod), this._query, fromEmpty);
     augmentObject('consts', decoratedMeta.consts, this._consts, fromEmpty);
 
-    // underlying rxjs, explicitly apply the rxjs type for storage
+    // rx
     augmentObject('', this._decorateStorage(decoratedMeta.query, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject('', decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
