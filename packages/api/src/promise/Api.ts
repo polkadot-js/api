@@ -68,8 +68,8 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
     const subscription: Subscription = method(...actualArgs).pipe(
       catchError((error) => tracker.reject(error))
     ).subscribe((result): void => {
-      subscription.unsubscribe();
       tracker.resolve(result);
+      setImmediate(() => subscription.unsubscribe());
     });
   });
 }
