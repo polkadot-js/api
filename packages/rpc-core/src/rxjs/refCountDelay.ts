@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, Observable, Subscription } from 'rxjs';
+import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, Observable, Subscription, TeardownLogic } from 'rxjs';
 
 const DELAY = 1750;
 
@@ -11,7 +11,7 @@ function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
   // state: 0 = disconnected, 1 = disconnecting, 2 = connecting, 3 = connected
   let [state, refCount, connection, scheduler] = [0, 0, Subscription.EMPTY, Subscription.EMPTY];
 
-  return new Observable((ob) => {
+  return new Observable((ob): TeardownLogic => {
     source.subscribe(ob);
 
     if (refCount++ === 0) {
@@ -27,12 +27,14 @@ function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
     return (): void => {
       if (--refCount === 0) {
         if (state === 2) {
-          state = 0; scheduler.unsubscribe();
+          state = 0;
+          scheduler.unsubscribe();
         } else {
           // state === 3
           state = 1;
           scheduler = asapScheduler.schedule((): void => {
-            state = 0; connection.unsubscribe();
+            state = 0;
+            connection.unsubscribe();
           }, DELAY);
         }
       }
