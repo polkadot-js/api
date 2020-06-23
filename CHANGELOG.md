@@ -2,8 +2,8 @@
 
 ## 1.21.1 Jun 23, 2020
 
+- Fix subscriptions never unsubscribing after the id swap in 1.18.1 (Thanks to https://github.com/dillu24 for testing iterations)
 - Add support for `CheckMortality` signed extension (old `CheckEra` is now an alias)
-- Fix subscriptions never unsubscribing after the id type swap in 1.18.1
 - Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
 - Optimize derive BN allocations, using in-place operators as applicable
 
