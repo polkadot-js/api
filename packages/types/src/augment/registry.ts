@@ -257,7 +257,6 @@ declare module '@polkadot/types/types/registry' {
     'Option<ProxyType>': Option<ProxyType>;
     'Vec<ProxyType>': Vec<ProxyType>;
     Releases: Releases;
-    'Compact<Releases>': Compact<Releases>;
     'Option<Releases>': Option<Releases>;
     'Vec<Releases>': Vec<Releases>;
     RuntimeDbWeight: RuntimeDbWeight;

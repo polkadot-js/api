@@ -78,7 +78,9 @@ export default {
     ProxyType: {
       _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
     },
-    Releases: 'u8',
+    Releases: {
+      _enum: ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10']
+    },
     RuntimeDbWeight: {
       read: 'Weight',
       write: 'Weight'

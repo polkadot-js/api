@@ -172,7 +172,18 @@ export interface ProxyType extends Enum {
 }
 
 /** @name Releases */
-export interface Releases extends u8 {}
+export interface Releases extends Enum {
+  readonly isV1: boolean;
+  readonly isV2: boolean;
+  readonly isV3: boolean;
+  readonly isV4: boolean;
+  readonly isV5: boolean;
+  readonly isV6: boolean;
+  readonly isV7: boolean;
+  readonly isV8: boolean;
+  readonly isV9: boolean;
+  readonly isV10: boolean;
+}
 
 /** @name RuntimeDbWeight */
 export interface RuntimeDbWeight extends Struct {
