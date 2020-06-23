@@ -1285,7 +1285,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ReleasesBalances"
+                  "Plain": "Releases"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1595,7 +1595,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "PaymentReleases"
+                  "Plain": "Releases"
                 },
                 "fallback": "0x00",
                 "documentation": []
@@ -2148,7 +2148,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ReleasesStaking"
+                  "Plain": "Releases"
                 },
                 "fallback": "0x03",
                 "documentation": [
@@ -3625,7 +3625,7 @@
                 "name": "StorageVersion",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "ReleasesDemocracy"
+                  "Plain": "Releases"
                 },
                 "fallback": "0x00",
                 "documentation": [
