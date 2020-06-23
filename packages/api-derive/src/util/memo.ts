@@ -8,10 +8,6 @@ import { drr } from '@polkadot/rpc-core/rxjs';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;
 
-// Normalize via JSON.stringify, allow e.g. AccountId -> ss58
-// eslint-disable-next-line @typescript-eslint/unbound-method
-const normalizer = JSON.stringify;
-
 // Wraps a derive, doing 2 things to optimize calls -
 //   1. creates a memo of the inner fn -> Observable, removing when unsubscribed
 //   2. wraps the observable in a drr() (which includes an unsub delay)
@@ -27,7 +23,11 @@ export function memo <T> (inner: ObsFn<T>): ObsFn<T> {
           sub.unsubscribe();
         };
       }).pipe(drr()),
-    { normalizer }
+    {
+      // Normalize via JSON.stringify, allow e.g. AccountId -> ss58
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      normalizer: JSON.stringify
+    }
   );
 
   return cached;
