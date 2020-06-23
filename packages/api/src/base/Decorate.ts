@@ -21,7 +21,7 @@ import { Metadata, Null, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, isFunction, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import augmentObject from '../util/augmentObject';
@@ -145,7 +145,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {
+  public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
     return this.registry.createType(type, ...params);
   }
 
@@ -320,68 +320,50 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (...args: any[]): any[] => extractStorageArgs(creator, args);
+    const getArgs = (...args: unknown[]): unknown[] => extractStorageArgs(creator, args);
+
+    // Disable this where it occurs for each field we are decorating
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
     // FIXME We probably want to be able to query the full list with non-subs as well
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
       ? this._decorateStorageLinked(creator, decorateMethod)
-      : decorateMethod((...args: any[]): Observable<Codec> => (
-        this.hasSubscriptions
-          ? this._rpcCore.state
-            // Unfortunately for one-shot calls we also use .subscribeStorage here
-            .subscribeStorage<[Codec]>([getArgs(...args)])
-            // state_storage returns an array of values, since we have just subscribed to
-            // a single entry, we pull that from the array and return it as-is
-            .pipe(map(([data]): Codec => data))
-          : this._rpcCore.state.getStorage(getArgs(...args))
-      ), { methodName: creator.method });
+      : this._decorateStorageCall(creator, decorateMethod);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     decorated.creator = creator;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     decorated.keyPrefix = (key1?: Arg): string =>
       u8aToHex(creator.keyPrefix(key1));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
       this._decorateStorageRange(decorated, [arg1, arg2], range));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       decorated.entries = decorateMethod(
         memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, doubleMapArg)));
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       decorated.entriesPaged = decorateMethod(
         memo((opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntriesPaged(creator, opts)));
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       decorated.keys = decorateMethod(
         memo((doubleMapArg?: Arg): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, doubleMapArg)));
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       decorated.keysPaged = decorateMethod(
         memo((opts: PaginationOptions): Observable<StorageKey[]> =>
           this._retrieveMapKeysPaged(creator, opts)));
@@ -390,13 +372,27 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // only support multi where subs are available
     if (this.hasSubscriptions) {
       // When using double map storage function, user need to pass double map key as an array
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
         this._rpcCore.state.subscribeStorage(
           args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
     }
 
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
+
     return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
+  }
+
+  // Decorate the base storage call. In the case or rxjs or promise-without-callback (await)
+  // we make a subscription, alternatively we push this through a single-shot query
+  private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return decorateMethod((...args: unknown[]): Observable<Codec> => {
+      return this.hasSubscriptions && (this._type === 'rxjs' || (!!args.length && isFunction(args[args.length - 1])))
+        ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(creator, args)]).pipe(
+          map(([data]) => data) // extract first/only result from list
+        )
+        : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));
+    }, { methodName: creator.method });
   }
 
   private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
@@ -412,6 +408,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ));
   }
 
+  // This is deprecated/removed on substrate - we still have some live chains, eg. Edgeware needing it, so it
+  // has not been dropped yet. Slated for removal in API 2.0
   private _decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     const result = new Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null>();
     let subject: BehaviorSubject<LinkageResult>;
@@ -477,7 +475,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((...args: any[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
+    return decorateMethod((...args: unknown[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
       args.length
         ? this._rpcCore.state
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

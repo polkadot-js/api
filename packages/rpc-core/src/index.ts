@@ -232,8 +232,9 @@ export default class Rpc implements RpcInterface {
     const subName = `${section}_${subMethod}`;
     const unsubName = `${section}_${unsubMethod}`;
     const subType = `${section}_${updateType}`;
+    let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
 
-    const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
+    const creator = (isRaw: boolean) => (...values: unknown[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
@@ -282,8 +283,7 @@ export default class Rpc implements RpcInterface {
           //    api.query.system.account(addr1).subscribe(); // will output 6 instead of 7 if we don't clear cache
           //    // that's because all our observables are replay(1)
           // ```
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          memoized.delete(...values);
+          memoized && memoized.delete(...values);
 
           // Unsubscribe from provider
           subscriptionPromise
@@ -292,12 +292,12 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void => logErrorMessage(method, def, error));
+            .catch((error: Error) => logErrorMessage(method, def, error));
         };
       }).pipe(drr());
     };
 
-    const memoized = memoizee(this._createMethodWithRaw(creator), {
+    memoized = memoizee(this._createMethodWithRaw(creator), {
       // Dynamic length for argument
       length: false,
       // Normalize args so that different args that should be cached
