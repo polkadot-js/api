@@ -68,6 +68,7 @@ export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction> = ApiT
 // information. This describes it.
 export interface DecorateMethodOptions {
   methodName?: string;
+  overrideNoSub?: (...args: unknown[]) => Observable<Codec>;
 }
 
 export type DecorateFn <T extends Codec> = (...args: any[]) => Observable<T>;

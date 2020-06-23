@@ -21,7 +21,7 @@ import { Metadata, Null, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isFunction, logger, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import augmentObject from '../util/augmentObject';
@@ -387,12 +387,15 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((...args: unknown[]): Observable<Codec> => {
-      return this.hasSubscriptions && (this._type === 'rxjs' || (!!args.length && isFunction(args[args.length - 1])))
+      return this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(creator, args)]).pipe(
           map(([data]) => data) // extract first/only result from list
         )
         : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));
-    }, { methodName: creator.method });
+    }, {
+      methodName: creator.method,
+      overrideNoSub: (...args: unknown[]) => this._rpcCore.state.getStorage(extractStorageArgs(creator, args))
+    });
   }
 
   private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
@@ -480,10 +483,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         ? this._rpcCore.state
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
-          .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
+          .pipe(map(([data]) => data))
         : this._rpcCore.state
           .subscribeStorage<[LinkageResult]>([iterKey()])
-          .pipe(switchMap(([key]): Observable<LinkageResult> => getNext(head = key)))
+          .pipe(switchMap(([key]) => getNext(head = key)))
     );
   }
 
