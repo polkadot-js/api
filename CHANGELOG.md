@@ -1,11 +1,13 @@
 # CHANGELOG
 
-## 1.21.0-beta.x
+## 1.21.1 Jun 23, 2020
 
+- Fix subscriptions never unsubscribing after the id swap in 1.18.1 (Thanks to https://github.com/dillu24 for testing iterations)
 - Add support for `CheckMortality` signed extension (old `CheckEra` is now an alias)
-- Fix subscriptions never unsubscribing after the id type swap in 1.18.1
 - Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
 - Optimize derive BN allocations, using in-place operators as applicable
+- Add new substrate types for Babe EquivocationProof
+- Adjust `Releases` enum to use a shared instance
 
 ## 1.20.1 Jun 22, 2020
 
