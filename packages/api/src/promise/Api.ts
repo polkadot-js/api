@@ -6,15 +6,15 @@ import { Callback, Codec } from '@polkadot/types/types';
 import { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
 
 import { EMPTY, Observable, Subscription } from 'rxjs';
-import { catchError, first, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { isFunction, assert } from '@polkadot/util';
 
 import ApiBase from '../base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 
-interface Tracker {
+interface Tracker<T> {
   reject: (value: Error) => Observable<never>;
-  resolve: (value: () => void) => void;
+  resolve: (value: T) => void;
 }
 
 // extract the arguments and callback params from a value array possibly containing a callback
@@ -35,28 +35,61 @@ function extractArgs (args: unknown[], needsCallback: boolean): [unknown[], Call
 }
 
 // a Promise completion tracker, wrapping an isComplete variable that ensures the promise only resolves once
-function promiseTracker (resolve: (value: VoidFn) => void, reject: (value: Error) => void): Tracker {
+function promiseTracker<T> (resolve: (value: T) => void, reject: (value: Error) => void): Tracker<T> {
   let isCompleted = false;
-
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const complete = (fn: Function, value: any): void => {
-    if (!isCompleted) {
-      isCompleted = true;
-
-      fn(value);
-    }
-  };
 
   return {
     reject: (error: Error): Observable<never> => {
-      complete(reject, error);
+      if (!isCompleted) {
+        isCompleted = true;
+
+        reject(error);
+      }
 
       return EMPTY;
     },
-    resolve: (value: any): void => {
-      complete(resolve, value);
+    resolve: (value: T): void => {
+      if (!isCompleted) {
+        isCompleted = true;
+
+        resolve(value);
+      }
     }
   };
+}
+
+// Decorate a call for a single-shot result - retrieve and then immediate unsubscribe
+function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[]): Promise<ObsInnerType<ReturnType<Method>>> {
+  return new Promise((resolve, reject): void => {
+    // single result tracker - either reject with Error or resolve with Codec result
+    const tracker = promiseTracker(resolve, reject);
+
+    // errors reject immediately, any result unsubscribes and resolves
+    const subscription: Subscription = method(...actualArgs).pipe(
+      catchError((error) => tracker.reject(error))
+    ).subscribe((result): void => {
+      subscription.unsubscribe();
+      tracker.resolve(result);
+    });
+  });
+}
+
+// Decorate a subscription where we have a result callback specified
+function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
+  return new Promise<VoidFn>((resolve, reject): void => {
+    // either reject with error or resolve with unsubscribe callback
+    const tracker = promiseTracker(resolve, reject);
+
+    // errors reject immediately, the first result resolves with an unsubscribe promise, all results via callback
+    const subscription: Subscription = method(...actualArgs).pipe(
+      catchError((error) => tracker.reject(error)),
+      tap(() => tracker.resolve(() => subscription.unsubscribe()))
+    ).subscribe((result): void => {
+      // We use setImmediate here to ensure that the Promise above (tracker) has resolved, before returning
+      // the first result. By putting is back in the queue, the promise above is guarded for first execution
+      setImmediate(() => resultCb(result) as void);
+    });
+  });
 }
 
 /**
@@ -68,23 +101,9 @@ export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType
   return function (...args: unknown[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
 
-    if (!resultCb) {
-      return (options?.overrideNoSub || method)(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
-    }
-
-    return new Promise<VoidFn>((resolve, reject): void => {
-      const tracker = promiseTracker(resolve, reject);
-      const subscription: Subscription = method(...actualArgs).pipe(
-        // if we find an error (invalid params, etc), reject the promise
-        catchError((error): Observable<never> => tracker.reject(error)),
-        // upon the first result, resolve with the unsub function
-        tap(() => tracker.resolve(() => subscription.unsubscribe()))
-      ).subscribe((result): void => {
-        // We use setImmediate here to ensure that the Promise above (tracker) has resolved, before returning
-        // the first result. By putting is back in the queue, the promise above is guarder for first execution
-        setImmediate(() => resultCb(result) as void);
-      });
-    });
+    return resultCb
+      ? decorateSubscribe(method, actualArgs, resultCb)
+      : decorateCall((options?.overrideNoSub as Method) || method, actualArgs);
   } as StorageEntryPromiseOverloads;
 }
 
