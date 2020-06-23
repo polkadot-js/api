@@ -215,7 +215,7 @@ export default class Rpc implements RpcInterface {
   }
 
   // create a subscriptor, it subscribes once and resolves with the id as subscribe
-  private _createSubscriber ({ paramsJson, subName, subType, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: ProviderInterfaceCallback }, errorHandler: (error: Error) => void): Promise<number> {
+  private _createSubscriber ({ paramsJson, subName, subType, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: ProviderInterfaceCallback }, errorHandler: (error: Error) => void): Promise<number | string> {
     return new Promise((resolve, reject): void => {
       this.provider
         .subscribe(subType, subName, paramsJson, update)
@@ -237,7 +237,7 @@ export default class Rpc implements RpcInterface {
     const creator = (isRaw: boolean) => (...values: unknown[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
-        let subscriptionPromise: Promise<number | null> = Promise.resolve(null);
+        let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
 
         const errorHandler = (error: Error): void => {
           logErrorMessage(method, def, error);

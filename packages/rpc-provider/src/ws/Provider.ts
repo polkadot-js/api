@@ -247,8 +247,8 @@ export default class WsProvider implements WSProviderInterface {
    * })
    * ```
    */
-  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number> {
-    const id = await this.send(method, params, { callback, type }) as Promise<number>;
+  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    const id = await this.send(method, params, { callback, type }) as Promise<number | string>;
 
     return id;
   }
@@ -256,7 +256,7 @@ export default class WsProvider implements WSProviderInterface {
   /**
    * @summary Allows unsubscribing to subscriptions made with [[subscribe]].
    */
-  public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
+  public async unsubscribe (type: string, method: string, id: number | string): Promise<boolean> {
     const subscription = `${type}::${id}`;
 
     // FIXME This now could happen with re-subscriptions. The issue is that with a re-sub
