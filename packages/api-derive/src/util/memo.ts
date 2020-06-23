@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.v
 
 import createMemo from 'memoizee';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Observer, TeardownLogic } from 'rxjs';
 import { drr } from '@polkadot/rpc-core/rxjs';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;
@@ -15,12 +15,12 @@ type ObsFn <T> = (...params: any[]) => Observable<T>;
 export function memo <T> (inner: ObsFn<T>): ObsFn<T> {
   const cached = createMemo(
     (...params: any[]): Observable<T> =>
-      new Observable((observer: Observer<T>): VoidCallback => {
-        const sub = inner(...params).subscribe(observer);
+      new Observable((observer: Observer<T>): TeardownLogic => {
+        const subscription = inner(...params).subscribe(observer);
 
         return (): void => {
           cached.delete(...params);
-          sub.unsubscribe();
+          subscription.unsubscribe();
         };
       }).pipe(drr()),
     {

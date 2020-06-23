@@ -12,7 +12,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
-import { assert, hexToU8a, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
+import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr } from './rxjs';
 
@@ -237,7 +237,7 @@ export default class Rpc implements RpcInterface {
     const creator = (isRaw: boolean) => (...values: unknown[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
-        let subscriptionPromise: Promise<number | void> = Promise.resolve();
+        let subscriptionPromise: Promise<number | null> = Promise.resolve(null);
 
         const errorHandler = (error: Error): void => {
           logErrorMessage(method, def, error);
@@ -288,9 +288,9 @@ export default class Rpc implements RpcInterface {
           // Unsubscribe from provider
           subscriptionPromise
             .then((subscriptionId): Promise<boolean> =>
-              isNumber(subscriptionId)
-                ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
-                : Promise.resolve(false)
+              isNull(subscriptionId)
+                ? Promise.resolve(false)
+                : this.provider.unsubscribe(subType, unsubName, subscriptionId)
             )
             .catch((error: Error) => logErrorMessage(method, def, error));
         };
