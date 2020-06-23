@@ -9,7 +9,7 @@ import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';
 import { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import { DefunctVoter, Renouncing } from '@polkadot/types/interfaces/elections';
 import { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
-import { EquivocationProof, KeyOwnerProof } from '@polkadot/types/interfaces/grandpa';
+import { GrandpaEquivocationProof, KeyOwnerProof } from '@polkadot/types/interfaces/grandpa';
 import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
 import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Perbill, Percent, ProxyType, Weight } from '@polkadot/types/interfaces/runtime';
@@ -878,7 +878,7 @@ declare module '@polkadot/api/types/submittable' {
        * submission of invalid equivocation reports, a mandatory pre-validation of
        * the extrinsic is implemented in a `SignedExtension`.
        **/
-      reportEquivocation: AugmentedSubmittable<(equivocationProof: EquivocationProof | { setId?: any; equivocation?: any } | string | Uint8Array, keyOwnerProof: KeyOwnerProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      reportEquivocation: AugmentedSubmittable<(equivocationProof: GrandpaEquivocationProof | { setId?: any; equivocation?: any } | string | Uint8Array, keyOwnerProof: KeyOwnerProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     identity: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
