@@ -69,7 +69,7 @@ export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType
     const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
 
     if (!resultCb) {
-      return method(...actualArgs).pipe(first()).toPromise();
+      return (options?.overrideNoSub || method)(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
     }
 
     return new Promise<VoidFn>((resolve, reject): void => {

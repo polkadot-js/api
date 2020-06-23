@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.21.0-beta.x
+
+- Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
+
 ## 1.20.1 Jun 22, 2020
 
 - **Important** RPC for `account_nextIndex` has been moved to `system_accountNextIndex` (Aligning with Substrate as a primary alias)
