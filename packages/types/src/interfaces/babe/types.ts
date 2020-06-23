@@ -4,7 +4,8 @@
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { u32, u64 } from '@polkadot/types/primitive';
-import { Hash } from '@polkadot/types/interfaces/runtime';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import { Hash, Header } from '@polkadot/types/interfaces/runtime';
 
 /** @name AllowedSlots */
 export interface AllowedSlots extends Enum {
@@ -18,6 +19,14 @@ export interface BabeAuthorityWeight extends u64 {}
 
 /** @name BabeBlockWeight */
 export interface BabeBlockWeight extends u32 {}
+
+/** @name BabeEquivocationProof */
+export interface BabeEquivocationProof extends Struct {
+  readonly offender: AuthorityId;
+  readonly slotNumber: SlotNumber;
+  readonly firstHeader: Header;
+  readonly secondHeader: Header;
+}
 
 /** @name BabeWeight */
 export interface BabeWeight extends u64 {}

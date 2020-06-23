@@ -19,17 +19,17 @@ export default {
     AuthorityIndex: 'u64',
     AuthorityList: 'Vec<NextAuthority>',
     AuthorityWeight: 'u64',
-    Equivocation: {
+    GrandpaEquivocation: {
       _enum: {
-        Prevote: 'GrandpaEquivocation',
-        Precommit: 'GrandpaEquivocation'
+        Prevote: 'GrandpaEquivocationValue',
+        Precommit: 'GrandpaEquivocationValue'
       }
     },
-    EquivocationProof: {
+    GrandpaEquivocationProof: {
       setId: 'SetId',
-      equivocation: 'Equivocation'
+      equivocation: 'GrandpaEquivocation'
     },
-    GrandpaEquivocation: {
+    GrandpaEquivocationValue: {
       roundNumber: 'u64',
       identity: 'AuthorityId',
       first: '(GrandpaPrevote, AuthoritySignature)',
