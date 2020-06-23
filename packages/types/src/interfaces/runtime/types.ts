@@ -171,6 +171,9 @@ export interface ProxyType extends Enum {
   readonly isStaking: boolean;
 }
 
+/** @name Releases */
+export interface Releases extends u8 {}
+
 /** @name RuntimeDbWeight */
 export interface RuntimeDbWeight extends Struct {
   readonly read: Weight;
