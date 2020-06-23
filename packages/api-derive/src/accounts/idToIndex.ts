@@ -5,11 +5,13 @@
 import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 import { AccountIndexes } from '../types';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
+
+const cached = new Map<string, AccountIndex>();
 
 /**
  * @name idToIndex
@@ -26,10 +28,19 @@ import { memo } from '../util';
  * ```
  */
 export function idToIndex (api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
-  return memo((accountId: AccountId | string): Observable<AccountIndex | undefined> =>
-    api.derive.accounts.indexes().pipe(
-      map((indexes: AccountIndexes): AccountIndex | undefined =>
-        (indexes || {})[accountId.toString()]
-      )
-    ));
+  return memo((accountId: AccountId | string): Observable<AccountIndex | undefined> => {
+    const address = accountId.toString();
+
+    if (cached.has(address)) {
+      return of(cached.get(address));
+    }
+
+    return api.derive.accounts.indexes().pipe(
+      map((indexes: AccountIndexes): AccountIndex | undefined => {
+        Object.entries(indexes).forEach(([address, index]) => cached.set(address, index));
+
+        return cached.get(address);
+      })
+    );
+  });
 }

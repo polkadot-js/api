@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.22.0-beta.x
+
+- Improve derive accountId -> accountIndex lookups (optimize entries queries)
+
 ## 1.21.1 Jun 23, 2020
 
 - Fix subscriptions never unsubscribing after the id swap in 1.18.1 (Thanks to https://github.com/dillu24 for testing iterations)
