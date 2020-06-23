@@ -153,7 +153,7 @@ export class TypeRegistry implements Registry {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {
+  public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
     return createType(this, type, ...params);
   }
 

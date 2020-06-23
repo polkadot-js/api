@@ -18,15 +18,14 @@ interface Tracker {
 }
 
 // extract the arguments and callback params from a value array possibly containing a callback
-function extractArgs (args: any[], needsCallback: boolean): [any[], Callback<Codec> | undefined] {
+function extractArgs (args: unknown[], needsCallback: boolean): [unknown[], Callback<Codec> | undefined] {
   let callback: Callback<Codec> | undefined;
   const actualArgs = args.slice();
 
   // If the last arg is a function, we pop it, put it into callback.
   // actualArgs will then hold the actual arguments to be passed to `method`
   if (args.length && isFunction(args[args.length - 1])) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    callback = actualArgs.pop();
+    callback = actualArgs.pop() as Callback<Codec>;
   }
 
   // When we need a subscription, ensure that a valid callback is actually passed
@@ -66,7 +65,7 @@ function promiseTracker (resolve: (value: VoidFn) => void, reject: (value: Error
 export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
-  return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
+  return function (...args: unknown[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
 
     if (!resultCb) {
