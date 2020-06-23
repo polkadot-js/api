@@ -6,6 +6,7 @@
 - Add support for `CheckMortality` signed extension (old `CheckEra` is now an alias)
 - Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
 - Optimize derive BN allocations, using in-place operators as applicable
+- Add new substrate types for Babe EquivocationProof
 
 ## 1.20.1 Jun 22, 2020
 
