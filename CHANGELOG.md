@@ -7,6 +7,7 @@
 - Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
 - Optimize derive BN allocations, using in-place operators as applicable
 - Add new substrate types for Babe EquivocationProof
+- Adjust `Releases` enum to use a shared instance
 
 ## 1.20.1 Jun 22, 2020
 
