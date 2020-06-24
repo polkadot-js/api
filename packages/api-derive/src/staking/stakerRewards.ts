@@ -199,14 +199,18 @@ export function stakerRewards (api: ApiInterfaceRx): (accountId: Uint8Array | st
   );
 }
 
+export function stakerRewardsMultiEras (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[]) => Observable<DeriveStakerReward[][]> {
+  return memo((accountIds: (Uint8Array | string)[], eras: EraIndex[]): Observable<DeriveStakerReward[][]> =>
+    accountIds.length && eras.length
+      ? combineLatest(accountIds.map((acc) => api.derive.staking._stakerRewards(acc, eras, false)))
+      : of([])
+  );
+}
+
 export function stakerRewardsMulti (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
   return memo((accountIds: (Uint8Array | string)[], withActive = false): Observable<DeriveStakerReward[][]> =>
-    accountIds.length
-      ? api.derive.staking.erasHistoric(withActive).pipe(
-        switchMap((eras) =>
-          combineLatest(accountIds.map((acc) => api.derive.staking._stakerRewards(acc, eras, withActive)))
-        )
-      )
-      : of([])
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((eras) => api.derive.staking.stakerRewardsMultiEras(accountIds, eras))
+    )
   );
 }
