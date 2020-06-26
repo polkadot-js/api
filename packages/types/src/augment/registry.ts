@@ -39,7 +39,7 @@ import { ActiveEraInfo, CompactAssignments, CompactScore, ElectionCompute, Elect
 import { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import { AccountInfo, ApplyExtrinsicResult, ChainProperties, ChainType, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, Phase, RefCount, TransactionValidityError, UnknownTransaction } from '@polkadot/types/interfaces/system';
-import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
+import { OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { CallHash, Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
@@ -1112,9 +1112,12 @@ declare module '@polkadot/types/types/registry' {
     OpenTip: OpenTip;
     'Option<OpenTip>': Option<OpenTip>;
     'Vec<OpenTip>': Vec<OpenTip>;
-    OpenTipFinder: OpenTipFinder;
-    'Option<OpenTipFinder>': Option<OpenTipFinder>;
-    'Vec<OpenTipFinder>': Vec<OpenTipFinder>;
+    OpenTipTo225: OpenTipTo225;
+    'Option<OpenTipTo225>': Option<OpenTipTo225>;
+    'Vec<OpenTipTo225>': Vec<OpenTipTo225>;
+    OpenTipFinderTo225: OpenTipFinderTo225;
+    'Option<OpenTipFinderTo225>': Option<OpenTipFinderTo225>;
+    'Vec<OpenTipFinderTo225>': Vec<OpenTipFinderTo225>;
     OpenTipTip: OpenTipTip;
     'Option<OpenTipTip>': Option<OpenTipTip>;
     'Vec<OpenTipTip>': Vec<OpenTipTip>;
