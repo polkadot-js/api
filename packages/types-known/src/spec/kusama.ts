@@ -99,6 +99,7 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [1062, 2012],
     types: {
+      ...sharedTypes,
       OpenTip: 'OpenTipTo225'
     }
   },
