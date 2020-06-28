@@ -40,7 +40,7 @@
     "@polkadot/metadata": "1.22.0-beta.3",
     "@polkadot/rpc-provider": "1.22.0-beta.3",
     "@polkadot/types": "1.22.0-beta.3",
-    "@polkadot/util": "^2.15.1",
+    "@polkadot/util": "^2.16.0-beta.0",
     "handlebars": "^4.7.6",
     "websocket": "^1.0.31",
     "yargs": "^15.3.1"

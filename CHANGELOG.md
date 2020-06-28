@@ -3,6 +3,7 @@
 ## 1.22.0-beta.x
 
 - Improve derive accountId -> accountIndex lookups (optimize entries queries)
+- Vesting balance calculations via `derive.balances.all` has been updated for locks
 
 ## 1.21.1 Jun 23, 2020
 
