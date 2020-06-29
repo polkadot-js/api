@@ -13,11 +13,20 @@ export default {
     OpenTip: {
       reason: 'Hash',
       who: 'AccountId',
-      finder: 'Option<OpenTipFinder>',
+      finder: 'AccountId',
+      deposit: 'Balance',
+      closes: 'Option<BlockNumber>',
+      tips: 'Vec<OpenTipTip>',
+      findersFee: 'bool'
+    },
+    OpenTipTo225: {
+      reason: 'Hash',
+      who: 'AccountId',
+      finder: 'Option<OpenTipFinderTo225>',
       closes: 'Option<BlockNumber>',
       tips: 'Vec<OpenTipTip>'
     },
-    OpenTipFinder: '(AccountId, Balance)',
+    OpenTipFinderTo225: '(AccountId, Balance)',
     OpenTipTip: '(AccountId, Balance)',
     TreasuryProposal: {
       proposer: 'AccountId',
