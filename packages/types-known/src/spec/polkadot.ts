@@ -4,25 +4,28 @@
 
 import { OverrideVersionedType } from '@polkadot/types/types';
 
+const sharedTypes = {
+  Address: 'AccountId',
+  Keys: 'SessionKeys5',
+  LookupSource: 'AccountId',
+  ProxyType: {
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'SudoBalances']
+  }
+};
+
 // these are override types for Polkadot
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, 3],
+    minmax: [0, 12],
     types: {
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      ...sharedTypes,
+      OpenTip: 'OpenTipTo225'
     }
   },
   {
-    minmax: [4, undefined],
+    minmax: [13, undefined],
     types: {
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId',
-      ProxyType: {
-        _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'SudoBalances']
-      }
+      ...sharedTypes
     }
   }
 ];
