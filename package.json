@@ -30,7 +30,7 @@
     "@polkadot/dev": "^0.55.13",
     "@polkadot/ts": "^0.3.26",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^26.0.0",
+    "@types/jest": "^26.0.3",
     "@vuepress/plugin-search": "^1.5.2",
     "copyfiles": "^2.3.0"
   },
