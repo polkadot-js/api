@@ -31,6 +31,8 @@ export interface DeriveBalancesAll extends DeriveBalancesAccount {
   availableBalance: Balance;
   votingBalance: Balance;
   vestedBalance: Balance;
+  vestedClaimable: Balance;
+  vestingLocked: Balance;
   vestingTotal: Balance;
 }
 

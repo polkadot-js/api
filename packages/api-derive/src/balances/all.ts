@@ -20,15 +20,17 @@ type Result = [DeriveBalancesAccount, BlockNumber, ResultBalance];
 function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DeriveBalancesAll {
   let lockedBalance = api.registry.createType('Balance');
   let lockedBreakdown: (BalanceLock | BalanceLockTo212)[] = [];
+  let vestingLocked = api.registry.createType('Balance');
   let allLocked = false;
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
     lockedBreakdown = (locks as BalanceLockTo212[]).filter(({ until }): boolean => !until || (bestNumber && until.gt(bestNumber)));
 
-    const notAll = lockedBreakdown.filter(({ amount }): boolean => !amount.isMax());
+    const notAll = lockedBreakdown.filter(({ amount }) => !amount.isMax());
 
-    allLocked = lockedBreakdown.some(({ amount }): boolean => amount.isMax());
+    allLocked = lockedBreakdown.some(({ amount }) => amount.isMax());
+    vestingLocked = api.registry.createType('Balance', lockedBreakdown.filter(({ id }) => id.eq('0x76657374696e6720')).reduce((result: BN, { amount }) => result.iadd(amount), new BN(0)));
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     if (notAll.length) {
@@ -41,19 +43,11 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
   //  - perBlock is the unlock amount
   const { locked: vestingTotal, perBlock, startingBlock } = vesting || api.registry.createType('VestingInfo');
   const isStarted = bestNumber.gt(startingBlock);
-  const vestedBalance = api.registry.createType('Balance', isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : 0);
-  const isVesting = isStarted && vestedBalance.lt(vestingTotal);
-
-  // The available balance & vested has an interplay here
-  // "
-  // vesting is a guarantee that the account's balance will never go below a certain amount. so it functions in the opposite way, a bit like a lock that is monotonically decreasing rather than a liquid amount that is monotonically increasing.
-  // locks function as the same guarantee - that a balance will not be lower than a particular amount.
-  // because of this you can see that if there is a "vesting lock" that guarantees the balance cannot go below 200, and a "staking lock" that guarantees the balance cannot drop below 300, then we just have two guarantees of which the first is irrelevant.
-  // i.e. (balance >= 200 && balance >= 300) == (balance >= 300)
-  // ""
-  const floating = freeBalance.sub(lockedBalance);
-  const extraReceived = isVesting ? freeBalance.sub(vestingTotal) : new BN(0);
-  const availableBalance = api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance.add(extraReceived) : floating));
+  const vestedNow = isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : new BN(0);
+  const vestedBalance = vestedNow.gt(vestingTotal) ? vestingTotal : api.registry.createType('Balance', vestedNow);
+  const isVesting = isStarted && !vestingLocked.isZero();
+  const vestedClaimable = api.registry.createType('Balance', isVesting ? vestingLocked.sub(vestingTotal.sub(vestedBalance)) : 0);
+  const availableBalance = api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), freeBalance.sub(lockedBalance)));
 
   return {
     accountId,
@@ -67,6 +61,8 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
     lockedBreakdown,
     reservedBalance,
     vestedBalance,
+    vestedClaimable,
+    vestingLocked,
     vestingTotal,
     votingBalance
   };
