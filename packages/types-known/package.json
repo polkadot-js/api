@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types-known",
-  "version": "1.22.0-beta.5",
+  "version": "1.22.0",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
   "keywords": [
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
   "dependencies": {
     "@babel/runtime": "^7.10.3",
-    "@polkadot/types": "1.22.0-beta.5",
+    "@polkadot/types": "1.22.0",
     "@polkadot/util": "^2.16.1",
     "bn.js": "^5.1.2"
   },

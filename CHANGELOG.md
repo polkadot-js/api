@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.22.0-beta.x
+## 1.22.1 Jun 29, 2020
 
 - Allow for `[u8; 33]` in U8aFixed (Thanks to https://github.com/akru)
 - Improve derive accountId -> accountIndex lookups (optimize entries queries)
