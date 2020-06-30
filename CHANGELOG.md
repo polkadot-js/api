@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## 1.22.1 Jun 29, 2020
+## 1.22.1 Jun 30, 2020
 
-- **Important** Substrate changed the tip structure, only older chains supply `OpenTip: 'OpenTipTo225'` if using tips
+- **Important** Substrate changed the treasury tip structure, on older chains supply `OpenTip: 'OpenTipTo225'`
 - Allow for `[u8; 33]` in U8aFixed (Thanks to https://github.com/akru)
 - Improve derive accountId -> accountIndex lookups (optimize entries queries)
 - Vesting balance calculations via `derive.balances.all` has been updated for locks

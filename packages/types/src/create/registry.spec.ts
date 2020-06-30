@@ -76,6 +76,28 @@ describe('TypeRegistry', (): void => {
       expect((first as any).next.unwrap().next.isSome).toBe(false);
     });
 
+    it('can register non-embedded recursive types', (): void => {
+      registry.register({
+        Operation: {
+          data: 'OperationData'
+        },
+        OperationData: {
+          ops: 'Operation'
+        }
+      });
+
+      expect(registry.hasDef('Operation')).toBe(true);
+      expect(registry.hasClass('Operation')).toBe(false);
+
+      const Operation = registry.getOrThrow('Operation');
+
+      expect(registry.hasClass('Operation')).toBe(true);
+
+      const instance = new Operation(registry);
+
+      expect(instance.toRawType()).toBeDefined();
+    });
+
     it('can register cross-referencing types ()', (): void => {
       registry.register({
         A: {
