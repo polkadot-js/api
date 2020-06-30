@@ -232,9 +232,9 @@ describe('Struct', (): void => {
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
       balanceCompact: 'Compact<Balance>', // Override in Uint
-      blockNumber: 'u32',
-      compactNumber: 'Compact<u32>',
-      optionNumber: 'Option<u32>',
+      blockNumber: 'BlockNumber',
+      compactNumber: 'Compact<BlockNumber>',
+      optionNumber: 'Option<BlockNumber>',
       counter: 'u32',
       vector: 'Vec<AccountId>'
     }));

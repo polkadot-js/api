@@ -83,19 +83,25 @@ describe('TypeRegistry', (): void => {
         },
         OperationData: {
           ops: 'Vec<Operation>'
+        },
+        Rule: {
+          data: 'RuleData'
+        },
+        RuleData: {
+          ops: 'Vec<Operation>'
         }
       });
 
-      expect(registry.hasDef('Operation')).toBe(true);
-      expect(registry.hasClass('Operation')).toBe(false);
+      expect(registry.hasDef('Rule')).toBe(true);
+      expect(registry.hasClass('Rule')).toBe(false);
 
-      const Operation = registry.getOrThrow('Operation');
+      const Rule = registry.getOrThrow('Rule');
 
-      expect(registry.hasClass('Operation')).toBe(true);
+      expect(registry.hasClass('Rule')).toBe(true);
 
-      const instance = new Operation(registry);
+      const instance = new Rule(registry);
 
-      expect(instance.toRawType()).toEqual('{"data":"OperationData"}');
+      expect(instance.toRawType()).toEqual('{"data":"RuleData"}');
     });
 
     it('can register cross-referencing types', (): void => {
