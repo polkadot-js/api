@@ -124,6 +124,7 @@ export interface Registry {
   createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
+  getClassName (clazz: Constructor): string | undefined;
   getDefinition (name: string): string | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
   getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;

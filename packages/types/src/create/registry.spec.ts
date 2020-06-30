@@ -82,7 +82,7 @@ describe('TypeRegistry', (): void => {
           data: 'OperationData'
         },
         OperationData: {
-          ops: 'Operation'
+          ops: 'Vec<Operation>'
         }
       });
 
@@ -95,7 +95,7 @@ describe('TypeRegistry', (): void => {
 
       const instance = new Operation(registry);
 
-      expect(instance.toRawType()).toBeDefined();
+      expect(instance.toRawType()).toEqual('{"data":"OperationData"}');
     });
 
     it('can register cross-referencing types', (): void => {

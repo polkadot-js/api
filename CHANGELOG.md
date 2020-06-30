@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.23.0-beta.x
+
+- Adjust `<Codec>.toRawType()` to use registry name as available
+
 ## 1.22.1 Jun 30, 2020
 
 - **Important** Substrate changed the treasury tip structure, on older chains supply `OpenTip: 'OpenTipTo225'`

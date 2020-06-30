@@ -225,6 +225,14 @@ export class TypeRegistry implements Registry {
     return this.#chainProperties;
   }
 
+  public getClassName (clazz: Constructor): string | undefined {
+    const entry = [...this.#classes.entries()].find(([, test]) => test === clazz);
+
+    return entry
+      ? entry[0]
+      : undefined;
+  }
+
   public getDefinition (name: string): string | undefined {
     return this.#definitions.get(name);
   }
