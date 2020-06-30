@@ -98,7 +98,7 @@ describe('TypeRegistry', (): void => {
       expect(instance.toRawType()).toBeDefined();
     });
 
-    it('can register cross-referencing types ()', (): void => {
+    it('can register cross-referencing types', (): void => {
       registry.register({
         A: {
           next: 'B'
