@@ -181,7 +181,7 @@ export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
 
   if (++count === MAX_NESTED) {
-    console.warn('getTypeDef: Maximum recursion limit reached');
+    console.warn('getTypeDef: Maximum nested limit reached');
 
     return value;
   }
