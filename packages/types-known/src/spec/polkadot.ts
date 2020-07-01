@@ -9,7 +9,7 @@ const sharedTypes = {
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'SudoBalances']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'SudoBalances', 'IdentityJudgement']
   }
 };
 

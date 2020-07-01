@@ -7,7 +7,10 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 const sharedTypes = {
   Address: 'AccountId',
   Keys: 'SessionKeys5',
-  LookupSource: 'AccountId'
+  LookupSource: 'AccountId',
+  ProxyType: {
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement']
+  }
 };
 
 const versioned: OverrideVersionedType[] = [
