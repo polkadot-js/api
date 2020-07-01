@@ -3,6 +3,7 @@
 ## 1.23.0-beta.x
 
 - Adjust `<Codec>.toRawType()` to use registry name as available
+- Update ProxyType for Kusama, Polkadot & Westend with `IdentityJudgement`
 
 ## 1.22.1 Jun 30, 2020
 
