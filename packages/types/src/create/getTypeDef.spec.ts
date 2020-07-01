@@ -4,7 +4,7 @@
 
 import { TypeDef, TypeDefInfo } from './types';
 
-import { getTypeDef } from '.';
+import { TypeRegistry, getTypeDef } from '.';
 
 describe('getTypeDef', (): void => {
   it('does not allow invalid tuples, end )', (): void => {
@@ -288,6 +288,34 @@ describe('getTypeDef', (): void => {
         type: '[u8;32]'
       },
       type: '[[u8;32];3]'
+    });
+  });
+
+  it('creates recursive structures', (): void => {
+    const registry = new TypeRegistry();
+
+    registry.register({
+      Recursive: {
+        data: 'Vec<Recursive>'
+      }
+    });
+
+    const raw = registry.createType('Recursive' as 'u32').toRawType();
+
+    expect(
+      getTypeDef(raw)
+    ).toEqual({
+      info: TypeDefInfo.Struct,
+      sub: [{
+        info: TypeDefInfo.Vec,
+        name: 'data',
+        sub: {
+          info: TypeDefInfo.Plain,
+          type: 'Recursive'
+        },
+        type: 'Vec<Recursive>'
+      }],
+      type: '{"data":"Vec<Recursive>"}'
     });
   });
 });

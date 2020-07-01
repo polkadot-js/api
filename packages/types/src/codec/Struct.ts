@@ -267,11 +267,11 @@ export default class Struct<
   }
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result, [key, Type]): Record<string, string> => {
-      result[key] = new Type(registry).toRawType();
+    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
+      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
 
       return result;
-    }, {} as Record<string, string>);
+    }, {});
   }
 
   /**

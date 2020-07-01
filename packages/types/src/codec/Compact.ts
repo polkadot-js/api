@@ -27,10 +27,16 @@ export interface CompactEncodable extends Codec {
  * a number and making the compact representation thereof
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
+  private readonly _Type: Constructor<T>;
+
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+    const _Type = typeToConstructor(registry, Type);
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
+    super(registry, Compact.decodeCompact<T>(registry, _Type, value));
+
+    this._Type = _Type;
   }
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
@@ -107,7 +113,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this._raw.toRawType()}>`;
+    return `Compact<${this.registry.getClassName(this._Type) || this._raw.toRawType()}>`;
   }
 
   /**

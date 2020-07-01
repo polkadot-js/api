@@ -171,7 +171,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeSet<${new this.#ValClass(this.registry).toRawType()}>`;
+    return `BTreeSet<${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**

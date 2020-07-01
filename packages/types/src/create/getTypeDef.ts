@@ -9,10 +9,17 @@ import { assert } from '@polkadot/util';
 import sanitize from './sanitize';
 import { typeSplit } from './typeSplit';
 
+interface TypeDefOptions {
+  name?: string;
+  displayName?: string;
+}
+
+const MAX_NESTED = 64;
+
 // decode an enum of either of the following forms
 //  { _enum: ['A', 'B', 'C'] }
 //  { _enum: { A: AccountId, B: Balance, C: u32 } }
-function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>): TypeDef {
+function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>, count: number): TypeDef {
   value.info = TypeDefInfo.Enum;
 
   // not as pretty, but remain compatible with oo7 for both struct and Array types
@@ -24,7 +31,7 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
     }))
     : Object.entries(details).map(([name, type]): TypeDef =>
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      getTypeDef(type || 'Null', { name })
+      getTypeDef(type || 'Null', { name }, count)
     );
 
   return value;
@@ -50,13 +57,13 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
 
 // decode a struct, set or enum
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
+function _decodeStruct (value: TypeDef, type: string, _: string, count: number): TypeDef {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const parsed: Record<string, any> = JSON.parse(type);
   const keys = Object.keys(parsed);
 
   if (keys.length === 1 && keys[0] === '_enum') {
-    return _decodeEnum(value, parsed[keys[0]]);
+    return _decodeEnum(value, parsed[keys[0]], count);
   } else if (keys.length === 1 && keys[0] === '_set') {
     return _decodeSet(value, parsed[keys[0]]);
   }
@@ -66,7 +73,7 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
     : undefined;
   value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(parsed[name], { name })
+    getTypeDef(parsed[name], { name }, count)
   );
 
   return value;
@@ -74,7 +81,7 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
 
 // decode a fixed vector, e.g. [u8;32]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
+function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number): TypeDef {
   const [vecType, strLength, displayName] = type.substr(1, type.length - 2).split(';');
   const length = parseInt(strLength.trim(), 10);
 
@@ -84,18 +91,18 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
   value.displayName = displayName;
   value.length = length;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  value.sub = getTypeDef(vecType);
+  value.sub = getTypeDef(vecType, {}, count);
 
   return value;
 }
 
 // decode a tuple
-function _decodeTuple (value: TypeDef, _: string, subType: string): TypeDef {
+function _decodeTuple (value: TypeDef, _: string, subType: string, count: number): TypeDef {
   value.sub = subType.length === 0
     ? []
     : typeSplit(subType).map((inner): TypeDef =>
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      getTypeDef(inner)
+      getTypeDef(inner, {}, count)
     );
 
   return value;
@@ -103,7 +110,7 @@ function _decodeTuple (value: TypeDef, _: string, subType: string): TypeDef {
 
 // decode a Int/UInt<bitLength[, name]>
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _decodeInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UInt' = 'Int'): TypeDef {
+function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UInt'): TypeDef {
   const [strLength, displayName] = type.substr(clazz.length + 1, type.length - clazz.length - 1 - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
 
@@ -116,8 +123,12 @@ function _decodeInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UI
   return value;
 }
 
+function _decodeInt (value: TypeDef, type: string, subType: string): TypeDef {
+  return _decodeAnyInt(value, type, subType, 'Int');
+}
+
 function _decodeUInt (value: TypeDef, type: string, subType: string): TypeDef {
-  return _decodeInt(value, type, subType, 'UInt');
+  return _decodeAnyInt(value, type, subType, 'UInt');
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -139,7 +150,7 @@ function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, a
   return true;
 }
 
-const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string) => TypeDef][] = [
+const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [
   ['[', ']', TypeDefInfo.VecFixed, _decodeFixedVec],
   ['{', '}', TypeDefInfo.Struct, _decodeStruct],
   ['(', ')', TypeDefInfo.Tuple, _decodeTuple],
@@ -164,15 +175,17 @@ function extractSubType (type: string, [start, end]: [string, string, TypeDefInf
   return type.substr(start.length, type.length - start.length - end.length);
 }
 
-interface TypeDefOptions {
-  name?: string;
-  displayName?: string;
-}
-
-export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions = {}): TypeDef {
+export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
+
+  if (++count === MAX_NESTED) {
+    console.warn('getTypeDef: Maximum nested limit reached');
+
+    return value;
+  }
+
   const nested = nestedExtraction.find((nested): boolean =>
     hasWrapper(type, nested)
   );
@@ -180,7 +193,7 @@ export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions
   if (nested) {
     value.info = nested[2];
 
-    return nested[3](value, type, extractSubType(type, nested));
+    return nested[3](value, type, extractSubType(type, nested), count);
   }
 
   const wrapped = wrappedExtraction.find((wrapped): boolean =>
@@ -189,7 +202,7 @@ export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions
 
   if (wrapped) {
     value.info = wrapped[2];
-    value.sub = getTypeDef(extractSubType(type, wrapped));
+    value.sub = getTypeDef(extractSubType(type, wrapped), {}, count);
   }
 
   return value;

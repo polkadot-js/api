@@ -180,7 +180,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `${this.#type}<${new this.#KeyClass(this.registry).toRawType()},${new this.#ValClass(this.registry).toRawType()}>`;
+    return `${this.#type}<${this.registry.getClassName(this.#KeyClass) || new this.#KeyClass(this.registry).toRawType()},${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**

@@ -92,6 +92,6 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Vec<${new this._Type(this.registry).toRawType()}>`;
+    return `Vec<${this.registry.getClassName(this._Type) || new this._Type(this.registry).toRawType()}>`;
   }
 }
