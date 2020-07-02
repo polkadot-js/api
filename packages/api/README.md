@@ -7,13 +7,13 @@ The API wrappers provide a standard interface for use -
 - A static `.create(<optional ApiOptions>)` that returns an API instance when connected, decorated and ready-to use. ApiOptions can include an optional WsProvider and optional custom type definitions `{ provider: <Optional WsProvider>, types: <Optional RegistryTypes> }`.
 - The above is just a wrapper for `new Api(<optional ApiOptions>) `, exposing the `isReady` getter
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
-  - [RPC (node interface)](../substrate/rpc.md)
+  - [RPC (node interface)](https://polkadot.js.org/api/start/api.rpc.html)
 - `api.query.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
-  - [Storage chain state (runtime node interface)](../substrate/storage.md)
+  - [Storage chain state (runtime node interface)](https://polkadot.js.org/api/start/api.query.html)
 - `api.tx.<section>.<method>` provides the ability to create a transaction, like chain state, this list is populated from a runtime query
-  - [Extrinsics (runtime node interface)](../substrate/extrinsics.md)
+  - [Extrinsics (runtime node interface)](https://polkadot.js.org/api/start/api.tx.html)
 - `api.consts.<section>.<constant>` provides access to the module constants (parameter types).
-  - [Constants (runtime node interface)](../substrate/constants.md)
+  - [Constants (runtime node interface)](https://polkadot.js.org/api/start/api.consts.html)
 
 ## API Selection
 
