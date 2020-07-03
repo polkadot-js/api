@@ -5,6 +5,7 @@
 - Adjust `<Codec>.toRawType()` to use registry name as available
 - Update ProxyType for Kusama, Polkadot & Westend with `IdentityJudgement`
 - Validate number format (signed/unsigned) for number types
+- Remove core codec dependencies on Base class (with proper TS encapsulation)
 
 ## 1.22.1 Jun 30, 2020
 

@@ -162,7 +162,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toHuman (isExpanded?: boolean): any {
+  public toHuman (isExpanded?: boolean): string {
     // FIXME we need proper expansion here
     return this instanceof this.registry.createClass('Balance')
       ? this.isMax()
