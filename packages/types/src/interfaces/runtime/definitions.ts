@@ -65,6 +65,7 @@ export default {
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
     Moment: 'u64',
+    OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
     Pays: {
       _enum: ['Yes', 'No']

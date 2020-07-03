@@ -133,6 +133,9 @@ export interface ModuleId extends LockIdentifier {}
 /** @name Moment */
 export interface Moment extends u64 {}
 
+/** @name OpaqueCall */
+export interface OpaqueCall extends Bytes {}
+
 /** @name Origin */
 export interface Origin extends DoNotConstruct {}
 
