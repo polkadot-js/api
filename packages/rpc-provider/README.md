@@ -41,9 +41,7 @@ console.log('latest block Hash', hash);
 ```
 
 <div class="githubHide" style="display:none">
-
 ## Classes
 
 [Classes](SUMMARY.md)
-
 </div>

@@ -3,7 +3,6 @@
 The Polkadot-JS API provides easy-to-use wrappers around JSONRPC calls that flow from an application to a node. It handles all the encoding and decoding or parameters, provides access to RPC functions and allows for the query of chain state and the submission of transactions.
 
 <div class="githubHide" style="display:none">
-
 The API wrappers provide a standard interface for use -
 
 - A static `.create(<optional ApiOptions>)` that returns an API instance when connected, decorated and ready-to use. ApiOptions can include an optional WsProvider and optional custom type definitions `{ provider: <Optional WsProvider>, types: <Optional RegistryTypes> }`.
@@ -16,7 +15,6 @@ The API wrappers provide a standard interface for use -
   - [Extrinsics (runtime node interface)](../substrate/extrinsics.md)
 - `api.consts.<section>.<constant>` provides access to the module constants (parameter types).
   - [Constants (runtime node interface)](../substrate/constants.md)
-
 </div>
 
 ## API Selection
@@ -103,9 +101,7 @@ Some of the users of the API (let us know if you are missing from the list), inc
 - [Polkadot API Server (GitHub)](https://github.com/SimplyVC/polkadot_api_server) A lightweight server for querying Polkadot nodes from any language, built primarily as a backend for [PANIC for Polkadot (GitHub)](https://github.com/SimplyVC/panic_polkadot/), a validator monitoring and alerting tool.
 
 <div class="githubHide" style="display:none">
-
 ## Classes
 
 [Classes](SUMMARY.md)
-
 </div>
