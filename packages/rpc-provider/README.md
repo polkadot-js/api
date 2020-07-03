@@ -1,6 +1,9 @@
 # @polkadot/rpc-provider
 
 Generic transport providers to handle the transport of method calls to and from Polkadot clients from applications interacting with it. It provides an interface to making RPC calls and is generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used, rather only passed to a higher-level interface.
+<style>
+.githubHide { display: none }
+</style>
 
 ## Provider Selection
 
@@ -40,8 +43,10 @@ const version = await provider.send('chain_getBlockHash', []);
 console.log('latest block Hash', hash);
 ```
 
-<div class="githubHide" style="display:none">
+<div class="githubHide">
+
 ## Classes
 
 [Classes](SUMMARY.md)
+
 </div>

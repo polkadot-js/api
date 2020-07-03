@@ -1,3 +1,7 @@
+<style>
+.githubHide { display: none }
+</style>
+
 # @polkadot/rpc-core
 
 This library provides a clean wrapper around all the methods exposed by a Polkadot network client.
@@ -71,8 +75,10 @@ rpc
   );
 ```
 
-<div class="githubHide" style="display:none">
+<div class="githubHide">
+
 ## Classes
 
 [Classes](SUMMARY.md)
+
 </div>
