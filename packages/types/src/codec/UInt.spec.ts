@@ -16,6 +16,12 @@ describe('UInt', (): void => {
     ).toThrow('u32: Input too large. Found input with 164 bits, expected 32');
   });
 
+  it('fails on negative numbers', (): void => {
+    expect(
+      (): UInt => new UInt(registry, -123, 32)
+    ).toThrow('u32: Negative number passed to unsigned type');
+  });
+
   it('allows for construction via BigInt', (): void => {
     expect(
       new UInt(registry, 123456789123456789123456789n, 128).toHuman()
