@@ -1,9 +1,11 @@
 # CHANGELOG
 
-## 1.23.0-beta.x
+## 1.23.1 Jul 6, 2020
 
+- Small README typo fix (Thanks to https://github.com/woss)
+- Add latest Substrate master types
 - Adjust `<Codec>.toRawType()` to use registry name as available
-- Update ProxyType for Kusama, Polkadot & Westend with `IdentityJudgement`
+- Update `ProxyType` for Kusama, Polkadot & Westend with `IdentityJudgement`
 - Validate number format (signed/unsigned) for number types
 - Remove core codec dependencies on Base class (with proper TS encapsulation)
 
