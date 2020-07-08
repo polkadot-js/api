@@ -60,7 +60,7 @@ export default class Raw extends Uint8Array implements IU8a {
    * @description Returns true if the type wraps an empty/default all-0 value
    */
   public get isEmpty (): boolean {
-    return !this.length || isUndefined(this.find((value): boolean => !!value));
+    return !this.length || isUndefined(this.find((value) => !!value));
   }
 
   /**
@@ -84,7 +84,7 @@ export default class Raw extends Uint8Array implements IU8a {
   public eq (other?: unknown): boolean {
     if (other instanceof Uint8Array) {
       return (this.length === other.length) &&
-        !this.some((value, index): boolean => value !== other[index]);
+        !this.some((value, index) => value !== other[index]);
     }
 
     return this.eq(decodeU8a(other));
