@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.24.0-beta.x
+
+- Added `isAscii` getter to `Bytes` & `Raw` types
+- Added `toUtf8()` helper to `Bytes` & `Raw` types
+- `@polkadot/util` 2.18
+
 ## 1.23.1 Jul 6, 2020
 
 - Small README typo fix (Thanks to https://github.com/woss)
@@ -8,6 +14,7 @@
 - Update `ProxyType` for Kusama, Polkadot & Westend with `IdentityJudgement`
 - Validate number format (signed/unsigned) for number types
 - Remove core codec dependencies on Base class (with proper TS encapsulation)
+- `@polkadot/util` 2.17
 
 ## 1.22.1 Jun 30, 2020
 
@@ -24,7 +31,7 @@
 - Add support for `CheckMortality` signed extension (old `CheckEra` is now an alias)
 - Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
 - Optimize derive BN allocations, using in-place operators as applicable
-- Add new substrate types for Babe EquivocationProof
+- Add new Substrate types for Babe `EquivocationProof`
 - Adjust `Releases` enum to use a shared instance
 
 ## 1.20.1 Jun 22, 2020
