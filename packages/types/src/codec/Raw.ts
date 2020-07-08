@@ -5,7 +5,7 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
-import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isAscii, isU8a, isUndefined, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 /** @internal */
@@ -47,6 +47,13 @@ export default class Raw extends Uint8Array implements IU8a {
    */
   public get hash (): H256 {
     return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+  }
+
+  /**
+   * @description Returns true if the wrapped value contains only ASCII printable characterd
+   */
+  public get isAscii (): boolean {
+    return isAscii(this);
   }
 
   /**
@@ -134,5 +141,12 @@ export default class Raw extends Uint8Array implements IU8a {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     return Uint8Array.from(this);
+  }
+
+  /**
+   * @description Returns the wrapped data as a UTF-8 string
+   */
+  public toUtf8 (): string {
+    return u8aToString(this);
   }
 }
