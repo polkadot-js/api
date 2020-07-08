@@ -84,5 +84,11 @@ describe('Raw', (): void => {
       expect(new Raw(registry, 'Приветствую, ми').toUtf8()).toEqual('Приветствую, ми');
       expect(new Raw(registry, '0xe4bda0e5a5bd').toUtf8()).toEqual('你好');
     });
+
+    it('throws on invalid utf8', (): void => {
+      expect(
+        () => new Raw(registry, '0x7f07b1f87709608bee603bbc79a0dfc29cd315c1351a83aa31adf7458d7d3003').toUtf8()
+      ).toThrow(/The character sequence is not a valid Utf8 string/);
+    });
   });
 });
