@@ -2,7 +2,7 @@
 
 ## 1.24.0-beta.x
 
-- Added `isAscii` getter to `Bytes` & `Raw` types
+- Added `isAscii` & `isUtf8` getters to `Bytes` & `Raw` types
 - Added `toUtf8()` helper to `Bytes` & `Raw` types
 - `@polkadot/util` 2.18
 

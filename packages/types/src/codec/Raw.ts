@@ -5,7 +5,7 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
-import { isAscii, isU8a, isUndefined, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
+import { assert, isAscii, isU8a, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 /** @internal */
@@ -61,6 +61,13 @@ export default class Raw extends Uint8Array implements IU8a {
    */
   public get isEmpty (): boolean {
     return !this.length || isUndefined(this.find((value) => !!value));
+  }
+
+  /**
+   * @description Returns true if the wrapped value contains only utf8 characters
+   */
+  public get isUtf8 (): boolean {
+    return isUtf8(this);
   }
 
   /**
@@ -147,6 +154,8 @@ export default class Raw extends Uint8Array implements IU8a {
    * @description Returns the wrapped data as a UTF-8 string
    */
   public toUtf8 (): string {
+    assert(this.isUtf8, 'The character sequence is not a valid Utf8 string');
+
     return u8aToString(this);
   }
 }
