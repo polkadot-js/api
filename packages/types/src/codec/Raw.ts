@@ -50,7 +50,7 @@ export default class Raw extends Uint8Array implements IU8a {
   }
 
   /**
-   * @description Returns true if the wrapped value contains only ASCII printable characterd
+   * @description Returns true if the wrapped value contains only ASCII printable characters
    */
   public get isAscii (): boolean {
     return isAscii(this);

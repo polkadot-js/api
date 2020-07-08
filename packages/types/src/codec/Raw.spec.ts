@@ -23,7 +23,7 @@ const testEncode = (to: CodecTo, expected: any): void =>
     expect(e[to]()).toEqual(expected);
   });
 
-describe('U8a', (): void => {
+describe('Raw', (): void => {
   let u8a: Raw;
 
   beforeEach((): void => {
@@ -73,6 +73,16 @@ describe('U8a', (): void => {
 
     it('compares against hex inputs', (): void => {
       expect(u8a.eq('0x0102030405')).toBe(true);
+    });
+
+    it('has valid isAscii', (): void => {
+      expect(u8a.isAscii).toBe(false);
+      expect(new Raw(registry, '0x2021222324').isAscii).toBe(true);
+    });
+
+    it('has valid toUtf8', (): void => {
+      expect(new Raw(registry, 'Приветствую, ми').toUtf8()).toEqual('Приветствую, ми');
+      expect(new Raw(registry, '0xe4bda0e5a5bd').toUtf8()).toEqual('你好');
     });
   });
 });
