@@ -33,6 +33,7 @@ export * from './vesting/types';
 export * from './attestations/types';
 export * from './claims/types';
 export * from './parachains/types';
+export * from './poll/types';
 export * from './metadata/types';
 export * from './rpc/types';
 export * from './author/types';
