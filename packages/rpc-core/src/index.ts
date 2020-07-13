@@ -116,7 +116,12 @@ export default class Rpc implements RpcInterface {
     this.registry = registry;
     this.provider = provider;
 
-    this._createInterfaces(userRpc);
+    const sectionNames = Object.keys(jsonrpc);
+
+    // these are the base keys (i.e. part of jsonrpc)
+    this.sections.push(...sectionNames);
+
+    this.addUserInterfaces(userRpc);
   }
 
   /**
@@ -126,27 +131,37 @@ export default class Rpc implements RpcInterface {
     this.provider.disconnect();
   }
 
-  private _createInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
-    const sectionNames = Object.keys(jsonrpc);
-
-    // these are the base keys (i.e. part of jsonrpc)
-    this.sections.push(...sectionNames);
-
+  public addUserInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
     // add any extra user-defined sections
-    this.sections.push(...Object.keys(userRpc).filter((key): boolean => !this.sections.includes(key)));
+    this.sections.push(...Object.keys(userRpc).filter((key) => !this.sections.includes(key)));
 
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
-      (this as Record<string, unknown>)[sectionName as Section] = {
-        ...this._createInterface(sectionName, jsonrpc[sectionName as 'babe'] || {}),
-        ...this._createInterface(sectionName, userRpc[sectionName] || {})
-      };
+      if ((this as Record<string, unknown>)[sectionName as Section]) {
+        (this as Record<string, unknown>)[sectionName as Section] = {};
+      }
+
+      const section = (this as Record<string, unknown>)[sectionName as Section] as Record<string, any>;
+
+      Object
+        .entries({
+          ...this._createInterface(sectionName, jsonrpc[sectionName as 'babe'] || {}),
+          ...this._createInterface(sectionName, userRpc[sectionName] || {})
+        })
+        .forEach(([key, value]): void => {
+          // we don't want to clobber existing, i.e. when this is called again after chain is determined
+          if (!section[key]) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            section[key] = value;
+          }
+        });
     });
   }
 
   private _createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, DefinitionRpc | DefinitionRpcSub>): RpcInterface[Section] {
     return Object
       .keys(methods)
+      .filter((method) => !this.mapping.has(`${section}_${method}`))
       .reduce((exposed, method): RpcInterface[Section] => {
         const def = methods[method];
         const isSubscription = !!(def as DefinitionRpcSub).pubsub;
