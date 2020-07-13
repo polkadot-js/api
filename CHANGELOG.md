@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.24.0-beta.x
+## 1.24.1 Jul 13, 2020
 
 - Added `isAscii` & `isUtf8` getters to `Bytes` & `Raw` types
 - Added `toUtf8()` helper to `Bytes` & `Raw` types
