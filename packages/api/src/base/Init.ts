@@ -9,7 +9,7 @@ import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getMetadataTypes, getSpecTypes } from '@polkadot/types-known';
+import { getMetadataTypes, getSpecAlias, getSpecTypes } from '@polkadot/types-known';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -35,6 +35,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this.registry.setKnownTypes({
       types: options.types,
       typesAlias: options.typesAlias,
+      typesBundle: options.typesBundle,
       typesChain: options.typesChain,
       typesSpec: options.typesSpec
     });
@@ -158,6 +159,9 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
+
+    // adjust known type aliasses
+    this.registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, runtimeVersion.specName);
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);

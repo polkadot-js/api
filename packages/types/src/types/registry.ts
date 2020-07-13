@@ -7,6 +7,7 @@ import type BN from 'bn.js';
 import { ChainProperties } from '../interfaces/system';
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
+import { DefinitionRpc, DefinitionRpcSub } from './definitions';
 import { AnyJson } from './helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -18,6 +19,17 @@ export interface OverrideVersionedType {
 }
 
 export type OverrideModuleType = Record<string, string>;
+
+export interface OverrideBundleDefinition {
+  alias?: Record<string, OverrideModuleType>;
+  rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  types?: OverrideVersionedType[];
+}
+
+export interface OverrideBundleType {
+  chain?: Record<string, OverrideBundleDefinition>;
+  spec?: Record<string, OverrideBundleDefinition>;
+}
 
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
 
@@ -97,6 +109,10 @@ export interface RegisteredTypes {
    * @description Alias an types, as received via the metadata, to a JS-specific type to avoid conflicts. For instance, you can rename the `Proposal` in the `treasury` module to `TreasuryProposal` as to not have conflicts with the one for democracy.
    */
   typesAlias?: Record<string, OverrideModuleType>;
+  /**
+   * @description A bundle of types related to chain & spec that is injected based on what the chain contains
+   */
+  typesBundle?: OverrideBundleType;
   /**
    * @description Additional types that are injected based on the chain we are connecting to. There are keyed by the chain, i.e. `{ 'Kusama CC1': { ... } }`
    */
