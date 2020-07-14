@@ -7,7 +7,7 @@
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import EventEmitter from 'eventemitter3';
-import { assert, isNull, isUndefined, logger } from '@polkadot/util';
+import { assert, isNull, isUndefined, isChildClass, logger } from '@polkadot/util';
 
 import Coder from '../coder';
 import defaults from '../defaults';
@@ -67,6 +67,8 @@ export default class WsProvider implements WSProviderInterface {
 
   readonly #endpoints: string[];
 
+  readonly #headers: Record<string, string>;
+
   readonly #eventemitter: EventEmitter;
 
   readonly #handlers: Record<string, WsStateAwaiting> = {};
@@ -89,7 +91,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000, headers: Record<string, string> = {}) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -105,6 +107,7 @@ export default class WsProvider implements WSProviderInterface {
     this.#coder = new Coder();
     this.#endpointIndex = -1;
     this.#endpoints = endpoints;
+    this.#headers = headers;
     this.#websocket = null;
 
     if (autoConnectMs > 0) {
@@ -138,7 +141,11 @@ export default class WsProvider implements WSProviderInterface {
 
       const WS = await getWSClass();
 
-      this.#websocket = new WS(this.#endpoints[this.#endpointIndex]);
+      this.#websocket = typeof WebSocket !== 'undefined' && isChildClass(WebSocket, WS)
+        ? new WS(this.#endpoints[this.#endpointIndex])
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
+        : new WS(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
