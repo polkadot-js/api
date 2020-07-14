@@ -7,7 +7,7 @@
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import EventEmitter from 'eventemitter3';
-import { assert, isNull, isUndefined, logger } from '@polkadot/util';
+import { assert, isNull, isUndefined, isChildClass, logger } from '@polkadot/util';
 
 import Coder from '../coder';
 import defaults from '../defaults';
@@ -141,9 +141,11 @@ export default class WsProvider implements WSProviderInterface {
 
       const WS = await getWSClass();
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
-      this.#websocket = new WS(this.#endpoints[this.#endpointIndex], null, null, this.#headers);
+      this.#websocket = typeof WebSocket !== 'undefined' && isChildClass(WebSocket, WS)
+        ? new WS(this.#endpoints[this.#endpointIndex])
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
+        : new WS(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
