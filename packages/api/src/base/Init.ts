@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
-import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
+import { ApiBase, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpcSection } from '../types';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -164,23 +165,25 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this.registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, runtimeVersion.specName);
 
     // inject any user-level RPCs now that we have the chain/spec
-    if (this._rpc) {
-      this._rpcCore.addUserInterfaces(getSpecRpc(this.registry, chain, runtimeVersion.specName));
+    this._rpcCore.addUserInterfaces(getSpecRpc(this.registry, chain, runtimeVersion.specName));
 
-      const extraRpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
+    const extraRpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
 
-      Object.entries(extraRpc).forEach(([section, value]): void => {
+    // FIXME this is a mess
+    Object.entries(extraRpc).forEach(([section, value]): void => {
+      if (this._rpc) {
         if (!this._rpc[section as 'author']) {
-          this._rpc[section] = {};
+          this._rpc[section as 'author'] = {} as DecoratedRpcSection<ApiType, RpcInterface['author']>;
         }
 
         Object.entries(value).forEach(([name, method]): void => {
-          if (!this._rpc[section][name]) {
-            this._rpc[section][name] = method;
+          if (this._rpc && !this._rpc[section as 'author'][name as 'hasKey']) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            this._rpc[section as 'author'][name as 'hasKey'] = method;
           }
         });
-      });
-    }
+      }
+    });
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
