@@ -149,23 +149,12 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     ).subscribe();
   }
 
-  private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const [runtimeVersion, chain, chainProps] = await Promise.all([
-      this._rpcCore.state.getRuntimeVersion().toPromise(),
-      this._rpcCore.system.chain().toPromise(),
-      this._rpcCore.system.properties().toPromise()
-    ]);
-
-    // set our chain version & genesisHash as returned
-    this._runtimeChain = chain;
-    this._runtimeVersion = runtimeVersion;
-    this._rx.runtimeVersion = runtimeVersion;
-
+  private _adjustBundleTypes (chain: Text, specName: Text): void {
     // adjust known type aliasses
-    this.registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, runtimeVersion.specName);
+    this.registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, specName);
 
     // inject any user-level RPCs now that we have the chain/spec
-    this._rpcCore.addUserInterfaces(getSpecRpc(this.registry, chain, runtimeVersion.specName));
+    this._rpcCore.addUserInterfaces(getSpecRpc(this.registry, chain, specName));
 
     const extraRpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
 
@@ -184,6 +173,24 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
         });
       }
     });
+  }
+
+  private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
+    const [runtimeVersion, chain, chainProps] = await Promise.all([
+      this._rpcCore.state.getRuntimeVersion().toPromise(),
+      this._rpcCore.system.chain().toPromise(),
+      this._rpcCore.system.properties().toPromise()
+    ]);
+
+    // set our chain version & genesisHash as returned
+    this._runtimeChain = chain;
+    this._runtimeVersion = runtimeVersion;
+    this._rx.runtimeVersion = runtimeVersion;
+
+    // adjust types based on bundled info
+    if (this.registry.knownTypes.typesBundle) {
+      this._adjustBundleTypes(chain, runtimeVersion.specName);
+    }
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
