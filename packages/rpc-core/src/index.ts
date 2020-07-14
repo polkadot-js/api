@@ -137,7 +137,7 @@ export default class Rpc implements RpcInterface {
 
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
-      if ((this as Record<string, unknown>)[sectionName as Section]) {
+      if (!(this as Record<string, unknown>)[sectionName as Section]) {
         (this as Record<string, unknown>)[sectionName as Section] = {};
       }
 
