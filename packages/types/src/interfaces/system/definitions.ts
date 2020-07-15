@@ -222,7 +222,7 @@ export default {
     },
     NetworkStatePeersetInfo: {
       connected: 'bool',
-      reputation: 'u64'
+      reputation: 'i32'
     },
     NodeRole: {
       _enum: {
