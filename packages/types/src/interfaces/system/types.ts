@@ -4,7 +4,7 @@
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, HashMap, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { GenericEvent } from '@polkadot/types/generic';
-import { Bytes, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, Text, bool, i32, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountData } from '@polkadot/types/interfaces/balances';
 import { BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
 
@@ -191,7 +191,7 @@ export interface NetworkStatePeerset extends Struct {
 /** @name NetworkStatePeersetInfo */
 export interface NetworkStatePeersetInfo extends Struct {
   readonly connected: bool;
-  readonly reputation: u64;
+  readonly reputation: i32;
 }
 
 /** @name NodeRole */
