@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 1.25.0-beta.x
+
+- Support for custom HTTP headers in providers (Thanks to https://github.com/brad-larson)
+- Update known types for Centrifuge (Thanks to https://github.com/philipstanislaus)
+- Raw/Bytes `toHuman()` displays utf-8 as available
+- Add fallback for `setImmediate` when not polyfilled
+- Update `NetworkState` reputation for `system_networkState` RPC
+- Update session progress calcs for Aura (cater for negative)
+- Fix class prototype for (basically-deprecated) Linkage type
+
 ## 1.24.1 Jul 13, 2020
 
 - Added `isAscii` & `isUtf8` getters to `Bytes` & `Raw` types
