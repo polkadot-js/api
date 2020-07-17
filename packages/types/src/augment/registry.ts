@@ -30,6 +30,7 @@ import { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, Repo
 import { AbridgedCandidateReceipt, AttestedCandidate, AuctionIndex, Bidder, CandidateCommitments, CandidateReceipt, CollatorId, CollatorSignature, DoubleVoteReport, DownwardMessage, GlobalValidationSchedule, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, LocalValidationData, NewBidder, ParaId, ParaInfo, ParaPastCodeMeta, ParaScheduling, ParachainDispatchOrigin, Remark, Retriable, Scheduling, SigningContext, SlotRange, Statement, SubId, UpwardMessage, ValidationCode, ValidatorSignature, ValidityAttestation, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { Approvals } from '@polkadot/types/interfaces/poll';
+import { AccountStatus, AccountValidity } from '@polkadot/types/interfaces/purchase';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, ExtrinsicsWeight, Fixed128, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, OpaqueCall, Origin, Pays, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, ProxyType, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
@@ -1275,6 +1276,12 @@ declare module '@polkadot/types/types/registry' {
     Approvals: Approvals;
     'Option<Approvals>': Option<Approvals>;
     'Vec<Approvals>': Vec<Approvals>;
+    AccountStatus: AccountStatus;
+    'Option<AccountStatus>': Option<AccountStatus>;
+    'Vec<AccountStatus>': Vec<AccountStatus>;
+    AccountValidity: AccountValidity;
+    'Option<AccountValidity>': Option<AccountValidity>;
+    'Vec<AccountValidity>': Vec<AccountValidity>;
     CallMetadataV0: CallMetadataV0;
     'Option<CallMetadataV0>': Option<CallMetadataV0>;
     'Vec<CallMetadataV0>': Vec<CallMetadataV0>;
