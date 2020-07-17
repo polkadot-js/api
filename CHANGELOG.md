@@ -9,6 +9,7 @@
 - Update `NetworkState` reputation for `system_networkState` RPC
 - Update session progress calcs for Aura (cater for negative)
 - Fix class prototype for (basically-deprecated) Linkage type
+- Add Polkadot types for `purchase` pallet
 
 ## 1.24.1 Jul 13, 2020
 
