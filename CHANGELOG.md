@@ -2,6 +2,7 @@
 
 ## 1.25.0-beta.x
 
+- **Important** Contract RPC result updated on Substrate, on older chains supply `ContractExecResult: 'ContractExecResultTo255'`
 - Support for custom HTTP headers in providers (Thanks to https://github.com/brad-larson)
 - Update known types for Centrifuge (Thanks to https://github.com/philipstanislaus)
 - Raw/Bytes `toHuman()` displays utf-8 as available
