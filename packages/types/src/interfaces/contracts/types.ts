@@ -36,8 +36,22 @@ export interface ContractExecResult extends Enum {
 
 /** @name ContractExecResultSuccess */
 export interface ContractExecResultSuccess extends Struct {
+  readonly flags: u32;
+  readonly data: Bytes;
+  readonly gasConsumed: u64;
+}
+
+/** @name ContractExecResultSuccessTo255 */
+export interface ContractExecResultSuccessTo255 extends Struct {
   readonly status: u8;
   readonly data: Raw;
+}
+
+/** @name ContractExecResultTo255 */
+export interface ContractExecResultTo255 extends Enum {
+  readonly isSuccess: boolean;
+  readonly asSuccess: ContractExecResultSuccessTo255;
+  readonly isError: boolean;
 }
 
 /** @name ContractInfo */
