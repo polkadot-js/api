@@ -23,7 +23,7 @@ function calcBalances (api: ApiInterfaceRx, [accountId, [freeBalance, reservedBa
     frozenFee,
     frozenMisc,
     reservedBalance,
-    votingBalance: api.registry.createType('Balance', freeBalance.add(reservedBalance))
+    votingBalance: api.registry.createType('Balance', freeBalance.toBn())
   };
 }
 
