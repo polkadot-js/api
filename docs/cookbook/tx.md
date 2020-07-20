@@ -97,12 +97,12 @@ api.tx.utility
 
 ## How do I take the pending tx pool into account in my nonce?
 
-The `system.account` query will always contain the current state, i.e. it will reflect the nonce for the last known block. As such when sending multiple transactions in quick succession (see batching above), there may be transactions in the pool that has the same nonce that `signAndSend` would apply - this call doesn't do any magic, it simply reads the state for the nonce. Since we can specify options to the `signandSend` operation, we can override the nonce, either by manually incrementing it o querying it via `nextNonce`.
+The `system.account` query will always contain the current state, i.e. it will reflect the nonce for the last known block. As such when sending multiple transactions in quick succession (see batching above), there may be transactions in the pool that has the same nonce that `signAndSend` would apply - this call doesn't do any magic, it simply reads the state for the nonce. Since we can specify options to the `signAndSend` operation, we can override the nonce, either by manually incrementing it or querying it via `rpc.system.accountNextIndex`.
 
 ```js
 for (let i = 0; i < 10; i++) {
-  // retrieve the nextNonce, taking txs in the pool into account
-  const nonce = await api.rpc.account.nextNonce(sender);
+  // retrieve sender's next index/nonce, taking txs in the pool into account
+  const nonce = await api.rpc.system.accountNextIndex(sender);
 
   // send, just retrieving the hash, not waiting on status
   const txhash = await api.tx.balances
