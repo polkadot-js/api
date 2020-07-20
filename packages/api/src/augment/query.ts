@@ -17,7 +17,7 @@ import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity
 import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
 import { DeferredOffenceOf, Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
-import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, ExtrinsicsWeight, Hash, KeyTypeId, Moment, Perbill, ProxyType, Releases, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, ExtrinsicsWeight, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, ProxyType, Releases, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
@@ -392,7 +392,7 @@ declare module '@polkadot/api/types/storage' {
     };
     multisig: {
       [index: string]: QueryableStorageEntry<ApiType>;
-      calls: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Option<ITuple<[Bytes, AccountId, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
+      calls: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Option<ITuple<[OpaqueCall, AccountId, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
       /**
        * The set of open multisig operations.
        **/
@@ -470,6 +470,12 @@ declare module '@polkadot/api/types/storage' {
        * Lookup from identity to the block number and index of the task.
        **/
       lookup: AugmentedQuery<ApiType, (arg: Bytes | string | Uint8Array) => Observable<Option<TaskAddress>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * Storage version of the pallet.
+       * 
+       * New networks start with last version.
+       **/
+      storageVersion: AugmentedQuery<ApiType, () => Observable<Releases>> & QueryableStorageEntry<ApiType>;
     };
     session: {
       [index: string]: QueryableStorageEntry<ApiType>;
