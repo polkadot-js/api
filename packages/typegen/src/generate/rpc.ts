@@ -33,8 +33,8 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
       .sort();
 
     const modules = rpcKeys.map((sectionFullName) => {
-      const rpc = definitions[sectionFullName].rpc
-      const section = sectionFullName.split('/').pop()
+      const rpc = definitions[sectionFullName].rpc;
+      const section = sectionFullName.split('/').pop();
 
       const allMethods = Object.keys(rpc).sort().map((methodName) => {
         const def = rpc[methodName];
