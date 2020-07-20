@@ -565,34 +565,7 @@
               ]
             },
             {
-              "name": "as_sub",
-              "args": [
-                {
-                  "name": "index",
-                  "type": "u16"
-                },
-                {
-                  "name": "call",
-                  "type": "Call"
-                }
-              ],
-              "documentation": [
-                " Send a call through an indexed pseudonym of the sender.",
-                "",
-                " NOTE: If you need to ensure that any account-based filtering is honored (i.e. because",
-                " you expect `proxy` to have been used prior in the call stack and you want it to apply to",
-                " any sub-accounts), then use `as_limited_sub` instead.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - Base weight: 2.861 µs",
-                " - Plus the weight of the `call`",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "as_limited_sub",
+              "name": "as_derivative",
               "args": [
                 {
                   "name": "index",
@@ -611,7 +584,10 @@
                 "",
                 " NOTE: If you need to ensure that any account-based filtering is not honored (i.e.",
                 " because you expect `proxy` to have been used prior in the call stack and you do not want",
-                " the call restrictions to apply to any sub-accounts), then use `as_sub` instead.",
+                " the call restrictions to apply to any sub-accounts), then use `as_multi_threshold_1`",
+                " in the Multisig pallet instead.",
+                "",
+                " NOTE: Prior to version *12, this was called `as_limited_sub`.",
                 "",
                 " The dispatch origin for this call must be _Signed_.",
                 "",
@@ -801,7 +777,50 @@
               }
             ]
           },
-          "calls": [],
+          "calls": [
+            {
+              "name": "report_equivocation",
+              "args": [
+                {
+                  "name": "equivocation_proof",
+                  "type": "BabeEquivocationProof"
+                },
+                {
+                  "name": "key_owner_proof",
+                  "type": "KeyOwnerProof"
+                }
+              ],
+              "documentation": [
+                " Report authority equivocation/misbehavior. This method will verify",
+                " the equivocation proof and validate the given key ownership proof",
+                " against the extracted offender. If both are valid, the offence will",
+                " be reported."
+              ]
+            },
+            {
+              "name": "report_equivocation_unsigned",
+              "args": [
+                {
+                  "name": "equivocation_proof",
+                  "type": "BabeEquivocationProof"
+                },
+                {
+                  "name": "key_owner_proof",
+                  "type": "KeyOwnerProof"
+                }
+              ],
+              "documentation": [
+                " Report authority equivocation/misbehavior. This method will verify",
+                " the equivocation proof and validate the given key ownership proof",
+                " against the extracted offender. If both are valid, the offence will",
+                " be reported.",
+                " This extrinsic must be called unsigned and it is expected that only",
+                " block authors will call it (validated in `ValidateUnsigned`), as such",
+                " if the block author is defined it will be defined as the equivocation",
+                " reporter."
+              ]
+            }
+          ],
           "events": null,
           "constants": [
             {
@@ -2617,7 +2636,7 @@
               "documentation": [
                 " Cancel enactment of a deferred slash.",
                 "",
-                " Can be called by either the root origin or the `T::SlashCancelOrigin`.",
+                " Can be called by the `T::SlashCancelOrigin`.",
                 "",
                 " Parameters: era and indices of the slashes for that era to kill.",
                 "",
@@ -2660,7 +2679,9 @@
                 " - Contains a limited number of reads and writes.",
                 " -----------",
                 " N is the Number of payouts for the validator (including the validator)",
-                " Base Weight: 110 + 54.2 * N µs (Median Slopes)",
+                " Base Weight:",
+                " - Reward Destination Staked: 110 + 54.2 * N µs (Median Slopes)",
+                " - Reward Destination Controller (Creating): 120 + 41.95 * N µs (Median Slopes)",
                 " DB Weight:",
                 " - Read: EraElectionStatus, CurrentEra, HistoryDepth, ErasValidatorReward,",
                 "         ErasStakersClipped, ErasRewardPoints, ErasValidatorPrefs (8 items)",
@@ -2991,9 +3012,9 @@
               "type": "EraIndex",
               "value": "0xa8000000",
               "documentation": [
-                " Number of eras that slashes are deferred by, after computation. ",
+                " Number of eras that slashes are deferred by, after computation.",
                 "",
-                " This should be less than the bonding duration. ",
+                " This should be less than the bonding duration.",
                 " Set to 0 if slashes should be applied immediately, without opportunity for",
                 " intervention."
               ]
@@ -3017,7 +3038,7 @@
               "type": "u32",
               "value": "0x0a000000",
               "documentation": [
-                " Maximum number of balancing iterations to run in the offchain submission. ",
+                " Maximum number of balancing iterations to run in the offchain submission.",
                 "",
                 " If set to 0, balance_solution will not be executed at all."
               ]
@@ -6114,7 +6135,7 @@
               "documentation": [
                 " Add a member `who` to the set.",
                 "",
-                " May only be called from `AddOrigin` or root."
+                " May only be called from `T::AddOrigin`."
               ]
             },
             {
@@ -6128,7 +6149,7 @@
               "documentation": [
                 " Remove a member `who` from the set.",
                 "",
-                " May only be called from `RemoveOrigin` or root."
+                " May only be called from `T::RemoveOrigin`."
               ]
             },
             {
@@ -6146,7 +6167,7 @@
               "documentation": [
                 " Swap out one member `remove` for another `add`.",
                 "",
-                " May only be called from `SwapOrigin` or root.",
+                " May only be called from `T::SwapOrigin`.",
                 "",
                 " Prime membership is *not* passed from `remove` to `add`, if extant."
               ]
@@ -6163,7 +6184,7 @@
                 " Change the membership to a new set, disregarding the existing membership. Be nice and",
                 " pass `members` pre-sorted.",
                 "",
-                " May only be called from `ResetOrigin` or root."
+                " May only be called from `T::ResetOrigin`."
               ]
             },
             {
@@ -6191,14 +6212,18 @@
                 }
               ],
               "documentation": [
-                " Set the prime member. Must be a current member."
+                " Set the prime member. Must be a current member.",
+                "",
+                " May only be called from `T::PrimeOrigin`."
               ]
             },
             {
               "name": "clear_prime",
               "args": [],
               "documentation": [
-                " Remove the prime member if it exists."
+                " Remove the prime member if it exists.",
+                "",
+                " May only be called from `T::PrimeOrigin`."
               ]
             }
           ],
@@ -6402,11 +6427,31 @@
                 " Report voter equivocation/misbehavior. This method will verify the",
                 " equivocation proof and validate the given key ownership proof",
                 " against the extracted offender. If both are valid, the offence",
+                " will be reported."
+              ]
+            },
+            {
+              "name": "report_equivocation_unsigned",
+              "args": [
+                {
+                  "name": "equivocation_proof",
+                  "type": "GrandpaEquivocationProof"
+                },
+                {
+                  "name": "key_owner_proof",
+                  "type": "KeyOwnerProof"
+                }
+              ],
+              "documentation": [
+                " Report voter equivocation/misbehavior. This method will verify the",
+                " equivocation proof and validate the given key ownership proof",
+                " against the extracted offender. If both are valid, the offence",
                 " will be reported.",
                 "",
-                " Since the weight of the extrinsic is 0, in order to avoid DoS by",
-                " submission of invalid equivocation reports, a mandatory pre-validation of",
-                " the extrinsic is implemented in a `SignedExtension`."
+                " This extrinsic must be called unsigned and it is expected that only",
+                " block authors will call it (validated in `ValidateUnsigned`), as such",
+                " if the block author is defined it will be defined as the equivocation",
+                " reporter."
               ]
             }
           ],
@@ -6467,6 +6512,12 @@
               "name": "InvalidKeyOwnershipProof",
               "documentation": [
                 " A key ownership proof provided as part of an equivocation report is invalid."
+              ]
+            },
+            {
+              "name": "InvalidEquivocationProof",
+              "documentation": [
+                " An equivocation proof provided as part of an equivocation report is invalid."
               ]
             },
             {
@@ -6593,6 +6644,8 @@
               "documentation": [
                 " Reject a proposed spend. The original deposit will be slashed.",
                 "",
+                " May only be called from `T::RejectOrigin`.",
+                "",
                 " # <weight>",
                 " - Complexity: O(1)",
                 " - DbReads: `Proposals`, `rejected proposer account`",
@@ -6611,6 +6664,8 @@
               "documentation": [
                 " Approve a proposal. At a later time, the proposal will be allocated to the beneficiary",
                 " and the original deposit will be returned.",
+                "",
+                " May only be called from `T::ApproveOrigin`.",
                 "",
                 " # <weight>",
                 " - Complexity: O(1).",
@@ -7218,17 +7273,6 @@
           ],
           "events": [
             {
-              "name": "Transfer",
-              "args": [
-                "AccountId",
-                "AccountId",
-                "Balance"
-              ],
-              "documentation": [
-                " Transfer happened `from` to `to` with given `value` as part of a `call` or `instantiate`."
-              ]
-            },
-            {
               "name": "Instantiated",
               "args": [
                 "AccountId",
@@ -7259,19 +7303,17 @@
                 "AccountId",
                 "AccountId",
                 "Hash",
-                "Balance",
-                "bool"
+                "Balance"
               ],
               "documentation": [
-                " Restoration for a contract has been initiated.",
+                " Restoration for a contract has been successful.",
                 "",
                 " # Params",
                 "",
                 " - `donor`: `AccountId`: Account ID of the restoring contract",
                 " - `dest`: `AccountId`: Account ID of the restored contract",
                 " - `code_hash`: `Hash`: Code hash of the restored contract",
-                " - `rent_allowance: `Balance`: Rent allowance of the restored contract",
-                " - `success`: `bool`: True if the restoration was successful"
+                " - `rent_allowance: `Balance`: Rent allowance of the restored contract"
               ]
             },
             {
@@ -7290,17 +7332,6 @@
               ],
               "documentation": [
                 " Triggered when the current schedule is updated."
-              ]
-            },
-            {
-              "name": "Dispatched",
-              "args": [
-                "AccountId",
-                "bool"
-              ],
-              "documentation": [
-                " A call was dispatched from the given account. The bool signals whether it was",
-                " successful execution or not."
               ]
             },
             {
@@ -7329,7 +7360,7 @@
             {
               "name": "TombstoneDeposit",
               "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x00a0acb9030000000000000000000000",
               "documentation": [
                 " The minimum amount required to generate a tombstone."
               ]
@@ -7350,7 +7381,7 @@
             {
               "name": "RentByteFee",
               "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x00286bee000000000000000000000000",
               "documentation": [
                 " Price of a byte of storage per one block interval. Should be greater than 0."
               ]
@@ -7358,7 +7389,7 @@
             {
               "name": "RentDepositOffset",
               "type": "BalanceOf",
-              "value": "0x00008a5d784563010000000000000000",
+              "value": "0x0010a5d4e80000000000000000000000",
               "documentation": [
                 " The amount of funds a contract should deposit in order to offset",
                 " the cost of one byte.",
@@ -7372,7 +7403,7 @@
             {
               "name": "SurchargeReward",
               "type": "BalanceOf",
-              "value": "0x0080a1a76b4a35000000000000000000",
+              "value": "0x005cb2ec220000000000000000000000",
               "documentation": [
                 " Reward that is received by the party whose touch has led",
                 " to removal of a contract."
@@ -7431,6 +7462,27 @@
               "name": "InvalidContractOrigin",
               "documentation": [
                 " An origin TrieId written in the current block."
+              ]
+            },
+            {
+              "name": "OutOfGas",
+              "documentation": [
+                " The executed contract exhausted its gas limit."
+              ]
+            },
+            {
+              "name": "OutputBufferTooSmall",
+              "documentation": [
+                " The output buffer supplied to a contract API call was too small."
+              ]
+            },
+            {
+              "name": "InsufficientBalance",
+              "documentation": [
+                " Performing the requested transfer would have brought the contract below",
+                " the subsistence threshold. No transfer is allowed to do this in order to allow",
+                " for a tombstone to be created. Use `ext_terminate` to remove a contract without",
+                " leaving a tombstone behind."
               ]
             }
           ]
@@ -7947,7 +7999,7 @@
               "documentation": [
                 " Add a registrar to the system.",
                 "",
-                " The dispatch origin for this call must be `RegistrarOrigin` or `Root`.",
+                " The dispatch origin for this call must be `T::RegistrarOrigin`.",
                 "",
                 " - `account`: the account of the registrar.",
                 "",
@@ -8249,7 +8301,7 @@
                 " `Slash`. Verification request deposits are not returned; they should be cancelled",
                 " manually using `cancel_request`.",
                 "",
-                " The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.",
+                " The dispatch origin for this call must match `T::ForceOrigin`.",
                 "",
                 " - `target`: the account whose identity the judgement is upon. This must be an account",
                 "   with a registered identity.",
@@ -8262,6 +8314,81 @@
                 " - `S + 2` storage mutations.",
                 " - One event.",
                 " # </weight>"
+              ]
+            },
+            {
+              "name": "add_sub",
+              "args": [
+                {
+                  "name": "sub",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "data",
+                  "type": "Data"
+                }
+              ],
+              "documentation": [
+                " Add the given account to the sender's subs.",
+                "",
+                " Payment: Balance reserved by a previous `set_subs` call for one sub will be repatriated",
+                " to the sender.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " sub identity of `sub`."
+              ]
+            },
+            {
+              "name": "rename_sub",
+              "args": [
+                {
+                  "name": "sub",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "data",
+                  "type": "Data"
+                }
+              ],
+              "documentation": [
+                " Alter the associated name of the given sub-account.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " sub identity of `sub`."
+              ]
+            },
+            {
+              "name": "remove_sub",
+              "args": [
+                {
+                  "name": "sub",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Remove the given account from the sender's subs.",
+                "",
+                " Payment: Balance reserved by a previous `set_subs` call for one sub will be repatriated",
+                " to the sender.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " sub identity of `sub`."
+              ]
+            },
+            {
+              "name": "quit_sub",
+              "args": [],
+              "documentation": [
+                " Remove the sender as a sub-account.",
+                "",
+                " Payment: Balance reserved by a previous `set_subs` call for one sub will be repatriated",
+                " to the sender (*not* the original depositor).",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " super-identity.",
+                "",
+                " NOTE: This should not normally be used, but is provided in the case that the non-",
+                " controller of an account is maliciously registered as a sub-account."
               ]
             }
           ],
@@ -8332,6 +8459,40 @@
               ],
               "documentation": [
                 " A registrar was added."
+              ]
+            },
+            {
+              "name": "SubIdentityAdded",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A sub-identity (first) was added to an identity (second) and the deposit paid."
+              ]
+            },
+            {
+              "name": "SubIdentityRemoved",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A sub-identity (first) was removed from an identity (second) and the deposit freed."
+              ]
+            },
+            {
+              "name": "SubIdentityRevoked",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A sub-identity (first arg) was cleared, and the given deposit repatriated from the",
+                " main identity account (second arg) to the sub-identity account."
               ]
             }
           ],
@@ -8466,6 +8627,24 @@
               "name": "TooManyRegistrars",
               "documentation": [
                 " Maximum amount of registrars reached. Cannot add any more."
+              ]
+            },
+            {
+              "name": "AlreadyClaimed",
+              "documentation": [
+                " Account ID is already named."
+              ]
+            },
+            {
+              "name": "NotSub",
+              "documentation": [
+                " Sender is not a sub-account."
+              ]
+            },
+            {
+              "name": "NotOwned",
+              "documentation": [
+                " Sub-account isn't owned by sender."
               ]
             }
           ]
@@ -9268,6 +9447,15 @@
               ],
               "documentation": [
                 " Society is unfounded."
+              ]
+            },
+            {
+              "name": "Deposit",
+              "args": [
+                "Balance"
+              ],
+              "documentation": [
+                " Some funds were deposited into the society account."
               ]
             }
           ],
@@ -10223,6 +10411,19 @@
                 "documentation": [
                   " Lookup from identity to the block number and index of the task."
                 ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Releases"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Storage version of the pallet.",
+                  "",
+                  " New networks start with last version."
+                ]
               }
             ]
           },
@@ -10342,6 +10543,66 @@
                 " - Will use base weight of 100 which should be good for up to 30 scheduled calls",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "schedule_after",
+              "args": [
+                {
+                  "name": "after",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "maybe_periodic",
+                  "type": "Option<Period>"
+                },
+                {
+                  "name": "priority",
+                  "type": "Priority"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Anonymously schedule a task after a delay.",
+                "",
+                " # <weight>",
+                " Same as [`schedule`].",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "schedule_named_after",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "after",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "maybe_periodic",
+                  "type": "Option<Period>"
+                },
+                {
+                  "name": "priority",
+                  "type": "Priority"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Schedule a named task after a delay.",
+                "",
+                " # <weight>",
+                " Same as [`schedule_named`].",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -10372,7 +10633,26 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "FailedToSchedule",
+              "documentation": [
+                " Failed to schedule a call"
+              ]
+            },
+            {
+              "name": "FailedToCancel",
+              "documentation": [
+                " Failed to cancel a scheduled call"
+              ]
+            },
+            {
+              "name": "TargetBlockNumberInPast",
+              "documentation": [
+                " Given target block number is in the past."
+              ]
+            }
+          ]
         },
         {
           "name": "Proxy",
@@ -10713,7 +10993,7 @@
                   "Map": {
                     "hasher": "Identity",
                     "key": "[u8;32]",
-                    "value": "(Bytes,AccountId,BalanceOf)",
+                    "value": "(OpaqueCall,AccountId,BalanceOf)",
                     "linked": false
                   }
                 },
@@ -10772,7 +11052,7 @@
                 },
                 {
                   "name": "call",
-                  "type": "Bytes"
+                  "type": "OpaqueCall"
                 },
                 {
                   "name": "store_call",
@@ -11103,11 +11383,10 @@
           "CheckSpecVersion",
           "CheckTxVersion",
           "CheckGenesis",
-          "CheckEra",
+          "CheckMortality",
           "CheckNonce",
           "CheckWeight",
-          "ChargeTransactionPayment",
-          "ValidateEquivocationReport"
+          "ChargeTransactionPayment"
         ]
       }
     }
