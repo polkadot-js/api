@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.26.0-beta.x
+
+- Update docs for the new `system.accuntNextIndex` (Thanks to https://github.com/shawntabrizi)
+- Adjust votingBalance to only return `freeBalance` (only council voting is free + reserved)
+- Additional checks for referenced Vec sub-type deconstruction in typegen
+- `@polkadot/util` 3.0
+
 ## 1.25.1 Jul 20, 2020
 
 - **Important** Contract RPC result updated on Substrate, on older chains supply `ContractExecResult: 'ContractExecResultTo255'`
