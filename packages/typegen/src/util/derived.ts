@@ -20,7 +20,7 @@ import GenericAddress from '@polkadot/types/generic/Address';
 import Vote from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
-import { isChildClass } from '@polkadot/util';
+import { isChildClass, assert } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
@@ -92,7 +92,10 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
   const Clazz = ClassOfUnsafe(registry, type);
 
   if (isChildClass(Vec, Clazz)) {
-    const subDef = (getTypeDef(type).sub) as TypeDef;
+    const vecDef = getTypeDef(type);
+    const subDef = (vecDef.sub) as TypeDef;
+
+    assert(subDef?.info, `Unable to deconstruct Vec from ${JSON.stringify(vecDef)}`);
 
     if (subDef.info === TypeDefInfo.Plain) {
       possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
@@ -141,13 +144,14 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
   } else if (isChildClass(String, Clazz)) {
     possibleTypes.push('string');
   } else if (isChildClass(Tuple, Clazz)) {
-    const subDef = getTypeDef(type).sub;
+    const tupDef = getTypeDef(type);
+    const subDef = tupDef.sub;
 
-    if (Array.isArray(subDef)) {
-      const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
+    assert(Array.isArray(subDef), `Unable to deconstruct Tuple from ${JSON.stringify(tupDef)}`);
 
-      possibleTypes.push(`[${subs.join(', ')}]`);
-    }
+    const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
+
+    possibleTypes.push(`[${subs.join(', ')}]`);
   }
 
   return possibleTypes;
