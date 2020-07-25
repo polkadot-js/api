@@ -20,7 +20,7 @@ import GenericAddress from '@polkadot/types/generic/Address';
 import Vote from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
-import { isChildClass, assert } from '@polkadot/util';
+import { assert, isChildClass } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
@@ -147,11 +147,11 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
     const tupDef = getTypeDef(type);
     const subDef = tupDef.sub;
 
-    assert(Array.isArray(subDef), `Unable to deconstruct Tuple from ${JSON.stringify(tupDef)}`);
+    if (Array.isArray(subDef)) {
+      const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
 
-    const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
-
-    possibleTypes.push(`[${subs.join(', ')}]`);
+      possibleTypes.push(`[${subs.join(', ')}]`);
+    }
   }
 
   return possibleTypes;
