@@ -2,7 +2,7 @@
 
 ## 1.26.0-beta.x
 
-- Update docs for the new `system.accuntNexIndex` (Thanks to https://github.com/shawntabrizi)
+- Update docs for the new `system.accuntNextIndex` (Thanks to https://github.com/shawntabrizi)
 - Adjust votingBalance to only return `freeBalance` (only council voting is free + reserved)
 - Additional checks for sub-type deconstruction in type generation
 - `@polkadot/util` 3.0
