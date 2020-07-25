@@ -20,7 +20,7 @@ import GenericAddress from '@polkadot/types/generic/Address';
 import Vote from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
-import { assert, isChildClass } from '@polkadot/util';
+import { isChildClass } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
@@ -95,18 +95,19 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
     const vecDef = getTypeDef(type);
     const subDef = (vecDef.sub) as TypeDef;
 
-    assert(subDef?.info, `Unable to deconstruct Vec from ${JSON.stringify(vecDef)}`);
+    // this could be that we define a Vec type and refer to it by name
+    if (subDef) {
+      if (subDef.info === TypeDefInfo.Plain) {
+        possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
+      } else if (subDef.info === TypeDefInfo.Tuple) {
+        const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
+          getSimilarTypes(definitions, registry, type, imports).join(' | ')
+        );
 
-    if (subDef.info === TypeDefInfo.Plain) {
-      possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
-    } else if (subDef.info === TypeDefInfo.Tuple) {
-      const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
-        getSimilarTypes(definitions, registry, type, imports).join(' | ')
-      );
-
-      possibleTypes.push(`([${subs.join(', ')}])[]`);
-    } else {
-      throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+        possibleTypes.push(`([${subs.join(', ')}])[]`);
+      } else {
+        throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+      }
     }
   } else if (isChildClass(Enum, Clazz)) {
     const e = new (Clazz as Constructor)(registry) as Enum;
@@ -147,6 +148,7 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
     const tupDef = getTypeDef(type);
     const subDef = tupDef.sub;
 
+    // this could be that we define a Tuple type and refer to it by name
     if (Array.isArray(subDef)) {
       const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
 
