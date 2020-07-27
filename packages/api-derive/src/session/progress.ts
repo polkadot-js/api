@@ -30,14 +30,11 @@ function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlo
 
 function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
-    map((info): DeriveSessionProgress =>
-      createDerive(api, info, [
-        api.registry.createType('u64', 1),
-        api.registry.createType('u64', 1),
-        api.registry.createType('u64', 1),
-        api.registry.createType('SessionIndex', 1)
-      ])
-    )
+    map((info): DeriveSessionProgress => ({
+      ...info,
+      eraProgress: api.registry.createType('BlockNumber'),
+      sessionProgress: api.registry.createType('BlockNumber')
+    }))
   );
 }
 

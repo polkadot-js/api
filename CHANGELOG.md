@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 1.26.0-beta.x
+
+- Update docs for the new `system.accuntNextIndex` (Thanks to https://github.com/shawntabrizi)
+- Adjust votingBalance to only return `freeBalance` (only council voting is free + reserved)
+- Additional checks for referenced Vec sub-type deconstruction in typegen
+- `@polkadot/util` 3.0
+
+## 1.25.1 Jul 20, 2020
+
+- **Important** Contract RPC result updated on Substrate, on older chains supply `ContractExecResult: 'ContractExecResultTo255'`
+- Support for custom HTTP headers in providers (Thanks to https://github.com/brad-larson)
+- Update known types for Centrifuge (Thanks to https://github.com/philipstanislaus)
+- Update API users with Registrar #1 (Thanks to https://github.com/chevdor)
+- Raw/Bytes `toHuman()` displays utf-8 as available
+- Add fallback for `setImmediate` when not polyfilled
+- Update `NetworkState` reputation type for `system_networkState` RPC
+- Update session progress calcs for Aura (cater for negative)
+- Fix class prototype for (basically-deprecated) Linkage type
+- Add Polkadot types for `purchase` pallet
+
 ## 1.24.1 Jul 13, 2020
 
 - Added `isAscii` & `isUtf8` getters to `Bytes` & `Raw` types
