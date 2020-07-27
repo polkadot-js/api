@@ -403,7 +403,7 @@
                 "DispatchInfo"
               ],
               "documentation": [
-                " An extrinsic completed successfully."
+                " An extrinsic completed successfully. [info]"
               ]
             },
             {
@@ -413,7 +413,7 @@
                 "DispatchInfo"
               ],
               "documentation": [
-                " An extrinsic failed."
+                " An extrinsic failed. [error, info]"
               ]
             },
             {
@@ -429,7 +429,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A new account was created."
+                " A new [account] was created."
               ]
             },
             {
@@ -438,7 +438,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An account was reaped."
+                " An [account] was reaped."
               ]
             }
           ],
@@ -607,7 +607,7 @@
               ],
               "documentation": [
                 " Batch of dispatches did not complete fully. Index of first failing dispatch given, as",
-                " well as the error."
+                " well as the error. [index, error]"
               ]
             },
             {
@@ -1223,7 +1223,7 @@
                 "AccountIndex"
               ],
               "documentation": [
-                " A account index was assigned."
+                " A account index was assigned. [who, index]"
               ]
             },
             {
@@ -1232,7 +1232,7 @@
                 "AccountIndex"
               ],
               "documentation": [
-                " A account index has been freed up (unassigned)."
+                " A account index has been freed up (unassigned). [index]"
               ]
             },
             {
@@ -1242,7 +1242,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A account index has been frozen to its current account ID."
+                " A account index has been frozen to its current account ID. [who, index]"
               ]
             }
           ],
@@ -1455,7 +1455,7 @@
                 "Balance"
               ],
               "documentation": [
-                " An account was created with some free balance."
+                " An account was created with some free balance. [account, free_balance]"
               ]
             },
             {
@@ -1466,7 +1466,7 @@
               ],
               "documentation": [
                 " An account was removed whose balance was non-zero but below ExistentialDeposit,",
-                " resulting in an outright loss."
+                " resulting in an outright loss. [account, balance]"
               ]
             },
             {
@@ -1477,7 +1477,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Transfer succeeded (from, to, value)."
+                " Transfer succeeded. [from, to, value]"
               ]
             },
             {
@@ -1488,7 +1488,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A balance was set by root (who, free, reserved)."
+                " A balance was set by root. [who, free, reserved]"
               ]
             },
             {
@@ -1498,7 +1498,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some amount was deposited (e.g. for transaction fees)."
+                " Some amount was deposited (e.g. for transaction fees). [who, deposit]"
               ]
             },
             {
@@ -1508,7 +1508,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some balance was reserved (moved from free to reserved)."
+                " Some balance was reserved (moved from free to reserved). [who, value]"
               ]
             },
             {
@@ -1518,7 +1518,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some balance was unreserved (moved from reserved to free)."
+                " Some balance was unreserved (moved from reserved to free). [who, value]"
               ]
             },
             {
@@ -1531,7 +1531,8 @@
               ],
               "documentation": [
                 " Some balance was moved from the reserve of the first account to the second account.",
-                " Final argument indicates the destination balance type."
+                " Final argument indicates the destination balance type.",
+                " [from, to, balance, destination_status]"
               ]
             }
           ],
@@ -2904,7 +2905,8 @@
               ],
               "documentation": [
                 " The era payout has been set; the first balance is the validator-payout; the second is",
-                " the remainder from the maximum amount of reward."
+                " the remainder from the maximum amount of reward. ",
+                " [era_index, validator_payout, remainder]"
               ]
             },
             {
@@ -2914,7 +2916,7 @@
                 "Balance"
               ],
               "documentation": [
-                " The staker has been rewarded by this amount. `AccountId` is the stash account."
+                " The staker has been rewarded by this amount. [stash, amount]"
               ]
             },
             {
@@ -2924,7 +2926,8 @@
                 "Balance"
               ],
               "documentation": [
-                " One validator (and its nominators) has been slashed by the given amount."
+                " One validator (and its nominators) has been slashed by the given amount. ",
+                " [validator, amount]"
               ]
             },
             {
@@ -2934,7 +2937,7 @@
               ],
               "documentation": [
                 " An old slashing report from a prior era was discarded because it could",
-                " not be processed."
+                " not be processed. [session_index]"
               ]
             },
             {
@@ -2943,7 +2946,7 @@
                 "ElectionCompute"
               ],
               "documentation": [
-                " A new set of stakers was elected with the given computation method."
+                " A new set of stakers was elected with the given [compute]."
               ]
             },
             {
@@ -2952,7 +2955,7 @@
                 "ElectionCompute"
               ],
               "documentation": [
-                " A new solution for the upcoming election has been stored."
+                " A new solution for the upcoming election has been stored. [compute]"
               ]
             },
             {
@@ -2962,7 +2965,7 @@
                 "Balance"
               ],
               "documentation": [
-                " An account has bonded this amount.",
+                " An account has bonded this amount. [stash, amount]",
                 "",
                 " NOTE: This event is only emitted when funds are bonded via a dispatchable. Notably,",
                 " it will not be emitted for staking rewards when they are added to stake."
@@ -2975,7 +2978,7 @@
                 "Balance"
               ],
               "documentation": [
-                " An account has unbonded this amount."
+                " An account has unbonded this amount. [stash, amount]"
               ]
             },
             {
@@ -2986,7 +2989,7 @@
               ],
               "documentation": [
                 " An account has called `withdraw_unbonded` and removed unbonding chunks worth `Balance`",
-                " from the unlocking queue."
+                " from the unlocking queue. [stash, amount]"
               ]
             }
           ],
@@ -3409,7 +3412,7 @@
                 "SessionIndex"
               ],
               "documentation": [
-                " New session has happened. Note that the argument is the session index, not the block",
+                " New session has happened. Note that the argument is the [session_index], not the block",
                 " number as the type might suggest."
               ]
             }
@@ -4285,7 +4288,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A motion has been proposed by a public account."
+                " A motion has been proposed by a public account. [proposal_index, deposit]"
               ]
             },
             {
@@ -4296,7 +4299,7 @@
                 "Vec<AccountId>"
               ],
               "documentation": [
-                " A public proposal has been tabled for referendum vote."
+                " A public proposal has been tabled for referendum vote. [proposal_index, deposit, depositors]"
               ]
             },
             {
@@ -4313,7 +4316,7 @@
                 "VoteThreshold"
               ],
               "documentation": [
-                " A referendum has begun."
+                " A referendum has begun. [ref_index, threshold]"
               ]
             },
             {
@@ -4322,7 +4325,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal has been approved by referendum."
+                " A proposal has been approved by referendum. [ref_index]"
               ]
             },
             {
@@ -4331,7 +4334,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal has been rejected by referendum."
+                " A proposal has been rejected by referendum. [ref_index]"
               ]
             },
             {
@@ -4340,7 +4343,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A referendum has been cancelled."
+                " A referendum has been cancelled. [ref_index]"
               ]
             },
             {
@@ -4350,7 +4353,7 @@
                 "bool"
               ],
               "documentation": [
-                " A proposal has been enacted."
+                " A proposal has been enacted. [ref_index, is_ok]"
               ]
             },
             {
@@ -4360,7 +4363,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An account has delegated their vote to another account."
+                " An account has delegated their vote to another account. [who, target]"
               ]
             },
             {
@@ -4369,7 +4372,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An account has cancelled a previous delegation operation."
+                " An [account] has cancelled a previous delegation operation."
               ]
             },
             {
@@ -4380,7 +4383,7 @@
                 "BlockNumber"
               ],
               "documentation": [
-                " An external proposal has been vetoed."
+                " An external proposal has been vetoed. [who, proposal_hash, until]"
               ]
             },
             {
@@ -4391,7 +4394,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A proposal's preimage was noted, and the deposit taken."
+                " A proposal's preimage was noted, and the deposit taken. [proposal_hash, who, deposit]"
               ]
             },
             {
@@ -4402,7 +4405,8 @@
                 "Balance"
               ],
               "documentation": [
-                " A proposal preimage was removed and used (the deposit was returned)."
+                " A proposal preimage was removed and used (the deposit was returned). ",
+                " [proposal_hash, provider, deposit]"
               ]
             },
             {
@@ -4412,7 +4416,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal could not be executed because its preimage was invalid."
+                " A proposal could not be executed because its preimage was invalid. [proposal_hash, ref_index]"
               ]
             },
             {
@@ -4422,7 +4426,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal could not be executed because its preimage was missing."
+                " A proposal could not be executed because its preimage was missing. [proposal_hash, ref_index]"
               ]
             },
             {
@@ -4434,7 +4438,8 @@
                 "AccountId"
               ],
               "documentation": [
-                " A registered preimage was removed and the deposit collected by the reaper (last item)."
+                " A registered preimage was removed and the deposit collected by the reaper. ",
+                " [proposal_hash, provider, deposit, reaper]"
               ]
             },
             {
@@ -4443,7 +4448,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An account has been unlocked successfully."
+                " An [account] has been unlocked successfully."
               ]
             }
           ],
@@ -5036,7 +5041,8 @@
               ],
               "documentation": [
                 " A motion (given hash) has been proposed (by given account) with a threshold (given",
-                " `MemberCount`)."
+                " `MemberCount`).",
+                " [account, proposal_index, proposal_hash, threshold]"
               ]
             },
             {
@@ -5050,7 +5056,8 @@
               ],
               "documentation": [
                 " A motion (given hash) has been voted on by given account, leaving",
-                " a tally (yes votes and no votes given respectively as `MemberCount`)."
+                " a tally (yes votes and no votes given respectively as `MemberCount`).",
+                " [account, proposal_hash, voted, yes, no]"
               ]
             },
             {
@@ -5059,7 +5066,8 @@
                 "Hash"
               ],
               "documentation": [
-                " A motion was approved by the required threshold."
+                " A motion was approved by the required threshold.",
+                " [proposal_hash]"
               ]
             },
             {
@@ -5068,7 +5076,8 @@
                 "Hash"
               ],
               "documentation": [
-                " A motion was not approved by the required threshold."
+                " A motion was not approved by the required threshold.",
+                " [proposal_hash]"
               ]
             },
             {
@@ -5078,7 +5087,8 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A motion was executed; result will be `Ok` if it returned without error."
+                " A motion was executed; result will be `Ok` if it returned without error.",
+                " [proposal_hash, result]"
               ]
             },
             {
@@ -5088,7 +5098,8 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A single member did some action; result will be `Ok` if it returned without error."
+                " A single member did some action; result will be `Ok` if it returned without error.",
+                " [proposal_hash, result]"
               ]
             },
             {
@@ -5099,7 +5110,8 @@
                 "MemberCount"
               ],
               "documentation": [
-                " A proposal was closed because its threshold was reached or after its duration was up."
+                " A proposal was closed because its threshold was reached or after its duration was up.",
+                " [proposal_hash, yes, no]"
               ]
             }
           ],
@@ -5484,7 +5496,8 @@
               ],
               "documentation": [
                 " A motion (given hash) has been proposed (by given account) with a threshold (given",
-                " `MemberCount`)."
+                " `MemberCount`).",
+                " [account, proposal_index, proposal_hash, threshold]"
               ]
             },
             {
@@ -5498,7 +5511,8 @@
               ],
               "documentation": [
                 " A motion (given hash) has been voted on by given account, leaving",
-                " a tally (yes votes and no votes given respectively as `MemberCount`)."
+                " a tally (yes votes and no votes given respectively as `MemberCount`).",
+                " [account, proposal_hash, voted, yes, no]"
               ]
             },
             {
@@ -5507,7 +5521,8 @@
                 "Hash"
               ],
               "documentation": [
-                " A motion was approved by the required threshold."
+                " A motion was approved by the required threshold.",
+                " [proposal_hash]"
               ]
             },
             {
@@ -5516,7 +5531,8 @@
                 "Hash"
               ],
               "documentation": [
-                " A motion was not approved by the required threshold."
+                " A motion was not approved by the required threshold.",
+                " [proposal_hash]"
               ]
             },
             {
@@ -5526,7 +5542,8 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A motion was executed; result will be `Ok` if it returned without error."
+                " A motion was executed; result will be `Ok` if it returned without error.",
+                " [proposal_hash, result]"
               ]
             },
             {
@@ -5536,7 +5553,8 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A single member did some action; result will be `Ok` if it returned without error."
+                " A single member did some action; result will be `Ok` if it returned without error.",
+                " [proposal_hash, result]"
               ]
             },
             {
@@ -5547,7 +5565,8 @@
                 "MemberCount"
               ],
               "documentation": [
-                " A proposal was closed because its threshold was reached or after its duration was up."
+                " A proposal was closed because its threshold was reached or after its duration was up.",
+                " [proposal_hash, yes, no]"
               ]
             }
           ],
@@ -5905,7 +5924,7 @@
                 "Vec<(AccountId,Balance)>"
               ],
               "documentation": [
-                " A new term with new members. This indicates that enough candidates existed to run the",
+                " A new term with [new_members]. This indicates that enough candidates existed to run the",
                 " election, not that enough have has been elected. The inner value must be examined for",
                 " this purpose. A `NewTerm([])` indicates that some candidates got their bond slashed and",
                 " none were elected, whilst `EmptyTerm` means that no candidates existed to begin with."
@@ -5925,7 +5944,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A member has been removed. This should always be followed by either `NewTerm` ot",
+                " A [member] has been removed. This should always be followed by either `NewTerm` ot",
                 " `EmptyTerm`."
               ]
             },
@@ -5935,7 +5954,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A member has renounced their candidacy."
+                " A [member] has renounced their candidacy."
               ]
             },
             {
@@ -5946,8 +5965,8 @@
                 "bool"
               ],
               "documentation": [
-                " A voter (first element) was reported (byt the second element) with the the report being",
-                " successful or not (third element)."
+                " A voter was reported with the the report being successful or not.",
+                " [voter, reporter, success]"
               ]
             }
           ],
@@ -6453,6 +6472,28 @@
                 " if the block author is defined it will be defined as the equivocation",
                 " reporter."
               ]
+            },
+            {
+              "name": "note_stalled",
+              "args": [
+                {
+                  "name": "delay",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "best_finalized_block_number",
+                  "type": "BlockNumber"
+                }
+              ],
+              "documentation": [
+                " Note that the current authority set of the GRANDPA finality gadget has",
+                " stalled. This will trigger a forced authority set change at the beginning",
+                " of the next session, to be enacted `delay` blocks after that. The delay",
+                " should be high enough to safely assume that the block signalling the",
+                " forced change will not be re-orged (e.g. 1000 blocks). The GRANDPA voters",
+                " will start the new authority set using the given finalized block as base.",
+                " Only callable by root."
+              ]
             }
           ],
           "events": [
@@ -6462,7 +6503,7 @@
                 "AuthorityList"
               ],
               "documentation": [
-                " New authority set has been applied."
+                " New authority set has been applied. [authority_set]"
               ]
             },
             {
@@ -6855,7 +6896,7 @@
                 "ProposalIndex"
               ],
               "documentation": [
-                " New proposal."
+                " New proposal. [proposal_index]"
               ]
             },
             {
@@ -6864,7 +6905,7 @@
                 "Balance"
               ],
               "documentation": [
-                " We have ended a spend period and will now allocate funds."
+                " We have ended a spend period and will now allocate funds. [budget_remaining]"
               ]
             },
             {
@@ -6875,7 +6916,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " Some funds have been allocated."
+                " Some funds have been allocated. [proposal_index, award, beneficiary]"
               ]
             },
             {
@@ -6885,7 +6926,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A proposal was rejected; funds were slashed."
+                " A proposal was rejected; funds were slashed. [proposal_index, slashed]"
               ]
             },
             {
@@ -6894,7 +6935,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some of our funds have been burnt."
+                " Some of our funds have been burnt. [burn]"
               ]
             },
             {
@@ -6903,7 +6944,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Spending has finished; this is the amount that rolls over until next spend."
+                " Spending has finished; this is the amount that rolls over until next spend. [budget_remaining]"
               ]
             },
             {
@@ -6912,7 +6953,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some funds have been deposited."
+                " Some funds have been deposited. [deposit]"
               ]
             },
             {
@@ -6921,7 +6962,7 @@
                 "Hash"
               ],
               "documentation": [
-                " A new tip suggestion has been opened."
+                " A new tip suggestion has been opened. [tip_hash]"
               ]
             },
             {
@@ -6930,7 +6971,7 @@
                 "Hash"
               ],
               "documentation": [
-                " A tip suggestion has reached threshold and is closing."
+                " A tip suggestion has reached threshold and is closing. [tip_hash]"
               ]
             },
             {
@@ -6941,7 +6982,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A tip suggestion has been closed."
+                " A tip suggestion has been closed. [tip_hash, who, payout]"
               ]
             },
             {
@@ -6950,7 +6991,7 @@
                 "Hash"
               ],
               "documentation": [
-                " A tip suggestion has been retracted."
+                " A tip suggestion has been retracted. [tip_hash]"
               ]
             }
           ],
@@ -7279,7 +7320,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " Contract deployed by address at the specified address."
+                " Contract deployed by address at the specified address. [owner, contract]"
               ]
             },
             {
@@ -7290,7 +7331,8 @@
               ],
               "documentation": [
                 " Contract has been evicted and is now in tombstone state.",
-                "",
+                " [contract, tombstone]",
+                " ",
                 " # Params",
                 "",
                 " - `contract`: `AccountId`: The account ID of the evicted contract.",
@@ -7307,7 +7349,8 @@
               ],
               "documentation": [
                 " Restoration for a contract has been successful.",
-                "",
+                " [donor, dest, code_hash, rent_allowance]",
+                " ",
                 " # Params",
                 "",
                 " - `donor`: `AccountId`: Account ID of the restoring contract",
@@ -7322,7 +7365,8 @@
                 "Hash"
               ],
               "documentation": [
-                " Code with the specified hash has been stored."
+                " Code with the specified hash has been stored.",
+                " [code_hash]"
               ]
             },
             {
@@ -7331,7 +7375,7 @@
                 "u32"
               ],
               "documentation": [
-                " Triggered when the current schedule is updated."
+                " Triggered when the current [schedule] is updated."
               ]
             },
             {
@@ -7341,7 +7385,8 @@
                 "Bytes"
               ],
               "documentation": [
-                " An event deposited upon execution of a contract from the account."
+                " An event deposited upon execution of a contract from the account.",
+                " [account, data]"
               ]
             }
           ],
@@ -7606,7 +7651,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A sudo just took place."
+                " A sudo just took place. [result]"
               ]
             },
             {
@@ -7615,7 +7660,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " The sudoer just switched identity; the old key is supplied."
+                " The [sudoer] just switched identity; the old key is supplied."
               ]
             },
             {
@@ -7624,7 +7669,7 @@
                 "bool"
               ],
               "documentation": [
-                " A sudo just took place."
+                " A sudo just took place. [result]"
               ]
             }
           ],
@@ -7742,7 +7787,7 @@
                 "AuthorityId"
               ],
               "documentation": [
-                " A new heartbeat was received from `AuthorityId`"
+                " A new heartbeat was received from `AuthorityId` [authority_id]"
               ]
             },
             {
@@ -7758,7 +7803,7 @@
                 "Vec<IdentificationTuple>"
               ],
               "documentation": [
-                " At the end of the session, at least one validator was found to be offline."
+                " At the end of the session, at least one validator was found to be [offline]."
               ]
             }
           ],
@@ -7871,7 +7916,8 @@
               "documentation": [
                 " There is an offence reported of the given `kind` happened at the `session_index` and",
                 " (kind-specific) time slot. This event is not deposited for duplicate slashes. last",
-                " element indicates of the offence was applied (true) or queued (false)."
+                " element indicates of the offence was applied (true) or queued (false) ",
+                " [kind, timeslot, applied]."
               ]
             }
           ],
@@ -8399,7 +8445,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A name was set or reset (which will remove all judgements)."
+                " A name was set or reset (which will remove all judgements). [who]"
               ]
             },
             {
@@ -8409,7 +8455,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A name was cleared, and the given balance returned."
+                " A name was cleared, and the given balance returned. [who, deposit]"
               ]
             },
             {
@@ -8419,7 +8465,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A name was removed and the given balance slashed."
+                " A name was removed and the given balance slashed. [who, deposit]"
               ]
             },
             {
@@ -8429,7 +8475,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A judgement was asked from a registrar."
+                " A judgement was asked from a registrar. [who, registrar_index]"
               ]
             },
             {
@@ -8439,7 +8485,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A judgement request was retracted."
+                " A judgement request was retracted. [who, registrar_index]"
               ]
             },
             {
@@ -8449,7 +8495,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A judgement was given by a registrar."
+                " A judgement was given by a registrar. [target, registrar_index]"
               ]
             },
             {
@@ -8458,7 +8504,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A registrar was added."
+                " A registrar was added. [registrar_index]"
               ]
             },
             {
@@ -8469,7 +8515,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A sub-identity (first) was added to an identity (second) and the deposit paid."
+                " A sub-identity was added to an identity and the deposit paid. [sub, main, deposit]"
               ]
             },
             {
@@ -8480,7 +8526,8 @@
                 "Balance"
               ],
               "documentation": [
-                " A sub-identity (first) was removed from an identity (second) and the deposit freed."
+                " A sub-identity was removed from an identity and the deposit freed.",
+                " [sub, main, deposit]"
               ]
             },
             {
@@ -8491,8 +8538,8 @@
                 "Balance"
               ],
               "documentation": [
-                " A sub-identity (first arg) was cleared, and the given deposit repatriated from the",
-                " main identity account (second arg) to the sub-identity account."
+                " A sub-identity was cleared, and the given deposit repatriated from the",
+                " main identity account to the sub-identity account. [sub, main, deposit]"
               ]
             }
           ],
@@ -9309,7 +9356,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " The society is founded by the given identity."
+                " The society is founded by the given identity. [founder]"
               ]
             },
             {
@@ -9320,7 +9367,7 @@
               ],
               "documentation": [
                 " A membership bid just happened. The given account is the candidate's ID and their offer",
-                " is the second."
+                " is the second. [candidate_id, offer]"
               ]
             },
             {
@@ -9332,7 +9379,7 @@
               ],
               "documentation": [
                 " A membership bid just happened by vouching. The given account is the candidate's ID and",
-                " their offer is the second. The vouching party is the third."
+                " their offer is the second. The vouching party is the third. [candidate_id, offer, vouching]"
               ]
             },
             {
@@ -9341,7 +9388,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A candidate was dropped (due to an excess of bids in the system)."
+                " A [candidate] was dropped (due to an excess of bids in the system)."
               ]
             },
             {
@@ -9350,7 +9397,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A candidate was dropped (by their request)."
+                " A [candidate] was dropped (by their request)."
               ]
             },
             {
@@ -9359,7 +9406,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A candidate was dropped (by request of who vouched for them)."
+                " A [candidate] was dropped (by request of who vouched for them)."
               ]
             },
             {
@@ -9370,7 +9417,7 @@
               ],
               "documentation": [
                 " A group of candidates have been inducted. The batch's primary is the first value, the",
-                " batch in full is the second."
+                " batch in full is the second. [primary, candidates]"
               ]
             },
             {
@@ -9380,7 +9427,7 @@
                 "bool"
               ],
               "documentation": [
-                " A suspended member has been judged"
+                " A suspended member has been judged. [who, judged]"
               ]
             },
             {
@@ -9389,7 +9436,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A candidate has been suspended"
+                " A [candidate] has been suspended"
               ]
             },
             {
@@ -9398,7 +9445,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A member has been suspended"
+                " A [member] has been suspended"
               ]
             },
             {
@@ -9407,7 +9454,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A member has been challenged"
+                " A [member] has been challenged"
               ]
             },
             {
@@ -9418,7 +9465,7 @@
                 "bool"
               ],
               "documentation": [
-                " A vote has been placed (candidate, voter, vote)"
+                " A vote has been placed [candidate, voter, vote]"
               ]
             },
             {
@@ -9428,7 +9475,7 @@
                 "bool"
               ],
               "documentation": [
-                " A vote has been placed for a defending member (voter, vote)"
+                " A vote has been placed for a defending member [voter, vote]"
               ]
             },
             {
@@ -9437,7 +9484,7 @@
                 "u32"
               ],
               "documentation": [
-                " A new max member count has been set"
+                " A new [max] member count has been set"
               ]
             },
             {
@@ -9446,7 +9493,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " Society is unfounded."
+                " Society is unfounded. [founder]"
               ]
             },
             {
@@ -9455,7 +9502,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some funds were deposited into the society account."
+                " Some funds were deposited into the society account. [value]"
               ]
             }
           ],
@@ -9986,7 +10033,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A recovery process has been set up for an account"
+                " A recovery process has been set up for an [account]."
               ]
             },
             {
@@ -9996,7 +10043,8 @@
                 "AccountId"
               ],
               "documentation": [
-                " A recovery process has been initiated for account_1 by account_2"
+                " A recovery process has been initiated for lost account by rescuer account.",
+                " [lost, rescuer]"
               ]
             },
             {
@@ -10007,7 +10055,8 @@
                 "AccountId"
               ],
               "documentation": [
-                " A recovery process for account_1 by account_2 has been vouched for by account_3"
+                " A recovery process for lost account by rescuer account has been vouched for by sender.",
+                " [lost, rescuer, sender]"
               ]
             },
             {
@@ -10017,7 +10066,8 @@
                 "AccountId"
               ],
               "documentation": [
-                " A recovery process for account_1 by account_2 has been closed"
+                " A recovery process for lost account by rescuer account has been closed.",
+                " [lost, rescuer]"
               ]
             },
             {
@@ -10027,7 +10077,8 @@
                 "AccountId"
               ],
               "documentation": [
-                " Account_1 has been successfully recovered by account_2"
+                " Lost account has been successfully recovered by rescuer account.",
+                " [lost, rescuer]"
               ]
             },
             {
@@ -10036,7 +10087,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A recovery process has been removed for an account"
+                " A recovery process has been removed for an [account]."
               ]
             }
           ],
@@ -10331,7 +10382,8 @@
               ],
               "documentation": [
                 " The amount vested has been updated. This could indicate more funds are available. The",
-                " balance given is the amount which is left unvested (and thus locked)."
+                " balance given is the amount which is left unvested (and thus locked). ",
+                " [account, unvested]"
               ]
             },
             {
@@ -10340,7 +10392,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An account (given) has become fully vested. No further vesting can happen."
+                " An [account] has become fully vested. No further vesting can happen."
               ]
             }
           ],
@@ -10612,7 +10664,9 @@
                 "BlockNumber",
                 "u32"
               ],
-              "documentation": []
+              "documentation": [
+                " Scheduled some task. [when, index]"
+              ]
             },
             {
               "name": "Canceled",
@@ -10620,7 +10674,9 @@
                 "BlockNumber",
                 "u32"
               ],
-              "documentation": []
+              "documentation": [
+                " Canceled some task. [when, index]"
+              ]
             },
             {
               "name": "Dispatched",
@@ -10629,7 +10685,9 @@
                 "Option<Bytes>",
                 "DispatchResult"
               ],
-              "documentation": []
+              "documentation": [
+                " Dispatched some task. [task, id, result]"
+              ]
             }
           ],
           "constants": [],
@@ -10882,7 +10940,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A proxy was executed correctly, with the given result."
+                " A proxy was executed correctly, with the given [result]."
               ]
             },
             {
@@ -10894,8 +10952,8 @@
                 "u16"
               ],
               "documentation": [
-                " Anonymous account (first parameter) has been created by new proxy (second) with given",
-                " disambiguation index and proxy type."
+                " Anonymous account has been created by new proxy with given",
+                " disambiguation index and proxy type. [anonymous, who, proxy_type, disambiguation_index]"
               ]
             }
           ],
@@ -11243,8 +11301,7 @@
                 "CallHash"
               ],
               "documentation": [
-                " A new multisig operation has begun. First param is the account that is approving,",
-                " second is the multisig account, third is hash of the call."
+                " A new multisig operation has begun. [approving, multisig, call_hash]"
               ]
             },
             {
@@ -11256,8 +11313,7 @@
                 "CallHash"
               ],
               "documentation": [
-                " A multisig operation has been approved by someone. First param is the account that is",
-                " approving, third is the multisig account, fourth is hash of the call."
+                " A multisig operation has been approved by someone. [approving, timepoint, multisig, call_hash]"
               ]
             },
             {
@@ -11270,8 +11326,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A multisig operation has been executed. First param is the account that is",
-                " approving, third is the multisig account, fourth is hash of the call to be executed."
+                " A multisig operation has been executed. [approving, timepoint, multisig, call_hash]"
               ]
             },
             {
@@ -11283,8 +11338,7 @@
                 "CallHash"
               ],
               "documentation": [
-                " A multisig operation has been cancelled. First param is the account that is",
-                " cancelling, third is the multisig account, fourth is hash of the call."
+                " A multisig operation has been cancelled. [cancelling, timepoint, multisig, call_hash]"
               ]
             }
           ],

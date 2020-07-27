@@ -6,6 +6,7 @@
 - Adjust votingBalance to only return `freeBalance` (only council voting is free + reserved)
 - Additional checks for referenced Vec sub-type deconstruction in typegen
 - Allow for API `typesBundle` option to inject a group of chain versions types
+- Update metadata static tests for latest Substrate
 - `@polkadot/util` 3.0
 
 ## 1.25.1 Jul 20, 2020
