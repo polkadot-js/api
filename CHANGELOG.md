@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## 1.26.0-beta.x
+## 1.26.1 Jul 27, 2020
 
 - Update docs for the new `system.accountNextIndex` (Thanks to https://github.com/shawntabrizi)
+- Update contracts call parameter typing (Thanks to https://github.com/kwingram25)
 - Adjust votingBalance to only return `freeBalance` (only council voting is free + reserved)
 - Additional checks for referenced Vec sub-type deconstruction in typegen
 - Allow for API `typesBundle` option to inject a group of chain versions types
