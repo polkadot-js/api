@@ -9,7 +9,7 @@ import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getMetadataTypes, getSpecTypes } from '@polkadot/types-known';
+import { getMetadataTypes, getSpecAlias, getSpecTypes } from '@polkadot/types-known';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -35,6 +35,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this.registry.setKnownTypes({
       types: options.types,
       typesAlias: options.typesAlias,
+      typesBundle: options.typesBundle,
       typesChain: options.typesChain,
       typesSpec: options.typesSpec
     });
@@ -147,6 +148,33 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     ).subscribe();
   }
 
+  private _adjustBundleTypes (chain: Text, specName: Text): void {
+    // adjust known type aliases
+    this.registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, specName);
+
+    // FIXME For the first round, we are not adjusting the user-injected RPCs
+    // inject any user-level RPCs now that we have the chain/spec
+    // this._rpcCore.addUserInterfaces(getSpecRpc(this.registry, chain, specName));
+
+    // const extraRpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
+
+    // // FIXME this is a mess
+    // Object.entries(extraRpc).forEach(([section, value]): void => {
+    //   if (this._rpc) {
+    //     if (!this._rpc[section as 'author']) {
+    //       this._rpc[section as 'author'] = {} as DecoratedRpcSection<ApiType, RpcInterface['author']>;
+    //     }
+
+    //     Object.entries(value).forEach(([name, method]): void => {
+    //       if (this._rpc && !this._rpc[section as 'author'][name as 'hasKey']) {
+    //         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    //         this._rpc[section as 'author'][name as 'hasKey'] = method;
+    //       }
+    //     });
+    //   }
+    // });
+  }
+
   private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
     const [runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.state.getRuntimeVersion().toPromise(),
@@ -158,6 +186,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
+
+    // adjust types based on bundled info
+    if (this.registry.knownTypes.typesBundle) {
+      this._adjustBundleTypes(chain, runtimeVersion.specName);
+    }
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
