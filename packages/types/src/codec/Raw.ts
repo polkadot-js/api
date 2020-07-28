@@ -117,7 +117,7 @@ export default class Raw extends Uint8Array implements IU8a {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (): AnyJson {
-    return this.isUtf8
+    return this.isAscii
       ? this.toUtf8()
       : this.toJSON();
   }
