@@ -7,6 +7,7 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 import centrifugeChain from './centrifuge-chain';
 import kusama from './kusama';
 import polkadot from './polkadot';
+import rococo from './rococo';
 import westend from './westend';
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
@@ -14,6 +15,7 @@ const typesSpec: Record<string, OverrideVersionedType[]> = {
   'centrifuge-chain': centrifugeChain,
   kusama,
   polkadot,
+  rococo,
   westend
 };
 
