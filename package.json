@@ -24,13 +24,13 @@
     "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
+    "@babel/core": "^7.11.0",
     "@babel/register": "^7.10.5",
-    "@babel/runtime": "^7.10.5",
-    "@polkadot/dev": "^0.55.28",
-    "@polkadot/ts": "^0.3.29",
+    "@babel/runtime": "^7.11.0",
+    "@polkadot/dev": "^0.55.30",
+    "@polkadot/ts": "^0.3.31",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^26.0.7",
+    "@types/jest": "^26.0.8",
     "@vuepress/plugin-search": "^1.5.2",
     "copyfiles": "^2.3.0"
   },
