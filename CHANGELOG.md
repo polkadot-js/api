@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.27.1 Aug 3, 2020
+
+- Remove outdated example poc-3 RPC reference (Thanks to https://github.com/swswsw)
+- Raw/Bytes `toHuman` detects ASCII sequence for text output
+- Add know types for the Rococo chain
+
 ## 1.26.1 Jul 27, 2020
 
 - Update docs for the new `system.accountNextIndex` (Thanks to https://github.com/shawntabrizi)
