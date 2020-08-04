@@ -161,6 +161,9 @@ export interface ParaScheduling extends Enum {
   readonly isDynamic: boolean;
 }
 
+/** @name RelayChainBlockNumber */
+export interface RelayChainBlockNumber extends BlockNumber {}
+
 /** @name Remark */
 export interface Remark extends U8aFixed {}
 
@@ -219,6 +222,13 @@ export interface UpwardMessage extends Struct {
 
 /** @name ValidationCode */
 export interface ValidationCode extends Bytes {}
+
+/** @name ValidationFunctionParams */
+export interface ValidationFunctionParams extends Struct {
+  readonly maxCodeSize: u32;
+  readonly relayChainHeight: RelayChainBlockNumber;
+  readonly codeUpgradeAllowed: Option<RelayChainBlockNumber>;
+}
 
 /** @name ValidatorSignature */
 export interface ValidatorSignature extends Signature {}
