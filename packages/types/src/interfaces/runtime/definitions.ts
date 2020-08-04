@@ -20,6 +20,8 @@ export default {
     Block: 'GenericBlock',
     BlockNumber: 'u32',
     Call: 'GenericCall',
+    CallHash: 'Hash',
+    CallHashOf: 'CallHash',
     ChangesTrieConfiguration: {
       digestInterval: 'u32',
       digestLevels: 'u32'
@@ -76,9 +78,6 @@ export default {
     Perquintill: 'u64',
     Phantom: 'Null',
     PhantomData: 'Null',
-    ProxyType: {
-      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
-    },
     Releases: {
       _enum: ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10']
     },

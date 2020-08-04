@@ -19,6 +19,7 @@ export * from './grandpa/types';
 export * from './identity/types';
 export * from './imOnline/types';
 export * from './offences/types';
+export * from './proxy/types';
 export * from './recovery/types';
 export * from './scheduler/types';
 export * from './session/types';

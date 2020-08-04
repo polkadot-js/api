@@ -10,15 +10,18 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    Multisig: {
-      when: 'Timepoint',
-      deposit: 'Balance',
-      depositor: 'AccountId',
-      approvals: 'Vec<AccountId>'
+    ProxyDefinition: {
+      delegate: 'AccountId',
+      proxyType: 'ProxyType',
+      delay: 'BlockNumber'
     },
-    Timepoint: {
-      height: 'BlockNumber',
-      index: 'u32'
+    ProxyType: {
+      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
+    },
+    ProxyAnnouncement: {
+      real: 'AccountId',
+      callHash: 'Hash',
+      height: 'BlockNumber'
     }
   }
 } as Definitions;

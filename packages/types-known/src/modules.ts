@@ -29,6 +29,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   parachains: {
     Id: 'ParaId'
   },
+  proxy: {
+    Announcement: 'ProxyAnnouncement'
+  },
   society: {
     Judgement: 'SocietyJudgement',
     Vote: 'SocietyVote'

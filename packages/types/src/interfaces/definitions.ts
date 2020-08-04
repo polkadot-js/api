@@ -23,6 +23,7 @@ export { default as grandpa } from './grandpa/definitions';
 export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as offences } from './offences/definitions';
+export { default as proxy } from './proxy/definitions';
 export { default as recovery } from './recovery/definitions';
 export { default as scheduler } from './scheduler/definitions';
 export { default as session } from './session/definitions';

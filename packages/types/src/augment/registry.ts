@@ -30,10 +30,11 @@ import { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, Repo
 import { AbridgedCandidateReceipt, AttestedCandidate, AuctionIndex, Bidder, CandidateCommitments, CandidateReceipt, CollatorId, CollatorSignature, DoubleVoteReport, DownwardMessage, GlobalValidationSchedule, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, LocalValidationData, NewBidder, ParaId, ParaInfo, ParaPastCodeMeta, ParaScheduling, ParachainDispatchOrigin, RelayChainBlockNumber, Remark, Retriable, Scheduling, SigningContext, SlotRange, Statement, SubId, UpwardMessage, ValidationCode, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { Approvals } from '@polkadot/types/interfaces/poll';
+import { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
 import { AccountStatus, AccountValidity } from '@polkadot/types/interfaces/purchase';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, ExtrinsicsWeight, Fixed128, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, OpaqueCall, Origin, Pays, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, ProxyType, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, ExtrinsicsWeight, Fixed128, Fixed64, H160, H256, H512, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, OpaqueCall, Origin, Pays, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, ValidatorCount } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
@@ -43,7 +44,7 @@ import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import { AccountInfo, ApplyExtrinsicResult, ChainProperties, ChainType, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, Phase, RefCount, TransactionValidityError, UnknownTransaction } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
-import { CallHash, Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
+import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 
 declare module '@polkadot/types/types/registry' {
@@ -161,6 +162,12 @@ declare module '@polkadot/types/types/registry' {
     Call: Call;
     'Option<Call>': Option<Call>;
     'Vec<Call>': Vec<Call>;
+    CallHash: CallHash;
+    'Option<CallHash>': Option<CallHash>;
+    'Vec<CallHash>': Vec<CallHash>;
+    CallHashOf: CallHashOf;
+    'Option<CallHashOf>': Option<CallHashOf>;
+    'Vec<CallHashOf>': Vec<CallHashOf>;
     ChangesTrieConfiguration: ChangesTrieConfiguration;
     'Option<ChangesTrieConfiguration>': Option<ChangesTrieConfiguration>;
     'Vec<ChangesTrieConfiguration>': Vec<ChangesTrieConfiguration>;
@@ -258,9 +265,6 @@ declare module '@polkadot/types/types/registry' {
     PhantomData: PhantomData;
     'Option<PhantomData>': Option<PhantomData>;
     'Vec<PhantomData>': Vec<PhantomData>;
-    ProxyType: ProxyType;
-    'Option<ProxyType>': Option<ProxyType>;
-    'Vec<ProxyType>': Vec<ProxyType>;
     Releases: Releases;
     'Option<Releases>': Option<Releases>;
     'Vec<Releases>': Vec<Releases>;
@@ -789,6 +793,15 @@ declare module '@polkadot/types/types/registry' {
     Reporter: Reporter;
     'Option<Reporter>': Option<Reporter>;
     'Vec<Reporter>': Vec<Reporter>;
+    ProxyDefinition: ProxyDefinition;
+    'Option<ProxyDefinition>': Option<ProxyDefinition>;
+    'Vec<ProxyDefinition>': Vec<ProxyDefinition>;
+    ProxyType: ProxyType;
+    'Option<ProxyType>': Option<ProxyType>;
+    'Vec<ProxyType>': Vec<ProxyType>;
+    ProxyAnnouncement: ProxyAnnouncement;
+    'Option<ProxyAnnouncement>': Option<ProxyAnnouncement>;
+    'Vec<ProxyAnnouncement>': Vec<ProxyAnnouncement>;
     ActiveRecovery: ActiveRecovery;
     'Option<ActiveRecovery>': Option<ActiveRecovery>;
     'Vec<ActiveRecovery>': Vec<ActiveRecovery>;
@@ -1138,9 +1151,6 @@ declare module '@polkadot/types/types/registry' {
     Multiplier: Multiplier;
     'Option<Multiplier>': Option<Multiplier>;
     'Vec<Multiplier>': Vec<Multiplier>;
-    CallHash: CallHash;
-    'Option<CallHash>': Option<CallHash>;
-    'Vec<CallHash>': Vec<CallHash>;
     Multisig: Multisig;
     'Option<Multisig>': Option<Multisig>;
     'Vec<Multisig>': Vec<Multisig>;
