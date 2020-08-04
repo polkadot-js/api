@@ -113,6 +113,7 @@ export default {
     ParaScheduling: {
       _enum: ['Always', 'Dynamic']
     },
+    RelayChainBlockNumber: 'BlockNumber',
     Remark: '[u8; 32]',
     Retriable: {
       _enum: {
@@ -142,6 +143,11 @@ export default {
     UpwardMessage: {
       origin: 'ParachainDispatchOrigin',
       data: 'Vec<u8>'
+    },
+    ValidationFunctionParams: {
+      maxCodeSize: 'u32',
+      relayChainHeight: 'RelayChainBlockNumber',
+      codeUpgradeAllowed: 'Option<RelayChainBlockNumber>'
     },
     ValidationCode: 'Bytes',
     ValidatorSignature: 'Signature',
