@@ -16,8 +16,9 @@ import { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfa
 import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
 import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
 import { DeferredOffenceOf, Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
+import { ProxyType } from '@polkadot/types/interfaces/proxy';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
-import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, ExtrinsicsWeight, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, ProxyType, Releases, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, ExtrinsicsWeight, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, Releases, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';

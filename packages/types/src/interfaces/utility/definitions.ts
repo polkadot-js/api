@@ -10,7 +10,6 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    CallHash: 'H256',
     Multisig: {
       when: 'Timepoint',
       deposit: 'Balance',

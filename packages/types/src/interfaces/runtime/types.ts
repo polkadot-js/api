@@ -38,6 +38,12 @@ export interface BlockNumber extends u32 {}
 /** @name Call */
 export interface Call extends GenericCall {}
 
+/** @name CallHash */
+export interface CallHash extends Hash {}
+
+/** @name CallHashOf */
+export interface CallHashOf extends CallHash {}
+
 /** @name ChangesTrieConfiguration */
 export interface ChangesTrieConfiguration extends Struct {
   readonly digestInterval: u32;
@@ -165,14 +171,6 @@ export interface PhantomData extends Null {}
 
 /** @name PreRuntime */
 export interface PreRuntime extends ITuple<[ConsensusEngineId, Bytes]> {}
-
-/** @name ProxyType */
-export interface ProxyType extends Enum {
-  readonly isAny: boolean;
-  readonly isNonTransfer: boolean;
-  readonly isGovernance: boolean;
-  readonly isStaking: boolean;
-}
 
 /** @name Releases */
 export interface Releases extends Enum {
