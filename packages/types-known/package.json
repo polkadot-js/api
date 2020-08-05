@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
   "dependencies": {
-    "@babel/runtime": "^7.11.0",
+    "@babel/runtime": "^7.11.2",
     "@polkadot/types": "1.28.0-beta.1",
-    "@polkadot/util": "^3.1.0-beta.2",
+    "@polkadot/util": "^3.1.0-beta.3",
     "bn.js": "^5.1.2"
   },
   "devDependencies": {
