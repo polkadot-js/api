@@ -45,7 +45,7 @@ const versioned: OverrideVersionedType[] = [
       ChainId: 'u8',
       DepositNonce: 'u64',
       ResourceId: '[u8; 32]',
-      'chainbridge::ChainId': 'u8',
+      'chainbridge::ChainId': 'u8'
     }
   }
 ];
