@@ -7,9 +7,9 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 const sharedTypes = {
   Address: 'GenericAddress',
   AnchorData: {
-    id: 'H256',
+    anchoredBlock: 'u64',
     docRoot: 'H256',
-    anchoredBlock: 'u64'
+    id: 'H256'
   },
   Fee: {
     key: 'Hash',
@@ -17,16 +17,16 @@ const sharedTypes = {
   },
   LookupSource: 'GenericAddress',
   MultiAccountData: {
-    threshold: 'u16',
-    signatories: 'Vec<AccountId>',
     deposit: 'Balance',
-    depositor: 'AccountId'
+    depositor: 'AccountId',
+    signatories: 'Vec<AccountId>',
+    threshold: 'u16'
   },
   Multiplier: 'Fixed64',
   PreCommitData: {
-    signingRoot: 'H256',
+    expirationBlock: 'u64',
     identity: 'H256',
-    expirationBlock: 'u64'
+    signingRoot: 'H256'
   },
   Proof: {
     leafHash: 'H256',
@@ -43,9 +43,9 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       ChainId: 'u8',
-      ResourceId: '[u8; 32]',
       'chainbridge::ChainId': 'u8',
-      DepositNonce: 'u64'
+      DepositNonce: 'u64',
+      ResourceId: '[u8; 32]'
     }
   }
 ];
