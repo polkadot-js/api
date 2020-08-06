@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.28.0-beta.x
+
+- **Important** Substrate changed the `RewardDestination` enum with an extra field for payout-to-any account. If on an older chain consider adding `RewardDestination: 'RewardDestinationTo257'` (Newer chains with this requirement met in their Substrate version should update the API for support)
+
 ## 1.27.1 Aug 3, 2020
 
 - Remove outdated example poc-3 RPC reference (Thanks to https://github.com/swswsw)

@@ -10,7 +10,8 @@ const sharedTypes = {
   LookupSource: 'AccountId',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement']
-  }
+  },
+  RewardDestination: 'RewardDestinationTo257'
 };
 
 const versioned: OverrideVersionedType[] = [
