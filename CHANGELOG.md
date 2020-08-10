@@ -1,12 +1,27 @@
 # CHANGELOG
 
+## 1.28.1 Aug 10, 2020
+
+Upgrade priority: Low, unless using Centrifuge or parachains
+
+- Update Centrifuge types to latest (Thanks to https://github.com/mikiquantum)
+- Add cookbook entry for viewing block extrinsics
+- Support types for time-delay proxies
+- Update types for parachains
+- `@polkadot/util` 3.1
+- `@polkadot/wasm-crypto` 1.3
+
 ## 1.27.1 Aug 3, 2020
+
+Upgrade priority: Low, unless using the Rococo chain
 
 - Remove outdated example poc-3 RPC reference (Thanks to https://github.com/swswsw)
 - Raw/Bytes `toHuman` detects ASCII sequence for text output
 - Add know types for the Rococo chain
 
 ## 1.26.1 Jul 27, 2020
+
+Upgrade priority: Low
 
 - Update docs for the new `system.accountNextIndex` (Thanks to https://github.com/shawntabrizi)
 - Update contracts call parameter typing (Thanks to https://github.com/kwingram25)
@@ -17,6 +32,8 @@
 - `@polkadot/util` 3.0
 
 ## 1.25.1 Jul 20, 2020
+
+Upgrade priority: Medium, especially if using contracts.
 
 - **Important** Contract RPC result updated on Substrate, on older chains supply `ContractExecResult: 'ContractExecResultTo255'`
 - Support for custom HTTP headers in providers (Thanks to https://github.com/brad-larson)
