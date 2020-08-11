@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { ITuple } from '@polkadot/types/types';
-import { Compact, Enum, Int, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Compact, Enum, Int, Struct, U8aFixed, UInt, Vec } from '@polkadot/types/codec';
 import { GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId } from '@polkadot/types/generic';
 import { Bytes, DoNotConstruct, Null, StorageKey, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -91,6 +91,18 @@ export interface Fixed128 extends Int {}
 /** @name Fixed64 */
 export interface Fixed64 extends Int {}
 
+/** @name FixedI128 */
+export interface FixedI128 extends Int {}
+
+/** @name FixedI64 */
+export interface FixedI64 extends Int {}
+
+/** @name FixedU128 */
+export interface FixedU128 extends UInt {}
+
+/** @name FixedU64 */
+export interface FixedU64 extends UInt {}
+
 /** @name H160 */
 export interface H160 extends U8aFixed {}
 
@@ -111,6 +123,9 @@ export interface Header extends Struct {
   readonly extrinsicsRoot: Hash;
   readonly digest: Digest;
 }
+
+/** @name I32F32 */
+export interface I32F32 extends Int {}
 
 /** @name Index */
 export interface Index extends u32 {}
@@ -206,6 +221,9 @@ export interface SignedBlock extends Struct {
 
 /** @name StorageData */
 export interface StorageData extends Bytes {}
+
+/** @name U32F32 */
+export interface U32F32 extends UInt {}
 
 /** @name ValidatorId */
 export interface ValidatorId extends AccountId {}
