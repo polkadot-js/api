@@ -2,6 +2,7 @@
 
 ## 1.29.0-beta.x
 
+- **Important** The Substrate `CompactAssignments` type has changed for better space utilization. On older chains, supply `CompactAssignments: 'CompactAssignmentsTo257'`
 - Add additional `Fixed{I,U}{64,128}` and `{I,U}32F32` types
 
 ## 1.28.1 Aug 10, 2020

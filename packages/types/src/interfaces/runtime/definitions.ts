@@ -16,6 +16,7 @@ const numberTypes = {
   FixedU128: 'UInt<128, FixedU128>',
   I32F32: 'Int<64, I32F32>',
   U32F32: 'UInt<64, U32F32>',
+  PerU16: 'u16',
   Perbill: 'u32',
   Percent: 'u8',
   Permill: 'u32',

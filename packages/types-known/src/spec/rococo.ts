@@ -14,7 +14,8 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257'
     }
   }
 ];
