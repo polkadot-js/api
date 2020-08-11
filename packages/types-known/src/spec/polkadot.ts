@@ -19,13 +19,15 @@ const versioned: OverrideVersionedType[] = [
     minmax: [0, 12],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225'
     }
   },
   {
     minmax: [13, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257'
     }
   }
 ];

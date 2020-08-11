@@ -20,6 +20,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchError: 'DispatchErrorTo198',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
@@ -38,6 +39,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
@@ -56,6 +58,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
@@ -72,6 +75,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
@@ -84,6 +88,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1055, 1056],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
@@ -95,6 +100,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1057, 1061],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       OpenTip: 'OpenTipTo225'
     }
@@ -103,13 +109,15 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1062, 2012],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225'
     }
   },
   {
     minmax: [2013, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257'
     }
   }
 ];

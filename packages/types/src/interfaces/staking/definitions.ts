@@ -24,6 +24,24 @@ export default {
       start: 'Option<Moment>'
     },
     CompactAssignments: {
+      votes1: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 0], ValidatorIndexCompact)>',
+      votes2: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 1], ValidatorIndexCompact)>',
+      votes3: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 2], ValidatorIndexCompact)>',
+      votes4: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 3], ValidatorIndexCompact)>',
+      votes5: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 4], ValidatorIndexCompact)>',
+      votes6: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 5], ValidatorIndexCompact)>',
+      votes7: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 6], ValidatorIndexCompact)>',
+      votes8: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 7], ValidatorIndexCompact)>',
+      votes9: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 8], ValidatorIndexCompact)>',
+      votes10: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 9], ValidatorIndexCompact)>',
+      votes11: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 10], ValidatorIndexCompact)>',
+      votes12: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 11], ValidatorIndexCompact)>',
+      votes13: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 12], ValidatorIndexCompact)>',
+      votes14: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 13], ValidatorIndexCompact)>',
+      votes15: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 14], ValidatorIndexCompact)>',
+      votes16: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 15], ValidatorIndexCompact)>'
+    },
+    CompactAssignmentsTo257: {
       votes1: 'Vec<(NominatorIndex, [CompactScore; 0], ValidatorIndex)>',
       votes2: 'Vec<(NominatorIndex, [CompactScore; 1], ValidatorIndex)>',
       votes3: 'Vec<(NominatorIndex, [CompactScore; 2], ValidatorIndex)>',
@@ -42,6 +60,7 @@ export default {
       votes16: 'Vec<(NominatorIndex, [CompactScore; 15], ValidatorIndex)>'
     },
     CompactScore: '(ValidatorIndex, OffchainAccuracy)',
+    CompactScoreCompact: '(ValidatorIndexCompact, OffchainAccuracyCompact)',
     ElectionCompute: {
       _enum: ['OnChain', 'Signed', 'Authority']
     },
@@ -96,8 +115,9 @@ export default {
       suppressed: 'bool'
     },
     NominatorIndex: 'u32',
+    NominatorIndexCompact: 'Compact<NominatorIndex>',
     OffchainAccuracy: 'PerU16',
-    PerU16: 'u16',
+    OffchainAccuracyCompact: 'Compact<OffchainAccuracy>',
     PhragmenScore: '[u128; 3]',
     Points: 'u32',
     RewardDestination: {
@@ -162,6 +182,7 @@ export default {
       era: 'Compact<BlockNumber>'
     },
     ValidatorIndex: 'u16',
+    ValidatorIndexCompact: 'Compact<ValidatorIndex>',
     ValidatorPrefs: {
       commission: 'Compact<Perbill>'
     },
