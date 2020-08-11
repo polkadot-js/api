@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.29.0-beta.x
+
+- Add additional `Fixed{I,U}{64,128}` and `{I,U}32F32` types
+
 ## 1.28.1 Aug 10, 2020
 
 Upgrade priority: Low, unless using Centrifuge or parachains
