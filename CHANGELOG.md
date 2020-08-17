@@ -1,9 +1,15 @@
 # CHANGELOG
 
-## 1.29.0-beta.x
+## 1.29.1 Aug 17, 2020
+
+Upgrade priority: Low, unless on bleeding-edge chain with new compact `CompactAssignments`.
 
 - **Important** The Substrate `CompactAssignments` type has changed for better space utilization. On older chains, supply `CompactAssignments: 'CompactAssignmentsTo257'`
+- Clean tx cookbook param expansion (Thanks to https://github.com/swswsw)
 - Add additional `Fixed{I,U}{64,128}` and `{I,U}32F32` types
+- Add `desiredRunnersUp` to council derives
+- Cleanup indices/AccountId combination derive lookups
+- `@polkadot/util` 3.2
 
 ## 1.28.1 Aug 10, 2020
 
