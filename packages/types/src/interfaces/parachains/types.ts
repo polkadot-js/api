@@ -141,6 +141,16 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isRoot: boolean;
 }
 
+/** @name ParachainProposal */
+export interface ParachainProposal extends Struct {
+  readonly proposer: AccountId;
+  readonly validationFunction: ValidationCode;
+  readonly initialHeadState: HeadData;
+  readonly validators: Vec<ValidatorId>;
+  readonly name: Bytes;
+  readonly balance: Balance;
+}
+
 /** @name ParaId */
 export interface ParaId extends u32 {}
 
@@ -159,6 +169,12 @@ export interface ParaPastCodeMeta extends Struct {
 export interface ParaScheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
+}
+
+/** @name RegisteredParachainInfo */
+export interface RegisteredParachainInfo extends Struct {
+  readonly validators: Vec<ValidatorId>;
+  readonly proposer: AccountId;
 }
 
 /** @name RelayChainBlockNumber */
