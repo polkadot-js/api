@@ -29,6 +29,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   parachains: {
     Id: 'ParaId'
   },
+  proposeParachain: {
+    Proposal: 'ParachainProposal'
+  },
   proxy: {
     Announcement: 'ProxyAnnouncement'
   },
