@@ -131,7 +131,7 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
           ? combineLatest([
             of(account),
             api.derive.chain.bestNumber(),
-            isFunction(api.query.balances.account)
+            isFunction(api.query.system.account) || isFunction(api.query.balances.account)
               ? queryCurrent(api, account.accountId)
               : queryOld(api, account.accountId)
           ])
