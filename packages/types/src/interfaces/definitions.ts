@@ -43,6 +43,9 @@ export { default as parachains } from './parachains/definitions';
 export { default as poll } from './poll/definitions';
 export { default as purchase } from './purchase/definitions';
 
+// other useful types
+export { default as ethereum } from './ethereum/definitions';
+
 // pull in metadata & rpc last, assuming that is uses info from above
 export { default as metadata } from './metadata/definitions';
 export { default as rpc } from './rpc/definitions';
