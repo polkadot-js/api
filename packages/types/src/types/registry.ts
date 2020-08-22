@@ -150,10 +150,12 @@ export interface Registry {
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
+  hash (data: Uint8Array): Uint8Array;
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
+  setHasher (hasher?: (data: Uint8Array) => Uint8Array): void;
   setMetadata (metadata: RegistryMetadata, signedExtensions?: string[]): void;
   setSignedExtensions (signedExtensions?: string[]): void;
 }
