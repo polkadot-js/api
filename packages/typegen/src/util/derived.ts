@@ -16,7 +16,7 @@ import Vec from '@polkadot/types/codec/Vec';
 import Tuple from '@polkadot/types/codec/Tuple';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import GenericAccountId from '@polkadot/types/generic/AccountId';
-import GenericAddress from '@polkadot/types/generic/Address';
+import GenericLookupSource from '@polkadot/types/generic/LookupSource';
 import Vote from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
@@ -122,8 +122,8 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
     possibleTypes.push('Uint8Array');
   } else if (isChildClass(AbstractInt as unknown as Constructor<UInt>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
-  } else if (isChildClass(GenericAddress, Clazz)) {
-    possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'string', 'Uint8Array');
+  } else if (isChildClass(GenericLookupSource, Clazz)) {
+    possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'LookupSource', 'string', 'Uint8Array');
   } else if (isChildClass(GenericAccountId, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(registry.createClass('bool'), Clazz)) {

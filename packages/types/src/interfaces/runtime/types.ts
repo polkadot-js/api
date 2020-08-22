@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Int, Struct, U8aFixed, UInt, Vec } from '@polkadot/types/codec';
-import { GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId } from '@polkadot/types/generic';
+import { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource } from '@polkadot/types/generic';
 import { Bytes, DoNotConstruct, Null, StorageKey, u128, u16, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
@@ -103,6 +103,9 @@ export interface FixedU128 extends UInt {}
 /** @name FixedU64 */
 export interface FixedU64 extends UInt {}
 
+/** @name GenericAddress */
+export interface GenericAddress extends LookupSource {}
+
 /** @name H160 */
 export interface H160 extends U8aFixed {}
 
@@ -143,7 +146,7 @@ export interface KeyValue extends ITuple<[StorageKey, StorageData]> {}
 export interface LockIdentifier extends U8aFixed {}
 
 /** @name LookupSource */
-export interface LookupSource extends Address {}
+export interface LookupSource extends GenericLookupSource {}
 
 /** @name LookupTarget */
 export interface LookupTarget extends AccountId {}

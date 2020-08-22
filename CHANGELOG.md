@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.30.0-beta.x
+
+- Adjust balance retrievals to check for `system.account` for new/old determination
+- Adjust `Address` <-> `LookupSource` definitions (no external impact, both in existence)
+- Add types for the new `proposeParachain` module (as per Rococo)
+
 ## 1.29.1 Aug 17, 2020
 
 Upgrade priority: Low, unless on bleeding-edge chain with new compact `CompactAssignments`.

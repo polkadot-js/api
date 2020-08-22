@@ -62,6 +62,7 @@ export default {
       normal: 'Weight',
       operational: 'Weight'
     },
+    GenericAddress: 'LookupSource',
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
@@ -78,7 +79,7 @@ export default {
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
-    LookupSource: 'Address',
+    LookupSource: 'GenericLookupSource',
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
     Moment: 'u64',
