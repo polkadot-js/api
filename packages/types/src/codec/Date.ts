@@ -7,7 +7,6 @@ import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { UIntBitLength } from './AbstractInt';
 
@@ -58,7 +57,7 @@ export default class CodecDate extends Date implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return this.registry.createType('H256', blake2AsU8a(this.toU8a(), 256));
+    return this.registry.createType('H256', this.registry.hash(this.toU8a()));
   }
 
   /**

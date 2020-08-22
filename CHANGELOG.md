@@ -6,6 +6,7 @@
 - Add types for the new `proposeParachain` module (as per Rococo)
 - Adjust `Address` <-> `LookupSource` definitions (no external impact, both in existence)
 - Add Ethereum-compatible `Ethereum{AccountId, LookupSource}` types, underlying `H160`
+- Allow for configurable hashers via `registry.setHasher(...)` (defaults to `blake2AsU8a`)
 
 ## 1.29.1 Aug 17, 2020
 

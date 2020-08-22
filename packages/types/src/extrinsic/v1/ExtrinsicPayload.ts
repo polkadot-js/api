@@ -67,6 +67,6 @@ export default class ExtrinsicPayloadV1 extends Struct {
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a({ method: true }));
+    return sign(this.registry, signerPair, this.toU8a({ method: true }));
   }
 }

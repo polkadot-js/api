@@ -8,7 +8,6 @@ import { AnyJson, AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Regis
 import BN from 'bn.js';
 import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import typeToConstructor from './utils/typeToConstructor';
 import { UIntBitLength } from './AbstractInt';
@@ -90,7 +89,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**

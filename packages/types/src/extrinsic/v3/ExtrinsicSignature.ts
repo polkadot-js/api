@@ -5,8 +5,6 @@
 import { Address, Call } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../types';
 
-import { blake2AsU8a } from '@polkadot/util-crypto';
-
 import { IMMORTAL_ERA } from '../constants';
 import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
 import ExtrinsicPayloadV3 from './ExtrinsicPayload';
@@ -49,7 +47,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
     const address = account.publicKey.length > 32
-      ? blake2AsU8a(account.publicKey, 256)
+      ? this.registry.hash(account.publicKey)
       : account.publicKey;
     const signer = this.registry.createType('Address', address);
     const payload = this.createPayload(method, options);

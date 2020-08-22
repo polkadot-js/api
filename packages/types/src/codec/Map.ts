@@ -6,7 +6,6 @@ import { H256 } from '../interfaces/runtime';
 import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import { isHex, hexToU8a, isObject, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
 import Raw from './Raw';
@@ -126,7 +125,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Returns a hash of the value
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**
