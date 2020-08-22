@@ -12,7 +12,7 @@ import Base from '../codec/Base';
 import AccountIndex from '../generic/AccountIndex';
 import EthereumAccountId from './AccountId';
 
-type AnyAddress = BN | Address | EthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = BN | LookupSource | EthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
@@ -50,14 +50,14 @@ function decodeU8a (registry: Registry, value: Uint8Array): EthereumAccountId | 
  */
 export default class LookupSource extends Base<EthereumAccountId | AccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
-    super(registry, Address._decodeAddress(registry, value));
+    super(registry, LookupSource._decodeAddress(registry, value));
   }
 
   /** @internal */
   private static _decodeAddress (registry: Registry, value: AnyAddress): EthereumAccountId | AccountIndex {
     if (value instanceof EthereumAccountId || value instanceof AccountIndex) {
       return value;
-    } else if (value instanceof Address) {
+    } else if (value instanceof LookupSource) {
       return value._raw;
     } else if (isBn(value) || isNumber(value)) {
       return registry.createType('AccountIndex', value);
