@@ -5,7 +5,7 @@
 import { TypeRegistry } from '../create';
 import AccountIndex from '../generic/AccountIndex';
 import AccountId from './AccountId';
-import Address from './Lookup';
+import Address from './LookupSource';
 
 describe('EthereumLookupSource', (): void => {
   const registry = new TypeRegistry();

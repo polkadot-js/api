@@ -10,14 +10,14 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import Base from '../codec/Base';
 import AccountIndex from '../generic/AccountIndex';
-import AccountId from './AccountId';
+import EthereumAccountId from './AccountId';
 
-type AnyAddress = BN | Address | AccountId | AccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = BN | Address | EthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: Registry, value: string): AccountId | AccountIndex {
+function decodeString (registry: Registry, value: string): EthereumAccountId | AccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 20
@@ -26,7 +26,7 @@ function decodeString (registry: Registry, value: string): AccountId | AccountIn
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountIndex {
+function decodeU8a (registry: Registry, value: Uint8Array): EthereumAccountId | AccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 20) {
@@ -48,14 +48,14 @@ function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountI
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export default class Address extends Base<AccountId | AccountIndex> {
+export default class Address extends Base<EthereumAccountId | AccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
     super(registry, Address._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static _decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
-    if (value instanceof AccountId || value instanceof AccountIndex) {
+  private static _decodeAddress (registry: Registry, value: AnyAddress): EthereumAccountId | AccountIndex {
+    if (value instanceof EthereumAccountId || value instanceof AccountIndex) {
       return value;
     } else if (value instanceof Address) {
       return value._raw;

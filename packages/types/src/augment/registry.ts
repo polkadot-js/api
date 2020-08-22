@@ -18,6 +18,7 @@ import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, C
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
+import { EthereumAccountId, EthereumLookupSource } from '@polkadot/types/interfaces/ethereum';
 import { Account, Log, Vicinity } from '@polkadot/types/interfaces/evm';
 import { EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicSignatureV1, ExtrinsicSignatureV2, ExtrinsicSignatureV3, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
@@ -1346,6 +1347,12 @@ declare module '@polkadot/types/types/registry' {
     AccountValidity: AccountValidity;
     'Option<AccountValidity>': Option<AccountValidity>;
     'Vec<AccountValidity>': Vec<AccountValidity>;
+    EthereumAccountId: EthereumAccountId;
+    'Option<EthereumAccountId>': Option<EthereumAccountId>;
+    'Vec<EthereumAccountId>': Vec<EthereumAccountId>;
+    EthereumLookupSource: EthereumLookupSource;
+    'Option<EthereumLookupSource>': Option<EthereumLookupSource>;
+    'Vec<EthereumLookupSource>': Vec<EthereumLookupSource>;
     CallMetadataV0: CallMetadataV0;
     'Option<CallMetadataV0>': Option<CallMetadataV0>;
     'Vec<CallMetadataV0>': Vec<CallMetadataV0>;
