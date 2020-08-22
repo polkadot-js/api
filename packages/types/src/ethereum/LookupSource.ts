@@ -41,14 +41,14 @@ function decodeU8a (registry: Registry, value: Uint8Array): EthereumAccountId | 
 }
 
 /**
- * @name Address
+ * @name LookupSource
  * @description
- * A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix.
+ * A wrapper around an EthereumAccountId and/or AccountIndex that is encoded with a prefix.
  * Since we are dealing with underlying publicKeys (or shorter encoded addresses),
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export default class Address extends Base<EthereumAccountId | AccountIndex> {
+export default class LookupSource extends Base<EthereumAccountId | AccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
     super(registry, Address._decodeAddress(registry, value));
   }
