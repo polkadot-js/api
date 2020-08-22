@@ -16,6 +16,7 @@ export interface ICompact<T> extends Codec {
 
 export interface IKeyringPair {
   address: string;
+  addressRaw: Uint8Array;
   publicKey: Uint8Array;
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
