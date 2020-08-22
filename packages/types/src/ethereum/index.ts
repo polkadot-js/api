@@ -3,4 +3,4 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as EthereumAccountId } from './AccountId';
-export { default as EthereumAddress } from './Address';
+export { default as EthereumLookupSource } from './LookupSource';

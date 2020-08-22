@@ -20,7 +20,7 @@ export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 function decodeString (registry: Registry, value: string): AccountId | AccountIndex {
   const decoded = decodeAddress(value);
 
-  return decoded.length === 32
+  return decoded.length === 20
     ? registry.createType('EthereumAccountId', decoded)
     : registry.createType('AccountIndex', u8aToBn(decoded, true));
 }
@@ -29,7 +29,7 @@ function decodeString (registry: Registry, value: string): AccountId | AccountIn
 function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
-  if (value.length === 32) {
+  if (value.length === 20) {
     return registry.createType('EthereumAccountId', value);
   } else if (value[0] === 0xff) {
     return registry.createType('EthereumAccountId', value.subarray(1));

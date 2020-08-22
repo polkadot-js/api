@@ -5,7 +5,7 @@
 import { AnyString, AnyU8a, Registry } from '../types';
 
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
-import { ethereumEncode, isEthereumAddress } from '@polkadot/util-crypto';
+import { ethereumEncode, isEthereumLookupSource } from '@polkadot/util-crypto';
 
 import U8aFixed from '../codec/U8aFixed';
 
@@ -13,7 +13,7 @@ import U8aFixed from '../codec/U8aFixed';
 function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
   if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
-  } else if (isHex(value) || isEthereumAddress(value)) {
+  } else if (isHex(value) || isEthereumLookupSource(value)) {
     return hexToU8a(value.toString());
   } else if (isString(value)) {
     return u8aToU8a((value as string).toString());
