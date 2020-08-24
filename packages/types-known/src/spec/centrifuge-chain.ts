@@ -5,7 +5,7 @@
 import { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
-  Address: 'GenericAddress',
+  Address: 'LookupSource',
   AnchorData: {
     anchoredBlock: 'u64',
     docRoot: 'H256',
@@ -15,7 +15,6 @@ const sharedTypes = {
     key: 'Hash',
     price: 'Balance'
   },
-  LookupSource: 'GenericAddress',
   MultiAccountData: {
     deposit: 'Balance',
     depositor: 'AccountId',
