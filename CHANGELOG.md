@@ -1,12 +1,15 @@
 # CHANGELOG
 
-## 1.30.0-beta.x
+## 1.30.1 Aug 24, 2020
+
+Upgrade priority: Low, unless using the `proposeParachain` module.
 
 - Adjust balance retrievals to check for `system.account` for new/old determination
 - Add types for the new `proposeParachain` module (as per Rococo)
 - Adjust `Address` <-> `LookupSource` definitions (no external impact, both in existence)
 - Add Ethereum-compatible `Ethereum{AccountId, LookupSource}` types, underlying `H160`
 - Allow for configurable hashers via `registry.setHasher(...)` (defaults to `blake2AsU8a`)
+- `@polkadot/util` 3.3
 
 ## 1.29.1 Aug 17, 2020
 
