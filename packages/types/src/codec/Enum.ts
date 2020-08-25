@@ -338,10 +338,8 @@ export default class Enum implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const index = this.#indexes[this.#index];
-
     return u8aConcat(
-      new Uint8Array([index]),
+      new Uint8Array(isBare ? [] : [this.#indexes[this.#index]]),
       this.#raw.toU8a(isBare)
     );
   }
