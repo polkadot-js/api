@@ -149,6 +149,8 @@ describe('Enum', (): void => {
 
       expect(new Test(registry).toJSON()).toEqual({ A: null });
       expect(new Test(registry, 1234, 1).toJSON()).toEqual({ B: 1234 });
+      expect(new Test(registry, 0x1234, 1).toU8a()).toEqual(new Uint8Array([1, 0x34, 0x12, 0x00, 0x00]));
+      expect(new Test(registry, 0x1234, 1).toU8a(true)).toEqual(new Uint8Array([0x34, 0x12, 0x00, 0x00]));
     });
 
     it('allows accessing the type and value', (): void => {

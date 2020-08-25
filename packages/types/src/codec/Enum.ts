@@ -341,7 +341,7 @@ export default class Enum implements Codec {
     const index = this.#indexes[this.#index];
 
     return u8aConcat(
-      new Uint8Array([index]),
+      new Uint8Array(isBare ? [] : [index]),
       this.#raw.toU8a(isBare)
     );
   }
