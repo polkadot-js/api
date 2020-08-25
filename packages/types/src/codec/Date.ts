@@ -82,6 +82,13 @@ export default class CodecDate extends Date implements Codec {
   }
 
   /**
+   * @description Returns a BigInt representation of the number
+   */
+  public toBigInt (): BigInt {
+    return BigInt(this.toNumber());
+  }
+
+  /**
    * @description Returns the BN representation of the timestamp
    */
   public toBn (): BN {
