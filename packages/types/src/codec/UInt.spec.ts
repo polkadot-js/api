@@ -30,7 +30,7 @@ describe('UInt', (): void => {
 
   it('provides a toBigInt interface', (): void => {
     expect(
-      new UInt(registry, '9876543210123456789').toBigInt()
+      new UInt(registry, 9876543210123456789n).toBigInt()
     ).toEqual(9876543210123456789n);
   });
 
