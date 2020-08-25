@@ -102,6 +102,7 @@ export default {
       justification: 'Justification'
     },
     StorageData: 'Bytes',
+    TransactionPriority: 'u64',
     ValidatorId: 'AccountId',
     Weight: 'u64',
     WeightMultiplier: 'Fixed64',
