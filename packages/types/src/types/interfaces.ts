@@ -9,6 +9,7 @@ import { FunctionMetadataLatest } from '../interfaces/metadata';
 import { ArgsDef, Codec } from './codec';
 
 export interface ICompact<T> extends Codec {
+  toBigInt (): BigInt;
   toBn (): BN;
   toNumber (): number;
   unwrap (): T;

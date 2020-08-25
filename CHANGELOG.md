@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.31.0-beta.x
+
+- Add `toBigInt()` (JS built-in `BigInt`) on `Int/Uint`, & `Compact<*>` types
+
 ## 1.30.1 Aug 24, 2020
 
 Upgrade priority: Low, unless using the `proposeParachain` module.

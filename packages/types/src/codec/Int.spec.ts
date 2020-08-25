@@ -8,6 +8,12 @@ import Int from './Int';
 describe('Int', (): void => {
   const registry = new TypeRegistry();
 
+  it('provides a toBigInt interface', (): void => {
+    expect(
+      new Int(registry, -1234).toBigInt()
+    ).toEqual(-1234n);
+  });
+
   it('provides a toBn interface', (): void => {
     expect(
       new Int(registry, -1234).toBn().toNumber()

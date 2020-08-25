@@ -162,6 +162,14 @@ describe('Compact', (): void => {
     it('unwraps to the wrapped value', (): void => {
       expect(new (Compact.with(U32))(registry, 12345).unwrap() instanceof U32).toBe(true);
     });
+
+    it('has a valid toBn interface', (): void => {
+      expect(new (Compact.with('u128'))(registry, '12345678987654321').toBn().eq(new BN('12345678987654321'))).toBe(true);
+    });
+
+    it('has a valid toBigInt interface', (): void => {
+      expect(new (Compact.with('u128'))(registry, '12345678987654321').toBigInt() === 12345678987654321n).toBe(true);
+    });
   });
 
   describe('helpers', (): void => {

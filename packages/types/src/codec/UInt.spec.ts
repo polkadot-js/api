@@ -28,6 +28,12 @@ describe('UInt', (): void => {
     ).toEqual('123,456,789,123,456,789,123,456,789');
   });
 
+  it('provides a toBigInt interface', (): void => {
+    expect(
+      new UInt(registry, '9876543210123456789').toBigInt()
+    ).toEqual(9876543210123456789n);
+  });
+
   it('provides a toBn interface', (): void => {
     expect(
       new UInt(registry, 987).toBn().toNumber()
