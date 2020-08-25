@@ -121,7 +121,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
    * @description Returns a BigInt representation of the number
    */
   public toBigInt (): BigInt {
-    return BigInt(this.toBn.toString());
+    return BigInt(this.toString());
   }
 
   /**
