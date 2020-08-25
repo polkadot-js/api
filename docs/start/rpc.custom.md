@@ -42,7 +42,7 @@ Be aware that while defined, the method will only appear on the API if it is in 
 
 ## Definition breakdown
 
-While the above example should be self-explanatory, it is important to understand teh structure. The `rpc: { ... }` definitions are keyed first and foremost by the name of the module exposing the RPC. This means that when we have 2 modules `firstModule` & `testModule`, the first-level structure would follow the following pattern,
+While the above example should be self-explanatory, it is important to understand the structure. The `rpc: { ... }` definitions are keyed first and foremost by the name of the module exposing the RPC. This means that when we have 2 modules `firstModule` & `testModule`, the first-level structure would follow the following pattern,
 
 ```js
 ...
