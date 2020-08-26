@@ -7,9 +7,26 @@
 
 import { Definitions } from '../../types';
 
+const numberTypes = {
+  Fixed64: 'Int<64, Fixed64>',
+  FixedI64: 'Int<64, FixedI64>',
+  FixedU64: 'UInt<64, FixedU64>',
+  Fixed128: 'Int<128, Fixed128>',
+  FixedI128: 'Int<128, FixedI128>',
+  FixedU128: 'UInt<128, FixedU128>',
+  I32F32: 'Int<64, I32F32>',
+  U32F32: 'UInt<64, U32F32>',
+  PerU16: 'u16',
+  Perbill: 'u32',
+  Percent: 'u8',
+  Permill: 'u32',
+  Perquintill: 'u64'
+};
+
 export default {
   rpc: {},
   types: {
+    ...numberTypes,
     AccountId: 'GenericAccountId',
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
@@ -45,8 +62,7 @@ export default {
       normal: 'Weight',
       operational: 'Weight'
     },
-    Fixed64: 'Int<64, Fixed64>',
-    Fixed128: 'Int<128, Fixed128>',
+    GenericAddress: 'LookupSource',
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
@@ -63,7 +79,7 @@ export default {
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
-    LookupSource: 'Address',
+    LookupSource: 'GenericLookupSource',
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
     Moment: 'u64',
@@ -72,10 +88,6 @@ export default {
     Pays: {
       _enum: ['Yes', 'No']
     },
-    Perbill: 'u32',
-    Percent: 'u8',
-    Permill: 'u32',
-    Perquintill: 'u64',
     Phantom: 'Null',
     PhantomData: 'Null',
     Releases: {
@@ -90,6 +102,7 @@ export default {
       justification: 'Justification'
     },
     StorageData: 'Bytes',
+    TransactionPriority: 'u64',
     ValidatorId: 'AccountId',
     Weight: 'u64',
     WeightMultiplier: 'Fixed64',

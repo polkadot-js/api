@@ -91,6 +91,6 @@ export default class ExtrinsicPayloadV4 extends Struct {
     // to have the length prefix included. This means that the data-as-signed is un-decodable,
     // but is also doesn't need the extra information, only the pure data (and is not decoded)
     // ... The same applies to V1..V3, if we have a V5, carry move this comment to latest
-    return sign(signerPair, this.toU8a({ method: true }), { withType: true });
+    return sign(this.registry, signerPair, this.toU8a({ method: true }), { withType: true });
   }
 }

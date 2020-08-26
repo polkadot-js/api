@@ -9,6 +9,7 @@ import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, Regist
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
@@ -93,6 +94,8 @@ export class TypeRegistry implements Registry {
   readonly #unknownTypes = new Map<string, boolean>();
 
   #chainProperties?: ChainProperties;
+
+  #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
 
   #knownTypes: RegisteredTypes = {};
 
@@ -271,6 +274,10 @@ export class TypeRegistry implements Registry {
     return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
+  public hash (data: Uint8Array): Uint8Array {
+    return this.#hasher(data);
+  }
+
   public register (type: Constructor | RegistryTypes): void;
 
   // eslint-disable-next-line no-dupe-class-members
@@ -315,6 +322,10 @@ export class TypeRegistry implements Registry {
     if (properties) {
       this.#chainProperties = properties;
     }
+  }
+
+  setHasher (hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a): void {
+    this.#hasher = hasher;
   }
 
   setKnownTypes (knownTypes: RegisteredTypes): void {

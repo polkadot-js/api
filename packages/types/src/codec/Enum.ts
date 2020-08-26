@@ -6,7 +6,6 @@ import { H256 } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Null from '../primitive/Null';
 import { mapToTypeMap } from './utils';
@@ -188,7 +187,7 @@ export default class Enum implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**
@@ -339,10 +338,8 @@ export default class Enum implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const index = this.#indexes[this.#index];
-
     return u8aConcat(
-      new Uint8Array([index]),
+      new Uint8Array(isBare ? [] : [this.#indexes[this.#index]]),
       this.#raw.toU8a(isBare)
     );
   }

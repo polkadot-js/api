@@ -30,7 +30,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
 
     const accountIndex = api.registry.createType('AccountIndex', decoded);
 
-    return api.derive.accounts.indexToId(accountIndex).pipe(
+    return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
       map((accountId): AccountIdAndIndex => [accountId, accountIndex])
     );
   } catch (error) {

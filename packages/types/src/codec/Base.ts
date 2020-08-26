@@ -5,8 +5,6 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts, Codec, Registry } from '../types';
 
-import { blake2AsU8a } from '@polkadot/util-crypto';
-
 import Raw from './Raw';
 
 /**
@@ -34,7 +32,7 @@ export default abstract class Base<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**

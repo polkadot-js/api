@@ -1,8 +1,31 @@
 # CHANGELOG
 
-## 1.29.0-beta.x
+## 1.31.0-beta.x
 
 - **Important** Substrate changed the `RewardDestination` enum with an extra field for payout-to-any account. If on an older chain consider adding `RewardDestination: 'RewardDestinationTo257'` (Newer chains with this requirement met in their Substrate version should update the API for support)
+- Add `toBigInt()` (JS built-in `BigInt`) on `Int/Uint`, & `Compact<*>` types
+
+## 1.30.1 Aug 24, 2020
+
+Upgrade priority: Low, unless using the `proposeParachain` module.
+
+- Adjust balance retrievals to check for `system.account` for new/old determination
+- Add types for the new `proposeParachain` module (as per Rococo)
+- Adjust `Address` <-> `LookupSource` definitions (no external impact, both in existence)
+- Add Ethereum-compatible `Ethereum{AccountId, LookupSource}` types, underlying `H160`
+- Allow for configurable hashers via `registry.setHasher(...)` (defaults to `blake2AsU8a`)
+- `@polkadot/util` 3.3
+
+## 1.29.1 Aug 17, 2020
+
+Upgrade priority: Low, unless on bleeding-edge chain with new compact `CompactAssignments`.
+
+- **Important** The Substrate `CompactAssignments` type has changed for better space utilization. On older chains, supply `CompactAssignments: 'CompactAssignmentsTo257'`
+- Clean tx cookbook param expansion (Thanks to https://github.com/swswsw)
+- Add additional `Fixed{I,U}{64,128}` and `{I,U}32F32` types
+- Add `desiredRunnersUp` to council derives
+- Cleanup indices/AccountId combination derive lookups
+- `@polkadot/util` 3.2
 
 ## 1.28.1 Aug 10, 2020
 

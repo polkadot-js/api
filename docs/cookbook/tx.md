@@ -16,9 +16,9 @@ const info = await api.tx.balances
 
 // log relevant info, partialFee is Balance, estimated for current
 console.log(`
-  class=${class.toString()},
-  weight=${weight.toString()},
-  partialFee=${partialFee.toHuman()}
+  class=${info.class.toString()},
+  weight=${info.weight.toString()},
+  partialFee=${info.partialFee.toHuman()}
 `);
 ```
 

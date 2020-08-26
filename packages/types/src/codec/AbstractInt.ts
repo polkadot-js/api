@@ -7,7 +7,6 @@ import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
 import { BN_ZERO, assert, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
 
@@ -92,7 +91,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**
@@ -137,6 +136,13 @@ export default abstract class AbstractInt extends BN implements Codec {
     const u8a = this.toU8a().filter((byte): boolean => byte === 0xff);
 
     return u8a.length === (this.#bitLength / 8);
+  }
+
+  /**
+   * @description Returns a BigInt representation of the number
+   */
+  public toBigInt (): BigInt {
+    return BigInt(this.toString());
   }
 
   /**

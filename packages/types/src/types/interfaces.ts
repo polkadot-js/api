@@ -9,6 +9,7 @@ import { FunctionMetadataLatest } from '../interfaces/metadata';
 import { ArgsDef, Codec } from './codec';
 
 export interface ICompact<T> extends Codec {
+  toBigInt (): BigInt;
   toBn (): BN;
   toNumber (): number;
   unwrap (): T;
@@ -16,6 +17,7 @@ export interface ICompact<T> extends Codec {
 
 export interface IKeyringPair {
   address: string;
+  addressRaw: Uint8Array;
   publicKey: Uint8Array;
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }

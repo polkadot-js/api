@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import type BN from 'bn.js';
-import { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VouchingStatus } from '@polkadot/types/interfaces';
 
 import { u32 } from '@polkadot/types';
 
 export * from './accounts/types';
 export * from './council/types';
 export * from './democracy/types';
+export * from './elections/types';
 export * from './parachains/types';
 export * from './session/types';
 export * from './staking/types';
@@ -58,20 +59,6 @@ export interface DeriveCollectiveProposal {
 }
 
 export type DeriveCollectiveProposals = DeriveCollectiveProposal[];
-
-export interface DeriveElectionsInfo {
-  candidates: AccountId[];
-  candidateCount: u32;
-  candidacyBond?: Balance;
-  desiredSeats: u32;
-  members: [AccountId, Balance][];
-  nextVoterSet?: SetIndex;
-  runnersUp: [AccountId, Balance][];
-  termDuration: BlockNumber;
-  voteCount?: VoteIndex;
-  voterCount?: SetIndex;
-  votingBond?: Balance;
-}
 
 export interface DeriveFees {
   creationFee: Balance;

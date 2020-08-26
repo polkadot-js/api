@@ -19,12 +19,12 @@ const versioned: OverrideVersionedType[] = [
     // 1020 is first CC3
     minmax: [1019, 1031],
     types: {
-      Address: 'GenericAddress',
+      Address: 'LookupSource',
       BalanceLock: 'BalanceLockTo212',
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchError: 'DispatchErrorTo198',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
-      LookupSource: 'Address',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       ReferendumInfo: 'ReferendumInfoTo239',
@@ -37,11 +37,11 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [1032, 1042],
     types: {
-      Address: 'GenericAddress',
+      Address: 'LookupSource',
       BalanceLock: 'BalanceLockTo212',
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
-      LookupSource: 'Address',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       ReferendumInfo: 'ReferendumInfoTo239',
@@ -55,11 +55,11 @@ const versioned: OverrideVersionedType[] = [
     // actual at 1045 (1043-1044 is dev)
     minmax: [1043, 1045],
     types: {
-      Address: 'GenericAddress',
+      Address: 'LookupSource',
       BalanceLock: 'BalanceLockTo212',
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
-      LookupSource: 'Address',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       ReferendumInfo: 'ReferendumInfoTo239',
@@ -73,6 +73,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
@@ -85,6 +86,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1055, 1056],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
@@ -96,6 +98,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1057, 1061],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       OpenTip: 'OpenTipTo225'
     }
@@ -104,13 +107,15 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1062, 2012],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225'
     }
   },
   {
     minmax: [2013, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257'
     }
   }
 ];

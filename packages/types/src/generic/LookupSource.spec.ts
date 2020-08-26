@@ -5,12 +5,12 @@
 import { TypeRegistry } from '../create';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
-import Address from './Address';
+import LookupSource from './LookupSource';
 
-describe('Address', (): void => {
+describe('LookupSource', (): void => {
   const registry = new TypeRegistry();
 
-  const testDecode = (type: string, input: Address | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
+  const testDecode = (type: string, input: LookupSource | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
     it(`can decode from ${type}`, (): void => {
       const a = registry.createType('Address', input);
 
@@ -21,19 +21,19 @@ describe('Address', (): void => {
     it('equals on AccountId', (): void => {
       const addr = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 
-      expect(registry.createType('Address', addr).eq(addr)).toBe(true);
+      expect(registry.createType('LookupSource', addr).eq(addr)).toBe(true);
     });
 
     it('equals on AccountIndex', (): void => {
       // see the test below - these are equivalent (with different prefix encoding)
-      expect(registry.createType('Address', '2jpAFn').eq('25GUyv')).toBe(true);
+      expect(registry.createType('LookupSource', '2jpAFn').eq('25GUyv')).toBe(true);
     });
   });
 
   describe('decoding', (): void => {
     testDecode(
       'Address',
-      registry.createType('Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
+      registry.createType('LookupSource', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
@@ -43,7 +43,7 @@ describe('Address', (): void => {
     );
     testDecode(
       'AccountIndex (mixed prefixes)',
-      registry.createType('Address', '2jpAFn'),
+      registry.createType('LookupSource', '2jpAFn'),
       // NOTE Expected adress here is encoded with prefix 42, input above with 68
       '25GUyv'
     );

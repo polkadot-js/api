@@ -6,7 +6,6 @@ import { H256 } from '../interfaces/runtime';
 import { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
 import { assert, isAscii, isU8a, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 /** @internal */
 function decodeU8a (value?: any): Uint8Array {
@@ -46,7 +45,7 @@ export default class Raw extends Uint8Array implements IU8a {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**

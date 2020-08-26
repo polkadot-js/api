@@ -6,7 +6,6 @@ import { H256 } from '../interfaces/runtime';
 import { AnyJson, Codec, Registry } from '../types';
 
 import { isUndefined } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
 
@@ -61,7 +60,7 @@ export default class StructAny extends Map<string, any> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**
