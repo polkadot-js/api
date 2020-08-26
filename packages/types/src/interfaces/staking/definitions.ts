@@ -24,8 +24,8 @@ export default {
       start: 'Option<Moment>'
     },
     CompactAssignments: {
-      votes1: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 0], ValidatorIndexCompact)>',
-      votes2: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 1], ValidatorIndexCompact)>',
+      votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
+      votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
       votes3: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 2], ValidatorIndexCompact)>',
       votes4: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 3], ValidatorIndexCompact)>',
       votes5: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 4], ValidatorIndexCompact)>',
