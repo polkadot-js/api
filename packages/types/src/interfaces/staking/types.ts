@@ -14,8 +14,8 @@ export interface ActiveEraInfo extends Struct {
 
 /** @name CompactAssignments */
 export interface CompactAssignments extends Struct {
-  readonly votes1: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes2: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes1: Vec<ITuple<[NominatorIndexCompact, ValidatorIndexCompact]>>;
+  readonly votes2: Vec<ITuple<[NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact]>>;
   readonly votes3: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
   readonly votes4: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
   readonly votes5: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
