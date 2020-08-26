@@ -4,13 +4,13 @@
 
 import { AnyString, AnyU8a, Registry } from '../types';
 
-import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isHex, isString, isU8a, u8aToU8a, assert } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import U8aFixed from '../codec/U8aFixed';
 
 /** @internal */
-function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
+function decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
   if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
   } else if (isHex(value)) {
@@ -19,7 +19,7 @@ function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
     return decodeAddress((value as string).toString());
   }
 
-  return value;
+  throw new Error('Unknown type passed to AccountId constructor');
 }
 
 /**
@@ -31,7 +31,11 @@ function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
  */
 export default class AccountId extends U8aFixed {
   constructor (registry: Registry, value: AnyU8a = new Uint8Array()) {
-    super(registry, decodeAccountId(value), 256);
+    const decoded = decodeAccountId(value);
+
+    assert(!decoded.length || decoded.length >= 32, 'Invalid AccountId provided, expected 32 bytes');
+
+    super(registry, decoded, 256);
   }
 
   public static encode (value: Uint8Array, ss58Format?: number): string {
