@@ -26,6 +26,12 @@ describe('AccountId', (): void => {
     it('equals the empty address', (): void => {
       expect(id.eq('5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM')).toBe(true);
     });
+
+    it('allows decoding from null', (): void => {
+      expect(
+        registry.createType('AccountId', null).eq('5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM')
+      ).toBe(true);
+    });
   });
 
   describe('decoding', (): void => {

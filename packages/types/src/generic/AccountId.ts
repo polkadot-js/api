@@ -10,8 +10,10 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import U8aFixed from '../codec/U8aFixed';
 
 /** @internal */
-function decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
-  if (isU8a(value) || Array.isArray(value)) {
+function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
+  if (!value) {
+    return new Uint8Array();
+  } else if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
   } else if (isHex(value)) {
     return hexToU8a(value.toString());
@@ -30,7 +32,7 @@ function decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
  * just a Uint8Array wrapper with a fixed length.
  */
 export default class AccountId extends U8aFixed {
-  constructor (registry: Registry, value: AnyU8a = new Uint8Array()) {
+  constructor (registry: Registry, value?: AnyU8a) {
     const decoded = decodeAccountId(value);
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)
