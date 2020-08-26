@@ -42,8 +42,8 @@ export default {
       votes16: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 15], ValidatorIndexCompact)>'
     },
     CompactAssignmentsTo257: {
-      votes1: 'Vec<(NominatorIndex, ValidatorIndex)>',
-      votes2: 'Vec<(NominatorIndex, CompactScore, ValidatorIndex)>',
+      votes1: 'Vec<(NominatorIndex, [CompactScore; 0], ValidatorIndex)>',
+      votes2: 'Vec<(NominatorIndex, [CompactScore; 1], ValidatorIndex)>',
       votes3: 'Vec<(NominatorIndex, [CompactScore; 2], ValidatorIndex)>',
       votes4: 'Vec<(NominatorIndex, [CompactScore; 3], ValidatorIndex)>',
       votes5: 'Vec<(NominatorIndex, [CompactScore; 4], ValidatorIndex)>',
