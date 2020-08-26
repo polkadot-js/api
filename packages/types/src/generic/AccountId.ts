@@ -33,7 +33,8 @@ export default class AccountId extends U8aFixed {
   constructor (registry: Registry, value: AnyU8a = new Uint8Array()) {
     const decoded = decodeAccountId(value);
 
-    assert(!decoded.length || decoded.length >= 32, 'Invalid AccountId provided, expected 32 bytes');
+    //Part of stream containing >= 32 bytes or a all empty (defaults)
+    assert(decoded.length >= 32 || !decoded.some((b) => b), `Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
 
     super(registry, decoded, 256);
   }
