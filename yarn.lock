@@ -16240,7 +16240,7 @@ __metadata:
     "@vuepress/plugin-search": ^1.5.4
     copyfiles: ^2.3.0
     typedoc: ^0.18.0
-    typedoc-plugin-markdown: 2.4.1
+    typedoc-plugin-markdown: ^2.4.2
     typedoc-plugin-no-inherit: ^1.1.10
   languageName: unknown
   linkType: soft
@@ -18207,6 +18207,18 @@ __metadata:
   peerDependencies:
     typedoc: ">=0.17.0"
   checksum: 091016dd8a75dc88bf164c1fbd86adde119cdb869965a76f6a7e548195d17fc1bc6c638baa3d584a9fea3338dbdb0f287840b0a35152eafe280e9a3cef27ad1f
+  languageName: node
+  linkType: hard
+
+"typedoc-plugin-markdown@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "typedoc-plugin-markdown@npm:2.4.2"
+  dependencies:
+    fs-extra: ^9.0.1
+    handlebars: ^4.7.6
+  peerDependencies:
+    typedoc: ">=0.17.0"
+  checksum: a072a6d77d0b4f340f86a7a08d08f45d739644c5a0a6f8b1f9668b2e08773e873e31c7345ab5b64bcfbbe185d40b925f4f7847ca43ecf98cc5a321038c46d3cd
   languageName: node
   linkType: hard
 
