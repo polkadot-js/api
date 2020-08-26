@@ -27,7 +27,7 @@
     "@babel/core": "^7.11.4",
     "@babel/register": "^7.10.5",
     "@babel/runtime": "^7.11.2",
-    "@polkadot/dev": "^0.55.41",
+    "@polkadot/dev": "^0.55.42",
     "@polkadot/ts": "^0.3.40",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.10",

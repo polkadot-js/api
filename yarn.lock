@@ -2781,9 +2781,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.55.41":
-  version: 0.55.41
-  resolution: "@polkadot/dev@npm:0.55.41"
+"@polkadot/dev@npm:^0.55.42":
+  version: 0.55.42
+  resolution: "@polkadot/dev@npm:0.55.42"
   dependencies:
     "@babel/cli": ^7.10.5
     "@babel/core": ^7.11.4
@@ -2838,10 +2838,10 @@ __metadata:
     lerna: ^3.22.1
     madge: ^3.9.2
     mkdirp: ^1.0.4
-    prettier: ^2.1.0
+    prettier: ^2.1.1
     rimraf: ^3.0.2
     typedoc: ^0.18.0
-    typedoc-plugin-markdown: ^2.4.2
+    typedoc-plugin-markdown: 2.4.1
     typedoc-plugin-no-inherit: ^1.1.10
     typescript: ^4.0.2
     vuepress: ^1.5.4
@@ -2870,7 +2870,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 756bba4ecf178387e7269442f897e8d914983862d221c21ed10fdc3c957f88a134e454cbc02085c087c648874cb164f4ff8495b4cc1e5cc99cd9ea591040dfe7
+  checksum: 9233c3db3448ee3a13aa8993abc6c11f64683b4f583c3be115b8bbde665db0eb26a98e8e17f2e8842c1aa728f64c9a4a5f115d655304aa16f95b83108d749237
   languageName: node
   linkType: hard
 
@@ -3033,11 +3033,11 @@ __metadata:
   linkType: hard
 
 "@polkadot/wasm-crypto@npm:^1.4.0-beta.6":
-  version: 1.4.0-beta.6
-  resolution: "@polkadot/wasm-crypto@npm:1.4.0-beta.6"
+  version: 1.4.0-beta.7
+  resolution: "@polkadot/wasm-crypto@npm:1.4.0-beta.7"
   peerDependencies:
     "@polkadot/util": "*"
-  checksum: 910e95665b2dd276b554ca3f7021bc810f4276d2191318cfb0a1103a90596a0d94c6872dfea922ebb4f368f50a2391d62c14a1465b2babbcfc4606c90ec9bd42
+  checksum: c0ef227876ac80933ce17e89804c1938299760ec970820aec83fc39dad4af7669f2ae5fb2c2f62e9688cee2076e6baddaed28e60a9d0949d08e4d45735b20c09
   languageName: node
   linkType: hard
 
@@ -15026,7 +15026,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.1.0":
+"prettier@npm:^2.1.1":
   version: 2.1.1
   resolution: "prettier@npm:2.1.1"
   bin:
@@ -16233,7 +16233,7 @@ __metadata:
     "@babel/core": ^7.11.4
     "@babel/register": ^7.10.5
     "@babel/runtime": ^7.11.2
-    "@polkadot/dev": ^0.55.41
+    "@polkadot/dev": ^0.55.42
     "@polkadot/ts": ^0.3.40
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.10
@@ -18195,15 +18195,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^2.4.2":
-  version: 2.4.2
-  resolution: "typedoc-plugin-markdown@npm:2.4.2"
+"typedoc-plugin-markdown@npm:2.4.1":
+  version: 2.4.1
+  resolution: "typedoc-plugin-markdown@npm:2.4.1"
   dependencies:
     fs-extra: ^9.0.1
     handlebars: ^4.7.6
   peerDependencies:
     typedoc: ">=0.17.0"
-  checksum: a072a6d77d0b4f340f86a7a08d08f45d739644c5a0a6f8b1f9668b2e08773e873e31c7345ab5b64bcfbbe185d40b925f4f7847ca43ecf98cc5a321038c46d3cd
+  checksum: 091016dd8a75dc88bf164c1fbd86adde119cdb869965a76f6a7e548195d17fc1bc6c638baa3d584a9fea3338dbdb0f287840b0a35152eafe280e9a3cef27ad1f
   languageName: node
   linkType: hard
 
