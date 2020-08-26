@@ -2781,9 +2781,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.55.42":
-  version: 0.55.42
-  resolution: "@polkadot/dev@npm:0.55.42"
+"@polkadot/dev@npm:^0.55.43":
+  version: 0.55.43
+  resolution: "@polkadot/dev@npm:0.55.43"
   dependencies:
     "@babel/cli": ^7.10.5
     "@babel/core": ^7.11.4
@@ -2870,7 +2870,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 9233c3db3448ee3a13aa8993abc6c11f64683b4f583c3be115b8bbde665db0eb26a98e8e17f2e8842c1aa728f64c9a4a5f115d655304aa16f95b83108d749237
+  checksum: 4a52bc3ea351e61a98b565dbd3c5e1d9403194c527b973534f3b4f2ff1b9e11f6c302ba570525f22a9ed1bff67e8b313891d9800e680a713e895c4ae24f81136
   languageName: node
   linkType: hard
 
@@ -16233,12 +16233,13 @@ __metadata:
     "@babel/core": ^7.11.4
     "@babel/register": ^7.10.5
     "@babel/runtime": ^7.11.2
-    "@polkadot/dev": ^0.55.42
+    "@polkadot/dev": ^0.55.43
     "@polkadot/ts": ^0.3.40
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.10
     "@vuepress/plugin-search": ^1.5.4
     copyfiles: ^2.3.0
+    typedoc: ^0.18.0
     typedoc-plugin-markdown: 2.4.1
     typedoc-plugin-no-inherit: ^1.1.10
   languageName: unknown
