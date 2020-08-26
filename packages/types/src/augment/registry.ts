@@ -35,7 +35,7 @@ import { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/i
 import { AccountStatus, AccountValidity } from '@polkadot/types/interfaces/purchase';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, GenericAddress, H160, H256, H512, Hash, Header, I32F32, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, OpaqueCall, Origin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, U32F32, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, GenericAddress, H160, H256, H512, Hash, Header, I32F32, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, OpaqueCall, Origin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, TransactionPriority, U32F32, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, ValidatorCount } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
@@ -303,6 +303,10 @@ declare module '@polkadot/types/types/registry' {
     StorageData: StorageData;
     'Option<StorageData>': Option<StorageData>;
     'Vec<StorageData>': Vec<StorageData>;
+    TransactionPriority: TransactionPriority;
+    'Compact<TransactionPriority>': Compact<TransactionPriority>;
+    'Option<TransactionPriority>': Option<TransactionPriority>;
+    'Vec<TransactionPriority>': Vec<TransactionPriority>;
     ValidatorId: ValidatorId;
     'Option<ValidatorId>': Option<ValidatorId>;
     'Vec<ValidatorId>': Vec<ValidatorId>;

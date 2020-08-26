@@ -228,6 +228,9 @@ export interface SignedBlock extends Struct {
 /** @name StorageData */
 export interface StorageData extends Bytes {}
 
+/** @name TransactionPriority */
+export interface TransactionPriority extends u64 {}
+
 /** @name U32F32 */
 export interface U32F32 extends UInt {}
 
