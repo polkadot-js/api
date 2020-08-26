@@ -121,6 +121,14 @@ export default {
     PhragmenScore: '[u128; 3]',
     Points: 'u32',
     RewardDestination: {
+      _enum: {
+        Staked: 'Null',
+        Stash: 'Null',
+        Controller: 'Null',
+        Account: 'AccountId'
+      }
+    },
+    RewardDestinationTo257: {
       _enum: [
         'Staked',
         'Stash',

@@ -9,8 +9,10 @@ const sharedTypes = {
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'SudoBalances', 'IdentityJudgement']
-  }
+    // was: SudoBalances
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'Unused', 'IdentityJudgement']
+  },
+  RewardDestination: 'RewardDestinationTo257'
 };
 
 // these are override types for Polkadot

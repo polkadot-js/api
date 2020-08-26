@@ -9,8 +9,10 @@ const sharedTypes = {
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances', 'IdentityJudgement']
-  }
+    // was: SudoBalances
+    _enum: ['Any', 'NonTransfer', 'Staking', 'Unused', 'IdentityJudgement']
+  },
+  RewardDestination: 'RewardDestinationTo257'
 };
 
 const versioned: OverrideVersionedType[] = [
