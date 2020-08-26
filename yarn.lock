@@ -16239,6 +16239,8 @@ __metadata:
     "@types/jest": ^26.0.10
     "@vuepress/plugin-search": ^1.5.4
     copyfiles: ^2.3.0
+    typedoc-plugin-markdown: 2.4.1
+    typedoc-plugin-no-inherit: ^1.1.10
   languageName: unknown
   linkType: soft
 
