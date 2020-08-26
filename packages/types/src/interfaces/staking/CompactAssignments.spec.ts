@@ -17,13 +17,13 @@ const ACTUAL = '0x' +
 describe('CompactAssignmentScaleCompact', (): void => {
   // generate_solution_type!(#[compact] pub struct InnerTestSolutionCompact::<_, _, _>(..));
   // let compact = InnerTestSolution {
-  //		votes1: vec![(2, 20), (4, 40)],
-  //		votes2: vec![
-  //			(1, (10, PerU16:: from_percent(80)), 11),
-  //			(5, (50, PerU16:: from_percent(85)), 51),
-  //		],
-  //		..Default::default ()
-  //	};
+  //    votes1: vec![(2, 20), (4, 40)],
+  //    votes2: vec![
+  //      (1, (10, PerU16:: from_percent(80)), 11),
+  //      (5, (50, PerU16:: from_percent(85)), 51),
+  //    ],
+  //    ..Default::default ()
+  //  };
   it('can be decoded correctly', (): void => {
     const bytes = new Uint8Array([
       8,
@@ -73,43 +73,43 @@ describe('CompactAssignmentScaleCompact', (): void => {
       0,
       0,
       0,
-      0,
+      0
     ]);
 
     const registry = new TypeRegistry();
     const compact = registry.createType('CompactAssignmentsTo257', bytes);
-    expect(compact.toJSON()).toEqual({
-      "votes1": [[2, [], 20], [4, [], 40]], // TODO: ideally we should not need these empty arrays here.
-      "votes10": [],
-      "votes11": [],
-      "votes12": [],
-      "votes13": [],
-      "votes14": [],
-      "votes15": [],
-      "votes16": [],
-      "votes2": [[1, [[10, 52428]], 11], [5, [[50, 55704]], 51]], // TODO: also the middle element here should not be 2d array.
-      "votes3": [],
-      "votes4": [],
-      "votes5": [],
-      "votes6": [],
-      "votes7": [],
-      "votes8": [],
-      "votes9": []
-    });
-  })
 
-})
+    expect(compact.toJSON()).toEqual({
+      votes1: [[2, [], 20], [4, [], 40]], // TODO: ideally we should not need these empty arrays here.
+      votes10: [],
+      votes11: [],
+      votes12: [],
+      votes13: [],
+      votes14: [],
+      votes15: [],
+      votes16: [],
+      votes2: [[1, [[10, 52428]], 11], [5, [[50, 55704]], 51]], // TODO: also the middle element here should not be 2d array.
+      votes3: [],
+      votes4: [],
+      votes5: [],
+      votes6: [],
+      votes7: [],
+      votes8: [],
+      votes9: []
+    });
+  });
+});
 
 describe('CompactAssignmentScaleNormal', (): void => {
   // generate_solution_type!(pub struct InnerTestSolutionCompact::<_, _, _>(..));
   // let compact = InnerTestSolution {
-  //		votes1: vec![(2, 20), (4, 40)],
-  //		votes2: vec![
-  //			(1, (10, PerU16:: from_percent(80)), 11),
-  //			(5, (50, PerU16:: from_percent(85)), 51),
-  //		],
-  //		..Default::default ()
-  //	};
+  //    votes1: vec![(2, 20), (4, 40)],
+  //    votes2: vec![
+  //      (1, (10, PerU16:: from_percent(80)), 11),
+  //      (5, (50, PerU16:: from_percent(85)), 51),
+  //    ],
+  //    ..Default::default ()
+  //  };
   it('can be decoded correctly', (): void => {
     const bytes = new Uint8Array([
       8,
@@ -145,33 +145,32 @@ describe('CompactAssignmentScaleNormal', (): void => {
       0,
       0,
       0,
-      0,
+      0
     ]);
 
     const registry = new TypeRegistry();
     const compact = registry.createType('CompactAssignments', bytes);
+
     expect(compact.toJSON()).toEqual({
-      "votes1": [[2, 20], [4, 40]],
-      "votes10": [],
-      "votes11": [],
-      "votes12": [],
-      "votes13": [],
-      "votes14": [],
-      "votes15": [],
-      "votes16": [],
-      "votes2": [[1, [10, 52428], 11], [5, [50, 55704], 51]],
-      "votes3": [],
-      "votes4": [],
-      "votes5": [],
-      "votes6": [],
-      "votes7": [],
-      "votes8": [],
-      "votes9": []
+      votes1: [[2, 20], [4, 40]],
+      votes10: [],
+      votes11: [],
+      votes12: [],
+      votes13: [],
+      votes14: [],
+      votes15: [],
+      votes16: [],
+      votes2: [[1, [10, 52428], 11], [5, [50, 55704], 51]],
+      votes3: [],
+      votes4: [],
+      votes5: [],
+      votes6: [],
+      votes7: [],
+      votes8: [],
+      votes9: []
     });
-  })
-})
-
-
+  });
+});
 
 describe('CompactAssignments', (): void => {
   const registry = new TypeRegistry();
