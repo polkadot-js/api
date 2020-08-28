@@ -17,6 +17,8 @@ import { memo } from '../util';
 type ResultBalance = [VestingInfo | null, (BalanceLock | BalanceLockTo212)[]];
 type Result = [DeriveBalancesAccount, BlockNumber, ResultBalance];
 
+const VESTING_ID = '0x76657374696e6720';
+
 function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DeriveBalancesAll {
   let lockedBalance = api.registry.createType('Balance');
   let lockedBreakdown: (BalanceLock | BalanceLockTo212)[] = [];
@@ -30,7 +32,7 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
     const notAll = lockedBreakdown.filter(({ amount }) => !amount.isMax());
 
     allLocked = lockedBreakdown.some(({ amount }) => amount.isMax());
-    vestingLocked = api.registry.createType('Balance', lockedBreakdown.filter(({ id }) => id.eq('0x76657374696e6720')).reduce((result: BN, { amount }) => result.iadd(amount), new BN(0)));
+    vestingLocked = api.registry.createType('Balance', lockedBreakdown.filter(({ id }) => id.eq(VESTING_ID)).reduce((result: BN, { amount }) => result.iadd(amount), new BN(0)));
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     if (notAll.length) {
