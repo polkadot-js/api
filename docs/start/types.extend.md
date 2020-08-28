@@ -6,7 +6,7 @@ Therefore to cater for all types, a mapping in done on the [@polkadot/types libr
 
 Additionally, the API contains some logic for chain type detection, for instance in the case of Substrate 1.x based chains, it will define `BlockNumber` & `Index` (nonce) as a `u64`, while for current-generation chains, these will be defined as `u32`. Some of the work in maintaining the API for Polkadot/Substrate is the addition of types as they appear and gets used in the Rust codebase.
 
-There is a the [recommendation](install.md#betas) to use a `@polkadot/api@beta` should you wish to track the master branches of Polkadot or Substrate, since master changes for the addition of new types do not make it into a stable release immediately.
+There is the [recommendation](install.md#betas) to use a `@polkadot/api@beta` should you wish to track the master branches of Polkadot or Substrate, since master changes for the addition of new types do not make it into a stable release immediately.
 
 ## Extension
 
@@ -87,7 +87,7 @@ Document: {
 
 ## User-defined enum
 
-One form of types that appear regularly is enums, these can be defined as follow -
+One form of types that appear regularly is enums, these can be defined as follows -
 
 ```js
 ...
@@ -212,4 +212,4 @@ Always look at customization and understand the impacts, replicating these chang
 
 ## Custom RPC
 
-In addition to customizing modules and types on your node, you can also add custom RPC definitions. Like the type definitions in ths section, [these can be defined and passed to the API](rpc.custom.md) for decoration.
+In addition to customizing your node's modules and types, you can also add custom RPC definitions. Like the type definitions in this section, [these can be defined and passed to the API](rpc.custom.md) for decoration.
