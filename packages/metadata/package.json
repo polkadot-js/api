@@ -29,11 +29,11 @@
     "@babel/runtime": "^7.11.2",
     "@polkadot/types": "1.31.0-beta.9",
     "@polkadot/types-known": "1.31.0-beta.9",
-    "@polkadot/util": "^3.4.0-beta.1",
-    "@polkadot/util-crypto": "^3.4.0-beta.1",
+    "@polkadot/util": "^3.4.0-beta.2",
+    "@polkadot/util-crypto": "^3.4.0-beta.2",
     "bn.js": "^5.1.3"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^3.4.0-beta.1"
+    "@polkadot/keyring": "^3.4.0-beta.2"
   }
 }
