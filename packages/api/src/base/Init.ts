@@ -3,17 +3,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Registry } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Metadata, Text } from '@polkadot/types';
+import { Metadata, Text, u32, TypeRegistry } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
 import { getMetadataTypes, getSpecAlias, getSpecTypes } from '@polkadot/types-known';
-import { logger } from '@polkadot/util';
+import { BN_ZERO, assert, logger } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import Decorate from './Decorate';
+
+interface VersionedRegistry {
+  isDefault: boolean;
+  registry: Registry;
+  specVersion: u32;
+}
 
 const KEEPALIVE_INTERVAL = 15000;
 
@@ -21,6 +28,10 @@ const l = logger('api/init');
 
 export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #healthTimer: NodeJS.Timeout | null = null;
+
+  #registries: VersionedRegistry[] = [];
+
+  #registryDefault: Registry;
 
   #updateSub?: Subscription;
 
@@ -31,14 +42,10 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
 
+    this.#registryDefault = this.registry;
+
     // all injected types added to the registry for overrides
-    this.registry.setKnownTypes({
-      types: options.types,
-      typesAlias: options.typesAlias,
-      typesBundle: options.typesBundle,
-      typesChain: options.typesChain,
-      typesSpec: options.typesSpec
-    });
+    this._setKnowRegistryTypes(options);
 
     // We only register the types (global) if this is not a cloned instance.
     // Do right up-front, so we get in the user types before we are actually
@@ -66,6 +73,53 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#onProviderConnect();
     }
+  }
+
+  private _setKnowRegistryTypes ({ types, typesAlias, typesBundle, typesChain, typesSpec }: ApiOptions): void {
+    this.registry.setKnownTypes({ types, typesAlias, typesBundle, typesChain, typesSpec });
+  }
+
+  /**
+   * @description Sets up a registry based on the block hash defined
+   */
+  public async swapRegistry (blockHash?: string | Uint8Array | null): Promise<Registry> {
+    if (!blockHash) {
+      return this.setRegistry(this.#registryDefault);
+    }
+
+    const { parentHash } = this._genesisHash?.eq(blockHash)
+      ? { parentHash: this._genesisHash }
+      : await this._rpcCore.chain.getHeader(blockHash).toPromise();
+
+    assert(!parentHash.isEmpty, 'Unable to determine parent hash from supplied block');
+
+    const version = await this._rpcCore.state.getRuntimeVersion(parentHash).toPromise();
+    const existing = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
+
+    if (existing) {
+      return this.setRegistry(existing.registry);
+    }
+
+    const registry = this.setRegistry(new TypeRegistry());
+
+    registry.setChainProperties(this.#registryDefault.getChainProperties());
+    this._setKnowRegistryTypes(this._options);
+    this.registerTypes(getSpecTypes(registry, this._runtimeChain as Text, version.specName, version.specVersion));
+
+    if (registry.knownTypes.typesBundle) {
+      this._adjustBundleTypes(this._runtimeChain as Text, version.specName);
+    }
+
+    // retrieve the metadata now that we have all types set
+    const metadata = await this._rpcCore.state.getMetadata(parentHash).toPromise();
+
+    // TODO: Not convinced (yet) that we really want to re-decorate, keep on ice since it does muddle-up
+    // this.injectMetadata(metadata, false);
+    registry.setMetadata(metadata);
+
+    this.#registries.push({ isDefault: false, registry, specVersion: version.specVersion });
+
+    return registry;
   }
 
   protected async _loadMeta (): Promise<boolean> {
@@ -138,8 +192,14 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
               this._runtimeVersion = version;
               this._rx.runtimeVersion = version;
 
-              this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
-              this.injectMetadata(metadata, false);
+              // update the default registry version
+              const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
+
+              assert(thisRegistry, 'Initialization error, cannot find the default registry');
+
+              thisRegistry.specVersion = version.specVersion;
+              thisRegistry.registry.register(getSpecTypes(thisRegistry.registry, this._runtimeChain as Text, version.specName, version.specVersion));
+              this.injectMetadata(metadata, false, thisRegistry.registry);
 
               return true;
             })
@@ -187,6 +247,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
 
+    // setup the initial registry, when we have none
+    if (!this.#registries.length) {
+      this.#registries.push({ isDefault: true, registry: this.registry, specVersion: runtimeVersion.specVersion });
+    }
+
     // adjust types based on bundled info
     if (this.registry.knownTypes.typesBundle) {
       this._adjustBundleTypes(chain, runtimeVersion.specName);
@@ -219,7 +284,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     const metaExtrinsic = metadata.asLatest.extrinsic;
 
     // only inject if we are not a clone (global init)
-    if (metaExtrinsic.version.gtn(0)) {
+    if (metaExtrinsic.version.gt(BN_ZERO)) {
       this._extrinsicType = metaExtrinsic.version.toNumber();
     } else if (!this._options.source) {
       // detect the extrinsic version in-use based on the last block

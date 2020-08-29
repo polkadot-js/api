@@ -45,7 +45,7 @@ const PAGE_SIZE_VALS = PAGE_SIZE_KEYS;
 const l = logger('api/init');
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
-  public readonly registry: Registry;
+  #registry: Registry;
 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
@@ -127,7 +127,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super();
 
-    this.registry = options.registry || new TypeRegistry();
+    this.#registry = options.registry || new TypeRegistry();
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
@@ -136,24 +136,31 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._decorateMethod = decorateMethod;
     this._options = options;
     this._type = type;
-    this._rpcCore = new RpcCore(this.registry, thisProvider, this._options.rpc);
+    this._rpcCore = new RpcCore(this.#registry, thisProvider, this._options.rpc);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
-    this._rx.registry = this.registry;
+    this._rx.registry = this.#registry;
+  }
+
+  /**
+   * @description Return the current used registry
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
-    return this.registry.createType(type, ...params);
+    return this.#registry.createType(type, ...params);
   }
 
   /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
   public registerTypes (types?: RegistryTypes): void {
-    types && this.registry.register(types);
+    types && this.#registry.register(types);
   }
 
   /**
@@ -163,8 +170,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._rpcCore.provider.hasSubscriptions;
   }
 
-  public injectMetadata (metadata: Metadata, fromEmpty?: boolean): void {
-    const decoratedMeta = new DecoratedMeta(this.registry, metadata);
+  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
+    const decoratedMeta = new DecoratedMeta(registry || this.#registry, metadata);
 
     if (fromEmpty || !this._extrinsics) {
       this._extrinsics = this._decorateExtrinsics(decoratedMeta.tx, this._decorateMethod);
@@ -181,6 +188,14 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // rx
     augmentObject('', this._decorateStorage(decoratedMeta.query, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject('', decoratedMeta.consts, this._rx.consts, fromEmpty);
+  }
+
+  public setRegistry (registry: Registry): Registry {
+    this.#registry = registry;
+
+    this._rpcCore.setRegistry(registry);
+
+    return this.#registry;
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -461,8 +476,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           }
 
           const nextResult = vals.length
-            ? new LinkageResult(this.registry, [keys[0].constructor as any, keys], [vals[0].constructor as any, vals])
-            : new LinkageResult(this.registry, [Null, []], [Null, []]);
+            ? new LinkageResult(this.#registry, [keys[0].constructor as any, keys], [vals[0].constructor as any, vals])
+            : new LinkageResult(this.#registry, [Null, []], [Null, []]);
 
           // we set our result into a subject so we have a single observable for
           // which the value changes over time. Initially create, follow-up next
