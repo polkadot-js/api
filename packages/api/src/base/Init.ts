@@ -87,7 +87,9 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       return this.setRegistry(this.#registryDefault);
     }
 
-    const { parentHash } = await this._rpcCore.chain.getHeader(blockHash).toPromise();
+    const { parentHash } = this._genesisHash?.eq(blockHash)
+      ? { parentHash: this._genesisHash }
+      : await this._rpcCore.chain.getHeader(blockHash).toPromise();
 
     assert(!parentHash.isEmpty, 'Unable to determine parent hash from supplied block');
 
