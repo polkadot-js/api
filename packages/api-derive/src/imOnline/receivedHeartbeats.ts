@@ -9,6 +9,7 @@ import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, u32 } from '@polkadot/types';
+import { BN_ZERO } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -34,7 +35,7 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
             [validator.toString()]: {
               blockCount: numBlocks[index],
               hasMessage: !heartbeats[index].isEmpty,
-              isOnline: !heartbeats[index].isEmpty || numBlocks[index].gtn(0)
+              isOnline: !heartbeats[index].isEmpty || numBlocks[index].gt(BN_ZERO)
             }
           }), {})
         )

@@ -66,13 +66,13 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
  * ```
  */
 export default class Rpc implements RpcInterface {
+  #registry: Registry;
+
   readonly #storageCache = new Map<string, string | null>();
 
   public readonly mapping = new Map<string, DefinitionRpcExt>();
 
   public readonly provider: ProviderInterface;
-
-  public readonly registry: Registry;
 
   public readonly sections: string[] = [];
 
@@ -113,7 +113,7 @@ export default class Rpc implements RpcInterface {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
-    this.registry = registry;
+    this.#registry = registry;
     this.provider = provider;
 
     const sectionNames = Object.keys(jsonrpc);
@@ -129,6 +129,13 @@ export default class Rpc implements RpcInterface {
    */
   public disconnect (): void {
     this.provider.disconnect();
+  }
+
+  /**
+   * @description Set the registry to use for this RPC
+   */
+  public setRegistry (registry: Registry): void {
+    this.#registry = registry;
   }
 
   public addUserInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
@@ -210,7 +217,7 @@ export default class Rpc implements RpcInterface {
         ),
         map(([params, result]) =>
           isRaw
-            ? this.registry.createType('Raw', result)
+            ? this.#registry.createType('Raw', result)
             : this._formatOutput(method, def, params, result)
         ),
         catchError((error): any => {
@@ -274,7 +281,7 @@ export default class Rpc implements RpcInterface {
             try {
               observer.next(
                 isRaw
-                  ? this.registry.createType('Raw', result)
+                  ? this.#registry.createType('Raw', result)
                   : this._formatOutput(method, def, params, result)
               );
             } catch (error) {
@@ -334,7 +341,7 @@ export default class Rpc implements RpcInterface {
     assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      createTypeUnsafe(this.registry, def.params[index].type, [input])
+      createTypeUnsafe(this.#registry, def.params[index].type, [input])
     );
   }
 
@@ -360,10 +367,10 @@ export default class Rpc implements RpcInterface {
 
       return keys
         ? this._formatStorageSet(keys, (result as StorageChangeSetJSON).changes)
-        : this.registry.createType('StorageChangeSet', result);
+        : this.#registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
       const mapped = (result as StorageChangeSetJSON[]).map(({ block, changes }): [Hash, Codec[]] => [
-        this.registry.createType('Hash', block),
+        this.#registry.createType('Hash', block),
         this._formatStorageSet(params[0] as Vec<StorageKey>, changes)
       ]);
 
@@ -373,7 +380,7 @@ export default class Rpc implements RpcInterface {
         : mapped as unknown as Codec[];
     }
 
-    return createTypeUnsafe(this.registry, rpc.type, [result]);
+    return createTypeUnsafe(this.#registry, rpc.type, [result]);
   }
 
   private _formatStorageData (key: StorageKey, value: string | null): Codec {
@@ -393,15 +400,15 @@ export default class Rpc implements RpcInterface {
 
     if (meta.modifier.isOptional) {
       return new Option(
-        this.registry,
-        createClass(this.registry, type),
+        this.#registry,
+        createClass(this.#registry, type),
         isEmpty
           ? null
-          : createTypeUnsafe(this.registry, type, [input], true)
+          : createTypeUnsafe(this.#registry, type, [input], true)
       );
     }
 
-    return createTypeUnsafe(this.registry, type, [
+    return createTypeUnsafe(this.#registry, type, [
       isEmpty
         ? meta.fallback
           ? hexToU8a(meta.fallback.toHex())
@@ -457,15 +464,15 @@ export default class Rpc implements RpcInterface {
 
     if (meta.modifier.isOptional) {
       return new Option(
-        this.registry,
-        createClass(this.registry, type),
+        this.#registry,
+        createClass(this.#registry, type),
         isEmpty
           ? null
-          : createTypeUnsafe(this.registry, type, [input], true)
+          : createTypeUnsafe(this.#registry, type, [input], true)
       );
     }
 
-    return createTypeUnsafe(this.registry, type, [
+    return createTypeUnsafe(this.#registry, type, [
       isEmpty
         ? meta.fallback
           ? hexToU8a(meta.fallback.toHex())

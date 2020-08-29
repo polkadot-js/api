@@ -8,6 +8,7 @@ import { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { BN_ZERO } from '@polkadot/util';
 
 import { deriveCache, memo } from '../util';
 
@@ -15,7 +16,7 @@ const CACHE_KEY = 'eraPoints';
 
 function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
   return [...individual.entries()]
-    .filter(([, points]): boolean => points.gtn(0))
+    .filter(([, points]) => points.gt(BN_ZERO))
     .reduce((result: DeriveEraValPoints, [validatorId, points]): DeriveEraValPoints => {
       result[validatorId.toString()] = points;
 
