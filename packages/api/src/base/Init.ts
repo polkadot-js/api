@@ -11,13 +11,14 @@ import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text, u32, TypeRegistry } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
 import { getMetadataTypes, getSpecAlias, getSpecTypes } from '@polkadot/types-known';
-import { BN_ZERO, assert, logger } from '@polkadot/util';
+import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import Decorate from './Decorate';
 
 interface VersionedRegistry {
   isDefault: boolean;
+  lastBlockHash: Uint8Array | null;
   registry: Registry;
   specVersion: u32;
 }
@@ -88,6 +89,14 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       return this.setRegistry(this.#registryDefault);
     }
 
+    // shortcut in the case where we have an immediate-same request
+    const lastBlockHash = u8aToU8a(blockHash);
+    const existingViaHash = this.#registries.find((r) => r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash));
+
+    if (existingViaHash) {
+      return this.setRegistry(existingViaHash.registry);
+    }
+
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
     const header = this._genesisHash?.eq(blockHash)
@@ -97,10 +106,12 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     assert(header?.parentHash && !header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
     const version = await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
-    const existing = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
+    const existingViaVersion = this.#registries.find((r) => r.specVersion.eq(version.specVersion));
 
-    if (existing) {
-      return this.setRegistry(existing.registry);
+    if (existingViaVersion) {
+      existingViaVersion.lastBlockHash = lastBlockHash;
+
+      return this.setRegistry(existingViaVersion.registry);
     }
 
     const registry = this.setRegistry(new TypeRegistry());
@@ -120,7 +131,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // this.injectMetadata(metadata, false);
     registry.setMetadata(metadata);
 
-    this.#registries.push({ isDefault: false, registry, specVersion: version.specVersion });
+    this.#registries.push({ isDefault: false, lastBlockHash, registry, specVersion: version.specVersion });
 
     return registry;
   }
@@ -252,7 +263,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ isDefault: true, lastBlockHash: null, registry: this.registry, specVersion: runtimeVersion.specVersion });
     }
 
     // adjust types based on bundled info
