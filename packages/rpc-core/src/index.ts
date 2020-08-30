@@ -210,6 +210,39 @@ export default class Rpc implements RpcInterface {
     const rpcName = `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
 
+    // execute the RPC call, doing a registry swap for historic as applicable
+    const callWithSwap = async (isRaw: boolean, values: any[]): Promise<Codec | Codec[]> => {
+      const hash = hashIndex === -1
+        ? undefined
+        : values[hashIndex] as Uint8Array;
+
+      try {
+        if (hash && this.#registrySwap) {
+          await this.#registrySwap(hash);
+        }
+
+        const params = this._formatInputs(def, values);
+        const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
+        const result = isRaw
+          ? this.#registry.createType('Raw', data)
+          : this._formatOutput(method, def, params, data);
+
+        if (hash && this.#registrySwap) {
+          await this.#registrySwap();
+        }
+
+        return result;
+      } catch (error) {
+        logErrorMessage(method, def, error);
+
+        if (hash && this.#registrySwap) {
+          await this.#registrySwap();
+        }
+
+        throw error;
+      }
+    };
+
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
       // However, formatInputs can throw, and when it does, the above way
@@ -218,37 +251,7 @@ export default class Rpc implements RpcInterface {
       // - first do `of(1)` - won't throw
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1).pipe(
-        switchMap(() => from(async (): Promise<Codec | Codec[]> => {
-          const hash = hashIndex === -1
-            ? undefined
-            : values[hashIndex] as Uint8Array;
-
-          try {
-            if (hash && this.#registrySwap) {
-              await this.#registrySwap(hash);
-            }
-
-            const params = this._formatInputs(def, values);
-            const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
-            const result = isRaw
-              ? this.#registry.createType('Raw', data)
-              : this._formatOutput(method, def, params, data);
-
-            if (hash && this.#registrySwap) {
-              await this.#registrySwap();
-            }
-
-            return result;
-          } catch (error) {
-            logErrorMessage(method, def, error);
-
-            if (hash && this.#registrySwap) {
-              await this.#registrySwap();
-            }
-
-            throw error;
-          }
-        })),
+        switchMap(() => from(callWithSwap(isRaw, values))),
         publishReplay(1), // create a Replay(1)
         refCount() // Unsubscribe WS when there are no more subscribers
       );
