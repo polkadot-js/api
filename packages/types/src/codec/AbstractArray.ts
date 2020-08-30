@@ -136,9 +136,14 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   // new instance.
 
   /**
+   * @description Concatenates two arrays
+   */
+  public concat (other: T[]): T[] {
+    return this.toArray().concat(other instanceof AbstractArray ? other.toArray() : other);
+  }
+
+  /**
    * @description Filters the array with the callback
-   * @param callbackfn The filter function
-   * @param thisArg The `this` object to apply the result to
    */
   public filter (callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: unknown): T[] {
     return this.toArray().filter(callbackfn, thisArg);
@@ -146,8 +151,6 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
 
   /**
    * @description Maps the array with the callback
-   * @param callbackfn The mapping function
-   * @param thisArg The `this` onject to apply the result to
    */
   public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: unknown): U[] {
     return this.toArray().map(callbackfn, thisArg);
