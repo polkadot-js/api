@@ -8,8 +8,8 @@ import { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Regi
 import { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
-import { from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { from, Observable, Observer, of } from 'rxjs';
+import { publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
@@ -219,41 +219,36 @@ export default class Rpc implements RpcInterface {
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1).pipe(
         switchMap(() => from(async (): Promise<Codec | Codec[]> => {
-          const params = this._formatInputs(def, values);
-          const hash = hashIndex === -1 ? undefined : values[hashIndex];
-
-          if (hash && this.#registrySwap) {
-            await this.#registrySwap(hash);
-          }
-
-          let result: any;
-          let sendError: Error | null = null;
+          const hash = hashIndex === -1
+            ? undefined
+            : values[hashIndex] as Uint8Array;
 
           try {
-            const data = await this.provider.send(rpcName, params.map((param: any) => param.toJSON()));
+            if (hash && this.#registrySwap) {
+              await this.#registrySwap(hash);
+            }
 
-            result = isRaw
+            const params = this._formatInputs(def, values);
+            const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
+            const result = isRaw
               ? this.#registry.createType('Raw', data)
-              : this._formatOutput(method, def, params, data)
+              : this._formatOutput(method, def, params, data);
+
+            if (hash && this.#registrySwap) {
+              await this.#registrySwap();
+            }
+
+            return result;
           } catch (error) {
-            sendError = error;
-          }
+            logErrorMessage(method, def, error);
 
-          if (hash && this.#registrySwap) {
-            await this.#registrySwap();
-          }
+            if (hash && this.#registrySwap) {
+              await this.#registrySwap();
+            }
 
-          if (sendError) {
-            throw sendError;
+            throw error;
           }
-
-          return result;
         })),
-        catchError((error): any => {
-          logErrorMessage(method, def, error);
-
-          return throwError(error);
-        }),
         publishReplay(1), // create a Replay(1)
         refCount() // Unsubscribe WS when there are no more subscribers
       );
