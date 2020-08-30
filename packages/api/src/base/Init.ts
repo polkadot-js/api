@@ -62,6 +62,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     this._rx.signer = options.signer;
 
+    this._rpcCore.setRegistrySwap(this.swapRegistry);
     this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
     this._rpcCore.provider.on('error', this.#onProviderError);
     this._rpcCore.provider.on('connected', this.#onProviderConnect);
@@ -87,6 +88,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       return this.setRegistry(this.#registryDefault);
     }
 
+    // We have to assume that on the RPC layer the calls used here does not call back into
+    // the registry swap, so getHeader & getRuntimeVersion should not be historic
     const { parentHash } = this._genesisHash?.eq(blockHash)
       ? { parentHash: this._genesisHash }
       : await this._rpcCore.chain.getHeader(blockHash).toPromise();
