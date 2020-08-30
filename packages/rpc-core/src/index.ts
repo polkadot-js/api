@@ -8,8 +8,8 @@ import { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Regi
 import { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
-import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { from, Observable, Observer, of } from 'rxjs';
+import { publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
@@ -67,6 +67,8 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
  */
 export default class Rpc implements RpcInterface {
   #registry: Registry;
+
+  #registrySwap?: (blockHash?: string | Uint8Array | null) => Promise<Registry>;
 
   readonly #storageCache = new Map<string, string | null>();
 
@@ -138,6 +140,13 @@ export default class Rpc implements RpcInterface {
     this.#registry = registry;
   }
 
+  /**
+   * @description Sets a registry swap (typically from Api)
+   */
+  public setRegistrySwap (registrySwap: (blockHash?: string | Uint8Array | null) => Promise<Registry>): void {
+    this.#registrySwap = registrySwap;
+  }
+
   public addUserInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
     // add any extra user-defined sections
     this.sections.push(...Object.keys(userRpc).filter((key) => !this.sections.includes(key)));
@@ -199,6 +208,40 @@ export default class Rpc implements RpcInterface {
 
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = `${section}_${method}`;
+    const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
+
+    // execute the RPC call, doing a registry swap for historic as applicable
+    const callWithSwap = async (isRaw: boolean, values: any[]): Promise<Codec | Codec[]> => {
+      const hash = hashIndex === -1
+        ? undefined
+        : values[hashIndex] as Uint8Array;
+
+      try {
+        if (hash && this.#registrySwap) {
+          await this.#registrySwap(hash);
+        }
+
+        const params = this._formatInputs(def, values);
+        const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
+        const result = isRaw
+          ? this.#registry.createType('Raw', data)
+          : this._formatOutput(method, def, params, data);
+
+        if (hash && this.#registrySwap) {
+          await this.#registrySwap();
+        }
+
+        return result;
+      } catch (error) {
+        logErrorMessage(method, def, error);
+
+        if (hash && this.#registrySwap) {
+          await this.#registrySwap();
+        }
+
+        throw error;
+      }
+    };
 
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
@@ -208,23 +251,7 @@ export default class Rpc implements RpcInterface {
       // - first do `of(1)` - won't throw
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1).pipe(
-        map(() => this._formatInputs(def, values)),
-        switchMap((params): Observable<[Codec[], any]> =>
-          combineLatest([
-            of(params),
-            from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
-          ])
-        ),
-        map(([params, result]) =>
-          isRaw
-            ? this.#registry.createType('Raw', result)
-            : this._formatOutput(method, def, params, result)
-        ),
-        catchError((error): any => {
-          logErrorMessage(method, def, error);
-
-          return throwError(error);
-        }),
+        switchMap(() => from(callWithSwap(isRaw, values))),
         publishReplay(1), // create a Replay(1)
         refCount() // Unsubscribe WS when there are no more subscribers
       );

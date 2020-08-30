@@ -62,6 +62,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     this._rx.signer = options.signer;
 
+    this._rpcCore.setRegistrySwap((hash?: string | Uint8Array | null) => this.swapRegistry(hash));
     this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
     this._rpcCore.provider.on('error', this.#onProviderError);
     this._rpcCore.provider.on('connected', this.#onProviderConnect);
@@ -87,13 +88,15 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       return this.setRegistry(this.#registryDefault);
     }
 
-    const { parentHash } = this._genesisHash?.eq(blockHash)
+    // We have to assume that on the RPC layer the calls used here does not call back into
+    // the registry swap, so getHeader & getRuntimeVersion should not be historic
+    const header = this._genesisHash?.eq(blockHash)
       ? { parentHash: this._genesisHash }
       : await this._rpcCore.chain.getHeader(blockHash).toPromise();
 
-    assert(!parentHash.isEmpty, 'Unable to determine parent hash from supplied block');
+    assert(header?.parentHash && !header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
-    const version = await this._rpcCore.state.getRuntimeVersion(parentHash).toPromise();
+    const version = await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
     const existing = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
 
     if (existing) {
@@ -111,7 +114,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
 
     // retrieve the metadata now that we have all types set
-    const metadata = await this._rpcCore.state.getMetadata(parentHash).toPromise();
+    const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
 
     // TODO: Not convinced (yet) that we really want to re-decorate, keep on ice since it does muddle-up
     // this.injectMetadata(metadata, false);
