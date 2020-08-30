@@ -16,6 +16,7 @@ export default {
         {
           name: 'hash',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -27,6 +28,7 @@ export default {
         {
           name: 'hash',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],

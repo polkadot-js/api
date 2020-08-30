@@ -19,6 +19,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -38,6 +39,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -53,6 +55,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],
