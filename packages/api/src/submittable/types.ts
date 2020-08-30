@@ -50,6 +50,9 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends Extrinsi
 
   send(statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
+  /**
+   * @deprecated
+   */
   sign(account: IKeyringPair, _options?: Partial<SignerOptions>): this;
 
   signAsync(account: AddressOrPair, _options?: Partial<SignerOptions>): SubmittableThis<ApiType, this>;
