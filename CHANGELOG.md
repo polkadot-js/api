@@ -2,9 +2,12 @@
 
 ## 1.31.0-beta.x
 
+Upgrade priority: Low, unless using the new `RewardDestination` or there is a need for transparent at-hash queries
+
 - **Important** Substrate changed the `RewardDestination` enum with an extra field for payout-to-any account. If on an older chain consider adding `RewardDestination: 'RewardDestinationTo257'` (Newer chains with this requirement met in their Substrate version should update the API for support)
+- Add transparent support for types/metadata, i.e. hash queries such as `rpc.chain.getBlock(<hash>)` & `query.system.events.at(<hash>)` now works out-of-the-box with tehe correct metadata & types
 - Add `toBigInt()` (JS built-in `BigInt`) on `Int/Uint`, & `Compact<*>` types
-- Add `api.swapRegistry(blockHash?)` to cleanly swap to types for a specific block (no param swaps to default)
+- Add `api.swapRegistry(blockHash?)` to manually swap to types for a specific block (no param swaps to default)
 - `derive.democracy.locks` now returns delegated locks for an account as well
 
 ## 1.30.1 Aug 24, 2020
