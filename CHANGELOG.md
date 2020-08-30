@@ -16,6 +16,7 @@ Upgrade priority: Low, unless using the new `RewardDestination` or there is a ne
 - Add `api.swapRegistry(blockHash?)` to manually swap to types for a specific block (no param swaps to default)
 - `derive.democracy.locks` now returns delegated locks for an account as well
 - Adjust unlocking derives with appropriate in-place additions (less object allocations)
+- `.sign` on submittables is marked deprecated (not due for removal, but rather use `.signAsync` for consistency with `.signAndSend`)
 
 ## 1.30.1 Aug 24, 2020
 
