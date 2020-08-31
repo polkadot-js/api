@@ -216,7 +216,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
   private _adjustBundleTypes (registry: Registry, chain: Text, specName: Text): void {
     // adjust known type aliases
-    registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, specName);
+    registry.knownTypes.typesAlias = getSpecAlias(registry, chain, specName);
 
     // FIXME For the first round, we are not adjusting the user-injected RPCs
     // inject any user-level RPCs now that we have the chain/spec
