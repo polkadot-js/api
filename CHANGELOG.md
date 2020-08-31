@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.32.0-beta.x
+
+Changes:
+
+- Added `derive.chain.getBlock(hash)` to retrieve a `SignedBlock` extended with an `.author` (same as `derive.chain.getHeader(...)`)
+
+
 ## 1.31.1 Aug 31, 2020
 
 Upgrade priority: Medium, especially for staking users on Polkadot, Kusama & Westend (type updates applied for v23 onwards) or if transparent `.at(hash)` queries are required/used

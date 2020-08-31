@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Header } from '@polkadot/types/interfaces';
+import { AccountId, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyJson, Constructor, Registry } from '@polkadot/types/types';
 
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
@@ -11,20 +11,20 @@ import { Struct } from '@polkadot/types';
 import { extractAuthor } from './util';
 
 // We can ignore the properties, added via Struct.with
-const _Header = Struct.with(runtimeTypes.types.Header as any) as Constructor<Header>;
+const _SignedBlock = Struct.with(runtimeTypes.types.SignedBlock as any) as Constructor<SignedBlock>;
 
 /**
- * @name HeaderExtended
+ * @name SignedBlockExtended
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends _Header {
+export default class BlockExtended extends _SignedBlock {
   readonly #author?: AccountId;
 
-  constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
-    super(registry, header);
+  constructor (registry: Registry, block?: SignedBlock, sessionValidators?: AccountId[]) {
+    super(registry, block);
 
-    this.#author = extractAuthor(this.digest, sessionValidators);
+    this.#author = extractAuthor(this.block.header.digest, sessionValidators);
   }
 
   /**
