@@ -18,6 +18,16 @@ export interface OverrideVersionedType {
   types: RegistryTypes;
 }
 
+export interface ChainUpgradeVersion {
+  blockNumber: BN;
+  specVersion: BN;
+}
+
+export interface ChainUpgrades {
+  genesisHash: Uint8Array;
+  versions: ChainUpgradeVersion[];
+}
+
 export type OverrideModuleType = Record<string, string>;
 
 export interface OverrideBundleDefinition {

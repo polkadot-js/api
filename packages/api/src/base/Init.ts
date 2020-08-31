@@ -6,11 +6,12 @@ import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { Registry } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
+import BN from 'bn.js';
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Metadata, Text, u32, TypeRegistry } from '@polkadot/types';
+import { Metadata, Text, TypeRegistry } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getMetadataTypes, getSpecAlias, getSpecTypes } from '@polkadot/types-known';
+import { getMetadataTypes, getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -20,10 +21,11 @@ interface VersionedRegistry {
   isDefault: boolean;
   lastBlockHash: Uint8Array | null;
   registry: Registry;
-  specVersion: u32;
+  specVersion: BN;
 }
 
 const KEEPALIVE_INTERVAL = 15000;
+const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
 const l = logger('api/init');
 
@@ -89,15 +91,24 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       return existingViaHash.registry;
     }
 
+    // ensure we have everything required
+    assert(this._genesisHash && this._runtimeVersion, 'Cannot retrieve dat on an uninitialized chain');
+
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
-    const header = this._genesisHash?.eq(blockHash)
-      ? { parentHash: this._genesisHash }
+    const header = this._genesisHash.eq(blockHash)
+      ? { number: DEFAULT_BLOCKNUMBER, parentHash: this._genesisHash }
       : await this._rpcCore.chain.getHeader(blockHash).toPromise();
 
     assert(header?.parentHash && !header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
-    const version = await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
+    // get the runtime version, either on-chain or via an known upgrade history
+    const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number.unwrap());
+    const version = (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
+      ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
+      : await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
+
+    // check for pre-existing registries
     const existingViaVersion = this.#registries.find((r) => r.specVersion.eq(version.specVersion));
 
     if (existingViaVersion) {
@@ -106,6 +117,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       return existingViaVersion.registry;
     }
 
+    // nothing has been found, construct new
     const registry = new TypeRegistry();
 
     registry.setChainProperties(this.registry.getChainProperties());
