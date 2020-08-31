@@ -8,13 +8,13 @@ import { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Regi
 import { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
-import { from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { Observable, Observer } from 'rxjs';
+import { publishReplay } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
-import { drr } from './rxjs';
+import { drr, refCountDelay } from './rxjs';
 
 interface StorageChangeSetJSON {
   block: string;
@@ -202,6 +202,7 @@ export default class Rpc implements RpcInterface {
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
+    let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
     const callWithRegistry = async (isRaw: boolean, values: any[]): Promise<Codec | Codec[]> => {
@@ -220,28 +221,35 @@ export default class Rpc implements RpcInterface {
     };
 
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
-      // Here, logically, it should be `of(this.formatInputs(method, values))`.
-      // However, formatInputs can throw, and when it does, the above way
-      // doesn't throw in the "Observable loop" (which is internally wrapped in
-      // a try/catch block). So we:
-      // - first do `of(1)` - won't throw
-      // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
-      return of(1).pipe(
-        switchMap(() => from(callWithRegistry(isRaw, values))),
-        catchError((error): any => {
-          logErrorMessage(method, def, error);
+      return new Observable((observer: Observer<any>): VoidCallback => {
+        callWithRegistry(isRaw, values)
+          .then((value): void => {
+            observer.next(value);
+            observer.complete();
+          })
+          .catch((error): void => {
+            logErrorMessage(method, def, error);
 
-          return throwError(error);
-        }),
+            observer.error(error);
+            observer.complete();
+          });
+
+        return (): void => {
+          // delete old results from cache
+          memoized?.delete(...values);
+        };
+      }).pipe(
         publishReplay(1), // create a Replay(1)
-        refCount() // Unsubscribe WS when there are no more subscribers
+        refCountDelay(250) // Unsubscribe after delay
       );
     };
 
-    // We voluntarily don't cache the "one-shot" RPC calls. For example,
-    // `getStorage('123')` returns the current value, but this value can change
-    // over time, so we wouldn't want to cache the Observable.
-    return this._createMethodWithRaw(creator);
+    memoized = memoizee(this._createMethodWithRaw(creator), {
+      length: false,
+      normalizer: JSON.stringify
+    });
+
+    return memoized;
   }
 
   // create a subscriptor, it subscribes once and resolves with the id as subscribe
@@ -305,16 +313,8 @@ export default class Rpc implements RpcInterface {
 
         // Teardown logic
         return (): void => {
-          // Delete from cache
-          // Reason:
-          // ```
-          //    const s = api.query.system.account(addr1).subscribe(); // let's say it's 6
-          //    s.unsubscribe();
-          //    // wait a bit, for the nonce to increase to 7
-          //    api.query.system.account(addr1).subscribe(); // will output 6 instead of 7 if we don't clear cache
-          //    // that's because all our observables are replay(1)
-          // ```
-          memoized && memoized.delete(...values);
+          // Delete from cache, so old results don't hang around
+          memoized?.delete(...values);
 
           // Unsubscribe from provider
           subscriptionPromise

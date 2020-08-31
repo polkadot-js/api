@@ -91,10 +91,25 @@ describe('Cached Observables', (): void => {
     expect(observable2).not.toBe(observable1);
   });
 
-  it('creates multiple observables for one-shots', (): void => {
+  it('creates single observables for subsequent one-shots', (): void => {
     const observable1 = rpc.chain.getBlockHash(123);
     const observable2 = rpc.chain.getBlockHash(123);
 
-    expect(observable2).not.toBe(observable1);
+    expect(observable2).toBe(observable1);
+  });
+
+  it('creates multiple observables for subsequent one-shots delayed', (done): void => {
+    const observable1 = rpc.chain.getBlockHash(123);
+
+    const sub = observable1.subscribe((): void => {
+      sub.unsubscribe();
+    });
+
+    expect(rpc.chain.getBlockHash(123)).toBe(observable1);
+
+    setTimeout((): void => {
+      expect(rpc.chain.getBlockHash(123)).not.toBe(observable1);
+      done();
+    }, 1000);
   });
 });
