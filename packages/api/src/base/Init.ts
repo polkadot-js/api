@@ -79,13 +79,13 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (blockHash: string | Uint8Array): Promise<[Registry, Metadata]> {
+  public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
     // shortcut in the case where we have an immediate-same request
     const lastBlockHash = u8aToU8a(blockHash);
     const existingViaHash = this.#registries.find((r) => r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash));
 
     if (existingViaHash) {
-      return [existingViaHash.registry, existingViaHash.metadata];
+      return existingViaHash;
     }
 
     // ensure we have everything required
@@ -111,7 +111,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     if (existingViaVersion) {
       existingViaVersion.lastBlockHash = lastBlockHash;
 
-      return [existingViaVersion.registry, existingViaVersion.metadata];
+      return existingViaVersion;
     }
 
     // nothing has been found, construct new
@@ -127,14 +127,14 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // retrieve the metadata now that we have all types set
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
+    const result = { isDefault: false, lastBlockHash, metadata, registry, specVersion: version.specVersion };
 
     // TODO: Not convinced (yet) that we really want to re-decorate, keep on ice since it does muddle-up
     // this.injectMetadata(metadata, false);
     registry.setMetadata(metadata);
+    this.#registries.push(result);
 
-    this.#registries.push({ isDefault: false, lastBlockHash, metadata, registry, specVersion: version.specVersion });
-
-    return [registry, metadata];
+    return result;
   }
 
   protected async _loadMeta (): Promise<boolean> {
