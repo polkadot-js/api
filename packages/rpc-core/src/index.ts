@@ -68,7 +68,7 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
 export default class Rpc implements RpcInterface {
   #registryDefault: Registry;
 
-  #getBlockRegistry?: (blockHash?: string | Uint8Array | null) => Promise<Registry>;
+  #getBlockRegistry?: (blockHash: string | Uint8Array) => Promise<{ registry: Registry }>;
 
   readonly #storageCache = new Map<string, string | null>();
 
@@ -136,7 +136,7 @@ export default class Rpc implements RpcInterface {
   /**
    * @description Sets a registry swap (typically from Api)
    */
-  public setRegistrySwap (registrySwap: (blockHash?: string | Uint8Array | null) => Promise<Registry>): void {
+  public setRegistrySwap (registrySwap: (blockHash: string | Uint8Array) => Promise<{ registry: Registry }>): void {
     this.#getBlockRegistry = registrySwap;
   }
 
@@ -210,9 +210,9 @@ export default class Rpc implements RpcInterface {
       const hash = hashIndex === -1
         ? undefined
         : values[hashIndex] as Uint8Array;
-      const registry = hash && this.#getBlockRegistry
+      const { registry } = hash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(hash)
-        : this.#registryDefault;
+        : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, def, values);
       const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
 
