@@ -11,7 +11,7 @@ import { HeaderExtended } from '../type';
 import { memo } from '../util';
 
 /**
- * @name bestNumberFinalized
+ * @name getHeader
  * @param {( Uint8Array | string )} hash - A block hash as U8 array or string.
  * @returns An array containing the block header and the block author
  * @description Get a specific block header and extend it with the author
