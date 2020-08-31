@@ -22,6 +22,8 @@ export default {
       real: 'AccountId',
       callHash: 'Hash',
       height: 'BlockNumber'
-    }
+    },
+    // FIXME We don't want this here
+    Announcement: 'ProxyAnnouncement'
   }
 } as Definitions;
