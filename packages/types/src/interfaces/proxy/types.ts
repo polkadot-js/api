@@ -4,6 +4,9 @@
 import { Enum, Struct } from '@polkadot/types/codec';
 import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
+/** @name Announcement */
+export interface Announcement extends ProxyAnnouncement {}
+
 /** @name ProxyAnnouncement */
 export interface ProxyAnnouncement extends Struct {
   readonly real: AccountId;

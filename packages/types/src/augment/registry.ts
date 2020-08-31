@@ -31,7 +31,7 @@ import { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, Repo
 import { AbridgedCandidateReceipt, AttestedCandidate, AuctionIndex, Bidder, CandidateCommitments, CandidateReceipt, CollatorId, CollatorSignature, DoubleVoteReport, DownwardMessage, GlobalValidationSchedule, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, LocalValidationData, NewBidder, ParaId, ParaInfo, ParaPastCodeMeta, ParaScheduling, ParachainDispatchOrigin, ParachainProposal, RegisteredParachainInfo, RelayChainBlockNumber, Remark, Retriable, Scheduling, SigningContext, SlotRange, Statement, SubId, UpwardMessage, ValidationCode, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { Approvals } from '@polkadot/types/interfaces/poll';
-import { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
+import { Announcement, ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
 import { AccountStatus, AccountValidity } from '@polkadot/types/interfaces/purchase';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
@@ -832,6 +832,9 @@ declare module '@polkadot/types/types/registry' {
     ProxyAnnouncement: ProxyAnnouncement;
     'Option<ProxyAnnouncement>': Option<ProxyAnnouncement>;
     'Vec<ProxyAnnouncement>': Vec<ProxyAnnouncement>;
+    Announcement: Announcement;
+    'Option<Announcement>': Option<Announcement>;
+    'Vec<Announcement>': Vec<Announcement>;
     ActiveRecovery: ActiveRecovery;
     'Option<ActiveRecovery>': Option<ActiveRecovery>;
     'Vec<ActiveRecovery>': Vec<ActiveRecovery>;
