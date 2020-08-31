@@ -222,7 +222,7 @@ export default class Rpc implements RpcInterface {
     };
 
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
-      const isDelayed = (hashIndex !== -1 && !!values[hashIndex]) || (cacheIndex !== -1 && !!values[hashIndex]);
+      const isDelayed = (hashIndex !== -1 && !!values[hashIndex]) || (cacheIndex !== -1 && !!values[cacheIndex]);
 
       return new Observable((observer: Observer<any>): VoidCallback => {
         callWithRegistry(isRaw, values)
