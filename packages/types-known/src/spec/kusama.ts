@@ -124,8 +124,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       RewardDestination: 'RewardDestinationTo257'
     }
-  }
-  ,
+  },
   {
     minmax: [2023, undefined],
     types: {
