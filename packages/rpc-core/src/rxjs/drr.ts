@@ -12,6 +12,7 @@ import { refCountDelay } from './refCountDelay';
 export type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
 
 interface Options {
+  delay?: number;
   skipChange?: boolean;
   skipTimeout?: boolean;
 }
@@ -35,7 +36,7 @@ const NOOP = (): void => undefined;
  * @ignore
  * @internal
  */
-export const drr = ({ skipChange = false, skipTimeout = false }: Options = {}): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
+export const drr = ({ delay, skipChange = false, skipTimeout = false }: Options = {}): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
   source$.pipe(
     catchError(ERR),
     skipChange
@@ -44,5 +45,5 @@ export const drr = ({ skipChange = false, skipTimeout = false }: Options = {}): 
     publishReplay(1),
     skipTimeout
       ? refCount()
-      : refCountDelay()
+      : refCountDelay(delay)
   );
