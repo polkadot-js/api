@@ -4,7 +4,7 @@
 
 Changes:
 
-- Added `derive.chain.getBlock(hash)` to retrieve a `SignedBlock` extended with an `.author` (same as `derive.chain.getHedaer(...)`)
+- Added `derive.chain.getBlock(hash)` to retrieve a `SignedBlock` extended with an `.author` (same as `derive.chain.getHeader(...)`)
 
 
 ## 1.31.1 Aug 31, 2020
