@@ -110,6 +110,6 @@ describe('Cached Observables', (): void => {
     setTimeout((): void => {
       expect(rpc.chain.getBlockHash(123)).not.toBe(observable1);
       done();
-    }, 1000);
+    }, 3500);
   });
 });

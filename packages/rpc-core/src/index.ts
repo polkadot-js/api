@@ -9,7 +9,7 @@ import { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
 import { Observable, Observer } from 'rxjs';
-import { publishReplay } from 'rxjs/operators';
+import { publishReplay, refCount } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
@@ -202,6 +202,7 @@ export default class Rpc implements RpcInterface {
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
+    const cacheIndex = def.params.findIndex(({ isCached }) => isCached);
     let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
@@ -221,6 +222,8 @@ export default class Rpc implements RpcInterface {
     };
 
     const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
+      const isDelayed = (hashIndex !== -1 && !!values[hashIndex]) || (cacheIndex !== -1 && !!values[cacheIndex]);
+
       return new Observable((observer: Observer<any>): VoidCallback => {
         callWithRegistry(isRaw, values)
           .then((value): void => {
@@ -240,7 +243,9 @@ export default class Rpc implements RpcInterface {
         };
       }).pipe(
         publishReplay(1), // create a Replay(1)
-        refCountDelay(250) // Unsubscribe after delay
+        isDelayed
+          ? refCountDelay() // Unsubscribe after delay
+          : refCount()
       );
     };
 
