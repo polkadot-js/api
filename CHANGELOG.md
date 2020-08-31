@@ -2,13 +2,16 @@
 
 ## 1.31.0-beta.x
 
-Upgrade priority: Low, unless using the new `RewardDestination` or there is a need for transparent at-hash queries
+Upgrade priority: Low, unless using the new `RewardDestination` or transparent `.at(hash)` queries is used
 
 - **Important** Substrate changed the `RewardDestination` enum with an extra field for payout-to-any account. If on an older chain consider adding `RewardDestination: 'RewardDestinationTo257'` (Newer chains with this requirement met in their Substrate version should update the API for support)
+
 - Fix documentation language and typos (Thanks to https://github.com/Meuko)
 - Add missing `TransactionPriority` type (Thanks to https://github.com/aniiantt)
 - Update definitions for new `CompactAssignments`, including tests (Thanks to https://github.com/kianenigma)
-- Add transparent support for types/metadata, i.e. hash queries such as `rpc.chain.getBlock(<hash>)` & `query.system.events.at(<hash>)` now works out-of-the-box with the correct metadata & types
+
+- Add transparent support for types/metadata, i.e. hash queries such as `rpc.chain.getBlock(<hash>)` & `query.system.events.at(<hash>)` now works out-of-the-box injecting the correct metadata & types.
+- Optimize RPC-layer calls with detection of short-term cacheable calls (in the same way subscriptions are done)
 - Additional checks on `AccountId` for valid sizes
 - Add `toBigInt()` (JS built-in `BigInt`) on `Int/Uint`, & `Compact<*>` types
 - Support for `.concat` on Codec arrays
@@ -17,6 +20,7 @@ Upgrade priority: Low, unless using the new `RewardDestination` or there is a ne
 - `derive.democracy.locks` now returns delegated locks for an account as well
 - Adjust unlocking derives with appropriate in-place additions (less object allocations)
 - `.sign` on submittables is marked deprecated (not due for removal, but rather use `.signAsync` for consistency with `.signAndSend`)
+
 
 ## 1.30.1 Aug 24, 2020
 
@@ -29,35 +33,43 @@ Upgrade priority: Low, unless using the `proposeParachain` module.
 - Allow for configurable hashers via `registry.setHasher(...)` (defaults to `blake2AsU8a`)
 - `@polkadot/util` 3.3
 
+
 ## 1.29.1 Aug 17, 2020
 
 Upgrade priority: Low, unless on bleeding-edge chain with new compact `CompactAssignments`.
 
 - **Important** The Substrate `CompactAssignments` type has changed for better space utilization. On older chains, supply `CompactAssignments: 'CompactAssignmentsTo257'`
+
 - Clean tx cookbook param expansion (Thanks to https://github.com/swswsw)
+
 - Add additional `Fixed{I,U}{64,128}` and `{I,U}32F32` types
 - Add `desiredRunnersUp` to council derives
 - Cleanup indices/AccountId combination derive lookups
 - `@polkadot/util` 3.2
+
 
 ## 1.28.1 Aug 10, 2020
 
 Upgrade priority: Low, unless using Centrifuge or parachains
 
 - Update Centrifuge types to latest (Thanks to https://github.com/mikiquantum)
+
 - Add cookbook entry for viewing block extrinsics
 - Support types for time-delay proxies
 - Update types for parachains
 - `@polkadot/util` 3.1
 - `@polkadot/wasm-crypto` 1.3
 
+
 ## 1.27.1 Aug 3, 2020
 
 Upgrade priority: Low, unless using the Rococo chain
 
 - Remove outdated example poc-3 RPC reference (Thanks to https://github.com/swswsw)
+
 - Raw/Bytes `toHuman` detects ASCII sequence for text output
 - Add know types for the Rococo chain
+
 
 ## 1.26.1 Jul 27, 2020
 
@@ -65,20 +77,24 @@ Upgrade priority: Low
 
 - Update docs for the new `system.accountNextIndex` (Thanks to https://github.com/shawntabrizi)
 - Update contracts call parameter typing (Thanks to https://github.com/kwingram25)
+
 - Adjust votingBalance to only return `freeBalance` (only council voting is free + reserved)
 - Additional checks for referenced Vec sub-type deconstruction in typegen
 - Allow for API `typesBundle` option to inject a group of chain versions types
 - Update metadata static tests for latest Substrate
 - `@polkadot/util` 3.0
 
+
 ## 1.25.1 Jul 20, 2020
 
 Upgrade priority: Medium, especially if using contracts.
 
 - **Important** Contract RPC result updated on Substrate, on older chains supply `ContractExecResult: 'ContractExecResultTo255'`
+
 - Support for custom HTTP headers in providers (Thanks to https://github.com/brad-larson)
 - Update known types for Centrifuge (Thanks to https://github.com/philipstanislaus)
 - Update API users with Registrar #1 (Thanks to https://github.com/chevdor)
+
 - Raw/Bytes `toHuman()` displays utf-8 as available
 - Add fallback for `setImmediate` when not polyfilled
 - Update `NetworkState` reputation type for `system_networkState` RPC
@@ -86,15 +102,18 @@ Upgrade priority: Medium, especially if using contracts.
 - Fix class prototype for (basically-deprecated) Linkage type
 - Add Polkadot types for `purchase` pallet
 
+
 ## 1.24.1 Jul 13, 2020
 
 - Added `isAscii` & `isUtf8` getters to `Bytes` & `Raw` types
 - Added `toUtf8()` helper to `Bytes` & `Raw` types
 - `@polkadot/util` 2.18
 
+
 ## 1.23.1 Jul 6, 2020
 
 - Small README typo fix (Thanks to https://github.com/woss)
+
 - Add latest Substrate master types
 - Adjust `<Codec>.toRawType()` to use registry name as available
 - Update `ProxyType` for Kusama, Polkadot & Westend with `IdentityJudgement`
@@ -102,27 +121,34 @@ Upgrade priority: Medium, especially if using contracts.
 - Remove core codec dependencies on Base class (with proper TS encapsulation)
 - `@polkadot/util` 2.17
 
+
 ## 1.22.1 Jun 30, 2020
 
 - **Important** Substrate changed the treasury tip structure, on older chains supply `OpenTip: 'OpenTipTo225'`
+
 - Allow for `[u8; 33]` in U8aFixed (Thanks to https://github.com/akru)
+
 - Improve derive accountId -> accountIndex lookups (optimize entries queries)
 - Vesting balance calculations via `derive.balances.all` has been updated for locks
 - Add derive for multi staking rewards with specified eras
 - `@polkadot/util` 2.16
 
+
 ## 1.21.1 Jun 23, 2020
 
 - Fix subscriptions never unsubscribing after the id swap in 1.18.1 (Thanks to https://github.com/dillu24 for testing iterations)
+
 - Add support for `CheckMortality` signed extension (old `CheckEra` is now an alias)
 - Promise API will default to using `getStorage` on non-subscription calls, reducing RPC overhead
 - Optimize derive BN allocations, using in-place operators as applicable
 - Add new Substrate types for Babe `EquivocationProof`
 - Adjust `Releases` enum to use a shared instance
 
+
 ## 1.20.1 Jun 22, 2020
 
 - **Important** RPC for `account_nextIndex` has been moved to `system_accountNextIndex` (Aligning with Substrate as a primary alias)
+
 - Cleanup map entries support with only Substrate 2.0-era RPCs (when introduced)
 - Add `system_dryRun` RPC
 - Optimize `derive.staking.queryMulti` retrievals with additional per-type batching
@@ -130,13 +156,16 @@ Upgrade priority: Medium, especially if using contracts.
 - Adjust types & metadata for latest Substrate
 - `@polkadot/util` 2.15
 
+
 ## 1.19.1 Jun 16, 2020
 
 - Improve typing on `.entries()` queries (Thanks to https://github.com/monitz87)
+
 - Align metadata and types with latest Substrate
 - Update Polkadot types for current evolution of parachains
 - Allow for type aliasing on events (aligning with calls & queries)
 - `@polkadot/util` 2.14
+
 
 ## 1.18.1 Jun 8, 2020
 
@@ -144,25 +173,30 @@ Upgrade priority: Medium, especially if using contracts.
 - Update contract fees to current impl. (Thanks to https://github.com/djuanit0x)
 - Allow `Option` types in enum/Result type generation (Thanks to http://github.com/xlc)
 - Add `.entriesPaged` and `.keysPaged` methods for state maps (https://github.com/monitz87)
+
 - Add types for new Substrate proxy module
 - Adjust types for new Substrate (renamed) npos-elections module
 - `Call` now exposes `method` & `section` fields (aligned with `toHuman()` representation)
 - Cater for new Substrate string subscription ids (with backwards compatibility)
 - `@polkadot/util` 2.13
 
+
 ## 1.17.2 Jun 2, 2020
 
 - Ensure subscription promise resolves before first result
 
+
 ## 1.17.1 Jun 2, 2020
 
 - Fix `ElectionSize` type (Thanks to https://github.com/arjanz)
+
 - Allow `BTreeSet` decoding from Array/JSON inputs
 - Adjust Call-only metadata output to trim documentation to first full line
 - Safeguard against divide-by-zero for total era points (expired reward eras)
 - Internal derive optimizations with combining calls
 - Support for latest Substrate types & metadata
 - `@polkadot/util` 2.12
+
 
 ## 1.16.1 May 26, 2020
 
@@ -173,6 +207,7 @@ Upgrade priority: Medium, especially if using contracts.
 - Update to latest TypeScript, eslint & typescript-eslint
 - `@polkadot/util` 2.11
 
+
 ## 1.15.1 May 23, 2020
 
 - Adjust `keyPrefix()` with DoubleMap args (Thanks to https://github.com/KiChjang)
@@ -180,17 +215,20 @@ Upgrade priority: Medium, especially if using contracts.
 - Spelling fixes for console logs (Thanks to https://github.com/JoshOrndorff)
 - Spelling fixes in cookbook (Thanks to https://github.com/pawelnguyen)
 - Add `transactionVersion` getter in payloads (Thanks to https://github.com/amaurymartiny)
+
 - Adjust `stakerRewards` derive ordering for improved on-payout refreshes
 - Baseline implementation for derive caching infrastructure
 - Adjust `Multiplier` type to `Fixed128` (as per latest Substrate)
 - Updated to latest Substrate metadata & add new types
 
+
 ## 1.14.1 May 14, 2020
 
 - **Important** `DispatchInfo` changed `paysFee` to an enum, if using an older version use, `DispatchInfo: 'DispatchInfoTo244'`
+
 - Align imOnline `Heartbeat` with Substrate (Thanks to https://github.com/arjanz)
 - Adust EVM types to include `Vicinity` (Thanks to https://github.com/drewstone)
-- Add `derive.democracy.locks` to return extended lock info based on votes
+
 - Ensure metadata is only requested once upon startup (bypass on upgrade subscriptions)
 - Expand testing around `ExtrinsicEra` construction
 - Expand `Registry` to direct access to available signed extensions (in addition to exposed types)
@@ -202,6 +240,7 @@ Upgrade priority: Medium, especially if using contracts.
 - Extends types for Polkadot claims
 - Update `@polkadot/util` to 2.10
 
+
 ## 1.13.1 May 6, 2020
 
 - Add support for ECDSA keypairs in extrinsic signers (Thanks to https://github.com/akru)
@@ -209,15 +248,18 @@ Upgrade priority: Medium, especially if using contracts.
 - Adjust extrinsic `sign/signAsync` signature to optional options (Thanks to https://github.com/KiChjang)
 - Support round-robin endpoints in the `WsProvider` with array of urls (Thanks to https://github.com/hoani)
 - Remove static test-only metadata for Polkadot dev chains (not updated regularly, Substrate dev to remain)
+
 - Revert error swallow for wrong preimage data (temp. override for Kusama upgrade with no migration)
 - Fix `.encodedLength` calculation on `[Type; N]` types
 - Add new `rpc.grandpa.roundState` RPC
 - Update types & metadata as per latest Substrate master
 - Adjust Centrifuge starting version
 
+
 ## 1.12.2 Apr 30, 2020
 
 - Update `@polkadot/util` to stable 2.9.1 (sadly missed in the previous version, stable should match to stable)
+
 
 ## 1.12.1 Apr 29, 2020
 
@@ -225,22 +267,27 @@ Upgrade priority: Medium, especially if using contracts.
 - Provider ayo-connect now allows for interval config (Thanks to https://github.com/jnaviask)
 - Cleanup generation for c-like enums (Thanks to https://github.com/monitz87)
 - Allow subscription to all storage keys, alignment with Substrate (Thanks to https://github.com/xlc)
+
 - Cater for vote delegations in democracy derives
 - Cleanup account derive flags where to allow for optional council modules
 - Allow generic types in ApiPromise.combineLatest
 - Update to latest substrate metadata
 
+
 ## 1.11.2 Apr 22, 2020
 
 - Small patch to add missing Polkadot master types (will be in next Kusama update)
 
+
 ## 1.11.1 Apr 21, 2020
 
 - **Important** Substrate master has an updated `Weight` (to `u64`), on older chains apply `Weight: 'u32'` (This does affect event decoding if wrongly set)
+
 - Allow user type augmentation to work with different versions of rxjs (Thanks to https://github.com/monitz87)
 - Align augmented generation with camelCase (Thanks to https://github.com/monitz87)
 - Fix bitfield endian encoding (Thanks to investigation by https://github.com/xlc)
 - Add account flag derives via `accounts.flags(accountId)` (Thanks to https://github.com/kwingram25)
+
 - Fix entries decoding for `Option<Number>` (& simplify, decoding correctly on rpc layer)
 - Add `system.{localPeerId, localListenAddresses}` & `state.getReadProof` RPCs
 - Ensure proper propagation of `api.runtimeVersion` (used for signing) after upgrade
@@ -253,9 +300,11 @@ Upgrade priority: Medium, especially if using contracts.
 - Enhance API support for non-subscription providers (skip subscription to runtimeVersion)
 - Adjust types for Kusama 1057 (notably the new `StakingLedger`)
 
+
 ## 1.10.1 Apr 13, 2020
 
 - **Important** Substrate master has updated staking, on older chains apply `StakingLedger: 'StakingLedgerTo240'`
+
 - Add `rpc.system.chainType` to retrieve the chain type (Development. Local, Live & Custom)
 - Adjust types for Westend after the reset
 - Adjust democracy derives, including the support of the frame-scheduler for scheduled deployments
@@ -266,10 +315,12 @@ Upgrade priority: Medium, especially if using contracts.
 - Internally all private/protected methods/variables are now `_` prefixed (Aligning with the `private/protected` indicators in the TS definitions)
 - Update metadata/docs-from-metadata to the latest Substrate
 
+
 ## 1.9.1 Apr 1, 2020
 
 - **Breaking change** (TypeScript with derives only) The return type names for `api.derive.*` have been adjusted for consistency, all starting with `Derive*` (previously a mixture of `Derived*` and `Derive*`)
 - **Breaking change** (derives only) Additional cleanups of democracy proposal & referenda derives, including support for new Polkadot/Substrate vote retrievals
+
 - Tx signing via `signAndSend` & `signAsync` now tries to use the last finalized block (depending on finalized drift)
 - Add support for `api.rpc.childstate.*` Substrate RPCs, older nodes with still populate `api.rpc.state.*` with the child methods
 - Adjust `Error.message` on RPC failures to not include the (already known) method signature
@@ -281,11 +332,13 @@ Upgrade priority: Medium, especially if using contracts.
 - Fix encoding for `Vec<u8>`-related types as part of constants
 - Internal adjustment of interface type locations (no impact on imports via `@polkadot/types/interfaces`)
 
+
 ## 1.8.1 Mar 22, 2020
 
 - **Breaking change** The format for any custom RPCs have been changed (alongside API-internal changes) to allow for better RPC management. If you are currently using custom RPCs (or planning to do so), look at the [updated documentation](https://polkadot.js.org/api/start/rpc.custom.html)
 - **Breaking change** Alongside API RPC changes, the `@polkadot/jsonrpc` package has been removed. Since it was never documented and only used internally, this should not have adverse impacts. All RPC definitions itself has now been moved to the relevant modules inside `@polkadot/types/interfaces`
 - **Important** Substrate has an updated democracy module. If using an older chain add the `ReferendumInfo: 'ReferendumInfoTo239'` type when using referendums
+
 - The `isRetracted` Extrinsic status is now a warning, not a fatal error, correctly aligning with Polkadot/Substrate
 - The Substrate extrinsic phase definitions has been expanded with `Initialization` to align with the latest versions
 - Add support for all known substrate RPC methods
@@ -293,9 +346,11 @@ Upgrade priority: Medium, especially if using contracts.
 - Adjusted referendum derives to cater for bot new/old democracy. Derived `referendumInfo` now includes `status` field, not `info`
 - Add `initWasm` flag to API options. When set to `false` does not init the WASM portion (leaving it to the user elsewhere)
 
+
 ## 1.7.1 Mar 17, 2020
 
 - **Important** Current versions of Polkadot/Substrate have dropped support for linked maps on storage entries. If you are using these queries to retrieve all entries, for instance `staking.{nominators,validators}()` and using an upgraded chain, you need to swap to retrieving entries via `.entries()` or `.keys()` for the keys.
+
 - Pull in support and types for latest Polkadot/Substrate
 - Add support for the new Substrate `state_getKeysPaged` RPC, including use in storage keys
 - Move `derive.staking.controllers` to `derive.staking.stashes`, reflecting actual content
@@ -303,13 +358,16 @@ Upgrade priority: Medium, especially if using contracts.
 - Expanded `derive.staking.*` derives, including addition of `derive.staking.own*`
 - Re-add fixed (with tests) checks for query args, previously disabled in 1.6.2
 
+
 ## 1.6.2 Mar 12, 2020
 
 - Revert checks for query args, not working on `.at()` queries (proper fix in next version)
 
+
 ## 1.6.1 Mar 12, 2020
 
 - **Breaking change** `api.rpc.state.queryStorage(...)` now fully decodes the `Vec<StorageChangeSet>` and returns a decoded `[Hash, Codec[]][]` when using this RPC.
+
 - `StorageKey` now has an `.args` property, decoded from meta where `twox64_concat` or `blake128_concat` are used on maps
 - Fix `api.query.*.*.entries` type conversions to return exact types (not `Option` in some cases)
 - Add `api.query.*.*.keys` to retrieve only the storage keys, similar to `.entries`
@@ -321,13 +379,16 @@ Upgrade priority: Medium, especially if using contracts.
 - Add runtime validation for map arguments to `api.query.*`
 - TypeScript interfaces for linked maps now correctly generates as `[Type, Linkage<Next>]`
 
+
 ## 1.5.1 Mar 06, 2020
 
 - **Important** Substrate master has updated staking, on older chains supply `StakingLedger: 'StakingLedgerTo223'`
 - **Important** Substrate master has updated collective, on older chains supply `Votes: 'VotesTo230'`
+
 - Add proper support for type generation with an Enum containing an Tuple (Thanks to https://github.com/monitz87)
 - Fix storage parsing not resulting in rejected Promises (Fix from https://github.com/aniiantt applied)
 - Remove use of deprecated `Observable.create` (Thanks to https://github.com/Himself65)
+
 - Add types & metadata for the latest Polkadot/Substrate runtime versions (master branches)
 - Type extraction will now allow the same sub-module name across packages, i.e. `@polkadot/types/interfaces/runtime` & `@mine/interfaces/runtime` will be valid
 - Add `.range([from, to]: [Hash, Hash?], ...args: any[]): [Hash, Codec][]` on all storage entries
@@ -341,17 +402,21 @@ Upgrade priority: Medium, especially if using contracts.
 - Add additional derives to `api.derive.staking` to handle lazy-payout retrievals
 - Update `@polkadot/{util, util-crypto, keyring}` to 1.6.1 & `@polkadot/wasm` to 1.2.1
 
+
 ## 1.4.2 Feb 27, 2020
 
 - Fix `api.tx(<extrinsic>): Submittable` decoration (non-working in 1.4.1, now with proper test)
+
 
 ## 1.4.1 Feb 26, 2020
 
 - **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features (specifically `#private`), which is not usable in TS versions < 3.8
 - **Breaking change** - `api.derive.staking.*` has updated result types and detects support for lazy payouts queries
+
 - Rework type generation for `api.{query, tx}` to properly handle complex type inputs (Thanks to https://github.com/monitz87)
 - Rework metadata `--strict` mode to effectively decorate chain metadata (Thanks to https://github.com/monitz87)
 - Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
+
 - Add `api.rpc.engine.*` for manual seal support
 - Add `api.injectMetadata(metadata)` to initialize API with a specific metadata version
 - The api now checks for runtime upgrades, augmenting the interfaces with new metadata when found
@@ -371,18 +436,23 @@ Upgrade priority: Medium, especially if using contracts.
 - Cleanup augmentation and generation scripts for type definitions, aligning with api augmentation
 - Bump to `@polkadot/{util, util-crypto, keyring}` 2.5.1
 
+
 ## 1.3.1 Feb 18, 2020
 
 - Add `@types/bn.js` as a normal dependency, exposed in `*.d.ts` (Thanks to https://github.com/monitz87)
+
 - Type generation scripts (including `polkadot-types-from-{chain,defs}`) has been moved to the `@polkadot/typegen` package
 - The `@polkadot/types/codec/create` has been moved to `@polkadot/types/create`, imports from `@polkadot/types` are unaffected
 - Expose chain properties on registry (and use for API type formatting)
 - Add `toHuman(isExtended?: boolean)` to all codec types, formatting into a human-readable structure
 
+
 ## 1.2.1 Feb 16, 2020
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
+
 - Storage `.entries(arg?: any)` now has the correct argument type for DoubleMap (Thanks to https://github.com/monitz87)
+
 - Swap Kusama and Polkadot aliases for `Address` to `AccountId` (future update)
 - Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliasing
 - Add `BitVec` type primitive
@@ -397,9 +467,11 @@ Upgrade priority: Medium, especially if using contracts.
 - Cleanup `codec/Date` tests to make it run properly on all timezones
 - Add explicit dependencies to all packages and move TypeScript `@types/*` to dev deps
 
+
 ## 1.1.1 Feb 06, 2020
 
 - **Important** Chains without `balances.account` or `system.account` should supply `"BalanceLock": "BalanceLockTo212"` to their types to use the previous-generation `BalanceLock` (when querying locks)
+
 - Add support for `balances.account` in all applicable derives (incl. `vesting` module)
 - Inject and use SignedExtensions by name from V11 metadata (V4 extrinsics only)
 - Add typings for `api.tx.*.*` - the `polkadot-types-from-chain` now also generates these
@@ -411,11 +483,14 @@ Upgrade priority: Medium, especially if using contracts.
 - Adjust balances fees derivation with optional transfer and creation fees (removed in Substrate)
 - Adjust enum `.toJSON()` to return type name as specified
 
+
 ## 1.0.1 Jan 30, 2020
 
 - **Breaking change** Drop support for Substrate v1 chain in all derives
+
 - Return unsub functions from provider .on emitters (Thanks to https://github.com/jak-pan)
 - `ApiPromise.isReady` now rejects on unrecoverable errors (Thanks to https://github.com/laec)
+
 - Add `polkadot-types-from-chain` & `polkadot-types-from-defs` TypeScript generators to `@polkadot/types`
 - Only decorate derives where relevant parent `api.query.*` is available
 - Support `.entries(arg?: any)` lookups on DoubleMaps (in addition to previously supported maps)
@@ -430,9 +505,11 @@ Upgrade priority: Medium, especially if using contracts.
 - Remove support for un-deployed metadata
 - Remove old known types for Substrate V1
 
+
 ## 0.100.1 Jan 13, 2020
 
 - **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chains, dependent libraries such as sr25519 may not be compatible.
+
 - Add support for the Substrate identity module
 - Remove the `codec/Data` type, to remove a conflict with Substrate. This type is now named `Raw`
 - Fix for linked maps using `Option`
@@ -441,23 +518,28 @@ Upgrade priority: Medium, especially if using contracts.
 - Add support for latest Polkadot/Substrate types
 - Add `paymentInfo` to submittables to calculate fees
 
+
 ## 0.99.1 Dec 13, 2019
 
 - **Breaking change** The `Data` and `U8a` type has been renamed and just replaced with the `Raw` type
 - **Breaking change** The `api.derive.staking.info` has been split into 2 - `staking.query` for non-balance related information (more effective) and `staking.account` that enhances query for all the information previously found `.info`
+
 - Cleanup `DoubleMap` hashing to always hash over the full value (in the case of `Vec<T>`, this includes the length)
 - Update democracy derives to take care of nextTally and lowestUnbaked
 - Add additional derives for both council & treasury
 - Alignment with latest Polkadot/Substrate master branch types
+
 
 ## 0.98.1 Dec 04, 2019
 
 - Make the TypeScript generation script mor re-usable (Thanks to https://github.com/xlc)
 - Add `.entries()` for all map-types, returning storage keys and values
 - Add `.signAsync` to submittable extrinsics (Thanks to https://github.com/c410-f3r)
+
 - Cleanup circular references between internal dependencies
 - Support for new Substrate democracy with preimages in derive
 - Alignment of types with Substrate/Polkadot master branches
+
 
 ## 0.97.1 Nov 29, 2019
 
@@ -465,11 +547,13 @@ Upgrade priority: Medium, especially if using contracts.
 - **Breaking change** The metadata classes have been moved from `@polkadot/types` into `@polkadot/metadata`. If you explicitly create `Metadata` classes, you now would need to do so with the `import Metadata from '@polkadot/metadata';` This is a decorated class, where the previous metadata is now available on `Metadata.metadata`, alongside decorated `consts.*`', `tx.*` and `query.*`.
 - **Breaking change** Session `Keys` defaults to 4 keys now (Substrate master), depending on your node config, you would want to override with e.g. `Keys: 'SessionKeys3'` (1, 2, 3, 4, 5 & 6)
 - **Breaking change** `ValidatorPrefs` now default to the new percentage commission model, to use the previous `validatorPayment`, you can override with `ValidatorPrefs: 'ValidatorPrefsTo196'`
+
 - `api.derive.*` now has built-in memomization
 - Various fixes and cleanups to `api.derive.*` including era length progress and vesting calculations
 - Aligned all types with the latest Polkadot & Substrate, including Kusama CC3
 - Support for Metadata V9, which adjusts the hashing methods of storage entries
 - Support for Metadata V10 (still un-released), which includes prefixed map support
+
 
 ## 0.96.1 Nov 09, 2019
 
@@ -481,9 +565,11 @@ Upgrade priority: Medium, especially if using contracts.
 - Update council derives for the latest Substrate master support (with constants)
 - Derive cleanups, including sharing of instances between the API and internal to derives
 
+
 ## 0.95.2 Oct 25, 2019
 
 - Temporary removal of `account_nextIndex` use, will be re-added in a future release
+
 
 ## 0.95.1 Oct 25, 2019
 
@@ -494,6 +580,7 @@ Upgrade priority: Medium, especially if using contracts.
 - Support for `BTreeMap<K, V>` types and definitions
 - All latest Polkadot & Substrate types (as per master branches)
 - **Breaking change** `Call.injectMethods` is moved to `Call.injectMetadata` to align with `Events` (This _should_ not be used externally, however mentioned as breaking here)
+
 
 ## 0.94.1 Oct 07, 2019
 
@@ -507,6 +594,7 @@ Upgrade priority: Medium, especially if using contracts.
 - Add documentation for custom extrinsic formats (advanced chains)
 - Update to latest substrate master metadata
 
+
 ## 0.93.1 Sep 26, 2019
 
 - Support for Kusama CC2
@@ -517,6 +605,7 @@ Upgrade priority: Medium, especially if using contracts.
 - Support recursive type registration (self-referencing via `Box`) in addition to better sanitation of user-defined-types
 - Documentation and example updates (thanks mostly to contributions)
 
+
 ## 0.92.1 Sep 12, 2019
 
 - The API now correctly sets the ss58 prefix as retrieved from the chain properties via `ss58Format`
@@ -524,6 +613,7 @@ Upgrade priority: Medium, especially if using contracts.
 - The `Keyring` from `@polkadot/keyring` is now exposed on the API as well. You can do `import { Keyring } from '@polkadot/api'` - this alleviates the need for extra dependencies (apart from `@polkadot/api`), and since the keyring is critical for signing operations, aligns everything in one bundle
 - Support the latest Polkadot & Substrate master branches (incl. metadata updates)
 - Getting started documentation has been made available
+
 
 ## 0.91.1 Sep 09, 2019
 
@@ -539,6 +629,7 @@ Upgrade priority: Medium, especially if using contracts.
   - **Breaking change** `SignerPayload` is renamed to `SignerPayloadJSON`
   - **Breaking change** `SignerPayloadJSON`, `SignerPayloadRawBase` and `SignerPayloadRaw` are all moved to `@polkadot/types`
 
+
 ## 0.90.1 Aug 24, 2019
 
 If you are upgrading form an older version, use the CHANGELOG hand-in-hand with the [migration guide](UPGRADING.md).
@@ -552,6 +643,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
   - For creation of types, it is recommended to use `createType(<TypeName>, <value>)` instead of e.g. `new Proposal(...)`. When passing these to methods/queries, construction should not be needed, the raw value can be passed.
   - For moved types, a previous import would have been from `@polkadot/types`, i.e. `import { SetIndex } from '@polkadot/types`, now just the interfaces (TypeScript) are available via `import { SetIndex } from '@polkadot/types/interfaces`
   - `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally `u64`) and WASM (always `u32`) code. Use one of the `u32` or `u64` types explicitly.
+
 - Support substrate v7 metadata
 - The `Method.findFunction(callIndex)` (allowing decoding of raw data), is now available on `api.findCall(callIndex)`. To keep backwards compatibility, it is still available on `GenericCall.findMethod` but the `api.findCall` is recommended and suggested.
 - The `types/codec/createType` has been moved to `types/codec/create` with the same exports. If you explicitly imported from here (and not doing the suggested `import { createType } from '@polkadot/types`), the reference needs to be updated
@@ -653,7 +745,6 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 - Change spelling to US English as per substrate master (1.0-rc1). Breaking changes as a result:
   - For extrinsic status results, if you have checked the type returns, i.e. `result.type === 'Finalised'` now check on the status for `result.status.isFinalized` or `result.status.isBroadcast`, ... (the `type` property is now accessible only on `result.status.type`)
   - If using `subscribeFinalisedHeads` update this to `subscribeFinalizedHeads` (likewise `getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
-
 - The underlying ss58 address checksums have changed
   - The updated keyring with support for this has been made available
   - All examples have been updated with sr25519 addresses (with the new checksums)
