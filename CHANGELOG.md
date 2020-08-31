@@ -2,7 +2,7 @@
 
 ## 1.31.0-beta.x
 
-Upgrade priority: Low, unless using the new `RewardDestination` or transparent `.at(hash)` queries is used
+Upgrade priority: Medium, especially for staking users on Polkadot, Kusama & Westend (type updates applied for v23 onwards) or if transparent `.at(hash)` queries are required/used
 
 - **Important** Substrate changed the `RewardDestination` enum with an extra field for payout-to-any account. If on an older chain consider adding `RewardDestination: 'RewardDestinationTo257'` (Newer chains with this requirement met in their Substrate version should update the API for support)
 
@@ -20,6 +20,7 @@ Upgrade priority: Low, unless using the new `RewardDestination` or transparent `
 - `derive.democracy.locks` now returns delegated locks for an account as well
 - Adjust unlocking derives with appropriate in-place additions (less object allocations)
 - `.sign` on submittables is marked deprecated (not due for removal, but rather use `.signAsync` for consistency with `.signAndSend`)
+- Adjust types for `CompactAssignments` & `RewardDestination` for Polkadot, Kusama & Westend
 
 
 ## 1.30.1 Aug 24, 2020
