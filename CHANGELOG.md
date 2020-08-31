@@ -4,7 +4,8 @@
 
 Upgrade priority: Medium, especially for staking users on Polkadot, Kusama & Westend (type updates applied for v23 onwards) or if transparent `.at(hash)` queries are required/used
 
-- **Important** Substrate changed the `RewardDestination` enum with an extra field for payout-to-any account. If on an older chain consider adding `RewardDestination: 'RewardDestinationTo257'` (Newer chains with this requirement met in their Substrate version should update the API for support)
+- **Important** Substrate changed the `RewardDestination` enum with an extra field for payout-to-any account for staking preferences. If on an older chain consider adding `RewardDestination: 'RewardDestinationTo257'`
+- **Important** Substrate changed the `CompactAssignment` type enhanced types for session solution submissions. If on an older chain consider adding `CompactAssignments: 'CompactAssignmentsTo257'`
 
 - Fix documentation language and typos (Thanks to https://github.com/Meuko)
 - Add missing `TransactionPriority` type (Thanks to https://github.com/aniiantt)
