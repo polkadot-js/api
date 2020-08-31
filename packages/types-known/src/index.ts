@@ -98,7 +98,7 @@ export function getSpecAlias ({ knownTypes }: Registry, chainName: Text | string
  * @description Returns a version record for known chains where upgrades are being tracked
  */
 export function getUpgradeVersion (genesisHash: Hash, blockNumber: BN): [ChainUpgradeVersion | undefined, ChainUpgradeVersion | undefined] {
-  const known = upgrades.find((u) => genesisHash && genesisHash.eq(u.genesisHash));
+  const known = upgrades.find((u) => genesisHash.eq(u.genesisHash));
 
   return known
     ? [
