@@ -102,12 +102,12 @@ export function getUpgradeVersion (genesisHash: Hash, blockNumber: BN): [ChainUp
 
   return known
     ? [
-        known.versions.reduce((last: ChainUpgradeVersion | undefined, version): ChainUpgradeVersion | undefined => {
-          return blockNumber.gt(version.blockNumber)
-            ? version
-            : last;
-        }, undefined),
-        known.versions.find((version) => blockNumber.lte(version.blockNumber))
+      known.versions.reduce((last: ChainUpgradeVersion | undefined, version): ChainUpgradeVersion | undefined => {
+        return blockNumber.gt(version.blockNumber)
+          ? version
+          : last;
+      }, undefined),
+      known.versions.find((version) => blockNumber.lte(version.blockNumber))
     ]
     : [undefined, undefined];
 }
