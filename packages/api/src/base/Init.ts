@@ -92,7 +92,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
 
     // ensure we have everything required
-    assert(this._genesisHash && this._runtimeVersion, 'Cannot retrieve dat on an uninitialized chain');
+    assert(this._genesisHash && this._runtimeVersion, 'Cannot retrieve data on an uninitialized chain');
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
