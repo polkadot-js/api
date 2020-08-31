@@ -22,6 +22,8 @@ Upgrade priority: Medium, especially for staking users on Polkadot, Kusama & Wes
 - Adjust unlocking derives with appropriate in-place additions (less object allocations)
 - `.sign` on submittables is marked deprecated (not due for removal, but rather use `.signAsync` for consistency with `.signAndSend`)
 - Adjust types for `CompactAssignments` & `RewardDestination` for Polkadot, Kusama & Westend
+- `@polkadot/util` 3.4
+- `@polkadot/wasm-crypto` 1.4
 
 
 ## 1.30.1 Aug 24, 2020
