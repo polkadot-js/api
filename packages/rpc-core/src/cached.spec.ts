@@ -101,6 +101,10 @@ describe('Cached Observables', (): void => {
   it('creates multiple observables for subsequent one-shots delayed', (done): void => {
     const observable1 = rpc.chain.getBlockHash(123);
 
+    const sub = observable1.subscribe((): void => {
+      sub.unsubscribe();
+    });
+
     setTimeout((): void => {
       // No more subscribers, now create a new observable
       const observable2 = rpc.chain.getBlockHash(123);
