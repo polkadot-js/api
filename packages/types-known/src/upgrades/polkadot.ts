@@ -10,19 +10,11 @@ import { hexToU8a } from '@polkadot/util';
 const upgrades: ChainUpgrades = {
   genesisHash: hexToU8a('0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3'),
   versions: [
-    {
-      blockNumber: new BN(0),
-      specVersion: new BN(0)
-    },
-    {
-      blockNumber: new BN(29231),
-      specVersion: new BN(1)
-    },
-    {
-      blockNumber: new BN(188836),
-      specVersion: new BN(5)
-    }
-  ]
+    [0, 0], [29231, 1], [188836, 5], [199405, 6], [214264, 7], [244358, 8], [303079, 9], [314201, 10], [342400, 11], [443963, 12], [528470, 13], [687751, 14], [746085, 15], [787923, 16], [799302, 17], [1205128, 18]
+  ].map(([blockNumber, specVersion]) => ({
+    blockNumber: new BN(blockNumber),
+    specVersion: new BN(specVersion)
+  }))
 };
 
 export default upgrades;
