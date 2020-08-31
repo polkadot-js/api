@@ -11,8 +11,7 @@ const sharedTypes = {
   ProxyType: {
     // was: SudoBalances
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'Unused', 'IdentityJudgement']
-  },
-  RewardDestination: 'RewardDestinationTo257'
+  }
 };
 
 // these are override types for Polkadot
@@ -22,14 +21,22 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
-      OpenTip: 'OpenTipTo225'
+      OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
-    minmax: [13, undefined],
+    minmax: [13, 22],
     types: {
       ...sharedTypes,
-      CompactAssignments: 'CompactAssignmentsTo257'
+      CompactAssignments: 'CompactAssignmentsTo257',
+      RewardDestination: 'RewardDestinationTo257'
+    }
+  },
+  {
+    minmax: [23, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];

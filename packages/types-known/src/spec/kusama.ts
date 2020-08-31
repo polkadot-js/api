@@ -10,8 +10,7 @@ const sharedTypes = {
   LookupSource: 'AccountId',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement']
-  },
-  RewardDestination: 'RewardDestinationTo257'
+  }
 };
 
 const versioned: OverrideVersionedType[] = [
@@ -28,6 +27,7 @@ const versioned: OverrideVersionedType[] = [
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       ReferendumInfo: 'ReferendumInfoTo239',
+      RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
@@ -45,6 +45,7 @@ const versioned: OverrideVersionedType[] = [
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       ReferendumInfo: 'ReferendumInfoTo239',
+      RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
@@ -63,6 +64,7 @@ const versioned: OverrideVersionedType[] = [
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       ReferendumInfo: 'ReferendumInfoTo239',
+      RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
       Weight: 'u32'
@@ -78,6 +80,7 @@ const versioned: OverrideVersionedType[] = [
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       ReferendumInfo: 'ReferendumInfoTo239',
+      RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }
@@ -90,6 +93,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }
@@ -100,7 +104,8 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
-      OpenTip: 'OpenTipTo225'
+      OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
@@ -108,14 +113,22 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
-      OpenTip: 'OpenTipTo225'
+      OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
-    minmax: [2013, undefined],
+    minmax: [2013, 2022],
     types: {
       ...sharedTypes,
-      CompactAssignments: 'CompactAssignmentsTo257'
+      CompactAssignments: 'CompactAssignmentsTo257',
+      RewardDestination: 'RewardDestinationTo257'
+    }
+  },
+  {
+    minmax: [2023, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];

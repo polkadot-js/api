@@ -11,8 +11,7 @@ const sharedTypes = {
   ProxyType: {
     // was: SudoBalances
     _enum: ['Any', 'NonTransfer', 'Staking', 'Unused', 'IdentityJudgement']
-  },
-  RewardDestination: 'RewardDestinationTo257'
+  }
 };
 
 const versioned: OverrideVersionedType[] = [
@@ -23,6 +22,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257',
       Weight: 'u32'
     }
   },
@@ -31,14 +31,22 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
-      OpenTip: 'OpenTipTo225'
+      OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
-    minmax: [23, undefined],
+    minmax: [23, 42],
     types: {
       ...sharedTypes,
-      CompactAssignments: 'CompactAssignmentsTo257'
+      CompactAssignments: 'CompactAssignmentsTo257',
+      RewardDestination: 'RewardDestinationTo257'
+    }
+  },
+  {
+    minmax: [43, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];
