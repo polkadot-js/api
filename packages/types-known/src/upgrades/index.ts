@@ -6,11 +6,13 @@ import { ChainUpgrades } from '@polkadot/types/types';
 
 import kusama from './kusama';
 import polkadot from './polkadot';
+import westend from './westend';
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
 const upgrades: ChainUpgrades[] = [
   kusama,
-  polkadot
+  polkadot,
+  westend
 ];
 
 export default upgrades;
