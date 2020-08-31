@@ -105,11 +105,10 @@ describe('Cached Observables', (): void => {
       sub.unsubscribe();
     });
 
-    setTimeout((): void => {
-      // No more subscribers, now create a new observable
-      const observable2 = rpc.chain.getBlockHash(123);
+    expect(rpc.chain.getBlockHash(123)).toBe(observable1);
 
-      expect(observable2).not.toBe(observable1);
+    setTimeout((): void => {
+      expect(rpc.chain.getBlockHash(123)).not.toBe(observable1);
       done();
     }, 1000);
   });
