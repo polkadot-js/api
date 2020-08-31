@@ -20,6 +20,7 @@ import Decorate from './Decorate';
 interface VersionedRegistry {
   isDefault: boolean;
   lastBlockHash: Uint8Array | null;
+  metadata: Metadata;
   registry: Registry;
   specVersion: BN;
 }
@@ -61,7 +62,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     this._rx.signer = options.signer;
 
-    this._rpcCore.setRegistrySwap((hash?: string | Uint8Array | null) => this.getBlockRegistry(hash));
+    this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));
     this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
     this._rpcCore.provider.on('error', this.#onProviderError);
     this._rpcCore.provider.on('connected', this.#onProviderConnect);
@@ -78,17 +79,13 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (blockHash?: string | Uint8Array | null): Promise<Registry> {
-    if (!blockHash) {
-      return this.registry;
-    }
-
+  public async getBlockRegistry (blockHash: string | Uint8Array): Promise<[Registry, Metadata]> {
     // shortcut in the case where we have an immediate-same request
     const lastBlockHash = u8aToU8a(blockHash);
     const existingViaHash = this.#registries.find((r) => r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash));
 
     if (existingViaHash) {
-      return existingViaHash.registry;
+      return [existingViaHash.registry, existingViaHash.metadata];
     }
 
     // ensure we have everything required
@@ -114,7 +111,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     if (existingViaVersion) {
       existingViaVersion.lastBlockHash = lastBlockHash;
 
-      return existingViaVersion.registry;
+      return [existingViaVersion.registry, existingViaVersion.metadata];
     }
 
     // nothing has been found, construct new
@@ -135,9 +132,9 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // this.injectMetadata(metadata, false);
     registry.setMetadata(metadata);
 
-    this.#registries.push({ isDefault: false, lastBlockHash, registry, specVersion: version.specVersion });
+    this.#registries.push({ isDefault: false, lastBlockHash, metadata, registry, specVersion: version.specVersion });
 
-    return registry;
+    return [registry, metadata];
   }
 
   protected async _loadMeta (): Promise<boolean> {
@@ -215,6 +212,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
               assert(thisRegistry, 'Initialization error, cannot find the default registry');
 
+              thisRegistry.metadata = metadata;
               thisRegistry.specVersion = version.specVersion;
               thisRegistry.registry.register(getSpecTypes(thisRegistry.registry, this._runtimeChain as Text, version.specName, version.specVersion));
               this.injectMetadata(metadata, false, thisRegistry.registry);
@@ -265,11 +263,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
 
-    // setup the initial registry, when we have none
-    if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, lastBlockHash: null, registry: this.registry, specVersion: runtimeVersion.specVersion });
-    }
-
     // adjust types based on bundled info
     if (this.registry.knownTypes.typesBundle) {
       this._adjustBundleTypes(this.registry, chain, runtimeVersion.specName);
@@ -288,6 +281,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     const metadata = metadataKey in optMetadata
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
+
+    // setup the initial registry, when we have none
+    if (!this.#registries.length) {
+      this.#registries.push({ isDefault: true, lastBlockHash: null, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
+    }
 
     // get unique types & validate
     metadata.getUniqTypes(false);
