@@ -13,7 +13,7 @@ Upgrade priority: Low, unless using the new `RewardDestination` or there is a ne
 - Add `toBigInt()` (JS built-in `BigInt`) on `Int/Uint`, & `Compact<*>` types
 - Support for `.concat` on Codec arrays
 - Support for serialization with `isBare` flag on enums
-- Add `api.swapRegistry(blockHash?)` to manually swap to types for a specific block (no param swaps to default)
+- Add `api.getBlockRegistry(blockHash?)` to create registry/types for a specific block
 - `derive.democracy.locks` now returns delegated locks for an account as well
 - Adjust unlocking derives with appropriate in-place additions (less object allocations)
 - `.sign` on submittables is marked deprecated (not due for removal, but rather use `.signAsync` for consistency with `.signAndSend`)

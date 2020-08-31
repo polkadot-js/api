@@ -190,14 +190,6 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     augmentObject('', decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
 
-  public setRegistry (registry: Registry): Registry {
-    this.#registry = registry;
-
-    this._rpcCore.setRegistry(registry);
-
-    return this.#registry;
-  }
-
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
     output.method = input.method;

@@ -32,8 +32,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
   #registries: VersionedRegistry[] = [];
 
-  #registryDefault: Registry;
-
   #updateSub?: Subscription;
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
@@ -43,10 +41,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
 
-    this.#registryDefault = this.registry;
-
     // all injected types added to the registry for overrides
-    this._setKnowRegistryTypes(options);
+    this.registry.setKnownTypes(options);
 
     // We only register the types (global) if this is not a cloned instance.
     // Do right up-front, so we get in the user types before we are actually
@@ -63,7 +59,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     this._rx.signer = options.signer;
 
-    this._rpcCore.setRegistrySwap((hash?: string | Uint8Array | null) => this.swapRegistry(hash));
+    this._rpcCore.setRegistrySwap((hash?: string | Uint8Array | null) => this.getBlockRegistry(hash));
     this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
     this._rpcCore.provider.on('error', this.#onProviderError);
     this._rpcCore.provider.on('connected', this.#onProviderConnect);
@@ -77,16 +73,12 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
   }
 
-  private _setKnowRegistryTypes ({ types, typesAlias, typesBundle, typesChain, typesSpec }: ApiOptions): void {
-    this.registry.setKnownTypes({ types, typesAlias, typesBundle, typesChain, typesSpec });
-  }
-
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async swapRegistry (blockHash?: string | Uint8Array | null): Promise<Registry> {
+  public async getBlockRegistry (blockHash?: string | Uint8Array | null): Promise<Registry> {
     if (!blockHash) {
-      return this.setRegistry(this.#registryDefault);
+      return this.registry;
     }
 
     // shortcut in the case where we have an immediate-same request
@@ -94,7 +86,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     const existingViaHash = this.#registries.find((r) => r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash));
 
     if (existingViaHash) {
-      return this.setRegistry(existingViaHash.registry);
+      return existingViaHash.registry;
     }
 
     // We have to assume that on the RPC layer the calls used here does not call back into
@@ -111,17 +103,17 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     if (existingViaVersion) {
       existingViaVersion.lastBlockHash = lastBlockHash;
 
-      return this.setRegistry(existingViaVersion.registry);
+      return existingViaVersion.registry;
     }
 
-    const registry = this.setRegistry(new TypeRegistry());
+    const registry = new TypeRegistry();
 
-    registry.setChainProperties(this.#registryDefault.getChainProperties());
-    this._setKnowRegistryTypes(this._options);
-    this.registerTypes(getSpecTypes(registry, this._runtimeChain as Text, version.specName, version.specVersion));
+    registry.setChainProperties(this.registry.getChainProperties());
+    registry.setKnownTypes(this._options);
+    registry.register(getSpecTypes(registry, this._runtimeChain as Text, version.specName, version.specVersion));
 
     if (registry.knownTypes.typesBundle) {
-      this._adjustBundleTypes(this._runtimeChain as Text, version.specName);
+      this._adjustBundleTypes(registry, this._runtimeChain as Text, version.specName);
     }
 
     // retrieve the metadata now that we have all types set
@@ -222,9 +214,9 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     ).subscribe();
   }
 
-  private _adjustBundleTypes (chain: Text, specName: Text): void {
+  private _adjustBundleTypes (registry: Registry, chain: Text, specName: Text): void {
     // adjust known type aliases
-    this.registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, specName);
+    registry.knownTypes.typesAlias = getSpecAlias(this.registry, chain, specName);
 
     // FIXME For the first round, we are not adjusting the user-injected RPCs
     // inject any user-level RPCs now that we have the chain/spec
@@ -268,7 +260,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // adjust types based on bundled info
     if (this.registry.knownTypes.typesBundle) {
-      this._adjustBundleTypes(chain, runtimeVersion.specName);
+      this._adjustBundleTypes(this.registry, chain, runtimeVersion.specName);
     }
 
     // do the setup for the specific chain
