@@ -235,11 +235,12 @@ export default class Rpc implements RpcInterface {
           });
 
         return (): void => {
-          memoized && memoized.delete(...values);
+          // delete old results from cache
+          memoized?.delete(...values);
         };
       }).pipe(
         publishReplay(1), // create a Replay(1)
-        refCountDelay(250) // Unsubscribe WS when there are no more subscribers
+        refCountDelay(100) // Unsubscribe after delay
       );
     };
 
@@ -312,16 +313,8 @@ export default class Rpc implements RpcInterface {
 
         // Teardown logic
         return (): void => {
-          // Delete from cache
-          // Reason:
-          // ```
-          //    const s = api.query.system.account(addr1).subscribe(); // let's say it's 6
-          //    s.unsubscribe();
-          //    // wait a bit, for the nonce to increase to 7
-          //    api.query.system.account(addr1).subscribe(); // will output 6 instead of 7 if we don't clear cache
-          //    // that's because all our observables are replay(1)
-          // ```
-          memoized && memoized.delete(...values);
+          // Delete from cache, so old results don't hang around
+          memoized?.delete(...values);
 
           // Unsubscribe from provider
           subscriptionPromise
