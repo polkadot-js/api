@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import type BN from 'bn.js';
-import { DefinitionRpc, DefinitionRpcSub, Registry, RegistryTypes, OverrideModuleType, OverrideVersionedType } from '@polkadot/types/types';
+import { Hash } from '@polkadot/types/interfaces';
+import { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, Registry, RegistryTypes, OverrideModuleType, OverrideVersionedType } from '@polkadot/types/types';
 
 import { Text } from '@polkadot/types';
 import { bnToBn, isUndefined } from '@polkadot/util';
@@ -12,6 +13,7 @@ import typesChain from './chain';
 import typesMeta from './metadata';
 import typesModules from './modules';
 import typesSpec from './spec';
+import upgrades from './upgrades';
 import warnings from './warnings';
 
 // flatten a VersionedType[] into a Record<string, string>
@@ -90,4 +92,22 @@ export function getSpecAlias ({ knownTypes }: Registry, chainName: Text | string
     ...(knownTypes.typesBundle?.spec?.[_specName]?.alias || {}),
     ...(knownTypes.typesBundle?.chain?.[_chainName]?.alias || {})
   };
+}
+
+/**
+ * @description Returns a version record for known chains where upgrades are being tracked
+ */
+export function getUpgradeVersion (genesisHash: Hash, blockNumber: BN): [ChainUpgradeVersion | undefined, ChainUpgradeVersion | undefined] {
+  const known = upgrades.find((u) => genesisHash.eq(u.genesisHash));
+
+  return known
+    ? [
+      known.versions.reduce((last: ChainUpgradeVersion | undefined, version): ChainUpgradeVersion | undefined => {
+        return blockNumber.gt(version.blockNumber)
+          ? version
+          : last;
+      }, undefined),
+      known.versions.find((version) => blockNumber.lte(version.blockNumber))
+    ]
+    : [undefined, undefined];
 }
