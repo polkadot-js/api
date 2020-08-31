@@ -240,7 +240,7 @@ export default class Rpc implements RpcInterface {
         };
       }).pipe(
         publishReplay(1), // create a Replay(1)
-        refCountDelay(100) // Unsubscribe after delay
+        refCountDelay(250) // Unsubscribe after delay
       );
     };
 
