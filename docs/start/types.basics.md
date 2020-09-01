@@ -10,6 +10,7 @@ As a minimum, anything returned by the API, be it a `Vec<...>`, `Option<...>`, `
 
 - `.eq(<other value>)` - checks for equality against the other value. In all cases, it will accept "like" values, i.e. in the case of a number you can pass a primitive (such as `1`), a hex value (such as `0x01`) or even an `Unit8Array`
 - `toHex()` - returns a hex-base representation of the value, always prefixed by `0x`
+- `toHuman()` - returns Human-parsable JSON structure with values formatted as per the settings
 - `toJSON()` - returns a JSON-like representation of the value, this is generally used when calling `JSON.stringify(...)` on the value
 - `toString()` - returns a string representation, in some cases this performs additional encoding, i.e. for `Address`, `AccountId` and `AccountIndex` it will encode to the ss58 address
 - `.toU8a()` - returns a `Uint8Array` representation of the encoded value (generally exactly as passed to the node, where values are SCALE encoded)
@@ -41,6 +42,7 @@ const system = modules.find(m => m.name.eq('system'));
 All numbers wrap and extend an instance of [bn.js](https://github.com/indutny/bn.js/). This means that in addition to the interfaces defined above, they have some additional methods -
 
 - `.toNumber()` - a JS number (limited to 2^53 - 1). This does mean that for large values, e.g. `Balance` (a `u128` extension), this can cause overflows
+- `.toBigInt()` - a JS `BigInt` object (on supported platforms)
 - `.add(...)`, `.sub(...)`, ... - all the base methods available on the `BN` object
 
 In cases where a `Compact` is returned, i.e. `Compact<Balance>`, the value is wrapped. This object should be `.unwrap()`-ed first to gain access to the underlying `Balance` object.
