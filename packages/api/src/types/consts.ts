@@ -13,17 +13,12 @@ import { ApiTypes } from './base';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AugmentedConsts<ApiType extends ApiTypes> { }
 
-export type AugmentedConst<ApiType extends ApiTypes, T extends Codec> = T & ConstEntryBase<ApiType, T>
+export type AugmentedConst<ApiType extends ApiTypes, T extends Codec> = T & QueryableConstsEntry<ApiType, T>
 
-export interface ConstEntryBase<ApiType extends ApiTypes, T extends Codec> extends ConstantCodec {
+export interface QueryableConstsEntry<ApiType extends ApiTypes, T extends Codec> extends ConstantCodec {
   // at: (hash: Hash | Uint8Array | string) => PromiseOrObs<ApiType, T>;
 }
 
-export type QueryableConstsEntry<ApiType extends ApiTypes> =
-  ApiType extends 'rxjs'
-    ? AugmentedConst<'rxjs', Codec>
-    : AugmentedConst<'promise', Codec>;
-
 export interface QueryableModuleConsts<ApiType extends ApiTypes> {
-  [index: string]: QueryableConstsEntry<ApiType>;
+  [index: string]: QueryableConstsEntry<ApiType, Codec>;
 }

@@ -7,7 +7,7 @@ declare module '@polkadot/api/types/consts' {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       {{/unless}}
       {{~#each items}}
       {{> docs}}

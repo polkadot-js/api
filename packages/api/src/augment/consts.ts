@@ -13,7 +13,7 @@ import { ApiTypes } from '@polkadot/api/types';
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
     babe: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The number of **slots** that an epoch takes. We couple sessions to
        * epochs, i.e. we start a new session once the new epoch begins.
@@ -29,14 +29,14 @@ declare module '@polkadot/api/types/consts' {
       expectedBlockTime: AugmentedConst<ApiType, Moment>;
     };
     balances: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The minimum amount required to keep an account open.
        **/
       existentialDeposit: AugmentedConst<ApiType, Balance>;
     };
     contracts: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The maximum nesting level of a call/instantiate stack. A reasonable default
        * value is 100.
@@ -87,7 +87,7 @@ declare module '@polkadot/api/types/consts' {
       tombstoneDeposit: AugmentedConst<ApiType, BalanceOf>;
     };
     democracy: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * Period in blocks where an external proposal may not be re-submitted after being vetoed.
        **/
@@ -126,7 +126,7 @@ declare module '@polkadot/api/types/consts' {
       votingPeriod: AugmentedConst<ApiType, BlockNumber>;
     };
     elections: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       candidacyBond: AugmentedConst<ApiType, BalanceOf>;
       desiredMembers: AugmentedConst<ApiType, u32>;
       desiredRunnersUp: AugmentedConst<ApiType, u32>;
@@ -135,7 +135,7 @@ declare module '@polkadot/api/types/consts' {
       votingBond: AugmentedConst<ApiType, BalanceOf>;
     };
     finalityTracker: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The delay after which point things become suspicious. Default is 1000.
        **/
@@ -146,7 +146,7 @@ declare module '@polkadot/api/types/consts' {
       windowSize: AugmentedConst<ApiType, BlockNumber>;
     };
     identity: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The amount held on deposit for a registered identity.
        **/
@@ -177,14 +177,14 @@ declare module '@polkadot/api/types/consts' {
       subAccountDeposit: AugmentedConst<ApiType, BalanceOf>;
     };
     indices: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The deposit needed for reserving an index.
        **/
       deposit: AugmentedConst<ApiType, BalanceOf>;
     };
     proxy: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * `AnnouncementDepositBase` metadata shadow.
        **/
@@ -211,7 +211,7 @@ declare module '@polkadot/api/types/consts' {
       proxyDepositFactor: AugmentedConst<ApiType, BalanceOf>;
     };
     recovery: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The base amount of currency needed to reserve for creating a recovery configuration.
        **/
@@ -230,7 +230,7 @@ declare module '@polkadot/api/types/consts' {
       recoveryDeposit: AugmentedConst<ApiType, BalanceOf>;
     };
     society: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The minimum amount of a deposit required for a bid to be made.
        **/
@@ -263,7 +263,7 @@ declare module '@polkadot/api/types/consts' {
       wrongSideDeduction: AugmentedConst<ApiType, BalanceOf>;
     };
     staking: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * Number of eras that staked funds must remain bonded for.
        **/
@@ -309,7 +309,7 @@ declare module '@polkadot/api/types/consts' {
       slashDeferDuration: AugmentedConst<ApiType, EraIndex>;
     };
     system: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The base weight of executing a block, independent of the transactions in the block.
        **/
@@ -336,7 +336,7 @@ declare module '@polkadot/api/types/consts' {
       maximumBlockWeight: AugmentedConst<ApiType, Weight>;
     };
     timestamp: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The minimum period between blocks. Beware that this is different to the *expected* period
        * that the block production apparatus provides. Your chosen consensus system will generally
@@ -346,7 +346,7 @@ declare module '@polkadot/api/types/consts' {
       minimumPeriod: AugmentedConst<ApiType, Moment>;
     };
     transactionPayment: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The fee to be paid for making a transaction; the per-byte portion.
        **/
@@ -357,7 +357,7 @@ declare module '@polkadot/api/types/consts' {
       weightToFee: AugmentedConst<ApiType, Vec<WeightToFeeCoefficient>>;
     };
     treasury: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * Percentage of spare funds (if any) that are burnt per spend period.
        **/
@@ -397,7 +397,7 @@ declare module '@polkadot/api/types/consts' {
       tipReportDepositPerByte: AugmentedConst<ApiType, BalanceOf>;
     };
     vesting: {
-      [index: string]: AugmentedConst<ApiType, object & Codec>;
+      [index: string]: QueryableConstsEntry<ApiType, Codec>;
       /**
        * The minimum amount to be transferred to create a new vesting schedule.
        **/
