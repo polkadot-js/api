@@ -7,7 +7,7 @@ import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
@@ -50,7 +50,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
 
-  protected _consts: Constants = {} as Constants;
+  protected _consts: QueryableConsts<ApiType> = {} as QueryableConsts<ApiType>;
 
   protected _derive?: ReturnType<Decorate<ApiType>['_decorateDerive']>;
 

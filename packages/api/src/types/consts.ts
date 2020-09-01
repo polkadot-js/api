@@ -15,7 +15,7 @@ export interface AugmentedConsts<ApiType extends ApiTypes> { }
 
 export type AugmentedConst<ApiType extends ApiTypes, T extends Codec> = T & QueryableConstsEntry<ApiType, T>
 
-export interface QueryableConstsEntry<ApiType extends ApiTypes, T extends Codec> extends ConstantCodec {
+export type QueryableConstsEntry<ApiType extends ApiTypes, T extends Codec> = T & ConstantCodec<T> & {
   // at: (hash: Hash | Uint8Array | string) => PromiseOrObs<ApiType, T>;
 }
 
