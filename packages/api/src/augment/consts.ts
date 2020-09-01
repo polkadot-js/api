@@ -12,7 +12,6 @@ import { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
-    [index: string]: ModuleConstants;
     babe: {
       [index: string]: AugmentedConst<ApiType, object & Codec>;
       /**

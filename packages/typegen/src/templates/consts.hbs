@@ -4,9 +4,6 @@
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
-    {{#unless isStrict}}
-    [index: string]: ModuleConstants;
-    {{/unless}}
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
