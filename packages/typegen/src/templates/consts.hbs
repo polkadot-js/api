@@ -19,5 +19,11 @@ declare module '@polkadot/api/types/consts' {
     };
     {{/each}}
   }
+
+  export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
+    {{#unless isStrict}}
+    [index: string]: QueryableModuleConsts<ApiType>;
+    {{/unless}}
+  }
 }
 {{> footer }}

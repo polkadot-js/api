@@ -6,11 +6,11 @@ import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-export interface ConstantCodec extends Codec {
+export interface ConstantCodec {
   meta: ModuleConstantMetadataLatest;
 }
 
-export type ModuleConstants = Record<string, ConstantCodec>;
+export type ModuleConstants = Record<string, Codec & ConstantCodec>;
 
 export type ModuleStorage = Record<string, StorageEntry>;
 

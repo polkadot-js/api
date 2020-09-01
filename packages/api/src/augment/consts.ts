@@ -8,6 +8,7 @@ import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perb
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
 import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
+import { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
@@ -403,5 +404,9 @@ declare module '@polkadot/api/types/consts' {
        **/
       minVestedTransfer: AugmentedConst<ApiType, BalanceOf>;
     };
+  }
+
+  export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
+    [index: string]: QueryableModuleConsts<ApiType>;
   }
 }

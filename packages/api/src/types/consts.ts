@@ -19,3 +19,11 @@ export interface ConstEntryBase<ApiType extends ApiTypes, T extends Codec> exten
   // at: (hash: Hash | Uint8Array | string) => PromiseOrObs<ApiType, T>;
 }
 
+export type QueryableConstsEntry<ApiType extends ApiTypes> =
+  ApiType extends 'rxjs'
+    ? AugmentedConst<'rxjs', Codec>
+    : AugmentedConst<'promise', Codec>;
+
+export interface QueryableModuleConsts<ApiType extends ApiTypes> {
+  [index: string]: QueryableConstsEntry<ApiType>;
+}
