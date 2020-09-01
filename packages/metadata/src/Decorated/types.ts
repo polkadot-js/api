@@ -6,18 +6,19 @@ import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Constants {}
-
-export type ModuleConstants = Record<string, Codec>;
-
 export interface ConstantCodec extends Codec {
   meta: ModuleConstantMetadataLatest;
 }
 
+export type ModuleConstants = Record<string, ConstantCodec>;
+
 export type ModuleStorage = Record<string, StorageEntry>;
 
+export interface Constants {
+  [key: string]: ModuleConstants;
+}
+
 export interface Storage {
-  [key: string]: ModuleStorage; // Will hold modules returned by state_getMetadata
+  [key: string]: ModuleStorage;
   substrate: ModuleStorage;
 }
