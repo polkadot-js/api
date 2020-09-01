@@ -16,7 +16,7 @@ import { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfa
 import { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
 import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
 import { DeferredOffenceOf, Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
-import { Announcement, ProxyDefinition } from '@polkadot/types/interfaces/proxy';
+import { ProxyAnnouncement, ProxyDefinition } from '@polkadot/types/interfaces/proxy';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, ExtrinsicsWeight, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, Releases, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
@@ -429,7 +429,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The announcements made by the proxy (key).
        **/
-      announcements: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[Vec<Announcement>, BalanceOf]>>> & QueryableStorageEntry<ApiType>;
+      announcements: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[Vec<ProxyAnnouncement>, BalanceOf]>>> & QueryableStorageEntry<ApiType>;
       /**
        * The set of account proxies. Maps the account which has delegated to the accounts
        * which are being delegated to, together with the amount held on deposit.
