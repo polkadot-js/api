@@ -50,6 +50,7 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
   const isVesting = isStarted && !vestingLocked.isZero();
   const vestedClaimable = api.registry.createType('Balance', isVesting ? vestingLocked.sub(vestingTotal.sub(vestedBalance)) : 0);
   const availableBalance = api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), freeBalance.sub(lockedBalance)));
+  const vestingEndBlock = api.registry.createType('BlockNumber', isVesting ? vestingTotal.div(perBlock).add(startingBlock) : 0);
 
   return {
     accountId,
@@ -64,7 +65,9 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
     reservedBalance,
     vestedBalance,
     vestedClaimable,
+    vestingEndBlock,
     vestingLocked,
+    vestingPerBlock: perBlock,
     vestingTotal,
     votingBalance
   };
