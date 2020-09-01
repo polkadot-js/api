@@ -13,6 +13,16 @@ export default {
       description: 'Returns the state of the current best round state as well as the ongoing background rounds',
       params: [],
       type: 'ReportedRoundStates'
+    },
+    subscribeJustifications: {
+      description: 'Subscribes to grandpa justifications',
+      params: [],
+      pubsub: [
+        'justifications',
+        'subscribeJustifications',
+        'unsubscribeJustifications'
+      ],
+      type: 'JustificationNotification'
     }
   },
   types: {
@@ -39,6 +49,7 @@ export default {
       targetHash: 'Hash',
       targetNumber: 'BlockNumber'
     },
+    JustificationNotification: 'Bytes',
     KeyOwnerProof: 'MembershipProof',
     NextAuthority: '(AuthorityId, AuthorityWeight)',
     PendingPause: {
