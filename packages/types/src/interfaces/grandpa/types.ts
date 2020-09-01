@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { BTreeSet, Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, u32, u64 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AuthoritySignature } from '@polkadot/types/interfaces/imOnline';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
@@ -45,6 +45,9 @@ export interface GrandpaPrevote extends Struct {
   readonly targetHash: Hash;
   readonly targetNumber: BlockNumber;
 }
+
+/** @name JustificationNotification */
+export interface JustificationNotification extends Bytes {}
 
 /** @name KeyOwnerProof */
 export interface KeyOwnerProof extends MembershipProof {}
