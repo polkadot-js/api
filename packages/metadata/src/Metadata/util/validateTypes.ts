@@ -2,41 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { Registry } from '@polkadot/types/types';
 
-import { getTypeDef } from '@polkadot/types/create';
-
+import extractTypes from './extractTypes';
 import flattenUniq from './flattenUniq';
-
-type Extracted = string | Extracted[];
-
-/** @internal */
-function extractTypes (types: string[]): Extracted[] {
-  return types.map((type): Extracted => {
-    const decoded = getTypeDef(type);
-
-    switch (decoded.info) {
-      case TypeDefInfo.Plain:
-        return decoded.type;
-
-      case TypeDefInfo.BTreeSet:
-      case TypeDefInfo.Compact:
-      case TypeDefInfo.Option:
-      case TypeDefInfo.Vec:
-      case TypeDefInfo.VecFixed:
-        return extractTypes([(decoded.sub as TypeDef).type]);
-
-      case TypeDefInfo.BTreeMap:
-      case TypeDefInfo.HashMap:
-      case TypeDefInfo.Result:
-      case TypeDefInfo.Tuple:
-        return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));
-
-      default:
-        throw new Error(`Unhandled: Unable to create and validate type from ${type}`);
-    }
-  });
-}
 
 /** @internal */
 export default function validateTypes (registry: Registry, types: string[], throwError: boolean): void {

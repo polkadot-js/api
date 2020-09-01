@@ -10780,7 +10780,7 @@
                   "Map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
-                    "value": "(Vec<Announcement>,BalanceOf)",
+                    "value": "(Vec<ProxyAnnouncement>,BalanceOf)",
                     "linked": false
                   }
                 },

@@ -26,6 +26,14 @@ describe('sanitize', (): void => {
         'Text Text (Text,[Text;32],Text)"Text<Text>'
       );
     });
+
+    it('handles emdedded Vec/Tuples', (): void => {
+      const ann = alias(['Announcement'], 'ProxyAnnouncement');
+
+      expect(ann('(Vec<Announcement>,BalanceOf)')).toEqual(
+        '(Vec<ProxyAnnouncement>,BalanceOf)'
+      )
+    });
   });
 
   describe('removeColons', (): void => {
