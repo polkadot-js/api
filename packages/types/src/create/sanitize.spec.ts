@@ -32,7 +32,7 @@ describe('sanitize', (): void => {
 
       expect(ann('(Vec<Announcement>,BalanceOf)')).toEqual(
         '(Vec<ProxyAnnouncement>,BalanceOf)'
-      )
+      );
     });
   });
 
