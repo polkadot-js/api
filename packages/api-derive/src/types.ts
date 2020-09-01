@@ -30,12 +30,12 @@ export interface DeriveBalancesAll extends DeriveBalancesAccount {
   lockedBalance: Balance;
   lockedBreakdown: (BalanceLock | BalanceLockTo212)[];
   availableBalance: Balance;
-  perBlock: Balance;
   votingBalance: Balance;
   vestedBalance: Balance;
   vestedClaimable: Balance;
   vestingEndBlock: BlockNumber;
   vestingLocked: Balance;
+  vestingPerBlock: Balance;
   vestingTotal: Balance;
 }
 

@@ -62,12 +62,12 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
     isVesting,
     lockedBalance,
     lockedBreakdown,
-    perBlock,
     reservedBalance,
     vestedBalance,
     vestedClaimable,
     vestingEndBlock,
     vestingLocked,
+    vestingPerBlock: perBlock,
     vestingTotal,
     votingBalance
   };
