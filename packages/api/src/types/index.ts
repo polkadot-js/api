@@ -24,6 +24,7 @@ export { Signer, SignerResult } from '@polkadot/types/types';
 export { default as ApiBase } from '../base';
 export * from '../submittable/types';
 export * from './base';
+export * from './consts';
 export * from './rpc';
 export * from './storage';
 export * from './submittable';

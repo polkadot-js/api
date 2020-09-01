@@ -5,8 +5,8 @@
 import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { Registry } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import { VersionedRegistry } from './types';
 
-import BN from 'bn.js';
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text, TypeRegistry } from '@polkadot/types';
@@ -16,14 +16,6 @@ import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import Decorate from './Decorate';
-
-interface VersionedRegistry {
-  isDefault: boolean;
-  lastBlockHash: Uint8Array | null;
-  metadata: Metadata;
-  registry: Registry;
-  specVersion: BN;
-}
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
@@ -127,7 +119,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // retrieve the metadata now that we have all types set
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
-    const result = { isDefault: false, lastBlockHash, metadata, registry, specVersion: version.specVersion };
+    const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
     // TODO: Not convinced (yet) that we really want to re-decorate, keep on ice since it does muddle-up
     // this.injectMetadata(metadata, false);
@@ -213,6 +205,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
               assert(thisRegistry, 'Initialization error, cannot find the default registry');
 
               thisRegistry.metadata = metadata;
+              thisRegistry.metadataConsts = null;
               thisRegistry.specVersion = version.specVersion;
               thisRegistry.registry.register(getSpecTypes(thisRegistry.registry, this._runtimeChain as Text, version.specName, version.specVersion));
               this.injectMetadata(metadata, false, thisRegistry.registry);
@@ -284,7 +277,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, lastBlockHash: null, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ isDefault: true, lastBlockHash: null, metadata, metadataConsts: null, registry: this.registry, specVersion: runtimeVersion.specVersion });
     }
 
     // get unique types & validate

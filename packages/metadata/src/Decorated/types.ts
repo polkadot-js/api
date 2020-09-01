@@ -3,14 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 
-export * from './consts/types';
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Constants {}
 
-export interface ModuleStorage {
-  [key: string]: StorageEntry;
+export type ModuleConstants = Record<string, Codec>;
+
+export interface ConstantCodec extends Codec {
+  meta: ModuleConstantMetadataLatest;
 }
+
+export type ModuleStorage = Record<string, StorageEntry>;
 
 export interface Storage {
   [key: string]: ModuleStorage; // Will hold modules returned by state_getMetadata
-  substrate: { [key: string]: StorageEntry };
+  substrate: ModuleStorage;
 }
