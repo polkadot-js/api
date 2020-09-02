@@ -5,7 +5,7 @@
 const layout = {
   InkLayoutKey: '[u8; 32]',
   InkLayoutField: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     layout: 'InkStorageLayout'
   },
   InkLayoutCell: {
@@ -15,7 +15,7 @@ const layout = {
   InkLayoutRange: {
     offset: 'InkLayoutKey',
     len: 'u32',
-    elemType: 'MtLookupTextId'
+    elemType: 'Text'
   },
   InkLayoutStruct: {
     fields: 'Vec<InkLayoutField>'
@@ -31,35 +31,35 @@ const layout = {
 
 const spec = {
   InkConstructorSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     selector: 'InkSelector',
     args: 'Vec<InkMessageParamSpec>',
     docs: 'Vec<Text>'
   },
   InkContractSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     constructors: 'Vec<InkConstructorSpec>',
     messages: 'Vec<InkMessageSpec>',
     events: 'Vec<InkEventSpec>',
     docs: 'Vec<Text>'
   },
   InkEventParamSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     indexed: 'bool',
     type: 'InkTypeSpec',
     docs: 'Vec<Text>'
   },
   InkEventSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     args: 'Vec<InkEventParamSpec>',
     docs: 'Vec<Text>'
   },
   InkMessageParamSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     type: 'InkTypeSpec'
   },
   InkMessageSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     selector: 'InkSelector',
     mutates: 'bool',
     args: 'Vec<InkMessageParamSpec>',
@@ -69,23 +69,21 @@ const spec = {
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
     id: 'MtLookupTypeId',
-    displayName: 'MtLookupTextId'
+    displayName: 'Text'
   }
 };
 
 const registry = {
   MtLookupTypeId: 'u32',
-  MtLookupTextId: 'u32',
   MtField: {
-    name: 'Option<MtLookupTextId>',
+    name: 'Option<Text>',
     type: 'MtLookupTypeId'
   },
   MtRegistry: {
-    strings: 'Vec<Text>',
     types: 'Vec<MtType>'
   },
   MtType: {
-    path: 'Vec<MtLookupTextId>',
+    path: 'Vec<Text>',
     params: 'Vec<MtLookupTypeId>',
     def: 'MtTypeDef'
   },
@@ -118,7 +116,7 @@ const registry = {
   },
   MtTypeDefTuple: 'Vec<MtLookupTypeId>',
   MtVariant: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     fields: 'Vec<MtField>',
     discriminant: 'Option<u64>'
   }

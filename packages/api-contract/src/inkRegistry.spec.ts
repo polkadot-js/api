@@ -7,33 +7,12 @@ import { MtType } from '@polkadot/types/interfaces';
 import { TypeRegistry, createType } from '@polkadot/types';
 
 import incrementer from '../test/abi/v2-296-incrementer.json';
-import { getInkString, getInkStrings, getInkType, getInkTypes } from './inkRegistry';
+import { getInkType, getInkTypes } from './inkRegistry';
 
 const registry = new TypeRegistry();
 
 describe('inkRegistry', (): void => {
   const project = createType(registry, 'InkProject', incrementer);
-
-  describe('getInkStrings', (): void => {
-    it('fails with invalid indexes', (): void => {
-      expect(
-        // this is a 0, indexes start at 1, so should fail
-        (): string => getInkString(project, createType(registry, 'MtLookupTextId'))
-      ).toThrow();
-    });
-
-    it('does single lookups via getInkString', (): void => {
-      expect(
-        getInkString(project, project.contract.messages[0].name)
-      ).toEqual('inc');
-    });
-
-    it('does multiple lookups via getInkStrings', (): void => {
-      expect(
-        getInkStrings(project, project.lookup.types[0].path)
-      ).toEqual(['incrementer', 'incrementer']);
-    });
-  });
 
   describe('getInkTypes', (): void => {
     it('fails with invalid indexes', (): void => {

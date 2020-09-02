@@ -11,21 +11,6 @@ export function getRegistryOffset (id: MtLookupTextId | MtLookupTypeId): number 
   return id.toNumber() - 1;
 }
 
-// extract a single string from the project
-export function getInkString (project: InkProject, id: MtLookupTextId): string {
-  const offset = getRegistryOffset(id);
-  const value = project.lookup.strings[offset];
-
-  assert(!isUndefined(value), `getInkString:: Unable to find ${id.toNumber()} in string values`);
-
-  return value.toString();
-}
-
-// extract and array of strings from the project
-export function getInkStrings (project: InkProject, ids: MtLookupTextId[]): string[] {
-  return ids.map((id): string => getInkString(project, id));
-}
-
 // extract a single ink type defintion from the project
 export function getInkType (project: InkProject, id: MtLookupTypeId): MtType {
   const offset = getRegistryOffset(id);
