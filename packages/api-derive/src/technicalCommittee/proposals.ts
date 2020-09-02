@@ -10,5 +10,5 @@ import { proposals as collectiveProposals } from '../collective';
 import { memo } from '../util';
 
 export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveCollectiveProposals> {
-  return memo(instanceId, collectiveProposals(api, 'technicalCommittee'));
+  return memo(instanceId, collectiveProposals(instanceId, api, 'technicalCommittee'));
 }

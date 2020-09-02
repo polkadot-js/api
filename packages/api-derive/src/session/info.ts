@@ -29,7 +29,7 @@ function createDerive (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsPe
   };
 }
 
-function queryAura (instanceId: string, api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
+function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
   return api.derive.session.indexes().pipe(
     map((indexes): DeriveSessionInfo =>
       createDerive(api, [
@@ -44,7 +44,7 @@ function queryAura (instanceId: string, api: ApiInterfaceRx): Observable<DeriveS
   );
 }
 
-function queryBabe (instanceId: string, api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
+function queryBabe (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
   return api.derive.session.indexes().pipe(
     map((indexes) =>
       createDerive(api, [

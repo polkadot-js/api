@@ -14,7 +14,7 @@ import { memo } from '../util';
 type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 
 // query via constants (current applicable path)
-function queryConstants (instanceId: string, api: ApiInterfaceRx): Observable<ResultV2> {
+function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
   return of([
     // deprecated
     api.consts.contracts.callBaseFee || api.registry.createType('Balance'),

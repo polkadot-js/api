@@ -37,7 +37,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * @param {(Address | AccountId | AccountIndex | string | null)} address - An accounts address in various formats.
  * @description  An [[AccountId]]
  */
-export function accountId (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountId> {
-  return memo((address?: Address | AccountId | AccountIndex | string | null): Observable<AccountId> =>
+export function accountId (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountId> {
+  return memo(instanceId, (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountId> =>
     retrieve(api, address));
 }

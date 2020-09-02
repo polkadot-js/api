@@ -22,7 +22,7 @@ interface SchedulerInfo {
   index: ReferendumIndex;
 }
 
-function queryQueue (instanceId: string, api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
+function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   return api.query.democracy.dispatchQueue<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
     switchMap((dispatches) =>
       combineLatest([
@@ -42,7 +42,7 @@ function queryQueue (instanceId: string, api: ApiInterfaceRx): Observable<Derive
   );
 }
 
-function schedulerEntries (instanceId: string, api: ApiInterfaceRx): Observable<[BlockNumber[], Option<Scheduled>[][]]> {
+function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], Option<Scheduled>[][]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -61,7 +61,7 @@ function schedulerEntries (instanceId: string, api: ApiInterfaceRx): Observable<
   );
 }
 
-function queryScheduler (instanceId: string, api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
+function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   return schedulerEntries(api).pipe(
     switchMap(([blockNumbers, agendas]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
       const result: SchedulerInfo[] = [];

@@ -24,7 +24,7 @@ function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
   );
 }
 
-function signingHeader (instanceId: string, api: ApiInterfaceRx): Observable<Header> {
+function signingHeader (api: ApiInterfaceRx): Observable<Header> {
   return combineLatest([
     api.rpc.chain.getHeader(),
     api.rpc.chain.getFinalizedHead().pipe(
@@ -40,7 +40,7 @@ function signingHeader (instanceId: string, api: ApiInterfaceRx): Observable<Hea
   );
 }
 
-export function signingInfo (instanceId: string, api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
+export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
   // no memo, we want to do this fresh on each run
   return (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number): Observable<Result> =>
     combineLatest([

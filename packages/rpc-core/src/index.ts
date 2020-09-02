@@ -32,8 +32,6 @@ const EMPTY_META = {
   }
 };
 
-let instanceCounter = 0;
-
 // utility method to create a nicely-formatted error
 /** @internal */
 function logErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): void {
@@ -68,7 +66,7 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
  * ```
  */
 export default class Rpc implements RpcInterface {
-  readonly #instanceId = `rpc-core:${++instanceCounter}`;
+  #instanceId: string;
 
   #registryDefault: Registry;
 
@@ -115,10 +113,11 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
+  constructor (instanceId: string, registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
+    this.#instanceId = instanceId;
     this.#registryDefault = registry;
     this.provider = provider;
 

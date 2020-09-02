@@ -55,8 +55,6 @@ const deriveAvail: Record<string, string[]> = {
   treasury: ['treasury']
 };
 
-let instanceCounter = 0;
-
 /**
  * Returns an object that will inject `api` into all the functions inside
  * `allSections`, and keep the object architecture of `allSections`.
@@ -95,9 +93,7 @@ function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
 /** @internal */
-export default function decorateDerive (api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
-  const instanceId = `api-derive:${++instanceCounter}`;
-
+export default function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
     ...injectFunctions(instanceId, api, derive),
     ...injectFunctions(instanceId, api, custom)

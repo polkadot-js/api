@@ -27,7 +27,7 @@ function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorC
 }
 
 // query for previous V2
-function queryNoActive (instanceId: string, api: ApiInterfaceRx): Observable<Result> {
+function queryNoActive (api: ApiInterfaceRx): Observable<Result> {
   return api.queryMulti<[EraIndex, SessionIndex, u32]>([
     api.query.staking.currentEra,
     api.query.session.currentIndex,
@@ -44,7 +44,7 @@ function queryNoActive (instanceId: string, api: ApiInterfaceRx): Observable<Res
 }
 
 // query based on latest
-function query (instanceId: string, api: ApiInterfaceRx): Observable<Result> {
+function query (api: ApiInterfaceRx): Observable<Result> {
   return api.queryMulti<[Option<ActiveEraInfo>, Option<EraIndex>, SessionIndex, u32]>([
     api.query.staking.activeEra,
     api.query.staking.currentEra,
@@ -66,7 +66,7 @@ function query (instanceId: string, api: ApiInterfaceRx): Observable<Result> {
 }
 
 // empty set when none is available
-function empty (instanceId: string, api: ApiInterfaceRx): Observable<Result> {
+function empty (api: ApiInterfaceRx): Observable<Result> {
   return of([
     api.registry.createType('EraIndex'),
     api.registry.createType('Option<Moment>'),

@@ -18,7 +18,7 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
 
 let indicesCache: AccountIndexes | null = null;
 
-function queryEnumSet (instanceId: string, api: ApiInterfaceRx): Observable<AccountIndexes> {
+function queryEnumSet (api: ApiInterfaceRx): Observable<AccountIndexes> {
   return api.query.indices.nextEnumSet<AccountIndex>().pipe(
     // use the nextEnumSet (which is a counter of the number of sets) to construct
     // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
@@ -43,7 +43,7 @@ function queryEnumSet (instanceId: string, api: ApiInterfaceRx): Observable<Acco
   );
 }
 
-function queryAccounts (instanceId: string, api: ApiInterfaceRx): Observable<AccountIndexes> {
+function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
   return api.query.indices.accounts.entries().pipe(
     map((entries): AccountIndexes =>
       entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {

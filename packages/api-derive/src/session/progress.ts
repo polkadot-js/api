@@ -28,7 +28,7 @@ function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlo
   };
 }
 
-function queryAura (instanceId: string, api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
+function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
     map((info): DeriveSessionProgress => ({
       ...info,
@@ -38,7 +38,7 @@ function queryAura (instanceId: string, api: ApiInterfaceRx): Observable<DeriveS
   );
 }
 
-function queryBabe (instanceId: string, api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
+function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return api.derive.session.info().pipe(
     switchMap((info): Observable<[DeriveSessionInfo, ResultSlots]> =>
       combineLatest([
@@ -57,7 +57,7 @@ function queryBabe (instanceId: string, api: ApiInterfaceRx): Observable<[Derive
   );
 }
 
-function queryBabeNoHistory (instanceId: string, api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
+function queryBabeNoHistory (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return combineLatest([
     api.derive.session.info(),
     api.queryMulti<ResultSlotsFlat>([
