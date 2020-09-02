@@ -12,9 +12,6 @@ import createClass from './createClass';
 type Creator<ApiType extends ApiTypes> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
 
 export default function createSubmittable<ApiType extends ApiTypes> (apiType: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['_decorateMethod']): Creator<ApiType> {
-  return (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType> => {
-    const Submittable = createClass<ApiType>({ api, apiType, decorateMethod });
-
-    return new Submittable(api.registry, extrinsic) as SubmittableExtrinsic<ApiType>;
-  };
+  return (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType> =>
+    new (createClass<ApiType>({ api, apiType, decorateMethod }))(api.registry, extrinsic);
 }
