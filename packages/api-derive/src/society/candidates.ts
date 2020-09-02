@@ -19,8 +19,8 @@ type Result = [Bid[], ResultSuspend[]]
 /**
  * @description Get the candidate info for a society
  */
-export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
-  return memo((): Observable<DeriveSocietyCandidate[]> =>
+export function candidates (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
+  return memo(instanceId, (): Observable<DeriveSocietyCandidate[]> =>
     api.query.society.candidates<Vec<Bid>>().pipe(
       switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([

@@ -76,8 +76,8 @@ function empty (api: ApiInterfaceRx): Observable<Result> {
   ]);
 }
 
-export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
-  return memo((): Observable<DeriveSessionIndexes> =>
+export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
+  return memo(instanceId, (): Observable<DeriveSessionIndexes> =>
     (
       api.query.session && api.query.staking
         ? isFunction(api.query.staking.activeEra)

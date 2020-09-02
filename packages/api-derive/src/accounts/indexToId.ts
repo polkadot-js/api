@@ -49,8 +49,8 @@ function query (api: ApiInterfaceRx, accountIndex: AccountIndex | string): Obser
  * });
  * ```
  */
-export function indexToId (api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
-  return memo((accountIndex: AccountIndex | string): Observable<AccountId | undefined> =>
+export function indexToId (instanceId: string, api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
+  return memo(instanceId, (accountIndex: AccountIndex | string): Observable<AccountId | undefined> =>
     api.query.indices
       ? isFunction(api.query.indices.accounts)
         ? query(api, accountIndex)

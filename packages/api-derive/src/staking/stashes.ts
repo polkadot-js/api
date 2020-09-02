@@ -15,8 +15,8 @@ import { memo } from '../util';
 /**
  * @description Retrieve the list of all validator stashes
  */
-export function stashes (api: ApiInterfaceRx): () => Observable<AccountId[]> {
-  return memo((): Observable<AccountId[]> =>
+export function stashes (instanceId: string, api: ApiInterfaceRx): () => Observable<AccountId[]> {
+  return memo(instanceId, (): Observable<AccountId[]> =>
     api.query.staking.validators.creator.meta.type.asMap.linked.isTrue
       ? api.query.staking.validators<ITuple<[Vec<AccountId>, Vec<ValidatorPrefs>]>>().pipe(
         map(([stashIds]) => stashIds)

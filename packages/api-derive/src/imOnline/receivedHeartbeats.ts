@@ -16,8 +16,8 @@ import { memo } from '../util';
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DeriveHeartbeats> {
-  return memo((): Observable<DeriveHeartbeats> =>
+export function receivedHeartbeats (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveHeartbeats> {
+  return memo(instanceId, (): Observable<DeriveHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>

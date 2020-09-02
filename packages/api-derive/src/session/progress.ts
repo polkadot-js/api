@@ -72,8 +72,8 @@ function queryBabeNoHistory (api: ApiInterfaceRx): Observable<[DeriveSessionInfo
 /**
  * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
-export function progress (api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
-  return memo((): Observable<DeriveSessionProgress> =>
+export function progress (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
+  return memo(instanceId, (): Observable<DeriveSessionProgress> =>
     api.consts.babe
       ? (
         isFunction(api.query.staking.erasStartSessionIndex)

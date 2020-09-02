@@ -66,6 +66,8 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
  * ```
  */
 export default class Rpc implements RpcInterface {
+  #instanceId: string;
+
   #registryDefault: Registry;
 
   #getBlockRegistry?: (blockHash: string | Uint8Array) => Promise<{ registry: Registry }>;
@@ -111,10 +113,11 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
+  constructor (instanceId: string, registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
+    this.#instanceId = instanceId;
     this.#registryDefault = registry;
     this.provider = provider;
 
@@ -251,7 +254,7 @@ export default class Rpc implements RpcInterface {
 
     memoized = memoizee(this._createMethodWithRaw(creator), {
       length: false,
-      normalizer: JSON.stringify
+      normalizer: (args) => this.#instanceId + JSON.stringify(args)
     });
 
     return memoized;
@@ -340,7 +343,7 @@ export default class Rpc implements RpcInterface {
       // together are cached together.
       // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      normalizer: JSON.stringify
+      normalizer: (args) => this.#instanceId + JSON.stringify(args)
     });
 
     return memoized;

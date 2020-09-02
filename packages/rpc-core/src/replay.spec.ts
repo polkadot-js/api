@@ -13,7 +13,7 @@ describe('replay', (): void => {
   let rpc: Rpc;
 
   beforeEach((): void => {
-    rpc = new Rpc(registry, new MockProvider(registry));
+    rpc = new Rpc('653', registry, new MockProvider(registry));
   });
 
   it('subscribes via the rpc section', (done): void => {

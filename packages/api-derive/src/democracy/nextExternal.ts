@@ -29,8 +29,8 @@ function withImage (api: ApiInterfaceRx, nextOpt: Option<ITuple<[Hash, VoteThres
   );
 }
 
-export function nextExternal (api: ApiInterfaceRx): () => Observable<DeriveProposalExternal | null> {
-  return memo((): Observable<DeriveProposalExternal | null> =>
+export function nextExternal (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposalExternal | null> {
+  return memo(instanceId, (): Observable<DeriveProposalExternal | null> =>
     api.query.democracy?.nextExternal
       ? api.query.democracy.nextExternal<Option<ITuple<[Hash, VoteThreshold]>>>().pipe(
         switchMap((nextOpt) => withImage(api, nextOpt))

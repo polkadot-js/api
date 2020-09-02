@@ -34,8 +34,8 @@ function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: 
   });
 }
 
-export function overview (api: ApiInterfaceRx): () => Observable<DeriveParachain[]> {
-  return memo((): Observable<DeriveParachain[]> =>
+export function overview (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveParachain[]> {
+  return memo(instanceId, (): Observable<DeriveParachain[]> =>
     api.query.registrar?.parachains && api.query.parachains
       ? api.query.registrar.parachains<ParaId[]>().pipe(
         switchMap((paraIds) =>

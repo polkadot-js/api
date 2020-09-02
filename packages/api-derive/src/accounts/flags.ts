@@ -31,8 +31,8 @@ function isIncludedFn (accountId: AccountId | Address | string): (_: AccountId |
  * @name info
  * @description Returns account membership flags
  */
-export function flags (api: ApiInterfaceRx): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
-  return memo((address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
+export function flags (instanceId: string, api: ApiInterfaceRx): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
+  return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
     const councilSection = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
     return (

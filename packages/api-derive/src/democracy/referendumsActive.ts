@@ -10,8 +10,8 @@ import { switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function referendumsActive (api: ApiInterfaceRx): () => Observable<DeriveReferendum[]> {
-  return memo((): Observable<DeriveReferendum[]> =>
+export function referendumsActive (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveReferendum[]> {
+  return memo(instanceId, (): Observable<DeriveReferendum[]> =>
     api.derive.democracy.referendumIds().pipe(
       switchMap((ids): Observable<DeriveReferendum[]> =>
         ids.length

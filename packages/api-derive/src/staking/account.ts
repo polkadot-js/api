@@ -57,8 +57,8 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query
 /**
  * @description From a list of stashes, fill in all the relevant staking details
  */
-export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
-  return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
+export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
     api.derive.session.info().pipe(
       switchMap((sessionInfo) =>
         api.derive.staking.queryMulti(accountIds).pipe(
@@ -72,8 +72,8 @@ export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | strin
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
-  return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
+export function account (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
+  return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
     api.derive.staking.accounts([accountId]).pipe(
       map(([first]) => first)
     )
