@@ -6,8 +6,7 @@ import { H256 } from '../interfaces/runtime';
 import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
-import { assert, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
+import { BN_ZERO, assert, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import Raw from './Raw';
 
@@ -77,6 +76,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     this.#isHexJson = isHexJson;
     this.#isSigned = isSigned;
 
+    assert(isSigned || this.gte(BN_ZERO), `${this.toRawType()}: Negative number passed to unsigned type`);
     assert(super.bitLength() <= bitLength, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${bitLength}`);
   }
 
@@ -91,7 +91,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**
@@ -139,6 +139,13 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description Returns a BigInt representation of the number
+   */
+  public toBigInt (): BigInt {
+    return BigInt(this.toString());
+  }
+
+  /**
    * @description Returns the BN representation of the number. (Compatibility)
    */
   public toBn (): BN {
@@ -161,7 +168,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toHuman (isExpanded?: boolean): any {
+  public toHuman (isExpanded?: boolean): string {
     // FIXME we need proper expansion here
     return this instanceof this.registry.createClass('Balance')
       ? this.isMax()

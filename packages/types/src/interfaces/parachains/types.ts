@@ -141,6 +141,16 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isRoot: boolean;
 }
 
+/** @name ParachainProposal */
+export interface ParachainProposal extends Struct {
+  readonly proposer: AccountId;
+  readonly validationFunction: ValidationCode;
+  readonly initialHeadState: HeadData;
+  readonly validators: Vec<ValidatorId>;
+  readonly name: Bytes;
+  readonly balance: Balance;
+}
+
 /** @name ParaId */
 export interface ParaId extends u32 {}
 
@@ -160,6 +170,15 @@ export interface ParaScheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
 }
+
+/** @name RegisteredParachainInfo */
+export interface RegisteredParachainInfo extends Struct {
+  readonly validators: Vec<ValidatorId>;
+  readonly proposer: AccountId;
+}
+
+/** @name RelayChainBlockNumber */
+export interface RelayChainBlockNumber extends BlockNumber {}
 
 /** @name Remark */
 export interface Remark extends U8aFixed {}
@@ -219,6 +238,13 @@ export interface UpwardMessage extends Struct {
 
 /** @name ValidationCode */
 export interface ValidationCode extends Bytes {}
+
+/** @name ValidationFunctionParams */
+export interface ValidationFunctionParams extends Struct {
+  readonly maxCodeSize: u32;
+  readonly relayChainHeight: RelayChainBlockNumber;
+  readonly codeUpgradeAllowed: Option<RelayChainBlockNumber>;
+}
 
 /** @name ValidatorSignature */
 export interface ValidatorSignature extends Signature {}

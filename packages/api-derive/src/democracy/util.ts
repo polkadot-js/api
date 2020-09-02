@@ -82,15 +82,15 @@ function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteS
     if (vote.isAye) {
       state.allAye.push(derived);
       state.voteCountAye++;
-      state.votedAye = state.votedAye.add(counted);
+      state.votedAye.iadd(counted);
     } else {
       state.allNay.push(derived);
       state.voteCountNay++;
-      state.votedNay = state.votedNay.add(counted);
+      state.votedNay.iadd(counted);
     }
 
     state.voteCount++;
-    state.votedTotal = state.votedTotal.add(counted);
+    state.votedTotal.iadd(counted);
 
     return state;
   }, {

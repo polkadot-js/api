@@ -4,17 +4,47 @@
 
 import { OverrideVersionedType } from '@polkadot/types/types';
 
+const sharedTypes = {
+  Address: 'LookupSource',
+  AnchorData: {
+    anchoredBlock: 'u64',
+    docRoot: 'H256',
+    id: 'H256'
+  },
+  Fee: {
+    key: 'Hash',
+    price: 'Balance'
+  },
+  MultiAccountData: {
+    deposit: 'Balance',
+    depositor: 'AccountId',
+    signatories: 'Vec<AccountId>',
+    threshold: 'u16'
+  },
+  Multiplier: 'Fixed64',
+  PreCommitData: {
+    expirationBlock: 'u64',
+    identity: 'H256',
+    signingRoot: 'H256'
+  },
+  Proof: {
+    leafHash: 'H256',
+    sortedHashes: 'H256'
+  },
+  ReferendumInfo: 'ReferendumInfoTo239',
+  StakingLedger: 'StakingLedgerTo240',
+  Weight: 'u32'
+};
+
 const versioned: OverrideVersionedType[] = [
   {
-    // most chains started at 1000 (Fulvous at 224)
-    minmax: [1, undefined],
+    minmax: [229, undefined],
     types: {
-      Address: 'AccountId',
-      LookupSource: 'AccountId',
-      Multiplier: 'Fixed64',
-      ReferendumInfo: 'ReferendumInfoTo239',
-      StakingLedger: 'StakingLedgerTo240',
-      Weight: 'u32'
+      ...sharedTypes,
+      ChainId: 'u8',
+      DepositNonce: 'u64',
+      ResourceId: '[u8; 32]',
+      'chainbridge::ChainId': 'u8'
     }
   }
 ];

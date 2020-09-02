@@ -90,7 +90,7 @@ Looking at the example in this repo, it also has `augment*`, `index.ts` and `typ
 
 ## Generating
 
-Now that both the metadata nd types setup is completed, we just run the build command via `yarn build` and magically (assuming you didn't have the `augment*` and other generated files), these files will be added. When running this command, the console should display something like -
+Now that both the metadata and types setup is completed, we just run the build command via `yarn build` and magically (assuming you didn't have the `augment*` and other generated files), these files will be added. When running this command, the console should display something like -
 
 ```
 > yarn build
@@ -166,7 +166,7 @@ As mentioned earlier, here you will notice the `import { VoteStage }`, the gener
 
 ## TypeScript config
 
-Now that we have files generated, it is time to make TypeScript aware of the types and add an explicit override into out `tsconfig.json`. After some changes, the paths in the config looks as follow (comments are in teh actual config file here) -
+Now that we have files generated, it is time to make TypeScript aware of the types and add an explicit override into out `tsconfig.json`. After some changes, the paths in the config looks as follow (comments are in the actual config file here) -
 
 ```json
 {

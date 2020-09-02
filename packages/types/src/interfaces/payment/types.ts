@@ -2,7 +2,8 @@
 /* eslint-disable */
 
 import { Struct } from '@polkadot/types/codec';
-import { Balance, DispatchClass, Weight } from '@polkadot/types/interfaces/runtime';
+import { Balance, Weight } from '@polkadot/types/interfaces/runtime';
+import { DispatchClass } from '@polkadot/types/interfaces/system';
 
 /** @name RuntimeDispatchInfo */
 export interface RuntimeDispatchInfo extends Struct {

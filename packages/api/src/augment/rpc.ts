@@ -13,22 +13,16 @@ import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
-import { ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
+import { JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
 import { StorageKind } from '@polkadot/types/interfaces/offchain';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
-import { ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
+import { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
-    account: {
-      /**
-       * Retrieves the next accountIndex as available on the node
-       **/
-      nextIndex: AugmentedRpc<(accountId: AccountId | string | Uint8Array) => Observable<Index>>;
-    };
     author: {
       /**
        * Returns true if the keystore has private keys for the given public key and key type.
@@ -146,6 +140,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns the state of the current best round state as well as the ongoing background rounds
        **/
       roundState: AugmentedRpc<() => Observable<ReportedRoundStates>>;
+      /**
+       * Subscribes to grandpa justifications
+       **/
+      subscribeJustifications: AugmentedRpc<() => Observable<JustificationNotification>>;
     };
     offchain: {
       /**
@@ -245,6 +243,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
     };
     system: {
       /**
+       * Retrieves the next accountIndex as available on the node
+       **/
+      accountNextIndex: AugmentedRpc<(accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
        * Adds a reserved peer
        **/
       addReservedPeer: AugmentedRpc<(peer: Text | string) => Observable<Text>>;
@@ -256,6 +258,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the chain type
        **/
       chainType: AugmentedRpc<() => Observable<ChainType>>;
+      /**
+       * Dry run an extrinsic at a given block
+       **/
+      dryRun: AugmentedRpc<(extrinsic: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ApplyExtrinsicResult>>;
       /**
        * Return health status of the node
        **/

@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Metadata } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -77,7 +76,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    * console.log(api.consts.democracy.enactmentPeriod.toString())
    * ```
    */
-  public get consts (): Constants {
+  public get consts (): QueryableConsts<ApiType> {
     return assertResult(this._consts);
   }
 

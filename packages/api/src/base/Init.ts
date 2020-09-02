@@ -3,24 +3,29 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Registry } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import { VersionedRegistry } from './types';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Metadata, Text } from '@polkadot/types';
+import { Metadata, Text, TypeRegistry } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getMetadataTypes, getSpecTypes } from '@polkadot/types-known';
-import { logger } from '@polkadot/util';
+import { getMetadataTypes, getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import Decorate from './Decorate';
 
 const KEEPALIVE_INTERVAL = 15000;
+const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
 const l = logger('api/init');
 
 export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #healthTimer: NodeJS.Timeout | null = null;
+
+  #registries: VersionedRegistry[] = [];
 
   #updateSub?: Subscription;
 
@@ -32,12 +37,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
 
     // all injected types added to the registry for overrides
-    this.registry.setKnownTypes({
-      types: options.types,
-      typesAlias: options.typesAlias,
-      typesChain: options.typesChain,
-      typesSpec: options.typesSpec
-    });
+    this.registry.setKnownTypes(options);
 
     // We only register the types (global) if this is not a cloned instance.
     // Do right up-front, so we get in the user types before we are actually
@@ -54,6 +54,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     this._rx.signer = options.signer;
 
+    this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));
     this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
     this._rpcCore.provider.on('error', this.#onProviderError);
     this._rpcCore.provider.on('connected', this.#onProviderConnect);
@@ -65,6 +66,67 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#onProviderConnect();
     }
+  }
+
+  /**
+   * @description Sets up a registry based on the block hash defined
+   */
+  public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
+    // shortcut in the case where we have an immediate-same request
+    const lastBlockHash = u8aToU8a(blockHash);
+    const existingViaHash = this.#registries.find((r) => r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash));
+
+    if (existingViaHash) {
+      return existingViaHash;
+    }
+
+    // ensure we have everything required
+    assert(this._genesisHash && this._runtimeVersion, 'Cannot retrieve data on an uninitialized chain');
+
+    // We have to assume that on the RPC layer the calls used here does not call back into
+    // the registry swap, so getHeader & getRuntimeVersion should not be historic
+    const header = this._genesisHash.eq(blockHash)
+      ? { number: DEFAULT_BLOCKNUMBER, parentHash: this._genesisHash }
+      : await this._rpcCore.chain.getHeader(blockHash).toPromise();
+
+    assert(header?.parentHash && !header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
+
+    // get the runtime version, either on-chain or via an known upgrade history
+    const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number.unwrap());
+    const version = (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
+      ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
+      : await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
+
+    // check for pre-existing registries
+    const existingViaVersion = this.#registries.find((r) => r.specVersion.eq(version.specVersion));
+
+    if (existingViaVersion) {
+      existingViaVersion.lastBlockHash = lastBlockHash;
+
+      return existingViaVersion;
+    }
+
+    // nothing has been found, construct new
+    const registry = new TypeRegistry();
+
+    registry.setChainProperties(this.registry.getChainProperties());
+    registry.setKnownTypes(this._options);
+    registry.register(getSpecTypes(registry, this._runtimeChain as Text, version.specName, version.specVersion));
+
+    if (registry.knownTypes.typesBundle) {
+      this._adjustBundleTypes(registry, this._runtimeChain as Text, version.specName);
+    }
+
+    // retrieve the metadata now that we have all types set
+    const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
+    const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
+
+    // TODO: Not convinced (yet) that we really want to re-decorate, keep on ice since it does muddle-up
+    // this.injectMetadata(metadata, false);
+    registry.setMetadata(metadata);
+    this.#registries.push(result);
+
+    return result;
   }
 
   protected async _loadMeta (): Promise<boolean> {
@@ -137,14 +199,49 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
               this._runtimeVersion = version;
               this._rx.runtimeVersion = version;
 
-              this.registerTypes(getSpecTypes(this.registry, this._runtimeChain as Text, version.specName, version.specVersion));
-              this.injectMetadata(metadata, false);
+              // update the default registry version
+              const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
+
+              assert(thisRegistry, 'Initialization error, cannot find the default registry');
+
+              thisRegistry.metadata = metadata;
+              thisRegistry.metadataConsts = null;
+              thisRegistry.specVersion = version.specVersion;
+              thisRegistry.registry.register(getSpecTypes(thisRegistry.registry, this._runtimeChain as Text, version.specName, version.specVersion));
+              this.injectMetadata(metadata, false, thisRegistry.registry);
 
               return true;
             })
           )
       )
     ).subscribe();
+  }
+
+  private _adjustBundleTypes (registry: Registry, chain: Text, specName: Text): void {
+    // adjust known type aliases
+    registry.knownTypes.typesAlias = getSpecAlias(registry, chain, specName);
+
+    // FIXME For the first round, we are not adjusting the user-injected RPCs
+    // inject any user-level RPCs now that we have the chain/spec
+    // this._rpcCore.addUserInterfaces(getSpecRpc(this.registry, chain, specName));
+
+    // const extraRpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
+
+    // // FIXME this is a mess
+    // Object.entries(extraRpc).forEach(([section, value]): void => {
+    //   if (this._rpc) {
+    //     if (!this._rpc[section as 'author']) {
+    //       this._rpc[section as 'author'] = {} as DecoratedRpcSection<ApiType, RpcInterface['author']>;
+    //     }
+
+    //     Object.entries(value).forEach(([name, method]): void => {
+    //       if (this._rpc && !this._rpc[section as 'author'][name as 'hasKey']) {
+    //         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    //         this._rpc[section as 'author'][name as 'hasKey'] = method;
+    //       }
+    //     });
+    //   }
+    // });
   }
 
   private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
@@ -158,6 +255,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
+
+    // adjust types based on bundled info
+    if (this.registry.knownTypes.typesBundle) {
+      this._adjustBundleTypes(this.registry, chain, runtimeVersion.specName);
+    }
 
     // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
@@ -173,6 +275,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
 
+    // setup the initial registry, when we have none
+    if (!this.#registries.length) {
+      this.#registries.push({ isDefault: true, lastBlockHash: null, metadata, metadataConsts: null, registry: this.registry, specVersion: runtimeVersion.specVersion });
+    }
+
     // get unique types & validate
     metadata.getUniqTypes(false);
 
@@ -186,7 +293,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     const metaExtrinsic = metadata.asLatest.extrinsic;
 
     // only inject if we are not a clone (global init)
-    if (metaExtrinsic.version.gtn(0)) {
+    if (metaExtrinsic.version.gt(BN_ZERO)) {
       this._extrinsicType = metaExtrinsic.version.toNumber();
     } else if (!this._options.source) {
       // detect the extrinsic version in-use based on the last block

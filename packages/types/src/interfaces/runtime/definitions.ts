@@ -7,9 +7,26 @@
 
 import { Definitions } from '../../types';
 
+const numberTypes = {
+  Fixed64: 'Int<64, Fixed64>',
+  FixedI64: 'Int<64, FixedI64>',
+  FixedU64: 'UInt<64, FixedU64>',
+  Fixed128: 'Int<128, Fixed128>',
+  FixedI128: 'Int<128, FixedI128>',
+  FixedU128: 'UInt<128, FixedU128>',
+  I32F32: 'Int<64, I32F32>',
+  U32F32: 'UInt<64, U32F32>',
+  PerU16: 'u16',
+  Perbill: 'u32',
+  Percent: 'u8',
+  Permill: 'u32',
+  Perquintill: 'u64'
+};
+
 export default {
   rpc: {},
   types: {
+    ...numberTypes,
     AccountId: 'GenericAccountId',
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
@@ -20,6 +37,8 @@ export default {
     Block: 'GenericBlock',
     BlockNumber: 'u32',
     Call: 'GenericCall',
+    CallHash: 'Hash',
+    CallHashOf: 'CallHash',
     ChangesTrieConfiguration: {
       digestInterval: 'u32',
       digestLevels: 'u32'
@@ -39,29 +58,11 @@ export default {
         PreRuntime: 'PreRuntime' // 6
       }
     },
-    DispatchClass: {
-      _enum: ['Normal', 'Operational', 'Mandatory']
-    },
-    DispatchInfo: {
-      weight: 'Weight',
-      class: 'DispatchClass',
-      paysFee: 'Pays'
-    },
-    DispatchInfoTo190: {
-      weight: 'Weight',
-      class: 'DispatchClass'
-    },
-    DispatchInfoTo244: {
-      weight: 'Weight',
-      class: 'DispatchClass',
-      paysFee: 'bool'
-    },
     ExtrinsicsWeight: {
       normal: 'Weight',
       operational: 'Weight'
     },
-    Fixed64: 'Int<64, Fixed64>',
-    Fixed128: 'Int<128, Fixed128>',
+    GenericAddress: 'LookupSource',
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
@@ -78,22 +79,19 @@ export default {
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
-    LookupSource: 'Address',
+    LookupSource: 'GenericLookupSource',
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
     Moment: 'u64',
+    OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
     Pays: {
       _enum: ['Yes', 'No']
     },
-    Perbill: 'u32',
-    Percent: 'u8',
-    Permill: 'u32',
-    Perquintill: 'u64',
     Phantom: 'Null',
     PhantomData: 'Null',
-    ProxyType: {
-      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
+    Releases: {
+      _enum: ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10']
     },
     RuntimeDbWeight: {
       read: 'Weight',
@@ -104,6 +102,7 @@ export default {
       justification: 'Justification'
     },
     StorageData: 'Bytes',
+    TransactionPriority: 'u64',
     ValidatorId: 'AccountId',
     Weight: 'u64',
     WeightMultiplier: 'Fixed64',

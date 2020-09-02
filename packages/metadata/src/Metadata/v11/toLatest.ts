@@ -16,10 +16,20 @@ import { stringCamelCase } from '@polkadot/util';
  * @internal
  **/
 function setTypeOverride (sectionTypes: OverrideModuleType, type: Type): void {
-  const override = Object.keys(sectionTypes).find((aliased): boolean => type.eq(aliased));
+  const override = Object.keys(sectionTypes).find((aliased) => type.eq(aliased));
 
   if (override) {
     type.setOverride(sectionTypes[override]);
+  } else {
+    // FIXME: NOT happy with this approach, but gets over the initial hump cased by (Vec<Announcement>,BalanceOf)
+    const orig = type.toString();
+    const alias = Object.entries(sectionTypes).reduce((result: string, [from, to]): string =>
+      [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']].reduce((result, [one, two]): string =>
+        result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
+
+    if (orig !== alias) {
+      type.setOverride(alias);
+    }
   }
 }
 
@@ -29,7 +39,7 @@ function setTypeOverride (sectionTypes: OverrideModuleType, type: Type): void {
  **/
 function convertCalls (registry: Registry, calls: FunctionMetadataV11[], sectionTypes: OverrideModuleType): FunctionMetadataLatest[] {
   return calls.map(({ args, documentation, name }): FunctionMetadataLatest => {
-    args.forEach(({ type }): void => setTypeOverride(sectionTypes, type));
+    args.forEach(({ type }) => setTypeOverride(sectionTypes, type));
 
     return registry.createType('FunctionMetadataLatest', { args, documentation, name });
   });
@@ -41,7 +51,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV11[], section
  **/
 function convertEvents (registry: Registry, events: EventMetadataV11[], sectionTypes: OverrideModuleType): EventMetadataLatest[] {
   return events.map(({ args, documentation, name }): EventMetadataLatest => {
-    args.forEach((type): void => setTypeOverride(sectionTypes, type));
+    args.forEach((type) => setTypeOverride(sectionTypes, type));
 
     return registry.createType('EventMetadataLatest', { args, documentation, name });
   });

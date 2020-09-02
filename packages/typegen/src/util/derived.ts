@@ -16,7 +16,7 @@ import Vec from '@polkadot/types/codec/Vec';
 import Tuple from '@polkadot/types/codec/Tuple';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import GenericAccountId from '@polkadot/types/generic/AccountId';
-import GenericAddress from '@polkadot/types/generic/Address';
+import GenericLookupSource from '@polkadot/types/generic/LookupSource';
 import Vote from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
@@ -92,18 +92,22 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
   const Clazz = ClassOfUnsafe(registry, type);
 
   if (isChildClass(Vec, Clazz)) {
-    const subDef = (getTypeDef(type).sub) as TypeDef;
+    const vecDef = getTypeDef(type);
+    const subDef = (vecDef.sub) as TypeDef;
 
-    if (subDef.info === TypeDefInfo.Plain) {
-      possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
-    } else if (subDef.info === TypeDefInfo.Tuple) {
-      const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
-        getSimilarTypes(definitions, registry, type, imports).join(' | ')
-      );
+    // this could be that we define a Vec type and refer to it by name
+    if (subDef) {
+      if (subDef.info === TypeDefInfo.Plain) {
+        possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
+      } else if (subDef.info === TypeDefInfo.Tuple) {
+        const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
+          getSimilarTypes(definitions, registry, type, imports).join(' | ')
+        );
 
-      possibleTypes.push(`([${subs.join(', ')}])[]`);
-    } else {
-      throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+        possibleTypes.push(`([${subs.join(', ')}])[]`);
+      } else {
+        throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+      }
     }
   } else if (isChildClass(Enum, Clazz)) {
     const e = new (Clazz as Constructor)(registry) as Enum;
@@ -118,8 +122,8 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
     possibleTypes.push('Uint8Array');
   } else if (isChildClass(AbstractInt as unknown as Constructor<UInt>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
-  } else if (isChildClass(GenericAddress, Clazz)) {
-    possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'string', 'Uint8Array');
+  } else if (isChildClass(GenericLookupSource, Clazz)) {
+    possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'LookupSource', 'string', 'Uint8Array');
   } else if (isChildClass(GenericAccountId, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(registry.createClass('bool'), Clazz)) {
@@ -141,8 +145,10 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
   } else if (isChildClass(String, Clazz)) {
     possibleTypes.push('string');
   } else if (isChildClass(Tuple, Clazz)) {
-    const subDef = getTypeDef(type).sub;
+    const tupDef = getTypeDef(type);
+    const subDef = tupDef.sub;
 
+    // this could be that we define a Tuple type and refer to it by name
     if (Array.isArray(subDef)) {
       const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
 

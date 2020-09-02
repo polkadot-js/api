@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/typegen",
-  "version": "1.19.1",
+  "version": "1.32.0-beta.10",
   "description": "Type generation scripts",
   "main": "index.js",
   "bin": {
@@ -33,20 +33,20 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/register": "^7.10.1",
-    "@babel/runtime": "^7.10.2",
-    "@polkadot/api": "1.19.1",
-    "@polkadot/metadata": "1.19.1",
-    "@polkadot/rpc-provider": "1.19.1",
-    "@polkadot/types": "1.19.1",
-    "@polkadot/util": "^2.14.1",
+    "@babel/core": "^7.11.4",
+    "@babel/register": "^7.10.5",
+    "@babel/runtime": "^7.11.2",
+    "@polkadot/api": "1.32.0-beta.10",
+    "@polkadot/metadata": "1.32.0-beta.10",
+    "@polkadot/rpc-provider": "1.32.0-beta.10",
+    "@polkadot/types": "1.32.0-beta.10",
+    "@polkadot/util": "^3.4.1",
     "handlebars": "^4.7.6",
     "websocket": "^1.0.31",
-    "yargs": "^15.3.1"
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.0",
+    "@types/websocket": "^1.0.1",
     "@types/yargs": "^15.0.5"
   }
 }

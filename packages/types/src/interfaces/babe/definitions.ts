@@ -21,10 +21,15 @@ export default {
     },
     BabeAuthorityWeight: 'u64',
     BabeBlockWeight: 'u32',
+    BabeEquivocationProof: {
+      offender: 'AuthorityId',
+      slotNumber: 'SlotNumber',
+      firstHeader: 'Header',
+      secondHeader: 'Header'
+    },
+    BabeWeight: 'u64',
     MaybeRandomness: 'Option<Randomness>',
     MaybeVrf: 'Option<VrfData>',
-    // TODO Remove as soon as merged and metadata static updated
-    BabeWeight: 'u64',
     EpochAuthorship: {
       primary: 'Vec<u64>',
       secondary: 'Vec<u64>'

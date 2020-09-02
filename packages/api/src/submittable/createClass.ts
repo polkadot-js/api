@@ -60,16 +60,19 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )();
     }
 
-    // sign a transaction, returning the this to allow chaining, i.e. .sign(...).send()
+    /**
+     * @description Sign a transaction, returning the this to allow chaining, i.e. .sign(...).send(). When options, e.g. nonce/blockHash are not specified, it will be inferred. To retrieve eg. nonce use `signAsync` (the preferred interface, this is provided for backwards compatibility)
+     * @deprecated
+     */
     public sign (account: IKeyringPair, optionsOrNonce?: Partial<SignerOptions>): this {
       super.sign(account, this.#makeSignOptions(this.#optionsOrNonce(optionsOrNonce), {}));
 
       return this;
     }
 
-    // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
-    //
-    // also supports signing through external signers
+    /**
+     * @description Signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`. Like `.signAndSend` this will retrieve the nonce and blockHash to send the tx with.
+     */
     public signAsync (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(

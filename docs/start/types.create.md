@@ -20,7 +20,7 @@ With the conversions done in the API, there are limited reasons to create types 
 import type { Balance } from '@polkadot/types/interfaces';
 
 ...
-// unwrap out option into a zero Balance whn not found
+// unwrap out option into a zero Balance when not found
 // (This can be done via `.unwrapOrDefault()`, which does the same underlying)
 const balance: Balance = balanceOpt.unwrapOr(api.createType('Balance'));
 ```

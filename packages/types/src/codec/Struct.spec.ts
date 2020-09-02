@@ -5,7 +5,6 @@
 /* eslint-disable sort-keys */
 
 import { TypeRegistry } from '../create';
-import AccountId from '../generic/AccountId';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import { CodecTo } from '../types';
@@ -221,20 +220,20 @@ describe('Struct', (): void => {
   it('generates sane toRawType', (): void => {
     expect(
       new Struct(registry, {
-        accountId: AccountId,
+        accountId: 'AccountId',
         balanceCompact: registry.createClass('Compact<Balance>'),
         blockNumber: registry.createClass('BlockNumber'),
         compactNumber: registry.createClass('Compact<BlockNumber>'),
         optionNumber: registry.createClass('Option<BlockNumber>'),
         counter: U32,
-        vector: Vec.with(AccountId)
+        vector: Vec.with('AccountId')
       }).toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
       balanceCompact: 'Compact<Balance>', // Override in Uint
-      blockNumber: 'u32',
-      compactNumber: 'Compact<u32>',
-      optionNumber: 'Option<u32>',
+      blockNumber: 'BlockNumber',
+      compactNumber: 'Compact<BlockNumber>',
+      optionNumber: 'Option<BlockNumber>',
       counter: 'u32',
       vector: 'Vec<AccountId>'
     }));
@@ -242,7 +241,7 @@ describe('Struct', (): void => {
 
   it('generates sane toRawType (via with)', (): void => {
     const Type = Struct.with({
-      accountId: AccountId,
+      accountId: 'AccountId',
       balance: registry.createClass('Balance')
     });
 

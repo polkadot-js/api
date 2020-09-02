@@ -96,6 +96,11 @@ export interface DeriveStakingElected {
   info: DeriveStakingQuery[];
 }
 
+export interface DeriveStakingWaiting {
+  info: DeriveStakingQuery[];
+  waiting: AccountId[];
+}
+
 export interface DeriveStakingValidators {
   nextElected: AccountId[];
   validators: AccountId[];

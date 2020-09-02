@@ -23,6 +23,7 @@ export default {
         {
           name: 'at',
           type: 'Hash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -42,6 +43,7 @@ export default {
         {
           name: 'at',
           type: 'Hash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -61,6 +63,7 @@ export default {
         {
           name: 'at',
           type: 'Hash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -80,6 +83,7 @@ export default {
         {
           name: 'at',
           type: 'Hash',
+          isHistoric: true,
           isOptional: true
         }
       ],

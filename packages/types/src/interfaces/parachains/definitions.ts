@@ -9,9 +9,25 @@ import { Definitions } from '../../types';
 
 const SLOT_RANGE_COUNT = 10;
 
+const proposeTypes = {
+  ParachainProposal: {
+    proposer: 'AccountId',
+    validationFunction: 'ValidationCode',
+    initialHeadState: 'HeadData',
+    validators: 'Vec<ValidatorId>',
+    name: 'Vec<u8>',
+    balance: 'Balance'
+  },
+  RegisteredParachainInfo: {
+    validators: 'Vec<ValidatorId>',
+    proposer: 'AccountId'
+  }
+};
+
 export default {
   rpc: {},
   types: {
+    ...proposeTypes,
     AbridgedCandidateReceipt: {
       parachainIndex: 'ParaId',
       relayParent: 'Hash',
@@ -113,6 +129,7 @@ export default {
     ParaScheduling: {
       _enum: ['Always', 'Dynamic']
     },
+    RelayChainBlockNumber: 'BlockNumber',
     Remark: '[u8; 32]',
     Retriable: {
       _enum: {
@@ -142,6 +159,11 @@ export default {
     UpwardMessage: {
       origin: 'ParachainDispatchOrigin',
       data: 'Vec<u8>'
+    },
+    ValidationFunctionParams: {
+      maxCodeSize: 'u32',
+      relayChainHeight: 'RelayChainBlockNumber',
+      codeUpgradeAllowed: 'Option<RelayChainBlockNumber>'
     },
     ValidationCode: 'Bytes',
     ValidatorSignature: 'Signature',

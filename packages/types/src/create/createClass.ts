@@ -115,7 +115,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     const Clazz = Struct.with({ previous: type, next: type } as any);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    ClassOf.prototype.toRawType = function (): string {
+    Clazz.prototype.toRawType = function (): string {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       return `Linkage<${this.next.toRawType(true)}>`;
     };

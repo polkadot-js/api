@@ -24,6 +24,12 @@ describe('Http', (): void => {
     ).not.toThrow();
   });
 
+  it('allows custom headers', (): void => {
+    expect(
+      (): Http => new Http('https://', { foo: 'bar' })
+    ).not.toThrow();
+  });
+
   it('always returns isConnected true', (): void => {
     expect(http.isConnected()).toEqual(true);
   });

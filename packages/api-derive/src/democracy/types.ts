@@ -9,7 +9,9 @@ import { Vec } from '@polkadot/types';
 
 export interface DeriveDemocracyLock {
   balance: Balance;
+  isDelegated: boolean;
   isFinished: boolean;
+  referendumEnd: BN;
   referendumId: ReferendumIndex;
   unlockAt: BN;
   vote: Vote;

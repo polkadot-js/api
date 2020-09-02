@@ -8,10 +8,11 @@ import { isString, u8aToU8a } from '@polkadot/util';
 
 import Raw from './Raw';
 
-// The 520 here is a weird one - it is explicitly for a [u8; 65] as found as a EcdsaSignature
+// The 520 here is a weird one - it is explicitly for a [u8; 65] as found as a EcdsaSignature,
+// and 264 here is explicity for a [u8; 33] as found as EcdsaPublic key.
 // Likewise 160 is for [u8; 20], which is also a H160, i.e. an Ethereum address. Both these are
 // as a result of the Polkadot claims module. (Technically we don't need the 520 in here)
-export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 520 | 1024 | 2048;
+export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 264 | 512 | 520 | 1024 | 2048;
 
 /** @internal */
 function decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {

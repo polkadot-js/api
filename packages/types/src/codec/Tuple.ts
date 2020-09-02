@@ -101,7 +101,9 @@ export default class Tuple extends AbstractArray<Codec> {
       Array.isArray(this._Types)
         ? this._Types
         : Object.values(this._Types)
-    ).map((Type): string => new Type(this.registry).toRawType());
+    ).map((Type) =>
+      this.registry.getClassName(Type) || new Type(this.registry).toRawType()
+    );
 
     return `(${types.join(',')})`;
   }

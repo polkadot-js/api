@@ -17,9 +17,9 @@ type ResultSlots = [u64, u64, u64, Option<SessionIndex>];
 type ResultSlotsFlat = [u64, u64, u64, SessionIndex];
 
 function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlot, epochIndex, epochOrGenesisStartSlot, activeEraStartSessionIndex]: ResultSlotsFlat): DeriveSessionProgress {
-  const epochStartSlot = epochIndex.mul(info.sessionLength).add(epochOrGenesisStartSlot);
+  const epochStartSlot = epochIndex.mul(info.sessionLength).iadd(epochOrGenesisStartSlot);
   const sessionProgress = currentSlot.sub(epochStartSlot);
-  const eraProgress = info.currentIndex.sub(activeEraStartSessionIndex).mul(info.sessionLength).add(sessionProgress);
+  const eraProgress = info.currentIndex.sub(activeEraStartSessionIndex).imul(info.sessionLength).iadd(sessionProgress);
 
   return {
     ...info,
@@ -30,14 +30,11 @@ function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlo
 
 function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
-    map((info): DeriveSessionProgress =>
-      createDerive(api, info, [
-        api.registry.createType('u64', 1),
-        api.registry.createType('u64', 1),
-        api.registry.createType('u64', 1),
-        api.registry.createType('SessionIndex', 1)
-      ])
-    )
+    map((info): DeriveSessionProgress => ({
+      ...info,
+      eraProgress: api.registry.createType('BlockNumber'),
+      sessionProgress: api.registry.createType('BlockNumber')
+    }))
   );
 }
 

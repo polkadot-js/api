@@ -8,7 +8,8 @@ import { ChainProperties, DispatchErrorModule } from '../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
-import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
@@ -94,6 +95,8 @@ export class TypeRegistry implements Registry {
 
   #chainProperties?: ChainProperties;
 
+  #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
+
   #knownTypes: RegisteredTypes = {};
 
   #signedExtensions: string[] = defaultExtensions;
@@ -153,7 +156,7 @@ export class TypeRegistry implements Registry {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {
+  public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
     return createType(this, type, ...params);
   }
 
@@ -225,6 +228,14 @@ export class TypeRegistry implements Registry {
     return this.#chainProperties;
   }
 
+  public getClassName (clazz: Constructor): string | undefined {
+    const entry = [...this.#classes.entries()].find(([, test]) => test === clazz);
+
+    return entry
+      ? entry[0]
+      : undefined;
+  }
+
   public getDefinition (name: string): string | undefined {
     return this.#definitions.get(name);
   }
@@ -261,6 +272,10 @@ export class TypeRegistry implements Registry {
 
   public hasType (name: string): boolean {
     return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
+  }
+
+  public hash (data: Uint8Array): Uint8Array {
+    return this.#hasher(data);
   }
 
   public register (type: Constructor | RegistryTypes): void;
@@ -309,6 +324,10 @@ export class TypeRegistry implements Registry {
     }
   }
 
+  setHasher (hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a): void {
+    this.#hasher = hasher;
+  }
+
   setKnownTypes (knownTypes: RegisteredTypes): void {
     this.#knownTypes = knownTypes;
   }
@@ -322,7 +341,7 @@ export class TypeRegistry implements Registry {
     // setup the available extensions
     this.setSignedExtensions(
       signedExtensions || (
-        metadata.asLatest.extrinsic.version.gtn(0)
+        metadata.asLatest.extrinsic.version.gt(BN_ZERO)
           ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
           : defaultExtensions
       )

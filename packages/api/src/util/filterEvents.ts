@@ -24,7 +24,7 @@ export default function filterEvents (extHash: H256, { block: { extrinsics, head
     return;
   }
 
-  return allEvents.filter(({ phase }): boolean =>
+  return allEvents.filter(({ phase }) =>
     // only ApplyExtrinsic has the extrinsic index
     phase.isApplyExtrinsic && phase.asApplyExtrinsic.eqn(index)
   );

@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { BTreeSet, Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, u32, u64 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AuthoritySignature } from '@polkadot/types/interfaces/imOnline';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
@@ -18,22 +18,22 @@ export interface AuthorityList extends Vec<NextAuthority> {}
 /** @name AuthorityWeight */
 export interface AuthorityWeight extends u64 {}
 
-/** @name Equivocation */
-export interface Equivocation extends Enum {
-  readonly isPrevote: boolean;
-  readonly asPrevote: GrandpaEquivocation;
-  readonly isPrecommit: boolean;
-  readonly asPrecommit: GrandpaEquivocation;
-}
-
-/** @name EquivocationProof */
-export interface EquivocationProof extends Struct {
-  readonly setId: SetId;
-  readonly equivocation: Equivocation;
-}
-
 /** @name GrandpaEquivocation */
-export interface GrandpaEquivocation extends Struct {
+export interface GrandpaEquivocation extends Enum {
+  readonly isPrevote: boolean;
+  readonly asPrevote: GrandpaEquivocationValue;
+  readonly isPrecommit: boolean;
+  readonly asPrecommit: GrandpaEquivocationValue;
+}
+
+/** @name GrandpaEquivocationProof */
+export interface GrandpaEquivocationProof extends Struct {
+  readonly setId: SetId;
+  readonly equivocation: GrandpaEquivocation;
+}
+
+/** @name GrandpaEquivocationValue */
+export interface GrandpaEquivocationValue extends Struct {
   readonly roundNumber: u64;
   readonly identity: AuthorityId;
   readonly first: ITuple<[GrandpaPrevote, AuthoritySignature]>;
@@ -45,6 +45,9 @@ export interface GrandpaPrevote extends Struct {
   readonly targetHash: Hash;
   readonly targetNumber: BlockNumber;
 }
+
+/** @name JustificationNotification */
+export interface JustificationNotification extends Bytes {}
 
 /** @name KeyOwnerProof */
 export interface KeyOwnerProof extends MembershipProof {}

@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyFunction } from '@polkadot/types/types';
-import { ApiOptions } from '../types';
+import { Codec } from '@polkadot/types/types';
+import { ApiOptions, DecorateFn } from '../types';
 
 import { from, Observable } from 'rxjs';
 
 import ApiBase from '../base';
 
-export function decorateMethod <Method extends AnyFunction> (method: Method): Method {
+export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method): Method {
   return method;
 }
 

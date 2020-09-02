@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import { H256 } from '@polkadot/types/interfaces';
+import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Null from '../primitive/Null';
 import { typeToConstructor } from './utils';
-import Base from './Base';
+import Raw from './Raw';
 
 /** @internal */
 function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
@@ -48,15 +49,17 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
  * implements that - decodes, checks for optionality and wraps the required structure
  * with a value if/as required/found.
  */
-export default class Option<T extends Codec> extends Base<T> {
+export default class Option<T extends Codec> implements Codec {
+  public readonly registry: Registry;
+
   readonly #Type: Constructor<T>;
 
-  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: unknown) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    super(registry, decodeOption(registry, typeName, value));
+  readonly #raw: T;
 
+  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: unknown) {
+    this.registry = registry;
     this.#Type = typeToConstructor(registry, typeName);
+    this.#raw = decodeOption(registry, typeName, value) as T;
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
@@ -72,7 +75,14 @@ export default class Option<T extends Codec> extends Base<T> {
    */
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
-    return 1 + this._raw.encodedLength;
+    return 1 + this.#raw.encodedLength;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): H256 {
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**
@@ -86,7 +96,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description Checks if the Option has no value
    */
   public get isNone (): boolean {
-    return this._raw instanceof Null;
+    return this.#raw instanceof Null;
   }
 
   /**
@@ -100,7 +110,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description The actual value for the Option
    */
   public get value (): Codec {
-    return this._raw;
+    return this.#raw;
   }
 
   /**
@@ -126,14 +136,35 @@ export default class Option<T extends Codec> extends Base<T> {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return this.#raw.toHuman(isExtended);
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  public toJSON (): AnyJson {
+    return this.#raw.toJSON();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = new this.#Type(this.registry).toRawType();
+    const wrapped = this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType();
 
     return isBare
       ? wrapped
       : `Option<${wrapped}>`;
+  }
+
+  /**
+   * @description Returns the string representation of the value
+   */
+  public toString (): string {
+    return this.#raw.toString();
   }
 
   /**
@@ -142,14 +173,14 @@ export default class Option<T extends Codec> extends Base<T> {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
-      return this._raw.toU8a(true);
+      return this.#raw.toU8a(true);
     }
 
     const u8a = new Uint8Array(this.encodedLength);
 
     if (this.isSome) {
       u8a.set([1]);
-      u8a.set(this._raw.toU8a(), 1);
+      u8a.set(this.#raw.toU8a(), 1);
     }
 
     return u8a;
@@ -163,7 +194,7 @@ export default class Option<T extends Codec> extends Base<T> {
       throw new Error('Option: unwrapping a None value');
     }
 
-    return this._raw;
+    return this.#raw;
   }
 
   /**

@@ -6,7 +6,6 @@ import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
 import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
@@ -198,7 +197,7 @@ export default class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, this.registry.hash(this.toU8a()));
   }
 
   /**
@@ -267,11 +266,11 @@ export default class Struct<
   }
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result, [key, Type]): Record<string, string> => {
-      result[key] = new Type(registry).toRawType();
+    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
+      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
 
       return result;
-    }, {} as Record<string, string>);
+    }, {});
   }
 
   /**

@@ -4,34 +4,49 @@
 
 import { OverrideVersionedType } from '@polkadot/types/types';
 
+const sharedTypes = {
+  Address: 'AccountId',
+  Keys: 'SessionKeys5',
+  LookupSource: 'AccountId',
+  ProxyType: {
+    // was: SudoBalances
+    _enum: ['Any', 'NonTransfer', 'Staking', 'Unused', 'IdentityJudgement']
+  }
+};
+
 const versioned: OverrideVersionedType[] = [
   {
     minmax: [1, 2],
     types: {
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId',
+      ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
       Multiplier: 'Fixed64',
+      OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257',
       Weight: 'u32'
     }
   },
   {
-    minmax: [3, 19],
+    minmax: [3, 22],
     types: {
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
+      OpenTip: 'OpenTipTo225',
+      RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
-    minmax: [20, undefined],
+    minmax: [23, 42],
     types: {
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId',
-      ProxyType: {
-        _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances']
-      }
+      ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo257',
+      RewardDestination: 'RewardDestinationTo257'
+    }
+  },
+  {
+    minmax: [43, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];

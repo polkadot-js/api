@@ -110,6 +110,12 @@ describe('Vec', (): void => {
       });
     });
 
+    it('exposes a working concat', (): void => {
+      expect(
+        vector.concat(new Vec(registry, Text, ['987', '654'])).toString()
+      ).toEqual('1,23,345,4567,56789,987,654');
+    });
+
     it('exposes a working filter', (): void => {
       expect(
         vector.filter((e, i): boolean => i >= 3).toString()

@@ -7,6 +7,7 @@ import type BN from 'bn.js';
 import { ChainProperties } from '../interfaces/system';
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
+import { DefinitionRpc, DefinitionRpcSub } from './definitions';
 import { AnyJson } from './helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -17,7 +18,28 @@ export interface OverrideVersionedType {
   types: RegistryTypes;
 }
 
+export interface ChainUpgradeVersion {
+  blockNumber: BN;
+  specVersion: BN;
+}
+
+export interface ChainUpgrades {
+  genesisHash: Uint8Array;
+  versions: ChainUpgradeVersion[];
+}
+
 export type OverrideModuleType = Record<string, string>;
+
+export interface OverrideBundleDefinition {
+  alias?: Record<string, OverrideModuleType>;
+  rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  types?: OverrideVersionedType[];
+}
+
+export interface OverrideBundleType {
+  chain?: Record<string, OverrideBundleDefinition>;
+  spec?: Record<string, OverrideBundleDefinition>;
+}
 
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
 
@@ -98,6 +120,10 @@ export interface RegisteredTypes {
    */
   typesAlias?: Record<string, OverrideModuleType>;
   /**
+   * @description A bundle of types related to chain & spec that is injected based on what the chain contains
+   */
+  typesBundle?: OverrideBundleType;
+  /**
    * @description Additional types that are injected based on the chain we are connecting to. There are keyed by the chain, i.e. `{ 'Kusama CC1': { ... } }`
    */
   typesChain?: Record<string, RegistryTypes>;
@@ -121,9 +147,10 @@ export interface Registry {
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
   createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
-  createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K];
+  createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
+  getClassName (clazz: Constructor): string | undefined;
   getDefinition (name: string): string | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
   getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
@@ -133,10 +160,12 @@ export interface Registry {
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
+  hash (data: Uint8Array): Uint8Array;
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
+  setHasher (hasher?: (data: Uint8Array) => Uint8Array): void;
   setMetadata (metadata: RegistryMetadata, signedExtensions?: string[]): void;
   setSignedExtensions (signedExtensions?: string[]): void;
 }

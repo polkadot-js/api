@@ -40,14 +40,17 @@ export default class HttpProvider implements ProviderInterface {
 
   readonly #endpoint: string;
 
+  readonly #headers: Record<string, string>;
+
   /**
    * @param {string} endpoint The endpoint url starting with http://
    */
-  constructor (endpoint: string = defaults.HTTP_URL) {
+  constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
     this.#coder = new Coder();
     this.#endpoint = endpoint;
+    this.#headers = headers;
   }
 
   /**
@@ -102,7 +105,8 @@ export default class HttpProvider implements ProviderInterface {
       headers: {
         Accept: 'application/json',
         'Content-Length': `${body.length}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...this.#headers
       },
       method: 'POST'
     });

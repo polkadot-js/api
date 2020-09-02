@@ -4,13 +4,13 @@
 
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
+import { DeriveElectionsInfo } from './types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec, u32 } from '@polkadot/types';
 
-import { DeriveElectionsInfo } from '../types';
 import { memo } from '../util';
 
 function sortAccounts ([, balanceA]: ITuple<[AccountId, Balance]>, [, balanceB]: ITuple<[AccountId, Balance]>): number {
@@ -30,6 +30,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
       candidacyBond: api.consts[section].candidacyBond as Balance,
       candidateCount: api.registry.createType('u32', candidates.length),
       candidates,
+      desiredRunnersUp: api.consts[section].desiredRunnersUp as u32,
       desiredSeats: api.consts[section].desiredMembers as u32,
       members: members.length
         ? members.sort(sortAccounts)

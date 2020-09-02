@@ -6,8 +6,10 @@ import { OverrideModuleType } from '@polkadot/types/types';
 
 // type overrides for modules (where duplication between modules exist)
 const typesModules: Record<string, OverrideModuleType> = {
+  babe: {
+    EquivocationProof: 'BabeEquivocationProof'
+  },
   balances: {
-    Releases: 'ReleasesBalances',
     Status: 'BalanceStatus'
   },
   contract: { // old metadata & naming
@@ -17,8 +19,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   contracts: {
     StorageKey: 'ContractStorageKey'
   },
-  democracy: {
-    Releases: 'ReleasesDemocracy'
+  grandpa: {
+    Equivocation: 'GrandpaEquivocation',
+    EquivocationProof: 'GrandpaEquivocationProof'
   },
   identity: {
     Judgement: 'IdentityJudgement'
@@ -26,13 +29,18 @@ const typesModules: Record<string, OverrideModuleType> = {
   parachains: {
     Id: 'ParaId'
   },
+  proposeParachain: {
+    Proposal: 'ParachainProposal'
+  },
+  proxy: {
+    Announcement: 'ProxyAnnouncement'
+  },
   society: {
     Judgement: 'SocietyJudgement',
     Vote: 'SocietyVote'
   },
   staking: {
-    Compact: 'CompactAssignments',
-    Releases: 'ReleasesStaking'
+    Compact: 'CompactAssignments'
   },
   treasury: {
     Proposal: 'TreasuryProposal'

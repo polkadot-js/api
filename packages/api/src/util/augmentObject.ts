@@ -32,7 +32,7 @@ function extractKeys (src: Record<string, Record<string, any>>, dst: Record<stri
 }
 
 function findSectionExcludes (a: string[], b: string[]): string[] {
-  return a.filter((section): boolean => !b.includes(section));
+  return a.filter((section) => !b.includes(section));
 }
 
 function extractSections (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
@@ -49,15 +49,15 @@ function findMethodExcludes (src: Record<string, Record<string, any>>, dst: Reco
   const dstSections = Object.keys(dst);
 
   return dstSections
-    .filter((section): boolean => srcSections.includes(section))
+    .filter((section) => srcSections.includes(section))
     .reduce((rmMethods: string[], section): string[] => {
       const srcMethods = Object.keys(src[section]);
 
       return rmMethods.concat(
         ...Object
           .keys(dst[section])
-          .filter((method): boolean => !srcMethods.includes(method))
-          .map((method): string => `${section}.${method}`)
+          .filter((method) => !srcMethods.includes(method))
+          .map((method) => `${section}.${method}`)
       );
     }, []);
 }

@@ -24,6 +24,7 @@ export { default as grandpa } from './grandpa/definitions';
 export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as offences } from './offences/definitions';
+export { default as proxy } from './proxy/definitions';
 export { default as recovery } from './recovery/definitions';
 export { default as scheduler } from './scheduler/definitions';
 export { default as session } from './session/definitions';
@@ -40,13 +41,17 @@ export { default as vesting } from './vesting/definitions';
 export { default as attestations } from './attestations/definitions';
 export { default as claims } from './claims/definitions';
 export { default as parachains } from './parachains/definitions';
+export { default as poll } from './poll/definitions';
+export { default as purchase } from './purchase/definitions';
+
+// other useful types
+export { default as ethereum } from './ethereum/definitions';
 
 // pull in metadata & rpc last, assuming that is uses info from above
 export { default as metadata } from './metadata/definitions';
 export { default as rpc } from './rpc/definitions';
 
 // rpc-only definitions
-export { default as account } from './account/definitions';
 export { default as author } from './author/definitions';
 export { default as chain } from './chain/definitions';
 export { default as childstate } from './childstate/definitions';

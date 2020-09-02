@@ -3,22 +3,22 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Vec } from '@polkadot/types/codec';
-import { u32, u64 } from '@polkadot/types/primitive';
-import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
+import { u16, u32, u64 } from '@polkadot/types/primitive';
+import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
 import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
+import { ApiTypes } from '@polkadot/api/types';
 
-declare module '@polkadot/metadata/Decorated/consts/types' {
-  export interface Constants {
-    [index: string]: ModuleConstants;
+declare module '@polkadot/api/types/consts' {
+  export interface AugmentedConsts<ApiType> {
     babe: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The number of **slots** that an epoch takes. We couple sessions to
        * epochs, i.e. we start a new session once the new epoch begins.
        **/
-      epochDuration: AugmentedConst<u64>;
+      epochDuration: u64 & AugmentedConst<ApiType>;
       /**
        * The expected average block time at which BABE should be creating
        * blocks. Since BABE is probabilistic it is not trivial to figure out
@@ -26,30 +26,30 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * duration and the security parameter `c` (where `1 - c` represents
        * the probability of a slot being empty).
        **/
-      expectedBlockTime: AugmentedConst<Moment>;
+      expectedBlockTime: Moment & AugmentedConst<ApiType>;
     };
     balances: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The minimum amount required to keep an account open.
        **/
-      existentialDeposit: AugmentedConst<Balance>;
+      existentialDeposit: Balance & AugmentedConst<ApiType>;
     };
     contracts: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The maximum nesting level of a call/instantiate stack. A reasonable default
        * value is 100.
        **/
-      maxDepth: AugmentedConst<u32>;
+      maxDepth: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum size of a storage value in bytes. A reasonable default is 16 KiB.
        **/
-      maxValueSize: AugmentedConst<u32>;
+      maxValueSize: u32 & AugmentedConst<ApiType>;
       /**
        * Price of a byte of storage per one block interval. Should be greater than 0.
        **/
-      rentByteFee: AugmentedConst<BalanceOf>;
+      rentByteFee: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The amount of funds a contract should deposit in order to offset
        * the cost of one byte.
@@ -59,14 +59,14 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,
        * then it would pay 500 BU/day.
        **/
-      rentDepositOffset: AugmentedConst<BalanceOf>;
+      rentDepositOffset: BalanceOf & AugmentedConst<ApiType>;
       /**
        * Number of block delay an extrinsic claim surcharge has.
        * 
        * When claim surcharge is called by an extrinsic the rent is checked
        * for current_block - delay
        **/
-      signedClaimHandicap: AugmentedConst<BlockNumber>;
+      signedClaimHandicap: BlockNumber & AugmentedConst<ApiType>;
       /**
        * A size offset for an contract. A just created account with untouched storage will have that
        * much of storage from the perspective of the state rent.
@@ -75,23 +75,23 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * by making them pay rent. This creates an incentive to remove them early in order to save
        * rent.
        **/
-      storageSizeOffset: AugmentedConst<u32>;
+      storageSizeOffset: u32 & AugmentedConst<ApiType>;
       /**
        * Reward that is received by the party whose touch has led
        * to removal of a contract.
        **/
-      surchargeReward: AugmentedConst<BalanceOf>;
+      surchargeReward: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The minimum amount required to generate a tombstone.
        **/
-      tombstoneDeposit: AugmentedConst<BalanceOf>;
+      tombstoneDeposit: BalanceOf & AugmentedConst<ApiType>;
     };
     democracy: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * Period in blocks where an external proposal may not be re-submitted after being vetoed.
        **/
-      cooloffPeriod: AugmentedConst<BlockNumber>;
+      cooloffPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The minimum period of locking and the period between a proposal being approved and enacted.
        * 
@@ -99,221 +99,313 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * voting stakers have an opportunity to remove themselves from the system in the case where
        * they are on the losing side of a vote.
        **/
-      enactmentPeriod: AugmentedConst<BlockNumber>;
+      enactmentPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * Minimum voting period allowed for an emergency referendum.
        **/
-      fastTrackVotingPeriod: AugmentedConst<BlockNumber>;
+      fastTrackVotingPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * How often (in blocks) new public referenda are launched.
        **/
-      launchPeriod: AugmentedConst<BlockNumber>;
+      launchPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The maximum number of votes for an account.
        **/
-      maxVotes: AugmentedConst<u32>;
+      maxVotes: u32 & AugmentedConst<ApiType>;
       /**
        * The minimum amount to be used as a deposit for a public referendum proposal.
        **/
-      minimumDeposit: AugmentedConst<BalanceOf>;
+      minimumDeposit: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The amount of balance that must be deposited per byte of preimage stored.
        **/
-      preimageByteDeposit: AugmentedConst<BalanceOf>;
+      preimageByteDeposit: BalanceOf & AugmentedConst<ApiType>;
       /**
        * How often (in blocks) to check for new votes.
        **/
-      votingPeriod: AugmentedConst<BlockNumber>;
+      votingPeriod: BlockNumber & AugmentedConst<ApiType>;
     };
     elections: {
-      [index: string]: AugmentedConst<object & Codec>;
-      candidacyBond: AugmentedConst<BalanceOf>;
-      desiredMembers: AugmentedConst<u32>;
-      desiredRunnersUp: AugmentedConst<u32>;
-      moduleId: AugmentedConst<LockIdentifier>;
-      termDuration: AugmentedConst<BlockNumber>;
-      votingBond: AugmentedConst<BalanceOf>;
+      [key: string]: Codec;
+      candidacyBond: BalanceOf & AugmentedConst<ApiType>;
+      desiredMembers: u32 & AugmentedConst<ApiType>;
+      desiredRunnersUp: u32 & AugmentedConst<ApiType>;
+      moduleId: LockIdentifier & AugmentedConst<ApiType>;
+      termDuration: BlockNumber & AugmentedConst<ApiType>;
+      votingBond: BalanceOf & AugmentedConst<ApiType>;
     };
     finalityTracker: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The delay after which point things become suspicious. Default is 1000.
        **/
-      reportLatency: AugmentedConst<BlockNumber>;
+      reportLatency: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The number of recent samples to keep from this chain. Default is 101.
        **/
-      windowSize: AugmentedConst<BlockNumber>;
+      windowSize: BlockNumber & AugmentedConst<ApiType>;
     };
     identity: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The amount held on deposit for a registered identity.
        **/
-      basicDeposit: AugmentedConst<BalanceOf>;
+      basicDeposit: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The amount held on deposit per additional field for a registered identity.
        **/
-      fieldDeposit: AugmentedConst<BalanceOf>;
+      fieldDeposit: BalanceOf & AugmentedConst<ApiType>;
       /**
        * Maximum number of additional fields that may be stored in an ID. Needed to bound the I/O
        * required to access an identity, but can be pretty high.
        **/
-      maxAdditionalFields: AugmentedConst<u32>;
+      maxAdditionalFields: u32 & AugmentedConst<ApiType>;
       /**
        * Maxmimum number of registrars allowed in the system. Needed to bound the complexity
        * of, e.g., updating judgements.
        **/
-      maxRegistrars: AugmentedConst<u32>;
+      maxRegistrars: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of sub-accounts allowed per identified account.
        **/
-      maxSubAccounts: AugmentedConst<u32>;
+      maxSubAccounts: u32 & AugmentedConst<ApiType>;
       /**
        * The amount held on deposit for a registered subaccount. This should account for the fact
        * that one storage item's value will increase by the size of an account ID, and there will be
        * another trie item whose value is the size of an account ID plus 32 bytes.
        **/
-      subAccountDeposit: AugmentedConst<BalanceOf>;
+      subAccountDeposit: BalanceOf & AugmentedConst<ApiType>;
+    };
+    indices: {
+      [key: string]: Codec;
+      /**
+       * The deposit needed for reserving an index.
+       **/
+      deposit: BalanceOf & AugmentedConst<ApiType>;
+    };
+    proxy: {
+      [key: string]: Codec;
+      /**
+       * `AnnouncementDepositBase` metadata shadow.
+       **/
+      announcementDepositBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * `AnnouncementDepositFactor` metadata shadow.
+       **/
+      announcementDepositFactor: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * `MaxPending` metadata shadow.
+       **/
+      maxPending: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum amount of proxies allowed for a single account.
+       **/
+      maxProxies: u16 & AugmentedConst<ApiType>;
+      /**
+       * The base amount of currency needed to reserve for creating a proxy.
+       **/
+      proxyDepositBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The amount of currency needed per proxy added.
+       **/
+      proxyDepositFactor: BalanceOf & AugmentedConst<ApiType>;
+    };
+    recovery: {
+      [key: string]: Codec;
+      /**
+       * The base amount of currency needed to reserve for creating a recovery configuration.
+       **/
+      configDepositBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The amount of currency needed per additional user when creating a recovery configuration.
+       **/
+      friendDepositFactor: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The maximum amount of friends allowed in a recovery configuration.
+       **/
+      maxFriends: u16 & AugmentedConst<ApiType>;
+      /**
+       * The base amount of currency needed to reserve for starting a recovery.
+       **/
+      recoveryDeposit: BalanceOf & AugmentedConst<ApiType>;
     };
     society: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The minimum amount of a deposit required for a bid to be made.
        **/
-      candidateDeposit: AugmentedConst<BalanceOf>;
+      candidateDeposit: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The number of blocks between membership challenges.
        **/
-      challengePeriod: AugmentedConst<BlockNumber>;
+      challengePeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The number of times a member may vote the wrong way (or not at all, when they are a skeptic)
        * before they become suspended.
        **/
-      maxStrikes: AugmentedConst<u32>;
+      maxStrikes: u32 & AugmentedConst<ApiType>;
       /**
        * The societies's module id
        **/
-      moduleId: AugmentedConst<ModuleId>;
+      moduleId: ModuleId & AugmentedConst<ApiType>;
       /**
        * The amount of incentive paid within each period. Doesn't include VoterTip.
        **/
-      periodSpend: AugmentedConst<BalanceOf>;
+      periodSpend: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The number of blocks between candidate/membership rotation periods.
        **/
-      rotationPeriod: AugmentedConst<BlockNumber>;
+      rotationPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The amount of the unpaid reward that gets deducted in the case that either a skeptic
        * doesn't vote or someone votes in the wrong way.
        **/
-      wrongSideDeduction: AugmentedConst<BalanceOf>;
+      wrongSideDeduction: BalanceOf & AugmentedConst<ApiType>;
     };
     staking: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * Number of eras that staked funds must remain bonded for.
        **/
-      bondingDuration: AugmentedConst<EraIndex>;
+      bondingDuration: EraIndex & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks before the end of the era from which election submissions are allowed.
+       * 
+       * Setting this to zero will disable the offchain compute and only on-chain seq-phragmen will
+       * be used.
+       * 
+       * This is bounded by being within the last session. Hence, setting it to a value more than the
+       * length of a session will be pointless.
+       **/
+      electionLookahead: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of balancing iterations to run in the offchain submission.
+       * 
+       * If set to 0, balance_solution will not be executed at all.
+       **/
+      maxIterations: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of nominators rewarded for each validator.
+       * 
+       * For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can claim
+       * their reward. This used to limit the i/o cost for the nominator payout.
+       **/
+      maxNominatorRewardedPerValidator: u32 & AugmentedConst<ApiType>;
+      /**
+       * The threshold of improvement that should be provided for a new solution to be accepted.
+       **/
+      minSolutionScoreBump: Perbill & AugmentedConst<ApiType>;
       /**
        * Number of sessions per era.
        **/
-      sessionsPerEra: AugmentedConst<SessionIndex>;
+      sessionsPerEra: SessionIndex & AugmentedConst<ApiType>;
+      /**
+       * Number of eras that slashes are deferred by, after computation.
+       * 
+       * This should be less than the bonding duration.
+       * Set to 0 if slashes should be applied immediately, without opportunity for
+       * intervention.
+       **/
+      slashDeferDuration: EraIndex & AugmentedConst<ApiType>;
     };
     system: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The base weight of executing a block, independent of the transactions in the block.
        **/
-      blockExecutionWeight: AugmentedConst<Weight>;
+      blockExecutionWeight: Weight & AugmentedConst<ApiType>;
       /**
        * The maximum number of blocks to allow in mortal eras.
        **/
-      blockHashCount: AugmentedConst<BlockNumber>;
+      blockHashCount: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The weight of runtime database operations the runtime can invoke.
        **/
-      dbWeight: AugmentedConst<RuntimeDbWeight>;
+      dbWeight: RuntimeDbWeight & AugmentedConst<ApiType>;
       /**
        * The base weight of an Extrinsic in the block, independent of the of extrinsic being executed.
        **/
-      extrinsicBaseWeight: AugmentedConst<Weight>;
+      extrinsicBaseWeight: Weight & AugmentedConst<ApiType>;
       /**
        * The maximum length of a block (in bytes).
        **/
-      maximumBlockLength: AugmentedConst<u32>;
+      maximumBlockLength: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum weight of a block.
        **/
-      maximumBlockWeight: AugmentedConst<Weight>;
+      maximumBlockWeight: Weight & AugmentedConst<ApiType>;
     };
     timestamp: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The minimum period between blocks. Beware that this is different to the *expected* period
        * that the block production apparatus provides. Your chosen consensus system will generally
        * work with this to determine a sensible block time. e.g. For Aura, it will be double this
        * period on default settings.
        **/
-      minimumPeriod: AugmentedConst<Moment>;
+      minimumPeriod: Moment & AugmentedConst<ApiType>;
     };
     transactionPayment: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The fee to be paid for making a transaction; the per-byte portion.
        **/
-      transactionByteFee: AugmentedConst<BalanceOf>;
+      transactionByteFee: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The polynomial that is applied in order to derive fee from weight.
        **/
-      weightToFee: AugmentedConst<Vec<WeightToFeeCoefficient>>;
+      weightToFee: Vec<WeightToFeeCoefficient> & AugmentedConst<ApiType>;
     };
     treasury: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * Percentage of spare funds (if any) that are burnt per spend period.
        **/
-      burn: AugmentedConst<Permill>;
+      burn: Permill & AugmentedConst<ApiType>;
       /**
        * The treasury's module id, used for deriving its sovereign account ID.
        **/
-      moduleId: AugmentedConst<ModuleId>;
+      moduleId: ModuleId & AugmentedConst<ApiType>;
       /**
        * Fraction of a proposal's value that should be bonded in order to place the proposal.
        * An accepted proposal gets these back. A rejected proposal does not.
        **/
-      proposalBond: AugmentedConst<Permill>;
+      proposalBond: Permill & AugmentedConst<ApiType>;
       /**
        * Minimum amount of funds that should be placed in a deposit for making a proposal.
        **/
-      proposalBondMinimum: AugmentedConst<BalanceOf>;
+      proposalBondMinimum: BalanceOf & AugmentedConst<ApiType>;
       /**
        * Period between successive spends.
        **/
-      spendPeriod: AugmentedConst<BlockNumber>;
+      spendPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The period for which a tip remains open after is has achieved threshold tippers.
        **/
-      tipCountdown: AugmentedConst<BlockNumber>;
+      tipCountdown: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The amount of the final tip which goes to the original reporter of the tip.
        **/
-      tipFindersFee: AugmentedConst<Percent>;
+      tipFindersFee: Percent & AugmentedConst<ApiType>;
       /**
        * The amount held on deposit for placing a tip report.
        **/
-      tipReportDepositBase: AugmentedConst<BalanceOf>;
+      tipReportDepositBase: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The amount held on deposit per byte within the tip report reason.
        **/
-      tipReportDepositPerByte: AugmentedConst<BalanceOf>;
+      tipReportDepositPerByte: BalanceOf & AugmentedConst<ApiType>;
     };
     vesting: {
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       /**
        * The minimum amount to be transferred to create a new vesting schedule.
        **/
-      minVestedTransfer: AugmentedConst<BalanceOf>;
+      minVestedTransfer: BalanceOf & AugmentedConst<ApiType>;
     };
+  }
+
+  export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
+    [key: string]: QueryableModuleConsts;
   }
 }

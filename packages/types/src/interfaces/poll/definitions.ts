@@ -8,18 +8,8 @@
 import { Definitions } from '../../types';
 
 export default {
-  rpc: {
-    nextIndex: {
-      alias: ['system_accountNextIndex'],
-      description: 'Retrieves the next accountIndex as available on the node',
-      params: [
-        {
-          name: 'accountId',
-          type: 'AccountId'
-        }
-      ],
-      type: 'Index'
-    }
-  },
-  types: {}
+  rpc: {},
+  types: {
+    Approvals: '[bool; 4]'
+  }
 } as Definitions;

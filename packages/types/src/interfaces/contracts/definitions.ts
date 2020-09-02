@@ -19,6 +19,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -38,6 +39,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -53,6 +55,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -76,9 +79,20 @@ export default {
       gasLimit: 'u64',
       inputData: 'Bytes'
     },
-    ContractExecResultSuccess: {
+    ContractExecResultSuccessTo255: {
       status: 'u8',
       data: 'Raw'
+    },
+    ContractExecResultTo255: {
+      _enum: {
+        Success: 'ContractExecResultSuccessTo255',
+        Error: 'Null'
+      }
+    },
+    ContractExecResultSuccess: {
+      flags: 'u32',
+      data: 'Vec<u8>',
+      gasConsumed: 'u64'
     },
     ContractExecResult: {
       _enum: {

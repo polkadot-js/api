@@ -28,6 +28,12 @@ describe('Ws', (): void => {
       createWs([]).isConnected()
     ).toEqual(false);
   });
+
+  it('allows you to initialize the provider with custom headers', (): void => {
+    expect(
+      (): WsProvider => new WsProvider(TEST_WS_URL, 1000, { foo: 'bar' })
+    ).not.toThrow();
+  });
 });
 
 describe('Endpoint Parsing', (): void => {

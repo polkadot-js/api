@@ -8,6 +8,8 @@ import { AnyJson, Constructor, Registry } from '@polkadot/types/types';
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 import { Struct } from '@polkadot/types';
 
+import { extractAuthor } from './util';
+
 // We can ignore the properties, added via Struct.with
 const _Header = Struct.with(runtimeTypes.types.Header as any) as Constructor<Header>;
 
@@ -22,29 +24,7 @@ export default class HeaderExtended extends _Header {
   constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
     super(registry, header);
 
-    this.#author = this._extractAuthor(sessionValidators);
-  }
-
-  private _extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
-    const [pitem] = this.digest.logs.filter(({ type }) => type === 'PreRuntime');
-
-    // extract from the substrate 2.0 PreRuntime digest
-    if (pitem) {
-      const [engine, data] = pitem.asPreRuntime;
-
-      return engine.extractAuthor(data, sessionValidators);
-    } else {
-      const [citem] = this.digest.logs.filter(({ type }) => type === 'Consensus');
-
-      // extract author from the consensus (substrate 1.0, digest)
-      if (citem) {
-        const [engine, data] = citem.asConsensus;
-
-        return engine.extractAuthor(data, sessionValidators);
-      }
-    }
-
-    return undefined;
+    this.#author = extractAuthor(this.digest, sessionValidators);
   }
 
   /**
