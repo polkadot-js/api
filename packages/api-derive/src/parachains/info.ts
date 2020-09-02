@@ -77,8 +77,8 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
   };
 }
 
-export function info (api: ApiInterfaceRx): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
-  return memo((id: ParaId | number): Observable<DeriveParachainFull | null> =>
+export function info (instanceId: string, api: ApiInterfaceRx): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
+  return memo(instanceId, (id: ParaId | number): Observable<DeriveParachainFull | null> =>
     api.query.registrar && api.query.parachains
       ? api.queryMulti<Result>([
         api.query.registrar.active,

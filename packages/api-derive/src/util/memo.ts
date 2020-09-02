@@ -12,7 +12,7 @@ type ObsFn <T> = (...params: any[]) => Observable<T>;
 //   1. creates a memo of the inner fn -> Observable, removing when unsubscribed
 //   2. wraps the observable in a drr() (which includes an unsub delay)
 /** @internal */
-export function memo <T> (inner: ObsFn<T>): ObsFn<T> {
+export function memo <T> (instanceId: string, inner: ObsFn<T>): ObsFn<T> {
   const cached = createMemo(
     (...params: any[]): Observable<T> =>
       new Observable((observer: Observer<T>): TeardownLogic => {
@@ -26,7 +26,7 @@ export function memo <T> (inner: ObsFn<T>): ObsFn<T> {
     {
       // Normalize via JSON.stringify, allow e.g. AccountId -> ss58
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      normalizer: JSON.stringify
+      normalizer: (args) => instanceId + JSON.stringify(args)
     }
   );
 

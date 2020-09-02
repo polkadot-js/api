@@ -13,7 +13,7 @@ import { Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
+function retrieveStakeOf (instanceId: string, api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
   const elections = (api.query.electionsPhragmen || api.query.elections);
 
   return elections.stakeOf.creator.meta.type.asMap.linked.isTrue
@@ -29,7 +29,7 @@ function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][
     );
 }
 
-function retrieveVoteOf (api: ApiInterfaceRx): Observable<[AccountId, AccountId[]][]> {
+function retrieveVoteOf (instanceId: string, api: ApiInterfaceRx): Observable<[AccountId, AccountId[]][]> {
   const elections = (api.query.electionsPhragmen || api.query.elections);
 
   return elections.votesOf.creator.meta.type.asMap.linked.isTrue
@@ -45,7 +45,7 @@ function retrieveVoteOf (api: ApiInterfaceRx): Observable<[AccountId, AccountId[
     );
 }
 
-function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
+function retrievePrev (instanceId: string, api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
   return combineLatest([retrieveStakeOf(api), retrieveVoteOf(api)]).pipe(
     map(([stakes, votes]): DeriveCouncilVotes => {
       const result: DeriveCouncilVotes = [];
@@ -69,7 +69,7 @@ function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
   );
 }
 
-function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
+function retrieveCurrent (instanceId: string, api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
   const elections = (api.query.electionsPhragmen || api.query.elections);
 
   return elections.voting.entries<ITuple<[Balance, Vec<AccountId>]>>().pipe(
@@ -81,8 +81,8 @@ function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
   );
 }
 
-export function votes (api: ApiInterfaceRx): () => Observable<DeriveCouncilVotes> {
-  return memo((): Observable<DeriveCouncilVotes> =>
+export function votes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveCouncilVotes> {
+  return memo(instanceId, (): Observable<DeriveCouncilVotes> =>
     (api.query.electionsPhragmen || api.query.elections).stakeOf
       ? retrievePrev(api)
       : retrieveCurrent(api)

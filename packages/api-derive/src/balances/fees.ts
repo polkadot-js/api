@@ -24,8 +24,8 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function fees (api: ApiInterfaceRx): () => Observable<DeriveFees> {
-  return memo((): Observable<DeriveFees> =>
+export function fees (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveFees> {
+  return memo(instanceId, (): Observable<DeriveFees> =>
     of([
       // deprecated - remove
       (api.consts.balances?.creationFee as unknown as Balance) || api.registry.createType('Balance'),

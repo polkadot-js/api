@@ -17,7 +17,7 @@ function sortAccounts ([, balanceA]: ITuple<[AccountId, Balance]>, [, balanceB]:
   return balanceB.cmp(balanceA);
 }
 
-function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
+function queryElections (instanceId: string, api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
   const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
   return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
@@ -55,6 +55,6 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
  * });
  * ```
  */
-export function info (api: ApiInterfaceRx): () => Observable<DeriveElectionsInfo> {
-  return memo((): Observable<DeriveElectionsInfo> => queryElections(api));
+export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveElectionsInfo> {
+  return memo(instanceId, (): Observable<DeriveElectionsInfo> => queryElections(api));
 }

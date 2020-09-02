@@ -74,8 +74,8 @@ function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<
   );
 }
 
-export function locks (api: ApiInterfaceRx): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
-  return memo((accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
+export function locks (instanceId: string, api: ApiInterfaceRx): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
+  return memo(instanceId, (accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
     api.query.democracy.votingOf(accountId).pipe(
       switchMap((voting): Observable<DeriveDemocracyLock[]> =>
         voting.isDirect

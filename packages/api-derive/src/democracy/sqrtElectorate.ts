@@ -11,8 +11,8 @@ import { bnSqrt } from '@polkadot/util';
 
 import { memo } from '../util';
 
-export function sqrtElectorate (api: ApiInterfaceRx): () => Observable<BN> {
-  return memo((): Observable<BN> =>
+export function sqrtElectorate (instanceId: string, api: ApiInterfaceRx): () => Observable<BN> {
+  return memo(instanceId, (): Observable<BN> =>
     api.query.balances.totalIssuance().pipe(
       map((totalIssuance) =>
         bnSqrt(totalIssuance)

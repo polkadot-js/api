@@ -11,8 +11,8 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function nextElected (api: ApiInterfaceRx): () => Observable<AccountId[]> {
-  return memo((): Observable<AccountId[]> =>
+export function nextElected (instanceId: string, api: ApiInterfaceRx): () => Observable<AccountId[]> {
+  return memo(instanceId, (): Observable<AccountId[]> =>
     api.query.staking.erasStakers
       ? api.derive.session.indexes().pipe(
         // only populate for next era in the last session, so track both here - entries are not
@@ -27,8 +27,8 @@ export function nextElected (api: ApiInterfaceRx): () => Observable<AccountId[]>
 /**
  * @description Retrieve latest list of validators
  */
-export function validators (api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> {
-  return memo((): Observable<DeriveStakingValidators> =>
+export function validators (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> {
+  return memo(instanceId, (): Observable<DeriveStakingValidators> =>
     // Sadly the node-template is (for some obscure reason) not comprehensive, so while the derive works
     // in all actual real-world deployed chains, it does create some confusion for limited template chains
     // NOTE: Not doing multi queries here, since we have validators as a single in the derived newHead

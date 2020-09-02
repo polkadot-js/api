@@ -32,6 +32,8 @@ const EMPTY_META = {
   }
 };
 
+let instanceCounter = 0;
+
 // utility method to create a nicely-formatted error
 /** @internal */
 function logErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): void {
@@ -66,6 +68,8 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
  * ```
  */
 export default class Rpc implements RpcInterface {
+  readonly #instanceId = `rpc-core:${++instanceCounter}`;
+
   #registryDefault: Registry;
 
   #getBlockRegistry?: (blockHash: string | Uint8Array) => Promise<{ registry: Registry }>;
@@ -251,7 +255,7 @@ export default class Rpc implements RpcInterface {
 
     memoized = memoizee(this._createMethodWithRaw(creator), {
       length: false,
-      normalizer: JSON.stringify
+      normalizer: (args) => this.#instanceId + JSON.stringify(args)
     });
 
     return memoized;
@@ -340,7 +344,7 @@ export default class Rpc implements RpcInterface {
       // together are cached together.
       // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      normalizer: JSON.stringify
+      normalizer: (args) => this.#instanceId + JSON.stringify(args)
     });
 
     return memoized;

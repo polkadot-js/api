@@ -32,8 +32,8 @@ function mapPoints (eras: EraIndex[], points: EraRewardPoints[]): DeriveEraPoint
   }));
 }
 
-export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPoints[]> {
-  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraPoints[]> => {
+export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPoints[]> {
+  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraPoints[]> => {
     if (!eras.length) {
       return of([]);
     }
@@ -62,8 +62,8 @@ export function _erasPoints (api: ApiInterfaceRx): (eras: EraIndex[], withActive
   });
 }
 
-export function erasPoints (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
-  return memo((withActive = false): Observable<DeriveEraPoints[]> =>
+export function erasPoints (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
+  return memo(instanceId, (withActive = false): Observable<DeriveEraPoints[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._erasPoints(eras, withActive))
     )

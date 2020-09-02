@@ -10,8 +10,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
 
-export function eraProgress (api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return memo((): Observable<BlockNumber> =>
+export function eraProgress (instanceId: string, api: ApiInterfaceRx): () => Observable<BlockNumber> {
+  return memo(instanceId, (): Observable<BlockNumber> =>
     api.derive.session.progress().pipe(
       map((info) => info.eraProgress)
     ));

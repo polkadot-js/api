@@ -92,8 +92,8 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
   );
 }
 
-export function _referendumVotes (api: ApiInterfaceRx): (referendum: DeriveReferendum) => Observable<DeriveReferendumVotes> {
-  return memo((referendum: DeriveReferendum): Observable<DeriveReferendumVotes> =>
+export function _referendumVotes (instanceId: string, api: ApiInterfaceRx): (referendum: DeriveReferendum) => Observable<DeriveReferendumVotes> {
+  return memo(instanceId, (referendum: DeriveReferendum): Observable<DeriveReferendumVotes> =>
     combineLatest([
       api.derive.democracy.sqrtElectorate(),
       isFunction(api.query.democracy.votingOf)
@@ -107,8 +107,8 @@ export function _referendumVotes (api: ApiInterfaceRx): (referendum: DeriveRefer
   );
 }
 
-export function _referendumsVotes (api: ApiInterfaceRx): (referendums: DeriveReferendum[]) => Observable<DeriveReferendumVotes[]> {
-  return memo((referendums: DeriveReferendum[]): Observable<DeriveReferendumVotes[]> =>
+export function _referendumsVotes (instanceId: string, api: ApiInterfaceRx): (referendums: DeriveReferendum[]) => Observable<DeriveReferendumVotes[]> {
+  return memo(instanceId, (referendums: DeriveReferendum[]): Observable<DeriveReferendumVotes[]> =>
     referendums.length
       ? combineLatest(
         referendums.map((referendum): Observable<DeriveReferendumVotes> =>
@@ -119,8 +119,8 @@ export function _referendumsVotes (api: ApiInterfaceRx): (referendums: DeriveRef
   );
 }
 
-export function _referendumInfo (api: ApiInterfaceRx): (index: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>) => Observable<DeriveReferendum | null> {
-  return memo((index: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>): Observable<DeriveReferendum | null> => {
+export function _referendumInfo (instanceId: string, api: ApiInterfaceRx): (index: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>) => Observable<DeriveReferendum | null> {
+  return memo(instanceId, (index: BN, info: Option<ReferendumInfo | ReferendumInfoTo239>): Observable<DeriveReferendum | null> => {
     const status = getStatus(info);
 
     return status
@@ -136,8 +136,8 @@ export function _referendumInfo (api: ApiInterfaceRx): (index: BN, info: Option<
   });
 }
 
-export function referendumsInfo (api: ApiInterfaceRx): (ids: BN[]) => Observable<DeriveReferendum[]> {
-  return memo((ids: BN[]): Observable<DeriveReferendum[]> =>
+export function referendumsInfo (instanceId: string, api: ApiInterfaceRx): (ids: BN[]) => Observable<DeriveReferendum[]> {
+  return memo(instanceId, (ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length
       ? api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo>>(ids).pipe(
         switchMap((infos): Observable<(DeriveReferendum | null)[]> =>

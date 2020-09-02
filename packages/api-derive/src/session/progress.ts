@@ -28,7 +28,7 @@ function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlo
   };
 }
 
-function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
+function queryAura (instanceId: string, api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
     map((info): DeriveSessionProgress => ({
       ...info,
@@ -38,7 +38,7 @@ function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
   );
 }
 
-function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
+function queryBabe (instanceId: string, api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return api.derive.session.info().pipe(
     switchMap((info): Observable<[DeriveSessionInfo, ResultSlots]> =>
       combineLatest([
@@ -57,7 +57,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
   );
 }
 
-function queryBabeNoHistory (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
+function queryBabeNoHistory (instanceId: string, api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return combineLatest([
     api.derive.session.info(),
     api.queryMulti<ResultSlotsFlat>([
@@ -72,8 +72,8 @@ function queryBabeNoHistory (api: ApiInterfaceRx): Observable<[DeriveSessionInfo
 /**
  * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
-export function progress (api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
-  return memo((): Observable<DeriveSessionProgress> =>
+export function progress (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
+  return memo(instanceId, (): Observable<DeriveSessionProgress> =>
     api.consts.babe
       ? (
         isFunction(api.query.staking.erasStartSessionIndex)

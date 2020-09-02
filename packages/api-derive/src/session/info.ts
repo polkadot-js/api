@@ -29,7 +29,7 @@ function createDerive (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsPe
   };
 }
 
-function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
+function queryAura (instanceId: string, api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
   return api.derive.session.indexes().pipe(
     map((indexes): DeriveSessionInfo =>
       createDerive(api, [
@@ -44,7 +44,7 @@ function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
   );
 }
 
-function queryBabe (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
+function queryBabe (instanceId: string, api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
   return api.derive.session.indexes().pipe(
     map((indexes) =>
       createDerive(api, [
@@ -62,8 +62,8 @@ function queryBabe (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
 /**
  * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
-export function info (api: ApiInterfaceRx): () => Observable<DeriveSessionInfo> {
-  return memo((): Observable<DeriveSessionInfo> =>
+export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionInfo> {
+  return memo(instanceId, (): Observable<DeriveSessionInfo> =>
     api.consts.babe
       ? queryBabe(api)
       : queryAura(api)

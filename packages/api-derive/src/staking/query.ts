@@ -106,16 +106,16 @@ function retrieveControllers (api: ApiInterfaceRx, optControllerIds: Option<Acco
 /**
  * @description From a stash, retrieve the controllerId and all relevant details
  */
-export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingQuery> {
-  return memo((accountId: Uint8Array | string): Observable<DeriveStakingQuery> =>
+export function query (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingQuery> {
+  return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingQuery> =>
     api.derive.staking.queryMulti([accountId]).pipe(
       map(([first]) => first)
     )
   );
 }
 
-export function queryMulti (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingQuery[]> {
-  return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingQuery[]> =>
+export function queryMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingQuery[]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[]): Observable<DeriveStakingQuery[]> =>
     accountIds.length
       ? combineLatest([
         api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),

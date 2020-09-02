@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { memo } from '../util';
 
-export function votesOf (api: ApiInterfaceRx): (accountId: string | Uint8Array | AccountId) => Observable<DeriveCouncilVote> {
-  return memo((accountId: string | Uint8Array | AccountId): Observable<DeriveCouncilVote> =>
+export function votesOf (instanceId: string, api: ApiInterfaceRx): (accountId: string | Uint8Array | AccountId) => Observable<DeriveCouncilVote> {
+  return memo(instanceId, (accountId: string | Uint8Array | AccountId): Observable<DeriveCouncilVote> =>
     api.derive.council.votes().pipe(
       map((votes): DeriveCouncilVote =>
         (
