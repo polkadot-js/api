@@ -2,25 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
+import { AugmentedConst, QueryableConsts, QueryableModuleConsts } from '@polkadot/api/types/consts';
 import { Codec } from '@polkadot/types/types';
-
-export type ConstantCodec<T extends Codec = Codec> = T & {
-  meta: ModuleConstantMetadataLatest;
-}
-
-export interface ModuleConstants {
-  [key: string]: ConstantCodec<Codec>;
-}
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 export interface ModuleStorage {
   [key: string]: StorageEntry;
 }
 
-export interface Constants {
-  [key: string]: ModuleConstants;
-}
+export type Constants = QueryableConsts<'rxjs'>;
+
+export type ConstantCodec = AugmentedConst<'rxjs', Codec>;
+
+export type ModuleConstants = QueryableModuleConsts<'rxjs'>;
 
 export interface Storage {
   [key: string]: ModuleStorage;
