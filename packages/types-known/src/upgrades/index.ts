@@ -19,7 +19,7 @@ function rawToFinal ({ genesisHash, versions }: ChainUpgradesRaw): ChainUpgrades
       blockNumber: new BN(blockNumber),
       specVersion: new BN(specVersion)
     }))
-  }
+  };
 }
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
