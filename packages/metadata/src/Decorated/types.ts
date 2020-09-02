@@ -12,9 +12,9 @@ export interface ModuleStorage {
 
 export type Constants = QueryableConsts<'rxjs'>;
 
-export type ConstantCodec = AugmentedConst<'rxjs', Codec>;
+export type ConstantCodec = Codec & AugmentedConst<'rxjs'>;
 
-export type ModuleConstants = QueryableModuleConsts<'rxjs'>;
+export type ModuleConstants = QueryableModuleConsts;
 
 export interface Storage {
   [key: string]: ModuleStorage;

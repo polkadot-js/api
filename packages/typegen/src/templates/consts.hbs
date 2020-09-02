@@ -7,11 +7,11 @@ declare module '@polkadot/api/types/consts' {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      [index: string]: QueryableConstsEntry<ApiType, Codec>;
+      [key: string]: Codec;
       {{/unless}}
       {{~#each items}}
       {{> docs}}
-      {{{name}}}: AugmentedConst<ApiType, {{{type}}}>;
+      {{{name}}}: {{{type}}} & AugmentedConst<ApiType>;
       {{/each}}
     };
     {{/each}}
@@ -19,7 +19,7 @@ declare module '@polkadot/api/types/consts' {
 
   export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
     {{#unless isStrict}}
-    [index: string]: QueryableModuleConsts<ApiType>;
+    [key: string]: QueryableModuleConsts<ApiType>;
     {{/unless}}
   }
 }

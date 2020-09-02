@@ -7,7 +7,7 @@ declare module '@polkadot/api/types/submittable' {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      [index: string]: SubmittableExtrinsicFunction<ApiType>;
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
       {{/unless}}
       {{~#each items}}
       {{> docs}}
@@ -20,7 +20,7 @@ declare module '@polkadot/api/types/submittable' {
   export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
     (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
     {{#unless isStrict}}
-    [index: string]: SubmittableModuleExtrinsics<ApiType>;
+    [key: string]: SubmittableModuleExtrinsics<ApiType>;
     {{/unless}}
   }
 }

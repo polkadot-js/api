@@ -12,13 +12,11 @@ import { ApiTypes } from './base';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AugmentedConsts<ApiType extends ApiTypes> { }
 
-export type AugmentedConst<ApiType extends ApiTypes, T extends Codec> = T & QueryableConstsEntry<ApiType, T>
-
-export type QueryableConstsEntry<ApiType extends ApiTypes, T extends Codec> = T & {
-  meta: ModuleConstantMetadataLatest;
+export interface AugmentedConst<ApiType extends ApiTypes> {
   // at: (hash: Hash | Uint8Array | string) => PromiseOrObs<ApiType, T>;
+  meta: ModuleConstantMetadataLatest;
 }
 
-export interface QueryableModuleConsts<ApiType extends ApiTypes> {
-  [index: string]: QueryableConstsEntry<ApiType, Codec>;
+export interface QueryableModuleConsts {
+  [key: string]: Codec;
 }
