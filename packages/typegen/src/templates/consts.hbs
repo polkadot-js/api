@@ -2,22 +2,25 @@
 
 {{{ imports }}}
 
-declare module '@polkadot/metadata/Decorated/consts/types' {
-  export interface Constants {
-    {{#unless isStrict}}
-    [index: string]: ModuleConstants;
-    {{/unless}}
+declare module '@polkadot/api/types/consts' {
+  export interface AugmentedConsts<ApiType> {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      [index: string]: AugmentedConst<object & Codec>;
+      [key: string]: Codec;
       {{/unless}}
       {{~#each items}}
       {{> docs}}
-      {{{name}}}: AugmentedConst<{{{type}}}>;
+      {{{name}}}: {{{type}}} & AugmentedConst<ApiType>;
       {{/each}}
     };
     {{/each}}
+  }
+
+  export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
+    {{#unless isStrict}}
+    [key: string]: QueryableModuleConsts;
+    {{/unless}}
   }
 }
 {{> footer }}

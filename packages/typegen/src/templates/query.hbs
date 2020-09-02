@@ -7,7 +7,7 @@ declare module '@polkadot/api/types/storage' {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      [index: string]: QueryableStorageEntry<ApiType>;
+      [key: string]: QueryableStorageEntry<ApiType>;
       {{/unless}}
       {{~#each items}}
       {{> docs}}
@@ -19,7 +19,7 @@ declare module '@polkadot/api/types/storage' {
 
   export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
     {{#unless isStrict}}
-    [index: string]: QueryableModuleStorage<ApiType>;
+    [key: string]: QueryableModuleStorage<ApiType>;
     {{/unless}}
   }
 }

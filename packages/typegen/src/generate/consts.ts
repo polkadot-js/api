@@ -54,7 +54,11 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
         file: packagePath,
         types: Object.keys(imports.localTypes[packagePath])
-      }))
+      })),
+      {
+        file: '@polkadot/api/types',
+        types: ['ApiTypes']
+      }
     ];
 
     return generateForMetaTemplate({
