@@ -14,7 +14,7 @@ import { isFunction } from '@polkadot/util';
 import { memo } from '../util';
 
 function isEraOpt (era: Option<EraIndex> | EraIndex): era is Option<EraIndex> {
-  return (era as Option<EraIndex>).isSome || (era as Option<EraIndex>).isNone;
+  return isFunction((era as Option<EraIndex>).unwrapOrDefault);
 }
 
 // parse into Indexes
