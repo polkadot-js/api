@@ -13,6 +13,10 @@ import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
+function isEraOpt (era: Option<EraIndex> | EraIndex): era is Option<EraIndex> {
+  return (era as Option<EraIndex>).isSome || (era as Option<EraIndex>).isNone;
+}
+
 // parse into Indexes
 function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]: [EraIndex, Option<Moment>, EraIndex, SessionIndex, u32]): DeriveSessionIndexes {
   return {
@@ -26,13 +30,15 @@ function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorC
 
 // query for previous V2
 function queryNoActive (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
-  return api.queryMulti<[Option<EraIndex>, SessionIndex, u32]>([
+  return api.queryMulti<[Option<EraIndex> | EraIndex, SessionIndex, u32]>([
     api.query.staking.currentEra,
     api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
     map(([currentEraOpt, currentIndex, validatorCount]): DeriveSessionIndexes => {
-      const currentEra = currentEraOpt.unwrapOrDefault();
+      const currentEra = isEraOpt(currentEraOpt)
+        ? currentEraOpt.unwrapOrDefault()
+        : currentEraOpt;
 
       return parse([
         currentEra,
