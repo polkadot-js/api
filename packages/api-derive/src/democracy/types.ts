@@ -17,18 +17,18 @@ export interface DeriveDemocracyLock {
   vote: Vote;
 }
 
-export interface DeriveDispatch {
-  at: BlockNumber;
-  index: ReferendumIndex;
-  imageHash: Hash;
-  image?: DeriveProposalImage;
-}
-
 export interface DeriveProposalImage {
   at: BlockNumber;
   balance: Balance;
   proposal?: Proposal;
   proposer: AccountId;
+}
+
+export interface DeriveDispatch {
+  at: BlockNumber;
+  index: ReferendumIndex;
+  imageHash: Hash;
+  image?: DeriveProposalImage;
 }
 
 export interface DeriveProposal {

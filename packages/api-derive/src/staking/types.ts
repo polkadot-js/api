@@ -40,6 +40,17 @@ export interface DeriveStakerPoints {
   points: RewardPoint;
 }
 
+export interface DeriveOwnExposure {
+  clipped: Exposure;
+  era: EraIndex;
+  exposure: Exposure;
+}
+
+export interface DeriveEraExposureNominating {
+  validatorId: string;
+  validatorIndex: number;
+}
+
 export type DeriveEraNominatorExposure = Record<string, DeriveEraExposureNominating[]>;
 
 export type DeriveEraValidatorExposure = Record<string, Exposure>;
@@ -48,19 +59,6 @@ export interface DeriveEraExposure {
   era: EraIndex;
   nominators: DeriveEraNominatorExposure;
   validators: DeriveEraValidatorExposure;
-}
-
-export interface DeriveOwnExposure {
-  clipped: Exposure;
-  era: EraIndex;
-  exposure: Exposure;
-}
-
-export type DeriveOwnSlashes = DeriveStakerSlashes;
-
-export interface DeriveEraExposureNominating {
-  validatorId: string;
-  validatorIndex: number;
 }
 
 export interface DeriveStakerExposure {
@@ -91,15 +89,7 @@ export interface DeriveStakerSlashes {
   total: Balance;
 }
 
-export interface DeriveStakingElected {
-  nextElected: AccountId[];
-  info: DeriveStakingQuery[];
-}
-
-export interface DeriveStakingWaiting {
-  info: DeriveStakingQuery[];
-  waiting: AccountId[];
-}
+export type DeriveOwnSlashes = DeriveStakerSlashes;
 
 export interface DeriveStakingValidators {
   nextElected: AccountId[];
@@ -124,6 +114,21 @@ export interface DeriveStakingQuery extends DeriveStakingStash {
   stakingLedger?: StakingLedger;
 }
 
+export interface DeriveStakingElected {
+  nextElected: AccountId[];
+  info: DeriveStakingQuery[];
+}
+
+export interface DeriveStakingWaiting {
+  info: DeriveStakingQuery[];
+  waiting: AccountId[];
+}
+
+export interface DeriveUnlocking {
+  remainingEras: BN;
+  value: Balance;
+}
+
 export interface DeriveStakingAccount extends DeriveStakingQuery {
   redeemable?: Balance;
   unlocking?: DeriveUnlocking[];
@@ -133,8 +138,3 @@ export interface DeriveStakingOverview extends DeriveSessionIndexes {
   nextElected: AccountId[];
   validators: AccountId[];
 }
-
-export type DeriveUnlocking = {
-  remainingEras: BN;
-  value: Balance;
-};
