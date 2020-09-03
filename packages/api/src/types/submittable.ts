@@ -7,7 +7,7 @@ import { AnyFunction, CallBase } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiTypes } from './base';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
 export interface AugmentedSubmittables<ApiType extends ApiTypes> { }
 
 export type AugmentedSubmittable<T extends AnyFunction> = T & CallBase;
