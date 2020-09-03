@@ -13,10 +13,12 @@ import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type Result = [EraIndex, Option<Moment>, EraIndex, SessionIndex, u32];
+function isEraOpt (era: Option<EraIndex> | EraIndex): era is Option<EraIndex> {
+  return isFunction((era as Option<EraIndex>).unwrapOrDefault);
+}
 
 // parse into Indexes
-function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]: Result): DeriveSessionIndexes {
+function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]: [EraIndex, Option<Moment>, EraIndex, SessionIndex, u32]): DeriveSessionIndexes {
   return {
     activeEra,
     activeEraStart,
@@ -27,63 +29,67 @@ function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorC
 }
 
 // query for previous V2
-function queryNoActive (api: ApiInterfaceRx): Observable<Result> {
-  return api.queryMulti<[EraIndex, SessionIndex, u32]>([
+function queryNoActive (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
+  return api.queryMulti<[Option<EraIndex> | EraIndex, SessionIndex, u32]>([
     api.query.staking.currentEra,
     api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
-    map(([currentEra, currentIndex, validatorCount]): Result => [
-      currentEra,
-      api.registry.createType('Option<Moment>'),
-      currentEra,
-      currentIndex,
-      validatorCount
-    ])
+    map(([currentEraOpt, currentIndex, validatorCount]): DeriveSessionIndexes => {
+      const currentEra = isEraOpt(currentEraOpt)
+        ? currentEraOpt.unwrapOrDefault()
+        : currentEraOpt;
+
+      return parse([
+        currentEra,
+        api.registry.createType('Option<Moment>'),
+        currentEra,
+        currentIndex,
+        validatorCount
+      ]);
+    })
   );
 }
 
 // query based on latest
-function query (api: ApiInterfaceRx): Observable<Result> {
+function query (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
   return api.queryMulti<[Option<ActiveEraInfo>, Option<EraIndex>, SessionIndex, u32]>([
     api.query.staking.activeEra,
     api.query.staking.currentEra,
     api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
-    map(([activeOpt, currentEra, currentIndex, validatorCount]): Result => {
-      const { index: activeEra, start: activeEraStart } = activeOpt.unwrapOrDefault();
+    map(([activeOpt, currentEra, currentIndex, validatorCount]): DeriveSessionIndexes => {
+      const { index, start } = activeOpt.unwrapOrDefault();
 
-      return [
-        activeEra,
-        activeEraStart,
-        currentEra.unwrapOr(api.registry.createType('EraIndex')),
+      return parse([
+        index,
+        start,
+        currentEra.unwrapOrDefault(),
         currentIndex,
         validatorCount
-      ];
+      ]);
     })
   );
 }
 
 // empty set when none is available
-function empty (api: ApiInterfaceRx): Observable<Result> {
-  return of([
+function empty (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
+  return of(parse([
     api.registry.createType('EraIndex'),
     api.registry.createType('Option<Moment>'),
     api.registry.createType('EraIndex'),
     api.registry.createType('SessionIndex', 1),
     api.registry.createType('u32')
-  ]);
+  ]));
 }
 
 export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
   return memo(instanceId, (): Observable<DeriveSessionIndexes> =>
-    (
-      api.query.session && api.query.staking
-        ? isFunction(api.query.staking.activeEra)
-          ? query(api)
-          : queryNoActive(api)
-        : empty(api)
-    ).pipe(map(parse))
+    api.query.session && api.query.staking
+      ? isFunction(api.query.staking.activeEra)
+        ? query(api)
+        : queryNoActive(api)
+      : empty(api)
   );
 }
