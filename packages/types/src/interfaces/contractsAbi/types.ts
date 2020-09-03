@@ -81,9 +81,9 @@ export interface InkMessageSpec extends Struct {
 
 /** @name InkProject */
 export interface InkProject extends Struct {
-  readonly lookup: MtRegistry;
-  readonly storage: InkStorageLayout;
   readonly contract: InkContractSpec;
+  readonly storage: InkStorageLayout;
+  readonly types: Vec<MtType>;
 }
 
 /** @name InkSelector */
@@ -111,11 +111,6 @@ export interface MtField extends Struct {
 
 /** @name MtLookupTypeId */
 export interface MtLookupTypeId extends u32 {}
-
-/** @name MtRegistry */
-export interface MtRegistry extends Struct {
-  readonly types: Vec<MtType>;
-}
 
 /** @name MtType */
 export interface MtType extends Struct {

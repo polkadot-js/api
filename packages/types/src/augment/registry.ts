@@ -15,7 +15,7 @@ import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import { InkConstructorSpec, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutCell, InkLayoutField, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtRegistry, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSlice, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
+import { InkConstructorSpec, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutCell, InkLayoutField, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSlice, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
@@ -447,9 +447,6 @@ declare module '@polkadot/types/types/registry' {
     MtField: MtField;
     'Option<MtField>': Option<MtField>;
     'Vec<MtField>': Vec<MtField>;
-    MtRegistry: MtRegistry;
-    'Option<MtRegistry>': Option<MtRegistry>;
-    'Vec<MtRegistry>': Vec<MtRegistry>;
     MtType: MtType;
     'Option<MtType>': Option<MtType>;
     'Vec<MtType>': Vec<MtType>;

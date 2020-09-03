@@ -176,5 +176,5 @@ function convertTypes (project: InkProject, types: MtType[]): [number, string, s
 }
 
 export function getProjectTypes (project: InkProject): [number, string, string | null][] {
-  return convertTypes(project, project.lookup.types);
+  return convertTypes(project, project.types);
 }

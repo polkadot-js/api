@@ -23,14 +23,17 @@ describe('inkRegistry', (): void => {
     });
 
     it('does single lookups via getInkType', (): void => {
+      console.log(JSON.stringify(project));
+      const resolvedType = getInkType(project, project.spec.messages[0].args[0].type.id);
       expect(
-        JSON.stringify(getInkType(project, project.contract.messages[0].args[0].type.id))
+        JSON.stringify(resolvedType.def)
       ).toEqual('{"Primitive":"I32"}');
     });
 
     it('does multiple lookups via getInkTypes', (): void => {
+      const resolvedTypes = getInkTypes(project, [project.spec.messages[1].returnType.unwrap().id]);
       expect(
-        JSON.stringify(getInkTypes(project, [project.contract.messages[1].returnType.unwrap().id]))
+        JSON.stringify(resolvedTypes.map(({ def }) => def))
       ).toEqual('[{"Primitive":"I32"}]');
     });
   });

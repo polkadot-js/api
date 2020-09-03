@@ -79,9 +79,6 @@ const registry = {
     name: 'Option<Text>',
     type: 'MtLookupTypeId'
   },
-  MtRegistry: {
-    types: 'Vec<MtType>'
-  },
   MtType: {
     path: 'Vec<Text>',
     params: 'Vec<MtLookupTypeId>',
@@ -128,12 +125,9 @@ export default {
     ...registry,
     ...spec,
     InkProject: {
-      _alias: {
-        lookup: 'registry'
-      },
-      lookup: 'MtRegistry',
+      spec: 'InkContractSpec',
       storage: 'InkStorageLayout',
-      contract: 'InkContractSpec'
+      types: 'Vec<MtType>'
     }
   }
 };

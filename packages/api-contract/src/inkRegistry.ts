@@ -14,7 +14,7 @@ export function getRegistryOffset (id: MtLookupTypeId): number {
 // extract a single ink type defintion from the project
 export function getInkType (project: InkProject, id: MtLookupTypeId): MtType {
   const offset = getRegistryOffset(id);
-  const type = project.lookup.types[offset];
+  const type = project.types[offset];
 
   assert(!isUndefined(type), `getInkType:: Unable to find ${id.toNumber()} in type values`);
 
