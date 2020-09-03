@@ -67,7 +67,9 @@ function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<Mult
 function retrieveCurr (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex): Observable<MultiResult[]> {
   return combineLatest([
     api.query.staking.bonded.multi<Option<AccountId>>(stashIds),
-    api.query.staking.nominators.multi<Option<Nominations>>(stashIds),
+    api.query.staking.nominators
+      ? api.query.staking.nominators.multi<Option<Nominations>>(stashIds)
+      : of(stashIds.map(() => api.registry.createType('Option<Nominations>'))),
     api.query.staking.payee.multi<RewardDestination>(stashIds),
     api.query.staking.validators.multi<ValidatorPrefs>(stashIds),
     api.consts.session?.dedupKeyPrefix
