@@ -31,13 +31,17 @@ function queryNoActive (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
     api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
-    map(([currentEra, currentIndex, validatorCount]): DeriveSessionIndexes => parse([
-      currentEra.unwrapOrDefault(),
-      api.registry.createType('Option<Moment>'),
-      currentEra.unwrapOrDefault(),
-      currentIndex,
-      validatorCount
-    ]))
+    map(([currentEraOpt, currentIndex, validatorCount]): DeriveSessionIndexes => {
+      const currentEra = currentEraOpt.unwrapOrDefault();
+
+      return parse([
+        currentEra,
+        api.registry.createType('Option<Moment>'),
+        currentEra,
+        currentIndex,
+        validatorCount
+      ]);
+    })
   );
 }
 
