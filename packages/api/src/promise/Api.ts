@@ -257,16 +257,16 @@ export default class ApiPromise extends ApiBase<'promise'> {
   }
 
   /**
-   * @description Promise that returns the first time we are connected and loaded
+   * @description Promise that resolves the first time we are connected and loaded
    */
   public get isReady (): Promise<ApiPromise> {
     return this.#isReadyPromise;
   }
 
   /**
-   * @description Promise that returns if we can connect, or will reject if there is an error.
+   * @description Promise that resolves if we can connect, or reject if there is an error
    */
-  public get isReadyOrError(): Promise<ApiPromise> {
+  public get isReadyOrError (): Promise<ApiPromise> {
     return this.#isReadyOrErrorPromise;
   }
 
