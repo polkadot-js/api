@@ -28,15 +28,15 @@ function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorC
 
 // query for previous V2
 function queryNoActive (api: ApiInterfaceRx): Observable<Result> {
-  return api.queryMulti<[EraIndex, SessionIndex, u32]>([
+  return api.queryMulti<[Option<EraIndex>, SessionIndex, u32]>([
     api.query.staking.currentEra,
     api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
     map(([currentEra, currentIndex, validatorCount]): Result => [
-      currentEra,
+      currentEra.unwrapOrDefault(),
       api.registry.createType('Option<Moment>'),
-      currentEra,
+      currentEra.unwrapOrDefault(),
       currentIndex,
       validatorCount
     ])
@@ -57,7 +57,7 @@ function query (api: ApiInterfaceRx): Observable<Result> {
       return [
         activeEra,
         activeEraStart,
-        currentEra.unwrapOr(api.registry.createType('EraIndex')),
+        currentEra.unwrapOrDefault(),
         currentIndex,
         validatorCount
       ];
