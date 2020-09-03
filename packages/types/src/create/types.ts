@@ -108,6 +108,11 @@ export interface MetaTypeDefEnumVariantTupleStruct {
   'tuple_struct_variant.types': TypeIndex[];
 }
 
+export interface MetaTypeDefStructField {
+  name: StringIndex;
+  type: TypeIndex;
+}
+
 export interface MetaTypeDefEnumVariantStruct {
   'struct_variant.name': StringIndex;
   'struct_variant.fields': MetaTypeDefStructField[];
@@ -117,11 +122,6 @@ export type MetaTypeDefEnumVariant = MetaTypeDefEnumVariantUnit | MetaTypeDefEnu
 
 export interface MetaTypeDefEnum {
   'enum.variants': MetaTypeDefEnumVariant[];
-}
-
-export interface MetaTypeDefStructField {
-  name: StringIndex;
-  type: TypeIndex;
 }
 
 export type MetaTypeDefUnionField = MetaTypeDefStructField;

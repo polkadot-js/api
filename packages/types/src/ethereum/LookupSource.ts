@@ -12,6 +12,7 @@ import Base from '../codec/Base';
 import AccountIndex from '../generic/AccountIndex';
 import EthereumAccountId from './AccountId';
 
+// eslint-disable-next-line no-use-before-define
 type AnyAddress = BN | LookupSource | EthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
