@@ -17,6 +17,7 @@ import Abi from '../Abi';
 import Contract from './Contract';
 import { BaseWithTx } from './util';
 
+// eslint-disable-next-line no-use-before-define
 type BlueprintCreateResultSubscription<ApiType extends ApiTypes> = Observable<BlueprintCreateResult<ApiType>>;
 
 export interface BlueprintCreate<ApiType extends ApiTypes> {

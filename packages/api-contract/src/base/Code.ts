@@ -17,6 +17,7 @@ import Abi from '../Abi';
 import Blueprint from './Blueprint';
 import { BaseWithTx } from './util';
 
+// eslint-disable-next-line no-use-before-define
 type CodePutCodeResultSubscription<ApiType extends ApiTypes> = Observable<CodePutCodeResult<ApiType>>;
 
 export interface CodePutCode<ApiType extends ApiTypes> {

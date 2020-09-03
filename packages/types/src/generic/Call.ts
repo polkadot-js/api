@@ -13,6 +13,7 @@ import U8aFixed from '../codec/U8aFixed';
 
 interface DecodeMethodInput {
   args: unknown;
+  // eslint-disable-next-line no-use-before-define
   callIndex: CallIndex | Uint8Array;
 }
 

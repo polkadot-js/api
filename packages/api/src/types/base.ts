@@ -3,10 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import type { Observable } from 'rxjs';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer R) => void)
   ? R
   : never;
@@ -56,6 +58,7 @@ export interface PromiseResult<F extends AnyFunction> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
   <T extends Codec | Codec[]>(...args: Parameters<F>): Promise<T>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   <T extends Codec | Codec[]>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
 }
 
@@ -79,4 +82,5 @@ export interface PaginationOptions<ArgType = CodecArg> {
   startKey?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type DecorateMethod<ApiType extends ApiTypes> = <Method extends (...args: any[]) => Observable<any>>(method: Method, options?: DecorateMethodOptions) => any;

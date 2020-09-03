@@ -10,10 +10,11 @@ import BN from 'bn.js';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: any[]) => any;
 
+// eslint-disable-next-line no-use-before-define
+export type AnyJson = string | number | boolean | null | undefined | AnyJsonArray | { [index: string]: AnyJson };
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AnyJsonArray extends Array<AnyJson> {}
-
-export type AnyJson = string | number | boolean | null | undefined | AnyJsonArray | { [index: string]: AnyJson };
 
 export type AnyNumber = BN | BigInt | Uint8Array | number | string;
 
