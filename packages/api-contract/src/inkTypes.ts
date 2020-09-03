@@ -7,7 +7,7 @@ import { InterfaceTypes } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
 
-import { getInkString, getInkStrings, getInkType } from './inkRegistry';
+import { getInkType } from './inkRegistry';
 import sanitize from '@polkadot/types/create/sanitize';
 
 // this maps through the the enum definition in types/interfaces/contractsAbi/defintions.ts
@@ -34,7 +34,7 @@ function getTypeArray (project: InkProject, idArray: MtTypeDefArray): string {
 
 // convert a typeid into the custom
 function resolveTypeFromPath (project: InkProject, type: MtType): string {
-  const nameSegments = getInkStrings(project, type.path);
+  const nameSegments = type.path.map((segment) => segment.toString());
   const params = type.params.length
     ? `<${type.params.map((type): string | null => resolveTypeFromId(project, type)).join(', ')}>`
     : '';
@@ -58,7 +58,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
     const fields = typeFields.map((field): string => {
       const type = resolveTypeFromId(project, field.type);
 
-      const name = getInkString(project, field.name.unwrap());
+      const name = field.name.unwrap().toString();
       return `"${name}": ${JSON.stringify(type)}`;
     });
 
@@ -89,7 +89,7 @@ function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeDefVariant
   if (allUnitVariants) {
     // FIXME We are currently ignoring the discriminant
     const variants = typeVariant.variants.map(({ name }): string =>
-      getInkString(project, name)
+      name.toString()
     );
 
     return variants.length
@@ -100,10 +100,9 @@ function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeDefVariant
   const variants = typeVariant.variants.map(({ name, fields, discriminant }): string => {
     assert(discriminant.isNone, "Only enums with all 'unit' variants (i.e. C-like enums) can have discriminants");
 
-    const variantName = getInkString(project, name);
     const variantFields = buildTypeDefFields(project, fields);
 
-    return `"${variantName}": ${variantFields}`;
+    return `"${name}": ${variantFields}`;
   });
 
   return variants.length

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InkProject, MtLookupTextId, MtLookupTypeId, MtType } from '@polkadot/types/interfaces';
+import { InkProject, MtLookupTypeId, MtType } from '@polkadot/types/interfaces';
 
 import { assert, isUndefined } from '@polkadot/util';
 
 // convert the offset into project-specific, index-1
-export function getRegistryOffset (id: MtLookupTextId | MtLookupTypeId): number {
+export function getRegistryOffset (id: MtLookupTypeId): number {
   return id.toNumber() - 1;
 }
 
