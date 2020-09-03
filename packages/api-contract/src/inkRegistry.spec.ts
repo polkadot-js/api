@@ -23,7 +23,6 @@ describe('inkRegistry', (): void => {
     });
 
     it('does single lookups via getInkType', (): void => {
-      console.log(JSON.stringify(project));
       const resolvedType = getInkType(project, project.spec.messages[0].args[0].type.id);
       expect(
         JSON.stringify(resolvedType.def)
