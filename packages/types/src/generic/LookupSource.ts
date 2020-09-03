@@ -12,6 +12,7 @@ import Base from '../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 
+// eslint-disable-next-line no-use-before-define
 type AnyAddress = BN | LookupSource | AccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
