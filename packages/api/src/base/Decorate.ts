@@ -64,6 +64,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   protected _genesisHash?: Hash;
 
+  protected _isConnected: BehaviorSubject<boolean>;
+
   protected _isReady = false;
 
   protected readonly _options: ApiOptions;
@@ -140,6 +142,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._options = options;
     this._type = type;
     this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc);
+    this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
     this._rx.registry = this.#registry;
   }
