@@ -121,7 +121,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    * @description true is the underlying provider is connected
    */
   public get isConnected (): boolean {
-    return this._rpcCore.isConnected;
+    return this._isConnected.getValue();
   }
 
   /**
