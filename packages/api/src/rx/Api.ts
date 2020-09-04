@@ -174,13 +174,6 @@ export default class ApiRx extends ApiBase<'rxjs'> {
   }
 
   /**
-   * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
-   */
-  public get isConnected (): Observable<boolean> {
-    return this._isConnected;
-  }
-
-  /**
    * @description Observable that returns the first time we are connected and loaded
    */
   public get isReady (): Observable<ApiRx> {
