@@ -2,9 +2,31 @@
 
 ## 1.32.0-beta.x
 
+Upgrade priority: Low. However with the changes to connect/disconnect behavior, if using this to tracks state mnually inside your application an upgrade is recommended.
+
+- **Breaking change** Previously `isReady` could throw and error, now it will always succeed on connection. For trapping errors, use the `.isReadyOrError` variant on the API
+- **Breaking change** The `isConnected` provider interface is now a getter, previous calls to `provider.isConnected()` should now be done via `provider.isConnected`. Likewise the `provider.disconnect()` is now async returning a Promises to complete alignment of intent.
+
+Contributed:
+
+- Expand vesting information via derive balances (Thanks to https://github.com/niklabh)
+- Add `isReadyOrError` to API, `isReady` always succeeds (Thanks to https://github.com/shawntabrizi)
+
 Changes:
 
+- Adjust memoization to work on a per-instance basis, instance shared between API and Provider instances
 - Added `derive.chain.getBlock(hash)` to retrieve a `SignedBlock` extended with an `.author` (same as `derive.chain.getHeader(...)`)
+- Added `api.{connect, disconnect}()` as well as `isConnected` interfaces. The first functions returning `Promise<void>`
+- Error on provider connections will now emit and error (as expected) via the event emitter
+- Add `api.derive.accounts.accountId` to perform AccountId lookups (from indices or actual AccountId)
+- Lessen load of `paymentInfo` queries to only use accounId mappings as available
+- Adjust staking derives to cater for early Substrate 2.0 chains (optional/non-optional EraIndexes)
+- Cater for the handling of nested aliased types, e.g. wrapped inside Vec or Tuple
+- Add the support for the `grandpa_subscribeJustifications` RPC
+- Adjust `Call.toHuman()` to remove more technical internal details
+- static metadata & tests updated for the latest substrate master
+- `toHuman()` & `.toBigInt()` has been explicitly added to the API documentation
+- Adjust known types for latest Kusama network state
 
 
 ## 1.31.1 Aug 31, 2020

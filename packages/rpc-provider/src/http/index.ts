@@ -68,9 +68,16 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
+   * @description Manually connect from the connection
+   */
+  public async connect (): Promise<void> {
+    // noop
+  }
+
+  /**
    * @description Manually disconnect from the connection
    */
-  public disconnect (): void {
+  public async disconnect (): Promise<void> {
     // noop
   }
 
@@ -78,7 +85,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
-  public isConnected (): boolean {
+  public get isConnected (): boolean {
     return true;
   }
 
