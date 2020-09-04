@@ -36,7 +36,7 @@ type DeriveAllSections<AllSections> = {
   [Section in keyof AllSections]: DeriveSection<AllSections[Section]>
 };
 
-export type DeriveCustom = Record<string, Record<string, (api: ApiInterfaceRx) => (...args: any[]) => Observable<any>>>;
+export type DeriveCustom = Record<string, Record<string, (instanceId: string, api: ApiInterfaceRx) => (...args: any[]) => Observable<any>>>;
 
 export type ExactDerive = DeriveAllSections<typeof derive>;
 
