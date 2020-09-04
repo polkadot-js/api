@@ -5,7 +5,7 @@
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
 import { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../types';
 
-import { isHex, isObject, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../create';
 import Struct from '../codec/Struct';
@@ -229,8 +229,11 @@ export default class Call extends Struct implements IMethod {
     }
 
     return {
-      args: this.args.map((arg) => arg.toHuman(isExpanded)),
-      callIndex: u8aToHex(this.callIndex),
+      args: this.args.map((arg, index) => call
+        ? { [call.meta.args[index].name.toString()]: arg.toHuman(isExpanded) }
+        : arg.toHuman(isExpanded)
+      ),
+      // callIndex: u8aToHex(this.callIndex),
       method: call?.method,
       section: call?.section,
       ...(isExpanded && call
