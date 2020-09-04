@@ -25,7 +25,7 @@ describe('Ws', (): void => {
 
   it('returns the connected state', (): void => {
     expect(
-      createWs([]).isConnected()
+      createWs([]).isConnected
     ).toEqual(false);
   });
 

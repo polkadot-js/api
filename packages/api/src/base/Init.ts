@@ -62,7 +62,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // If the provider was instantiated earlier, and has already emitted a
     // 'connected' event, then the `on('connected')` won't fire anymore. To
     // cater for this case, we call manually `this._onProviderConnect`.
-    if (this._rpcCore.provider.isConnected()) {
+    if (this._rpcCore.provider.isConnected) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#onProviderConnect();
     }

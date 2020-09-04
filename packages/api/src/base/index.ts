@@ -118,6 +118,13 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
+   * @description true is the underlying provider is connected
+   */
+  public get isConnected (): boolean {
+    return this._isConnected.getValue();
+  }
+
+  /**
    * @description The library information name & version (from package.json)
    */
   public get libraryInfo (): string {
@@ -233,10 +240,17 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
+   * @description Connect from the underlying provider, halting all network traffic
+   */
+  public connect (): Promise<void> {
+    return this._rpcCore.connect();
+  }
+
+  /**
    * @description Disconnect from the underlying provider, halting all network traffic
    */
-  public disconnect (): void {
-    this._rpcCore.disconnect();
+  public disconnect (): Promise<void> {
+    return this._rpcCore.disconnect();
   }
 
   /**

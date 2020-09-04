@@ -29,7 +29,7 @@
     "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
     "@polkadot/dev": "^0.55.45",
-    "@polkadot/ts": "^0.3.40",
+    "@polkadot/ts": "^0.3.41",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.13",
     "@vuepress/plugin-search": "^1.5.4",

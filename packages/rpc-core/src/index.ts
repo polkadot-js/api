@@ -130,10 +130,24 @@ export default class Rpc implements RpcInterface {
   }
 
   /**
+   * @description Returns the connected status of a provider
+   */
+  public get isConnected (): boolean {
+    return this.provider.isConnected;
+  }
+
+  /**
+   * @description Manually connect from the attached provider
+   */
+  public connect (): Promise<void> {
+    return this.provider.connect();
+  }
+
+  /**
    * @description Manually disconnect from the attached provider
    */
-  public disconnect (): void {
-    this.provider.disconnect();
+  public disconnect (): Promise<void> {
+    return this.provider.disconnect();
   }
 
   /**

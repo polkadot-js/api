@@ -2979,12 +2979,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.40":
-  version: 0.3.40
-  resolution: "@polkadot/ts@npm:0.3.40"
+"@polkadot/ts@npm:^0.3.41":
+  version: 0.3.41
+  resolution: "@polkadot/ts@npm:0.3.41"
   dependencies:
     "@types/chrome": ^0.0.122
-  checksum: 6b1eb5217341c7f3e52221624db57eb385ab5216bd9b61129a652d784fab59895bcfadb878d35572ec816a9f3d6754e96658c0b8346cf6dcce71c42856eafb94
+  checksum: 4dbcc5b8f92afa56e0030ef3fa1dfd6ffbb6154730fb53b7ad9842edf8a439e7fd3ef55d81206138cc6bc45deae67baa8b748d2f865c54e03675a85f5a9ab74e
   languageName: node
   linkType: hard
 
@@ -16380,7 +16380,7 @@ __metadata:
     "@babel/register": ^7.11.5
     "@babel/runtime": ^7.11.2
     "@polkadot/dev": ^0.55.45
-    "@polkadot/ts": ^0.3.40
+    "@polkadot/ts": ^0.3.41
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.13
     "@vuepress/plugin-search": ^1.5.4
