@@ -28,9 +28,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/cli@npm:^7.11.5":
-  version: 7.11.5
-  resolution: "@babel/cli@npm:7.11.5"
+"@babel/cli@npm:^7.11.6":
+  version: 7.11.6
+  resolution: "@babel/cli@npm:7.11.6"
   dependencies:
     chokidar: ^2.1.8
     commander: ^4.0.1
@@ -40,7 +40,7 @@ __metadata:
     lodash: ^4.17.19
     make-dir: ^2.1.0
     slash: ^2.0.0
-    source-map: ^0.6.1
+    source-map: ^0.5.0
   peerDependencies:
     "@babel/core": ^7.0.0-0
   dependenciesMeta:
@@ -49,7 +49,7 @@ __metadata:
   bin:
     babel: ./bin/babel.js
     babel-external-helpers: ./bin/babel-external-helpers.js
-  checksum: 88a1be31e76fcf7a6a704ea13a82082877e8398b8c42b3aa30577e07dfeac396494fc040cf298064f0c622ba7fd0ec11ea87892432bfed34db35600ce882bd64
+  checksum: b52d62e3c751b3357130a458487c1d7f08a0c348a56f5da200f6e12ac6a1b8b560190c50085abb12f4cba9b2a84c8478e155acf3621912d42e67b248da0c40c1
   languageName: node
   linkType: hard
 
@@ -73,12 +73,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.11.0, @babel/core@npm:^7.11.5, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.4":
-  version: 7.11.5
-  resolution: "@babel/core@npm:7.11.5"
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.11.0, @babel/core@npm:^7.11.6, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.4":
+  version: 7.11.6
+  resolution: "@babel/core@npm:7.11.6"
   dependencies:
     "@babel/code-frame": ^7.10.4
-    "@babel/generator": ^7.11.5
+    "@babel/generator": ^7.11.6
     "@babel/helper-module-transforms": ^7.11.0
     "@babel/helpers": ^7.10.4
     "@babel/parser": ^7.11.5
@@ -92,19 +92,19 @@ __metadata:
     lodash: ^4.17.19
     resolve: ^1.3.2
     semver: ^5.4.1
-    source-map: ^0.6.1
-  checksum: acde8bbe025ac8a6e5c5d273e37f4e5d2fed984965dd88c4dc2aa488ad5ceec85c1774f628d99cbcc19663dc7b5fdc0a43ce720e2d7befd9674764aadde0e729
+    source-map: ^0.5.0
+  checksum: ad61c22807c904247ae61f11d176b33b3e44f0f2ca3b8d2b31e781ebd558db3381291f5a8a6a3acc28f5c1d6fdbb2b3ad29ca73b4d656d128a406e641b2e985a
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.11.5":
-  version: 7.11.5
-  resolution: "@babel/generator@npm:7.11.5"
+"@babel/generator@npm:^7.11.5, @babel/generator@npm:^7.11.6":
+  version: 7.11.6
+  resolution: "@babel/generator@npm:7.11.6"
   dependencies:
     "@babel/types": ^7.11.5
     jsesc: ^2.5.1
-    source-map: ^0.6.1
-  checksum: c353387c67289b123af6ca665a83c6da9fe5a77ed4d52a3b05a6f4fb47d0595f2aa51c214061860931ff87f449570c6a4866edfe47eb41a35ffc75ac416ffa34
+    source-map: ^0.5.0
+  checksum: 734bd60e018deaf7712c111bb5092d0382d3c217399569f1137f0100f672bcc1a086ae3a34efa0d604951ba9070f9bf554a4690c6bfe39123b05b89a4444e9c7
   languageName: node
   linkType: hard
 
@@ -2826,12 +2826,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.55.45":
-  version: 0.55.45
-  resolution: "@polkadot/dev@npm:0.55.45"
+"@polkadot/dev@npm:^0.55.46":
+  version: 0.55.46
+  resolution: "@polkadot/dev@npm:0.55.46"
   dependencies:
-    "@babel/cli": ^7.11.5
-    "@babel/core": ^7.11.5
+    "@babel/cli": ^7.11.6
+    "@babel/core": ^7.11.6
     "@babel/plugin-proposal-class-properties": ^7.10.4
     "@babel/plugin-proposal-decorators": ^7.10.5
     "@babel/plugin-proposal-nullish-coalescing-operator": ^7.10.4
@@ -2916,7 +2916,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 912f83f020c4db89a063b9f042c079da04c67293a4f9993159b1fbf89a1ba3a7642d9ef3cc9b3908afc420627d4c56266ec5f97d6724a69dcd9898bcf3549d16
+  checksum: 6710f1b534f7ad1a7e0d7faa015bf078db7c901ee6082be0d29fb213884fe9ffe7709b873b2c6bebec9f0f1a1c14a571e8e86915efab8466eda152d548d4cf64
   languageName: node
   linkType: hard
 
@@ -2979,12 +2979,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.41":
-  version: 0.3.41
-  resolution: "@polkadot/ts@npm:0.3.41"
+"@polkadot/ts@npm:^0.3.42":
+  version: 0.3.42
+  resolution: "@polkadot/ts@npm:0.3.42"
   dependencies:
     "@types/chrome": ^0.0.122
-  checksum: 4dbcc5b8f92afa56e0030ef3fa1dfd6ffbb6154730fb53b7ad9842edf8a439e7fd3ef55d81206138cc6bc45deae67baa8b748d2f865c54e03675a85f5a9ab74e
+  checksum: ac08d6783ddbc54594e179c2056ebf6539ed97181650ec95b83da0aaeb019362930794aa4728a2a6aca0ba09470848d2bc0024977b696479e76881e4f88dcd0c
   languageName: node
   linkType: hard
 
@@ -2992,7 +2992,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
-    "@babel/core": ^7.11.5
+    "@babel/core": ^7.11.6
     "@babel/register": ^7.11.5
     "@babel/runtime": ^7.11.2
     "@polkadot/api": 1.32.0-beta.20
@@ -3327,9 +3327,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>= 8":
-  version: 14.6.3
-  resolution: "@types/node@npm:14.6.3"
-  checksum: 8bdc9a0e2a8fc39708c83652fcc46ed28c3b1017be6a668b2df39d8d5bbc2d4746744b475370d44c9b73bf7bebf827ba50f5b14872b450b74ef9fe4dab9173a6
+  version: 14.6.4
+  resolution: "@types/node@npm:14.6.4"
+  checksum: bff274e362080628c96e51b1948be668b68117e35d6353691c753052e490efc0934a0c0a3ba5d2739ac70e745932a9f6b049b7d01a1d96c9ae0c93c3b1b88ed0
   languageName: node
   linkType: hard
 
@@ -5211,16 +5211,16 @@ __metadata:
   linkType: hard
 
 "browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.14.0, browserslist@npm:^4.8.5":
-  version: 4.14.0
-  resolution: "browserslist@npm:4.14.0"
+  version: 4.14.1
+  resolution: "browserslist@npm:4.14.1"
   dependencies:
-    caniuse-lite: ^1.0.30001111
-    electron-to-chromium: ^1.3.523
+    caniuse-lite: ^1.0.30001124
+    electron-to-chromium: ^1.3.562
     escalade: ^3.0.2
     node-releases: ^1.1.60
   bin:
     browserslist: cli.js
-  checksum: 1ca4d424ae15266468d1635d41f4113b1f863a9892958a86be8642e93504ad4ebc488c1ab935b7e86753d0f2243e5d24c15a637c4bc5aaa40dfd6da8d0eaa73b
+  checksum: ec790844a1d72b448b7ea2389a4159a06a6b938d4fcd64ef1870f9320e2b890d84ac98c62236369e176aa2940eeea8c0d9359df75fe6babf9cfa50237a9a30dd
   languageName: node
   linkType: hard
 
@@ -5530,10 +5530,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001111":
-  version: 1.0.30001123
-  resolution: "caniuse-lite@npm:1.0.30001123"
-  checksum: 2249303a844f4e53b41cde528ee29b78182a91921572768e4aca37257472da1b0eb8c50f4aececd4de56414dcf4651f29c3476afa71708b8cacf293f80ae7881
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001124":
+  version: 1.0.30001124
+  resolution: "caniuse-lite@npm:1.0.30001124"
+  checksum: 61f208bfd7dc7fce7355392288d26180c48f095df251bd3fb94db542edfdea804cf2646f2f05c7f2b5bd613c7d935214bb0c4e257ae9508829d00644b823ceff
   languageName: node
   linkType: hard
 
@@ -7596,10 +7596,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.3.523":
-  version: 1.3.560
-  resolution: "electron-to-chromium@npm:1.3.560"
-  checksum: 3dfb46e4216346fe78c8ed66b6eb94bf3b1fc08f050a6a5fb9c57d5c4a482b07d14db0edce9aa1432d48a023d0db0bbf777ce9ecaec554eb8df3ad1af079a4fc
+"electron-to-chromium@npm:^1.3.562":
+  version: 1.3.562
+  resolution: "electron-to-chromium@npm:1.3.562"
+  checksum: f407a271c4f031f6a1927b1ea34360e987caa777d799121c065d7783f1eda61fdbdcbc109cdbdd2a44e34bdcf548573aeec68a08fa89de4619326c6f3ce1f81a
   languageName: node
   linkType: hard
 
@@ -9378,11 +9378,11 @@ __metadata:
   linkType: hard
 
 "git-url-parse@npm:^11.1.2":
-  version: 11.1.3
-  resolution: "git-url-parse@npm:11.1.3"
+  version: 11.2.0
+  resolution: "git-url-parse@npm:11.2.0"
   dependencies:
     git-up: ^4.0.0
-  checksum: c9f06eeb3fc4a5a89e1045fb9d26be314863f5025d7c6ccbd6aa3d8c6ddcb6fa43e7f1f67d05fb4cfaa0a89fd7c54a65bcd55098f474304ac7708648a9b848af
+  checksum: e9919fd1240917f74241a60b571a93e748a9e24648caf96f7b4183bbf44ff7de133a3554e1c3fda6a23e5b3b12ea2316e0f692c03e12ee590cae0a05ebcd5b66
   languageName: node
   linkType: hard
 
@@ -16376,16 +16376,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@babel/core": ^7.11.5
+    "@babel/core": ^7.11.6
     "@babel/register": ^7.11.5
     "@babel/runtime": ^7.11.2
-    "@polkadot/dev": ^0.55.45
-    "@polkadot/ts": ^0.3.41
+    "@polkadot/dev": ^0.55.46
+    "@polkadot/ts": ^0.3.42
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.13
     "@vuepress/plugin-search": ^1.5.4
     copyfiles: ^2.3.0
-    typedoc: ^0.19.0
+    typedoc: ^0.19.1
     typedoc-plugin-markdown: ^2.4.2
     typedoc-plugin-no-inherit: ^1.1.10
   languageName: unknown
@@ -17046,7 +17046,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.5.6":
+"source-map@npm:^0.5.0, source-map@npm:^0.5.6":
   version: 0.5.7
   resolution: "source-map@npm:0.5.7"
   checksum: 737face96577a2184a42f141607fcc2c9db5620cb8517ae8ab3924476defa138fc26b0bab31e98cbd6f19211ecbf78400b59f801ff7a0f87aa9faa79f7433e10
@@ -18365,9 +18365,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.19.0":
-  version: 0.19.0
-  resolution: "typedoc@npm:0.19.0"
+"typedoc@npm:^0.19.0, typedoc@npm:^0.19.1":
+  version: 0.19.1
+  resolution: "typedoc@npm:0.19.1"
   dependencies:
     fs-extra: ^9.0.1
     handlebars: ^4.7.6
@@ -18377,13 +18377,14 @@ __metadata:
     marked: ^1.1.1
     minimatch: ^3.0.0
     progress: ^2.0.3
+    semver: ^7.3.2
     shelljs: ^0.8.4
     typedoc-default-themes: ^0.11.1
   peerDependencies:
-    typescript: ">=4.0.2"
+    typescript: 3.9.x || 4.0.x
   bin:
     typedoc: bin/typedoc
-  checksum: a0e704959e6578a1caeee459cc8b304ee7c08a066445a4b2ef3eb8a149c143ae03581a9b431a786957c32bd983b32fa0657ef67f8cf1df86645377cd6418c828
+  checksum: aee83bcc5fc359193b94c8a20f7916440bfb8bd529d377e8818560e5711b685c66093c82a969a17217926a7a9da8e0c26fc92e1ad387566904767fd62f7deebb
   languageName: node
   linkType: hard
 
