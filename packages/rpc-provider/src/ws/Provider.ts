@@ -36,6 +36,8 @@ const ALIASSES: { [index: string]: string } = {
   chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
 };
 
+const RETRY_DELAY = 1000;
+
 const l = logger('api-ws');
 
 /**
@@ -87,7 +89,7 @@ export default class WsProvider implements ProviderInterface {
    * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000, headers: Record<string, string> = {}) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -107,8 +109,9 @@ export default class WsProvider implements ProviderInterface {
     this.#websocket = null;
 
     if (autoConnectMs > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.connect();
+      this.connectWithRetry().catch((): void => {
+        // does not throw
+      });
     }
   }
 
@@ -160,6 +163,21 @@ export default class WsProvider implements ProviderInterface {
       this.#emit('error', error);
 
       throw error;
+    }
+  }
+
+  /**
+   * @description Connect, never throwing an error, but rather forcing a retry
+   */
+  public async connectWithRetry (): Promise<void> {
+    try {
+      await this.connect();
+    } catch (error) {
+      setTimeout((): void => {
+        this.connectWithRetry().catch((): void => {
+          // does not throw
+        });
+      }, this.#autoConnectMs || RETRY_DELAY);
     }
   }
 
@@ -304,7 +322,9 @@ export default class WsProvider implements ProviderInterface {
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
-        this.connect().catch(() => { /* noop */ });
+        this.connectWithRetry().catch(() => {
+          // does not throw
+        });
       }, this.#autoConnectMs);
     }
   }
