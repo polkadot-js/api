@@ -17,27 +17,24 @@ import { memo } from '../util';
 type MultiResult = [Option<AccountId>, Option<ITuple<[Nominations]> | Nominations>, RewardDestination, ITuple<[ValidatorPrefs]> | ValidatorPrefs, Exposure];
 
 function parseController (stashId: AccountId, [controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]: MultiResult, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
-  const controllerId = controllerIdOpt.unwrapOr(null);
   const nominators = nominatorsOpt.unwrapOr(null);
 
-  return controllerId && stakingLedgerOpt.isSome
-    ? {
-      accountId: stashId,
-      controllerId,
-      exposure,
-      nominators: nominators
-        ? Array.isArray(nominators)
-          ? nominators[0].targets
-          : nominators.targets
-        : [],
-      rewardDestination,
-      stakingLedger: stakingLedgerOpt.unwrapOr(undefined),
-      stashId,
-      validatorPrefs: Array.isArray(validatorPrefs)
-        ? validatorPrefs[0]
-        : validatorPrefs
-    }
-    : { accountId: stashId };
+  return {
+    accountId: stashId,
+    controllerId: controllerIdOpt.unwrapOr(null),
+    exposure,
+    nominators: nominators
+      ? Array.isArray(nominators)
+        ? nominators[0].targets
+        : nominators.targets
+      : [],
+    rewardDestination,
+    stakingLedger: stakingLedgerOpt.unwrapOrDefault(),
+    stashId,
+    validatorPrefs: Array.isArray(validatorPrefs)
+      ? validatorPrefs[0]
+      : validatorPrefs
+  };
 }
 
 function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResult> {

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import type BN from 'bn.js';
-import { AccountId, Balance, EraIndex, Exposure, Keys, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { AccountId, Balance, EraIndex, Exposure, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { DeriveSessionIndexes } from '../session/types';
 
 export type DeriveEraValPoints = Record<string, RewardPoint>;
@@ -102,19 +102,17 @@ export interface DeriveStakingValidators {
 }
 
 export interface DeriveStakingStash {
-  controllerId?: AccountId;
-  exposure?: Exposure;
-  nominators?: AccountId[];
-  nominateAt?: EraIndex;
-  rewardDestination?: RewardDestination;
-  nextKeys?: Keys;
-  stashId?: AccountId;
-  validatorPrefs?: ValidatorPrefs;
+  controllerId: AccountId | null;
+  exposure: Exposure;
+  nominators: AccountId[];
+  rewardDestination: RewardDestination;
+  stashId: AccountId;
+  validatorPrefs: ValidatorPrefs;
 }
 
 export interface DeriveStakingQuery extends DeriveStakingStash {
   accountId: AccountId;
-  stakingLedger?: StakingLedger;
+  stakingLedger: StakingLedger;
 }
 
 export interface DeriveStakingElected {
