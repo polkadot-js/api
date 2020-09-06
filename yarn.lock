@@ -2826,9 +2826,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.55.46":
-  version: 0.55.46
-  resolution: "@polkadot/dev@npm:0.55.46"
+"@polkadot/dev@npm:^0.55.47":
+  version: 0.55.47
+  resolution: "@polkadot/dev@npm:0.55.47"
   dependencies:
     "@babel/cli": ^7.11.6
     "@babel/core": ^7.11.6
@@ -2858,7 +2858,7 @@ __metadata:
     babel-jest: ^26.3.0
     babel-plugin-module-resolver: ^4.0.0
     babel-plugin-styled-components: ^1.11.1
-    browserslist: ^4.14.0
+    browserslist: ^4.14.1
     chalk: ^4.1.0
     coveralls: ^3.1.0
     cpx: ^1.5.0
@@ -2886,7 +2886,7 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.1.1
     rimraf: ^3.0.2
-    typedoc: ^0.19.0
+    typedoc: ^0.19.1
     typedoc-plugin-markdown: ^2.4.2
     typedoc-plugin-no-inherit: ^1.1.10
     typescript: ^4.0.2
@@ -2916,7 +2916,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 6710f1b534f7ad1a7e0d7faa015bf078db7c901ee6082be0d29fb213884fe9ffe7709b873b2c6bebec9f0f1a1c14a571e8e86915efab8466eda152d548d4cf64
+  checksum: 4d0d5f9cc41aaf43d2f541a45313111bd7fce8203dfb648305e71b5b1d7d8c8e02eaa08aedd91692b7e3e78cba3eaaca3f1270086132ac01a86c004ac7d7e752
   languageName: node
   linkType: hard
 
@@ -2979,12 +2979,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.42":
-  version: 0.3.42
-  resolution: "@polkadot/ts@npm:0.3.42"
+"@polkadot/ts@npm:^0.3.43":
+  version: 0.3.43
+  resolution: "@polkadot/ts@npm:0.3.43"
   dependencies:
     "@types/chrome": ^0.0.122
-  checksum: ac08d6783ddbc54594e179c2056ebf6539ed97181650ec95b83da0aaeb019362930794aa4728a2a6aca0ba09470848d2bc0024977b696479e76881e4f88dcd0c
+  checksum: 5f286d9e290833abbe791da560d6dc9afbf43deb2042e93507a52aa4dcea7985a0fc132462a9194cfc1ebce026c5a0a561155a969655cd89a6dc2fbf21327373
   languageName: node
   linkType: hard
 
@@ -5210,7 +5210,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.14.0, browserslist@npm:^4.8.5":
+"browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.14.1, browserslist@npm:^4.8.5":
   version: 4.14.1
   resolution: "browserslist@npm:4.14.1"
   dependencies:
@@ -16379,8 +16379,8 @@ __metadata:
     "@babel/core": ^7.11.6
     "@babel/register": ^7.11.5
     "@babel/runtime": ^7.11.2
-    "@polkadot/dev": ^0.55.46
-    "@polkadot/ts": ^0.3.42
+    "@polkadot/dev": ^0.55.47
+    "@polkadot/ts": ^0.3.43
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.13
     "@vuepress/plugin-search": ^1.5.4
@@ -18365,7 +18365,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.19.0, typedoc@npm:^0.19.1":
+"typedoc@npm:^0.19.1":
   version: 0.19.1
   resolution: "typedoc@npm:0.19.1"
   dependencies:
