@@ -19,6 +19,7 @@ Changes:
 - Added `api.{connect, disconnect}()` as well as `isConnected` interfaces. The first functions returning `Promise<void>`
 - Error on provider connections will now emit and error (as expected) via the event emitter
 - Add `api.derive.accounts.accountId` to perform AccountId lookups (from indices or actual AccountId)
+- The `api.derive.staking.query/queryMulti` no longer retrieves session keys (can be done via `.keys/keysMulti`)
 - Lessen load of `paymentInfo` queries to only use accounId mappings as available
 - Adjust staking derives to cater for early Substrate 2.0 chains (optional/non-optional EraIndexes)
 - Cater for the handling of nested aliased types, e.g. wrapped inside Vec or Tuple
