@@ -91,6 +91,11 @@ export interface DeriveStakerSlashes {
 
 export type DeriveOwnSlashes = DeriveStakerSlashes;
 
+export interface DeriveStakingKeys {
+  nextSessionIds: AccountId[];
+  sessionIds: AccountId[];
+}
+
 export interface DeriveStakingValidators {
   nextElected: AccountId[];
   validators: AccountId[];
@@ -109,8 +114,6 @@ export interface DeriveStakingStash {
 
 export interface DeriveStakingQuery extends DeriveStakingStash {
   accountId: AccountId;
-  nextSessionIds: AccountId[];
-  sessionIds: AccountId[];
   stakingLedger?: StakingLedger;
 }
 
@@ -129,7 +132,7 @@ export interface DeriveUnlocking {
   value: Balance;
 }
 
-export interface DeriveStakingAccount extends DeriveStakingQuery {
+export interface DeriveStakingAccount extends DeriveStakingQuery, DeriveStakingKeys {
   redeemable?: Balance;
   unlocking?: DeriveUnlocking[];
 }
