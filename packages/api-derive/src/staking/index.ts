@@ -11,6 +11,7 @@ export * from './erasPrefs';
 export * from './erasRewards';
 export * from './erasSlashes';
 export * from './electedInfo';
+export * from './keys';
 export * from './overview';
 export * from './ownExposure';
 export * from './ownSlashes';
