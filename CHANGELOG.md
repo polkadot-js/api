@@ -1,11 +1,11 @@
 # CHANGELOG
 
-## 1.32.0-beta.x
+## 1.32.1 Sep 7, 2020
 
-Upgrade priority: Low. However with the changes to connect/disconnect behavior, if using this to tracks state mnually inside your application an upgrade is recommended.
+Upgrade priority: Low. Recommended when manually using provider connect/disconnect or using multiple instances in a single process.
 
-- **Breaking change** Previously `isReady` could throw and error, now it will always succeed on connection. For trapping errors, use the `.isReadyOrError` variant on the API
-- **Breaking change** The `isConnected` provider interface is now a getter, previous calls to `provider.isConnected()` should now be done via `provider.isConnected`. Likewise the `provider.disconnect()` is now async returning a Promises to complete alignment of intent.
+- **Breaking change** Previously `.isReady` could throw an error, now it will always succeed on connection. For trapping errors, use the `.isReadyOrError` variant on the API
+- **Breaking change** The `isConnected` provider interface is now a getter, replacing previous calls to `provider.isConnected()`. Additionally the `provider.disconnect()` is now async, aligning with `.connect()`.
 
 Contributed:
 
@@ -14,18 +14,19 @@ Contributed:
 
 Changes:
 
-- Adjust memoization to work on a per-instance basis, instance shared between API and Provider instances
+- Adjust memoization to work on a per-instance basis, with no contamination between multiple api/provider instances
 - Added `derive.chain.getBlock(hash)` to retrieve a `SignedBlock` extended with an `.author` (same as `derive.chain.getHeader(...)`)
-- Added `api.{connect, disconnect}()` as well as `isConnected` interfaces. The first functions returning `Promise<void>`
-- Error on provider connections will now emit and error (as expected) via the event emitter
-- Add `api.derive.accounts.accountId` to perform AccountId lookups (from indices or actual AccountId)
+- Added `api.{connect, disconnect}()` as well as `isConnected` interfaces. The first functions async returning `Promise<void>`
+- Error on provider connections will now emit all (as expected) via the event emitter
+- Ensure that initial connection failures always retry (when using auto-connection management)
 - The `api.derive.staking.query/queryMulti` no longer retrieves session keys (can be done via `.keys/keysMulti`)
+- Add `api.derive.accounts.accountId` to perform AccountId lookups (from indices or actual AccountId)
 - Lessen load of `paymentInfo` queries to only use accounId mappings as available
 - Adjust staking derives to cater for early Substrate 2.0 chains (optional/non-optional EraIndexes)
 - Cater for the handling of nested aliased types, e.g. wrapped inside Vec or Tuple
 - Add the support for the `grandpa_subscribeJustifications` RPC
-- Adjust `Call.toHuman()` to remove more technical internal details
-- static metadata & tests updated for the latest substrate master
+- Adjust `Call.toHuman()` to remove decoding-related technical internal details
+- Static metadata & tests updated for the latest substrate master
 - `toHuman()` & `.toBigInt()` has been explicitly added to the API documentation
 - Adjust known types for latest Kusama network state
 
