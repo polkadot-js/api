@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.33.0-beta.x
+
+Changes:
+
+- Optimize derive `receivedHeartbeats` to not re-create the full object
+
+
 ## 1.32.1 Sep 7, 2020
 
 Upgrade priority: Low. Recommended when manually using provider connect/disconnect or using multiple instances in a single process.
