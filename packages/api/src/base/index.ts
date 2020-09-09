@@ -194,7 +194,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
-   * @description Contains the version information for the current runtime.
+   * @description Contains the chain information for the current node.
    */
   public get runtimeChain (): Text {
     return assertResult(this._runtimeChain);
