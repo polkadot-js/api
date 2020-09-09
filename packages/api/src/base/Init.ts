@@ -161,6 +161,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   // eslint-disable-next-line @typescript-eslint/require-await
   private async _metaFromSource (source: ApiBase<any>): Promise<Metadata> {
     this._extrinsicType = source.extrinsicVersion;
+    this._runtimeChain = source.runtimeChain;
     this._runtimeVersion = source.runtimeVersion;
     this._genesisHash = source.genesisHash;
     this.registry.setChainProperties(source.registry.getChainProperties());
