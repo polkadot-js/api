@@ -18,6 +18,7 @@ export * from './ownSlashes';
 export * from './query';
 export * from './stakerExposure';
 export * from './stakerPoints';
+export * from './stakerPrefs';
 export * from './stakerRewards';
 export * from './stakerSlashes';
 export * from './stashes';
