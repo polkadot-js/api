@@ -69,6 +69,11 @@ export interface DeriveStakerExposure {
   validators: DeriveEraValidatorExposure;
 }
 
+export interface DeriveStakerPrefs {
+  era: EraIndex;
+  validatorPrefs: ValidatorPrefs;
+}
+
 export interface DeriveStakerRewardValidator {
   total: Balance;
   value: Balance;
