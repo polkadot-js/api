@@ -4,8 +4,9 @@
 
 Changes:
 
-- When cloning an API instance the runtimeChain is now properly set from source
 - Allow `paymentInfo` on any extrinsic (already signed) with optional `{ blockHash: <hash> }` param for historic queries
+- When cloning an API instance the runtimeChain is now properly set from source
+- When cloning an API instance the registry is shared with the source
 - Optimize derive `receivedHeartbeats` to not re-create the full object
 - Add `staking.stakerPrefs` derive to retrieve validatorPrefs over a range of eras
 

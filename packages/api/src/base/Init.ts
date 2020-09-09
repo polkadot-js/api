@@ -45,7 +45,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     if (!options.source) {
       this.registerTypes(options.types);
     } else {
-      this.registry.setKnownTypes(options.source.registry.knownTypes);
+      this.#registries = options.source.#registries;
     }
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
@@ -164,7 +164,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeChain = source.runtimeChain;
     this._runtimeVersion = source.runtimeVersion;
     this._genesisHash = source.genesisHash;
-    this.registry.setChainProperties(source.registry.getChainProperties());
 
     const methods: string[] = [];
 

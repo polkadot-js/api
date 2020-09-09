@@ -132,7 +132,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     super();
 
     this.#instanceId = `${++instanceCounter}`;
-    this.#registry = options.registry || new TypeRegistry();
+    this.#registry = options.source?.registry || options.registry || new TypeRegistry();
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
