@@ -5,6 +5,7 @@
 Changes:
 
 - Optimize derive `receivedHeartbeats` to not re-create the full object
+- Allow `paymentInfo` on any extrinsic (already signed) with optional `{ blockHash: <hash> }` param for historic queries
 
 
 ## 1.32.1 Sep 7, 2020

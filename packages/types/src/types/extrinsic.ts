@@ -150,9 +150,9 @@ export interface IExtrinsicEra extends Codec {
 }
 
 export interface SignatureOptions {
-  blockHash: AnyU8a;
+  blockHash: Uint8Array | string;
   era?: IExtrinsicEra;
-  genesisHash: AnyU8a;
+  genesisHash: Uint8Array | string;
   nonce: AnyNumber;
   runtimeVersion: IRuntimeVersion;
   signedExtensions?: string[];

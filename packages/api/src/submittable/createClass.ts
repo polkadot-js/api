@@ -44,19 +44,21 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
-          api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
-            first(),
-            switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
-              // setup our options (same way as in signAndSend)
-              const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
-              const signOptions = this.#makeSignOptions(eraOptions, {});
+          this.isSigned
+            ? api.rpc.payment.queryInfo(this.toHex(), options?.blockHash)
+            : api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
+              first(),
+              switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
+                // setup our options (same way as in signAndSend)
+                const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
+                const signOptions = this.#makeSignOptions(eraOptions, {});
 
-              // add a fake signature to the extrinsic
-              this.signFake(address, signOptions);
+                // add a fake signature to the extrinsic
+                this.signFake(address, signOptions);
 
-              return api.rpc.payment.queryInfo(this.toHex());
-            })
-          )
+                return api.rpc.payment.queryInfo(this.toHex());
+              })
+            )
       )();
     }
 
