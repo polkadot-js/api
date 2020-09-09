@@ -7,7 +7,7 @@ import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
-import { Metadata } from '@polkadot/types';
+import { Metadata, Text } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
@@ -191,6 +191,13 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    */
   public get rpc (): DecoratedRpc<ApiType, RpcInterface> {
     return assertResult(this._rpc);
+  }
+
+  /**
+   * @description Contains the version information for the current runtime.
+   */
+  public get runtimeChain (): Text {
+    return assertResult(this._runtimeChain);
   }
 
   /**
