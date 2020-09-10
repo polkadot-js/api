@@ -1,7 +1,7 @@
 {
   "magicNumber": 1635018093,
   "metadata": {
-    "V11": {
+    "V12": {
       "modules": [
         {
           "name": "System",
@@ -527,7 +527,8 @@
                 " There is a non-zero reference count preventing the account from being purged."
               ]
             }
-          ]
+          ],
+          "index": 0
         },
         {
           "name": "Utility",
@@ -614,7 +615,8 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [],
+          "index": 1
         },
         {
           "name": "Babe",
@@ -840,7 +842,8 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [],
+          "index": 2
         },
         {
           "name": "Timestamp",
@@ -913,7 +916,8 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [],
+          "index": 3
         },
         {
           "name": "Authorship",
@@ -1014,7 +1018,8 @@
                 " The uncle isn't recent enough to be included."
               ]
             }
-          ]
+          ],
+          "index": 4
         },
         {
           "name": "Indices",
@@ -1248,7 +1253,8 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [],
+          "index": 5
         },
         {
           "name": "Balances",
@@ -1596,7 +1602,8 @@
                 " Beneficiary account must pre-exist"
               ]
             }
-          ]
+          ],
+          "index": 6
         },
         {
           "name": "TransactionPayment",
@@ -1643,7 +1650,8 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [],
+          "index": 7
         },
         {
           "name": "Staking",
@@ -3257,7 +3265,8 @@
                 " Incorrect number of slashing spans provided."
               ]
             }
-          ]
+          ],
+          "index": 8
         },
         {
           "name": "Session",
@@ -3444,7 +3453,8 @@
                 " No keys are associated with this account."
               ]
             }
-          ]
+          ],
+          "index": 9
         },
         {
           "name": "Democracy",
@@ -4704,7 +4714,8 @@
                 " Maximum number of votes reached."
               ]
             }
-          ]
+          ],
+          "index": 10
         },
         {
           "name": "Council",
@@ -5158,7 +5169,8 @@
                 " The given length bound for the proposal was too low."
               ]
             }
-          ]
+          ],
+          "index": 11
         },
         {
           "name": "TechnicalCommittee",
@@ -5612,7 +5624,8 @@
                 " The given length bound for the proposal was too low."
               ]
             }
-          ]
+          ],
+          "index": 12
         },
         {
           "name": "Elections",
@@ -6091,7 +6104,8 @@
                 " Prediction regarding replacement after member removal is wrong."
               ]
             }
-          ]
+          ],
+          "index": 13
         },
         {
           "name": "TechnicalMembership",
@@ -6273,7 +6287,8 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [],
+          "index": 14
         },
         {
           "name": "FinalityTracker",
@@ -6325,7 +6340,8 @@
                 " Finalized height above block number"
               ]
             }
-          ]
+          ],
+          "index": 15
         },
         {
           "name": "Grandpa",
@@ -6547,7 +6563,8 @@
                 " A given equivocation report is valid but already previously reported."
               ]
             }
-          ]
+          ],
+          "index": 16
         },
         {
           "name": "Treasury",
@@ -7099,7 +7116,8 @@
                 " The tip cannot be claimed/closed because it's still in the countdown period."
               ]
             }
-          ]
+          ],
+          "index": 17
         },
         {
           "name": "Contracts",
@@ -7569,7 +7587,8 @@
                 " Contract trapped during execution."
               ]
             }
-          ]
+          ],
+          "index": 18
         },
         {
           "name": "Sudo",
@@ -7720,7 +7739,8 @@
                 " Sender must be the Sudo account"
               ]
             }
-          ]
+          ],
+          "index": 19
         },
         {
           "name": "ImOnline",
@@ -7860,7 +7880,8 @@
                 " Duplicated heartbeat."
               ]
             }
-          ]
+          ],
+          "index": 20
         },
         {
           "name": "AuthorityDiscovery",
@@ -7868,7 +7889,8 @@
           "calls": [],
           "events": null,
           "constants": [],
-          "errors": []
+          "errors": [],
+          "index": 21
         },
         {
           "name": "Offences",
@@ -7961,7 +7983,8 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [],
+          "index": 22
         },
         {
           "name": "Historical",
@@ -7969,7 +7992,8 @@
           "calls": null,
           "events": null,
           "constants": [],
-          "errors": []
+          "errors": [],
+          "index": 23
         },
         {
           "name": "RandomnessCollectiveFlip",
@@ -7994,7 +8018,8 @@
           "calls": [],
           "events": null,
           "constants": [],
-          "errors": []
+          "errors": [],
+          "index": 24
         },
         {
           "name": "Identity",
@@ -8733,7 +8758,8 @@
                 " Sub-account isn't owned by sender."
               ]
             }
-          ]
+          ],
+          "index": 25
         },
         {
           "name": "Society",
@@ -9714,7 +9740,8 @@
                 " The caller is not the head."
               ]
             }
-          ]
+          ],
+          "index": 26
         },
         {
           "name": "Recovery",
@@ -10261,7 +10288,8 @@
                 " This account is already set up for recovery"
               ]
             }
-          ]
+          ],
+          "index": 27
         },
         {
           "name": "Vesting",
@@ -10464,7 +10492,8 @@
                 " Amount being transferred is too low to create a vesting schedule."
               ]
             }
-          ]
+          ],
+          "index": 28
         },
         {
           "name": "Scheduler",
@@ -10749,7 +10778,8 @@
                 " Given target block number is in the past."
               ]
             }
-          ]
+          ],
+          "index": 29
         },
         {
           "name": "Proxy",
@@ -11258,7 +11288,8 @@
                 " Announcement, if made at all, was made too recently."
               ]
             }
-          ]
+          ],
+          "index": 30
         },
         {
           "name": "Multisig",
@@ -11580,7 +11611,33 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "DepositBase",
+              "type": "BalanceOf",
+              "value": "0x00f01c0adbed01000000000000000000",
+              "documentation": [
+                " The base amount of currency needed to reserve for creating a multisig execution or to store",
+                " a dispatch call for later."
+              ]
+            },
+            {
+              "name": "DepositFactor",
+              "type": "BalanceOf",
+              "value": "0x0000cc7b9fae00000000000000000000",
+              "documentation": [
+                " The amount of currency needed per unit threshold when creating a multisig execution."
+              ]
+            },
+            {
+              "name": "MaxSignatories",
+              "type": "u16",
+              "value": "0x6400",
+              "documentation": [
+                " The maximum amount of signatories allowed for a given multisig."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "MinimumThreshold",
@@ -11666,7 +11723,8 @@
                 " The data to be stored is already stored."
               ]
             }
-          ]
+          ],
+          "index": 31
         }
       ],
       "extrinsic": {
