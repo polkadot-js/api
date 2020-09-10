@@ -22,7 +22,10 @@ import { getTypeDef } from './getTypeDef';
 // create error mapping from metadata
 function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
   // decorate the errors
-  metadata.asLatest.modules.forEach((section, sectionIndex): void => {
+  metadata.asLatest.modules.forEach((section, _sectionIndex): void => {
+    const sectionIndex = section.index.eqn(255)
+      ? _sectionIndex
+      : section.index.toNumber();
     const sectionName = stringCamelCase(section.name.toString());
 
     section.errors.forEach(({ documentation, name }, index): void => {
@@ -43,7 +46,10 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
   // decorate the events
   metadata.asLatest.modules
     .filter(({ events }): boolean => events.isSome)
-    .forEach((section, sectionIndex): void => {
+    .forEach((section, _sectionIndex): void => {
+      const sectionIndex = section.index.eqn(255)
+        ? _sectionIndex
+        : section.index.toNumber();
       const sectionName = stringCamelCase(section.name.toString());
 
       section.events.unwrap().forEach((meta, methodIndex): void => {

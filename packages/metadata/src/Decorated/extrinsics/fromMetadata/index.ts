@@ -12,8 +12,11 @@ import createUnchecked from './createUnchecked';
 /** @internal */
 export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
   return metadata.asLatest.modules
-    .filter(({ calls }): boolean => calls.isSome)
-    .reduce((result, { calls, name }: RegistryMetadataModule, sectionIndex): ModulesWithCalls => {
+    .filter(({ calls }) => calls.isSome)
+    .reduce((result, { calls, index, name }: RegistryMetadataModule, _sectionIndex): ModulesWithCalls => {
+      const sectionIndex = index.eqn(255)
+        ? _sectionIndex
+        : index.toNumber();
       const section = stringCamelCase(name.toString());
 
       result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {
