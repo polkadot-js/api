@@ -11,7 +11,7 @@ import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentR
 
 import { Observable, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { assert, isBn, isFunction, isNumber } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
@@ -37,28 +37,33 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // calculate the payment info for this transaction (if signed and submitted)
-    public paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType> {
-      const [allOptions] = this.#makeSignAndSendOptions(options);
+    public paymentInfo (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittablePaymentResult<ApiType> {
+      if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return decorateMethod(
+          () => api.rpc.payment.queryInfo(this.toHex(), optionsOrHash)
+        );
+      }
+
+      const [allOptions] = this.#makeSignAndSendOptions(optionsOrHash);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
-          this.isSigned
-            ? api.rpc.payment.queryInfo(this.toHex(), options?.blockHash)
-            : api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
-              first(),
-              switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
-                // setup our options (same way as in signAndSend)
-                const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
-                const signOptions = this.#makeSignOptions(eraOptions, {});
+          api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
+            first(),
+            switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
+              // setup our options (same way as in signAndSend)
+              const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
+              const signOptions = this.#makeSignOptions(eraOptions, {});
 
-                // add a fake signature to the extrinsic
-                this.signFake(address, signOptions);
+              // add a fake signature to the extrinsic
+              this.signFake(address, signOptions);
 
-                return api.rpc.payment.queryInfo(this.toHex());
-              })
-            )
+              return api.rpc.payment.queryInfo(this.toHex());
+            })
+          )
       )();
     }
 
