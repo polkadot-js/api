@@ -7,7 +7,7 @@ import { Registry, OverrideModuleType } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types-known';
 import { Type } from '@polkadot/types/primitive';
-import { stringCamelCase } from '@polkadot/util';
+import { assert, stringCamelCase } from '@polkadot/util';
 
 // TODO Handle consts as well
 
@@ -88,6 +88,11 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
  * @internal
  **/
 export default function toLatest (registry: Registry, { extrinsic, modules }: MetadataV12): MetadataLatest {
+  const allIndexes = modules.map(({ index }) => index.toNumber());
+  const hasReserved = allIndexes.some((index) => index !== 255) && allIndexes.some((index) => index === 255);
+
+  assert(!hasReserved, 'This API implementation only supports module indexes 0-254, index 255 is marked as reserved');
+
   return registry.createType('MetadataLatest', {
     extrinsic,
     modules: modules.map((mod): ModuleMetadataLatest => {
