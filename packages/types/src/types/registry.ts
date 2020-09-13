@@ -13,11 +13,6 @@ import { AnyJson } from './helpers';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }
 
-export interface OverrideVersionedType {
-  minmax: [number?, number?]; // min (v >= min) and max (v <= max)
-  types: RegistryTypes;
-}
-
 export interface ChainUpgradeVersion {
   blockNumber: BN;
   specVersion: BN;
@@ -26,19 +21,6 @@ export interface ChainUpgradeVersion {
 export interface ChainUpgrades {
   genesisHash: Uint8Array;
   versions: ChainUpgradeVersion[];
-}
-
-export type OverrideModuleType = Record<string, string>;
-
-export interface OverrideBundleDefinition {
-  alias?: Record<string, OverrideModuleType>;
-  rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
-  types?: OverrideVersionedType[];
-}
-
-export interface OverrideBundleType {
-  chain?: Record<string, OverrideBundleDefinition>;
-  spec?: Record<string, OverrideBundleDefinition>;
 }
 
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
@@ -107,6 +89,24 @@ export interface RegistryMetadataLatest {
 
 export interface RegistryMetadata {
   asLatest: RegistryMetadataLatest;
+}
+
+export interface OverrideVersionedType {
+  minmax: [number?, number?]; // min (v >= min) and max (v <= max)
+  types: RegistryTypes;
+}
+
+export type OverrideModuleType = Record<string, string>;
+
+export interface OverrideBundleDefinition {
+  alias?: Record<string, OverrideModuleType>;
+  rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  types?: OverrideVersionedType[];
+}
+
+export interface OverrideBundleType {
+  chain?: Record<string, OverrideBundleDefinition>;
+  spec?: Record<string, OverrideBundleDefinition>;
 }
 
 export interface RegisteredTypes {

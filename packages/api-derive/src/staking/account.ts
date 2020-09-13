@@ -4,10 +4,10 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
-import { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingQuery, DeriveUnlocking } from '../types';
+import { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import BN from 'bn.js';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -46,8 +46,9 @@ function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | unde
   }, new BN(0)));
 }
 
-function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query: DeriveStakingQuery): DeriveStakingAccount {
+function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, keys: DeriveStakingKeys, query: DeriveStakingQuery): DeriveStakingAccount {
   return {
+    ...keys,
     ...query,
     redeemable: redeemableSum(api, query.stakingLedger, sessionInfo),
     unlocking: calculateUnlocking(api, query.stakingLedger, sessionInfo)
@@ -57,12 +58,15 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, query
 /**
  * @description From a list of stashes, fill in all the relevant staking details
  */
-export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
-  return memo((accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
+export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
     api.derive.session.info().pipe(
       switchMap((sessionInfo) =>
-        api.derive.staking.queryMulti(accountIds).pipe(
-          map((queries) => queries.map((query) => parseResult(api, sessionInfo, query)))
+        combineLatest([
+          api.derive.staking.keysMulti(accountIds),
+          api.derive.staking.queryMulti(accountIds)
+        ]).pipe(
+          map(([keys, queries]) => queries.map((query, index) => parseResult(api, sessionInfo, keys[index], query)))
         )
       )
     )
@@ -72,8 +76,8 @@ export function accounts (api: ApiInterfaceRx): (accountIds: (Uint8Array | strin
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
-  return memo((accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
+export function account (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
+  return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
     api.derive.staking.accounts([accountId]).pipe(
       map(([first]) => first)
     )

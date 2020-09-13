@@ -4,10 +4,14 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Codec, CodecArg } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/create/types';
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
+
+// I give up, too hard to untangle atm... and is basically deprecated
+/* eslint-disable no-use-before-define */
 
 export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx

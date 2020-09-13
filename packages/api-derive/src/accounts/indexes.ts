@@ -72,8 +72,8 @@ function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
  * });
  * ```
  */
-export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
-  return memo((): Observable<AccountIndexes> =>
+export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observable<AccountIndexes> {
+  return memo(instanceId, (): Observable<AccountIndexes> =>
     indicesCache
       ? of(indicesCache)
       : (

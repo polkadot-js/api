@@ -36,7 +36,7 @@ describe('methodSend', (): void => {
       })
     };
 
-    rpc = new Rpc(registry, provider);
+    rpc = new Rpc('987', registry, provider);
   });
 
   it('checks for mismatched parameters', (done): void => {

@@ -11,8 +11,8 @@ import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
-export function referendumsFinished (api: ApiInterfaceRx): () => Observable<ReferendumInfoFinished[]> {
-  return memo((): Observable<ReferendumInfoFinished[]> =>
+export function referendumsFinished (instanceId: string, api: ApiInterfaceRx): () => Observable<ReferendumInfoFinished[]> {
+  return memo(instanceId, (): Observable<ReferendumInfoFinished[]> =>
     api.derive.democracy.referendumIds().pipe(
       switchMap((ids) => api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo>>(ids)),
       map((infos): ReferendumInfoFinished[] =>

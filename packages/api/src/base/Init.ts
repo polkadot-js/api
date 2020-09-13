@@ -45,7 +45,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     if (!options.source) {
       this.registerTypes(options.types);
     } else {
-      this.registry.setKnownTypes(options.source.registry.knownTypes);
+      this.#registries = options.source.#registries;
     }
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
@@ -62,7 +62,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // If the provider was instantiated earlier, and has already emitted a
     // 'connected' event, then the `on('connected')` won't fire anymore. To
     // cater for this case, we call manually `this._onProviderConnect`.
-    if (this._rpcCore.provider.isConnected()) {
+    if (this._rpcCore.provider.isConnected) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#onProviderConnect();
     }
@@ -161,9 +161,9 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   // eslint-disable-next-line @typescript-eslint/require-await
   private async _metaFromSource (source: ApiBase<any>): Promise<Metadata> {
     this._extrinsicType = source.extrinsicVersion;
+    this._runtimeChain = source.runtimeChain;
     this._runtimeVersion = source.runtimeVersion;
     this._genesisHash = source.genesisHash;
-    this.registry.setChainProperties(source.registry.getChainProperties());
 
     const methods: string[] = [];
 

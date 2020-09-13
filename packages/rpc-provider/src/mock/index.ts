@@ -98,11 +98,15 @@ export default class Mock implements ProviderInterface {
     throw new Error('Unimplemented');
   }
 
-  public disconnect (): void {
+  public async connect (): Promise<void> {
     // noop
   }
 
-  public isConnected (): boolean {
+  public async disconnect (): Promise<void> {
+    // noop
+  }
+
+  public get isConnected (): boolean {
     return true;
   }
 

@@ -49,8 +49,8 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
     });
 }
 
-export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
-  return memo((): Observable<DeriveProposal[]> =>
+export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
+  return memo(instanceId, (): Observable<DeriveProposal[]> =>
     api.query.democracy?.publicProps && api.query.democracy?.preimages
       ? api.query.democracy.publicProps<Proposals>().pipe(
         switchMap((proposals) =>

@@ -1,10 +1,46 @@
 # CHANGELOG
 
-## 1.32.0-beta.x
+## 1.33.0-beta.x
 
 Changes:
 
+- Allow `paymentInfo` on any extrinsic with `tx.paymentInfo(<address>, <at>)` (hash specified)
+- When cloning an API instance the runtimeChain is now properly set from source
+- When cloning an API instance the registry is shared with the source
+- Optimize derive `receivedHeartbeats` to not re-create the full object
+- Add `staking.stakerPrefs` derive to retrieve validatorPrefs over a range of eras
+- Basic map of Websocket error codes to short descriptions (where none available)
+
+
+## 1.32.1 Sep 7, 2020
+
+Upgrade priority: Low. Recommended when manually using provider connect/disconnect or using multiple instances in a single process.
+
+- **Breaking change** Previously `.isReady` could throw an error, now it will always succeed on connection. For trapping errors, use the `.isReadyOrError` variant on the API
+- **Breaking change** The `isConnected` provider interface is now a getter, replacing previous calls to `provider.isConnected()`. Additionally the `provider.disconnect()` is now async, aligning with `.connect()`.
+
+Contributed:
+
+- Expand vesting information via derive balances (Thanks to https://github.com/niklabh)
+- Add `isReadyOrError` to API, `isReady` always succeeds (Thanks to https://github.com/shawntabrizi)
+
+Changes:
+
+- Adjust memoization to work on a per-instance basis, with no contamination between multiple api/provider instances
 - Added `derive.chain.getBlock(hash)` to retrieve a `SignedBlock` extended with an `.author` (same as `derive.chain.getHeader(...)`)
+- Added `api.{connect, disconnect}()` as well as `isConnected` interfaces. The first functions async returning `Promise<void>`
+- Error on provider connections will now emit all (as expected) via the event emitter
+- Ensure that initial connection failures always retry (when using auto-connection management)
+- The `api.derive.staking.query/queryMulti` no longer retrieves session keys (can be done via `.keys/keysMulti`)
+- Add `api.derive.accounts.accountId` to perform AccountId lookups (from indices or actual AccountId)
+- Lessen load of `paymentInfo` queries to only use accounId mappings as available
+- Adjust staking derives to cater for early Substrate 2.0 chains (optional/non-optional EraIndexes)
+- Cater for the handling of nested aliased types, e.g. wrapped inside Vec or Tuple
+- Add the support for the `grandpa_subscribeJustifications` RPC
+- Adjust `Call.toHuman()` to remove decoding-related technical internal details
+- Static metadata & tests updated for the latest substrate master
+- `toHuman()` & `.toBigInt()` has been explicitly added to the API documentation
+- Adjust known types for latest Kusama network state
 
 
 ## 1.31.1 Aug 31, 2020

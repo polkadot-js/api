@@ -49,7 +49,7 @@ The API creation is done via the `ApiPromise.create` interface which is a shortc
 
 ```js
 ApiPromise
-  .create({ provider: wsProvider })
+  .create({ provider: wsProvider }).isReady
   .then((api) =>
     console.log(api.genesisHash.toHex())
   );
@@ -70,7 +70,7 @@ console.log(api.genesisHash.toHex());
 
 ## Failures
 
-In all cases the API will handle reconnections automatically. This means that when you connect and the endpoint is not (yet) ready, the promise will not resolve immediately, but rather when connected. The same applies to when connection is lost, the API will manage re-connections.
+In all cases the API will handle reconnecting automatically. This means that when you connect and the endpoint is not (yet) ready, the promise will not resolve immediately, but rather when connected. The same applies to when connection is lost, the API will manage re-connections.
 
 In cases where the API does not support the chain being connected to, such as it using an unknown metadata version, the ready promise will fail to resolve and instead reject.
 

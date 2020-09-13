@@ -94,8 +94,8 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-export function dispatchQueue (api: ApiInterfaceRx): () => Observable<DeriveDispatch[]> {
-  return memo((): Observable<DeriveDispatch[]> =>
+export function dispatchQueue (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveDispatch[]> {
+  return memo(instanceId, (): Observable<DeriveDispatch[]> =>
     isFunction(api.query.scheduler?.agenda)
       ? queryScheduler(api)
       : api.query.democracy.dispatchQueue

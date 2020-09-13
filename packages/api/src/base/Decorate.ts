@@ -44,7 +44,11 @@ const PAGE_SIZE_VALS = PAGE_SIZE_KEYS;
 
 const l = logger('api/init');
 
+let instanceCounter = 0;
+
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
+  readonly #instanceId: string;
+
   #registry: Registry;
 
   // HACK Use BN import so decorateDerive works... yes, wtf.
@@ -127,7 +131,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super();
 
-    this.#registry = options.registry || new TypeRegistry();
+    this.#instanceId = `${++instanceCounter}`;
+    this.#registry = options.source?.registry || options.registry || new TypeRegistry();
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
@@ -136,8 +141,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._decorateMethod = decorateMethod;
     this._options = options;
     this._type = type;
-    this._rpcCore = new RpcCore(this.#registry, thisProvider, this._options.rpc);
-    this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
+    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc);
+    this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
     this._rx.registry = this.#registry;
   }
@@ -178,7 +183,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       this._rx.tx = this._decorateExtrinsics(decoratedMeta.tx, this._rxDecorateMethod);
     } else {
       augmentObject('tx', this._decorateExtrinsics(decoratedMeta.tx, this._decorateMethod), this._extrinsics, false);
-      augmentObject('', this._decorateExtrinsics(decoratedMeta.tx, this._rxDecorateMethod), this._rx.tx, false);
+      augmentObject(null, this._decorateExtrinsics(decoratedMeta.tx, this._rxDecorateMethod), this._rx.tx, false);
     }
 
     // this API
@@ -186,8 +191,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     augmentObject('consts', decoratedMeta.consts, this._consts, fromEmpty);
 
     // rx
-    augmentObject('', this._decorateStorage(decoratedMeta.query, this._rxDecorateMethod), this._rx.query, fromEmpty);
-    augmentObject('', decoratedMeta.consts, this._rx.consts, fromEmpty);
+    augmentObject(null, this._decorateStorage(decoratedMeta.query, this._rxDecorateMethod), this._rx.query, fromEmpty);
+    augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -360,19 +365,19 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
-        memo((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, doubleMapArg)));
 
       decorated.entriesPaged = decorateMethod(
-        memo((opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntriesPaged(creator, opts)));
 
       decorated.keys = decorateMethod(
-        memo((doubleMapArg?: Arg): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (doubleMapArg?: Arg): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, doubleMapArg)));
 
       decorated.keysPaged = decorateMethod(
-        memo((opts: PaginationOptions): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
           this._retrieveMapKeysPaged(creator, opts)));
     }
 
@@ -569,7 +574,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
     // Pull in derive from api-derive
-    const derive = decorateDerive(this._rx, this._options.derives);
+    const derive = decorateDerive(this.#instanceId, this._rx, this._options.derives);
 
     return decorateSections<'rxjs', ExactDerive>(derive, decorateMethod);
   }

@@ -24,96 +24,6 @@ export interface ISubmittableResult {
   toHuman (isExtended?: boolean): AnyJson;
 }
 
-export interface SignerResult {
-  /**
-   * @description The id for this request
-   */
-  id: number;
-
-  /**
-   * @description The resulting signature in hex
-   */
-  signature: string;
-}
-
-export interface Signer {
-  /**
-   * @description signs an extrinsic payload from a serialized form
-   */
-  signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
-
-  /**
-   * @description signs a raw payload, only the bytes data as supplied
-   */
-  signRaw?: (raw: SignerPayloadRaw) => Promise<SignerResult>;
-
-  /**
-   * @description Receives an update for the extrinsic signed by a `signer.sign`
-   */
-  update?: (id: number, status: H256 | ISubmittableResult) => void;
-}
-
-export interface SignatureOptions {
-  blockHash: AnyU8a;
-  era?: IExtrinsicEra;
-  genesisHash: AnyU8a;
-  nonce: AnyNumber;
-  runtimeVersion: IRuntimeVersion;
-  signedExtensions?: string[];
-  signer?: Signer;
-  tip?: AnyNumber;
-}
-
-interface ExtrinsicSignatureBase {
-  readonly isSigned: boolean;
-  readonly era: IExtrinsicEra;
-  readonly nonce: ICompact<Index>;
-  readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
-  readonly signer: Address;
-  readonly tip: ICompact<Balance>;
-}
-
-export interface ExtrinsicPayloadValue {
-  blockHash: AnyU8a;
-  era: AnyU8a | IExtrinsicEra;
-  genesisHash: AnyU8a;
-  method: AnyU8a | IMethod;
-  nonce: AnyNumber;
-  specVersion: AnyNumber;
-  tip: AnyNumber;
-  transactionVersion: AnyNumber;
-}
-
-export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
-  sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
-  signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
-}
-
-export interface IExtrinsicEra extends Codec {
-  asImmortalEra: Codec;
-  asMortalEra: Codec;
-}
-
-interface IExtrinsicSignable<T> {
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
-  sign (account: IKeyringPair, options: SignatureOptions): T;
-  signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
-}
-
-export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
-  readonly method: Call;
-  readonly signature: IExtrinsicSignature;
-  readonly version: number;
-}
-
-export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
-  readonly length: number;
-  readonly method: Call;
-  readonly type: number;
-  readonly version: number;
-}
-
 export interface SignerPayloadJSON {
   /**
    * @description The ss-58 encoded address
@@ -203,4 +113,94 @@ export interface SignerPayloadRaw extends SignerPayloadRawBase {
 export interface ISignerPayload {
   toPayload (): SignerPayloadJSON;
   toRaw (): SignerPayloadRaw;
+}
+
+export interface SignerResult {
+  /**
+   * @description The id for this request
+   */
+  id: number;
+
+  /**
+   * @description The resulting signature in hex
+   */
+  signature: string;
+}
+
+export interface Signer {
+  /**
+   * @description signs an extrinsic payload from a serialized form
+   */
+  signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
+
+  /**
+   * @description signs a raw payload, only the bytes data as supplied
+   */
+  signRaw?: (raw: SignerPayloadRaw) => Promise<SignerResult>;
+
+  /**
+   * @description Receives an update for the extrinsic signed by a `signer.sign`
+   */
+  update?: (id: number, status: H256 | ISubmittableResult) => void;
+}
+
+export interface IExtrinsicEra extends Codec {
+  asImmortalEra: Codec;
+  asMortalEra: Codec;
+}
+
+export interface SignatureOptions {
+  blockHash: Uint8Array | string;
+  era?: IExtrinsicEra;
+  genesisHash: Uint8Array | string;
+  nonce: AnyNumber;
+  runtimeVersion: IRuntimeVersion;
+  signedExtensions?: string[];
+  signer?: Signer;
+  tip?: AnyNumber;
+}
+
+interface ExtrinsicSignatureBase {
+  readonly isSigned: boolean;
+  readonly era: IExtrinsicEra;
+  readonly nonce: ICompact<Index>;
+  readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
+  readonly signer: Address;
+  readonly tip: ICompact<Balance>;
+}
+
+export interface ExtrinsicPayloadValue {
+  blockHash: AnyU8a;
+  era: AnyU8a | IExtrinsicEra;
+  genesisHash: AnyU8a;
+  method: AnyU8a | IMethod;
+  nonce: AnyNumber;
+  specVersion: AnyNumber;
+  tip: AnyNumber;
+  transactionVersion: AnyNumber;
+}
+
+export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
+  sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
+  signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
+}
+
+interface IExtrinsicSignable<T> {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
+  sign (account: IKeyringPair, options: SignatureOptions): T;
+  signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
+}
+
+export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
+  readonly method: Call;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+}
+
+export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
+  readonly length: number;
+  readonly method: Call;
+  readonly type: number;
+  readonly version: number;
 }

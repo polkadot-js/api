@@ -13,12 +13,12 @@ describe('Api', (): void => {
 
   it('requires a provider with a send method', (): void => {
     expect(
-      (): Rpc => new Rpc(registry, {} as any)
+      (): Rpc => new Rpc('234', registry, {} as any)
     ).toThrow(/Expected Provider/);
   });
 
   it('allows for the definition of user RPCs', (): void => {
-    const rpc = new Rpc(registry, new MockProvider(registry), {
+    const rpc = new Rpc('567', registry, new MockProvider(registry), {
       testing: {
         foo: {
           description: 'foo',

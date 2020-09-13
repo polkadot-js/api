@@ -80,10 +80,10 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
  * });
  * ```
  */
-export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
-  return memo((address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
-    api.derive.accounts.info(address).pipe(
-      switchMap(({ accountId }): Observable<[AccountId, Result]> =>
+export function account (instanceId: string, api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
+  return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
+    api.derive.accounts.accountId(address).pipe(
+      switchMap((accountId): Observable<[AccountId, Result]> =>
         (accountId
           ? combineLatest([
             of(accountId),

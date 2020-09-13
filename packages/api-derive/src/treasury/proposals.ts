@@ -74,8 +74,8 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
 /**
  * @description Retrieve all active and approved treasury proposals, along with their info
  */
-export function proposals (api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
-  return memo((): Observable<DeriveTreasuryProposals> =>
+export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
+  return memo(instanceId, (): Observable<DeriveTreasuryProposals> =>
     api.query.treasury
       ? combineLatest([
         api.query.treasury.proposalCount(),

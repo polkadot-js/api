@@ -51,7 +51,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * });
  * ```
  */
-export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
-  return memo((address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
+  return memo(instanceId, (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
     retrieve(api, address));
 }

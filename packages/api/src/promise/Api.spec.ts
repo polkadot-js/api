@@ -97,7 +97,7 @@ describe('ApiPromise', (): void => {
       }
 
       try {
-        await new ErrorApiPromise().isReady;
+        await new ErrorApiPromise().isReadyOrError;
         fail('Expected an error but none occurred.');
       } catch {
         // Pass

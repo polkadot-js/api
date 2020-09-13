@@ -55,6 +55,6 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
  * });
  * ```
  */
-export function info (api: ApiInterfaceRx): () => Observable<DeriveElectionsInfo> {
-  return memo((): Observable<DeriveElectionsInfo> => queryElections(api));
+export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveElectionsInfo> {
+  return memo(instanceId, (): Observable<DeriveElectionsInfo> => queryElections(api));
 }

@@ -18,7 +18,9 @@ import { BaseWithTxAndRpcCall } from './util';
 type ContractCallTypes = 'tx' | 'rpc';
 
 type ContractCallResultSubscription<ApiType extends ApiTypes, CallType extends ContractCallTypes> = ApiType extends 'rxjs'
+  // eslint-disable-next-line no-use-before-define
   ? Observable<ContractCallResult<CallType>>
+  // eslint-disable-next-line no-use-before-define
   : Promise<ObsInnerType<ContractCallResult<CallType>>>;
 
 export interface ContractCall<ApiType extends ApiTypes, CallType extends ContractCallTypes> {

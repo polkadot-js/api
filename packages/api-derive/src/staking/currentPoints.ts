@@ -28,8 +28,8 @@ function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
-export function currentPoints (api: ApiInterfaceRx): () => Observable<EraRewardPoints> {
-  return memo((): Observable<EraRewardPoints> =>
+export function currentPoints (instanceId: string, api: ApiInterfaceRx): () => Observable<EraRewardPoints> {
+  return memo(instanceId, (): Observable<EraRewardPoints> =>
     api.derive.staking.overview().pipe(
       switchMap(({ activeEra, nextElected }) =>
         api.query.staking.erasRewardPoints

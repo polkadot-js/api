@@ -25,8 +25,8 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function idToIndex (api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
-  return memo((accountId: AccountId | string): Observable<AccountIndex | undefined> =>
+export function idToIndex (instanceId: string, api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
+  return memo(instanceId, (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     api.derive.accounts.indexes().pipe(
       map((indexes: AccountIndexes): AccountIndex | undefined =>
         (indexes || {})[accountId.toString()]

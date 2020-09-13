@@ -11,8 +11,8 @@ import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-export function referendumIds (api: ApiInterfaceRx): () => Observable<BN[]> {
-  return memo((): Observable<BN[]> =>
+export function referendumIds (instanceId: string, api: ApiInterfaceRx): () => Observable<BN[]> {
+  return memo(instanceId, (): Observable<BN[]> =>
     api.query.democracy?.lowestUnbaked
       ? api.queryMulti<[ReferendumIndex, ReferendumIndex]>([
         api.query.democracy.lowestUnbaked,

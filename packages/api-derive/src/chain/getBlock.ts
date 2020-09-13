@@ -23,8 +23,8 @@ import { memo } from '../util';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
-  return memo((hash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
+export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
+  return memo(instanceId, (hash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getBlock(hash),
       api.query.session

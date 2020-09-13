@@ -14,7 +14,7 @@ describe('Cached Observables', (): void => {
   const keyring = testingPairs();
 
   beforeEach((): void => {
-    rpc = new Rpc(registry, new MockProvider(registry));
+    rpc = new Rpc('123', registry, new MockProvider(registry));
   });
 
   it('creates a single observable for subscriptions (multiple calls)', (): void => {

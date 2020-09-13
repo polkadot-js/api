@@ -31,7 +31,7 @@ describe('Http', (): void => {
   });
 
   it('always returns isConnected true', (): void => {
-    expect(http.isConnected()).toEqual(true);
+    expect(http.isConnected).toEqual(true);
   });
 
   it('does not (yet) support subscribe', (): Promise<number | void> => {

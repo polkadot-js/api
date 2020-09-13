@@ -14,8 +14,8 @@ import { memo } from '../util';
 /**
  * @description Get the member info for a society
  */
-export function members (api: ApiInterfaceRx): () => Observable<DeriveSocietyMember[]> {
-  return memo((): Observable<DeriveSocietyMember[]> =>
+export function members (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSocietyMember[]> {
+  return memo(instanceId, (): Observable<DeriveSocietyMember[]> =>
     api.query.society.members<AccountId[]>().pipe(
       switchMap((members): Observable<DeriveSocietyMember[]> =>
         combineLatest(
