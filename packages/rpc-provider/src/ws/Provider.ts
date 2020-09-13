@@ -11,6 +11,7 @@ import { assert, isNull, isUndefined, isChildClass, logger } from '@polkadot/uti
 
 import Coder from '../coder';
 import defaults from '../defaults';
+import { getWSErrorString } from './errors';
 import getWSClass from './getWSClass';
 
 interface SubscriptionHandler {
@@ -314,7 +315,7 @@ export default class WsProvider implements ProviderInterface {
 
   #onSocketClose = (event: CloseEvent): void => {
     if (this.#autoConnectMs > 0) {
-      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]} code: '${event.code}' reason: '${event.reason}'`);
+      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
     }
 
     this.#isConnected = false;

@@ -43,7 +43,7 @@
     "@polkadot/util": "^3.4.1",
     "handlebars": "^4.7.6",
     "websocket": "^1.0.32",
-    "yargs": "^15.4.1"
+    "yargs": "^16.0.3"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.1",
