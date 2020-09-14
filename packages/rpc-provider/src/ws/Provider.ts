@@ -7,12 +7,12 @@
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import EventEmitter from 'eventemitter3';
-import { assert, isNull, isUndefined, isChildClass, logger } from '@polkadot/util';
+import { assert, isNull, isUndefined, logger } from '@polkadot/util';
 
 import Coder from '../coder';
 import defaults from '../defaults';
 import { getWSErrorString } from './errors';
-import getWSClass from './getWSClass';
+import { createWS } from './getWS';
 
 interface SubscriptionHandler {
   callback: ProviderInterfaceCallback;
@@ -146,14 +146,7 @@ export default class WsProvider implements ProviderInterface {
   public async connect (): Promise<void> {
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
-
-      const WS = await getWSClass();
-
-      this.#websocket = typeof WebSocket !== 'undefined' && isChildClass(WebSocket, WS)
-        ? new WS(this.#endpoints[this.#endpointIndex])
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
-        : new WS(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers);
+      this.#websocket = await createWS(this.#endpoints[this.#endpointIndex], this.#headers);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;

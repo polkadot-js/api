@@ -5,11 +5,11 @@
 import { Constructor } from '@polkadot/types/types';
 
 import { Global } from './../mock/types';
-import getWSClass from './getWSClass';
+import { getWSClass } from './getWS';
 
 declare const global: Global;
 
-describe('getWebScoket', (): void => {
+describe('getWSClass', (): void => {
   let origWs: Constructor<WebSocket>;
 
   beforeEach((): void => {
@@ -24,7 +24,7 @@ describe('getWebScoket', (): void => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (global as any).WebSocket = undefined;
 
-    const WS = await getWSClass();
+    const [WS] = await getWSClass();
 
     expect(WS).toBeDefined();
   });
@@ -33,7 +33,7 @@ describe('getWebScoket', (): void => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (global as any).WebSocket = (): boolean => true;
 
-    const WS = await getWSClass();
+    const [WS] = await getWSClass();
 
     expect(WS).toBeDefined();
   });

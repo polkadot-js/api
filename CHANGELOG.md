@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 1.34.0-beta.x
+
+Upgrade priority: High. Metadata v12 is the next major version containing structural data exchange changes and will start rolling out to test and live networks in due course.
+
+Changes:
+
+- Support for Metadata v12 with fixed indices
+- Cleanups for WebSocket class detection and creation
+
+
 ## 1.33.1 Sep 14, 2020
 
 Upgrade priority: Low. Recommended when using clones instances.
