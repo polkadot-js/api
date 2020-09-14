@@ -5,11 +5,12 @@
 import { FunctionMetadataLatest, MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { AnyJson, Registry } from '@polkadot/types/types';
 
-import { Option, Text, Vec } from '@polkadot/types';
+import { Option, Text, Vec, u8 } from '@polkadot/types';
 
 interface ModuleMetadataTrimmed {
-  name: Text;
   calls: Option<Vec<FunctionMetadataLatest>>;
+  index: u8;
+  name: Text;
 }
 
 function trimDocs (documentation: Vec<Text>): string[] {
@@ -42,8 +43,9 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
 export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJson {
   return registry.createType('MetadataLatest', {
     extrinsic,
-    modules: modules.map(({ calls, name }): ModuleMetadataTrimmed => ({
+    modules: modules.map(({ calls, index, name }): ModuleMetadataTrimmed => ({
       calls: mapCalls(registry, calls),
+      index,
       name
     }))
   }).toJSON();
