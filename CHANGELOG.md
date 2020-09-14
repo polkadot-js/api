@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 1.33.0-beta.x
+## 1.33.1 Sep 14, 2020
+
+Upgrade priority: Low. Recommended when using clones instances.
 
 Changes:
 
@@ -9,6 +11,7 @@ Changes:
 - When cloning an API instance the registry is shared with the source
 - Optimize derive `receivedHeartbeats` to not re-create the full object
 - Add `staking.stakerPrefs` derive to retrieve validatorPrefs over a range of eras
+- Basic map of Websocket error codes to short descriptions (where none available)
 
 
 ## 1.32.1 Sep 7, 2020
