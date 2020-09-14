@@ -4,15 +4,13 @@
 
 import path from 'path';
 import yargs from 'yargs';
-import getWSClass from '@polkadot/rpc-provider/ws/getWSClass';
+import { createWS } from '@polkadot/rpc-provider/ws/getWS';
 import { formatNumber } from '@polkadot/util';
 
 import generateConst from './generate/consts';
 import generateQuery from './generate/query';
 import generateTx from './generate/tx';
 import { HEADER, writeFile } from './util';
-
-let websocket: WebSocket;
 
 function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
@@ -39,26 +37,6 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   process.exit(0);
 }
 
-function onSocketClose (event: { code: number; reason: string }): void {
-  console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
-
-  process.exit(1);
-}
-
-function onSocketError (event: any): void {
-  console.error(event);
-
-  process.exit(1);
-}
-
-function onSocketOpen (): boolean {
-  console.log('connected');
-
-  websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
-
-  return true;
-}
-
 export default function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
@@ -82,12 +60,22 @@ export default function main (): void {
   }).argv;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    getWSClass()
-      .then((WS): void => {
-        websocket = new WS(endpoint);
-        websocket.onclose = onSocketClose;
-        websocket.onerror = onSocketError;
-        websocket.onopen = onSocketOpen;
+    createWS(endpoint)
+      .then((websocket): void => {
+        websocket.onclose = (event: { code: number; reason: string }): void => {
+          console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
+          process.exit(1);
+        };
+
+        websocket.onerror = (event: any): void => {
+          console.error(event);
+          process.exit(1);
+        };
+
+        websocket.onopen = (): void => {
+          console.log('connected');
+          websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
+        };
 
         websocket.onmessage = (message: any): void => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
