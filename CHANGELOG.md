@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 1.33.0-beta.x
+## 1.33.1 Sep 14, 2020
+
+Upgrade priority: Low. Recommended when using clones instances.
 
 Changes:
 
