@@ -5,6 +5,7 @@
 import type BN from 'bn.js';
 
 import { ChainProperties } from '../interfaces/system';
+import { u8 } from '../primitive';
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
 import { DefinitionRpc, DefinitionRpcSub } from './definitions';
@@ -79,6 +80,7 @@ export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
   errors: RegistryMetadataErrors;
   events: RegistryMetadataEvents;
+  index: u8;
   name: RegistryMetadataText;
 }
 

@@ -508,22 +508,51 @@ export default {
       _enum: AllHashers
     },
 
+    // v12
+    DoubleMapTypeV12: 'DoubleMapTypeV11',
+    ErrorMetadataV12: 'ErrorMetadataV11',
+    EventMetadataV12: 'EventMetadataV11',
+    ExtrinsicMetadataV12: 'ExtrinsicMetadataV11',
+    FunctionArgumentMetadataV12: 'FunctionArgumentMetadataV11',
+    FunctionMetadataV12: 'FunctionMetadataV11',
+    MapTypeV12: 'MapTypeV11',
+    MetadataV12: {
+      modules: 'Vec<ModuleMetadataV12>',
+      extrinsic: 'ExtrinsicMetadataV12'
+    },
+    ModuleConstantMetadataV12: 'ModuleConstantMetadataV11',
+    ModuleMetadataV12: {
+      name: 'Text',
+      storage: 'Option<StorageMetadataV12>',
+      calls: 'Option<Vec<FunctionMetadataV12>>',
+      events: 'Option<Vec<EventMetadataV12>>',
+      constants: 'Vec<ModuleConstantMetadataV12>',
+      errors: 'Vec<ErrorMetadataV12>',
+      index: 'u8'
+    },
+    PlainTypeV12: 'Type',
+    StorageEntryModifierV12: 'StorageEntryModifierV11',
+    StorageEntryMetadataV12: 'StorageEntryMetadataV11',
+    StorageEntryTypeV12: 'StorageEntryTypeV11',
+    StorageMetadataV12: 'StorageMetadataV11',
+    StorageHasherV12: 'StorageHasherV11',
+
     // This always maps to the latest
-    DoubleMapTypeLatest: 'DoubleMapTypeV11',
-    EventMetadataLatest: 'EventMetadataV11',
-    ExtrinsicMetadataLatest: 'ExtrinsicMetadataV11',
-    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV11',
-    FunctionMetadataLatest: 'FunctionMetadataV11',
-    MapTypeLatest: 'MapTypeV11',
-    MetadataLatest: 'MetadataV11',
-    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV11',
-    ModuleMetadataLatest: 'ModuleMetadataV11',
-    PlainTypeLatest: 'PlainTypeV11',
-    StorageEntryMetadataLatest: 'StorageEntryMetadataV11',
-    StorageEntryModifierLatest: 'StorageEntryModifierV11',
-    StorageEntryTypeLatest: 'StorageEntryTypeV11',
-    StorageMetadataLatest: 'StorageMetadataV11',
-    StorageHasher: 'StorageHasherV11',
+    DoubleMapTypeLatest: 'DoubleMapTypeV12',
+    EventMetadataLatest: 'EventMetadataV12',
+    ExtrinsicMetadataLatest: 'ExtrinsicMetadataV12',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV12',
+    FunctionMetadataLatest: 'FunctionMetadataV12',
+    MapTypeLatest: 'MapTypeV12',
+    MetadataLatest: 'MetadataV12',
+    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV12',
+    ModuleMetadataLatest: 'ModuleMetadataV12',
+    PlainTypeLatest: 'PlainTypeV12',
+    StorageEntryMetadataLatest: 'StorageEntryMetadataV12',
+    StorageEntryModifierLatest: 'StorageEntryModifierV12',
+    StorageEntryTypeLatest: 'StorageEntryTypeV12',
+    StorageMetadataLatest: 'StorageMetadataV12',
+    StorageHasher: 'StorageHasherV12',
 
     // the enum containing all the mappings
     MetadataAll: {
@@ -539,7 +568,8 @@ export default {
         V8: 'MetadataV8',
         V9: 'MetadataV9',
         V10: 'MetadataV10',
-        V11: 'MetadataV11'
+        V11: 'MetadataV11',
+        V12: 'MetadataV12'
       }
     }
   }
