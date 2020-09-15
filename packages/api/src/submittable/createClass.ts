@@ -250,7 +250,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
       const signer = options.signer || api.signer;
 
-      assert(signer, 'No signer specified, either via api.setSigner or via sign options');
+      assert(signer, 'No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
       const payload = this.registry.createType('SignerPayload', {
         ...options,
