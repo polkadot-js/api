@@ -22,7 +22,7 @@ import { getTypeDef } from './getTypeDef';
 // create error mapping from metadata
 function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
   const modules = metadata.asLatest.modules;
-  const isIndexed = modules.some(({ index }) => !index.eqn(0) || !index.eqn(255));
+  const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   // decorate the errors
   modules.forEach((section, _sectionIndex): void => {
@@ -47,7 +47,7 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
 // create event classes from metadata
 function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
   const modules = metadata.asLatest.modules;
-  const isIndexed = modules.some(({ index }) => !index.eqn(0) || !index.eqn(255));
+  const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   // decorate the events
   modules

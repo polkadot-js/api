@@ -12,7 +12,10 @@ export default function toV12 (registry: Registry, { extrinsic, modules }: Metad
   return registry.createType('MetadataLatest', {
     extrinsic,
     modules: modules.map((mod): ModuleMetadataV12 =>
-      registry.createType('ModuleMetadataV12', { ...mod })
+      registry.createType('ModuleMetadataV12', {
+        ...mod,
+        index: 255
+      })
     )
   });
 }

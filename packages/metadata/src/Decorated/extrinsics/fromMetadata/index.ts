@@ -12,7 +12,7 @@ import createUnchecked from './createUnchecked';
 /** @internal */
 export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
   const modules = metadata.asLatest.modules;
-  const isIndexed = modules.some(({ index }) => !index.eqn(0) || !index.eqn(255));
+  const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   return modules
     .filter(({ calls }) => calls.isSome)
