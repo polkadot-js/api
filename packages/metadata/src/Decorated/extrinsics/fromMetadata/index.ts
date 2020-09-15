@@ -11,12 +11,15 @@ import createUnchecked from './createUnchecked';
 
 /** @internal */
 export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
-  return metadata.asLatest.modules
+  const modules = metadata.asLatest.modules;
+  const isIndexed = modules.some(({ index }) => !index.eqn(0) || !index.eqn(255));
+
+  return modules
     .filter(({ calls }) => calls.isSome)
     .reduce((result, { calls, index, name }: RegistryMetadataModule, _sectionIndex): ModulesWithCalls => {
-      const sectionIndex = index.eqn(255)
-        ? _sectionIndex
-        : index.toNumber();
+      const sectionIndex = isIndexed
+        ? index.toNumber()
+        : _sectionIndex;
       const section = stringCamelCase(name.toString());
 
       result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {

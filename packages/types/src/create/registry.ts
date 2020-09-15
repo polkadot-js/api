@@ -21,11 +21,14 @@ import { getTypeDef } from './getTypeDef';
 
 // create error mapping from metadata
 function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
+  const modules = metadata.asLatest.modules;
+  const isIndexed = modules.some(({ index }) => !index.eqn(0) || !index.eqn(255));
+
   // decorate the errors
-  metadata.asLatest.modules.forEach((section, _sectionIndex): void => {
-    const sectionIndex = section.index.eqn(255)
-      ? _sectionIndex
-      : section.index.toNumber();
+  modules.forEach((section, _sectionIndex): void => {
+    const sectionIndex = isIndexed
+      ? section.index.toNumber()
+      : _sectionIndex;
     const sectionName = stringCamelCase(section.name.toString());
 
     section.errors.forEach(({ documentation, name }, index): void => {
@@ -43,13 +46,16 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
 
 // create event classes from metadata
 function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
+  const modules = metadata.asLatest.modules;
+  const isIndexed = modules.some(({ index }) => !index.eqn(0) || !index.eqn(255));
+
   // decorate the events
-  metadata.asLatest.modules
+  modules
     .filter(({ events }): boolean => events.isSome)
     .forEach((section, _sectionIndex): void => {
-      const sectionIndex = section.index.eqn(255)
-        ? _sectionIndex
-        : section.index.toNumber();
+      const sectionIndex = isIndexed
+        ? section.index.toNumber()
+        : _sectionIndex;
       const sectionName = stringCamelCase(section.name.toString());
 
       section.events.unwrap().forEach((meta, methodIndex): void => {
