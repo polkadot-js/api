@@ -77,8 +77,9 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
 
+    // for bundled types, pull through the aliasses defined
     if (registry.knownTypes.typesBundle) {
-      this._adjustBundleTypes(registry, chain, version);
+      registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
 
     return registry;
@@ -224,33 +225,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
           )
       )
     ).subscribe();
-  }
-
-  private _adjustBundleTypes (registry: Registry, chain: Text, { specName }: { specName: Text, specVersion: BN }): void {
-    // adjust known type aliases
-    registry.knownTypes.typesAlias = getSpecAlias(registry, chain, specName);
-
-    // FIXME For the first round, we are not adjusting the user-injected RPCs
-    // inject any user-level RPCs now that we have the chain/spec
-    // this._rpcCore.addUserInterfaces(getSpecRpc(this.registry, chain, specName));
-
-    // const extraRpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
-
-    // // FIXME this is a mess
-    // Object.entries(extraRpc).forEach(([section, value]): void => {
-    //   if (this._rpc) {
-    //     if (!this._rpc[section as 'author']) {
-    //       this._rpc[section as 'author'] = {} as DecoratedRpcSection<ApiType, RpcInterface['author']>;
-    //     }
-
-    //     Object.entries(value).forEach(([name, method]): void => {
-    //       if (this._rpc && !this._rpc[section as 'author'][name as 'hasKey']) {
-    //         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    //         this._rpc[section as 'author'][name as 'hasKey'] = method;
-    //       }
-    //     });
-    //   }
-    // });
   }
 
   private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
