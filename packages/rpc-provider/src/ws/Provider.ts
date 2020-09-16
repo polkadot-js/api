@@ -147,7 +147,7 @@ export default class WsProvider implements ProviderInterface {
   public async connect (): Promise<void> {
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
-      this.#websocket = this.#websocket = typeof WebSocket !== 'undefined' && isChildClass(WebSocket, WS)
+      this.#websocket = typeof WebSocket !== 'undefined' && isChildClass(WebSocket, WS)
         ? new WS(this.#endpoints[this.#endpointIndex])
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers

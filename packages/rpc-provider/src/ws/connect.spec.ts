@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import WsProvider from './';
 import { Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+
+import WsProvider from './';
 
 function sleepMs (ms = 0): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
