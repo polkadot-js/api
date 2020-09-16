@@ -6,6 +6,7 @@ Upgrade priority: High. Metadata v12 is the next major version containing struct
 
 Changes:
 
+- Ensure that upgrades override old registry types (non-specified in current)
 - Support for Metadata v12 with fixed indices
 - Cleanups for WebSocket class detection and creation
 - Ensure that ignored map params yield an error on `iterKey`

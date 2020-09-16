@@ -163,6 +163,7 @@ export interface Registry {
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
   hash (data: Uint8Array): Uint8Array;
+  init (): Registry;
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;

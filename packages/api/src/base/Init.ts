@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
+import { ChainProperties, SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { Registry } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import { VersionedRegistry } from './types';
 
+import BN from 'bn.js';
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text, TypeRegistry } from '@polkadot/types';
@@ -69,6 +70,21 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   }
 
   /**
+   * @description Decorates a registry based on the runtime version
+   */
+  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, chainProps?: ChainProperties): Registry {
+    registry.setChainProperties(chainProps || this.registry.getChainProperties());
+    registry.setKnownTypes(this._options);
+    registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
+
+    if (registry.knownTypes.typesBundle) {
+      this._adjustBundleTypes(registry, chain, version);
+    }
+
+    return registry;
+  }
+
+  /**
    * @description Sets up a registry based on the block hash defined
    */
   public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
@@ -107,17 +123,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
 
     // nothing has been found, construct new
-    const registry = new TypeRegistry();
-
-    registry.setChainProperties(this.registry.getChainProperties());
-    registry.setKnownTypes(this._options);
-    registry.register(getSpecTypes(registry, this._runtimeChain as Text, version.specName, version.specVersion));
-
-    if (registry.knownTypes.typesBundle) {
-      this._adjustBundleTypes(registry, this._runtimeChain as Text, version.specName);
-    }
-
-    // retrieve the metadata now that we have all types set
+    const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version);
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
@@ -204,10 +210,13 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
               assert(thisRegistry, 'Initialization error, cannot find the default registry');
 
+              // setup the data as per the current versions
               thisRegistry.metadata = metadata;
               thisRegistry.metadataConsts = null;
               thisRegistry.specVersion = version.specVersion;
-              thisRegistry.registry.register(getSpecTypes(thisRegistry.registry, this._runtimeChain as Text, version.specName, version.specVersion));
+
+              // clear the registry types to ensure that we override correctly
+              this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version);
               this.injectMetadata(metadata, false, thisRegistry.registry);
 
               return true;
@@ -217,7 +226,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     ).subscribe();
   }
 
-  private _adjustBundleTypes (registry: Registry, chain: Text, specName: Text): void {
+  private _adjustBundleTypes (registry: Registry, chain: Text, { specName }: { specName: Text, specVersion: BN }): void {
     // adjust known type aliases
     registry.knownTypes.typesAlias = getSpecAlias(registry, chain, specName);
 
@@ -256,14 +265,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
 
-    // adjust types based on bundled info
-    if (this.registry.knownTypes.typesBundle) {
-      this._adjustBundleTypes(this.registry, chain, runtimeVersion.specName);
-    }
-
-    // do the setup for the specific chain
-    this.registry.setChainProperties(chainProps);
-    this.registerTypes(getSpecTypes(this.registry, chain, runtimeVersion.specName, runtimeVersion.specVersion));
+    // initializes the registry
+    this._initRegistry(this.registry, chain, runtimeVersion, chainProps);
     this._subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
