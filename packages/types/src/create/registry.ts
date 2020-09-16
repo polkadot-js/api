@@ -93,9 +93,9 @@ function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, met
 }
 
 export class TypeRegistry implements Registry {
-  readonly #classes = new Map<string, Constructor>();
+  #classes = new Map<string, Constructor>();
 
-  readonly #definitions = new Map<string, string>();
+  #definitions = new Map<string, string>();
 
   readonly #metadataCalls: Record<string, CallFunction> = {};
 
@@ -103,32 +103,49 @@ export class TypeRegistry implements Registry {
 
   readonly #metadataEvents: Record<string, Constructor<EventData>> = {};
 
-  readonly #unknownTypes = new Map<string, boolean>();
+  #unknownTypes = new Map<string, boolean>();
 
   #chainProperties?: ChainProperties;
 
   #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
+
+  readonly #knownDefaults: RegistryTypes;
+
+  readonly #knownDefinitions: Record<string, { types: RegistryTypes }>;
 
   #knownTypes: RegisteredTypes = {};
 
   #signedExtensions: string[] = defaultExtensions;
 
   constructor () {
-    // we only want to import these on creation, i.e. we want to avoid types
-    // weird side-effects from circular references. (Since registry is injected
-    // into types, this can  be a real concern now)
+    // we only want to import these on creation, i.e. we want to avoid weird
+    // side-effects from circular references. (Since registry is injected
+    // into types, this can be a real concern now)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const baseTypes: RegistryTypes = require('../index.types');
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
-    // since these are classes, they are injected first
-    this.register({ Raw, ...baseTypes });
+    this.#knownDefaults = { Raw, ...baseTypes };
+    this.#knownDefinitions = definitions;
 
-    // since these are definitions, they would only get created when needed
-    Object.values(definitions).forEach(({ types }): void =>
+    this.init();
+  }
+
+  public init (): this {
+    // start clean
+    this.#classes = new Map<string, Constructor>();
+    this.#definitions = new Map<string, string>();
+    this.#unknownTypes = new Map<string, boolean>();
+    this.#knownTypes = {};
+
+    // register know, first classes then on-demand-created definitions
+    this.register(this.#knownDefaults);
+    Object.values(this.#knownDefinitions).forEach(({ types }): void =>
       this.register(types)
     );
+
+    return this;
   }
 
   public get chainDecimals (): number {
