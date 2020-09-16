@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Server } from 'mock-socket';
+import { Server, WebSocket } from 'mock-socket';
 
 const TEST_WS_URL = 'ws://localhost:9955';
 
@@ -27,6 +27,8 @@ interface ReplyDef {
     result: unknown;
   };
 }
+
+global.WebSocket = WebSocket;
 
 // should be JSONRPC def return
 function createError ({ error: { code, message }, id }: ErrorDef): any {
