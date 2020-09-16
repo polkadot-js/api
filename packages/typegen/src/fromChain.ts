@@ -82,7 +82,7 @@ export default function main (): void {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         generate(JSON.parse(message.data).result, pkg, output, isStrict);
       };
-    } catch () {
+    } catch (error) {
       process.exit(1);
     }
   } else {
