@@ -97,11 +97,11 @@ export class TypeRegistry implements Registry {
 
   #definitions = new Map<string, string>();
 
-  #metadataCalls: Record<string, CallFunction> = {};
+  readonly #metadataCalls: Record<string, CallFunction> = {};
 
-  #metadataErrors: Record<string, RegistryError> = {};
+  readonly #metadataErrors: Record<string, RegistryError> = {};
 
-  #metadataEvents: Record<string, Constructor<EventData>> = {};
+  readonly #metadataEvents: Record<string, Constructor<EventData>> = {};
 
   #unknownTypes = new Map<string, boolean>();
 
@@ -136,9 +136,6 @@ export class TypeRegistry implements Registry {
     // start clean
     this.#classes = new Map<string, Constructor>();
     this.#definitions = new Map<string, string>();
-    this.#metadataCalls = {};
-    this.#metadataErrors = {};
-    this.#metadataEvents = {};
     this.#unknownTypes = new Map<string, boolean>();
     this.#knownTypes = {};
 
