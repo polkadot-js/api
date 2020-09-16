@@ -4,8 +4,8 @@
 
 import { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
-import fetch from 'cross-fetch';
 import { assert, logger } from '@polkadot/util';
+import fetch from '@polkadot/x-fetch';
 
 import Coder from '../coder';
 import defaults from '../defaults';
