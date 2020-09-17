@@ -17,7 +17,7 @@
 
 • **FALLBACK_MAX_HASH_COUNT**: *250* = 250
 
-*Defined in [packages/api-derive/src/tx/constants.ts:7](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/tx/constants.ts#L7)*
+*Defined in [packages/api-derive/src/tx/constants.ts:6](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api-derive/src/tx/constants.ts#L6)*
 
 ___
 
@@ -25,7 +25,7 @@ ___
 
 • **FALLBACK_PERIOD**: *BN‹›* = new BN(6 * 1000)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:10](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/tx/constants.ts#L10)*
+*Defined in [packages/api-derive/src/tx/constants.ts:9](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api-derive/src/tx/constants.ts#L9)*
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 • **MAX_FINALITY_LAG**: *BN‹›* = new BN(5)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:12](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/tx/constants.ts#L12)*
+*Defined in [packages/api-derive/src/tx/constants.ts:11](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api-derive/src/tx/constants.ts#L11)*
 
 ___
 
@@ -41,4 +41,4 @@ ___
 
 • **MORTAL_PERIOD**: *BN‹›* = new BN(5 * 60 * 1000)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:14](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/tx/constants.ts#L14)*
+*Defined in [packages/api-derive/src/tx/constants.ts:13](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api-derive/src/tx/constants.ts#L13)*

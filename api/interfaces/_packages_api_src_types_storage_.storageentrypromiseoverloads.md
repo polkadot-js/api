@@ -10,7 +10,7 @@
 
 ▸ (`arg1?`: CodecArg, `arg2?`: CodecArg): *Promise‹Codec›*
 
-*Defined in [packages/api/src/types/storage.ts:22](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/types/storage.ts#L22)*
+*Defined in [packages/api/src/types/storage.ts:21](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/storage.ts#L21)*
 
 **Parameters:**
 
@@ -23,7 +23,7 @@ Name | Type |
 
 ▸ ‹**T**›(`arg1?`: CodecArg, `arg2?`: CodecArg): *Promise‹T›*
 
-*Defined in [packages/api/src/types/storage.ts:23](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/types/storage.ts#L23)*
+*Defined in [packages/api/src/types/storage.ts:22](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/storage.ts#L22)*
 
 **Type parameters:**
 
@@ -40,7 +40,7 @@ Name | Type |
 
 ▸ ‹**T**›(`callback`: Callback‹T›): *[UnsubscribePromise](../modules/_packages_api_src_types_base_.md#unsubscribepromise)*
 
-*Defined in [packages/api/src/types/storage.ts:24](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/types/storage.ts#L24)*
+*Defined in [packages/api/src/types/storage.ts:23](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/storage.ts#L23)*
 
 **Type parameters:**
 
@@ -56,7 +56,7 @@ Name | Type |
 
 ▸ ‹**T**›(`arg`: CodecArg, `callback`: Callback‹T›): *[UnsubscribePromise](../modules/_packages_api_src_types_base_.md#unsubscribepromise)*
 
-*Defined in [packages/api/src/types/storage.ts:25](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/types/storage.ts#L25)*
+*Defined in [packages/api/src/types/storage.ts:24](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/storage.ts#L24)*
 
 **Type parameters:**
 
@@ -73,7 +73,7 @@ Name | Type |
 
 ▸ ‹**T**›(`arg1`: CodecArg, `arg2`: CodecArg, `callback`: Callback‹T›): *[UnsubscribePromise](../modules/_packages_api_src_types_base_.md#unsubscribepromise)*
 
-*Defined in [packages/api/src/types/storage.ts:26](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/types/storage.ts#L26)*
+*Defined in [packages/api/src/types/storage.ts:25](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/storage.ts#L25)*
 
 **Type parameters:**
 

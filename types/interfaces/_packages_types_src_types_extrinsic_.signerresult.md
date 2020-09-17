@@ -19,7 +19,7 @@
 
 • **id**: *number*
 
-*Defined in [packages/types/src/types/extrinsic.ts:122](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/extrinsic.ts#L122)*
+*Defined in [packages/types/src/types/extrinsic.ts:121](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/types/extrinsic.ts#L121)*
 
 **`description`** The id for this request
 
@@ -29,6 +29,6 @@ ___
 
 • **signature**: *string*
 
-*Defined in [packages/types/src/types/extrinsic.ts:127](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/extrinsic.ts#L127)*
+*Defined in [packages/types/src/types/extrinsic.ts:126](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/types/extrinsic.ts#L126)*
 
 **`description`** The resulting signature in hex

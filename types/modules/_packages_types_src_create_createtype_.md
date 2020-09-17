@@ -15,7 +15,7 @@
 
 ▸ **createType**‹**K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: K, ...`params`: any[]): *InterfaceTypes[K]*
 
-*Defined in [packages/types/src/create/createType.ts:77](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/create/createType.ts#L77)*
+*Defined in [packages/types/src/create/createType.ts:76](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/create/createType.ts#L76)*
 
 Create an instance of a `type` with a given `params`.
 
@@ -39,7 +39,7 @@ ___
 
 ▸ **createTypeUnsafe**‹**T**, **K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: K, `params`: any[], `isPedantic?`: undefined | false | true): *T*
 
-*Defined in [packages/types/src/create/createType.ts:61](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/create/createType.ts#L61)*
+*Defined in [packages/types/src/create/createType.ts:60](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/create/createType.ts#L60)*
 
 **Type parameters:**
 
