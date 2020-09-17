@@ -61,7 +61,7 @@ with a value if/as required/found.
 
 \+ **new Option**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `typeName`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T› | keyof InterfaceTypes, `value?`: unknown): *[Option](_packages_types_src_codec_option_.option.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:57](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L57)*
+*Defined in [packages/types/src/codec/Option.ts:57](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L57)*
 
 **Parameters:**
 
@@ -81,7 +81,7 @@ Name | Type |
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#readonly-registry)*
 
-*Defined in [packages/types/src/codec/Option.ts:53](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L53)*
+*Defined in [packages/types/src/codec/Option.ts:53](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L53)*
 
 ## Accessors
 
@@ -89,7 +89,7 @@ Name | Type |
 
 • **get encodedLength**(): *number*
 
-*Defined in [packages/types/src/codec/Option.ts:76](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L76)*
+*Defined in [packages/types/src/codec/Option.ts:76](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L76)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
@@ -101,7 +101,7 @@ ___
 
 • **get hash**(): *H256*
 
-*Defined in [packages/types/src/codec/Option.ts:84](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L84)*
+*Defined in [packages/types/src/codec/Option.ts:84](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L84)*
 
 **`description`** returns a hash of the contents
 
@@ -113,7 +113,7 @@ ___
 
 • **get isEmpty**(): *boolean*
 
-*Defined in [packages/types/src/codec/Option.ts:91](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L91)*
+*Defined in [packages/types/src/codec/Option.ts:91](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L91)*
 
 **`description`** Checks if the Option has no value
 
@@ -125,7 +125,7 @@ ___
 
 • **get isNone**(): *boolean*
 
-*Defined in [packages/types/src/codec/Option.ts:98](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L98)*
+*Defined in [packages/types/src/codec/Option.ts:98](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L98)*
 
 **`description`** Checks if the Option has no value
 
@@ -137,7 +137,7 @@ ___
 
 • **get isSome**(): *boolean*
 
-*Defined in [packages/types/src/codec/Option.ts:105](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L105)*
+*Defined in [packages/types/src/codec/Option.ts:105](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L105)*
 
 **`description`** Checks if the Option has a value
 
@@ -149,7 +149,7 @@ ___
 
 • **get value**(): *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:112](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L112)*
+*Defined in [packages/types/src/codec/Option.ts:112](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L112)*
 
 **`description`** The actual value for the Option
 
@@ -163,7 +163,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:119](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L119)*
+*Defined in [packages/types/src/codec/Option.ts:119](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L119)*
 
 **`description`** Compares the value of the input to see if there is a match
 
@@ -181,7 +181,7 @@ ___
 
 ▸ **toHex**(): *string*
 
-*Defined in [packages/types/src/codec/Option.ts:130](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L130)*
+*Defined in [packages/types/src/codec/Option.ts:130](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L130)*
 
 **`description`** Returns a hex string representation of the value
 
@@ -195,7 +195,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:141](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L141)*
+*Defined in [packages/types/src/codec/Option.ts:141](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L141)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
@@ -215,7 +215,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:148](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L148)*
+*Defined in [packages/types/src/codec/Option.ts:148](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L148)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
@@ -227,7 +227,7 @@ ___
 
 ▸ **toRawType**(`isBare?`: undefined | false | true): *string*
 
-*Defined in [packages/types/src/codec/Option.ts:155](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L155)*
+*Defined in [packages/types/src/codec/Option.ts:155](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L155)*
 
 **`description`** Returns the base runtime type name for this instance
 
@@ -247,7 +247,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:166](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L166)*
+*Defined in [packages/types/src/codec/Option.ts:166](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L166)*
 
 **`description`** Returns the string representation of the value
 
@@ -259,7 +259,7 @@ ___
 
 ▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
 
-*Defined in [packages/types/src/codec/Option.ts:174](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L174)*
+*Defined in [packages/types/src/codec/Option.ts:174](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L174)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
@@ -277,7 +277,7 @@ ___
 
 ▸ **unwrap**(): *T*
 
-*Defined in [packages/types/src/codec/Option.ts:192](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L192)*
+*Defined in [packages/types/src/codec/Option.ts:192](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L192)*
 
 **`description`** Returns the value that the Option represents (if available), throws if null
 
@@ -289,7 +289,7 @@ ___
 
 ▸ **unwrapOr**‹**O**›(`defaultValue`: O): *T | O*
 
-*Defined in [packages/types/src/codec/Option.ts:204](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L204)*
+*Defined in [packages/types/src/codec/Option.ts:204](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L204)*
 
 **`description`** Returns the value that the Option represents (if available) or defaultValue if none
 
@@ -311,7 +311,7 @@ ___
 
 ▸ **unwrapOrDefault**(): *T*
 
-*Defined in [packages/types/src/codec/Option.ts:214](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L214)*
+*Defined in [packages/types/src/codec/Option.ts:214](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L214)*
 
 **`description`** Returns the value that the Option represents (if available) or defaultValue if none
 
@@ -323,7 +323,7 @@ ___
 
 ▸ **with**‹**O**›(`Type`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹O› | keyof InterfaceTypes): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹[Option](_packages_types_src_codec_option_.option.md)‹O››*
 
-*Defined in [packages/types/src/codec/Option.ts:65](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Option.ts#L65)*
+*Defined in [packages/types/src/codec/Option.ts:65](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Option.ts#L65)*
 
 **Type parameters:**
 

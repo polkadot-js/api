@@ -66,7 +66,7 @@ The era for an extrinsic, indicating either a mortal or immortal extrinsic
 
 *Overrides [Enum](_packages_types_src_codec_enum_.enum.md).[constructor](_packages_types_src_codec_enum_.enum.md#constructor)*
 
-*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:205](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/extrinsic/ExtrinsicEra.ts#L205)*
+*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:205](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/extrinsic/ExtrinsicEra.ts#L205)*
 
 **Parameters:**
 
@@ -87,7 +87,7 @@ Name | Type |
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[registry](_packages_types_src_codec_enum_.enum.md#readonly-registry)*
 
-*Defined in [packages/types/src/codec/Enum.ts:119](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L119)*
+*Defined in [packages/types/src/codec/Enum.ts:119](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L119)*
 
 ## Accessors
 
@@ -95,7 +95,7 @@ Name | Type |
 
 • **get asImmortalEra**(): *[ImmortalEra](_packages_types_src_extrinsic_extrinsicera_.immortalera.md)*
 
-*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:248](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/extrinsic/ExtrinsicEra.ts#L248)*
+*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:248](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/extrinsic/ExtrinsicEra.ts#L248)*
 
 **`description`** Returns the item as a [ImmortalEra](_packages_types_src_extrinsic_extrinsicera_.immortalera.md)
 
@@ -107,7 +107,7 @@ ___
 
 • **get asMortalEra**(): *[MortalEra](_packages_types_src_extrinsic_extrinsicera_.mortalera.md)*
 
-*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:257](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/extrinsic/ExtrinsicEra.ts#L257)*
+*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:257](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/extrinsic/ExtrinsicEra.ts#L257)*
 
 **`description`** Returns the item as a [MortalEra](_packages_types_src_extrinsic_extrinsicera_.mortalera.md)
 
@@ -121,7 +121,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[defEntries](_packages_types_src_codec_enum_.enum.md#defentries)*
 
-*Defined in [packages/types/src/codec/Enum.ts:231](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L231)*
+*Defined in [packages/types/src/codec/Enum.ts:231](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L231)*
 
 **`description`** The available keys for this enum
 
@@ -135,7 +135,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[defKeys](_packages_types_src_codec_enum_.enum.md#defkeys)*
 
-*Defined in [packages/types/src/codec/Enum.ts:238](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L238)*
+*Defined in [packages/types/src/codec/Enum.ts:238](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L238)*
 
 **`description`** The available keys for this enum
 
@@ -149,7 +149,7 @@ ___
 
 *Overrides [Enum](_packages_types_src_codec_enum_.enum.md).[encodedLength](_packages_types_src_codec_enum_.enum.md#encodedlength)*
 
-*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:239](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/extrinsic/ExtrinsicEra.ts#L239)*
+*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:239](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/extrinsic/ExtrinsicEra.ts#L239)*
 
 **`description`** Override the encoded length method
 
@@ -163,7 +163,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[hash](_packages_types_src_codec_enum_.enum.md#hash)*
 
-*Defined in [packages/types/src/codec/Enum.ts:189](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L189)*
+*Defined in [packages/types/src/codec/Enum.ts:189](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L189)*
 
 **`description`** returns a hash of the contents
 
@@ -177,7 +177,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[index](_packages_types_src_codec_enum_.enum.md#index)*
 
-*Defined in [packages/types/src/codec/Enum.ts:196](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L196)*
+*Defined in [packages/types/src/codec/Enum.ts:196](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L196)*
 
 **`description`** The index of the metadata value
 
@@ -191,7 +191,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[isBasic](_packages_types_src_codec_enum_.enum.md#isbasic)*
 
-*Defined in [packages/types/src/codec/Enum.ts:203](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L203)*
+*Defined in [packages/types/src/codec/Enum.ts:203](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L203)*
 
 **`description`** true if this is a basic enum (no values)
 
@@ -205,7 +205,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[isEmpty](_packages_types_src_codec_enum_.enum.md#isempty)*
 
-*Defined in [packages/types/src/codec/Enum.ts:210](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L210)*
+*Defined in [packages/types/src/codec/Enum.ts:210](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L210)*
 
 **`description`** Checks if the value is an empty value
 
@@ -217,7 +217,7 @@ ___
 
 • **get isImmortalEra**(): *boolean*
 
-*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:266](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/extrinsic/ExtrinsicEra.ts#L266)*
+*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:266](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/extrinsic/ExtrinsicEra.ts#L266)*
 
 **`description`** `true` if Immortal
 
@@ -229,7 +229,7 @@ ___
 
 • **get isMortalEra**(): *boolean*
 
-*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:273](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/extrinsic/ExtrinsicEra.ts#L273)*
+*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:273](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/extrinsic/ExtrinsicEra.ts#L273)*
 
 **`description`** `true` if Mortal
 
@@ -243,7 +243,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[isNone](_packages_types_src_codec_enum_.enum.md#isnone)*
 
-*Defined in [packages/types/src/codec/Enum.ts:217](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L217)*
+*Defined in [packages/types/src/codec/Enum.ts:217](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L217)*
 
 **`description`** Checks if the Enum points to a [Null](_packages_types_src_primitive_null_.null.md) type
 
@@ -257,7 +257,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[isNull](_packages_types_src_codec_enum_.enum.md#isnull)*
 
-*Defined in [packages/types/src/codec/Enum.ts:224](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L224)*
+*Defined in [packages/types/src/codec/Enum.ts:224](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L224)*
 
 **`description`** Checks if the Enum points to a [Null](_packages_types_src_primitive_null_.null.md) type (deprecated, use isNone)
 
@@ -271,7 +271,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[type](_packages_types_src_codec_enum_.enum.md#type)*
 
-*Defined in [packages/types/src/codec/Enum.ts:245](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L245)*
+*Defined in [packages/types/src/codec/Enum.ts:245](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L245)*
 
 **`description`** The name of the type this enum value represents
 
@@ -285,7 +285,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[value](_packages_types_src_codec_enum_.enum.md#value)*
 
-*Defined in [packages/types/src/codec/Enum.ts:252](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L252)*
+*Defined in [packages/types/src/codec/Enum.ts:252](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L252)*
 
 **`description`** The value of the enum
 
@@ -301,7 +301,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[eq](_packages_types_src_codec_enum_.enum.md#eq)*
 
-*Defined in [packages/types/src/codec/Enum.ts:259](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L259)*
+*Defined in [packages/types/src/codec/Enum.ts:259](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L259)*
 
 **`description`** Compares the value of the input to see if there is a match
 
@@ -321,7 +321,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[toHex](_packages_types_src_codec_enum_.enum.md#tohex)*
 
-*Defined in [packages/types/src/codec/Enum.ts:282](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L282)*
+*Defined in [packages/types/src/codec/Enum.ts:282](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L282)*
 
 **`description`** Returns a hex string representation of the value
 
@@ -337,7 +337,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[toHuman](_packages_types_src_codec_enum_.enum.md#tohuman)*
 
-*Defined in [packages/types/src/codec/Enum.ts:289](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L289)*
+*Defined in [packages/types/src/codec/Enum.ts:289](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L289)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
@@ -359,7 +359,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[toJSON](_packages_types_src_codec_enum_.enum.md#tojson)*
 
-*Defined in [packages/types/src/codec/Enum.ts:298](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L298)*
+*Defined in [packages/types/src/codec/Enum.ts:298](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L298)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
@@ -373,7 +373,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[toNumber](_packages_types_src_codec_enum_.enum.md#tonumber)*
 
-*Defined in [packages/types/src/codec/Enum.ts:307](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L307)*
+*Defined in [packages/types/src/codec/Enum.ts:307](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L307)*
 
 **`description`** Returns the number representation for the value
 
@@ -389,7 +389,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[toRawType](_packages_types_src_codec_enum_.enum.md#torawtype)*
 
-*Defined in [packages/types/src/codec/Enum.ts:323](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L323)*
+*Defined in [packages/types/src/codec/Enum.ts:323](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L323)*
 
 **`description`** Returns the base runtime type name for this instance
 
@@ -405,7 +405,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[toString](_packages_types_src_codec_enum_.enum.md#tostring)*
 
-*Defined in [packages/types/src/codec/Enum.ts:330](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L330)*
+*Defined in [packages/types/src/codec/Enum.ts:330](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L330)*
 
 **`description`** Returns the string representation of the value
 
@@ -419,7 +419,7 @@ ___
 
 *Overrides [Enum](_packages_types_src_codec_enum_.enum.md).[toU8a](_packages_types_src_codec_enum_.enum.md#tou8a)*
 
-*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:281](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/extrinsic/ExtrinsicEra.ts#L281)*
+*Defined in [packages/types/src/extrinsic/ExtrinsicEra.ts:281](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/extrinsic/ExtrinsicEra.ts#L281)*
 
 **`description`** Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -439,7 +439,7 @@ ___
 
 *Inherited from [Enum](_packages_types_src_codec_enum_.enum.md).[with](_packages_types_src_codec_enum_.enum.md#static-with)*
 
-*Defined in [packages/types/src/codec/Enum.ts:143](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Enum.ts#L143)*
+*Defined in [packages/types/src/codec/Enum.ts:143](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Enum.ts#L143)*
 
 **Parameters:**
 

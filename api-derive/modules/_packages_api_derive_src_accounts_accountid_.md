@@ -14,7 +14,7 @@
 
 ▸ **accountId**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/accounts/accountId.ts:40](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/accounts/accountId.ts#L40)*
+*Defined in [packages/api-derive/src/accounts/accountId.ts:40](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/accounts/accountId.ts#L40)*
 
 **`name`** accountId
 

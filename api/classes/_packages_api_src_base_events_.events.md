@@ -22,7 +22,7 @@
 
 ▸ **off**(`type`: ApiInterfaceEvents, `handler`: function): *this*
 
-*Defined in [packages/api/src/base/Events.ts:62](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api/src/base/Events.ts#L62)*
+*Defined in [packages/api/src/base/Events.ts:62](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/base/Events.ts#L62)*
 
 **`description`** Remove the given eventemitter handler
 
@@ -67,7 +67,7 @@ ___
 
 ▸ **on**(`type`: ApiInterfaceEvents, `handler`: function): *this*
 
-*Defined in [packages/api/src/base/Events.ts:35](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api/src/base/Events.ts#L35)*
+*Defined in [packages/api/src/base/Events.ts:35](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/base/Events.ts#L35)*
 
 **`description`** Attach an eventemitter handler to listen to a specific event
 
@@ -110,7 +110,7 @@ ___
 
 ▸ **once**(`type`: ApiInterfaceEvents, `handler`: function): *this*
 
-*Defined in [packages/api/src/base/Events.ts:87](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api/src/base/Events.ts#L87)*
+*Defined in [packages/api/src/base/Events.ts:87](https://github.com/polkadot-js/api/blob/4596e434d/packages/api/src/base/Events.ts#L87)*
 
 **`description`** Attach an one-time eventemitter handler to listen to a specific event
 

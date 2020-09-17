@@ -73,7 +73,7 @@ Defined in node_modules/@types/bn.js/index.d.ts:12
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/UInt.ts:19](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/UInt.ts#L19)*
+*Defined in [packages/types/src/codec/UInt.ts:19](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/UInt.ts#L19)*
 
 **Parameters:**
 
@@ -92,7 +92,7 @@ Name | Type | Default |
 
 • **get isAura**(): *boolean*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:42](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/generic/ConsensusEngineId.ts#L42)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:42](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/generic/ConsensusEngineId.ts#L42)*
 
 **`description`** `true` if the engine matches aura
 
@@ -104,7 +104,7 @@ ___
 
 • **get isBabe**(): *boolean*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:49](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/generic/ConsensusEngineId.ts#L49)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:49](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/generic/ConsensusEngineId.ts#L49)*
 
 **`description`** `true` is the engine matches babe
 
@@ -116,7 +116,7 @@ ___
 
 • **get isGrandpa**(): *boolean*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:56](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/generic/ConsensusEngineId.ts#L56)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:56](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/generic/ConsensusEngineId.ts#L56)*
 
 **`description`** `true` is the engine matches grandpa
 
@@ -128,7 +128,7 @@ ___
 
 ▸ **extractAuthor**(`bytes`: [Bytes](_packages_types_src_primitive_bytes_.bytes.md), `sessionValidators`: AccountId[]): *AccountId | undefined*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:80](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/generic/ConsensusEngineId.ts#L80)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:80](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/generic/ConsensusEngineId.ts#L80)*
 
 **`description`** From the input bytes, decode into an author
 
@@ -151,7 +151,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:95](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/generic/ConsensusEngineId.ts#L95)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:95](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/generic/ConsensusEngineId.ts#L95)*
 
 **`description`** Override the default toString to return a 4-byte string
 
@@ -163,7 +163,7 @@ ___
 
 ▸ **idToString**(`input`: number | BN): *string*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:25](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/generic/ConsensusEngineId.ts#L25)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:25](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/generic/ConsensusEngineId.ts#L25)*
 
 **Parameters:**
 
@@ -179,7 +179,7 @@ ___
 
 ▸ **stringToId**(`input`: string): *number*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:32](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/generic/ConsensusEngineId.ts#L32)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:32](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/generic/ConsensusEngineId.ts#L32)*
 
 **Parameters:**
 
@@ -197,7 +197,7 @@ ___
 
 *Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[with](_packages_types_src_codec_uint_.uint.md#static-with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:24](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/UInt.ts#L24)*
+*Defined in [packages/types/src/codec/UInt.ts:24](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/UInt.ts#L24)*
 
 **Parameters:**
 

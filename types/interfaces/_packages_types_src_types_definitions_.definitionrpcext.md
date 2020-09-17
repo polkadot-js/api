@@ -30,7 +30,7 @@
 
 *Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[alias](_packages_types_src_types_definitions_.definitionrpc.md#optional-alias)*
 
-*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L24)*
+*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L24)*
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 *Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[description](_packages_types_src_types_definitions_.definitionrpc.md#description)*
 
-*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L25)*
+*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L25)*
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 • **isSubscription**: *boolean*
 
-*Defined in [packages/types/src/types/definitions.ts:31](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L31)*
+*Defined in [packages/types/src/types/definitions.ts:31](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L31)*
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 • **jsonrpc**: *string*
 
-*Defined in [packages/types/src/types/definitions.ts:32](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L32)*
+*Defined in [packages/types/src/types/definitions.ts:32](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L32)*
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 • **method**: *string*
 
-*Defined in [packages/types/src/types/definitions.ts:33](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L33)*
+*Defined in [packages/types/src/types/definitions.ts:33](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L33)*
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 *Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[params](_packages_types_src_types_definitions_.definitionrpc.md#params)*
 
-*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L26)*
+*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L26)*
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 • **pubsub**? : *[string, string, string]*
 
-*Defined in [packages/types/src/types/definitions.ts:34](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L34)*
+*Defined in [packages/types/src/types/definitions.ts:34](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L34)*
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 • **section**: *string*
 
-*Defined in [packages/types/src/types/definitions.ts:35](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L35)*
+*Defined in [packages/types/src/types/definitions.ts:35](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L35)*
 
 ___
 
@@ -100,4 +100,4 @@ ___
 
 *Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[type](_packages_types_src_types_definitions_.definitionrpc.md#type)*
 
-*Defined in [packages/types/src/types/definitions.ts:27](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/types/definitions.ts#L27)*
+*Defined in [packages/types/src/types/definitions.ts:27](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/types/definitions.ts#L27)*

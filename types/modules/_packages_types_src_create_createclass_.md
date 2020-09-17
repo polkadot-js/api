@@ -17,7 +17,7 @@
 
 ▸ **ClassOf**‹**K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `name`: K): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹InterfaceTypes[K]›*
 
-*Defined in [packages/types/src/create/createClass.ts:43](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/create/createClass.ts#L43)*
+*Defined in [packages/types/src/create/createClass.ts:43](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/create/createClass.ts#L43)*
 
 **Type parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 ▸ **ClassOfUnsafe**‹**T**, **K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `name`: K): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹FromReg‹T, K››*
 
-*Defined in [packages/types/src/create/createClass.ts:38](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/create/createClass.ts#L38)*
+*Defined in [packages/types/src/create/createClass.ts:38](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/create/createClass.ts#L38)*
 
 **Type parameters:**
 
@@ -61,7 +61,7 @@ ___
 
 ▸ **createClass**‹**T**, **K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: K): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹FromReg‹T, K››*
 
-*Defined in [packages/types/src/create/createClass.ts:30](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/create/createClass.ts#L30)*
+*Defined in [packages/types/src/create/createClass.ts:30](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/create/createClass.ts#L30)*
 
 **Type parameters:**
 
@@ -84,7 +84,7 @@ ___
 
 ▸ **getTypeClass**‹**T**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: TypeDef): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T›*
 
-*Defined in [packages/types/src/create/createClass.ts:182](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/create/createClass.ts#L182)*
+*Defined in [packages/types/src/create/createClass.ts:182](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/create/createClass.ts#L182)*
 
 **Type parameters:**
 

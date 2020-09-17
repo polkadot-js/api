@@ -75,7 +75,7 @@ A [[Block]] header with an additional `author` field that indicates the block au
 
 *Overrides void*
 
-*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:22](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/type/SignedBlockExtended.ts#L22)*
+*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:22](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/type/SignedBlockExtended.ts#L22)*
 
 **Parameters:**
 
@@ -95,7 +95,7 @@ Name | Type |
 
 *Inherited from [BlockExtended](_packages_api_derive_src_type_signedblockextended_.blockextended.md).[block](_packages_api_derive_src_type_signedblockextended_.blockextended.md#readonly-block)*
 
-*Defined in [packages/types/src/interfaces/runtime/types.ts:224](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/interfaces/runtime/types.ts#L224)*
+*Defined in [packages/types/src/interfaces/runtime/types.ts:224](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/interfaces/runtime/types.ts#L224)*
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 *Inherited from [BlockExtended](_packages_api_derive_src_type_signedblockextended_.blockextended.md).[justification](_packages_api_derive_src_type_signedblockextended_.blockextended.md#readonly-justification)*
 
-*Defined in [packages/types/src/interfaces/runtime/types.ts:225](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/interfaces/runtime/types.ts#L225)*
+*Defined in [packages/types/src/interfaces/runtime/types.ts:225](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/interfaces/runtime/types.ts#L225)*
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[registry](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-registry)*
 
-*Defined in [packages/types/src/codec/Struct.ts:109](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L109)*
+*Defined in [packages/types/src/codec/Struct.ts:109](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L109)*
 
 ___
 
@@ -135,7 +135,7 @@ Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:28
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[Type](_packages_api_derive_src_type_headerextended_.headerextended.md#type)*
 
-*Defined in [packages/types/src/codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L172)*
+*Defined in [packages/types/src/codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L172)*
 
 **`description`** Returns the Type description to sthe structure
 
@@ -147,7 +147,7 @@ ___
 
 • **get author**(): *AccountId | undefined*
 
-*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:33](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/type/SignedBlockExtended.ts#L33)*
+*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:33](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/type/SignedBlockExtended.ts#L33)*
 
 **`description`** Convenience method, returns the author for the block
 
@@ -161,7 +161,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[defKeys](_packages_api_derive_src_type_headerextended_.headerextended.md#defkeys)*
 
-*Defined in [packages/types/src/codec/Struct.ts:150](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L150)*
+*Defined in [packages/types/src/codec/Struct.ts:150](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L150)*
 
 **`description`** The available keys for this enum
 
@@ -175,7 +175,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[encodedLength](_packages_api_derive_src_type_headerextended_.headerextended.md#encodedlength)*
 
-*Defined in [packages/types/src/codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L186)*
+*Defined in [packages/types/src/codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L186)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
@@ -189,7 +189,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[hash](_packages_api_derive_src_type_headerextended_.headerextended.md#hash)*
 
-*Defined in [packages/types/src/codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L197)*
+*Defined in [packages/types/src/codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L197)*
 
 **`description`** returns a hash of the contents
 
@@ -203,7 +203,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[isEmpty](_packages_api_derive_src_type_headerextended_.headerextended.md#isempty)*
 
-*Defined in [packages/types/src/codec/Struct.ts:157](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L157)*
+*Defined in [packages/types/src/codec/Struct.ts:157](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L157)*
 
 **`description`** Checks if the value is an empty value
 
@@ -247,7 +247,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[eq](_packages_api_derive_src_type_headerextended_.headerextended.md#eq)*
 
-*Defined in [packages/types/src/codec/Struct.ts:204](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L204)*
+*Defined in [packages/types/src/codec/Struct.ts:204](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L204)*
 
 **`description`** Compares the value of the input to see if there is a match
 
@@ -297,7 +297,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/Struct.ts:212](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L212)*
+*Defined in [packages/types/src/codec/Struct.ts:212](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L212)*
 
 **`description`** Returns a specific names entry in the structure
 
@@ -317,7 +317,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[getAtIndex](_packages_api_derive_src_type_headerextended_.headerextended.md#getatindex)*
 
-*Defined in [packages/types/src/codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L219)*
+*Defined in [packages/types/src/codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L219)*
 
 **`description`** Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -374,7 +374,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toArray](_packages_api_derive_src_type_headerextended_.headerextended.md#toarray)*
 
-*Defined in [packages/types/src/codec/Struct.ts:226](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L226)*
+*Defined in [packages/types/src/codec/Struct.ts:226](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L226)*
 
 **`description`** Converts the Object to an standard JavaScript Array
 
@@ -388,7 +388,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toHex](_packages_api_derive_src_type_headerextended_.headerextended.md#tohex)*
 
-*Defined in [packages/types/src/codec/Struct.ts:233](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L233)*
+*Defined in [packages/types/src/codec/Struct.ts:233](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L233)*
 
 **`description`** Returns a hex string representation of the value
 
@@ -402,7 +402,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:40](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/type/SignedBlockExtended.ts#L40)*
+*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:40](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/type/SignedBlockExtended.ts#L40)*
 
 **`description`** Creates a human-friendly JSON representation
 
@@ -422,7 +422,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:52](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/type/SignedBlockExtended.ts#L52)*
+*Defined in [packages/api-derive/src/type/SignedBlockExtended.ts:52](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/type/SignedBlockExtended.ts#L52)*
 
 **`description`** Creates the JSON representation
 
@@ -436,7 +436,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toRawType](_packages_api_derive_src_type_headerextended_.headerextended.md#torawtype)*
 
-*Defined in [packages/types/src/codec/Struct.ts:277](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L277)*
+*Defined in [packages/types/src/codec/Struct.ts:277](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L277)*
 
 **`description`** Returns the base runtime type name for this instance
 
@@ -450,7 +450,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toString](_packages_api_derive_src_type_headerextended_.headerextended.md#tostring)*
 
-*Defined in [packages/types/src/codec/Struct.ts:286](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L286)*
+*Defined in [packages/types/src/codec/Struct.ts:286](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L286)*
 
 **`description`** Returns the string representation of the value
 
@@ -464,7 +464,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toU8a](_packages_api_derive_src_type_headerextended_.headerextended.md#tou8a)*
 
-*Defined in [packages/types/src/codec/Struct.ts:294](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L294)*
+*Defined in [packages/types/src/codec/Struct.ts:294](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L294)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
@@ -484,7 +484,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[typesToMap](_packages_api_derive_src_type_headerextended_.headerextended.md#static-typestomap)*
 
-*Defined in [packages/types/src/codec/Struct.ts:266](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L266)*
+*Defined in [packages/types/src/codec/Struct.ts:266](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L266)*
 
 **Parameters:**
 
@@ -503,7 +503,7 @@ ___
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[with](_packages_api_derive_src_type_headerextended_.headerextended.md#static-with)*
 
-*Defined in [packages/types/src/codec/Struct.ts:126](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Struct.ts#L126)*
+*Defined in [packages/types/src/codec/Struct.ts:126](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Struct.ts#L126)*
 
 **Type parameters:**
 

@@ -17,7 +17,7 @@
 
 ▸ **_ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:18](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/staking/ownSlashes.ts#L18)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:18](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/staking/ownSlashes.ts#L18)*
 
 **Parameters:**
 
@@ -44,7 +44,7 @@ ___
 
 ▸ **_ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:53](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/staking/ownSlashes.ts#L53)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:53](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/staking/ownSlashes.ts#L53)*
 
 **Parameters:**
 
@@ -71,7 +71,7 @@ ___
 
 ▸ **ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:47](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/staking/ownSlashes.ts#L47)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:47](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/staking/ownSlashes.ts#L47)*
 
 **Parameters:**
 
@@ -97,7 +97,7 @@ ___
 
 ▸ **ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:63](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/api-derive/src/staking/ownSlashes.ts#L63)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:63](https://github.com/polkadot-js/api/blob/4596e434d/packages/api-derive/src/staking/ownSlashes.ts#L63)*
 
 **Parameters:**
 

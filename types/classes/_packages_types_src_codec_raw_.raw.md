@@ -79,7 +79,7 @@ actual lengths instead of used directly.
 
 \+ **new Raw**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value?`: [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)): *[Raw](_packages_types_src_codec_raw_.raw.md)*
 
-*Defined in [packages/types/src/codec/Raw.ts:29](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L29)*
+*Defined in [packages/types/src/codec/Raw.ts:29](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L29)*
 
 **Parameters:**
 
@@ -98,7 +98,7 @@ Name | Type |
 
 *Implementation of [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md).[registry](../interfaces/_packages_types_src_types_interfaces_.iu8a.md#readonly-registry)*
 
-*Defined in [packages/types/src/codec/Raw.ts:29](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L29)*
+*Defined in [packages/types/src/codec/Raw.ts:29](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L29)*
 
 ___
 
@@ -114,7 +114,7 @@ Defined in node_modules/typescript/lib/lib.es5.d.ts:2281
 
 • **get encodedLength**(): *number*
 
-*Defined in [packages/types/src/codec/Raw.ts:40](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L40)*
+*Defined in [packages/types/src/codec/Raw.ts:40](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L40)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
@@ -126,7 +126,7 @@ ___
 
 • **get hash**(): *H256*
 
-*Defined in [packages/types/src/codec/Raw.ts:47](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L47)*
+*Defined in [packages/types/src/codec/Raw.ts:47](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L47)*
 
 **`description`** returns a hash of the contents
 
@@ -138,7 +138,7 @@ ___
 
 • **get isAscii**(): *boolean*
 
-*Defined in [packages/types/src/codec/Raw.ts:54](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L54)*
+*Defined in [packages/types/src/codec/Raw.ts:54](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L54)*
 
 **`description`** Returns true if the wrapped value contains only ASCII printable characters
 
@@ -150,7 +150,7 @@ ___
 
 • **get isEmpty**(): *boolean*
 
-*Defined in [packages/types/src/codec/Raw.ts:61](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L61)*
+*Defined in [packages/types/src/codec/Raw.ts:61](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L61)*
 
 **`description`** Returns true if the type wraps an empty/default all-0 value
 
@@ -162,7 +162,7 @@ ___
 
 • **get isUtf8**(): *boolean*
 
-*Defined in [packages/types/src/codec/Raw.ts:68](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L68)*
+*Defined in [packages/types/src/codec/Raw.ts:68](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L68)*
 
 **`description`** Returns true if the wrapped value contains only utf8 characters
 
@@ -176,7 +176,7 @@ ___
 
 *Overrides [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md).[length](../interfaces/_packages_types_src_types_interfaces_.iu8a.md#readonly-length)*
 
-*Defined in [packages/types/src/codec/Raw.ts:75](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L75)*
+*Defined in [packages/types/src/codec/Raw.ts:75](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L75)*
 
 **`description`** The length of the value
 
@@ -190,7 +190,7 @@ ___
 
 *Implementation of [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md)*
 
-*Defined in [packages/types/src/codec/Raw.ts:83](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L83)*
+*Defined in [packages/types/src/codec/Raw.ts:83](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L83)*
 
 **`description`** Returns the number of bits in the value
 
@@ -204,7 +204,7 @@ ___
 
 *Implementation of [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md)*
 
-*Defined in [packages/types/src/codec/Raw.ts:90](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L90)*
+*Defined in [packages/types/src/codec/Raw.ts:90](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L90)*
 
 **`description`** Compares the value of the input to see if there is a match
 
@@ -224,7 +224,7 @@ ___
 
 *Overrides [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md).[subarray](../interfaces/_packages_types_src_types_interfaces_.iu8a.md#subarray)*
 
-*Defined in [packages/types/src/codec/Raw.ts:104](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L104)*
+*Defined in [packages/types/src/codec/Raw.ts:104](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L104)*
 
 **`description`** Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
 
@@ -243,7 +243,7 @@ ___
 
 ▸ **toHex**(): *string*
 
-*Defined in [packages/types/src/codec/Raw.ts:111](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L111)*
+*Defined in [packages/types/src/codec/Raw.ts:111](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L111)*
 
 **`description`** Returns a hex string representation of the value
 
@@ -255,7 +255,7 @@ ___
 
 ▸ **toHuman**(): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
 
-*Defined in [packages/types/src/codec/Raw.ts:118](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L118)*
+*Defined in [packages/types/src/codec/Raw.ts:118](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L118)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
@@ -269,7 +269,7 @@ ___
 
 *Implementation of [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md)*
 
-*Defined in [packages/types/src/codec/Raw.ts:127](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L127)*
+*Defined in [packages/types/src/codec/Raw.ts:127](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L127)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
@@ -283,7 +283,7 @@ ___
 
 *Implementation of [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md)*
 
-*Defined in [packages/types/src/codec/Raw.ts:134](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L134)*
+*Defined in [packages/types/src/codec/Raw.ts:134](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L134)*
 
 **`description`** Returns the base runtime type name for this instance
 
@@ -299,7 +299,7 @@ ___
 
 *Overrides [IU8a](../interfaces/_packages_types_src_types_interfaces_.iu8a.md).[toString](../interfaces/_packages_types_src_types_interfaces_.iu8a.md#tostring)*
 
-*Defined in [packages/types/src/codec/Raw.ts:141](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L141)*
+*Defined in [packages/types/src/codec/Raw.ts:141](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L141)*
 
 **`description`** Returns the string representation of the value
 
@@ -311,7 +311,7 @@ ___
 
 ▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
 
-*Defined in [packages/types/src/codec/Raw.ts:150](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L150)*
+*Defined in [packages/types/src/codec/Raw.ts:150](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L150)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
@@ -329,7 +329,7 @@ ___
 
 ▸ **toUtf8**(): *string*
 
-*Defined in [packages/types/src/codec/Raw.ts:157](https://github.com/polkadot-js/api/blob/c10e4d3fc1/packages/types/src/codec/Raw.ts#L157)*
+*Defined in [packages/types/src/codec/Raw.ts:157](https://github.com/polkadot-js/api/blob/4596e434d/packages/types/src/codec/Raw.ts#L157)*
 
 **`description`** Returns the wrapped data as a UTF-8 string
 
