@@ -8,9 +8,9 @@ import { TypeRegistry } from '../create';
 import Call from './Call';
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, metadataStatic);
+registry.setMetadata(metadata);
 
 describe('Call', (): void => {
   it('handles decoding correctly (bare)', (): void => {

@@ -40,8 +40,6 @@ export default class MetadataVersioned extends Struct {
       magicNumber: MagicNumber,
       metadata: 'MetadataAll'
     }, value as Map<unknown, unknown>);
-
-    registry.setMetadata(this);
   }
 
   private _assertVersion (version: number): boolean {

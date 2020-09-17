@@ -12,9 +12,9 @@ import block00300 from '../json/SignedBlock.003.00.json';
 import Block from './Block';
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, metadataStatic);
+registry.setMetadata(metadata);
 
 describe('Block', (): void => {
   it('has a valid toRawType', (): void => {

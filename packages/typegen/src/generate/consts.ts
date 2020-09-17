@@ -77,5 +77,9 @@ export default function generateConsts (dest = 'packages/api/src/augment/consts.
 
   registerDefinitions(registry, extraTypes);
 
-  return generateForMeta(new Metadata(registry, data), dest, extraTypes, isStrict);
+  const metadata = new Metadata(registry, data);
+
+  registry.setMetadata(metadata);
+
+  return generateForMeta(metadata, dest, extraTypes, isStrict);
 }

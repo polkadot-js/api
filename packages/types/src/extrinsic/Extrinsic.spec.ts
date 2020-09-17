@@ -9,9 +9,9 @@ import { TypeRegistry } from '../create';
 import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, rpcMetadata);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, rpcMetadata);
+registry.setMetadata(metadata);
 
 describe('Extrinsic', (): void => {
   describe('V1', (): void => {

@@ -11,11 +11,11 @@ import { TypeRegistry } from '../../create';
 import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();
-const decorated = new Decorated(registry, rpcMetadata);
+const metadata = new Metadata(registry, rpcMetadata);
+const decorated = new Decorated(registry, metadata);
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, rpcMetadata);
+registry.setMetadata(metadata);
 
 describe('ExtrinsicV3', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {

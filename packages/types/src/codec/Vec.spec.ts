@@ -14,9 +14,9 @@ import Vec from './Vec';
 import Tuple from './Tuple';
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, rpcMetadata);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, rpcMetadata);
+registry.setMetadata(metadata);
 
 describe('Vec', (): void => {
   let vector: Vec<Codec>;

@@ -13,6 +13,8 @@ function init (meta: string): [Constants, TypeRegistry] {
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, meta);
 
+  registry.setMetadata(metadata);
+
   return [fromMetadata(registry, metadata), registry];
 }
 

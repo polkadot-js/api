@@ -14,6 +14,8 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
+    registry.setMetadata(metadata);
+
     try {
       expect(metadata.version).toBe(version);
       expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
@@ -29,11 +31,15 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
 /** @internal */
 export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
-    const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
-    const metadataLatest = new Metadata(registry, rpcData).asLatest;
+    const metadata = new Metadata(registry, rpcData);
+
+    registry.setMetadata(metadata);
+
+    const metadataInit = metadata[`asV${version}` as keyof Metadata];
+    const metadataLatest = metadata.asLatest;
 
     expect(
-      getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, withThrow)
+      getUniqTypes(registry, metadataInit as unknown as MetadataInterface<Modules>, withThrow)
     ).toEqual(
       getUniqTypes(registry, metadataLatest, withThrow)
     );
