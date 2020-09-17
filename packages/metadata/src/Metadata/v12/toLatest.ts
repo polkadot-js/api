@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { EventMetadataV12, EventMetadataLatest, FunctionMetadataV12, FunctionMetadataLatest, MetadataV12, MetadataLatest, ModuleMetadataLatest, StorageMetadataV12, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry, OverrideModuleType } from '@polkadot/types/types';

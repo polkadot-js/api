@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 // NOTE We are not exporting everything here. These _should_ be enough to use the
 // actual interfaces from a "create-a-working-coder" perspective. If not, we should
