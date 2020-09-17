@@ -133,5 +133,9 @@ export default function generateQuery (dest = 'packages/api/src/augment/query.ts
 
   registerDefinitions(registry, extraTypes);
 
-  return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes, isStrict);
+  const metadata = new Metadata(registry, data);
+
+  registry.setMetadata(metadata);
+
+  return generateForMeta(registry, metadata, dest, extraTypes, isStrict);
 }
