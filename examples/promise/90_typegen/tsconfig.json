@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    // this is specific with augmented overrides
+    "paths": {
+      // this is the package name we use (in the interface imports, --package for generators)
+      "sample-polkadotjs-typegen/*": ["src/*"],
+      // here we replace the @polkadot/api augmentation with our own, generated from chain
+      "@polkadot/api/augment": ["src/interfaces/augment-api.ts"],
+      // replace the augmented types with our own, as generated from definitions
+      "@polkadot/types/augment": ["src/interfaces/augment-types.ts"]
+    },
+    // some other options, whatever you want for your environment
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "declaration": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "build/**/*",
+    "node_modules"
+  ]
+}

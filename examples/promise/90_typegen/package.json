@@ -1,0 +1,24 @@
+{
+  "name": "sample-polkadotjs-typegen",
+  "version": "0.0.1",
+  "description": "A sample using @polkadot/typegen to generate type definitions",
+  "main": "index.js",
+  "repository": "https://github.com/jacogr/sample-polkadotjs-typegen",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "The Unlicense",
+  "private": true,
+  "scripts": {
+    "build": "yarn generate:defs && yarn generate:meta",
+    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package sample-polkadotjs-typegen/interfaces --input ./src/interfaces",
+    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package sample-polkadotjs-typegen/interfaces --endpoint ./edgeware.json --output ./src/interfaces --strict",
+    "lint": "tsc --noEmit --pretty"
+  },
+  "dependencies": {
+    "@polkadot/api": "^1.4.0"
+  },
+  "devDependencies": {
+    "@polkadot/typegen": "^1.4.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.2"
+  }
+}
