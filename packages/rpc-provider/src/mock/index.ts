@@ -171,6 +171,8 @@ export default class Mock implements ProviderInterface {
 
     const metadata = new Metadata(this.registry, rpcMetadata);
 
+    this.registry.setMetadata(metadata);
+
     // Do something every 1 seconds
     setInterval((): void => {
       if (!this.isUpdating) {

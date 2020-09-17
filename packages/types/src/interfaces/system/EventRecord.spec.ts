@@ -17,8 +17,9 @@ describe('EventRecord', (): void => {
 
   describe('EventRecordTo76', (): void => {
     beforeEach((): void => {
-      // eslint-disable-next-line no-new
-      new Metadata(registry, rpcMetadataV1);
+      const metadata = new Metadata(registry, rpcMetadataV1);
+
+      registry.setMetadata(metadata);
     });
 
     it('decodes correctly', (): void => {
@@ -31,8 +32,9 @@ describe('EventRecord', (): void => {
 
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
-      // eslint-disable-next-line no-new
-      new Metadata(registry, rpcMetadata);
+      const metadata = new Metadata(registry, rpcMetadata);
+
+      registry.setMetadata(metadata);
     });
 
     it('decodes older EventRecord correctly', (): void => {

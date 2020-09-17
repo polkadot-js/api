@@ -12,9 +12,9 @@ import mortalTxs from '../../json/SignedBlock.004.mortal.json';
 import knownMehods from '../../json/SignedBlock.005.json';
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, metadataStatic);
+registry.setMetadata(metadata);
 
 describe('SignedBlock', (): void => {
   it('decodes a full block', (): void => {

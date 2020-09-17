@@ -11,6 +11,9 @@ import fromMetadata from './fromMetadata';
 const keyring = testingPairs({ type: 'ed25519' }, false);
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, metadataStatic);
+
+registry.setMetadata(metadata);
+
 const extrinsics = fromMetadata(registry, metadata);
 
 describe('extrinsics', (): void => {

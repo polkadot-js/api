@@ -83,8 +83,9 @@ describe('Tuple', (): void => {
   });
 
   it('creates properly via actual hex string', (): void => {
-    // eslint-disable-next-line no-new
-    new Metadata(registry, rpcMetadata);
+    const metadata = new Metadata(registry, rpcMetadata);
+
+    registry.setMetadata(metadata);
 
     const test = new (Tuple.with([
       registry.createClass('BlockNumber'), registry.createClass('VoteThreshold')

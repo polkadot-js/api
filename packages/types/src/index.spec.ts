@@ -22,9 +22,9 @@ const UNCONSTRUCTABLE = [
 ].map((v): string => v.toLowerCase());
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, metadataStatic);
+registry.setMetadata(metadata);
 
 function testTypes (type: string, typeNames: string[]): void {
   describe(type, (): void => {

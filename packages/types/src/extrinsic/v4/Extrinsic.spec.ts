@@ -5,17 +5,17 @@ import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import Decorated from '@polkadot/metadata/Decorated';
 import Metadata from '@polkadot/metadata/Metadata';
-import metadataStatic from '@polkadot/metadata/Metadata/static';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import { TypeRegistry } from '../../create';
 import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();
-const decorated = new Decorated(registry, metadataStatic);
+const metadata = new Metadata(registry, rpcMetadata);
+const decorated = new Decorated(registry, metadata);
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, metadataStatic);
+registry.setMetadata(metadata);
 
 describe('ExtrinsicV4', (): void => {
   it.only('constructs a sane Uint8Array (default)', (): void => {
