@@ -1,5 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// SPDX-License-Identifier: Apache-2.0v
+// SPDX-License-Identifier: Apache-2.0
 
 import createMemo from 'memoizee';
 import { Observable, Observer, TeardownLogic } from 'rxjs';
