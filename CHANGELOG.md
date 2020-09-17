@@ -6,6 +6,7 @@ Upgrade priority: High. Metadata v12 is the next major version containing struct
 
 Changes:
 
+- Ensure Metadata retrieval does not pollute the default registry
 - When passing `{ nonce: -1 }` to `signAndSend` the API will use `system.accountNextIndex` to determine the nonce
 - Ensure that upgrades override old registry types (non-specified in current)
 - Support for Metadata v12 with fixed indices
