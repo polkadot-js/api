@@ -127,8 +127,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
-    // TODO: Not convinced (yet) that we really want to re-decorate, keep on ice since it does muddle-up
-    // this.injectMetadata(metadata, false);
     registry.setMetadata(metadata);
     this.#registries.push(result);
 
@@ -213,6 +211,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
               // setup the data as per the current versions
               thisRegistry.metadata = metadata;
               thisRegistry.metadataConsts = null;
+              thisRegistry.registry.setMetadata(metadata);
               thisRegistry.specVersion = version.specVersion;
 
               // clear the registry types to ensure that we override correctly
@@ -250,6 +249,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     const metadata = metadataKey in optMetadata
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
+
+    this.registry.setMetadata(metadata);
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
