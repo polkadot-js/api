@@ -4,8 +4,8 @@
 
 import path from 'path';
 import yargs from 'yargs';
-import { createWS } from '@polkadot/rpc-provider/ws/getWS';
 import { formatNumber } from '@polkadot/util';
+import WS from '@polkadot/x-ws';
 
 import generateConst from './generate/consts';
 import generateQuery from './generate/query';
@@ -60,31 +60,31 @@ export default function main (): void {
   }).argv;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    createWS(endpoint)
-      .then((websocket): void => {
-        websocket.onclose = (event: { code: number; reason: string }): void => {
-          console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
-          process.exit(1);
-        };
+    try {
+      const websocket = new WS(endpoint);
 
-        websocket.onerror = (event: any): void => {
-          console.error(event);
-          process.exit(1);
-        };
-
-        websocket.onopen = (): void => {
-          console.log('connected');
-          websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
-        };
-
-        websocket.onmessage = (message: any): void => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          generate(JSON.parse(message.data).result, pkg, output, isStrict);
-        };
-      })
-      .catch((): void => {
+      websocket.onclose = (event: { code: number; reason: string }): void => {
+        console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
         process.exit(1);
-      });
+      };
+
+      websocket.onerror = (event: any): void => {
+        console.error(event);
+        process.exit(1);
+      };
+
+      websocket.onopen = (): void => {
+        console.log('connected');
+        websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
+      };
+
+      websocket.onmessage = (message: any): void => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        generate(JSON.parse(message.data).result, pkg, output, isStrict);
+      };
+    } catch (error) {
+      process.exit(1);
+    }
   } else {
     // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access
     generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
