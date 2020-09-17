@@ -4,11 +4,16 @@
 import { TypeRegistry } from '@polkadot/types/create';
 import { u8aToHex } from '@polkadot/util';
 
-import Decorated from './Decorated';
+import Metadata from '../Metadata';
 import json from '../Metadata/static';
+import Decorated from './Decorated';
 
 const registry = new TypeRegistry();
-const decorated = new Decorated(registry, json);
+const metadata = new Metadata(registry, json);
+
+registry.setMetadata(metadata);
+
+const decorated = new Decorated(registry, metadata);
 
 describe('Decorated', () => {
   it('should correctly get Alice\'s nonce storage key (u8a)', (): void => {
