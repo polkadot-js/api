@@ -5,7 +5,7 @@ import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Codec } from '@polkadot/types/types';
 
 import fs from 'fs';
-import Decorated from '@polkadot/metadata/Decorated';
+import Metadata from '@polkadot/metadata/Metadata';
 import rpcdata from '@polkadot/metadata/Metadata/static';
 import Call from '@polkadot/types/generic/Call';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
@@ -301,12 +301,16 @@ function writeFile (name: string, ...chunks: any[]): void {
 
 export default function main (): void {
   const registry = new TypeRegistry();
-  const metadata = new Decorated(registry, rpcdata).metadata.asLatest;
+  const metadata = new Metadata(registry, rpcdata);
+
+  registry.setMetadata(metadata);
+
+  const latest = metadata.asLatest;
 
   writeFile('docs/substrate/rpc.md', addRpc());
-  writeFile('docs/substrate/constants.md', addConstants(metadata));
-  writeFile('docs/substrate/storage.md', addStorage(metadata));
-  writeFile('docs/substrate/extrinsics.md', addExtrinsics(metadata));
-  writeFile('docs/substrate/events.md', addEvents(metadata));
-  writeFile('docs/substrate/errors.md', addErrors(metadata));
+  writeFile('docs/substrate/constants.md', addConstants(latest));
+  writeFile('docs/substrate/storage.md', addStorage(latest));
+  writeFile('docs/substrate/extrinsics.md', addExtrinsics(latest));
+  writeFile('docs/substrate/events.md', addEvents(latest));
+  writeFile('docs/substrate/errors.md', addErrors(latest));
 }
