@@ -34,8 +34,6 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
     const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
     const metadataLatest = new Metadata(registry, rpcData).asLatest;
 
-    registry.setMetadata(metadataLatest);
-
     expect(
       getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, withThrow)
     ).toEqual(
