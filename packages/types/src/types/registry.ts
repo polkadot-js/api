@@ -142,7 +142,7 @@ export interface Registry {
   readonly signedExtensions: string[];
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
-  findMetaError (errorIndex: Uint8Array): RegistryError;
+  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;

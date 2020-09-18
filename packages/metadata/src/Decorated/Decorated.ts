@@ -4,6 +4,8 @@
 import { ModulesWithCalls, Registry } from '@polkadot/types/types';
 import { Constants, Storage } from './types';
 
+import { assert } from '@polkadot/util';
+
 import Metadata from '../Metadata';
 import constantsFromMeta from './consts/fromMetadata';
 import extrinsicsFromMeta from './extrinsics/fromMetadata';
@@ -25,9 +27,11 @@ export default class Decorated {
 
   public readonly tx: ModulesWithCalls;
 
-  constructor (registry: Registry, value?: Uint8Array | string | Metadata) {
+  constructor (registry: Registry, value: Metadata) {
+    assert(value instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
+
     this.registry = registry;
-    this.metadata = value instanceof Metadata ? value : new Metadata(registry, value);
+    this.metadata = value;
 
     // decoration
     this.tx = extrinsicsFromMeta(registry, this.metadata);
