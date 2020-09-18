@@ -14,7 +14,7 @@
 
 ▸ **hasEq**(`o`: unknown): *o is object*
 
-*Defined in [packages/types/src/codec/utils/util.ts:6](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/utils/util.ts#L6)*
+*Defined in [packages/types/src/codec/utils/util.ts:6](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/utils/util.ts#L6)*
 
 **Parameters:**
 

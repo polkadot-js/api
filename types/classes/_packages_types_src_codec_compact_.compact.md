@@ -64,7 +64,7 @@ a number and making the compact representation thereof
 
 \+ **new Compact**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `Type`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T› | keyof InterfaceTypes, `value`: [Compact](_packages_types_src_codec_compact_.compact.md)‹T› | [AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber)): *[Compact](_packages_types_src_codec_compact_.compact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:34](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L34)*
+*Defined in [packages/types/src/codec/Compact.ts:34](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L34)*
 
 **Parameters:**
 
@@ -84,7 +84,7 @@ Name | Type | Default |
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md).[registry](../interfaces/_packages_types_src_types_interfaces_.icompact.md#readonly-registry)*
 
-*Defined in [packages/types/src/codec/Compact.ts:30](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L30)*
+*Defined in [packages/types/src/codec/Compact.ts:30](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L30)*
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 ▪ **addLengthPrefix**: *compactAddLength* = compactAddLength
 
-*Defined in [packages/types/src/codec/Compact.ts:55](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L55)*
+*Defined in [packages/types/src/codec/Compact.ts:55](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L55)*
 
 Prepend a Uint8Array with its compact length.
 
@@ -104,7 +104,7 @@ ___
 
 ▪ **decodeU8a**: *compactFromU8a* = compactFromU8a
 
-*Defined in [packages/types/src/codec/Compact.ts:57](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L57)*
+*Defined in [packages/types/src/codec/Compact.ts:57](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L57)*
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 ▪ **encodeU8a**: *compactToU8a* = compactToU8a
 
-*Defined in [packages/types/src/codec/Compact.ts:59](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L59)*
+*Defined in [packages/types/src/codec/Compact.ts:59](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L59)*
 
 ## Accessors
 
@@ -120,7 +120,7 @@ ___
 
 • **get encodedLength**(): *number*
 
-*Defined in [packages/types/src/codec/Compact.ts:83](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L83)*
+*Defined in [packages/types/src/codec/Compact.ts:83](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L83)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
@@ -132,7 +132,7 @@ ___
 
 • **get hash**(): *H256*
 
-*Defined in [packages/types/src/codec/Compact.ts:90](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L90)*
+*Defined in [packages/types/src/codec/Compact.ts:90](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L90)*
 
 **`description`** returns a hash of the contents
 
@@ -144,7 +144,7 @@ ___
 
 • **get isEmpty**(): *boolean*
 
-*Defined in [packages/types/src/codec/Compact.ts:97](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L97)*
+*Defined in [packages/types/src/codec/Compact.ts:97](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L97)*
 
 **`description`** Checks if the value is an empty value
 
@@ -156,7 +156,7 @@ ___
 
 ▸ **bitLength**(): *number*
 
-*Defined in [packages/types/src/codec/Compact.ts:104](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L104)*
+*Defined in [packages/types/src/codec/Compact.ts:104](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L104)*
 
 **`description`** Returns the number of bits in the value
 
@@ -170,7 +170,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:111](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L111)*
+*Defined in [packages/types/src/codec/Compact.ts:111](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L111)*
 
 **`description`** Compares the value of the input to see if there is a match
 
@@ -190,7 +190,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:122](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L122)*
+*Defined in [packages/types/src/codec/Compact.ts:122](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L122)*
 
 **`description`** Returns a BigInt representation of the number
 
@@ -204,7 +204,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:129](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L129)*
+*Defined in [packages/types/src/codec/Compact.ts:129](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L129)*
 
 **`description`** Returns the BN representation of the number
 
@@ -218,7 +218,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:136](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L136)*
+*Defined in [packages/types/src/codec/Compact.ts:136](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L136)*
 
 **`description`** Returns a hex string representation of the value. isLe returns a LE (number-only) representation
 
@@ -238,7 +238,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:143](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L143)*
+*Defined in [packages/types/src/codec/Compact.ts:143](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L143)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
@@ -258,7 +258,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:150](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L150)*
+*Defined in [packages/types/src/codec/Compact.ts:150](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L150)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
@@ -272,7 +272,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:157](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L157)*
+*Defined in [packages/types/src/codec/Compact.ts:157](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L157)*
 
 **`description`** Returns the number representation for the value
 
@@ -286,7 +286,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:164](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L164)*
+*Defined in [packages/types/src/codec/Compact.ts:164](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L164)*
 
 **`description`** Returns the base runtime type name for this instance
 
@@ -300,7 +300,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:171](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L171)*
+*Defined in [packages/types/src/codec/Compact.ts:171](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L171)*
 
 **`description`** Returns the string representation of the value
 
@@ -312,7 +312,7 @@ ___
 
 ▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
 
-*Defined in [packages/types/src/codec/Compact.ts:180](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L180)*
+*Defined in [packages/types/src/codec/Compact.ts:180](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L180)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
@@ -332,7 +332,7 @@ ___
 
 *Implementation of [ICompact](../interfaces/_packages_types_src_types_interfaces_.icompact.md)*
 
-*Defined in [packages/types/src/codec/Compact.ts:187](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L187)*
+*Defined in [packages/types/src/codec/Compact.ts:187](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L187)*
 
 **`description`** Returns the embedded [UInt](_packages_types_src_codec_uint_.uint.md) or [Moment](../interfaces/_packages_types_src_augment_registry_._registry_.interfacetypes.md#moment) value
 
@@ -344,7 +344,7 @@ ___
 
 ▸ **stripLengthPrefix**(`u8a`: [Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array), `bitLength`: [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength)): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
 
-*Defined in [packages/types/src/codec/Compact.ts:61](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L61)*
+*Defined in [packages/types/src/codec/Compact.ts:61](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L61)*
 
 **Parameters:**
 
@@ -361,7 +361,7 @@ ___
 
 ▸ **with**‹**T**›(`Type`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T› | keyof InterfaceTypes): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹[Compact](_packages_types_src_codec_compact_.compact.md)‹T››*
 
-*Defined in [packages/types/src/codec/Compact.ts:42](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/codec/Compact.ts#L42)*
+*Defined in [packages/types/src/codec/Compact.ts:42](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/Compact.ts#L42)*
 
 **Type parameters:**
 

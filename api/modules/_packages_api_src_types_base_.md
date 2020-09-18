@@ -30,7 +30,7 @@
 
 Ƭ **ApiTypes**: *"promise" | "rxjs"*
 
-*Defined in [packages/api/src/types/base.ts:29](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L29)*
+*Defined in [packages/api/src/types/base.ts:29](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L29)*
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 Ƭ **Cons**: *function extends function ? R : never*
 
-*Defined in [packages/api/src/types/base.ts:11](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L11)*
+*Defined in [packages/api/src/types/base.ts:11](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L11)*
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 Ƭ **DecorateFn**: *function*
 
-*Defined in [packages/api/src/types/base.ts:76](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L76)*
+*Defined in [packages/api/src/types/base.ts:76](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L76)*
 
 #### Type declaration:
 
@@ -64,7 +64,7 @@ ___
 
 Ƭ **DecorateMethod**: *function*
 
-*Defined in [packages/api/src/types/base.ts:85](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L85)*
+*Defined in [packages/api/src/types/base.ts:85](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L85)*
 
 #### Type declaration:
 
@@ -87,7 +87,7 @@ ___
 
 Ƭ **MethodResult**: *ApiType extends "rxjs" ? RxResult‹F› : PromiseResult‹F›*
 
-*Defined in [packages/api/src/types/base.ts:65](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L65)*
+*Defined in [packages/api/src/types/base.ts:65](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L65)*
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 Ƭ **ObsInnerType**: *O extends Observable‹infer U› ? U : never*
 
-*Defined in [packages/api/src/types/base.ts:32](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L32)*
+*Defined in [packages/api/src/types/base.ts:32](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L32)*
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 Ƭ **PromiseOrObs**: *ApiType extends "rxjs" ? Observable‹T› : Promise‹T›*
 
-*Defined in [packages/api/src/types/base.ts:39](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L39)*
+*Defined in [packages/api/src/types/base.ts:39](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L39)*
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 Ƭ **Push**: *Cons‹any, Required‹T›› extends infer R ? object : never extends infer P ? P extends any[] ? P : never : never*
 
-*Defined in [packages/api/src/types/base.ts:19](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L19)*
+*Defined in [packages/api/src/types/base.ts:19](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L19)*
 
 ___
 
@@ -119,7 +119,7 @@ ___
 
 Ƭ **UnsubscribePromise**: *Promise‹[VoidFn](_packages_api_src_types_base_.md#voidfn)›*
 
-*Defined in [packages/api/src/types/base.ts:36](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L36)*
+*Defined in [packages/api/src/types/base.ts:36](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L36)*
 
 ___
 
@@ -127,7 +127,7 @@ ___
 
 Ƭ **VoidFn**: *function*
 
-*Defined in [packages/api/src/types/base.ts:34](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api/src/types/base.ts#L34)*
+*Defined in [packages/api/src/types/base.ts:34](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api/src/types/base.ts#L34)*
 
 #### Type declaration:
 

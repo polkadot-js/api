@@ -14,7 +14,7 @@
 
 ▸ **votesOf**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/council/votesOf.ts:12](https://github.com/polkadot-js/api/blob/b56c1a828/packages/api-derive/src/council/votesOf.ts#L12)*
+*Defined in [packages/api-derive/src/council/votesOf.ts:12](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/api-derive/src/council/votesOf.ts#L12)*
 
 **Parameters:**
 

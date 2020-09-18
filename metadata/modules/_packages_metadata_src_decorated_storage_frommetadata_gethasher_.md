@@ -15,7 +15,7 @@
 
 Ƭ **HasherFunction**: *function*
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:11](https://github.com/polkadot-js/api/blob/b56c1a828/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L11)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:11](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L11)*
 
 #### Type declaration:
 
@@ -33,4 +33,4 @@ ___
 
 Ƭ **HasherInput**: *string | Buffer | Uint8Array*
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:9](https://github.com/polkadot-js/api/blob/b56c1a828/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L9)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:9](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L9)*

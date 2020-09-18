@@ -22,7 +22,7 @@
 
 • **digest**? : *Digest | object*
 
-*Defined in [packages/types/src/generic/Block.ts:12](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/generic/Block.ts#L12)*
+*Defined in [packages/types/src/generic/Block.ts:12](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/generic/Block.ts#L12)*
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 • **extrinsicsRoot**? : *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)*
 
-*Defined in [packages/types/src/generic/Block.ts:13](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/generic/Block.ts#L13)*
+*Defined in [packages/types/src/generic/Block.ts:13](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/generic/Block.ts#L13)*
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 • **number**? : *[AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber)*
 
-*Defined in [packages/types/src/generic/Block.ts:14](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/generic/Block.ts#L14)*
+*Defined in [packages/types/src/generic/Block.ts:14](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/generic/Block.ts#L14)*
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 • **parentHash**? : *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)*
 
-*Defined in [packages/types/src/generic/Block.ts:15](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/generic/Block.ts#L15)*
+*Defined in [packages/types/src/generic/Block.ts:15](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/generic/Block.ts#L15)*
 
 ___
 
@@ -54,4 +54,4 @@ ___
 
 • **stateRoot**? : *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)*
 
-*Defined in [packages/types/src/generic/Block.ts:16](https://github.com/polkadot-js/api/blob/b56c1a828/packages/types/src/generic/Block.ts#L16)*
+*Defined in [packages/types/src/generic/Block.ts:16](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/generic/Block.ts#L16)*
