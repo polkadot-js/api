@@ -78,7 +78,7 @@ Defined in node_modules/@types/bn.js/index.d.ts:12
 
 *Overrides void*
 
-*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:12](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/metadata/src/Metadata/MagicNumber.ts#L12)*
+*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:12](https://github.com/polkadot-js/api/blob/375dadbe3/packages/metadata/src/Metadata/MagicNumber.ts#L12)*
 
 **Parameters:**
 
@@ -97,7 +97,7 @@ Name | Type |
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[registry](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#readonly-registry)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:62](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L62)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:62](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L62)*
 
 ## Accessors
 
@@ -107,7 +107,7 @@ Name | Type |
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[encodedLength](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#encodedlength)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:85](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L85)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:85](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L85)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
@@ -121,7 +121,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[hash](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#hash)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:92](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L92)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:92](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L92)*
 
 **`description`** returns a hash of the contents
 
@@ -135,7 +135,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[isEmpty](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#isempty)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:99](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L99)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:99](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L99)*
 
 **`description`** Checks if the value is a zero value (align elsewhere)
 
@@ -149,7 +149,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[isUnsigned](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#isunsigned)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:106](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L106)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:106](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L106)*
 
 **`description`** Checks if the value is an unsigned type
 
@@ -163,7 +163,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[bitLength](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#bitlength)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:113](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L113)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:113](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L113)*
 
 **`description`** Returns the number of bits in the value
 
@@ -177,7 +177,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[eq](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#eq)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:121](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L121)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:121](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L121)*
 
 **`description`** Compares the value of the input to see if there is a match
 
@@ -197,7 +197,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[isMax](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#ismax)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:134](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L134)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:134](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L134)*
 
 **`description`** True if this value is the max of the type
 
@@ -211,7 +211,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toBigInt](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tobigint)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:143](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L143)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:143](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L143)*
 
 **`description`** Returns a BigInt representation of the number
 
@@ -225,7 +225,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toBn](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tobn)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:150](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L150)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:150](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L150)*
 
 **`description`** Returns the BN representation of the number. (Compatibility)
 
@@ -239,7 +239,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toHex](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tohex)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:157](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L157)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:157](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L157)*
 
 **`description`** Returns a hex string representation of the value
 
@@ -259,7 +259,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toHuman](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tohuman)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:170](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L170)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:170](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L170)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
@@ -279,7 +279,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toJSON](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tojson)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:186](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L186)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:186](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L186)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
@@ -293,7 +293,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toRawType](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#torawtype)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:198](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L198)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:198](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L198)*
 
 **`description`** Returns the base runtime type name for this instance
 
@@ -307,7 +307,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toString](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tostring)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:211](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L211)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:211](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L211)*
 
 **`description`** Returns the string representation of the value
 
@@ -327,7 +327,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toU8a](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tou8a)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:221](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/AbstractInt.ts#L221)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:221](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/AbstractInt.ts#L221)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
@@ -347,7 +347,7 @@ ___
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[with](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#static-with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/eda5edbd4/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/375dadbe3/packages/types/src/codec/UInt.ts#L23)*
 
 **Parameters:**
 
