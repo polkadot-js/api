@@ -14,6 +14,7 @@ Changes:
 - Support for Metadata v12 with fixed indices
 - Cleanups for WebSocket class detection and creation
 - Ensure that ignored map params yield an error on `iterKey`
+- Cater for older chains in derive democracy locks (availability detection)
 
 
 ## 1.33.1 Sep 14, 2020
