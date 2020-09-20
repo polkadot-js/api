@@ -12,7 +12,7 @@ import U32 from '../primitive/U32';
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x45424142; // 'BABE'
 const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
-const CID_POW = 0x706f775f; // 'pow_'
+const CID_POW = 0x5f776f70; // 'pow_'
 
 export { CID_AURA, CID_BABE, CID_GRPA, CID_POW };
 
