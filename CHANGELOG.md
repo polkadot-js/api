@@ -1,10 +1,14 @@
 # CHANGELOG
 
-## 1.34.0-beta.x
+## 1.34.1 Sep 21, 2020
 
 Upgrade priority: High. Metadata v12 is the next major version containing structural data exchange changes and will start rolling out to test and live networks in due course.
 
 - **Breaking change** The `Decorated` (from `@polkadot/metadata`) class signature has changed. It now always expects a valid `Metadata` object to be passed-in, instead of raw data. It is recommended to create a `Metadata` object, set it on the registry with `.setMetadata` and then only create a `Decorated` instance. (Only affects metadata-only users of the API)
+
+Contributed:
+
+- Added support for POW block author extraction (Thanks to https://github.com/sorpaas)
 
 Changes:
 

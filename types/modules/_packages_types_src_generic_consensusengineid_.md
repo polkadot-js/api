@@ -21,7 +21,7 @@
 
 • **CID_AURA**: *1634891105* = 1634891105
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:12](https://github.com/polkadot-js/api/blob/af074500b/packages/types/src/generic/ConsensusEngineId.ts#L12)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:14](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/generic/ConsensusEngineId.ts#L14)*
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 • **CID_BABE**: *1161969986* = 1161969986
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:13](https://github.com/polkadot-js/api/blob/af074500b/packages/types/src/generic/ConsensusEngineId.ts#L13)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:15](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/generic/ConsensusEngineId.ts#L15)*
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • **CID_GRPA**: *1263424070* = 1263424070
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:14](https://github.com/polkadot-js/api/blob/af074500b/packages/types/src/generic/ConsensusEngineId.ts#L14)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:16](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/generic/ConsensusEngineId.ts#L16)*
 
 ___
 
@@ -45,4 +45,4 @@ ___
 
 • **CID_POW**: *1601662832* = 1601662832
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:15](https://github.com/polkadot-js/api/blob/af074500b/packages/types/src/generic/ConsensusEngineId.ts#L15)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:17](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/generic/ConsensusEngineId.ts#L17)*

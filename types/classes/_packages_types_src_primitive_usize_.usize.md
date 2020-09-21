@@ -63,7 +63,7 @@ Defined in node_modules/@types/bn.js/index.d.ts:12
 
 *Overrides [UInt](_packages_types_src_codec_uint_.uint.md).[constructor](_packages_types_src_codec_uint_.uint.md#constructor)*
 
-*Defined in [packages/types/src/primitive/USize.ts:15](https://github.com/polkadot-js/api/blob/af074500b/packages/types/src/primitive/USize.ts#L15)*
+*Defined in [packages/types/src/primitive/USize.ts:15](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/primitive/USize.ts#L15)*
 
 **Parameters:**
 
@@ -82,7 +82,7 @@ Name | Type |
 
 *Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[with](_packages_types_src_codec_uint_.uint.md#static-with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/af074500b/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/UInt.ts#L23)*
 
 **Parameters:**
 
