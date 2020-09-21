@@ -44,15 +44,17 @@ export function _eraExposure (instanceId: string, api: ApiInterfaceRx): (era: Er
 
     return cached
       ? of(cached)
-      : api.query.staking.erasStakersClipped.entries(era).pipe(
-        map((stakers): DeriveEraExposure => {
-          const value = mapStakers(era, stakers);
+      : api.query.staking.erasStakersClipped
+        ? api.query.staking.erasStakersClipped.entries(era).pipe(
+          map((stakers): DeriveEraExposure => {
+            const value = mapStakers(era, stakers);
 
-          !withActive && deriveCache.set(cacheKey, value);
+            !withActive && deriveCache.set(cacheKey, value);
 
-          return value;
-        })
-      );
+            return value;
+          })
+        )
+        : of();
   });
 }
 

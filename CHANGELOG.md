@@ -19,6 +19,7 @@ Changes:
 - Cleanups for WebSocket class detection and creation
 - Ensure that ignored map params yield an error on `iterKey`
 - Cater for older chains in derive democracy locks (availability detection)
+- Cater for older chains in derive staking eraExposure (availability detection)
 
 
 ## 1.33.1 Sep 14, 2020
