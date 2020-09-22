@@ -3,16 +3,17 @@
 
 import { Registry } from '@polkadot/types/types';
 
-import { isHex, hexToU8a } from '@polkadot/util';
+import { isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 
 import MetadataVersioned from './MetadataVersioned';
 
 const VERSION_IDX = 4; // magic u32 preceding
+const EMPTY_METADATA = u8aConcat(new Uint8Array([0x61, 0x74, 0x65, 0x6d, 1])); // magic + lowest version
 
 // first we try and parse using the versioned structure, if this does fail,
 // we adjust with the magic number and a manual version and re-try. As soon as
 // we remove support for V0, we will just do a new here
-function decodeMetadata (registry: Registry, _value: Uint8Array | string = new Uint8Array()): MetadataVersioned {
+function decodeMetadata (registry: Registry, _value: Uint8Array | string = EMPTY_METADATA): MetadataVersioned {
   const value = isHex(_value)
     ? hexToU8a(_value)
     : _value;
