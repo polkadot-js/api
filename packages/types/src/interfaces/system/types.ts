@@ -133,12 +133,6 @@ export interface EventRecord extends Struct {
   readonly topics: Vec<Hash>;
 }
 
-/** @name EventRecordTo76 */
-export interface EventRecordTo76 extends Struct {
-  readonly phase: Phase;
-  readonly event: Event;
-}
-
 /** @name Health */
 export interface Health extends Struct {
   readonly peers: u64;

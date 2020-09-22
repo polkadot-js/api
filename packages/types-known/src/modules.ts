@@ -11,10 +11,6 @@ const typesModules: Record<string, OverrideModuleType> = {
   balances: {
     Status: 'BalanceStatus'
   },
-  contract: { // old metadata & naming
-    // v2 & v3
-    AccountInfo: 'ContractAccountInfo'
-  },
   contracts: {
     StorageKey: 'ContractStorageKey'
   },

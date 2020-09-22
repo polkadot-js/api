@@ -2,6 +2,8 @@
 
 ## 1.35.0-beta.x
 
+- **Important** Metadata versions before v5 is not not supported anymore. v4 was the first version to go with the Substrate 1.0 (Kusama itself starts at v9). This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
+
 Changes:
 
 - Add bounty type definitions from treasury

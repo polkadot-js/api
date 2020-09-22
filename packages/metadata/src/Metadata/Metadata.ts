@@ -8,7 +8,7 @@ import { isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 import MetadataVersioned from './MetadataVersioned';
 
 const VERSION_IDX = 4; // magic u32 preceding
-const EMPTY_METADATA = u8aConcat(new Uint8Array([0x61, 0x74, 0x65, 0x6d, 1])); // magic + lowest version
+const EMPTY_METADATA = u8aConcat(new Uint8Array([0x61, 0x74, 0x65, 0x6d, 5])); // magic + lowest version
 
 // first we try and parse using the versioned structure, if this does fail,
 // we adjust with the magic number and a manual version and re-try. As soon as

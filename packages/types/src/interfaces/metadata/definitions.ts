@@ -22,175 +22,6 @@ export { AllHashers };
 export default {
   rpc: {},
   types: {
-    // v1
-    EventMetadataV1: {
-      name: 'Text',
-      args: 'Vec<Type>',
-      documentation: 'Vec<Text>'
-    },
-    FunctionArgumentMetadataV1: {
-      name: 'Text',
-      type: 'Type'
-    },
-    FunctionMetadataV1: {
-      name: 'Text',
-      args: 'Vec<FunctionArgumentMetadataV1>',
-      documentation: 'Vec<Text>'
-    },
-    MapTypeV1: {
-      key: 'Type',
-      value: 'Type'
-    },
-    MetadataV1: {
-      modules: 'Vec<ModuleMetadataV1>'
-    },
-    ModuleMetadataV1: {
-      name: 'Text',
-      prefix: 'Text',
-      storage: 'Option<Vec<StorageFunctionMetadataV1>>',
-      calls: 'Option<Vec<FunctionMetadataV1>>',
-      events: 'Option<Vec<EventMetadataV1>>'
-    },
-    StorageFunctionMetadataV1: {
-      name: 'Text',
-      modifier: 'StorageFunctionModifierV1',
-      type: 'StorageFunctionTypeV1',
-      fallback: 'Bytes',
-      documentation: 'Vec<Text>'
-    },
-    StorageFunctionModifierV1: {
-      _enum: ['Optional', 'Default', 'Required']
-    },
-    StorageFunctionTypeV1: {
-      _enum: {
-        Plain: 'Type',
-        Map: 'MapTypeV1'
-      }
-    },
-
-    // v2
-    EventMetadataV2: 'EventMetadataV1',
-    FunctionArgumentMetadataV2: 'FunctionArgumentMetadataV1',
-    FunctionMetadataV2: 'FunctionMetadataV1',
-    MapTypeV2: {
-      key: 'Type',
-      value: 'Type',
-      linked: 'bool'
-    },
-    MetadataV2: {
-      modules: 'Vec<ModuleMetadataV2>'
-    },
-    ModuleMetadataV2: {
-      name: 'Text',
-      prefix: 'Text',
-      storage: 'Option<Vec<StorageFunctionMetadataV2>>',
-      calls: 'Option<Vec<FunctionMetadataV2>>',
-      events: 'Option<Vec<EventMetadataV2>>'
-    },
-    StorageFunctionMetadataV2: {
-      name: 'Text',
-      modifier: 'StorageFunctionModifierV2',
-      type: 'StorageFunctionTypeV2',
-      fallback: 'Bytes',
-      documentation: 'Vec<Text>'
-    },
-    StorageFunctionModifierV2: 'StorageFunctionModifierV1',
-    StorageFunctionTypeV2: {
-      _enum: {
-        Plain: 'Type',
-        Map: 'MapTypeV2'
-      }
-    },
-
-    // v3
-    DoubleMapTypeV3: {
-      key1: 'Type',
-      key2: 'Type',
-      value: 'Type',
-      key2Hasher: 'Text'
-    },
-    EventMetadataV3: 'EventMetadataV2',
-    FunctionArgumentMetadataV3: 'FunctionArgumentMetadataV2',
-    FunctionMetadataV3: 'FunctionMetadataV2',
-    MapTypeV3: 'MapTypeV2',
-    MetadataV3: {
-      modules: 'Vec<ModuleMetadataV3>'
-    },
-    ModuleMetadataV3: {
-      name: 'Text',
-      prefix: 'Text',
-      storage: 'Option<Vec<StorageFunctionMetadataV3>>',
-      calls: 'Option<Vec<FunctionMetadataV3>>',
-      events: 'Option<Vec<EventMetadataV3>>'
-    },
-    StorageFunctionMetadataV3: {
-      name: 'Text',
-      modifier: 'StorageFunctionModifierV3',
-      type: 'StorageFunctionTypeV3',
-      fallback: 'Bytes',
-      documentation: 'Vec<Text>'
-    },
-    StorageFunctionModifierV3: 'StorageFunctionModifierV2',
-    StorageFunctionTypeV3: {
-      _enum: {
-        Plain: 'Type',
-        Map: 'MapTypeV3',
-        DoubleMap: 'DoubleMapTypeV3'
-      }
-    },
-
-    // v4
-    DoubleMapTypeV4: {
-      hasher: 'StorageHasherV4',
-      key1: 'Type',
-      key2: 'Type',
-      value: 'Type',
-      key2Hasher: 'Text'
-    },
-    EventMetadataV4: 'EventMetadataV3',
-    FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
-    FunctionMetadataV4: 'FunctionMetadataV3',
-    MapTypeV4: {
-      hasher: 'StorageHasherV4',
-      key: 'Type',
-      value: 'Type',
-      linked: 'bool'
-    },
-    MetadataV4: {
-      modules: 'Vec<ModuleMetadataV4>'
-    },
-    ModuleMetadataV4: {
-      name: 'Text',
-      prefix: 'Text',
-      storage: 'Option<Vec<StorageFunctionMetadataV4>>',
-      calls: 'Option<Vec<FunctionMetadataV4>>',
-      events: 'Option<Vec<EventMetadataV4>>'
-    },
-    StorageFunctionMetadataV4: {
-      name: 'Text',
-      modifier: 'StorageFunctionModifierV4',
-      type: 'StorageFunctionTypeV4',
-      fallback: 'Bytes',
-      documentation: 'Vec<Text>'
-    },
-    StorageFunctionModifierV4: 'StorageFunctionModifierV3',
-    StorageFunctionTypeV4: {
-      _enum: {
-        Plain: 'Type',
-        Map: 'MapTypeV4',
-        DoubleMap: 'DoubleMapTypeV4'
-      }
-    },
-    StorageHasherV4: {
-      _enum: {
-        Blake2_128: null, // eslint-disable-line camelcase
-        Blake2_256: null, // eslint-disable-line camelcase
-        Twox128: null,
-        Twox256: null,
-        Twox64Concat: null
-      }
-    },
-
     // v5
     DoubleMapTypeV5: {
       hasher: 'StorageHasherV5',
@@ -199,10 +30,26 @@ export default {
       value: 'Type',
       key2Hasher: 'StorageHasherV5'
     },
-    EventMetadataV5: 'EventMetadataV4',
-    FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
-    FunctionMetadataV5: 'FunctionMetadataV4',
-    MapTypeV5: 'MapTypeV4',
+    EventMetadataV5: {
+      name: 'Text',
+      args: 'Vec<Type>',
+      documentation: 'Vec<Text>'
+    },
+    FunctionArgumentMetadataV5: {
+      name: 'Text',
+      type: 'Type'
+    },
+    FunctionMetadataV5: {
+      name: 'Text',
+      args: 'Vec<FunctionArgumentMetadataV5>',
+      documentation: 'Vec<Text>'
+    },
+    MapTypeV5: {
+      hasher: 'StorageHasherV5',
+      key: 'Type',
+      value: 'Type',
+      linked: 'bool'
+    },
     MetadataV5: {
       modules: 'Vec<ModuleMetadataV5>'
     },
@@ -220,7 +67,9 @@ export default {
       fallback: 'Bytes',
       documentation: 'Vec<Text>'
     },
-    StorageFunctionModifierV5: 'StorageFunctionModifierV4',
+    StorageFunctionModifierV5: {
+      _enum: ['Optional', 'Default', 'Required']
+    },
     StorageFunctionTypeV5: {
       _enum: {
         Plain: 'Type',
@@ -228,7 +77,15 @@ export default {
         DoubleMap: 'DoubleMapTypeV5'
       }
     },
-    StorageHasherV5: 'StorageHasherV4',
+    StorageHasherV5: {
+      _enum: {
+        Blake2_128: null, // eslint-disable-line camelcase
+        Blake2_256: null, // eslint-disable-line camelcase
+        Twox128: null,
+        Twox256: null,
+        Twox64Concat: null
+      }
+    },
 
     // v6
     DoubleMapTypeV6: 'DoubleMapTypeV5',
@@ -494,10 +351,10 @@ export default {
     MetadataAll: {
       _enum: {
         V0: 'DoNotConstruct<MetadataV0>',
-        V1: 'MetadataV1',
-        V2: 'MetadataV2',
-        V3: 'MetadataV3',
-        V4: 'MetadataV4',
+        V1: 'DoNotConstruct<MetadataV1>',
+        V2: 'DoNotConstruct<MetadataV2>',
+        V3: 'DoNotConstruct<MetadataV3>',
+        V4: 'DoNotConstruct<MetadataV4>',
         V5: 'MetadataV5',
         V6: 'MetadataV6',
         V7: 'MetadataV7',
