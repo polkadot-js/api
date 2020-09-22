@@ -64,7 +64,7 @@ an extension to enum where the value type is determined by the actual index.
 
 \+ **new Enum**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `def`: Record‹string, keyof InterfaceTypes | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)› | string[], `value?`: unknown, `index?`: undefined | number): *[Enum](_packages_types_src_codec_enum_.enum.md)*
 
-*Defined in [packages/types/src/codec/Enum.ts:128](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L128)*
+*Defined in [packages/types/src/codec/Enum.ts:128](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L128)*
 
 **Parameters:**
 
@@ -85,7 +85,7 @@ Name | Type |
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#readonly-registry)*
 
-*Defined in [packages/types/src/codec/Enum.ts:118](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L118)*
+*Defined in [packages/types/src/codec/Enum.ts:118](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L118)*
 
 ## Accessors
 
@@ -93,7 +93,7 @@ Name | Type |
 
 • **get defEntries**(): *string[]*
 
-*Defined in [packages/types/src/codec/Enum.ts:230](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L230)*
+*Defined in [packages/types/src/codec/Enum.ts:230](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L230)*
 
 **`description`** The available keys for this enum
 
@@ -105,7 +105,7 @@ ___
 
 • **get defKeys**(): *string[]*
 
-*Defined in [packages/types/src/codec/Enum.ts:237](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L237)*
+*Defined in [packages/types/src/codec/Enum.ts:237](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L237)*
 
 **`description`** The available keys for this enum
 
@@ -117,7 +117,7 @@ ___
 
 • **get encodedLength**(): *number*
 
-*Defined in [packages/types/src/codec/Enum.ts:181](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L181)*
+*Defined in [packages/types/src/codec/Enum.ts:181](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L181)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
@@ -129,7 +129,7 @@ ___
 
 • **get hash**(): *H256*
 
-*Defined in [packages/types/src/codec/Enum.ts:188](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L188)*
+*Defined in [packages/types/src/codec/Enum.ts:188](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L188)*
 
 **`description`** returns a hash of the contents
 
@@ -141,7 +141,7 @@ ___
 
 • **get index**(): *number*
 
-*Defined in [packages/types/src/codec/Enum.ts:195](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L195)*
+*Defined in [packages/types/src/codec/Enum.ts:195](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L195)*
 
 **`description`** The index of the metadata value
 
@@ -153,7 +153,7 @@ ___
 
 • **get isBasic**(): *boolean*
 
-*Defined in [packages/types/src/codec/Enum.ts:202](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L202)*
+*Defined in [packages/types/src/codec/Enum.ts:202](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L202)*
 
 **`description`** true if this is a basic enum (no values)
 
@@ -165,7 +165,7 @@ ___
 
 • **get isEmpty**(): *boolean*
 
-*Defined in [packages/types/src/codec/Enum.ts:209](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L209)*
+*Defined in [packages/types/src/codec/Enum.ts:209](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L209)*
 
 **`description`** Checks if the value is an empty value
 
@@ -177,7 +177,7 @@ ___
 
 • **get isNone**(): *boolean*
 
-*Defined in [packages/types/src/codec/Enum.ts:216](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L216)*
+*Defined in [packages/types/src/codec/Enum.ts:216](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L216)*
 
 **`description`** Checks if the Enum points to a [Null](_packages_types_src_primitive_null_.null.md) type
 
@@ -189,7 +189,7 @@ ___
 
 • **get isNull**(): *boolean*
 
-*Defined in [packages/types/src/codec/Enum.ts:223](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L223)*
+*Defined in [packages/types/src/codec/Enum.ts:223](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L223)*
 
 **`description`** Checks if the Enum points to a [Null](_packages_types_src_primitive_null_.null.md) type (deprecated, use isNone)
 
@@ -201,7 +201,7 @@ ___
 
 • **get type**(): *string*
 
-*Defined in [packages/types/src/codec/Enum.ts:244](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L244)*
+*Defined in [packages/types/src/codec/Enum.ts:244](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L244)*
 
 **`description`** The name of the type this enum value represents
 
@@ -213,7 +213,7 @@ ___
 
 • **get value**(): *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Enum.ts:251](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L251)*
+*Defined in [packages/types/src/codec/Enum.ts:251](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L251)*
 
 **`description`** The value of the enum
 
@@ -227,7 +227,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Enum.ts:258](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L258)*
+*Defined in [packages/types/src/codec/Enum.ts:258](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L258)*
 
 **`description`** Compares the value of the input to see if there is a match
 
@@ -245,7 +245,7 @@ ___
 
 ▸ **toHex**(): *string*
 
-*Defined in [packages/types/src/codec/Enum.ts:281](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L281)*
+*Defined in [packages/types/src/codec/Enum.ts:281](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L281)*
 
 **`description`** Returns a hex string representation of the value
 
@@ -259,7 +259,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Enum.ts:288](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L288)*
+*Defined in [packages/types/src/codec/Enum.ts:288](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L288)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
@@ -279,7 +279,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Enum.ts:297](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L297)*
+*Defined in [packages/types/src/codec/Enum.ts:297](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L297)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
@@ -291,7 +291,7 @@ ___
 
 ▸ **toNumber**(): *number*
 
-*Defined in [packages/types/src/codec/Enum.ts:306](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L306)*
+*Defined in [packages/types/src/codec/Enum.ts:306](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L306)*
 
 **`description`** Returns the number representation for the value
 
@@ -305,7 +305,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Enum.ts:322](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L322)*
+*Defined in [packages/types/src/codec/Enum.ts:322](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L322)*
 
 **`description`** Returns the base runtime type name for this instance
 
@@ -319,7 +319,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Enum.ts:329](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L329)*
+*Defined in [packages/types/src/codec/Enum.ts:329](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L329)*
 
 **`description`** Returns the string representation of the value
 
@@ -331,7 +331,7 @@ ___
 
 ▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
 
-*Defined in [packages/types/src/codec/Enum.ts:339](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L339)*
+*Defined in [packages/types/src/codec/Enum.ts:339](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L339)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
@@ -349,7 +349,7 @@ ___
 
 ▸ **with**(`Types`: Record‹string, keyof InterfaceTypes | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)› | string[]): *[EnumConstructor](../interfaces/_packages_types_src_codec_enum_.enumconstructor.md)‹[Enum](_packages_types_src_codec_enum_.enum.md)›*
 
-*Defined in [packages/types/src/codec/Enum.ts:142](https://github.com/polkadot-js/api/blob/172143f2e/packages/types/src/codec/Enum.ts#L142)*
+*Defined in [packages/types/src/codec/Enum.ts:142](https://github.com/polkadot-js/api/blob/b4cae1483/packages/types/src/codec/Enum.ts#L142)*
 
 **Parameters:**
 
