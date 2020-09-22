@@ -30,6 +30,7 @@ const sharedTypes = {
     leafHash: 'H256',
     sortedHashes: 'H256'
   },
+  RefCount: 'RefCountTo259',
   ReferendumInfo: 'ReferendumInfoTo239',
   StakingLedger: 'StakingLedgerTo240',
   Weight: 'u32'

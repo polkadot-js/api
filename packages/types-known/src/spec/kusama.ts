@@ -25,6 +25,7 @@ const versioned: OverrideVersionedType[] = [
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
@@ -43,6 +44,7 @@ const versioned: OverrideVersionedType[] = [
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
@@ -62,6 +64,7 @@ const versioned: OverrideVersionedType[] = [
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo223',
@@ -78,6 +81,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
@@ -92,6 +96,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
@@ -104,6 +109,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
@@ -113,6 +119,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
@@ -121,13 +128,15 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
     minmax: [2023, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      RefCount: 'RefCountTo259'
     }
   }
 ];

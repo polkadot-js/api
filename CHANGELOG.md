@@ -2,8 +2,11 @@
 
 ## 1.35.0-beta.x
 
+- **Breaking change** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+
 Changes:
 
+- Adjust `RefCount` type as per substrate 2.0
 - Add bounty type definitions from treasury
 - Add support for `grandpa_proveFinality` RPC
 

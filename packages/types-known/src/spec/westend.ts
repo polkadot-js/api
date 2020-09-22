@@ -21,6 +21,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257',
       Weight: 'u32'
     }
@@ -31,6 +32,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
@@ -39,13 +41,15 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
     minmax: [43, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      RefCount: 'RefCountTo259'
     }
   }
 ];
