@@ -6,6 +6,7 @@
 
 Changes:
 
+- Drop support for Substrate 1.0 metadata versions 0-4
 - Add bounty type definitions from treasury
 - Add support for `grandpa_proveFinality` RPC
 
