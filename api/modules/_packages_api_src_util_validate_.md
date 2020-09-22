@@ -14,7 +14,7 @@
 
 ▸ **extractStorageArgs**(`creator`: StorageEntry, `_args`: unknown[]): *[StorageEntry, [any, any]] | [StorageEntry] | [StorageEntry, any]*
 
-*Defined in [packages/api/src/util/validate.ts:37](https://github.com/polkadot-js/api/blob/3de336fdf/packages/api/src/util/validate.ts#L37)*
+*Defined in [packages/api/src/util/validate.ts:37](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/util/validate.ts#L37)*
 
 **Parameters:**
 
