@@ -5,6 +5,7 @@
 Changes:
 
 - Add bounty type definitions from treasury
+- Add support for `grandpa_proveFinality` RPC
 
 
 ## 1.34.1 Sep 21, 2020
