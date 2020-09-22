@@ -3,11 +3,12 @@
 
 import { Registry } from '@polkadot/types/types';
 
-import { isHex, hexToU8a } from '@polkadot/util';
+import { assert, isHex, hexToU8a } from '@polkadot/util';
 
 import MetadataVersioned from './MetadataVersioned';
 
 const VERSION_IDX = 4; // magic u32 preceding
+const MIN_VERSION = 1;
 
 // first we try and parse using the versioned structure, if this does fail,
 // we adjust with the magic number and a manual version and re-try. As soon as

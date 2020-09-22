@@ -23,87 +23,81 @@ export default {
   rpc: {},
   types: {
     // v0
-    CallMetadataV0: {
-      name: 'Text',
-      functions: 'Vec<FunctionMetadataV0>'
-    },
-    EventMetadataV0: {
+    // CallMetadataV0: {
+    //   name: 'Text',
+    //   functions: 'Vec<FunctionMetadataV0>'
+    // },
+    // FunctionMetadataV0: {
+    //   id: 'u16',
+    //   name: 'Text',
+    //   args: 'Vec<FunctionArgumentMetadataV0>',
+    //   documentation: 'Vec<Text>'
+    // },
+    // MapTypeV0: {
+    //   key: 'Type',
+    //   value: 'Type'
+    // },
+    // MetadataV0: {
+    //   outerEvent: 'OuterEventMetadataV0',
+    //   modules: 'Vec<RuntimeModuleMetadataV0>',
+    //   outerDispatch: 'OuterDispatchMetadataV0'
+    // },
+    // ModuleMetadataV0: {
+    //   name: 'Text',
+    //   call: 'CallMetadataV0'
+    // },
+    // OuterDispatchCallV0: {
+    //   name: 'Text',
+    //   prefix: 'Text',
+    //   index: 'u16'
+    // },
+    // OuterDispatchMetadataV0: {
+    //   name: 'Text',
+    //   calls: 'Vec<OuterDispatchCallV0>'
+    // },
+    // OuterEventEventMetadataEventsV0: 'Vec<EventMetadataV0>',
+    // OuterEventEventMetadataV0: '(Text, OuterEventEventMetadataEventsV0)',
+    // OuterEventMetadataV0: {
+    //   name: 'Text',
+    //   events: 'Vec<OuterEventEventMetadataV0>'
+    // },
+    // PlainTypeV0: 'Type',
+    // RuntimeModuleMetadataV0: {
+    //   prefix: 'Text',
+    //   module: 'ModuleMetadataV0',
+    //   storage: 'Option<StorageMetadataV0>'
+    // },
+    // StorageFunctionMetadataV0: ,
+    // StorageFunctionModifierV0: ,
+    // StorageFunctionTypeV0: {
+    //   _enum: {
+    //     Plain: 'PlainTypeV0',
+    //     Map: 'MapTypeV0'
+    //   }
+    // },
+    // StorageMetadataV0: {
+    //   prefix: 'Text',
+    //   functions: 'Vec<StorageFunctionMetadataV0>'
+    // },
+
+    // v1
+    EventMetadataV1: {
       name: 'Text',
       args: 'Vec<Type>',
       documentation: 'Vec<Text>'
     },
-    FunctionArgumentMetadataV0: {
+    FunctionArgumentMetadataV1: {
       name: 'Text',
       type: 'Type'
     },
-    FunctionMetadataV0: {
-      id: 'u16',
-      name: 'Text',
-      args: 'Vec<FunctionArgumentMetadataV0>',
-      documentation: 'Vec<Text>'
-    },
-    MapTypeV0: {
-      key: 'Type',
-      value: 'Type'
-    },
-    MetadataV0: {
-      outerEvent: 'OuterEventMetadataV0',
-      modules: 'Vec<RuntimeModuleMetadataV0>',
-      outerDispatch: 'OuterDispatchMetadataV0'
-    },
-    ModuleMetadataV0: {
-      name: 'Text',
-      call: 'CallMetadataV0'
-    },
-    OuterDispatchCallV0: {
-      name: 'Text',
-      prefix: 'Text',
-      index: 'u16'
-    },
-    OuterDispatchMetadataV0: {
-      name: 'Text',
-      calls: 'Vec<OuterDispatchCallV0>'
-    },
-    OuterEventEventMetadataEventsV0: 'Vec<EventMetadataV0>',
-    OuterEventEventMetadataV0: '(Text, OuterEventEventMetadataEventsV0)',
-    OuterEventMetadataV0: {
-      name: 'Text',
-      events: 'Vec<OuterEventEventMetadataV0>'
-    },
-    PlainTypeV0: 'Type',
-    RuntimeModuleMetadataV0: {
-      prefix: 'Text',
-      module: 'ModuleMetadataV0',
-      storage: 'Option<StorageMetadataV0>'
-    },
-    StorageFunctionMetadataV0: {
-      name: 'Text',
-      modifier: 'StorageFunctionModifierV0',
-      type: 'StorageFunctionTypeV0',
-      fallback: 'Bytes',
-      documentation: 'Vec<Text>'
-    },
-    StorageFunctionModifierV0: {
-      _enum: ['Optional', 'Default', 'Required']
-    },
-    StorageFunctionTypeV0: {
-      _enum: {
-        Plain: 'PlainTypeV0',
-        Map: 'MapTypeV0'
-      }
-    },
-    StorageMetadataV0: {
-      prefix: 'Text',
-      functions: 'Vec<StorageFunctionMetadataV0>'
-    },
-
-    // v1
-    EventMetadataV1: 'EventMetadataV0',
-    FunctionArgumentMetadataV1: 'FunctionArgumentMetadataV0',
     FunctionMetadataV1: {
       name: 'Text',
       args: 'Vec<FunctionArgumentMetadataV1>',
       documentation: 'Vec<Text>'
+    },
+    MapTypeV1: {
+      key: 'Type',
+      value: 'Type'
     },
     MetadataV1: {
       modules: 'Vec<ModuleMetadataV1>'
@@ -115,9 +109,22 @@ export default {
       calls: 'Option<Vec<FunctionMetadataV1>>',
       events: 'Option<Vec<EventMetadataV1>>'
     },
-    StorageFunctionMetadataV1: 'StorageFunctionMetadataV0',
-    StorageFunctionModifierV1: 'StorageFunctionModifierV0',
-    StorageFunctionTypeV1: 'StorageFunctionTypeV0',
+    StorageFunctionMetadataV1: {
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV1',
+      type: 'StorageFunctionTypeV1',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
+    StorageFunctionModifierV1: {
+      _enum: ['Optional', 'Default', 'Required']
+    },
+    StorageFunctionTypeV1: {
+      _enum: {
+        Plain: 'Type',
+        Map: 'MapTypeV1'
+      }
+    },
 
     // v2
     EventMetadataV2: 'EventMetadataV1',
@@ -138,7 +145,6 @@ export default {
       calls: 'Option<Vec<FunctionMetadataV2>>',
       events: 'Option<Vec<EventMetadataV2>>'
     },
-    PlainTypeV2: 'Type',
     StorageFunctionMetadataV2: {
       name: 'Text',
       modifier: 'StorageFunctionModifierV2',
@@ -149,7 +155,7 @@ export default {
     StorageFunctionModifierV2: 'StorageFunctionModifierV1',
     StorageFunctionTypeV2: {
       _enum: {
-        Plain: 'PlainTypeV2',
+        Plain: 'Type',
         Map: 'MapTypeV2'
       }
     },
@@ -175,7 +181,6 @@ export default {
       calls: 'Option<Vec<FunctionMetadataV3>>',
       events: 'Option<Vec<EventMetadataV3>>'
     },
-    PlainTypeV3: 'Type',
     StorageFunctionMetadataV3: {
       name: 'Text',
       modifier: 'StorageFunctionModifierV3',
@@ -186,7 +191,7 @@ export default {
     StorageFunctionModifierV3: 'StorageFunctionModifierV2',
     StorageFunctionTypeV3: {
       _enum: {
-        Plain: 'PlainTypeV3',
+        Plain: 'Type',
         Map: 'MapTypeV3',
         DoubleMap: 'DoubleMapTypeV3'
       }
@@ -219,7 +224,6 @@ export default {
       calls: 'Option<Vec<FunctionMetadataV4>>',
       events: 'Option<Vec<EventMetadataV4>>'
     },
-    PlainTypeV4: 'Type',
     StorageFunctionMetadataV4: {
       name: 'Text',
       modifier: 'StorageFunctionModifierV4',
@@ -230,7 +234,7 @@ export default {
     StorageFunctionModifierV4: 'StorageFunctionModifierV3',
     StorageFunctionTypeV4: {
       _enum: {
-        Plain: 'PlainTypeV4',
+        Plain: 'Type',
         Map: 'MapTypeV4',
         DoubleMap: 'DoubleMapTypeV4'
       }
@@ -267,7 +271,6 @@ export default {
       calls: 'Option<Vec<FunctionMetadataV5>>',
       events: 'Option<Vec<EventMetadataV5>>'
     },
-    PlainTypeV5: 'Type',
     StorageFunctionMetadataV5: {
       name: 'Text',
       modifier: 'StorageFunctionModifierV5',
@@ -278,7 +281,7 @@ export default {
     StorageFunctionModifierV5: 'StorageFunctionModifierV4',
     StorageFunctionTypeV5: {
       _enum: {
-        Plain: 'PlainTypeV5',
+        Plain: 'Type',
         Map: 'MapTypeV5',
         DoubleMap: 'DoubleMapTypeV5'
       }
@@ -350,7 +353,6 @@ export default {
     EventMetadataV8: 'EventMetadataV7',
     FunctionArgumentMetadataV8: 'FunctionArgumentMetadataV7',
     FunctionMetadataV8: 'FunctionMetadataV7',
-    MapTypeV8: 'MapTypeV7',
     MetadataV8: {
       modules: 'Vec<ModuleMetadataV8>'
     },
@@ -363,7 +365,6 @@ export default {
       constants: 'Vec<ModuleConstantMetadataV8>',
       errors: 'Vec<ErrorMetadataV8>'
     },
-    PlainTypeV8: 'Type',
     StorageEntryModifierV8: 'StorageEntryModifierV7',
     StorageEntryMetadataV8: 'StorageEntryMetadataV7',
     StorageEntryTypeV8: 'StorageEntryTypeV7',
@@ -376,11 +377,9 @@ export default {
     EventMetadataV9: 'EventMetadataV8',
     FunctionArgumentMetadataV9: 'FunctionArgumentMetadataV8',
     FunctionMetadataV9: 'FunctionMetadataV8',
-    MapTypeV9: 'MapTypeV8',
     MetadataV9: 'MetadataV8',
     ModuleConstantMetadataV9: 'ModuleConstantMetadataV8',
     ModuleMetadataV9: 'ModuleMetadataV8',
-    PlainTypeV9: 'Type',
     StorageEntryModifierV9: 'StorageEntryModifierV8',
     StorageEntryMetadataV9: 'StorageEntryMetadataV8',
     StorageEntryTypeV9: 'StorageEntryTypeV8',
@@ -417,7 +416,6 @@ export default {
       constants: 'Vec<ModuleConstantMetadataV10>',
       errors: 'Vec<ErrorMetadataV10>'
     },
-    PlainTypeV10: 'Type',
     StorageEntryModifierV10: 'StorageEntryModifierV9',
     StorageEntryMetadataV10: {
       name: 'Text',
@@ -428,7 +426,7 @@ export default {
     },
     StorageEntryTypeV10: {
       _enum: {
-        Plain: 'PlainTypeV10',
+        Plain: 'Type',
         Map: 'MapTypeV10',
         DoubleMap: 'DoubleMapTypeV10'
       }
@@ -483,7 +481,6 @@ export default {
       constants: 'Vec<ModuleConstantMetadataV11>',
       errors: 'Vec<ErrorMetadataV11>'
     },
-    PlainTypeV11: 'Type',
     StorageEntryModifierV11: 'StorageEntryModifierV10',
     StorageEntryMetadataV11: {
       name: 'Text',
@@ -494,7 +491,7 @@ export default {
     },
     StorageEntryTypeV11: {
       _enum: {
-        Plain: 'PlainTypeV11',
+        Plain: 'Type',
         Map: 'MapTypeV11',
         DoubleMap: 'DoubleMapTypeV11'
       }
@@ -529,7 +526,6 @@ export default {
       errors: 'Vec<ErrorMetadataV12>',
       index: 'u8'
     },
-    PlainTypeV12: 'Type',
     StorageEntryModifierV12: 'StorageEntryModifierV11',
     StorageEntryMetadataV12: 'StorageEntryMetadataV11',
     StorageEntryTypeV12: 'StorageEntryTypeV11',
@@ -546,7 +542,6 @@ export default {
     MetadataLatest: 'MetadataV12',
     ModuleConstantMetadataLatest: 'ModuleConstantMetadataV12',
     ModuleMetadataLatest: 'ModuleMetadataV12',
-    PlainTypeLatest: 'PlainTypeV12',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV12',
     StorageEntryModifierLatest: 'StorageEntryModifierV12',
     StorageEntryTypeLatest: 'StorageEntryTypeV12',
@@ -556,7 +551,7 @@ export default {
     // the enum containing all the mappings
     MetadataAll: {
       _enum: {
-        V0: 'MetadataV0',
+        V0: 'DoNotConstruct<MetadataV0>',
         V1: 'MetadataV1',
         V2: 'MetadataV2',
         V3: 'MetadataV3',

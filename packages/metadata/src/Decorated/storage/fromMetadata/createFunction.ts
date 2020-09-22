@@ -150,7 +150,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
     fallback: registry.createType('Bytes', createTypeUnsafe(registry, outputType).toHex()),
     modifier: registry.createType('StorageEntryModifierLatest', 1), // required
     name,
-    type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0)
+    type: registry.createType('StorageEntryTypeLatest', registry.createType('Type', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0)
   });
 
   const prefixKey = registry.createType('StorageKey', iterFn, { method, section });
