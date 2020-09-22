@@ -21,7 +21,7 @@
   type: 'u32'
 })
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:48](https://github.com/polkadot-js/api/blob/b4cae1483/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L48)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:48](https://github.com/polkadot-js/api/blob/3de336fdf/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L48)*
 
 #### Type declaration:
 
@@ -43,7 +43,7 @@ ___
   type: 'u32'
 })
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:53](https://github.com/polkadot-js/api/blob/b4cae1483/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L53)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:53](https://github.com/polkadot-js/api/blob/3de336fdf/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L53)*
 
 #### Type declaration:
 
@@ -65,7 +65,7 @@ ___
   type: 'Bytes'
 })
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:33](https://github.com/polkadot-js/api/blob/b4cae1483/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L33)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:33](https://github.com/polkadot-js/api/blob/3de336fdf/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L33)*
 
 #### Type declaration:
 
@@ -87,7 +87,7 @@ ___
   type: 'u32'
 })
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:43](https://github.com/polkadot-js/api/blob/b4cae1483/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L43)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:43](https://github.com/polkadot-js/api/blob/3de336fdf/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L43)*
 
 #### Type declaration:
 
@@ -109,7 +109,7 @@ ___
   type: 'u64'
 })
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:38](https://github.com/polkadot-js/api/blob/b4cae1483/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L38)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts:38](https://github.com/polkadot-js/api/blob/3de336fdf/packages/metadata/src/Decorated/storage/fromMetadata/substrate.ts#L38)*
 
 #### Type declaration:
 

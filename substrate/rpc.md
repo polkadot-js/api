@@ -187,6 +187,11 @@ ___
 
 ## grandpa
  
+### proveFinality(begin: `BlockHash`, end: `BlockHash`, authoritiesSetId?: `u64`): `Option<EncodedFinalityProofs>`
+- **interface**: `api.rpc.grandpa.proveFinality`
+- **jsonrpc**: `grandpa_proveFinality`
+- **summary**: Prove finality for the range (begin; end] hash.
+ 
 ### roundState(): `ReportedRoundStates`
 - **interface**: `api.rpc.grandpa.roundState`
 - **jsonrpc**: `grandpa_roundState`

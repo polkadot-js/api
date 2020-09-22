@@ -14,7 +14,7 @@
 
 ▸ **dispatchQueue**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/democracy/dispatchQueue.ts:96](https://github.com/polkadot-js/api/blob/b4cae1483/packages/api-derive/src/democracy/dispatchQueue.ts#L96)*
+*Defined in [packages/api-derive/src/democracy/dispatchQueue.ts:96](https://github.com/polkadot-js/api/blob/3de336fdf/packages/api-derive/src/democracy/dispatchQueue.ts#L96)*
 
 **Parameters:**
 
