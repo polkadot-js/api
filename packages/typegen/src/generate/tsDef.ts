@@ -63,6 +63,9 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
       case TypeDefInfo.Option:
         return `${isGetter}${asGetter}`;
 
+      case TypeDefInfo.DoNotConstruct:
+        return '';
+
       default:
         throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}`);
     }
