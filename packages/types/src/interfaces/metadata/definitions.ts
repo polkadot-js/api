@@ -22,64 +22,6 @@ export { AllHashers };
 export default {
   rpc: {},
   types: {
-    // v0
-    // CallMetadataV0: {
-    //   name: 'Text',
-    //   functions: 'Vec<FunctionMetadataV0>'
-    // },
-    // FunctionMetadataV0: {
-    //   id: 'u16',
-    //   name: 'Text',
-    //   args: 'Vec<FunctionArgumentMetadataV0>',
-    //   documentation: 'Vec<Text>'
-    // },
-    // MapTypeV0: {
-    //   key: 'Type',
-    //   value: 'Type'
-    // },
-    // MetadataV0: {
-    //   outerEvent: 'OuterEventMetadataV0',
-    //   modules: 'Vec<RuntimeModuleMetadataV0>',
-    //   outerDispatch: 'OuterDispatchMetadataV0'
-    // },
-    // ModuleMetadataV0: {
-    //   name: 'Text',
-    //   call: 'CallMetadataV0'
-    // },
-    // OuterDispatchCallV0: {
-    //   name: 'Text',
-    //   prefix: 'Text',
-    //   index: 'u16'
-    // },
-    // OuterDispatchMetadataV0: {
-    //   name: 'Text',
-    //   calls: 'Vec<OuterDispatchCallV0>'
-    // },
-    // OuterEventEventMetadataEventsV0: 'Vec<EventMetadataV0>',
-    // OuterEventEventMetadataV0: '(Text, OuterEventEventMetadataEventsV0)',
-    // OuterEventMetadataV0: {
-    //   name: 'Text',
-    //   events: 'Vec<OuterEventEventMetadataV0>'
-    // },
-    // PlainTypeV0: 'Type',
-    // RuntimeModuleMetadataV0: {
-    //   prefix: 'Text',
-    //   module: 'ModuleMetadataV0',
-    //   storage: 'Option<StorageMetadataV0>'
-    // },
-    // StorageFunctionMetadataV0: ,
-    // StorageFunctionModifierV0: ,
-    // StorageFunctionTypeV0: {
-    //   _enum: {
-    //     Plain: 'PlainTypeV0',
-    //     Map: 'MapTypeV0'
-    //   }
-    // },
-    // StorageMetadataV0: {
-    //   prefix: 'Text',
-    //   functions: 'Vec<StorageFunctionMetadataV0>'
-    // },
-
     // v1
     EventMetadataV1: {
       name: 'Text',
