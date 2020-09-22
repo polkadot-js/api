@@ -73,6 +73,15 @@ export default class MetadataVersioned extends Struct {
   }
 
   /**
+   * @description Returns the wrapped metadata as a V1 object
+   */
+  public get asV1 (): MetadataV1 {
+    this._assertVersion(1);
+
+    return this._metadata.asV1;
+  }
+
+  /**
    * @description Returns the wrapped values as a V2 object
    */
   public get asV2 (): MetadataV2 {
