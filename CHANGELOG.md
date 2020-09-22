@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.35.0-beta.x
+
+Changes:
+
+- Add bounty type definitions from treasury
+
+
 ## 1.34.1 Sep 21, 2020
 
 Upgrade priority: High. Metadata v12 is the next major version containing structural data exchange changes and will start rolling out to test and live networks in due course.
