@@ -30,14 +30,24 @@ const sharedTypes = {
     leafHash: 'H256',
     sortedHashes: 'H256'
   },
-  ReferendumInfo: 'ReferendumInfoTo239',
   StakingLedger: 'StakingLedgerTo240',
   Weight: 'u32'
 };
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [229, undefined],
+    minmax: [229, 334],
+    types: {
+      ...sharedTypes,
+      ReferendumInfo: 'ReferendumInfoTo239',
+      ChainId: 'u8',
+      DepositNonce: 'u64',
+      ResourceId: '[u8; 32]',
+      'chainbridge::ChainId': 'u8'
+    }
+  },
+  {
+    minmax: [235, undefined],
     types: {
       ...sharedTypes,
       ChainId: 'u8',
