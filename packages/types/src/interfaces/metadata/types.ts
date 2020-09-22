@@ -281,8 +281,6 @@ export interface MapTypeV7 extends MapTypeV6 {}
 
 /** @name MetadataAll */
 export interface MetadataAll extends Enum {
-  readonly isV0: boolean;
-  readonly asV0: MetadataV0;
   readonly isV1: boolean;
   readonly asV1: MetadataV1;
   readonly isV2: boolean;

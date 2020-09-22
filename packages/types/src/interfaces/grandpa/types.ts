@@ -18,6 +18,9 @@ export interface AuthorityList extends Vec<NextAuthority> {}
 /** @name AuthorityWeight */
 export interface AuthorityWeight extends u64 {}
 
+/** @name EncodedFinalityProofs */
+export interface EncodedFinalityProofs extends Bytes {}
+
 /** @name GrandpaEquivocation */
 export interface GrandpaEquivocation extends Enum {
   readonly isPrevote: boolean;
