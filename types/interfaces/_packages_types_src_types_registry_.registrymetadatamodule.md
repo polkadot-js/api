@@ -22,7 +22,7 @@
 
 • **calls**: *[RegistryMetadataCalls](_packages_types_src_types_registry_.registrymetadatacalls.md)*
 
-*Defined in [packages/types/src/types/registry.ts:79](https://github.com/polkadot-js/api/blob/0c99064b1/packages/types/src/types/registry.ts#L79)*
+*Defined in [packages/types/src/types/registry.ts:79](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L79)*
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 • **errors**: *[RegistryMetadataErrors](../modules/_packages_types_src_types_registry_.md#registrymetadataerrors)*
 
-*Defined in [packages/types/src/types/registry.ts:80](https://github.com/polkadot-js/api/blob/0c99064b1/packages/types/src/types/registry.ts#L80)*
+*Defined in [packages/types/src/types/registry.ts:80](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L80)*
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 • **events**: *[RegistryMetadataEvents](_packages_types_src_types_registry_.registrymetadataevents.md)*
 
-*Defined in [packages/types/src/types/registry.ts:81](https://github.com/polkadot-js/api/blob/0c99064b1/packages/types/src/types/registry.ts#L81)*
+*Defined in [packages/types/src/types/registry.ts:81](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L81)*
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 • **index**: *[u8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u8)*
 
-*Defined in [packages/types/src/types/registry.ts:82](https://github.com/polkadot-js/api/blob/0c99064b1/packages/types/src/types/registry.ts#L82)*
+*Defined in [packages/types/src/types/registry.ts:82](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L82)*
 
 ___
 
@@ -54,4 +54,4 @@ ___
 
 • **name**: *[RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)*
 
-*Defined in [packages/types/src/types/registry.ts:83](https://github.com/polkadot-js/api/blob/0c99064b1/packages/types/src/types/registry.ts#L83)*
+*Defined in [packages/types/src/types/registry.ts:83](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L83)*

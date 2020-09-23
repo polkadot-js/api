@@ -14,7 +14,7 @@
 
 ▸ **subscribeNewHeads**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/chain/subscribeNewHeads.ts:25](https://github.com/polkadot-js/api/blob/0c99064b1/packages/api-derive/src/chain/subscribeNewHeads.ts#L25)*
+*Defined in [packages/api-derive/src/chain/subscribeNewHeads.ts:25](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/api-derive/src/chain/subscribeNewHeads.ts#L25)*
 
 **`name`** subscribeNewHeads
 

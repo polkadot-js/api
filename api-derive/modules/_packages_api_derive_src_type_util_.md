@@ -14,7 +14,7 @@
 
 ▸ **extractAuthor**(`digest`: Digest, `sessionValidators`: AccountId[]): *AccountId | undefined*
 
-*Defined in [packages/api-derive/src/type/util.ts:6](https://github.com/polkadot-js/api/blob/0c99064b1/packages/api-derive/src/type/util.ts#L6)*
+*Defined in [packages/api-derive/src/type/util.ts:6](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/api-derive/src/type/util.ts#L6)*
 
 **Parameters:**
 
