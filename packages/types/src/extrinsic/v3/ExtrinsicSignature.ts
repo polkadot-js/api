@@ -1,11 +1,14 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Address, Call } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../types';
+import { ExtrinsicEra, Signature } from '../../interfaces/extrinsics';
+import { Address, Balance, Call, Index } from '../../interfaces/runtime';
+import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import { ExtrinsicSignatureOptions } from '../types';
 
-import { IMMORTAL_ERA } from '../constants';
-import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
+import Compact from '../../codec/Compact';
+import Struct from '../../codec/Struct';
+import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayloadV3 from './ExtrinsicPayload';
 
 /**
@@ -13,7 +16,93 @@ import ExtrinsicPayloadV3 from './ExtrinsicPayload';
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
-export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
+export default class ExtrinsicSignatureV3 extends Struct implements IExtrinsicSignature {
+  constructor (registry: Registry, value: ExtrinsicSignatureV3 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+    super(registry, {
+      signer: 'Address',
+      // eslint-disable-next-line sort-keys
+      signature: 'Signature',
+      // eslint-disable-next-line sort-keys
+      era: 'ExtrinsicEra',
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>'
+    }, ExtrinsicSignatureV3.decodeExtrinsicSignature(value, isSigned));
+  }
+
+  /** @internal */
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV3 | Uint8Array | undefined, isSigned = false): ExtrinsicSignatureV3 | Uint8Array {
+    if (!value) {
+      return EMPTY_U8A;
+    } else if (value instanceof ExtrinsicSignatureV3) {
+      return value;
+    }
+
+    return isSigned
+      ? value
+      : EMPTY_U8A;
+  }
+
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  public get encodedLength (): number {
+    return this.isSigned
+      ? super.encodedLength
+      : 0;
+  }
+
+  /**
+   * @description `true` if the signature is valid
+   */
+  public get isSigned (): boolean {
+    return !this.signature.isEmpty;
+  }
+
+  /**
+   * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
+   */
+  public get era (): ExtrinsicEra {
+    return this.get('era') as ExtrinsicEra;
+  }
+
+  /**
+   * @description The [[Index]] for the signature
+   */
+  public get nonce (): Compact<Index> {
+    return this.get('nonce') as Compact<Index>;
+  }
+
+  /**
+   * @description The actual [[Signature]] hash
+   */
+  public get signature (): Signature {
+    return this.get('signature') as Signature;
+  }
+
+  /**
+   * @description The [[Address]] that signed
+   */
+  public get signer (): Address {
+    return this.get('signer') as Address;
+  }
+
+  /**
+   * @description The [[Balance]] tip
+   */
+  public get tip (): Compact<Balance> {
+    return this.get('tip') as Compact<Balance>;
+  }
+
+  protected _injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayloadV3): IExtrinsicSignature {
+    this.set('era', era);
+    this.set('nonce', nonce);
+    this.set('signer', signer);
+    this.set('signature', signature);
+    this.set('tip', tip);
+
+    return this;
+  }
+
   /**
    * @description Adds a raw signature
    */
