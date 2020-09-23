@@ -39,7 +39,7 @@ const sharedTypes = {
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [229, 334],
+    minmax: [229, 234],
     types: {
       ...sharedTypes,
       ReferendumInfo: 'ReferendumInfoTo239',
