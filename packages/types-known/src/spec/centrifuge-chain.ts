@@ -10,6 +10,8 @@ const sharedTypes = {
     docRoot: 'H256',
     id: 'H256'
   },
+  ChainId: 'u8',
+  DepositNonce: 'u64',
   Fee: {
     key: 'Hash',
     price: 'Balance'
@@ -31,20 +33,25 @@ const sharedTypes = {
     sortedHashes: 'H256'
   },
   RefCount: 'RefCountTo259',
-  ReferendumInfo: 'ReferendumInfoTo239',
-  StakingLedger: 'StakingLedgerTo240',
-  Weight: 'u32'
+  ResourceId: '[u8; 32]',
+  'chainbridge::ChainId': 'u8'
 };
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [229, undefined],
+    minmax: [229, 334],
     types: {
       ...sharedTypes,
-      ChainId: 'u8',
-      DepositNonce: 'u64',
-      ResourceId: '[u8; 32]',
-      'chainbridge::ChainId': 'u8'
+      ReferendumInfo: 'ReferendumInfoTo239',
+      StakingLedger: 'StakingLedgerTo240',
+      Weight: 'u32'
+    }
+  },
+  {
+    minmax: [235, undefined],
+    types: {
+      ...sharedTypes,
+      Weight: 'u64'
     }
   }
 ];
