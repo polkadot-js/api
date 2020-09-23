@@ -18,4 +18,4 @@
 
 • **ACCOUNT_ID_PREFIX**: *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)‹›* = new Uint8Array([0xff])
 
-*Defined in [packages/types/src/generic/LookupSource.ts:17](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/generic/LookupSource.ts#L17)*
+*Defined in [packages/types/src/generic/LookupSource.ts:17](https://github.com/polkadot-js/api/blob/0c99064b1/packages/types/src/generic/LookupSource.ts#L17)*

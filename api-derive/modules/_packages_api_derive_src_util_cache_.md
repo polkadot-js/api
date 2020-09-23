@@ -18,7 +18,7 @@
 
 • **deriveCache**: *DeriveCache*
 
-*Defined in [packages/api-derive/src/util/cache.ts:15](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api-derive/src/util/cache.ts#L15)*
+*Defined in [packages/api-derive/src/util/cache.ts:15](https://github.com/polkadot-js/api/blob/0c99064b1/packages/api-derive/src/util/cache.ts#L15)*
 
 ## Functions
 
@@ -26,7 +26,7 @@
 
 ▸ **setDeriveCache**(`prefix`: string, `cache?`: DeriveCache): *void*
 
-*Defined in [packages/api-derive/src/util/cache.ts:53](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api-derive/src/util/cache.ts#L53)*
+*Defined in [packages/api-derive/src/util/cache.ts:53](https://github.com/polkadot-js/api/blob/0c99064b1/packages/api-derive/src/util/cache.ts#L53)*
 
 **Parameters:**
 
