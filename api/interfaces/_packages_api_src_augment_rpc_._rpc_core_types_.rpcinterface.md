@@ -29,7 +29,7 @@
 
 • **author**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:26](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L26)*
+*Defined in [packages/api/src/augment/rpc.ts:26](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L26)*
 
 #### Type declaration:
 
@@ -55,7 +55,7 @@ ___
 
 • **babe**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:60](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L60)*
+*Defined in [packages/api/src/augment/rpc.ts:60](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L60)*
 
 #### Type declaration:
 
@@ -67,7 +67,7 @@ ___
 
 • **chain**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:66](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L66)*
+*Defined in [packages/api/src/augment/rpc.ts:66](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L66)*
 
 #### Type declaration:
 
@@ -91,7 +91,7 @@ ___
 
 • **childstate**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:96](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L96)*
+*Defined in [packages/api/src/augment/rpc.ts:96](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L96)*
 
 #### Type declaration:
 
@@ -109,7 +109,7 @@ ___
 
 • **contracts**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:114](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L114)*
+*Defined in [packages/api/src/augment/rpc.ts:114](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L114)*
 
 #### Type declaration:
 
@@ -125,7 +125,7 @@ ___
 
 • **engine**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:128](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L128)*
+*Defined in [packages/api/src/augment/rpc.ts:128](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L128)*
 
 #### Type declaration:
 
@@ -139,7 +139,7 @@ ___
 
 • **grandpa**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:138](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L138)*
+*Defined in [packages/api/src/augment/rpc.ts:138](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L138)*
 
 #### Type declaration:
 
@@ -155,7 +155,7 @@ ___
 
 • **offchain**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:152](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L152)*
+*Defined in [packages/api/src/augment/rpc.ts:152](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L152)*
 
 #### Type declaration:
 
@@ -169,7 +169,7 @@ ___
 
 • **payment**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:162](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L162)*
+*Defined in [packages/api/src/augment/rpc.ts:162](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L162)*
 
 #### Type declaration:
 
@@ -181,7 +181,7 @@ ___
 
 • **rpc**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:168](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L168)*
+*Defined in [packages/api/src/augment/rpc.ts:168](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L168)*
 
 #### Type declaration:
 
@@ -193,7 +193,7 @@ ___
 
 • **state**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:174](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L174)*
+*Defined in [packages/api/src/augment/rpc.ts:174](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L174)*
 
 #### Type declaration:
 
@@ -239,7 +239,7 @@ ___
 
 • **system**: *object*
 
-*Defined in [packages/api/src/augment/rpc.ts:248](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/api/src/augment/rpc.ts#L248)*
+*Defined in [packages/api/src/augment/rpc.ts:248](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/api/src/augment/rpc.ts#L248)*
 
 #### Type declaration:
 

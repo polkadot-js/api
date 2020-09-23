@@ -1964,7 +1964,7 @@
 
 • **AbridgedCandidateReceipt**: *AbridgedCandidateReceipt*
 
-*Defined in [packages/types/src/augment/registry.ts:1253](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1253)*
+*Defined in [packages/types/src/augment/registry.ts:1253](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1253)*
 
 ___
 
@@ -1972,7 +1972,7 @@ ___
 
 • **Account**: *Account*
 
-*Defined in [packages/types/src/augment/registry.ts:602](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L602)*
+*Defined in [packages/types/src/augment/registry.ts:602](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L602)*
 
 ___
 
@@ -1980,7 +1980,7 @@ ___
 
 • **AccountData**: *AccountData*
 
-*Defined in [packages/types/src/augment/registry.ts:411](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L411)*
+*Defined in [packages/types/src/augment/registry.ts:411](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L411)*
 
 ___
 
@@ -1988,7 +1988,7 @@ ___
 
 • **AccountId**: *AccountId*
 
-*Defined in [packages/types/src/augment/registry.ts:177](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L177)*
+*Defined in [packages/types/src/augment/registry.ts:177](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L177)*
 
 ___
 
@@ -1996,7 +1996,7 @@ ___
 
 • **AccountIdOf**: *AccountIdOf*
 
-*Defined in [packages/types/src/augment/registry.ts:180](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L180)*
+*Defined in [packages/types/src/augment/registry.ts:180](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L180)*
 
 ___
 
@@ -2004,7 +2004,7 @@ ___
 
 • **AccountIndex**: *AccountIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:183](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L183)*
+*Defined in [packages/types/src/augment/registry.ts:183](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L183)*
 
 ___
 
@@ -2012,7 +2012,7 @@ ___
 
 • **AccountInfo**: *AccountInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1067](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1067)*
+*Defined in [packages/types/src/augment/registry.ts:1067](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1067)*
 
 ___
 
@@ -2020,7 +2020,7 @@ ___
 
 • **AccountStatus**: *AccountStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:1376](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1376)*
+*Defined in [packages/types/src/augment/registry.ts:1376](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1376)*
 
 ___
 
@@ -2028,7 +2028,7 @@ ___
 
 • **AccountValidity**: *AccountValidity*
 
-*Defined in [packages/types/src/augment/registry.ts:1379](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1379)*
+*Defined in [packages/types/src/augment/registry.ts:1379](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1379)*
 
 ___
 
@@ -2036,7 +2036,7 @@ ___
 
 • **AccountVote**: *AccountVote*
 
-*Defined in [packages/types/src/augment/registry.ts:504](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L504)*
+*Defined in [packages/types/src/augment/registry.ts:504](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L504)*
 
 ___
 
@@ -2044,7 +2044,7 @@ ___
 
 • **AccountVoteSplit**: *AccountVoteSplit*
 
-*Defined in [packages/types/src/augment/registry.ts:507](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L507)*
+*Defined in [packages/types/src/augment/registry.ts:507](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L507)*
 
 ___
 
@@ -2052,7 +2052,7 @@ ___
 
 • **AccountVoteStandard**: *AccountVoteStandard*
 
-*Defined in [packages/types/src/augment/registry.ts:510](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L510)*
+*Defined in [packages/types/src/augment/registry.ts:510](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L510)*
 
 ___
 
@@ -2060,7 +2060,7 @@ ___
 
 • **ActiveEraInfo**: *ActiveEraInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:930](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L930)*
+*Defined in [packages/types/src/augment/registry.ts:930](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L930)*
 
 ___
 
@@ -2068,7 +2068,7 @@ ___
 
 • **ActiveRecovery**: *ActiveRecovery*
 
-*Defined in [packages/types/src/augment/registry.ts:841](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L841)*
+*Defined in [packages/types/src/augment/registry.ts:841](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L841)*
 
 ___
 
@@ -2076,7 +2076,7 @@ ___
 
 • **Address**: *Address*
 
-*Defined in [packages/types/src/augment/registry.ts:186](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L186)*
+*Defined in [packages/types/src/augment/registry.ts:186](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L186)*
 
 ___
 
@@ -2084,7 +2084,7 @@ ___
 
 • **AliveContractInfo**: *AliveContractInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:452](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L452)*
+*Defined in [packages/types/src/augment/registry.ts:452](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L452)*
 
 ___
 
@@ -2092,7 +2092,7 @@ ___
 
 • **AllowedSlots**: *AllowedSlots*
 
-*Defined in [packages/types/src/augment/registry.ts:338](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L338)*
+*Defined in [packages/types/src/augment/registry.ts:338](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L338)*
 
 ___
 
@@ -2100,7 +2100,7 @@ ___
 
 • **ApiId**: *ApiId*
 
-*Defined in [packages/types/src/augment/registry.ts:1982](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1982)*
+*Defined in [packages/types/src/augment/registry.ts:1982](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1982)*
 
 ___
 
@@ -2108,7 +2108,7 @@ ___
 
 • **ApplyExtrinsicResult**: *ApplyExtrinsicResult*
 
-*Defined in [packages/types/src/augment/registry.ts:1070](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1070)*
+*Defined in [packages/types/src/augment/registry.ts:1070](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1070)*
 
 ___
 
@@ -2116,7 +2116,7 @@ ___
 
 • **ApprovalFlag**: *ApprovalFlag*
 
-*Defined in [packages/types/src/augment/registry.ts:569](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L569)*
+*Defined in [packages/types/src/augment/registry.ts:569](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L569)*
 
 ___
 
@@ -2124,7 +2124,7 @@ ___
 
 • **Approvals**: *Approvals*
 
-*Defined in [packages/types/src/augment/registry.ts:1373](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1373)*
+*Defined in [packages/types/src/augment/registry.ts:1373](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1373)*
 
 ___
 
@@ -2132,7 +2132,7 @@ ___
 
 • **AssetId**: *AssetId*
 
-*Defined in [packages/types/src/augment/registry.ts:189](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L189)*
+*Defined in [packages/types/src/augment/registry.ts:189](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L189)*
 
 ___
 
@@ -2140,7 +2140,7 @@ ___
 
 • **AssetOptions**: *AssetOptions*
 
-*Defined in [packages/types/src/augment/registry.ts:686](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L686)*
+*Defined in [packages/types/src/augment/registry.ts:686](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L686)*
 
 ___
 
@@ -2148,7 +2148,7 @@ ___
 
 • **AttestedCandidate**: *AttestedCandidate*
 
-*Defined in [packages/types/src/augment/registry.ts:1256](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1256)*
+*Defined in [packages/types/src/augment/registry.ts:1256](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1256)*
 
 ___
 
@@ -2156,7 +2156,7 @@ ___
 
 • **AuctionIndex**: *AuctionIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:1259](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1259)*
+*Defined in [packages/types/src/augment/registry.ts:1259](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1259)*
 
 ___
 
@@ -2164,7 +2164,7 @@ ___
 
 • **AuthIndex**: *AuthIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:789](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L789)*
+*Defined in [packages/types/src/augment/registry.ts:789](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L789)*
 
 ___
 
@@ -2172,7 +2172,7 @@ ___
 
 • **AuthorityId**: *AuthorityId*
 
-*Defined in [packages/types/src/augment/registry.ts:446](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L446)*
+*Defined in [packages/types/src/augment/registry.ts:446](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L446)*
 
 ___
 
@@ -2180,7 +2180,7 @@ ___
 
 • **AuthorityIndex**: *AuthorityIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:701](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L701)*
+*Defined in [packages/types/src/augment/registry.ts:701](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L701)*
 
 ___
 
@@ -2188,7 +2188,7 @@ ___
 
 • **AuthorityList**: *AuthorityList*
 
-*Defined in [packages/types/src/augment/registry.ts:705](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L705)*
+*Defined in [packages/types/src/augment/registry.ts:705](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L705)*
 
 ___
 
@@ -2196,7 +2196,7 @@ ___
 
 • **AuthoritySignature**: *AuthoritySignature*
 
-*Defined in [packages/types/src/augment/registry.ts:793](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L793)*
+*Defined in [packages/types/src/augment/registry.ts:793](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L793)*
 
 ___
 
@@ -2204,7 +2204,7 @@ ___
 
 • **AuthorityWeight**: *AuthorityWeight*
 
-*Defined in [packages/types/src/augment/registry.ts:708](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L708)*
+*Defined in [packages/types/src/augment/registry.ts:708](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L708)*
 
 ___
 
@@ -2212,7 +2212,7 @@ ___
 
 • **BabeAuthorityWeight**: *BabeAuthorityWeight*
 
-*Defined in [packages/types/src/augment/registry.ts:341](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L341)*
+*Defined in [packages/types/src/augment/registry.ts:341](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L341)*
 
 ___
 
@@ -2220,7 +2220,7 @@ ___
 
 • **BabeBlockWeight**: *BabeBlockWeight*
 
-*Defined in [packages/types/src/augment/registry.ts:345](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L345)*
+*Defined in [packages/types/src/augment/registry.ts:345](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L345)*
 
 ___
 
@@ -2228,7 +2228,7 @@ ___
 
 • **BabeEquivocationProof**: *BabeEquivocationProof*
 
-*Defined in [packages/types/src/augment/registry.ts:349](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L349)*
+*Defined in [packages/types/src/augment/registry.ts:349](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L349)*
 
 ___
 
@@ -2236,7 +2236,7 @@ ___
 
 • **BabeWeight**: *BabeWeight*
 
-*Defined in [packages/types/src/augment/registry.ts:352](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L352)*
+*Defined in [packages/types/src/augment/registry.ts:352](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L352)*
 
 ___
 
@@ -2244,7 +2244,7 @@ ___
 
 • **Balance**: *Balance*
 
-*Defined in [packages/types/src/augment/registry.ts:193](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L193)*
+*Defined in [packages/types/src/augment/registry.ts:193](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L193)*
 
 ___
 
@@ -2252,7 +2252,7 @@ ___
 
 • **BalanceLock**: *BalanceLock*
 
-*Defined in [packages/types/src/augment/registry.ts:417](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L417)*
+*Defined in [packages/types/src/augment/registry.ts:417](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L417)*
 
 ___
 
@@ -2260,7 +2260,7 @@ ___
 
 • **BalanceLockTo212**: *BalanceLockTo212*
 
-*Defined in [packages/types/src/augment/registry.ts:414](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L414)*
+*Defined in [packages/types/src/augment/registry.ts:414](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L414)*
 
 ___
 
@@ -2268,7 +2268,7 @@ ___
 
 • **BalanceOf**: *BalanceOf*
 
-*Defined in [packages/types/src/augment/registry.ts:197](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L197)*
+*Defined in [packages/types/src/augment/registry.ts:197](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L197)*
 
 ___
 
@@ -2276,7 +2276,7 @@ ___
 
 • **BalanceStatus**: *BalanceStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:420](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L420)*
+*Defined in [packages/types/src/augment/registry.ts:420](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L420)*
 
 ___
 
@@ -2284,7 +2284,7 @@ ___
 
 • **Bid**: *Bid*
 
-*Defined in [packages/types/src/augment/registry.ts:904](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L904)*
+*Defined in [packages/types/src/augment/registry.ts:904](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L904)*
 
 ___
 
@@ -2292,7 +2292,7 @@ ___
 
 • **BidKind**: *BidKind*
 
-*Defined in [packages/types/src/augment/registry.ts:907](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L907)*
+*Defined in [packages/types/src/augment/registry.ts:907](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L907)*
 
 ___
 
@@ -2300,7 +2300,7 @@ ___
 
 • **Bidder**: *Bidder*
 
-*Defined in [packages/types/src/augment/registry.ts:1263](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1263)*
+*Defined in [packages/types/src/augment/registry.ts:1263](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1263)*
 
 ___
 
@@ -2308,7 +2308,7 @@ ___
 
 • **BitVec**: *[BitVec](../classes/_packages_types_src_primitive_bitvec_.bitvec.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:53](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L53)*
+*Defined in [packages/types/src/augment/registry.ts:53](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L53)*
 
 ___
 
@@ -2316,7 +2316,7 @@ ___
 
 • **Block**: *Block*
 
-*Defined in [packages/types/src/augment/registry.ts:200](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L200)*
+*Defined in [packages/types/src/augment/registry.ts:200](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L200)*
 
 ___
 
@@ -2324,7 +2324,7 @@ ___
 
 • **BlockAttestations**: *BlockAttestations*
 
-*Defined in [packages/types/src/augment/registry.ts:1232](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1232)*
+*Defined in [packages/types/src/augment/registry.ts:1232](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1232)*
 
 ___
 
@@ -2332,7 +2332,7 @@ ___
 
 • **BlockHash**: *BlockHash*
 
-*Defined in [packages/types/src/augment/registry.ts:1970](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1970)*
+*Defined in [packages/types/src/augment/registry.ts:1970](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1970)*
 
 ___
 
@@ -2340,7 +2340,7 @@ ___
 
 • **BlockNumber**: *BlockNumber*
 
-*Defined in [packages/types/src/augment/registry.ts:203](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L203)*
+*Defined in [packages/types/src/augment/registry.ts:203](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L203)*
 
 ___
 
@@ -2348,7 +2348,7 @@ ___
 
 • **Bounty**: *Bounty*
 
-*Defined in [packages/types/src/augment/registry.ts:1186](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1186)*
+*Defined in [packages/types/src/augment/registry.ts:1186](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1186)*
 
 ___
 
@@ -2356,7 +2356,7 @@ ___
 
 • **BountyIndex**: *BountyIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:1189](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1189)*
+*Defined in [packages/types/src/augment/registry.ts:1189](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1189)*
 
 ___
 
@@ -2364,7 +2364,7 @@ ___
 
 • **BountyStatus**: *BountyStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:1193](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1193)*
+*Defined in [packages/types/src/augment/registry.ts:1193](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1193)*
 
 ___
 
@@ -2372,7 +2372,7 @@ ___
 
 • **BountyStatusActive**: *BountyStatusActive*
 
-*Defined in [packages/types/src/augment/registry.ts:1196](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1196)*
+*Defined in [packages/types/src/augment/registry.ts:1196](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1196)*
 
 ___
 
@@ -2380,7 +2380,7 @@ ___
 
 • **BountyStatusCuratorProposed**: *BountyStatusCuratorProposed*
 
-*Defined in [packages/types/src/augment/registry.ts:1199](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1199)*
+*Defined in [packages/types/src/augment/registry.ts:1199](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1199)*
 
 ___
 
@@ -2388,7 +2388,7 @@ ___
 
 • **BountyStatusPendingPayout**: *BountyStatusPendingPayout*
 
-*Defined in [packages/types/src/augment/registry.ts:1202](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1202)*
+*Defined in [packages/types/src/augment/registry.ts:1202](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1202)*
 
 ___
 
@@ -2396,7 +2396,7 @@ ___
 
 • **Bytes**: *[Bytes](../classes/_packages_types_src_primitive_bytes_.bytes.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:59](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L59)*
+*Defined in [packages/types/src/augment/registry.ts:59](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L59)*
 
 ___
 
@@ -2404,7 +2404,7 @@ ___
 
 • **Call**: *Call*
 
-*Defined in [packages/types/src/augment/registry.ts:207](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L207)*
+*Defined in [packages/types/src/augment/registry.ts:207](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L207)*
 
 ___
 
@@ -2412,7 +2412,7 @@ ___
 
 • **CallHash**: *CallHash*
 
-*Defined in [packages/types/src/augment/registry.ts:210](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L210)*
+*Defined in [packages/types/src/augment/registry.ts:210](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L210)*
 
 ___
 
@@ -2420,7 +2420,7 @@ ___
 
 • **CallHashOf**: *CallHashOf*
 
-*Defined in [packages/types/src/augment/registry.ts:213](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L213)*
+*Defined in [packages/types/src/augment/registry.ts:213](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L213)*
 
 ___
 
@@ -2428,7 +2428,7 @@ ___
 
 • **CallMetadataV0**: *CallMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1388](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1388)*
+*Defined in [packages/types/src/augment/registry.ts:1388](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1388)*
 
 ___
 
@@ -2436,7 +2436,7 @@ ___
 
 • **CandidateCommitments**: *CandidateCommitments*
 
-*Defined in [packages/types/src/augment/registry.ts:1266](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1266)*
+*Defined in [packages/types/src/augment/registry.ts:1266](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1266)*
 
 ___
 
@@ -2444,7 +2444,7 @@ ___
 
 • **CandidateReceipt**: *CandidateReceipt*
 
-*Defined in [packages/types/src/augment/registry.ts:1269](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1269)*
+*Defined in [packages/types/src/augment/registry.ts:1269](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1269)*
 
 ___
 
@@ -2452,7 +2452,7 @@ ___
 
 • **ChainProperties**: *ChainProperties*
 
-*Defined in [packages/types/src/augment/registry.ts:1073](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1073)*
+*Defined in [packages/types/src/augment/registry.ts:1073](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1073)*
 
 ___
 
@@ -2460,7 +2460,7 @@ ___
 
 • **ChainType**: *ChainType*
 
-*Defined in [packages/types/src/augment/registry.ts:1076](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1076)*
+*Defined in [packages/types/src/augment/registry.ts:1076](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1076)*
 
 ___
 
@@ -2468,7 +2468,7 @@ ___
 
 • **ChangesTrieConfiguration**: *ChangesTrieConfiguration*
 
-*Defined in [packages/types/src/augment/registry.ts:216](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L216)*
+*Defined in [packages/types/src/augment/registry.ts:216](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L216)*
 
 ___
 
@@ -2476,7 +2476,7 @@ ___
 
 • **CodeHash**: *CodeHash*
 
-*Defined in [packages/types/src/augment/registry.ts:455](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L455)*
+*Defined in [packages/types/src/augment/registry.ts:455](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L455)*
 
 ___
 
@@ -2484,7 +2484,7 @@ ___
 
 • **CollatorId**: *CollatorId*
 
-*Defined in [packages/types/src/augment/registry.ts:1272](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1272)*
+*Defined in [packages/types/src/augment/registry.ts:1272](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1272)*
 
 ___
 
@@ -2492,7 +2492,7 @@ ___
 
 • **CollatorSignature**: *CollatorSignature*
 
-*Defined in [packages/types/src/augment/registry.ts:1275](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1275)*
+*Defined in [packages/types/src/augment/registry.ts:1275](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1275)*
 
 ___
 
@@ -2500,7 +2500,7 @@ ___
 
 • **Compact<ApprovalFlag>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹ApprovalFlag›*
 
-*Defined in [packages/types/src/augment/registry.ts:570](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L570)*
+*Defined in [packages/types/src/augment/registry.ts:570](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L570)*
 
 ___
 
@@ -2508,7 +2508,7 @@ ___
 
 • **Compact<AssetId>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹AssetId›*
 
-*Defined in [packages/types/src/augment/registry.ts:190](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L190)*
+*Defined in [packages/types/src/augment/registry.ts:190](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L190)*
 
 ___
 
@@ -2516,7 +2516,7 @@ ___
 
 • **Compact<AuctionIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹AuctionIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1260](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1260)*
+*Defined in [packages/types/src/augment/registry.ts:1260](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1260)*
 
 ___
 
@@ -2524,7 +2524,7 @@ ___
 
 • **Compact<AuthIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹AuthIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:790](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L790)*
+*Defined in [packages/types/src/augment/registry.ts:790](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L790)*
 
 ___
 
@@ -2532,7 +2532,7 @@ ___
 
 • **Compact<AuthorityIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹AuthorityIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:702](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L702)*
+*Defined in [packages/types/src/augment/registry.ts:702](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L702)*
 
 ___
 
@@ -2540,7 +2540,7 @@ ___
 
 • **Compact<AuthorityWeight>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹AuthorityWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:709](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L709)*
+*Defined in [packages/types/src/augment/registry.ts:709](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L709)*
 
 ___
 
@@ -2548,7 +2548,7 @@ ___
 
 • **Compact<BabeAuthorityWeight>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹BabeAuthorityWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:342](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L342)*
+*Defined in [packages/types/src/augment/registry.ts:342](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L342)*
 
 ___
 
@@ -2556,7 +2556,7 @@ ___
 
 • **Compact<BabeBlockWeight>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹BabeBlockWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:346](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L346)*
+*Defined in [packages/types/src/augment/registry.ts:346](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L346)*
 
 ___
 
@@ -2564,7 +2564,7 @@ ___
 
 • **Compact<BabeWeight>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹BabeWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:353](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L353)*
+*Defined in [packages/types/src/augment/registry.ts:353](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L353)*
 
 ___
 
@@ -2572,7 +2572,7 @@ ___
 
 • **Compact<Balance>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Balance›*
 
-*Defined in [packages/types/src/augment/registry.ts:194](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L194)*
+*Defined in [packages/types/src/augment/registry.ts:194](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L194)*
 
 ___
 
@@ -2580,7 +2580,7 @@ ___
 
 • **Compact<BlockNumber>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹BlockNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:204](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L204)*
+*Defined in [packages/types/src/augment/registry.ts:204](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L204)*
 
 ___
 
@@ -2588,7 +2588,7 @@ ___
 
 • **Compact<BountyIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹BountyIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1190](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1190)*
+*Defined in [packages/types/src/augment/registry.ts:1190](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1190)*
 
 ___
 
@@ -2596,7 +2596,7 @@ ___
 
 • **Compact<EraIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹EraIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:961](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L961)*
+*Defined in [packages/types/src/augment/registry.ts:961](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L961)*
 
 ___
 
@@ -2604,7 +2604,7 @@ ___
 
 • **Compact<EventIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹EventIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1122](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1122)*
+*Defined in [packages/types/src/augment/registry.ts:1122](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1122)*
 
 ___
 
@@ -2612,7 +2612,7 @@ ___
 
 • **Compact<Gas>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Gas›*
 
-*Defined in [packages/types/src/augment/registry.ts:480](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L480)*
+*Defined in [packages/types/src/augment/registry.ts:480](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L480)*
 
 ___
 
@@ -2620,7 +2620,7 @@ ___
 
 • **Compact<Index>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Index›*
 
-*Defined in [packages/types/src/augment/registry.ts:250](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L250)*
+*Defined in [packages/types/src/augment/registry.ts:250](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L250)*
 
 ___
 
@@ -2628,7 +2628,7 @@ ___
 
 • **Compact<KeyTypeId>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹KeyTypeId›*
 
-*Defined in [packages/types/src/augment/registry.ts:260](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L260)*
+*Defined in [packages/types/src/augment/registry.ts:260](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L260)*
 
 ___
 
@@ -2636,7 +2636,7 @@ ___
 
 • **Compact<MemberCount>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹MemberCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:433](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L433)*
+*Defined in [packages/types/src/augment/registry.ts:433](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L433)*
 
 ___
 
@@ -2644,7 +2644,7 @@ ___
 
 • **Compact<Moment>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Moment›*
 
-*Defined in [packages/types/src/augment/registry.ts:276](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L276)*
+*Defined in [packages/types/src/augment/registry.ts:276](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L276)*
 
 ___
 
@@ -2652,7 +2652,7 @@ ___
 
 • **Compact<NominatorIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹NominatorIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:989](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L989)*
+*Defined in [packages/types/src/augment/registry.ts:989](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L989)*
 
 ___
 
@@ -2660,7 +2660,7 @@ ___
 
 • **Compact<ParaId>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹ParaId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1315](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1315)*
+*Defined in [packages/types/src/augment/registry.ts:1315](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1315)*
 
 ___
 
@@ -2668,7 +2668,7 @@ ___
 
 • **Compact<PerU16>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹PerU16›*
 
-*Defined in [packages/types/src/augment/registry.ts:158](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L158)*
+*Defined in [packages/types/src/augment/registry.ts:158](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L158)*
 
 ___
 
@@ -2676,7 +2676,7 @@ ___
 
 • **Compact<Perbill>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Perbill›*
 
-*Defined in [packages/types/src/augment/registry.ts:162](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L162)*
+*Defined in [packages/types/src/augment/registry.ts:162](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L162)*
 
 ___
 
@@ -2684,7 +2684,7 @@ ___
 
 • **Compact<Percent>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Percent›*
 
-*Defined in [packages/types/src/augment/registry.ts:166](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L166)*
+*Defined in [packages/types/src/augment/registry.ts:166](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L166)*
 
 ___
 
@@ -2692,7 +2692,7 @@ ___
 
 • **Compact<Permill>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Permill›*
 
-*Defined in [packages/types/src/augment/registry.ts:170](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L170)*
+*Defined in [packages/types/src/augment/registry.ts:170](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L170)*
 
 ___
 
@@ -2700,7 +2700,7 @@ ___
 
 • **Compact<Perquintill>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Perquintill›*
 
-*Defined in [packages/types/src/augment/registry.ts:174](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L174)*
+*Defined in [packages/types/src/augment/registry.ts:174](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L174)*
 
 ___
 
@@ -2708,7 +2708,7 @@ ___
 
 • **Compact<Points>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Points›*
 
-*Defined in [packages/types/src/augment/registry.ts:924](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L924)*
+*Defined in [packages/types/src/augment/registry.ts:924](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L924)*
 
 ___
 
@@ -2716,7 +2716,7 @@ ___
 
 • **Compact<Priority>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Priority›*
 
-*Defined in [packages/types/src/augment/registry.ts:851](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L851)*
+*Defined in [packages/types/src/augment/registry.ts:851](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L851)*
 
 ___
 
@@ -2724,7 +2724,7 @@ ___
 
 • **Compact<PropIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹PropIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:529](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L529)*
+*Defined in [packages/types/src/augment/registry.ts:529](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L529)*
 
 ___
 
@@ -2732,7 +2732,7 @@ ___
 
 • **Compact<ProposalIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹ProposalIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:437](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L437)*
+*Defined in [packages/types/src/augment/registry.ts:437](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L437)*
 
 ___
 
@@ -2740,7 +2740,7 @@ ___
 
 • **Compact<RefCount>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹RefCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:1177](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1177)*
+*Defined in [packages/types/src/augment/registry.ts:1177](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1177)*
 
 ___
 
@@ -2748,7 +2748,7 @@ ___
 
 • **Compact<ReferendumIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹ReferendumIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:539](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L539)*
+*Defined in [packages/types/src/augment/registry.ts:539](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L539)*
 
 ___
 
@@ -2756,7 +2756,7 @@ ___
 
 • **Compact<RegistrarIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹RegistrarIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:783](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L783)*
+*Defined in [packages/types/src/augment/registry.ts:783](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L783)*
 
 ___
 
@@ -2764,7 +2764,7 @@ ___
 
 • **Compact<RewardPoint>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹RewardPoint›*
 
-*Defined in [packages/types/src/augment/registry.ts:1011](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1011)*
+*Defined in [packages/types/src/augment/registry.ts:1011](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1011)*
 
 ___
 
@@ -2772,7 +2772,7 @@ ___
 
 • **Compact<SessionIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹SessionIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:897](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L897)*
+*Defined in [packages/types/src/augment/registry.ts:897](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L897)*
 
 ___
 
@@ -2780,7 +2780,7 @@ ___
 
 • **Compact<SetId>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹SetId›*
 
-*Defined in [packages/types/src/augment/registry.ts:755](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L755)*
+*Defined in [packages/types/src/augment/registry.ts:755](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L755)*
 
 ___
 
@@ -2788,7 +2788,7 @@ ___
 
 • **Compact<SetIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹SetIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:580](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L580)*
+*Defined in [packages/types/src/augment/registry.ts:580](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L580)*
 
 ___
 
@@ -2796,7 +2796,7 @@ ___
 
 • **Compact<SlotNumber>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹SlotNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:399](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L399)*
+*Defined in [packages/types/src/augment/registry.ts:399](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L399)*
 
 ___
 
@@ -2804,7 +2804,7 @@ ___
 
 • **Compact<SpanIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹SpanIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1024](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1024)*
+*Defined in [packages/types/src/augment/registry.ts:1024](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1024)*
 
 ___
 
@@ -2812,7 +2812,7 @@ ___
 
 • **Compact<StrikeCount>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹StrikeCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:917](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L917)*
+*Defined in [packages/types/src/augment/registry.ts:917](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L917)*
 
 ___
 
@@ -2820,7 +2820,7 @@ ___
 
 • **Compact<SubId>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹SubId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1349](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1349)*
+*Defined in [packages/types/src/augment/registry.ts:1349](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1349)*
 
 ___
 
@@ -2828,7 +2828,7 @@ ___
 
 • **Compact<TransactionPriority>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹TransactionPriority›*
 
-*Defined in [packages/types/src/augment/registry.ts:307](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L307)*
+*Defined in [packages/types/src/augment/registry.ts:307](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L307)*
 
 ___
 
@@ -2836,7 +2836,7 @@ ___
 
 • **Compact<U256>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[U256](../classes/_packages_types_src_primitive_u256_.u256.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:123](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L123)*
+*Defined in [packages/types/src/augment/registry.ts:123](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L123)*
 
 ___
 
@@ -2844,7 +2844,7 @@ ___
 
 • **Compact<ValidatorCount>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹ValidatorCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:901](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L901)*
+*Defined in [packages/types/src/augment/registry.ts:901](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L901)*
 
 ___
 
@@ -2852,7 +2852,7 @@ ___
 
 • **Compact<ValidatorIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹ValidatorIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1049](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1049)*
+*Defined in [packages/types/src/augment/registry.ts:1049](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1049)*
 
 ___
 
@@ -2860,7 +2860,7 @@ ___
 
 • **Compact<VoteIndex>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹VoteIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:587](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L587)*
+*Defined in [packages/types/src/augment/registry.ts:587](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L587)*
 
 ___
 
@@ -2868,7 +2868,7 @@ ___
 
 • **Compact<Weight>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹Weight›*
 
-*Defined in [packages/types/src/augment/registry.ts:314](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L314)*
+*Defined in [packages/types/src/augment/registry.ts:314](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L314)*
 
 ___
 
@@ -2876,7 +2876,7 @@ ___
 
 • **Compact<u128>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[u128](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u128)›*
 
-*Defined in [packages/types/src/augment/registry.ts:115](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L115)*
+*Defined in [packages/types/src/augment/registry.ts:115](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L115)*
 
 ___
 
@@ -2884,7 +2884,7 @@ ___
 
 • **Compact<u16>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[u16](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u16)›*
 
-*Defined in [packages/types/src/augment/registry.ts:103](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L103)*
+*Defined in [packages/types/src/augment/registry.ts:103](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L103)*
 
 ___
 
@@ -2892,7 +2892,7 @@ ___
 
 • **Compact<u256>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[u256](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u256)›*
 
-*Defined in [packages/types/src/augment/registry.ts:119](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L119)*
+*Defined in [packages/types/src/augment/registry.ts:119](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L119)*
 
 ___
 
@@ -2900,7 +2900,7 @@ ___
 
 • **Compact<u32>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[u32](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u32)›*
 
-*Defined in [packages/types/src/augment/registry.ts:107](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L107)*
+*Defined in [packages/types/src/augment/registry.ts:107](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L107)*
 
 ___
 
@@ -2908,7 +2908,7 @@ ___
 
 • **Compact<u64>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[u64](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u64)›*
 
-*Defined in [packages/types/src/augment/registry.ts:111](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L111)*
+*Defined in [packages/types/src/augment/registry.ts:111](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L111)*
 
 ___
 
@@ -2916,7 +2916,7 @@ ___
 
 • **Compact<u8>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[u8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u8)›*
 
-*Defined in [packages/types/src/augment/registry.ts:99](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L99)*
+*Defined in [packages/types/src/augment/registry.ts:99](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L99)*
 
 ___
 
@@ -2924,7 +2924,7 @@ ___
 
 • **Compact<usize>**: *[Compact](../classes/_packages_types_src_codec_compact_.compact.md)‹[usize](_packages_types_src_augment_registry_._registry_.interfacetypes.md#usize)›*
 
-*Defined in [packages/types/src/augment/registry.ts:127](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L127)*
+*Defined in [packages/types/src/augment/registry.ts:127](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L127)*
 
 ___
 
@@ -2932,7 +2932,7 @@ ___
 
 • **CompactAssignments**: *CompactAssignments*
 
-*Defined in [packages/types/src/augment/registry.ts:933](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L933)*
+*Defined in [packages/types/src/augment/registry.ts:933](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L933)*
 
 ___
 
@@ -2940,7 +2940,7 @@ ___
 
 • **CompactAssignmentsTo257**: *CompactAssignmentsTo257*
 
-*Defined in [packages/types/src/augment/registry.ts:936](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L936)*
+*Defined in [packages/types/src/augment/registry.ts:936](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L936)*
 
 ___
 
@@ -2948,7 +2948,7 @@ ___
 
 • **CompactScore**: *CompactScore*
 
-*Defined in [packages/types/src/augment/registry.ts:939](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L939)*
+*Defined in [packages/types/src/augment/registry.ts:939](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L939)*
 
 ___
 
@@ -2956,7 +2956,7 @@ ___
 
 • **CompactScoreCompact**: *CompactScoreCompact*
 
-*Defined in [packages/types/src/augment/registry.ts:942](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L942)*
+*Defined in [packages/types/src/augment/registry.ts:942](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L942)*
 
 ___
 
@@ -2964,7 +2964,7 @@ ___
 
 • **Consensus**: *Consensus*
 
-*Defined in [packages/types/src/augment/registry.ts:329](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L329)*
+*Defined in [packages/types/src/augment/registry.ts:329](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L329)*
 
 ___
 
@@ -2972,7 +2972,7 @@ ___
 
 • **ConsensusEngineId**: *ConsensusEngineId*
 
-*Defined in [packages/types/src/augment/registry.ts:219](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L219)*
+*Defined in [packages/types/src/augment/registry.ts:219](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L219)*
 
 ___
 
@@ -2980,7 +2980,7 @@ ___
 
 • **ContractCallRequest**: *ContractCallRequest*
 
-*Defined in [packages/types/src/augment/registry.ts:458](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L458)*
+*Defined in [packages/types/src/augment/registry.ts:458](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L458)*
 
 ___
 
@@ -2988,7 +2988,7 @@ ___
 
 • **ContractExecResult**: *ContractExecResult*
 
-*Defined in [packages/types/src/augment/registry.ts:470](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L470)*
+*Defined in [packages/types/src/augment/registry.ts:470](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L470)*
 
 ___
 
@@ -2996,7 +2996,7 @@ ___
 
 • **ContractExecResultSuccess**: *ContractExecResultSuccess*
 
-*Defined in [packages/types/src/augment/registry.ts:467](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L467)*
+*Defined in [packages/types/src/augment/registry.ts:467](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L467)*
 
 ___
 
@@ -3004,7 +3004,7 @@ ___
 
 • **ContractExecResultSuccessTo255**: *ContractExecResultSuccessTo255*
 
-*Defined in [packages/types/src/augment/registry.ts:461](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L461)*
+*Defined in [packages/types/src/augment/registry.ts:461](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L461)*
 
 ___
 
@@ -3012,7 +3012,7 @@ ___
 
 • **ContractExecResultTo255**: *ContractExecResultTo255*
 
-*Defined in [packages/types/src/augment/registry.ts:464](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L464)*
+*Defined in [packages/types/src/augment/registry.ts:464](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L464)*
 
 ___
 
@@ -3020,7 +3020,7 @@ ___
 
 • **ContractInfo**: *ContractInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:473](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L473)*
+*Defined in [packages/types/src/augment/registry.ts:473](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L473)*
 
 ___
 
@@ -3028,7 +3028,7 @@ ___
 
 • **ContractStorageKey**: *ContractStorageKey*
 
-*Defined in [packages/types/src/augment/registry.ts:476](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L476)*
+*Defined in [packages/types/src/augment/registry.ts:476](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L476)*
 
 ___
 
@@ -3036,7 +3036,7 @@ ___
 
 • **Conviction**: *Conviction*
 
-*Defined in [packages/types/src/augment/registry.ts:513](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L513)*
+*Defined in [packages/types/src/augment/registry.ts:513](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L513)*
 
 ___
 
@@ -3044,7 +3044,7 @@ ___
 
 • **CreatedBlock**: *CreatedBlock*
 
-*Defined in [packages/types/src/augment/registry.ts:596](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L596)*
+*Defined in [packages/types/src/augment/registry.ts:596](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L596)*
 
 ___
 
@@ -3052,7 +3052,7 @@ ___
 
 • **Data**: *[Data](../classes/_packages_types_src_primitive_data_.data.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:62](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L62)*
+*Defined in [packages/types/src/augment/registry.ts:62](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L62)*
 
 ___
 
@@ -3060,7 +3060,7 @@ ___
 
 • **DeferredOffenceOf**: *DeferredOffenceOf*
 
-*Defined in [packages/types/src/augment/registry.ts:811](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L811)*
+*Defined in [packages/types/src/augment/registry.ts:811](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L811)*
 
 ___
 
@@ -3068,7 +3068,7 @@ ___
 
 • **DefunctVoter**: *DefunctVoter*
 
-*Defined in [packages/types/src/augment/registry.ts:573](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L573)*
+*Defined in [packages/types/src/augment/registry.ts:573](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L573)*
 
 ___
 
@@ -3076,7 +3076,7 @@ ___
 
 • **Delegations**: *Delegations*
 
-*Defined in [packages/types/src/augment/registry.ts:516](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L516)*
+*Defined in [packages/types/src/augment/registry.ts:516](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L516)*
 
 ___
 
@@ -3084,7 +3084,7 @@ ___
 
 • **Digest**: *Digest*
 
-*Defined in [packages/types/src/augment/registry.ts:222](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L222)*
+*Defined in [packages/types/src/augment/registry.ts:222](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L222)*
 
 ___
 
@@ -3092,7 +3092,7 @@ ___
 
 • **DigestItem**: *DigestItem*
 
-*Defined in [packages/types/src/augment/registry.ts:225](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L225)*
+*Defined in [packages/types/src/augment/registry.ts:225](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L225)*
 
 ___
 
@@ -3100,7 +3100,7 @@ ___
 
 • **DigestOf**: *DigestOf*
 
-*Defined in [packages/types/src/augment/registry.ts:1079](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1079)*
+*Defined in [packages/types/src/augment/registry.ts:1079](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1079)*
 
 ___
 
@@ -3108,7 +3108,7 @@ ___
 
 • **DispatchClass**: *DispatchClass*
 
-*Defined in [packages/types/src/augment/registry.ts:1082](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1082)*
+*Defined in [packages/types/src/augment/registry.ts:1082](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1082)*
 
 ___
 
@@ -3116,7 +3116,7 @@ ___
 
 • **DispatchError**: *DispatchError*
 
-*Defined in [packages/types/src/augment/registry.ts:1085](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1085)*
+*Defined in [packages/types/src/augment/registry.ts:1085](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1085)*
 
 ___
 
@@ -3124,7 +3124,7 @@ ___
 
 • **DispatchErrorModule**: *DispatchErrorModule*
 
-*Defined in [packages/types/src/augment/registry.ts:1088](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1088)*
+*Defined in [packages/types/src/augment/registry.ts:1088](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1088)*
 
 ___
 
@@ -3132,7 +3132,7 @@ ___
 
 • **DispatchErrorTo198**: *DispatchErrorTo198*
 
-*Defined in [packages/types/src/augment/registry.ts:1091](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1091)*
+*Defined in [packages/types/src/augment/registry.ts:1091](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1091)*
 
 ___
 
@@ -3140,7 +3140,7 @@ ___
 
 • **DispatchInfo**: *DispatchInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1094](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1094)*
+*Defined in [packages/types/src/augment/registry.ts:1094](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1094)*
 
 ___
 
@@ -3148,7 +3148,7 @@ ___
 
 • **DispatchInfoTo190**: *DispatchInfoTo190*
 
-*Defined in [packages/types/src/augment/registry.ts:1097](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1097)*
+*Defined in [packages/types/src/augment/registry.ts:1097](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1097)*
 
 ___
 
@@ -3156,7 +3156,7 @@ ___
 
 • **DispatchInfoTo244**: *DispatchInfoTo244*
 
-*Defined in [packages/types/src/augment/registry.ts:1100](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1100)*
+*Defined in [packages/types/src/augment/registry.ts:1100](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1100)*
 
 ___
 
@@ -3164,7 +3164,7 @@ ___
 
 • **DispatchOutcome**: *DispatchOutcome*
 
-*Defined in [packages/types/src/augment/registry.ts:1103](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1103)*
+*Defined in [packages/types/src/augment/registry.ts:1103](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1103)*
 
 ___
 
@@ -3172,7 +3172,7 @@ ___
 
 • **DispatchResult**: *DispatchResult*
 
-*Defined in [packages/types/src/augment/registry.ts:1106](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1106)*
+*Defined in [packages/types/src/augment/registry.ts:1106](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1106)*
 
 ___
 
@@ -3180,7 +3180,7 @@ ___
 
 • **DispatchResultOf**: *DispatchResultOf*
 
-*Defined in [packages/types/src/augment/registry.ts:1109](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1109)*
+*Defined in [packages/types/src/augment/registry.ts:1109](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1109)*
 
 ___
 
@@ -3188,7 +3188,7 @@ ___
 
 • **DispatchResultTo198**: *DispatchResultTo198*
 
-*Defined in [packages/types/src/augment/registry.ts:1112](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1112)*
+*Defined in [packages/types/src/augment/registry.ts:1112](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1112)*
 
 ___
 
@@ -3196,7 +3196,7 @@ ___
 
 • **DoNotConstruct**: *[DoNotConstruct](../classes/_packages_types_src_primitive_donotconstruct_.donotconstruct.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:65](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L65)*
+*Defined in [packages/types/src/augment/registry.ts:65](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L65)*
 
 ___
 
@@ -3204,7 +3204,7 @@ ___
 
 • **DoubleMapTypeLatest**: *DoubleMapTypeLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1913](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1913)*
+*Defined in [packages/types/src/augment/registry.ts:1913](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1913)*
 
 ___
 
@@ -3212,7 +3212,7 @@ ___
 
 • **DoubleMapTypeV10**: *DoubleMapTypeV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1772](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1772)*
+*Defined in [packages/types/src/augment/registry.ts:1772](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1772)*
 
 ___
 
@@ -3220,7 +3220,7 @@ ___
 
 • **DoubleMapTypeV11**: *DoubleMapTypeV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1817](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1817)*
+*Defined in [packages/types/src/augment/registry.ts:1817](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1817)*
 
 ___
 
@@ -3228,7 +3228,7 @@ ___
 
 • **DoubleMapTypeV12**: *DoubleMapTypeV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1865](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1865)*
+*Defined in [packages/types/src/augment/registry.ts:1865](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1865)*
 
 ___
 
@@ -3236,7 +3236,7 @@ ___
 
 • **DoubleMapTypeV3**: *DoubleMapTypeV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1496](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1496)*
+*Defined in [packages/types/src/augment/registry.ts:1496](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1496)*
 
 ___
 
@@ -3244,7 +3244,7 @@ ___
 
 • **DoubleMapTypeV4**: *DoubleMapTypeV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1529](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1529)*
+*Defined in [packages/types/src/augment/registry.ts:1529](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1529)*
 
 ___
 
@@ -3252,7 +3252,7 @@ ___
 
 • **DoubleMapTypeV5**: *DoubleMapTypeV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1565](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1565)*
+*Defined in [packages/types/src/augment/registry.ts:1565](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1565)*
 
 ___
 
@@ -3260,7 +3260,7 @@ ___
 
 • **DoubleMapTypeV6**: *DoubleMapTypeV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1601](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1601)*
+*Defined in [packages/types/src/augment/registry.ts:1601](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1601)*
 
 ___
 
@@ -3268,7 +3268,7 @@ ___
 
 • **DoubleMapTypeV7**: *DoubleMapTypeV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1640](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1640)*
+*Defined in [packages/types/src/augment/registry.ts:1640](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1640)*
 
 ___
 
@@ -3276,7 +3276,7 @@ ___
 
 • **DoubleMapTypeV8**: *DoubleMapTypeV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1682](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1682)*
+*Defined in [packages/types/src/augment/registry.ts:1682](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1682)*
 
 ___
 
@@ -3284,7 +3284,7 @@ ___
 
 • **DoubleMapTypeV9**: *DoubleMapTypeV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1727](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1727)*
+*Defined in [packages/types/src/augment/registry.ts:1727](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1727)*
 
 ___
 
@@ -3292,7 +3292,7 @@ ___
 
 • **DoubleVoteReport**: *DoubleVoteReport*
 
-*Defined in [packages/types/src/augment/registry.ts:1278](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1278)*
+*Defined in [packages/types/src/augment/registry.ts:1278](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1278)*
 
 ___
 
@@ -3300,7 +3300,7 @@ ___
 
 • **DownwardMessage**: *DownwardMessage*
 
-*Defined in [packages/types/src/augment/registry.ts:1281](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1281)*
+*Defined in [packages/types/src/augment/registry.ts:1281](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1281)*
 
 ___
 
@@ -3308,7 +3308,7 @@ ___
 
 • **EcdsaSignature**: *EcdsaSignature*
 
-*Defined in [packages/types/src/augment/registry.ts:677](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L677)*
+*Defined in [packages/types/src/augment/registry.ts:677](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L677)*
 
 ___
 
@@ -3316,7 +3316,7 @@ ___
 
 • **Ed25519Signature**: *Ed25519Signature*
 
-*Defined in [packages/types/src/augment/registry.ts:680](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L680)*
+*Defined in [packages/types/src/augment/registry.ts:680](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L680)*
 
 ___
 
@@ -3324,7 +3324,7 @@ ___
 
 • **ElectionCompute**: *ElectionCompute*
 
-*Defined in [packages/types/src/augment/registry.ts:945](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L945)*
+*Defined in [packages/types/src/augment/registry.ts:945](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L945)*
 
 ___
 
@@ -3332,7 +3332,7 @@ ___
 
 • **ElectionResult**: *ElectionResult*
 
-*Defined in [packages/types/src/augment/registry.ts:948](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L948)*
+*Defined in [packages/types/src/augment/registry.ts:948](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L948)*
 
 ___
 
@@ -3340,7 +3340,7 @@ ___
 
 • **ElectionScore**: *ElectionScore*
 
-*Defined in [packages/types/src/augment/registry.ts:951](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L951)*
+*Defined in [packages/types/src/augment/registry.ts:951](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L951)*
 
 ___
 
@@ -3348,7 +3348,7 @@ ___
 
 • **ElectionSize**: *ElectionSize*
 
-*Defined in [packages/types/src/augment/registry.ts:954](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L954)*
+*Defined in [packages/types/src/augment/registry.ts:954](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L954)*
 
 ___
 
@@ -3356,7 +3356,7 @@ ___
 
 • **ElectionStatus**: *ElectionStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:957](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L957)*
+*Defined in [packages/types/src/augment/registry.ts:957](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L957)*
 
 ___
 
@@ -3364,7 +3364,7 @@ ___
 
 • **EncodedFinalityProofs**: *EncodedFinalityProofs*
 
-*Defined in [packages/types/src/augment/registry.ts:712](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L712)*
+*Defined in [packages/types/src/augment/registry.ts:712](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L712)*
 
 ___
 
@@ -3372,7 +3372,7 @@ ___
 
 • **EpochAuthorship**: *EpochAuthorship*
 
-*Defined in [packages/types/src/augment/registry.ts:362](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L362)*
+*Defined in [packages/types/src/augment/registry.ts:362](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L362)*
 
 ___
 
@@ -3380,7 +3380,7 @@ ___
 
 • **EraIndex**: *EraIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:960](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L960)*
+*Defined in [packages/types/src/augment/registry.ts:960](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L960)*
 
 ___
 
@@ -3388,7 +3388,7 @@ ___
 
 • **EraPoints**: *EraPoints*
 
-*Defined in [packages/types/src/augment/registry.ts:927](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L927)*
+*Defined in [packages/types/src/augment/registry.ts:927](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L927)*
 
 ___
 
@@ -3396,7 +3396,7 @@ ___
 
 • **EraRewardPoints**: *EraRewardPoints*
 
-*Defined in [packages/types/src/augment/registry.ts:964](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L964)*
+*Defined in [packages/types/src/augment/registry.ts:964](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L964)*
 
 ___
 
@@ -3404,7 +3404,7 @@ ___
 
 • **EraRewards**: *EraRewards*
 
-*Defined in [packages/types/src/augment/registry.ts:967](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L967)*
+*Defined in [packages/types/src/augment/registry.ts:967](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L967)*
 
 ___
 
@@ -3412,7 +3412,7 @@ ___
 
 • **ErrorMetadataV10**: *ErrorMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1775](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1775)*
+*Defined in [packages/types/src/augment/registry.ts:1775](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1775)*
 
 ___
 
@@ -3420,7 +3420,7 @@ ___
 
 • **ErrorMetadataV11**: *ErrorMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1820](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1820)*
+*Defined in [packages/types/src/augment/registry.ts:1820](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1820)*
 
 ___
 
@@ -3428,7 +3428,7 @@ ___
 
 • **ErrorMetadataV12**: *ErrorMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1868](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1868)*
+*Defined in [packages/types/src/augment/registry.ts:1868](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1868)*
 
 ___
 
@@ -3436,7 +3436,7 @@ ___
 
 • **ErrorMetadataV8**: *ErrorMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1685](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1685)*
+*Defined in [packages/types/src/augment/registry.ts:1685](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1685)*
 
 ___
 
@@ -3444,7 +3444,7 @@ ___
 
 • **ErrorMetadataV9**: *ErrorMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1730](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1730)*
+*Defined in [packages/types/src/augment/registry.ts:1730](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1730)*
 
 ___
 
@@ -3452,7 +3452,7 @@ ___
 
 • **EthereumAccountId**: *EthereumAccountId*
 
-*Defined in [packages/types/src/augment/registry.ts:1382](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1382)*
+*Defined in [packages/types/src/augment/registry.ts:1382](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1382)*
 
 ___
 
@@ -3460,7 +3460,7 @@ ___
 
 • **EthereumAddress**: *EthereumAddress*
 
-*Defined in [packages/types/src/augment/registry.ts:1241](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1241)*
+*Defined in [packages/types/src/augment/registry.ts:1241](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1241)*
 
 ___
 
@@ -3468,7 +3468,7 @@ ___
 
 • **EthereumLookupSource**: *EthereumLookupSource*
 
-*Defined in [packages/types/src/augment/registry.ts:1385](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1385)*
+*Defined in [packages/types/src/augment/registry.ts:1385](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1385)*
 
 ___
 
@@ -3476,7 +3476,7 @@ ___
 
 • **Event**: *Event*
 
-*Defined in [packages/types/src/augment/registry.ts:1115](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1115)*
+*Defined in [packages/types/src/augment/registry.ts:1115](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1115)*
 
 ___
 
@@ -3484,7 +3484,7 @@ ___
 
 • **EventId**: *EventId*
 
-*Defined in [packages/types/src/augment/registry.ts:1118](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1118)*
+*Defined in [packages/types/src/augment/registry.ts:1118](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1118)*
 
 ___
 
@@ -3492,7 +3492,7 @@ ___
 
 • **EventIndex**: *EventIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:1121](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1121)*
+*Defined in [packages/types/src/augment/registry.ts:1121](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1121)*
 
 ___
 
@@ -3500,7 +3500,7 @@ ___
 
 • **EventMetadataLatest**: *EventMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1916](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1916)*
+*Defined in [packages/types/src/augment/registry.ts:1916](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1916)*
 
 ___
 
@@ -3508,7 +3508,7 @@ ___
 
 • **EventMetadataV0**: *EventMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1391](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1391)*
+*Defined in [packages/types/src/augment/registry.ts:1391](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1391)*
 
 ___
 
@@ -3516,7 +3516,7 @@ ___
 
 • **EventMetadataV1**: *EventMetadataV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1442](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1442)*
+*Defined in [packages/types/src/augment/registry.ts:1442](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1442)*
 
 ___
 
@@ -3524,7 +3524,7 @@ ___
 
 • **EventMetadataV10**: *EventMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1778](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1778)*
+*Defined in [packages/types/src/augment/registry.ts:1778](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1778)*
 
 ___
 
@@ -3532,7 +3532,7 @@ ___
 
 • **EventMetadataV11**: *EventMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1823](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1823)*
+*Defined in [packages/types/src/augment/registry.ts:1823](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1823)*
 
 ___
 
@@ -3540,7 +3540,7 @@ ___
 
 • **EventMetadataV12**: *EventMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1871](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1871)*
+*Defined in [packages/types/src/augment/registry.ts:1871](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1871)*
 
 ___
 
@@ -3548,7 +3548,7 @@ ___
 
 • **EventMetadataV2**: *EventMetadataV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1466](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1466)*
+*Defined in [packages/types/src/augment/registry.ts:1466](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1466)*
 
 ___
 
@@ -3556,7 +3556,7 @@ ___
 
 • **EventMetadataV3**: *EventMetadataV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1499](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1499)*
+*Defined in [packages/types/src/augment/registry.ts:1499](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1499)*
 
 ___
 
@@ -3564,7 +3564,7 @@ ___
 
 • **EventMetadataV4**: *EventMetadataV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1532](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1532)*
+*Defined in [packages/types/src/augment/registry.ts:1532](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1532)*
 
 ___
 
@@ -3572,7 +3572,7 @@ ___
 
 • **EventMetadataV5**: *EventMetadataV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1568](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1568)*
+*Defined in [packages/types/src/augment/registry.ts:1568](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1568)*
 
 ___
 
@@ -3580,7 +3580,7 @@ ___
 
 • **EventMetadataV6**: *EventMetadataV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1604](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1604)*
+*Defined in [packages/types/src/augment/registry.ts:1604](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1604)*
 
 ___
 
@@ -3588,7 +3588,7 @@ ___
 
 • **EventMetadataV7**: *EventMetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1643](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1643)*
+*Defined in [packages/types/src/augment/registry.ts:1643](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1643)*
 
 ___
 
@@ -3596,7 +3596,7 @@ ___
 
 • **EventMetadataV8**: *EventMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1688](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1688)*
+*Defined in [packages/types/src/augment/registry.ts:1688](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1688)*
 
 ___
 
@@ -3604,7 +3604,7 @@ ___
 
 • **EventMetadataV9**: *EventMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1733](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1733)*
+*Defined in [packages/types/src/augment/registry.ts:1733](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1733)*
 
 ___
 
@@ -3612,7 +3612,7 @@ ___
 
 • **EventRecord**: *EventRecord*
 
-*Defined in [packages/types/src/augment/registry.ts:1125](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1125)*
+*Defined in [packages/types/src/augment/registry.ts:1125](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1125)*
 
 ___
 
@@ -3620,7 +3620,7 @@ ___
 
 • **EventRecordTo76**: *EventRecordTo76*
 
-*Defined in [packages/types/src/augment/registry.ts:1128](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1128)*
+*Defined in [packages/types/src/augment/registry.ts:1128](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1128)*
 
 ___
 
@@ -3628,7 +3628,7 @@ ___
 
 • **Exposure**: *Exposure*
 
-*Defined in [packages/types/src/augment/registry.ts:970](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L970)*
+*Defined in [packages/types/src/augment/registry.ts:970](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L970)*
 
 ___
 
@@ -3636,7 +3636,7 @@ ___
 
 • **Extrinsic**: *Extrinsic*
 
-*Defined in [packages/types/src/augment/registry.ts:611](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L611)*
+*Defined in [packages/types/src/augment/registry.ts:611](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L611)*
 
 ___
 
@@ -3644,7 +3644,7 @@ ___
 
 • **ExtrinsicEra**: *ExtrinsicEra*
 
-*Defined in [packages/types/src/augment/registry.ts:614](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L614)*
+*Defined in [packages/types/src/augment/registry.ts:614](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L614)*
 
 ___
 
@@ -3652,7 +3652,7 @@ ___
 
 • **ExtrinsicMetadataLatest**: *ExtrinsicMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1919](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1919)*
+*Defined in [packages/types/src/augment/registry.ts:1919](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1919)*
 
 ___
 
@@ -3660,7 +3660,7 @@ ___
 
 • **ExtrinsicMetadataV11**: *ExtrinsicMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1826](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1826)*
+*Defined in [packages/types/src/augment/registry.ts:1826](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1826)*
 
 ___
 
@@ -3668,7 +3668,7 @@ ___
 
 • **ExtrinsicMetadataV12**: *ExtrinsicMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1874](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1874)*
+*Defined in [packages/types/src/augment/registry.ts:1874](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1874)*
 
 ___
 
@@ -3676,7 +3676,7 @@ ___
 
 • **ExtrinsicOrHash**: *ExtrinsicOrHash*
 
-*Defined in [packages/types/src/augment/registry.ts:1964](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1964)*
+*Defined in [packages/types/src/augment/registry.ts:1964](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1964)*
 
 ___
 
@@ -3684,7 +3684,7 @@ ___
 
 • **ExtrinsicPayload**: *ExtrinsicPayload*
 
-*Defined in [packages/types/src/augment/registry.ts:617](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L617)*
+*Defined in [packages/types/src/augment/registry.ts:617](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L617)*
 
 ___
 
@@ -3692,7 +3692,7 @@ ___
 
 • **ExtrinsicPayloadUnknown**: *ExtrinsicPayloadUnknown*
 
-*Defined in [packages/types/src/augment/registry.ts:659](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L659)*
+*Defined in [packages/types/src/augment/registry.ts:659](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L659)*
 
 ___
 
@@ -3700,7 +3700,7 @@ ___
 
 • **ExtrinsicPayloadV1**: *ExtrinsicPayloadV1*
 
-*Defined in [packages/types/src/augment/registry.ts:623](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L623)*
+*Defined in [packages/types/src/augment/registry.ts:623](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L623)*
 
 ___
 
@@ -3708,7 +3708,7 @@ ___
 
 • **ExtrinsicPayloadV2**: *ExtrinsicPayloadV2*
 
-*Defined in [packages/types/src/augment/registry.ts:632](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L632)*
+*Defined in [packages/types/src/augment/registry.ts:632](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L632)*
 
 ___
 
@@ -3716,7 +3716,7 @@ ___
 
 • **ExtrinsicPayloadV3**: *ExtrinsicPayloadV3*
 
-*Defined in [packages/types/src/augment/registry.ts:641](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L641)*
+*Defined in [packages/types/src/augment/registry.ts:641](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L641)*
 
 ___
 
@@ -3724,7 +3724,7 @@ ___
 
 • **ExtrinsicPayloadV4**: *ExtrinsicPayloadV4*
 
-*Defined in [packages/types/src/augment/registry.ts:650](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L650)*
+*Defined in [packages/types/src/augment/registry.ts:650](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L650)*
 
 ___
 
@@ -3732,7 +3732,7 @@ ___
 
 • **ExtrinsicSignatureV1**: *ExtrinsicSignatureV1*
 
-*Defined in [packages/types/src/augment/registry.ts:626](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L626)*
+*Defined in [packages/types/src/augment/registry.ts:626](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L626)*
 
 ___
 
@@ -3740,7 +3740,7 @@ ___
 
 • **ExtrinsicSignatureV2**: *ExtrinsicSignatureV2*
 
-*Defined in [packages/types/src/augment/registry.ts:635](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L635)*
+*Defined in [packages/types/src/augment/registry.ts:635](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L635)*
 
 ___
 
@@ -3748,7 +3748,7 @@ ___
 
 • **ExtrinsicSignatureV3**: *ExtrinsicSignatureV3*
 
-*Defined in [packages/types/src/augment/registry.ts:644](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L644)*
+*Defined in [packages/types/src/augment/registry.ts:644](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L644)*
 
 ___
 
@@ -3756,7 +3756,7 @@ ___
 
 • **ExtrinsicSignatureV4**: *ExtrinsicSignatureV4*
 
-*Defined in [packages/types/src/augment/registry.ts:653](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L653)*
+*Defined in [packages/types/src/augment/registry.ts:653](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L653)*
 
 ___
 
@@ -3764,7 +3764,7 @@ ___
 
 • **ExtrinsicStatus**: *ExtrinsicStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:1967](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1967)*
+*Defined in [packages/types/src/augment/registry.ts:1967](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1967)*
 
 ___
 
@@ -3772,7 +3772,7 @@ ___
 
 • **ExtrinsicUnknown**: *ExtrinsicUnknown*
 
-*Defined in [packages/types/src/augment/registry.ts:656](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L656)*
+*Defined in [packages/types/src/augment/registry.ts:656](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L656)*
 
 ___
 
@@ -3780,7 +3780,7 @@ ___
 
 • **ExtrinsicV1**: *ExtrinsicV1*
 
-*Defined in [packages/types/src/augment/registry.ts:620](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L620)*
+*Defined in [packages/types/src/augment/registry.ts:620](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L620)*
 
 ___
 
@@ -3788,7 +3788,7 @@ ___
 
 • **ExtrinsicV2**: *ExtrinsicV2*
 
-*Defined in [packages/types/src/augment/registry.ts:629](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L629)*
+*Defined in [packages/types/src/augment/registry.ts:629](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L629)*
 
 ___
 
@@ -3796,7 +3796,7 @@ ___
 
 • **ExtrinsicV3**: *ExtrinsicV3*
 
-*Defined in [packages/types/src/augment/registry.ts:638](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L638)*
+*Defined in [packages/types/src/augment/registry.ts:638](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L638)*
 
 ___
 
@@ -3804,7 +3804,7 @@ ___
 
 • **ExtrinsicV4**: *ExtrinsicV4*
 
-*Defined in [packages/types/src/augment/registry.ts:647](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L647)*
+*Defined in [packages/types/src/augment/registry.ts:647](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L647)*
 
 ___
 
@@ -3812,7 +3812,7 @@ ___
 
 • **ExtrinsicsWeight**: *ExtrinsicsWeight*
 
-*Defined in [packages/types/src/augment/registry.ts:228](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L228)*
+*Defined in [packages/types/src/augment/registry.ts:228](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L228)*
 
 ___
 
@@ -3820,7 +3820,7 @@ ___
 
 • **Fixed128**: *Fixed128*
 
-*Defined in [packages/types/src/augment/registry.ts:142](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L142)*
+*Defined in [packages/types/src/augment/registry.ts:142](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L142)*
 
 ___
 
@@ -3828,7 +3828,7 @@ ___
 
 • **Fixed64**: *Fixed64*
 
-*Defined in [packages/types/src/augment/registry.ts:133](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L133)*
+*Defined in [packages/types/src/augment/registry.ts:133](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L133)*
 
 ___
 
@@ -3836,7 +3836,7 @@ ___
 
 • **FixedI128**: *FixedI128*
 
-*Defined in [packages/types/src/augment/registry.ts:145](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L145)*
+*Defined in [packages/types/src/augment/registry.ts:145](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L145)*
 
 ___
 
@@ -3844,7 +3844,7 @@ ___
 
 • **FixedI64**: *FixedI64*
 
-*Defined in [packages/types/src/augment/registry.ts:136](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L136)*
+*Defined in [packages/types/src/augment/registry.ts:136](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L136)*
 
 ___
 
@@ -3852,7 +3852,7 @@ ___
 
 • **FixedU128**: *FixedU128*
 
-*Defined in [packages/types/src/augment/registry.ts:148](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L148)*
+*Defined in [packages/types/src/augment/registry.ts:148](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L148)*
 
 ___
 
@@ -3860,7 +3860,7 @@ ___
 
 • **FixedU64**: *FixedU64*
 
-*Defined in [packages/types/src/augment/registry.ts:139](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L139)*
+*Defined in [packages/types/src/augment/registry.ts:139](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L139)*
 
 ___
 
@@ -3868,7 +3868,7 @@ ___
 
 • **Forcing**: *Forcing*
 
-*Defined in [packages/types/src/augment/registry.ts:973](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L973)*
+*Defined in [packages/types/src/augment/registry.ts:973](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L973)*
 
 ___
 
@@ -3876,7 +3876,7 @@ ___
 
 • **FullIdentification**: *FullIdentification*
 
-*Defined in [packages/types/src/augment/registry.ts:887](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L887)*
+*Defined in [packages/types/src/augment/registry.ts:887](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L887)*
 
 ___
 
@@ -3884,7 +3884,7 @@ ___
 
 • **FunctionArgumentMetadataLatest**: *FunctionArgumentMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1922](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1922)*
+*Defined in [packages/types/src/augment/registry.ts:1922](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1922)*
 
 ___
 
@@ -3892,7 +3892,7 @@ ___
 
 • **FunctionArgumentMetadataV0**: *FunctionArgumentMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1394](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1394)*
+*Defined in [packages/types/src/augment/registry.ts:1394](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1394)*
 
 ___
 
@@ -3900,7 +3900,7 @@ ___
 
 • **FunctionArgumentMetadataV1**: *FunctionArgumentMetadataV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1445](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1445)*
+*Defined in [packages/types/src/augment/registry.ts:1445](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1445)*
 
 ___
 
@@ -3908,7 +3908,7 @@ ___
 
 • **FunctionArgumentMetadataV10**: *FunctionArgumentMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1781](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1781)*
+*Defined in [packages/types/src/augment/registry.ts:1781](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1781)*
 
 ___
 
@@ -3916,7 +3916,7 @@ ___
 
 • **FunctionArgumentMetadataV11**: *FunctionArgumentMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1829](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1829)*
+*Defined in [packages/types/src/augment/registry.ts:1829](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1829)*
 
 ___
 
@@ -3924,7 +3924,7 @@ ___
 
 • **FunctionArgumentMetadataV12**: *FunctionArgumentMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1877](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1877)*
+*Defined in [packages/types/src/augment/registry.ts:1877](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1877)*
 
 ___
 
@@ -3932,7 +3932,7 @@ ___
 
 • **FunctionArgumentMetadataV2**: *FunctionArgumentMetadataV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1469](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1469)*
+*Defined in [packages/types/src/augment/registry.ts:1469](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1469)*
 
 ___
 
@@ -3940,7 +3940,7 @@ ___
 
 • **FunctionArgumentMetadataV3**: *FunctionArgumentMetadataV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1502](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1502)*
+*Defined in [packages/types/src/augment/registry.ts:1502](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1502)*
 
 ___
 
@@ -3948,7 +3948,7 @@ ___
 
 • **FunctionArgumentMetadataV4**: *FunctionArgumentMetadataV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1535](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1535)*
+*Defined in [packages/types/src/augment/registry.ts:1535](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1535)*
 
 ___
 
@@ -3956,7 +3956,7 @@ ___
 
 • **FunctionArgumentMetadataV5**: *FunctionArgumentMetadataV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1571](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1571)*
+*Defined in [packages/types/src/augment/registry.ts:1571](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1571)*
 
 ___
 
@@ -3964,7 +3964,7 @@ ___
 
 • **FunctionArgumentMetadataV6**: *FunctionArgumentMetadataV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1607](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1607)*
+*Defined in [packages/types/src/augment/registry.ts:1607](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1607)*
 
 ___
 
@@ -3972,7 +3972,7 @@ ___
 
 • **FunctionArgumentMetadataV7**: *FunctionArgumentMetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1646](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1646)*
+*Defined in [packages/types/src/augment/registry.ts:1646](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1646)*
 
 ___
 
@@ -3980,7 +3980,7 @@ ___
 
 • **FunctionArgumentMetadataV8**: *FunctionArgumentMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1691](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1691)*
+*Defined in [packages/types/src/augment/registry.ts:1691](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1691)*
 
 ___
 
@@ -3988,7 +3988,7 @@ ___
 
 • **FunctionArgumentMetadataV9**: *FunctionArgumentMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1736](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1736)*
+*Defined in [packages/types/src/augment/registry.ts:1736](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1736)*
 
 ___
 
@@ -3996,7 +3996,7 @@ ___
 
 • **FunctionMetadataLatest**: *FunctionMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1925](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1925)*
+*Defined in [packages/types/src/augment/registry.ts:1925](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1925)*
 
 ___
 
@@ -4004,7 +4004,7 @@ ___
 
 • **FunctionMetadataV0**: *FunctionMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1397](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1397)*
+*Defined in [packages/types/src/augment/registry.ts:1397](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1397)*
 
 ___
 
@@ -4012,7 +4012,7 @@ ___
 
 • **FunctionMetadataV1**: *FunctionMetadataV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1448](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1448)*
+*Defined in [packages/types/src/augment/registry.ts:1448](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1448)*
 
 ___
 
@@ -4020,7 +4020,7 @@ ___
 
 • **FunctionMetadataV10**: *FunctionMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1784](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1784)*
+*Defined in [packages/types/src/augment/registry.ts:1784](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1784)*
 
 ___
 
@@ -4028,7 +4028,7 @@ ___
 
 • **FunctionMetadataV11**: *FunctionMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1832](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1832)*
+*Defined in [packages/types/src/augment/registry.ts:1832](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1832)*
 
 ___
 
@@ -4036,7 +4036,7 @@ ___
 
 • **FunctionMetadataV12**: *FunctionMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1880](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1880)*
+*Defined in [packages/types/src/augment/registry.ts:1880](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1880)*
 
 ___
 
@@ -4044,7 +4044,7 @@ ___
 
 • **FunctionMetadataV2**: *FunctionMetadataV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1472](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1472)*
+*Defined in [packages/types/src/augment/registry.ts:1472](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1472)*
 
 ___
 
@@ -4052,7 +4052,7 @@ ___
 
 • **FunctionMetadataV3**: *FunctionMetadataV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1505](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1505)*
+*Defined in [packages/types/src/augment/registry.ts:1505](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1505)*
 
 ___
 
@@ -4060,7 +4060,7 @@ ___
 
 • **FunctionMetadataV4**: *FunctionMetadataV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1538](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1538)*
+*Defined in [packages/types/src/augment/registry.ts:1538](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1538)*
 
 ___
 
@@ -4068,7 +4068,7 @@ ___
 
 • **FunctionMetadataV5**: *FunctionMetadataV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1574](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1574)*
+*Defined in [packages/types/src/augment/registry.ts:1574](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1574)*
 
 ___
 
@@ -4076,7 +4076,7 @@ ___
 
 • **FunctionMetadataV6**: *FunctionMetadataV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1610](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1610)*
+*Defined in [packages/types/src/augment/registry.ts:1610](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1610)*
 
 ___
 
@@ -4084,7 +4084,7 @@ ___
 
 • **FunctionMetadataV7**: *FunctionMetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1649](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1649)*
+*Defined in [packages/types/src/augment/registry.ts:1649](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1649)*
 
 ___
 
@@ -4092,7 +4092,7 @@ ___
 
 • **FunctionMetadataV8**: *FunctionMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1694](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1694)*
+*Defined in [packages/types/src/augment/registry.ts:1694](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1694)*
 
 ___
 
@@ -4100,7 +4100,7 @@ ___
 
 • **FunctionMetadataV9**: *FunctionMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1739](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1739)*
+*Defined in [packages/types/src/augment/registry.ts:1739](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1739)*
 
 ___
 
@@ -4108,7 +4108,7 @@ ___
 
 • **Gas**: *Gas*
 
-*Defined in [packages/types/src/augment/registry.ts:479](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L479)*
+*Defined in [packages/types/src/augment/registry.ts:479](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L479)*
 
 ___
 
@@ -4116,7 +4116,7 @@ ___
 
 • **GenericAddress**: *GenericAddress*
 
-*Defined in [packages/types/src/augment/registry.ts:231](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L231)*
+*Defined in [packages/types/src/augment/registry.ts:231](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L231)*
 
 ___
 
@@ -4124,7 +4124,7 @@ ___
 
 • **GlobalValidationSchedule**: *GlobalValidationSchedule*
 
-*Defined in [packages/types/src/augment/registry.ts:1284](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1284)*
+*Defined in [packages/types/src/augment/registry.ts:1284](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1284)*
 
 ___
 
@@ -4132,7 +4132,7 @@ ___
 
 • **GrandpaEquivocation**: *GrandpaEquivocation*
 
-*Defined in [packages/types/src/augment/registry.ts:715](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L715)*
+*Defined in [packages/types/src/augment/registry.ts:715](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L715)*
 
 ___
 
@@ -4140,7 +4140,7 @@ ___
 
 • **GrandpaEquivocationProof**: *GrandpaEquivocationProof*
 
-*Defined in [packages/types/src/augment/registry.ts:718](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L718)*
+*Defined in [packages/types/src/augment/registry.ts:718](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L718)*
 
 ___
 
@@ -4148,7 +4148,7 @@ ___
 
 • **GrandpaEquivocationValue**: *GrandpaEquivocationValue*
 
-*Defined in [packages/types/src/augment/registry.ts:721](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L721)*
+*Defined in [packages/types/src/augment/registry.ts:721](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L721)*
 
 ___
 
@@ -4156,7 +4156,7 @@ ___
 
 • **GrandpaPrevote**: *GrandpaPrevote*
 
-*Defined in [packages/types/src/augment/registry.ts:724](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L724)*
+*Defined in [packages/types/src/augment/registry.ts:724](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L724)*
 
 ___
 
@@ -4164,7 +4164,7 @@ ___
 
 • **H160**: *H160*
 
-*Defined in [packages/types/src/augment/registry.ts:234](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L234)*
+*Defined in [packages/types/src/augment/registry.ts:234](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L234)*
 
 ___
 
@@ -4172,7 +4172,7 @@ ___
 
 • **H256**: *H256*
 
-*Defined in [packages/types/src/augment/registry.ts:237](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L237)*
+*Defined in [packages/types/src/augment/registry.ts:237](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L237)*
 
 ___
 
@@ -4180,7 +4180,7 @@ ___
 
 • **H512**: *H512*
 
-*Defined in [packages/types/src/augment/registry.ts:240](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L240)*
+*Defined in [packages/types/src/augment/registry.ts:240](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L240)*
 
 ___
 
@@ -4188,7 +4188,7 @@ ___
 
 • **Hash**: *Hash*
 
-*Defined in [packages/types/src/augment/registry.ts:243](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L243)*
+*Defined in [packages/types/src/augment/registry.ts:243](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L243)*
 
 ___
 
@@ -4196,7 +4196,7 @@ ___
 
 • **HeadData**: *HeadData*
 
-*Defined in [packages/types/src/augment/registry.ts:1287](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1287)*
+*Defined in [packages/types/src/augment/registry.ts:1287](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1287)*
 
 ___
 
@@ -4204,7 +4204,7 @@ ___
 
 • **Header**: *Header*
 
-*Defined in [packages/types/src/augment/registry.ts:246](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L246)*
+*Defined in [packages/types/src/augment/registry.ts:246](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L246)*
 
 ___
 
@@ -4212,7 +4212,7 @@ ___
 
 • **Health**: *Health*
 
-*Defined in [packages/types/src/augment/registry.ts:1131](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1131)*
+*Defined in [packages/types/src/augment/registry.ts:1131](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1131)*
 
 ___
 
@@ -4220,7 +4220,7 @@ ___
 
 • **Heartbeat**: *Heartbeat*
 
-*Defined in [packages/types/src/augment/registry.ts:796](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L796)*
+*Defined in [packages/types/src/augment/registry.ts:796](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L796)*
 
 ___
 
@@ -4228,7 +4228,7 @@ ___
 
 • **HeartbeatTo244**: *HeartbeatTo244*
 
-*Defined in [packages/types/src/augment/registry.ts:799](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L799)*
+*Defined in [packages/types/src/augment/registry.ts:799](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L799)*
 
 ___
 
@@ -4236,7 +4236,7 @@ ___
 
 • **I32F32**: *I32F32*
 
-*Defined in [packages/types/src/augment/registry.ts:151](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L151)*
+*Defined in [packages/types/src/augment/registry.ts:151](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L151)*
 
 ___
 
@@ -4244,7 +4244,7 @@ ___
 
 • **IdentificationTuple**: *IdentificationTuple*
 
-*Defined in [packages/types/src/augment/registry.ts:890](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L890)*
+*Defined in [packages/types/src/augment/registry.ts:890](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L890)*
 
 ___
 
@@ -4252,7 +4252,7 @@ ___
 
 • **IdentityFields**: *IdentityFields*
 
-*Defined in [packages/types/src/augment/registry.ts:764](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L764)*
+*Defined in [packages/types/src/augment/registry.ts:764](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L764)*
 
 ___
 
@@ -4260,7 +4260,7 @@ ___
 
 • **IdentityInfo**: *IdentityInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:770](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L770)*
+*Defined in [packages/types/src/augment/registry.ts:770](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L770)*
 
 ___
 
@@ -4268,7 +4268,7 @@ ___
 
 • **IdentityInfoAdditional**: *IdentityInfoAdditional*
 
-*Defined in [packages/types/src/augment/registry.ts:767](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L767)*
+*Defined in [packages/types/src/augment/registry.ts:767](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L767)*
 
 ___
 
@@ -4276,7 +4276,7 @@ ___
 
 • **IdentityJudgement**: *IdentityJudgement*
 
-*Defined in [packages/types/src/augment/registry.ts:773](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L773)*
+*Defined in [packages/types/src/augment/registry.ts:773](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L773)*
 
 ___
 
@@ -4284,7 +4284,7 @@ ___
 
 • **ImmortalEra**: *ImmortalEra*
 
-*Defined in [packages/types/src/augment/registry.ts:662](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L662)*
+*Defined in [packages/types/src/augment/registry.ts:662](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L662)*
 
 ___
 
@@ -4292,7 +4292,7 @@ ___
 
 • **ImportedAux**: *ImportedAux*
 
-*Defined in [packages/types/src/augment/registry.ts:599](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L599)*
+*Defined in [packages/types/src/augment/registry.ts:599](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L599)*
 
 ___
 
@@ -4300,7 +4300,7 @@ ___
 
 • **IncludedBlocks**: *IncludedBlocks*
 
-*Defined in [packages/types/src/augment/registry.ts:1235](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1235)*
+*Defined in [packages/types/src/augment/registry.ts:1235](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1235)*
 
 ___
 
@@ -4308,7 +4308,7 @@ ___
 
 • **IncomingParachain**: *IncomingParachain*
 
-*Defined in [packages/types/src/augment/registry.ts:1290](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1290)*
+*Defined in [packages/types/src/augment/registry.ts:1290](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1290)*
 
 ___
 
@@ -4316,7 +4316,7 @@ ___
 
 • **IncomingParachainDeploy**: *IncomingParachainDeploy*
 
-*Defined in [packages/types/src/augment/registry.ts:1296](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1296)*
+*Defined in [packages/types/src/augment/registry.ts:1296](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1296)*
 
 ___
 
@@ -4324,7 +4324,7 @@ ___
 
 • **IncomingParachainFixed**: *IncomingParachainFixed*
 
-*Defined in [packages/types/src/augment/registry.ts:1293](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1293)*
+*Defined in [packages/types/src/augment/registry.ts:1293](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1293)*
 
 ___
 
@@ -4332,7 +4332,7 @@ ___
 
 • **Index**: *Index*
 
-*Defined in [packages/types/src/augment/registry.ts:249](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L249)*
+*Defined in [packages/types/src/augment/registry.ts:249](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L249)*
 
 ___
 
@@ -4340,7 +4340,7 @@ ___
 
 • **IndividualExposure**: *IndividualExposure*
 
-*Defined in [packages/types/src/augment/registry.ts:976](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L976)*
+*Defined in [packages/types/src/augment/registry.ts:976](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L976)*
 
 ___
 
@@ -4348,7 +4348,7 @@ ___
 
 • **InvalidTransaction**: *InvalidTransaction*
 
-*Defined in [packages/types/src/augment/registry.ts:1134](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1134)*
+*Defined in [packages/types/src/augment/registry.ts:1134](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1134)*
 
 ___
 
@@ -4356,7 +4356,7 @@ ___
 
 • **Justification**: *Justification*
 
-*Defined in [packages/types/src/augment/registry.ts:253](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L253)*
+*Defined in [packages/types/src/augment/registry.ts:253](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L253)*
 
 ___
 
@@ -4364,7 +4364,7 @@ ___
 
 • **JustificationNotification**: *JustificationNotification*
 
-*Defined in [packages/types/src/augment/registry.ts:727](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L727)*
+*Defined in [packages/types/src/augment/registry.ts:727](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L727)*
 
 ___
 
@@ -4372,7 +4372,7 @@ ___
 
 • **Key**: *Key*
 
-*Defined in [packages/types/src/augment/registry.ts:1137](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1137)*
+*Defined in [packages/types/src/augment/registry.ts:1137](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1137)*
 
 ___
 
@@ -4380,7 +4380,7 @@ ___
 
 • **KeyOwnerProof**: *KeyOwnerProof*
 
-*Defined in [packages/types/src/augment/registry.ts:730](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L730)*
+*Defined in [packages/types/src/augment/registry.ts:730](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L730)*
 
 ___
 
@@ -4388,7 +4388,7 @@ ___
 
 • **KeyType**: *KeyType*
 
-*Defined in [packages/types/src/augment/registry.ts:979](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L979)*
+*Defined in [packages/types/src/augment/registry.ts:979](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L979)*
 
 ___
 
@@ -4396,7 +4396,7 @@ ___
 
 • **KeyTypeId**: *KeyTypeId*
 
-*Defined in [packages/types/src/augment/registry.ts:259](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L259)*
+*Defined in [packages/types/src/augment/registry.ts:259](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L259)*
 
 ___
 
@@ -4404,7 +4404,7 @@ ___
 
 • **KeyValue**: *KeyValue*
 
-*Defined in [packages/types/src/augment/registry.ts:256](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L256)*
+*Defined in [packages/types/src/augment/registry.ts:256](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L256)*
 
 ___
 
@@ -4412,7 +4412,7 @@ ___
 
 • **KeyValueOption**: *KeyValueOption*
 
-*Defined in [packages/types/src/augment/registry.ts:1985](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1985)*
+*Defined in [packages/types/src/augment/registry.ts:1985](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1985)*
 
 ___
 
@@ -4420,7 +4420,7 @@ ___
 
 • **Keys**: *Keys*
 
-*Defined in [packages/types/src/augment/registry.ts:866](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L866)*
+*Defined in [packages/types/src/augment/registry.ts:866](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L866)*
 
 ___
 
@@ -4428,7 +4428,7 @@ ___
 
 • **Kind**: *Kind*
 
-*Defined in [packages/types/src/augment/registry.ts:814](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L814)*
+*Defined in [packages/types/src/augment/registry.ts:814](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L814)*
 
 ___
 
@@ -4436,7 +4436,7 @@ ___
 
 • **LastRuntimeUpgradeInfo**: *LastRuntimeUpgradeInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1140](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1140)*
+*Defined in [packages/types/src/augment/registry.ts:1140](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1140)*
 
 ___
 
@@ -4444,7 +4444,7 @@ ___
 
 • **LeasePeriod**: *LeasePeriod*
 
-*Defined in [packages/types/src/augment/registry.ts:1299](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1299)*
+*Defined in [packages/types/src/augment/registry.ts:1299](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1299)*
 
 ___
 
@@ -4452,7 +4452,7 @@ ___
 
 • **LeasePeriodOf**: *LeasePeriodOf*
 
-*Defined in [packages/types/src/augment/registry.ts:1302](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1302)*
+*Defined in [packages/types/src/augment/registry.ts:1302](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1302)*
 
 ___
 
@@ -4460,7 +4460,7 @@ ___
 
 • **LocalValidationData**: *LocalValidationData*
 
-*Defined in [packages/types/src/augment/registry.ts:1305](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1305)*
+*Defined in [packages/types/src/augment/registry.ts:1305](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1305)*
 
 ___
 
@@ -4468,7 +4468,7 @@ ___
 
 • **LockIdentifier**: *LockIdentifier*
 
-*Defined in [packages/types/src/augment/registry.ts:263](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L263)*
+*Defined in [packages/types/src/augment/registry.ts:263](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L263)*
 
 ___
 
@@ -4476,7 +4476,7 @@ ___
 
 • **Log**: *Log*
 
-*Defined in [packages/types/src/augment/registry.ts:605](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L605)*
+*Defined in [packages/types/src/augment/registry.ts:605](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L605)*
 
 ___
 
@@ -4484,7 +4484,7 @@ ___
 
 • **LookupSource**: *LookupSource*
 
-*Defined in [packages/types/src/augment/registry.ts:266](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L266)*
+*Defined in [packages/types/src/augment/registry.ts:266](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L266)*
 
 ___
 
@@ -4492,7 +4492,7 @@ ___
 
 • **LookupTarget**: *LookupTarget*
 
-*Defined in [packages/types/src/augment/registry.ts:269](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L269)*
+*Defined in [packages/types/src/augment/registry.ts:269](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L269)*
 
 ___
 
@@ -4500,7 +4500,7 @@ ___
 
 • **MapTypeLatest**: *MapTypeLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1928](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1928)*
+*Defined in [packages/types/src/augment/registry.ts:1928](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1928)*
 
 ___
 
@@ -4508,7 +4508,7 @@ ___
 
 • **MapTypeV0**: *MapTypeV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1400](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1400)*
+*Defined in [packages/types/src/augment/registry.ts:1400](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1400)*
 
 ___
 
@@ -4516,7 +4516,7 @@ ___
 
 • **MapTypeV10**: *MapTypeV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1787](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1787)*
+*Defined in [packages/types/src/augment/registry.ts:1787](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1787)*
 
 ___
 
@@ -4524,7 +4524,7 @@ ___
 
 • **MapTypeV11**: *MapTypeV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1835](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1835)*
+*Defined in [packages/types/src/augment/registry.ts:1835](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1835)*
 
 ___
 
@@ -4532,7 +4532,7 @@ ___
 
 • **MapTypeV12**: *MapTypeV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1883](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1883)*
+*Defined in [packages/types/src/augment/registry.ts:1883](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1883)*
 
 ___
 
@@ -4540,7 +4540,7 @@ ___
 
 • **MapTypeV2**: *MapTypeV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1475](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1475)*
+*Defined in [packages/types/src/augment/registry.ts:1475](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1475)*
 
 ___
 
@@ -4548,7 +4548,7 @@ ___
 
 • **MapTypeV3**: *MapTypeV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1508](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1508)*
+*Defined in [packages/types/src/augment/registry.ts:1508](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1508)*
 
 ___
 
@@ -4556,7 +4556,7 @@ ___
 
 • **MapTypeV4**: *MapTypeV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1541](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1541)*
+*Defined in [packages/types/src/augment/registry.ts:1541](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1541)*
 
 ___
 
@@ -4564,7 +4564,7 @@ ___
 
 • **MapTypeV5**: *MapTypeV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1577](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1577)*
+*Defined in [packages/types/src/augment/registry.ts:1577](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1577)*
 
 ___
 
@@ -4572,7 +4572,7 @@ ___
 
 • **MapTypeV6**: *MapTypeV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1613](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1613)*
+*Defined in [packages/types/src/augment/registry.ts:1613](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1613)*
 
 ___
 
@@ -4580,7 +4580,7 @@ ___
 
 • **MapTypeV7**: *MapTypeV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1652](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1652)*
+*Defined in [packages/types/src/augment/registry.ts:1652](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1652)*
 
 ___
 
@@ -4588,7 +4588,7 @@ ___
 
 • **MapTypeV8**: *MapTypeV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1697](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1697)*
+*Defined in [packages/types/src/augment/registry.ts:1697](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1697)*
 
 ___
 
@@ -4596,7 +4596,7 @@ ___
 
 • **MapTypeV9**: *MapTypeV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1742](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1742)*
+*Defined in [packages/types/src/augment/registry.ts:1742](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1742)*
 
 ___
 
@@ -4604,7 +4604,7 @@ ___
 
 • **MaybeRandomness**: *MaybeRandomness*
 
-*Defined in [packages/types/src/augment/registry.ts:356](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L356)*
+*Defined in [packages/types/src/augment/registry.ts:356](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L356)*
 
 ___
 
@@ -4612,7 +4612,7 @@ ___
 
 • **MaybeVrf**: *MaybeVrf*
 
-*Defined in [packages/types/src/augment/registry.ts:359](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L359)*
+*Defined in [packages/types/src/augment/registry.ts:359](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L359)*
 
 ___
 
@@ -4620,7 +4620,7 @@ ___
 
 • **MemberCount**: *MemberCount*
 
-*Defined in [packages/types/src/augment/registry.ts:432](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L432)*
+*Defined in [packages/types/src/augment/registry.ts:432](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L432)*
 
 ___
 
@@ -4628,7 +4628,7 @@ ___
 
 • **MembershipProof**: *MembershipProof*
 
-*Defined in [packages/types/src/augment/registry.ts:893](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L893)*
+*Defined in [packages/types/src/augment/registry.ts:893](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L893)*
 
 ___
 
@@ -4636,7 +4636,7 @@ ___
 
 • **MetadataAll**: *MetadataAll*
 
-*Defined in [packages/types/src/augment/registry.ts:1958](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1958)*
+*Defined in [packages/types/src/augment/registry.ts:1958](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1958)*
 
 ___
 
@@ -4644,7 +4644,7 @@ ___
 
 • **MetadataLatest**: *MetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1931](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1931)*
+*Defined in [packages/types/src/augment/registry.ts:1931](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1931)*
 
 ___
 
@@ -4652,7 +4652,7 @@ ___
 
 • **MetadataV0**: *MetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1403](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1403)*
+*Defined in [packages/types/src/augment/registry.ts:1403](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1403)*
 
 ___
 
@@ -4660,7 +4660,7 @@ ___
 
 • **MetadataV1**: *MetadataV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1451](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1451)*
+*Defined in [packages/types/src/augment/registry.ts:1451](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1451)*
 
 ___
 
@@ -4668,7 +4668,7 @@ ___
 
 • **MetadataV10**: *MetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1790](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1790)*
+*Defined in [packages/types/src/augment/registry.ts:1790](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1790)*
 
 ___
 
@@ -4676,7 +4676,7 @@ ___
 
 • **MetadataV11**: *MetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1838](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1838)*
+*Defined in [packages/types/src/augment/registry.ts:1838](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1838)*
 
 ___
 
@@ -4684,7 +4684,7 @@ ___
 
 • **MetadataV12**: *MetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1886](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1886)*
+*Defined in [packages/types/src/augment/registry.ts:1886](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1886)*
 
 ___
 
@@ -4692,7 +4692,7 @@ ___
 
 • **MetadataV2**: *MetadataV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1478](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1478)*
+*Defined in [packages/types/src/augment/registry.ts:1478](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1478)*
 
 ___
 
@@ -4700,7 +4700,7 @@ ___
 
 • **MetadataV3**: *MetadataV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1511](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1511)*
+*Defined in [packages/types/src/augment/registry.ts:1511](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1511)*
 
 ___
 
@@ -4708,7 +4708,7 @@ ___
 
 • **MetadataV4**: *MetadataV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1544](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1544)*
+*Defined in [packages/types/src/augment/registry.ts:1544](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1544)*
 
 ___
 
@@ -4716,7 +4716,7 @@ ___
 
 • **MetadataV5**: *MetadataV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1580](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1580)*
+*Defined in [packages/types/src/augment/registry.ts:1580](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1580)*
 
 ___
 
@@ -4724,7 +4724,7 @@ ___
 
 • **MetadataV6**: *MetadataV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1616](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1616)*
+*Defined in [packages/types/src/augment/registry.ts:1616](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1616)*
 
 ___
 
@@ -4732,7 +4732,7 @@ ___
 
 • **MetadataV7**: *MetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1655](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1655)*
+*Defined in [packages/types/src/augment/registry.ts:1655](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1655)*
 
 ___
 
@@ -4740,7 +4740,7 @@ ___
 
 • **MetadataV8**: *MetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1700](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1700)*
+*Defined in [packages/types/src/augment/registry.ts:1700](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1700)*
 
 ___
 
@@ -4748,7 +4748,7 @@ ___
 
 • **MetadataV9**: *MetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1745](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1745)*
+*Defined in [packages/types/src/augment/registry.ts:1745](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1745)*
 
 ___
 
@@ -4756,7 +4756,7 @@ ___
 
 • **ModuleConstantMetadataLatest**: *ModuleConstantMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1934](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1934)*
+*Defined in [packages/types/src/augment/registry.ts:1934](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1934)*
 
 ___
 
@@ -4764,7 +4764,7 @@ ___
 
 • **ModuleConstantMetadataV10**: *ModuleConstantMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1793](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1793)*
+*Defined in [packages/types/src/augment/registry.ts:1793](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1793)*
 
 ___
 
@@ -4772,7 +4772,7 @@ ___
 
 • **ModuleConstantMetadataV11**: *ModuleConstantMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1841](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1841)*
+*Defined in [packages/types/src/augment/registry.ts:1841](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1841)*
 
 ___
 
@@ -4780,7 +4780,7 @@ ___
 
 • **ModuleConstantMetadataV12**: *ModuleConstantMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1889](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1889)*
+*Defined in [packages/types/src/augment/registry.ts:1889](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1889)*
 
 ___
 
@@ -4788,7 +4788,7 @@ ___
 
 • **ModuleConstantMetadataV6**: *ModuleConstantMetadataV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1619](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1619)*
+*Defined in [packages/types/src/augment/registry.ts:1619](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1619)*
 
 ___
 
@@ -4796,7 +4796,7 @@ ___
 
 • **ModuleConstantMetadataV7**: *ModuleConstantMetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1658](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1658)*
+*Defined in [packages/types/src/augment/registry.ts:1658](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1658)*
 
 ___
 
@@ -4804,7 +4804,7 @@ ___
 
 • **ModuleConstantMetadataV8**: *ModuleConstantMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1703](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1703)*
+*Defined in [packages/types/src/augment/registry.ts:1703](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1703)*
 
 ___
 
@@ -4812,7 +4812,7 @@ ___
 
 • **ModuleConstantMetadataV9**: *ModuleConstantMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1748](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1748)*
+*Defined in [packages/types/src/augment/registry.ts:1748](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1748)*
 
 ___
 
@@ -4820,7 +4820,7 @@ ___
 
 • **ModuleId**: *ModuleId*
 
-*Defined in [packages/types/src/augment/registry.ts:272](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L272)*
+*Defined in [packages/types/src/augment/registry.ts:272](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L272)*
 
 ___
 
@@ -4828,7 +4828,7 @@ ___
 
 • **ModuleMetadataLatest**: *ModuleMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1937](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1937)*
+*Defined in [packages/types/src/augment/registry.ts:1937](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1937)*
 
 ___
 
@@ -4836,7 +4836,7 @@ ___
 
 • **ModuleMetadataV0**: *ModuleMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1406](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1406)*
+*Defined in [packages/types/src/augment/registry.ts:1406](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1406)*
 
 ___
 
@@ -4844,7 +4844,7 @@ ___
 
 • **ModuleMetadataV1**: *ModuleMetadataV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1454](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1454)*
+*Defined in [packages/types/src/augment/registry.ts:1454](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1454)*
 
 ___
 
@@ -4852,7 +4852,7 @@ ___
 
 • **ModuleMetadataV10**: *ModuleMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1796](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1796)*
+*Defined in [packages/types/src/augment/registry.ts:1796](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1796)*
 
 ___
 
@@ -4860,7 +4860,7 @@ ___
 
 • **ModuleMetadataV11**: *ModuleMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1844](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1844)*
+*Defined in [packages/types/src/augment/registry.ts:1844](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1844)*
 
 ___
 
@@ -4868,7 +4868,7 @@ ___
 
 • **ModuleMetadataV12**: *ModuleMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1892](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1892)*
+*Defined in [packages/types/src/augment/registry.ts:1892](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1892)*
 
 ___
 
@@ -4876,7 +4876,7 @@ ___
 
 • **ModuleMetadataV2**: *ModuleMetadataV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1481](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1481)*
+*Defined in [packages/types/src/augment/registry.ts:1481](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1481)*
 
 ___
 
@@ -4884,7 +4884,7 @@ ___
 
 • **ModuleMetadataV3**: *ModuleMetadataV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1514](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1514)*
+*Defined in [packages/types/src/augment/registry.ts:1514](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1514)*
 
 ___
 
@@ -4892,7 +4892,7 @@ ___
 
 • **ModuleMetadataV4**: *ModuleMetadataV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1547](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1547)*
+*Defined in [packages/types/src/augment/registry.ts:1547](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1547)*
 
 ___
 
@@ -4900,7 +4900,7 @@ ___
 
 • **ModuleMetadataV5**: *ModuleMetadataV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1583](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1583)*
+*Defined in [packages/types/src/augment/registry.ts:1583](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1583)*
 
 ___
 
@@ -4908,7 +4908,7 @@ ___
 
 • **ModuleMetadataV6**: *ModuleMetadataV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1622](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1622)*
+*Defined in [packages/types/src/augment/registry.ts:1622](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1622)*
 
 ___
 
@@ -4916,7 +4916,7 @@ ___
 
 • **ModuleMetadataV7**: *ModuleMetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1661](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1661)*
+*Defined in [packages/types/src/augment/registry.ts:1661](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1661)*
 
 ___
 
@@ -4924,7 +4924,7 @@ ___
 
 • **ModuleMetadataV8**: *ModuleMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1706](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1706)*
+*Defined in [packages/types/src/augment/registry.ts:1706](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1706)*
 
 ___
 
@@ -4932,7 +4932,7 @@ ___
 
 • **ModuleMetadataV9**: *ModuleMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1751](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1751)*
+*Defined in [packages/types/src/augment/registry.ts:1751](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1751)*
 
 ___
 
@@ -4940,7 +4940,7 @@ ___
 
 • **Moment**: *Moment*
 
-*Defined in [packages/types/src/augment/registry.ts:275](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L275)*
+*Defined in [packages/types/src/augment/registry.ts:275](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L275)*
 
 ___
 
@@ -4948,7 +4948,7 @@ ___
 
 • **MomentOf**: *MomentOf*
 
-*Defined in [packages/types/src/augment/registry.ts:982](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L982)*
+*Defined in [packages/types/src/augment/registry.ts:982](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L982)*
 
 ___
 
@@ -4956,7 +4956,7 @@ ___
 
 • **MoreAttestations**: *MoreAttestations*
 
-*Defined in [packages/types/src/augment/registry.ts:1238](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1238)*
+*Defined in [packages/types/src/augment/registry.ts:1238](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1238)*
 
 ___
 
@@ -4964,7 +4964,7 @@ ___
 
 • **MortalEra**: *MortalEra*
 
-*Defined in [packages/types/src/augment/registry.ts:665](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L665)*
+*Defined in [packages/types/src/augment/registry.ts:665](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L665)*
 
 ___
 
@@ -4972,7 +4972,7 @@ ___
 
 • **MultiSignature**: *MultiSignature*
 
-*Defined in [packages/types/src/augment/registry.ts:668](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L668)*
+*Defined in [packages/types/src/augment/registry.ts:668](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L668)*
 
 ___
 
@@ -4980,7 +4980,7 @@ ___
 
 • **Multiplier**: *Multiplier*
 
-*Defined in [packages/types/src/augment/registry.ts:1220](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1220)*
+*Defined in [packages/types/src/augment/registry.ts:1220](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1220)*
 
 ___
 
@@ -4988,7 +4988,7 @@ ___
 
 • **Multisig**: *Multisig*
 
-*Defined in [packages/types/src/augment/registry.ts:1223](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1223)*
+*Defined in [packages/types/src/augment/registry.ts:1223](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1223)*
 
 ___
 
@@ -4996,7 +4996,7 @@ ___
 
 • **NetworkState**: *NetworkState*
 
-*Defined in [packages/types/src/augment/registry.ts:1143](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1143)*
+*Defined in [packages/types/src/augment/registry.ts:1143](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1143)*
 
 ___
 
@@ -5004,7 +5004,7 @@ ___
 
 • **NetworkStatePeerset**: *NetworkStatePeerset*
 
-*Defined in [packages/types/src/augment/registry.ts:1146](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1146)*
+*Defined in [packages/types/src/augment/registry.ts:1146](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1146)*
 
 ___
 
@@ -5012,7 +5012,7 @@ ___
 
 • **NetworkStatePeersetInfo**: *NetworkStatePeersetInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1149](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1149)*
+*Defined in [packages/types/src/augment/registry.ts:1149](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1149)*
 
 ___
 
@@ -5020,7 +5020,7 @@ ___
 
 • **NewBidder**: *NewBidder*
 
-*Defined in [packages/types/src/augment/registry.ts:1308](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1308)*
+*Defined in [packages/types/src/augment/registry.ts:1308](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1308)*
 
 ___
 
@@ -5028,7 +5028,7 @@ ___
 
 • **NextAuthority**: *NextAuthority*
 
-*Defined in [packages/types/src/augment/registry.ts:733](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L733)*
+*Defined in [packages/types/src/augment/registry.ts:733](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L733)*
 
 ___
 
@@ -5036,7 +5036,7 @@ ___
 
 • **NextConfigDescriptor**: *NextConfigDescriptor*
 
-*Defined in [packages/types/src/augment/registry.ts:365](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L365)*
+*Defined in [packages/types/src/augment/registry.ts:365](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L365)*
 
 ___
 
@@ -5044,7 +5044,7 @@ ___
 
 • **NextConfigDescriptorV1**: *NextConfigDescriptorV1*
 
-*Defined in [packages/types/src/augment/registry.ts:368](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L368)*
+*Defined in [packages/types/src/augment/registry.ts:368](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L368)*
 
 ___
 
@@ -5052,7 +5052,7 @@ ___
 
 • **NodeRole**: *NodeRole*
 
-*Defined in [packages/types/src/augment/registry.ts:1152](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1152)*
+*Defined in [packages/types/src/augment/registry.ts:1152](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1152)*
 
 ___
 
@@ -5060,7 +5060,7 @@ ___
 
 • **Nominations**: *Nominations*
 
-*Defined in [packages/types/src/augment/registry.ts:985](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L985)*
+*Defined in [packages/types/src/augment/registry.ts:985](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L985)*
 
 ___
 
@@ -5068,7 +5068,7 @@ ___
 
 • **NominatorIndex**: *NominatorIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:988](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L988)*
+*Defined in [packages/types/src/augment/registry.ts:988](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L988)*
 
 ___
 
@@ -5076,7 +5076,7 @@ ___
 
 • **NominatorIndexCompact**: *NominatorIndexCompact*
 
-*Defined in [packages/types/src/augment/registry.ts:992](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L992)*
+*Defined in [packages/types/src/augment/registry.ts:992](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L992)*
 
 ___
 
@@ -5084,7 +5084,7 @@ ___
 
 • **NotConnectedPeer**: *NotConnectedPeer*
 
-*Defined in [packages/types/src/augment/registry.ts:1155](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1155)*
+*Defined in [packages/types/src/augment/registry.ts:1155](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1155)*
 
 ___
 
@@ -5092,7 +5092,7 @@ ___
 
 • **Null**: *[Null](../classes/_packages_types_src_primitive_null_.null.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:86](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L86)*
+*Defined in [packages/types/src/augment/registry.ts:86](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L86)*
 
 ___
 
@@ -5100,7 +5100,7 @@ ___
 
 • **OffchainAccuracy**: *OffchainAccuracy*
 
-*Defined in [packages/types/src/augment/registry.ts:995](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L995)*
+*Defined in [packages/types/src/augment/registry.ts:995](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L995)*
 
 ___
 
@@ -5108,7 +5108,7 @@ ___
 
 • **OffchainAccuracyCompact**: *OffchainAccuracyCompact*
 
-*Defined in [packages/types/src/augment/registry.ts:998](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L998)*
+*Defined in [packages/types/src/augment/registry.ts:998](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L998)*
 
 ___
 
@@ -5116,7 +5116,7 @@ ___
 
 • **OffenceDetails**: *OffenceDetails*
 
-*Defined in [packages/types/src/augment/registry.ts:817](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L817)*
+*Defined in [packages/types/src/augment/registry.ts:817](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L817)*
 
 ___
 
@@ -5124,7 +5124,7 @@ ___
 
 • **Offender**: *Offender*
 
-*Defined in [packages/types/src/augment/registry.ts:820](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L820)*
+*Defined in [packages/types/src/augment/registry.ts:820](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L820)*
 
 ___
 
@@ -5132,7 +5132,7 @@ ___
 
 • **OpaqueCall**: *OpaqueCall*
 
-*Defined in [packages/types/src/augment/registry.ts:279](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L279)*
+*Defined in [packages/types/src/augment/registry.ts:279](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L279)*
 
 ___
 
@@ -5140,7 +5140,7 @@ ___
 
 • **OpaqueMultiaddr**: *OpaqueMultiaddr*
 
-*Defined in [packages/types/src/augment/registry.ts:802](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L802)*
+*Defined in [packages/types/src/augment/registry.ts:802](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L802)*
 
 ___
 
@@ -5148,7 +5148,7 @@ ___
 
 • **OpaqueNetworkState**: *OpaqueNetworkState*
 
-*Defined in [packages/types/src/augment/registry.ts:808](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L808)*
+*Defined in [packages/types/src/augment/registry.ts:808](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L808)*
 
 ___
 
@@ -5156,7 +5156,7 @@ ___
 
 • **OpaquePeerId**: *OpaquePeerId*
 
-*Defined in [packages/types/src/augment/registry.ts:805](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L805)*
+*Defined in [packages/types/src/augment/registry.ts:805](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L805)*
 
 ___
 
@@ -5164,7 +5164,7 @@ ___
 
 • **OpaqueTimeSlot**: *OpaqueTimeSlot*
 
-*Defined in [packages/types/src/augment/registry.ts:823](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L823)*
+*Defined in [packages/types/src/augment/registry.ts:823](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L823)*
 
 ___
 
@@ -5172,7 +5172,7 @@ ___
 
 • **OpenTip**: *OpenTip*
 
-*Defined in [packages/types/src/augment/registry.ts:1205](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1205)*
+*Defined in [packages/types/src/augment/registry.ts:1205](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1205)*
 
 ___
 
@@ -5180,7 +5180,7 @@ ___
 
 • **OpenTipFinderTo225**: *OpenTipFinderTo225*
 
-*Defined in [packages/types/src/augment/registry.ts:1211](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1211)*
+*Defined in [packages/types/src/augment/registry.ts:1211](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1211)*
 
 ___
 
@@ -5188,7 +5188,7 @@ ___
 
 • **OpenTipTip**: *OpenTipTip*
 
-*Defined in [packages/types/src/augment/registry.ts:1214](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1214)*
+*Defined in [packages/types/src/augment/registry.ts:1214](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1214)*
 
 ___
 
@@ -5196,7 +5196,7 @@ ___
 
 • **OpenTipTo225**: *OpenTipTo225*
 
-*Defined in [packages/types/src/augment/registry.ts:1208](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1208)*
+*Defined in [packages/types/src/augment/registry.ts:1208](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1208)*
 
 ___
 
@@ -5204,7 +5204,7 @@ ___
 
 • **Option<AbridgedCandidateReceipt>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AbridgedCandidateReceipt›*
 
-*Defined in [packages/types/src/augment/registry.ts:1254](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1254)*
+*Defined in [packages/types/src/augment/registry.ts:1254](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1254)*
 
 ___
 
@@ -5212,7 +5212,7 @@ ___
 
 • **Option<Account>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Account›*
 
-*Defined in [packages/types/src/augment/registry.ts:603](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L603)*
+*Defined in [packages/types/src/augment/registry.ts:603](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L603)*
 
 ___
 
@@ -5220,7 +5220,7 @@ ___
 
 • **Option<AccountData>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountData›*
 
-*Defined in [packages/types/src/augment/registry.ts:412](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L412)*
+*Defined in [packages/types/src/augment/registry.ts:412](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L412)*
 
 ___
 
@@ -5228,7 +5228,7 @@ ___
 
 • **Option<AccountId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountId›*
 
-*Defined in [packages/types/src/augment/registry.ts:178](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L178)*
+*Defined in [packages/types/src/augment/registry.ts:178](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L178)*
 
 ___
 
@@ -5236,7 +5236,7 @@ ___
 
 • **Option<AccountIdOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountIdOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:181](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L181)*
+*Defined in [packages/types/src/augment/registry.ts:181](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L181)*
 
 ___
 
@@ -5244,7 +5244,7 @@ ___
 
 • **Option<AccountIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:184](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L184)*
+*Defined in [packages/types/src/augment/registry.ts:184](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L184)*
 
 ___
 
@@ -5252,7 +5252,7 @@ ___
 
 • **Option<AccountInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1068](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1068)*
+*Defined in [packages/types/src/augment/registry.ts:1068](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1068)*
 
 ___
 
@@ -5260,7 +5260,7 @@ ___
 
 • **Option<AccountStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:1377](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1377)*
+*Defined in [packages/types/src/augment/registry.ts:1377](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1377)*
 
 ___
 
@@ -5268,7 +5268,7 @@ ___
 
 • **Option<AccountValidity>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountValidity›*
 
-*Defined in [packages/types/src/augment/registry.ts:1380](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1380)*
+*Defined in [packages/types/src/augment/registry.ts:1380](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1380)*
 
 ___
 
@@ -5276,7 +5276,7 @@ ___
 
 • **Option<AccountVote>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountVote›*
 
-*Defined in [packages/types/src/augment/registry.ts:505](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L505)*
+*Defined in [packages/types/src/augment/registry.ts:505](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L505)*
 
 ___
 
@@ -5284,7 +5284,7 @@ ___
 
 • **Option<AccountVoteSplit>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountVoteSplit›*
 
-*Defined in [packages/types/src/augment/registry.ts:508](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L508)*
+*Defined in [packages/types/src/augment/registry.ts:508](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L508)*
 
 ___
 
@@ -5292,7 +5292,7 @@ ___
 
 • **Option<AccountVoteStandard>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AccountVoteStandard›*
 
-*Defined in [packages/types/src/augment/registry.ts:511](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L511)*
+*Defined in [packages/types/src/augment/registry.ts:511](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L511)*
 
 ___
 
@@ -5300,7 +5300,7 @@ ___
 
 • **Option<ActiveEraInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ActiveEraInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:931](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L931)*
+*Defined in [packages/types/src/augment/registry.ts:931](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L931)*
 
 ___
 
@@ -5308,7 +5308,7 @@ ___
 
 • **Option<ActiveRecovery>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ActiveRecovery›*
 
-*Defined in [packages/types/src/augment/registry.ts:842](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L842)*
+*Defined in [packages/types/src/augment/registry.ts:842](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L842)*
 
 ___
 
@@ -5316,7 +5316,7 @@ ___
 
 • **Option<Address>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Address›*
 
-*Defined in [packages/types/src/augment/registry.ts:187](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L187)*
+*Defined in [packages/types/src/augment/registry.ts:187](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L187)*
 
 ___
 
@@ -5324,7 +5324,7 @@ ___
 
 • **Option<AliveContractInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AliveContractInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:453](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L453)*
+*Defined in [packages/types/src/augment/registry.ts:453](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L453)*
 
 ___
 
@@ -5332,7 +5332,7 @@ ___
 
 • **Option<AllowedSlots>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AllowedSlots›*
 
-*Defined in [packages/types/src/augment/registry.ts:339](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L339)*
+*Defined in [packages/types/src/augment/registry.ts:339](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L339)*
 
 ___
 
@@ -5340,7 +5340,7 @@ ___
 
 • **Option<ApiId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ApiId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1983](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1983)*
+*Defined in [packages/types/src/augment/registry.ts:1983](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1983)*
 
 ___
 
@@ -5348,7 +5348,7 @@ ___
 
 • **Option<ApplyExtrinsicResult>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ApplyExtrinsicResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:1071](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1071)*
+*Defined in [packages/types/src/augment/registry.ts:1071](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1071)*
 
 ___
 
@@ -5356,7 +5356,7 @@ ___
 
 • **Option<ApprovalFlag>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ApprovalFlag›*
 
-*Defined in [packages/types/src/augment/registry.ts:571](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L571)*
+*Defined in [packages/types/src/augment/registry.ts:571](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L571)*
 
 ___
 
@@ -5364,7 +5364,7 @@ ___
 
 • **Option<Approvals>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Approvals›*
 
-*Defined in [packages/types/src/augment/registry.ts:1374](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1374)*
+*Defined in [packages/types/src/augment/registry.ts:1374](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1374)*
 
 ___
 
@@ -5372,7 +5372,7 @@ ___
 
 • **Option<AssetId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AssetId›*
 
-*Defined in [packages/types/src/augment/registry.ts:191](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L191)*
+*Defined in [packages/types/src/augment/registry.ts:191](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L191)*
 
 ___
 
@@ -5380,7 +5380,7 @@ ___
 
 • **Option<AssetOptions>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AssetOptions›*
 
-*Defined in [packages/types/src/augment/registry.ts:687](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L687)*
+*Defined in [packages/types/src/augment/registry.ts:687](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L687)*
 
 ___
 
@@ -5388,7 +5388,7 @@ ___
 
 • **Option<AttestedCandidate>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AttestedCandidate›*
 
-*Defined in [packages/types/src/augment/registry.ts:1257](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1257)*
+*Defined in [packages/types/src/augment/registry.ts:1257](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1257)*
 
 ___
 
@@ -5396,7 +5396,7 @@ ___
 
 • **Option<AuctionIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AuctionIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1261](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1261)*
+*Defined in [packages/types/src/augment/registry.ts:1261](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1261)*
 
 ___
 
@@ -5404,7 +5404,7 @@ ___
 
 • **Option<AuthIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AuthIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:791](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L791)*
+*Defined in [packages/types/src/augment/registry.ts:791](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L791)*
 
 ___
 
@@ -5412,7 +5412,7 @@ ___
 
 • **Option<AuthorityId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AuthorityId›*
 
-*Defined in [packages/types/src/augment/registry.ts:447](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L447)*
+*Defined in [packages/types/src/augment/registry.ts:447](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L447)*
 
 ___
 
@@ -5420,7 +5420,7 @@ ___
 
 • **Option<AuthorityIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AuthorityIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:703](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L703)*
+*Defined in [packages/types/src/augment/registry.ts:703](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L703)*
 
 ___
 
@@ -5428,7 +5428,7 @@ ___
 
 • **Option<AuthorityList>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AuthorityList›*
 
-*Defined in [packages/types/src/augment/registry.ts:706](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L706)*
+*Defined in [packages/types/src/augment/registry.ts:706](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L706)*
 
 ___
 
@@ -5436,7 +5436,7 @@ ___
 
 • **Option<AuthoritySignature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AuthoritySignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:794](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L794)*
+*Defined in [packages/types/src/augment/registry.ts:794](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L794)*
 
 ___
 
@@ -5444,7 +5444,7 @@ ___
 
 • **Option<AuthorityWeight>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹AuthorityWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:710](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L710)*
+*Defined in [packages/types/src/augment/registry.ts:710](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L710)*
 
 ___
 
@@ -5452,7 +5452,7 @@ ___
 
 • **Option<BabeAuthorityWeight>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BabeAuthorityWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:343](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L343)*
+*Defined in [packages/types/src/augment/registry.ts:343](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L343)*
 
 ___
 
@@ -5460,7 +5460,7 @@ ___
 
 • **Option<BabeBlockWeight>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BabeBlockWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:347](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L347)*
+*Defined in [packages/types/src/augment/registry.ts:347](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L347)*
 
 ___
 
@@ -5468,7 +5468,7 @@ ___
 
 • **Option<BabeEquivocationProof>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BabeEquivocationProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:350](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L350)*
+*Defined in [packages/types/src/augment/registry.ts:350](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L350)*
 
 ___
 
@@ -5476,7 +5476,7 @@ ___
 
 • **Option<BabeWeight>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BabeWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:354](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L354)*
+*Defined in [packages/types/src/augment/registry.ts:354](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L354)*
 
 ___
 
@@ -5484,7 +5484,7 @@ ___
 
 • **Option<Balance>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Balance›*
 
-*Defined in [packages/types/src/augment/registry.ts:195](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L195)*
+*Defined in [packages/types/src/augment/registry.ts:195](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L195)*
 
 ___
 
@@ -5492,7 +5492,7 @@ ___
 
 • **Option<BalanceLock>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BalanceLock›*
 
-*Defined in [packages/types/src/augment/registry.ts:418](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L418)*
+*Defined in [packages/types/src/augment/registry.ts:418](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L418)*
 
 ___
 
@@ -5500,7 +5500,7 @@ ___
 
 • **Option<BalanceLockTo212>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BalanceLockTo212›*
 
-*Defined in [packages/types/src/augment/registry.ts:415](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L415)*
+*Defined in [packages/types/src/augment/registry.ts:415](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L415)*
 
 ___
 
@@ -5508,7 +5508,7 @@ ___
 
 • **Option<BalanceOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BalanceOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:198](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L198)*
+*Defined in [packages/types/src/augment/registry.ts:198](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L198)*
 
 ___
 
@@ -5516,7 +5516,7 @@ ___
 
 • **Option<BalanceStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BalanceStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:421](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L421)*
+*Defined in [packages/types/src/augment/registry.ts:421](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L421)*
 
 ___
 
@@ -5524,7 +5524,7 @@ ___
 
 • **Option<Bid>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Bid›*
 
-*Defined in [packages/types/src/augment/registry.ts:905](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L905)*
+*Defined in [packages/types/src/augment/registry.ts:905](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L905)*
 
 ___
 
@@ -5532,7 +5532,7 @@ ___
 
 • **Option<BidKind>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BidKind›*
 
-*Defined in [packages/types/src/augment/registry.ts:908](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L908)*
+*Defined in [packages/types/src/augment/registry.ts:908](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L908)*
 
 ___
 
@@ -5540,7 +5540,7 @@ ___
 
 • **Option<Bidder>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Bidder›*
 
-*Defined in [packages/types/src/augment/registry.ts:1264](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1264)*
+*Defined in [packages/types/src/augment/registry.ts:1264](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1264)*
 
 ___
 
@@ -5548,7 +5548,7 @@ ___
 
 • **Option<BitVec>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[BitVec](../classes/_packages_types_src_primitive_bitvec_.bitvec.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:54](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L54)*
+*Defined in [packages/types/src/augment/registry.ts:54](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L54)*
 
 ___
 
@@ -5556,7 +5556,7 @@ ___
 
 • **Option<Block>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Block›*
 
-*Defined in [packages/types/src/augment/registry.ts:201](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L201)*
+*Defined in [packages/types/src/augment/registry.ts:201](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L201)*
 
 ___
 
@@ -5564,7 +5564,7 @@ ___
 
 • **Option<BlockAttestations>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BlockAttestations›*
 
-*Defined in [packages/types/src/augment/registry.ts:1233](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1233)*
+*Defined in [packages/types/src/augment/registry.ts:1233](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1233)*
 
 ___
 
@@ -5572,7 +5572,7 @@ ___
 
 • **Option<BlockHash>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BlockHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:1971](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1971)*
+*Defined in [packages/types/src/augment/registry.ts:1971](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1971)*
 
 ___
 
@@ -5580,7 +5580,7 @@ ___
 
 • **Option<BlockNumber>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BlockNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:205](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L205)*
+*Defined in [packages/types/src/augment/registry.ts:205](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L205)*
 
 ___
 
@@ -5588,7 +5588,7 @@ ___
 
 • **Option<Bounty>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Bounty›*
 
-*Defined in [packages/types/src/augment/registry.ts:1187](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1187)*
+*Defined in [packages/types/src/augment/registry.ts:1187](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1187)*
 
 ___
 
@@ -5596,7 +5596,7 @@ ___
 
 • **Option<BountyIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BountyIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1191](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1191)*
+*Defined in [packages/types/src/augment/registry.ts:1191](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1191)*
 
 ___
 
@@ -5604,7 +5604,7 @@ ___
 
 • **Option<BountyStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BountyStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:1194](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1194)*
+*Defined in [packages/types/src/augment/registry.ts:1194](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1194)*
 
 ___
 
@@ -5612,7 +5612,7 @@ ___
 
 • **Option<BountyStatusActive>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BountyStatusActive›*
 
-*Defined in [packages/types/src/augment/registry.ts:1197](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1197)*
+*Defined in [packages/types/src/augment/registry.ts:1197](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1197)*
 
 ___
 
@@ -5620,7 +5620,7 @@ ___
 
 • **Option<BountyStatusCuratorProposed>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BountyStatusCuratorProposed›*
 
-*Defined in [packages/types/src/augment/registry.ts:1200](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1200)*
+*Defined in [packages/types/src/augment/registry.ts:1200](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1200)*
 
 ___
 
@@ -5628,7 +5628,7 @@ ___
 
 • **Option<BountyStatusPendingPayout>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹BountyStatusPendingPayout›*
 
-*Defined in [packages/types/src/augment/registry.ts:1203](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1203)*
+*Defined in [packages/types/src/augment/registry.ts:1203](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1203)*
 
 ___
 
@@ -5636,7 +5636,7 @@ ___
 
 • **Option<Bytes>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[Bytes](../classes/_packages_types_src_primitive_bytes_.bytes.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:60](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L60)*
+*Defined in [packages/types/src/augment/registry.ts:60](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L60)*
 
 ___
 
@@ -5644,7 +5644,7 @@ ___
 
 • **Option<Call>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Call›*
 
-*Defined in [packages/types/src/augment/registry.ts:208](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L208)*
+*Defined in [packages/types/src/augment/registry.ts:208](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L208)*
 
 ___
 
@@ -5652,7 +5652,7 @@ ___
 
 • **Option<CallHash>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CallHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:211](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L211)*
+*Defined in [packages/types/src/augment/registry.ts:211](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L211)*
 
 ___
 
@@ -5660,7 +5660,7 @@ ___
 
 • **Option<CallHashOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CallHashOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:214](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L214)*
+*Defined in [packages/types/src/augment/registry.ts:214](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L214)*
 
 ___
 
@@ -5668,7 +5668,7 @@ ___
 
 • **Option<CallMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CallMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1389](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1389)*
+*Defined in [packages/types/src/augment/registry.ts:1389](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1389)*
 
 ___
 
@@ -5676,7 +5676,7 @@ ___
 
 • **Option<CandidateCommitments>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CandidateCommitments›*
 
-*Defined in [packages/types/src/augment/registry.ts:1267](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1267)*
+*Defined in [packages/types/src/augment/registry.ts:1267](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1267)*
 
 ___
 
@@ -5684,7 +5684,7 @@ ___
 
 • **Option<CandidateReceipt>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CandidateReceipt›*
 
-*Defined in [packages/types/src/augment/registry.ts:1270](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1270)*
+*Defined in [packages/types/src/augment/registry.ts:1270](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1270)*
 
 ___
 
@@ -5692,7 +5692,7 @@ ___
 
 • **Option<ChainProperties>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ChainProperties›*
 
-*Defined in [packages/types/src/augment/registry.ts:1074](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1074)*
+*Defined in [packages/types/src/augment/registry.ts:1074](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1074)*
 
 ___
 
@@ -5700,7 +5700,7 @@ ___
 
 • **Option<ChainType>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ChainType›*
 
-*Defined in [packages/types/src/augment/registry.ts:1077](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1077)*
+*Defined in [packages/types/src/augment/registry.ts:1077](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1077)*
 
 ___
 
@@ -5708,7 +5708,7 @@ ___
 
 • **Option<ChangesTrieConfiguration>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ChangesTrieConfiguration›*
 
-*Defined in [packages/types/src/augment/registry.ts:217](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L217)*
+*Defined in [packages/types/src/augment/registry.ts:217](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L217)*
 
 ___
 
@@ -5716,7 +5716,7 @@ ___
 
 • **Option<CodeHash>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CodeHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:456](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L456)*
+*Defined in [packages/types/src/augment/registry.ts:456](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L456)*
 
 ___
 
@@ -5724,7 +5724,7 @@ ___
 
 • **Option<CollatorId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CollatorId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1273](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1273)*
+*Defined in [packages/types/src/augment/registry.ts:1273](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1273)*
 
 ___
 
@@ -5732,7 +5732,7 @@ ___
 
 • **Option<CollatorSignature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CollatorSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:1276](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1276)*
+*Defined in [packages/types/src/augment/registry.ts:1276](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1276)*
 
 ___
 
@@ -5740,7 +5740,7 @@ ___
 
 • **Option<CompactAssignments>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CompactAssignments›*
 
-*Defined in [packages/types/src/augment/registry.ts:934](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L934)*
+*Defined in [packages/types/src/augment/registry.ts:934](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L934)*
 
 ___
 
@@ -5748,7 +5748,7 @@ ___
 
 • **Option<CompactAssignmentsTo257>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CompactAssignmentsTo257›*
 
-*Defined in [packages/types/src/augment/registry.ts:937](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L937)*
+*Defined in [packages/types/src/augment/registry.ts:937](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L937)*
 
 ___
 
@@ -5756,7 +5756,7 @@ ___
 
 • **Option<CompactScore>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CompactScore›*
 
-*Defined in [packages/types/src/augment/registry.ts:940](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L940)*
+*Defined in [packages/types/src/augment/registry.ts:940](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L940)*
 
 ___
 
@@ -5764,7 +5764,7 @@ ___
 
 • **Option<CompactScoreCompact>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CompactScoreCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:943](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L943)*
+*Defined in [packages/types/src/augment/registry.ts:943](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L943)*
 
 ___
 
@@ -5772,7 +5772,7 @@ ___
 
 • **Option<Consensus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Consensus›*
 
-*Defined in [packages/types/src/augment/registry.ts:330](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L330)*
+*Defined in [packages/types/src/augment/registry.ts:330](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L330)*
 
 ___
 
@@ -5780,7 +5780,7 @@ ___
 
 • **Option<ConsensusEngineId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ConsensusEngineId›*
 
-*Defined in [packages/types/src/augment/registry.ts:220](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L220)*
+*Defined in [packages/types/src/augment/registry.ts:220](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L220)*
 
 ___
 
@@ -5788,7 +5788,7 @@ ___
 
 • **Option<ContractCallRequest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ContractCallRequest›*
 
-*Defined in [packages/types/src/augment/registry.ts:459](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L459)*
+*Defined in [packages/types/src/augment/registry.ts:459](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L459)*
 
 ___
 
@@ -5796,7 +5796,7 @@ ___
 
 • **Option<ContractExecResult>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ContractExecResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:471](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L471)*
+*Defined in [packages/types/src/augment/registry.ts:471](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L471)*
 
 ___
 
@@ -5804,7 +5804,7 @@ ___
 
 • **Option<ContractExecResultSuccess>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ContractExecResultSuccess›*
 
-*Defined in [packages/types/src/augment/registry.ts:468](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L468)*
+*Defined in [packages/types/src/augment/registry.ts:468](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L468)*
 
 ___
 
@@ -5812,7 +5812,7 @@ ___
 
 • **Option<ContractExecResultSuccessTo255>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ContractExecResultSuccessTo255›*
 
-*Defined in [packages/types/src/augment/registry.ts:462](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L462)*
+*Defined in [packages/types/src/augment/registry.ts:462](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L462)*
 
 ___
 
@@ -5820,7 +5820,7 @@ ___
 
 • **Option<ContractExecResultTo255>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ContractExecResultTo255›*
 
-*Defined in [packages/types/src/augment/registry.ts:465](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L465)*
+*Defined in [packages/types/src/augment/registry.ts:465](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L465)*
 
 ___
 
@@ -5828,7 +5828,7 @@ ___
 
 • **Option<ContractInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ContractInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:474](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L474)*
+*Defined in [packages/types/src/augment/registry.ts:474](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L474)*
 
 ___
 
@@ -5836,7 +5836,7 @@ ___
 
 • **Option<ContractStorageKey>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ContractStorageKey›*
 
-*Defined in [packages/types/src/augment/registry.ts:477](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L477)*
+*Defined in [packages/types/src/augment/registry.ts:477](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L477)*
 
 ___
 
@@ -5844,7 +5844,7 @@ ___
 
 • **Option<Conviction>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Conviction›*
 
-*Defined in [packages/types/src/augment/registry.ts:514](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L514)*
+*Defined in [packages/types/src/augment/registry.ts:514](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L514)*
 
 ___
 
@@ -5852,7 +5852,7 @@ ___
 
 • **Option<CreatedBlock>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹CreatedBlock›*
 
-*Defined in [packages/types/src/augment/registry.ts:597](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L597)*
+*Defined in [packages/types/src/augment/registry.ts:597](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L597)*
 
 ___
 
@@ -5860,7 +5860,7 @@ ___
 
 • **Option<Data>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[Data](../classes/_packages_types_src_primitive_data_.data.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:63](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L63)*
+*Defined in [packages/types/src/augment/registry.ts:63](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L63)*
 
 ___
 
@@ -5868,7 +5868,7 @@ ___
 
 • **Option<DeferredOffenceOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DeferredOffenceOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:812](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L812)*
+*Defined in [packages/types/src/augment/registry.ts:812](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L812)*
 
 ___
 
@@ -5876,7 +5876,7 @@ ___
 
 • **Option<DefunctVoter>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DefunctVoter›*
 
-*Defined in [packages/types/src/augment/registry.ts:574](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L574)*
+*Defined in [packages/types/src/augment/registry.ts:574](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L574)*
 
 ___
 
@@ -5884,7 +5884,7 @@ ___
 
 • **Option<Delegations>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Delegations›*
 
-*Defined in [packages/types/src/augment/registry.ts:517](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L517)*
+*Defined in [packages/types/src/augment/registry.ts:517](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L517)*
 
 ___
 
@@ -5892,7 +5892,7 @@ ___
 
 • **Option<Digest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Digest›*
 
-*Defined in [packages/types/src/augment/registry.ts:223](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L223)*
+*Defined in [packages/types/src/augment/registry.ts:223](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L223)*
 
 ___
 
@@ -5900,7 +5900,7 @@ ___
 
 • **Option<DigestItem>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DigestItem›*
 
-*Defined in [packages/types/src/augment/registry.ts:226](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L226)*
+*Defined in [packages/types/src/augment/registry.ts:226](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L226)*
 
 ___
 
@@ -5908,7 +5908,7 @@ ___
 
 • **Option<DigestOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DigestOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:1080](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1080)*
+*Defined in [packages/types/src/augment/registry.ts:1080](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1080)*
 
 ___
 
@@ -5916,7 +5916,7 @@ ___
 
 • **Option<DispatchClass>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchClass›*
 
-*Defined in [packages/types/src/augment/registry.ts:1083](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1083)*
+*Defined in [packages/types/src/augment/registry.ts:1083](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1083)*
 
 ___
 
@@ -5924,7 +5924,7 @@ ___
 
 • **Option<DispatchError>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchError›*
 
-*Defined in [packages/types/src/augment/registry.ts:1086](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1086)*
+*Defined in [packages/types/src/augment/registry.ts:1086](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1086)*
 
 ___
 
@@ -5932,7 +5932,7 @@ ___
 
 • **Option<DispatchErrorModule>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchErrorModule›*
 
-*Defined in [packages/types/src/augment/registry.ts:1089](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1089)*
+*Defined in [packages/types/src/augment/registry.ts:1089](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1089)*
 
 ___
 
@@ -5940,7 +5940,7 @@ ___
 
 • **Option<DispatchErrorTo198>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchErrorTo198›*
 
-*Defined in [packages/types/src/augment/registry.ts:1092](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1092)*
+*Defined in [packages/types/src/augment/registry.ts:1092](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1092)*
 
 ___
 
@@ -5948,7 +5948,7 @@ ___
 
 • **Option<DispatchInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1095](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1095)*
+*Defined in [packages/types/src/augment/registry.ts:1095](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1095)*
 
 ___
 
@@ -5956,7 +5956,7 @@ ___
 
 • **Option<DispatchInfoTo190>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchInfoTo190›*
 
-*Defined in [packages/types/src/augment/registry.ts:1098](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1098)*
+*Defined in [packages/types/src/augment/registry.ts:1098](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1098)*
 
 ___
 
@@ -5964,7 +5964,7 @@ ___
 
 • **Option<DispatchInfoTo244>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchInfoTo244›*
 
-*Defined in [packages/types/src/augment/registry.ts:1101](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1101)*
+*Defined in [packages/types/src/augment/registry.ts:1101](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1101)*
 
 ___
 
@@ -5972,7 +5972,7 @@ ___
 
 • **Option<DispatchOutcome>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchOutcome›*
 
-*Defined in [packages/types/src/augment/registry.ts:1104](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1104)*
+*Defined in [packages/types/src/augment/registry.ts:1104](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1104)*
 
 ___
 
@@ -5980,7 +5980,7 @@ ___
 
 • **Option<DispatchResult>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:1107](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1107)*
+*Defined in [packages/types/src/augment/registry.ts:1107](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1107)*
 
 ___
 
@@ -5988,7 +5988,7 @@ ___
 
 • **Option<DispatchResultOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchResultOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:1110](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1110)*
+*Defined in [packages/types/src/augment/registry.ts:1110](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1110)*
 
 ___
 
@@ -5996,7 +5996,7 @@ ___
 
 • **Option<DispatchResultTo198>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DispatchResultTo198›*
 
-*Defined in [packages/types/src/augment/registry.ts:1113](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1113)*
+*Defined in [packages/types/src/augment/registry.ts:1113](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1113)*
 
 ___
 
@@ -6004,7 +6004,7 @@ ___
 
 • **Option<DoNotConstruct>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[DoNotConstruct](../classes/_packages_types_src_primitive_donotconstruct_.donotconstruct.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:66](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L66)*
+*Defined in [packages/types/src/augment/registry.ts:66](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L66)*
 
 ___
 
@@ -6012,7 +6012,7 @@ ___
 
 • **Option<DoubleMapTypeLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1914](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1914)*
+*Defined in [packages/types/src/augment/registry.ts:1914](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1914)*
 
 ___
 
@@ -6020,7 +6020,7 @@ ___
 
 • **Option<DoubleMapTypeV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1773](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1773)*
+*Defined in [packages/types/src/augment/registry.ts:1773](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1773)*
 
 ___
 
@@ -6028,7 +6028,7 @@ ___
 
 • **Option<DoubleMapTypeV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1818](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1818)*
+*Defined in [packages/types/src/augment/registry.ts:1818](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1818)*
 
 ___
 
@@ -6036,7 +6036,7 @@ ___
 
 • **Option<DoubleMapTypeV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1866](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1866)*
+*Defined in [packages/types/src/augment/registry.ts:1866](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1866)*
 
 ___
 
@@ -6044,7 +6044,7 @@ ___
 
 • **Option<DoubleMapTypeV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1497](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1497)*
+*Defined in [packages/types/src/augment/registry.ts:1497](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1497)*
 
 ___
 
@@ -6052,7 +6052,7 @@ ___
 
 • **Option<DoubleMapTypeV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1530](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1530)*
+*Defined in [packages/types/src/augment/registry.ts:1530](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1530)*
 
 ___
 
@@ -6060,7 +6060,7 @@ ___
 
 • **Option<DoubleMapTypeV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1566](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1566)*
+*Defined in [packages/types/src/augment/registry.ts:1566](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1566)*
 
 ___
 
@@ -6068,7 +6068,7 @@ ___
 
 • **Option<DoubleMapTypeV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1602](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1602)*
+*Defined in [packages/types/src/augment/registry.ts:1602](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1602)*
 
 ___
 
@@ -6076,7 +6076,7 @@ ___
 
 • **Option<DoubleMapTypeV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1641](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1641)*
+*Defined in [packages/types/src/augment/registry.ts:1641](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1641)*
 
 ___
 
@@ -6084,7 +6084,7 @@ ___
 
 • **Option<DoubleMapTypeV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1683](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1683)*
+*Defined in [packages/types/src/augment/registry.ts:1683](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1683)*
 
 ___
 
@@ -6092,7 +6092,7 @@ ___
 
 • **Option<DoubleMapTypeV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleMapTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1728](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1728)*
+*Defined in [packages/types/src/augment/registry.ts:1728](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1728)*
 
 ___
 
@@ -6100,7 +6100,7 @@ ___
 
 • **Option<DoubleVoteReport>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DoubleVoteReport›*
 
-*Defined in [packages/types/src/augment/registry.ts:1279](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1279)*
+*Defined in [packages/types/src/augment/registry.ts:1279](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1279)*
 
 ___
 
@@ -6108,7 +6108,7 @@ ___
 
 • **Option<DownwardMessage>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹DownwardMessage›*
 
-*Defined in [packages/types/src/augment/registry.ts:1282](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1282)*
+*Defined in [packages/types/src/augment/registry.ts:1282](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1282)*
 
 ___
 
@@ -6116,7 +6116,7 @@ ___
 
 • **Option<EcdsaSignature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EcdsaSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:678](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L678)*
+*Defined in [packages/types/src/augment/registry.ts:678](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L678)*
 
 ___
 
@@ -6124,7 +6124,7 @@ ___
 
 • **Option<Ed25519Signature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Ed25519Signature›*
 
-*Defined in [packages/types/src/augment/registry.ts:681](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L681)*
+*Defined in [packages/types/src/augment/registry.ts:681](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L681)*
 
 ___
 
@@ -6132,7 +6132,7 @@ ___
 
 • **Option<ElectionCompute>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ElectionCompute›*
 
-*Defined in [packages/types/src/augment/registry.ts:946](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L946)*
+*Defined in [packages/types/src/augment/registry.ts:946](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L946)*
 
 ___
 
@@ -6140,7 +6140,7 @@ ___
 
 • **Option<ElectionResult>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ElectionResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:949](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L949)*
+*Defined in [packages/types/src/augment/registry.ts:949](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L949)*
 
 ___
 
@@ -6148,7 +6148,7 @@ ___
 
 • **Option<ElectionScore>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ElectionScore›*
 
-*Defined in [packages/types/src/augment/registry.ts:952](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L952)*
+*Defined in [packages/types/src/augment/registry.ts:952](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L952)*
 
 ___
 
@@ -6156,7 +6156,7 @@ ___
 
 • **Option<ElectionSize>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ElectionSize›*
 
-*Defined in [packages/types/src/augment/registry.ts:955](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L955)*
+*Defined in [packages/types/src/augment/registry.ts:955](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L955)*
 
 ___
 
@@ -6164,7 +6164,7 @@ ___
 
 • **Option<ElectionStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ElectionStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:958](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L958)*
+*Defined in [packages/types/src/augment/registry.ts:958](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L958)*
 
 ___
 
@@ -6172,7 +6172,7 @@ ___
 
 • **Option<EncodedFinalityProofs>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EncodedFinalityProofs›*
 
-*Defined in [packages/types/src/augment/registry.ts:713](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L713)*
+*Defined in [packages/types/src/augment/registry.ts:713](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L713)*
 
 ___
 
@@ -6180,7 +6180,7 @@ ___
 
 • **Option<EpochAuthorship>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EpochAuthorship›*
 
-*Defined in [packages/types/src/augment/registry.ts:363](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L363)*
+*Defined in [packages/types/src/augment/registry.ts:363](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L363)*
 
 ___
 
@@ -6188,7 +6188,7 @@ ___
 
 • **Option<EraIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EraIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:962](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L962)*
+*Defined in [packages/types/src/augment/registry.ts:962](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L962)*
 
 ___
 
@@ -6196,7 +6196,7 @@ ___
 
 • **Option<EraPoints>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EraPoints›*
 
-*Defined in [packages/types/src/augment/registry.ts:928](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L928)*
+*Defined in [packages/types/src/augment/registry.ts:928](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L928)*
 
 ___
 
@@ -6204,7 +6204,7 @@ ___
 
 • **Option<EraRewardPoints>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EraRewardPoints›*
 
-*Defined in [packages/types/src/augment/registry.ts:965](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L965)*
+*Defined in [packages/types/src/augment/registry.ts:965](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L965)*
 
 ___
 
@@ -6212,7 +6212,7 @@ ___
 
 • **Option<EraRewards>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EraRewards›*
 
-*Defined in [packages/types/src/augment/registry.ts:968](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L968)*
+*Defined in [packages/types/src/augment/registry.ts:968](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L968)*
 
 ___
 
@@ -6220,7 +6220,7 @@ ___
 
 • **Option<ErrorMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ErrorMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1776](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1776)*
+*Defined in [packages/types/src/augment/registry.ts:1776](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1776)*
 
 ___
 
@@ -6228,7 +6228,7 @@ ___
 
 • **Option<ErrorMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ErrorMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1821](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1821)*
+*Defined in [packages/types/src/augment/registry.ts:1821](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1821)*
 
 ___
 
@@ -6236,7 +6236,7 @@ ___
 
 • **Option<ErrorMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ErrorMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1869](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1869)*
+*Defined in [packages/types/src/augment/registry.ts:1869](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1869)*
 
 ___
 
@@ -6244,7 +6244,7 @@ ___
 
 • **Option<ErrorMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ErrorMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1686](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1686)*
+*Defined in [packages/types/src/augment/registry.ts:1686](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1686)*
 
 ___
 
@@ -6252,7 +6252,7 @@ ___
 
 • **Option<ErrorMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ErrorMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1731](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1731)*
+*Defined in [packages/types/src/augment/registry.ts:1731](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1731)*
 
 ___
 
@@ -6260,7 +6260,7 @@ ___
 
 • **Option<EthereumAccountId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EthereumAccountId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1383](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1383)*
+*Defined in [packages/types/src/augment/registry.ts:1383](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1383)*
 
 ___
 
@@ -6268,7 +6268,7 @@ ___
 
 • **Option<EthereumAddress>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EthereumAddress›*
 
-*Defined in [packages/types/src/augment/registry.ts:1242](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1242)*
+*Defined in [packages/types/src/augment/registry.ts:1242](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1242)*
 
 ___
 
@@ -6276,7 +6276,7 @@ ___
 
 • **Option<EthereumLookupSource>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EthereumLookupSource›*
 
-*Defined in [packages/types/src/augment/registry.ts:1386](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1386)*
+*Defined in [packages/types/src/augment/registry.ts:1386](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1386)*
 
 ___
 
@@ -6284,7 +6284,7 @@ ___
 
 • **Option<Event>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Event›*
 
-*Defined in [packages/types/src/augment/registry.ts:1116](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1116)*
+*Defined in [packages/types/src/augment/registry.ts:1116](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1116)*
 
 ___
 
@@ -6292,7 +6292,7 @@ ___
 
 • **Option<EventId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1119](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1119)*
+*Defined in [packages/types/src/augment/registry.ts:1119](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1119)*
 
 ___
 
@@ -6300,7 +6300,7 @@ ___
 
 • **Option<EventIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1123](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1123)*
+*Defined in [packages/types/src/augment/registry.ts:1123](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1123)*
 
 ___
 
@@ -6308,7 +6308,7 @@ ___
 
 • **Option<EventMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1917](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1917)*
+*Defined in [packages/types/src/augment/registry.ts:1917](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1917)*
 
 ___
 
@@ -6316,7 +6316,7 @@ ___
 
 • **Option<EventMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1392](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1392)*
+*Defined in [packages/types/src/augment/registry.ts:1392](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1392)*
 
 ___
 
@@ -6324,7 +6324,7 @@ ___
 
 • **Option<EventMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1779](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1779)*
+*Defined in [packages/types/src/augment/registry.ts:1779](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1779)*
 
 ___
 
@@ -6332,7 +6332,7 @@ ___
 
 • **Option<EventMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1824](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1824)*
+*Defined in [packages/types/src/augment/registry.ts:1824](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1824)*
 
 ___
 
@@ -6340,7 +6340,7 @@ ___
 
 • **Option<EventMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1872](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1872)*
+*Defined in [packages/types/src/augment/registry.ts:1872](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1872)*
 
 ___
 
@@ -6348,7 +6348,7 @@ ___
 
 • **Option<EventMetadataV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1443](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1443)*
+*Defined in [packages/types/src/augment/registry.ts:1443](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1443)*
 
 ___
 
@@ -6356,7 +6356,7 @@ ___
 
 • **Option<EventMetadataV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1467](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1467)*
+*Defined in [packages/types/src/augment/registry.ts:1467](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1467)*
 
 ___
 
@@ -6364,7 +6364,7 @@ ___
 
 • **Option<EventMetadataV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1500](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1500)*
+*Defined in [packages/types/src/augment/registry.ts:1500](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1500)*
 
 ___
 
@@ -6372,7 +6372,7 @@ ___
 
 • **Option<EventMetadataV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1533](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1533)*
+*Defined in [packages/types/src/augment/registry.ts:1533](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1533)*
 
 ___
 
@@ -6380,7 +6380,7 @@ ___
 
 • **Option<EventMetadataV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1569](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1569)*
+*Defined in [packages/types/src/augment/registry.ts:1569](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1569)*
 
 ___
 
@@ -6388,7 +6388,7 @@ ___
 
 • **Option<EventMetadataV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1605](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1605)*
+*Defined in [packages/types/src/augment/registry.ts:1605](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1605)*
 
 ___
 
@@ -6396,7 +6396,7 @@ ___
 
 • **Option<EventMetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1644](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1644)*
+*Defined in [packages/types/src/augment/registry.ts:1644](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1644)*
 
 ___
 
@@ -6404,7 +6404,7 @@ ___
 
 • **Option<EventMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1689](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1689)*
+*Defined in [packages/types/src/augment/registry.ts:1689](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1689)*
 
 ___
 
@@ -6412,7 +6412,7 @@ ___
 
 • **Option<EventMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1734](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1734)*
+*Defined in [packages/types/src/augment/registry.ts:1734](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1734)*
 
 ___
 
@@ -6420,7 +6420,7 @@ ___
 
 • **Option<EventRecord>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventRecord›*
 
-*Defined in [packages/types/src/augment/registry.ts:1126](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1126)*
+*Defined in [packages/types/src/augment/registry.ts:1126](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1126)*
 
 ___
 
@@ -6428,7 +6428,7 @@ ___
 
 • **Option<EventRecordTo76>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹EventRecordTo76›*
 
-*Defined in [packages/types/src/augment/registry.ts:1129](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1129)*
+*Defined in [packages/types/src/augment/registry.ts:1129](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1129)*
 
 ___
 
@@ -6436,7 +6436,7 @@ ___
 
 • **Option<Exposure>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Exposure›*
 
-*Defined in [packages/types/src/augment/registry.ts:971](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L971)*
+*Defined in [packages/types/src/augment/registry.ts:971](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L971)*
 
 ___
 
@@ -6444,7 +6444,7 @@ ___
 
 • **Option<Extrinsic>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Extrinsic›*
 
-*Defined in [packages/types/src/augment/registry.ts:612](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L612)*
+*Defined in [packages/types/src/augment/registry.ts:612](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L612)*
 
 ___
 
@@ -6452,7 +6452,7 @@ ___
 
 • **Option<ExtrinsicEra>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicEra›*
 
-*Defined in [packages/types/src/augment/registry.ts:615](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L615)*
+*Defined in [packages/types/src/augment/registry.ts:615](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L615)*
 
 ___
 
@@ -6460,7 +6460,7 @@ ___
 
 • **Option<ExtrinsicMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1920](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1920)*
+*Defined in [packages/types/src/augment/registry.ts:1920](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1920)*
 
 ___
 
@@ -6468,7 +6468,7 @@ ___
 
 • **Option<ExtrinsicMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1827](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1827)*
+*Defined in [packages/types/src/augment/registry.ts:1827](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1827)*
 
 ___
 
@@ -6476,7 +6476,7 @@ ___
 
 • **Option<ExtrinsicMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1875](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1875)*
+*Defined in [packages/types/src/augment/registry.ts:1875](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1875)*
 
 ___
 
@@ -6484,7 +6484,7 @@ ___
 
 • **Option<ExtrinsicOrHash>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicOrHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:1965](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1965)*
+*Defined in [packages/types/src/augment/registry.ts:1965](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1965)*
 
 ___
 
@@ -6492,7 +6492,7 @@ ___
 
 • **Option<ExtrinsicPayload>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicPayload›*
 
-*Defined in [packages/types/src/augment/registry.ts:618](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L618)*
+*Defined in [packages/types/src/augment/registry.ts:618](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L618)*
 
 ___
 
@@ -6500,7 +6500,7 @@ ___
 
 • **Option<ExtrinsicPayloadUnknown>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicPayloadUnknown›*
 
-*Defined in [packages/types/src/augment/registry.ts:660](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L660)*
+*Defined in [packages/types/src/augment/registry.ts:660](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L660)*
 
 ___
 
@@ -6508,7 +6508,7 @@ ___
 
 • **Option<ExtrinsicPayloadV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicPayloadV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:624](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L624)*
+*Defined in [packages/types/src/augment/registry.ts:624](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L624)*
 
 ___
 
@@ -6516,7 +6516,7 @@ ___
 
 • **Option<ExtrinsicPayloadV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicPayloadV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:633](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L633)*
+*Defined in [packages/types/src/augment/registry.ts:633](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L633)*
 
 ___
 
@@ -6524,7 +6524,7 @@ ___
 
 • **Option<ExtrinsicPayloadV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicPayloadV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:642](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L642)*
+*Defined in [packages/types/src/augment/registry.ts:642](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L642)*
 
 ___
 
@@ -6532,7 +6532,7 @@ ___
 
 • **Option<ExtrinsicPayloadV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicPayloadV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:651](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L651)*
+*Defined in [packages/types/src/augment/registry.ts:651](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L651)*
 
 ___
 
@@ -6540,7 +6540,7 @@ ___
 
 • **Option<ExtrinsicSignatureV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicSignatureV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:627](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L627)*
+*Defined in [packages/types/src/augment/registry.ts:627](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L627)*
 
 ___
 
@@ -6548,7 +6548,7 @@ ___
 
 • **Option<ExtrinsicSignatureV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicSignatureV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:636](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L636)*
+*Defined in [packages/types/src/augment/registry.ts:636](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L636)*
 
 ___
 
@@ -6556,7 +6556,7 @@ ___
 
 • **Option<ExtrinsicSignatureV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicSignatureV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:645](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L645)*
+*Defined in [packages/types/src/augment/registry.ts:645](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L645)*
 
 ___
 
@@ -6564,7 +6564,7 @@ ___
 
 • **Option<ExtrinsicSignatureV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicSignatureV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:654](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L654)*
+*Defined in [packages/types/src/augment/registry.ts:654](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L654)*
 
 ___
 
@@ -6572,7 +6572,7 @@ ___
 
 • **Option<ExtrinsicStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:1968](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1968)*
+*Defined in [packages/types/src/augment/registry.ts:1968](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1968)*
 
 ___
 
@@ -6580,7 +6580,7 @@ ___
 
 • **Option<ExtrinsicUnknown>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicUnknown›*
 
-*Defined in [packages/types/src/augment/registry.ts:657](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L657)*
+*Defined in [packages/types/src/augment/registry.ts:657](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L657)*
 
 ___
 
@@ -6588,7 +6588,7 @@ ___
 
 • **Option<ExtrinsicV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:621](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L621)*
+*Defined in [packages/types/src/augment/registry.ts:621](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L621)*
 
 ___
 
@@ -6596,7 +6596,7 @@ ___
 
 • **Option<ExtrinsicV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:630](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L630)*
+*Defined in [packages/types/src/augment/registry.ts:630](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L630)*
 
 ___
 
@@ -6604,7 +6604,7 @@ ___
 
 • **Option<ExtrinsicV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:639](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L639)*
+*Defined in [packages/types/src/augment/registry.ts:639](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L639)*
 
 ___
 
@@ -6612,7 +6612,7 @@ ___
 
 • **Option<ExtrinsicV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:648](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L648)*
+*Defined in [packages/types/src/augment/registry.ts:648](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L648)*
 
 ___
 
@@ -6620,7 +6620,7 @@ ___
 
 • **Option<ExtrinsicsWeight>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ExtrinsicsWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:229](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L229)*
+*Defined in [packages/types/src/augment/registry.ts:229](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L229)*
 
 ___
 
@@ -6628,7 +6628,7 @@ ___
 
 • **Option<Fixed128>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Fixed128›*
 
-*Defined in [packages/types/src/augment/registry.ts:143](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L143)*
+*Defined in [packages/types/src/augment/registry.ts:143](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L143)*
 
 ___
 
@@ -6636,7 +6636,7 @@ ___
 
 • **Option<Fixed64>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Fixed64›*
 
-*Defined in [packages/types/src/augment/registry.ts:134](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L134)*
+*Defined in [packages/types/src/augment/registry.ts:134](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L134)*
 
 ___
 
@@ -6644,7 +6644,7 @@ ___
 
 • **Option<FixedI128>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FixedI128›*
 
-*Defined in [packages/types/src/augment/registry.ts:146](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L146)*
+*Defined in [packages/types/src/augment/registry.ts:146](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L146)*
 
 ___
 
@@ -6652,7 +6652,7 @@ ___
 
 • **Option<FixedI64>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FixedI64›*
 
-*Defined in [packages/types/src/augment/registry.ts:137](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L137)*
+*Defined in [packages/types/src/augment/registry.ts:137](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L137)*
 
 ___
 
@@ -6660,7 +6660,7 @@ ___
 
 • **Option<FixedU128>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FixedU128›*
 
-*Defined in [packages/types/src/augment/registry.ts:149](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L149)*
+*Defined in [packages/types/src/augment/registry.ts:149](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L149)*
 
 ___
 
@@ -6668,7 +6668,7 @@ ___
 
 • **Option<FixedU64>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FixedU64›*
 
-*Defined in [packages/types/src/augment/registry.ts:140](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L140)*
+*Defined in [packages/types/src/augment/registry.ts:140](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L140)*
 
 ___
 
@@ -6676,7 +6676,7 @@ ___
 
 • **Option<Forcing>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Forcing›*
 
-*Defined in [packages/types/src/augment/registry.ts:974](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L974)*
+*Defined in [packages/types/src/augment/registry.ts:974](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L974)*
 
 ___
 
@@ -6684,7 +6684,7 @@ ___
 
 • **Option<FullIdentification>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FullIdentification›*
 
-*Defined in [packages/types/src/augment/registry.ts:888](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L888)*
+*Defined in [packages/types/src/augment/registry.ts:888](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L888)*
 
 ___
 
@@ -6692,7 +6692,7 @@ ___
 
 • **Option<FunctionArgumentMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1923](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1923)*
+*Defined in [packages/types/src/augment/registry.ts:1923](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1923)*
 
 ___
 
@@ -6700,7 +6700,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1395](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1395)*
+*Defined in [packages/types/src/augment/registry.ts:1395](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1395)*
 
 ___
 
@@ -6708,7 +6708,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1782](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1782)*
+*Defined in [packages/types/src/augment/registry.ts:1782](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1782)*
 
 ___
 
@@ -6716,7 +6716,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1830](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1830)*
+*Defined in [packages/types/src/augment/registry.ts:1830](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1830)*
 
 ___
 
@@ -6724,7 +6724,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1878](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1878)*
+*Defined in [packages/types/src/augment/registry.ts:1878](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1878)*
 
 ___
 
@@ -6732,7 +6732,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1446](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1446)*
+*Defined in [packages/types/src/augment/registry.ts:1446](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1446)*
 
 ___
 
@@ -6740,7 +6740,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1470](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1470)*
+*Defined in [packages/types/src/augment/registry.ts:1470](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1470)*
 
 ___
 
@@ -6748,7 +6748,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1503](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1503)*
+*Defined in [packages/types/src/augment/registry.ts:1503](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1503)*
 
 ___
 
@@ -6756,7 +6756,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1536](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1536)*
+*Defined in [packages/types/src/augment/registry.ts:1536](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1536)*
 
 ___
 
@@ -6764,7 +6764,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1572](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1572)*
+*Defined in [packages/types/src/augment/registry.ts:1572](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1572)*
 
 ___
 
@@ -6772,7 +6772,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1608](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1608)*
+*Defined in [packages/types/src/augment/registry.ts:1608](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1608)*
 
 ___
 
@@ -6780,7 +6780,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1647](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1647)*
+*Defined in [packages/types/src/augment/registry.ts:1647](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1647)*
 
 ___
 
@@ -6788,7 +6788,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1692](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1692)*
+*Defined in [packages/types/src/augment/registry.ts:1692](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1692)*
 
 ___
 
@@ -6796,7 +6796,7 @@ ___
 
 • **Option<FunctionArgumentMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionArgumentMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1737](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1737)*
+*Defined in [packages/types/src/augment/registry.ts:1737](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1737)*
 
 ___
 
@@ -6804,7 +6804,7 @@ ___
 
 • **Option<FunctionMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1926](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1926)*
+*Defined in [packages/types/src/augment/registry.ts:1926](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1926)*
 
 ___
 
@@ -6812,7 +6812,7 @@ ___
 
 • **Option<FunctionMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1398](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1398)*
+*Defined in [packages/types/src/augment/registry.ts:1398](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1398)*
 
 ___
 
@@ -6820,7 +6820,7 @@ ___
 
 • **Option<FunctionMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1785](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1785)*
+*Defined in [packages/types/src/augment/registry.ts:1785](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1785)*
 
 ___
 
@@ -6828,7 +6828,7 @@ ___
 
 • **Option<FunctionMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1833](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1833)*
+*Defined in [packages/types/src/augment/registry.ts:1833](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1833)*
 
 ___
 
@@ -6836,7 +6836,7 @@ ___
 
 • **Option<FunctionMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1881](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1881)*
+*Defined in [packages/types/src/augment/registry.ts:1881](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1881)*
 
 ___
 
@@ -6844,7 +6844,7 @@ ___
 
 • **Option<FunctionMetadataV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1449](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1449)*
+*Defined in [packages/types/src/augment/registry.ts:1449](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1449)*
 
 ___
 
@@ -6852,7 +6852,7 @@ ___
 
 • **Option<FunctionMetadataV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1473](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1473)*
+*Defined in [packages/types/src/augment/registry.ts:1473](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1473)*
 
 ___
 
@@ -6860,7 +6860,7 @@ ___
 
 • **Option<FunctionMetadataV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1506](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1506)*
+*Defined in [packages/types/src/augment/registry.ts:1506](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1506)*
 
 ___
 
@@ -6868,7 +6868,7 @@ ___
 
 • **Option<FunctionMetadataV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1539](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1539)*
+*Defined in [packages/types/src/augment/registry.ts:1539](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1539)*
 
 ___
 
@@ -6876,7 +6876,7 @@ ___
 
 • **Option<FunctionMetadataV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1575](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1575)*
+*Defined in [packages/types/src/augment/registry.ts:1575](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1575)*
 
 ___
 
@@ -6884,7 +6884,7 @@ ___
 
 • **Option<FunctionMetadataV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1611](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1611)*
+*Defined in [packages/types/src/augment/registry.ts:1611](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1611)*
 
 ___
 
@@ -6892,7 +6892,7 @@ ___
 
 • **Option<FunctionMetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1650](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1650)*
+*Defined in [packages/types/src/augment/registry.ts:1650](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1650)*
 
 ___
 
@@ -6900,7 +6900,7 @@ ___
 
 • **Option<FunctionMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1695](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1695)*
+*Defined in [packages/types/src/augment/registry.ts:1695](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1695)*
 
 ___
 
@@ -6908,7 +6908,7 @@ ___
 
 • **Option<FunctionMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹FunctionMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1740](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1740)*
+*Defined in [packages/types/src/augment/registry.ts:1740](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1740)*
 
 ___
 
@@ -6916,7 +6916,7 @@ ___
 
 • **Option<Gas>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Gas›*
 
-*Defined in [packages/types/src/augment/registry.ts:481](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L481)*
+*Defined in [packages/types/src/augment/registry.ts:481](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L481)*
 
 ___
 
@@ -6924,7 +6924,7 @@ ___
 
 • **Option<GenericAddress>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹GenericAddress›*
 
-*Defined in [packages/types/src/augment/registry.ts:232](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L232)*
+*Defined in [packages/types/src/augment/registry.ts:232](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L232)*
 
 ___
 
@@ -6932,7 +6932,7 @@ ___
 
 • **Option<GlobalValidationSchedule>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹GlobalValidationSchedule›*
 
-*Defined in [packages/types/src/augment/registry.ts:1285](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1285)*
+*Defined in [packages/types/src/augment/registry.ts:1285](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1285)*
 
 ___
 
@@ -6940,7 +6940,7 @@ ___
 
 • **Option<GrandpaEquivocation>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹GrandpaEquivocation›*
 
-*Defined in [packages/types/src/augment/registry.ts:716](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L716)*
+*Defined in [packages/types/src/augment/registry.ts:716](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L716)*
 
 ___
 
@@ -6948,7 +6948,7 @@ ___
 
 • **Option<GrandpaEquivocationProof>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹GrandpaEquivocationProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:719](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L719)*
+*Defined in [packages/types/src/augment/registry.ts:719](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L719)*
 
 ___
 
@@ -6956,7 +6956,7 @@ ___
 
 • **Option<GrandpaEquivocationValue>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹GrandpaEquivocationValue›*
 
-*Defined in [packages/types/src/augment/registry.ts:722](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L722)*
+*Defined in [packages/types/src/augment/registry.ts:722](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L722)*
 
 ___
 
@@ -6964,7 +6964,7 @@ ___
 
 • **Option<GrandpaPrevote>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹GrandpaPrevote›*
 
-*Defined in [packages/types/src/augment/registry.ts:725](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L725)*
+*Defined in [packages/types/src/augment/registry.ts:725](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L725)*
 
 ___
 
@@ -6972,7 +6972,7 @@ ___
 
 • **Option<H160>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹H160›*
 
-*Defined in [packages/types/src/augment/registry.ts:235](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L235)*
+*Defined in [packages/types/src/augment/registry.ts:235](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L235)*
 
 ___
 
@@ -6980,7 +6980,7 @@ ___
 
 • **Option<H256>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹H256›*
 
-*Defined in [packages/types/src/augment/registry.ts:238](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L238)*
+*Defined in [packages/types/src/augment/registry.ts:238](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L238)*
 
 ___
 
@@ -6988,7 +6988,7 @@ ___
 
 • **Option<H512>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹H512›*
 
-*Defined in [packages/types/src/augment/registry.ts:241](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L241)*
+*Defined in [packages/types/src/augment/registry.ts:241](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L241)*
 
 ___
 
@@ -6996,7 +6996,7 @@ ___
 
 • **Option<Hash>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Hash›*
 
-*Defined in [packages/types/src/augment/registry.ts:244](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L244)*
+*Defined in [packages/types/src/augment/registry.ts:244](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L244)*
 
 ___
 
@@ -7004,7 +7004,7 @@ ___
 
 • **Option<HeadData>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹HeadData›*
 
-*Defined in [packages/types/src/augment/registry.ts:1288](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1288)*
+*Defined in [packages/types/src/augment/registry.ts:1288](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1288)*
 
 ___
 
@@ -7012,7 +7012,7 @@ ___
 
 • **Option<Header>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Header›*
 
-*Defined in [packages/types/src/augment/registry.ts:247](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L247)*
+*Defined in [packages/types/src/augment/registry.ts:247](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L247)*
 
 ___
 
@@ -7020,7 +7020,7 @@ ___
 
 • **Option<Health>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Health›*
 
-*Defined in [packages/types/src/augment/registry.ts:1132](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1132)*
+*Defined in [packages/types/src/augment/registry.ts:1132](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1132)*
 
 ___
 
@@ -7028,7 +7028,7 @@ ___
 
 • **Option<Heartbeat>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Heartbeat›*
 
-*Defined in [packages/types/src/augment/registry.ts:797](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L797)*
+*Defined in [packages/types/src/augment/registry.ts:797](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L797)*
 
 ___
 
@@ -7036,7 +7036,7 @@ ___
 
 • **Option<HeartbeatTo244>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹HeartbeatTo244›*
 
-*Defined in [packages/types/src/augment/registry.ts:800](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L800)*
+*Defined in [packages/types/src/augment/registry.ts:800](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L800)*
 
 ___
 
@@ -7044,7 +7044,7 @@ ___
 
 • **Option<I32F32>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹I32F32›*
 
-*Defined in [packages/types/src/augment/registry.ts:152](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L152)*
+*Defined in [packages/types/src/augment/registry.ts:152](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L152)*
 
 ___
 
@@ -7052,7 +7052,7 @@ ___
 
 • **Option<IdentificationTuple>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IdentificationTuple›*
 
-*Defined in [packages/types/src/augment/registry.ts:891](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L891)*
+*Defined in [packages/types/src/augment/registry.ts:891](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L891)*
 
 ___
 
@@ -7060,7 +7060,7 @@ ___
 
 • **Option<IdentityFields>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IdentityFields›*
 
-*Defined in [packages/types/src/augment/registry.ts:765](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L765)*
+*Defined in [packages/types/src/augment/registry.ts:765](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L765)*
 
 ___
 
@@ -7068,7 +7068,7 @@ ___
 
 • **Option<IdentityInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IdentityInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:771](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L771)*
+*Defined in [packages/types/src/augment/registry.ts:771](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L771)*
 
 ___
 
@@ -7076,7 +7076,7 @@ ___
 
 • **Option<IdentityInfoAdditional>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IdentityInfoAdditional›*
 
-*Defined in [packages/types/src/augment/registry.ts:768](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L768)*
+*Defined in [packages/types/src/augment/registry.ts:768](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L768)*
 
 ___
 
@@ -7084,7 +7084,7 @@ ___
 
 • **Option<IdentityJudgement>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IdentityJudgement›*
 
-*Defined in [packages/types/src/augment/registry.ts:774](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L774)*
+*Defined in [packages/types/src/augment/registry.ts:774](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L774)*
 
 ___
 
@@ -7092,7 +7092,7 @@ ___
 
 • **Option<ImmortalEra>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ImmortalEra›*
 
-*Defined in [packages/types/src/augment/registry.ts:663](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L663)*
+*Defined in [packages/types/src/augment/registry.ts:663](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L663)*
 
 ___
 
@@ -7100,7 +7100,7 @@ ___
 
 • **Option<ImportedAux>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ImportedAux›*
 
-*Defined in [packages/types/src/augment/registry.ts:600](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L600)*
+*Defined in [packages/types/src/augment/registry.ts:600](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L600)*
 
 ___
 
@@ -7108,7 +7108,7 @@ ___
 
 • **Option<IncludedBlocks>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IncludedBlocks›*
 
-*Defined in [packages/types/src/augment/registry.ts:1236](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1236)*
+*Defined in [packages/types/src/augment/registry.ts:1236](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1236)*
 
 ___
 
@@ -7116,7 +7116,7 @@ ___
 
 • **Option<IncomingParachain>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IncomingParachain›*
 
-*Defined in [packages/types/src/augment/registry.ts:1291](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1291)*
+*Defined in [packages/types/src/augment/registry.ts:1291](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1291)*
 
 ___
 
@@ -7124,7 +7124,7 @@ ___
 
 • **Option<IncomingParachainDeploy>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IncomingParachainDeploy›*
 
-*Defined in [packages/types/src/augment/registry.ts:1297](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1297)*
+*Defined in [packages/types/src/augment/registry.ts:1297](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1297)*
 
 ___
 
@@ -7132,7 +7132,7 @@ ___
 
 • **Option<IncomingParachainFixed>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IncomingParachainFixed›*
 
-*Defined in [packages/types/src/augment/registry.ts:1294](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1294)*
+*Defined in [packages/types/src/augment/registry.ts:1294](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1294)*
 
 ___
 
@@ -7140,7 +7140,7 @@ ___
 
 • **Option<Index>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Index›*
 
-*Defined in [packages/types/src/augment/registry.ts:251](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L251)*
+*Defined in [packages/types/src/augment/registry.ts:251](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L251)*
 
 ___
 
@@ -7148,7 +7148,7 @@ ___
 
 • **Option<IndividualExposure>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹IndividualExposure›*
 
-*Defined in [packages/types/src/augment/registry.ts:977](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L977)*
+*Defined in [packages/types/src/augment/registry.ts:977](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L977)*
 
 ___
 
@@ -7156,7 +7156,7 @@ ___
 
 • **Option<InvalidTransaction>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹InvalidTransaction›*
 
-*Defined in [packages/types/src/augment/registry.ts:1135](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1135)*
+*Defined in [packages/types/src/augment/registry.ts:1135](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1135)*
 
 ___
 
@@ -7164,7 +7164,7 @@ ___
 
 • **Option<Justification>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Justification›*
 
-*Defined in [packages/types/src/augment/registry.ts:254](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L254)*
+*Defined in [packages/types/src/augment/registry.ts:254](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L254)*
 
 ___
 
@@ -7172,7 +7172,7 @@ ___
 
 • **Option<JustificationNotification>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹JustificationNotification›*
 
-*Defined in [packages/types/src/augment/registry.ts:728](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L728)*
+*Defined in [packages/types/src/augment/registry.ts:728](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L728)*
 
 ___
 
@@ -7180,7 +7180,7 @@ ___
 
 • **Option<Key>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Key›*
 
-*Defined in [packages/types/src/augment/registry.ts:1138](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1138)*
+*Defined in [packages/types/src/augment/registry.ts:1138](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1138)*
 
 ___
 
@@ -7188,7 +7188,7 @@ ___
 
 • **Option<KeyOwnerProof>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹KeyOwnerProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:731](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L731)*
+*Defined in [packages/types/src/augment/registry.ts:731](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L731)*
 
 ___
 
@@ -7196,7 +7196,7 @@ ___
 
 • **Option<KeyType>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹KeyType›*
 
-*Defined in [packages/types/src/augment/registry.ts:980](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L980)*
+*Defined in [packages/types/src/augment/registry.ts:980](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L980)*
 
 ___
 
@@ -7204,7 +7204,7 @@ ___
 
 • **Option<KeyTypeId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹KeyTypeId›*
 
-*Defined in [packages/types/src/augment/registry.ts:261](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L261)*
+*Defined in [packages/types/src/augment/registry.ts:261](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L261)*
 
 ___
 
@@ -7212,7 +7212,7 @@ ___
 
 • **Option<KeyValue>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹KeyValue›*
 
-*Defined in [packages/types/src/augment/registry.ts:257](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L257)*
+*Defined in [packages/types/src/augment/registry.ts:257](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L257)*
 
 ___
 
@@ -7220,7 +7220,7 @@ ___
 
 • **Option<KeyValueOption>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹KeyValueOption›*
 
-*Defined in [packages/types/src/augment/registry.ts:1986](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1986)*
+*Defined in [packages/types/src/augment/registry.ts:1986](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1986)*
 
 ___
 
@@ -7228,7 +7228,7 @@ ___
 
 • **Option<Keys>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Keys›*
 
-*Defined in [packages/types/src/augment/registry.ts:867](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L867)*
+*Defined in [packages/types/src/augment/registry.ts:867](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L867)*
 
 ___
 
@@ -7236,7 +7236,7 @@ ___
 
 • **Option<Kind>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Kind›*
 
-*Defined in [packages/types/src/augment/registry.ts:815](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L815)*
+*Defined in [packages/types/src/augment/registry.ts:815](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L815)*
 
 ___
 
@@ -7244,7 +7244,7 @@ ___
 
 • **Option<LastRuntimeUpgradeInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹LastRuntimeUpgradeInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1141](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1141)*
+*Defined in [packages/types/src/augment/registry.ts:1141](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1141)*
 
 ___
 
@@ -7252,7 +7252,7 @@ ___
 
 • **Option<LeasePeriod>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹LeasePeriod›*
 
-*Defined in [packages/types/src/augment/registry.ts:1300](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1300)*
+*Defined in [packages/types/src/augment/registry.ts:1300](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1300)*
 
 ___
 
@@ -7260,7 +7260,7 @@ ___
 
 • **Option<LeasePeriodOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹LeasePeriodOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:1303](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1303)*
+*Defined in [packages/types/src/augment/registry.ts:1303](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1303)*
 
 ___
 
@@ -7268,7 +7268,7 @@ ___
 
 • **Option<LocalValidationData>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹LocalValidationData›*
 
-*Defined in [packages/types/src/augment/registry.ts:1306](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1306)*
+*Defined in [packages/types/src/augment/registry.ts:1306](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1306)*
 
 ___
 
@@ -7276,7 +7276,7 @@ ___
 
 • **Option<LockIdentifier>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹LockIdentifier›*
 
-*Defined in [packages/types/src/augment/registry.ts:264](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L264)*
+*Defined in [packages/types/src/augment/registry.ts:264](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L264)*
 
 ___
 
@@ -7284,7 +7284,7 @@ ___
 
 • **Option<Log>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Log›*
 
-*Defined in [packages/types/src/augment/registry.ts:606](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L606)*
+*Defined in [packages/types/src/augment/registry.ts:606](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L606)*
 
 ___
 
@@ -7292,7 +7292,7 @@ ___
 
 • **Option<LookupSource>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹LookupSource›*
 
-*Defined in [packages/types/src/augment/registry.ts:267](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L267)*
+*Defined in [packages/types/src/augment/registry.ts:267](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L267)*
 
 ___
 
@@ -7300,7 +7300,7 @@ ___
 
 • **Option<LookupTarget>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹LookupTarget›*
 
-*Defined in [packages/types/src/augment/registry.ts:270](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L270)*
+*Defined in [packages/types/src/augment/registry.ts:270](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L270)*
 
 ___
 
@@ -7308,7 +7308,7 @@ ___
 
 • **Option<MapTypeLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1929](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1929)*
+*Defined in [packages/types/src/augment/registry.ts:1929](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1929)*
 
 ___
 
@@ -7316,7 +7316,7 @@ ___
 
 • **Option<MapTypeV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1401](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1401)*
+*Defined in [packages/types/src/augment/registry.ts:1401](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1401)*
 
 ___
 
@@ -7324,7 +7324,7 @@ ___
 
 • **Option<MapTypeV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1788](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1788)*
+*Defined in [packages/types/src/augment/registry.ts:1788](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1788)*
 
 ___
 
@@ -7332,7 +7332,7 @@ ___
 
 • **Option<MapTypeV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1836](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1836)*
+*Defined in [packages/types/src/augment/registry.ts:1836](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1836)*
 
 ___
 
@@ -7340,7 +7340,7 @@ ___
 
 • **Option<MapTypeV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1884](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1884)*
+*Defined in [packages/types/src/augment/registry.ts:1884](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1884)*
 
 ___
 
@@ -7348,7 +7348,7 @@ ___
 
 • **Option<MapTypeV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1476](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1476)*
+*Defined in [packages/types/src/augment/registry.ts:1476](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1476)*
 
 ___
 
@@ -7356,7 +7356,7 @@ ___
 
 • **Option<MapTypeV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1509](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1509)*
+*Defined in [packages/types/src/augment/registry.ts:1509](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1509)*
 
 ___
 
@@ -7364,7 +7364,7 @@ ___
 
 • **Option<MapTypeV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1542](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1542)*
+*Defined in [packages/types/src/augment/registry.ts:1542](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1542)*
 
 ___
 
@@ -7372,7 +7372,7 @@ ___
 
 • **Option<MapTypeV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1578](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1578)*
+*Defined in [packages/types/src/augment/registry.ts:1578](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1578)*
 
 ___
 
@@ -7380,7 +7380,7 @@ ___
 
 • **Option<MapTypeV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1614](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1614)*
+*Defined in [packages/types/src/augment/registry.ts:1614](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1614)*
 
 ___
 
@@ -7388,7 +7388,7 @@ ___
 
 • **Option<MapTypeV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1653](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1653)*
+*Defined in [packages/types/src/augment/registry.ts:1653](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1653)*
 
 ___
 
@@ -7396,7 +7396,7 @@ ___
 
 • **Option<MapTypeV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1698](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1698)*
+*Defined in [packages/types/src/augment/registry.ts:1698](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1698)*
 
 ___
 
@@ -7404,7 +7404,7 @@ ___
 
 • **Option<MapTypeV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MapTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1743](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1743)*
+*Defined in [packages/types/src/augment/registry.ts:1743](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1743)*
 
 ___
 
@@ -7412,7 +7412,7 @@ ___
 
 • **Option<MaybeRandomness>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MaybeRandomness›*
 
-*Defined in [packages/types/src/augment/registry.ts:357](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L357)*
+*Defined in [packages/types/src/augment/registry.ts:357](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L357)*
 
 ___
 
@@ -7420,7 +7420,7 @@ ___
 
 • **Option<MaybeVrf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MaybeVrf›*
 
-*Defined in [packages/types/src/augment/registry.ts:360](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L360)*
+*Defined in [packages/types/src/augment/registry.ts:360](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L360)*
 
 ___
 
@@ -7428,7 +7428,7 @@ ___
 
 • **Option<MemberCount>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MemberCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:434](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L434)*
+*Defined in [packages/types/src/augment/registry.ts:434](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L434)*
 
 ___
 
@@ -7436,7 +7436,7 @@ ___
 
 • **Option<MembershipProof>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MembershipProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:894](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L894)*
+*Defined in [packages/types/src/augment/registry.ts:894](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L894)*
 
 ___
 
@@ -7444,7 +7444,7 @@ ___
 
 • **Option<MetadataAll>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataAll›*
 
-*Defined in [packages/types/src/augment/registry.ts:1959](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1959)*
+*Defined in [packages/types/src/augment/registry.ts:1959](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1959)*
 
 ___
 
@@ -7452,7 +7452,7 @@ ___
 
 • **Option<MetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1932](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1932)*
+*Defined in [packages/types/src/augment/registry.ts:1932](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1932)*
 
 ___
 
@@ -7460,7 +7460,7 @@ ___
 
 • **Option<MetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1404](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1404)*
+*Defined in [packages/types/src/augment/registry.ts:1404](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1404)*
 
 ___
 
@@ -7468,7 +7468,7 @@ ___
 
 • **Option<MetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1791](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1791)*
+*Defined in [packages/types/src/augment/registry.ts:1791](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1791)*
 
 ___
 
@@ -7476,7 +7476,7 @@ ___
 
 • **Option<MetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1839](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1839)*
+*Defined in [packages/types/src/augment/registry.ts:1839](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1839)*
 
 ___
 
@@ -7484,7 +7484,7 @@ ___
 
 • **Option<MetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1887](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1887)*
+*Defined in [packages/types/src/augment/registry.ts:1887](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1887)*
 
 ___
 
@@ -7492,7 +7492,7 @@ ___
 
 • **Option<MetadataV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1452](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1452)*
+*Defined in [packages/types/src/augment/registry.ts:1452](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1452)*
 
 ___
 
@@ -7500,7 +7500,7 @@ ___
 
 • **Option<MetadataV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1479](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1479)*
+*Defined in [packages/types/src/augment/registry.ts:1479](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1479)*
 
 ___
 
@@ -7508,7 +7508,7 @@ ___
 
 • **Option<MetadataV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1512](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1512)*
+*Defined in [packages/types/src/augment/registry.ts:1512](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1512)*
 
 ___
 
@@ -7516,7 +7516,7 @@ ___
 
 • **Option<MetadataV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1545](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1545)*
+*Defined in [packages/types/src/augment/registry.ts:1545](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1545)*
 
 ___
 
@@ -7524,7 +7524,7 @@ ___
 
 • **Option<MetadataV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1581](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1581)*
+*Defined in [packages/types/src/augment/registry.ts:1581](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1581)*
 
 ___
 
@@ -7532,7 +7532,7 @@ ___
 
 • **Option<MetadataV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1617](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1617)*
+*Defined in [packages/types/src/augment/registry.ts:1617](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1617)*
 
 ___
 
@@ -7540,7 +7540,7 @@ ___
 
 • **Option<MetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1656](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1656)*
+*Defined in [packages/types/src/augment/registry.ts:1656](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1656)*
 
 ___
 
@@ -7548,7 +7548,7 @@ ___
 
 • **Option<MetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1701](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1701)*
+*Defined in [packages/types/src/augment/registry.ts:1701](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1701)*
 
 ___
 
@@ -7556,7 +7556,7 @@ ___
 
 • **Option<MetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1746](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1746)*
+*Defined in [packages/types/src/augment/registry.ts:1746](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1746)*
 
 ___
 
@@ -7564,7 +7564,7 @@ ___
 
 • **Option<ModuleConstantMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1935](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1935)*
+*Defined in [packages/types/src/augment/registry.ts:1935](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1935)*
 
 ___
 
@@ -7572,7 +7572,7 @@ ___
 
 • **Option<ModuleConstantMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1794](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1794)*
+*Defined in [packages/types/src/augment/registry.ts:1794](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1794)*
 
 ___
 
@@ -7580,7 +7580,7 @@ ___
 
 • **Option<ModuleConstantMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1842](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1842)*
+*Defined in [packages/types/src/augment/registry.ts:1842](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1842)*
 
 ___
 
@@ -7588,7 +7588,7 @@ ___
 
 • **Option<ModuleConstantMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1890](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1890)*
+*Defined in [packages/types/src/augment/registry.ts:1890](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1890)*
 
 ___
 
@@ -7596,7 +7596,7 @@ ___
 
 • **Option<ModuleConstantMetadataV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1620](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1620)*
+*Defined in [packages/types/src/augment/registry.ts:1620](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1620)*
 
 ___
 
@@ -7604,7 +7604,7 @@ ___
 
 • **Option<ModuleConstantMetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1659](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1659)*
+*Defined in [packages/types/src/augment/registry.ts:1659](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1659)*
 
 ___
 
@@ -7612,7 +7612,7 @@ ___
 
 • **Option<ModuleConstantMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1704](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1704)*
+*Defined in [packages/types/src/augment/registry.ts:1704](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1704)*
 
 ___
 
@@ -7620,7 +7620,7 @@ ___
 
 • **Option<ModuleConstantMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleConstantMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1749](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1749)*
+*Defined in [packages/types/src/augment/registry.ts:1749](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1749)*
 
 ___
 
@@ -7628,7 +7628,7 @@ ___
 
 • **Option<ModuleId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleId›*
 
-*Defined in [packages/types/src/augment/registry.ts:273](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L273)*
+*Defined in [packages/types/src/augment/registry.ts:273](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L273)*
 
 ___
 
@@ -7636,7 +7636,7 @@ ___
 
 • **Option<ModuleMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1938](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1938)*
+*Defined in [packages/types/src/augment/registry.ts:1938](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1938)*
 
 ___
 
@@ -7644,7 +7644,7 @@ ___
 
 • **Option<ModuleMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1407](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1407)*
+*Defined in [packages/types/src/augment/registry.ts:1407](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1407)*
 
 ___
 
@@ -7652,7 +7652,7 @@ ___
 
 • **Option<ModuleMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1797](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1797)*
+*Defined in [packages/types/src/augment/registry.ts:1797](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1797)*
 
 ___
 
@@ -7660,7 +7660,7 @@ ___
 
 • **Option<ModuleMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1845](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1845)*
+*Defined in [packages/types/src/augment/registry.ts:1845](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1845)*
 
 ___
 
@@ -7668,7 +7668,7 @@ ___
 
 • **Option<ModuleMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1893](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1893)*
+*Defined in [packages/types/src/augment/registry.ts:1893](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1893)*
 
 ___
 
@@ -7676,7 +7676,7 @@ ___
 
 • **Option<ModuleMetadataV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1455](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1455)*
+*Defined in [packages/types/src/augment/registry.ts:1455](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1455)*
 
 ___
 
@@ -7684,7 +7684,7 @@ ___
 
 • **Option<ModuleMetadataV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1482](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1482)*
+*Defined in [packages/types/src/augment/registry.ts:1482](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1482)*
 
 ___
 
@@ -7692,7 +7692,7 @@ ___
 
 • **Option<ModuleMetadataV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1515](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1515)*
+*Defined in [packages/types/src/augment/registry.ts:1515](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1515)*
 
 ___
 
@@ -7700,7 +7700,7 @@ ___
 
 • **Option<ModuleMetadataV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1548](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1548)*
+*Defined in [packages/types/src/augment/registry.ts:1548](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1548)*
 
 ___
 
@@ -7708,7 +7708,7 @@ ___
 
 • **Option<ModuleMetadataV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1584](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1584)*
+*Defined in [packages/types/src/augment/registry.ts:1584](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1584)*
 
 ___
 
@@ -7716,7 +7716,7 @@ ___
 
 • **Option<ModuleMetadataV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1623](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1623)*
+*Defined in [packages/types/src/augment/registry.ts:1623](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1623)*
 
 ___
 
@@ -7724,7 +7724,7 @@ ___
 
 • **Option<ModuleMetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1662](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1662)*
+*Defined in [packages/types/src/augment/registry.ts:1662](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1662)*
 
 ___
 
@@ -7732,7 +7732,7 @@ ___
 
 • **Option<ModuleMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1707](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1707)*
+*Defined in [packages/types/src/augment/registry.ts:1707](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1707)*
 
 ___
 
@@ -7740,7 +7740,7 @@ ___
 
 • **Option<ModuleMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ModuleMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1752](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1752)*
+*Defined in [packages/types/src/augment/registry.ts:1752](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1752)*
 
 ___
 
@@ -7748,7 +7748,7 @@ ___
 
 • **Option<Moment>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Moment›*
 
-*Defined in [packages/types/src/augment/registry.ts:277](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L277)*
+*Defined in [packages/types/src/augment/registry.ts:277](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L277)*
 
 ___
 
@@ -7756,7 +7756,7 @@ ___
 
 • **Option<MomentOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MomentOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:983](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L983)*
+*Defined in [packages/types/src/augment/registry.ts:983](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L983)*
 
 ___
 
@@ -7764,7 +7764,7 @@ ___
 
 • **Option<MoreAttestations>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MoreAttestations›*
 
-*Defined in [packages/types/src/augment/registry.ts:1239](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1239)*
+*Defined in [packages/types/src/augment/registry.ts:1239](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1239)*
 
 ___
 
@@ -7772,7 +7772,7 @@ ___
 
 • **Option<MortalEra>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MortalEra›*
 
-*Defined in [packages/types/src/augment/registry.ts:666](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L666)*
+*Defined in [packages/types/src/augment/registry.ts:666](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L666)*
 
 ___
 
@@ -7780,7 +7780,7 @@ ___
 
 • **Option<MultiSignature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹MultiSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:669](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L669)*
+*Defined in [packages/types/src/augment/registry.ts:669](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L669)*
 
 ___
 
@@ -7788,7 +7788,7 @@ ___
 
 • **Option<Multiplier>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Multiplier›*
 
-*Defined in [packages/types/src/augment/registry.ts:1221](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1221)*
+*Defined in [packages/types/src/augment/registry.ts:1221](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1221)*
 
 ___
 
@@ -7796,7 +7796,7 @@ ___
 
 • **Option<Multisig>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Multisig›*
 
-*Defined in [packages/types/src/augment/registry.ts:1224](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1224)*
+*Defined in [packages/types/src/augment/registry.ts:1224](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1224)*
 
 ___
 
@@ -7804,7 +7804,7 @@ ___
 
 • **Option<NetworkState>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NetworkState›*
 
-*Defined in [packages/types/src/augment/registry.ts:1144](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1144)*
+*Defined in [packages/types/src/augment/registry.ts:1144](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1144)*
 
 ___
 
@@ -7812,7 +7812,7 @@ ___
 
 • **Option<NetworkStatePeerset>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NetworkStatePeerset›*
 
-*Defined in [packages/types/src/augment/registry.ts:1147](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1147)*
+*Defined in [packages/types/src/augment/registry.ts:1147](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1147)*
 
 ___
 
@@ -7820,7 +7820,7 @@ ___
 
 • **Option<NetworkStatePeersetInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NetworkStatePeersetInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1150](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1150)*
+*Defined in [packages/types/src/augment/registry.ts:1150](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1150)*
 
 ___
 
@@ -7828,7 +7828,7 @@ ___
 
 • **Option<NewBidder>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NewBidder›*
 
-*Defined in [packages/types/src/augment/registry.ts:1309](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1309)*
+*Defined in [packages/types/src/augment/registry.ts:1309](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1309)*
 
 ___
 
@@ -7836,7 +7836,7 @@ ___
 
 • **Option<NextAuthority>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NextAuthority›*
 
-*Defined in [packages/types/src/augment/registry.ts:734](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L734)*
+*Defined in [packages/types/src/augment/registry.ts:734](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L734)*
 
 ___
 
@@ -7844,7 +7844,7 @@ ___
 
 • **Option<NextConfigDescriptor>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NextConfigDescriptor›*
 
-*Defined in [packages/types/src/augment/registry.ts:366](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L366)*
+*Defined in [packages/types/src/augment/registry.ts:366](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L366)*
 
 ___
 
@@ -7852,7 +7852,7 @@ ___
 
 • **Option<NextConfigDescriptorV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NextConfigDescriptorV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:369](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L369)*
+*Defined in [packages/types/src/augment/registry.ts:369](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L369)*
 
 ___
 
@@ -7860,7 +7860,7 @@ ___
 
 • **Option<NodeRole>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NodeRole›*
 
-*Defined in [packages/types/src/augment/registry.ts:1153](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1153)*
+*Defined in [packages/types/src/augment/registry.ts:1153](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1153)*
 
 ___
 
@@ -7868,7 +7868,7 @@ ___
 
 • **Option<Nominations>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Nominations›*
 
-*Defined in [packages/types/src/augment/registry.ts:986](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L986)*
+*Defined in [packages/types/src/augment/registry.ts:986](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L986)*
 
 ___
 
@@ -7876,7 +7876,7 @@ ___
 
 • **Option<NominatorIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NominatorIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:990](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L990)*
+*Defined in [packages/types/src/augment/registry.ts:990](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L990)*
 
 ___
 
@@ -7884,7 +7884,7 @@ ___
 
 • **Option<NominatorIndexCompact>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NominatorIndexCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:993](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L993)*
+*Defined in [packages/types/src/augment/registry.ts:993](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L993)*
 
 ___
 
@@ -7892,7 +7892,7 @@ ___
 
 • **Option<NotConnectedPeer>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹NotConnectedPeer›*
 
-*Defined in [packages/types/src/augment/registry.ts:1156](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1156)*
+*Defined in [packages/types/src/augment/registry.ts:1156](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1156)*
 
 ___
 
@@ -7900,7 +7900,7 @@ ___
 
 • **Option<Null>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[Null](../classes/_packages_types_src_primitive_null_.null.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:87](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L87)*
+*Defined in [packages/types/src/augment/registry.ts:87](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L87)*
 
 ___
 
@@ -7908,7 +7908,7 @@ ___
 
 • **Option<OffchainAccuracy>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OffchainAccuracy›*
 
-*Defined in [packages/types/src/augment/registry.ts:996](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L996)*
+*Defined in [packages/types/src/augment/registry.ts:996](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L996)*
 
 ___
 
@@ -7916,7 +7916,7 @@ ___
 
 • **Option<OffchainAccuracyCompact>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OffchainAccuracyCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:999](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L999)*
+*Defined in [packages/types/src/augment/registry.ts:999](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L999)*
 
 ___
 
@@ -7924,7 +7924,7 @@ ___
 
 • **Option<OffenceDetails>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OffenceDetails›*
 
-*Defined in [packages/types/src/augment/registry.ts:818](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L818)*
+*Defined in [packages/types/src/augment/registry.ts:818](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L818)*
 
 ___
 
@@ -7932,7 +7932,7 @@ ___
 
 • **Option<Offender>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Offender›*
 
-*Defined in [packages/types/src/augment/registry.ts:821](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L821)*
+*Defined in [packages/types/src/augment/registry.ts:821](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L821)*
 
 ___
 
@@ -7940,7 +7940,7 @@ ___
 
 • **Option<OpaqueCall>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpaqueCall›*
 
-*Defined in [packages/types/src/augment/registry.ts:280](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L280)*
+*Defined in [packages/types/src/augment/registry.ts:280](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L280)*
 
 ___
 
@@ -7948,7 +7948,7 @@ ___
 
 • **Option<OpaqueMultiaddr>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpaqueMultiaddr›*
 
-*Defined in [packages/types/src/augment/registry.ts:803](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L803)*
+*Defined in [packages/types/src/augment/registry.ts:803](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L803)*
 
 ___
 
@@ -7956,7 +7956,7 @@ ___
 
 • **Option<OpaqueNetworkState>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpaqueNetworkState›*
 
-*Defined in [packages/types/src/augment/registry.ts:809](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L809)*
+*Defined in [packages/types/src/augment/registry.ts:809](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L809)*
 
 ___
 
@@ -7964,7 +7964,7 @@ ___
 
 • **Option<OpaquePeerId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpaquePeerId›*
 
-*Defined in [packages/types/src/augment/registry.ts:806](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L806)*
+*Defined in [packages/types/src/augment/registry.ts:806](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L806)*
 
 ___
 
@@ -7972,7 +7972,7 @@ ___
 
 • **Option<OpaqueTimeSlot>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpaqueTimeSlot›*
 
-*Defined in [packages/types/src/augment/registry.ts:824](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L824)*
+*Defined in [packages/types/src/augment/registry.ts:824](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L824)*
 
 ___
 
@@ -7980,7 +7980,7 @@ ___
 
 • **Option<OpenTip>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpenTip›*
 
-*Defined in [packages/types/src/augment/registry.ts:1206](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1206)*
+*Defined in [packages/types/src/augment/registry.ts:1206](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1206)*
 
 ___
 
@@ -7988,7 +7988,7 @@ ___
 
 • **Option<OpenTipFinderTo225>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpenTipFinderTo225›*
 
-*Defined in [packages/types/src/augment/registry.ts:1212](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1212)*
+*Defined in [packages/types/src/augment/registry.ts:1212](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1212)*
 
 ___
 
@@ -7996,7 +7996,7 @@ ___
 
 • **Option<OpenTipTip>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpenTipTip›*
 
-*Defined in [packages/types/src/augment/registry.ts:1215](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1215)*
+*Defined in [packages/types/src/augment/registry.ts:1215](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1215)*
 
 ___
 
@@ -8004,7 +8004,7 @@ ___
 
 • **Option<OpenTipTo225>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OpenTipTo225›*
 
-*Defined in [packages/types/src/augment/registry.ts:1209](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1209)*
+*Defined in [packages/types/src/augment/registry.ts:1209](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1209)*
 
 ___
 
@@ -8012,7 +8012,7 @@ ___
 
 • **Option<Origin>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Origin›*
 
-*Defined in [packages/types/src/augment/registry.ts:283](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L283)*
+*Defined in [packages/types/src/augment/registry.ts:283](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L283)*
 
 ___
 
@@ -8020,7 +8020,7 @@ ___
 
 • **Option<OuterDispatchCallV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OuterDispatchCallV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1410](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1410)*
+*Defined in [packages/types/src/augment/registry.ts:1410](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1410)*
 
 ___
 
@@ -8028,7 +8028,7 @@ ___
 
 • **Option<OuterDispatchMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OuterDispatchMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1413](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1413)*
+*Defined in [packages/types/src/augment/registry.ts:1413](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1413)*
 
 ___
 
@@ -8036,7 +8036,7 @@ ___
 
 • **Option<OuterEventEventMetadataEventsV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OuterEventEventMetadataEventsV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1416](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1416)*
+*Defined in [packages/types/src/augment/registry.ts:1416](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1416)*
 
 ___
 
@@ -8044,7 +8044,7 @@ ___
 
 • **Option<OuterEventEventMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OuterEventEventMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1419](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1419)*
+*Defined in [packages/types/src/augment/registry.ts:1419](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1419)*
 
 ___
 
@@ -8052,7 +8052,7 @@ ___
 
 • **Option<OuterEventMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹OuterEventMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1422](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1422)*
+*Defined in [packages/types/src/augment/registry.ts:1422](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1422)*
 
 ___
 
@@ -8060,7 +8060,7 @@ ___
 
 • **Option<Owner>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Owner›*
 
-*Defined in [packages/types/src/augment/registry.ts:690](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L690)*
+*Defined in [packages/types/src/augment/registry.ts:690](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L690)*
 
 ___
 
@@ -8068,7 +8068,7 @@ ___
 
 • **Option<ParaId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ParaId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1316](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1316)*
+*Defined in [packages/types/src/augment/registry.ts:1316](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1316)*
 
 ___
 
@@ -8076,7 +8076,7 @@ ___
 
 • **Option<ParaInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ParaInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1319](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1319)*
+*Defined in [packages/types/src/augment/registry.ts:1319](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1319)*
 
 ___
 
@@ -8084,7 +8084,7 @@ ___
 
 • **Option<ParaPastCodeMeta>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ParaPastCodeMeta›*
 
-*Defined in [packages/types/src/augment/registry.ts:1322](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1322)*
+*Defined in [packages/types/src/augment/registry.ts:1322](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1322)*
 
 ___
 
@@ -8092,7 +8092,7 @@ ___
 
 • **Option<ParaScheduling>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ParaScheduling›*
 
-*Defined in [packages/types/src/augment/registry.ts:1325](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1325)*
+*Defined in [packages/types/src/augment/registry.ts:1325](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1325)*
 
 ___
 
@@ -8100,7 +8100,7 @@ ___
 
 • **Option<ParachainDispatchOrigin>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ParachainDispatchOrigin›*
 
-*Defined in [packages/types/src/augment/registry.ts:1312](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1312)*
+*Defined in [packages/types/src/augment/registry.ts:1312](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1312)*
 
 ___
 
@@ -8108,7 +8108,7 @@ ___
 
 • **Option<ParachainProposal>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ParachainProposal›*
 
-*Defined in [packages/types/src/augment/registry.ts:1248](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1248)*
+*Defined in [packages/types/src/augment/registry.ts:1248](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1248)*
 
 ___
 
@@ -8116,7 +8116,7 @@ ___
 
 • **Option<Pays>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Pays›*
 
-*Defined in [packages/types/src/augment/registry.ts:286](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L286)*
+*Defined in [packages/types/src/augment/registry.ts:286](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L286)*
 
 ___
 
@@ -8124,7 +8124,7 @@ ___
 
 • **Option<Peer>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Peer›*
 
-*Defined in [packages/types/src/augment/registry.ts:1159](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1159)*
+*Defined in [packages/types/src/augment/registry.ts:1159](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1159)*
 
 ___
 
@@ -8132,7 +8132,7 @@ ___
 
 • **Option<PeerEndpoint>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PeerEndpoint›*
 
-*Defined in [packages/types/src/augment/registry.ts:1162](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1162)*
+*Defined in [packages/types/src/augment/registry.ts:1162](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1162)*
 
 ___
 
@@ -8140,7 +8140,7 @@ ___
 
 • **Option<PeerEndpointAddr>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PeerEndpointAddr›*
 
-*Defined in [packages/types/src/augment/registry.ts:1165](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1165)*
+*Defined in [packages/types/src/augment/registry.ts:1165](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1165)*
 
 ___
 
@@ -8148,7 +8148,7 @@ ___
 
 • **Option<PeerInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PeerInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1171](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1171)*
+*Defined in [packages/types/src/augment/registry.ts:1171](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1171)*
 
 ___
 
@@ -8156,7 +8156,7 @@ ___
 
 • **Option<PeerPing>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PeerPing›*
 
-*Defined in [packages/types/src/augment/registry.ts:1168](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1168)*
+*Defined in [packages/types/src/augment/registry.ts:1168](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1168)*
 
 ___
 
@@ -8164,7 +8164,7 @@ ___
 
 • **Option<PendingPause>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PendingPause›*
 
-*Defined in [packages/types/src/augment/registry.ts:737](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L737)*
+*Defined in [packages/types/src/augment/registry.ts:737](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L737)*
 
 ___
 
@@ -8172,7 +8172,7 @@ ___
 
 • **Option<PendingResume>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PendingResume›*
 
-*Defined in [packages/types/src/augment/registry.ts:740](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L740)*
+*Defined in [packages/types/src/augment/registry.ts:740](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L740)*
 
 ___
 
@@ -8180,7 +8180,7 @@ ___
 
 • **Option<PerU16>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PerU16›*
 
-*Defined in [packages/types/src/augment/registry.ts:159](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L159)*
+*Defined in [packages/types/src/augment/registry.ts:159](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L159)*
 
 ___
 
@@ -8188,7 +8188,7 @@ ___
 
 • **Option<Perbill>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Perbill›*
 
-*Defined in [packages/types/src/augment/registry.ts:163](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L163)*
+*Defined in [packages/types/src/augment/registry.ts:163](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L163)*
 
 ___
 
@@ -8196,7 +8196,7 @@ ___
 
 • **Option<Percent>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Percent›*
 
-*Defined in [packages/types/src/augment/registry.ts:167](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L167)*
+*Defined in [packages/types/src/augment/registry.ts:167](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L167)*
 
 ___
 
@@ -8204,7 +8204,7 @@ ___
 
 • **Option<Period>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Period›*
 
-*Defined in [packages/types/src/augment/registry.ts:848](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L848)*
+*Defined in [packages/types/src/augment/registry.ts:848](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L848)*
 
 ___
 
@@ -8212,7 +8212,7 @@ ___
 
 • **Option<Permill>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Permill›*
 
-*Defined in [packages/types/src/augment/registry.ts:171](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L171)*
+*Defined in [packages/types/src/augment/registry.ts:171](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L171)*
 
 ___
 
@@ -8220,7 +8220,7 @@ ___
 
 • **Option<PermissionLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PermissionLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:699](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L699)*
+*Defined in [packages/types/src/augment/registry.ts:699](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L699)*
 
 ___
 
@@ -8228,7 +8228,7 @@ ___
 
 • **Option<PermissionVersions>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PermissionVersions›*
 
-*Defined in [packages/types/src/augment/registry.ts:696](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L696)*
+*Defined in [packages/types/src/augment/registry.ts:696](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L696)*
 
 ___
 
@@ -8236,7 +8236,7 @@ ___
 
 • **Option<PermissionsV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PermissionsV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:693](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L693)*
+*Defined in [packages/types/src/augment/registry.ts:693](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L693)*
 
 ___
 
@@ -8244,7 +8244,7 @@ ___
 
 • **Option<Perquintill>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Perquintill›*
 
-*Defined in [packages/types/src/augment/registry.ts:175](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L175)*
+*Defined in [packages/types/src/augment/registry.ts:175](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L175)*
 
 ___
 
@@ -8252,7 +8252,7 @@ ___
 
 • **Option<Phantom>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Phantom›*
 
-*Defined in [packages/types/src/augment/registry.ts:289](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L289)*
+*Defined in [packages/types/src/augment/registry.ts:289](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L289)*
 
 ___
 
@@ -8260,7 +8260,7 @@ ___
 
 • **Option<PhantomData>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PhantomData›*
 
-*Defined in [packages/types/src/augment/registry.ts:292](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L292)*
+*Defined in [packages/types/src/augment/registry.ts:292](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L292)*
 
 ___
 
@@ -8268,7 +8268,7 @@ ___
 
 • **Option<Phase>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Phase›*
 
-*Defined in [packages/types/src/augment/registry.ts:1174](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1174)*
+*Defined in [packages/types/src/augment/registry.ts:1174](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1174)*
 
 ___
 
@@ -8276,7 +8276,7 @@ ___
 
 • **Option<PhragmenScore>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PhragmenScore›*
 
-*Defined in [packages/types/src/augment/registry.ts:1002](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1002)*
+*Defined in [packages/types/src/augment/registry.ts:1002](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1002)*
 
 ___
 
@@ -8284,7 +8284,7 @@ ___
 
 • **Option<PlainTypeLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1941](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1941)*
+*Defined in [packages/types/src/augment/registry.ts:1941](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1941)*
 
 ___
 
@@ -8292,7 +8292,7 @@ ___
 
 • **Option<PlainTypeV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1425](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1425)*
+*Defined in [packages/types/src/augment/registry.ts:1425](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1425)*
 
 ___
 
@@ -8300,7 +8300,7 @@ ___
 
 • **Option<PlainTypeV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1800](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1800)*
+*Defined in [packages/types/src/augment/registry.ts:1800](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1800)*
 
 ___
 
@@ -8308,7 +8308,7 @@ ___
 
 • **Option<PlainTypeV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1848](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1848)*
+*Defined in [packages/types/src/augment/registry.ts:1848](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1848)*
 
 ___
 
@@ -8316,7 +8316,7 @@ ___
 
 • **Option<PlainTypeV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1896](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1896)*
+*Defined in [packages/types/src/augment/registry.ts:1896](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1896)*
 
 ___
 
@@ -8324,7 +8324,7 @@ ___
 
 • **Option<PlainTypeV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1485](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1485)*
+*Defined in [packages/types/src/augment/registry.ts:1485](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1485)*
 
 ___
 
@@ -8332,7 +8332,7 @@ ___
 
 • **Option<PlainTypeV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1518](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1518)*
+*Defined in [packages/types/src/augment/registry.ts:1518](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1518)*
 
 ___
 
@@ -8340,7 +8340,7 @@ ___
 
 • **Option<PlainTypeV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1551](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1551)*
+*Defined in [packages/types/src/augment/registry.ts:1551](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1551)*
 
 ___
 
@@ -8348,7 +8348,7 @@ ___
 
 • **Option<PlainTypeV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1587](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1587)*
+*Defined in [packages/types/src/augment/registry.ts:1587](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1587)*
 
 ___
 
@@ -8356,7 +8356,7 @@ ___
 
 • **Option<PlainTypeV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1626](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1626)*
+*Defined in [packages/types/src/augment/registry.ts:1626](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1626)*
 
 ___
 
@@ -8364,7 +8364,7 @@ ___
 
 • **Option<PlainTypeV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1665](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1665)*
+*Defined in [packages/types/src/augment/registry.ts:1665](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1665)*
 
 ___
 
@@ -8372,7 +8372,7 @@ ___
 
 • **Option<PlainTypeV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1710](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1710)*
+*Defined in [packages/types/src/augment/registry.ts:1710](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1710)*
 
 ___
 
@@ -8380,7 +8380,7 @@ ___
 
 • **Option<PlainTypeV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PlainTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1755](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1755)*
+*Defined in [packages/types/src/augment/registry.ts:1755](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1755)*
 
 ___
 
@@ -8388,7 +8388,7 @@ ___
 
 • **Option<Points>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Points›*
 
-*Defined in [packages/types/src/augment/registry.ts:925](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L925)*
+*Defined in [packages/types/src/augment/registry.ts:925](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L925)*
 
 ___
 
@@ -8396,7 +8396,7 @@ ___
 
 • **Option<PreRuntime>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PreRuntime›*
 
-*Defined in [packages/types/src/augment/registry.ts:321](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L321)*
+*Defined in [packages/types/src/augment/registry.ts:321](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L321)*
 
 ___
 
@@ -8404,7 +8404,7 @@ ___
 
 • **Option<Precommits>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Precommits›*
 
-*Defined in [packages/types/src/augment/registry.ts:743](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L743)*
+*Defined in [packages/types/src/augment/registry.ts:743](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L743)*
 
 ___
 
@@ -8412,7 +8412,7 @@ ___
 
 • **Option<PrefabWasmModule>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PrefabWasmModule›*
 
-*Defined in [packages/types/src/augment/registry.ts:484](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L484)*
+*Defined in [packages/types/src/augment/registry.ts:484](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L484)*
 
 ___
 
@@ -8420,7 +8420,7 @@ ___
 
 • **Option<PrefabWasmModuleReserved>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PrefabWasmModuleReserved›*
 
-*Defined in [packages/types/src/augment/registry.ts:487](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L487)*
+*Defined in [packages/types/src/augment/registry.ts:487](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L487)*
 
 ___
 
@@ -8428,7 +8428,7 @@ ___
 
 • **Option<PrefixedStorageKey>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PrefixedStorageKey›*
 
-*Defined in [packages/types/src/augment/registry.ts:1974](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1974)*
+*Defined in [packages/types/src/augment/registry.ts:1974](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1974)*
 
 ___
 
@@ -8436,7 +8436,7 @@ ___
 
 • **Option<PreimageStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PreimageStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:520](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L520)*
+*Defined in [packages/types/src/augment/registry.ts:520](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L520)*
 
 ___
 
@@ -8444,7 +8444,7 @@ ___
 
 • **Option<PreimageStatusAvailable>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PreimageStatusAvailable›*
 
-*Defined in [packages/types/src/augment/registry.ts:523](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L523)*
+*Defined in [packages/types/src/augment/registry.ts:523](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L523)*
 
 ___
 
@@ -8452,7 +8452,7 @@ ___
 
 • **Option<Prevotes>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Prevotes›*
 
-*Defined in [packages/types/src/augment/registry.ts:746](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L746)*
+*Defined in [packages/types/src/augment/registry.ts:746](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L746)*
 
 ___
 
@@ -8460,7 +8460,7 @@ ___
 
 • **Option<PriorLock>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PriorLock›*
 
-*Defined in [packages/types/src/augment/registry.ts:526](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L526)*
+*Defined in [packages/types/src/augment/registry.ts:526](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L526)*
 
 ___
 
@@ -8468,7 +8468,7 @@ ___
 
 • **Option<Priority>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Priority›*
 
-*Defined in [packages/types/src/augment/registry.ts:852](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L852)*
+*Defined in [packages/types/src/augment/registry.ts:852](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L852)*
 
 ___
 
@@ -8476,7 +8476,7 @@ ___
 
 • **Option<PropIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹PropIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:530](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L530)*
+*Defined in [packages/types/src/augment/registry.ts:530](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L530)*
 
 ___
 
@@ -8484,7 +8484,7 @@ ___
 
 • **Option<Proposal>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Proposal›*
 
-*Defined in [packages/types/src/augment/registry.ts:533](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L533)*
+*Defined in [packages/types/src/augment/registry.ts:533](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L533)*
 
 ___
 
@@ -8492,7 +8492,7 @@ ___
 
 • **Option<ProposalIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ProposalIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:438](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L438)*
+*Defined in [packages/types/src/augment/registry.ts:438](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L438)*
 
 ___
 
@@ -8500,7 +8500,7 @@ ___
 
 • **Option<ProxyAnnouncement>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ProxyAnnouncement›*
 
-*Defined in [packages/types/src/augment/registry.ts:839](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L839)*
+*Defined in [packages/types/src/augment/registry.ts:839](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L839)*
 
 ___
 
@@ -8508,7 +8508,7 @@ ___
 
 • **Option<ProxyDefinition>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ProxyDefinition›*
 
-*Defined in [packages/types/src/augment/registry.ts:833](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L833)*
+*Defined in [packages/types/src/augment/registry.ts:833](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L833)*
 
 ___
 
@@ -8516,7 +8516,7 @@ ___
 
 • **Option<ProxyState>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ProxyState›*
 
-*Defined in [packages/types/src/augment/registry.ts:536](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L536)*
+*Defined in [packages/types/src/augment/registry.ts:536](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L536)*
 
 ___
 
@@ -8524,7 +8524,7 @@ ___
 
 • **Option<ProxyType>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ProxyType›*
 
-*Defined in [packages/types/src/augment/registry.ts:836](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L836)*
+*Defined in [packages/types/src/augment/registry.ts:836](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L836)*
 
 ___
 
@@ -8532,7 +8532,7 @@ ___
 
 • **Option<Randomness>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Randomness›*
 
-*Defined in [packages/types/src/augment/registry.ts:372](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L372)*
+*Defined in [packages/types/src/augment/registry.ts:372](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L372)*
 
 ___
 
@@ -8540,7 +8540,7 @@ ___
 
 • **Option<Raw>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[Raw](../classes/_packages_types_src_codec_raw_.raw.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:131](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L131)*
+*Defined in [packages/types/src/augment/registry.ts:131](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L131)*
 
 ___
 
@@ -8548,7 +8548,7 @@ ___
 
 • **Option<RawAuraPreDigest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawAuraPreDigest›*
 
-*Defined in [packages/types/src/augment/registry.ts:336](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L336)*
+*Defined in [packages/types/src/augment/registry.ts:336](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L336)*
 
 ___
 
@@ -8556,7 +8556,7 @@ ___
 
 • **Option<RawBabePreDigest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigest›*
 
-*Defined in [packages/types/src/augment/registry.ts:375](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L375)*
+*Defined in [packages/types/src/augment/registry.ts:375](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L375)*
 
 ___
 
@@ -8564,7 +8564,7 @@ ___
 
 • **Option<RawBabePreDigestCompat>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigestCompat›*
 
-*Defined in [packages/types/src/augment/registry.ts:396](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L396)*
+*Defined in [packages/types/src/augment/registry.ts:396](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L396)*
 
 ___
 
@@ -8572,7 +8572,7 @@ ___
 
 • **Option<RawBabePreDigestPrimary>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigestPrimary›*
 
-*Defined in [packages/types/src/augment/registry.ts:378](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L378)*
+*Defined in [packages/types/src/augment/registry.ts:378](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L378)*
 
 ___
 
@@ -8580,7 +8580,7 @@ ___
 
 • **Option<RawBabePreDigestPrimaryTo159>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigestPrimaryTo159›*
 
-*Defined in [packages/types/src/augment/registry.ts:390](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L390)*
+*Defined in [packages/types/src/augment/registry.ts:390](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L390)*
 
 ___
 
@@ -8588,7 +8588,7 @@ ___
 
 • **Option<RawBabePreDigestSecondaryPlain>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigestSecondaryPlain›*
 
-*Defined in [packages/types/src/augment/registry.ts:381](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L381)*
+*Defined in [packages/types/src/augment/registry.ts:381](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L381)*
 
 ___
 
@@ -8596,7 +8596,7 @@ ___
 
 • **Option<RawBabePreDigestSecondaryTo159>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigestSecondaryTo159›*
 
-*Defined in [packages/types/src/augment/registry.ts:393](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L393)*
+*Defined in [packages/types/src/augment/registry.ts:393](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L393)*
 
 ___
 
@@ -8604,7 +8604,7 @@ ___
 
 • **Option<RawBabePreDigestSecondaryVRF>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigestSecondaryVRF›*
 
-*Defined in [packages/types/src/augment/registry.ts:384](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L384)*
+*Defined in [packages/types/src/augment/registry.ts:384](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L384)*
 
 ___
 
@@ -8612,7 +8612,7 @@ ___
 
 • **Option<RawBabePreDigestTo159>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawBabePreDigestTo159›*
 
-*Defined in [packages/types/src/augment/registry.ts:387](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L387)*
+*Defined in [packages/types/src/augment/registry.ts:387](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L387)*
 
 ___
 
@@ -8620,7 +8620,7 @@ ___
 
 • **Option<RawVRFOutput>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RawVRFOutput›*
 
-*Defined in [packages/types/src/augment/registry.ts:450](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L450)*
+*Defined in [packages/types/src/augment/registry.ts:450](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L450)*
 
 ___
 
@@ -8628,7 +8628,7 @@ ___
 
 • **Option<ReadProof>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReadProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:1989](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1989)*
+*Defined in [packages/types/src/augment/registry.ts:1989](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1989)*
 
 ___
 
@@ -8636,7 +8636,7 @@ ___
 
 • **Option<Reasons>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Reasons›*
 
-*Defined in [packages/types/src/augment/registry.ts:424](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L424)*
+*Defined in [packages/types/src/augment/registry.ts:424](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L424)*
 
 ___
 
@@ -8644,7 +8644,7 @@ ___
 
 • **Option<RecoveryConfig>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RecoveryConfig›*
 
-*Defined in [packages/types/src/augment/registry.ts:845](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L845)*
+*Defined in [packages/types/src/augment/registry.ts:845](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L845)*
 
 ___
 
@@ -8652,7 +8652,7 @@ ___
 
 • **Option<RefCount>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RefCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:1178](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1178)*
+*Defined in [packages/types/src/augment/registry.ts:1178](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1178)*
 
 ___
 
@@ -8660,7 +8660,7 @@ ___
 
 • **Option<ReferendumIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReferendumIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:540](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L540)*
+*Defined in [packages/types/src/augment/registry.ts:540](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L540)*
 
 ___
 
@@ -8668,7 +8668,7 @@ ___
 
 • **Option<ReferendumInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReferendumInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:546](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L546)*
+*Defined in [packages/types/src/augment/registry.ts:546](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L546)*
 
 ___
 
@@ -8676,7 +8676,7 @@ ___
 
 • **Option<ReferendumInfoFinished>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReferendumInfoFinished›*
 
-*Defined in [packages/types/src/augment/registry.ts:549](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L549)*
+*Defined in [packages/types/src/augment/registry.ts:549](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L549)*
 
 ___
 
@@ -8684,7 +8684,7 @@ ___
 
 • **Option<ReferendumInfoTo239>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReferendumInfoTo239›*
 
-*Defined in [packages/types/src/augment/registry.ts:543](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L543)*
+*Defined in [packages/types/src/augment/registry.ts:543](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L543)*
 
 ___
 
@@ -8692,7 +8692,7 @@ ___
 
 • **Option<ReferendumStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReferendumStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:552](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L552)*
+*Defined in [packages/types/src/augment/registry.ts:552](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L552)*
 
 ___
 
@@ -8700,7 +8700,7 @@ ___
 
 • **Option<RegisteredParachainInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RegisteredParachainInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1251](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1251)*
+*Defined in [packages/types/src/augment/registry.ts:1251](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1251)*
 
 ___
 
@@ -8708,7 +8708,7 @@ ___
 
 • **Option<RegistrarIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RegistrarIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:784](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L784)*
+*Defined in [packages/types/src/augment/registry.ts:784](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L784)*
 
 ___
 
@@ -8716,7 +8716,7 @@ ___
 
 • **Option<RegistrarInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RegistrarInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:787](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L787)*
+*Defined in [packages/types/src/augment/registry.ts:787](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L787)*
 
 ___
 
@@ -8724,7 +8724,7 @@ ___
 
 • **Option<Registration>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Registration›*
 
-*Defined in [packages/types/src/augment/registry.ts:780](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L780)*
+*Defined in [packages/types/src/augment/registry.ts:780](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L780)*
 
 ___
 
@@ -8732,7 +8732,7 @@ ___
 
 • **Option<RegistrationJudgement>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RegistrationJudgement›*
 
-*Defined in [packages/types/src/augment/registry.ts:777](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L777)*
+*Defined in [packages/types/src/augment/registry.ts:777](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L777)*
 
 ___
 
@@ -8740,7 +8740,7 @@ ___
 
 • **Option<RelayChainBlockNumber>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RelayChainBlockNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:1328](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1328)*
+*Defined in [packages/types/src/augment/registry.ts:1328](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1328)*
 
 ___
 
@@ -8748,7 +8748,7 @@ ___
 
 • **Option<Releases>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Releases›*
 
-*Defined in [packages/types/src/augment/registry.ts:295](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L295)*
+*Defined in [packages/types/src/augment/registry.ts:295](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L295)*
 
 ___
 
@@ -8756,7 +8756,7 @@ ___
 
 • **Option<Remark>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Remark›*
 
-*Defined in [packages/types/src/augment/registry.ts:1331](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1331)*
+*Defined in [packages/types/src/augment/registry.ts:1331](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1331)*
 
 ___
 
@@ -8764,7 +8764,7 @@ ___
 
 • **Option<Renouncing>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Renouncing›*
 
-*Defined in [packages/types/src/augment/registry.ts:577](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L577)*
+*Defined in [packages/types/src/augment/registry.ts:577](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L577)*
 
 ___
 
@@ -8772,7 +8772,7 @@ ___
 
 • **Option<ReportIdOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReportIdOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:827](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L827)*
+*Defined in [packages/types/src/augment/registry.ts:827](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L827)*
 
 ___
 
@@ -8780,7 +8780,7 @@ ___
 
 • **Option<ReportedRoundStates>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ReportedRoundStates›*
 
-*Defined in [packages/types/src/augment/registry.ts:749](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L749)*
+*Defined in [packages/types/src/augment/registry.ts:749](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L749)*
 
 ___
 
@@ -8788,7 +8788,7 @@ ___
 
 • **Option<Reporter>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Reporter›*
 
-*Defined in [packages/types/src/augment/registry.ts:830](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L830)*
+*Defined in [packages/types/src/augment/registry.ts:830](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L830)*
 
 ___
 
@@ -8796,7 +8796,7 @@ ___
 
 • **Option<Retriable>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Retriable›*
 
-*Defined in [packages/types/src/augment/registry.ts:1334](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1334)*
+*Defined in [packages/types/src/augment/registry.ts:1334](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1334)*
 
 ___
 
@@ -8804,7 +8804,7 @@ ___
 
 • **Option<RewardDestination>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RewardDestination›*
 
-*Defined in [packages/types/src/augment/registry.ts:1005](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1005)*
+*Defined in [packages/types/src/augment/registry.ts:1005](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1005)*
 
 ___
 
@@ -8812,7 +8812,7 @@ ___
 
 • **Option<RewardDestinationTo257>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RewardDestinationTo257›*
 
-*Defined in [packages/types/src/augment/registry.ts:1008](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1008)*
+*Defined in [packages/types/src/augment/registry.ts:1008](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1008)*
 
 ___
 
@@ -8820,7 +8820,7 @@ ___
 
 • **Option<RewardPoint>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RewardPoint›*
 
-*Defined in [packages/types/src/augment/registry.ts:1012](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1012)*
+*Defined in [packages/types/src/augment/registry.ts:1012](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1012)*
 
 ___
 
@@ -8828,7 +8828,7 @@ ___
 
 • **Option<RoundState>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RoundState›*
 
-*Defined in [packages/types/src/augment/registry.ts:752](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L752)*
+*Defined in [packages/types/src/augment/registry.ts:752](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L752)*
 
 ___
 
@@ -8836,7 +8836,7 @@ ___
 
 • **Option<RpcMethods>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RpcMethods›*
 
-*Defined in [packages/types/src/augment/registry.ts:1962](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1962)*
+*Defined in [packages/types/src/augment/registry.ts:1962](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1962)*
 
 ___
 
@@ -8844,7 +8844,7 @@ ___
 
 • **Option<RuntimeDbWeight>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RuntimeDbWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:298](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L298)*
+*Defined in [packages/types/src/augment/registry.ts:298](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L298)*
 
 ___
 
@@ -8852,7 +8852,7 @@ ___
 
 • **Option<RuntimeDispatchInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RuntimeDispatchInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1980](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1980)*
+*Defined in [packages/types/src/augment/registry.ts:1980](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1980)*
 
 ___
 
@@ -8860,7 +8860,7 @@ ___
 
 • **Option<RuntimeModuleMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RuntimeModuleMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1428](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1428)*
+*Defined in [packages/types/src/augment/registry.ts:1428](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1428)*
 
 ___
 
@@ -8868,7 +8868,7 @@ ___
 
 • **Option<RuntimeVersion>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RuntimeVersion›*
 
-*Defined in [packages/types/src/augment/registry.ts:1995](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1995)*
+*Defined in [packages/types/src/augment/registry.ts:1995](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1995)*
 
 ___
 
@@ -8876,7 +8876,7 @@ ___
 
 • **Option<RuntimeVersionApi>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹RuntimeVersionApi›*
 
-*Defined in [packages/types/src/augment/registry.ts:1992](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1992)*
+*Defined in [packages/types/src/augment/registry.ts:1992](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1992)*
 
 ___
 
@@ -8884,7 +8884,7 @@ ___
 
 • **Option<Schedule>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Schedule›*
 
-*Defined in [packages/types/src/augment/registry.ts:493](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L493)*
+*Defined in [packages/types/src/augment/registry.ts:493](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L493)*
 
 ___
 
@@ -8892,7 +8892,7 @@ ___
 
 • **Option<SchedulePeriod>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SchedulePeriod›*
 
-*Defined in [packages/types/src/augment/registry.ts:855](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L855)*
+*Defined in [packages/types/src/augment/registry.ts:855](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L855)*
 
 ___
 
@@ -8900,7 +8900,7 @@ ___
 
 • **Option<SchedulePriority>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SchedulePriority›*
 
-*Defined in [packages/types/src/augment/registry.ts:858](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L858)*
+*Defined in [packages/types/src/augment/registry.ts:858](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L858)*
 
 ___
 
@@ -8908,7 +8908,7 @@ ___
 
 • **Option<ScheduleTo212>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ScheduleTo212›*
 
-*Defined in [packages/types/src/augment/registry.ts:490](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L490)*
+*Defined in [packages/types/src/augment/registry.ts:490](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L490)*
 
 ___
 
@@ -8916,7 +8916,7 @@ ___
 
 • **Option<Scheduled>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Scheduled›*
 
-*Defined in [packages/types/src/augment/registry.ts:861](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L861)*
+*Defined in [packages/types/src/augment/registry.ts:861](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L861)*
 
 ___
 
@@ -8924,7 +8924,7 @@ ___
 
 • **Option<Scheduling>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Scheduling›*
 
-*Defined in [packages/types/src/augment/registry.ts:1337](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1337)*
+*Defined in [packages/types/src/augment/registry.ts:1337](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1337)*
 
 ___
 
@@ -8932,7 +8932,7 @@ ___
 
 • **Option<Seal>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Seal›*
 
-*Defined in [packages/types/src/augment/registry.ts:327](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L327)*
+*Defined in [packages/types/src/augment/registry.ts:327](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L327)*
 
 ___
 
@@ -8940,7 +8940,7 @@ ___
 
 • **Option<SealV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SealV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:324](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L324)*
+*Defined in [packages/types/src/augment/registry.ts:324](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L324)*
 
 ___
 
@@ -8948,7 +8948,7 @@ ___
 
 • **Option<SeedOf>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SeedOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:496](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L496)*
+*Defined in [packages/types/src/augment/registry.ts:496](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L496)*
 
 ___
 
@@ -8956,7 +8956,7 @@ ___
 
 • **Option<SessionIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SessionIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:898](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L898)*
+*Defined in [packages/types/src/augment/registry.ts:898](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L898)*
 
 ___
 
@@ -8964,7 +8964,7 @@ ___
 
 • **Option<SessionKeys1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SessionKeys1›*
 
-*Defined in [packages/types/src/augment/registry.ts:870](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L870)*
+*Defined in [packages/types/src/augment/registry.ts:870](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L870)*
 
 ___
 
@@ -8972,7 +8972,7 @@ ___
 
 • **Option<SessionKeys2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SessionKeys2›*
 
-*Defined in [packages/types/src/augment/registry.ts:873](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L873)*
+*Defined in [packages/types/src/augment/registry.ts:873](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L873)*
 
 ___
 
@@ -8980,7 +8980,7 @@ ___
 
 • **Option<SessionKeys3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SessionKeys3›*
 
-*Defined in [packages/types/src/augment/registry.ts:876](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L876)*
+*Defined in [packages/types/src/augment/registry.ts:876](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L876)*
 
 ___
 
@@ -8988,7 +8988,7 @@ ___
 
 • **Option<SessionKeys4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SessionKeys4›*
 
-*Defined in [packages/types/src/augment/registry.ts:879](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L879)*
+*Defined in [packages/types/src/augment/registry.ts:879](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L879)*
 
 ___
 
@@ -8996,7 +8996,7 @@ ___
 
 • **Option<SessionKeys5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SessionKeys5›*
 
-*Defined in [packages/types/src/augment/registry.ts:882](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L882)*
+*Defined in [packages/types/src/augment/registry.ts:882](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L882)*
 
 ___
 
@@ -9004,7 +9004,7 @@ ___
 
 • **Option<SessionKeys6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SessionKeys6›*
 
-*Defined in [packages/types/src/augment/registry.ts:885](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L885)*
+*Defined in [packages/types/src/augment/registry.ts:885](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L885)*
 
 ___
 
@@ -9012,7 +9012,7 @@ ___
 
 • **Option<SetId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SetId›*
 
-*Defined in [packages/types/src/augment/registry.ts:756](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L756)*
+*Defined in [packages/types/src/augment/registry.ts:756](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L756)*
 
 ___
 
@@ -9020,7 +9020,7 @@ ___
 
 • **Option<SetIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SetIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:581](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L581)*
+*Defined in [packages/types/src/augment/registry.ts:581](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L581)*
 
 ___
 
@@ -9028,7 +9028,7 @@ ___
 
 • **Option<Signature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Signature›*
 
-*Defined in [packages/types/src/augment/registry.ts:672](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L672)*
+*Defined in [packages/types/src/augment/registry.ts:672](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L672)*
 
 ___
 
@@ -9036,7 +9036,7 @@ ___
 
 • **Option<SignedBlock>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SignedBlock›*
 
-*Defined in [packages/types/src/augment/registry.ts:301](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L301)*
+*Defined in [packages/types/src/augment/registry.ts:301](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L301)*
 
 ___
 
@@ -9044,7 +9044,7 @@ ___
 
 • **Option<SignerPayload>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SignerPayload›*
 
-*Defined in [packages/types/src/augment/registry.ts:675](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L675)*
+*Defined in [packages/types/src/augment/registry.ts:675](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L675)*
 
 ___
 
@@ -9052,7 +9052,7 @@ ___
 
 • **Option<SigningContext>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SigningContext›*
 
-*Defined in [packages/types/src/augment/registry.ts:1340](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1340)*
+*Defined in [packages/types/src/augment/registry.ts:1340](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1340)*
 
 ___
 
@@ -9060,7 +9060,7 @@ ___
 
 • **Option<SlashJournalEntry>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SlashJournalEntry›*
 
-*Defined in [packages/types/src/augment/registry.ts:1015](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1015)*
+*Defined in [packages/types/src/augment/registry.ts:1015](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1015)*
 
 ___
 
@@ -9068,7 +9068,7 @@ ___
 
 • **Option<SlashingSpans>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SlashingSpans›*
 
-*Defined in [packages/types/src/augment/registry.ts:1021](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1021)*
+*Defined in [packages/types/src/augment/registry.ts:1021](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1021)*
 
 ___
 
@@ -9076,7 +9076,7 @@ ___
 
 • **Option<SlashingSpansTo204>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SlashingSpansTo204›*
 
-*Defined in [packages/types/src/augment/registry.ts:1018](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1018)*
+*Defined in [packages/types/src/augment/registry.ts:1018](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1018)*
 
 ___
 
@@ -9084,7 +9084,7 @@ ___
 
 • **Option<SlotNumber>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SlotNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:400](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L400)*
+*Defined in [packages/types/src/augment/registry.ts:400](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L400)*
 
 ___
 
@@ -9092,7 +9092,7 @@ ___
 
 • **Option<SlotRange>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SlotRange›*
 
-*Defined in [packages/types/src/augment/registry.ts:1343](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1343)*
+*Defined in [packages/types/src/augment/registry.ts:1343](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1343)*
 
 ___
 
@@ -9100,7 +9100,7 @@ ___
 
 • **Option<SocietyJudgement>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SocietyJudgement›*
 
-*Defined in [packages/types/src/augment/registry.ts:911](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L911)*
+*Defined in [packages/types/src/augment/registry.ts:911](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L911)*
 
 ___
 
@@ -9108,7 +9108,7 @@ ___
 
 • **Option<SocietyVote>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SocietyVote›*
 
-*Defined in [packages/types/src/augment/registry.ts:914](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L914)*
+*Defined in [packages/types/src/augment/registry.ts:914](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L914)*
 
 ___
 
@@ -9116,7 +9116,7 @@ ___
 
 • **Option<SpanIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SpanIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1025](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1025)*
+*Defined in [packages/types/src/augment/registry.ts:1025](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1025)*
 
 ___
 
@@ -9124,7 +9124,7 @@ ___
 
 • **Option<SpanRecord>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SpanRecord›*
 
-*Defined in [packages/types/src/augment/registry.ts:1028](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1028)*
+*Defined in [packages/types/src/augment/registry.ts:1028](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1028)*
 
 ___
 
@@ -9132,7 +9132,7 @@ ___
 
 • **Option<Sr25519Signature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Sr25519Signature›*
 
-*Defined in [packages/types/src/augment/registry.ts:684](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L684)*
+*Defined in [packages/types/src/augment/registry.ts:684](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L684)*
 
 ___
 
@@ -9140,7 +9140,7 @@ ___
 
 • **Option<StakingLedger>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StakingLedger›*
 
-*Defined in [packages/types/src/augment/registry.ts:1037](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1037)*
+*Defined in [packages/types/src/augment/registry.ts:1037](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1037)*
 
 ___
 
@@ -9148,7 +9148,7 @@ ___
 
 • **Option<StakingLedgerTo223>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StakingLedgerTo223›*
 
-*Defined in [packages/types/src/augment/registry.ts:1031](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1031)*
+*Defined in [packages/types/src/augment/registry.ts:1031](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1031)*
 
 ___
 
@@ -9156,7 +9156,7 @@ ___
 
 • **Option<StakingLedgerTo240>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StakingLedgerTo240›*
 
-*Defined in [packages/types/src/augment/registry.ts:1034](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1034)*
+*Defined in [packages/types/src/augment/registry.ts:1034](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1034)*
 
 ___
 
@@ -9164,7 +9164,7 @@ ___
 
 • **Option<Statement>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Statement›*
 
-*Defined in [packages/types/src/augment/registry.ts:1346](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1346)*
+*Defined in [packages/types/src/augment/registry.ts:1346](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1346)*
 
 ___
 
@@ -9172,7 +9172,7 @@ ___
 
 • **Option<StatementKind>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StatementKind›*
 
-*Defined in [packages/types/src/augment/registry.ts:1245](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1245)*
+*Defined in [packages/types/src/augment/registry.ts:1245](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1245)*
 
 ___
 
@@ -9180,7 +9180,7 @@ ___
 
 • **Option<StorageChangeSet>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageChangeSet›*
 
-*Defined in [packages/types/src/augment/registry.ts:1998](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1998)*
+*Defined in [packages/types/src/augment/registry.ts:1998](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1998)*
 
 ___
 
@@ -9188,7 +9188,7 @@ ___
 
 • **Option<StorageData>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageData›*
 
-*Defined in [packages/types/src/augment/registry.ts:304](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L304)*
+*Defined in [packages/types/src/augment/registry.ts:304](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L304)*
 
 ___
 
@@ -9196,7 +9196,7 @@ ___
 
 • **Option<StorageEntryMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1944](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1944)*
+*Defined in [packages/types/src/augment/registry.ts:1944](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1944)*
 
 ___
 
@@ -9204,7 +9204,7 @@ ___
 
 • **Option<StorageEntryMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1806](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1806)*
+*Defined in [packages/types/src/augment/registry.ts:1806](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1806)*
 
 ___
 
@@ -9212,7 +9212,7 @@ ___
 
 • **Option<StorageEntryMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1854](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1854)*
+*Defined in [packages/types/src/augment/registry.ts:1854](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1854)*
 
 ___
 
@@ -9220,7 +9220,7 @@ ___
 
 • **Option<StorageEntryMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1902](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1902)*
+*Defined in [packages/types/src/augment/registry.ts:1902](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1902)*
 
 ___
 
@@ -9228,7 +9228,7 @@ ___
 
 • **Option<StorageEntryMetadataV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1632](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1632)*
+*Defined in [packages/types/src/augment/registry.ts:1632](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1632)*
 
 ___
 
@@ -9236,7 +9236,7 @@ ___
 
 • **Option<StorageEntryMetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1671](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1671)*
+*Defined in [packages/types/src/augment/registry.ts:1671](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1671)*
 
 ___
 
@@ -9244,7 +9244,7 @@ ___
 
 • **Option<StorageEntryMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1716](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1716)*
+*Defined in [packages/types/src/augment/registry.ts:1716](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1716)*
 
 ___
 
@@ -9252,7 +9252,7 @@ ___
 
 • **Option<StorageEntryMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1761](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1761)*
+*Defined in [packages/types/src/augment/registry.ts:1761](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1761)*
 
 ___
 
@@ -9260,7 +9260,7 @@ ___
 
 • **Option<StorageEntryModifierLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1947](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1947)*
+*Defined in [packages/types/src/augment/registry.ts:1947](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1947)*
 
 ___
 
@@ -9268,7 +9268,7 @@ ___
 
 • **Option<StorageEntryModifierV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1803](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1803)*
+*Defined in [packages/types/src/augment/registry.ts:1803](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1803)*
 
 ___
 
@@ -9276,7 +9276,7 @@ ___
 
 • **Option<StorageEntryModifierV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1851](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1851)*
+*Defined in [packages/types/src/augment/registry.ts:1851](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1851)*
 
 ___
 
@@ -9284,7 +9284,7 @@ ___
 
 • **Option<StorageEntryModifierV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1899](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1899)*
+*Defined in [packages/types/src/augment/registry.ts:1899](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1899)*
 
 ___
 
@@ -9292,7 +9292,7 @@ ___
 
 • **Option<StorageEntryModifierV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1629](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1629)*
+*Defined in [packages/types/src/augment/registry.ts:1629](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1629)*
 
 ___
 
@@ -9300,7 +9300,7 @@ ___
 
 • **Option<StorageEntryModifierV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1668](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1668)*
+*Defined in [packages/types/src/augment/registry.ts:1668](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1668)*
 
 ___
 
@@ -9308,7 +9308,7 @@ ___
 
 • **Option<StorageEntryModifierV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1713](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1713)*
+*Defined in [packages/types/src/augment/registry.ts:1713](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1713)*
 
 ___
 
@@ -9316,7 +9316,7 @@ ___
 
 • **Option<StorageEntryModifierV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryModifierV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1758](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1758)*
+*Defined in [packages/types/src/augment/registry.ts:1758](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1758)*
 
 ___
 
@@ -9324,7 +9324,7 @@ ___
 
 • **Option<StorageEntryTypeLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1950](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1950)*
+*Defined in [packages/types/src/augment/registry.ts:1950](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1950)*
 
 ___
 
@@ -9332,7 +9332,7 @@ ___
 
 • **Option<StorageEntryTypeV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1809](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1809)*
+*Defined in [packages/types/src/augment/registry.ts:1809](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1809)*
 
 ___
 
@@ -9340,7 +9340,7 @@ ___
 
 • **Option<StorageEntryTypeV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1857](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1857)*
+*Defined in [packages/types/src/augment/registry.ts:1857](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1857)*
 
 ___
 
@@ -9348,7 +9348,7 @@ ___
 
 • **Option<StorageEntryTypeV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1905](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1905)*
+*Defined in [packages/types/src/augment/registry.ts:1905](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1905)*
 
 ___
 
@@ -9356,7 +9356,7 @@ ___
 
 • **Option<StorageEntryTypeV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1635](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1635)*
+*Defined in [packages/types/src/augment/registry.ts:1635](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1635)*
 
 ___
 
@@ -9364,7 +9364,7 @@ ___
 
 • **Option<StorageEntryTypeV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1674](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1674)*
+*Defined in [packages/types/src/augment/registry.ts:1674](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1674)*
 
 ___
 
@@ -9372,7 +9372,7 @@ ___
 
 • **Option<StorageEntryTypeV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1719](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1719)*
+*Defined in [packages/types/src/augment/registry.ts:1719](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1719)*
 
 ___
 
@@ -9380,7 +9380,7 @@ ___
 
 • **Option<StorageEntryTypeV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageEntryTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1764](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1764)*
+*Defined in [packages/types/src/augment/registry.ts:1764](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1764)*
 
 ___
 
@@ -9388,7 +9388,7 @@ ___
 
 • **Option<StorageFunctionMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1431](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1431)*
+*Defined in [packages/types/src/augment/registry.ts:1431](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1431)*
 
 ___
 
@@ -9396,7 +9396,7 @@ ___
 
 • **Option<StorageFunctionMetadataV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1458](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1458)*
+*Defined in [packages/types/src/augment/registry.ts:1458](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1458)*
 
 ___
 
@@ -9404,7 +9404,7 @@ ___
 
 • **Option<StorageFunctionMetadataV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1488](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1488)*
+*Defined in [packages/types/src/augment/registry.ts:1488](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1488)*
 
 ___
 
@@ -9412,7 +9412,7 @@ ___
 
 • **Option<StorageFunctionMetadataV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1521](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1521)*
+*Defined in [packages/types/src/augment/registry.ts:1521](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1521)*
 
 ___
 
@@ -9420,7 +9420,7 @@ ___
 
 • **Option<StorageFunctionMetadataV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1554](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1554)*
+*Defined in [packages/types/src/augment/registry.ts:1554](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1554)*
 
 ___
 
@@ -9428,7 +9428,7 @@ ___
 
 • **Option<StorageFunctionMetadataV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1590](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1590)*
+*Defined in [packages/types/src/augment/registry.ts:1590](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1590)*
 
 ___
 
@@ -9436,7 +9436,7 @@ ___
 
 • **Option<StorageFunctionModifierV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionModifierV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1434](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1434)*
+*Defined in [packages/types/src/augment/registry.ts:1434](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1434)*
 
 ___
 
@@ -9444,7 +9444,7 @@ ___
 
 • **Option<StorageFunctionModifierV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionModifierV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1461](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1461)*
+*Defined in [packages/types/src/augment/registry.ts:1461](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1461)*
 
 ___
 
@@ -9452,7 +9452,7 @@ ___
 
 • **Option<StorageFunctionModifierV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionModifierV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1491](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1491)*
+*Defined in [packages/types/src/augment/registry.ts:1491](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1491)*
 
 ___
 
@@ -9460,7 +9460,7 @@ ___
 
 • **Option<StorageFunctionModifierV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionModifierV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1524](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1524)*
+*Defined in [packages/types/src/augment/registry.ts:1524](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1524)*
 
 ___
 
@@ -9468,7 +9468,7 @@ ___
 
 • **Option<StorageFunctionModifierV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionModifierV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1557](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1557)*
+*Defined in [packages/types/src/augment/registry.ts:1557](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1557)*
 
 ___
 
@@ -9476,7 +9476,7 @@ ___
 
 • **Option<StorageFunctionModifierV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionModifierV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1593](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1593)*
+*Defined in [packages/types/src/augment/registry.ts:1593](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1593)*
 
 ___
 
@@ -9484,7 +9484,7 @@ ___
 
 • **Option<StorageFunctionTypeV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionTypeV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1437](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1437)*
+*Defined in [packages/types/src/augment/registry.ts:1437](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1437)*
 
 ___
 
@@ -9492,7 +9492,7 @@ ___
 
 • **Option<StorageFunctionTypeV1>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionTypeV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1464](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1464)*
+*Defined in [packages/types/src/augment/registry.ts:1464](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1464)*
 
 ___
 
@@ -9500,7 +9500,7 @@ ___
 
 • **Option<StorageFunctionTypeV2>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionTypeV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1494](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1494)*
+*Defined in [packages/types/src/augment/registry.ts:1494](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1494)*
 
 ___
 
@@ -9508,7 +9508,7 @@ ___
 
 • **Option<StorageFunctionTypeV3>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1527](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1527)*
+*Defined in [packages/types/src/augment/registry.ts:1527](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1527)*
 
 ___
 
@@ -9516,7 +9516,7 @@ ___
 
 • **Option<StorageFunctionTypeV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1560](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1560)*
+*Defined in [packages/types/src/augment/registry.ts:1560](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1560)*
 
 ___
 
@@ -9524,7 +9524,7 @@ ___
 
 • **Option<StorageFunctionTypeV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageFunctionTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1596](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1596)*
+*Defined in [packages/types/src/augment/registry.ts:1596](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1596)*
 
 ___
 
@@ -9532,7 +9532,7 @@ ___
 
 • **Option<StorageHasher>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasher›*
 
-*Defined in [packages/types/src/augment/registry.ts:1956](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1956)*
+*Defined in [packages/types/src/augment/registry.ts:1956](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1956)*
 
 ___
 
@@ -9540,7 +9540,7 @@ ___
 
 • **Option<StorageHasherV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1815](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1815)*
+*Defined in [packages/types/src/augment/registry.ts:1815](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1815)*
 
 ___
 
@@ -9548,7 +9548,7 @@ ___
 
 • **Option<StorageHasherV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1863](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1863)*
+*Defined in [packages/types/src/augment/registry.ts:1863](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1863)*
 
 ___
 
@@ -9556,7 +9556,7 @@ ___
 
 • **Option<StorageHasherV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1911](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1911)*
+*Defined in [packages/types/src/augment/registry.ts:1911](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1911)*
 
 ___
 
@@ -9564,7 +9564,7 @@ ___
 
 • **Option<StorageHasherV4>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1563](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1563)*
+*Defined in [packages/types/src/augment/registry.ts:1563](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1563)*
 
 ___
 
@@ -9572,7 +9572,7 @@ ___
 
 • **Option<StorageHasherV5>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1599](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1599)*
+*Defined in [packages/types/src/augment/registry.ts:1599](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1599)*
 
 ___
 
@@ -9580,7 +9580,7 @@ ___
 
 • **Option<StorageHasherV6>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1638](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1638)*
+*Defined in [packages/types/src/augment/registry.ts:1638](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1638)*
 
 ___
 
@@ -9588,7 +9588,7 @@ ___
 
 • **Option<StorageHasherV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1677](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1677)*
+*Defined in [packages/types/src/augment/registry.ts:1677](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1677)*
 
 ___
 
@@ -9596,7 +9596,7 @@ ___
 
 • **Option<StorageHasherV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1722](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1722)*
+*Defined in [packages/types/src/augment/registry.ts:1722](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1722)*
 
 ___
 
@@ -9604,7 +9604,7 @@ ___
 
 • **Option<StorageHasherV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageHasherV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1767](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1767)*
+*Defined in [packages/types/src/augment/registry.ts:1767](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1767)*
 
 ___
 
@@ -9612,7 +9612,7 @@ ___
 
 • **Option<StorageKey>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[StorageKey](../classes/_packages_types_src_primitive_storagekey_.storagekey.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:90](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L90)*
+*Defined in [packages/types/src/augment/registry.ts:90](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L90)*
 
 ___
 
@@ -9620,7 +9620,7 @@ ___
 
 • **Option<StorageKind>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageKind›*
 
-*Defined in [packages/types/src/augment/registry.ts:1977](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1977)*
+*Defined in [packages/types/src/augment/registry.ts:1977](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1977)*
 
 ___
 
@@ -9628,7 +9628,7 @@ ___
 
 • **Option<StorageMetadataLatest>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1953](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1953)*
+*Defined in [packages/types/src/augment/registry.ts:1953](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1953)*
 
 ___
 
@@ -9636,7 +9636,7 @@ ___
 
 • **Option<StorageMetadataV0>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1440](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1440)*
+*Defined in [packages/types/src/augment/registry.ts:1440](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1440)*
 
 ___
 
@@ -9644,7 +9644,7 @@ ___
 
 • **Option<StorageMetadataV10>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1812](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1812)*
+*Defined in [packages/types/src/augment/registry.ts:1812](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1812)*
 
 ___
 
@@ -9652,7 +9652,7 @@ ___
 
 • **Option<StorageMetadataV11>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1860](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1860)*
+*Defined in [packages/types/src/augment/registry.ts:1860](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1860)*
 
 ___
 
@@ -9660,7 +9660,7 @@ ___
 
 • **Option<StorageMetadataV12>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1908](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1908)*
+*Defined in [packages/types/src/augment/registry.ts:1908](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1908)*
 
 ___
 
@@ -9668,7 +9668,7 @@ ___
 
 • **Option<StorageMetadataV7>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1680](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1680)*
+*Defined in [packages/types/src/augment/registry.ts:1680](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1680)*
 
 ___
 
@@ -9676,7 +9676,7 @@ ___
 
 • **Option<StorageMetadataV8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1725](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1725)*
+*Defined in [packages/types/src/augment/registry.ts:1725](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1725)*
 
 ___
 
@@ -9684,7 +9684,7 @@ ___
 
 • **Option<StorageMetadataV9>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StorageMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1770](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1770)*
+*Defined in [packages/types/src/augment/registry.ts:1770](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1770)*
 
 ___
 
@@ -9692,7 +9692,7 @@ ___
 
 • **Option<StoredPendingChange>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StoredPendingChange›*
 
-*Defined in [packages/types/src/augment/registry.ts:759](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L759)*
+*Defined in [packages/types/src/augment/registry.ts:759](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L759)*
 
 ___
 
@@ -9700,7 +9700,7 @@ ___
 
 • **Option<StoredState>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StoredState›*
 
-*Defined in [packages/types/src/augment/registry.ts:762](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L762)*
+*Defined in [packages/types/src/augment/registry.ts:762](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L762)*
 
 ___
 
@@ -9708,7 +9708,7 @@ ___
 
 • **Option<StrikeCount>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹StrikeCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:918](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L918)*
+*Defined in [packages/types/src/augment/registry.ts:918](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L918)*
 
 ___
 
@@ -9716,7 +9716,7 @@ ___
 
 • **Option<SubId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹SubId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1350](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1350)*
+*Defined in [packages/types/src/augment/registry.ts:1350](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1350)*
 
 ___
 
@@ -9724,7 +9724,7 @@ ___
 
 • **Option<Tally>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Tally›*
 
-*Defined in [packages/types/src/augment/registry.ts:555](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L555)*
+*Defined in [packages/types/src/augment/registry.ts:555](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L555)*
 
 ___
 
@@ -9732,7 +9732,7 @@ ___
 
 • **Option<TaskAddress>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹TaskAddress›*
 
-*Defined in [packages/types/src/augment/registry.ts:864](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L864)*
+*Defined in [packages/types/src/augment/registry.ts:864](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L864)*
 
 ___
 
@@ -9740,7 +9740,7 @@ ___
 
 • **Option<Text>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[Text](../classes/_packages_types_src_primitive_text_.text.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:93](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L93)*
+*Defined in [packages/types/src/augment/registry.ts:93](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L93)*
 
 ___
 
@@ -9748,7 +9748,7 @@ ___
 
 • **Option<Timepoint>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Timepoint›*
 
-*Defined in [packages/types/src/augment/registry.ts:1227](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1227)*
+*Defined in [packages/types/src/augment/registry.ts:1227](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1227)*
 
 ___
 
@@ -9756,7 +9756,7 @@ ___
 
 • **Option<TombstoneContractInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹TombstoneContractInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:499](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L499)*
+*Defined in [packages/types/src/augment/registry.ts:499](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L499)*
 
 ___
 
@@ -9764,7 +9764,7 @@ ___
 
 • **Option<TransactionPriority>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹TransactionPriority›*
 
-*Defined in [packages/types/src/augment/registry.ts:308](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L308)*
+*Defined in [packages/types/src/augment/registry.ts:308](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L308)*
 
 ___
 
@@ -9772,7 +9772,7 @@ ___
 
 • **Option<TransactionValidityError>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹TransactionValidityError›*
 
-*Defined in [packages/types/src/augment/registry.ts:1181](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1181)*
+*Defined in [packages/types/src/augment/registry.ts:1181](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1181)*
 
 ___
 
@@ -9780,7 +9780,7 @@ ___
 
 • **Option<TreasuryProposal>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹TreasuryProposal›*
 
-*Defined in [packages/types/src/augment/registry.ts:1218](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1218)*
+*Defined in [packages/types/src/augment/registry.ts:1218](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1218)*
 
 ___
 
@@ -9788,7 +9788,7 @@ ___
 
 • **Option<TrieId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹TrieId›*
 
-*Defined in [packages/types/src/augment/registry.ts:502](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L502)*
+*Defined in [packages/types/src/augment/registry.ts:502](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L502)*
 
 ___
 
@@ -9796,7 +9796,7 @@ ___
 
 • **Option<Type>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[Type](../classes/_packages_types_src_primitive_type_.type.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:96](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L96)*
+*Defined in [packages/types/src/augment/registry.ts:96](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L96)*
 
 ___
 
@@ -9804,7 +9804,7 @@ ___
 
 • **Option<U256>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[U256](../classes/_packages_types_src_primitive_u256_.u256.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:124](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L124)*
+*Defined in [packages/types/src/augment/registry.ts:124](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L124)*
 
 ___
 
@@ -9812,7 +9812,7 @@ ___
 
 • **Option<U32F32>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹U32F32›*
 
-*Defined in [packages/types/src/augment/registry.ts:155](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L155)*
+*Defined in [packages/types/src/augment/registry.ts:155](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L155)*
 
 ___
 
@@ -9820,7 +9820,7 @@ ___
 
 • **Option<UnappliedSlash>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹UnappliedSlash›*
 
-*Defined in [packages/types/src/augment/registry.ts:1043](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1043)*
+*Defined in [packages/types/src/augment/registry.ts:1043](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1043)*
 
 ___
 
@@ -9828,7 +9828,7 @@ ___
 
 • **Option<UnappliedSlashOther>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹UnappliedSlashOther›*
 
-*Defined in [packages/types/src/augment/registry.ts:1040](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1040)*
+*Defined in [packages/types/src/augment/registry.ts:1040](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1040)*
 
 ___
 
@@ -9836,7 +9836,7 @@ ___
 
 • **Option<UncleEntryItem>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹UncleEntryItem›*
 
-*Defined in [packages/types/src/augment/registry.ts:333](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L333)*
+*Defined in [packages/types/src/augment/registry.ts:333](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L333)*
 
 ___
 
@@ -9844,7 +9844,7 @@ ___
 
 • **Option<UnknownTransaction>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹UnknownTransaction›*
 
-*Defined in [packages/types/src/augment/registry.ts:1184](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1184)*
+*Defined in [packages/types/src/augment/registry.ts:1184](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1184)*
 
 ___
 
@@ -9852,7 +9852,7 @@ ___
 
 • **Option<UnlockChunk>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹UnlockChunk›*
 
-*Defined in [packages/types/src/augment/registry.ts:1046](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1046)*
+*Defined in [packages/types/src/augment/registry.ts:1046](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1046)*
 
 ___
 
@@ -9860,7 +9860,7 @@ ___
 
 • **Option<UpwardMessage>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹UpwardMessage›*
 
-*Defined in [packages/types/src/augment/registry.ts:1353](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1353)*
+*Defined in [packages/types/src/augment/registry.ts:1353](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1353)*
 
 ___
 
@@ -9868,7 +9868,7 @@ ___
 
 • **Option<ValidationCode>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidationCode›*
 
-*Defined in [packages/types/src/augment/registry.ts:1359](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1359)*
+*Defined in [packages/types/src/augment/registry.ts:1359](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1359)*
 
 ___
 
@@ -9876,7 +9876,7 @@ ___
 
 • **Option<ValidationFunctionParams>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidationFunctionParams›*
 
-*Defined in [packages/types/src/augment/registry.ts:1356](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1356)*
+*Defined in [packages/types/src/augment/registry.ts:1356](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1356)*
 
 ___
 
@@ -9884,7 +9884,7 @@ ___
 
 • **Option<ValidatorCount>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:902](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L902)*
+*Defined in [packages/types/src/augment/registry.ts:902](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L902)*
 
 ___
 
@@ -9892,7 +9892,7 @@ ___
 
 • **Option<ValidatorId>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorId›*
 
-*Defined in [packages/types/src/augment/registry.ts:311](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L311)*
+*Defined in [packages/types/src/augment/registry.ts:311](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L311)*
 
 ___
 
@@ -9900,7 +9900,7 @@ ___
 
 • **Option<ValidatorIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1050](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1050)*
+*Defined in [packages/types/src/augment/registry.ts:1050](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1050)*
 
 ___
 
@@ -9908,7 +9908,7 @@ ___
 
 • **Option<ValidatorIndexCompact>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorIndexCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:1053](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1053)*
+*Defined in [packages/types/src/augment/registry.ts:1053](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1053)*
 
 ___
 
@@ -9916,7 +9916,7 @@ ___
 
 • **Option<ValidatorPrefs>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorPrefs›*
 
-*Defined in [packages/types/src/augment/registry.ts:1056](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1056)*
+*Defined in [packages/types/src/augment/registry.ts:1056](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1056)*
 
 ___
 
@@ -9924,7 +9924,7 @@ ___
 
 • **Option<ValidatorPrefsTo145>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorPrefsTo145›*
 
-*Defined in [packages/types/src/augment/registry.ts:1062](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1062)*
+*Defined in [packages/types/src/augment/registry.ts:1062](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1062)*
 
 ___
 
@@ -9932,7 +9932,7 @@ ___
 
 • **Option<ValidatorPrefsTo196>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorPrefsTo196›*
 
-*Defined in [packages/types/src/augment/registry.ts:1059](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1059)*
+*Defined in [packages/types/src/augment/registry.ts:1059](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1059)*
 
 ___
 
@@ -9940,7 +9940,7 @@ ___
 
 • **Option<ValidatorSignature>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidatorSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:1362](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1362)*
+*Defined in [packages/types/src/augment/registry.ts:1362](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1362)*
 
 ___
 
@@ -9948,7 +9948,7 @@ ___
 
 • **Option<ValidityAttestation>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹ValidityAttestation›*
 
-*Defined in [packages/types/src/augment/registry.ts:1365](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1365)*
+*Defined in [packages/types/src/augment/registry.ts:1365](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1365)*
 
 ___
 
@@ -9956,7 +9956,7 @@ ___
 
 • **Option<VestingInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VestingInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1230](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1230)*
+*Defined in [packages/types/src/augment/registry.ts:1230](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1230)*
 
 ___
 
@@ -9964,7 +9964,7 @@ ___
 
 • **Option<VestingSchedule>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VestingSchedule›*
 
-*Defined in [packages/types/src/augment/registry.ts:427](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L427)*
+*Defined in [packages/types/src/augment/registry.ts:427](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L427)*
 
 ___
 
@@ -9972,7 +9972,7 @@ ___
 
 • **Option<Vicinity>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Vicinity›*
 
-*Defined in [packages/types/src/augment/registry.ts:609](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L609)*
+*Defined in [packages/types/src/augment/registry.ts:609](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L609)*
 
 ___
 
@@ -9980,7 +9980,7 @@ ___
 
 • **Option<Vote>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Vote›*
 
-*Defined in [packages/types/src/augment/registry.ts:584](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L584)*
+*Defined in [packages/types/src/augment/registry.ts:584](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L584)*
 
 ___
 
@@ -9988,7 +9988,7 @@ ___
 
 • **Option<VoteIndex>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VoteIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:588](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L588)*
+*Defined in [packages/types/src/augment/registry.ts:588](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L588)*
 
 ___
 
@@ -9996,7 +9996,7 @@ ___
 
 • **Option<VoteThreshold>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VoteThreshold›*
 
-*Defined in [packages/types/src/augment/registry.ts:594](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L594)*
+*Defined in [packages/types/src/augment/registry.ts:594](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L594)*
 
 ___
 
@@ -10004,7 +10004,7 @@ ___
 
 • **Option<VoterInfo>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VoterInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:591](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L591)*
+*Defined in [packages/types/src/augment/registry.ts:591](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L591)*
 
 ___
 
@@ -10012,7 +10012,7 @@ ___
 
 • **Option<Votes>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Votes›*
 
-*Defined in [packages/types/src/augment/registry.ts:444](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L444)*
+*Defined in [packages/types/src/augment/registry.ts:444](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L444)*
 
 ___
 
@@ -10020,7 +10020,7 @@ ___
 
 • **Option<VotesTo230>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VotesTo230›*
 
-*Defined in [packages/types/src/augment/registry.ts:441](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L441)*
+*Defined in [packages/types/src/augment/registry.ts:441](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L441)*
 
 ___
 
@@ -10028,7 +10028,7 @@ ___
 
 • **Option<Voting>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Voting›*
 
-*Defined in [packages/types/src/augment/registry.ts:558](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L558)*
+*Defined in [packages/types/src/augment/registry.ts:558](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L558)*
 
 ___
 
@@ -10036,7 +10036,7 @@ ___
 
 • **Option<VotingDelegating>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VotingDelegating›*
 
-*Defined in [packages/types/src/augment/registry.ts:567](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L567)*
+*Defined in [packages/types/src/augment/registry.ts:567](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L567)*
 
 ___
 
@@ -10044,7 +10044,7 @@ ___
 
 • **Option<VotingDirect>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VotingDirect›*
 
-*Defined in [packages/types/src/augment/registry.ts:561](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L561)*
+*Defined in [packages/types/src/augment/registry.ts:561](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L561)*
 
 ___
 
@@ -10052,7 +10052,7 @@ ___
 
 • **Option<VotingDirectVote>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VotingDirectVote›*
 
-*Defined in [packages/types/src/augment/registry.ts:564](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L564)*
+*Defined in [packages/types/src/augment/registry.ts:564](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L564)*
 
 ___
 
@@ -10060,7 +10060,7 @@ ___
 
 • **Option<VouchingStatus>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VouchingStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:921](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L921)*
+*Defined in [packages/types/src/augment/registry.ts:921](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L921)*
 
 ___
 
@@ -10068,7 +10068,7 @@ ___
 
 • **Option<VrfData>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VrfData›*
 
-*Defined in [packages/types/src/augment/registry.ts:403](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L403)*
+*Defined in [packages/types/src/augment/registry.ts:403](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L403)*
 
 ___
 
@@ -10076,7 +10076,7 @@ ___
 
 • **Option<VrfOutput>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VrfOutput›*
 
-*Defined in [packages/types/src/augment/registry.ts:406](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L406)*
+*Defined in [packages/types/src/augment/registry.ts:406](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L406)*
 
 ___
 
@@ -10084,7 +10084,7 @@ ___
 
 • **Option<VrfProof>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹VrfProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:409](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L409)*
+*Defined in [packages/types/src/augment/registry.ts:409](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L409)*
 
 ___
 
@@ -10092,7 +10092,7 @@ ___
 
 • **Option<Weight>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹Weight›*
 
-*Defined in [packages/types/src/augment/registry.ts:315](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L315)*
+*Defined in [packages/types/src/augment/registry.ts:315](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L315)*
 
 ___
 
@@ -10100,7 +10100,7 @@ ___
 
 • **Option<WeightMultiplier>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹WeightMultiplier›*
 
-*Defined in [packages/types/src/augment/registry.ts:318](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L318)*
+*Defined in [packages/types/src/augment/registry.ts:318](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L318)*
 
 ___
 
@@ -10108,7 +10108,7 @@ ___
 
 • **Option<WeightToFeeCoefficient>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹WeightToFeeCoefficient›*
 
-*Defined in [packages/types/src/augment/registry.ts:1065](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1065)*
+*Defined in [packages/types/src/augment/registry.ts:1065](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1065)*
 
 ___
 
@@ -10116,7 +10116,7 @@ ___
 
 • **Option<WinningData>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹WinningData›*
 
-*Defined in [packages/types/src/augment/registry.ts:1368](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1368)*
+*Defined in [packages/types/src/augment/registry.ts:1368](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1368)*
 
 ___
 
@@ -10124,7 +10124,7 @@ ___
 
 • **Option<WinningDataEntry>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹WinningDataEntry›*
 
-*Defined in [packages/types/src/augment/registry.ts:1371](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1371)*
+*Defined in [packages/types/src/augment/registry.ts:1371](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1371)*
 
 ___
 
@@ -10132,7 +10132,7 @@ ___
 
 • **Option<WithdrawReasons>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹WithdrawReasons›*
 
-*Defined in [packages/types/src/augment/registry.ts:430](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L430)*
+*Defined in [packages/types/src/augment/registry.ts:430](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L430)*
 
 ___
 
@@ -10140,7 +10140,7 @@ ___
 
 • **Option<bool>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[bool](_packages_types_src_augment_registry_._registry_.interfacetypes.md#bool)›*
 
-*Defined in [packages/types/src/augment/registry.ts:57](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L57)*
+*Defined in [packages/types/src/augment/registry.ts:57](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L57)*
 
 ___
 
@@ -10148,7 +10148,7 @@ ___
 
 • **Option<i128>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[i128](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i128)›*
 
-*Defined in [packages/types/src/augment/registry.ts:81](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L81)*
+*Defined in [packages/types/src/augment/registry.ts:81](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L81)*
 
 ___
 
@@ -10156,7 +10156,7 @@ ___
 
 • **Option<i16>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[i16](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i16)›*
 
-*Defined in [packages/types/src/augment/registry.ts:72](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L72)*
+*Defined in [packages/types/src/augment/registry.ts:72](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L72)*
 
 ___
 
@@ -10164,7 +10164,7 @@ ___
 
 • **Option<i256>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[i256](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i256)›*
 
-*Defined in [packages/types/src/augment/registry.ts:84](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L84)*
+*Defined in [packages/types/src/augment/registry.ts:84](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L84)*
 
 ___
 
@@ -10172,7 +10172,7 @@ ___
 
 • **Option<i32>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[i32](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i32)›*
 
-*Defined in [packages/types/src/augment/registry.ts:75](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L75)*
+*Defined in [packages/types/src/augment/registry.ts:75](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L75)*
 
 ___
 
@@ -10180,7 +10180,7 @@ ___
 
 • **Option<i64>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[i64](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i64)›*
 
-*Defined in [packages/types/src/augment/registry.ts:78](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L78)*
+*Defined in [packages/types/src/augment/registry.ts:78](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L78)*
 
 ___
 
@@ -10188,7 +10188,7 @@ ___
 
 • **Option<i8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[i8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i8)›*
 
-*Defined in [packages/types/src/augment/registry.ts:69](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L69)*
+*Defined in [packages/types/src/augment/registry.ts:69](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L69)*
 
 ___
 
@@ -10196,7 +10196,7 @@ ___
 
 • **Option<u128>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[u128](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u128)›*
 
-*Defined in [packages/types/src/augment/registry.ts:116](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L116)*
+*Defined in [packages/types/src/augment/registry.ts:116](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L116)*
 
 ___
 
@@ -10204,7 +10204,7 @@ ___
 
 • **Option<u16>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[u16](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u16)›*
 
-*Defined in [packages/types/src/augment/registry.ts:104](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L104)*
+*Defined in [packages/types/src/augment/registry.ts:104](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L104)*
 
 ___
 
@@ -10212,7 +10212,7 @@ ___
 
 • **Option<u256>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[u256](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u256)›*
 
-*Defined in [packages/types/src/augment/registry.ts:120](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L120)*
+*Defined in [packages/types/src/augment/registry.ts:120](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L120)*
 
 ___
 
@@ -10220,7 +10220,7 @@ ___
 
 • **Option<u32>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[u32](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u32)›*
 
-*Defined in [packages/types/src/augment/registry.ts:108](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L108)*
+*Defined in [packages/types/src/augment/registry.ts:108](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L108)*
 
 ___
 
@@ -10228,7 +10228,7 @@ ___
 
 • **Option<u64>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[u64](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u64)›*
 
-*Defined in [packages/types/src/augment/registry.ts:112](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L112)*
+*Defined in [packages/types/src/augment/registry.ts:112](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L112)*
 
 ___
 
@@ -10236,7 +10236,7 @@ ___
 
 • **Option<u8>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[u8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u8)›*
 
-*Defined in [packages/types/src/augment/registry.ts:100](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L100)*
+*Defined in [packages/types/src/augment/registry.ts:100](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L100)*
 
 ___
 
@@ -10244,7 +10244,7 @@ ___
 
 • **Option<usize>**: *[Option](../classes/_packages_types_src_codec_option_.option.md)‹[usize](_packages_types_src_augment_registry_._registry_.interfacetypes.md#usize)›*
 
-*Defined in [packages/types/src/augment/registry.ts:128](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L128)*
+*Defined in [packages/types/src/augment/registry.ts:128](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L128)*
 
 ___
 
@@ -10252,7 +10252,7 @@ ___
 
 • **Origin**: *Origin*
 
-*Defined in [packages/types/src/augment/registry.ts:282](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L282)*
+*Defined in [packages/types/src/augment/registry.ts:282](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L282)*
 
 ___
 
@@ -10260,7 +10260,7 @@ ___
 
 • **OuterDispatchCallV0**: *OuterDispatchCallV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1409](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1409)*
+*Defined in [packages/types/src/augment/registry.ts:1409](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1409)*
 
 ___
 
@@ -10268,7 +10268,7 @@ ___
 
 • **OuterDispatchMetadataV0**: *OuterDispatchMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1412](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1412)*
+*Defined in [packages/types/src/augment/registry.ts:1412](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1412)*
 
 ___
 
@@ -10276,7 +10276,7 @@ ___
 
 • **OuterEventEventMetadataEventsV0**: *OuterEventEventMetadataEventsV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1415](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1415)*
+*Defined in [packages/types/src/augment/registry.ts:1415](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1415)*
 
 ___
 
@@ -10284,7 +10284,7 @@ ___
 
 • **OuterEventEventMetadataV0**: *OuterEventEventMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1418](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1418)*
+*Defined in [packages/types/src/augment/registry.ts:1418](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1418)*
 
 ___
 
@@ -10292,7 +10292,7 @@ ___
 
 • **OuterEventMetadataV0**: *OuterEventMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1421](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1421)*
+*Defined in [packages/types/src/augment/registry.ts:1421](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1421)*
 
 ___
 
@@ -10300,7 +10300,7 @@ ___
 
 • **Owner**: *Owner*
 
-*Defined in [packages/types/src/augment/registry.ts:689](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L689)*
+*Defined in [packages/types/src/augment/registry.ts:689](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L689)*
 
 ___
 
@@ -10308,7 +10308,7 @@ ___
 
 • **ParaId**: *ParaId*
 
-*Defined in [packages/types/src/augment/registry.ts:1314](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1314)*
+*Defined in [packages/types/src/augment/registry.ts:1314](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1314)*
 
 ___
 
@@ -10316,7 +10316,7 @@ ___
 
 • **ParaInfo**: *ParaInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1318](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1318)*
+*Defined in [packages/types/src/augment/registry.ts:1318](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1318)*
 
 ___
 
@@ -10324,7 +10324,7 @@ ___
 
 • **ParaPastCodeMeta**: *ParaPastCodeMeta*
 
-*Defined in [packages/types/src/augment/registry.ts:1321](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1321)*
+*Defined in [packages/types/src/augment/registry.ts:1321](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1321)*
 
 ___
 
@@ -10332,7 +10332,7 @@ ___
 
 • **ParaScheduling**: *ParaScheduling*
 
-*Defined in [packages/types/src/augment/registry.ts:1324](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1324)*
+*Defined in [packages/types/src/augment/registry.ts:1324](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1324)*
 
 ___
 
@@ -10340,7 +10340,7 @@ ___
 
 • **ParachainDispatchOrigin**: *ParachainDispatchOrigin*
 
-*Defined in [packages/types/src/augment/registry.ts:1311](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1311)*
+*Defined in [packages/types/src/augment/registry.ts:1311](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1311)*
 
 ___
 
@@ -10348,7 +10348,7 @@ ___
 
 • **ParachainProposal**: *ParachainProposal*
 
-*Defined in [packages/types/src/augment/registry.ts:1247](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1247)*
+*Defined in [packages/types/src/augment/registry.ts:1247](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1247)*
 
 ___
 
@@ -10356,7 +10356,7 @@ ___
 
 • **Pays**: *Pays*
 
-*Defined in [packages/types/src/augment/registry.ts:285](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L285)*
+*Defined in [packages/types/src/augment/registry.ts:285](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L285)*
 
 ___
 
@@ -10364,7 +10364,7 @@ ___
 
 • **Peer**: *Peer*
 
-*Defined in [packages/types/src/augment/registry.ts:1158](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1158)*
+*Defined in [packages/types/src/augment/registry.ts:1158](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1158)*
 
 ___
 
@@ -10372,7 +10372,7 @@ ___
 
 • **PeerEndpoint**: *PeerEndpoint*
 
-*Defined in [packages/types/src/augment/registry.ts:1161](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1161)*
+*Defined in [packages/types/src/augment/registry.ts:1161](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1161)*
 
 ___
 
@@ -10380,7 +10380,7 @@ ___
 
 • **PeerEndpointAddr**: *PeerEndpointAddr*
 
-*Defined in [packages/types/src/augment/registry.ts:1164](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1164)*
+*Defined in [packages/types/src/augment/registry.ts:1164](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1164)*
 
 ___
 
@@ -10388,7 +10388,7 @@ ___
 
 • **PeerInfo**: *PeerInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1170](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1170)*
+*Defined in [packages/types/src/augment/registry.ts:1170](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1170)*
 
 ___
 
@@ -10396,7 +10396,7 @@ ___
 
 • **PeerPing**: *PeerPing*
 
-*Defined in [packages/types/src/augment/registry.ts:1167](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1167)*
+*Defined in [packages/types/src/augment/registry.ts:1167](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1167)*
 
 ___
 
@@ -10404,7 +10404,7 @@ ___
 
 • **PendingPause**: *PendingPause*
 
-*Defined in [packages/types/src/augment/registry.ts:736](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L736)*
+*Defined in [packages/types/src/augment/registry.ts:736](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L736)*
 
 ___
 
@@ -10412,7 +10412,7 @@ ___
 
 • **PendingResume**: *PendingResume*
 
-*Defined in [packages/types/src/augment/registry.ts:739](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L739)*
+*Defined in [packages/types/src/augment/registry.ts:739](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L739)*
 
 ___
 
@@ -10420,7 +10420,7 @@ ___
 
 • **PerU16**: *PerU16*
 
-*Defined in [packages/types/src/augment/registry.ts:157](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L157)*
+*Defined in [packages/types/src/augment/registry.ts:157](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L157)*
 
 ___
 
@@ -10428,7 +10428,7 @@ ___
 
 • **Perbill**: *Perbill*
 
-*Defined in [packages/types/src/augment/registry.ts:161](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L161)*
+*Defined in [packages/types/src/augment/registry.ts:161](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L161)*
 
 ___
 
@@ -10436,7 +10436,7 @@ ___
 
 • **Percent**: *Percent*
 
-*Defined in [packages/types/src/augment/registry.ts:165](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L165)*
+*Defined in [packages/types/src/augment/registry.ts:165](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L165)*
 
 ___
 
@@ -10444,7 +10444,7 @@ ___
 
 • **Period**: *Period*
 
-*Defined in [packages/types/src/augment/registry.ts:847](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L847)*
+*Defined in [packages/types/src/augment/registry.ts:847](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L847)*
 
 ___
 
@@ -10452,7 +10452,7 @@ ___
 
 • **Permill**: *Permill*
 
-*Defined in [packages/types/src/augment/registry.ts:169](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L169)*
+*Defined in [packages/types/src/augment/registry.ts:169](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L169)*
 
 ___
 
@@ -10460,7 +10460,7 @@ ___
 
 • **PermissionLatest**: *PermissionLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:698](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L698)*
+*Defined in [packages/types/src/augment/registry.ts:698](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L698)*
 
 ___
 
@@ -10468,7 +10468,7 @@ ___
 
 • **PermissionVersions**: *PermissionVersions*
 
-*Defined in [packages/types/src/augment/registry.ts:695](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L695)*
+*Defined in [packages/types/src/augment/registry.ts:695](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L695)*
 
 ___
 
@@ -10476,7 +10476,7 @@ ___
 
 • **PermissionsV1**: *PermissionsV1*
 
-*Defined in [packages/types/src/augment/registry.ts:692](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L692)*
+*Defined in [packages/types/src/augment/registry.ts:692](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L692)*
 
 ___
 
@@ -10484,7 +10484,7 @@ ___
 
 • **Perquintill**: *Perquintill*
 
-*Defined in [packages/types/src/augment/registry.ts:173](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L173)*
+*Defined in [packages/types/src/augment/registry.ts:173](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L173)*
 
 ___
 
@@ -10492,7 +10492,7 @@ ___
 
 • **Phantom**: *Phantom*
 
-*Defined in [packages/types/src/augment/registry.ts:288](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L288)*
+*Defined in [packages/types/src/augment/registry.ts:288](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L288)*
 
 ___
 
@@ -10500,7 +10500,7 @@ ___
 
 • **PhantomData**: *PhantomData*
 
-*Defined in [packages/types/src/augment/registry.ts:291](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L291)*
+*Defined in [packages/types/src/augment/registry.ts:291](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L291)*
 
 ___
 
@@ -10508,7 +10508,7 @@ ___
 
 • **Phase**: *Phase*
 
-*Defined in [packages/types/src/augment/registry.ts:1173](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1173)*
+*Defined in [packages/types/src/augment/registry.ts:1173](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1173)*
 
 ___
 
@@ -10516,7 +10516,7 @@ ___
 
 • **PhragmenScore**: *PhragmenScore*
 
-*Defined in [packages/types/src/augment/registry.ts:1001](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1001)*
+*Defined in [packages/types/src/augment/registry.ts:1001](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1001)*
 
 ___
 
@@ -10524,7 +10524,7 @@ ___
 
 • **PlainTypeLatest**: *PlainTypeLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1940](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1940)*
+*Defined in [packages/types/src/augment/registry.ts:1940](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1940)*
 
 ___
 
@@ -10532,7 +10532,7 @@ ___
 
 • **PlainTypeV0**: *PlainTypeV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1424](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1424)*
+*Defined in [packages/types/src/augment/registry.ts:1424](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1424)*
 
 ___
 
@@ -10540,7 +10540,7 @@ ___
 
 • **PlainTypeV10**: *PlainTypeV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1799](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1799)*
+*Defined in [packages/types/src/augment/registry.ts:1799](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1799)*
 
 ___
 
@@ -10548,7 +10548,7 @@ ___
 
 • **PlainTypeV11**: *PlainTypeV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1847](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1847)*
+*Defined in [packages/types/src/augment/registry.ts:1847](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1847)*
 
 ___
 
@@ -10556,7 +10556,7 @@ ___
 
 • **PlainTypeV12**: *PlainTypeV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1895](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1895)*
+*Defined in [packages/types/src/augment/registry.ts:1895](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1895)*
 
 ___
 
@@ -10564,7 +10564,7 @@ ___
 
 • **PlainTypeV2**: *PlainTypeV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1484](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1484)*
+*Defined in [packages/types/src/augment/registry.ts:1484](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1484)*
 
 ___
 
@@ -10572,7 +10572,7 @@ ___
 
 • **PlainTypeV3**: *PlainTypeV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1517](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1517)*
+*Defined in [packages/types/src/augment/registry.ts:1517](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1517)*
 
 ___
 
@@ -10580,7 +10580,7 @@ ___
 
 • **PlainTypeV4**: *PlainTypeV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1550](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1550)*
+*Defined in [packages/types/src/augment/registry.ts:1550](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1550)*
 
 ___
 
@@ -10588,7 +10588,7 @@ ___
 
 • **PlainTypeV5**: *PlainTypeV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1586](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1586)*
+*Defined in [packages/types/src/augment/registry.ts:1586](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1586)*
 
 ___
 
@@ -10596,7 +10596,7 @@ ___
 
 • **PlainTypeV6**: *PlainTypeV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1625](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1625)*
+*Defined in [packages/types/src/augment/registry.ts:1625](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1625)*
 
 ___
 
@@ -10604,7 +10604,7 @@ ___
 
 • **PlainTypeV7**: *PlainTypeV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1664](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1664)*
+*Defined in [packages/types/src/augment/registry.ts:1664](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1664)*
 
 ___
 
@@ -10612,7 +10612,7 @@ ___
 
 • **PlainTypeV8**: *PlainTypeV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1709](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1709)*
+*Defined in [packages/types/src/augment/registry.ts:1709](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1709)*
 
 ___
 
@@ -10620,7 +10620,7 @@ ___
 
 • **PlainTypeV9**: *PlainTypeV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1754](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1754)*
+*Defined in [packages/types/src/augment/registry.ts:1754](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1754)*
 
 ___
 
@@ -10628,7 +10628,7 @@ ___
 
 • **Points**: *Points*
 
-*Defined in [packages/types/src/augment/registry.ts:923](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L923)*
+*Defined in [packages/types/src/augment/registry.ts:923](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L923)*
 
 ___
 
@@ -10636,7 +10636,7 @@ ___
 
 • **PreRuntime**: *PreRuntime*
 
-*Defined in [packages/types/src/augment/registry.ts:320](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L320)*
+*Defined in [packages/types/src/augment/registry.ts:320](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L320)*
 
 ___
 
@@ -10644,7 +10644,7 @@ ___
 
 • **Precommits**: *Precommits*
 
-*Defined in [packages/types/src/augment/registry.ts:742](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L742)*
+*Defined in [packages/types/src/augment/registry.ts:742](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L742)*
 
 ___
 
@@ -10652,7 +10652,7 @@ ___
 
 • **PrefabWasmModule**: *PrefabWasmModule*
 
-*Defined in [packages/types/src/augment/registry.ts:483](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L483)*
+*Defined in [packages/types/src/augment/registry.ts:483](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L483)*
 
 ___
 
@@ -10660,7 +10660,7 @@ ___
 
 • **PrefabWasmModuleReserved**: *PrefabWasmModuleReserved*
 
-*Defined in [packages/types/src/augment/registry.ts:486](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L486)*
+*Defined in [packages/types/src/augment/registry.ts:486](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L486)*
 
 ___
 
@@ -10668,7 +10668,7 @@ ___
 
 • **PrefixedStorageKey**: *PrefixedStorageKey*
 
-*Defined in [packages/types/src/augment/registry.ts:1973](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1973)*
+*Defined in [packages/types/src/augment/registry.ts:1973](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1973)*
 
 ___
 
@@ -10676,7 +10676,7 @@ ___
 
 • **PreimageStatus**: *PreimageStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:519](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L519)*
+*Defined in [packages/types/src/augment/registry.ts:519](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L519)*
 
 ___
 
@@ -10684,7 +10684,7 @@ ___
 
 • **PreimageStatusAvailable**: *PreimageStatusAvailable*
 
-*Defined in [packages/types/src/augment/registry.ts:522](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L522)*
+*Defined in [packages/types/src/augment/registry.ts:522](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L522)*
 
 ___
 
@@ -10692,7 +10692,7 @@ ___
 
 • **Prevotes**: *Prevotes*
 
-*Defined in [packages/types/src/augment/registry.ts:745](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L745)*
+*Defined in [packages/types/src/augment/registry.ts:745](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L745)*
 
 ___
 
@@ -10700,7 +10700,7 @@ ___
 
 • **PriorLock**: *PriorLock*
 
-*Defined in [packages/types/src/augment/registry.ts:525](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L525)*
+*Defined in [packages/types/src/augment/registry.ts:525](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L525)*
 
 ___
 
@@ -10708,7 +10708,7 @@ ___
 
 • **Priority**: *Priority*
 
-*Defined in [packages/types/src/augment/registry.ts:850](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L850)*
+*Defined in [packages/types/src/augment/registry.ts:850](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L850)*
 
 ___
 
@@ -10716,7 +10716,7 @@ ___
 
 • **PropIndex**: *PropIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:528](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L528)*
+*Defined in [packages/types/src/augment/registry.ts:528](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L528)*
 
 ___
 
@@ -10724,7 +10724,7 @@ ___
 
 • **Proposal**: *Proposal*
 
-*Defined in [packages/types/src/augment/registry.ts:532](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L532)*
+*Defined in [packages/types/src/augment/registry.ts:532](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L532)*
 
 ___
 
@@ -10732,7 +10732,7 @@ ___
 
 • **ProposalIndex**: *ProposalIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:436](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L436)*
+*Defined in [packages/types/src/augment/registry.ts:436](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L436)*
 
 ___
 
@@ -10740,7 +10740,7 @@ ___
 
 • **ProxyAnnouncement**: *ProxyAnnouncement*
 
-*Defined in [packages/types/src/augment/registry.ts:838](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L838)*
+*Defined in [packages/types/src/augment/registry.ts:838](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L838)*
 
 ___
 
@@ -10748,7 +10748,7 @@ ___
 
 • **ProxyDefinition**: *ProxyDefinition*
 
-*Defined in [packages/types/src/augment/registry.ts:832](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L832)*
+*Defined in [packages/types/src/augment/registry.ts:832](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L832)*
 
 ___
 
@@ -10756,7 +10756,7 @@ ___
 
 • **ProxyState**: *ProxyState*
 
-*Defined in [packages/types/src/augment/registry.ts:535](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L535)*
+*Defined in [packages/types/src/augment/registry.ts:535](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L535)*
 
 ___
 
@@ -10764,7 +10764,7 @@ ___
 
 • **ProxyType**: *ProxyType*
 
-*Defined in [packages/types/src/augment/registry.ts:835](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L835)*
+*Defined in [packages/types/src/augment/registry.ts:835](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L835)*
 
 ___
 
@@ -10772,7 +10772,7 @@ ___
 
 • **Randomness**: *Randomness*
 
-*Defined in [packages/types/src/augment/registry.ts:371](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L371)*
+*Defined in [packages/types/src/augment/registry.ts:371](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L371)*
 
 ___
 
@@ -10780,7 +10780,7 @@ ___
 
 • **Raw**: *[Raw](../classes/_packages_types_src_codec_raw_.raw.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:130](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L130)*
+*Defined in [packages/types/src/augment/registry.ts:130](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L130)*
 
 ___
 
@@ -10788,7 +10788,7 @@ ___
 
 • **RawAuraPreDigest**: *RawAuraPreDigest*
 
-*Defined in [packages/types/src/augment/registry.ts:335](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L335)*
+*Defined in [packages/types/src/augment/registry.ts:335](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L335)*
 
 ___
 
@@ -10796,7 +10796,7 @@ ___
 
 • **RawBabePreDigest**: *RawBabePreDigest*
 
-*Defined in [packages/types/src/augment/registry.ts:374](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L374)*
+*Defined in [packages/types/src/augment/registry.ts:374](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L374)*
 
 ___
 
@@ -10804,7 +10804,7 @@ ___
 
 • **RawBabePreDigestCompat**: *RawBabePreDigestCompat*
 
-*Defined in [packages/types/src/augment/registry.ts:395](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L395)*
+*Defined in [packages/types/src/augment/registry.ts:395](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L395)*
 
 ___
 
@@ -10812,7 +10812,7 @@ ___
 
 • **RawBabePreDigestPrimary**: *RawBabePreDigestPrimary*
 
-*Defined in [packages/types/src/augment/registry.ts:377](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L377)*
+*Defined in [packages/types/src/augment/registry.ts:377](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L377)*
 
 ___
 
@@ -10820,7 +10820,7 @@ ___
 
 • **RawBabePreDigestPrimaryTo159**: *RawBabePreDigestPrimaryTo159*
 
-*Defined in [packages/types/src/augment/registry.ts:389](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L389)*
+*Defined in [packages/types/src/augment/registry.ts:389](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L389)*
 
 ___
 
@@ -10828,7 +10828,7 @@ ___
 
 • **RawBabePreDigestSecondaryPlain**: *RawBabePreDigestSecondaryPlain*
 
-*Defined in [packages/types/src/augment/registry.ts:380](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L380)*
+*Defined in [packages/types/src/augment/registry.ts:380](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L380)*
 
 ___
 
@@ -10836,7 +10836,7 @@ ___
 
 • **RawBabePreDigestSecondaryTo159**: *RawBabePreDigestSecondaryTo159*
 
-*Defined in [packages/types/src/augment/registry.ts:392](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L392)*
+*Defined in [packages/types/src/augment/registry.ts:392](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L392)*
 
 ___
 
@@ -10844,7 +10844,7 @@ ___
 
 • **RawBabePreDigestSecondaryVRF**: *RawBabePreDigestSecondaryVRF*
 
-*Defined in [packages/types/src/augment/registry.ts:383](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L383)*
+*Defined in [packages/types/src/augment/registry.ts:383](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L383)*
 
 ___
 
@@ -10852,7 +10852,7 @@ ___
 
 • **RawBabePreDigestTo159**: *RawBabePreDigestTo159*
 
-*Defined in [packages/types/src/augment/registry.ts:386](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L386)*
+*Defined in [packages/types/src/augment/registry.ts:386](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L386)*
 
 ___
 
@@ -10860,7 +10860,7 @@ ___
 
 • **RawVRFOutput**: *RawVRFOutput*
 
-*Defined in [packages/types/src/augment/registry.ts:449](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L449)*
+*Defined in [packages/types/src/augment/registry.ts:449](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L449)*
 
 ___
 
@@ -10868,7 +10868,7 @@ ___
 
 • **ReadProof**: *ReadProof*
 
-*Defined in [packages/types/src/augment/registry.ts:1988](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1988)*
+*Defined in [packages/types/src/augment/registry.ts:1988](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1988)*
 
 ___
 
@@ -10876,7 +10876,7 @@ ___
 
 • **Reasons**: *Reasons*
 
-*Defined in [packages/types/src/augment/registry.ts:423](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L423)*
+*Defined in [packages/types/src/augment/registry.ts:423](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L423)*
 
 ___
 
@@ -10884,7 +10884,7 @@ ___
 
 • **RecoveryConfig**: *RecoveryConfig*
 
-*Defined in [packages/types/src/augment/registry.ts:844](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L844)*
+*Defined in [packages/types/src/augment/registry.ts:844](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L844)*
 
 ___
 
@@ -10892,7 +10892,7 @@ ___
 
 • **RefCount**: *RefCount*
 
-*Defined in [packages/types/src/augment/registry.ts:1176](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1176)*
+*Defined in [packages/types/src/augment/registry.ts:1176](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1176)*
 
 ___
 
@@ -10900,7 +10900,7 @@ ___
 
 • **ReferendumIndex**: *ReferendumIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:538](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L538)*
+*Defined in [packages/types/src/augment/registry.ts:538](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L538)*
 
 ___
 
@@ -10908,7 +10908,7 @@ ___
 
 • **ReferendumInfo**: *ReferendumInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:545](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L545)*
+*Defined in [packages/types/src/augment/registry.ts:545](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L545)*
 
 ___
 
@@ -10916,7 +10916,7 @@ ___
 
 • **ReferendumInfoFinished**: *ReferendumInfoFinished*
 
-*Defined in [packages/types/src/augment/registry.ts:548](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L548)*
+*Defined in [packages/types/src/augment/registry.ts:548](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L548)*
 
 ___
 
@@ -10924,7 +10924,7 @@ ___
 
 • **ReferendumInfoTo239**: *ReferendumInfoTo239*
 
-*Defined in [packages/types/src/augment/registry.ts:542](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L542)*
+*Defined in [packages/types/src/augment/registry.ts:542](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L542)*
 
 ___
 
@@ -10932,7 +10932,7 @@ ___
 
 • **ReferendumStatus**: *ReferendumStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:551](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L551)*
+*Defined in [packages/types/src/augment/registry.ts:551](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L551)*
 
 ___
 
@@ -10940,7 +10940,7 @@ ___
 
 • **RegisteredParachainInfo**: *RegisteredParachainInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1250](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1250)*
+*Defined in [packages/types/src/augment/registry.ts:1250](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1250)*
 
 ___
 
@@ -10948,7 +10948,7 @@ ___
 
 • **RegistrarIndex**: *RegistrarIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:782](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L782)*
+*Defined in [packages/types/src/augment/registry.ts:782](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L782)*
 
 ___
 
@@ -10956,7 +10956,7 @@ ___
 
 • **RegistrarInfo**: *RegistrarInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:786](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L786)*
+*Defined in [packages/types/src/augment/registry.ts:786](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L786)*
 
 ___
 
@@ -10964,7 +10964,7 @@ ___
 
 • **Registration**: *Registration*
 
-*Defined in [packages/types/src/augment/registry.ts:779](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L779)*
+*Defined in [packages/types/src/augment/registry.ts:779](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L779)*
 
 ___
 
@@ -10972,7 +10972,7 @@ ___
 
 • **RegistrationJudgement**: *RegistrationJudgement*
 
-*Defined in [packages/types/src/augment/registry.ts:776](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L776)*
+*Defined in [packages/types/src/augment/registry.ts:776](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L776)*
 
 ___
 
@@ -10980,7 +10980,7 @@ ___
 
 • **RelayChainBlockNumber**: *RelayChainBlockNumber*
 
-*Defined in [packages/types/src/augment/registry.ts:1327](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1327)*
+*Defined in [packages/types/src/augment/registry.ts:1327](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1327)*
 
 ___
 
@@ -10988,7 +10988,7 @@ ___
 
 • **Releases**: *Releases*
 
-*Defined in [packages/types/src/augment/registry.ts:294](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L294)*
+*Defined in [packages/types/src/augment/registry.ts:294](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L294)*
 
 ___
 
@@ -10996,7 +10996,7 @@ ___
 
 • **Remark**: *Remark*
 
-*Defined in [packages/types/src/augment/registry.ts:1330](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1330)*
+*Defined in [packages/types/src/augment/registry.ts:1330](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1330)*
 
 ___
 
@@ -11004,7 +11004,7 @@ ___
 
 • **Renouncing**: *Renouncing*
 
-*Defined in [packages/types/src/augment/registry.ts:576](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L576)*
+*Defined in [packages/types/src/augment/registry.ts:576](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L576)*
 
 ___
 
@@ -11012,7 +11012,7 @@ ___
 
 • **ReportIdOf**: *ReportIdOf*
 
-*Defined in [packages/types/src/augment/registry.ts:826](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L826)*
+*Defined in [packages/types/src/augment/registry.ts:826](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L826)*
 
 ___
 
@@ -11020,7 +11020,7 @@ ___
 
 • **ReportedRoundStates**: *ReportedRoundStates*
 
-*Defined in [packages/types/src/augment/registry.ts:748](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L748)*
+*Defined in [packages/types/src/augment/registry.ts:748](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L748)*
 
 ___
 
@@ -11028,7 +11028,7 @@ ___
 
 • **Reporter**: *Reporter*
 
-*Defined in [packages/types/src/augment/registry.ts:829](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L829)*
+*Defined in [packages/types/src/augment/registry.ts:829](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L829)*
 
 ___
 
@@ -11036,7 +11036,7 @@ ___
 
 • **Retriable**: *Retriable*
 
-*Defined in [packages/types/src/augment/registry.ts:1333](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1333)*
+*Defined in [packages/types/src/augment/registry.ts:1333](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1333)*
 
 ___
 
@@ -11044,7 +11044,7 @@ ___
 
 • **RewardDestination**: *RewardDestination*
 
-*Defined in [packages/types/src/augment/registry.ts:1004](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1004)*
+*Defined in [packages/types/src/augment/registry.ts:1004](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1004)*
 
 ___
 
@@ -11052,7 +11052,7 @@ ___
 
 • **RewardDestinationTo257**: *RewardDestinationTo257*
 
-*Defined in [packages/types/src/augment/registry.ts:1007](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1007)*
+*Defined in [packages/types/src/augment/registry.ts:1007](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1007)*
 
 ___
 
@@ -11060,7 +11060,7 @@ ___
 
 • **RewardPoint**: *RewardPoint*
 
-*Defined in [packages/types/src/augment/registry.ts:1010](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1010)*
+*Defined in [packages/types/src/augment/registry.ts:1010](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1010)*
 
 ___
 
@@ -11068,7 +11068,7 @@ ___
 
 • **RoundState**: *RoundState*
 
-*Defined in [packages/types/src/augment/registry.ts:751](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L751)*
+*Defined in [packages/types/src/augment/registry.ts:751](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L751)*
 
 ___
 
@@ -11076,7 +11076,7 @@ ___
 
 • **RpcMethods**: *RpcMethods*
 
-*Defined in [packages/types/src/augment/registry.ts:1961](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1961)*
+*Defined in [packages/types/src/augment/registry.ts:1961](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1961)*
 
 ___
 
@@ -11084,7 +11084,7 @@ ___
 
 • **RuntimeDbWeight**: *RuntimeDbWeight*
 
-*Defined in [packages/types/src/augment/registry.ts:297](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L297)*
+*Defined in [packages/types/src/augment/registry.ts:297](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L297)*
 
 ___
 
@@ -11092,7 +11092,7 @@ ___
 
 • **RuntimeDispatchInfo**: *RuntimeDispatchInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1979](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1979)*
+*Defined in [packages/types/src/augment/registry.ts:1979](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1979)*
 
 ___
 
@@ -11100,7 +11100,7 @@ ___
 
 • **RuntimeModuleMetadataV0**: *RuntimeModuleMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1427](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1427)*
+*Defined in [packages/types/src/augment/registry.ts:1427](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1427)*
 
 ___
 
@@ -11108,7 +11108,7 @@ ___
 
 • **RuntimeVersion**: *RuntimeVersion*
 
-*Defined in [packages/types/src/augment/registry.ts:1994](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1994)*
+*Defined in [packages/types/src/augment/registry.ts:1994](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1994)*
 
 ___
 
@@ -11116,7 +11116,7 @@ ___
 
 • **RuntimeVersionApi**: *RuntimeVersionApi*
 
-*Defined in [packages/types/src/augment/registry.ts:1991](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1991)*
+*Defined in [packages/types/src/augment/registry.ts:1991](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1991)*
 
 ___
 
@@ -11124,7 +11124,7 @@ ___
 
 • **Schedule**: *Schedule*
 
-*Defined in [packages/types/src/augment/registry.ts:492](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L492)*
+*Defined in [packages/types/src/augment/registry.ts:492](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L492)*
 
 ___
 
@@ -11132,7 +11132,7 @@ ___
 
 • **SchedulePeriod**: *SchedulePeriod*
 
-*Defined in [packages/types/src/augment/registry.ts:854](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L854)*
+*Defined in [packages/types/src/augment/registry.ts:854](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L854)*
 
 ___
 
@@ -11140,7 +11140,7 @@ ___
 
 • **SchedulePriority**: *SchedulePriority*
 
-*Defined in [packages/types/src/augment/registry.ts:857](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L857)*
+*Defined in [packages/types/src/augment/registry.ts:857](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L857)*
 
 ___
 
@@ -11148,7 +11148,7 @@ ___
 
 • **ScheduleTo212**: *ScheduleTo212*
 
-*Defined in [packages/types/src/augment/registry.ts:489](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L489)*
+*Defined in [packages/types/src/augment/registry.ts:489](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L489)*
 
 ___
 
@@ -11156,7 +11156,7 @@ ___
 
 • **Scheduled**: *Scheduled*
 
-*Defined in [packages/types/src/augment/registry.ts:860](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L860)*
+*Defined in [packages/types/src/augment/registry.ts:860](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L860)*
 
 ___
 
@@ -11164,7 +11164,7 @@ ___
 
 • **Scheduling**: *Scheduling*
 
-*Defined in [packages/types/src/augment/registry.ts:1336](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1336)*
+*Defined in [packages/types/src/augment/registry.ts:1336](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1336)*
 
 ___
 
@@ -11172,7 +11172,7 @@ ___
 
 • **Seal**: *Seal*
 
-*Defined in [packages/types/src/augment/registry.ts:326](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L326)*
+*Defined in [packages/types/src/augment/registry.ts:326](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L326)*
 
 ___
 
@@ -11180,7 +11180,7 @@ ___
 
 • **SealV0**: *SealV0*
 
-*Defined in [packages/types/src/augment/registry.ts:323](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L323)*
+*Defined in [packages/types/src/augment/registry.ts:323](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L323)*
 
 ___
 
@@ -11188,7 +11188,7 @@ ___
 
 • **SeedOf**: *SeedOf*
 
-*Defined in [packages/types/src/augment/registry.ts:495](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L495)*
+*Defined in [packages/types/src/augment/registry.ts:495](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L495)*
 
 ___
 
@@ -11196,7 +11196,7 @@ ___
 
 • **SessionIndex**: *SessionIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:896](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L896)*
+*Defined in [packages/types/src/augment/registry.ts:896](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L896)*
 
 ___
 
@@ -11204,7 +11204,7 @@ ___
 
 • **SessionKeys1**: *SessionKeys1*
 
-*Defined in [packages/types/src/augment/registry.ts:869](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L869)*
+*Defined in [packages/types/src/augment/registry.ts:869](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L869)*
 
 ___
 
@@ -11212,7 +11212,7 @@ ___
 
 • **SessionKeys2**: *SessionKeys2*
 
-*Defined in [packages/types/src/augment/registry.ts:872](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L872)*
+*Defined in [packages/types/src/augment/registry.ts:872](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L872)*
 
 ___
 
@@ -11220,7 +11220,7 @@ ___
 
 • **SessionKeys3**: *SessionKeys3*
 
-*Defined in [packages/types/src/augment/registry.ts:875](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L875)*
+*Defined in [packages/types/src/augment/registry.ts:875](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L875)*
 
 ___
 
@@ -11228,7 +11228,7 @@ ___
 
 • **SessionKeys4**: *SessionKeys4*
 
-*Defined in [packages/types/src/augment/registry.ts:878](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L878)*
+*Defined in [packages/types/src/augment/registry.ts:878](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L878)*
 
 ___
 
@@ -11236,7 +11236,7 @@ ___
 
 • **SessionKeys5**: *SessionKeys5*
 
-*Defined in [packages/types/src/augment/registry.ts:881](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L881)*
+*Defined in [packages/types/src/augment/registry.ts:881](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L881)*
 
 ___
 
@@ -11244,7 +11244,7 @@ ___
 
 • **SessionKeys6**: *SessionKeys6*
 
-*Defined in [packages/types/src/augment/registry.ts:884](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L884)*
+*Defined in [packages/types/src/augment/registry.ts:884](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L884)*
 
 ___
 
@@ -11252,7 +11252,7 @@ ___
 
 • **SetId**: *SetId*
 
-*Defined in [packages/types/src/augment/registry.ts:754](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L754)*
+*Defined in [packages/types/src/augment/registry.ts:754](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L754)*
 
 ___
 
@@ -11260,7 +11260,7 @@ ___
 
 • **SetIndex**: *SetIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:579](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L579)*
+*Defined in [packages/types/src/augment/registry.ts:579](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L579)*
 
 ___
 
@@ -11268,7 +11268,7 @@ ___
 
 • **Signature**: *Signature*
 
-*Defined in [packages/types/src/augment/registry.ts:671](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L671)*
+*Defined in [packages/types/src/augment/registry.ts:671](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L671)*
 
 ___
 
@@ -11276,7 +11276,7 @@ ___
 
 • **SignedBlock**: *SignedBlock*
 
-*Defined in [packages/types/src/augment/registry.ts:300](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L300)*
+*Defined in [packages/types/src/augment/registry.ts:300](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L300)*
 
 ___
 
@@ -11284,7 +11284,7 @@ ___
 
 • **SignerPayload**: *SignerPayload*
 
-*Defined in [packages/types/src/augment/registry.ts:674](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L674)*
+*Defined in [packages/types/src/augment/registry.ts:674](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L674)*
 
 ___
 
@@ -11292,7 +11292,7 @@ ___
 
 • **SigningContext**: *SigningContext*
 
-*Defined in [packages/types/src/augment/registry.ts:1339](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1339)*
+*Defined in [packages/types/src/augment/registry.ts:1339](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1339)*
 
 ___
 
@@ -11300,7 +11300,7 @@ ___
 
 • **SlashJournalEntry**: *SlashJournalEntry*
 
-*Defined in [packages/types/src/augment/registry.ts:1014](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1014)*
+*Defined in [packages/types/src/augment/registry.ts:1014](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1014)*
 
 ___
 
@@ -11308,7 +11308,7 @@ ___
 
 • **SlashingSpans**: *SlashingSpans*
 
-*Defined in [packages/types/src/augment/registry.ts:1020](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1020)*
+*Defined in [packages/types/src/augment/registry.ts:1020](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1020)*
 
 ___
 
@@ -11316,7 +11316,7 @@ ___
 
 • **SlashingSpansTo204**: *SlashingSpansTo204*
 
-*Defined in [packages/types/src/augment/registry.ts:1017](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1017)*
+*Defined in [packages/types/src/augment/registry.ts:1017](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1017)*
 
 ___
 
@@ -11324,7 +11324,7 @@ ___
 
 • **SlotNumber**: *SlotNumber*
 
-*Defined in [packages/types/src/augment/registry.ts:398](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L398)*
+*Defined in [packages/types/src/augment/registry.ts:398](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L398)*
 
 ___
 
@@ -11332,7 +11332,7 @@ ___
 
 • **SlotRange**: *SlotRange*
 
-*Defined in [packages/types/src/augment/registry.ts:1342](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1342)*
+*Defined in [packages/types/src/augment/registry.ts:1342](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1342)*
 
 ___
 
@@ -11340,7 +11340,7 @@ ___
 
 • **SocietyJudgement**: *SocietyJudgement*
 
-*Defined in [packages/types/src/augment/registry.ts:910](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L910)*
+*Defined in [packages/types/src/augment/registry.ts:910](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L910)*
 
 ___
 
@@ -11348,7 +11348,7 @@ ___
 
 • **SocietyVote**: *SocietyVote*
 
-*Defined in [packages/types/src/augment/registry.ts:913](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L913)*
+*Defined in [packages/types/src/augment/registry.ts:913](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L913)*
 
 ___
 
@@ -11356,7 +11356,7 @@ ___
 
 • **SpanIndex**: *SpanIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:1023](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1023)*
+*Defined in [packages/types/src/augment/registry.ts:1023](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1023)*
 
 ___
 
@@ -11364,7 +11364,7 @@ ___
 
 • **SpanRecord**: *SpanRecord*
 
-*Defined in [packages/types/src/augment/registry.ts:1027](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1027)*
+*Defined in [packages/types/src/augment/registry.ts:1027](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1027)*
 
 ___
 
@@ -11372,7 +11372,7 @@ ___
 
 • **Sr25519Signature**: *Sr25519Signature*
 
-*Defined in [packages/types/src/augment/registry.ts:683](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L683)*
+*Defined in [packages/types/src/augment/registry.ts:683](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L683)*
 
 ___
 
@@ -11380,7 +11380,7 @@ ___
 
 • **StakingLedger**: *StakingLedger*
 
-*Defined in [packages/types/src/augment/registry.ts:1036](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1036)*
+*Defined in [packages/types/src/augment/registry.ts:1036](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1036)*
 
 ___
 
@@ -11388,7 +11388,7 @@ ___
 
 • **StakingLedgerTo223**: *StakingLedgerTo223*
 
-*Defined in [packages/types/src/augment/registry.ts:1030](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1030)*
+*Defined in [packages/types/src/augment/registry.ts:1030](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1030)*
 
 ___
 
@@ -11396,7 +11396,7 @@ ___
 
 • **StakingLedgerTo240**: *StakingLedgerTo240*
 
-*Defined in [packages/types/src/augment/registry.ts:1033](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1033)*
+*Defined in [packages/types/src/augment/registry.ts:1033](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1033)*
 
 ___
 
@@ -11404,7 +11404,7 @@ ___
 
 • **Statement**: *Statement*
 
-*Defined in [packages/types/src/augment/registry.ts:1345](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1345)*
+*Defined in [packages/types/src/augment/registry.ts:1345](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1345)*
 
 ___
 
@@ -11412,7 +11412,7 @@ ___
 
 • **StatementKind**: *StatementKind*
 
-*Defined in [packages/types/src/augment/registry.ts:1244](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1244)*
+*Defined in [packages/types/src/augment/registry.ts:1244](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1244)*
 
 ___
 
@@ -11420,7 +11420,7 @@ ___
 
 • **StorageChangeSet**: *StorageChangeSet*
 
-*Defined in [packages/types/src/augment/registry.ts:1997](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1997)*
+*Defined in [packages/types/src/augment/registry.ts:1997](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1997)*
 
 ___
 
@@ -11428,7 +11428,7 @@ ___
 
 • **StorageData**: *StorageData*
 
-*Defined in [packages/types/src/augment/registry.ts:303](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L303)*
+*Defined in [packages/types/src/augment/registry.ts:303](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L303)*
 
 ___
 
@@ -11436,7 +11436,7 @@ ___
 
 • **StorageEntryMetadataLatest**: *StorageEntryMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1943](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1943)*
+*Defined in [packages/types/src/augment/registry.ts:1943](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1943)*
 
 ___
 
@@ -11444,7 +11444,7 @@ ___
 
 • **StorageEntryMetadataV10**: *StorageEntryMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1805](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1805)*
+*Defined in [packages/types/src/augment/registry.ts:1805](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1805)*
 
 ___
 
@@ -11452,7 +11452,7 @@ ___
 
 • **StorageEntryMetadataV11**: *StorageEntryMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1853](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1853)*
+*Defined in [packages/types/src/augment/registry.ts:1853](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1853)*
 
 ___
 
@@ -11460,7 +11460,7 @@ ___
 
 • **StorageEntryMetadataV12**: *StorageEntryMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1901](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1901)*
+*Defined in [packages/types/src/augment/registry.ts:1901](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1901)*
 
 ___
 
@@ -11468,7 +11468,7 @@ ___
 
 • **StorageEntryMetadataV6**: *StorageEntryMetadataV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1631](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1631)*
+*Defined in [packages/types/src/augment/registry.ts:1631](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1631)*
 
 ___
 
@@ -11476,7 +11476,7 @@ ___
 
 • **StorageEntryMetadataV7**: *StorageEntryMetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1670](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1670)*
+*Defined in [packages/types/src/augment/registry.ts:1670](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1670)*
 
 ___
 
@@ -11484,7 +11484,7 @@ ___
 
 • **StorageEntryMetadataV8**: *StorageEntryMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1715](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1715)*
+*Defined in [packages/types/src/augment/registry.ts:1715](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1715)*
 
 ___
 
@@ -11492,7 +11492,7 @@ ___
 
 • **StorageEntryMetadataV9**: *StorageEntryMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1760](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1760)*
+*Defined in [packages/types/src/augment/registry.ts:1760](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1760)*
 
 ___
 
@@ -11500,7 +11500,7 @@ ___
 
 • **StorageEntryModifierLatest**: *StorageEntryModifierLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1946](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1946)*
+*Defined in [packages/types/src/augment/registry.ts:1946](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1946)*
 
 ___
 
@@ -11508,7 +11508,7 @@ ___
 
 • **StorageEntryModifierV10**: *StorageEntryModifierV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1802](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1802)*
+*Defined in [packages/types/src/augment/registry.ts:1802](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1802)*
 
 ___
 
@@ -11516,7 +11516,7 @@ ___
 
 • **StorageEntryModifierV11**: *StorageEntryModifierV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1850](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1850)*
+*Defined in [packages/types/src/augment/registry.ts:1850](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1850)*
 
 ___
 
@@ -11524,7 +11524,7 @@ ___
 
 • **StorageEntryModifierV12**: *StorageEntryModifierV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1898](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1898)*
+*Defined in [packages/types/src/augment/registry.ts:1898](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1898)*
 
 ___
 
@@ -11532,7 +11532,7 @@ ___
 
 • **StorageEntryModifierV6**: *StorageEntryModifierV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1628](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1628)*
+*Defined in [packages/types/src/augment/registry.ts:1628](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1628)*
 
 ___
 
@@ -11540,7 +11540,7 @@ ___
 
 • **StorageEntryModifierV7**: *StorageEntryModifierV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1667](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1667)*
+*Defined in [packages/types/src/augment/registry.ts:1667](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1667)*
 
 ___
 
@@ -11548,7 +11548,7 @@ ___
 
 • **StorageEntryModifierV8**: *StorageEntryModifierV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1712](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1712)*
+*Defined in [packages/types/src/augment/registry.ts:1712](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1712)*
 
 ___
 
@@ -11556,7 +11556,7 @@ ___
 
 • **StorageEntryModifierV9**: *StorageEntryModifierV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1757](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1757)*
+*Defined in [packages/types/src/augment/registry.ts:1757](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1757)*
 
 ___
 
@@ -11564,7 +11564,7 @@ ___
 
 • **StorageEntryTypeLatest**: *StorageEntryTypeLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1949](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1949)*
+*Defined in [packages/types/src/augment/registry.ts:1949](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1949)*
 
 ___
 
@@ -11572,7 +11572,7 @@ ___
 
 • **StorageEntryTypeV10**: *StorageEntryTypeV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1808](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1808)*
+*Defined in [packages/types/src/augment/registry.ts:1808](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1808)*
 
 ___
 
@@ -11580,7 +11580,7 @@ ___
 
 • **StorageEntryTypeV11**: *StorageEntryTypeV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1856](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1856)*
+*Defined in [packages/types/src/augment/registry.ts:1856](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1856)*
 
 ___
 
@@ -11588,7 +11588,7 @@ ___
 
 • **StorageEntryTypeV12**: *StorageEntryTypeV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1904](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1904)*
+*Defined in [packages/types/src/augment/registry.ts:1904](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1904)*
 
 ___
 
@@ -11596,7 +11596,7 @@ ___
 
 • **StorageEntryTypeV6**: *StorageEntryTypeV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1634](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1634)*
+*Defined in [packages/types/src/augment/registry.ts:1634](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1634)*
 
 ___
 
@@ -11604,7 +11604,7 @@ ___
 
 • **StorageEntryTypeV7**: *StorageEntryTypeV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1673](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1673)*
+*Defined in [packages/types/src/augment/registry.ts:1673](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1673)*
 
 ___
 
@@ -11612,7 +11612,7 @@ ___
 
 • **StorageEntryTypeV8**: *StorageEntryTypeV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1718](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1718)*
+*Defined in [packages/types/src/augment/registry.ts:1718](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1718)*
 
 ___
 
@@ -11620,7 +11620,7 @@ ___
 
 • **StorageEntryTypeV9**: *StorageEntryTypeV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1763](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1763)*
+*Defined in [packages/types/src/augment/registry.ts:1763](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1763)*
 
 ___
 
@@ -11628,7 +11628,7 @@ ___
 
 • **StorageFunctionMetadataV0**: *StorageFunctionMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1430](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1430)*
+*Defined in [packages/types/src/augment/registry.ts:1430](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1430)*
 
 ___
 
@@ -11636,7 +11636,7 @@ ___
 
 • **StorageFunctionMetadataV1**: *StorageFunctionMetadataV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1457](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1457)*
+*Defined in [packages/types/src/augment/registry.ts:1457](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1457)*
 
 ___
 
@@ -11644,7 +11644,7 @@ ___
 
 • **StorageFunctionMetadataV2**: *StorageFunctionMetadataV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1487](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1487)*
+*Defined in [packages/types/src/augment/registry.ts:1487](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1487)*
 
 ___
 
@@ -11652,7 +11652,7 @@ ___
 
 • **StorageFunctionMetadataV3**: *StorageFunctionMetadataV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1520](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1520)*
+*Defined in [packages/types/src/augment/registry.ts:1520](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1520)*
 
 ___
 
@@ -11660,7 +11660,7 @@ ___
 
 • **StorageFunctionMetadataV4**: *StorageFunctionMetadataV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1553](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1553)*
+*Defined in [packages/types/src/augment/registry.ts:1553](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1553)*
 
 ___
 
@@ -11668,7 +11668,7 @@ ___
 
 • **StorageFunctionMetadataV5**: *StorageFunctionMetadataV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1589](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1589)*
+*Defined in [packages/types/src/augment/registry.ts:1589](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1589)*
 
 ___
 
@@ -11676,7 +11676,7 @@ ___
 
 • **StorageFunctionModifierV0**: *StorageFunctionModifierV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1433](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1433)*
+*Defined in [packages/types/src/augment/registry.ts:1433](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1433)*
 
 ___
 
@@ -11684,7 +11684,7 @@ ___
 
 • **StorageFunctionModifierV1**: *StorageFunctionModifierV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1460](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1460)*
+*Defined in [packages/types/src/augment/registry.ts:1460](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1460)*
 
 ___
 
@@ -11692,7 +11692,7 @@ ___
 
 • **StorageFunctionModifierV2**: *StorageFunctionModifierV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1490](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1490)*
+*Defined in [packages/types/src/augment/registry.ts:1490](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1490)*
 
 ___
 
@@ -11700,7 +11700,7 @@ ___
 
 • **StorageFunctionModifierV3**: *StorageFunctionModifierV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1523](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1523)*
+*Defined in [packages/types/src/augment/registry.ts:1523](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1523)*
 
 ___
 
@@ -11708,7 +11708,7 @@ ___
 
 • **StorageFunctionModifierV4**: *StorageFunctionModifierV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1556](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1556)*
+*Defined in [packages/types/src/augment/registry.ts:1556](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1556)*
 
 ___
 
@@ -11716,7 +11716,7 @@ ___
 
 • **StorageFunctionModifierV5**: *StorageFunctionModifierV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1592](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1592)*
+*Defined in [packages/types/src/augment/registry.ts:1592](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1592)*
 
 ___
 
@@ -11724,7 +11724,7 @@ ___
 
 • **StorageFunctionTypeV0**: *StorageFunctionTypeV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1436](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1436)*
+*Defined in [packages/types/src/augment/registry.ts:1436](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1436)*
 
 ___
 
@@ -11732,7 +11732,7 @@ ___
 
 • **StorageFunctionTypeV1**: *StorageFunctionTypeV1*
 
-*Defined in [packages/types/src/augment/registry.ts:1463](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1463)*
+*Defined in [packages/types/src/augment/registry.ts:1463](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1463)*
 
 ___
 
@@ -11740,7 +11740,7 @@ ___
 
 • **StorageFunctionTypeV2**: *StorageFunctionTypeV2*
 
-*Defined in [packages/types/src/augment/registry.ts:1493](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1493)*
+*Defined in [packages/types/src/augment/registry.ts:1493](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1493)*
 
 ___
 
@@ -11748,7 +11748,7 @@ ___
 
 • **StorageFunctionTypeV3**: *StorageFunctionTypeV3*
 
-*Defined in [packages/types/src/augment/registry.ts:1526](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1526)*
+*Defined in [packages/types/src/augment/registry.ts:1526](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1526)*
 
 ___
 
@@ -11756,7 +11756,7 @@ ___
 
 • **StorageFunctionTypeV4**: *StorageFunctionTypeV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1559](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1559)*
+*Defined in [packages/types/src/augment/registry.ts:1559](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1559)*
 
 ___
 
@@ -11764,7 +11764,7 @@ ___
 
 • **StorageFunctionTypeV5**: *StorageFunctionTypeV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1595](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1595)*
+*Defined in [packages/types/src/augment/registry.ts:1595](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1595)*
 
 ___
 
@@ -11772,7 +11772,7 @@ ___
 
 • **StorageHasher**: *StorageHasher*
 
-*Defined in [packages/types/src/augment/registry.ts:1955](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1955)*
+*Defined in [packages/types/src/augment/registry.ts:1955](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1955)*
 
 ___
 
@@ -11780,7 +11780,7 @@ ___
 
 • **StorageHasherV10**: *StorageHasherV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1814](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1814)*
+*Defined in [packages/types/src/augment/registry.ts:1814](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1814)*
 
 ___
 
@@ -11788,7 +11788,7 @@ ___
 
 • **StorageHasherV11**: *StorageHasherV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1862](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1862)*
+*Defined in [packages/types/src/augment/registry.ts:1862](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1862)*
 
 ___
 
@@ -11796,7 +11796,7 @@ ___
 
 • **StorageHasherV12**: *StorageHasherV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1910](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1910)*
+*Defined in [packages/types/src/augment/registry.ts:1910](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1910)*
 
 ___
 
@@ -11804,7 +11804,7 @@ ___
 
 • **StorageHasherV4**: *StorageHasherV4*
 
-*Defined in [packages/types/src/augment/registry.ts:1562](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1562)*
+*Defined in [packages/types/src/augment/registry.ts:1562](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1562)*
 
 ___
 
@@ -11812,7 +11812,7 @@ ___
 
 • **StorageHasherV5**: *StorageHasherV5*
 
-*Defined in [packages/types/src/augment/registry.ts:1598](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1598)*
+*Defined in [packages/types/src/augment/registry.ts:1598](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1598)*
 
 ___
 
@@ -11820,7 +11820,7 @@ ___
 
 • **StorageHasherV6**: *StorageHasherV6*
 
-*Defined in [packages/types/src/augment/registry.ts:1637](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1637)*
+*Defined in [packages/types/src/augment/registry.ts:1637](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1637)*
 
 ___
 
@@ -11828,7 +11828,7 @@ ___
 
 • **StorageHasherV7**: *StorageHasherV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1676](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1676)*
+*Defined in [packages/types/src/augment/registry.ts:1676](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1676)*
 
 ___
 
@@ -11836,7 +11836,7 @@ ___
 
 • **StorageHasherV8**: *StorageHasherV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1721](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1721)*
+*Defined in [packages/types/src/augment/registry.ts:1721](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1721)*
 
 ___
 
@@ -11844,7 +11844,7 @@ ___
 
 • **StorageHasherV9**: *StorageHasherV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1766](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1766)*
+*Defined in [packages/types/src/augment/registry.ts:1766](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1766)*
 
 ___
 
@@ -11852,7 +11852,7 @@ ___
 
 • **StorageKey**: *[StorageKey](../classes/_packages_types_src_primitive_storagekey_.storagekey.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:89](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L89)*
+*Defined in [packages/types/src/augment/registry.ts:89](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L89)*
 
 ___
 
@@ -11860,7 +11860,7 @@ ___
 
 • **StorageKind**: *StorageKind*
 
-*Defined in [packages/types/src/augment/registry.ts:1976](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1976)*
+*Defined in [packages/types/src/augment/registry.ts:1976](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1976)*
 
 ___
 
@@ -11868,7 +11868,7 @@ ___
 
 • **StorageMetadataLatest**: *StorageMetadataLatest*
 
-*Defined in [packages/types/src/augment/registry.ts:1952](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1952)*
+*Defined in [packages/types/src/augment/registry.ts:1952](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1952)*
 
 ___
 
@@ -11876,7 +11876,7 @@ ___
 
 • **StorageMetadataV0**: *StorageMetadataV0*
 
-*Defined in [packages/types/src/augment/registry.ts:1439](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1439)*
+*Defined in [packages/types/src/augment/registry.ts:1439](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1439)*
 
 ___
 
@@ -11884,7 +11884,7 @@ ___
 
 • **StorageMetadataV10**: *StorageMetadataV10*
 
-*Defined in [packages/types/src/augment/registry.ts:1811](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1811)*
+*Defined in [packages/types/src/augment/registry.ts:1811](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1811)*
 
 ___
 
@@ -11892,7 +11892,7 @@ ___
 
 • **StorageMetadataV11**: *StorageMetadataV11*
 
-*Defined in [packages/types/src/augment/registry.ts:1859](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1859)*
+*Defined in [packages/types/src/augment/registry.ts:1859](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1859)*
 
 ___
 
@@ -11900,7 +11900,7 @@ ___
 
 • **StorageMetadataV12**: *StorageMetadataV12*
 
-*Defined in [packages/types/src/augment/registry.ts:1907](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1907)*
+*Defined in [packages/types/src/augment/registry.ts:1907](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1907)*
 
 ___
 
@@ -11908,7 +11908,7 @@ ___
 
 • **StorageMetadataV7**: *StorageMetadataV7*
 
-*Defined in [packages/types/src/augment/registry.ts:1679](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1679)*
+*Defined in [packages/types/src/augment/registry.ts:1679](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1679)*
 
 ___
 
@@ -11916,7 +11916,7 @@ ___
 
 • **StorageMetadataV8**: *StorageMetadataV8*
 
-*Defined in [packages/types/src/augment/registry.ts:1724](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1724)*
+*Defined in [packages/types/src/augment/registry.ts:1724](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1724)*
 
 ___
 
@@ -11924,7 +11924,7 @@ ___
 
 • **StorageMetadataV9**: *StorageMetadataV9*
 
-*Defined in [packages/types/src/augment/registry.ts:1769](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1769)*
+*Defined in [packages/types/src/augment/registry.ts:1769](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1769)*
 
 ___
 
@@ -11932,7 +11932,7 @@ ___
 
 • **StoredPendingChange**: *StoredPendingChange*
 
-*Defined in [packages/types/src/augment/registry.ts:758](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L758)*
+*Defined in [packages/types/src/augment/registry.ts:758](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L758)*
 
 ___
 
@@ -11940,7 +11940,7 @@ ___
 
 • **StoredState**: *StoredState*
 
-*Defined in [packages/types/src/augment/registry.ts:761](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L761)*
+*Defined in [packages/types/src/augment/registry.ts:761](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L761)*
 
 ___
 
@@ -11948,7 +11948,7 @@ ___
 
 • **StrikeCount**: *StrikeCount*
 
-*Defined in [packages/types/src/augment/registry.ts:916](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L916)*
+*Defined in [packages/types/src/augment/registry.ts:916](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L916)*
 
 ___
 
@@ -11956,7 +11956,7 @@ ___
 
 • **SubId**: *SubId*
 
-*Defined in [packages/types/src/augment/registry.ts:1348](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1348)*
+*Defined in [packages/types/src/augment/registry.ts:1348](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1348)*
 
 ___
 
@@ -11964,7 +11964,7 @@ ___
 
 • **Tally**: *Tally*
 
-*Defined in [packages/types/src/augment/registry.ts:554](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L554)*
+*Defined in [packages/types/src/augment/registry.ts:554](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L554)*
 
 ___
 
@@ -11972,7 +11972,7 @@ ___
 
 • **TaskAddress**: *TaskAddress*
 
-*Defined in [packages/types/src/augment/registry.ts:863](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L863)*
+*Defined in [packages/types/src/augment/registry.ts:863](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L863)*
 
 ___
 
@@ -11980,7 +11980,7 @@ ___
 
 • **Text**: *[Text](../classes/_packages_types_src_primitive_text_.text.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:92](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L92)*
+*Defined in [packages/types/src/augment/registry.ts:92](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L92)*
 
 ___
 
@@ -11988,7 +11988,7 @@ ___
 
 • **Timepoint**: *Timepoint*
 
-*Defined in [packages/types/src/augment/registry.ts:1226](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1226)*
+*Defined in [packages/types/src/augment/registry.ts:1226](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1226)*
 
 ___
 
@@ -11996,7 +11996,7 @@ ___
 
 • **TombstoneContractInfo**: *TombstoneContractInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:498](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L498)*
+*Defined in [packages/types/src/augment/registry.ts:498](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L498)*
 
 ___
 
@@ -12004,7 +12004,7 @@ ___
 
 • **TransactionPriority**: *TransactionPriority*
 
-*Defined in [packages/types/src/augment/registry.ts:306](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L306)*
+*Defined in [packages/types/src/augment/registry.ts:306](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L306)*
 
 ___
 
@@ -12012,7 +12012,7 @@ ___
 
 • **TransactionValidityError**: *TransactionValidityError*
 
-*Defined in [packages/types/src/augment/registry.ts:1180](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1180)*
+*Defined in [packages/types/src/augment/registry.ts:1180](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1180)*
 
 ___
 
@@ -12020,7 +12020,7 @@ ___
 
 • **TreasuryProposal**: *TreasuryProposal*
 
-*Defined in [packages/types/src/augment/registry.ts:1217](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1217)*
+*Defined in [packages/types/src/augment/registry.ts:1217](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1217)*
 
 ___
 
@@ -12028,7 +12028,7 @@ ___
 
 • **TrieId**: *TrieId*
 
-*Defined in [packages/types/src/augment/registry.ts:501](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L501)*
+*Defined in [packages/types/src/augment/registry.ts:501](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L501)*
 
 ___
 
@@ -12036,7 +12036,7 @@ ___
 
 • **Type**: *[Type](../classes/_packages_types_src_primitive_type_.type.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:95](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L95)*
+*Defined in [packages/types/src/augment/registry.ts:95](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L95)*
 
 ___
 
@@ -12044,7 +12044,7 @@ ___
 
 • **U256**: *[U256](../classes/_packages_types_src_primitive_u256_.u256.md)*
 
-*Defined in [packages/types/src/augment/registry.ts:122](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L122)*
+*Defined in [packages/types/src/augment/registry.ts:122](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L122)*
 
 ___
 
@@ -12052,7 +12052,7 @@ ___
 
 • **U32F32**: *U32F32*
 
-*Defined in [packages/types/src/augment/registry.ts:154](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L154)*
+*Defined in [packages/types/src/augment/registry.ts:154](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L154)*
 
 ___
 
@@ -12060,7 +12060,7 @@ ___
 
 • **UnappliedSlash**: *UnappliedSlash*
 
-*Defined in [packages/types/src/augment/registry.ts:1042](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1042)*
+*Defined in [packages/types/src/augment/registry.ts:1042](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1042)*
 
 ___
 
@@ -12068,7 +12068,7 @@ ___
 
 • **UnappliedSlashOther**: *UnappliedSlashOther*
 
-*Defined in [packages/types/src/augment/registry.ts:1039](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1039)*
+*Defined in [packages/types/src/augment/registry.ts:1039](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1039)*
 
 ___
 
@@ -12076,7 +12076,7 @@ ___
 
 • **UncleEntryItem**: *UncleEntryItem*
 
-*Defined in [packages/types/src/augment/registry.ts:332](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L332)*
+*Defined in [packages/types/src/augment/registry.ts:332](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L332)*
 
 ___
 
@@ -12084,7 +12084,7 @@ ___
 
 • **UnknownTransaction**: *UnknownTransaction*
 
-*Defined in [packages/types/src/augment/registry.ts:1183](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1183)*
+*Defined in [packages/types/src/augment/registry.ts:1183](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1183)*
 
 ___
 
@@ -12092,7 +12092,7 @@ ___
 
 • **UnlockChunk**: *UnlockChunk*
 
-*Defined in [packages/types/src/augment/registry.ts:1045](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1045)*
+*Defined in [packages/types/src/augment/registry.ts:1045](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1045)*
 
 ___
 
@@ -12100,7 +12100,7 @@ ___
 
 • **UpwardMessage**: *UpwardMessage*
 
-*Defined in [packages/types/src/augment/registry.ts:1352](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1352)*
+*Defined in [packages/types/src/augment/registry.ts:1352](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1352)*
 
 ___
 
@@ -12108,7 +12108,7 @@ ___
 
 • **ValidationCode**: *ValidationCode*
 
-*Defined in [packages/types/src/augment/registry.ts:1358](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1358)*
+*Defined in [packages/types/src/augment/registry.ts:1358](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1358)*
 
 ___
 
@@ -12116,7 +12116,7 @@ ___
 
 • **ValidationFunctionParams**: *ValidationFunctionParams*
 
-*Defined in [packages/types/src/augment/registry.ts:1355](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1355)*
+*Defined in [packages/types/src/augment/registry.ts:1355](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1355)*
 
 ___
 
@@ -12124,7 +12124,7 @@ ___
 
 • **ValidatorCount**: *ValidatorCount*
 
-*Defined in [packages/types/src/augment/registry.ts:900](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L900)*
+*Defined in [packages/types/src/augment/registry.ts:900](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L900)*
 
 ___
 
@@ -12132,7 +12132,7 @@ ___
 
 • **ValidatorId**: *ValidatorId*
 
-*Defined in [packages/types/src/augment/registry.ts:310](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L310)*
+*Defined in [packages/types/src/augment/registry.ts:310](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L310)*
 
 ___
 
@@ -12140,7 +12140,7 @@ ___
 
 • **ValidatorIndex**: *ValidatorIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:1048](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1048)*
+*Defined in [packages/types/src/augment/registry.ts:1048](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1048)*
 
 ___
 
@@ -12148,7 +12148,7 @@ ___
 
 • **ValidatorIndexCompact**: *ValidatorIndexCompact*
 
-*Defined in [packages/types/src/augment/registry.ts:1052](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1052)*
+*Defined in [packages/types/src/augment/registry.ts:1052](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1052)*
 
 ___
 
@@ -12156,7 +12156,7 @@ ___
 
 • **ValidatorPrefs**: *ValidatorPrefs*
 
-*Defined in [packages/types/src/augment/registry.ts:1055](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1055)*
+*Defined in [packages/types/src/augment/registry.ts:1055](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1055)*
 
 ___
 
@@ -12164,7 +12164,7 @@ ___
 
 • **ValidatorPrefsTo145**: *ValidatorPrefsTo145*
 
-*Defined in [packages/types/src/augment/registry.ts:1061](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1061)*
+*Defined in [packages/types/src/augment/registry.ts:1061](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1061)*
 
 ___
 
@@ -12172,7 +12172,7 @@ ___
 
 • **ValidatorPrefsTo196**: *ValidatorPrefsTo196*
 
-*Defined in [packages/types/src/augment/registry.ts:1058](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1058)*
+*Defined in [packages/types/src/augment/registry.ts:1058](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1058)*
 
 ___
 
@@ -12180,7 +12180,7 @@ ___
 
 • **ValidatorSignature**: *ValidatorSignature*
 
-*Defined in [packages/types/src/augment/registry.ts:1361](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1361)*
+*Defined in [packages/types/src/augment/registry.ts:1361](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1361)*
 
 ___
 
@@ -12188,7 +12188,7 @@ ___
 
 • **ValidityAttestation**: *ValidityAttestation*
 
-*Defined in [packages/types/src/augment/registry.ts:1364](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1364)*
+*Defined in [packages/types/src/augment/registry.ts:1364](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1364)*
 
 ___
 
@@ -12196,7 +12196,7 @@ ___
 
 • **Vec<AbridgedCandidateReceipt>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AbridgedCandidateReceipt›*
 
-*Defined in [packages/types/src/augment/registry.ts:1255](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1255)*
+*Defined in [packages/types/src/augment/registry.ts:1255](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1255)*
 
 ___
 
@@ -12204,7 +12204,7 @@ ___
 
 • **Vec<Account>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Account›*
 
-*Defined in [packages/types/src/augment/registry.ts:604](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L604)*
+*Defined in [packages/types/src/augment/registry.ts:604](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L604)*
 
 ___
 
@@ -12212,7 +12212,7 @@ ___
 
 • **Vec<AccountData>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountData›*
 
-*Defined in [packages/types/src/augment/registry.ts:413](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L413)*
+*Defined in [packages/types/src/augment/registry.ts:413](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L413)*
 
 ___
 
@@ -12220,7 +12220,7 @@ ___
 
 • **Vec<AccountId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountId›*
 
-*Defined in [packages/types/src/augment/registry.ts:179](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L179)*
+*Defined in [packages/types/src/augment/registry.ts:179](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L179)*
 
 ___
 
@@ -12228,7 +12228,7 @@ ___
 
 • **Vec<AccountIdOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountIdOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:182](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L182)*
+*Defined in [packages/types/src/augment/registry.ts:182](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L182)*
 
 ___
 
@@ -12236,7 +12236,7 @@ ___
 
 • **Vec<AccountIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:185](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L185)*
+*Defined in [packages/types/src/augment/registry.ts:185](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L185)*
 
 ___
 
@@ -12244,7 +12244,7 @@ ___
 
 • **Vec<AccountInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1069](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1069)*
+*Defined in [packages/types/src/augment/registry.ts:1069](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1069)*
 
 ___
 
@@ -12252,7 +12252,7 @@ ___
 
 • **Vec<AccountStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:1378](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1378)*
+*Defined in [packages/types/src/augment/registry.ts:1378](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1378)*
 
 ___
 
@@ -12260,7 +12260,7 @@ ___
 
 • **Vec<AccountValidity>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountValidity›*
 
-*Defined in [packages/types/src/augment/registry.ts:1381](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1381)*
+*Defined in [packages/types/src/augment/registry.ts:1381](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1381)*
 
 ___
 
@@ -12268,7 +12268,7 @@ ___
 
 • **Vec<AccountVote>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountVote›*
 
-*Defined in [packages/types/src/augment/registry.ts:506](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L506)*
+*Defined in [packages/types/src/augment/registry.ts:506](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L506)*
 
 ___
 
@@ -12276,7 +12276,7 @@ ___
 
 • **Vec<AccountVoteSplit>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountVoteSplit›*
 
-*Defined in [packages/types/src/augment/registry.ts:509](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L509)*
+*Defined in [packages/types/src/augment/registry.ts:509](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L509)*
 
 ___
 
@@ -12284,7 +12284,7 @@ ___
 
 • **Vec<AccountVoteStandard>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AccountVoteStandard›*
 
-*Defined in [packages/types/src/augment/registry.ts:512](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L512)*
+*Defined in [packages/types/src/augment/registry.ts:512](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L512)*
 
 ___
 
@@ -12292,7 +12292,7 @@ ___
 
 • **Vec<ActiveEraInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ActiveEraInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:932](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L932)*
+*Defined in [packages/types/src/augment/registry.ts:932](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L932)*
 
 ___
 
@@ -12300,7 +12300,7 @@ ___
 
 • **Vec<ActiveRecovery>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ActiveRecovery›*
 
-*Defined in [packages/types/src/augment/registry.ts:843](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L843)*
+*Defined in [packages/types/src/augment/registry.ts:843](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L843)*
 
 ___
 
@@ -12308,7 +12308,7 @@ ___
 
 • **Vec<Address>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Address›*
 
-*Defined in [packages/types/src/augment/registry.ts:188](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L188)*
+*Defined in [packages/types/src/augment/registry.ts:188](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L188)*
 
 ___
 
@@ -12316,7 +12316,7 @@ ___
 
 • **Vec<AliveContractInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AliveContractInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:454](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L454)*
+*Defined in [packages/types/src/augment/registry.ts:454](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L454)*
 
 ___
 
@@ -12324,7 +12324,7 @@ ___
 
 • **Vec<AllowedSlots>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AllowedSlots›*
 
-*Defined in [packages/types/src/augment/registry.ts:340](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L340)*
+*Defined in [packages/types/src/augment/registry.ts:340](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L340)*
 
 ___
 
@@ -12332,7 +12332,7 @@ ___
 
 • **Vec<ApiId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ApiId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1984](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1984)*
+*Defined in [packages/types/src/augment/registry.ts:1984](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1984)*
 
 ___
 
@@ -12340,7 +12340,7 @@ ___
 
 • **Vec<ApplyExtrinsicResult>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ApplyExtrinsicResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:1072](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1072)*
+*Defined in [packages/types/src/augment/registry.ts:1072](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1072)*
 
 ___
 
@@ -12348,7 +12348,7 @@ ___
 
 • **Vec<ApprovalFlag>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ApprovalFlag›*
 
-*Defined in [packages/types/src/augment/registry.ts:572](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L572)*
+*Defined in [packages/types/src/augment/registry.ts:572](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L572)*
 
 ___
 
@@ -12356,7 +12356,7 @@ ___
 
 • **Vec<Approvals>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Approvals›*
 
-*Defined in [packages/types/src/augment/registry.ts:1375](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1375)*
+*Defined in [packages/types/src/augment/registry.ts:1375](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1375)*
 
 ___
 
@@ -12364,7 +12364,7 @@ ___
 
 • **Vec<AssetId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AssetId›*
 
-*Defined in [packages/types/src/augment/registry.ts:192](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L192)*
+*Defined in [packages/types/src/augment/registry.ts:192](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L192)*
 
 ___
 
@@ -12372,7 +12372,7 @@ ___
 
 • **Vec<AssetOptions>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AssetOptions›*
 
-*Defined in [packages/types/src/augment/registry.ts:688](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L688)*
+*Defined in [packages/types/src/augment/registry.ts:688](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L688)*
 
 ___
 
@@ -12380,7 +12380,7 @@ ___
 
 • **Vec<AttestedCandidate>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AttestedCandidate›*
 
-*Defined in [packages/types/src/augment/registry.ts:1258](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1258)*
+*Defined in [packages/types/src/augment/registry.ts:1258](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1258)*
 
 ___
 
@@ -12388,7 +12388,7 @@ ___
 
 • **Vec<AuctionIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AuctionIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1262](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1262)*
+*Defined in [packages/types/src/augment/registry.ts:1262](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1262)*
 
 ___
 
@@ -12396,7 +12396,7 @@ ___
 
 • **Vec<AuthIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AuthIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:792](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L792)*
+*Defined in [packages/types/src/augment/registry.ts:792](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L792)*
 
 ___
 
@@ -12404,7 +12404,7 @@ ___
 
 • **Vec<AuthorityId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AuthorityId›*
 
-*Defined in [packages/types/src/augment/registry.ts:448](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L448)*
+*Defined in [packages/types/src/augment/registry.ts:448](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L448)*
 
 ___
 
@@ -12412,7 +12412,7 @@ ___
 
 • **Vec<AuthorityIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AuthorityIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:704](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L704)*
+*Defined in [packages/types/src/augment/registry.ts:704](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L704)*
 
 ___
 
@@ -12420,7 +12420,7 @@ ___
 
 • **Vec<AuthorityList>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AuthorityList›*
 
-*Defined in [packages/types/src/augment/registry.ts:707](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L707)*
+*Defined in [packages/types/src/augment/registry.ts:707](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L707)*
 
 ___
 
@@ -12428,7 +12428,7 @@ ___
 
 • **Vec<AuthoritySignature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AuthoritySignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:795](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L795)*
+*Defined in [packages/types/src/augment/registry.ts:795](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L795)*
 
 ___
 
@@ -12436,7 +12436,7 @@ ___
 
 • **Vec<AuthorityWeight>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹AuthorityWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:711](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L711)*
+*Defined in [packages/types/src/augment/registry.ts:711](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L711)*
 
 ___
 
@@ -12444,7 +12444,7 @@ ___
 
 • **Vec<BabeAuthorityWeight>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BabeAuthorityWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:344](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L344)*
+*Defined in [packages/types/src/augment/registry.ts:344](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L344)*
 
 ___
 
@@ -12452,7 +12452,7 @@ ___
 
 • **Vec<BabeBlockWeight>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BabeBlockWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:348](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L348)*
+*Defined in [packages/types/src/augment/registry.ts:348](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L348)*
 
 ___
 
@@ -12460,7 +12460,7 @@ ___
 
 • **Vec<BabeEquivocationProof>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BabeEquivocationProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:351](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L351)*
+*Defined in [packages/types/src/augment/registry.ts:351](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L351)*
 
 ___
 
@@ -12468,7 +12468,7 @@ ___
 
 • **Vec<BabeWeight>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BabeWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:355](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L355)*
+*Defined in [packages/types/src/augment/registry.ts:355](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L355)*
 
 ___
 
@@ -12476,7 +12476,7 @@ ___
 
 • **Vec<Balance>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Balance›*
 
-*Defined in [packages/types/src/augment/registry.ts:196](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L196)*
+*Defined in [packages/types/src/augment/registry.ts:196](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L196)*
 
 ___
 
@@ -12484,7 +12484,7 @@ ___
 
 • **Vec<BalanceLock>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BalanceLock›*
 
-*Defined in [packages/types/src/augment/registry.ts:419](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L419)*
+*Defined in [packages/types/src/augment/registry.ts:419](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L419)*
 
 ___
 
@@ -12492,7 +12492,7 @@ ___
 
 • **Vec<BalanceLockTo212>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BalanceLockTo212›*
 
-*Defined in [packages/types/src/augment/registry.ts:416](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L416)*
+*Defined in [packages/types/src/augment/registry.ts:416](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L416)*
 
 ___
 
@@ -12500,7 +12500,7 @@ ___
 
 • **Vec<BalanceOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BalanceOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:199](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L199)*
+*Defined in [packages/types/src/augment/registry.ts:199](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L199)*
 
 ___
 
@@ -12508,7 +12508,7 @@ ___
 
 • **Vec<BalanceStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BalanceStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:422](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L422)*
+*Defined in [packages/types/src/augment/registry.ts:422](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L422)*
 
 ___
 
@@ -12516,7 +12516,7 @@ ___
 
 • **Vec<Bid>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Bid›*
 
-*Defined in [packages/types/src/augment/registry.ts:906](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L906)*
+*Defined in [packages/types/src/augment/registry.ts:906](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L906)*
 
 ___
 
@@ -12524,7 +12524,7 @@ ___
 
 • **Vec<BidKind>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BidKind›*
 
-*Defined in [packages/types/src/augment/registry.ts:909](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L909)*
+*Defined in [packages/types/src/augment/registry.ts:909](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L909)*
 
 ___
 
@@ -12532,7 +12532,7 @@ ___
 
 • **Vec<Bidder>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Bidder›*
 
-*Defined in [packages/types/src/augment/registry.ts:1265](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1265)*
+*Defined in [packages/types/src/augment/registry.ts:1265](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1265)*
 
 ___
 
@@ -12540,7 +12540,7 @@ ___
 
 • **Vec<BitVec>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[BitVec](../classes/_packages_types_src_primitive_bitvec_.bitvec.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:55](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L55)*
+*Defined in [packages/types/src/augment/registry.ts:55](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L55)*
 
 ___
 
@@ -12548,7 +12548,7 @@ ___
 
 • **Vec<Block>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Block›*
 
-*Defined in [packages/types/src/augment/registry.ts:202](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L202)*
+*Defined in [packages/types/src/augment/registry.ts:202](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L202)*
 
 ___
 
@@ -12556,7 +12556,7 @@ ___
 
 • **Vec<BlockAttestations>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BlockAttestations›*
 
-*Defined in [packages/types/src/augment/registry.ts:1234](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1234)*
+*Defined in [packages/types/src/augment/registry.ts:1234](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1234)*
 
 ___
 
@@ -12564,7 +12564,7 @@ ___
 
 • **Vec<BlockHash>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BlockHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:1972](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1972)*
+*Defined in [packages/types/src/augment/registry.ts:1972](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1972)*
 
 ___
 
@@ -12572,7 +12572,7 @@ ___
 
 • **Vec<BlockNumber>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BlockNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:206](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L206)*
+*Defined in [packages/types/src/augment/registry.ts:206](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L206)*
 
 ___
 
@@ -12580,7 +12580,7 @@ ___
 
 • **Vec<Bounty>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Bounty›*
 
-*Defined in [packages/types/src/augment/registry.ts:1188](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1188)*
+*Defined in [packages/types/src/augment/registry.ts:1188](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1188)*
 
 ___
 
@@ -12588,7 +12588,7 @@ ___
 
 • **Vec<BountyIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BountyIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1192](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1192)*
+*Defined in [packages/types/src/augment/registry.ts:1192](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1192)*
 
 ___
 
@@ -12596,7 +12596,7 @@ ___
 
 • **Vec<BountyStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BountyStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:1195](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1195)*
+*Defined in [packages/types/src/augment/registry.ts:1195](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1195)*
 
 ___
 
@@ -12604,7 +12604,7 @@ ___
 
 • **Vec<BountyStatusActive>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BountyStatusActive›*
 
-*Defined in [packages/types/src/augment/registry.ts:1198](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1198)*
+*Defined in [packages/types/src/augment/registry.ts:1198](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1198)*
 
 ___
 
@@ -12612,7 +12612,7 @@ ___
 
 • **Vec<BountyStatusCuratorProposed>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BountyStatusCuratorProposed›*
 
-*Defined in [packages/types/src/augment/registry.ts:1201](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1201)*
+*Defined in [packages/types/src/augment/registry.ts:1201](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1201)*
 
 ___
 
@@ -12620,7 +12620,7 @@ ___
 
 • **Vec<BountyStatusPendingPayout>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹BountyStatusPendingPayout›*
 
-*Defined in [packages/types/src/augment/registry.ts:1204](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1204)*
+*Defined in [packages/types/src/augment/registry.ts:1204](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1204)*
 
 ___
 
@@ -12628,7 +12628,7 @@ ___
 
 • **Vec<Bytes>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[Bytes](../classes/_packages_types_src_primitive_bytes_.bytes.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:61](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L61)*
+*Defined in [packages/types/src/augment/registry.ts:61](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L61)*
 
 ___
 
@@ -12636,7 +12636,7 @@ ___
 
 • **Vec<Call>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Call›*
 
-*Defined in [packages/types/src/augment/registry.ts:209](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L209)*
+*Defined in [packages/types/src/augment/registry.ts:209](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L209)*
 
 ___
 
@@ -12644,7 +12644,7 @@ ___
 
 • **Vec<CallHash>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CallHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:212](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L212)*
+*Defined in [packages/types/src/augment/registry.ts:212](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L212)*
 
 ___
 
@@ -12652,7 +12652,7 @@ ___
 
 • **Vec<CallHashOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CallHashOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:215](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L215)*
+*Defined in [packages/types/src/augment/registry.ts:215](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L215)*
 
 ___
 
@@ -12660,7 +12660,7 @@ ___
 
 • **Vec<CallMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CallMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1390](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1390)*
+*Defined in [packages/types/src/augment/registry.ts:1390](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1390)*
 
 ___
 
@@ -12668,7 +12668,7 @@ ___
 
 • **Vec<CandidateCommitments>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CandidateCommitments›*
 
-*Defined in [packages/types/src/augment/registry.ts:1268](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1268)*
+*Defined in [packages/types/src/augment/registry.ts:1268](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1268)*
 
 ___
 
@@ -12676,7 +12676,7 @@ ___
 
 • **Vec<CandidateReceipt>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CandidateReceipt›*
 
-*Defined in [packages/types/src/augment/registry.ts:1271](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1271)*
+*Defined in [packages/types/src/augment/registry.ts:1271](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1271)*
 
 ___
 
@@ -12684,7 +12684,7 @@ ___
 
 • **Vec<ChainProperties>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ChainProperties›*
 
-*Defined in [packages/types/src/augment/registry.ts:1075](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1075)*
+*Defined in [packages/types/src/augment/registry.ts:1075](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1075)*
 
 ___
 
@@ -12692,7 +12692,7 @@ ___
 
 • **Vec<ChainType>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ChainType›*
 
-*Defined in [packages/types/src/augment/registry.ts:1078](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1078)*
+*Defined in [packages/types/src/augment/registry.ts:1078](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1078)*
 
 ___
 
@@ -12700,7 +12700,7 @@ ___
 
 • **Vec<ChangesTrieConfiguration>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ChangesTrieConfiguration›*
 
-*Defined in [packages/types/src/augment/registry.ts:218](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L218)*
+*Defined in [packages/types/src/augment/registry.ts:218](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L218)*
 
 ___
 
@@ -12708,7 +12708,7 @@ ___
 
 • **Vec<CodeHash>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CodeHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:457](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L457)*
+*Defined in [packages/types/src/augment/registry.ts:457](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L457)*
 
 ___
 
@@ -12716,7 +12716,7 @@ ___
 
 • **Vec<CollatorId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CollatorId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1274](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1274)*
+*Defined in [packages/types/src/augment/registry.ts:1274](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1274)*
 
 ___
 
@@ -12724,7 +12724,7 @@ ___
 
 • **Vec<CollatorSignature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CollatorSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:1277](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1277)*
+*Defined in [packages/types/src/augment/registry.ts:1277](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1277)*
 
 ___
 
@@ -12732,7 +12732,7 @@ ___
 
 • **Vec<CompactAssignments>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CompactAssignments›*
 
-*Defined in [packages/types/src/augment/registry.ts:935](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L935)*
+*Defined in [packages/types/src/augment/registry.ts:935](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L935)*
 
 ___
 
@@ -12740,7 +12740,7 @@ ___
 
 • **Vec<CompactAssignmentsTo257>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CompactAssignmentsTo257›*
 
-*Defined in [packages/types/src/augment/registry.ts:938](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L938)*
+*Defined in [packages/types/src/augment/registry.ts:938](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L938)*
 
 ___
 
@@ -12748,7 +12748,7 @@ ___
 
 • **Vec<CompactScore>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CompactScore›*
 
-*Defined in [packages/types/src/augment/registry.ts:941](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L941)*
+*Defined in [packages/types/src/augment/registry.ts:941](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L941)*
 
 ___
 
@@ -12756,7 +12756,7 @@ ___
 
 • **Vec<CompactScoreCompact>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CompactScoreCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:944](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L944)*
+*Defined in [packages/types/src/augment/registry.ts:944](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L944)*
 
 ___
 
@@ -12764,7 +12764,7 @@ ___
 
 • **Vec<Consensus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Consensus›*
 
-*Defined in [packages/types/src/augment/registry.ts:331](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L331)*
+*Defined in [packages/types/src/augment/registry.ts:331](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L331)*
 
 ___
 
@@ -12772,7 +12772,7 @@ ___
 
 • **Vec<ConsensusEngineId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ConsensusEngineId›*
 
-*Defined in [packages/types/src/augment/registry.ts:221](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L221)*
+*Defined in [packages/types/src/augment/registry.ts:221](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L221)*
 
 ___
 
@@ -12780,7 +12780,7 @@ ___
 
 • **Vec<ContractCallRequest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ContractCallRequest›*
 
-*Defined in [packages/types/src/augment/registry.ts:460](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L460)*
+*Defined in [packages/types/src/augment/registry.ts:460](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L460)*
 
 ___
 
@@ -12788,7 +12788,7 @@ ___
 
 • **Vec<ContractExecResult>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ContractExecResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:472](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L472)*
+*Defined in [packages/types/src/augment/registry.ts:472](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L472)*
 
 ___
 
@@ -12796,7 +12796,7 @@ ___
 
 • **Vec<ContractExecResultSuccess>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ContractExecResultSuccess›*
 
-*Defined in [packages/types/src/augment/registry.ts:469](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L469)*
+*Defined in [packages/types/src/augment/registry.ts:469](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L469)*
 
 ___
 
@@ -12804,7 +12804,7 @@ ___
 
 • **Vec<ContractExecResultSuccessTo255>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ContractExecResultSuccessTo255›*
 
-*Defined in [packages/types/src/augment/registry.ts:463](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L463)*
+*Defined in [packages/types/src/augment/registry.ts:463](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L463)*
 
 ___
 
@@ -12812,7 +12812,7 @@ ___
 
 • **Vec<ContractExecResultTo255>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ContractExecResultTo255›*
 
-*Defined in [packages/types/src/augment/registry.ts:466](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L466)*
+*Defined in [packages/types/src/augment/registry.ts:466](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L466)*
 
 ___
 
@@ -12820,7 +12820,7 @@ ___
 
 • **Vec<ContractInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ContractInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:475](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L475)*
+*Defined in [packages/types/src/augment/registry.ts:475](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L475)*
 
 ___
 
@@ -12828,7 +12828,7 @@ ___
 
 • **Vec<ContractStorageKey>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ContractStorageKey›*
 
-*Defined in [packages/types/src/augment/registry.ts:478](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L478)*
+*Defined in [packages/types/src/augment/registry.ts:478](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L478)*
 
 ___
 
@@ -12836,7 +12836,7 @@ ___
 
 • **Vec<Conviction>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Conviction›*
 
-*Defined in [packages/types/src/augment/registry.ts:515](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L515)*
+*Defined in [packages/types/src/augment/registry.ts:515](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L515)*
 
 ___
 
@@ -12844,7 +12844,7 @@ ___
 
 • **Vec<CreatedBlock>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹CreatedBlock›*
 
-*Defined in [packages/types/src/augment/registry.ts:598](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L598)*
+*Defined in [packages/types/src/augment/registry.ts:598](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L598)*
 
 ___
 
@@ -12852,7 +12852,7 @@ ___
 
 • **Vec<Data>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[Data](../classes/_packages_types_src_primitive_data_.data.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:64](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L64)*
+*Defined in [packages/types/src/augment/registry.ts:64](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L64)*
 
 ___
 
@@ -12860,7 +12860,7 @@ ___
 
 • **Vec<DeferredOffenceOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DeferredOffenceOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:813](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L813)*
+*Defined in [packages/types/src/augment/registry.ts:813](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L813)*
 
 ___
 
@@ -12868,7 +12868,7 @@ ___
 
 • **Vec<DefunctVoter>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DefunctVoter›*
 
-*Defined in [packages/types/src/augment/registry.ts:575](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L575)*
+*Defined in [packages/types/src/augment/registry.ts:575](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L575)*
 
 ___
 
@@ -12876,7 +12876,7 @@ ___
 
 • **Vec<Delegations>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Delegations›*
 
-*Defined in [packages/types/src/augment/registry.ts:518](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L518)*
+*Defined in [packages/types/src/augment/registry.ts:518](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L518)*
 
 ___
 
@@ -12884,7 +12884,7 @@ ___
 
 • **Vec<Digest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Digest›*
 
-*Defined in [packages/types/src/augment/registry.ts:224](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L224)*
+*Defined in [packages/types/src/augment/registry.ts:224](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L224)*
 
 ___
 
@@ -12892,7 +12892,7 @@ ___
 
 • **Vec<DigestItem>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DigestItem›*
 
-*Defined in [packages/types/src/augment/registry.ts:227](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L227)*
+*Defined in [packages/types/src/augment/registry.ts:227](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L227)*
 
 ___
 
@@ -12900,7 +12900,7 @@ ___
 
 • **Vec<DigestOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DigestOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:1081](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1081)*
+*Defined in [packages/types/src/augment/registry.ts:1081](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1081)*
 
 ___
 
@@ -12908,7 +12908,7 @@ ___
 
 • **Vec<DispatchClass>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchClass›*
 
-*Defined in [packages/types/src/augment/registry.ts:1084](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1084)*
+*Defined in [packages/types/src/augment/registry.ts:1084](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1084)*
 
 ___
 
@@ -12916,7 +12916,7 @@ ___
 
 • **Vec<DispatchError>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchError›*
 
-*Defined in [packages/types/src/augment/registry.ts:1087](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1087)*
+*Defined in [packages/types/src/augment/registry.ts:1087](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1087)*
 
 ___
 
@@ -12924,7 +12924,7 @@ ___
 
 • **Vec<DispatchErrorModule>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchErrorModule›*
 
-*Defined in [packages/types/src/augment/registry.ts:1090](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1090)*
+*Defined in [packages/types/src/augment/registry.ts:1090](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1090)*
 
 ___
 
@@ -12932,7 +12932,7 @@ ___
 
 • **Vec<DispatchErrorTo198>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchErrorTo198›*
 
-*Defined in [packages/types/src/augment/registry.ts:1093](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1093)*
+*Defined in [packages/types/src/augment/registry.ts:1093](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1093)*
 
 ___
 
@@ -12940,7 +12940,7 @@ ___
 
 • **Vec<DispatchInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1096](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1096)*
+*Defined in [packages/types/src/augment/registry.ts:1096](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1096)*
 
 ___
 
@@ -12948,7 +12948,7 @@ ___
 
 • **Vec<DispatchInfoTo190>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchInfoTo190›*
 
-*Defined in [packages/types/src/augment/registry.ts:1099](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1099)*
+*Defined in [packages/types/src/augment/registry.ts:1099](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1099)*
 
 ___
 
@@ -12956,7 +12956,7 @@ ___
 
 • **Vec<DispatchInfoTo244>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchInfoTo244›*
 
-*Defined in [packages/types/src/augment/registry.ts:1102](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1102)*
+*Defined in [packages/types/src/augment/registry.ts:1102](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1102)*
 
 ___
 
@@ -12964,7 +12964,7 @@ ___
 
 • **Vec<DispatchOutcome>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchOutcome›*
 
-*Defined in [packages/types/src/augment/registry.ts:1105](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1105)*
+*Defined in [packages/types/src/augment/registry.ts:1105](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1105)*
 
 ___
 
@@ -12972,7 +12972,7 @@ ___
 
 • **Vec<DispatchResult>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:1108](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1108)*
+*Defined in [packages/types/src/augment/registry.ts:1108](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1108)*
 
 ___
 
@@ -12980,7 +12980,7 @@ ___
 
 • **Vec<DispatchResultOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchResultOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:1111](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1111)*
+*Defined in [packages/types/src/augment/registry.ts:1111](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1111)*
 
 ___
 
@@ -12988,7 +12988,7 @@ ___
 
 • **Vec<DispatchResultTo198>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DispatchResultTo198›*
 
-*Defined in [packages/types/src/augment/registry.ts:1114](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1114)*
+*Defined in [packages/types/src/augment/registry.ts:1114](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1114)*
 
 ___
 
@@ -12996,7 +12996,7 @@ ___
 
 • **Vec<DoNotConstruct>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[DoNotConstruct](../classes/_packages_types_src_primitive_donotconstruct_.donotconstruct.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:67](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L67)*
+*Defined in [packages/types/src/augment/registry.ts:67](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L67)*
 
 ___
 
@@ -13004,7 +13004,7 @@ ___
 
 • **Vec<DoubleMapTypeLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1915](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1915)*
+*Defined in [packages/types/src/augment/registry.ts:1915](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1915)*
 
 ___
 
@@ -13012,7 +13012,7 @@ ___
 
 • **Vec<DoubleMapTypeV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1774](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1774)*
+*Defined in [packages/types/src/augment/registry.ts:1774](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1774)*
 
 ___
 
@@ -13020,7 +13020,7 @@ ___
 
 • **Vec<DoubleMapTypeV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1819](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1819)*
+*Defined in [packages/types/src/augment/registry.ts:1819](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1819)*
 
 ___
 
@@ -13028,7 +13028,7 @@ ___
 
 • **Vec<DoubleMapTypeV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1867](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1867)*
+*Defined in [packages/types/src/augment/registry.ts:1867](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1867)*
 
 ___
 
@@ -13036,7 +13036,7 @@ ___
 
 • **Vec<DoubleMapTypeV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1498](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1498)*
+*Defined in [packages/types/src/augment/registry.ts:1498](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1498)*
 
 ___
 
@@ -13044,7 +13044,7 @@ ___
 
 • **Vec<DoubleMapTypeV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1531](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1531)*
+*Defined in [packages/types/src/augment/registry.ts:1531](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1531)*
 
 ___
 
@@ -13052,7 +13052,7 @@ ___
 
 • **Vec<DoubleMapTypeV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1567](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1567)*
+*Defined in [packages/types/src/augment/registry.ts:1567](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1567)*
 
 ___
 
@@ -13060,7 +13060,7 @@ ___
 
 • **Vec<DoubleMapTypeV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1603](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1603)*
+*Defined in [packages/types/src/augment/registry.ts:1603](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1603)*
 
 ___
 
@@ -13068,7 +13068,7 @@ ___
 
 • **Vec<DoubleMapTypeV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1642](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1642)*
+*Defined in [packages/types/src/augment/registry.ts:1642](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1642)*
 
 ___
 
@@ -13076,7 +13076,7 @@ ___
 
 • **Vec<DoubleMapTypeV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1684](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1684)*
+*Defined in [packages/types/src/augment/registry.ts:1684](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1684)*
 
 ___
 
@@ -13084,7 +13084,7 @@ ___
 
 • **Vec<DoubleMapTypeV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleMapTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1729](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1729)*
+*Defined in [packages/types/src/augment/registry.ts:1729](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1729)*
 
 ___
 
@@ -13092,7 +13092,7 @@ ___
 
 • **Vec<DoubleVoteReport>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DoubleVoteReport›*
 
-*Defined in [packages/types/src/augment/registry.ts:1280](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1280)*
+*Defined in [packages/types/src/augment/registry.ts:1280](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1280)*
 
 ___
 
@@ -13100,7 +13100,7 @@ ___
 
 • **Vec<DownwardMessage>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹DownwardMessage›*
 
-*Defined in [packages/types/src/augment/registry.ts:1283](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1283)*
+*Defined in [packages/types/src/augment/registry.ts:1283](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1283)*
 
 ___
 
@@ -13108,7 +13108,7 @@ ___
 
 • **Vec<EcdsaSignature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EcdsaSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:679](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L679)*
+*Defined in [packages/types/src/augment/registry.ts:679](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L679)*
 
 ___
 
@@ -13116,7 +13116,7 @@ ___
 
 • **Vec<Ed25519Signature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Ed25519Signature›*
 
-*Defined in [packages/types/src/augment/registry.ts:682](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L682)*
+*Defined in [packages/types/src/augment/registry.ts:682](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L682)*
 
 ___
 
@@ -13124,7 +13124,7 @@ ___
 
 • **Vec<ElectionCompute>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ElectionCompute›*
 
-*Defined in [packages/types/src/augment/registry.ts:947](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L947)*
+*Defined in [packages/types/src/augment/registry.ts:947](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L947)*
 
 ___
 
@@ -13132,7 +13132,7 @@ ___
 
 • **Vec<ElectionResult>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ElectionResult›*
 
-*Defined in [packages/types/src/augment/registry.ts:950](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L950)*
+*Defined in [packages/types/src/augment/registry.ts:950](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L950)*
 
 ___
 
@@ -13140,7 +13140,7 @@ ___
 
 • **Vec<ElectionScore>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ElectionScore›*
 
-*Defined in [packages/types/src/augment/registry.ts:953](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L953)*
+*Defined in [packages/types/src/augment/registry.ts:953](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L953)*
 
 ___
 
@@ -13148,7 +13148,7 @@ ___
 
 • **Vec<ElectionSize>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ElectionSize›*
 
-*Defined in [packages/types/src/augment/registry.ts:956](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L956)*
+*Defined in [packages/types/src/augment/registry.ts:956](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L956)*
 
 ___
 
@@ -13156,7 +13156,7 @@ ___
 
 • **Vec<ElectionStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ElectionStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:959](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L959)*
+*Defined in [packages/types/src/augment/registry.ts:959](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L959)*
 
 ___
 
@@ -13164,7 +13164,7 @@ ___
 
 • **Vec<EncodedFinalityProofs>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EncodedFinalityProofs›*
 
-*Defined in [packages/types/src/augment/registry.ts:714](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L714)*
+*Defined in [packages/types/src/augment/registry.ts:714](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L714)*
 
 ___
 
@@ -13172,7 +13172,7 @@ ___
 
 • **Vec<EpochAuthorship>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EpochAuthorship›*
 
-*Defined in [packages/types/src/augment/registry.ts:364](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L364)*
+*Defined in [packages/types/src/augment/registry.ts:364](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L364)*
 
 ___
 
@@ -13180,7 +13180,7 @@ ___
 
 • **Vec<EraIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EraIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:963](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L963)*
+*Defined in [packages/types/src/augment/registry.ts:963](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L963)*
 
 ___
 
@@ -13188,7 +13188,7 @@ ___
 
 • **Vec<EraPoints>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EraPoints›*
 
-*Defined in [packages/types/src/augment/registry.ts:929](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L929)*
+*Defined in [packages/types/src/augment/registry.ts:929](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L929)*
 
 ___
 
@@ -13196,7 +13196,7 @@ ___
 
 • **Vec<EraRewardPoints>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EraRewardPoints›*
 
-*Defined in [packages/types/src/augment/registry.ts:966](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L966)*
+*Defined in [packages/types/src/augment/registry.ts:966](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L966)*
 
 ___
 
@@ -13204,7 +13204,7 @@ ___
 
 • **Vec<EraRewards>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EraRewards›*
 
-*Defined in [packages/types/src/augment/registry.ts:969](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L969)*
+*Defined in [packages/types/src/augment/registry.ts:969](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L969)*
 
 ___
 
@@ -13212,7 +13212,7 @@ ___
 
 • **Vec<ErrorMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ErrorMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1777](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1777)*
+*Defined in [packages/types/src/augment/registry.ts:1777](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1777)*
 
 ___
 
@@ -13220,7 +13220,7 @@ ___
 
 • **Vec<ErrorMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ErrorMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1822](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1822)*
+*Defined in [packages/types/src/augment/registry.ts:1822](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1822)*
 
 ___
 
@@ -13228,7 +13228,7 @@ ___
 
 • **Vec<ErrorMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ErrorMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1870](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1870)*
+*Defined in [packages/types/src/augment/registry.ts:1870](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1870)*
 
 ___
 
@@ -13236,7 +13236,7 @@ ___
 
 • **Vec<ErrorMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ErrorMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1687](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1687)*
+*Defined in [packages/types/src/augment/registry.ts:1687](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1687)*
 
 ___
 
@@ -13244,7 +13244,7 @@ ___
 
 • **Vec<ErrorMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ErrorMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1732](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1732)*
+*Defined in [packages/types/src/augment/registry.ts:1732](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1732)*
 
 ___
 
@@ -13252,7 +13252,7 @@ ___
 
 • **Vec<EthereumAccountId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EthereumAccountId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1384](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1384)*
+*Defined in [packages/types/src/augment/registry.ts:1384](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1384)*
 
 ___
 
@@ -13260,7 +13260,7 @@ ___
 
 • **Vec<EthereumAddress>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EthereumAddress›*
 
-*Defined in [packages/types/src/augment/registry.ts:1243](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1243)*
+*Defined in [packages/types/src/augment/registry.ts:1243](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1243)*
 
 ___
 
@@ -13268,7 +13268,7 @@ ___
 
 • **Vec<EthereumLookupSource>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EthereumLookupSource›*
 
-*Defined in [packages/types/src/augment/registry.ts:1387](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1387)*
+*Defined in [packages/types/src/augment/registry.ts:1387](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1387)*
 
 ___
 
@@ -13276,7 +13276,7 @@ ___
 
 • **Vec<Event>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Event›*
 
-*Defined in [packages/types/src/augment/registry.ts:1117](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1117)*
+*Defined in [packages/types/src/augment/registry.ts:1117](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1117)*
 
 ___
 
@@ -13284,7 +13284,7 @@ ___
 
 • **Vec<EventId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1120](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1120)*
+*Defined in [packages/types/src/augment/registry.ts:1120](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1120)*
 
 ___
 
@@ -13292,7 +13292,7 @@ ___
 
 • **Vec<EventIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1124](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1124)*
+*Defined in [packages/types/src/augment/registry.ts:1124](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1124)*
 
 ___
 
@@ -13300,7 +13300,7 @@ ___
 
 • **Vec<EventMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1918](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1918)*
+*Defined in [packages/types/src/augment/registry.ts:1918](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1918)*
 
 ___
 
@@ -13308,7 +13308,7 @@ ___
 
 • **Vec<EventMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1393](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1393)*
+*Defined in [packages/types/src/augment/registry.ts:1393](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1393)*
 
 ___
 
@@ -13316,7 +13316,7 @@ ___
 
 • **Vec<EventMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1780](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1780)*
+*Defined in [packages/types/src/augment/registry.ts:1780](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1780)*
 
 ___
 
@@ -13324,7 +13324,7 @@ ___
 
 • **Vec<EventMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1825](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1825)*
+*Defined in [packages/types/src/augment/registry.ts:1825](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1825)*
 
 ___
 
@@ -13332,7 +13332,7 @@ ___
 
 • **Vec<EventMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1873](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1873)*
+*Defined in [packages/types/src/augment/registry.ts:1873](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1873)*
 
 ___
 
@@ -13340,7 +13340,7 @@ ___
 
 • **Vec<EventMetadataV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1444](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1444)*
+*Defined in [packages/types/src/augment/registry.ts:1444](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1444)*
 
 ___
 
@@ -13348,7 +13348,7 @@ ___
 
 • **Vec<EventMetadataV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1468](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1468)*
+*Defined in [packages/types/src/augment/registry.ts:1468](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1468)*
 
 ___
 
@@ -13356,7 +13356,7 @@ ___
 
 • **Vec<EventMetadataV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1501](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1501)*
+*Defined in [packages/types/src/augment/registry.ts:1501](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1501)*
 
 ___
 
@@ -13364,7 +13364,7 @@ ___
 
 • **Vec<EventMetadataV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1534](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1534)*
+*Defined in [packages/types/src/augment/registry.ts:1534](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1534)*
 
 ___
 
@@ -13372,7 +13372,7 @@ ___
 
 • **Vec<EventMetadataV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1570](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1570)*
+*Defined in [packages/types/src/augment/registry.ts:1570](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1570)*
 
 ___
 
@@ -13380,7 +13380,7 @@ ___
 
 • **Vec<EventMetadataV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1606](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1606)*
+*Defined in [packages/types/src/augment/registry.ts:1606](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1606)*
 
 ___
 
@@ -13388,7 +13388,7 @@ ___
 
 • **Vec<EventMetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1645](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1645)*
+*Defined in [packages/types/src/augment/registry.ts:1645](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1645)*
 
 ___
 
@@ -13396,7 +13396,7 @@ ___
 
 • **Vec<EventMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1690](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1690)*
+*Defined in [packages/types/src/augment/registry.ts:1690](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1690)*
 
 ___
 
@@ -13404,7 +13404,7 @@ ___
 
 • **Vec<EventMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1735](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1735)*
+*Defined in [packages/types/src/augment/registry.ts:1735](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1735)*
 
 ___
 
@@ -13412,7 +13412,7 @@ ___
 
 • **Vec<EventRecord>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventRecord›*
 
-*Defined in [packages/types/src/augment/registry.ts:1127](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1127)*
+*Defined in [packages/types/src/augment/registry.ts:1127](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1127)*
 
 ___
 
@@ -13420,7 +13420,7 @@ ___
 
 • **Vec<EventRecordTo76>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹EventRecordTo76›*
 
-*Defined in [packages/types/src/augment/registry.ts:1130](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1130)*
+*Defined in [packages/types/src/augment/registry.ts:1130](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1130)*
 
 ___
 
@@ -13428,7 +13428,7 @@ ___
 
 • **Vec<Exposure>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Exposure›*
 
-*Defined in [packages/types/src/augment/registry.ts:972](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L972)*
+*Defined in [packages/types/src/augment/registry.ts:972](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L972)*
 
 ___
 
@@ -13436,7 +13436,7 @@ ___
 
 • **Vec<Extrinsic>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Extrinsic›*
 
-*Defined in [packages/types/src/augment/registry.ts:613](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L613)*
+*Defined in [packages/types/src/augment/registry.ts:613](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L613)*
 
 ___
 
@@ -13444,7 +13444,7 @@ ___
 
 • **Vec<ExtrinsicEra>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicEra›*
 
-*Defined in [packages/types/src/augment/registry.ts:616](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L616)*
+*Defined in [packages/types/src/augment/registry.ts:616](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L616)*
 
 ___
 
@@ -13452,7 +13452,7 @@ ___
 
 • **Vec<ExtrinsicMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1921](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1921)*
+*Defined in [packages/types/src/augment/registry.ts:1921](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1921)*
 
 ___
 
@@ -13460,7 +13460,7 @@ ___
 
 • **Vec<ExtrinsicMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1828](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1828)*
+*Defined in [packages/types/src/augment/registry.ts:1828](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1828)*
 
 ___
 
@@ -13468,7 +13468,7 @@ ___
 
 • **Vec<ExtrinsicMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1876](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1876)*
+*Defined in [packages/types/src/augment/registry.ts:1876](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1876)*
 
 ___
 
@@ -13476,7 +13476,7 @@ ___
 
 • **Vec<ExtrinsicOrHash>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicOrHash›*
 
-*Defined in [packages/types/src/augment/registry.ts:1966](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1966)*
+*Defined in [packages/types/src/augment/registry.ts:1966](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1966)*
 
 ___
 
@@ -13484,7 +13484,7 @@ ___
 
 • **Vec<ExtrinsicPayload>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicPayload›*
 
-*Defined in [packages/types/src/augment/registry.ts:619](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L619)*
+*Defined in [packages/types/src/augment/registry.ts:619](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L619)*
 
 ___
 
@@ -13492,7 +13492,7 @@ ___
 
 • **Vec<ExtrinsicPayloadUnknown>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicPayloadUnknown›*
 
-*Defined in [packages/types/src/augment/registry.ts:661](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L661)*
+*Defined in [packages/types/src/augment/registry.ts:661](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L661)*
 
 ___
 
@@ -13500,7 +13500,7 @@ ___
 
 • **Vec<ExtrinsicPayloadV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicPayloadV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:625](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L625)*
+*Defined in [packages/types/src/augment/registry.ts:625](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L625)*
 
 ___
 
@@ -13508,7 +13508,7 @@ ___
 
 • **Vec<ExtrinsicPayloadV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicPayloadV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:634](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L634)*
+*Defined in [packages/types/src/augment/registry.ts:634](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L634)*
 
 ___
 
@@ -13516,7 +13516,7 @@ ___
 
 • **Vec<ExtrinsicPayloadV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicPayloadV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:643](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L643)*
+*Defined in [packages/types/src/augment/registry.ts:643](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L643)*
 
 ___
 
@@ -13524,7 +13524,7 @@ ___
 
 • **Vec<ExtrinsicPayloadV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicPayloadV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:652](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L652)*
+*Defined in [packages/types/src/augment/registry.ts:652](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L652)*
 
 ___
 
@@ -13532,7 +13532,7 @@ ___
 
 • **Vec<ExtrinsicSignatureV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicSignatureV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:628](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L628)*
+*Defined in [packages/types/src/augment/registry.ts:628](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L628)*
 
 ___
 
@@ -13540,7 +13540,7 @@ ___
 
 • **Vec<ExtrinsicSignatureV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicSignatureV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:637](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L637)*
+*Defined in [packages/types/src/augment/registry.ts:637](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L637)*
 
 ___
 
@@ -13548,7 +13548,7 @@ ___
 
 • **Vec<ExtrinsicSignatureV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicSignatureV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:646](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L646)*
+*Defined in [packages/types/src/augment/registry.ts:646](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L646)*
 
 ___
 
@@ -13556,7 +13556,7 @@ ___
 
 • **Vec<ExtrinsicSignatureV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicSignatureV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:655](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L655)*
+*Defined in [packages/types/src/augment/registry.ts:655](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L655)*
 
 ___
 
@@ -13564,7 +13564,7 @@ ___
 
 • **Vec<ExtrinsicStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:1969](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1969)*
+*Defined in [packages/types/src/augment/registry.ts:1969](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1969)*
 
 ___
 
@@ -13572,7 +13572,7 @@ ___
 
 • **Vec<ExtrinsicUnknown>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicUnknown›*
 
-*Defined in [packages/types/src/augment/registry.ts:658](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L658)*
+*Defined in [packages/types/src/augment/registry.ts:658](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L658)*
 
 ___
 
@@ -13580,7 +13580,7 @@ ___
 
 • **Vec<ExtrinsicV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:622](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L622)*
+*Defined in [packages/types/src/augment/registry.ts:622](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L622)*
 
 ___
 
@@ -13588,7 +13588,7 @@ ___
 
 • **Vec<ExtrinsicV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:631](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L631)*
+*Defined in [packages/types/src/augment/registry.ts:631](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L631)*
 
 ___
 
@@ -13596,7 +13596,7 @@ ___
 
 • **Vec<ExtrinsicV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:640](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L640)*
+*Defined in [packages/types/src/augment/registry.ts:640](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L640)*
 
 ___
 
@@ -13604,7 +13604,7 @@ ___
 
 • **Vec<ExtrinsicV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:649](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L649)*
+*Defined in [packages/types/src/augment/registry.ts:649](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L649)*
 
 ___
 
@@ -13612,7 +13612,7 @@ ___
 
 • **Vec<ExtrinsicsWeight>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ExtrinsicsWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:230](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L230)*
+*Defined in [packages/types/src/augment/registry.ts:230](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L230)*
 
 ___
 
@@ -13620,7 +13620,7 @@ ___
 
 • **Vec<Fixed128>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Fixed128›*
 
-*Defined in [packages/types/src/augment/registry.ts:144](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L144)*
+*Defined in [packages/types/src/augment/registry.ts:144](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L144)*
 
 ___
 
@@ -13628,7 +13628,7 @@ ___
 
 • **Vec<Fixed64>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Fixed64›*
 
-*Defined in [packages/types/src/augment/registry.ts:135](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L135)*
+*Defined in [packages/types/src/augment/registry.ts:135](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L135)*
 
 ___
 
@@ -13636,7 +13636,7 @@ ___
 
 • **Vec<FixedI128>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FixedI128›*
 
-*Defined in [packages/types/src/augment/registry.ts:147](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L147)*
+*Defined in [packages/types/src/augment/registry.ts:147](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L147)*
 
 ___
 
@@ -13644,7 +13644,7 @@ ___
 
 • **Vec<FixedI64>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FixedI64›*
 
-*Defined in [packages/types/src/augment/registry.ts:138](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L138)*
+*Defined in [packages/types/src/augment/registry.ts:138](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L138)*
 
 ___
 
@@ -13652,7 +13652,7 @@ ___
 
 • **Vec<FixedU128>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FixedU128›*
 
-*Defined in [packages/types/src/augment/registry.ts:150](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L150)*
+*Defined in [packages/types/src/augment/registry.ts:150](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L150)*
 
 ___
 
@@ -13660,7 +13660,7 @@ ___
 
 • **Vec<FixedU64>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FixedU64›*
 
-*Defined in [packages/types/src/augment/registry.ts:141](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L141)*
+*Defined in [packages/types/src/augment/registry.ts:141](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L141)*
 
 ___
 
@@ -13668,7 +13668,7 @@ ___
 
 • **Vec<Forcing>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Forcing›*
 
-*Defined in [packages/types/src/augment/registry.ts:975](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L975)*
+*Defined in [packages/types/src/augment/registry.ts:975](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L975)*
 
 ___
 
@@ -13676,7 +13676,7 @@ ___
 
 • **Vec<FullIdentification>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FullIdentification›*
 
-*Defined in [packages/types/src/augment/registry.ts:889](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L889)*
+*Defined in [packages/types/src/augment/registry.ts:889](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L889)*
 
 ___
 
@@ -13684,7 +13684,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1924](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1924)*
+*Defined in [packages/types/src/augment/registry.ts:1924](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1924)*
 
 ___
 
@@ -13692,7 +13692,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1396](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1396)*
+*Defined in [packages/types/src/augment/registry.ts:1396](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1396)*
 
 ___
 
@@ -13700,7 +13700,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1783](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1783)*
+*Defined in [packages/types/src/augment/registry.ts:1783](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1783)*
 
 ___
 
@@ -13708,7 +13708,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1831](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1831)*
+*Defined in [packages/types/src/augment/registry.ts:1831](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1831)*
 
 ___
 
@@ -13716,7 +13716,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1879](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1879)*
+*Defined in [packages/types/src/augment/registry.ts:1879](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1879)*
 
 ___
 
@@ -13724,7 +13724,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1447](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1447)*
+*Defined in [packages/types/src/augment/registry.ts:1447](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1447)*
 
 ___
 
@@ -13732,7 +13732,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1471](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1471)*
+*Defined in [packages/types/src/augment/registry.ts:1471](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1471)*
 
 ___
 
@@ -13740,7 +13740,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1504](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1504)*
+*Defined in [packages/types/src/augment/registry.ts:1504](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1504)*
 
 ___
 
@@ -13748,7 +13748,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1537](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1537)*
+*Defined in [packages/types/src/augment/registry.ts:1537](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1537)*
 
 ___
 
@@ -13756,7 +13756,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1573](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1573)*
+*Defined in [packages/types/src/augment/registry.ts:1573](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1573)*
 
 ___
 
@@ -13764,7 +13764,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1609](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1609)*
+*Defined in [packages/types/src/augment/registry.ts:1609](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1609)*
 
 ___
 
@@ -13772,7 +13772,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1648](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1648)*
+*Defined in [packages/types/src/augment/registry.ts:1648](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1648)*
 
 ___
 
@@ -13780,7 +13780,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1693](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1693)*
+*Defined in [packages/types/src/augment/registry.ts:1693](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1693)*
 
 ___
 
@@ -13788,7 +13788,7 @@ ___
 
 • **Vec<FunctionArgumentMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionArgumentMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1738](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1738)*
+*Defined in [packages/types/src/augment/registry.ts:1738](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1738)*
 
 ___
 
@@ -13796,7 +13796,7 @@ ___
 
 • **Vec<FunctionMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1927](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1927)*
+*Defined in [packages/types/src/augment/registry.ts:1927](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1927)*
 
 ___
 
@@ -13804,7 +13804,7 @@ ___
 
 • **Vec<FunctionMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1399](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1399)*
+*Defined in [packages/types/src/augment/registry.ts:1399](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1399)*
 
 ___
 
@@ -13812,7 +13812,7 @@ ___
 
 • **Vec<FunctionMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1786](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1786)*
+*Defined in [packages/types/src/augment/registry.ts:1786](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1786)*
 
 ___
 
@@ -13820,7 +13820,7 @@ ___
 
 • **Vec<FunctionMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1834](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1834)*
+*Defined in [packages/types/src/augment/registry.ts:1834](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1834)*
 
 ___
 
@@ -13828,7 +13828,7 @@ ___
 
 • **Vec<FunctionMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1882](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1882)*
+*Defined in [packages/types/src/augment/registry.ts:1882](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1882)*
 
 ___
 
@@ -13836,7 +13836,7 @@ ___
 
 • **Vec<FunctionMetadataV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1450](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1450)*
+*Defined in [packages/types/src/augment/registry.ts:1450](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1450)*
 
 ___
 
@@ -13844,7 +13844,7 @@ ___
 
 • **Vec<FunctionMetadataV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1474](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1474)*
+*Defined in [packages/types/src/augment/registry.ts:1474](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1474)*
 
 ___
 
@@ -13852,7 +13852,7 @@ ___
 
 • **Vec<FunctionMetadataV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1507](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1507)*
+*Defined in [packages/types/src/augment/registry.ts:1507](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1507)*
 
 ___
 
@@ -13860,7 +13860,7 @@ ___
 
 • **Vec<FunctionMetadataV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1540](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1540)*
+*Defined in [packages/types/src/augment/registry.ts:1540](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1540)*
 
 ___
 
@@ -13868,7 +13868,7 @@ ___
 
 • **Vec<FunctionMetadataV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1576](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1576)*
+*Defined in [packages/types/src/augment/registry.ts:1576](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1576)*
 
 ___
 
@@ -13876,7 +13876,7 @@ ___
 
 • **Vec<FunctionMetadataV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1612](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1612)*
+*Defined in [packages/types/src/augment/registry.ts:1612](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1612)*
 
 ___
 
@@ -13884,7 +13884,7 @@ ___
 
 • **Vec<FunctionMetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1651](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1651)*
+*Defined in [packages/types/src/augment/registry.ts:1651](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1651)*
 
 ___
 
@@ -13892,7 +13892,7 @@ ___
 
 • **Vec<FunctionMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1696](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1696)*
+*Defined in [packages/types/src/augment/registry.ts:1696](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1696)*
 
 ___
 
@@ -13900,7 +13900,7 @@ ___
 
 • **Vec<FunctionMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹FunctionMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1741](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1741)*
+*Defined in [packages/types/src/augment/registry.ts:1741](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1741)*
 
 ___
 
@@ -13908,7 +13908,7 @@ ___
 
 • **Vec<Gas>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Gas›*
 
-*Defined in [packages/types/src/augment/registry.ts:482](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L482)*
+*Defined in [packages/types/src/augment/registry.ts:482](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L482)*
 
 ___
 
@@ -13916,7 +13916,7 @@ ___
 
 • **Vec<GenericAddress>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹GenericAddress›*
 
-*Defined in [packages/types/src/augment/registry.ts:233](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L233)*
+*Defined in [packages/types/src/augment/registry.ts:233](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L233)*
 
 ___
 
@@ -13924,7 +13924,7 @@ ___
 
 • **Vec<GlobalValidationSchedule>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹GlobalValidationSchedule›*
 
-*Defined in [packages/types/src/augment/registry.ts:1286](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1286)*
+*Defined in [packages/types/src/augment/registry.ts:1286](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1286)*
 
 ___
 
@@ -13932,7 +13932,7 @@ ___
 
 • **Vec<GrandpaEquivocation>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹GrandpaEquivocation›*
 
-*Defined in [packages/types/src/augment/registry.ts:717](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L717)*
+*Defined in [packages/types/src/augment/registry.ts:717](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L717)*
 
 ___
 
@@ -13940,7 +13940,7 @@ ___
 
 • **Vec<GrandpaEquivocationProof>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹GrandpaEquivocationProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:720](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L720)*
+*Defined in [packages/types/src/augment/registry.ts:720](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L720)*
 
 ___
 
@@ -13948,7 +13948,7 @@ ___
 
 • **Vec<GrandpaEquivocationValue>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹GrandpaEquivocationValue›*
 
-*Defined in [packages/types/src/augment/registry.ts:723](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L723)*
+*Defined in [packages/types/src/augment/registry.ts:723](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L723)*
 
 ___
 
@@ -13956,7 +13956,7 @@ ___
 
 • **Vec<GrandpaPrevote>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹GrandpaPrevote›*
 
-*Defined in [packages/types/src/augment/registry.ts:726](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L726)*
+*Defined in [packages/types/src/augment/registry.ts:726](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L726)*
 
 ___
 
@@ -13964,7 +13964,7 @@ ___
 
 • **Vec<H160>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹H160›*
 
-*Defined in [packages/types/src/augment/registry.ts:236](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L236)*
+*Defined in [packages/types/src/augment/registry.ts:236](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L236)*
 
 ___
 
@@ -13972,7 +13972,7 @@ ___
 
 • **Vec<H256>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹H256›*
 
-*Defined in [packages/types/src/augment/registry.ts:239](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L239)*
+*Defined in [packages/types/src/augment/registry.ts:239](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L239)*
 
 ___
 
@@ -13980,7 +13980,7 @@ ___
 
 • **Vec<H512>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹H512›*
 
-*Defined in [packages/types/src/augment/registry.ts:242](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L242)*
+*Defined in [packages/types/src/augment/registry.ts:242](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L242)*
 
 ___
 
@@ -13988,7 +13988,7 @@ ___
 
 • **Vec<Hash>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Hash›*
 
-*Defined in [packages/types/src/augment/registry.ts:245](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L245)*
+*Defined in [packages/types/src/augment/registry.ts:245](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L245)*
 
 ___
 
@@ -13996,7 +13996,7 @@ ___
 
 • **Vec<HeadData>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹HeadData›*
 
-*Defined in [packages/types/src/augment/registry.ts:1289](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1289)*
+*Defined in [packages/types/src/augment/registry.ts:1289](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1289)*
 
 ___
 
@@ -14004,7 +14004,7 @@ ___
 
 • **Vec<Header>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Header›*
 
-*Defined in [packages/types/src/augment/registry.ts:248](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L248)*
+*Defined in [packages/types/src/augment/registry.ts:248](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L248)*
 
 ___
 
@@ -14012,7 +14012,7 @@ ___
 
 • **Vec<Health>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Health›*
 
-*Defined in [packages/types/src/augment/registry.ts:1133](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1133)*
+*Defined in [packages/types/src/augment/registry.ts:1133](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1133)*
 
 ___
 
@@ -14020,7 +14020,7 @@ ___
 
 • **Vec<Heartbeat>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Heartbeat›*
 
-*Defined in [packages/types/src/augment/registry.ts:798](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L798)*
+*Defined in [packages/types/src/augment/registry.ts:798](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L798)*
 
 ___
 
@@ -14028,7 +14028,7 @@ ___
 
 • **Vec<HeartbeatTo244>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹HeartbeatTo244›*
 
-*Defined in [packages/types/src/augment/registry.ts:801](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L801)*
+*Defined in [packages/types/src/augment/registry.ts:801](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L801)*
 
 ___
 
@@ -14036,7 +14036,7 @@ ___
 
 • **Vec<I32F32>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹I32F32›*
 
-*Defined in [packages/types/src/augment/registry.ts:153](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L153)*
+*Defined in [packages/types/src/augment/registry.ts:153](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L153)*
 
 ___
 
@@ -14044,7 +14044,7 @@ ___
 
 • **Vec<IdentificationTuple>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IdentificationTuple›*
 
-*Defined in [packages/types/src/augment/registry.ts:892](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L892)*
+*Defined in [packages/types/src/augment/registry.ts:892](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L892)*
 
 ___
 
@@ -14052,7 +14052,7 @@ ___
 
 • **Vec<IdentityFields>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IdentityFields›*
 
-*Defined in [packages/types/src/augment/registry.ts:766](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L766)*
+*Defined in [packages/types/src/augment/registry.ts:766](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L766)*
 
 ___
 
@@ -14060,7 +14060,7 @@ ___
 
 • **Vec<IdentityInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IdentityInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:772](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L772)*
+*Defined in [packages/types/src/augment/registry.ts:772](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L772)*
 
 ___
 
@@ -14068,7 +14068,7 @@ ___
 
 • **Vec<IdentityInfoAdditional>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IdentityInfoAdditional›*
 
-*Defined in [packages/types/src/augment/registry.ts:769](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L769)*
+*Defined in [packages/types/src/augment/registry.ts:769](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L769)*
 
 ___
 
@@ -14076,7 +14076,7 @@ ___
 
 • **Vec<IdentityJudgement>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IdentityJudgement›*
 
-*Defined in [packages/types/src/augment/registry.ts:775](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L775)*
+*Defined in [packages/types/src/augment/registry.ts:775](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L775)*
 
 ___
 
@@ -14084,7 +14084,7 @@ ___
 
 • **Vec<ImmortalEra>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ImmortalEra›*
 
-*Defined in [packages/types/src/augment/registry.ts:664](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L664)*
+*Defined in [packages/types/src/augment/registry.ts:664](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L664)*
 
 ___
 
@@ -14092,7 +14092,7 @@ ___
 
 • **Vec<ImportedAux>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ImportedAux›*
 
-*Defined in [packages/types/src/augment/registry.ts:601](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L601)*
+*Defined in [packages/types/src/augment/registry.ts:601](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L601)*
 
 ___
 
@@ -14100,7 +14100,7 @@ ___
 
 • **Vec<IncludedBlocks>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IncludedBlocks›*
 
-*Defined in [packages/types/src/augment/registry.ts:1237](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1237)*
+*Defined in [packages/types/src/augment/registry.ts:1237](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1237)*
 
 ___
 
@@ -14108,7 +14108,7 @@ ___
 
 • **Vec<IncomingParachain>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IncomingParachain›*
 
-*Defined in [packages/types/src/augment/registry.ts:1292](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1292)*
+*Defined in [packages/types/src/augment/registry.ts:1292](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1292)*
 
 ___
 
@@ -14116,7 +14116,7 @@ ___
 
 • **Vec<IncomingParachainDeploy>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IncomingParachainDeploy›*
 
-*Defined in [packages/types/src/augment/registry.ts:1298](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1298)*
+*Defined in [packages/types/src/augment/registry.ts:1298](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1298)*
 
 ___
 
@@ -14124,7 +14124,7 @@ ___
 
 • **Vec<IncomingParachainFixed>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IncomingParachainFixed›*
 
-*Defined in [packages/types/src/augment/registry.ts:1295](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1295)*
+*Defined in [packages/types/src/augment/registry.ts:1295](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1295)*
 
 ___
 
@@ -14132,7 +14132,7 @@ ___
 
 • **Vec<Index>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Index›*
 
-*Defined in [packages/types/src/augment/registry.ts:252](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L252)*
+*Defined in [packages/types/src/augment/registry.ts:252](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L252)*
 
 ___
 
@@ -14140,7 +14140,7 @@ ___
 
 • **Vec<IndividualExposure>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹IndividualExposure›*
 
-*Defined in [packages/types/src/augment/registry.ts:978](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L978)*
+*Defined in [packages/types/src/augment/registry.ts:978](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L978)*
 
 ___
 
@@ -14148,7 +14148,7 @@ ___
 
 • **Vec<InvalidTransaction>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹InvalidTransaction›*
 
-*Defined in [packages/types/src/augment/registry.ts:1136](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1136)*
+*Defined in [packages/types/src/augment/registry.ts:1136](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1136)*
 
 ___
 
@@ -14156,7 +14156,7 @@ ___
 
 • **Vec<Justification>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Justification›*
 
-*Defined in [packages/types/src/augment/registry.ts:255](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L255)*
+*Defined in [packages/types/src/augment/registry.ts:255](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L255)*
 
 ___
 
@@ -14164,7 +14164,7 @@ ___
 
 • **Vec<JustificationNotification>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹JustificationNotification›*
 
-*Defined in [packages/types/src/augment/registry.ts:729](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L729)*
+*Defined in [packages/types/src/augment/registry.ts:729](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L729)*
 
 ___
 
@@ -14172,7 +14172,7 @@ ___
 
 • **Vec<Key>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Key›*
 
-*Defined in [packages/types/src/augment/registry.ts:1139](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1139)*
+*Defined in [packages/types/src/augment/registry.ts:1139](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1139)*
 
 ___
 
@@ -14180,7 +14180,7 @@ ___
 
 • **Vec<KeyOwnerProof>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹KeyOwnerProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:732](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L732)*
+*Defined in [packages/types/src/augment/registry.ts:732](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L732)*
 
 ___
 
@@ -14188,7 +14188,7 @@ ___
 
 • **Vec<KeyType>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹KeyType›*
 
-*Defined in [packages/types/src/augment/registry.ts:981](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L981)*
+*Defined in [packages/types/src/augment/registry.ts:981](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L981)*
 
 ___
 
@@ -14196,7 +14196,7 @@ ___
 
 • **Vec<KeyTypeId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹KeyTypeId›*
 
-*Defined in [packages/types/src/augment/registry.ts:262](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L262)*
+*Defined in [packages/types/src/augment/registry.ts:262](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L262)*
 
 ___
 
@@ -14204,7 +14204,7 @@ ___
 
 • **Vec<KeyValue>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹KeyValue›*
 
-*Defined in [packages/types/src/augment/registry.ts:258](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L258)*
+*Defined in [packages/types/src/augment/registry.ts:258](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L258)*
 
 ___
 
@@ -14212,7 +14212,7 @@ ___
 
 • **Vec<KeyValueOption>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹KeyValueOption›*
 
-*Defined in [packages/types/src/augment/registry.ts:1987](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1987)*
+*Defined in [packages/types/src/augment/registry.ts:1987](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1987)*
 
 ___
 
@@ -14220,7 +14220,7 @@ ___
 
 • **Vec<Keys>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Keys›*
 
-*Defined in [packages/types/src/augment/registry.ts:868](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L868)*
+*Defined in [packages/types/src/augment/registry.ts:868](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L868)*
 
 ___
 
@@ -14228,7 +14228,7 @@ ___
 
 • **Vec<Kind>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Kind›*
 
-*Defined in [packages/types/src/augment/registry.ts:816](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L816)*
+*Defined in [packages/types/src/augment/registry.ts:816](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L816)*
 
 ___
 
@@ -14236,7 +14236,7 @@ ___
 
 • **Vec<LastRuntimeUpgradeInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹LastRuntimeUpgradeInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1142](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1142)*
+*Defined in [packages/types/src/augment/registry.ts:1142](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1142)*
 
 ___
 
@@ -14244,7 +14244,7 @@ ___
 
 • **Vec<LeasePeriod>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹LeasePeriod›*
 
-*Defined in [packages/types/src/augment/registry.ts:1301](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1301)*
+*Defined in [packages/types/src/augment/registry.ts:1301](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1301)*
 
 ___
 
@@ -14252,7 +14252,7 @@ ___
 
 • **Vec<LeasePeriodOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹LeasePeriodOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:1304](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1304)*
+*Defined in [packages/types/src/augment/registry.ts:1304](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1304)*
 
 ___
 
@@ -14260,7 +14260,7 @@ ___
 
 • **Vec<LocalValidationData>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹LocalValidationData›*
 
-*Defined in [packages/types/src/augment/registry.ts:1307](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1307)*
+*Defined in [packages/types/src/augment/registry.ts:1307](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1307)*
 
 ___
 
@@ -14268,7 +14268,7 @@ ___
 
 • **Vec<LockIdentifier>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹LockIdentifier›*
 
-*Defined in [packages/types/src/augment/registry.ts:265](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L265)*
+*Defined in [packages/types/src/augment/registry.ts:265](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L265)*
 
 ___
 
@@ -14276,7 +14276,7 @@ ___
 
 • **Vec<Log>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Log›*
 
-*Defined in [packages/types/src/augment/registry.ts:607](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L607)*
+*Defined in [packages/types/src/augment/registry.ts:607](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L607)*
 
 ___
 
@@ -14284,7 +14284,7 @@ ___
 
 • **Vec<LookupSource>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹LookupSource›*
 
-*Defined in [packages/types/src/augment/registry.ts:268](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L268)*
+*Defined in [packages/types/src/augment/registry.ts:268](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L268)*
 
 ___
 
@@ -14292,7 +14292,7 @@ ___
 
 • **Vec<LookupTarget>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹LookupTarget›*
 
-*Defined in [packages/types/src/augment/registry.ts:271](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L271)*
+*Defined in [packages/types/src/augment/registry.ts:271](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L271)*
 
 ___
 
@@ -14300,7 +14300,7 @@ ___
 
 • **Vec<MapTypeLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1930](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1930)*
+*Defined in [packages/types/src/augment/registry.ts:1930](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1930)*
 
 ___
 
@@ -14308,7 +14308,7 @@ ___
 
 • **Vec<MapTypeV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1402](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1402)*
+*Defined in [packages/types/src/augment/registry.ts:1402](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1402)*
 
 ___
 
@@ -14316,7 +14316,7 @@ ___
 
 • **Vec<MapTypeV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1789](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1789)*
+*Defined in [packages/types/src/augment/registry.ts:1789](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1789)*
 
 ___
 
@@ -14324,7 +14324,7 @@ ___
 
 • **Vec<MapTypeV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1837](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1837)*
+*Defined in [packages/types/src/augment/registry.ts:1837](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1837)*
 
 ___
 
@@ -14332,7 +14332,7 @@ ___
 
 • **Vec<MapTypeV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1885](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1885)*
+*Defined in [packages/types/src/augment/registry.ts:1885](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1885)*
 
 ___
 
@@ -14340,7 +14340,7 @@ ___
 
 • **Vec<MapTypeV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1477](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1477)*
+*Defined in [packages/types/src/augment/registry.ts:1477](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1477)*
 
 ___
 
@@ -14348,7 +14348,7 @@ ___
 
 • **Vec<MapTypeV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1510](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1510)*
+*Defined in [packages/types/src/augment/registry.ts:1510](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1510)*
 
 ___
 
@@ -14356,7 +14356,7 @@ ___
 
 • **Vec<MapTypeV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1543](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1543)*
+*Defined in [packages/types/src/augment/registry.ts:1543](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1543)*
 
 ___
 
@@ -14364,7 +14364,7 @@ ___
 
 • **Vec<MapTypeV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1579](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1579)*
+*Defined in [packages/types/src/augment/registry.ts:1579](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1579)*
 
 ___
 
@@ -14372,7 +14372,7 @@ ___
 
 • **Vec<MapTypeV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1615](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1615)*
+*Defined in [packages/types/src/augment/registry.ts:1615](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1615)*
 
 ___
 
@@ -14380,7 +14380,7 @@ ___
 
 • **Vec<MapTypeV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1654](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1654)*
+*Defined in [packages/types/src/augment/registry.ts:1654](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1654)*
 
 ___
 
@@ -14388,7 +14388,7 @@ ___
 
 • **Vec<MapTypeV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1699](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1699)*
+*Defined in [packages/types/src/augment/registry.ts:1699](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1699)*
 
 ___
 
@@ -14396,7 +14396,7 @@ ___
 
 • **Vec<MapTypeV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MapTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1744](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1744)*
+*Defined in [packages/types/src/augment/registry.ts:1744](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1744)*
 
 ___
 
@@ -14404,7 +14404,7 @@ ___
 
 • **Vec<MaybeRandomness>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MaybeRandomness›*
 
-*Defined in [packages/types/src/augment/registry.ts:358](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L358)*
+*Defined in [packages/types/src/augment/registry.ts:358](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L358)*
 
 ___
 
@@ -14412,7 +14412,7 @@ ___
 
 • **Vec<MaybeVrf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MaybeVrf›*
 
-*Defined in [packages/types/src/augment/registry.ts:361](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L361)*
+*Defined in [packages/types/src/augment/registry.ts:361](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L361)*
 
 ___
 
@@ -14420,7 +14420,7 @@ ___
 
 • **Vec<MemberCount>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MemberCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:435](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L435)*
+*Defined in [packages/types/src/augment/registry.ts:435](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L435)*
 
 ___
 
@@ -14428,7 +14428,7 @@ ___
 
 • **Vec<MembershipProof>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MembershipProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:895](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L895)*
+*Defined in [packages/types/src/augment/registry.ts:895](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L895)*
 
 ___
 
@@ -14436,7 +14436,7 @@ ___
 
 • **Vec<MetadataAll>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataAll›*
 
-*Defined in [packages/types/src/augment/registry.ts:1960](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1960)*
+*Defined in [packages/types/src/augment/registry.ts:1960](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1960)*
 
 ___
 
@@ -14444,7 +14444,7 @@ ___
 
 • **Vec<MetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1933](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1933)*
+*Defined in [packages/types/src/augment/registry.ts:1933](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1933)*
 
 ___
 
@@ -14452,7 +14452,7 @@ ___
 
 • **Vec<MetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1405](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1405)*
+*Defined in [packages/types/src/augment/registry.ts:1405](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1405)*
 
 ___
 
@@ -14460,7 +14460,7 @@ ___
 
 • **Vec<MetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1792](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1792)*
+*Defined in [packages/types/src/augment/registry.ts:1792](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1792)*
 
 ___
 
@@ -14468,7 +14468,7 @@ ___
 
 • **Vec<MetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1840](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1840)*
+*Defined in [packages/types/src/augment/registry.ts:1840](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1840)*
 
 ___
 
@@ -14476,7 +14476,7 @@ ___
 
 • **Vec<MetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1888](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1888)*
+*Defined in [packages/types/src/augment/registry.ts:1888](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1888)*
 
 ___
 
@@ -14484,7 +14484,7 @@ ___
 
 • **Vec<MetadataV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1453](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1453)*
+*Defined in [packages/types/src/augment/registry.ts:1453](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1453)*
 
 ___
 
@@ -14492,7 +14492,7 @@ ___
 
 • **Vec<MetadataV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1480](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1480)*
+*Defined in [packages/types/src/augment/registry.ts:1480](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1480)*
 
 ___
 
@@ -14500,7 +14500,7 @@ ___
 
 • **Vec<MetadataV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1513](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1513)*
+*Defined in [packages/types/src/augment/registry.ts:1513](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1513)*
 
 ___
 
@@ -14508,7 +14508,7 @@ ___
 
 • **Vec<MetadataV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1546](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1546)*
+*Defined in [packages/types/src/augment/registry.ts:1546](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1546)*
 
 ___
 
@@ -14516,7 +14516,7 @@ ___
 
 • **Vec<MetadataV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1582](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1582)*
+*Defined in [packages/types/src/augment/registry.ts:1582](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1582)*
 
 ___
 
@@ -14524,7 +14524,7 @@ ___
 
 • **Vec<MetadataV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1618](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1618)*
+*Defined in [packages/types/src/augment/registry.ts:1618](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1618)*
 
 ___
 
@@ -14532,7 +14532,7 @@ ___
 
 • **Vec<MetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1657](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1657)*
+*Defined in [packages/types/src/augment/registry.ts:1657](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1657)*
 
 ___
 
@@ -14540,7 +14540,7 @@ ___
 
 • **Vec<MetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1702](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1702)*
+*Defined in [packages/types/src/augment/registry.ts:1702](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1702)*
 
 ___
 
@@ -14548,7 +14548,7 @@ ___
 
 • **Vec<MetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1747](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1747)*
+*Defined in [packages/types/src/augment/registry.ts:1747](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1747)*
 
 ___
 
@@ -14556,7 +14556,7 @@ ___
 
 • **Vec<ModuleConstantMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1936](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1936)*
+*Defined in [packages/types/src/augment/registry.ts:1936](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1936)*
 
 ___
 
@@ -14564,7 +14564,7 @@ ___
 
 • **Vec<ModuleConstantMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1795](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1795)*
+*Defined in [packages/types/src/augment/registry.ts:1795](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1795)*
 
 ___
 
@@ -14572,7 +14572,7 @@ ___
 
 • **Vec<ModuleConstantMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1843](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1843)*
+*Defined in [packages/types/src/augment/registry.ts:1843](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1843)*
 
 ___
 
@@ -14580,7 +14580,7 @@ ___
 
 • **Vec<ModuleConstantMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1891](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1891)*
+*Defined in [packages/types/src/augment/registry.ts:1891](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1891)*
 
 ___
 
@@ -14588,7 +14588,7 @@ ___
 
 • **Vec<ModuleConstantMetadataV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1621](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1621)*
+*Defined in [packages/types/src/augment/registry.ts:1621](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1621)*
 
 ___
 
@@ -14596,7 +14596,7 @@ ___
 
 • **Vec<ModuleConstantMetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1660](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1660)*
+*Defined in [packages/types/src/augment/registry.ts:1660](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1660)*
 
 ___
 
@@ -14604,7 +14604,7 @@ ___
 
 • **Vec<ModuleConstantMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1705](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1705)*
+*Defined in [packages/types/src/augment/registry.ts:1705](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1705)*
 
 ___
 
@@ -14612,7 +14612,7 @@ ___
 
 • **Vec<ModuleConstantMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleConstantMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1750](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1750)*
+*Defined in [packages/types/src/augment/registry.ts:1750](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1750)*
 
 ___
 
@@ -14620,7 +14620,7 @@ ___
 
 • **Vec<ModuleId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleId›*
 
-*Defined in [packages/types/src/augment/registry.ts:274](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L274)*
+*Defined in [packages/types/src/augment/registry.ts:274](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L274)*
 
 ___
 
@@ -14628,7 +14628,7 @@ ___
 
 • **Vec<ModuleMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1939](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1939)*
+*Defined in [packages/types/src/augment/registry.ts:1939](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1939)*
 
 ___
 
@@ -14636,7 +14636,7 @@ ___
 
 • **Vec<ModuleMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1408](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1408)*
+*Defined in [packages/types/src/augment/registry.ts:1408](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1408)*
 
 ___
 
@@ -14644,7 +14644,7 @@ ___
 
 • **Vec<ModuleMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1798](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1798)*
+*Defined in [packages/types/src/augment/registry.ts:1798](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1798)*
 
 ___
 
@@ -14652,7 +14652,7 @@ ___
 
 • **Vec<ModuleMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1846](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1846)*
+*Defined in [packages/types/src/augment/registry.ts:1846](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1846)*
 
 ___
 
@@ -14660,7 +14660,7 @@ ___
 
 • **Vec<ModuleMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1894](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1894)*
+*Defined in [packages/types/src/augment/registry.ts:1894](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1894)*
 
 ___
 
@@ -14668,7 +14668,7 @@ ___
 
 • **Vec<ModuleMetadataV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1456](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1456)*
+*Defined in [packages/types/src/augment/registry.ts:1456](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1456)*
 
 ___
 
@@ -14676,7 +14676,7 @@ ___
 
 • **Vec<ModuleMetadataV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1483](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1483)*
+*Defined in [packages/types/src/augment/registry.ts:1483](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1483)*
 
 ___
 
@@ -14684,7 +14684,7 @@ ___
 
 • **Vec<ModuleMetadataV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1516](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1516)*
+*Defined in [packages/types/src/augment/registry.ts:1516](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1516)*
 
 ___
 
@@ -14692,7 +14692,7 @@ ___
 
 • **Vec<ModuleMetadataV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1549](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1549)*
+*Defined in [packages/types/src/augment/registry.ts:1549](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1549)*
 
 ___
 
@@ -14700,7 +14700,7 @@ ___
 
 • **Vec<ModuleMetadataV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1585](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1585)*
+*Defined in [packages/types/src/augment/registry.ts:1585](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1585)*
 
 ___
 
@@ -14708,7 +14708,7 @@ ___
 
 • **Vec<ModuleMetadataV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1624](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1624)*
+*Defined in [packages/types/src/augment/registry.ts:1624](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1624)*
 
 ___
 
@@ -14716,7 +14716,7 @@ ___
 
 • **Vec<ModuleMetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1663](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1663)*
+*Defined in [packages/types/src/augment/registry.ts:1663](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1663)*
 
 ___
 
@@ -14724,7 +14724,7 @@ ___
 
 • **Vec<ModuleMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1708](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1708)*
+*Defined in [packages/types/src/augment/registry.ts:1708](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1708)*
 
 ___
 
@@ -14732,7 +14732,7 @@ ___
 
 • **Vec<ModuleMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ModuleMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1753](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1753)*
+*Defined in [packages/types/src/augment/registry.ts:1753](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1753)*
 
 ___
 
@@ -14740,7 +14740,7 @@ ___
 
 • **Vec<Moment>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Moment›*
 
-*Defined in [packages/types/src/augment/registry.ts:278](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L278)*
+*Defined in [packages/types/src/augment/registry.ts:278](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L278)*
 
 ___
 
@@ -14748,7 +14748,7 @@ ___
 
 • **Vec<MomentOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MomentOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:984](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L984)*
+*Defined in [packages/types/src/augment/registry.ts:984](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L984)*
 
 ___
 
@@ -14756,7 +14756,7 @@ ___
 
 • **Vec<MoreAttestations>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MoreAttestations›*
 
-*Defined in [packages/types/src/augment/registry.ts:1240](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1240)*
+*Defined in [packages/types/src/augment/registry.ts:1240](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1240)*
 
 ___
 
@@ -14764,7 +14764,7 @@ ___
 
 • **Vec<MortalEra>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MortalEra›*
 
-*Defined in [packages/types/src/augment/registry.ts:667](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L667)*
+*Defined in [packages/types/src/augment/registry.ts:667](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L667)*
 
 ___
 
@@ -14772,7 +14772,7 @@ ___
 
 • **Vec<MultiSignature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹MultiSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:670](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L670)*
+*Defined in [packages/types/src/augment/registry.ts:670](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L670)*
 
 ___
 
@@ -14780,7 +14780,7 @@ ___
 
 • **Vec<Multiplier>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Multiplier›*
 
-*Defined in [packages/types/src/augment/registry.ts:1222](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1222)*
+*Defined in [packages/types/src/augment/registry.ts:1222](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1222)*
 
 ___
 
@@ -14788,7 +14788,7 @@ ___
 
 • **Vec<Multisig>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Multisig›*
 
-*Defined in [packages/types/src/augment/registry.ts:1225](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1225)*
+*Defined in [packages/types/src/augment/registry.ts:1225](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1225)*
 
 ___
 
@@ -14796,7 +14796,7 @@ ___
 
 • **Vec<NetworkState>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NetworkState›*
 
-*Defined in [packages/types/src/augment/registry.ts:1145](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1145)*
+*Defined in [packages/types/src/augment/registry.ts:1145](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1145)*
 
 ___
 
@@ -14804,7 +14804,7 @@ ___
 
 • **Vec<NetworkStatePeerset>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NetworkStatePeerset›*
 
-*Defined in [packages/types/src/augment/registry.ts:1148](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1148)*
+*Defined in [packages/types/src/augment/registry.ts:1148](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1148)*
 
 ___
 
@@ -14812,7 +14812,7 @@ ___
 
 • **Vec<NetworkStatePeersetInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NetworkStatePeersetInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1151](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1151)*
+*Defined in [packages/types/src/augment/registry.ts:1151](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1151)*
 
 ___
 
@@ -14820,7 +14820,7 @@ ___
 
 • **Vec<NewBidder>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NewBidder›*
 
-*Defined in [packages/types/src/augment/registry.ts:1310](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1310)*
+*Defined in [packages/types/src/augment/registry.ts:1310](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1310)*
 
 ___
 
@@ -14828,7 +14828,7 @@ ___
 
 • **Vec<NextAuthority>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NextAuthority›*
 
-*Defined in [packages/types/src/augment/registry.ts:735](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L735)*
+*Defined in [packages/types/src/augment/registry.ts:735](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L735)*
 
 ___
 
@@ -14836,7 +14836,7 @@ ___
 
 • **Vec<NextConfigDescriptor>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NextConfigDescriptor›*
 
-*Defined in [packages/types/src/augment/registry.ts:367](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L367)*
+*Defined in [packages/types/src/augment/registry.ts:367](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L367)*
 
 ___
 
@@ -14844,7 +14844,7 @@ ___
 
 • **Vec<NextConfigDescriptorV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NextConfigDescriptorV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:370](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L370)*
+*Defined in [packages/types/src/augment/registry.ts:370](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L370)*
 
 ___
 
@@ -14852,7 +14852,7 @@ ___
 
 • **Vec<NodeRole>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NodeRole›*
 
-*Defined in [packages/types/src/augment/registry.ts:1154](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1154)*
+*Defined in [packages/types/src/augment/registry.ts:1154](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1154)*
 
 ___
 
@@ -14860,7 +14860,7 @@ ___
 
 • **Vec<Nominations>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Nominations›*
 
-*Defined in [packages/types/src/augment/registry.ts:987](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L987)*
+*Defined in [packages/types/src/augment/registry.ts:987](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L987)*
 
 ___
 
@@ -14868,7 +14868,7 @@ ___
 
 • **Vec<NominatorIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NominatorIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:991](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L991)*
+*Defined in [packages/types/src/augment/registry.ts:991](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L991)*
 
 ___
 
@@ -14876,7 +14876,7 @@ ___
 
 • **Vec<NominatorIndexCompact>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NominatorIndexCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:994](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L994)*
+*Defined in [packages/types/src/augment/registry.ts:994](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L994)*
 
 ___
 
@@ -14884,7 +14884,7 @@ ___
 
 • **Vec<NotConnectedPeer>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹NotConnectedPeer›*
 
-*Defined in [packages/types/src/augment/registry.ts:1157](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1157)*
+*Defined in [packages/types/src/augment/registry.ts:1157](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1157)*
 
 ___
 
@@ -14892,7 +14892,7 @@ ___
 
 • **Vec<Null>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[Null](../classes/_packages_types_src_primitive_null_.null.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:88](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L88)*
+*Defined in [packages/types/src/augment/registry.ts:88](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L88)*
 
 ___
 
@@ -14900,7 +14900,7 @@ ___
 
 • **Vec<OffchainAccuracy>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OffchainAccuracy›*
 
-*Defined in [packages/types/src/augment/registry.ts:997](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L997)*
+*Defined in [packages/types/src/augment/registry.ts:997](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L997)*
 
 ___
 
@@ -14908,7 +14908,7 @@ ___
 
 • **Vec<OffchainAccuracyCompact>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OffchainAccuracyCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:1000](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1000)*
+*Defined in [packages/types/src/augment/registry.ts:1000](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1000)*
 
 ___
 
@@ -14916,7 +14916,7 @@ ___
 
 • **Vec<OffenceDetails>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OffenceDetails›*
 
-*Defined in [packages/types/src/augment/registry.ts:819](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L819)*
+*Defined in [packages/types/src/augment/registry.ts:819](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L819)*
 
 ___
 
@@ -14924,7 +14924,7 @@ ___
 
 • **Vec<Offender>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Offender›*
 
-*Defined in [packages/types/src/augment/registry.ts:822](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L822)*
+*Defined in [packages/types/src/augment/registry.ts:822](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L822)*
 
 ___
 
@@ -14932,7 +14932,7 @@ ___
 
 • **Vec<OpaqueCall>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpaqueCall›*
 
-*Defined in [packages/types/src/augment/registry.ts:281](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L281)*
+*Defined in [packages/types/src/augment/registry.ts:281](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L281)*
 
 ___
 
@@ -14940,7 +14940,7 @@ ___
 
 • **Vec<OpaqueMultiaddr>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpaqueMultiaddr›*
 
-*Defined in [packages/types/src/augment/registry.ts:804](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L804)*
+*Defined in [packages/types/src/augment/registry.ts:804](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L804)*
 
 ___
 
@@ -14948,7 +14948,7 @@ ___
 
 • **Vec<OpaqueNetworkState>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpaqueNetworkState›*
 
-*Defined in [packages/types/src/augment/registry.ts:810](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L810)*
+*Defined in [packages/types/src/augment/registry.ts:810](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L810)*
 
 ___
 
@@ -14956,7 +14956,7 @@ ___
 
 • **Vec<OpaquePeerId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpaquePeerId›*
 
-*Defined in [packages/types/src/augment/registry.ts:807](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L807)*
+*Defined in [packages/types/src/augment/registry.ts:807](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L807)*
 
 ___
 
@@ -14964,7 +14964,7 @@ ___
 
 • **Vec<OpaqueTimeSlot>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpaqueTimeSlot›*
 
-*Defined in [packages/types/src/augment/registry.ts:825](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L825)*
+*Defined in [packages/types/src/augment/registry.ts:825](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L825)*
 
 ___
 
@@ -14972,7 +14972,7 @@ ___
 
 • **Vec<OpenTip>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpenTip›*
 
-*Defined in [packages/types/src/augment/registry.ts:1207](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1207)*
+*Defined in [packages/types/src/augment/registry.ts:1207](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1207)*
 
 ___
 
@@ -14980,7 +14980,7 @@ ___
 
 • **Vec<OpenTipFinderTo225>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpenTipFinderTo225›*
 
-*Defined in [packages/types/src/augment/registry.ts:1213](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1213)*
+*Defined in [packages/types/src/augment/registry.ts:1213](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1213)*
 
 ___
 
@@ -14988,7 +14988,7 @@ ___
 
 • **Vec<OpenTipTip>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpenTipTip›*
 
-*Defined in [packages/types/src/augment/registry.ts:1216](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1216)*
+*Defined in [packages/types/src/augment/registry.ts:1216](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1216)*
 
 ___
 
@@ -14996,7 +14996,7 @@ ___
 
 • **Vec<OpenTipTo225>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OpenTipTo225›*
 
-*Defined in [packages/types/src/augment/registry.ts:1210](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1210)*
+*Defined in [packages/types/src/augment/registry.ts:1210](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1210)*
 
 ___
 
@@ -15004,7 +15004,7 @@ ___
 
 • **Vec<Origin>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Origin›*
 
-*Defined in [packages/types/src/augment/registry.ts:284](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L284)*
+*Defined in [packages/types/src/augment/registry.ts:284](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L284)*
 
 ___
 
@@ -15012,7 +15012,7 @@ ___
 
 • **Vec<OuterDispatchCallV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OuterDispatchCallV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1411](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1411)*
+*Defined in [packages/types/src/augment/registry.ts:1411](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1411)*
 
 ___
 
@@ -15020,7 +15020,7 @@ ___
 
 • **Vec<OuterDispatchMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OuterDispatchMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1414](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1414)*
+*Defined in [packages/types/src/augment/registry.ts:1414](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1414)*
 
 ___
 
@@ -15028,7 +15028,7 @@ ___
 
 • **Vec<OuterEventEventMetadataEventsV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OuterEventEventMetadataEventsV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1417](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1417)*
+*Defined in [packages/types/src/augment/registry.ts:1417](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1417)*
 
 ___
 
@@ -15036,7 +15036,7 @@ ___
 
 • **Vec<OuterEventEventMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OuterEventEventMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1420](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1420)*
+*Defined in [packages/types/src/augment/registry.ts:1420](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1420)*
 
 ___
 
@@ -15044,7 +15044,7 @@ ___
 
 • **Vec<OuterEventMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹OuterEventMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1423](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1423)*
+*Defined in [packages/types/src/augment/registry.ts:1423](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1423)*
 
 ___
 
@@ -15052,7 +15052,7 @@ ___
 
 • **Vec<Owner>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Owner›*
 
-*Defined in [packages/types/src/augment/registry.ts:691](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L691)*
+*Defined in [packages/types/src/augment/registry.ts:691](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L691)*
 
 ___
 
@@ -15060,7 +15060,7 @@ ___
 
 • **Vec<ParaId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ParaId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1317](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1317)*
+*Defined in [packages/types/src/augment/registry.ts:1317](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1317)*
 
 ___
 
@@ -15068,7 +15068,7 @@ ___
 
 • **Vec<ParaInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ParaInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1320](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1320)*
+*Defined in [packages/types/src/augment/registry.ts:1320](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1320)*
 
 ___
 
@@ -15076,7 +15076,7 @@ ___
 
 • **Vec<ParaPastCodeMeta>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ParaPastCodeMeta›*
 
-*Defined in [packages/types/src/augment/registry.ts:1323](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1323)*
+*Defined in [packages/types/src/augment/registry.ts:1323](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1323)*
 
 ___
 
@@ -15084,7 +15084,7 @@ ___
 
 • **Vec<ParaScheduling>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ParaScheduling›*
 
-*Defined in [packages/types/src/augment/registry.ts:1326](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1326)*
+*Defined in [packages/types/src/augment/registry.ts:1326](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1326)*
 
 ___
 
@@ -15092,7 +15092,7 @@ ___
 
 • **Vec<ParachainDispatchOrigin>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ParachainDispatchOrigin›*
 
-*Defined in [packages/types/src/augment/registry.ts:1313](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1313)*
+*Defined in [packages/types/src/augment/registry.ts:1313](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1313)*
 
 ___
 
@@ -15100,7 +15100,7 @@ ___
 
 • **Vec<ParachainProposal>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ParachainProposal›*
 
-*Defined in [packages/types/src/augment/registry.ts:1249](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1249)*
+*Defined in [packages/types/src/augment/registry.ts:1249](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1249)*
 
 ___
 
@@ -15108,7 +15108,7 @@ ___
 
 • **Vec<Pays>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Pays›*
 
-*Defined in [packages/types/src/augment/registry.ts:287](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L287)*
+*Defined in [packages/types/src/augment/registry.ts:287](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L287)*
 
 ___
 
@@ -15116,7 +15116,7 @@ ___
 
 • **Vec<Peer>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Peer›*
 
-*Defined in [packages/types/src/augment/registry.ts:1160](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1160)*
+*Defined in [packages/types/src/augment/registry.ts:1160](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1160)*
 
 ___
 
@@ -15124,7 +15124,7 @@ ___
 
 • **Vec<PeerEndpoint>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PeerEndpoint›*
 
-*Defined in [packages/types/src/augment/registry.ts:1163](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1163)*
+*Defined in [packages/types/src/augment/registry.ts:1163](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1163)*
 
 ___
 
@@ -15132,7 +15132,7 @@ ___
 
 • **Vec<PeerEndpointAddr>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PeerEndpointAddr›*
 
-*Defined in [packages/types/src/augment/registry.ts:1166](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1166)*
+*Defined in [packages/types/src/augment/registry.ts:1166](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1166)*
 
 ___
 
@@ -15140,7 +15140,7 @@ ___
 
 • **Vec<PeerInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PeerInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1172](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1172)*
+*Defined in [packages/types/src/augment/registry.ts:1172](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1172)*
 
 ___
 
@@ -15148,7 +15148,7 @@ ___
 
 • **Vec<PeerPing>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PeerPing›*
 
-*Defined in [packages/types/src/augment/registry.ts:1169](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1169)*
+*Defined in [packages/types/src/augment/registry.ts:1169](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1169)*
 
 ___
 
@@ -15156,7 +15156,7 @@ ___
 
 • **Vec<PendingPause>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PendingPause›*
 
-*Defined in [packages/types/src/augment/registry.ts:738](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L738)*
+*Defined in [packages/types/src/augment/registry.ts:738](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L738)*
 
 ___
 
@@ -15164,7 +15164,7 @@ ___
 
 • **Vec<PendingResume>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PendingResume›*
 
-*Defined in [packages/types/src/augment/registry.ts:741](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L741)*
+*Defined in [packages/types/src/augment/registry.ts:741](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L741)*
 
 ___
 
@@ -15172,7 +15172,7 @@ ___
 
 • **Vec<PerU16>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PerU16›*
 
-*Defined in [packages/types/src/augment/registry.ts:160](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L160)*
+*Defined in [packages/types/src/augment/registry.ts:160](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L160)*
 
 ___
 
@@ -15180,7 +15180,7 @@ ___
 
 • **Vec<Perbill>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Perbill›*
 
-*Defined in [packages/types/src/augment/registry.ts:164](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L164)*
+*Defined in [packages/types/src/augment/registry.ts:164](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L164)*
 
 ___
 
@@ -15188,7 +15188,7 @@ ___
 
 • **Vec<Percent>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Percent›*
 
-*Defined in [packages/types/src/augment/registry.ts:168](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L168)*
+*Defined in [packages/types/src/augment/registry.ts:168](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L168)*
 
 ___
 
@@ -15196,7 +15196,7 @@ ___
 
 • **Vec<Period>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Period›*
 
-*Defined in [packages/types/src/augment/registry.ts:849](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L849)*
+*Defined in [packages/types/src/augment/registry.ts:849](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L849)*
 
 ___
 
@@ -15204,7 +15204,7 @@ ___
 
 • **Vec<Permill>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Permill›*
 
-*Defined in [packages/types/src/augment/registry.ts:172](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L172)*
+*Defined in [packages/types/src/augment/registry.ts:172](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L172)*
 
 ___
 
@@ -15212,7 +15212,7 @@ ___
 
 • **Vec<PermissionLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PermissionLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:700](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L700)*
+*Defined in [packages/types/src/augment/registry.ts:700](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L700)*
 
 ___
 
@@ -15220,7 +15220,7 @@ ___
 
 • **Vec<PermissionVersions>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PermissionVersions›*
 
-*Defined in [packages/types/src/augment/registry.ts:697](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L697)*
+*Defined in [packages/types/src/augment/registry.ts:697](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L697)*
 
 ___
 
@@ -15228,7 +15228,7 @@ ___
 
 • **Vec<PermissionsV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PermissionsV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:694](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L694)*
+*Defined in [packages/types/src/augment/registry.ts:694](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L694)*
 
 ___
 
@@ -15236,7 +15236,7 @@ ___
 
 • **Vec<Perquintill>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Perquintill›*
 
-*Defined in [packages/types/src/augment/registry.ts:176](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L176)*
+*Defined in [packages/types/src/augment/registry.ts:176](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L176)*
 
 ___
 
@@ -15244,7 +15244,7 @@ ___
 
 • **Vec<Phantom>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Phantom›*
 
-*Defined in [packages/types/src/augment/registry.ts:290](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L290)*
+*Defined in [packages/types/src/augment/registry.ts:290](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L290)*
 
 ___
 
@@ -15252,7 +15252,7 @@ ___
 
 • **Vec<PhantomData>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PhantomData›*
 
-*Defined in [packages/types/src/augment/registry.ts:293](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L293)*
+*Defined in [packages/types/src/augment/registry.ts:293](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L293)*
 
 ___
 
@@ -15260,7 +15260,7 @@ ___
 
 • **Vec<Phase>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Phase›*
 
-*Defined in [packages/types/src/augment/registry.ts:1175](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1175)*
+*Defined in [packages/types/src/augment/registry.ts:1175](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1175)*
 
 ___
 
@@ -15268,7 +15268,7 @@ ___
 
 • **Vec<PhragmenScore>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PhragmenScore›*
 
-*Defined in [packages/types/src/augment/registry.ts:1003](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1003)*
+*Defined in [packages/types/src/augment/registry.ts:1003](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1003)*
 
 ___
 
@@ -15276,7 +15276,7 @@ ___
 
 • **Vec<PlainTypeLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1942](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1942)*
+*Defined in [packages/types/src/augment/registry.ts:1942](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1942)*
 
 ___
 
@@ -15284,7 +15284,7 @@ ___
 
 • **Vec<PlainTypeV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1426](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1426)*
+*Defined in [packages/types/src/augment/registry.ts:1426](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1426)*
 
 ___
 
@@ -15292,7 +15292,7 @@ ___
 
 • **Vec<PlainTypeV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1801](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1801)*
+*Defined in [packages/types/src/augment/registry.ts:1801](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1801)*
 
 ___
 
@@ -15300,7 +15300,7 @@ ___
 
 • **Vec<PlainTypeV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1849](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1849)*
+*Defined in [packages/types/src/augment/registry.ts:1849](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1849)*
 
 ___
 
@@ -15308,7 +15308,7 @@ ___
 
 • **Vec<PlainTypeV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1897](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1897)*
+*Defined in [packages/types/src/augment/registry.ts:1897](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1897)*
 
 ___
 
@@ -15316,7 +15316,7 @@ ___
 
 • **Vec<PlainTypeV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1486](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1486)*
+*Defined in [packages/types/src/augment/registry.ts:1486](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1486)*
 
 ___
 
@@ -15324,7 +15324,7 @@ ___
 
 • **Vec<PlainTypeV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1519](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1519)*
+*Defined in [packages/types/src/augment/registry.ts:1519](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1519)*
 
 ___
 
@@ -15332,7 +15332,7 @@ ___
 
 • **Vec<PlainTypeV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1552](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1552)*
+*Defined in [packages/types/src/augment/registry.ts:1552](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1552)*
 
 ___
 
@@ -15340,7 +15340,7 @@ ___
 
 • **Vec<PlainTypeV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1588](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1588)*
+*Defined in [packages/types/src/augment/registry.ts:1588](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1588)*
 
 ___
 
@@ -15348,7 +15348,7 @@ ___
 
 • **Vec<PlainTypeV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1627](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1627)*
+*Defined in [packages/types/src/augment/registry.ts:1627](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1627)*
 
 ___
 
@@ -15356,7 +15356,7 @@ ___
 
 • **Vec<PlainTypeV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1666](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1666)*
+*Defined in [packages/types/src/augment/registry.ts:1666](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1666)*
 
 ___
 
@@ -15364,7 +15364,7 @@ ___
 
 • **Vec<PlainTypeV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1711](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1711)*
+*Defined in [packages/types/src/augment/registry.ts:1711](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1711)*
 
 ___
 
@@ -15372,7 +15372,7 @@ ___
 
 • **Vec<PlainTypeV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PlainTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1756](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1756)*
+*Defined in [packages/types/src/augment/registry.ts:1756](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1756)*
 
 ___
 
@@ -15380,7 +15380,7 @@ ___
 
 • **Vec<Points>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Points›*
 
-*Defined in [packages/types/src/augment/registry.ts:926](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L926)*
+*Defined in [packages/types/src/augment/registry.ts:926](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L926)*
 
 ___
 
@@ -15388,7 +15388,7 @@ ___
 
 • **Vec<PreRuntime>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PreRuntime›*
 
-*Defined in [packages/types/src/augment/registry.ts:322](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L322)*
+*Defined in [packages/types/src/augment/registry.ts:322](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L322)*
 
 ___
 
@@ -15396,7 +15396,7 @@ ___
 
 • **Vec<Precommits>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Precommits›*
 
-*Defined in [packages/types/src/augment/registry.ts:744](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L744)*
+*Defined in [packages/types/src/augment/registry.ts:744](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L744)*
 
 ___
 
@@ -15404,7 +15404,7 @@ ___
 
 • **Vec<PrefabWasmModule>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PrefabWasmModule›*
 
-*Defined in [packages/types/src/augment/registry.ts:485](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L485)*
+*Defined in [packages/types/src/augment/registry.ts:485](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L485)*
 
 ___
 
@@ -15412,7 +15412,7 @@ ___
 
 • **Vec<PrefabWasmModuleReserved>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PrefabWasmModuleReserved›*
 
-*Defined in [packages/types/src/augment/registry.ts:488](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L488)*
+*Defined in [packages/types/src/augment/registry.ts:488](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L488)*
 
 ___
 
@@ -15420,7 +15420,7 @@ ___
 
 • **Vec<PrefixedStorageKey>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PrefixedStorageKey›*
 
-*Defined in [packages/types/src/augment/registry.ts:1975](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1975)*
+*Defined in [packages/types/src/augment/registry.ts:1975](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1975)*
 
 ___
 
@@ -15428,7 +15428,7 @@ ___
 
 • **Vec<PreimageStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PreimageStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:521](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L521)*
+*Defined in [packages/types/src/augment/registry.ts:521](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L521)*
 
 ___
 
@@ -15436,7 +15436,7 @@ ___
 
 • **Vec<PreimageStatusAvailable>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PreimageStatusAvailable›*
 
-*Defined in [packages/types/src/augment/registry.ts:524](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L524)*
+*Defined in [packages/types/src/augment/registry.ts:524](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L524)*
 
 ___
 
@@ -15444,7 +15444,7 @@ ___
 
 • **Vec<Prevotes>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Prevotes›*
 
-*Defined in [packages/types/src/augment/registry.ts:747](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L747)*
+*Defined in [packages/types/src/augment/registry.ts:747](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L747)*
 
 ___
 
@@ -15452,7 +15452,7 @@ ___
 
 • **Vec<PriorLock>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PriorLock›*
 
-*Defined in [packages/types/src/augment/registry.ts:527](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L527)*
+*Defined in [packages/types/src/augment/registry.ts:527](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L527)*
 
 ___
 
@@ -15460,7 +15460,7 @@ ___
 
 • **Vec<Priority>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Priority›*
 
-*Defined in [packages/types/src/augment/registry.ts:853](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L853)*
+*Defined in [packages/types/src/augment/registry.ts:853](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L853)*
 
 ___
 
@@ -15468,7 +15468,7 @@ ___
 
 • **Vec<PropIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹PropIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:531](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L531)*
+*Defined in [packages/types/src/augment/registry.ts:531](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L531)*
 
 ___
 
@@ -15476,7 +15476,7 @@ ___
 
 • **Vec<Proposal>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Proposal›*
 
-*Defined in [packages/types/src/augment/registry.ts:534](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L534)*
+*Defined in [packages/types/src/augment/registry.ts:534](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L534)*
 
 ___
 
@@ -15484,7 +15484,7 @@ ___
 
 • **Vec<ProposalIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ProposalIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:439](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L439)*
+*Defined in [packages/types/src/augment/registry.ts:439](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L439)*
 
 ___
 
@@ -15492,7 +15492,7 @@ ___
 
 • **Vec<ProxyAnnouncement>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ProxyAnnouncement›*
 
-*Defined in [packages/types/src/augment/registry.ts:840](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L840)*
+*Defined in [packages/types/src/augment/registry.ts:840](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L840)*
 
 ___
 
@@ -15500,7 +15500,7 @@ ___
 
 • **Vec<ProxyDefinition>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ProxyDefinition›*
 
-*Defined in [packages/types/src/augment/registry.ts:834](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L834)*
+*Defined in [packages/types/src/augment/registry.ts:834](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L834)*
 
 ___
 
@@ -15508,7 +15508,7 @@ ___
 
 • **Vec<ProxyState>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ProxyState›*
 
-*Defined in [packages/types/src/augment/registry.ts:537](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L537)*
+*Defined in [packages/types/src/augment/registry.ts:537](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L537)*
 
 ___
 
@@ -15516,7 +15516,7 @@ ___
 
 • **Vec<ProxyType>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ProxyType›*
 
-*Defined in [packages/types/src/augment/registry.ts:837](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L837)*
+*Defined in [packages/types/src/augment/registry.ts:837](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L837)*
 
 ___
 
@@ -15524,7 +15524,7 @@ ___
 
 • **Vec<Randomness>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Randomness›*
 
-*Defined in [packages/types/src/augment/registry.ts:373](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L373)*
+*Defined in [packages/types/src/augment/registry.ts:373](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L373)*
 
 ___
 
@@ -15532,7 +15532,7 @@ ___
 
 • **Vec<Raw>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[Raw](../classes/_packages_types_src_codec_raw_.raw.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:132](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L132)*
+*Defined in [packages/types/src/augment/registry.ts:132](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L132)*
 
 ___
 
@@ -15540,7 +15540,7 @@ ___
 
 • **Vec<RawAuraPreDigest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawAuraPreDigest›*
 
-*Defined in [packages/types/src/augment/registry.ts:337](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L337)*
+*Defined in [packages/types/src/augment/registry.ts:337](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L337)*
 
 ___
 
@@ -15548,7 +15548,7 @@ ___
 
 • **Vec<RawBabePreDigest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigest›*
 
-*Defined in [packages/types/src/augment/registry.ts:376](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L376)*
+*Defined in [packages/types/src/augment/registry.ts:376](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L376)*
 
 ___
 
@@ -15556,7 +15556,7 @@ ___
 
 • **Vec<RawBabePreDigestCompat>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigestCompat›*
 
-*Defined in [packages/types/src/augment/registry.ts:397](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L397)*
+*Defined in [packages/types/src/augment/registry.ts:397](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L397)*
 
 ___
 
@@ -15564,7 +15564,7 @@ ___
 
 • **Vec<RawBabePreDigestPrimary>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigestPrimary›*
 
-*Defined in [packages/types/src/augment/registry.ts:379](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L379)*
+*Defined in [packages/types/src/augment/registry.ts:379](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L379)*
 
 ___
 
@@ -15572,7 +15572,7 @@ ___
 
 • **Vec<RawBabePreDigestPrimaryTo159>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigestPrimaryTo159›*
 
-*Defined in [packages/types/src/augment/registry.ts:391](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L391)*
+*Defined in [packages/types/src/augment/registry.ts:391](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L391)*
 
 ___
 
@@ -15580,7 +15580,7 @@ ___
 
 • **Vec<RawBabePreDigestSecondaryPlain>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigestSecondaryPlain›*
 
-*Defined in [packages/types/src/augment/registry.ts:382](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L382)*
+*Defined in [packages/types/src/augment/registry.ts:382](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L382)*
 
 ___
 
@@ -15588,7 +15588,7 @@ ___
 
 • **Vec<RawBabePreDigestSecondaryTo159>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigestSecondaryTo159›*
 
-*Defined in [packages/types/src/augment/registry.ts:394](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L394)*
+*Defined in [packages/types/src/augment/registry.ts:394](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L394)*
 
 ___
 
@@ -15596,7 +15596,7 @@ ___
 
 • **Vec<RawBabePreDigestSecondaryVRF>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigestSecondaryVRF›*
 
-*Defined in [packages/types/src/augment/registry.ts:385](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L385)*
+*Defined in [packages/types/src/augment/registry.ts:385](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L385)*
 
 ___
 
@@ -15604,7 +15604,7 @@ ___
 
 • **Vec<RawBabePreDigestTo159>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawBabePreDigestTo159›*
 
-*Defined in [packages/types/src/augment/registry.ts:388](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L388)*
+*Defined in [packages/types/src/augment/registry.ts:388](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L388)*
 
 ___
 
@@ -15612,7 +15612,7 @@ ___
 
 • **Vec<RawVRFOutput>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RawVRFOutput›*
 
-*Defined in [packages/types/src/augment/registry.ts:451](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L451)*
+*Defined in [packages/types/src/augment/registry.ts:451](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L451)*
 
 ___
 
@@ -15620,7 +15620,7 @@ ___
 
 • **Vec<ReadProof>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReadProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:1990](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1990)*
+*Defined in [packages/types/src/augment/registry.ts:1990](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1990)*
 
 ___
 
@@ -15628,7 +15628,7 @@ ___
 
 • **Vec<Reasons>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Reasons›*
 
-*Defined in [packages/types/src/augment/registry.ts:425](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L425)*
+*Defined in [packages/types/src/augment/registry.ts:425](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L425)*
 
 ___
 
@@ -15636,7 +15636,7 @@ ___
 
 • **Vec<RecoveryConfig>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RecoveryConfig›*
 
-*Defined in [packages/types/src/augment/registry.ts:846](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L846)*
+*Defined in [packages/types/src/augment/registry.ts:846](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L846)*
 
 ___
 
@@ -15644,7 +15644,7 @@ ___
 
 • **Vec<RefCount>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RefCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:1179](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1179)*
+*Defined in [packages/types/src/augment/registry.ts:1179](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1179)*
 
 ___
 
@@ -15652,7 +15652,7 @@ ___
 
 • **Vec<ReferendumIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReferendumIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:541](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L541)*
+*Defined in [packages/types/src/augment/registry.ts:541](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L541)*
 
 ___
 
@@ -15660,7 +15660,7 @@ ___
 
 • **Vec<ReferendumInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReferendumInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:547](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L547)*
+*Defined in [packages/types/src/augment/registry.ts:547](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L547)*
 
 ___
 
@@ -15668,7 +15668,7 @@ ___
 
 • **Vec<ReferendumInfoFinished>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReferendumInfoFinished›*
 
-*Defined in [packages/types/src/augment/registry.ts:550](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L550)*
+*Defined in [packages/types/src/augment/registry.ts:550](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L550)*
 
 ___
 
@@ -15676,7 +15676,7 @@ ___
 
 • **Vec<ReferendumInfoTo239>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReferendumInfoTo239›*
 
-*Defined in [packages/types/src/augment/registry.ts:544](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L544)*
+*Defined in [packages/types/src/augment/registry.ts:544](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L544)*
 
 ___
 
@@ -15684,7 +15684,7 @@ ___
 
 • **Vec<ReferendumStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReferendumStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:553](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L553)*
+*Defined in [packages/types/src/augment/registry.ts:553](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L553)*
 
 ___
 
@@ -15692,7 +15692,7 @@ ___
 
 • **Vec<RegisteredParachainInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RegisteredParachainInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1252](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1252)*
+*Defined in [packages/types/src/augment/registry.ts:1252](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1252)*
 
 ___
 
@@ -15700,7 +15700,7 @@ ___
 
 • **Vec<RegistrarIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RegistrarIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:785](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L785)*
+*Defined in [packages/types/src/augment/registry.ts:785](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L785)*
 
 ___
 
@@ -15708,7 +15708,7 @@ ___
 
 • **Vec<RegistrarInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RegistrarInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:788](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L788)*
+*Defined in [packages/types/src/augment/registry.ts:788](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L788)*
 
 ___
 
@@ -15716,7 +15716,7 @@ ___
 
 • **Vec<Registration>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Registration›*
 
-*Defined in [packages/types/src/augment/registry.ts:781](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L781)*
+*Defined in [packages/types/src/augment/registry.ts:781](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L781)*
 
 ___
 
@@ -15724,7 +15724,7 @@ ___
 
 • **Vec<RegistrationJudgement>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RegistrationJudgement›*
 
-*Defined in [packages/types/src/augment/registry.ts:778](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L778)*
+*Defined in [packages/types/src/augment/registry.ts:778](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L778)*
 
 ___
 
@@ -15732,7 +15732,7 @@ ___
 
 • **Vec<RelayChainBlockNumber>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RelayChainBlockNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:1329](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1329)*
+*Defined in [packages/types/src/augment/registry.ts:1329](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1329)*
 
 ___
 
@@ -15740,7 +15740,7 @@ ___
 
 • **Vec<Releases>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Releases›*
 
-*Defined in [packages/types/src/augment/registry.ts:296](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L296)*
+*Defined in [packages/types/src/augment/registry.ts:296](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L296)*
 
 ___
 
@@ -15748,7 +15748,7 @@ ___
 
 • **Vec<Remark>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Remark›*
 
-*Defined in [packages/types/src/augment/registry.ts:1332](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1332)*
+*Defined in [packages/types/src/augment/registry.ts:1332](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1332)*
 
 ___
 
@@ -15756,7 +15756,7 @@ ___
 
 • **Vec<Renouncing>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Renouncing›*
 
-*Defined in [packages/types/src/augment/registry.ts:578](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L578)*
+*Defined in [packages/types/src/augment/registry.ts:578](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L578)*
 
 ___
 
@@ -15764,7 +15764,7 @@ ___
 
 • **Vec<ReportIdOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReportIdOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:828](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L828)*
+*Defined in [packages/types/src/augment/registry.ts:828](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L828)*
 
 ___
 
@@ -15772,7 +15772,7 @@ ___
 
 • **Vec<ReportedRoundStates>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ReportedRoundStates›*
 
-*Defined in [packages/types/src/augment/registry.ts:750](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L750)*
+*Defined in [packages/types/src/augment/registry.ts:750](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L750)*
 
 ___
 
@@ -15780,7 +15780,7 @@ ___
 
 • **Vec<Reporter>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Reporter›*
 
-*Defined in [packages/types/src/augment/registry.ts:831](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L831)*
+*Defined in [packages/types/src/augment/registry.ts:831](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L831)*
 
 ___
 
@@ -15788,7 +15788,7 @@ ___
 
 • **Vec<Retriable>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Retriable›*
 
-*Defined in [packages/types/src/augment/registry.ts:1335](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1335)*
+*Defined in [packages/types/src/augment/registry.ts:1335](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1335)*
 
 ___
 
@@ -15796,7 +15796,7 @@ ___
 
 • **Vec<RewardDestination>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RewardDestination›*
 
-*Defined in [packages/types/src/augment/registry.ts:1006](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1006)*
+*Defined in [packages/types/src/augment/registry.ts:1006](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1006)*
 
 ___
 
@@ -15804,7 +15804,7 @@ ___
 
 • **Vec<RewardDestinationTo257>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RewardDestinationTo257›*
 
-*Defined in [packages/types/src/augment/registry.ts:1009](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1009)*
+*Defined in [packages/types/src/augment/registry.ts:1009](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1009)*
 
 ___
 
@@ -15812,7 +15812,7 @@ ___
 
 • **Vec<RewardPoint>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RewardPoint›*
 
-*Defined in [packages/types/src/augment/registry.ts:1013](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1013)*
+*Defined in [packages/types/src/augment/registry.ts:1013](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1013)*
 
 ___
 
@@ -15820,7 +15820,7 @@ ___
 
 • **Vec<RoundState>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RoundState›*
 
-*Defined in [packages/types/src/augment/registry.ts:753](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L753)*
+*Defined in [packages/types/src/augment/registry.ts:753](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L753)*
 
 ___
 
@@ -15828,7 +15828,7 @@ ___
 
 • **Vec<RpcMethods>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RpcMethods›*
 
-*Defined in [packages/types/src/augment/registry.ts:1963](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1963)*
+*Defined in [packages/types/src/augment/registry.ts:1963](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1963)*
 
 ___
 
@@ -15836,7 +15836,7 @@ ___
 
 • **Vec<RuntimeDbWeight>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RuntimeDbWeight›*
 
-*Defined in [packages/types/src/augment/registry.ts:299](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L299)*
+*Defined in [packages/types/src/augment/registry.ts:299](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L299)*
 
 ___
 
@@ -15844,7 +15844,7 @@ ___
 
 • **Vec<RuntimeDispatchInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RuntimeDispatchInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1981](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1981)*
+*Defined in [packages/types/src/augment/registry.ts:1981](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1981)*
 
 ___
 
@@ -15852,7 +15852,7 @@ ___
 
 • **Vec<RuntimeModuleMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RuntimeModuleMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1429](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1429)*
+*Defined in [packages/types/src/augment/registry.ts:1429](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1429)*
 
 ___
 
@@ -15860,7 +15860,7 @@ ___
 
 • **Vec<RuntimeVersion>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RuntimeVersion›*
 
-*Defined in [packages/types/src/augment/registry.ts:1996](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1996)*
+*Defined in [packages/types/src/augment/registry.ts:1996](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1996)*
 
 ___
 
@@ -15868,7 +15868,7 @@ ___
 
 • **Vec<RuntimeVersionApi>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹RuntimeVersionApi›*
 
-*Defined in [packages/types/src/augment/registry.ts:1993](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1993)*
+*Defined in [packages/types/src/augment/registry.ts:1993](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1993)*
 
 ___
 
@@ -15876,7 +15876,7 @@ ___
 
 • **Vec<Schedule>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Schedule›*
 
-*Defined in [packages/types/src/augment/registry.ts:494](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L494)*
+*Defined in [packages/types/src/augment/registry.ts:494](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L494)*
 
 ___
 
@@ -15884,7 +15884,7 @@ ___
 
 • **Vec<SchedulePeriod>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SchedulePeriod›*
 
-*Defined in [packages/types/src/augment/registry.ts:856](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L856)*
+*Defined in [packages/types/src/augment/registry.ts:856](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L856)*
 
 ___
 
@@ -15892,7 +15892,7 @@ ___
 
 • **Vec<SchedulePriority>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SchedulePriority›*
 
-*Defined in [packages/types/src/augment/registry.ts:859](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L859)*
+*Defined in [packages/types/src/augment/registry.ts:859](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L859)*
 
 ___
 
@@ -15900,7 +15900,7 @@ ___
 
 • **Vec<ScheduleTo212>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ScheduleTo212›*
 
-*Defined in [packages/types/src/augment/registry.ts:491](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L491)*
+*Defined in [packages/types/src/augment/registry.ts:491](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L491)*
 
 ___
 
@@ -15908,7 +15908,7 @@ ___
 
 • **Vec<Scheduled>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Scheduled›*
 
-*Defined in [packages/types/src/augment/registry.ts:862](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L862)*
+*Defined in [packages/types/src/augment/registry.ts:862](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L862)*
 
 ___
 
@@ -15916,7 +15916,7 @@ ___
 
 • **Vec<Scheduling>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Scheduling›*
 
-*Defined in [packages/types/src/augment/registry.ts:1338](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1338)*
+*Defined in [packages/types/src/augment/registry.ts:1338](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1338)*
 
 ___
 
@@ -15924,7 +15924,7 @@ ___
 
 • **Vec<Seal>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Seal›*
 
-*Defined in [packages/types/src/augment/registry.ts:328](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L328)*
+*Defined in [packages/types/src/augment/registry.ts:328](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L328)*
 
 ___
 
@@ -15932,7 +15932,7 @@ ___
 
 • **Vec<SealV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SealV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:325](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L325)*
+*Defined in [packages/types/src/augment/registry.ts:325](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L325)*
 
 ___
 
@@ -15940,7 +15940,7 @@ ___
 
 • **Vec<SeedOf>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SeedOf›*
 
-*Defined in [packages/types/src/augment/registry.ts:497](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L497)*
+*Defined in [packages/types/src/augment/registry.ts:497](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L497)*
 
 ___
 
@@ -15948,7 +15948,7 @@ ___
 
 • **Vec<SessionIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SessionIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:899](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L899)*
+*Defined in [packages/types/src/augment/registry.ts:899](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L899)*
 
 ___
 
@@ -15956,7 +15956,7 @@ ___
 
 • **Vec<SessionKeys1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SessionKeys1›*
 
-*Defined in [packages/types/src/augment/registry.ts:871](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L871)*
+*Defined in [packages/types/src/augment/registry.ts:871](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L871)*
 
 ___
 
@@ -15964,7 +15964,7 @@ ___
 
 • **Vec<SessionKeys2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SessionKeys2›*
 
-*Defined in [packages/types/src/augment/registry.ts:874](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L874)*
+*Defined in [packages/types/src/augment/registry.ts:874](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L874)*
 
 ___
 
@@ -15972,7 +15972,7 @@ ___
 
 • **Vec<SessionKeys3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SessionKeys3›*
 
-*Defined in [packages/types/src/augment/registry.ts:877](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L877)*
+*Defined in [packages/types/src/augment/registry.ts:877](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L877)*
 
 ___
 
@@ -15980,7 +15980,7 @@ ___
 
 • **Vec<SessionKeys4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SessionKeys4›*
 
-*Defined in [packages/types/src/augment/registry.ts:880](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L880)*
+*Defined in [packages/types/src/augment/registry.ts:880](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L880)*
 
 ___
 
@@ -15988,7 +15988,7 @@ ___
 
 • **Vec<SessionKeys5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SessionKeys5›*
 
-*Defined in [packages/types/src/augment/registry.ts:883](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L883)*
+*Defined in [packages/types/src/augment/registry.ts:883](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L883)*
 
 ___
 
@@ -15996,7 +15996,7 @@ ___
 
 • **Vec<SessionKeys6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SessionKeys6›*
 
-*Defined in [packages/types/src/augment/registry.ts:886](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L886)*
+*Defined in [packages/types/src/augment/registry.ts:886](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L886)*
 
 ___
 
@@ -16004,7 +16004,7 @@ ___
 
 • **Vec<SetId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SetId›*
 
-*Defined in [packages/types/src/augment/registry.ts:757](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L757)*
+*Defined in [packages/types/src/augment/registry.ts:757](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L757)*
 
 ___
 
@@ -16012,7 +16012,7 @@ ___
 
 • **Vec<SetIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SetIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:582](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L582)*
+*Defined in [packages/types/src/augment/registry.ts:582](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L582)*
 
 ___
 
@@ -16020,7 +16020,7 @@ ___
 
 • **Vec<Signature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Signature›*
 
-*Defined in [packages/types/src/augment/registry.ts:673](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L673)*
+*Defined in [packages/types/src/augment/registry.ts:673](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L673)*
 
 ___
 
@@ -16028,7 +16028,7 @@ ___
 
 • **Vec<SignedBlock>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SignedBlock›*
 
-*Defined in [packages/types/src/augment/registry.ts:302](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L302)*
+*Defined in [packages/types/src/augment/registry.ts:302](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L302)*
 
 ___
 
@@ -16036,7 +16036,7 @@ ___
 
 • **Vec<SignerPayload>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SignerPayload›*
 
-*Defined in [packages/types/src/augment/registry.ts:676](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L676)*
+*Defined in [packages/types/src/augment/registry.ts:676](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L676)*
 
 ___
 
@@ -16044,7 +16044,7 @@ ___
 
 • **Vec<SigningContext>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SigningContext›*
 
-*Defined in [packages/types/src/augment/registry.ts:1341](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1341)*
+*Defined in [packages/types/src/augment/registry.ts:1341](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1341)*
 
 ___
 
@@ -16052,7 +16052,7 @@ ___
 
 • **Vec<SlashJournalEntry>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SlashJournalEntry›*
 
-*Defined in [packages/types/src/augment/registry.ts:1016](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1016)*
+*Defined in [packages/types/src/augment/registry.ts:1016](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1016)*
 
 ___
 
@@ -16060,7 +16060,7 @@ ___
 
 • **Vec<SlashingSpans>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SlashingSpans›*
 
-*Defined in [packages/types/src/augment/registry.ts:1022](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1022)*
+*Defined in [packages/types/src/augment/registry.ts:1022](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1022)*
 
 ___
 
@@ -16068,7 +16068,7 @@ ___
 
 • **Vec<SlashingSpansTo204>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SlashingSpansTo204›*
 
-*Defined in [packages/types/src/augment/registry.ts:1019](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1019)*
+*Defined in [packages/types/src/augment/registry.ts:1019](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1019)*
 
 ___
 
@@ -16076,7 +16076,7 @@ ___
 
 • **Vec<SlotNumber>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SlotNumber›*
 
-*Defined in [packages/types/src/augment/registry.ts:401](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L401)*
+*Defined in [packages/types/src/augment/registry.ts:401](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L401)*
 
 ___
 
@@ -16084,7 +16084,7 @@ ___
 
 • **Vec<SlotRange>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SlotRange›*
 
-*Defined in [packages/types/src/augment/registry.ts:1344](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1344)*
+*Defined in [packages/types/src/augment/registry.ts:1344](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1344)*
 
 ___
 
@@ -16092,7 +16092,7 @@ ___
 
 • **Vec<SocietyJudgement>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SocietyJudgement›*
 
-*Defined in [packages/types/src/augment/registry.ts:912](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L912)*
+*Defined in [packages/types/src/augment/registry.ts:912](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L912)*
 
 ___
 
@@ -16100,7 +16100,7 @@ ___
 
 • **Vec<SocietyVote>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SocietyVote›*
 
-*Defined in [packages/types/src/augment/registry.ts:915](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L915)*
+*Defined in [packages/types/src/augment/registry.ts:915](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L915)*
 
 ___
 
@@ -16108,7 +16108,7 @@ ___
 
 • **Vec<SpanIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SpanIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1026](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1026)*
+*Defined in [packages/types/src/augment/registry.ts:1026](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1026)*
 
 ___
 
@@ -16116,7 +16116,7 @@ ___
 
 • **Vec<SpanRecord>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SpanRecord›*
 
-*Defined in [packages/types/src/augment/registry.ts:1029](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1029)*
+*Defined in [packages/types/src/augment/registry.ts:1029](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1029)*
 
 ___
 
@@ -16124,7 +16124,7 @@ ___
 
 • **Vec<Sr25519Signature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Sr25519Signature›*
 
-*Defined in [packages/types/src/augment/registry.ts:685](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L685)*
+*Defined in [packages/types/src/augment/registry.ts:685](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L685)*
 
 ___
 
@@ -16132,7 +16132,7 @@ ___
 
 • **Vec<StakingLedger>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StakingLedger›*
 
-*Defined in [packages/types/src/augment/registry.ts:1038](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1038)*
+*Defined in [packages/types/src/augment/registry.ts:1038](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1038)*
 
 ___
 
@@ -16140,7 +16140,7 @@ ___
 
 • **Vec<StakingLedgerTo223>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StakingLedgerTo223›*
 
-*Defined in [packages/types/src/augment/registry.ts:1032](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1032)*
+*Defined in [packages/types/src/augment/registry.ts:1032](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1032)*
 
 ___
 
@@ -16148,7 +16148,7 @@ ___
 
 • **Vec<StakingLedgerTo240>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StakingLedgerTo240›*
 
-*Defined in [packages/types/src/augment/registry.ts:1035](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1035)*
+*Defined in [packages/types/src/augment/registry.ts:1035](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1035)*
 
 ___
 
@@ -16156,7 +16156,7 @@ ___
 
 • **Vec<Statement>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Statement›*
 
-*Defined in [packages/types/src/augment/registry.ts:1347](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1347)*
+*Defined in [packages/types/src/augment/registry.ts:1347](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1347)*
 
 ___
 
@@ -16164,7 +16164,7 @@ ___
 
 • **Vec<StatementKind>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StatementKind›*
 
-*Defined in [packages/types/src/augment/registry.ts:1246](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1246)*
+*Defined in [packages/types/src/augment/registry.ts:1246](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1246)*
 
 ___
 
@@ -16172,7 +16172,7 @@ ___
 
 • **Vec<StorageChangeSet>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageChangeSet›*
 
-*Defined in [packages/types/src/augment/registry.ts:1999](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1999)*
+*Defined in [packages/types/src/augment/registry.ts:1999](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1999)*
 
 ___
 
@@ -16180,7 +16180,7 @@ ___
 
 • **Vec<StorageData>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageData›*
 
-*Defined in [packages/types/src/augment/registry.ts:305](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L305)*
+*Defined in [packages/types/src/augment/registry.ts:305](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L305)*
 
 ___
 
@@ -16188,7 +16188,7 @@ ___
 
 • **Vec<StorageEntryMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1945](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1945)*
+*Defined in [packages/types/src/augment/registry.ts:1945](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1945)*
 
 ___
 
@@ -16196,7 +16196,7 @@ ___
 
 • **Vec<StorageEntryMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1807](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1807)*
+*Defined in [packages/types/src/augment/registry.ts:1807](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1807)*
 
 ___
 
@@ -16204,7 +16204,7 @@ ___
 
 • **Vec<StorageEntryMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1855](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1855)*
+*Defined in [packages/types/src/augment/registry.ts:1855](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1855)*
 
 ___
 
@@ -16212,7 +16212,7 @@ ___
 
 • **Vec<StorageEntryMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1903](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1903)*
+*Defined in [packages/types/src/augment/registry.ts:1903](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1903)*
 
 ___
 
@@ -16220,7 +16220,7 @@ ___
 
 • **Vec<StorageEntryMetadataV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1633](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1633)*
+*Defined in [packages/types/src/augment/registry.ts:1633](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1633)*
 
 ___
 
@@ -16228,7 +16228,7 @@ ___
 
 • **Vec<StorageEntryMetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1672](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1672)*
+*Defined in [packages/types/src/augment/registry.ts:1672](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1672)*
 
 ___
 
@@ -16236,7 +16236,7 @@ ___
 
 • **Vec<StorageEntryMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1717](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1717)*
+*Defined in [packages/types/src/augment/registry.ts:1717](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1717)*
 
 ___
 
@@ -16244,7 +16244,7 @@ ___
 
 • **Vec<StorageEntryMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1762](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1762)*
+*Defined in [packages/types/src/augment/registry.ts:1762](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1762)*
 
 ___
 
@@ -16252,7 +16252,7 @@ ___
 
 • **Vec<StorageEntryModifierLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1948](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1948)*
+*Defined in [packages/types/src/augment/registry.ts:1948](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1948)*
 
 ___
 
@@ -16260,7 +16260,7 @@ ___
 
 • **Vec<StorageEntryModifierV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1804](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1804)*
+*Defined in [packages/types/src/augment/registry.ts:1804](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1804)*
 
 ___
 
@@ -16268,7 +16268,7 @@ ___
 
 • **Vec<StorageEntryModifierV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1852](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1852)*
+*Defined in [packages/types/src/augment/registry.ts:1852](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1852)*
 
 ___
 
@@ -16276,7 +16276,7 @@ ___
 
 • **Vec<StorageEntryModifierV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1900](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1900)*
+*Defined in [packages/types/src/augment/registry.ts:1900](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1900)*
 
 ___
 
@@ -16284,7 +16284,7 @@ ___
 
 • **Vec<StorageEntryModifierV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1630](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1630)*
+*Defined in [packages/types/src/augment/registry.ts:1630](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1630)*
 
 ___
 
@@ -16292,7 +16292,7 @@ ___
 
 • **Vec<StorageEntryModifierV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1669](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1669)*
+*Defined in [packages/types/src/augment/registry.ts:1669](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1669)*
 
 ___
 
@@ -16300,7 +16300,7 @@ ___
 
 • **Vec<StorageEntryModifierV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1714](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1714)*
+*Defined in [packages/types/src/augment/registry.ts:1714](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1714)*
 
 ___
 
@@ -16308,7 +16308,7 @@ ___
 
 • **Vec<StorageEntryModifierV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryModifierV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1759](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1759)*
+*Defined in [packages/types/src/augment/registry.ts:1759](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1759)*
 
 ___
 
@@ -16316,7 +16316,7 @@ ___
 
 • **Vec<StorageEntryTypeLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1951](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1951)*
+*Defined in [packages/types/src/augment/registry.ts:1951](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1951)*
 
 ___
 
@@ -16324,7 +16324,7 @@ ___
 
 • **Vec<StorageEntryTypeV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1810](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1810)*
+*Defined in [packages/types/src/augment/registry.ts:1810](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1810)*
 
 ___
 
@@ -16332,7 +16332,7 @@ ___
 
 • **Vec<StorageEntryTypeV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1858](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1858)*
+*Defined in [packages/types/src/augment/registry.ts:1858](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1858)*
 
 ___
 
@@ -16340,7 +16340,7 @@ ___
 
 • **Vec<StorageEntryTypeV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1906](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1906)*
+*Defined in [packages/types/src/augment/registry.ts:1906](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1906)*
 
 ___
 
@@ -16348,7 +16348,7 @@ ___
 
 • **Vec<StorageEntryTypeV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1636](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1636)*
+*Defined in [packages/types/src/augment/registry.ts:1636](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1636)*
 
 ___
 
@@ -16356,7 +16356,7 @@ ___
 
 • **Vec<StorageEntryTypeV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1675](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1675)*
+*Defined in [packages/types/src/augment/registry.ts:1675](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1675)*
 
 ___
 
@@ -16364,7 +16364,7 @@ ___
 
 • **Vec<StorageEntryTypeV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1720](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1720)*
+*Defined in [packages/types/src/augment/registry.ts:1720](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1720)*
 
 ___
 
@@ -16372,7 +16372,7 @@ ___
 
 • **Vec<StorageEntryTypeV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageEntryTypeV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1765](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1765)*
+*Defined in [packages/types/src/augment/registry.ts:1765](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1765)*
 
 ___
 
@@ -16380,7 +16380,7 @@ ___
 
 • **Vec<StorageFunctionMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1432](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1432)*
+*Defined in [packages/types/src/augment/registry.ts:1432](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1432)*
 
 ___
 
@@ -16388,7 +16388,7 @@ ___
 
 • **Vec<StorageFunctionMetadataV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionMetadataV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1459](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1459)*
+*Defined in [packages/types/src/augment/registry.ts:1459](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1459)*
 
 ___
 
@@ -16396,7 +16396,7 @@ ___
 
 • **Vec<StorageFunctionMetadataV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionMetadataV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1489](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1489)*
+*Defined in [packages/types/src/augment/registry.ts:1489](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1489)*
 
 ___
 
@@ -16404,7 +16404,7 @@ ___
 
 • **Vec<StorageFunctionMetadataV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionMetadataV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1522](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1522)*
+*Defined in [packages/types/src/augment/registry.ts:1522](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1522)*
 
 ___
 
@@ -16412,7 +16412,7 @@ ___
 
 • **Vec<StorageFunctionMetadataV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionMetadataV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1555](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1555)*
+*Defined in [packages/types/src/augment/registry.ts:1555](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1555)*
 
 ___
 
@@ -16420,7 +16420,7 @@ ___
 
 • **Vec<StorageFunctionMetadataV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionMetadataV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1591](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1591)*
+*Defined in [packages/types/src/augment/registry.ts:1591](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1591)*
 
 ___
 
@@ -16428,7 +16428,7 @@ ___
 
 • **Vec<StorageFunctionModifierV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionModifierV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1435](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1435)*
+*Defined in [packages/types/src/augment/registry.ts:1435](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1435)*
 
 ___
 
@@ -16436,7 +16436,7 @@ ___
 
 • **Vec<StorageFunctionModifierV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionModifierV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1462](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1462)*
+*Defined in [packages/types/src/augment/registry.ts:1462](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1462)*
 
 ___
 
@@ -16444,7 +16444,7 @@ ___
 
 • **Vec<StorageFunctionModifierV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionModifierV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1492](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1492)*
+*Defined in [packages/types/src/augment/registry.ts:1492](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1492)*
 
 ___
 
@@ -16452,7 +16452,7 @@ ___
 
 • **Vec<StorageFunctionModifierV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionModifierV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1525](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1525)*
+*Defined in [packages/types/src/augment/registry.ts:1525](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1525)*
 
 ___
 
@@ -16460,7 +16460,7 @@ ___
 
 • **Vec<StorageFunctionModifierV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionModifierV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1558](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1558)*
+*Defined in [packages/types/src/augment/registry.ts:1558](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1558)*
 
 ___
 
@@ -16468,7 +16468,7 @@ ___
 
 • **Vec<StorageFunctionModifierV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionModifierV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1594](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1594)*
+*Defined in [packages/types/src/augment/registry.ts:1594](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1594)*
 
 ___
 
@@ -16476,7 +16476,7 @@ ___
 
 • **Vec<StorageFunctionTypeV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionTypeV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1438](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1438)*
+*Defined in [packages/types/src/augment/registry.ts:1438](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1438)*
 
 ___
 
@@ -16484,7 +16484,7 @@ ___
 
 • **Vec<StorageFunctionTypeV1>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionTypeV1›*
 
-*Defined in [packages/types/src/augment/registry.ts:1465](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1465)*
+*Defined in [packages/types/src/augment/registry.ts:1465](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1465)*
 
 ___
 
@@ -16492,7 +16492,7 @@ ___
 
 • **Vec<StorageFunctionTypeV2>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionTypeV2›*
 
-*Defined in [packages/types/src/augment/registry.ts:1495](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1495)*
+*Defined in [packages/types/src/augment/registry.ts:1495](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1495)*
 
 ___
 
@@ -16500,7 +16500,7 @@ ___
 
 • **Vec<StorageFunctionTypeV3>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionTypeV3›*
 
-*Defined in [packages/types/src/augment/registry.ts:1528](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1528)*
+*Defined in [packages/types/src/augment/registry.ts:1528](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1528)*
 
 ___
 
@@ -16508,7 +16508,7 @@ ___
 
 • **Vec<StorageFunctionTypeV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionTypeV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1561](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1561)*
+*Defined in [packages/types/src/augment/registry.ts:1561](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1561)*
 
 ___
 
@@ -16516,7 +16516,7 @@ ___
 
 • **Vec<StorageFunctionTypeV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageFunctionTypeV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1597](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1597)*
+*Defined in [packages/types/src/augment/registry.ts:1597](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1597)*
 
 ___
 
@@ -16524,7 +16524,7 @@ ___
 
 • **Vec<StorageHasher>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasher›*
 
-*Defined in [packages/types/src/augment/registry.ts:1957](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1957)*
+*Defined in [packages/types/src/augment/registry.ts:1957](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1957)*
 
 ___
 
@@ -16532,7 +16532,7 @@ ___
 
 • **Vec<StorageHasherV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1816](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1816)*
+*Defined in [packages/types/src/augment/registry.ts:1816](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1816)*
 
 ___
 
@@ -16540,7 +16540,7 @@ ___
 
 • **Vec<StorageHasherV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1864](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1864)*
+*Defined in [packages/types/src/augment/registry.ts:1864](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1864)*
 
 ___
 
@@ -16548,7 +16548,7 @@ ___
 
 • **Vec<StorageHasherV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1912](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1912)*
+*Defined in [packages/types/src/augment/registry.ts:1912](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1912)*
 
 ___
 
@@ -16556,7 +16556,7 @@ ___
 
 • **Vec<StorageHasherV4>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV4›*
 
-*Defined in [packages/types/src/augment/registry.ts:1564](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1564)*
+*Defined in [packages/types/src/augment/registry.ts:1564](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1564)*
 
 ___
 
@@ -16564,7 +16564,7 @@ ___
 
 • **Vec<StorageHasherV5>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV5›*
 
-*Defined in [packages/types/src/augment/registry.ts:1600](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1600)*
+*Defined in [packages/types/src/augment/registry.ts:1600](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1600)*
 
 ___
 
@@ -16572,7 +16572,7 @@ ___
 
 • **Vec<StorageHasherV6>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV6›*
 
-*Defined in [packages/types/src/augment/registry.ts:1639](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1639)*
+*Defined in [packages/types/src/augment/registry.ts:1639](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1639)*
 
 ___
 
@@ -16580,7 +16580,7 @@ ___
 
 • **Vec<StorageHasherV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1678](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1678)*
+*Defined in [packages/types/src/augment/registry.ts:1678](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1678)*
 
 ___
 
@@ -16588,7 +16588,7 @@ ___
 
 • **Vec<StorageHasherV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1723](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1723)*
+*Defined in [packages/types/src/augment/registry.ts:1723](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1723)*
 
 ___
 
@@ -16596,7 +16596,7 @@ ___
 
 • **Vec<StorageHasherV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageHasherV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1768](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1768)*
+*Defined in [packages/types/src/augment/registry.ts:1768](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1768)*
 
 ___
 
@@ -16604,7 +16604,7 @@ ___
 
 • **Vec<StorageKey>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[StorageKey](../classes/_packages_types_src_primitive_storagekey_.storagekey.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:91](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L91)*
+*Defined in [packages/types/src/augment/registry.ts:91](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L91)*
 
 ___
 
@@ -16612,7 +16612,7 @@ ___
 
 • **Vec<StorageKind>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageKind›*
 
-*Defined in [packages/types/src/augment/registry.ts:1978](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1978)*
+*Defined in [packages/types/src/augment/registry.ts:1978](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1978)*
 
 ___
 
@@ -16620,7 +16620,7 @@ ___
 
 • **Vec<StorageMetadataLatest>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataLatest›*
 
-*Defined in [packages/types/src/augment/registry.ts:1954](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1954)*
+*Defined in [packages/types/src/augment/registry.ts:1954](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1954)*
 
 ___
 
@@ -16628,7 +16628,7 @@ ___
 
 • **Vec<StorageMetadataV0>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataV0›*
 
-*Defined in [packages/types/src/augment/registry.ts:1441](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1441)*
+*Defined in [packages/types/src/augment/registry.ts:1441](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1441)*
 
 ___
 
@@ -16636,7 +16636,7 @@ ___
 
 • **Vec<StorageMetadataV10>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataV10›*
 
-*Defined in [packages/types/src/augment/registry.ts:1813](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1813)*
+*Defined in [packages/types/src/augment/registry.ts:1813](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1813)*
 
 ___
 
@@ -16644,7 +16644,7 @@ ___
 
 • **Vec<StorageMetadataV11>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataV11›*
 
-*Defined in [packages/types/src/augment/registry.ts:1861](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1861)*
+*Defined in [packages/types/src/augment/registry.ts:1861](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1861)*
 
 ___
 
@@ -16652,7 +16652,7 @@ ___
 
 • **Vec<StorageMetadataV12>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataV12›*
 
-*Defined in [packages/types/src/augment/registry.ts:1909](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1909)*
+*Defined in [packages/types/src/augment/registry.ts:1909](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1909)*
 
 ___
 
@@ -16660,7 +16660,7 @@ ___
 
 • **Vec<StorageMetadataV7>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataV7›*
 
-*Defined in [packages/types/src/augment/registry.ts:1681](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1681)*
+*Defined in [packages/types/src/augment/registry.ts:1681](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1681)*
 
 ___
 
@@ -16668,7 +16668,7 @@ ___
 
 • **Vec<StorageMetadataV8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataV8›*
 
-*Defined in [packages/types/src/augment/registry.ts:1726](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1726)*
+*Defined in [packages/types/src/augment/registry.ts:1726](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1726)*
 
 ___
 
@@ -16676,7 +16676,7 @@ ___
 
 • **Vec<StorageMetadataV9>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StorageMetadataV9›*
 
-*Defined in [packages/types/src/augment/registry.ts:1771](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1771)*
+*Defined in [packages/types/src/augment/registry.ts:1771](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1771)*
 
 ___
 
@@ -16684,7 +16684,7 @@ ___
 
 • **Vec<StoredPendingChange>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StoredPendingChange›*
 
-*Defined in [packages/types/src/augment/registry.ts:760](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L760)*
+*Defined in [packages/types/src/augment/registry.ts:760](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L760)*
 
 ___
 
@@ -16692,7 +16692,7 @@ ___
 
 • **Vec<StoredState>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StoredState›*
 
-*Defined in [packages/types/src/augment/registry.ts:763](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L763)*
+*Defined in [packages/types/src/augment/registry.ts:763](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L763)*
 
 ___
 
@@ -16700,7 +16700,7 @@ ___
 
 • **Vec<StrikeCount>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹StrikeCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:919](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L919)*
+*Defined in [packages/types/src/augment/registry.ts:919](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L919)*
 
 ___
 
@@ -16708,7 +16708,7 @@ ___
 
 • **Vec<SubId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹SubId›*
 
-*Defined in [packages/types/src/augment/registry.ts:1351](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1351)*
+*Defined in [packages/types/src/augment/registry.ts:1351](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1351)*
 
 ___
 
@@ -16716,7 +16716,7 @@ ___
 
 • **Vec<Tally>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Tally›*
 
-*Defined in [packages/types/src/augment/registry.ts:556](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L556)*
+*Defined in [packages/types/src/augment/registry.ts:556](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L556)*
 
 ___
 
@@ -16724,7 +16724,7 @@ ___
 
 • **Vec<TaskAddress>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹TaskAddress›*
 
-*Defined in [packages/types/src/augment/registry.ts:865](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L865)*
+*Defined in [packages/types/src/augment/registry.ts:865](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L865)*
 
 ___
 
@@ -16732,7 +16732,7 @@ ___
 
 • **Vec<Text>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[Text](../classes/_packages_types_src_primitive_text_.text.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:94](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L94)*
+*Defined in [packages/types/src/augment/registry.ts:94](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L94)*
 
 ___
 
@@ -16740,7 +16740,7 @@ ___
 
 • **Vec<Timepoint>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Timepoint›*
 
-*Defined in [packages/types/src/augment/registry.ts:1228](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1228)*
+*Defined in [packages/types/src/augment/registry.ts:1228](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1228)*
 
 ___
 
@@ -16748,7 +16748,7 @@ ___
 
 • **Vec<TombstoneContractInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹TombstoneContractInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:500](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L500)*
+*Defined in [packages/types/src/augment/registry.ts:500](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L500)*
 
 ___
 
@@ -16756,7 +16756,7 @@ ___
 
 • **Vec<TransactionPriority>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹TransactionPriority›*
 
-*Defined in [packages/types/src/augment/registry.ts:309](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L309)*
+*Defined in [packages/types/src/augment/registry.ts:309](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L309)*
 
 ___
 
@@ -16764,7 +16764,7 @@ ___
 
 • **Vec<TransactionValidityError>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹TransactionValidityError›*
 
-*Defined in [packages/types/src/augment/registry.ts:1182](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1182)*
+*Defined in [packages/types/src/augment/registry.ts:1182](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1182)*
 
 ___
 
@@ -16772,7 +16772,7 @@ ___
 
 • **Vec<TreasuryProposal>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹TreasuryProposal›*
 
-*Defined in [packages/types/src/augment/registry.ts:1219](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1219)*
+*Defined in [packages/types/src/augment/registry.ts:1219](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1219)*
 
 ___
 
@@ -16780,7 +16780,7 @@ ___
 
 • **Vec<TrieId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹TrieId›*
 
-*Defined in [packages/types/src/augment/registry.ts:503](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L503)*
+*Defined in [packages/types/src/augment/registry.ts:503](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L503)*
 
 ___
 
@@ -16788,7 +16788,7 @@ ___
 
 • **Vec<Type>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[Type](../classes/_packages_types_src_primitive_type_.type.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:97](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L97)*
+*Defined in [packages/types/src/augment/registry.ts:97](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L97)*
 
 ___
 
@@ -16796,7 +16796,7 @@ ___
 
 • **Vec<U256>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[U256](../classes/_packages_types_src_primitive_u256_.u256.md)›*
 
-*Defined in [packages/types/src/augment/registry.ts:125](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L125)*
+*Defined in [packages/types/src/augment/registry.ts:125](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L125)*
 
 ___
 
@@ -16804,7 +16804,7 @@ ___
 
 • **Vec<U32F32>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹U32F32›*
 
-*Defined in [packages/types/src/augment/registry.ts:156](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L156)*
+*Defined in [packages/types/src/augment/registry.ts:156](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L156)*
 
 ___
 
@@ -16812,7 +16812,7 @@ ___
 
 • **Vec<UnappliedSlash>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹UnappliedSlash›*
 
-*Defined in [packages/types/src/augment/registry.ts:1044](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1044)*
+*Defined in [packages/types/src/augment/registry.ts:1044](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1044)*
 
 ___
 
@@ -16820,7 +16820,7 @@ ___
 
 • **Vec<UnappliedSlashOther>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹UnappliedSlashOther›*
 
-*Defined in [packages/types/src/augment/registry.ts:1041](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1041)*
+*Defined in [packages/types/src/augment/registry.ts:1041](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1041)*
 
 ___
 
@@ -16828,7 +16828,7 @@ ___
 
 • **Vec<UncleEntryItem>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹UncleEntryItem›*
 
-*Defined in [packages/types/src/augment/registry.ts:334](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L334)*
+*Defined in [packages/types/src/augment/registry.ts:334](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L334)*
 
 ___
 
@@ -16836,7 +16836,7 @@ ___
 
 • **Vec<UnknownTransaction>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹UnknownTransaction›*
 
-*Defined in [packages/types/src/augment/registry.ts:1185](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1185)*
+*Defined in [packages/types/src/augment/registry.ts:1185](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1185)*
 
 ___
 
@@ -16844,7 +16844,7 @@ ___
 
 • **Vec<UnlockChunk>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹UnlockChunk›*
 
-*Defined in [packages/types/src/augment/registry.ts:1047](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1047)*
+*Defined in [packages/types/src/augment/registry.ts:1047](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1047)*
 
 ___
 
@@ -16852,7 +16852,7 @@ ___
 
 • **Vec<UpwardMessage>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹UpwardMessage›*
 
-*Defined in [packages/types/src/augment/registry.ts:1354](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1354)*
+*Defined in [packages/types/src/augment/registry.ts:1354](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1354)*
 
 ___
 
@@ -16860,7 +16860,7 @@ ___
 
 • **Vec<ValidationCode>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidationCode›*
 
-*Defined in [packages/types/src/augment/registry.ts:1360](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1360)*
+*Defined in [packages/types/src/augment/registry.ts:1360](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1360)*
 
 ___
 
@@ -16868,7 +16868,7 @@ ___
 
 • **Vec<ValidationFunctionParams>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidationFunctionParams›*
 
-*Defined in [packages/types/src/augment/registry.ts:1357](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1357)*
+*Defined in [packages/types/src/augment/registry.ts:1357](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1357)*
 
 ___
 
@@ -16876,7 +16876,7 @@ ___
 
 • **Vec<ValidatorCount>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorCount›*
 
-*Defined in [packages/types/src/augment/registry.ts:903](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L903)*
+*Defined in [packages/types/src/augment/registry.ts:903](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L903)*
 
 ___
 
@@ -16884,7 +16884,7 @@ ___
 
 • **Vec<ValidatorId>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorId›*
 
-*Defined in [packages/types/src/augment/registry.ts:312](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L312)*
+*Defined in [packages/types/src/augment/registry.ts:312](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L312)*
 
 ___
 
@@ -16892,7 +16892,7 @@ ___
 
 • **Vec<ValidatorIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:1051](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1051)*
+*Defined in [packages/types/src/augment/registry.ts:1051](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1051)*
 
 ___
 
@@ -16900,7 +16900,7 @@ ___
 
 • **Vec<ValidatorIndexCompact>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorIndexCompact›*
 
-*Defined in [packages/types/src/augment/registry.ts:1054](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1054)*
+*Defined in [packages/types/src/augment/registry.ts:1054](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1054)*
 
 ___
 
@@ -16908,7 +16908,7 @@ ___
 
 • **Vec<ValidatorPrefs>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorPrefs›*
 
-*Defined in [packages/types/src/augment/registry.ts:1057](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1057)*
+*Defined in [packages/types/src/augment/registry.ts:1057](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1057)*
 
 ___
 
@@ -16916,7 +16916,7 @@ ___
 
 • **Vec<ValidatorPrefsTo145>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorPrefsTo145›*
 
-*Defined in [packages/types/src/augment/registry.ts:1063](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1063)*
+*Defined in [packages/types/src/augment/registry.ts:1063](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1063)*
 
 ___
 
@@ -16924,7 +16924,7 @@ ___
 
 • **Vec<ValidatorPrefsTo196>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorPrefsTo196›*
 
-*Defined in [packages/types/src/augment/registry.ts:1060](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1060)*
+*Defined in [packages/types/src/augment/registry.ts:1060](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1060)*
 
 ___
 
@@ -16932,7 +16932,7 @@ ___
 
 • **Vec<ValidatorSignature>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidatorSignature›*
 
-*Defined in [packages/types/src/augment/registry.ts:1363](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1363)*
+*Defined in [packages/types/src/augment/registry.ts:1363](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1363)*
 
 ___
 
@@ -16940,7 +16940,7 @@ ___
 
 • **Vec<ValidityAttestation>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹ValidityAttestation›*
 
-*Defined in [packages/types/src/augment/registry.ts:1366](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1366)*
+*Defined in [packages/types/src/augment/registry.ts:1366](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1366)*
 
 ___
 
@@ -16948,7 +16948,7 @@ ___
 
 • **Vec<VestingInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VestingInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:1231](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1231)*
+*Defined in [packages/types/src/augment/registry.ts:1231](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1231)*
 
 ___
 
@@ -16956,7 +16956,7 @@ ___
 
 • **Vec<VestingSchedule>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VestingSchedule›*
 
-*Defined in [packages/types/src/augment/registry.ts:428](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L428)*
+*Defined in [packages/types/src/augment/registry.ts:428](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L428)*
 
 ___
 
@@ -16964,7 +16964,7 @@ ___
 
 • **Vec<Vicinity>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Vicinity›*
 
-*Defined in [packages/types/src/augment/registry.ts:610](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L610)*
+*Defined in [packages/types/src/augment/registry.ts:610](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L610)*
 
 ___
 
@@ -16972,7 +16972,7 @@ ___
 
 • **Vec<Vote>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Vote›*
 
-*Defined in [packages/types/src/augment/registry.ts:585](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L585)*
+*Defined in [packages/types/src/augment/registry.ts:585](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L585)*
 
 ___
 
@@ -16980,7 +16980,7 @@ ___
 
 • **Vec<VoteIndex>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VoteIndex›*
 
-*Defined in [packages/types/src/augment/registry.ts:589](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L589)*
+*Defined in [packages/types/src/augment/registry.ts:589](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L589)*
 
 ___
 
@@ -16988,7 +16988,7 @@ ___
 
 • **Vec<VoteThreshold>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VoteThreshold›*
 
-*Defined in [packages/types/src/augment/registry.ts:595](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L595)*
+*Defined in [packages/types/src/augment/registry.ts:595](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L595)*
 
 ___
 
@@ -16996,7 +16996,7 @@ ___
 
 • **Vec<VoterInfo>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VoterInfo›*
 
-*Defined in [packages/types/src/augment/registry.ts:592](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L592)*
+*Defined in [packages/types/src/augment/registry.ts:592](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L592)*
 
 ___
 
@@ -17004,7 +17004,7 @@ ___
 
 • **Vec<Votes>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Votes›*
 
-*Defined in [packages/types/src/augment/registry.ts:445](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L445)*
+*Defined in [packages/types/src/augment/registry.ts:445](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L445)*
 
 ___
 
@@ -17012,7 +17012,7 @@ ___
 
 • **Vec<VotesTo230>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VotesTo230›*
 
-*Defined in [packages/types/src/augment/registry.ts:442](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L442)*
+*Defined in [packages/types/src/augment/registry.ts:442](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L442)*
 
 ___
 
@@ -17020,7 +17020,7 @@ ___
 
 • **Vec<Voting>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Voting›*
 
-*Defined in [packages/types/src/augment/registry.ts:559](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L559)*
+*Defined in [packages/types/src/augment/registry.ts:559](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L559)*
 
 ___
 
@@ -17028,7 +17028,7 @@ ___
 
 • **Vec<VotingDelegating>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VotingDelegating›*
 
-*Defined in [packages/types/src/augment/registry.ts:568](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L568)*
+*Defined in [packages/types/src/augment/registry.ts:568](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L568)*
 
 ___
 
@@ -17036,7 +17036,7 @@ ___
 
 • **Vec<VotingDirect>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VotingDirect›*
 
-*Defined in [packages/types/src/augment/registry.ts:562](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L562)*
+*Defined in [packages/types/src/augment/registry.ts:562](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L562)*
 
 ___
 
@@ -17044,7 +17044,7 @@ ___
 
 • **Vec<VotingDirectVote>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VotingDirectVote›*
 
-*Defined in [packages/types/src/augment/registry.ts:565](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L565)*
+*Defined in [packages/types/src/augment/registry.ts:565](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L565)*
 
 ___
 
@@ -17052,7 +17052,7 @@ ___
 
 • **Vec<VouchingStatus>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VouchingStatus›*
 
-*Defined in [packages/types/src/augment/registry.ts:922](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L922)*
+*Defined in [packages/types/src/augment/registry.ts:922](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L922)*
 
 ___
 
@@ -17060,7 +17060,7 @@ ___
 
 • **Vec<VrfData>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VrfData›*
 
-*Defined in [packages/types/src/augment/registry.ts:404](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L404)*
+*Defined in [packages/types/src/augment/registry.ts:404](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L404)*
 
 ___
 
@@ -17068,7 +17068,7 @@ ___
 
 • **Vec<VrfOutput>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VrfOutput›*
 
-*Defined in [packages/types/src/augment/registry.ts:407](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L407)*
+*Defined in [packages/types/src/augment/registry.ts:407](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L407)*
 
 ___
 
@@ -17076,7 +17076,7 @@ ___
 
 • **Vec<VrfProof>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹VrfProof›*
 
-*Defined in [packages/types/src/augment/registry.ts:410](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L410)*
+*Defined in [packages/types/src/augment/registry.ts:410](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L410)*
 
 ___
 
@@ -17084,7 +17084,7 @@ ___
 
 • **Vec<Weight>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹Weight›*
 
-*Defined in [packages/types/src/augment/registry.ts:316](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L316)*
+*Defined in [packages/types/src/augment/registry.ts:316](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L316)*
 
 ___
 
@@ -17092,7 +17092,7 @@ ___
 
 • **Vec<WeightMultiplier>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹WeightMultiplier›*
 
-*Defined in [packages/types/src/augment/registry.ts:319](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L319)*
+*Defined in [packages/types/src/augment/registry.ts:319](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L319)*
 
 ___
 
@@ -17100,7 +17100,7 @@ ___
 
 • **Vec<WeightToFeeCoefficient>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹WeightToFeeCoefficient›*
 
-*Defined in [packages/types/src/augment/registry.ts:1066](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1066)*
+*Defined in [packages/types/src/augment/registry.ts:1066](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1066)*
 
 ___
 
@@ -17108,7 +17108,7 @@ ___
 
 • **Vec<WinningData>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹WinningData›*
 
-*Defined in [packages/types/src/augment/registry.ts:1369](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1369)*
+*Defined in [packages/types/src/augment/registry.ts:1369](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1369)*
 
 ___
 
@@ -17116,7 +17116,7 @@ ___
 
 • **Vec<WinningDataEntry>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹WinningDataEntry›*
 
-*Defined in [packages/types/src/augment/registry.ts:1372](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1372)*
+*Defined in [packages/types/src/augment/registry.ts:1372](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1372)*
 
 ___
 
@@ -17124,7 +17124,7 @@ ___
 
 • **Vec<WithdrawReasons>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹WithdrawReasons›*
 
-*Defined in [packages/types/src/augment/registry.ts:431](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L431)*
+*Defined in [packages/types/src/augment/registry.ts:431](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L431)*
 
 ___
 
@@ -17132,7 +17132,7 @@ ___
 
 • **Vec<bool>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[bool](_packages_types_src_augment_registry_._registry_.interfacetypes.md#bool)›*
 
-*Defined in [packages/types/src/augment/registry.ts:58](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L58)*
+*Defined in [packages/types/src/augment/registry.ts:58](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L58)*
 
 ___
 
@@ -17140,7 +17140,7 @@ ___
 
 • **Vec<i128>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[i128](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i128)›*
 
-*Defined in [packages/types/src/augment/registry.ts:82](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L82)*
+*Defined in [packages/types/src/augment/registry.ts:82](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L82)*
 
 ___
 
@@ -17148,7 +17148,7 @@ ___
 
 • **Vec<i16>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[i16](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i16)›*
 
-*Defined in [packages/types/src/augment/registry.ts:73](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L73)*
+*Defined in [packages/types/src/augment/registry.ts:73](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L73)*
 
 ___
 
@@ -17156,7 +17156,7 @@ ___
 
 • **Vec<i256>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[i256](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i256)›*
 
-*Defined in [packages/types/src/augment/registry.ts:85](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L85)*
+*Defined in [packages/types/src/augment/registry.ts:85](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L85)*
 
 ___
 
@@ -17164,7 +17164,7 @@ ___
 
 • **Vec<i32>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[i32](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i32)›*
 
-*Defined in [packages/types/src/augment/registry.ts:76](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L76)*
+*Defined in [packages/types/src/augment/registry.ts:76](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L76)*
 
 ___
 
@@ -17172,7 +17172,7 @@ ___
 
 • **Vec<i64>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[i64](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i64)›*
 
-*Defined in [packages/types/src/augment/registry.ts:79](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L79)*
+*Defined in [packages/types/src/augment/registry.ts:79](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L79)*
 
 ___
 
@@ -17180,7 +17180,7 @@ ___
 
 • **Vec<i8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[i8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i8)›*
 
-*Defined in [packages/types/src/augment/registry.ts:70](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L70)*
+*Defined in [packages/types/src/augment/registry.ts:70](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L70)*
 
 ___
 
@@ -17188,7 +17188,7 @@ ___
 
 • **Vec<u128>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[u128](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u128)›*
 
-*Defined in [packages/types/src/augment/registry.ts:117](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L117)*
+*Defined in [packages/types/src/augment/registry.ts:117](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L117)*
 
 ___
 
@@ -17196,7 +17196,7 @@ ___
 
 • **Vec<u16>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[u16](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u16)›*
 
-*Defined in [packages/types/src/augment/registry.ts:105](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L105)*
+*Defined in [packages/types/src/augment/registry.ts:105](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L105)*
 
 ___
 
@@ -17204,7 +17204,7 @@ ___
 
 • **Vec<u256>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[u256](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u256)›*
 
-*Defined in [packages/types/src/augment/registry.ts:121](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L121)*
+*Defined in [packages/types/src/augment/registry.ts:121](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L121)*
 
 ___
 
@@ -17212,7 +17212,7 @@ ___
 
 • **Vec<u32>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[u32](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u32)›*
 
-*Defined in [packages/types/src/augment/registry.ts:109](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L109)*
+*Defined in [packages/types/src/augment/registry.ts:109](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L109)*
 
 ___
 
@@ -17220,7 +17220,7 @@ ___
 
 • **Vec<u64>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[u64](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u64)›*
 
-*Defined in [packages/types/src/augment/registry.ts:113](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L113)*
+*Defined in [packages/types/src/augment/registry.ts:113](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L113)*
 
 ___
 
@@ -17228,7 +17228,7 @@ ___
 
 • **Vec<u8>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[u8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u8)›*
 
-*Defined in [packages/types/src/augment/registry.ts:101](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L101)*
+*Defined in [packages/types/src/augment/registry.ts:101](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L101)*
 
 ___
 
@@ -17236,7 +17236,7 @@ ___
 
 • **Vec<usize>**: *[Vec](../classes/_packages_types_src_codec_vec_.vec.md)‹[usize](_packages_types_src_augment_registry_._registry_.interfacetypes.md#usize)›*
 
-*Defined in [packages/types/src/augment/registry.ts:129](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L129)*
+*Defined in [packages/types/src/augment/registry.ts:129](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L129)*
 
 ___
 
@@ -17244,7 +17244,7 @@ ___
 
 • **VestingInfo**: *VestingInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:1229](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1229)*
+*Defined in [packages/types/src/augment/registry.ts:1229](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1229)*
 
 ___
 
@@ -17252,7 +17252,7 @@ ___
 
 • **VestingSchedule**: *VestingSchedule*
 
-*Defined in [packages/types/src/augment/registry.ts:426](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L426)*
+*Defined in [packages/types/src/augment/registry.ts:426](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L426)*
 
 ___
 
@@ -17260,7 +17260,7 @@ ___
 
 • **Vicinity**: *Vicinity*
 
-*Defined in [packages/types/src/augment/registry.ts:608](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L608)*
+*Defined in [packages/types/src/augment/registry.ts:608](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L608)*
 
 ___
 
@@ -17268,7 +17268,7 @@ ___
 
 • **Vote**: *Vote*
 
-*Defined in [packages/types/src/augment/registry.ts:583](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L583)*
+*Defined in [packages/types/src/augment/registry.ts:583](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L583)*
 
 ___
 
@@ -17276,7 +17276,7 @@ ___
 
 • **VoteIndex**: *VoteIndex*
 
-*Defined in [packages/types/src/augment/registry.ts:586](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L586)*
+*Defined in [packages/types/src/augment/registry.ts:586](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L586)*
 
 ___
 
@@ -17284,7 +17284,7 @@ ___
 
 • **VoteThreshold**: *VoteThreshold*
 
-*Defined in [packages/types/src/augment/registry.ts:593](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L593)*
+*Defined in [packages/types/src/augment/registry.ts:593](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L593)*
 
 ___
 
@@ -17292,7 +17292,7 @@ ___
 
 • **VoterInfo**: *VoterInfo*
 
-*Defined in [packages/types/src/augment/registry.ts:590](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L590)*
+*Defined in [packages/types/src/augment/registry.ts:590](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L590)*
 
 ___
 
@@ -17300,7 +17300,7 @@ ___
 
 • **Votes**: *Votes*
 
-*Defined in [packages/types/src/augment/registry.ts:443](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L443)*
+*Defined in [packages/types/src/augment/registry.ts:443](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L443)*
 
 ___
 
@@ -17308,7 +17308,7 @@ ___
 
 • **VotesTo230**: *VotesTo230*
 
-*Defined in [packages/types/src/augment/registry.ts:440](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L440)*
+*Defined in [packages/types/src/augment/registry.ts:440](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L440)*
 
 ___
 
@@ -17316,7 +17316,7 @@ ___
 
 • **Voting**: *Voting*
 
-*Defined in [packages/types/src/augment/registry.ts:557](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L557)*
+*Defined in [packages/types/src/augment/registry.ts:557](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L557)*
 
 ___
 
@@ -17324,7 +17324,7 @@ ___
 
 • **VotingDelegating**: *VotingDelegating*
 
-*Defined in [packages/types/src/augment/registry.ts:566](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L566)*
+*Defined in [packages/types/src/augment/registry.ts:566](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L566)*
 
 ___
 
@@ -17332,7 +17332,7 @@ ___
 
 • **VotingDirect**: *VotingDirect*
 
-*Defined in [packages/types/src/augment/registry.ts:560](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L560)*
+*Defined in [packages/types/src/augment/registry.ts:560](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L560)*
 
 ___
 
@@ -17340,7 +17340,7 @@ ___
 
 • **VotingDirectVote**: *VotingDirectVote*
 
-*Defined in [packages/types/src/augment/registry.ts:563](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L563)*
+*Defined in [packages/types/src/augment/registry.ts:563](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L563)*
 
 ___
 
@@ -17348,7 +17348,7 @@ ___
 
 • **VouchingStatus**: *VouchingStatus*
 
-*Defined in [packages/types/src/augment/registry.ts:920](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L920)*
+*Defined in [packages/types/src/augment/registry.ts:920](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L920)*
 
 ___
 
@@ -17356,7 +17356,7 @@ ___
 
 • **VrfData**: *VrfData*
 
-*Defined in [packages/types/src/augment/registry.ts:402](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L402)*
+*Defined in [packages/types/src/augment/registry.ts:402](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L402)*
 
 ___
 
@@ -17364,7 +17364,7 @@ ___
 
 • **VrfOutput**: *VrfOutput*
 
-*Defined in [packages/types/src/augment/registry.ts:405](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L405)*
+*Defined in [packages/types/src/augment/registry.ts:405](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L405)*
 
 ___
 
@@ -17372,7 +17372,7 @@ ___
 
 • **VrfProof**: *VrfProof*
 
-*Defined in [packages/types/src/augment/registry.ts:408](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L408)*
+*Defined in [packages/types/src/augment/registry.ts:408](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L408)*
 
 ___
 
@@ -17380,7 +17380,7 @@ ___
 
 • **Weight**: *Weight*
 
-*Defined in [packages/types/src/augment/registry.ts:313](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L313)*
+*Defined in [packages/types/src/augment/registry.ts:313](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L313)*
 
 ___
 
@@ -17388,7 +17388,7 @@ ___
 
 • **WeightMultiplier**: *WeightMultiplier*
 
-*Defined in [packages/types/src/augment/registry.ts:317](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L317)*
+*Defined in [packages/types/src/augment/registry.ts:317](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L317)*
 
 ___
 
@@ -17396,7 +17396,7 @@ ___
 
 • **WeightToFeeCoefficient**: *WeightToFeeCoefficient*
 
-*Defined in [packages/types/src/augment/registry.ts:1064](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1064)*
+*Defined in [packages/types/src/augment/registry.ts:1064](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1064)*
 
 ___
 
@@ -17404,7 +17404,7 @@ ___
 
 • **WinningData**: *WinningData*
 
-*Defined in [packages/types/src/augment/registry.ts:1367](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1367)*
+*Defined in [packages/types/src/augment/registry.ts:1367](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1367)*
 
 ___
 
@@ -17412,7 +17412,7 @@ ___
 
 • **WinningDataEntry**: *WinningDataEntry*
 
-*Defined in [packages/types/src/augment/registry.ts:1370](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L1370)*
+*Defined in [packages/types/src/augment/registry.ts:1370](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L1370)*
 
 ___
 
@@ -17420,7 +17420,7 @@ ___
 
 • **WithdrawReasons**: *WithdrawReasons*
 
-*Defined in [packages/types/src/augment/registry.ts:429](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L429)*
+*Defined in [packages/types/src/augment/registry.ts:429](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L429)*
 
 ___
 
@@ -17428,7 +17428,7 @@ ___
 
 • **bool**: *[bool](_packages_types_src_augment_registry_._registry_.interfacetypes.md#bool)*
 
-*Defined in [packages/types/src/augment/registry.ts:56](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L56)*
+*Defined in [packages/types/src/augment/registry.ts:56](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L56)*
 
 ___
 
@@ -17436,7 +17436,7 @@ ___
 
 • **i128**: *[i128](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i128)*
 
-*Defined in [packages/types/src/augment/registry.ts:80](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L80)*
+*Defined in [packages/types/src/augment/registry.ts:80](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L80)*
 
 ___
 
@@ -17444,7 +17444,7 @@ ___
 
 • **i16**: *[i16](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i16)*
 
-*Defined in [packages/types/src/augment/registry.ts:71](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L71)*
+*Defined in [packages/types/src/augment/registry.ts:71](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L71)*
 
 ___
 
@@ -17452,7 +17452,7 @@ ___
 
 • **i256**: *[i256](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i256)*
 
-*Defined in [packages/types/src/augment/registry.ts:83](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L83)*
+*Defined in [packages/types/src/augment/registry.ts:83](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L83)*
 
 ___
 
@@ -17460,7 +17460,7 @@ ___
 
 • **i32**: *[i32](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i32)*
 
-*Defined in [packages/types/src/augment/registry.ts:74](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L74)*
+*Defined in [packages/types/src/augment/registry.ts:74](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L74)*
 
 ___
 
@@ -17468,7 +17468,7 @@ ___
 
 • **i64**: *[i64](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i64)*
 
-*Defined in [packages/types/src/augment/registry.ts:77](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L77)*
+*Defined in [packages/types/src/augment/registry.ts:77](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L77)*
 
 ___
 
@@ -17476,7 +17476,7 @@ ___
 
 • **i8**: *[i8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#i8)*
 
-*Defined in [packages/types/src/augment/registry.ts:68](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L68)*
+*Defined in [packages/types/src/augment/registry.ts:68](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L68)*
 
 ___
 
@@ -17484,7 +17484,7 @@ ___
 
 • **u128**: *[u128](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u128)*
 
-*Defined in [packages/types/src/augment/registry.ts:114](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L114)*
+*Defined in [packages/types/src/augment/registry.ts:114](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L114)*
 
 ___
 
@@ -17492,7 +17492,7 @@ ___
 
 • **u16**: *[u16](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u16)*
 
-*Defined in [packages/types/src/augment/registry.ts:102](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L102)*
+*Defined in [packages/types/src/augment/registry.ts:102](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L102)*
 
 ___
 
@@ -17500,7 +17500,7 @@ ___
 
 • **u256**: *[u256](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u256)*
 
-*Defined in [packages/types/src/augment/registry.ts:118](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L118)*
+*Defined in [packages/types/src/augment/registry.ts:118](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L118)*
 
 ___
 
@@ -17508,7 +17508,7 @@ ___
 
 • **u32**: *[u32](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u32)*
 
-*Defined in [packages/types/src/augment/registry.ts:106](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L106)*
+*Defined in [packages/types/src/augment/registry.ts:106](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L106)*
 
 ___
 
@@ -17516,7 +17516,7 @@ ___
 
 • **u64**: *[u64](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u64)*
 
-*Defined in [packages/types/src/augment/registry.ts:110](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L110)*
+*Defined in [packages/types/src/augment/registry.ts:110](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L110)*
 
 ___
 
@@ -17524,7 +17524,7 @@ ___
 
 • **u8**: *[u8](_packages_types_src_augment_registry_._registry_.interfacetypes.md#u8)*
 
-*Defined in [packages/types/src/augment/registry.ts:98](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L98)*
+*Defined in [packages/types/src/augment/registry.ts:98](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L98)*
 
 ___
 
@@ -17532,4 +17532,4 @@ ___
 
 • **usize**: *[usize](_packages_types_src_augment_registry_._registry_.interfacetypes.md#usize)*
 
-*Defined in [packages/types/src/augment/registry.ts:126](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/augment/registry.ts#L126)*
+*Defined in [packages/types/src/augment/registry.ts:126](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/augment/registry.ts#L126)*

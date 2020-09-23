@@ -25,7 +25,7 @@
 
 • **blockHash**: *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:172](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L172)*
+*Defined in [packages/types/src/types/extrinsic.ts:172](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L172)*
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 • **era**: *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a) | [IExtrinsicEra](_packages_types_src_types_extrinsic_.iextrinsicera.md)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:173](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L173)*
+*Defined in [packages/types/src/types/extrinsic.ts:173](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L173)*
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 • **genesisHash**: *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:174](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L174)*
+*Defined in [packages/types/src/types/extrinsic.ts:174](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L174)*
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 • **method**: *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a) | [IMethod](_packages_types_src_types_interfaces_.imethod.md)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:175](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L175)*
+*Defined in [packages/types/src/types/extrinsic.ts:175](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L175)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **nonce**: *[AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:176](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L176)*
+*Defined in [packages/types/src/types/extrinsic.ts:176](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L176)*
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 • **specVersion**: *[AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:177](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L177)*
+*Defined in [packages/types/src/types/extrinsic.ts:177](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L177)*
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 • **tip**: *[AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:178](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L178)*
+*Defined in [packages/types/src/types/extrinsic.ts:178](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L178)*
 
 ___
 
@@ -81,4 +81,4 @@ ___
 
 • **transactionVersion**: *[AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:179](https://github.com/polkadot-js/api/blob/820dd3d0f/packages/types/src/types/extrinsic.ts#L179)*
+*Defined in [packages/types/src/types/extrinsic.ts:179](https://github.com/polkadot-js/api/blob/9f4007bd4/packages/types/src/types/extrinsic.ts#L179)*
