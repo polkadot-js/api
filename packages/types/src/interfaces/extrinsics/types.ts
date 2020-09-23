@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { Enum, U8aFixed } from '@polkadot/types/codec';
-import { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types/extrinsic';
+import { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types/extrinsic';
 import { H512 } from '@polkadot/types/interfaces/runtime';
 
 /** @name EcdsaSignature */
@@ -23,23 +23,11 @@ export interface ExtrinsicPayload extends GenericExtrinsicPayload {}
 /** @name ExtrinsicPayloadUnknown */
 export interface ExtrinsicPayloadUnknown extends GenericExtrinsicPayloadUnknown {}
 
-/** @name ExtrinsicPayloadV1 */
-export interface ExtrinsicPayloadV1 extends GenericExtrinsicPayloadV1 {}
-
-/** @name ExtrinsicPayloadV2 */
-export interface ExtrinsicPayloadV2 extends GenericExtrinsicPayloadV2 {}
-
 /** @name ExtrinsicPayloadV3 */
 export interface ExtrinsicPayloadV3 extends GenericExtrinsicPayloadV3 {}
 
 /** @name ExtrinsicPayloadV4 */
 export interface ExtrinsicPayloadV4 extends GenericExtrinsicPayloadV4 {}
-
-/** @name ExtrinsicSignatureV1 */
-export interface ExtrinsicSignatureV1 extends GenericExtrinsicSignatureV1 {}
-
-/** @name ExtrinsicSignatureV2 */
-export interface ExtrinsicSignatureV2 extends GenericExtrinsicSignatureV2 {}
 
 /** @name ExtrinsicSignatureV3 */
 export interface ExtrinsicSignatureV3 extends GenericExtrinsicSignatureV3 {}
@@ -49,12 +37,6 @@ export interface ExtrinsicSignatureV4 extends GenericExtrinsicSignatureV4 {}
 
 /** @name ExtrinsicUnknown */
 export interface ExtrinsicUnknown extends GenericExtrinsicUnknown {}
-
-/** @name ExtrinsicV1 */
-export interface ExtrinsicV1 extends GenericExtrinsicV1 {}
-
-/** @name ExtrinsicV2 */
-export interface ExtrinsicV2 extends GenericExtrinsicV2 {}
 
 /** @name ExtrinsicV3 */
 export interface ExtrinsicV3 extends GenericExtrinsicV3 {}
