@@ -11,9 +11,6 @@ const VERSION_IDX = 4; // magic u32 preceding
 const EMPTY_METADATA = u8aConcat(new Uint8Array([0x6d, 0x65, 0x74, 0x61, 5])); // magic + lowest version
 const EMPTY_U8A = new Uint8Array();
 
-// first we try and parse using the versioned structure, if this does fail,
-// we adjust with the magic number and a manual version and re-try. As soon as
-// we remove support for V0, we will just do a new here
 function decodeMetadata (registry: Registry, _value: Uint8Array | string = EMPTY_U8A): MetadataVersioned {
   const value = isHex(_value)
     ? hexToU8a(_value)
