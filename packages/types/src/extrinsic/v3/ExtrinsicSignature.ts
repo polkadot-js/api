@@ -151,4 +151,14 @@ export default class ExtrinsicSignatureV3 extends Struct implements IExtrinsicSi
 
     return this._injectSignature(signer, signature, payload);
   }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  public toU8a (isBare?: boolean): Uint8Array {
+    return this.isSigned
+      ? super.toU8a(isBare)
+      : EMPTY_U8A;
+  }
 }
