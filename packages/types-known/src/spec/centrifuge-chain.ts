@@ -32,6 +32,7 @@ const sharedTypes = {
     leafHash: 'H256',
     sortedHashes: 'H256'
   },
+  RefCount: 'RefCountTo259',
   ResourceId: '[u8; 32]',
   'chainbridge::ChainId': 'u8'
 };
