@@ -21,6 +21,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
@@ -29,13 +30,15 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
     minmax: [23, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      RefCount: 'RefCountTo259'
     }
   }
 ];

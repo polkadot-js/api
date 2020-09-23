@@ -3,10 +3,12 @@
 ## 1.35.0-beta.x
 
 - **Important** Metadata versions before v5 is not supported anymore. v4 was the first version to go with the Substrate 1.0 (Kusama itself starts at v9). This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
+- **Breaking change** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
 
 Changes:
 
 - Drop support for Substrate 1.0 metadata versions 0-4
+- Adjust `RefCount` type as per substrate 2.0
 - Add bounty type definitions from treasury
 - Add support for `grandpa_proveFinality` RPC
 

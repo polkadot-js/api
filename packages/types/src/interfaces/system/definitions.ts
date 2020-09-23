@@ -270,7 +270,8 @@ export default {
         Initialization: 'Null'
       }
     },
-    RefCount: 'u8',
+    RefCount: 'u32',
+    RefCountTo259: 'u8',
     TransactionValidityError: {
       _enum: {
         Invalid: 'InvalidTransaction',
