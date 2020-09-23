@@ -3,7 +3,7 @@
 
 import { Registry } from '@polkadot/types/types';
 
-import { isHex, hexToU8a, u8aConcat } from '@polkadot/util';
+import { isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import MetadataVersioned from './MetadataVersioned';
 
@@ -11,12 +11,18 @@ const VERSION_IDX = 4; // magic u32 preceding
 const EMPTY_METADATA = u8aConcat(new Uint8Array([0x6d, 0x65, 0x74, 0x61, 5])); // magic + lowest version
 const EMPTY_U8A = new Uint8Array();
 
-function decodeMetadata (registry: Registry, _value: Uint8Array | string = EMPTY_U8A): MetadataVersioned {
-  const value = isHex(_value)
-    ? hexToU8a(_value)
-    : _value.length === 0
-      ? EMPTY_METADATA
-      : _value;
+function sanitizeInput (_value: Uint8Array | string = EMPTY_U8A): Uint8Array {
+  if (isString(_value)) {
+    return sanitizeInput(u8aToU8a(_value));
+  }
+
+  return _value.length === 0
+    ? EMPTY_METADATA
+    : _value;
+}
+
+function decodeMetadata (registry: Registry, _value?: Uint8Array | string): MetadataVersioned {
+  const value = sanitizeInput(_value);
   const version = value[VERSION_IDX];
 
   try {
