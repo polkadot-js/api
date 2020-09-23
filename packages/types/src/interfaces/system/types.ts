@@ -255,7 +255,10 @@ export interface Phase extends Enum {
 }
 
 /** @name RefCount */
-export interface RefCount extends u8 {}
+export interface RefCount extends u32 {}
+
+/** @name RefCountTo259 */
+export interface RefCountTo259 extends u8 {}
 
 /** @name TransactionValidityError */
 export interface TransactionValidityError extends Enum {
