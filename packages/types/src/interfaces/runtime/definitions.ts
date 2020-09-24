@@ -15,11 +15,11 @@ const numberTypes = {
   FixedU128: 'UInt<128, FixedU128>',
   I32F32: 'Int<64, I32F32>',
   U32F32: 'UInt<64, U32F32>',
-  PerU16: 'u16',
-  Perbill: 'u32',
-  Percent: 'u8',
-  Permill: 'u32',
-  Perquintill: 'u64'
+  PerU16: 'UInt<16, PerU16>',
+  Perbill: 'UInt<32, Perbill>',
+  Percent: 'UInt<8, Percent>',
+  Permill: 'UInt<32, Permill>',
+  Perquintill: 'UInt<64, Perquintill>'
 };
 
 export default {
@@ -31,7 +31,7 @@ export default {
     AccountIndex: 'GenericAccountIndex',
     Address: 'GenericAddress',
     AssetId: 'u32',
-    Balance: 'u128',
+    Balance: 'UInt<128, Balance>',
     BalanceOf: 'Balance',
     Block: 'GenericBlock',
     BlockNumber: 'u32',

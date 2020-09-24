@@ -69,7 +69,7 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
           setImports(allDefs, imports, [def.type]);
 
           args = def.params.map((param) => {
-            const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
+            const similarTypes = getSimilarTypes(registry, definitions, param.type, imports);
 
             setImports(allDefs, imports, [param.type, ...similarTypes]);
 
