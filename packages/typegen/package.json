@@ -40,13 +40,13 @@
     "@polkadot/metadata": "1.35.0-beta.6",
     "@polkadot/rpc-provider": "1.35.0-beta.6",
     "@polkadot/types": "1.35.0-beta.6",
-    "@polkadot/util": "^3.4.1",
+    "@polkadot/util": "^3.5.0-beta.12",
     "handlebars": "^4.7.6",
     "websocket": "^1.0.32",
     "yargs": "^16.0.3"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.1",
-    "@types/yargs": "^15.0.5"
+    "@types/yargs": "^15.0.7"
   }
 }
