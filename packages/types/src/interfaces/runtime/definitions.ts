@@ -31,7 +31,7 @@ export default {
     AccountIndex: 'GenericAccountIndex',
     Address: 'GenericAddress',
     AssetId: 'u32',
-    Balance: 'u128',
+    Balance: 'UInt<128, Balance>',
     BalanceOf: 'Balance',
     Block: 'GenericBlock',
     BlockNumber: 'u32',
