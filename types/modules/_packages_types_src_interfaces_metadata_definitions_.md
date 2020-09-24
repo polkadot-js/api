@@ -16,7 +16,7 @@
 
 ▪ `Const` **AllHashers**: object
 
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:9](https://github.com/polkadot-js/api/blob/c6bc664f8/packages/types/src/interfaces/metadata/definitions.ts#L9)*
+*Defined in [packages/types/src/interfaces/metadata/definitions.ts:9](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/types/src/interfaces/metadata/definitions.ts#L9)*
 
 #### Properties:
 
