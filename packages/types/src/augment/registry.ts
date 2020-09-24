@@ -137,6 +137,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<FixedI64>': Option<FixedI64>;
     'Vec<FixedI64>': Vec<FixedI64>;
     FixedU64: FixedU64;
+    'Compact<FixedU64>': Compact<FixedU64>;
     'Option<FixedU64>': Option<FixedU64>;
     'Vec<FixedU64>': Vec<FixedU64>;
     Fixed128: Fixed128;
@@ -146,12 +147,14 @@ declare module '@polkadot/types/types/registry' {
     'Option<FixedI128>': Option<FixedI128>;
     'Vec<FixedI128>': Vec<FixedI128>;
     FixedU128: FixedU128;
+    'Compact<FixedU128>': Compact<FixedU128>;
     'Option<FixedU128>': Option<FixedU128>;
     'Vec<FixedU128>': Vec<FixedU128>;
     I32F32: I32F32;
     'Option<I32F32>': Option<I32F32>;
     'Vec<I32F32>': Vec<I32F32>;
     U32F32: U32F32;
+    'Compact<U32F32>': Compact<U32F32>;
     'Option<U32F32>': Option<U32F32>;
     'Vec<U32F32>': Vec<U32F32>;
     PerU16: PerU16;
@@ -181,6 +184,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<AccountIdOf>': Option<AccountIdOf>;
     'Vec<AccountIdOf>': Vec<AccountIdOf>;
     AccountIndex: AccountIndex;
+    'Compact<AccountIndex>': Compact<AccountIndex>;
     'Option<AccountIndex>': Option<AccountIndex>;
     'Vec<AccountIndex>': Vec<AccountIndex>;
     Address: Address;
@@ -195,6 +199,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Balance>': Option<Balance>;
     'Vec<Balance>': Vec<Balance>;
     BalanceOf: BalanceOf;
+    'Compact<BalanceOf>': Compact<BalanceOf>;
     'Option<BalanceOf>': Option<BalanceOf>;
     'Vec<BalanceOf>': Vec<BalanceOf>;
     Block: Block;
@@ -217,6 +222,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ChangesTrieConfiguration>': Option<ChangesTrieConfiguration>;
     'Vec<ChangesTrieConfiguration>': Vec<ChangesTrieConfiguration>;
     ConsensusEngineId: ConsensusEngineId;
+    'Compact<ConsensusEngineId>': Compact<ConsensusEngineId>;
     'Option<ConsensusEngineId>': Option<ConsensusEngineId>;
     'Vec<ConsensusEngineId>': Vec<ConsensusEngineId>;
     Digest: Digest;
@@ -855,6 +861,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<SchedulePeriod>': Option<SchedulePeriod>;
     'Vec<SchedulePeriod>': Vec<SchedulePeriod>;
     SchedulePriority: SchedulePriority;
+    'Compact<SchedulePriority>': Compact<SchedulePriority>;
     'Option<SchedulePriority>': Option<SchedulePriority>;
     'Vec<SchedulePriority>': Vec<SchedulePriority>;
     Scheduled: Scheduled;
@@ -980,6 +987,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<KeyType>': Option<KeyType>;
     'Vec<KeyType>': Vec<KeyType>;
     MomentOf: MomentOf;
+    'Compact<MomentOf>': Compact<MomentOf>;
     'Option<MomentOf>': Option<MomentOf>;
     'Vec<MomentOf>': Vec<MomentOf>;
     Nominations: Nominations;
@@ -993,6 +1001,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<NominatorIndexCompact>': Option<NominatorIndexCompact>;
     'Vec<NominatorIndexCompact>': Vec<NominatorIndexCompact>;
     OffchainAccuracy: OffchainAccuracy;
+    'Compact<OffchainAccuracy>': Compact<OffchainAccuracy>;
     'Option<OffchainAccuracy>': Option<OffchainAccuracy>;
     'Vec<OffchainAccuracy>': Vec<OffchainAccuracy>;
     OffchainAccuracyCompact: OffchainAccuracyCompact;
@@ -1301,9 +1310,11 @@ declare module '@polkadot/types/types/registry' {
     'Option<IncomingParachainDeploy>': Option<IncomingParachainDeploy>;
     'Vec<IncomingParachainDeploy>': Vec<IncomingParachainDeploy>;
     LeasePeriod: LeasePeriod;
+    'Compact<LeasePeriod>': Compact<LeasePeriod>;
     'Option<LeasePeriod>': Option<LeasePeriod>;
     'Vec<LeasePeriod>': Vec<LeasePeriod>;
     LeasePeriodOf: LeasePeriodOf;
+    'Compact<LeasePeriodOf>': Compact<LeasePeriodOf>;
     'Option<LeasePeriodOf>': Option<LeasePeriodOf>;
     'Vec<LeasePeriodOf>': Vec<LeasePeriodOf>;
     LocalValidationData: LocalValidationData;
@@ -1329,6 +1340,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ParaScheduling>': Option<ParaScheduling>;
     'Vec<ParaScheduling>': Vec<ParaScheduling>;
     RelayChainBlockNumber: RelayChainBlockNumber;
+    'Compact<RelayChainBlockNumber>': Compact<RelayChainBlockNumber>;
     'Option<RelayChainBlockNumber>': Option<RelayChainBlockNumber>;
     'Vec<RelayChainBlockNumber>': Vec<RelayChainBlockNumber>;
     Remark: Remark;
