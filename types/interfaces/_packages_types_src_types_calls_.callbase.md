@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/calls"](../modules/_packages_types_src_types_calls_.md) › [CallBase](_packages_types_src_types_calls_.callbase.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/calls"](../modules/_packages_types_src_types_calls_.md) / CallBase
 
 # Interface: CallBase
 
@@ -20,44 +22,40 @@
 
 ## Properties
 
-###  callIndex
+### callIndex
 
-• **callIndex**: *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+•  **callIndex**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L8)*
-
-___
-
-###  meta
-
-• **meta**: *FunctionMetadataLatest*
-
-*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L9)*
+*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L8)*
 
 ___
 
-###  method
+### meta
 
-• **method**: *string*
+•  **meta**: FunctionMetadataLatest
 
-*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L10)*
-
-___
-
-###  section
-
-• **section**: *string*
-
-*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L11)*
+*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L9)*
 
 ___
 
-###  toJSON
+### method
 
-• **toJSON**: *function*
+•  **method**: string
 
-*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L12)*
+*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L10)*
 
-#### Type declaration:
+___
 
-▸ (): *any*
+### section
+
+•  **section**: string
+
+*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L11)*
+
+___
+
+### toJSON
+
+•  **toJSON**: () => any
+
+*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L12)*

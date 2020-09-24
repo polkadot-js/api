@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) › [RxResult](_packages_api_src_types_base_.rxresult.md)
+**Polkadot JS API**
 
-# Interface: RxResult ‹**F**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) / RxResult
+
+# Interface: RxResult\<**F**>
 
 ## Type parameters
 
-▪ **F**: *AnyFunction*
+* F
 
 ## Hierarchy
 
@@ -14,30 +16,32 @@
 
 ## Callable
 
-▸ (...`args`: Parameters‹F›): *Observable‹[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)‹ReturnType‹F›››*
+▸ (...`args`: Parameters\<F>): Observable\<[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)\<ReturnType\<F>>>
 
-*Defined in [packages/api/src/types/base.ts:51](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L51)*
+*Defined in [packages/api/src/types/base.ts:51](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L51)*
 
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | Parameters‹F› |
-
-**Returns:** *Observable‹[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)‹ReturnType‹F›››*
-
-▸ ‹**T**›(...`args`: Parameters‹F›): *Observable‹T›*
-
-*Defined in [packages/api/src/types/base.ts:52](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L52)*
-
-**Type parameters:**
-
-▪ **T**
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`...args` | Parameters‹F› |
+`...args` | Parameters\<F> |
 
-**Returns:** *Observable‹T›*
+**Returns:** Observable\<[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)\<ReturnType\<F>>>
+
+▸ \<T>(...`args`: Parameters\<F>): Observable\<T>
+
+*Defined in [packages/api/src/types/base.ts:52](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L52)*
+
+#### Type parameters:
+
+Name |
+------ |
+`T` |
+
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`...args` | Parameters\<F> |
+
+**Returns:** Observable\<T>

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/rpc-core/src/rxjs/drr"](_packages_rpc_core_src_rxjs_drr_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/rpc-core/src/rxjs/drr"
 
 # Module: "packages/rpc-core/src/rxjs/drr"
 
@@ -10,22 +12,8 @@
 
 ## Type aliases
 
-###  DrrResult
+### DrrResult
 
-Ƭ **DrrResult**: *function*
+Ƭ  **DrrResult**: \<T>(source$: Observable\<T>) => Observable\<T>
 
-*Defined in [packages/rpc-core/src/rxjs/drr.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/rpc-core/src/rxjs/drr.ts#L11)*
-
-#### Type declaration:
-
-▸ ‹**T**›(`source$`: Observable‹T›): *Observable‹T›*
-
-**Type parameters:**
-
-▪ **T**
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`source$` | Observable‹T› |
+*Defined in [packages/rpc-core/src/rxjs/drr.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/rpc-core/src/rxjs/drr.ts#L11)*

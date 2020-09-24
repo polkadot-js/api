@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/stashes"](_packages_api_derive_src_staking_stashes_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/stashes"
 
 # Module: "packages/api-derive/src/staking/stashes"
 
@@ -10,21 +12,19 @@
 
 ## Functions
 
-###  stashes
+### stashes
 
-▸ **stashes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **stashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stashes.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/stashes.ts#L17)*
+*Defined in [packages/api-derive/src/staking/stashes.ts:17](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/stashes.ts#L17)*
 
 **`description`** Retrieve the list of all validator stashes
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹AccountId[]›*
+**Returns:** function

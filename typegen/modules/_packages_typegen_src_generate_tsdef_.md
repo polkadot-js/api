@@ -1,5 +1,5 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/typegen/src/generate/tsDef"](_packages_typegen_src_generate_tsdef_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/generate/tsDef"
 
 # Module: "packages/typegen/src/generate/tsDef"
-
-

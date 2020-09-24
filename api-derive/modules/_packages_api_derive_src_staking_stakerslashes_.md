@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/stakerSlashes"](_packages_api_derive_src_staking_stakerslashes_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/stakerSlashes"
 
 # Module: "packages/api-derive/src/staking/stakerSlashes"
 
@@ -6,58 +8,39 @@
 
 ### Functions
 
-* [_stakerSlashes](_packages_api_derive_src_staking_stakerslashes_.md#_stakerslashes)
+* [\_stakerSlashes](_packages_api_derive_src_staking_stakerslashes_.md#_stakerslashes)
 * [stakerSlashes](_packages_api_derive_src_staking_stakerslashes_.md#stakerslashes)
 
 ## Functions
 
-###  _stakerSlashes
+### \_stakerSlashes
 
-▸ **_stakerSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **_stakerSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerSlashes.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/stakerSlashes.ts#L13)*
+*Defined in [packages/api-derive/src/staking/stakerSlashes.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/stakerSlashes.ts#L13)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: Uint8Array | string, `eras`: EraIndex[], `withActive`: boolean): *Observable‹DeriveStakerSlashes[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | Uint8Array &#124; string |
-`eras` | EraIndex[] |
-`withActive` | boolean |
+**Returns:** function
 
 ___
 
-###  stakerSlashes
+### stakerSlashes
 
-▸ **stakerSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **stakerSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerSlashes.ts:28](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/stakerSlashes.ts#L28)*
+*Defined in [packages/api-derive/src/staking/stakerSlashes.ts:28](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/stakerSlashes.ts#L28)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: Uint8Array | string, `withActive?`: undefined | false | true): *Observable‹DeriveStakerSlashes[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | Uint8Array &#124; string |
-`withActive?` | undefined &#124; false &#124; true |
+**Returns:** function

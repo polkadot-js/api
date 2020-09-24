@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/registry"](_packages_types_src_types_registry_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/types/registry"
 
 # Module: "packages/types/src/types/registry"
 
@@ -35,24 +37,24 @@
 
 ## Type aliases
 
-###  OverrideModuleType
+### OverrideModuleType
 
-Ƭ **OverrideModuleType**: *Record‹string, string›*
+Ƭ  **OverrideModuleType**: Record\<string, string>
 
-*Defined in [packages/types/src/types/registry.ts:100](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L100)*
-
-___
-
-###  RegistryMetadataErrors
-
-Ƭ **RegistryMetadataErrors**: *[RegistryMetadataError](../interfaces/_packages_types_src_types_registry_.registrymetadataerror.md)[]*
-
-*Defined in [packages/types/src/types/registry.ts:61](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L61)*
+*Defined in [packages/types/src/types/registry.ts:100](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L100)*
 
 ___
 
-###  RegistryTypes
+### RegistryMetadataErrors
 
-Ƭ **RegistryTypes**: *Record‹string, [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md) | string | Record‹string, string› | object | object›*
+Ƭ  **RegistryMetadataErrors**: [RegistryMetadataError](../interfaces/_packages_types_src_types_registry_.registrymetadataerror.md)[]
 
-*Defined in [packages/types/src/types/registry.ts:26](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L26)*
+*Defined in [packages/types/src/types/registry.ts:61](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L61)*
+
+___
+
+### RegistryTypes
+
+Ƭ  **RegistryTypes**: Record\<string, [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md) \| string \| Record\<string, string> \| { _enum: string[] \| Record\<string, string \| null>  } \| { _set: Record\<string, number>  }>
+
+*Defined in [packages/types/src/types/registry.ts:26](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L26)*

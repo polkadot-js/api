@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/accounts/indexToId"](_packages_api_derive_src_accounts_indextoid_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/accounts/indexToId"
 
 # Module: "packages/api-derive/src/accounts/indexToId"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  indexToId
+### indexToId
 
-▸ **indexToId**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **indexToId**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/indexToId.ts:51](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/accounts/indexToId.ts#L51)*
+*Defined in [packages/api-derive/src/accounts/indexToId.ts:51](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/accounts/indexToId.ts#L51)*
 
 **`name`** indexToId
 
@@ -27,21 +29,11 @@ api.derive.accounts.indexToId('F7Hs', (accountId) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-Returns the corresponding AccountId.
-
-▸ (`accountIndex`: AccountIndex | string): *Observable‹AccountId | undefined›*
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`accountIndex` | AccountIndex &#124; string | An accounts index in different formats. |
+**Returns:** function

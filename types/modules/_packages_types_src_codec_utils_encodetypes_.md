@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/utils/encodeTypes"](_packages_types_src_codec_utils_encodetypes_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/utils/encodeTypes"
 
 # Module: "packages/types/src/codec/utils/encodeTypes"
 
@@ -6,7 +8,7 @@
 
 ### Variables
 
-* [SPECIAL_TYPES](_packages_types_src_codec_utils_encodetypes_.md#const-special_types)
+* [SPECIAL\_TYPES](_packages_types_src_codec_utils_encodetypes_.md#special_types)
 
 ### Functions
 
@@ -17,82 +19,74 @@
 
 ## Variables
 
-### `Const` SPECIAL_TYPES
+### SPECIAL\_TYPES
 
-• **SPECIAL_TYPES**: *string[]* = ['AccountId', 'AccountIndex', 'Address', 'Balance']
+• `Const` **SPECIAL\_TYPES**: string[] = ['AccountId', 'AccountIndex', 'Address', 'Balance']
 
-*Defined in [packages/types/src/codec/utils/encodeTypes.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/utils/encodeTypes.ts#L8)*
+*Defined in [packages/types/src/codec/utils/encodeTypes.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/utils/encodeTypes.ts#L8)*
 
 ## Functions
 
-###  displayType
+### displayType
 
-▸ **displayType**(`typeDef`: Pick‹TypeDef, any›): *string*
+▸ **displayType**(`typeDef`: Pick\<TypeDef, any>): string
 
-*Defined in [packages/types/src/codec/utils/encodeTypes.ts:159](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/utils/encodeTypes.ts#L159)*
+*Defined in [packages/types/src/codec/utils/encodeTypes.ts:159](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/utils/encodeTypes.ts#L159)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`typeDef` | Pick‹TypeDef, any› |
+`typeDef` | Pick\<TypeDef, any> |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  encodeType
+### encodeType
 
-▸ **encodeType**(`typeDef`: Pick‹TypeDef, any›): *string*
+▸ **encodeType**(`typeDef`: Pick\<TypeDef, any>): string
 
-*Defined in [packages/types/src/codec/utils/encodeTypes.ts:151](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/utils/encodeTypes.ts#L151)*
+*Defined in [packages/types/src/codec/utils/encodeTypes.ts:151](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/utils/encodeTypes.ts#L151)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`typeDef` | Pick‹TypeDef, any› |
+`typeDef` | Pick\<TypeDef, any> |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  paramsNotation
+### paramsNotation
 
-▸ **paramsNotation**(`outer`: string, `inner?`: string | any[], `transform`: function): *string*
+▸ **paramsNotation**(`outer`: string, `inner?`: string \| any[], `transform`: (_: any) => string): string
 
-*Defined in [packages/types/src/codec/utils/encodeTypes.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/utils/encodeTypes.ts#L12)*
+*Defined in [packages/types/src/codec/utils/encodeTypes.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/utils/encodeTypes.ts#L12)*
 
-**Parameters:**
+#### Parameters:
 
-▪ **outer**: *string*
+Name | Type | Default value |
+------ | ------ | ------ |
+`outer` | string | - |
+`inner?` | string \| any[] | - |
+`transform` | (_: any) => string | identity |
 
-▪`Optional`  **inner**: *string | any[]*
-
-▪`Default value`  **transform**: *function*= identity
-
-▸ (`_`: any): *string*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`_` | any |
-
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  withTypeString
+### withTypeString
 
-▸ **withTypeString**(`typeDef`: Pick‹TypeDef, any›): *Pick‹TypeDef, any›*
+▸ **withTypeString**(`typeDef`: Pick\<TypeDef, any>): Pick\<TypeDef, any>
 
-*Defined in [packages/types/src/codec/utils/encodeTypes.ts:174](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/utils/encodeTypes.ts#L174)*
+*Defined in [packages/types/src/codec/utils/encodeTypes.ts:174](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/utils/encodeTypes.ts#L174)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`typeDef` | Pick‹TypeDef, any› |
+`typeDef` | Pick\<TypeDef, any> |
 
-**Returns:** *Pick‹TypeDef, any›*
+**Returns:** Pick\<TypeDef, any>

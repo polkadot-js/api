@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/Date"](_packages_types_src_codec_date_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/Date"
 
 # Module: "packages/types/src/codec/Date"
 

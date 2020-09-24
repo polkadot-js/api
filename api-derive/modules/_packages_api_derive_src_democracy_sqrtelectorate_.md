@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/democracy/sqrtElectorate"](_packages_api_derive_src_democracy_sqrtelectorate_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/sqrtElectorate"
 
 # Module: "packages/api-derive/src/democracy/sqrtElectorate"
 
@@ -10,19 +12,17 @@
 
 ## Functions
 
-###  sqrtElectorate
+### sqrtElectorate
 
-▸ **sqrtElectorate**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **sqrtElectorate**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/sqrtElectorate.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/sqrtElectorate.ts#L13)*
+*Defined in [packages/api-derive/src/democracy/sqrtElectorate.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/sqrtElectorate.ts#L13)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹BN›*
+**Returns:** function

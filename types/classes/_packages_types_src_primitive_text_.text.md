@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/primitive/Text"](../modules/_packages_types_src_primitive_text_.md) › [Text](_packages_types_src_primitive_text_.text.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/primitive/Text"](../modules/_packages_types_src_primitive_text_.md) / Text
 
 # Class: Text
 
@@ -11,11 +13,11 @@ object, inheriting all methods exposed from `String`.
 
 ## Hierarchy
 
-* [String](_packages_types_src_primitive_text_.text.md#static-string)
+* [String](_packages_types_src_primitive_text_.text.md#string)
 
   ↳ **Text**
 
-  ↳ [Type](_packages_types_src_primitive_type_.type.md)
+  ↳↳ [Type](_packages_types_src_primitive_type_.type.md)
 
 ## Implements
 
@@ -23,7 +25,7 @@ object, inheriting all methods exposed from `String`.
 
 ## Indexable
 
-* \[ **index**: *number*\]: string
+▪ [index: number]: string
 
 **`name`** Text
 
@@ -40,8 +42,8 @@ object, inheriting all methods exposed from `String`.
 
 ### Properties
 
-* [registry](_packages_types_src_primitive_text_.text.md#readonly-registry)
-* [String](_packages_types_src_primitive_text_.text.md#static-string)
+* [registry](_packages_types_src_primitive_text_.text.md#registry)
+* [String](_packages_types_src_primitive_text_.text.md#string)
 
 ### Accessors
 
@@ -63,211 +65,211 @@ object, inheriting all methods exposed from `String`.
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Text**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: [Text](_packages_types_src_primitive_text_.text.md) | string | [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a) | object): *[Text](_packages_types_src_primitive_text_.text.md)*
+\+ **new Text**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: [Text](_packages_types_src_primitive_text_.text.md) \| string \| [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a) \| { toString: () => string  }): [Text](_packages_types_src_primitive_text_.text.md)
 
-*Defined in [packages/types/src/primitive/Text.ts:51](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L51)*
+*Defined in [packages/types/src/primitive/Text.ts:51](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L51)*
 
-**Parameters:**
+#### Parameters:
 
-Name | Type | Default |
+Name | Type | Default value |
 ------ | ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) | - |
-`value` | [Text](_packages_types_src_primitive_text_.text.md) &#124; string &#124; [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a) &#124; object | "" |
+`value` | [Text](_packages_types_src_primitive_text_.text.md) \| string \| [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a) \| { toString: () => string  } | "" |
 
-**Returns:** *[Text](_packages_types_src_primitive_text_.text.md)*
+**Returns:** [Text](_packages_types_src_primitive_text_.text.md)
 
 ## Properties
 
-### `Readonly` registry
+### registry
 
-• **registry**: *[Registry](../interfaces/_packages_types_src_types_registry_.registry.md)*
+• `Readonly` **registry**: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md)
 
-*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#readonly-registry)*
+*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#registry)*
 
-*Defined in [packages/types/src/primitive/Text.ts:49](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L49)*
+*Defined in [packages/types/src/primitive/Text.ts:49](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L49)*
 
 ___
 
-### `Static` String
+### String
 
-▪ **String**: *StringConstructor*
+▪ `Static` **String**: StringConstructor
 
-Defined in node_modules/typescript/lib/lib.es5.d.ts:527
+*Defined in node_modules/typescript/lib/lib.es5.d.ts:527*
 
 Allows manipulation and formatting of text strings and determination and location of substrings within strings.
 
 ## Accessors
 
-###  encodedLength
+### encodedLength
 
-• **get encodedLength**(): *number*
+• get **encodedLength**(): number
 
-*Defined in [packages/types/src/primitive/Text.ts:62](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L62)*
+*Defined in [packages/types/src/primitive/Text.ts:62](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L62)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  hash
+### hash
 
-• **get hash**(): *H256*
+• get **hash**(): H256
 
-*Defined in [packages/types/src/primitive/Text.ts:69](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L69)*
+*Defined in [packages/types/src/primitive/Text.ts:69](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L69)*
 
 **`description`** returns a hash of the contents
 
-**Returns:** *H256*
+**Returns:** H256
 
 ___
 
-###  isEmpty
+### isEmpty
 
-• **get isEmpty**(): *boolean*
+• get **isEmpty**(): boolean
 
-*Defined in [packages/types/src/primitive/Text.ts:76](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L76)*
+*Defined in [packages/types/src/primitive/Text.ts:76](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L76)*
 
 **`description`** Checks if the value is an empty value
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  length
+### length
 
-• **get length**(): *number*
+• get **length**(): number
 
-*Overrides [RegistryMetadataText](../interfaces/_packages_types_src_types_registry_.registrymetadatatext.md).[length](../interfaces/_packages_types_src_types_registry_.registrymetadatatext.md#readonly-length)*
+*Overrides [RegistryMetadataText](../interfaces/_packages_types_src_types_registry_.registrymetadatatext.md).[length](../interfaces/_packages_types_src_types_registry_.registrymetadatatext.md#length)*
 
-*Defined in [packages/types/src/primitive/Text.ts:83](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L83)*
+*Defined in [packages/types/src/primitive/Text.ts:83](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L83)*
 
 **`description`** The length of the value
 
-**Returns:** *number*
+**Returns:** number
 
 ## Methods
 
-###  eq
+### eq
 
-▸ **eq**(`other?`: unknown): *boolean*
+▸ **eq**(`other?`: unknown): boolean
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/primitive/Text.ts:91](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L91)*
+*Defined in [packages/types/src/primitive/Text.ts:91](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L91)*
 
 **`description`** Compares the value of the input to see if there is a match
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `other?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  setOverride
+### setOverride
 
-▸ **setOverride**(`override`: string): *void*
+▸ **setOverride**(`override`: string): void
 
-*Defined in [packages/types/src/primitive/Text.ts:100](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L100)*
+*Defined in [packages/types/src/primitive/Text.ts:100](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L100)*
 
 **`description`** Set an override value for this
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `override` | string |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  toHex
+### toHex
 
-▸ **toHex**(): *string*
+▸ **toHex**(): string
 
-*Defined in [packages/types/src/primitive/Text.ts:107](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L107)*
+*Defined in [packages/types/src/primitive/Text.ts:107](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L107)*
 
 **`description`** Returns a hex string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toHuman
+### toHuman
 
-▸ **toHuman**(): *string*
+▸ **toHuman**(): string
 
-*Defined in [packages/types/src/primitive/Text.ts:116](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L116)*
+*Defined in [packages/types/src/primitive/Text.ts:116](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L116)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *string*
+▸ **toJSON**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/primitive/Text.ts:123](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L123)*
+*Defined in [packages/types/src/primitive/Text.ts:123](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L123)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toRawType
+### toRawType
 
-▸ **toRawType**(): *string*
+▸ **toRawType**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/primitive/Text.ts:130](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L130)*
+*Defined in [packages/types/src/primitive/Text.ts:130](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L130)*
 
 **`description`** Returns the base runtime type name for this instance
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toString
+### toString
 
-▸ **toString**(): *string*
+▸ **toString**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
 *Overrides [RegistryMetadataText](../interfaces/_packages_types_src_types_registry_.registrymetadatatext.md).[toString](../interfaces/_packages_types_src_types_registry_.registrymetadatatext.md#tostring)*
 
-*Defined in [packages/types/src/primitive/Text.ts:137](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L137)*
+*Defined in [packages/types/src/primitive/Text.ts:137](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L137)*
 
 **`description`** Returns the string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toU8a
+### toU8a
 
-▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+▸ **toU8a**(`isBare?`: undefined \| false \| true): [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/primitive/Text.ts:145](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Text.ts#L145)*
+*Defined in [packages/types/src/primitive/Text.ts:145](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Text.ts#L145)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`isBare?` | undefined &#124; false &#124; true | true when the value has none of the type-specific prefixes (internal)  |
+`isBare?` | undefined \| false \| true | true when the value has none of the type-specific prefixes (internal)  |
 
-**Returns:** *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+**Returns:** [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)

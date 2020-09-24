@@ -1,5 +1,5 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/util/augmentObject"](_packages_api_src_util_augmentobject_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/util/augmentObject"
 
 # Module: "packages/api/src/util/augmentObject"
-
-

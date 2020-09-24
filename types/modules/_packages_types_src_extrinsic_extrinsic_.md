@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/extrinsic/Extrinsic"](_packages_types_src_extrinsic_extrinsic_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/extrinsic/Extrinsic"
 
 # Module: "packages/types/src/extrinsic/Extrinsic"
 
@@ -6,7 +8,7 @@
 
 ### References
 
-* [LATEST_EXTRINSIC_VERSION](_packages_types_src_extrinsic_extrinsic_.md#latest_extrinsic_version)
+* [LATEST\_EXTRINSIC\_VERSION](_packages_types_src_extrinsic_extrinsic_.md#latest_extrinsic_version)
 
 ### Classes
 
@@ -14,6 +16,6 @@
 
 ## References
 
-###  LATEST_EXTRINSIC_VERSION
+### LATEST\_EXTRINSIC\_VERSION
 
-• **LATEST_EXTRINSIC_VERSION**:
+Renames and re-exports: [TRANSACTION\_VERSION](_packages_types_src_extrinsic_v4_extrinsic_.md#transaction_version)

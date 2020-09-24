@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/util/isKeyringPair"](_packages_api_src_util_iskeyringpair_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/util/isKeyringPair"
 
 # Module: "packages/api/src/util/isKeyringPair"
 
@@ -10,16 +12,16 @@
 
 ## Functions
 
-###  isKeyringPair
+### isKeyringPair
 
-▸ **isKeyringPair**(`account`: string | IKeyringPair | AccountId | Address): *account is IKeyringPair*
+▸ **isKeyringPair**(`account`: string \| IKeyringPair \| AccountId \| Address): account is IKeyringPair
 
-*Defined in [packages/api/src/util/isKeyringPair.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/util/isKeyringPair.ts#L9)*
+*Defined in [packages/api/src/util/isKeyringPair.ts:9](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/util/isKeyringPair.ts#L9)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`account` | string &#124; IKeyringPair &#124; AccountId &#124; Address |
+`account` | string \| IKeyringPair \| AccountId \| Address |
 
-**Returns:** *account is IKeyringPair*
+**Returns:** account is IKeyringPair

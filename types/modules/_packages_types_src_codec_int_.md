@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/Int"](_packages_types_src_codec_int_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/Int"
 
 # Module: "packages/types/src/codec/Int"
 

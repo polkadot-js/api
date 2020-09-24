@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/elections/info"](_packages_api_derive_src_elections_info_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/elections/info"
 
 # Module: "packages/api-derive/src/elections/info"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  info
+### info
 
-▸ **info**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **info**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/elections/info.ts:57](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/elections/info.ts#L57)*
+*Defined in [packages/api-derive/src/elections/info.ts:57](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/elections/info.ts#L57)*
 
 **`name`** info
 
@@ -27,16 +29,11 @@ api.derive.elections.info(({ members, candidates }) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-An object containing the combined results of the storage queries for
-all relevant election module properties.
-
-▸ (): *Observable‹DeriveElectionsInfo›*
+**Returns:** function

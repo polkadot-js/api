@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/extrinsic/v2/Extrinsic"](../modules/_packages_types_src_extrinsic_v2_extrinsic_.md) › [ExtrinsicValueV2](_packages_types_src_extrinsic_v2_extrinsic_.extrinsicvaluev2.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/extrinsic/v2/Extrinsic"](../modules/_packages_types_src_extrinsic_v2_extrinsic_.md) / ExtrinsicValueV2
 
 # Interface: ExtrinsicValueV2
 
@@ -10,21 +12,21 @@
 
 ### Properties
 
-* [method](_packages_types_src_extrinsic_v2_extrinsic_.extrinsicvaluev2.md#optional-method)
-* [signature](_packages_types_src_extrinsic_v2_extrinsic_.extrinsicvaluev2.md#optional-signature)
+* [method](_packages_types_src_extrinsic_v2_extrinsic_.extrinsicvaluev2.md#method)
+* [signature](_packages_types_src_extrinsic_v2_extrinsic_.extrinsicvaluev2.md#signature)
 
 ## Properties
 
-### `Optional` method
+### method
 
-• **method**? : *[Call](../classes/_packages_types_src_generic_call_.call.md)*
+• `Optional` **method**: [Call](../classes/_packages_types_src_generic_call_.call.md)
 
-*Defined in [packages/types/src/extrinsic/v2/Extrinsic.ts:16](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/v2/Extrinsic.ts#L16)*
+*Defined in [packages/types/src/extrinsic/v2/Extrinsic.ts:16](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/v2/Extrinsic.ts#L16)*
 
 ___
 
-### `Optional` signature
+### signature
 
-• **signature**? : *[ExtrinsicSignatureV2](../classes/_packages_types_src_extrinsic_v2_extrinsicsignature_.extrinsicsignaturev2.md)*
+• `Optional` **signature**: [ExtrinsicSignatureV2](../classes/_packages_types_src_extrinsic_v2_extrinsicsignature_.extrinsicsignaturev2.md)
 
-*Defined in [packages/types/src/extrinsic/v2/Extrinsic.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/v2/Extrinsic.ts#L17)*
+*Defined in [packages/types/src/extrinsic/v2/Extrinsic.ts:17](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/v2/Extrinsic.ts#L17)*

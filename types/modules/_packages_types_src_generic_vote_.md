@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/generic/Vote"](_packages_types_src_generic_vote_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/generic/Vote"
 
 # Module: "packages/types/src/generic/Vote"
 

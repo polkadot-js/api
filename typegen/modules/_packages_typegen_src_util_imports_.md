@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/typegen/src/util/imports"](_packages_typegen_src_util_imports_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/util/imports"
 
 # Module: "packages/typegen/src/util/imports"
 

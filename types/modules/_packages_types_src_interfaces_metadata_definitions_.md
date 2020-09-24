@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/interfaces/metadata/definitions"](_packages_types_src_interfaces_metadata_definitions_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/interfaces/metadata/definitions"
 
 # Module: "packages/types/src/interfaces/metadata/definitions"
 
@@ -6,54 +8,24 @@
 
 ### Object literals
 
-* [AllHashers](_packages_types_src_interfaces_metadata_definitions_.md#const-allhashers)
+* [AllHashers](_packages_types_src_interfaces_metadata_definitions_.md#allhashers)
 
 ## Object literals
 
-### `Const` AllHashers
+### AllHashers
 
-### ▪ **AllHashers**: *object*
+▪ `Const` **AllHashers**: object
 
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L9)*
+*Defined in [packages/types/src/interfaces/metadata/definitions.ts:9](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/interfaces/metadata/definitions.ts#L9)*
 
-###  Blake2_128
+#### Properties:
 
-• **Blake2_128**: *null* = null
-
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:10](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L10)*
-
-###  Blake2_128Concat
-
-• **Blake2_128Concat**: *null* = null
-
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L12)*
-
-###  Blake2_256
-
-• **Blake2_256**: *null* = null
-
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L11)*
-
-###  Identity
-
-• **Identity**: *null* = null
-
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L17)*
-
-###  Twox128
-
-• **Twox128**: *null* = null
-
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L13)*
-
-###  Twox256
-
-• **Twox256**: *null* = null
-
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:14](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L14)*
-
-###  Twox64Concat
-
-• **Twox64Concat**: *null* = null
-
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/metadata/definitions.ts#L15)*
+Name | Type | Value |
+------ | ------ | ------ |
+`Blake2\_128` | null | null |
+`Blake2\_128Concat` | null | null |
+`Blake2\_256` | null | null |
+`Identity` | null | null |
+`Twox128` | null | null |
+`Twox256` | null | null |
+`Twox64Concat` | null | null |

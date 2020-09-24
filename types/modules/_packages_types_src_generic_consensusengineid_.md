@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/generic/ConsensusEngineId"](_packages_types_src_generic_consensusengineid_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/generic/ConsensusEngineId"
 
 # Module: "packages/types/src/generic/ConsensusEngineId"
 
@@ -10,39 +12,39 @@
 
 ### Variables
 
-* [CID_AURA](_packages_types_src_generic_consensusengineid_.md#const-cid_aura)
-* [CID_BABE](_packages_types_src_generic_consensusengineid_.md#const-cid_babe)
-* [CID_GRPA](_packages_types_src_generic_consensusengineid_.md#const-cid_grpa)
-* [CID_POW](_packages_types_src_generic_consensusengineid_.md#const-cid_pow)
+* [CID\_AURA](_packages_types_src_generic_consensusengineid_.md#cid_aura)
+* [CID\_BABE](_packages_types_src_generic_consensusengineid_.md#cid_babe)
+* [CID\_GRPA](_packages_types_src_generic_consensusengineid_.md#cid_grpa)
+* [CID\_POW](_packages_types_src_generic_consensusengineid_.md#cid_pow)
 
 ## Variables
 
-### `Const` CID_AURA
+### CID\_AURA
 
-• **CID_AURA**: *1634891105* = 1634891105
+• `Const` **CID\_AURA**: 1634891105 = 1634891105
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:14](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/generic/ConsensusEngineId.ts#L14)*
-
-___
-
-### `Const` CID_BABE
-
-• **CID_BABE**: *1161969986* = 1161969986
-
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/generic/ConsensusEngineId.ts#L15)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:14](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/generic/ConsensusEngineId.ts#L14)*
 
 ___
 
-### `Const` CID_GRPA
+### CID\_BABE
 
-• **CID_GRPA**: *1263424070* = 1263424070
+• `Const` **CID\_BABE**: 1161969986 = 1161969986
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:16](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/generic/ConsensusEngineId.ts#L16)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:15](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/generic/ConsensusEngineId.ts#L15)*
 
 ___
 
-### `Const` CID_POW
+### CID\_GRPA
 
-• **CID_POW**: *1601662832* = 1601662832
+• `Const` **CID\_GRPA**: 1263424070 = 1263424070
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/generic/ConsensusEngineId.ts#L17)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:16](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/generic/ConsensusEngineId.ts#L16)*
+
+___
+
+### CID\_POW
+
+• `Const` **CID\_POW**: 1601662832 = 1601662832
+
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:17](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/generic/ConsensusEngineId.ts#L17)*

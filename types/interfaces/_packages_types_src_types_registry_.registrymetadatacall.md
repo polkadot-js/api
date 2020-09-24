@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) › [RegistryMetadataCall](_packages_types_src_types_registry_.registrymetadatacall.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataCall
 
 # Interface: RegistryMetadataCall
 
@@ -19,26 +21,26 @@
 
 ## Properties
 
-###  args
+### args
 
-• **args**: *[RegistryMetadataCallArg](_packages_types_src_types_registry_.registrymetadatacallarg.md)[]*
+•  **args**: [RegistryMetadataCallArg](_packages_types_src_types_registry_.registrymetadatacallarg.md)[]
 
-*Defined in [packages/types/src/types/registry.ts:38](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L38)*
+*Defined in [packages/types/src/types/registry.ts:38](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L38)*
 
 ___
 
-###  name
+### name
 
-• **name**: *[RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)*
+•  **name**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)
 
-*Defined in [packages/types/src/types/registry.ts:39](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L39)*
+*Defined in [packages/types/src/types/registry.ts:39](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L39)*
 
 ## Methods
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+▸ **toJSON**(): [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
-*Defined in [packages/types/src/types/registry.ts:41](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L41)*
+*Defined in [packages/types/src/types/registry.ts:41](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L41)*
 
-**Returns:** *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+**Returns:** [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)

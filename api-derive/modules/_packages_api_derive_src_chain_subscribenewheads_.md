@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/chain/subscribeNewHeads"](_packages_api_derive_src_chain_subscribenewheads_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/chain/subscribeNewHeads"
 
 # Module: "packages/api-derive/src/chain/subscribeNewHeads"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  subscribeNewHeads
+### subscribeNewHeads
 
-▸ **subscribeNewHeads**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **subscribeNewHeads**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/chain/subscribeNewHeads.ts:25](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/chain/subscribeNewHeads.ts#L25)*
+*Defined in [packages/api-derive/src/chain/subscribeNewHeads.ts:25](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/chain/subscribeNewHeads.ts#L25)*
 
 **`name`** subscribeNewHeads
 
@@ -29,15 +31,11 @@ api.derive.chain.subscribeNewHeads((header) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-An array containing the block header and the block author
-
-▸ (): *Observable‹[HeaderExtended](../classes/_packages_api_derive_src_type_headerextended_.headerextended.md)›*
+**Returns:** function

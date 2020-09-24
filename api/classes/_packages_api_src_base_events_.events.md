@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/base/Events"](../modules/_packages_api_src_base_events_.md) › [Events](_packages_api_src_base_events_.events.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/base/Events"](../modules/_packages_api_src_base_events_.md) / Events
 
 # Class: Events
 
@@ -18,11 +20,11 @@
 
 ## Methods
 
-###  off
+### off
 
-▸ **off**(`type`: ApiInterfaceEvents, `handler`: function): *this*
+▸ **off**(`type`: ApiInterfaceEvents, `handler`: (...args: any[]) => any): this
 
-*Defined in [packages/api/src/base/Events.ts:61](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Events.ts#L61)*
+*Defined in [packages/api/src/base/Events.ts:61](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Events.ts#L61)*
 
 **`description`** Remove the given eventemitter handler
 
@@ -41,33 +43,22 @@ api.on('connected', handler);
 api.off('connected', handler);
 ```
 
-**Parameters:**
+#### Parameters:
 
-▪ **type**: *ApiInterfaceEvents*
+Name | Type | Description |
+------ | ------ | ------ |
+`type` | ApiInterfaceEvents | The type of event the callback was attached to. Available events are `connected`, `disconnected`, `ready` and `error` |
+`handler` | (...args: any[]) => any | The callback to unregister.  |
 
-The type of event the callback was attached to. Available events are `connected`, `disconnected`, `ready` and `error`
-
-▪ **handler**: *function*
-
-The callback to unregister.
-
-▸ (...`args`: any[]): *any*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | any[] |
-
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  on
+### on
 
-▸ **on**(`type`: ApiInterfaceEvents, `handler`: function): *this*
+▸ **on**(`type`: ApiInterfaceEvents, `handler`: (...args: any[]) => any): this
 
-*Defined in [packages/api/src/base/Events.ts:34](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Events.ts#L34)*
+*Defined in [packages/api/src/base/Events.ts:34](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Events.ts#L34)*
 
 **`description`** Attach an eventemitter handler to listen to a specific event
 
@@ -84,33 +75,22 @@ api.on('disconnected', (): void => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
-▪ **type**: *ApiInterfaceEvents*
+Name | Type | Description |
+------ | ------ | ------ |
+`type` | ApiInterfaceEvents | The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error` |
+`handler` | (...args: any[]) => any | The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.  |
 
-The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-
-▪ **handler**: *function*
-
-The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-
-▸ (...`args`: any[]): *any*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | any[] |
-
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  once
+### once
 
-▸ **once**(`type`: ApiInterfaceEvents, `handler`: function): *this*
+▸ **once**(`type`: ApiInterfaceEvents, `handler`: (...args: any[]) => any): this
 
-*Defined in [packages/api/src/base/Events.ts:86](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Events.ts#L86)*
+*Defined in [packages/api/src/base/Events.ts:86](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Events.ts#L86)*
 
 **`description`** Attach an one-time eventemitter handler to listen to a specific event
 
@@ -127,22 +107,11 @@ api.once('disconnected', (): void => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
-▪ **type**: *ApiInterfaceEvents*
+Name | Type | Description |
+------ | ------ | ------ |
+`type` | ApiInterfaceEvents | The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error` |
+`handler` | (...args: any[]) => any | The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.  |
 
-The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-
-▪ **handler**: *function*
-
-The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-
-▸ (...`args`: any[]): *any*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | any[] |
-
-**Returns:** *this*
+**Returns:** this

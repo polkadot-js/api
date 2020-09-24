@@ -1,24 +1,26 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-contract/src/base/Contract"](../modules/_packages_api_contract_src_base_contract_.md) › [Contract](_packages_api_contract_src_base_contract_.contract.md)
+**Polkadot JS API**
 
-# Class: Contract ‹**ApiType**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api-contract/src/base/Contract"](../modules/_packages_api_contract_src_base_contract_.md) / Contract
+
+# Class: Contract\<**ApiType**>
 
 ## Type parameters
 
-▪ **ApiType**: *ApiTypes*
+* ApiType
 
 ## Hierarchy
 
-  ↳ [BaseWithTxAndRpcCall](_packages_api_contract_src_base_util_.basewithtxandrpccall.md)‹ApiType›
+* [BaseWithTxAndRpcCall](_packages_api_contract_src_base_util_.basewithtxandrpccall.md)\<ApiType>
 
   ↳ **Contract**
 
-  ↳ [PromiseContract](_packages_api_contract_src_promise_promisecontract_.promisecontract.md)
+  ↳↳ [PromiseContract](_packages_api_contract_src_promise_promisecontract_.promisecontract.md)
 
-  ↳ [RxContract](_packages_api_contract_src_rx_rxcontract_.rxcontract.md)
+  ↳↳ [RxContract](_packages_api_contract_src_rx_rxcontract_.rxcontract.md)
 
 ## Implements
 
-* ContractBase‹ApiType›
+* ContractBase\<ApiType>
 
 ## Index
 
@@ -28,11 +30,11 @@
 
 ### Properties
 
-* [abi](_packages_api_contract_src_base_contract_.contract.md#readonly-abi)
-* [address](_packages_api_contract_src_base_contract_.contract.md#readonly-address)
-* [api](_packages_api_contract_src_base_contract_.contract.md#readonly-api)
-* [decorateMethod](_packages_api_contract_src_base_contract_.contract.md#readonly-decoratemethod)
-* [registry](_packages_api_contract_src_base_contract_.contract.md#readonly-registry)
+* [abi](_packages_api_contract_src_base_contract_.contract.md#abi)
+* [address](_packages_api_contract_src_base_contract_.contract.md#address)
+* [api](_packages_api_contract_src_base_contract_.contract.md#api)
+* [decorateMethod](_packages_api_contract_src_base_contract_.contract.md#decoratemethod)
+* [registry](_packages_api_contract_src_base_contract_.contract.md#registry)
 
 ### Accessors
 
@@ -46,147 +48,147 @@
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Contract**(`api`: ApiObject‹ApiType›, `abi`: ContractABIPre | Abi, `decorateMethod`: DecorateMethod‹ApiType›, `address`: string | AccountId | Address): *[Contract](_packages_api_contract_src_base_contract_.contract.md)*
+\+ **new Contract**(`api`: ApiObject\<ApiType>, `abi`: ContractABIPre \| Abi, `decorateMethod`: DecorateMethod\<ApiType>, `address`: string \| AccountId \| Address): [Contract](_packages_api_contract_src_base_contract_.contract.md)
 
 *Overrides [BaseWithTx](_packages_api_contract_src_base_util_.basewithtx.md).[constructor](_packages_api_contract_src_base_util_.basewithtx.md#constructor)*
 
-*Defined in [packages/api-contract/src/base/Contract.ts:34](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/Contract.ts#L34)*
+*Defined in [packages/api-contract/src/base/Contract.ts:34](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/Contract.ts#L34)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`api` | ApiObject‹ApiType› |
-`abi` | ContractABIPre &#124; Abi |
-`decorateMethod` | DecorateMethod‹ApiType› |
-`address` | string &#124; AccountId &#124; Address |
+`api` | ApiObject\<ApiType> |
+`abi` | ContractABIPre \| Abi |
+`decorateMethod` | DecorateMethod\<ApiType> |
+`address` | string \| AccountId \| Address |
 
-**Returns:** *[Contract](_packages_api_contract_src_base_contract_.contract.md)*
+**Returns:** [Contract](_packages_api_contract_src_base_contract_.contract.md)
 
 ## Properties
 
-### `Readonly` abi
+### abi
 
-• **abi**: *Abi*
+• `Readonly` **abi**: Abi
 
-*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[abi](_packages_api_contract_src_base_util_.base.md#readonly-abi)*
+*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[abi](_packages_api_contract_src_base_util_.base.md#abi)*
 
-*Defined in [packages/api-contract/src/base/util.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/util.ts#L13)*
-
-___
-
-### `Readonly` address
-
-• **address**: *Address*
-
-*Defined in [packages/api-contract/src/base/Contract.ts:34](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/Contract.ts#L34)*
+*Defined in [packages/api-contract/src/base/util.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/util.ts#L13)*
 
 ___
 
-### `Readonly` api
+### address
 
-• **api**: *ApiObject‹ApiType›*
+• `Readonly` **address**: Address
 
-*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[api](_packages_api_contract_src_base_util_.base.md#readonly-api)*
-
-*Defined in [packages/api-contract/src/base/util.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/util.ts#L15)*
+*Defined in [packages/api-contract/src/base/Contract.ts:34](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/Contract.ts#L34)*
 
 ___
 
-### `Readonly` decorateMethod
+### api
 
-• **decorateMethod**: *DecorateMethod‹ApiType›*
+• `Readonly` **api**: ApiObject\<ApiType>
 
-*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[decorateMethod](_packages_api_contract_src_base_util_.base.md#readonly-decoratemethod)*
+*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[api](_packages_api_contract_src_base_util_.base.md#api)*
 
-*Defined in [packages/api-contract/src/base/util.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/util.ts#L17)*
+*Defined in [packages/api-contract/src/base/util.ts:15](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/util.ts#L15)*
 
 ___
 
-### `Readonly` registry
+### decorateMethod
 
-• **registry**: *Registry*
+• `Readonly` **decorateMethod**: DecorateMethod\<ApiType>
 
-*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[registry](_packages_api_contract_src_base_util_.base.md#readonly-registry)*
+*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[decorateMethod](_packages_api_contract_src_base_util_.base.md#decoratemethod)*
 
-*Defined in [packages/api-contract/src/base/util.ts:19](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/util.ts#L19)*
+*Defined in [packages/api-contract/src/base/util.ts:17](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/util.ts#L17)*
+
+___
+
+### registry
+
+• `Readonly` **registry**: Registry
+
+*Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[registry](_packages_api_contract_src_base_util_.base.md#registry)*
+
+*Defined in [packages/api-contract/src/base/util.ts:19](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/util.ts#L19)*
 
 ## Accessors
 
-###  hasRpcContractsCall
+### hasRpcContractsCall
 
-• **get hasRpcContractsCall**(): *boolean*
+• get **hasRpcContractsCall**(): boolean
 
 *Inherited from [BaseWithTxAndRpcCall](_packages_api_contract_src_base_util_.basewithtxandrpccall.md).[hasRpcContractsCall](_packages_api_contract_src_base_util_.basewithtxandrpccall.md#hasrpccontractscall)*
 
-*Defined in [packages/api-contract/src/base/util.ts:69](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/util.ts#L69)*
+*Defined in [packages/api-contract/src/base/util.ts:69](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/util.ts#L69)*
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  messages
+### messages
 
-• **get messages**(): *ContractMessage[]*
+• get **messages**(): ContractMessage[]
 
 *Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[messages](_packages_api_contract_src_base_util_.base.md#messages)*
 
-*Defined in [packages/api-contract/src/base/util.ts:30](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/util.ts#L30)*
+*Defined in [packages/api-contract/src/base/util.ts:30](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/util.ts#L30)*
 
-**Returns:** *ContractMessage[]*
+**Returns:** ContractMessage[]
 
 ## Methods
 
-###  call
+### call
 
-▸ **call**(`as`: "rpc", `message`: string, `value`: BN | number, `gasLimit`: BN | number, ...`params`: CodecArg[]): *[ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)‹ApiType, "rpc"›*
+▸ **call**(`as`: \"rpc\", `message`: string, `value`: BN \| number, `gasLimit`: BN \| number, ...`params`: CodecArg[]): [ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)\<ApiType, \"rpc\">
 
-*Defined in [packages/api-contract/src/base/Contract.ts:42](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/Contract.ts#L42)*
+*Defined in [packages/api-contract/src/base/Contract.ts:42](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/Contract.ts#L42)*
 
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`as` | "rpc" |
-`message` | string |
-`value` | BN &#124; number |
-`gasLimit` | BN &#124; number |
-`...params` | CodecArg[] |
-
-**Returns:** *[ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)‹ApiType, "rpc"›*
-
-▸ **call**(`as`: "tx", `message`: string, `value`: BN | number, `gasLimit`: BN | number, ...`params`: CodecArg[]): *[ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)‹ApiType, "tx"›*
-
-*Defined in [packages/api-contract/src/base/Contract.ts:43](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/Contract.ts#L43)*
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`as` | "tx" |
+`as` | \"rpc\" |
 `message` | string |
-`value` | BN &#124; number |
-`gasLimit` | BN &#124; number |
+`value` | BN \| number |
+`gasLimit` | BN \| number |
 `...params` | CodecArg[] |
 
-**Returns:** *[ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)‹ApiType, "tx"›*
+**Returns:** [ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)\<ApiType, \"rpc\">
+
+▸ **call**(`as`: \"tx\", `message`: string, `value`: BN \| number, `gasLimit`: BN \| number, ...`params`: CodecArg[]): [ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)\<ApiType, \"tx\">
+
+*Defined in [packages/api-contract/src/base/Contract.ts:43](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/Contract.ts#L43)*
+
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`as` | \"tx\" |
+`message` | string |
+`value` | BN \| number |
+`gasLimit` | BN \| number |
+`...params` | CodecArg[] |
+
+**Returns:** [ContractCall](../interfaces/_packages_api_contract_src_base_contract_.contractcall.md)\<ApiType, \"tx\">
 
 ___
 
-###  getMessage
+### getMessage
 
-▸ **getMessage**(`nameOrIndex?`: string | number): *ContractMessage*
+▸ **getMessage**(`nameOrIndex?`: string \| number): ContractMessage
 
 *Inherited from [Base](_packages_api_contract_src_base_util_.base.md).[getMessage](_packages_api_contract_src_base_util_.base.md#getmessage)*
 
-*Defined in [packages/api-contract/src/base/util.ts:40](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/util.ts#L40)*
+*Defined in [packages/api-contract/src/base/util.ts:40](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/util.ts#L40)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`nameOrIndex?` | string &#124; number |
+`nameOrIndex?` | string \| number |
 
-**Returns:** *ContractMessage*
+**Returns:** ContractMessage

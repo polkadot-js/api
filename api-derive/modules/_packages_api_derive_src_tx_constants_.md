@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/tx/constants"](_packages_api_derive_src_tx_constants_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/tx/constants"
 
 # Module: "packages/api-derive/src/tx/constants"
 
@@ -6,39 +8,39 @@
 
 ### Variables
 
-* [FALLBACK_MAX_HASH_COUNT](_packages_api_derive_src_tx_constants_.md#const-fallback_max_hash_count)
-* [FALLBACK_PERIOD](_packages_api_derive_src_tx_constants_.md#const-fallback_period)
-* [MAX_FINALITY_LAG](_packages_api_derive_src_tx_constants_.md#const-max_finality_lag)
-* [MORTAL_PERIOD](_packages_api_derive_src_tx_constants_.md#const-mortal_period)
+* [FALLBACK\_MAX\_HASH\_COUNT](_packages_api_derive_src_tx_constants_.md#fallback_max_hash_count)
+* [FALLBACK\_PERIOD](_packages_api_derive_src_tx_constants_.md#fallback_period)
+* [MAX\_FINALITY\_LAG](_packages_api_derive_src_tx_constants_.md#max_finality_lag)
+* [MORTAL\_PERIOD](_packages_api_derive_src_tx_constants_.md#mortal_period)
 
 ## Variables
 
-### `Const` FALLBACK_MAX_HASH_COUNT
+### FALLBACK\_MAX\_HASH\_COUNT
 
-• **FALLBACK_MAX_HASH_COUNT**: *250* = 250
+• `Const` **FALLBACK\_MAX\_HASH\_COUNT**: 250 = 250
 
-*Defined in [packages/api-derive/src/tx/constants.ts:6](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/tx/constants.ts#L6)*
-
-___
-
-### `Const` FALLBACK_PERIOD
-
-• **FALLBACK_PERIOD**: *BN‹›* = new BN(6 * 1000)
-
-*Defined in [packages/api-derive/src/tx/constants.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/tx/constants.ts#L9)*
+*Defined in [packages/api-derive/src/tx/constants.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/tx/constants.ts#L6)*
 
 ___
 
-### `Const` MAX_FINALITY_LAG
+### FALLBACK\_PERIOD
 
-• **MAX_FINALITY_LAG**: *BN‹›* = new BN(5)
+• `Const` **FALLBACK\_PERIOD**: BN = new BN(6 * 1000)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/tx/constants.ts#L11)*
+*Defined in [packages/api-derive/src/tx/constants.ts:9](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/tx/constants.ts#L9)*
 
 ___
 
-### `Const` MORTAL_PERIOD
+### MAX\_FINALITY\_LAG
 
-• **MORTAL_PERIOD**: *BN‹›* = new BN(5 * 60 * 1000)
+• `Const` **MAX\_FINALITY\_LAG**: BN = new BN(5)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/tx/constants.ts#L13)*
+*Defined in [packages/api-derive/src/tx/constants.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/tx/constants.ts#L11)*
+
+___
+
+### MORTAL\_PERIOD
+
+• `Const` **MORTAL\_PERIOD**: BN = new BN(5 * 60 * 1000)
+
+*Defined in [packages/api-derive/src/tx/constants.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/tx/constants.ts#L13)*

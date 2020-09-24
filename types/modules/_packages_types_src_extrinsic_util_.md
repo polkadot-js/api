@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/extrinsic/util"](_packages_types_src_extrinsic_util_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/extrinsic/util"
 
 # Module: "packages/types/src/extrinsic/util"
 
@@ -10,19 +12,19 @@
 
 ## Functions
 
-###  sign
+### sign
 
-▸ **sign**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `signerPair`: [IKeyringPair](../interfaces/_packages_types_src_types_interfaces_.ikeyringpair.md), `u8a`: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array), `options?`: SignOptions): *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+▸ **sign**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `signerPair`: [IKeyringPair](../interfaces/_packages_types_src_types_interfaces_.ikeyringpair.md), `u8a`: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array), `options?`: SignOptions): [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/extrinsic/util.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/util.ts#L8)*
+*Defined in [packages/types/src/extrinsic/util.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/util.ts#L8)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
 `signerPair` | [IKeyringPair](../interfaces/_packages_types_src_types_interfaces_.ikeyringpair.md) |
-`u8a` | [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array) |
+`u8a` | [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) |
 `options?` | SignOptions |
 
-**Returns:** *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+**Returns:** [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)

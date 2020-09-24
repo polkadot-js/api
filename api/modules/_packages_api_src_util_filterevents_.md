@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/util/filterEvents"](_packages_api_src_util_filterevents_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/util/filterEvents"
 
 # Module: "packages/api/src/util/filterEvents"
 
@@ -10,24 +12,19 @@
 
 ## Functions
 
-###  filterEvents
+### filterEvents
 
-▸ **filterEvents**(`extHash`: H256, `__namedParameters`: object, `allEvents`: EventRecord[], `status`: ExtrinsicStatus): *EventRecord[] | undefined*
+▸ **filterEvents**(`extHash`: H256, `__namedParameters`: { block: { extrinsics: Vec\<Extrinsic> ; header: Header  }  }, `allEvents`: EventRecord[], `status`: ExtrinsicStatus): EventRecord[] \| undefined
 
-*Defined in [packages/api/src/util/filterEvents.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/util/filterEvents.ts#L8)*
+*Defined in [packages/api/src/util/filterEvents.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/util/filterEvents.ts#L8)*
 
-**Parameters:**
-
-▪ **extHash**: *H256*
-
-▪ **__namedParameters**: *object*
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`block` | object |
+`extHash` | H256 |
+`__namedParameters` | { block: { extrinsics: Vec\<Extrinsic> ; header: Header  }  } |
+`allEvents` | EventRecord[] |
+`status` | ExtrinsicStatus |
 
-▪ **allEvents**: *EventRecord[]*
-
-▪ **status**: *ExtrinsicStatus*
-
-**Returns:** *EventRecord[] | undefined*
+**Returns:** EventRecord[] \| undefined

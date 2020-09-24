@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/consts"](../modules/_packages_api_src_types_consts_.md) › [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)
+**Polkadot JS API**
 
-# Interface: AugmentedConst ‹**ApiType**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/consts"](../modules/_packages_api_src_types_consts_.md) / AugmentedConst
+
+# Interface: AugmentedConst\<**ApiType**>
 
 ## Type parameters
 
-▪ **ApiType**: *[ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes)*
+* ApiType
 
 ## Hierarchy
 
@@ -18,8 +20,8 @@
 
 ## Properties
 
-###  meta
+### meta
 
-• **meta**: *ModuleConstantMetadataLatest*
+•  **meta**: ModuleConstantMetadataLatest
 
-*Defined in [packages/api/src/types/consts.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/consts.ts#L17)*
+*Defined in [packages/api/src/types/consts.ts:17](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/consts.ts#L17)*

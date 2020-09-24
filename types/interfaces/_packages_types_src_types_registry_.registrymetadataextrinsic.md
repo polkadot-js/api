@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) › [RegistryMetadataExtrinsic](_packages_types_src_types_registry_.registrymetadataextrinsic.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataExtrinsic
 
 # Interface: RegistryMetadataExtrinsic
 
@@ -15,16 +17,16 @@
 
 ## Properties
 
-###  signedExtensions
+### signedExtensions
 
-• **signedExtensions**: *[RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)[]*
+•  **signedExtensions**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)[]
 
-*Defined in [packages/types/src/types/registry.ts:75](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L75)*
+*Defined in [packages/types/src/types/registry.ts:75](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L75)*
 
 ___
 
-###  version
+### version
 
-• **version**: *BN*
+•  **version**: BN
 
-*Defined in [packages/types/src/types/registry.ts:74](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L74)*
+*Defined in [packages/types/src/types/registry.ts:74](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L74)*

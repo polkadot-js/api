@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/storage"](_packages_api_src_types_storage_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/types/storage"
 
 # Module: "packages/api/src/types/storage"
 
@@ -24,40 +26,72 @@
 
 ## Type aliases
 
-###  AugmentedQuery
+### AugmentedQuery
 
-Ƭ **AugmentedQuery**: *[MethodResult](_packages_api_src_types_base_.md#methodresult)‹ApiType, F› & [StorageEntryBase](../interfaces/_packages_api_src_types_storage_.storageentrybase.md)‹ApiType, F›*
+Ƭ  **AugmentedQuery**\<ApiType, F>: [MethodResult](_packages_api_src_types_base_.md#methodresult)\<ApiType, F> & [StorageEntryBase](../interfaces/_packages_api_src_types_storage_.storageentrybase.md)\<ApiType, F>
 
-*Defined in [packages/api/src/types/storage.ts:83](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/storage.ts#L83)*
+*Defined in [packages/api/src/types/storage.ts:83](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/storage.ts#L83)*
 
-___
+#### Type parameters:
 
-###  AugmentedQueryDoubleMap
-
-Ƭ **AugmentedQueryDoubleMap**: *[MethodResult](_packages_api_src_types_base_.md#methodresult)‹ApiType, F› & [StorageEntryDoubleMap](../interfaces/_packages_api_src_types_storage_.storageentrydoublemap.md)‹ApiType, F›*
-
-*Defined in [packages/api/src/types/storage.ts:85](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/storage.ts#L85)*
-
-___
-
-###  QueryableStorageEntry
-
-Ƭ **QueryableStorageEntry**: *ApiType extends "rxjs" ? AugmentedQuery‹"rxjs", GenericStorageEntryFunction› : AugmentedQuery‹"promise", GenericStorageEntryFunction› & StorageEntryPromiseOverloads*
-
-*Defined in [packages/api/src/types/storage.ts:32](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/storage.ts#L32)*
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+`F` | AnyFunction |
 
 ___
 
-###  QueryableStorageMulti
+### AugmentedQueryDoubleMap
 
-Ƭ **QueryableStorageMulti**: *ApiType extends "rxjs" ? QueryableStorageMultiBase‹ApiType› : QueryableStorageMultiPromise‹ApiType›*
+Ƭ  **AugmentedQueryDoubleMap**\<ApiType, F>: [MethodResult](_packages_api_src_types_base_.md#methodresult)\<ApiType, F> & [StorageEntryDoubleMap](../interfaces/_packages_api_src_types_storage_.storageentrydoublemap.md)\<ApiType, F>
 
-*Defined in [packages/api/src/types/storage.ts:71](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/storage.ts#L71)*
+*Defined in [packages/api/src/types/storage.ts:85](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/storage.ts#L85)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+`F` | AnyFunction |
 
 ___
 
-###  QueryableStorageMultiArg
+### QueryableStorageEntry
 
-Ƭ **QueryableStorageMultiArg**: *[QueryableStorageEntry](_packages_api_src_types_storage_.md#queryablestorageentry)‹ApiType› | [[QueryableStorageEntry](_packages_api_src_types_storage_.md#queryablestorageentry)‹ApiType›, CodecArg]*
+Ƭ  **QueryableStorageEntry**\<ApiType>: ApiType *extends* \"rxjs\" ? AugmentedQuery\<\"rxjs\", GenericStorageEntryFunction> : AugmentedQuery\<\"promise\", GenericStorageEntryFunction> & StorageEntryPromiseOverloads
 
-*Defined in [packages/api/src/types/storage.ts:58](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/storage.ts#L58)*
+*Defined in [packages/api/src/types/storage.ts:32](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/storage.ts#L32)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+
+___
+
+### QueryableStorageMulti
+
+Ƭ  **QueryableStorageMulti**\<ApiType>: ApiType *extends* \"rxjs\" ? QueryableStorageMultiBase\<ApiType> : QueryableStorageMultiPromise\<ApiType>
+
+*Defined in [packages/api/src/types/storage.ts:71](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/storage.ts#L71)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+
+___
+
+### QueryableStorageMultiArg
+
+Ƭ  **QueryableStorageMultiArg**\<ApiType>: [QueryableStorageEntry](_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> \| [[QueryableStorageEntry](_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>, CodecArg]
+
+*Defined in [packages/api/src/types/storage.ts:58](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/storage.ts#L58)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |

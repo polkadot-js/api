@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/util/cacheImpl"](_packages_api_derive_src_util_cacheimpl_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/util/cacheImpl"
 
 # Module: "packages/api-derive/src/util/cacheImpl"
 
@@ -6,128 +8,39 @@
 
 ### Object literals
 
-* [deriveMapCache](_packages_api_derive_src_util_cacheimpl_.md#const-derivemapcache)
-* [deriveNoopCache](_packages_api_derive_src_util_cacheimpl_.md#const-derivenoopcache)
+* [deriveMapCache](_packages_api_derive_src_util_cacheimpl_.md#derivemapcache)
+* [deriveNoopCache](_packages_api_derive_src_util_cacheimpl_.md#derivenoopcache)
 
 ## Object literals
 
-### `Const` deriveMapCache
+### deriveMapCache
 
-### ▪ **deriveMapCache**: *object*
+▪ `Const` **deriveMapCache**: object
 
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L8)*
+*Defined in [packages/api-derive/src/util/cacheImpl.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/util/cacheImpl.ts#L8)*
 
-###  del
+#### Properties:
 
-▸ **del**(`key`: string): *void*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L9)*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`key` | string |
-
-**Returns:** *void*
-
-###  forEach
-
-▸ **forEach**(`cb`: function): *void*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L12)*
-
-**Parameters:**
-
-▪ **cb**: *function*
-
-▸ (`key`: string, `value`: any): *void*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`key` | string |
-`value` | any |
-
-**Returns:** *void*
-
-###  get
-
-▸ **get**‹**T**›(`key`: string): *T | undefined*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:19](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L19)*
-
-**Type parameters:**
-
-▪ **T**
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`key` | string |
-
-**Returns:** *T | undefined*
-
-###  set
-
-▸ **set**(`key`: string, `value`: any): *void*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:22](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L22)*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`key` | string |
-`value` | any |
-
-**Returns:** *void*
+Name | Type | Value |
+------ | ------ | ------ |
+`del` | function | (key: string) => void |
+`forEach` | function | (cb: (key: string,value: any) => void) => void |
+`get` | function | \\<T>(key: string) => T \\| undefined |
+`set` | function | (key: string,value: any) => void |
 
 ___
 
-### `Const` deriveNoopCache
+### deriveNoopCache
 
-### ▪ **deriveNoopCache**: *object*
+▪ `Const` **deriveNoopCache**: object
 
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:27](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L27)*
+*Defined in [packages/api-derive/src/util/cacheImpl.ts:27](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/util/cacheImpl.ts#L27)*
 
-###  del
+#### Properties:
 
-▸ **del**(): *void*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:28](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L28)*
-
-**Returns:** *void*
-
-###  forEach
-
-▸ **forEach**(): *undefined*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:29](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L29)*
-
-**Returns:** *undefined*
-
-###  get
-
-▸ **get**(): *undefined*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:30](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L30)*
-
-**Returns:** *undefined*
-
-###  set
-
-▸ **set**(`_`: string, `value`: unknown): *unknown*
-
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:31](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cacheImpl.ts#L31)*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`_` | string |
-`value` | unknown |
-
-**Returns:** *unknown*
+Name | Type | Value |
+------ | ------ | ------ |
+`del` | function | () => void |
+`forEach` | function | () => undefined |
+`get` | function | () => undefined |
+`set` | function | (\_: string,value: unknown) => unknown |

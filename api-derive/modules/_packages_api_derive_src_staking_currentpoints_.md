@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/currentPoints"](_packages_api_derive_src_staking_currentpoints_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/currentPoints"
 
 # Module: "packages/api-derive/src/staking/currentPoints"
 
@@ -10,21 +12,19 @@
 
 ## Functions
 
-###  currentPoints
+### currentPoints
 
-▸ **currentPoints**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **currentPoints**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/currentPoints.ts:30](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/currentPoints.ts#L30)*
+*Defined in [packages/api-derive/src/staking/currentPoints.ts:30](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/currentPoints.ts#L30)*
 
 **`description`** Retrieve the staking overview, including elected and points earned
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹EraRewardPoints›*
+**Returns:** function

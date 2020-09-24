@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-contract/src/base/Blueprint"](../modules/_packages_api_contract_src_base_blueprint_.md) › [BlueprintCreate](_packages_api_contract_src_base_blueprint_.blueprintcreate.md)
+**Polkadot JS API**
 
-# Interface: BlueprintCreate ‹**ApiType**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api-contract/src/base/Blueprint"](../modules/_packages_api_contract_src_base_blueprint_.md) / BlueprintCreate
+
+# Interface: BlueprintCreate\<**ApiType**>
 
 ## Type parameters
 
-▪ **ApiType**: *ApiTypes*
+* ApiType
 
 ## Hierarchy
 
@@ -18,16 +20,16 @@
 
 ## Methods
 
-###  signAndSend
+### signAndSend
 
-▸ **signAndSend**(`account`: IKeyringPair | string | AccountId | Address): *BlueprintCreateResultSubscription‹ApiType›*
+▸ **signAndSend**(`account`: IKeyringPair \| string \| AccountId \| Address): BlueprintCreateResultSubscription\<ApiType>
 
-*Defined in [packages/api-contract/src/base/Blueprint.ts:23](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/Blueprint.ts#L23)*
+*Defined in [packages/api-contract/src/base/Blueprint.ts:23](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/Blueprint.ts#L23)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`account` | IKeyringPair &#124; string &#124; AccountId &#124; Address |
+`account` | IKeyringPair \| string \| AccountId \| Address |
 
-**Returns:** *BlueprintCreateResultSubscription‹ApiType›*
+**Returns:** BlueprintCreateResultSubscription\<ApiType>

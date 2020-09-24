@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/definitions"](_packages_types_src_types_definitions_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/types/definitions"
 
 # Module: "packages/types/src/types/definitions"
 
@@ -22,44 +24,46 @@
 
 ## Type aliases
 
-###  DefinitionType
+### DefinitionType
 
-Ƭ **DefinitionType**: *string | [DefinitionTypeEnum](_packages_types_src_types_definitions_.md#definitiontypeenum) | [DefinitionTypeSet](_packages_types_src_types_definitions_.md#definitiontypeset) | [DefinitionTypeStruct](_packages_types_src_types_definitions_.md#definitiontypestruct)*
+Ƭ  **DefinitionType**: string \| [DefinitionTypeEnum](_packages_types_src_types_definitions_.md#definitiontypeenum) \| [DefinitionTypeSet](_packages_types_src_types_definitions_.md#definitiontypeset) \| [DefinitionTypeStruct](_packages_types_src_types_definitions_.md#definitiontypestruct)
 
-*Defined in [packages/types/src/types/definitions.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L12)*
-
-___
-
-###  DefinitionTypeEnum
-
-Ƭ **DefinitionTypeEnum**: *object | object*
-
-*Defined in [packages/types/src/types/definitions.ts:6](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L6)*
+*Defined in [packages/types/src/types/definitions.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L12)*
 
 ___
 
-###  DefinitionTypeSet
+### DefinitionTypeEnum
 
-Ƭ **DefinitionTypeSet**: *object*
+Ƭ  **DefinitionTypeEnum**: { _enum: [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype)[]  } \| { _enum: Record\<string, [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype) \| null>  }
 
-*Defined in [packages/types/src/types/definitions.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L8)*
+*Defined in [packages/types/src/types/definitions.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L6)*
+
+___
+
+### DefinitionTypeSet
+
+Ƭ  **DefinitionTypeSet**: { _set: Record\<string, number>  }
+
+*Defined in [packages/types/src/types/definitions.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L8)*
 
 #### Type declaration:
 
-* **_set**: *Record‹string, number›*
+Name | Type |
+------ | ------ |
+`\_set` | Record\<string, number> |
 
 ___
 
-###  DefinitionTypeStruct
+### DefinitionTypeStruct
 
-Ƭ **DefinitionTypeStruct**: *Record‹string, [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype)› | object & Record‹string, unknown›*
+Ƭ  **DefinitionTypeStruct**: Record\<string, [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype)> \| { _alias?: Record\<string, [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype)>  } & Record\<string, unknown>
 
-*Defined in [packages/types/src/types/definitions.ts:10](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L10)*
+*Defined in [packages/types/src/types/definitions.ts:10](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L10)*
 
 ___
 
-###  DefinitionTypeType
+### DefinitionTypeType
 
-Ƭ **DefinitionTypeType**: *string*
+Ƭ  **DefinitionTypeType**: string
 
-*Defined in [packages/types/src/types/definitions.ts:4](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L4)*
+*Defined in [packages/types/src/types/definitions.ts:4](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L4)*

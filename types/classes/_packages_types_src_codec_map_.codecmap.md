@@ -1,22 +1,23 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/Map"](../modules/_packages_types_src_codec_map_.md) › [CodecMap](_packages_types_src_codec_map_.codecmap.md)
+**Polkadot JS API**
 
-# Class: CodecMap ‹**K, V**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/Map"](../modules/_packages_types_src_codec_map_.md) / CodecMap
+
+# Class: CodecMap\<**K, V**>
 
 ## Type parameters
 
-▪ **K**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
-
-▪ **V**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+* K
+* V
 
 ## Hierarchy
 
-* [Map](_packages_types_src_codec_struct_.struct.md#static-map)‹K, V›
+* [Map](_packages_types_src_codec_struct_.struct.md#map)\<K, V>
 
   ↳ **CodecMap**
 
-  ↳ [HashMap](_packages_types_src_codec_hashmap_.hashmap.md)
+  ↳↳ [HashMap](_packages_types_src_codec_hashmap_.hashmap.md)
 
-  ↳ [BTreeMap](_packages_types_src_codec_btreemap_.btreemap.md)
+  ↳↳ [BTreeMap](_packages_types_src_codec_btreemap_.btreemap.md)
 
 ## Implements
 
@@ -30,10 +31,10 @@
 
 ### Properties
 
-* [[Symbol.toStringTag]](_packages_types_src_codec_map_.codecmap.md#readonly-[symbol.tostringtag])
-* [registry](_packages_types_src_codec_map_.codecmap.md#readonly-registry)
-* [size](_packages_types_src_codec_map_.codecmap.md#readonly-size)
-* [Map](_packages_types_src_codec_map_.codecmap.md#static-map)
+* [[Symbol.toStringTag]](_packages_types_src_codec_map_.codecmap.md#[symbol.tostringtag])
+* [registry](_packages_types_src_codec_map_.codecmap.md#registry)
+* [size](_packages_types_src_codec_map_.codecmap.md#size)
+* [Map](_packages_types_src_codec_map_.codecmap.md#map)
 
 ### Accessors
 
@@ -63,375 +64,366 @@
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new CodecMap**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: "BTreeMap" | "HashMap", `keyType`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹K› | keyof InterfaceTypes, `valType`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹V› | keyof InterfaceTypes, `rawValue?`: [Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array) | string | [Map](_packages_types_src_codec_struct_.struct.md#static-map)‹any, any›): *[CodecMap](_packages_types_src_codec_map_.codecmap.md)*
+\+ **new CodecMap**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: \"BTreeMap\" \| \"HashMap\", `keyType`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<K> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md), `valType`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<V> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md), `rawValue?`: [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array) \| string \| [Map](_packages_types_src_codec_struct_.struct.md#map)\<any, any>): [CodecMap](_packages_types_src_codec_map_.codecmap.md)
 
-*Defined in [packages/types/src/codec/Map.ts:99](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L99)*
+*Defined in [packages/types/src/codec/Map.ts:99](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L99)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
-`type` | "BTreeMap" &#124; "HashMap" |
-`keyType` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹K› &#124; keyof InterfaceTypes |
-`valType` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹V› &#124; keyof InterfaceTypes |
-`rawValue?` | [Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array) &#124; string &#124; [Map](_packages_types_src_codec_struct_.struct.md#static-map)‹any, any› |
+`type` | \"BTreeMap\" \| \"HashMap\" |
+`keyType` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<K> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md) |
+`valType` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<V> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md) |
+`rawValue?` | [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array) \| string \| [Map](_packages_types_src_codec_struct_.struct.md#map)\<any, any> |
 
-**Returns:** *[CodecMap](_packages_types_src_codec_map_.codecmap.md)*
+**Returns:** [CodecMap](_packages_types_src_codec_map_.codecmap.md)
 
 ## Properties
 
-### `Readonly` [Symbol.toStringTag]
+### [Symbol.toStringTag]
 
-• **[Symbol.toStringTag]**: *string*
-
-*Inherited from void*
-
-Defined in node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130
-
-___
-
-### `Readonly` registry
-
-• **registry**: *[Registry](../interfaces/_packages_types_src_types_registry_.registry.md)*
-
-*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#readonly-registry)*
-
-*Defined in [packages/types/src/codec/Map.ts:93](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L93)*
-
-___
-
-### `Readonly` size
-
-• **size**: *number*
+• `Readonly` **[Symbol.toStringTag]**: string
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:28
+*Defined in node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
 
 ___
 
-### `Static` Map
+### registry
 
-▪ **Map**: *MapConstructor*
+• `Readonly` **registry**: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md)
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:36
+*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#registry)*
+
+*Defined in [packages/types/src/codec/Map.ts:93](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L93)*
+
+___
+
+### size
+
+• `Readonly` **size**: number
+
+*Inherited from void*
+
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:28*
+
+___
+
+### Map
+
+▪ `Static` **Map**: MapConstructor
+
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:36*
 
 ## Accessors
 
-###  encodedLength
+### encodedLength
 
-• **get encodedLength**(): *number*
+• get **encodedLength**(): number
 
-*Defined in [packages/types/src/codec/Map.ts:113](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L113)*
+*Defined in [packages/types/src/codec/Map.ts:113](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L113)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  hash
+### hash
 
-• **get hash**(): *H256*
+• get **hash**(): H256
 
-*Defined in [packages/types/src/codec/Map.ts:126](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L126)*
+*Defined in [packages/types/src/codec/Map.ts:126](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L126)*
 
 **`description`** Returns a hash of the value
 
-**Returns:** *H256*
+**Returns:** H256
 
 ___
 
-###  isEmpty
+### isEmpty
 
-• **get isEmpty**(): *boolean*
+• get **isEmpty**(): boolean
 
-*Defined in [packages/types/src/codec/Map.ts:133](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L133)*
+*Defined in [packages/types/src/codec/Map.ts:133](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L133)*
 
 **`description`** Checks if the value is an empty value
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ## Methods
 
-###  [Symbol.iterator]
+### [Symbol.iterator]
 
-▸ **[Symbol.iterator]**(): *IterableIterator‹[K, V]›*
+▸ **[Symbol.iterator]**(): IterableIterator\<[K, V]>
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:121
+*Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:121*
 
 Returns an iterable of entries in the map.
 
-**Returns:** *IterableIterator‹[K, V]›*
+**Returns:** IterableIterator\<[K, V]>
 
 ___
 
-###  clear
+### clear
 
-▸ **clear**(): *void*
+▸ **clear**(): void
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:22
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:22*
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  delete
+### delete
 
-▸ **delete**(`key`: K): *boolean*
+▸ **delete**(`key`: K): boolean
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:23
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:23*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `key` | K |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  entries
+### entries
 
-▸ **entries**(): *IterableIterator‹[K, V]›*
+▸ **entries**(): IterableIterator\<[K, V]>
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:126
+*Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:126*
 
 Returns an iterable of key, value pairs for every entry in the map.
 
-**Returns:** *IterableIterator‹[K, V]›*
+**Returns:** IterableIterator\<[K, V]>
 
 ___
 
-###  eq
+### eq
 
-▸ **eq**(`other?`: unknown): *boolean*
+▸ **eq**(`other?`: unknown): boolean
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Map.ts:140](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L140)*
+*Defined in [packages/types/src/codec/Map.ts:140](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L140)*
 
 **`description`** Compares the value of the input to see if there is a match
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `other?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  forEach
+### forEach
 
-▸ **forEach**(`callbackfn`: function, `thisArg?`: any): *void*
+▸ **forEach**(`callbackfn`: (value: V,key: K,map: [Map](_packages_types_src_codec_struct_.struct.md#map)\<K, V>) => void, `thisArg?`: any): void
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:24
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:24*
 
-**Parameters:**
-
-▪ **callbackfn**: *function*
-
-▸ (`value`: V, `key`: K, `map`: [Map](_packages_types_src_codec_struct_.struct.md#static-map)‹K, V›): *void*
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`value` | V |
-`key` | K |
-`map` | [Map](_packages_types_src_codec_struct_.struct.md#static-map)‹K, V› |
+`callbackfn` | (value: V,key: K,map: [Map](_packages_types_src_codec_struct_.struct.md#map)\<K, V>) => void |
+`thisArg?` | any |
 
-▪`Optional`  **thisArg**: *any*
-
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  get
+### get
 
-▸ **get**(`key`: K): *V | undefined*
+▸ **get**(`key`: K): V \| undefined
 
 *Inherited from [CodecMap](_packages_types_src_codec_map_.codecmap.md).[get](_packages_types_src_codec_map_.codecmap.md#get)*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:25
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:25*
 
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`key` | K |
-
-**Returns:** *V | undefined*
-
-___
-
-###  has
-
-▸ **has**(`key`: K): *boolean*
-
-*Inherited from void*
-
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:26
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `key` | K |
 
-**Returns:** *boolean*
+**Returns:** V \| undefined
 
 ___
 
-###  keys
+### has
 
-▸ **keys**(): *IterableIterator‹K›*
+▸ **has**(`key`: K): boolean
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:131
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:26*
+
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`key` | K |
+
+**Returns:** boolean
+
+___
+
+### keys
+
+▸ **keys**(): IterableIterator\<K>
+
+*Inherited from void*
+
+*Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:131*
 
 Returns an iterable of keys in the map
 
-**Returns:** *IterableIterator‹K›*
+**Returns:** IterableIterator\<K>
 
 ___
 
-###  set
+### set
 
-▸ **set**(`key`: K, `value`: V): *this*
+▸ **set**(`key`: K, `value`: V): this
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:27
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:27*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `key` | K |
 `value` | V |
 
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  toHex
+### toHex
 
-▸ **toHex**(): *string*
+▸ **toHex**(): string
 
-*Defined in [packages/types/src/codec/Map.ts:147](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L147)*
+*Defined in [packages/types/src/codec/Map.ts:147](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L147)*
 
 **`description`** Returns a hex string representation of the value. isLe returns a LE (number-only) representation
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toHuman
+### toHuman
 
-▸ **toHuman**(`isExtended?`: undefined | false | true): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+▸ **toHuman**(`isExtended?`: undefined \| false \| true): [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Map.ts:154](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L154)*
+*Defined in [packages/types/src/codec/Map.ts:154](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L154)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`isExtended?` | undefined &#124; false &#124; true |
+`isExtended?` | undefined \| false \| true |
 
-**Returns:** *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+**Returns:** [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+▸ **toJSON**(): [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Map.ts:167](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L167)*
+*Defined in [packages/types/src/codec/Map.ts:167](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L167)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
-**Returns:** *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+**Returns:** [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 ___
 
-###  toRawType
+### toRawType
 
-▸ **toRawType**(): *string*
+▸ **toRawType**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Map.ts:180](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L180)*
+*Defined in [packages/types/src/codec/Map.ts:180](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L180)*
 
 **`description`** Returns the base runtime type name for this instance
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toString
+### toString
 
-▸ **toString**(): *string*
+▸ **toString**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Map.ts:187](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L187)*
+*Defined in [packages/types/src/codec/Map.ts:187](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L187)*
 
 **`description`** Returns the string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toU8a
+### toU8a
 
-▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+▸ **toU8a**(`isBare?`: undefined \| false \| true): [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/codec/Map.ts:195](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Map.ts#L195)*
+*Defined in [packages/types/src/codec/Map.ts:195](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Map.ts#L195)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`isBare?` | undefined &#124; false &#124; true | true when the value has none of the type-specific prefixes (internal)  |
+`isBare?` | undefined \| false \| true | true when the value has none of the type-specific prefixes (internal)  |
 
-**Returns:** *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+**Returns:** [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)
 
 ___
 
-###  values
+### values
 
-▸ **values**(): *IterableIterator‹V›*
+▸ **values**(): IterableIterator\<V>
 
 *Inherited from void*
 
-Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:136
+*Defined in node_modules/typescript/lib/lib.es2015.iterable.d.ts:136*
 
 Returns an iterable of values in the map
 
-**Returns:** *IterableIterator‹V›*
+**Returns:** IterableIterator\<V>

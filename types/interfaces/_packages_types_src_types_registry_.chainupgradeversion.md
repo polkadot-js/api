@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) › [ChainUpgradeVersion](_packages_types_src_types_registry_.chainupgradeversion.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / ChainUpgradeVersion
 
 # Interface: ChainUpgradeVersion
 
@@ -15,16 +17,16 @@
 
 ## Properties
 
-###  blockNumber
+### blockNumber
 
-• **blockNumber**: *BN*
+•  **blockNumber**: BN
 
-*Defined in [packages/types/src/types/registry.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L17)*
+*Defined in [packages/types/src/types/registry.ts:17](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L17)*
 
 ___
 
-###  specVersion
+### specVersion
 
-• **specVersion**: *BN*
+•  **specVersion**: BN
 
-*Defined in [packages/types/src/types/registry.ts:18](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L18)*
+*Defined in [packages/types/src/types/registry.ts:18](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L18)*

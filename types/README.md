@@ -1,6 +1,6 @@
-[Polkadot JS API](README.md) › [Globals](globals.md)
+**Polkadot JS API**
 
-# Polkadot JS API
+> README / [Globals](globals.md)
 
 # @polkadot/types
 
@@ -17,7 +17,7 @@ These are the base types of the codec. They are typically not used directly, but
 | [Enum](classes/_packages_types_src_codec_enum_.enum.md) | A codec wrapper for an enum. Enums are encoded as a single byte, where the byte is a zero-indexed value |
 | [Int](classes/_packages_types_src_codec_int_.int.md) | A generic signed integer codec |
 | [Option](classes/_packages_types_src_codec_option_.option.md) | An Option is an optional field. The first byte indicates that there is a value to follow |
-| [Set](classes/_packages_types_src_codec_btreeset_.btreeset.md#static-set) | An Set is an array of string values, represented an an encoded type by a bitwise representation of the values |
+| [Set](classes/_packages_types_src_codec_btreeset_.btreeset.md#set) | An Set is an array of string values, represented an an encoded type by a bitwise representation of the values |
 | [Struct](classes/_packages_types_src_codec_struct_.struct.md) | A Struct defines an Object with key-value pairs - where the values are Codec values. |
 | [Tuple](classes/_packages_types_src_codec_tuple_.tuple.md) | A Tuple defines an anonymous fixed-length array, where each element has its own type |
 | [Raw](classes/_packages_types_src_codec_raw_.raw.md) |  A basic wrapper around Uint8Array. It will consume the full Uint8Array as passed to it |

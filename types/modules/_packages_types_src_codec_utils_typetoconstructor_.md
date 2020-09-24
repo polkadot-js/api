@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/utils/typeToConstructor"](_packages_types_src_codec_utils_typetoconstructor_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/utils/typeToConstructor"
 
 # Module: "packages/types/src/codec/utils/typeToConstructor"
 
@@ -10,21 +12,23 @@
 
 ## Functions
 
-###  typeToConstructor
+### typeToConstructor
 
-▸ **typeToConstructor**‹**T**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: keyof InterfaceTypes | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T›): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T›*
+▸ **typeToConstructor**\<T>(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md) \| [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T>): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T>
 
-*Defined in [packages/types/src/codec/utils/typeToConstructor.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/utils/typeToConstructor.ts#L8)*
+*Defined in [packages/types/src/codec/utils/typeToConstructor.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/utils/typeToConstructor.ts#L8)*
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **T**
+Name | Default |
+------ | ------ |
+`T` | Codec |
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
-`type` | keyof InterfaceTypes &#124; [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T› |
+`type` | keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md) \| [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T> |
 
-**Returns:** *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T›*
+**Returns:** [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T>

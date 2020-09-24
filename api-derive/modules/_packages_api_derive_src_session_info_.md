@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/session/info"](_packages_api_derive_src_session_info_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/session/info"
 
 # Module: "packages/api-derive/src/session/info"
 
@@ -10,21 +12,19 @@
 
 ## Functions
 
-###  info
+### info
 
-▸ **info**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **info**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/session/info.ts:64](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/session/info.ts#L64)*
+*Defined in [packages/api-derive/src/session/info.ts:64](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/session/info.ts#L64)*
 
 **`description`** Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveSessionInfo›*
+**Returns:** function

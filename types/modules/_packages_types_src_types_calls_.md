@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/calls"](_packages_types_src_types_calls_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/types/calls"
 
 # Module: "packages/types/src/types/calls"
 
@@ -16,16 +18,16 @@
 
 ## Type aliases
 
-###  Calls
+### Calls
 
-Ƭ **Calls**: *Record‹string, [CallFunction](../interfaces/_packages_types_src_types_calls_.callfunction.md)›*
+Ƭ  **Calls**: Record\<string, [CallFunction](../interfaces/_packages_types_src_types_calls_.callfunction.md)>
 
-*Defined in [packages/types/src/types/calls.ts:19](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L19)*
+*Defined in [packages/types/src/types/calls.ts:19](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L19)*
 
 ___
 
-###  ModulesWithCalls
+### ModulesWithCalls
 
-Ƭ **ModulesWithCalls**: *Record‹string, [Calls](_packages_types_src_types_calls_.md#calls)›*
+Ƭ  **ModulesWithCalls**: Record\<string, [Calls](_packages_types_src_types_calls_.md#calls)>
 
-*Defined in [packages/types/src/types/calls.ts:21](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L21)*
+*Defined in [packages/types/src/types/calls.ts:21](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L21)*

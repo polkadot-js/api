@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/typegen/src/util/imports"](../modules/_packages_typegen_src_util_imports_.md) › [ModuleTypes](_packages_typegen_src_util_imports_.moduletypes.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/typegen/src/util/imports"](../modules/_packages_typegen_src_util_imports_.md) / ModuleTypes
 
 # Interface: ModuleTypes
 
@@ -14,8 +16,8 @@
 
 ## Properties
 
-###  types
+### types
 
-• **types**: *Record‹string, unknown›*
+•  **types**: Record\<string, unknown>
 
-*Defined in [packages/typegen/src/util/imports.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/typegen/src/util/imports.ts#L13)*
+*Defined in [packages/typegen/src/util/imports.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/util/imports.ts#L13)*

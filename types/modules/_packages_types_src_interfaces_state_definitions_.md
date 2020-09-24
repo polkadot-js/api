@@ -1,5 +1,5 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/interfaces/state/definitions"](_packages_types_src_interfaces_state_definitions_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/interfaces/state/definitions"
 
 # Module: "packages/types/src/interfaces/state/definitions"
-
-

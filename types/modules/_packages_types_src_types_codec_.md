@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/codec"](_packages_types_src_types_codec_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/types/codec"
 
 # Module: "packages/types/src/types/codec"
 
@@ -18,32 +20,38 @@
 
 ## Type aliases
 
-###  ArgsDef
+### ArgsDef
 
-Ƭ **ArgsDef**: *Record‹string, [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)›*
+Ƭ  **ArgsDef**: Record\<string, [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)>
 
-*Defined in [packages/types/src/types/codec.ts:91](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/codec.ts#L91)*
-
-___
-
-###  CodecArg
-
-Ƭ **CodecArg**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md) | BN | boolean | string | [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array) | boolean | number | string | undefined | CodecArgArray | object*
-
-*Defined in [packages/types/src/types/codec.ts:78](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/codec.ts#L78)*
+*Defined in [packages/types/src/types/codec.ts:91](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/codec.ts#L91)*
 
 ___
 
-###  CodecTo
+### CodecArg
 
-Ƭ **CodecTo**: *"toHex" | "toJSON" | "toString" | "toU8a"*
+Ƭ  **CodecArg**: [Codec](../interfaces/_packages_types_src_types_codec_.codec.md) \| BN \| boolean \| string \| [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) \| boolean \| number \| string \| undefined \| CodecArgArray \| { [index:string]: [CodecArg](_packages_types_src_types_codec_.md#codecarg);  }
 
-*Defined in [packages/types/src/types/codec.ts:10](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/codec.ts#L10)*
+*Defined in [packages/types/src/types/codec.ts:78](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/codec.ts#L78)*
 
 ___
 
-###  ConstructorDef
+### CodecTo
 
-Ƭ **ConstructorDef**: *Record‹string, [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T››*
+Ƭ  **CodecTo**: \"toHex\" \| \"toJSON\" \| \"toString\" \| \"toU8a\"
 
-*Defined in [packages/types/src/types/codec.ts:89](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/codec.ts#L89)*
+*Defined in [packages/types/src/types/codec.ts:10](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/codec.ts#L10)*
+
+___
+
+### ConstructorDef
+
+Ƭ  **ConstructorDef**\<T>: Record\<string, [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T>>
+
+*Defined in [packages/types/src/types/codec.ts:89](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/codec.ts#L89)*
+
+#### Type parameters:
+
+Name | Default |
+------ | ------ |
+`T` | Codec |

@@ -1,12 +1,13 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-contract/src/base/Contract"](../modules/_packages_api_contract_src_base_contract_.md) › [ContractCall](_packages_api_contract_src_base_contract_.contractcall.md)
+**Polkadot JS API**
 
-# Interface: ContractCall ‹**ApiType, CallType**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api-contract/src/base/Contract"](../modules/_packages_api_contract_src_base_contract_.md) / ContractCall
+
+# Interface: ContractCall\<**ApiType, CallType**>
 
 ## Type parameters
 
-▪ **ApiType**: *ApiTypes*
-
-▪ **CallType**: *ContractCallTypes*
+* ApiType
+* CallType
 
 ## Hierarchy
 
@@ -20,16 +21,16 @@
 
 ## Methods
 
-###  send
+### send
 
-▸ **send**(`account`: IKeyringPair | string | AccountId | Address): *ContractCallResultSubscription‹ApiType, CallType›*
+▸ **send**(`account`: IKeyringPair \| string \| AccountId \| Address): ContractCallResultSubscription\<ApiType, CallType>
 
-*Defined in [packages/api-contract/src/base/Contract.ts:26](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/Contract.ts#L26)*
+*Defined in [packages/api-contract/src/base/Contract.ts:26](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/Contract.ts#L26)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`account` | IKeyringPair &#124; string &#124; AccountId &#124; Address |
+`account` | IKeyringPair \| string \| AccountId \| Address |
 
-**Returns:** *ContractCallResultSubscription‹ApiType, CallType›*
+**Returns:** ContractCallResultSubscription\<ApiType, CallType>

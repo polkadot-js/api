@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/chain/bestNumber"](_packages_api_derive_src_chain_bestnumber_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/chain/bestNumber"
 
 # Module: "packages/api-derive/src/chain/bestNumber"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  bestNumber
+### bestNumber
 
-▸ **bestNumber**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **bestNumber**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/chain/bestNumber.ts:24](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/chain/bestNumber.ts#L24)*
+*Defined in [packages/api-derive/src/chain/bestNumber.ts:24](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/chain/bestNumber.ts#L24)*
 
 **`name`** bestNumber
 
@@ -27,15 +29,11 @@ api.derive.chain.bestNumber((blockNumber) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-The latest block number.
-
-▸ (): *Observable‹BlockNumber›*
+**Returns:** function

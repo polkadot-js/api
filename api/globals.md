@@ -1,4 +1,6 @@
-[Polkadot JS API](README.md) › [Globals](globals.md)
+**Polkadot JS API**
+
+> [README](README.md) / Globals
 
 # Polkadot JS API
 

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/utils/compareArray"](_packages_types_src_codec_utils_comparearray_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/utils/compareArray"
 
 # Module: "packages/types/src/codec/utils/compareArray"
 
@@ -10,17 +12,17 @@
 
 ## Functions
 
-###  compareArray
+### compareArray
 
-▸ **compareArray**(`a`: unknown[], `b?`: unknown): *boolean*
+▸ **compareArray**(`a`: unknown[], `b?`: unknown): boolean
 
-*Defined in [packages/types/src/codec/utils/compareArray.ts:10](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/utils/compareArray.ts#L10)*
+*Defined in [packages/types/src/codec/utils/compareArray.ts:10](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/utils/compareArray.ts#L10)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `a` | unknown[] |
 `b?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean

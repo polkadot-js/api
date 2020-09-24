@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/democracy/referendums"](_packages_api_derive_src_democracy_referendums_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/referendums"
 
 # Module: "packages/api-derive/src/democracy/referendums"
 
@@ -10,19 +12,17 @@
 
 ## Functions
 
-###  referendums
+### referendums
 
-▸ **referendums**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **referendums**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/referendums.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/referendums.ts#L12)*
+*Defined in [packages/api-derive/src/democracy/referendums.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/referendums.ts#L12)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveReferendumExt[]›*
+**Returns:** function

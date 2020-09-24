@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/metadata/src/Metadata/MagicNumber"](../modules/_packages_metadata_src_metadata_magicnumber_.md) › [MagicNumber](../classes/_packages_metadata_src_metadata_magicnumber_.magicnumber.md) › [ReductionContext](_packages_metadata_src_metadata_magicnumber_.magicnumber.reductioncontext.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/metadata/src/Metadata/MagicNumber"](../modules/_packages_metadata_src_metadata_magicnumber_.md) / [MagicNumber](../classes/_packages_metadata_src_metadata_magicnumber_.magicnumber.md) / ReductionContext
 
 # Interface: ReductionContext
 
@@ -8,7 +10,7 @@
 
 ## Indexable
 
-* \[ **key**: *string*\]: any
+▪ [key: string]: any
 
 ## Index
 
@@ -19,16 +21,16 @@
 
 ## Properties
 
-###  m
+### m
 
-• **m**: *number*
+•  **m**: number
 
-Defined in node_modules/@types/bn.js/index.d.ts:22
+*Defined in node_modules/@types/bn.js/index.d.ts:22*
 
 ___
 
-###  prime
+### prime
 
-• **prime**: *[MPrime](_packages_metadata_src_metadata_magicnumber_.magicnumber.mprime.md)*
+•  **prime**: [MPrime](_packages_metadata_src_metadata_magicnumber_.magicnumber.mprime.md)
 
-Defined in node_modules/@types/bn.js/index.d.ts:23
+*Defined in node_modules/@types/bn.js/index.d.ts:23*

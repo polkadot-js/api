@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/util/validate"](_packages_api_src_util_validate_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/util/validate"
 
 # Module: "packages/api/src/util/validate"
 
@@ -10,17 +12,17 @@
 
 ## Functions
 
-###  extractStorageArgs
+### extractStorageArgs
 
-▸ **extractStorageArgs**(`creator`: StorageEntry, `_args`: unknown[]): *[StorageEntry, [any, any]] | [StorageEntry] | [StorageEntry, any]*
+▸ **extractStorageArgs**(`creator`: StorageEntry, `_args`: unknown[]): [StorageEntry, [any, any]] \| [StorageEntry] \| [StorageEntry, any]
 
-*Defined in [packages/api/src/util/validate.ts:37](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/util/validate.ts#L37)*
+*Defined in [packages/api/src/util/validate.ts:37](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/util/validate.ts#L37)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `creator` | StorageEntry |
 `_args` | unknown[] |
 
-**Returns:** *[StorageEntry, [any, any]] | [StorageEntry] | [StorageEntry, any]*
+**Returns:** [StorageEntry, [any, any]] \| [StorageEntry] \| [StorageEntry, any]

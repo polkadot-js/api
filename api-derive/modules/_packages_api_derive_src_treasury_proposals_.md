@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/treasury/proposals"](_packages_api_derive_src_treasury_proposals_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/treasury/proposals"
 
 # Module: "packages/api-derive/src/treasury/proposals"
 
@@ -10,21 +12,19 @@
 
 ## Functions
 
-###  proposals
+### proposals
 
-▸ **proposals**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **proposals**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/treasury/proposals.ts:76](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/treasury/proposals.ts#L76)*
+*Defined in [packages/api-derive/src/treasury/proposals.ts:76](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/treasury/proposals.ts#L76)*
 
 **`description`** Retrieve all active and approved treasury proposals, along with their info
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveTreasuryProposals›*
+**Returns:** function

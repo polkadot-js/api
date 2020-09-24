@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) › [RegistryMetadata](_packages_types_src_types_registry_.registrymetadata.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadata
 
 # Interface: RegistryMetadata
 
@@ -14,8 +16,8 @@
 
 ## Properties
 
-###  asLatest
+### asLatest
 
-• **asLatest**: *[RegistryMetadataLatest](_packages_types_src_types_registry_.registrymetadatalatest.md)*
+•  **asLatest**: [RegistryMetadataLatest](_packages_types_src_types_registry_.registrymetadatalatest.md)
 
-*Defined in [packages/types/src/types/registry.ts:92](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L92)*
+*Defined in [packages/types/src/types/registry.ts:92](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L92)*

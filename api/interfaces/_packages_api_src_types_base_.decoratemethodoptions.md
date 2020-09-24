@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) › [DecorateMethodOptions](_packages_api_src_types_base_.decoratemethodoptions.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) / DecorateMethodOptions
 
 # Interface: DecorateMethodOptions
 
@@ -10,21 +12,21 @@
 
 ### Properties
 
-* [methodName](_packages_api_src_types_base_.decoratemethodoptions.md#optional-methodname)
-* [overrideNoSub](_packages_api_src_types_base_.decoratemethodoptions.md#optional-overridenosub)
+* [methodName](_packages_api_src_types_base_.decoratemethodoptions.md#methodname)
+* [overrideNoSub](_packages_api_src_types_base_.decoratemethodoptions.md#overridenosub)
 
 ## Properties
 
-### `Optional` methodName
+### methodName
 
-• **methodName**? : *undefined | string*
+• `Optional` **methodName**: undefined \| string
 
-*Defined in [packages/api/src/types/base.ts:72](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L72)*
+*Defined in [packages/api/src/types/base.ts:72](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L72)*
 
 ___
 
-### `Optional` overrideNoSub
+### overrideNoSub
 
-• **overrideNoSub**? : *undefined | function*
+• `Optional` **overrideNoSub**: undefined \| (...args: unknown[]) => Observable\<Codec>
 
-*Defined in [packages/api/src/types/base.ts:73](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L73)*
+*Defined in [packages/api/src/types/base.ts:73](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L73)*

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/society/member"](_packages_api_derive_src_society_member_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/society/member"
 
 # Module: "packages/api-derive/src/society/member"
 
@@ -10,27 +12,19 @@
 
 ## Functions
 
-###  member
+### member
 
-▸ **member**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **member**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/society/member.ts:20](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/society/member.ts#L20)*
+*Defined in [packages/api-derive/src/society/member.ts:20](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/society/member.ts#L20)*
 
 **`description`** Get the member info for a society
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: AccountId): *Observable‹DeriveSocietyMember›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | AccountId |
+**Returns:** function

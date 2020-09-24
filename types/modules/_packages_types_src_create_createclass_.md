@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/create/createClass"](_packages_types_src_create_createclass_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/create/createClass"
 
 # Module: "packages/types/src/create/createClass"
 
@@ -13,88 +15,94 @@
 
 ## Functions
 
-###  ClassOf
+### ClassOf
 
-▸ **ClassOf**‹**K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `name`: K): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹InterfaceTypes[K]›*
+▸ **ClassOf**\<K>(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `name`: K): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<InterfaceTypes[K]>
 
-*Defined in [packages/types/src/create/createClass.ts:42](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/create/createClass.ts#L42)*
+*Defined in [packages/types/src/create/createClass.ts:42](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/create/createClass.ts#L42)*
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **K**: *keyof InterfaceTypes*
+Name | Type |
+------ | ------ |
+`K` | keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md) |
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
 `name` | K |
 
-**Returns:** *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹InterfaceTypes[K]›*
+**Returns:** [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<InterfaceTypes[K]>
 
 ___
 
-###  ClassOfUnsafe
+### ClassOfUnsafe
 
-▸ **ClassOfUnsafe**‹**T**, **K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `name`: K): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹FromReg‹T, K››*
+▸ **ClassOfUnsafe**\<T, K>(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `name`: K): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<FromReg\<T, K>>
 
-*Defined in [packages/types/src/create/createClass.ts:37](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/create/createClass.ts#L37)*
+*Defined in [packages/types/src/create/createClass.ts:37](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/create/createClass.ts#L37)*
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **T**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+Name | Type | Default |
+------ | ------ | ------ |
+`T` | [Codec](../interfaces/_packages_types_src_types_codec_.codec.md) | Codec |
+`K` | string | string |
 
-▪ **K**: *string*
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
 `name` | K |
 
-**Returns:** *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹FromReg‹T, K››*
+**Returns:** [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<FromReg\<T, K>>
 
 ___
 
-###  createClass
+### createClass
 
-▸ **createClass**‹**T**, **K**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: K): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹FromReg‹T, K››*
+▸ **createClass**\<T, K>(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `type`: K): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<FromReg\<T, K>>
 
-*Defined in [packages/types/src/create/createClass.ts:29](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/create/createClass.ts#L29)*
+*Defined in [packages/types/src/create/createClass.ts:29](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/create/createClass.ts#L29)*
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **T**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+Name | Type | Default |
+------ | ------ | ------ |
+`T` | [Codec](../interfaces/_packages_types_src_types_codec_.codec.md) | Codec |
+`K` | string | string |
 
-▪ **K**: *string*
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
 `type` | K |
 
-**Returns:** *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹FromReg‹T, K››*
+**Returns:** [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<FromReg\<T, K>>
 
 ___
 
-###  getTypeClass
+### getTypeClass
 
-▸ **getTypeClass**‹**T**›(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: TypeDef): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T›*
+▸ **getTypeClass**\<T>(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: TypeDef): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T>
 
-*Defined in [packages/types/src/create/createClass.ts:181](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/create/createClass.ts#L181)*
+*Defined in [packages/types/src/create/createClass.ts:181](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/create/createClass.ts#L181)*
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **T**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+Name | Type | Default |
+------ | ------ | ------ |
+`T` | [Codec](../interfaces/_packages_types_src_types_codec_.codec.md) | Codec |
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
 `value` | TypeDef |
 
-**Returns:** *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T›*
+**Returns:** [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T>

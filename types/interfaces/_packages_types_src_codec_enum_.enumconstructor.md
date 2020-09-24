@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/Enum"](../modules/_packages_types_src_codec_enum_.md) › [EnumConstructor](_packages_types_src_codec_enum_.enumconstructor.md)
+**Polkadot JS API**
 
-# Interface: EnumConstructor ‹**T**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/Enum"](../modules/_packages_types_src_codec_enum_.md) / EnumConstructor
+
+# Interface: EnumConstructor\<**T**>
 
 ## Type parameters
 
-▪ **T**
+* T
 
 ## Hierarchy
 
@@ -18,18 +20,18 @@
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new EnumConstructor**(`registry`: [Registry](_packages_types_src_types_registry_.registry.md), `value?`: any, `index?`: undefined | number): *T*
+\+ **new EnumConstructor**(`registry`: [Registry](_packages_types_src_types_registry_.registry.md), `value?`: any, `index?`: undefined \| number): T
 
-*Defined in [packages/types/src/codec/Enum.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Enum.ts#L15)*
+*Defined in [packages/types/src/codec/Enum.ts:15](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Enum.ts#L15)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](_packages_types_src_types_registry_.registry.md) |
 `value?` | any |
-`index?` | undefined &#124; number |
+`index?` | undefined \| number |
 
-**Returns:** *T*
+**Returns:** T

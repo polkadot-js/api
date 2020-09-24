@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/promise/Combinator"](_packages_api_src_promise_combinator_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/promise/Combinator"
 
 # Module: "packages/api/src/promise/Combinator"
 
@@ -18,8 +20,14 @@
 
 ## Type aliases
 
-###  CombinatorCallback
+### CombinatorCallback
 
-Ƭ **CombinatorCallback**: *Callback‹T›*
+Ƭ  **CombinatorCallback**\<T>: Callback\<T>
 
-*Defined in [packages/api/src/promise/Combinator.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/promise/Combinator.ts#L9)*
+*Defined in [packages/api/src/promise/Combinator.ts:9](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/promise/Combinator.ts#L9)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`T` | any[] |

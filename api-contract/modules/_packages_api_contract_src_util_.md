@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-contract/src/util"](_packages_api_contract_src_util_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-contract/src/util"
 
 # Module: "packages/api-contract/src/util"
 
@@ -10,23 +12,18 @@
 
 ## Functions
 
-###  formatData
+### formatData
 
-▸ **formatData**(`registry`: Registry, `data`: Raw, `__namedParameters`: object): *Codec*
+▸ **formatData**(`registry`: Registry, `data`: Raw, `__namedParameters`: { info: TypeDefInfo ; type: string  }): Codec
 
-*Defined in [packages/api-contract/src/util.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/util.ts#L8)*
+*Defined in [packages/api-contract/src/util.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/util.ts#L8)*
 
-**Parameters:**
-
-▪ **registry**: *Registry*
-
-▪ **data**: *Raw*
-
-▪ **__namedParameters**: *object*
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`info` | TypeDefInfo |
-`type` | string |
+`registry` | Registry |
+`data` | Raw |
+`__namedParameters` | { info: TypeDefInfo ; type: string  } |
 
-**Returns:** *Codec*
+**Returns:** Codec

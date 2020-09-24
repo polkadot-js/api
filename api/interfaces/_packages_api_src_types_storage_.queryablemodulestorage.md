@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/storage"](../modules/_packages_api_src_types_storage_.md) › [QueryableModuleStorage](_packages_api_src_types_storage_.queryablemodulestorage.md)
+**Polkadot JS API**
 
-# Interface: QueryableModuleStorage ‹**ApiType**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/storage"](../modules/_packages_api_src_types_storage_.md) / QueryableModuleStorage
+
+# Interface: QueryableModuleStorage\<**ApiType**>
 
 ## Type parameters
 
-▪ **ApiType**: *[ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes)*
+* ApiType
 
 ## Hierarchy
 
@@ -12,4 +14,4 @@
 
 ## Indexable
 
-* \[ **index**: *string*\]: [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)‹ApiType›
+▪ [index: string]: [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>

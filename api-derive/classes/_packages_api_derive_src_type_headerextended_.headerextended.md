@@ -1,6 +1,8 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/type/HeaderExtended"](../modules/_packages_api_derive_src_type_headerextended_.md) › [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md)
+**Polkadot JS API**
 
-# Class: HeaderExtended ‹**S, V, E**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api-derive/src/type/HeaderExtended"](../modules/_packages_api_derive_src_type_headerextended_.md) / HeaderExtended
+
+# Class: HeaderExtended\<**S, V, E**>
 
 **`name`** HeaderExtended
 
@@ -9,11 +11,9 @@ A [[Block]] header with an additional `author` field that indicates the block au
 
 ## Type parameters
 
-▪ **S**: *TypesDef*
-
-▪ **V**: *object*
-
-▪ **E**: *object*
+* S
+* V
+* E
 
 ## Hierarchy
 
@@ -33,13 +33,13 @@ A [[Block]] header with an additional `author` field that indicates the block au
 
 ### Properties
 
-* [digest](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-digest)
-* [extrinsicsRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-extrinsicsroot)
-* [number](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-number)
-* [parentHash](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-parenthash)
-* [registry](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-registry)
-* [size](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-size)
-* [stateRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-stateroot)
+* [digest](_packages_api_derive_src_type_headerextended_.headerextended.md#digest)
+* [extrinsicsRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#extrinsicsroot)
+* [number](_packages_api_derive_src_type_headerextended_.headerextended.md#number)
+* [parentHash](_packages_api_derive_src_type_headerextended_.headerextended.md#parenthash)
+* [registry](_packages_api_derive_src_type_headerextended_.headerextended.md#registry)
+* [size](_packages_api_derive_src_type_headerextended_.headerextended.md#size)
+* [stateRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#stateroot)
 
 ### Accessors
 
@@ -67,20 +67,20 @@ A [[Block]] header with an additional `author` field that indicates the block au
 * [toRawType](_packages_api_derive_src_type_headerextended_.headerextended.md#torawtype)
 * [toString](_packages_api_derive_src_type_headerextended_.headerextended.md#tostring)
 * [toU8a](_packages_api_derive_src_type_headerextended_.headerextended.md#tou8a)
-* [typesToMap](_packages_api_derive_src_type_headerextended_.headerextended.md#static-typestomap)
-* [with](_packages_api_derive_src_type_headerextended_.headerextended.md#static-with)
+* [typesToMap](_packages_api_derive_src_type_headerextended_.headerextended.md#typestomap)
+* [with](_packages_api_derive_src_type_headerextended_.headerextended.md#with)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new HeaderExtended**(`registry`: Registry, `header?`: Header, `sessionValidators?`: AccountId[]): *[HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md)*
+\+ **new HeaderExtended**(`registry`: Registry, `header?`: Header, `sessionValidators?`: AccountId[]): [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md)
 
 *Overrides void*
 
-*Defined in [packages/api-derive/src/type/HeaderExtended.ts:21](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/type/HeaderExtended.ts#L21)*
+*Defined in [packages/api-derive/src/type/HeaderExtended.ts:21](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/type/HeaderExtended.ts#L21)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
@@ -88,465 +88,458 @@ Name | Type |
 `header?` | Header |
 `sessionValidators?` | AccountId[] |
 
-**Returns:** *[HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md)*
+**Returns:** [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md)
 
 ## Properties
 
-### `Readonly` digest
+### digest
 
-• **digest**: *Digest*
+• `Readonly` **digest**: Digest
 
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[digest](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-digest)*
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[digest](_packages_api_derive_src_type_headerextended_.headerextended.md#digest)*
 
-*Defined in [packages/types/src/interfaces/runtime/types.ts:127](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/runtime/types.ts#L127)*
-
-___
-
-### `Readonly` extrinsicsRoot
-
-• **extrinsicsRoot**: *Hash*
-
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[extrinsicsRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-extrinsicsroot)*
-
-*Defined in [packages/types/src/interfaces/runtime/types.ts:126](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/runtime/types.ts#L126)*
+*Defined in [packages/types/src/interfaces/runtime/types.ts:127](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/interfaces/runtime/types.ts#L127)*
 
 ___
 
-### `Readonly` number
+### extrinsicsRoot
 
-• **number**: *Compact‹BlockNumber›*
+• `Readonly` **extrinsicsRoot**: Hash
 
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[number](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-number)*
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[extrinsicsRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#extrinsicsroot)*
 
-*Defined in [packages/types/src/interfaces/runtime/types.ts:124](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/runtime/types.ts#L124)*
-
-___
-
-### `Readonly` parentHash
-
-• **parentHash**: *Hash*
-
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[parentHash](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-parenthash)*
-
-*Defined in [packages/types/src/interfaces/runtime/types.ts:123](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/runtime/types.ts#L123)*
+*Defined in [packages/types/src/interfaces/runtime/types.ts:126](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/interfaces/runtime/types.ts#L126)*
 
 ___
 
-### `Readonly` registry
+### number
 
-• **registry**: *Registry*
+• `Readonly` **number**: Compact\<BlockNumber>
 
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[registry](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-registry)*
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[number](_packages_api_derive_src_type_headerextended_.headerextended.md#number)*
 
-*Defined in [packages/types/src/codec/Struct.ts:108](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L108)*
-
-___
-
-### `Readonly` size
-
-• **size**: *number*
-
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[size](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-size)*
-
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:28
+*Defined in [packages/types/src/interfaces/runtime/types.ts:124](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/interfaces/runtime/types.ts#L124)*
 
 ___
 
-### `Readonly` stateRoot
+### parentHash
 
-• **stateRoot**: *Hash*
+• `Readonly` **parentHash**: Hash
 
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[stateRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#readonly-stateroot)*
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[parentHash](_packages_api_derive_src_type_headerextended_.headerextended.md#parenthash)*
 
-*Defined in [packages/types/src/interfaces/runtime/types.ts:125](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/interfaces/runtime/types.ts#L125)*
+*Defined in [packages/types/src/interfaces/runtime/types.ts:123](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/interfaces/runtime/types.ts#L123)*
+
+___
+
+### registry
+
+• `Readonly` **registry**: Registry
+
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[registry](_packages_api_derive_src_type_headerextended_.headerextended.md#registry)*
+
+*Defined in [packages/types/src/codec/Struct.ts:108](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L108)*
+
+___
+
+### size
+
+• `Readonly` **size**: number
+
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[size](_packages_api_derive_src_type_headerextended_.headerextended.md#size)*
+
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:28*
+
+___
+
+### stateRoot
+
+• `Readonly` **stateRoot**: Hash
+
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[stateRoot](_packages_api_derive_src_type_headerextended_.headerextended.md#stateroot)*
+
+*Defined in [packages/types/src/interfaces/runtime/types.ts:125](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/interfaces/runtime/types.ts#L125)*
 
 ## Accessors
 
-###  Type
+### Type
 
-• **get Type**(): *E*
+• get **Type**(): E
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[Type](_packages_api_derive_src_type_headerextended_.headerextended.md#type)*
 
-*Defined in [packages/types/src/codec/Struct.ts:171](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L171)*
+*Defined in [packages/types/src/codec/Struct.ts:171](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L171)*
 
 **`description`** Returns the Type description to sthe structure
 
-**Returns:** *E*
+**Returns:** E
 
 ___
 
-###  author
+### author
 
-• **get author**(): *AccountId | undefined*
+• get **author**(): AccountId \| undefined
 
-*Defined in [packages/api-derive/src/type/HeaderExtended.ts:32](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/type/HeaderExtended.ts#L32)*
+*Defined in [packages/api-derive/src/type/HeaderExtended.ts:32](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/type/HeaderExtended.ts#L32)*
 
 **`description`** Convenience method, returns the author for the block
 
-**Returns:** *AccountId | undefined*
+**Returns:** AccountId \| undefined
 
 ___
 
-###  defKeys
+### defKeys
 
-• **get defKeys**(): *string[]*
+• get **defKeys**(): string[]
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[defKeys](_packages_api_derive_src_type_headerextended_.headerextended.md#defkeys)*
 
-*Defined in [packages/types/src/codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L149)*
+*Defined in [packages/types/src/codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L149)*
 
 **`description`** The available keys for this enum
 
-**Returns:** *string[]*
+**Returns:** string[]
 
 ___
 
-###  encodedLength
+### encodedLength
 
-• **get encodedLength**(): *number*
+• get **encodedLength**(): number
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[encodedLength](_packages_api_derive_src_type_headerextended_.headerextended.md#encodedlength)*
 
-*Defined in [packages/types/src/codec/Struct.ts:185](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L185)*
+*Defined in [packages/types/src/codec/Struct.ts:185](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L185)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  hash
+### hash
 
-• **get hash**(): *H256*
+• get **hash**(): H256
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[hash](_packages_api_derive_src_type_headerextended_.headerextended.md#hash)*
 
-*Defined in [packages/types/src/codec/Struct.ts:196](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L196)*
+*Defined in [packages/types/src/codec/Struct.ts:196](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L196)*
 
 **`description`** returns a hash of the contents
 
-**Returns:** *H256*
+**Returns:** H256
 
 ___
 
-###  isEmpty
+### isEmpty
 
-• **get isEmpty**(): *boolean*
+• get **isEmpty**(): boolean
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[isEmpty](_packages_api_derive_src_type_headerextended_.headerextended.md#isempty)*
 
-*Defined in [packages/types/src/codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L156)*
+*Defined in [packages/types/src/codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L156)*
 
 **`description`** Checks if the value is an empty value
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ## Methods
 
-###  clear
+### clear
 
-▸ **clear**(): *void*
+▸ **clear**(): void
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[clear](_packages_api_derive_src_type_headerextended_.headerextended.md#clear)*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:22
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:22*
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  delete
+### delete
 
-▸ **delete**(`key`: keyof S): *boolean*
+▸ **delete**(`key`: keyof S): boolean
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[delete](_packages_api_derive_src_type_headerextended_.headerextended.md#delete)*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:23
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:23*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `key` | keyof S |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  eq
+### eq
 
-▸ **eq**(`other?`: unknown): *boolean*
+▸ **eq**(`other?`: unknown): boolean
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[eq](_packages_api_derive_src_type_headerextended_.headerextended.md#eq)*
 
-*Defined in [packages/types/src/codec/Struct.ts:203](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L203)*
+*Defined in [packages/types/src/codec/Struct.ts:203](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L203)*
 
 **`description`** Compares the value of the input to see if there is a match
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `other?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  forEach
+### forEach
 
-▸ **forEach**(`callbackfn`: function, `thisArg?`: any): *void*
+▸ **forEach**(`callbackfn`: (value: Codec,key: keyof S,map: Map\<keyof S, Codec>) => void, `thisArg?`: any): void
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[forEach](_packages_api_derive_src_type_headerextended_.headerextended.md#foreach)*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:24
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:24*
 
-**Parameters:**
-
-▪ **callbackfn**: *function*
-
-▸ (`value`: Codec, `key`: keyof S, `map`: Map‹keyof S, Codec›): *void*
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`value` | Codec |
-`key` | keyof S |
-`map` | Map‹keyof S, Codec› |
+`callbackfn` | (value: Codec,key: keyof S,map: Map\<keyof S, Codec>) => void |
+`thisArg?` | any |
 
-▪`Optional`  **thisArg**: *any*
-
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  get
+### get
 
-▸ **get**(`name`: keyof S): *Codec | undefined*
+▸ **get**(`name`: keyof S): Codec \| undefined
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[get](_packages_api_derive_src_type_headerextended_.headerextended.md#get)*
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L211)*
+*Defined in [packages/types/src/codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L211)*
 
 **`description`** Returns a specific names entry in the structure
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `name` | keyof S | The name of the entry to retrieve  |
 
-**Returns:** *Codec | undefined*
+**Returns:** Codec \| undefined
 
 ___
 
-###  getAtIndex
+### getAtIndex
 
-▸ **getAtIndex**(`index`: number): *Codec*
+▸ **getAtIndex**(`index`: number): Codec
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[getAtIndex](_packages_api_derive_src_type_headerextended_.headerextended.md#getatindex)*
 
-*Defined in [packages/types/src/codec/Struct.ts:218](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L218)*
+*Defined in [packages/types/src/codec/Struct.ts:218](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L218)*
 
 **`description`** Returns the values of a member at a specific index (Rather use get(name) for performance)
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `index` | number |
 
-**Returns:** *Codec*
+**Returns:** Codec
 
 ___
 
-###  has
+### has
 
-▸ **has**(`key`: keyof S): *boolean*
+▸ **has**(`key`: keyof S): boolean
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[has](_packages_api_derive_src_type_headerextended_.headerextended.md#has)*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:26
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:26*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `key` | keyof S |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  set
+### set
 
-▸ **set**(`key`: keyof S, `value`: Codec): *this*
+▸ **set**(`key`: keyof S, `value`: Codec): this
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[set](_packages_api_derive_src_type_headerextended_.headerextended.md#set)*
 
-Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:27
+*Defined in node_modules/typescript/lib/lib.es2015.collection.d.ts:27*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `key` | keyof S |
 `value` | Codec |
 
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  toArray
+### toArray
 
-▸ **toArray**(): *Codec[]*
+▸ **toArray**(): Codec[]
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toArray](_packages_api_derive_src_type_headerextended_.headerextended.md#toarray)*
 
-*Defined in [packages/types/src/codec/Struct.ts:225](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L225)*
+*Defined in [packages/types/src/codec/Struct.ts:225](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L225)*
 
 **`description`** Converts the Object to an standard JavaScript Array
 
-**Returns:** *Codec[]*
+**Returns:** Codec[]
 
 ___
 
-###  toHex
+### toHex
 
-▸ **toHex**(): *string*
+▸ **toHex**(): string
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toHex](_packages_api_derive_src_type_headerextended_.headerextended.md#tohex)*
 
-*Defined in [packages/types/src/codec/Struct.ts:232](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L232)*
+*Defined in [packages/types/src/codec/Struct.ts:232](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L232)*
 
 **`description`** Returns a hex string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toHuman
+### toHuman
 
-▸ **toHuman**(`isExtended?`: undefined | false | true): *AnyJson*
+▸ **toHuman**(`isExtended?`: undefined \| false \| true): AnyJson
 
 *Overrides void*
 
-*Defined in [packages/api-derive/src/type/HeaderExtended.ts:39](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/type/HeaderExtended.ts#L39)*
+*Defined in [packages/api-derive/src/type/HeaderExtended.ts:39](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/type/HeaderExtended.ts#L39)*
 
 **`description`** Creates a human-friendly JSON representation
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`isExtended?` | undefined &#124; false &#124; true |
+`isExtended?` | undefined \| false \| true |
 
-**Returns:** *AnyJson*
+**Returns:** AnyJson
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *AnyJson*
+▸ **toJSON**(): AnyJson
 
 *Overrides void*
 
-*Defined in [packages/api-derive/src/type/HeaderExtended.ts:51](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/type/HeaderExtended.ts#L51)*
+*Defined in [packages/api-derive/src/type/HeaderExtended.ts:51](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/type/HeaderExtended.ts#L51)*
 
 **`description`** Creates the JSON representation
 
-**Returns:** *AnyJson*
+**Returns:** AnyJson
 
 ___
 
-###  toRawType
+### toRawType
 
-▸ **toRawType**(): *string*
+▸ **toRawType**(): string
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toRawType](_packages_api_derive_src_type_headerextended_.headerextended.md#torawtype)*
 
-*Defined in [packages/types/src/codec/Struct.ts:276](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L276)*
+*Defined in [packages/types/src/codec/Struct.ts:276](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L276)*
 
 **`description`** Returns the base runtime type name for this instance
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toString
+### toString
 
-▸ **toString**(): *string*
+▸ **toString**(): string
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toString](_packages_api_derive_src_type_headerextended_.headerextended.md#tostring)*
 
-*Defined in [packages/types/src/codec/Struct.ts:285](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L285)*
+*Defined in [packages/types/src/codec/Struct.ts:285](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L285)*
 
 **`description`** Returns the string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toU8a
+### toU8a
 
-▸ **toU8a**(`isBare?`: BareOpts): *Uint8Array*
+▸ **toU8a**(`isBare?`: BareOpts): Uint8Array
 
 *Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[toU8a](_packages_api_derive_src_type_headerextended_.headerextended.md#tou8a)*
 
-*Defined in [packages/types/src/codec/Struct.ts:293](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L293)*
+*Defined in [packages/types/src/codec/Struct.ts:293](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L293)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `isBare?` | BareOpts | true when the value has none of the type-specific prefixes (internal)  |
 
-**Returns:** *Uint8Array*
+**Returns:** Uint8Array
 
 ___
 
-### `Static` typesToMap
+### typesToMap
 
-▸ **typesToMap**(`registry`: Registry, `Types`: Record‹string, Constructor›): *Record‹string, string›*
+▸ `Static`**typesToMap**(`registry`: Registry, `Types`: Record\<string, Constructor>): Record\<string, string>
 
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[typesToMap](_packages_api_derive_src_type_headerextended_.headerextended.md#static-typestomap)*
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[typesToMap](_packages_api_derive_src_type_headerextended_.headerextended.md#typestomap)*
 
-*Defined in [packages/types/src/codec/Struct.ts:265](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L265)*
+*Defined in [packages/types/src/codec/Struct.ts:265](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L265)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | Registry |
-`Types` | Record‹string, Constructor› |
+`Types` | Record\<string, Constructor> |
 
-**Returns:** *Record‹string, string›*
+**Returns:** Record\<string, string>
 
 ___
 
-### `Static` with
+### with
 
-▸ **with**‹**S**›(`Types`: S, `jsonMap?`: Map‹keyof S, string›): *Constructor‹Struct‹S››*
+▸ `Static`**with**\<S>(`Types`: S, `jsonMap?`: Map\<keyof S, string>): Constructor\<Struct\<S>>
 
-*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[with](_packages_api_derive_src_type_headerextended_.headerextended.md#static-with)*
+*Inherited from [HeaderExtended](_packages_api_derive_src_type_headerextended_.headerextended.md).[with](_packages_api_derive_src_type_headerextended_.headerextended.md#with)*
 
-*Defined in [packages/types/src/codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Struct.ts#L125)*
+*Defined in [packages/types/src/codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Struct.ts#L125)*
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **S**: *TypesDef*
+Name | Type |
+------ | ------ |
+`S` | TypesDef |
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `Types` | S |
-`jsonMap?` | Map‹keyof S, string› |
+`jsonMap?` | Map\<keyof S, string> |
 
-**Returns:** *Constructor‹Struct‹S››*
+**Returns:** Constructor\<Struct\<S>>

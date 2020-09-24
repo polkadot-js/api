@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/parachains/overview"](_packages_api_derive_src_parachains_overview_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/parachains/overview"
 
 # Module: "packages/api-derive/src/parachains/overview"
 
@@ -10,19 +12,17 @@
 
 ## Functions
 
-###  overview
+### overview
 
-▸ **overview**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **overview**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/parachains/overview.ts:36](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/parachains/overview.ts#L36)*
+*Defined in [packages/api-derive/src/parachains/overview.ts:36](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/parachains/overview.ts#L36)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveParachain[]›*
+**Returns:** function

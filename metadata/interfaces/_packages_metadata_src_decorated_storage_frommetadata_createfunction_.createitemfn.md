@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/metadata/src/Decorated/storage/fromMetadata/createFunction"](../modules/_packages_metadata_src_decorated_storage_frommetadata_createfunction_.md) › [CreateItemFn](_packages_metadata_src_decorated_storage_frommetadata_createfunction_.createitemfn.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/metadata/src/Decorated/storage/fromMetadata/createFunction"](../modules/_packages_metadata_src_decorated_storage_frommetadata_createfunction_.md) / CreateItemFn
 
 # Interface: CreateItemFn
 
@@ -17,32 +19,32 @@
 
 ## Properties
 
-###  meta
+### meta
 
-• **meta**: *StorageEntryMetadataLatest*
+•  **meta**: StorageEntryMetadataLatest
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:23](https://github.com/polkadot-js/api/blob/6faea13a2/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L23)*
-
-___
-
-###  method
-
-• **method**: *string*
-
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:24](https://github.com/polkadot-js/api/blob/6faea13a2/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L24)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:23](https://github.com/polkadot-js/api/blob/7070f757c/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L23)*
 
 ___
 
-###  prefix
+### method
 
-• **prefix**: *string*
+•  **method**: string
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:25](https://github.com/polkadot-js/api/blob/6faea13a2/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L25)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:24](https://github.com/polkadot-js/api/blob/7070f757c/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L24)*
 
 ___
 
-###  section
+### prefix
 
-• **section**: *string*
+•  **prefix**: string
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:26](https://github.com/polkadot-js/api/blob/6faea13a2/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L26)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:25](https://github.com/polkadot-js/api/blob/7070f757c/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L25)*
+
+___
+
+### section
+
+•  **section**: string
+
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:26](https://github.com/polkadot-js/api/blob/7070f757c/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L26)*

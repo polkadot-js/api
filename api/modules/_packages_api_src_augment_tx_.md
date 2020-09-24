@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/augment/tx"](_packages_api_src_augment_tx_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/augment/tx"
 
 # Module: "packages/api/src/augment/tx"
 

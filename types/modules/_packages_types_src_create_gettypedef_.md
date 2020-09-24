@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/create/getTypeDef"](_packages_types_src_create_gettypedef_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/create/getTypeDef"
 
 # Module: "packages/types/src/create/getTypeDef"
 
@@ -10,23 +12,18 @@
 
 ## Functions
 
-###  getTypeDef
+### getTypeDef
 
-▸ **getTypeDef**(`_type`: string, `__namedParameters`: object, `count`: number): *TypeDef*
+▸ **getTypeDef**(`_type`: string, `__namedParameters`: { displayName: undefined \| string ; name: undefined \| string  }, `count`: number): TypeDef
 
-*Defined in [packages/types/src/create/getTypeDef.ts:177](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/create/getTypeDef.ts#L177)*
+*Defined in [packages/types/src/create/getTypeDef.ts:177](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/create/getTypeDef.ts#L177)*
 
-**Parameters:**
+#### Parameters:
 
-▪ **_type**: *string*
+Name | Type | Default value |
+------ | ------ | ------ |
+`_type` | string | - |
+`__namedParameters` | { displayName: undefined \| string ; name: undefined \| string  } | {} |
+`count` | number | 0 |
 
-▪`Default value`  **__namedParameters**: *object*= {}
-
-Name | Type |
------- | ------ |
-`displayName` | undefined &#124; string |
-`name` | undefined &#124; string |
-
-▪`Default value`  **count**: *number*= 0
-
-**Returns:** *TypeDef*
+**Returns:** TypeDef

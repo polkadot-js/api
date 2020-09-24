@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/typegen/src/util/register"](_packages_typegen_src_util_register_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/util/register"
 
 # Module: "packages/typegen/src/util/register"
 
@@ -10,17 +12,17 @@
 
 ## Functions
 
-###  registerDefinitions
+### registerDefinitions
 
-▸ **registerDefinitions**(`registry`: TypeRegistry, `extras`: Record‹string, Record‹string, object››): *void*
+▸ **registerDefinitions**(`registry`: TypeRegistry, `extras`: Record\<string, Record\<string, { types: Record\<string, any>  }>>): void
 
-*Defined in [packages/typegen/src/util/register.ts:6](https://github.com/polkadot-js/api/blob/6faea13a2/packages/typegen/src/util/register.ts#L6)*
+*Defined in [packages/typegen/src/util/register.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/util/register.ts#L6)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | TypeRegistry |
-`extras` | Record‹string, Record‹string, object›› |
+`extras` | Record\<string, Record\<string, { types: Record\<string, any>  }>> |
 
-**Returns:** *void*
+**Returns:** void

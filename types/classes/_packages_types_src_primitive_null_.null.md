@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/primitive/Null"](../modules/_packages_types_src_primitive_null_.md) › [Null](_packages_types_src_primitive_null_.null.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/primitive/Null"](../modules/_packages_types_src_primitive_null_.md) / Null
 
 # Class: Null
 
@@ -25,7 +27,7 @@ Implements a type that does not contain anything (apart from `null`)
 
 ### Properties
 
-* [registry](_packages_types_src_primitive_null_.null.md#readonly-registry)
+* [registry](_packages_types_src_primitive_null_.null.md#registry)
 
 ### Accessors
 
@@ -45,166 +47,166 @@ Implements a type that does not contain anything (apart from `null`)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Null**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md)): *[Null](_packages_types_src_primitive_null_.null.md)*
+\+ **new Null**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md)): [Null](_packages_types_src_primitive_null_.null.md)
 
-*Defined in [packages/types/src/primitive/Null.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L15)*
+*Defined in [packages/types/src/primitive/Null.ts:15](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L15)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
 
-**Returns:** *[Null](_packages_types_src_primitive_null_.null.md)*
+**Returns:** [Null](_packages_types_src_primitive_null_.null.md)
 
 ## Properties
 
-### `Readonly` registry
+### registry
 
-• **registry**: *[Registry](../interfaces/_packages_types_src_types_registry_.registry.md)*
+• `Readonly` **registry**: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md)
 
-*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#readonly-registry)*
+*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#registry)*
 
-*Defined in [packages/types/src/primitive/Null.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L15)*
+*Defined in [packages/types/src/primitive/Null.ts:15](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L15)*
 
 ## Accessors
 
-###  encodedLength
+### encodedLength
 
-• **get encodedLength**(): *number*
+• get **encodedLength**(): number
 
-*Defined in [packages/types/src/primitive/Null.ts:24](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L24)*
+*Defined in [packages/types/src/primitive/Null.ts:24](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L24)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  hash
+### hash
 
-• **get hash**(): *H256*
+• get **hash**(): H256
 
-*Defined in [packages/types/src/primitive/Null.ts:31](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L31)*
+*Defined in [packages/types/src/primitive/Null.ts:31](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L31)*
 
 **`description`** returns a hash of the contents
 
-**Returns:** *H256*
+**Returns:** H256
 
 ___
 
-###  isEmpty
+### isEmpty
 
-• **get isEmpty**(): *boolean*
+• get **isEmpty**(): boolean
 
-*Defined in [packages/types/src/primitive/Null.ts:38](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L38)*
+*Defined in [packages/types/src/primitive/Null.ts:38](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L38)*
 
 **`description`** Checks if the value is an empty value (always true)
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ## Methods
 
-###  eq
+### eq
 
-▸ **eq**(`other?`: unknown): *boolean*
+▸ **eq**(`other?`: unknown): boolean
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/primitive/Null.ts:45](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L45)*
+*Defined in [packages/types/src/primitive/Null.ts:45](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L45)*
 
 **`description`** Compares the value of the input to see if there is a match
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `other?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  toHex
+### toHex
 
-▸ **toHex**(): *string*
+▸ **toHex**(): string
 
-*Defined in [packages/types/src/primitive/Null.ts:52](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L52)*
+*Defined in [packages/types/src/primitive/Null.ts:52](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L52)*
 
 **`description`** Returns a hex string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toHuman
+### toHuman
 
-▸ **toHuman**(): *null*
+▸ **toHuman**(): null
 
-*Defined in [packages/types/src/primitive/Null.ts:59](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L59)*
+*Defined in [packages/types/src/primitive/Null.ts:59](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L59)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
-**Returns:** *null*
+**Returns:** null
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *null*
+▸ **toJSON**(): null
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/primitive/Null.ts:66](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L66)*
+*Defined in [packages/types/src/primitive/Null.ts:66](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L66)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
-**Returns:** *null*
+**Returns:** null
 
 ___
 
-###  toRawType
+### toRawType
 
-▸ **toRawType**(): *string*
+▸ **toRawType**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/primitive/Null.ts:73](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L73)*
+*Defined in [packages/types/src/primitive/Null.ts:73](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L73)*
 
 **`description`** Returns the base runtime type name for this instance
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toString
+### toString
 
-▸ **toString**(): *string*
+▸ **toString**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/primitive/Null.ts:80](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L80)*
+*Defined in [packages/types/src/primitive/Null.ts:80](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L80)*
 
 **`description`** Returns the string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toU8a
+### toU8a
 
-▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+▸ **toU8a**(`isBare?`: undefined \| false \| true): [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/primitive/Null.ts:89](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/primitive/Null.ts#L89)*
+*Defined in [packages/types/src/primitive/Null.ts:89](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/primitive/Null.ts#L89)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`isBare?` | undefined &#124; false &#124; true | true when the value has none of the type-specific prefixes (internal)  |
+`isBare?` | undefined \| false \| true | true when the value has none of the type-specific prefixes (internal)  |
 
-**Returns:** *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+**Returns:** [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)

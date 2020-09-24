@@ -1,6 +1,8 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/Option"](../modules/_packages_types_src_codec_option_.md) › [Option](_packages_types_src_codec_option_.option.md)
+**Polkadot JS API**
 
-# Class: Option ‹**T**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/Option"](../modules/_packages_types_src_codec_option_.md) / Option
+
+# Class: Option\<**T**>
 
 **`name`** Option
 
@@ -12,7 +14,7 @@ with a value if/as required/found.
 
 ## Type parameters
 
-▪ **T**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+* T
 
 ## Hierarchy
 
@@ -30,7 +32,7 @@ with a value if/as required/found.
 
 ### Properties
 
-* [registry](_packages_types_src_codec_option_.option.md#readonly-registry)
+* [registry](_packages_types_src_codec_option_.option.md#registry)
 
 ### Accessors
 
@@ -53,286 +55,290 @@ with a value if/as required/found.
 * [unwrap](_packages_types_src_codec_option_.option.md#unwrap)
 * [unwrapOr](_packages_types_src_codec_option_.option.md#unwrapor)
 * [unwrapOrDefault](_packages_types_src_codec_option_.option.md#unwrapordefault)
-* [with](_packages_types_src_codec_option_.option.md#static-with)
+* [with](_packages_types_src_codec_option_.option.md#with)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Option**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `typeName`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T› | keyof InterfaceTypes, `value?`: unknown): *[Option](_packages_types_src_codec_option_.option.md)*
+\+ **new Option**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `typeName`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md), `value?`: unknown): [Option](_packages_types_src_codec_option_.option.md)
 
-*Defined in [packages/types/src/codec/Option.ts:56](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L56)*
+*Defined in [packages/types/src/codec/Option.ts:56](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L56)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) |
-`typeName` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹T› &#124; keyof InterfaceTypes |
+`typeName` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<T> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md) |
 `value?` | unknown |
 
-**Returns:** *[Option](_packages_types_src_codec_option_.option.md)*
+**Returns:** [Option](_packages_types_src_codec_option_.option.md)
 
 ## Properties
 
-### `Readonly` registry
+### registry
 
-• **registry**: *[Registry](../interfaces/_packages_types_src_types_registry_.registry.md)*
+• `Readonly` **registry**: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md)
 
-*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#readonly-registry)*
+*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#registry)*
 
-*Defined in [packages/types/src/codec/Option.ts:52](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L52)*
+*Defined in [packages/types/src/codec/Option.ts:52](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L52)*
 
 ## Accessors
 
-###  encodedLength
+### encodedLength
 
-• **get encodedLength**(): *number*
+• get **encodedLength**(): number
 
-*Defined in [packages/types/src/codec/Option.ts:75](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L75)*
+*Defined in [packages/types/src/codec/Option.ts:75](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L75)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  hash
+### hash
 
-• **get hash**(): *H256*
+• get **hash**(): H256
 
-*Defined in [packages/types/src/codec/Option.ts:83](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L83)*
+*Defined in [packages/types/src/codec/Option.ts:83](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L83)*
 
 **`description`** returns a hash of the contents
 
-**Returns:** *H256*
+**Returns:** H256
 
 ___
 
-###  isEmpty
+### isEmpty
 
-• **get isEmpty**(): *boolean*
+• get **isEmpty**(): boolean
 
-*Defined in [packages/types/src/codec/Option.ts:90](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L90)*
+*Defined in [packages/types/src/codec/Option.ts:90](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L90)*
 
 **`description`** Checks if the Option has no value
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  isNone
+### isNone
 
-• **get isNone**(): *boolean*
+• get **isNone**(): boolean
 
-*Defined in [packages/types/src/codec/Option.ts:97](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L97)*
+*Defined in [packages/types/src/codec/Option.ts:97](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L97)*
 
 **`description`** Checks if the Option has no value
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  isSome
+### isSome
 
-• **get isSome**(): *boolean*
+• get **isSome**(): boolean
 
-*Defined in [packages/types/src/codec/Option.ts:104](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L104)*
+*Defined in [packages/types/src/codec/Option.ts:104](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L104)*
 
 **`description`** Checks if the Option has a value
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  value
+### value
 
-• **get value**(): *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+• get **value**(): [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)
 
-*Defined in [packages/types/src/codec/Option.ts:111](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L111)*
+*Defined in [packages/types/src/codec/Option.ts:111](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L111)*
 
 **`description`** The actual value for the Option
 
-**Returns:** *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+**Returns:** [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)
 
 ## Methods
 
-###  eq
+### eq
 
-▸ **eq**(`other?`: unknown): *boolean*
+▸ **eq**(`other?`: unknown): boolean
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:118](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L118)*
+*Defined in [packages/types/src/codec/Option.ts:118](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L118)*
 
 **`description`** Compares the value of the input to see if there is a match
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `other?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  toHex
+### toHex
 
-▸ **toHex**(): *string*
+▸ **toHex**(): string
 
-*Defined in [packages/types/src/codec/Option.ts:129](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L129)*
+*Defined in [packages/types/src/codec/Option.ts:129](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L129)*
 
 **`description`** Returns a hex string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toHuman
+### toHuman
 
-▸ **toHuman**(`isExtended?`: undefined | false | true): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+▸ **toHuman**(`isExtended?`: undefined \| false \| true): [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:140](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L140)*
+*Defined in [packages/types/src/codec/Option.ts:140](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L140)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`isExtended?` | undefined &#124; false &#124; true |
+`isExtended?` | undefined \| false \| true |
 
-**Returns:** *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+**Returns:** [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+▸ **toJSON**(): [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:147](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L147)*
+*Defined in [packages/types/src/codec/Option.ts:147](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L147)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
-**Returns:** *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+**Returns:** [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 ___
 
-###  toRawType
+### toRawType
 
-▸ **toRawType**(`isBare?`: undefined | false | true): *string*
+▸ **toRawType**(`isBare?`: undefined \| false \| true): string
 
-*Defined in [packages/types/src/codec/Option.ts:154](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L154)*
+*Defined in [packages/types/src/codec/Option.ts:154](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L154)*
 
 **`description`** Returns the base runtime type name for this instance
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`isBare?` | undefined &#124; false &#124; true |
+`isBare?` | undefined \| false \| true |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toString
+### toString
 
-▸ **toString**(): *string*
+▸ **toString**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
-*Defined in [packages/types/src/codec/Option.ts:165](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L165)*
+*Defined in [packages/types/src/codec/Option.ts:165](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L165)*
 
 **`description`** Returns the string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toU8a
+### toU8a
 
-▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+▸ **toU8a**(`isBare?`: undefined \| false \| true): [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/codec/Option.ts:173](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L173)*
+*Defined in [packages/types/src/codec/Option.ts:173](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L173)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`isBare?` | undefined &#124; false &#124; true | true when the value has none of the type-specific prefixes (internal)  |
+`isBare?` | undefined \| false \| true | true when the value has none of the type-specific prefixes (internal)  |
 
-**Returns:** *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+**Returns:** [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)
 
 ___
 
-###  unwrap
+### unwrap
 
-▸ **unwrap**(): *T*
+▸ **unwrap**(): T
 
-*Defined in [packages/types/src/codec/Option.ts:191](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L191)*
+*Defined in [packages/types/src/codec/Option.ts:191](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L191)*
 
 **`description`** Returns the value that the Option represents (if available), throws if null
 
-**Returns:** *T*
+**Returns:** T
 
 ___
 
-###  unwrapOr
+### unwrapOr
 
-▸ **unwrapOr**‹**O**›(`defaultValue`: O): *T | O*
+▸ **unwrapOr**\<O>(`defaultValue`: O): T \| O
 
-*Defined in [packages/types/src/codec/Option.ts:203](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L203)*
+*Defined in [packages/types/src/codec/Option.ts:203](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L203)*
 
 **`description`** Returns the value that the Option represents (if available) or defaultValue if none
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **O**
+Name |
+------ |
+`O` |
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `defaultValue` | O | The value to return if the option isNone  |
 
-**Returns:** *T | O*
+**Returns:** T \| O
 
 ___
 
-###  unwrapOrDefault
+### unwrapOrDefault
 
-▸ **unwrapOrDefault**(): *T*
+▸ **unwrapOrDefault**(): T
 
-*Defined in [packages/types/src/codec/Option.ts:213](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L213)*
+*Defined in [packages/types/src/codec/Option.ts:213](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L213)*
 
 **`description`** Returns the value that the Option represents (if available) or defaultValue if none
 
-**Returns:** *T*
+**Returns:** T
 
 ___
 
-### `Static` with
+### with
 
-▸ **with**‹**O**›(`Type`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹O› | keyof InterfaceTypes): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹[Option](_packages_types_src_codec_option_.option.md)‹O››*
+▸ `Static`**with**\<O>(`Type`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<O> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md)): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<[Option](_packages_types_src_codec_option_.option.md)\<O>>
 
-*Defined in [packages/types/src/codec/Option.ts:64](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Option.ts#L64)*
+*Defined in [packages/types/src/codec/Option.ts:64](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Option.ts#L64)*
 
-**Type parameters:**
-
-▪ **O**: *[Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
-
-**Parameters:**
+#### Type parameters:
 
 Name | Type |
 ------ | ------ |
-`Type` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹O› &#124; keyof InterfaceTypes |
+`O` | [Codec](../interfaces/_packages_types_src_types_codec_.codec.md) |
 
-**Returns:** *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹[Option](_packages_types_src_codec_option_.option.md)‹O››*
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`Type` | [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<O> \| keyof [InterfaceTypes](../interfaces/_packages_types_src_types_registry_.interfacetypes.md) |
+
+**Returns:** [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<[Option](_packages_types_src_codec_option_.option.md)\<O>>

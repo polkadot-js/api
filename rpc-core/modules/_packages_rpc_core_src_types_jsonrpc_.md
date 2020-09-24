@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/rpc-core/src/types.jsonrpc"](_packages_rpc_core_src_types_jsonrpc_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/rpc-core/src/types.jsonrpc"
 
 # Module: "packages/rpc-core/src/types.jsonrpc"
 
@@ -14,8 +16,14 @@
 
 ## Type aliases
 
-###  AugmentedRpc
+### AugmentedRpc
 
-Ƭ **AugmentedRpc**: *F*
+Ƭ  **AugmentedRpc**\<F>: F
 
-*Defined in [packages/rpc-core/src/types.jsonrpc.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/rpc-core/src/types.jsonrpc.ts#L11)*
+*Defined in [packages/rpc-core/src/types.jsonrpc.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/rpc-core/src/types.jsonrpc.ts#L11)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`F` | AnyFunction |

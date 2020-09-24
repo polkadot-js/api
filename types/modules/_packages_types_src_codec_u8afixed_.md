@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/U8aFixed"](_packages_types_src_codec_u8afixed_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/U8aFixed"
 
 # Module: "packages/types/src/codec/U8aFixed"
 
@@ -14,8 +16,8 @@
 
 ## Type aliases
 
-###  BitLength
+### BitLength
 
-Ƭ **BitLength**: *8 | 16 | 32 | 64 | 128 | 160 | 256 | 264 | 512 | 520 | 1024 | 2048*
+Ƭ  **BitLength**: 8 \| 16 \| 32 \| 64 \| 128 \| 160 \| 256 \| 264 \| 512 \| 520 \| 1024 \| 2048
 
-*Defined in [packages/types/src/codec/U8aFixed.ts:14](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/U8aFixed.ts#L14)*
+*Defined in [packages/types/src/codec/U8aFixed.ts:14](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/U8aFixed.ts#L14)*

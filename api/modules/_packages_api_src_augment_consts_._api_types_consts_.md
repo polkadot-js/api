@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/augment/consts"](_packages_api_src_augment_consts_.md) › ["api/types/consts"](_packages_api_src_augment_consts_._api_types_consts_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/augment/consts"](_packages_api_src_augment_consts_.md) / "api/types/consts"
 
 # Module: "api/types/consts"
 

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/ownSlashes"](_packages_api_derive_src_staking_ownslashes_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/ownSlashes"
 
 # Module: "packages/api-derive/src/staking/ownSlashes"
 
@@ -6,113 +8,75 @@
 
 ### Functions
 
-* [_ownSlash](_packages_api_derive_src_staking_ownslashes_.md#_ownslash)
-* [_ownSlashes](_packages_api_derive_src_staking_ownslashes_.md#_ownslashes)
+* [\_ownSlash](_packages_api_derive_src_staking_ownslashes_.md#_ownslash)
+* [\_ownSlashes](_packages_api_derive_src_staking_ownslashes_.md#_ownslashes)
 * [ownSlash](_packages_api_derive_src_staking_ownslashes_.md#ownslash)
 * [ownSlashes](_packages_api_derive_src_staking_ownslashes_.md#ownslashes)
 
 ## Functions
 
-###  _ownSlash
+### \_ownSlash
 
-▸ **_ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **_ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:17](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/ownSlashes.ts#L17)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:17](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/ownSlashes.ts#L17)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: Uint8Array | string, `era`: EraIndex, `withActive`: boolean): *Observable‹DeriveStakerSlashes›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | Uint8Array &#124; string |
-`era` | EraIndex |
-`withActive` | boolean |
+**Returns:** function
 
 ___
 
-###  _ownSlashes
+### \_ownSlashes
 
-▸ **_ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **_ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:52](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/ownSlashes.ts#L52)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:52](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/ownSlashes.ts#L52)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: Uint8Array | string, `eras`: EraIndex[], `withActive`: boolean): *Observable‹DeriveStakerSlashes[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | Uint8Array &#124; string |
-`eras` | EraIndex[] |
-`withActive` | boolean |
+**Returns:** function
 
 ___
 
-###  ownSlash
+### ownSlash
 
-▸ **ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:46](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/ownSlashes.ts#L46)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:46](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/ownSlashes.ts#L46)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: Uint8Array | string, `era`: EraIndex): *Observable‹DeriveStakerSlashes›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | Uint8Array &#124; string |
-`era` | EraIndex |
+**Returns:** function
 
 ___
 
-###  ownSlashes
+### ownSlashes
 
-▸ **ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:62](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/ownSlashes.ts#L62)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:62](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/ownSlashes.ts#L62)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: Uint8Array | string, `withActive?`: undefined | false | true): *Observable‹DeriveStakerSlashes[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | Uint8Array &#124; string |
-`withActive?` | undefined &#124; false &#124; true |
+**Returns:** function

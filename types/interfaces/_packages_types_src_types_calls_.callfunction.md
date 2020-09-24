@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/calls"](../modules/_packages_types_src_types_calls_.md) › [CallFunction](_packages_types_src_types_calls_.callfunction.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/calls"](../modules/_packages_types_src_types_calls_.md) / CallFunction
 
 # Interface: CallFunction
 
@@ -10,17 +12,17 @@
 
 ## Callable
 
-▸ (...`args`: any[]): *Call*
+▸ (...`args`: any[]): Call
 
-*Defined in [packages/types/src/types/calls.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L15)*
+*Defined in [packages/types/src/types/calls.ts:15](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L15)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `...args` | any[] |
 
-**Returns:** *Call*
+**Returns:** Call
 
 ## Index
 
@@ -34,54 +36,50 @@ Name | Type |
 
 ## Properties
 
-###  callIndex
+### callIndex
 
-• **callIndex**: *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+•  **callIndex**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[callIndex](_packages_types_src_types_calls_.callbase.md#callindex)*
 
-*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L8)*
+*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L8)*
 
 ___
 
-###  meta
+### meta
 
-• **meta**: *FunctionMetadataLatest*
+•  **meta**: FunctionMetadataLatest
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[meta](_packages_types_src_types_calls_.callbase.md#meta)*
 
-*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L9)*
+*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L9)*
 
 ___
 
-###  method
+### method
 
-• **method**: *string*
+•  **method**: string
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[method](_packages_types_src_types_calls_.callbase.md#method)*
 
-*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L10)*
+*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L10)*
 
 ___
 
-###  section
+### section
 
-• **section**: *string*
+•  **section**: string
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[section](_packages_types_src_types_calls_.callbase.md#section)*
 
-*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L11)*
+*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L11)*
 
 ___
 
-###  toJSON
+### toJSON
 
-• **toJSON**: *function*
+•  **toJSON**: () => any
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[toJSON](_packages_types_src_types_calls_.callbase.md#tojson)*
 
-*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L12)*
-
-#### Type declaration:
-
-▸ (): *any*
+*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L12)*

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/accounts/indexes"](_packages_api_derive_src_accounts_indexes_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/accounts/indexes"
 
 # Module: "packages/api-derive/src/accounts/indexes"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  indexes
+### indexes
 
-▸ **indexes**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **indexes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/indexes.ts:74](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/accounts/indexes.ts#L74)*
+*Defined in [packages/api-derive/src/accounts/indexes.ts:74](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/accounts/indexes.ts#L74)*
 
 **`name`** indexes
 
@@ -31,15 +33,11 @@ api.derive.accounts.indexes((indexes) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-Returns all the indexes on the system.
-
-▸ (): *Observable‹AccountIndexes›*
+**Returns:** function

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) › [OverrideVersionedType](_packages_types_src_types_registry_.overrideversionedtype.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / OverrideVersionedType
 
 # Interface: OverrideVersionedType
 
@@ -15,16 +17,16 @@
 
 ## Properties
 
-###  minmax
+### minmax
 
-• **minmax**: *[undefined | number, undefined | number]*
+•  **minmax**: [undefined \| number, undefined \| number]
 
-*Defined in [packages/types/src/types/registry.ts:96](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L96)*
+*Defined in [packages/types/src/types/registry.ts:96](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L96)*
 
 ___
 
-###  types
+### types
 
-• **types**: *[RegistryTypes](../modules/_packages_types_src_types_registry_.md#registrytypes)*
+•  **types**: [RegistryTypes](../modules/_packages_types_src_types_registry_.md#registrytypes)
 
-*Defined in [packages/types/src/types/registry.ts:97](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L97)*
+*Defined in [packages/types/src/types/registry.ts:97](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L97)*

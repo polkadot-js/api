@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/interfaces"](../modules/_packages_types_src_types_interfaces_.md) › [IKeyringPair](_packages_types_src_types_interfaces_.ikeyringpair.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/interfaces"](../modules/_packages_types_src_types_interfaces_.md) / IKeyringPair
 
 # Interface: IKeyringPair
 
@@ -17,43 +19,32 @@
 
 ## Properties
 
-###  address
+### address
 
-• **address**: *string*
+•  **address**: string
 
-*Defined in [packages/types/src/types/interfaces.ts:18](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/interfaces.ts#L18)*
-
-___
-
-###  addressRaw
-
-• **addressRaw**: *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)*
-
-*Defined in [packages/types/src/types/interfaces.ts:19](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/interfaces.ts#L19)*
+*Defined in [packages/types/src/types/interfaces.ts:18](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/interfaces.ts#L18)*
 
 ___
 
-###  publicKey
+### addressRaw
 
-• **publicKey**: *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+•  **addressRaw**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/interfaces.ts:20](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/interfaces.ts#L20)*
+*Defined in [packages/types/src/types/interfaces.ts:19](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/interfaces.ts#L19)*
 
 ___
 
-###  sign
+### publicKey
 
-• **sign**: *function*
+•  **publicKey**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/interfaces.ts:21](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/interfaces.ts#L21)*
+*Defined in [packages/types/src/types/interfaces.ts:20](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/interfaces.ts#L20)*
 
-#### Type declaration:
+___
 
-▸ (`data`: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array), `options?`: SignOptions): *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+### sign
 
-**Parameters:**
+•  **sign**: (data: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array),options?: SignOptions) => [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-Name | Type |
------- | ------ |
-`data` | [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array) |
-`options?` | SignOptions |
+*Defined in [packages/types/src/types/interfaces.ts:21](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/interfaces.ts#L21)*

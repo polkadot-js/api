@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/electedInfo"](_packages_api_derive_src_staking_electedinfo_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/electedInfo"
 
 # Module: "packages/api-derive/src/staking/electedInfo"
 
@@ -10,19 +12,17 @@
 
 ## Functions
 
-###  electedInfo
+### electedInfo
 
-▸ **electedInfo**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **electedInfo**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/electedInfo.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/electedInfo.ts#L12)*
+*Defined in [packages/api-derive/src/staking/electedInfo.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/electedInfo.ts#L12)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveStakingElected›*
+**Returns:** function

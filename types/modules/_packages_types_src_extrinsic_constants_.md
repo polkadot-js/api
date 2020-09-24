@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/extrinsic/constants"](_packages_types_src_extrinsic_constants_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/extrinsic/constants"
 
 # Module: "packages/types/src/extrinsic/constants"
 
@@ -6,57 +8,57 @@
 
 ### Variables
 
-* [BIT_SIGNED](_packages_types_src_extrinsic_constants_.md#const-bit_signed)
-* [BIT_UNSIGNED](_packages_types_src_extrinsic_constants_.md#const-bit_unsigned)
-* [DEFAULT_VERSION](_packages_types_src_extrinsic_constants_.md#const-default_version)
-* [EMPTY_U8A](_packages_types_src_extrinsic_constants_.md#const-empty_u8a)
-* [IMMORTAL_ERA](_packages_types_src_extrinsic_constants_.md#const-immortal_era)
-* [UNMASK_VERSION](_packages_types_src_extrinsic_constants_.md#const-unmask_version)
+* [BIT\_SIGNED](_packages_types_src_extrinsic_constants_.md#bit_signed)
+* [BIT\_UNSIGNED](_packages_types_src_extrinsic_constants_.md#bit_unsigned)
+* [DEFAULT\_VERSION](_packages_types_src_extrinsic_constants_.md#default_version)
+* [EMPTY\_U8A](_packages_types_src_extrinsic_constants_.md#empty_u8a)
+* [IMMORTAL\_ERA](_packages_types_src_extrinsic_constants_.md#immortal_era)
+* [UNMASK\_VERSION](_packages_types_src_extrinsic_constants_.md#unmask_version)
 
 ## Variables
 
-### `Const` BIT_SIGNED
+### BIT\_SIGNED
 
-• **BIT_SIGNED**: *128* = 128
+• `Const` **BIT\_SIGNED**: 128 = 128
 
-*Defined in [packages/types/src/extrinsic/constants.ts:4](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/constants.ts#L4)*
-
-___
-
-### `Const` BIT_UNSIGNED
-
-• **BIT_UNSIGNED**: *0* = 0
-
-*Defined in [packages/types/src/extrinsic/constants.ts:6](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/constants.ts#L6)*
+*Defined in [packages/types/src/extrinsic/constants.ts:4](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/constants.ts#L4)*
 
 ___
 
-### `Const` DEFAULT_VERSION
+### BIT\_UNSIGNED
 
-• **DEFAULT_VERSION**: *1* = 1
+• `Const` **BIT\_UNSIGNED**: 0 = 0
 
-*Defined in [packages/types/src/extrinsic/constants.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/constants.ts#L12)*
-
-___
-
-### `Const` EMPTY_U8A
-
-• **EMPTY_U8A**: *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)‹›* = new Uint8Array()
-
-*Defined in [packages/types/src/extrinsic/constants.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/constants.ts#L8)*
+*Defined in [packages/types/src/extrinsic/constants.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/constants.ts#L6)*
 
 ___
 
-### `Const` IMMORTAL_ERA
+### DEFAULT\_VERSION
 
-• **IMMORTAL_ERA**: *[Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#static-uint8array)‹›* = new Uint8Array([0])
+• `Const` **DEFAULT\_VERSION**: 1 = 1
 
-*Defined in [packages/types/src/extrinsic/constants.ts:14](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/constants.ts#L14)*
+*Defined in [packages/types/src/extrinsic/constants.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/constants.ts#L12)*
 
 ___
 
-### `Const` UNMASK_VERSION
+### EMPTY\_U8A
 
-• **UNMASK_VERSION**: *127* = 127
+• `Const` **EMPTY\_U8A**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) = new Uint8Array()
 
-*Defined in [packages/types/src/extrinsic/constants.ts:16](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/constants.ts#L16)*
+*Defined in [packages/types/src/extrinsic/constants.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/constants.ts#L8)*
+
+___
+
+### IMMORTAL\_ERA
+
+• `Const` **IMMORTAL\_ERA**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) = new Uint8Array([0])
+
+*Defined in [packages/types/src/extrinsic/constants.ts:14](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/constants.ts#L14)*
+
+___
+
+### UNMASK\_VERSION
+
+• `Const` **UNMASK\_VERSION**: 127 = 127
+
+*Defined in [packages/types/src/extrinsic/constants.ts:16](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/constants.ts#L16)*

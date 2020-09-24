@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/session/sessionProgress"](_packages_api_derive_src_session_sessionprogress_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/session/sessionProgress"
 
 # Module: "packages/api-derive/src/session/sessionProgress"
 
@@ -10,19 +12,17 @@
 
 ## Functions
 
-###  sessionProgress
+### sessionProgress
 
-▸ **sessionProgress**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **sessionProgress**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/session/sessionProgress.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/session/sessionProgress.ts#L12)*
+*Defined in [packages/api-derive/src/session/sessionProgress.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/session/sessionProgress.ts#L12)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹BlockNumber›*
+**Returns:** function

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/base/Decorate"](_packages_api_src_base_decorate_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/base/Decorate"
 
 # Module: "packages/api/src/base/Decorate"
 

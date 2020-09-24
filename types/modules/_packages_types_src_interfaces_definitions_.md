@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/interfaces/definitions"](_packages_types_src_interfaces_definitions_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/interfaces/definitions"
 
 # Module: "packages/types/src/interfaces/definitions"
 
@@ -53,264 +55,264 @@
 
 ## References
 
-###  attestations
+### attestations
 
-• **attestations**:
-
-___
-
-###  aura
-
-• **aura**:
+Re-exports: attestations
 
 ___
 
-###  author
+### aura
 
-• **author**:
-
-___
-
-###  authorship
-
-• **authorship**:
+Re-exports: aura
 
 ___
 
-###  babe
+### author
 
-• **babe**:
-
-___
-
-###  balances
-
-• **balances**:
+Re-exports: author
 
 ___
 
-###  chain
+### authorship
 
-• **chain**:
-
-___
-
-###  childstate
-
-• **childstate**:
+Re-exports: authorship
 
 ___
 
-###  claims
+### babe
 
-• **claims**:
-
-___
-
-###  collective
-
-• **collective**:
+Re-exports: babe
 
 ___
 
-###  consensus
+### balances
 
-• **consensus**:
-
-___
-
-###  contracts
-
-• **contracts**:
+Re-exports: balances
 
 ___
 
-###  democracy
+### chain
 
-• **democracy**:
-
-___
-
-###  elections
-
-• **elections**:
+Re-exports: chain
 
 ___
 
-###  engine
+### childstate
 
-• **engine**:
-
-___
-
-###  ethereum
-
-• **ethereum**:
+Re-exports: childstate
 
 ___
 
-###  evm
+### claims
 
-• **evm**:
-
-___
-
-###  extrinsics
-
-• **extrinsics**:
+Re-exports: claims
 
 ___
 
-###  genericAsset
+### collective
 
-• **genericAsset**:
-
-___
-
-###  grandpa
-
-• **grandpa**:
+Re-exports: collective
 
 ___
 
-###  identity
+### consensus
 
-• **identity**:
-
-___
-
-###  imOnline
-
-• **imOnline**:
+Re-exports: consensus
 
 ___
 
-###  metadata
+### contracts
 
-• **metadata**:
-
-___
-
-###  offchain
-
-• **offchain**:
+Re-exports: contracts
 
 ___
 
-###  offences
+### democracy
 
-• **offences**:
-
-___
-
-###  parachains
-
-• **parachains**:
+Re-exports: democracy
 
 ___
 
-###  payment
+### elections
 
-• **payment**:
-
-___
-
-###  poll
-
-• **poll**:
+Re-exports: elections
 
 ___
 
-###  proxy
+### engine
 
-• **proxy**:
-
-___
-
-###  purchase
-
-• **purchase**:
+Re-exports: engine
 
 ___
 
-###  recovery
+### ethereum
 
-• **recovery**:
-
-___
-
-###  rpc
-
-• **rpc**:
+Re-exports: ethereum
 
 ___
 
-###  runtime
+### evm
 
-• **runtime**:
-
-___
-
-###  scheduler
-
-• **scheduler**:
+Re-exports: evm
 
 ___
 
-###  session
+### extrinsics
 
-• **session**:
-
-___
-
-###  society
-
-• **society**:
+Re-exports: extrinsics
 
 ___
 
-###  staking
+### genericAsset
 
-• **staking**:
-
-___
-
-###  state
-
-• **state**:
+Re-exports: genericAsset
 
 ___
 
-###  support
+### grandpa
 
-• **support**:
-
-___
-
-###  system
-
-• **system**:
+Re-exports: grandpa
 
 ___
 
-###  treasury
+### identity
 
-• **treasury**:
-
-___
-
-###  txpayment
-
-• **txpayment**:
+Re-exports: identity
 
 ___
 
-###  utility
+### imOnline
 
-• **utility**:
+Re-exports: imOnline
 
 ___
 
-###  vesting
+### metadata
 
-• **vesting**:
+Re-exports: metadata
+
+___
+
+### offchain
+
+Re-exports: offchain
+
+___
+
+### offences
+
+Re-exports: offences
+
+___
+
+### parachains
+
+Re-exports: parachains
+
+___
+
+### payment
+
+Re-exports: payment
+
+___
+
+### poll
+
+Re-exports: poll
+
+___
+
+### proxy
+
+Re-exports: proxy
+
+___
+
+### purchase
+
+Re-exports: purchase
+
+___
+
+### recovery
+
+Re-exports: recovery
+
+___
+
+### rpc
+
+Re-exports: rpc
+
+___
+
+### runtime
+
+Re-exports: runtime
+
+___
+
+### scheduler
+
+Re-exports: scheduler
+
+___
+
+### session
+
+Re-exports: session
+
+___
+
+### society
+
+Re-exports: society
+
+___
+
+### staking
+
+Re-exports: staking
+
+___
+
+### state
+
+Re-exports: state
+
+___
+
+### support
+
+Re-exports: support
+
+___
+
+### system
+
+Re-exports: system
+
+___
+
+### treasury
+
+Re-exports: treasury
+
+___
+
+### txpayment
+
+Re-exports: txpayment
+
+___
+
+### utility
+
+Re-exports: utility
+
+___
+
+### vesting
+
+Re-exports: vesting

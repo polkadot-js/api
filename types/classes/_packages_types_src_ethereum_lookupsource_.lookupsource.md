@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/ethereum/LookupSource"](../modules/_packages_types_src_ethereum_lookupsource_.md) › [LookupSource](_packages_types_src_ethereum_lookupsource_.lookupsource.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/ethereum/LookupSource"](../modules/_packages_types_src_ethereum_lookupsource_.md) / LookupSource
 
 # Class: LookupSource
 
@@ -12,7 +14,7 @@ is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
 
 ## Hierarchy
 
-* [Base](_packages_types_src_codec_base_.base.md)‹[EthereumAccountId](../interfaces/_packages_types_src_augment_registry_._registry_.interfacetypes.md#ethereumaccountid) | [AccountIndex](_packages_types_src_generic_accountindex_.accountindex.md)›
+* [Base](_packages_types_src_codec_base_.base.md)\<[EthereumAccountId](../interfaces/_packages_types_src_augment_registry_._registry_.interfacetypes.md#ethereumaccountid) \| [AccountIndex](_packages_types_src_generic_accountindex_.accountindex.md)>
 
   ↳ **LookupSource**
 
@@ -28,7 +30,7 @@ is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
 
 ### Properties
 
-* [registry](_packages_types_src_ethereum_lookupsource_.lookupsource.md#readonly-registry)
+* [registry](_packages_types_src_ethereum_lookupsource_.lookupsource.md#registry)
 
 ### Accessors
 
@@ -48,199 +50,199 @@ is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new LookupSource**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: AnyAddress): *[LookupSource](_packages_types_src_ethereum_lookupsource_.lookupsource.md)*
+\+ **new LookupSource**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: AnyAddress): [LookupSource](_packages_types_src_ethereum_lookupsource_.lookupsource.md)
 
 *Overrides void*
 
-*Defined in [packages/types/src/ethereum/LookupSource.ts:51](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/ethereum/LookupSource.ts#L51)*
+*Defined in [packages/types/src/ethereum/LookupSource.ts:51](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/ethereum/LookupSource.ts#L51)*
 
-**Parameters:**
+#### Parameters:
 
-Name | Type | Default |
+Name | Type | Default value |
 ------ | ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) | - |
 `value` | AnyAddress | new Uint8Array() |
 
-**Returns:** *[LookupSource](_packages_types_src_ethereum_lookupsource_.lookupsource.md)*
+**Returns:** [LookupSource](_packages_types_src_ethereum_lookupsource_.lookupsource.md)
 
 ## Properties
 
-### `Readonly` registry
+### registry
 
-• **registry**: *[Registry](../interfaces/_packages_types_src_types_registry_.registry.md)*
+• `Readonly` **registry**: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md)
 
-*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#readonly-registry)*
+*Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md).[registry](../interfaces/_packages_types_src_types_codec_.codec.md#registry)*
 
-*Inherited from [Base](_packages_types_src_codec_base_.base.md).[registry](_packages_types_src_codec_base_.base.md#readonly-registry)*
+*Inherited from [Base](_packages_types_src_codec_base_.base.md).[registry](_packages_types_src_codec_base_.base.md#registry)*
 
-*Defined in [packages/types/src/codec/Base.ts:14](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Base.ts#L14)*
+*Defined in [packages/types/src/codec/Base.ts:14](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Base.ts#L14)*
 
 ## Accessors
 
-###  encodedLength
+### encodedLength
 
-• **get encodedLength**(): *number*
+• get **encodedLength**(): number
 
 *Overrides [Base](_packages_types_src_codec_base_.base.md).[encodedLength](_packages_types_src_codec_base_.base.md#encodedlength)*
 
-*Defined in [packages/types/src/ethereum/LookupSource.ts:74](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/ethereum/LookupSource.ts#L74)*
+*Defined in [packages/types/src/ethereum/LookupSource.ts:74](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/ethereum/LookupSource.ts#L74)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  hash
+### hash
 
-• **get hash**(): *H256*
+• get **hash**(): H256
 
 *Inherited from [Base](_packages_types_src_codec_base_.base.md).[hash](_packages_types_src_codec_base_.base.md#hash)*
 
-*Defined in [packages/types/src/codec/Base.ts:33](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Base.ts#L33)*
+*Defined in [packages/types/src/codec/Base.ts:33](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Base.ts#L33)*
 
 **`description`** returns a hash of the contents
 
-**Returns:** *H256*
+**Returns:** H256
 
 ___
 
-###  isEmpty
+### isEmpty
 
-• **get isEmpty**(): *boolean*
+• get **isEmpty**(): boolean
 
 *Inherited from [Base](_packages_types_src_codec_base_.base.md).[isEmpty](_packages_types_src_codec_base_.base.md#isempty)*
 
-*Defined in [packages/types/src/codec/Base.ts:40](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Base.ts#L40)*
+*Defined in [packages/types/src/codec/Base.ts:40](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Base.ts#L40)*
 
 **`description`** Checks if the value is an empty value
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ## Methods
 
-###  eq
+### eq
 
-▸ **eq**(`other?`: unknown): *boolean*
+▸ **eq**(`other?`: unknown): boolean
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
 *Inherited from [Base](_packages_types_src_codec_base_.base.md).[eq](_packages_types_src_codec_base_.base.md#eq)*
 
-*Defined in [packages/types/src/codec/Base.ts:47](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Base.ts#L47)*
+*Defined in [packages/types/src/codec/Base.ts:47](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Base.ts#L47)*
 
 **`description`** Compares the value of the input to see if there is a match
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `other?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  toHex
+### toHex
 
-▸ **toHex**(): *string*
+▸ **toHex**(): string
 
 *Overrides [Base](_packages_types_src_codec_base_.base.md).[toHex](_packages_types_src_codec_base_.base.md#tohex)*
 
-*Defined in [packages/types/src/ethereum/LookupSource.ts:97](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/ethereum/LookupSource.ts#L97)*
+*Defined in [packages/types/src/ethereum/LookupSource.ts:97](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/ethereum/LookupSource.ts#L97)*
 
 **`description`** Returns a hex string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toHuman
+### toHuman
 
-▸ **toHuman**(`isExtended?`: undefined | false | true): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+▸ **toHuman**(`isExtended?`: undefined \| false \| true): [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
 *Inherited from [Base](_packages_types_src_codec_base_.base.md).[toHuman](_packages_types_src_codec_base_.base.md#tohuman)*
 
-*Defined in [packages/types/src/codec/Base.ts:61](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Base.ts#L61)*
+*Defined in [packages/types/src/codec/Base.ts:61](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Base.ts#L61)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`isExtended?` | undefined &#124; false &#124; true |
+`isExtended?` | undefined \| false \| true |
 
-**Returns:** *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+**Returns:** [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+▸ **toJSON**(): [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
 *Inherited from [Base](_packages_types_src_codec_base_.base.md).[toJSON](_packages_types_src_codec_base_.base.md#tojson)*
 
-*Defined in [packages/types/src/codec/Base.ts:68](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Base.ts#L68)*
+*Defined in [packages/types/src/codec/Base.ts:68](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Base.ts#L68)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
-**Returns:** *[AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)*
+**Returns:** [AnyJson](../modules/_packages_types_src_types_helpers_.md#anyjson)
 
 ___
 
-###  toRawType
+### toRawType
 
-▸ **toRawType**(): *string*
+▸ **toRawType**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
 *Overrides [Base](_packages_types_src_codec_base_.base.md).[toRawType](_packages_types_src_codec_base_.base.md#torawtype)*
 
-*Defined in [packages/types/src/ethereum/LookupSource.ts:104](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/ethereum/LookupSource.ts#L104)*
+*Defined in [packages/types/src/ethereum/LookupSource.ts:104](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/ethereum/LookupSource.ts#L104)*
 
 **`description`** Returns the base runtime type name for this instance
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toString
+### toString
 
-▸ **toString**(): *string*
+▸ **toString**(): string
 
 *Implementation of [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
 
 *Inherited from [Base](_packages_types_src_codec_base_.base.md).[toString](_packages_types_src_codec_base_.base.md#tostring)*
 
-*Defined in [packages/types/src/codec/Base.ts:75](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/Base.ts#L75)*
+*Defined in [packages/types/src/codec/Base.ts:75](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/Base.ts#L75)*
 
 **`description`** Returns the string representation of the value
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toU8a
+### toU8a
 
-▸ **toU8a**(`isBare?`: undefined | false | true): *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+▸ **toU8a**(`isBare?`: undefined \| false \| true): [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)
 
 *Overrides [Base](_packages_types_src_codec_base_.base.md).[toU8a](_packages_types_src_codec_base_.base.md#tou8a)*
 
-*Defined in [packages/types/src/ethereum/LookupSource.ts:112](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/ethereum/LookupSource.ts#L112)*
+*Defined in [packages/types/src/ethereum/LookupSource.ts:112](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/ethereum/LookupSource.ts#L112)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`isBare?` | undefined &#124; false &#124; true | true when the value has none of the type-specific prefixes (internal)  |
+`isBare?` | undefined \| false \| true | true when the value has none of the type-specific prefixes (internal)  |
 
-**Returns:** *[Uint8Array](_packages_types_src_codec_raw_.raw.md#static-uint8array)*
+**Returns:** [Uint8Array](_packages_types_src_codec_raw_.raw.md#uint8array)

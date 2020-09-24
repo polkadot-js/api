@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/definitions"](../modules/_packages_types_src_types_definitions_.md) › [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/definitions"](../modules/_packages_types_src_types_definitions_.md) / DefinitionRpc
 
 # Interface: DefinitionRpc
 
@@ -14,39 +16,39 @@
 
 ### Properties
 
-* [alias](_packages_types_src_types_definitions_.definitionrpc.md#optional-alias)
+* [alias](_packages_types_src_types_definitions_.definitionrpc.md#alias)
 * [description](_packages_types_src_types_definitions_.definitionrpc.md#description)
 * [params](_packages_types_src_types_definitions_.definitionrpc.md#params)
 * [type](_packages_types_src_types_definitions_.definitionrpc.md#type)
 
 ## Properties
 
-### `Optional` alias
+### alias
 
-• **alias**? : *string[]*
+• `Optional` **alias**: string[]
 
-*Defined in [packages/types/src/types/definitions.ts:23](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L23)*
-
-___
-
-###  description
-
-• **description**: *string*
-
-*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L24)*
+*Defined in [packages/types/src/types/definitions.ts:23](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L23)*
 
 ___
 
-###  params
+### description
 
-• **params**: *[DefinitionRpcParam](_packages_types_src_types_definitions_.definitionrpcparam.md)[]*
+•  **description**: string
 
-*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L25)*
+*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L24)*
 
 ___
 
-###  type
+### params
 
-• **type**: *[DefinitionTypeType](../modules/_packages_types_src_types_definitions_.md#definitiontypetype)*
+•  **params**: [DefinitionRpcParam](_packages_types_src_types_definitions_.definitionrpcparam.md)[]
 
-*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L26)*
+*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L25)*
+
+___
+
+### type
+
+•  **type**: [DefinitionTypeType](../modules/_packages_types_src_types_definitions_.md#definitiontypetype)
+
+*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L26)*

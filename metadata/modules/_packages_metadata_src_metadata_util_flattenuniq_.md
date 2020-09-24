@@ -1,5 +1,5 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/metadata/src/Metadata/util/flattenUniq"](_packages_metadata_src_metadata_util_flattenuniq_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/metadata/src/Metadata/util/flattenUniq"
 
 # Module: "packages/metadata/src/Metadata/util/flattenUniq"
-
-

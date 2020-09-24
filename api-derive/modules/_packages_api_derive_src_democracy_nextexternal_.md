@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/democracy/nextExternal"](_packages_api_derive_src_democracy_nextexternal_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/nextExternal"
 
 # Module: "packages/api-derive/src/democracy/nextExternal"
 
@@ -10,19 +12,17 @@
 
 ## Functions
 
-###  nextExternal
+### nextExternal
 
-▸ **nextExternal**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **nextExternal**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/nextExternal.ts:31](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/nextExternal.ts#L31)*
+*Defined in [packages/api-derive/src/democracy/nextExternal.ts:31](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/nextExternal.ts#L31)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveProposalExternal | null›*
+**Returns:** function

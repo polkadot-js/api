@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/typegen/src/util/file"](_packages_typegen_src_util_file_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/util/file"
 
 # Module: "packages/typegen/src/util/file"
 
@@ -11,36 +13,34 @@
 
 ## Functions
 
-###  readTemplate
+### readTemplate
 
-▸ **readTemplate**(`path`: string): *string*
+▸ **readTemplate**(`path`: string): string
 
-*Defined in [packages/typegen/src/util/file.ts:22](https://github.com/polkadot-js/api/blob/6faea13a2/packages/typegen/src/util/file.ts#L22)*
+*Defined in [packages/typegen/src/util/file.ts:22](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/util/file.ts#L22)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `path` | string |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  writeFile
+### writeFile
 
-▸ **writeFile**(`dest`: string, `generator`: function, `noLog?`: undefined | false | true): *void*
+▸ **writeFile**(`dest`: string, `generator`: () => string, `noLog?`: undefined \| false \| true): void
 
-*Defined in [packages/typegen/src/util/file.ts:6](https://github.com/polkadot-js/api/blob/6faea13a2/packages/typegen/src/util/file.ts#L6)*
+*Defined in [packages/typegen/src/util/file.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/util/file.ts#L6)*
 
-**Parameters:**
+#### Parameters:
 
-▪ **dest**: *string*
+Name | Type |
+------ | ------ |
+`dest` | string |
+`generator` | () => string |
+`noLog?` | undefined \| false \| true |
 
-▪ **generator**: *function*
-
-▸ (): *string*
-
-▪`Optional`  **noLog**: *undefined | false | true*
-
-**Returns:** *void*
+**Returns:** void

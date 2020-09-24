@@ -1,5 +1,5 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/interfaces/session/definitions"](_packages_types_src_interfaces_session_definitions_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/interfaces/session/definitions"
 
 # Module: "packages/types/src/interfaces/session/definitions"
-
-

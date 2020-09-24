@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/erasHistoric"](_packages_api_derive_src_staking_erashistoric_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/erasHistoric"
 
 # Module: "packages/api-derive/src/staking/erasHistoric"
 
@@ -10,25 +12,17 @@
 
 ## Functions
 
-###  erasHistoric
+### erasHistoric
 
-▸ **erasHistoric**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **erasHistoric**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasHistoric.ts:14](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/erasHistoric.ts#L14)*
+*Defined in [packages/api-derive/src/staking/erasHistoric.ts:14](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/erasHistoric.ts#L14)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`withActive`: boolean): *Observable‹EraIndex[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`withActive` | boolean |
+**Returns:** function

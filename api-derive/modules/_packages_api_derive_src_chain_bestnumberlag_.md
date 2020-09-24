@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/chain/bestNumberLag"](_packages_api_derive_src_chain_bestnumberlag_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/chain/bestNumberLag"
 
 # Module: "packages/api-derive/src/chain/bestNumberLag"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  bestNumberLag
+### bestNumberLag
 
-▸ **bestNumberLag**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **bestNumberLag**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/chain/bestNumberLag.ts:25](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/chain/bestNumberLag.ts#L25)*
+*Defined in [packages/api-derive/src/chain/bestNumberLag.ts:25](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/chain/bestNumberLag.ts#L25)*
 
 **`name`** bestNumberLag
 
@@ -29,15 +31,11 @@ api.derive.chain.bestNumberLag((lag) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-A number of blocks
-
-▸ (): *Observable‹BlockNumber›*
+**Returns:** function

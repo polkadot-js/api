@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/extrinsic/v4/Extrinsic"](_packages_types_src_extrinsic_v4_extrinsic_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/extrinsic/v4/Extrinsic"
 
 # Module: "packages/types/src/extrinsic/v4/Extrinsic"
 
@@ -14,12 +16,12 @@
 
 ### Variables
 
-* [TRANSACTION_VERSION](_packages_types_src_extrinsic_v4_extrinsic_.md#const-transaction_version)
+* [TRANSACTION\_VERSION](_packages_types_src_extrinsic_v4_extrinsic_.md#transaction_version)
 
 ## Variables
 
-### `Const` TRANSACTION_VERSION
+### TRANSACTION\_VERSION
 
-• **TRANSACTION_VERSION**: *4* = 4
+• `Const` **TRANSACTION\_VERSION**: 4 = 4
 
-*Defined in [packages/types/src/extrinsic/v4/Extrinsic.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/extrinsic/v4/Extrinsic.ts#L13)*
+*Defined in [packages/types/src/extrinsic/v4/Extrinsic.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/extrinsic/v4/Extrinsic.ts#L13)*

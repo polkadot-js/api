@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/definitions"](../modules/_packages_types_src_types_definitions_.md) › [DefinitionRpcSub](_packages_types_src_types_definitions_.definitionrpcsub.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/definitions"](../modules/_packages_types_src_types_definitions_.md) / DefinitionRpcSub
 
 # Interface: DefinitionRpcSub
 
@@ -12,7 +14,7 @@
 
 ### Properties
 
-* [alias](_packages_types_src_types_definitions_.definitionrpcsub.md#optional-alias)
+* [alias](_packages_types_src_types_definitions_.definitionrpcsub.md#alias)
 * [description](_packages_types_src_types_definitions_.definitionrpcsub.md#description)
 * [params](_packages_types_src_types_definitions_.definitionrpcsub.md#params)
 * [pubsub](_packages_types_src_types_definitions_.definitionrpcsub.md#pubsub)
@@ -20,48 +22,48 @@
 
 ## Properties
 
-### `Optional` alias
+### alias
 
-• **alias**? : *string[]*
+• `Optional` **alias**: string[]
 
-*Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[alias](_packages_types_src_types_definitions_.definitionrpc.md#optional-alias)*
+*Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[alias](_packages_types_src_types_definitions_.definitionrpc.md#alias)*
 
-*Defined in [packages/types/src/types/definitions.ts:23](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L23)*
+*Defined in [packages/types/src/types/definitions.ts:23](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L23)*
 
 ___
 
-###  description
+### description
 
-• **description**: *string*
+•  **description**: string
 
 *Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[description](_packages_types_src_types_definitions_.definitionrpc.md#description)*
 
-*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L24)*
+*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L24)*
 
 ___
 
-###  params
+### params
 
-• **params**: *[DefinitionRpcParam](_packages_types_src_types_definitions_.definitionrpcparam.md)[]*
+•  **params**: [DefinitionRpcParam](_packages_types_src_types_definitions_.definitionrpcparam.md)[]
 
 *Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[params](_packages_types_src_types_definitions_.definitionrpc.md#params)*
 
-*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L25)*
+*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L25)*
 
 ___
 
-###  pubsub
+### pubsub
 
-• **pubsub**: *[string, string, string]*
+•  **pubsub**: [string, string, string]
 
-*Defined in [packages/types/src/types/definitions.ts:38](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L38)*
+*Defined in [packages/types/src/types/definitions.ts:38](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L38)*
 
 ___
 
-###  type
+### type
 
-• **type**: *[DefinitionTypeType](../modules/_packages_types_src_types_definitions_.md#definitiontypetype)*
+•  **type**: [DefinitionTypeType](../modules/_packages_types_src_types_definitions_.md#definitiontypetype)
 
 *Inherited from [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md).[type](_packages_types_src_types_definitions_.definitionrpc.md#type)*
 
-*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/definitions.ts#L26)*
+*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/definitions.ts#L26)*

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/classes"](_packages_types_src_classes_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/classes"
 
 # Module: "packages/types/src/classes"
 
@@ -10,8 +12,8 @@
 
 ## Type aliases
 
-###  CodecTypes
+### CodecTypes
 
-Ƭ **CodecTypes**: *keyof typeof Classes*
+Ƭ  **CodecTypes**: keyof *typeof* Classes
 
-*Defined in [packages/types/src/classes.ts:6](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/classes.ts#L6)*
+*Defined in [packages/types/src/classes.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/classes.ts#L6)*

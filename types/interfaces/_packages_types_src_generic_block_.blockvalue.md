@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/generic/Block"](../modules/_packages_types_src_generic_block_.md) › [BlockValue](_packages_types_src_generic_block_.blockvalue.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/generic/Block"](../modules/_packages_types_src_generic_block_.md) / BlockValue
 
 # Interface: BlockValue
 
@@ -10,21 +12,21 @@
 
 ### Properties
 
-* [extrinsics](_packages_types_src_generic_block_.blockvalue.md#optional-extrinsics)
-* [header](_packages_types_src_generic_block_.blockvalue.md#optional-header)
+* [extrinsics](_packages_types_src_generic_block_.blockvalue.md#extrinsics)
+* [header](_packages_types_src_generic_block_.blockvalue.md#header)
 
 ## Properties
 
-### `Optional` extrinsics
+### extrinsics
 
-• **extrinsics**? : *[AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)[]*
+• `Optional` **extrinsics**: [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)[]
 
-*Defined in [packages/types/src/generic/Block.ts:20](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/generic/Block.ts#L20)*
+*Defined in [packages/types/src/generic/Block.ts:20](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/generic/Block.ts#L20)*
 
 ___
 
-### `Optional` header
+### header
 
-• **header**? : *[HeaderValue](_packages_types_src_generic_block_.headervalue.md)*
+• `Optional` **header**: [HeaderValue](_packages_types_src_generic_block_.headervalue.md)
 
-*Defined in [packages/types/src/generic/Block.ts:21](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/generic/Block.ts#L21)*
+*Defined in [packages/types/src/generic/Block.ts:21](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/generic/Block.ts#L21)*

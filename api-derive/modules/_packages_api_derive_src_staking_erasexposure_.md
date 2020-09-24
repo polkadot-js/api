@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/erasExposure"](_packages_api_derive_src_staking_erasexposure_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/erasExposure"
 
 # Module: "packages/api-derive/src/staking/erasExposure"
 
@@ -6,109 +8,75 @@
 
 ### Functions
 
-* [_eraExposure](_packages_api_derive_src_staking_erasexposure_.md#_eraexposure)
-* [_erasExposure](_packages_api_derive_src_staking_erasexposure_.md#_erasexposure)
+* [\_eraExposure](_packages_api_derive_src_staking_erasexposure_.md#_eraexposure)
+* [\_erasExposure](_packages_api_derive_src_staking_erasexposure_.md#_erasexposure)
 * [eraExposure](_packages_api_derive_src_staking_erasexposure_.md#eraexposure)
 * [erasExposure](_packages_api_derive_src_staking_erasexposure_.md#erasexposure)
 
 ## Functions
 
-###  _eraExposure
+### \_eraExposure
 
-▸ **_eraExposure**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **_eraExposure**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasExposure.ts:38](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/erasExposure.ts#L38)*
+*Defined in [packages/api-derive/src/staking/erasExposure.ts:38](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/erasExposure.ts#L38)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`era`: EraIndex, `withActive`: boolean): *Observable‹DeriveEraExposure›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`era` | EraIndex |
-`withActive` | boolean |
+**Returns:** function
 
 ___
 
-###  _erasExposure
+### \_erasExposure
 
-▸ **_erasExposure**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **_erasExposure**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasExposure.ts:65](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/erasExposure.ts#L65)*
+*Defined in [packages/api-derive/src/staking/erasExposure.ts:65](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/erasExposure.ts#L65)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`eras`: EraIndex[], `withActive`: boolean): *Observable‹DeriveEraExposure[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`eras` | EraIndex[] |
-`withActive` | boolean |
+**Returns:** function
 
 ___
 
-###  eraExposure
+### eraExposure
 
-▸ **eraExposure**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **eraExposure**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasExposure.ts:59](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/erasExposure.ts#L59)*
+*Defined in [packages/api-derive/src/staking/erasExposure.ts:59](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/erasExposure.ts#L59)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`era`: EraIndex): *Observable‹DeriveEraExposure›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`era` | EraIndex |
+**Returns:** function
 
 ___
 
-###  erasExposure
+### erasExposure
 
-▸ **erasExposure**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **erasExposure**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasExposure.ts:73](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/erasExposure.ts#L73)*
+*Defined in [packages/api-derive/src/staking/erasExposure.ts:73](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/erasExposure.ts#L73)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`withActive?`: undefined | false | true): *Observable‹DeriveEraExposure[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`withActive?` | undefined &#124; false &#124; true |
+**Returns:** function

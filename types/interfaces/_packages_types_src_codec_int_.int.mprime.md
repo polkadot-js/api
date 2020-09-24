@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/Int"](../modules/_packages_types_src_codec_int_.md) › [Int](../classes/_packages_types_src_codec_int_.int.md) › [MPrime](_packages_types_src_codec_int_.int.mprime.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/Int"](../modules/_packages_types_src_codec_int_.md) / [Int](../classes/_packages_types_src_codec_int_.int.md) / MPrime
 
 # Interface: MPrime
 
@@ -17,32 +19,32 @@
 
 ## Properties
 
-###  k
+### k
 
-• **k**: *BN*
+•  **k**: BN
 
-Defined in node_modules/@types/bn.js/index.d.ts:18
-
-___
-
-###  n
-
-• **n**: *number*
-
-Defined in node_modules/@types/bn.js/index.d.ts:17
+*Defined in node_modules/@types/bn.js/index.d.ts:18*
 
 ___
 
-###  name
+### n
 
-• **name**: *string*
+•  **n**: number
 
-Defined in node_modules/@types/bn.js/index.d.ts:15
+*Defined in node_modules/@types/bn.js/index.d.ts:17*
 
 ___
 
-###  p
+### name
 
-• **p**: *BN*
+•  **name**: string
 
-Defined in node_modules/@types/bn.js/index.d.ts:16
+*Defined in node_modules/@types/bn.js/index.d.ts:15*
+
+___
+
+### p
+
+•  **p**: BN
+
+*Defined in node_modules/@types/bn.js/index.d.ts:16*

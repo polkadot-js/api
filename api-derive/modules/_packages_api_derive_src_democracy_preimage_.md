@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/democracy/preimage"](_packages_api_derive_src_democracy_preimage_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/preimage"
 
 # Module: "packages/api-derive/src/democracy/preimage"
 
@@ -10,25 +12,17 @@
 
 ## Functions
 
-###  preimage
+### preimage
 
-▸ **preimage**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **preimage**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/preimage.ts:18](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/preimage.ts#L18)*
+*Defined in [packages/api-derive/src/democracy/preimage.ts:18](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/preimage.ts#L18)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`hash`: Hash): *Observable‹DeriveProposalImage | undefined›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`hash` | Hash |
+**Returns:** function

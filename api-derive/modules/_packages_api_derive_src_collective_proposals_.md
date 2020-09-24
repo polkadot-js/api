@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/collective/proposals"](_packages_api_derive_src_collective_proposals_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/collective/proposals"
 
 # Module: "packages/api-derive/src/collective/proposals"
 
@@ -10,20 +12,18 @@
 
 ## Functions
 
-###  proposals
+### proposals
 
-▸ **proposals**(`instanceId`: string, `api`: ApiInterfaceRx, `section`: "council" | "technicalCommittee"): *function*
+▸ **proposals**(`instanceId`: string, `api`: ApiInterfaceRx, `section`: \"council\" \| \"technicalCommittee\"): function
 
-*Defined in [packages/api-derive/src/collective/proposals.ts:31](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/collective/proposals.ts#L31)*
+*Defined in [packages/api-derive/src/collective/proposals.ts:31](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/collective/proposals.ts#L31)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
-`section` | "council" &#124; "technicalCommittee" |
+`section` | \"council\" \| \"technicalCommittee\" |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveCollectiveProposal[]›*
+**Returns:** function

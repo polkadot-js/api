@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/typegen/src/util/formatting"](_packages_typegen_src_util_formatting_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/util/formatting"
 
 # Module: "packages/typegen/src/util/formatting"
 
@@ -6,20 +8,20 @@
 
 ### Functions
 
-* [HEADER](_packages_typegen_src_util_formatting_.md#const-header)
+* [HEADER](_packages_typegen_src_util_formatting_.md#header)
 
 ## Functions
 
-### `Const` HEADER
+### HEADER
 
-▸ **HEADER**(`type`: "chain" | "defs"): *string*
+▸ `Const`**HEADER**(`type`: \"chain\" \| \"defs\"): string
 
-*Defined in [packages/typegen/src/util/formatting.ts:24](https://github.com/polkadot-js/api/blob/6faea13a2/packages/typegen/src/util/formatting.ts#L24)*
+*Defined in [packages/typegen/src/util/formatting.ts:24](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/util/formatting.ts#L24)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`type` | "chain" &#124; "defs" |
+`type` | \"chain\" \| \"defs\" |
 
-**Returns:** *string*
+**Returns:** string

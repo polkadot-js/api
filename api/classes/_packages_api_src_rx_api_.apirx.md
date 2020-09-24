@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/rx/Api"](../modules/_packages_api_src_rx_api_.md) › [ApiRx](_packages_api_src_rx_api_.apirx.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/rx/Api"](../modules/_packages_api_src_rx_api_.md) / ApiRx
 
 # Class: ApiRx
 
@@ -102,7 +104,7 @@ api.query.system
 
 ## Hierarchy
 
-* ApiBase‹"rxjs"›
+* ApiBase\<\"rxjs\">
 
   ↳ **ApiRx**
 
@@ -149,17 +151,17 @@ api.query.system
 * [registerTypes](_packages_api_src_rx_api_.apirx.md#registertypes)
 * [setSigner](_packages_api_src_rx_api_.apirx.md#setsigner)
 * [sign](_packages_api_src_rx_api_.apirx.md#sign)
-* [create](_packages_api_src_rx_api_.apirx.md#static-create)
+* [create](_packages_api_src_rx_api_.apirx.md#create)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new ApiRx**(`options?`: ApiOptions): *[ApiRx](_packages_api_src_rx_api_.apirx.md)*
+\+ **new ApiRx**(`options?`: ApiOptions): [ApiRx](_packages_api_src_rx_api_.apirx.md)
 
 *Overrides void*
 
-*Defined in [packages/api/src/rx/Api.ts:140](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/rx/Api.ts#L140)*
+*Defined in [packages/api/src/rx/Api.ts:140](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/rx/Api.ts#L140)*
 
 **`description`** Create an instance of the ApiRx class
 
@@ -180,23 +182,23 @@ new Api().isReady
   });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `options?` | ApiOptions | Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]] |
 
-**Returns:** *[ApiRx](_packages_api_src_rx_api_.apirx.md)*
+**Returns:** [ApiRx](_packages_api_src_rx_api_.apirx.md)
 
 ## Accessors
 
-###  consts
+### consts
 
-• **get consts**(): *[QueryableConsts](../interfaces/_packages_api_src_augment_consts_._api_types_consts_.queryableconsts.md)‹"rxjs"›*
+• get **consts**(): [QueryableConsts](../interfaces/_packages_api_src_augment_consts_._api_types_consts_.queryableconsts.md)\<\"rxjs\">
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[consts](_packages_api_src_promise_api_.apipromise.md#consts)*
 
-*Defined in [packages/api/src/base/index.ts:78](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L78)*
+*Defined in [packages/api/src/base/index.ts:78](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L78)*
 
 **`description`** Contains the parameter types (constants) of all modules.
 
@@ -209,17 +211,17 @@ The values are instances of the appropriate type and are accessible using `secti
 console.log(api.consts.democracy.enactmentPeriod.toString())
 ```
 
-**Returns:** *[QueryableConsts](../interfaces/_packages_api_src_augment_consts_._api_types_consts_.queryableconsts.md)‹"rxjs"›*
+**Returns:** [QueryableConsts](../interfaces/_packages_api_src_augment_consts_._api_types_consts_.queryableconsts.md)\<\"rxjs\">
 
 ___
 
-###  derive
+### derive
 
-• **get derive**(): *ReturnType‹ApiBase‹"rxjs"›["_decorateDerive"]›*
+• get **derive**(): ReturnType\<ApiBase\<\"rxjs\">[\"\_decorateDerive\"]>
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[derive](_packages_api_src_promise_api_.apipromise.md#derive)*
 
-*Defined in [packages/api/src/base/index.ts:94](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L94)*
+*Defined in [packages/api/src/base/index.ts:94](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L94)*
 
 **`description`** Derived results that are injected into the API, allowing for combinations of various query results.
 
@@ -232,101 +234,101 @@ api.derive.chain.bestNumber((number) => {
 });
 ```
 
-**Returns:** *ReturnType‹ApiBase‹"rxjs"›["_decorateDerive"]›*
+**Returns:** ReturnType\<ApiBase\<\"rxjs\">[\"\_decorateDerive\"]>
 
 ___
 
-###  extrinsicVersion
+### extrinsicVersion
 
-• **get extrinsicVersion**(): *number*
+• get **extrinsicVersion**(): number
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[extrinsicVersion](_packages_api_src_promise_api_.apipromise.md#extrinsicversion)*
 
-*Defined in [packages/api/src/base/index.ts:101](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L101)*
+*Defined in [packages/api/src/base/index.ts:101](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L101)*
 
 **`description`** Returns the version of extrinsics in-use on this chain
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  genesisHash
+### genesisHash
 
-• **get genesisHash**(): *Hash*
+• get **genesisHash**(): Hash
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[genesisHash](_packages_api_src_promise_api_.apipromise.md#genesishash)*
 
-*Defined in [packages/api/src/base/index.ts:108](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L108)*
+*Defined in [packages/api/src/base/index.ts:108](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L108)*
 
 **`description`** Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
-**Returns:** *Hash*
+**Returns:** Hash
 
 ___
 
-###  hasSubscriptions
+### hasSubscriptions
 
-• **get hasSubscriptions**(): *boolean*
+• get **hasSubscriptions**(): boolean
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[hasSubscriptions](_packages_api_src_promise_api_.apipromise.md#hassubscriptions)*
 
 *Overrides [Decorate](_packages_api_src_base_decorate_.decorate.md).[hasSubscriptions](_packages_api_src_base_decorate_.decorate.md#hassubscriptions)*
 
-*Defined in [packages/api/src/base/index.ts:115](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L115)*
+*Defined in [packages/api/src/base/index.ts:115](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L115)*
 
 **`description`** `true` when subscriptions are supported
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  isConnected
+### isConnected
 
-• **get isConnected**(): *boolean*
+• get **isConnected**(): boolean
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[isConnected](_packages_api_src_promise_api_.apipromise.md#isconnected)*
 
-*Defined in [packages/api/src/base/index.ts:122](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L122)*
+*Defined in [packages/api/src/base/index.ts:122](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L122)*
 
 **`description`** true is the underlying provider is connected
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  isReady
+### isReady
 
-• **get isReady**(): *Observable‹[ApiRx](_packages_api_src_rx_api_.apirx.md)›*
+• get **isReady**(): Observable\<[ApiRx](_packages_api_src_rx_api_.apirx.md)>
 
-*Defined in [packages/api/src/rx/Api.ts:178](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/rx/Api.ts#L178)*
+*Defined in [packages/api/src/rx/Api.ts:178](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/rx/Api.ts#L178)*
 
 **`description`** Observable that returns the first time we are connected and loaded
 
-**Returns:** *Observable‹[ApiRx](_packages_api_src_rx_api_.apirx.md)›*
+**Returns:** Observable\<[ApiRx](_packages_api_src_rx_api_.apirx.md)>
 
 ___
 
-###  libraryInfo
+### libraryInfo
 
-• **get libraryInfo**(): *string*
+• get **libraryInfo**(): string
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[libraryInfo](_packages_api_src_promise_api_.apipromise.md#libraryinfo)*
 
-*Defined in [packages/api/src/base/index.ts:129](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L129)*
+*Defined in [packages/api/src/base/index.ts:129](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L129)*
 
 **`description`** The library information name & version (from package.json)
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  query
+### query
 
-• **get query**(): *[QueryableStorage](../interfaces/_packages_api_src_augment_query_._api_types_storage_.queryablestorage.md)‹"rxjs"›*
+• get **query**(): [QueryableStorage](../interfaces/_packages_api_src_augment_query_._api_types_storage_.queryablestorage.md)\<\"rxjs\">
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[query](_packages_api_src_promise_api_.apipromise.md#query)*
 
-*Defined in [packages/api/src/base/index.ts:147](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L147)*
+*Defined in [packages/api/src/base/index.ts:147](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L147)*
 
 **`description`** Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -341,17 +343,17 @@ api.query.system.account(<accountId>, ([nonce, balance]) => {
 });
 ```
 
-**Returns:** *[QueryableStorage](../interfaces/_packages_api_src_augment_query_._api_types_storage_.queryablestorage.md)‹"rxjs"›*
+**Returns:** [QueryableStorage](../interfaces/_packages_api_src_augment_query_._api_types_storage_.queryablestorage.md)\<\"rxjs\">
 
 ___
 
-###  queryMulti
+### queryMulti
 
-• **get queryMulti**(): *[QueryableStorageMulti](../modules/_packages_api_src_types_storage_.md#queryablestoragemulti)‹"rxjs"›*
+• get **queryMulti**(): [QueryableStorageMulti](../modules/_packages_api_src_types_storage_.md#queryablestoragemulti)\<\"rxjs\">
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[queryMulti](_packages_api_src_promise_api_.apipromise.md#querymulti)*
 
-*Defined in [packages/api/src/base/index.ts:173](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L173)*
+*Defined in [packages/api/src/base/index.ts:173](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L173)*
 
 **`description`** Allows for the querying of multiple storage entries and the combination thereof into a single result. This is a very optimal way to make multiple queries since it only makes a single connection to the node and retrieves the data over one subscription.
 
@@ -374,31 +376,31 @@ const unsub = await api.queryMulti(
 );
 ```
 
-**Returns:** *[QueryableStorageMulti](../modules/_packages_api_src_types_storage_.md#queryablestoragemulti)‹"rxjs"›*
+**Returns:** [QueryableStorageMulti](../modules/_packages_api_src_types_storage_.md#queryablestoragemulti)\<\"rxjs\">
 
 ___
 
-###  registry
+### registry
 
-• **get registry**(): *Registry*
+• get **registry**(): Registry
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[registry](_packages_api_src_base_decorate_.decorate.md#registry)*
 
-*Defined in [packages/api/src/base/Decorate.ts:152](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Decorate.ts#L152)*
+*Defined in [packages/api/src/base/Decorate.ts:152](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Decorate.ts#L152)*
 
 **`description`** Return the current used registry
 
-**Returns:** *Registry*
+**Returns:** Registry
 
 ___
 
-###  rpc
+### rpc
 
-• **get rpc**(): *[DecoratedRpc](../modules/_packages_api_src_types_rpc_.md#decoratedrpc)‹"rxjs", [RpcInterface](../interfaces/_packages_api_src_augment_rpc_._rpc_core_types_.rpcinterface.md)›*
+• get **rpc**(): [DecoratedRpc](../modules/_packages_api_src_types_rpc_.md#decoratedrpc)\<\"rxjs\", [RpcInterface](../interfaces/_packages_api_src_augment_rpc_._rpc_core_types_.rpcinterface.md)>
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[rpc](_packages_api_src_promise_api_.apipromise.md#rpc)*
 
-*Defined in [packages/api/src/base/index.ts:191](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L191)*
+*Defined in [packages/api/src/base/index.ts:191](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L191)*
 
 **`description`** Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -413,73 +415,73 @@ api.rpc.chain.subscribeNewHeads((header) => {
 });
 ```
 
-**Returns:** *[DecoratedRpc](../modules/_packages_api_src_types_rpc_.md#decoratedrpc)‹"rxjs", [RpcInterface](../interfaces/_packages_api_src_augment_rpc_._rpc_core_types_.rpcinterface.md)›*
+**Returns:** [DecoratedRpc](../modules/_packages_api_src_types_rpc_.md#decoratedrpc)\<\"rxjs\", [RpcInterface](../interfaces/_packages_api_src_augment_rpc_._rpc_core_types_.rpcinterface.md)>
 
 ___
 
-###  runtimeChain
+### runtimeChain
 
-• **get runtimeChain**(): *Text*
+• get **runtimeChain**(): Text
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[runtimeChain](_packages_api_src_promise_api_.apipromise.md#runtimechain)*
 
-*Defined in [packages/api/src/base/index.ts:198](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L198)*
+*Defined in [packages/api/src/base/index.ts:198](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L198)*
 
 **`description`** Contains the chain information for the current node.
 
-**Returns:** *Text*
+**Returns:** Text
 
 ___
 
-###  runtimeMetadata
+### runtimeMetadata
 
-• **get runtimeMetadata**(): *Metadata*
+• get **runtimeMetadata**(): Metadata
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[runtimeMetadata](_packages_api_src_promise_api_.apipromise.md#runtimemetadata)*
 
-*Defined in [packages/api/src/base/index.ts:205](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L205)*
+*Defined in [packages/api/src/base/index.ts:205](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L205)*
 
 **`description`** Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
-**Returns:** *Metadata*
+**Returns:** Metadata
 
 ___
 
-###  runtimeVersion
+### runtimeVersion
 
-• **get runtimeVersion**(): *RuntimeVersion*
+• get **runtimeVersion**(): RuntimeVersion
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[runtimeVersion](_packages_api_src_promise_api_.apipromise.md#runtimeversion)*
 
-*Defined in [packages/api/src/base/index.ts:212](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L212)*
+*Defined in [packages/api/src/base/index.ts:212](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L212)*
 
 **`description`** Contains the version information for the current runtime.
 
-**Returns:** *RuntimeVersion*
+**Returns:** RuntimeVersion
 
 ___
 
-###  rx
+### rx
 
-• **get rx**(): *Pick‹ApiInterfaceRx, "tx" | "rpc"›*
+• get **rx**(): Pick\<ApiInterfaceRx, \"tx\" \| \"rpc\">
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[rx](_packages_api_src_promise_api_.apipromise.md#rx)*
 
-*Defined in [packages/api/src/base/index.ts:219](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L219)*
+*Defined in [packages/api/src/base/index.ts:219](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L219)*
 
 **`description`** The underlying Rx API interface
 
-**Returns:** *Pick‹ApiInterfaceRx, "tx" | "rpc"›*
+**Returns:** Pick\<ApiInterfaceRx, \"tx\" \| \"rpc\">
 
 ___
 
-###  tx
+### tx
 
-• **get tx**(): *[SubmittableExtrinsics](../interfaces/_packages_api_src_augment_tx_._api_types_submittable_.submittableextrinsics.md)‹"rxjs"›*
+• get **tx**(): [SubmittableExtrinsics](../interfaces/_packages_api_src_augment_tx_._api_types_submittable_.submittableextrinsics.md)\<\"rxjs\">
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[tx](_packages_api_src_promise_api_.apipromise.md#tx)*
 
-*Defined in [packages/api/src/base/index.ts:244](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L244)*
+*Defined in [packages/api/src/base/index.ts:244](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L244)*
 
 **`description`** Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -494,176 +496,178 @@ api.tx.balances
   });
 ```
 
-**Returns:** *[SubmittableExtrinsics](../interfaces/_packages_api_src_augment_tx_._api_types_submittable_.submittableextrinsics.md)‹"rxjs"›*
+**Returns:** [SubmittableExtrinsics](../interfaces/_packages_api_src_augment_tx_._api_types_submittable_.submittableextrinsics.md)\<\"rxjs\">
 
 ___
 
-###  type
+### type
 
-• **get type**(): *[ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes)*
+• get **type**(): [ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes)
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[type](_packages_api_src_promise_api_.apipromise.md#type)*
 
-*Defined in [packages/api/src/base/index.ts:226](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L226)*
+*Defined in [packages/api/src/base/index.ts:226](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L226)*
 
 **`description`** The type of this API instance, either 'rxjs' or 'promise'
 
-**Returns:** *[ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes)*
+**Returns:** [ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes)
 
 ## Methods
 
-###  clone
+### clone
 
-▸ **clone**(): *[ApiRx](_packages_api_src_rx_api_.apirx.md)*
+▸ **clone**(): [ApiRx](_packages_api_src_rx_api_.apirx.md)
 
-*Defined in [packages/api/src/rx/Api.ts:185](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/rx/Api.ts#L185)*
+*Defined in [packages/api/src/rx/Api.ts:185](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/rx/Api.ts#L185)*
 
 **`description`** Returns a clone of this ApiRx instance (new underlying provider connection)
 
-**Returns:** *[ApiRx](_packages_api_src_rx_api_.apirx.md)*
+**Returns:** [ApiRx](_packages_api_src_rx_api_.apirx.md)
 
 ___
 
-###  connect
+### connect
 
-▸ **connect**(): *Promise‹void›*
+▸ **connect**(): Promise\<void>
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[connect](_packages_api_src_promise_api_.apipromise.md#connect)*
 
-*Defined in [packages/api/src/base/index.ts:251](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L251)*
+*Defined in [packages/api/src/base/index.ts:251](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L251)*
 
 **`description`** Connect from the underlying provider, halting all network traffic
 
-**Returns:** *Promise‹void›*
+**Returns:** Promise\<void>
 
 ___
 
-###  createType
+### createType
 
-▸ **createType**‹**K**›(`type`: K, ...`params`: unknown[]): *InterfaceTypes[K]*
+▸ **createType**\<K>(`type`: K, ...`params`: unknown[]): InterfaceTypes[K]
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[createType](_packages_api_src_base_decorate_.decorate.md#createtype)*
 
-*Defined in [packages/api/src/base/Decorate.ts:159](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Decorate.ts#L159)*
+*Defined in [packages/api/src/base/Decorate.ts:159](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Decorate.ts#L159)*
 
 **`description`** Creates an instance of a type as registered
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **K**: *keyof InterfaceTypes*
+Name | Type |
+------ | ------ |
+`K` | keyof InterfaceTypes |
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `type` | K |
 `...params` | unknown[] |
 
-**Returns:** *InterfaceTypes[K]*
+**Returns:** InterfaceTypes[K]
 
 ___
 
-###  disconnect
+### disconnect
 
-▸ **disconnect**(): *Promise‹void›*
+▸ **disconnect**(): Promise\<void>
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[disconnect](_packages_api_src_promise_api_.apipromise.md#disconnect)*
 
-*Defined in [packages/api/src/base/index.ts:258](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L258)*
+*Defined in [packages/api/src/base/index.ts:258](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L258)*
 
 **`description`** Disconnect from the underlying provider, halting all network traffic
 
-**Returns:** *Promise‹void›*
+**Returns:** Promise\<void>
 
 ___
 
-###  findCall
+### findCall
 
-▸ **findCall**(`callIndex`: Uint8Array | string): *CallFunction*
+▸ **findCall**(`callIndex`: Uint8Array \| string): CallFunction
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[findCall](_packages_api_src_promise_api_.apipromise.md#findcall)*
 
-*Defined in [packages/api/src/base/index.ts:265](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L265)*
+*Defined in [packages/api/src/base/index.ts:265](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L265)*
 
 **`description`** Finds the definition for a specific [[CallFunction]] based on the index supplied
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`callIndex` | Uint8Array &#124; string |
+`callIndex` | Uint8Array \| string |
 
-**Returns:** *CallFunction*
+**Returns:** CallFunction
 
 ___
 
-###  findError
+### findError
 
-▸ **findError**(`errorIndex`: Uint8Array | string): *RegistryError*
+▸ **findError**(`errorIndex`: Uint8Array \| string): RegistryError
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[findError](_packages_api_src_promise_api_.apipromise.md#finderror)*
 
-*Defined in [packages/api/src/base/index.ts:272](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L272)*
+*Defined in [packages/api/src/base/index.ts:272](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L272)*
 
 **`description`** Finds the definition for a specific [[RegistryError]] based on the index supplied
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`errorIndex` | Uint8Array &#124; string |
+`errorIndex` | Uint8Array \| string |
 
-**Returns:** *RegistryError*
+**Returns:** RegistryError
 
 ___
 
-###  getBlockRegistry
+### getBlockRegistry
 
-▸ **getBlockRegistry**(`blockHash`: string | Uint8Array): *Promise‹VersionedRegistry›*
+▸ **getBlockRegistry**(`blockHash`: string \| Uint8Array): Promise\<VersionedRegistry>
 
 *Inherited from [Init](_packages_api_src_base_init_.init.md).[getBlockRegistry](_packages_api_src_base_init_.init.md#getblockregistry)*
 
-*Defined in [packages/api/src/base/Init.ts:90](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Init.ts#L90)*
+*Defined in [packages/api/src/base/Init.ts:90](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Init.ts#L90)*
 
 **`description`** Sets up a registry based on the block hash defined
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`blockHash` | string &#124; Uint8Array |
+`blockHash` | string \| Uint8Array |
 
-**Returns:** *Promise‹VersionedRegistry›*
+**Returns:** Promise\<VersionedRegistry>
 
 ___
 
-###  injectMetadata
+### injectMetadata
 
-▸ **injectMetadata**(`metadata`: Metadata, `fromEmpty?`: undefined | false | true, `registry?`: Registry): *void*
+▸ **injectMetadata**(`metadata`: Metadata, `fromEmpty?`: undefined \| false \| true, `registry?`: Registry): void
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[injectMetadata](_packages_api_src_base_decorate_.decorate.md#injectmetadata)*
 
-*Defined in [packages/api/src/base/Decorate.ts:177](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Decorate.ts#L177)*
+*Defined in [packages/api/src/base/Decorate.ts:177](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Decorate.ts#L177)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `metadata` | Metadata |
-`fromEmpty?` | undefined &#124; false &#124; true |
+`fromEmpty?` | undefined \| false \| true |
 `registry?` | Registry |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  off
+### off
 
-▸ **off**(`type`: ApiInterfaceEvents, `handler`: function): *this*
+▸ **off**(`type`: ApiInterfaceEvents, `handler`: (...args: any[]) => any): this
 
 *Inherited from [Events](_packages_api_src_base_events_.events.md).[off](_packages_api_src_base_events_.events.md#off)*
 
-*Defined in [packages/api/src/base/Events.ts:61](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Events.ts#L61)*
+*Defined in [packages/api/src/base/Events.ts:61](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Events.ts#L61)*
 
 **`description`** Remove the given eventemitter handler
 
@@ -682,35 +686,24 @@ api.on('connected', handler);
 api.off('connected', handler);
 ```
 
-**Parameters:**
+#### Parameters:
 
-▪ **type**: *ApiInterfaceEvents*
+Name | Type | Description |
+------ | ------ | ------ |
+`type` | ApiInterfaceEvents | The type of event the callback was attached to. Available events are `connected`, `disconnected`, `ready` and `error` |
+`handler` | (...args: any[]) => any | The callback to unregister.  |
 
-The type of event the callback was attached to. Available events are `connected`, `disconnected`, `ready` and `error`
-
-▪ **handler**: *function*
-
-The callback to unregister.
-
-▸ (...`args`: any[]): *any*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | any[] |
-
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  on
+### on
 
-▸ **on**(`type`: ApiInterfaceEvents, `handler`: function): *this*
+▸ **on**(`type`: ApiInterfaceEvents, `handler`: (...args: any[]) => any): this
 
 *Inherited from [Events](_packages_api_src_base_events_.events.md).[on](_packages_api_src_base_events_.events.md#on)*
 
-*Defined in [packages/api/src/base/Events.ts:34](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Events.ts#L34)*
+*Defined in [packages/api/src/base/Events.ts:34](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Events.ts#L34)*
 
 **`description`** Attach an eventemitter handler to listen to a specific event
 
@@ -727,35 +720,24 @@ api.on('disconnected', (): void => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
-▪ **type**: *ApiInterfaceEvents*
+Name | Type | Description |
+------ | ------ | ------ |
+`type` | ApiInterfaceEvents | The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error` |
+`handler` | (...args: any[]) => any | The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.  |
 
-The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-
-▪ **handler**: *function*
-
-The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-
-▸ (...`args`: any[]): *any*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | any[] |
-
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  once
+### once
 
-▸ **once**(`type`: ApiInterfaceEvents, `handler`: function): *this*
+▸ **once**(`type`: ApiInterfaceEvents, `handler`: (...args: any[]) => any): this
 
 *Inherited from [Events](_packages_api_src_base_events_.events.md).[once](_packages_api_src_base_events_.events.md#once)*
 
-*Defined in [packages/api/src/base/Events.ts:86](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Events.ts#L86)*
+*Defined in [packages/api/src/base/Events.ts:86](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Events.ts#L86)*
 
 **`description`** Attach an one-time eventemitter handler to listen to a specific event
 
@@ -772,99 +754,84 @@ api.once('disconnected', (): void => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
-▪ **type**: *ApiInterfaceEvents*
+Name | Type | Description |
+------ | ------ | ------ |
+`type` | ApiInterfaceEvents | The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error` |
+`handler` | (...args: any[]) => any | The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.  |
 
-The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-
-▪ **handler**: *function*
-
-The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-
-▸ (...`args`: any[]): *any*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | any[] |
-
-**Returns:** *this*
+**Returns:** this
 
 ___
 
-###  registerTypes
+### registerTypes
 
-▸ **registerTypes**(`types?`: RegistryTypes): *void*
+▸ **registerTypes**(`types?`: RegistryTypes): void
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[registerTypes](_packages_api_src_base_decorate_.decorate.md#registertypes)*
 
-*Defined in [packages/api/src/base/Decorate.ts:166](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/Decorate.ts#L166)*
+*Defined in [packages/api/src/base/Decorate.ts:166](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/Decorate.ts#L166)*
 
 **`description`** Register additional user-defined of chain-specific types in the type registry
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `types?` | RegistryTypes |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  setSigner
+### setSigner
 
-▸ **setSigner**(`signer`: Signer): *void*
+▸ **setSigner**(`signer`: Signer): void
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[setSigner](_packages_api_src_promise_api_.apipromise.md#setsigner)*
 
-*Defined in [packages/api/src/base/index.ts:279](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L279)*
+*Defined in [packages/api/src/base/index.ts:279](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L279)*
 
 **`description`** Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `signer` | Signer |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  sign
+### sign
 
-▸ **sign**(`address`: KeyringSigner | string, `data`: SignerPayloadRawBase, `__namedParameters`: object): *Promise‹string›*
+▸ **sign**(`address`: KeyringSigner \| string, `data`: SignerPayloadRawBase, `__namedParameters`: { signer: undefined \| Signer  }): Promise\<string>
 
 *Inherited from [ApiPromise](_packages_api_src_promise_api_.apipromise.md).[sign](_packages_api_src_promise_api_.apipromise.md#sign)*
 
-*Defined in [packages/api/src/base/index.ts:286](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/base/index.ts#L286)*
+*Defined in [packages/api/src/base/index.ts:286](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/base/index.ts#L286)*
 
 **`description`** Signs a raw signer payload, string or Uint8Array
 
-**Parameters:**
+#### Parameters:
 
-▪ **address**: *KeyringSigner | string*
+Name | Type | Default value |
+------ | ------ | ------ |
+`address` | KeyringSigner \| string | - |
+`data` | SignerPayloadRawBase | - |
+`__namedParameters` | { signer: undefined \| Signer  } | {} |
 
-▪ **data**: *SignerPayloadRawBase*
-
-▪`Default value`  **__namedParameters**: *object*= {}
-
-Name | Type |
------- | ------ |
-`signer` | undefined &#124; Signer |
-
-**Returns:** *Promise‹string›*
+**Returns:** Promise\<string>
 
 ___
 
-### `Static` create
+### create
 
-▸ **create**(`options?`: ApiOptions): *Observable‹[ApiRx](_packages_api_src_rx_api_.apirx.md)›*
+▸ `Static`**create**(`options?`: ApiOptions): Observable\<[ApiRx](_packages_api_src_rx_api_.apirx.md)>
 
-*Defined in [packages/api/src/rx/Api.ts:138](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/rx/Api.ts#L138)*
+*Defined in [packages/api/src/rx/Api.ts:138](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/rx/Api.ts#L138)*
 
 **`description`** Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
 
@@ -885,10 +852,10 @@ Api.create()
   });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `options?` | ApiOptions | options that is passed to the class constructor. Can be either [[ApiOptions]] or [[WsProvider]] |
 
-**Returns:** *Observable‹[ApiRx](_packages_api_src_rx_api_.apirx.md)›*
+**Returns:** Observable\<[ApiRx](_packages_api_src_rx_api_.apirx.md)>

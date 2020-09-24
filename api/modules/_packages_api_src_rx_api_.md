@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/rx/Api"](_packages_api_src_rx_api_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/rx/Api"
 
 # Module: "packages/api/src/rx/Api"
 
@@ -14,20 +16,22 @@
 
 ## Functions
 
-###  decorateMethod
+### decorateMethod
 
-▸ **decorateMethod**‹**Method**›(`method`: Method): *Method*
+▸ **decorateMethod**\<Method>(`method`: Method): Method
 
-*Defined in [packages/api/src/rx/Api.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/rx/Api.ts#L11)*
+*Defined in [packages/api/src/rx/Api.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/rx/Api.ts#L11)*
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **Method**: *[DecorateFn](_packages_api_src_types_base_.md#decoratefn)‹Codec›*
+Name | Type |
+------ | ------ |
+`Method` | [DecorateFn](_packages_api_src_types_base_.md#decoratefn)\<Codec> |
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `method` | Method |
 
-**Returns:** *Method*
+**Returns:** Method

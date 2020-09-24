@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/generic/AccountIndex"](_packages_types_src_generic_accountindex_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/generic/AccountIndex"
 
 # Module: "packages/types/src/generic/AccountIndex"
 
@@ -10,12 +12,12 @@
 
 ### Variables
 
-* [ENUMSET_SIZE](_packages_types_src_generic_accountindex_.md#const-enumset_size)
+* [ENUMSET\_SIZE](_packages_types_src_generic_accountindex_.md#enumset_size)
 
 ## Variables
 
-### `Const` ENUMSET_SIZE
+### ENUMSET\_SIZE
 
-• **ENUMSET_SIZE**: *BN‹›* = new BN(64)
+• `Const` **ENUMSET\_SIZE**: BN = new BN(64)
 
-*Defined in [packages/types/src/generic/AccountIndex.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/generic/AccountIndex.ts#L12)*
+*Defined in [packages/types/src/generic/AccountIndex.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/generic/AccountIndex.ts#L12)*

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/extrinsic"](../modules/_packages_types_src_types_extrinsic_.md) › [ISignerPayload](_packages_types_src_types_extrinsic_.isignerpayload.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/extrinsic"](../modules/_packages_types_src_types_extrinsic_.md) / ISignerPayload
 
 # Interface: ISignerPayload
 
@@ -19,20 +21,20 @@
 
 ## Methods
 
-###  toPayload
+### toPayload
 
-▸ **toPayload**(): *[SignerPayloadJSON](_packages_types_src_types_extrinsic_.signerpayloadjson.md)*
+▸ **toPayload**(): [SignerPayloadJSON](_packages_types_src_types_extrinsic_.signerpayloadjson.md)
 
-*Defined in [packages/types/src/types/extrinsic.ts:113](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/extrinsic.ts#L113)*
+*Defined in [packages/types/src/types/extrinsic.ts:113](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/extrinsic.ts#L113)*
 
-**Returns:** *[SignerPayloadJSON](_packages_types_src_types_extrinsic_.signerpayloadjson.md)*
+**Returns:** [SignerPayloadJSON](_packages_types_src_types_extrinsic_.signerpayloadjson.md)
 
 ___
 
-###  toRaw
+### toRaw
 
-▸ **toRaw**(): *[SignerPayloadRaw](_packages_types_src_types_extrinsic_.signerpayloadraw.md)*
+▸ **toRaw**(): [SignerPayloadRaw](_packages_types_src_types_extrinsic_.signerpayloadraw.md)
 
-*Defined in [packages/types/src/types/extrinsic.ts:114](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/extrinsic.ts#L114)*
+*Defined in [packages/types/src/types/extrinsic.ts:114](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/extrinsic.ts#L114)*
 
-**Returns:** *[SignerPayloadRaw](_packages_types_src_types_extrinsic_.signerpayloadraw.md)*
+**Returns:** [SignerPayloadRaw](_packages_types_src_types_extrinsic_.signerpayloadraw.md)

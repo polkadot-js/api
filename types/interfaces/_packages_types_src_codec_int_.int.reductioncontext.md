@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/codec/Int"](../modules/_packages_types_src_codec_int_.md) › [Int](../classes/_packages_types_src_codec_int_.int.md) › [ReductionContext](_packages_types_src_codec_int_.int.reductioncontext.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/Int"](../modules/_packages_types_src_codec_int_.md) / [Int](../classes/_packages_types_src_codec_int_.int.md) / ReductionContext
 
 # Interface: ReductionContext
 
@@ -8,7 +10,7 @@
 
 ## Indexable
 
-* \[ **key**: *string*\]: any
+▪ [key: string]: any
 
 ## Index
 
@@ -19,16 +21,16 @@
 
 ## Properties
 
-###  m
+### m
 
-• **m**: *number*
+•  **m**: number
 
-Defined in node_modules/@types/bn.js/index.d.ts:22
+*Defined in node_modules/@types/bn.js/index.d.ts:22*
 
 ___
 
-###  prime
+### prime
 
-• **prime**: *MPrime*
+•  **prime**: MPrime
 
-Defined in node_modules/@types/bn.js/index.d.ts:23
+*Defined in node_modules/@types/bn.js/index.d.ts:23*

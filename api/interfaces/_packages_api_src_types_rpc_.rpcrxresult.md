@@ -1,46 +1,50 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/rpc"](../modules/_packages_api_src_types_rpc_.md) › [RpcRxResult](_packages_api_src_types_rpc_.rpcrxresult.md)
+**Polkadot JS API**
 
-# Interface: RpcRxResult ‹**F**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/rpc"](../modules/_packages_api_src_types_rpc_.md) / RpcRxResult
+
+# Interface: RpcRxResult\<**F**>
 
 ## Type parameters
 
-▪ **F**: *AnyFunction*
+* F
 
 ## Hierarchy
 
-* [RxResult](_packages_api_src_types_base_.rxresult.md)‹F›
+* [RxResult](_packages_api_src_types_base_.rxresult.md)\<F>
 
   ↳ **RpcRxResult**
 
 ## Callable
 
-▸ (...`args`: Parameters‹F›): *Observable‹[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)‹ReturnType‹F›››*
+▸ (...`args`: Parameters\<F>): Observable\<[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)\<ReturnType\<F>>>
 
-*Defined in [packages/api/src/types/base.ts:51](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L51)*
+*Defined in [packages/api/src/types/base.ts:51](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L51)*
 
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`...args` | Parameters‹F› |
-
-**Returns:** *Observable‹[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)‹ReturnType‹F›››*
-
-▸ ‹**T**›(...`args`: Parameters‹F›): *Observable‹T›*
-
-*Defined in [packages/api/src/types/base.ts:52](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L52)*
-
-**Type parameters:**
-
-▪ **T**
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`...args` | Parameters‹F› |
+`...args` | Parameters\<F> |
 
-**Returns:** *Observable‹T›*
+**Returns:** Observable\<[ObsInnerType](../modules/_packages_api_src_types_base_.md#obsinnertype)\<ReturnType\<F>>>
+
+▸ \<T>(...`args`: Parameters\<F>): Observable\<T>
+
+*Defined in [packages/api/src/types/base.ts:52](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L52)*
+
+#### Type parameters:
+
+Name |
+------ |
+`T` |
+
+#### Parameters:
+
+Name | Type |
+------ | ------ |
+`...args` | Parameters\<F> |
+
+**Returns:** Observable\<T>
 
 ## Index
 
@@ -50,16 +54,16 @@ Name | Type |
 
 ## Methods
 
-###  raw
+### raw
 
-▸ **raw**(...`args`: Parameters‹F›): *Observable‹Uint8Array & Codec›*
+▸ **raw**(...`args`: Parameters\<F>): Observable\<Uint8Array & Codec>
 
-*Defined in [packages/api/src/types/rpc.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/rpc.ts#L13)*
+*Defined in [packages/api/src/types/rpc.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/rpc.ts#L13)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`...args` | Parameters‹F› |
+`...args` | Parameters\<F> |
 
-**Returns:** *Observable‹Uint8Array & Codec›*
+**Returns:** Observable\<Uint8Array & Codec>

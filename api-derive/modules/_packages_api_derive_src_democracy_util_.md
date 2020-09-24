@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/democracy/util"](_packages_api_derive_src_democracy_util_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/util"
 
 # Module: "packages/api-derive/src/democracy/util"
 
@@ -14,37 +16,31 @@
 
 ## Functions
 
-###  calcPassing
+### calcPassing
 
-▸ **calcPassing**(`threshold`: VoteThreshold, `sqrtElectorate`: BN, `__namedParameters`: object): *boolean*
+▸ **calcPassing**(`threshold`: VoteThreshold, `sqrtElectorate`: BN, `__namedParameters`: { votedAye: BN ; votedNay: BN ; votedTotal: BN  }): boolean
 
-*Defined in [packages/api-derive/src/democracy/util.ts:61](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/util.ts#L61)*
+*Defined in [packages/api-derive/src/democracy/util.ts:61](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/util.ts#L61)*
 
-**Parameters:**
-
-▪ **threshold**: *VoteThreshold*
-
-▪ **sqrtElectorate**: *BN*
-
-▪ **__namedParameters**: *object*
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`votedAye` | BN‹› |
-`votedNay` | BN‹› |
-`votedTotal` | BN‹› |
+`threshold` | VoteThreshold |
+`sqrtElectorate` | BN |
+`__namedParameters` | { votedAye: BN ; votedNay: BN ; votedTotal: BN  } |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  calcVotes
+### calcVotes
 
-▸ **calcVotes**(`sqrtElectorate`: BN, `referendum`: DeriveReferendum, `votes`: DeriveReferendumVote[]): *DeriveReferendumVotes*
+▸ **calcVotes**(`sqrtElectorate`: BN, `referendum`: DeriveReferendum, `votes`: DeriveReferendumVote[]): DeriveReferendumVotes
 
-*Defined in [packages/api-derive/src/democracy/util.ts:131](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/util.ts#L131)*
+*Defined in [packages/api-derive/src/democracy/util.ts:131](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/util.ts#L131)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
@@ -52,17 +48,17 @@ Name | Type |
 `referendum` | DeriveReferendum |
 `votes` | DeriveReferendumVote[] |
 
-**Returns:** *DeriveReferendumVotes*
+**Returns:** DeriveReferendumVotes
 
 ___
 
-###  compareRationals
+### compareRationals
 
-▸ **compareRationals**(`n1`: BN, `d1`: BN, `n2`: BN, `d2`: BN): *boolean*
+▸ **compareRationals**(`n1`: BN, `d1`: BN, `n2`: BN, `d2`: BN): boolean
 
-*Defined in [packages/api-derive/src/democracy/util.ts:34](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/util.ts#L34)*
+*Defined in [packages/api-derive/src/democracy/util.ts:34](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/util.ts#L34)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
@@ -71,37 +67,37 @@ Name | Type |
 `n2` | BN |
 `d2` | BN |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  getStatus
+### getStatus
 
-▸ **getStatus**(`info`: Option‹ReferendumInfo | ReferendumInfoTo239›): *ReferendumStatus | ReferendumInfoTo239 | null*
+▸ **getStatus**(`info`: Option\<ReferendumInfo \| ReferendumInfoTo239>): ReferendumStatus \| ReferendumInfoTo239 \| null
 
-*Defined in [packages/api-derive/src/democracy/util.ts:143](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/util.ts#L143)*
+*Defined in [packages/api-derive/src/democracy/util.ts:143](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/util.ts#L143)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`info` | Option‹ReferendumInfo &#124; ReferendumInfoTo239› |
+`info` | Option\<ReferendumInfo \| ReferendumInfoTo239> |
 
-**Returns:** *ReferendumStatus | ReferendumInfoTo239 | null*
+**Returns:** ReferendumStatus \| ReferendumInfoTo239 \| null
 
 ___
 
-###  parseImage
+### parseImage
 
-▸ **parseImage**(`api`: ApiInterfaceRx, `imageOpt`: Option‹OldPreimage› | Option‹PreimageStatus›): *DeriveProposalImage | undefined*
+▸ **parseImage**(`api`: ApiInterfaceRx, `imageOpt`: Option\<OldPreimage> \| Option\<PreimageStatus>): DeriveProposalImage \| undefined
 
-*Defined in [packages/api-derive/src/democracy/util.ts:172](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/util.ts#L172)*
+*Defined in [packages/api-derive/src/democracy/util.ts:172](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/util.ts#L172)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `api` | ApiInterfaceRx |
-`imageOpt` | Option‹OldPreimage› &#124; Option‹PreimageStatus› |
+`imageOpt` | Option\<OldPreimage> \| Option\<PreimageStatus> |
 
-**Returns:** *DeriveProposalImage | undefined*
+**Returns:** DeriveProposalImage \| undefined

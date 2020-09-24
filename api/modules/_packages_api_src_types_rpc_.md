@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/rpc"](_packages_api_src_types_rpc_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/types/rpc"
 
 # Module: "packages/api/src/types/rpc"
 
@@ -17,28 +19,45 @@
 
 ## Type aliases
 
-###  DecoratedRpc
+### DecoratedRpc
 
-Ƭ **DecoratedRpc**: *object*
+Ƭ  **DecoratedRpc**\<ApiType, AllSections>: {}
 
-*Defined in [packages/api/src/types/rpc.ts:32](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/rpc.ts#L32)*
+*Defined in [packages/api/src/types/rpc.ts:32](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/rpc.ts#L32)*
 
-#### Type declaration:
+#### Type parameters:
 
-___
-
-###  DecoratedRpcSection
-
-Ƭ **DecoratedRpcSection**: *object*
-
-*Defined in [packages/api/src/types/rpc.ts:26](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/rpc.ts#L26)*
-
-#### Type declaration:
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+`AllSections` | - |
 
 ___
 
-###  RpcMethodResult
+### DecoratedRpcSection
 
-Ƭ **RpcMethodResult**: *ApiType extends "rxjs" ? RpcRxResult‹F› : RpcPromiseResult‹F›*
+Ƭ  **DecoratedRpcSection**\<ApiType, Section>: {}
 
-*Defined in [packages/api/src/types/rpc.ts:22](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/rpc.ts#L22)*
+*Defined in [packages/api/src/types/rpc.ts:26](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/rpc.ts#L26)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+`Section` | - |
+
+___
+
+### RpcMethodResult
+
+Ƭ  **RpcMethodResult**\<ApiType, F>: ApiType *extends* \"rxjs\" ? RpcRxResult\<F> : RpcPromiseResult\<F>
+
+*Defined in [packages/api/src/types/rpc.ts:22](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/rpc.ts#L22)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+`F` | AnyFunction |

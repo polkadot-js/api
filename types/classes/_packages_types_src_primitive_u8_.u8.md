@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/primitive/U8"](../modules/_packages_types_src_primitive_u8_.md) › [U8](_packages_types_src_primitive_u8_.u8.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/primitive/U8"](../modules/_packages_types_src_primitive_u8_.md) / U8
 
 # Class: U8
 
@@ -9,7 +11,7 @@ An 8-bit unsigned integer
 
 ## Hierarchy
 
-  ↳ [UInt](_packages_types_src_codec_uint_.uint.md)
+* [UInt](_packages_types_src_codec_uint_.uint.md)
 
   ↳ **U8**
 
@@ -26,8 +28,8 @@ An 8-bit unsigned integer
 
 ### Type aliases
 
-* [Endianness](_packages_types_src_primitive_u8_.u8.md#static-endianness)
-* [IPrimeName](_packages_types_src_primitive_u8_.u8.md#static-iprimename)
+* [Endianness](_packages_types_src_primitive_u8_.u8.md#endianness)
+* [IPrimeName](_packages_types_src_primitive_u8_.u8.md#iprimename)
 
 ### Constructors
 
@@ -35,62 +37,62 @@ An 8-bit unsigned integer
 
 ### Methods
 
-* [with](_packages_types_src_primitive_u8_.u8.md#static-with)
+* [with](_packages_types_src_primitive_u8_.u8.md#with)
 
 ## Type aliases
 
-### `Static` Endianness
+### Endianness
 
-Ƭ **Endianness**: *"le" | "be"*
+Ƭ `Static` **Endianness**: \"le\" \| \"be\"
 
-Defined in node_modules/@types/bn.js/index.d.ts:11
+*Defined in node_modules/@types/bn.js/index.d.ts:11*
 
 ___
 
-### `Static` IPrimeName
+### IPrimeName
 
-Ƭ **IPrimeName**: *"k256" | "p224" | "p192" | "p25519"*
+Ƭ `Static` **IPrimeName**: \"k256\" \| \"p224\" \| \"p192\" \| \"p25519\"
 
-Defined in node_modules/@types/bn.js/index.d.ts:12
+*Defined in node_modules/@types/bn.js/index.d.ts:12*
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new U8**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: [AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber), `bitLength`: [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength), `isHexJson`: boolean): *[U8](_packages_types_src_primitive_u8_.u8.md)*
+\+ **new U8**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `value`: [AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber), `bitLength`: [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength), `isHexJson`: boolean): [U8](_packages_types_src_primitive_u8_.u8.md)
 
 *Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[constructor](_packages_types_src_codec_uint_.uint.md#constructor)*
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/UInt.ts#L18)*
+*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/UInt.ts#L18)*
 
-**Parameters:**
+#### Parameters:
 
-Name | Type | Default |
+Name | Type | Default value |
 ------ | ------ | ------ |
 `registry` | [Registry](../interfaces/_packages_types_src_types_registry_.registry.md) | - |
 `value` | [AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber) | 0 |
 `bitLength` | [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength) | DEFAULT_UINT_BITS |
 `isHexJson` | boolean | false |
 
-**Returns:** *[U8](_packages_types_src_primitive_u8_.u8.md)*
+**Returns:** [U8](_packages_types_src_primitive_u8_.u8.md)
 
 ## Methods
 
-### `Static` with
+### with
 
-▸ **with**(`bitLength`: [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength), `typeName?`: undefined | string): *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹[UInt](_packages_types_src_codec_uint_.uint.md)›*
+▸ `Static`**with**(`bitLength`: [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength), `typeName?`: undefined \| string): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<[UInt](_packages_types_src_codec_uint_.uint.md)>
 
-*Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[with](_packages_types_src_codec_uint_.uint.md#static-with)*
+*Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[with](_packages_types_src_codec_uint_.uint.md#with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/UInt.ts#L23)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `bitLength` | [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength) |
-`typeName?` | undefined &#124; string |
+`typeName?` | undefined \| string |
 
-**Returns:** *[Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)‹[UInt](_packages_types_src_codec_uint_.uint.md)›*
+**Returns:** [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<[UInt](_packages_types_src_codec_uint_.uint.md)>

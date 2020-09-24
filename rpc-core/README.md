@@ -1,6 +1,6 @@
-[Polkadot JS API](README.md) › [Globals](globals.md)
+**Polkadot JS API**
 
-# Polkadot JS API
+> README / [Globals](globals.md)
 
 # @polkadot/rpc-core
 

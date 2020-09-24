@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/generic/Call"](_packages_types_src_generic_call_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/generic/Call"
 
 # Module: "packages/types/src/generic/Call"
 

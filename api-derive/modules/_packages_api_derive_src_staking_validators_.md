@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/validators"](_packages_api_derive_src_staking_validators_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/validators"
 
 # Module: "packages/api-derive/src/staking/validators"
 
@@ -11,40 +13,36 @@
 
 ## Functions
 
-###  nextElected
+### nextElected
 
-▸ **nextElected**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **nextElected**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/validators.ts:13](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/validators.ts#L13)*
+*Defined in [packages/api-derive/src/staking/validators.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/validators.ts#L13)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹AccountId[]›*
+**Returns:** function
 
 ___
 
-###  validators
+### validators
 
-▸ **validators**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **validators**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/validators.ts:29](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/validators.ts#L29)*
+*Defined in [packages/api-derive/src/staking/validators.ts:29](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/validators.ts#L29)*
 
 **`description`** Retrieve latest list of validators
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (): *Observable‹DeriveStakingValidators›*
+**Returns:** function

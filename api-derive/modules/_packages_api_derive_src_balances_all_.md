@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/balances/all"](_packages_api_derive_src_balances_all_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/balances/all"
 
 # Module: "packages/api-derive/src/balances/all"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  all
+### all
 
-▸ **all**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **all**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/balances/all.ts:130](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/balances/all.ts#L130)*
+*Defined in [packages/api-derive/src/balances/all.ts:130](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/balances/all.ts#L130)*
 
 **`name`** all
 
@@ -29,21 +31,11 @@ api.derive.balances.all(ALICE, ({ accountId, lockedBalance }) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-An object containing the results of various balance queries
-
-▸ (`address`: AccountIndex | AccountId | Address | string): *Observable‹DeriveBalancesAll›*
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`address` | AccountIndex &#124; AccountId &#124; Address &#124; string | An accounts Id in different formats. |
+**Returns:** function

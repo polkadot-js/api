@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/interfaces"](_packages_types_src_types_interfaces_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/types/interfaces"
 
 # Module: "packages/types/src/types/interfaces"
 
@@ -18,8 +20,14 @@
 
 ## Type aliases
 
-###  ITuple
+### ITuple
 
-Ƭ **ITuple**: *Sub & [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)*
+Ƭ  **ITuple**\<Sub>: Sub & [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)
 
-*Defined in [packages/types/src/types/interfaces.ts:49](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/interfaces.ts#L49)*
+*Defined in [packages/types/src/types/interfaces.ts:49](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/interfaces.ts#L49)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`Sub` | [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)[] |

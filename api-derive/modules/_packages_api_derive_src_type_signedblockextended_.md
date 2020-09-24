@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/type/SignedBlockExtended"](_packages_api_derive_src_type_signedblockextended_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/type/SignedBlockExtended"
 
 # Module: "packages/api-derive/src/type/SignedBlockExtended"
 

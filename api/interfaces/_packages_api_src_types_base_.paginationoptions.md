@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) › [PaginationOptions](_packages_api_src_types_base_.paginationoptions.md)
+**Polkadot JS API**
 
-# Interface: PaginationOptions ‹**ArgType**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) / PaginationOptions
+
+# Interface: PaginationOptions\<**ArgType**>
 
 ## Type parameters
 
-▪ **ArgType**
+* ArgType
 
 ## Hierarchy
 
@@ -14,30 +16,30 @@
 
 ### Properties
 
-* [arg](_packages_api_src_types_base_.paginationoptions.md#optional-arg)
+* [arg](_packages_api_src_types_base_.paginationoptions.md#arg)
 * [pageSize](_packages_api_src_types_base_.paginationoptions.md#pagesize)
-* [startKey](_packages_api_src_types_base_.paginationoptions.md#optional-startkey)
+* [startKey](_packages_api_src_types_base_.paginationoptions.md#startkey)
 
 ## Properties
 
-### `Optional` arg
+### arg
 
-• **arg**? : *ArgType*
+• `Optional` **arg**: ArgType
 
-*Defined in [packages/api/src/types/base.ts:79](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L79)*
-
-___
-
-###  pageSize
-
-• **pageSize**: *number*
-
-*Defined in [packages/api/src/types/base.ts:80](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L80)*
+*Defined in [packages/api/src/types/base.ts:79](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L79)*
 
 ___
 
-### `Optional` startKey
+### pageSize
 
-• **startKey**? : *undefined | string*
+•  **pageSize**: number
 
-*Defined in [packages/api/src/types/base.ts:81](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/base.ts#L81)*
+*Defined in [packages/api/src/types/base.ts:80](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L80)*
+
+___
+
+### startKey
+
+• `Optional` **startKey**: undefined \| string
+
+*Defined in [packages/api/src/types/base.ts:81](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/base.ts#L81)*

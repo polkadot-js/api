@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/accounts/flags"](_packages_api_derive_src_accounts_flags_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/accounts/flags"
 
 # Module: "packages/api-derive/src/accounts/flags"
 
@@ -10,29 +12,21 @@
 
 ## Functions
 
-###  flags
+### flags
 
-▸ **flags**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **flags**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/flags.ts:33](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/accounts/flags.ts#L33)*
+*Defined in [packages/api-derive/src/accounts/flags.ts:33](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/accounts/flags.ts#L33)*
 
 **`name`** info
 
 **`description`** Returns account membership flags
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`address?`: AccountId | Address | string | null): *Observable‹DeriveAccountFlags›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`address?` | AccountId &#124; Address &#124; string &#124; null |
+**Returns:** function

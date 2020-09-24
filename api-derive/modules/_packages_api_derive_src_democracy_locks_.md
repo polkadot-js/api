@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/democracy/locks"](_packages_api_derive_src_democracy_locks_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/locks"
 
 # Module: "packages/api-derive/src/democracy/locks"
 
@@ -10,25 +12,17 @@
 
 ## Functions
 
-###  locks
+### locks
 
-▸ **locks**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **locks**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/locks.ts:76](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/democracy/locks.ts#L76)*
+*Defined in [packages/api-derive/src/democracy/locks.ts:76](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/locks.ts#L76)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: string | AccountId): *Observable‹DeriveDemocracyLock[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | string &#124; AccountId |
+**Returns:** function

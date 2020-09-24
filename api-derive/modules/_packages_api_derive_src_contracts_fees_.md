@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/contracts/fees"](_packages_api_derive_src_contracts_fees_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/contracts/fees"
 
 # Module: "packages/api-derive/src/contracts/fees"
 
@@ -10,11 +12,11 @@
 
 ## Functions
 
-###  fees
+### fees
 
-▸ **fees**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **fees**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/contracts/fees.ts:47](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/contracts/fees.ts#L47)*
+*Defined in [packages/api-derive/src/contracts/fees.ts:47](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/contracts/fees.ts#L47)*
 
 **`name`** fees
 
@@ -27,16 +29,11 @@ api.derive.contracts.fees(([creationFee, transferFee]) => {
 });
 ```
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-An object containing the combined results of the queries for
-all relevant contract fees as declared in the substrate chain spec.
-
-▸ (): *Observable‹DeriveContractFees›*
+**Returns:** function

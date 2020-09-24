@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/metadata/src/Decorated/storage/fromMetadata/createFunction"](_packages_metadata_src_decorated_storage_frommetadata_createfunction_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/metadata/src/Decorated/storage/fromMetadata/createFunction"
 
 # Module: "packages/metadata/src/Decorated/storage/fromMetadata/createFunction"
 

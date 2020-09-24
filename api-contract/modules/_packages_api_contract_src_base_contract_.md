@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-contract/src/base/Contract"](_packages_api_contract_src_base_contract_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-contract/src/base/Contract"
 
 # Module: "packages/api-contract/src/base/Contract"
 
@@ -18,8 +20,14 @@
 
 ## Type aliases
 
-###  ContractCallResult
+### ContractCallResult
 
-Ƭ **ContractCallResult**: *CallType extends "rpc" ? Observable‹ContractCallOutcome› : Observable‹SubmittableResult›*
+Ƭ  **ContractCallResult**\<CallType>: CallType *extends* \"rpc\" ? Observable\<ContractCallOutcome> : Observable\<SubmittableResult>
 
-*Defined in [packages/api-contract/src/base/Contract.ts:29](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-contract/src/base/Contract.ts#L29)*
+*Defined in [packages/api-contract/src/base/Contract.ts:29](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-contract/src/base/Contract.ts#L29)*
+
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`CallType` | ContractCallTypes |

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/metadata/src/Metadata/MagicNumber"](../modules/_packages_metadata_src_metadata_magicnumber_.md) › [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/metadata/src/Metadata/MagicNumber"](../modules/_packages_metadata_src_metadata_magicnumber_.md) / MagicNumber
 
 # Class: MagicNumber
 
@@ -21,8 +23,8 @@
 
 ### Type aliases
 
-* [Endianness](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#static-endianness)
-* [IPrimeName](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#static-iprimename)
+* [Endianness](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#endianness)
+* [IPrimeName](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#iprimename)
 
 ### Constructors
 
@@ -30,7 +32,7 @@
 
 ### Properties
 
-* [registry](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#readonly-registry)
+* [registry](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#registry)
 
 ### Accessors
 
@@ -52,308 +54,308 @@
 * [toRawType](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#torawtype)
 * [toString](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tostring)
 * [toU8a](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tou8a)
-* [with](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#static-with)
+* [with](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#with)
 
 ## Type aliases
 
-### `Static` Endianness
+### Endianness
 
-Ƭ **Endianness**: *"le" | "be"*
+Ƭ `Static` **Endianness**: \"le\" \| \"be\"
 
-Defined in node_modules/@types/bn.js/index.d.ts:11
+*Defined in node_modules/@types/bn.js/index.d.ts:11*
 
 ___
 
-### `Static` IPrimeName
+### IPrimeName
 
-Ƭ **IPrimeName**: *"k256" | "p224" | "p192" | "p25519"*
+Ƭ `Static` **IPrimeName**: \"k256\" \| \"p224\" \| \"p192\" \| \"p25519\"
 
-Defined in node_modules/@types/bn.js/index.d.ts:12
+*Defined in node_modules/@types/bn.js/index.d.ts:12*
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new MagicNumber**(`registry`: Registry, `value?`: AnyNumber): *[MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md)*
+\+ **new MagicNumber**(`registry`: Registry, `value?`: AnyNumber): [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md)
 
 *Overrides void*
 
-*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/metadata/src/Metadata/MagicNumber.ts#L12)*
+*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/metadata/src/Metadata/MagicNumber.ts#L12)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | Registry |
 `value?` | AnyNumber |
 
-**Returns:** *[MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md)*
+**Returns:** [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md)
 
 ## Properties
 
-### `Readonly` registry
+### registry
 
-• **registry**: *Registry*
+• `Readonly` **registry**: Registry
 
-*Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[registry](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#readonly-registry)*
+*Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[registry](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#registry)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:62](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L62)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:62](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L62)*
 
 ## Accessors
 
-###  encodedLength
+### encodedLength
 
-• **get encodedLength**(): *number*
+• get **encodedLength**(): number
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[encodedLength](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#encodedlength)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:85](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L85)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:85](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L85)*
 
 **`description`** The length of the value when encoded as a Uint8Array
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  hash
+### hash
 
-• **get hash**(): *H256*
+• get **hash**(): H256
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[hash](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#hash)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:92](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L92)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:92](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L92)*
 
 **`description`** returns a hash of the contents
 
-**Returns:** *H256*
+**Returns:** H256
 
 ___
 
-###  isEmpty
+### isEmpty
 
-• **get isEmpty**(): *boolean*
+• get **isEmpty**(): boolean
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[isEmpty](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#isempty)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:99](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L99)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:99](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L99)*
 
 **`description`** Checks if the value is a zero value (align elsewhere)
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  isUnsigned
+### isUnsigned
 
-• **get isUnsigned**(): *boolean*
+• get **isUnsigned**(): boolean
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[isUnsigned](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#isunsigned)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:106](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L106)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:106](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L106)*
 
 **`description`** Checks if the value is an unsigned type
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ## Methods
 
-###  bitLength
+### bitLength
 
-▸ **bitLength**(): *number*
+▸ **bitLength**(): number
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[bitLength](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#bitlength)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:113](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L113)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:113](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L113)*
 
 **`description`** Returns the number of bits in the value
 
-**Returns:** *number*
+**Returns:** number
 
 ___
 
-###  eq
+### eq
 
-▸ **eq**(`other?`: unknown): *boolean*
+▸ **eq**(`other?`: unknown): boolean
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[eq](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#eq)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:121](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L121)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:121](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L121)*
 
 **`description`** Compares the value of the input to see if there is a match
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `other?` | unknown |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  isMax
+### isMax
 
-▸ **isMax**(): *boolean*
+▸ **isMax**(): boolean
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[isMax](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#ismax)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:134](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L134)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:134](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L134)*
 
 **`description`** True if this value is the max of the type
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  toBigInt
+### toBigInt
 
-▸ **toBigInt**(): *BigInt*
+▸ **toBigInt**(): BigInt
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toBigInt](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tobigint)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:143](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L143)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:143](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L143)*
 
 **`description`** Returns a BigInt representation of the number
 
-**Returns:** *BigInt*
+**Returns:** BigInt
 
 ___
 
-###  toBn
+### toBn
 
-▸ **toBn**(): *BN*
+▸ **toBn**(): BN
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toBn](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tobn)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:150](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L150)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:150](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L150)*
 
 **`description`** Returns the BN representation of the number. (Compatibility)
 
-**Returns:** *BN*
+**Returns:** BN
 
 ___
 
-###  toHex
+### toHex
 
-▸ **toHex**(`isLe`: boolean): *string*
+▸ **toHex**(`isLe`: boolean): string
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toHex](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tohex)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:157](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L157)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:157](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L157)*
 
 **`description`** Returns a hex string representation of the value
 
-**Parameters:**
+#### Parameters:
 
-Name | Type | Default |
+Name | Type | Default value |
 ------ | ------ | ------ |
 `isLe` | boolean | false |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toHuman
+### toHuman
 
-▸ **toHuman**(`isExpanded?`: undefined | false | true): *string*
+▸ **toHuman**(`isExpanded?`: undefined \| false \| true): string
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toHuman](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tohuman)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:170](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L170)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:170](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L170)*
 
 **`description`** Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
-`isExpanded?` | undefined &#124; false &#124; true |
+`isExpanded?` | undefined \| false \| true |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toJSON
+### toJSON
 
-▸ **toJSON**(): *any*
+▸ **toJSON**(): any
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toJSON](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tojson)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:186](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L186)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:186](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L186)*
 
 **`description`** Converts the Object to JSON, typically used for RPC transfers
 
-**Returns:** *any*
+**Returns:** any
 
 ___
 
-###  toRawType
+### toRawType
 
-▸ **toRawType**(): *string*
+▸ **toRawType**(): string
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toRawType](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#torawtype)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:198](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L198)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:198](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L198)*
 
 **`description`** Returns the base runtime type name for this instance
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toString
+### toString
 
-▸ **toString**(`base?`: undefined | number): *string*
+▸ **toString**(`base?`: undefined \| number): string
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toString](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tostring)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:211](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L211)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:211](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L211)*
 
 **`description`** Returns the string representation of the value
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`base?` | undefined &#124; number | The base to use for the conversion  |
+`base?` | undefined \| number | The base to use for the conversion  |
 
-**Returns:** *string*
+**Returns:** string
 
 ___
 
-###  toU8a
+### toU8a
 
-▸ **toU8a**(`isBare?`: undefined | false | true): *Uint8Array*
+▸ **toU8a**(`isBare?`: undefined \| false \| true): Uint8Array
 
 *Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[toU8a](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#tou8a)*
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:221](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/AbstractInt.ts#L221)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:221](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/AbstractInt.ts#L221)*
 
 **`description`** Encodes the value as a Uint8Array as per the SCALE specifications
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`isBare?` | undefined &#124; false &#124; true | true when the value has none of the type-specific prefixes (internal)  |
+`isBare?` | undefined \| false \| true | true when the value has none of the type-specific prefixes (internal)  |
 
-**Returns:** *Uint8Array*
+**Returns:** Uint8Array
 
 ___
 
-### `Static` with
+### with
 
-▸ **with**(`bitLength`: UIntBitLength, `typeName?`: undefined | string): *Constructor‹UInt›*
+▸ `Static`**with**(`bitLength`: UIntBitLength, `typeName?`: undefined \| string): Constructor\<UInt>
 
-*Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[with](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#static-with)*
+*Inherited from [MagicNumber](_packages_metadata_src_metadata_magicnumber_.magicnumber.md).[with](_packages_metadata_src_metadata_magicnumber_.magicnumber.md#with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/codec/UInt.ts#L23)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `bitLength` | UIntBitLength |
-`typeName?` | undefined &#124; string |
+`typeName?` | undefined \| string |
 
-**Returns:** *Constructor‹UInt›*
+**Returns:** Constructor\<UInt>

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/accounts/accountId"](_packages_api_derive_src_accounts_accountid_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/accounts/accountId"
 
 # Module: "packages/api-derive/src/accounts/accountId"
 
@@ -10,29 +12,21 @@
 
 ## Functions
 
-###  accountId
+### accountId
 
-▸ **accountId**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **accountId**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/accountId.ts:39](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/accounts/accountId.ts#L39)*
+*Defined in [packages/api-derive/src/accounts/accountId.ts:39](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/accounts/accountId.ts#L39)*
 
 **`name`** accountId
 
 **`description`** An [[AccountId]]
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`address?`: Address | AccountId | AccountIndex | string | null): *Observable‹AccountId›*
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`address?` | Address &#124; AccountId &#124; AccountIndex &#124; string &#124; null | An accounts address in various formats. |
+**Returns:** function

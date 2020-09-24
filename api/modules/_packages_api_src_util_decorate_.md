@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/util/decorate"](_packages_api_src_util_decorate_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/util/decorate"
 
 # Module: "packages/api/src/util/decorate"
 
@@ -14,35 +16,41 @@
 
 ## Type aliases
 
-###  DeriveAllSections
+### DeriveAllSections
 
-Ƭ **DeriveAllSections**: *object*
+Ƭ  **DeriveAllSections**\<ApiType, AllSections>: {}
 
-*Defined in [packages/api/src/util/decorate.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/util/decorate.ts#L12)*
+*Defined in [packages/api/src/util/decorate.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/util/decorate.ts#L12)*
 
-#### Type declaration:
+#### Type parameters:
+
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+`AllSections` | AnyDerive |
 
 ## Functions
 
-###  decorateSections
+### decorateSections
 
-▸ **decorateSections**‹**ApiType**, **AllSections**›(`allSections`: AllSections, `decorateMethod`: [DecorateMethod](_packages_api_src_types_base_.md#decoratemethod)‹ApiType›): *[DeriveAllSections](_packages_api_src_util_decorate_.md#deriveallsections)‹ApiType, AllSections›*
+▸ **decorateSections**\<ApiType, AllSections>(`allSections`: AllSections, `decorateMethod`: [DecorateMethod](_packages_api_src_types_base_.md#decoratemethod)\<ApiType>): [DeriveAllSections](_packages_api_src_util_decorate_.md#deriveallsections)\<ApiType, AllSections>
 
-*Defined in [packages/api/src/util/decorate.ts:43](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/util/decorate.ts#L43)*
+*Defined in [packages/api/src/util/decorate.ts:43](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/util/decorate.ts#L43)*
 
 This is a section decorator which keeps all type information.
 
-**Type parameters:**
+#### Type parameters:
 
-▪ **ApiType**: *[ApiTypes](_packages_api_src_types_base_.md#apitypes)*
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](_packages_api_src_types_base_.md#apitypes) |
+`AllSections` | AnyDerive |
 
-▪ **AllSections**: *AnyDerive*
-
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `allSections` | AllSections |
-`decorateMethod` | [DecorateMethod](_packages_api_src_types_base_.md#decoratemethod)‹ApiType› |
+`decorateMethod` | [DecorateMethod](_packages_api_src_types_base_.md#decoratemethod)\<ApiType> |
 
-**Returns:** *[DeriveAllSections](_packages_api_src_util_decorate_.md#deriveallsections)‹ApiType, AllSections›*
+**Returns:** [DeriveAllSections](_packages_api_src_util_decorate_.md#deriveallsections)\<ApiType, AllSections>

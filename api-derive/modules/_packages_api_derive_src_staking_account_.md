@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/staking/account"](_packages_api_derive_src_staking_account_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/account"
 
 # Module: "packages/api-derive/src/staking/account"
 
@@ -11,54 +13,38 @@
 
 ## Functions
 
-###  account
+### account
 
-▸ **account**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **account**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/account.ts:78](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/account.ts#L78)*
+*Defined in [packages/api-derive/src/staking/account.ts:78](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/account.ts#L78)*
 
 **`description`** From a stash, retrieve the controllerId and fill in all the relevant staking details
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountId`: Uint8Array | string): *Observable‹DeriveStakingAccount›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountId` | Uint8Array &#124; string |
+**Returns:** function
 
 ___
 
-###  accounts
+### accounts
 
-▸ **accounts**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
+▸ **accounts**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/account.ts:60](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/account.ts#L60)*
+*Defined in [packages/api-derive/src/staking/account.ts:60](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/account.ts#L60)*
 
 **`description`** From a list of stashes, fill in all the relevant staking details
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `instanceId` | string |
 `api` | ApiInterfaceRx |
 
-**Returns:** *function*
-
-▸ (`accountIds`: (Uint8Array | string)[]): *Observable‹DeriveStakingAccount[]›*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`accountIds` | (Uint8Array &#124; string)[] |
+**Returns:** function

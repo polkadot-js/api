@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) › [RegistryError](_packages_types_src_types_registry_.registryerror.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryError
 
 # Interface: RegistryError
 
@@ -17,32 +19,32 @@
 
 ## Properties
 
-###  documentation
+### documentation
 
-• **documentation**: *string[]*
+•  **documentation**: string[]
 
-*Defined in [packages/types/src/types/registry.ts:50](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L50)*
-
-___
-
-###  index
-
-• **index**: *number*
-
-*Defined in [packages/types/src/types/registry.ts:51](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L51)*
+*Defined in [packages/types/src/types/registry.ts:50](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L50)*
 
 ___
 
-###  name
+### index
 
-• **name**: *string*
+•  **index**: number
 
-*Defined in [packages/types/src/types/registry.ts:52](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L52)*
+*Defined in [packages/types/src/types/registry.ts:51](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L51)*
 
 ___
 
-###  section
+### name
 
-• **section**: *string*
+•  **name**: string
 
-*Defined in [packages/types/src/types/registry.ts:53](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L53)*
+*Defined in [packages/types/src/types/registry.ts:52](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L52)*
+
+___
+
+### section
+
+•  **section**: string
+
+*Defined in [packages/types/src/types/registry.ts:53](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/registry.ts#L53)*

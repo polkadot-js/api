@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/util/cache"](_packages_api_derive_src_util_cache_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/util/cache"
 
 # Module: "packages/api-derive/src/util/cache"
 
@@ -6,7 +8,7 @@
 
 ### Variables
 
-* [deriveCache](_packages_api_derive_src_util_cache_.md#let-derivecache)
+* [deriveCache](_packages_api_derive_src_util_cache_.md#derivecache)
 
 ### Functions
 
@@ -14,25 +16,25 @@
 
 ## Variables
 
-### `Let` deriveCache
+### deriveCache
 
-• **deriveCache**: *DeriveCache*
+• `Let` **deriveCache**: DeriveCache
 
-*Defined in [packages/api-derive/src/util/cache.ts:15](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cache.ts#L15)*
+*Defined in [packages/api-derive/src/util/cache.ts:15](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/util/cache.ts#L15)*
 
 ## Functions
 
-###  setDeriveCache
+### setDeriveCache
 
-▸ **setDeriveCache**(`prefix`: string, `cache?`: DeriveCache): *void*
+▸ **setDeriveCache**(`prefix`: string, `cache?`: DeriveCache): void
 
-*Defined in [packages/api-derive/src/util/cache.ts:53](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/util/cache.ts#L53)*
+*Defined in [packages/api-derive/src/util/cache.ts:53](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/util/cache.ts#L53)*
 
-**Parameters:**
+#### Parameters:
 
-Name | Type | Default |
+Name | Type | Default value |
 ------ | ------ | ------ |
 `prefix` | string | "" |
 `cache?` | DeriveCache | - |
 
-**Returns:** *void*
+**Returns:** void

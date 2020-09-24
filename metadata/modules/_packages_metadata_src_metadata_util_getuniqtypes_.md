@@ -1,5 +1,5 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/metadata/src/Metadata/util/getUniqTypes"](_packages_metadata_src_metadata_util_getuniqtypes_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/metadata/src/Metadata/util/getUniqTypes"
 
 # Module: "packages/metadata/src/Metadata/util/getUniqTypes"
-
-

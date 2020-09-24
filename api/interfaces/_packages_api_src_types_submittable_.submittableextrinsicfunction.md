@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api/src/types/submittable"](../modules/_packages_api_src_types_submittable_.md) › [SubmittableExtrinsicFunction](_packages_api_src_types_submittable_.submittableextrinsicfunction.md)
+**Polkadot JS API**
 
-# Interface: SubmittableExtrinsicFunction ‹**ApiType**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/submittable"](../modules/_packages_api_src_types_submittable_.md) / SubmittableExtrinsicFunction
+
+# Interface: SubmittableExtrinsicFunction\<**ApiType**>
 
 ## Type parameters
 
-▪ **ApiType**: *[ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes)*
+* ApiType
 
 ## Hierarchy
 
@@ -14,17 +16,17 @@
 
 ## Callable
 
-▸ (...`params`: any[]): *SubmittableExtrinsic‹ApiType›*
+▸ (...`params`: any[]): SubmittableExtrinsic\<ApiType>
 
-*Defined in [packages/api/src/types/submittable.ts:14](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api/src/types/submittable.ts#L14)*
+*Defined in [packages/api/src/types/submittable.ts:14](https://github.com/polkadot-js/api/blob/7070f757c/packages/api/src/types/submittable.ts#L14)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `...params` | any[] |
 
-**Returns:** *SubmittableExtrinsic‹ApiType›*
+**Returns:** SubmittableExtrinsic\<ApiType>
 
 ## Index
 
@@ -38,54 +40,50 @@ Name | Type |
 
 ## Properties
 
-###  callIndex
+### callIndex
 
-• **callIndex**: *Uint8Array*
+•  **callIndex**: Uint8Array
 
 *Inherited from [SubmittableExtrinsicFunction](_packages_api_src_types_submittable_.submittableextrinsicfunction.md).[callIndex](_packages_api_src_types_submittable_.submittableextrinsicfunction.md#callindex)*
 
-*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L8)*
+*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L8)*
 
 ___
 
-###  meta
+### meta
 
-• **meta**: *FunctionMetadataLatest*
+•  **meta**: FunctionMetadataLatest
 
 *Inherited from [SubmittableExtrinsicFunction](_packages_api_src_types_submittable_.submittableextrinsicfunction.md).[meta](_packages_api_src_types_submittable_.submittableextrinsicfunction.md#meta)*
 
-*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L9)*
+*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L9)*
 
 ___
 
-###  method
+### method
 
-• **method**: *string*
+•  **method**: string
 
 *Inherited from [SubmittableExtrinsicFunction](_packages_api_src_types_submittable_.submittableextrinsicfunction.md).[method](_packages_api_src_types_submittable_.submittableextrinsicfunction.md#method)*
 
-*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L10)*
+*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L10)*
 
 ___
 
-###  section
+### section
 
-• **section**: *string*
+•  **section**: string
 
 *Inherited from [SubmittableExtrinsicFunction](_packages_api_src_types_submittable_.submittableextrinsicfunction.md).[section](_packages_api_src_types_submittable_.submittableextrinsicfunction.md#section)*
 
-*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L11)*
+*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L11)*
 
 ___
 
-###  toJSON
+### toJSON
 
-• **toJSON**: *function*
+•  **toJSON**: () => any
 
 *Inherited from [SubmittableExtrinsicFunction](_packages_api_src_types_submittable_.submittableextrinsicfunction.md).[toJSON](_packages_api_src_types_submittable_.submittableextrinsicfunction.md#tojson)*
 
-*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/calls.ts#L12)*
-
-#### Type declaration:
-
-▸ (): *any*
+*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/calls.ts#L12)*

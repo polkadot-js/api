@@ -1,10 +1,12 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/types/src/types/codec"](../modules/_packages_types_src_types_codec_.md) › [Constructor](_packages_types_src_types_codec_.constructor.md)
+**Polkadot JS API**
 
-# Interface: Constructor ‹**T**›
+> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/codec"](../modules/_packages_types_src_types_codec_.md) / Constructor
+
+# Interface: Constructor\<**T**>
 
 ## Type parameters
 
-▪ **T**
+* T
 
 ## Hierarchy
 
@@ -18,17 +20,17 @@
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Constructor**(`registry`: [Registry](_packages_types_src_types_registry_.registry.md), ...`value`: any[]): *T*
+\+ **new Constructor**(`registry`: [Registry](_packages_types_src_types_registry_.registry.md), ...`value`: any[]): T
 
-*Defined in [packages/types/src/types/codec.ts:84](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/codec.ts#L84)*
+*Defined in [packages/types/src/types/codec.ts:84](https://github.com/polkadot-js/api/blob/7070f757c/packages/types/src/types/codec.ts#L84)*
 
-**Parameters:**
+#### Parameters:
 
 Name | Type |
 ------ | ------ |
 `registry` | [Registry](_packages_types_src_types_registry_.registry.md) |
 `...value` | any[] |
 
-**Returns:** *T*
+**Returns:** T

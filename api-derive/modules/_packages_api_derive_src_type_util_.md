@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/api-derive/src/type/util"](_packages_api_derive_src_type_util_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/type/util"
 
 # Module: "packages/api-derive/src/type/util"
 
@@ -10,17 +12,17 @@
 
 ## Functions
 
-###  extractAuthor
+### extractAuthor
 
-▸ **extractAuthor**(`digest`: Digest, `sessionValidators`: AccountId[]): *AccountId | undefined*
+▸ **extractAuthor**(`digest`: Digest, `sessionValidators`: AccountId[]): AccountId \| undefined
 
-*Defined in [packages/api-derive/src/type/util.ts:6](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/type/util.ts#L6)*
+*Defined in [packages/api-derive/src/type/util.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/type/util.ts#L6)*
 
-**Parameters:**
+#### Parameters:
 
-Name | Type | Default |
+Name | Type | Default value |
 ------ | ------ | ------ |
 `digest` | Digest | - |
 `sessionValidators` | AccountId[] | [] |
 
-**Returns:** *AccountId | undefined*
+**Returns:** AccountId \| undefined

@@ -1,4 +1,6 @@
-[Polkadot JS API](../README.md) › [Globals](../globals.md) › ["packages/typegen/src/interfacesTs"](_packages_typegen_src_interfacests_.md)
+**Polkadot JS API**
+
+> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/interfacesTs"
 
 # Module: "packages/typegen/src/interfacesTs"
 
@@ -10,10 +12,10 @@
 
 ## Functions
 
-###  main
+### main
 
-▸ **main**(): *void*
+▸ **main**(): void
 
-*Defined in [packages/typegen/src/interfacesTs.ts:11](https://github.com/polkadot-js/api/blob/6faea13a2/packages/typegen/src/interfacesTs.ts#L11)*
+*Defined in [packages/typegen/src/interfacesTs.ts:11](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/interfacesTs.ts#L11)*
 
-**Returns:** *void*
+**Returns:** void
