@@ -13,11 +13,14 @@ export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
 
-const PER_Q = new BN(1_000_000_000_000);
-const PER_B = new BN(1_000_000_000);
-const PER_M = new BN(1_000_000);
-const PER_H = new BN(100);
 const MUL_P = new BN(1_00_00);
+
+const FORMATTERS = [
+  ['Perquintill', new BN(1_000_000_000_000)],
+  ['Perbill', new BN(1_000_000_000)],
+  ['Permill', new BN(1_000_000)],
+  ['Percent', new BN(100)]
+];
 
 function toPercentage (value: BN, divisor: BN): string {
   return `${(value.mul(MUL_P).div(divisor).toNumber() / 100).toFixed(2)}%`;
@@ -172,19 +175,17 @@ export default abstract class AbstractInt extends BN implements Codec {
   public toHuman (isExpanded?: boolean): string {
     const rawType = this.toRawType();
 
-    return rawType === 'Balance'
-      ? this.isMax()
+    if (rawType === 'Balance') {
+      return this.isMax()
         ? 'everything'
-        : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
-      : rawType === 'Perbill'
-        ? toPercentage(this, PER_B)
-        : rawType === 'Permill'
-          ? toPercentage(this, PER_M)
-          : rawType === 'Percent'
-            ? toPercentage(this, PER_H)
-            : rawType === 'Perquintill'
-              ? toPercentage(this, PER_Q)
-              : formatNumber(this);
+        : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken });
+    }
+
+    const [, multiplier] = FORMATTERS.find(([type]) => type === rawType) || [];
+
+    return multiplier
+      ? toPercentage(this, multiplier)
+      : formatNumber(this);
   }
 
   /**
