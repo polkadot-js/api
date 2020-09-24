@@ -15,7 +15,7 @@ export default {
       delay: 'BlockNumber'
     },
     ProxyType: {
-      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking']
+      _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement']
     },
     ProxyAnnouncement: {
       real: 'AccountId',

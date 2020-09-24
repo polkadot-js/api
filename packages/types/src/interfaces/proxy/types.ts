@@ -24,6 +24,7 @@ export interface ProxyType extends Enum {
   readonly isNonTransfer: boolean;
   readonly isGovernance: boolean;
   readonly isStaking: boolean;
+  readonly isIdentityJudgement: boolean;
 }
 
 export type PHANTOM_PROXY = 'proxy';
