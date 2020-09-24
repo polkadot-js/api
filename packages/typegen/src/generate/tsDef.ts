@@ -61,6 +61,7 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
       case TypeDefInfo.Option:
+      case TypeDefInfo.VecFixed:
         return `${isGetter}${asGetter}`;
 
       default:
