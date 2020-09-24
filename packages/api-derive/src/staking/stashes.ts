@@ -21,7 +21,7 @@ export function stashes (instanceId: string, api: ApiInterfaceRx): () => Observa
         map(([stashIds]) => stashIds)
       )
       : api.query.staking.validators.keys().pipe(
-        map((keys) => keys.map((key) => key.args[0] as AccountId))
+        map((keys) => keys.map((key) => key.args[0] as AccountId).filter((a) => a))
       )
   );
 }
