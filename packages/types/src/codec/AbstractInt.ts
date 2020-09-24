@@ -13,8 +13,10 @@ export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
 
+const PER_Q = new BN(1_000_000_000_000);
 const PER_B = new BN(1_000_000_000);
 const PER_M = new BN(1_000_000);
+const PER_H = new BN(100);
 const MUL_P = new BN(1_00_00);
 
 function toPercentage (value: BN, divisor: BN): string {
@@ -168,16 +170,21 @@ export default abstract class AbstractInt extends BN implements Codec {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toHuman (isExpanded?: boolean): string {
-    // FIXME we need proper expansion here
-    return this instanceof this.registry.createClass('Balance')
+    const rawType = this.toRawType();
+
+    return rawType === 'Balance'
       ? this.isMax()
         ? 'everything'
         : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
-      : this instanceof this.registry.createClass('Perbill')
+      : rawType === 'Perbill'
         ? toPercentage(this, PER_B)
-        : this instanceof this.registry.createClass('Permill')
+        : rawType === 'Permill'
           ? toPercentage(this, PER_M)
-          : formatNumber(this);
+          : rawType === 'Percent'
+            ? toPercentage(this, PER_H)
+            : rawType === 'Perquintill'
+              ? toPercentage(this, PER_Q)
+              : formatNumber(this);
   }
 
   /**

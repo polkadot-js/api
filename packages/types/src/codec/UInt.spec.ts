@@ -119,5 +119,11 @@ describe('UInt', (): void => {
         new (UInt.with(64, 'SomethingElse'))(registry).toRawType()
       ).toEqual('SomethingElse');
     });
+
+    it('has proper expansion for PerMill/PerBill/Percent', (): void => {
+      expect(registry.createType('Perbill', 12_340_000).toHuman()).toEqual('1.23%');
+      expect(registry.createType('Percent', 12).toHuman()).toEqual('12.00%');
+      expect(registry.createType('Permill', 16_900).toHuman()).toEqual('1.69%');
+    });
   });
 });
