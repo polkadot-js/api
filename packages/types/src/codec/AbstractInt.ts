@@ -15,7 +15,7 @@ export const DEFAULT_UINT_BITS = 64;
 
 const MUL_P = new BN(1_00_00);
 
-const FORMATTERS = [
+const FORMATTERS: [string, BN][] = [
   ['Perquintill', new BN(1_000_000_000_000)],
   ['Perbill', new BN(1_000_000_000)],
   ['Permill', new BN(1_000_000)],
@@ -181,10 +181,10 @@ export default abstract class AbstractInt extends BN implements Codec {
         : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken });
     }
 
-    const [, multiplier] = FORMATTERS.find(([type]) => type === rawType) || [];
+    const [, divisor] = FORMATTERS.find(([type]) => type === rawType) || [];
 
-    return multiplier
-      ? toPercentage(this, multiplier)
+    return divisor
+      ? toPercentage(this, divisor)
       : formatNumber(this);
   }
 
