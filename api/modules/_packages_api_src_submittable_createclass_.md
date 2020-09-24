@@ -16,7 +16,7 @@
 
 ▸ **createClass**\<ApiType>(`__namedParameters`: { api: ApiInterfaceRx ; apiType: [ApiTypes](_packages_api_src_types_base_.md#apitypes) ; decorateMethod: [DecorateMethod](_packages_api_src_types_base_.md#decoratemethod)\<ApiType>  }): Constructor\<SubmittableExtrinsic\<ApiType>>
 
-*Defined in [packages/api/src/submittable/createClass.ts:25](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/api/src/submittable/createClass.ts#L25)*
+*Defined in [packages/api/src/submittable/createClass.ts:25](https://github.com/polkadot-js/api/blob/05c0379f4/packages/api/src/submittable/createClass.ts#L25)*
 
 #### Type parameters:
 

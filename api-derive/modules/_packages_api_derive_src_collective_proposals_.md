@@ -16,7 +16,7 @@
 
 ▸ **proposals**(`instanceId`: string, `api`: ApiInterfaceRx, `section`: \"council\" \| \"technicalCommittee\"): function
 
-*Defined in [packages/api-derive/src/collective/proposals.ts:31](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/api-derive/src/collective/proposals.ts#L31)*
+*Defined in [packages/api-derive/src/collective/proposals.ts:31](https://github.com/polkadot-js/api/blob/05c0379f4/packages/api-derive/src/collective/proposals.ts#L31)*
 
 #### Parameters:
 

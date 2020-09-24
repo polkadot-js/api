@@ -16,7 +16,7 @@
 
 ▸ **decodeU8a**(`registry`: [Registry](../interfaces/_packages_types_src_types_registry_.registry.md), `u8a`: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array), `_types`: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)[] \| { [index:string]: [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md);  }): [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)[]
 
-*Defined in [packages/types/src/codec/utils/decodeU8a.ts:13](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/types/src/codec/utils/decodeU8a.ts#L13)*
+*Defined in [packages/types/src/codec/utils/decodeU8a.ts:13](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/codec/utils/decodeU8a.ts#L13)*
 
 Given an u8a, and an array of Type constructors, decode the u8a against the
 types, and return an array of decoded values.

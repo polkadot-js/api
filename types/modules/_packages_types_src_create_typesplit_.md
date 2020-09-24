@@ -16,7 +16,7 @@
 
 ▸ **typeSplit**(`type`: string): string[]
 
-*Defined in [packages/types/src/create/typeSplit.ts:11](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/types/src/create/typeSplit.ts#L11)*
+*Defined in [packages/types/src/create/typeSplit.ts:11](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/create/typeSplit.ts#L11)*
 
 #### Parameters:
 

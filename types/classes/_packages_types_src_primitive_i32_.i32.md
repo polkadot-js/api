@@ -65,7 +65,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/Int.ts:18](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/types/src/codec/Int.ts#L18)*
+*Defined in [packages/types/src/codec/Int.ts:18](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/codec/Int.ts#L18)*
 
 #### Parameters:
 
@@ -86,7 +86,7 @@ Name | Type | Default value |
 
 *Inherited from [Int](_packages_types_src_codec_int_.int.md).[with](_packages_types_src_codec_int_.int.md#with)*
 
-*Defined in [packages/types/src/codec/Int.ts:23](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/types/src/codec/Int.ts#L23)*
+*Defined in [packages/types/src/codec/Int.ts:23](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/codec/Int.ts#L23)*
 
 #### Parameters:
 

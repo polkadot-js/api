@@ -20,4 +20,4 @@
 
 • `Const` **ACCOUNT\_ID\_PREFIX**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) = new Uint8Array([0xff])
 
-*Defined in [packages/types/src/ethereum/LookupSource.ts:17](https://github.com/polkadot-js/api/blob/0c4cc51f7/packages/types/src/ethereum/LookupSource.ts#L17)*
+*Defined in [packages/types/src/ethereum/LookupSource.ts:17](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/ethereum/LookupSource.ts#L17)*
