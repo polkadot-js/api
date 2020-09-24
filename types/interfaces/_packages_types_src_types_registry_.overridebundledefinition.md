@@ -20,7 +20,7 @@
 
 • **alias**? : *Record‹string, [OverrideModuleType](../modules/_packages_types_src_types_registry_.md#overridemoduletype)›*
 
-*Defined in [packages/types/src/types/registry.ts:103](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L103)*
+*Defined in [packages/types/src/types/registry.ts:103](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L103)*
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 • **rpc**? : *Record‹string, Record‹string, [DefinitionRpc](_packages_types_src_types_definitions_.definitionrpc.md) | [DefinitionRpcSub](_packages_types_src_types_definitions_.definitionrpcsub.md)››*
 
-*Defined in [packages/types/src/types/registry.ts:104](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L104)*
+*Defined in [packages/types/src/types/registry.ts:104](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L104)*
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 • **types**? : *[OverrideVersionedType](_packages_types_src_types_registry_.overrideversionedtype.md)[]*
 
-*Defined in [packages/types/src/types/registry.ts:105](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/types/src/types/registry.ts#L105)*
+*Defined in [packages/types/src/types/registry.ts:105](https://github.com/polkadot-js/api/blob/6faea13a2/packages/types/src/types/registry.ts#L105)*

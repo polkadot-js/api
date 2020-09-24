@@ -14,6 +14,6 @@
 
 ▸ **generateDefaultInterfaceTypes**(): *void*
 
-*Defined in [packages/typegen/src/generate/interfaceRegistry.ts:71](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/typegen/src/generate/interfaceRegistry.ts#L71)*
+*Defined in [packages/typegen/src/generate/interfaceRegistry.ts:71](https://github.com/polkadot-js/api/blob/6faea13a2/packages/typegen/src/generate/interfaceRegistry.ts#L71)*
 
 **Returns:** *void*

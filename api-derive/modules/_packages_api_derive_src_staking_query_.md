@@ -15,7 +15,7 @@
 
 ▸ **query**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/staking/query.ts:90](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/api-derive/src/staking/query.ts#L90)*
+*Defined in [packages/api-derive/src/staking/query.ts:90](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/query.ts#L90)*
 
 **`description`** From a stash, retrieve the controllerId and all relevant details
 
@@ -42,7 +42,7 @@ ___
 
 ▸ **queryMulti**(`instanceId`: string, `api`: ApiInterfaceRx): *function*
 
-*Defined in [packages/api-derive/src/staking/query.ts:98](https://github.com/polkadot-js/api/blob/41f1d8f36/packages/api-derive/src/staking/query.ts#L98)*
+*Defined in [packages/api-derive/src/staking/query.ts:98](https://github.com/polkadot-js/api/blob/6faea13a2/packages/api-derive/src/staking/query.ts#L98)*
 
 **Parameters:**
 
