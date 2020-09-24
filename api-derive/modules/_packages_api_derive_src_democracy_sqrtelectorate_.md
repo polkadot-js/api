@@ -16,7 +16,7 @@
 
 ▸ **sqrtElectorate**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/sqrtElectorate.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/democracy/sqrtElectorate.ts#L13)*
+*Defined in [packages/api-derive/src/democracy/sqrtElectorate.ts:13](https://github.com/polkadot-js/api/blob/c6bc664f8/packages/api-derive/src/democracy/sqrtElectorate.ts#L13)*
 
 #### Parameters:
 

@@ -20,4 +20,4 @@
 
 •  **types**: Record\<string, unknown>
 
-*Defined in [packages/typegen/src/util/imports.ts:13](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/util/imports.ts#L13)*
+*Defined in [packages/typegen/src/util/imports.ts:13](https://github.com/polkadot-js/api/blob/c6bc664f8/packages/typegen/src/util/imports.ts#L13)*

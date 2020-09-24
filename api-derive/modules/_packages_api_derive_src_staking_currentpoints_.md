@@ -16,7 +16,7 @@
 
 ▸ **currentPoints**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/currentPoints.ts:30](https://github.com/polkadot-js/api/blob/7070f757c/packages/api-derive/src/staking/currentPoints.ts#L30)*
+*Defined in [packages/api-derive/src/staking/currentPoints.ts:30](https://github.com/polkadot-js/api/blob/c6bc664f8/packages/api-derive/src/staking/currentPoints.ts#L30)*
 
 **`description`** Retrieve the staking overview, including elected and points earned
 

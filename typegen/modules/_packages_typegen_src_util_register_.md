@@ -16,7 +16,7 @@
 
 ▸ **registerDefinitions**(`registry`: TypeRegistry, `extras`: Record\<string, Record\<string, { types: Record\<string, any>  }>>): void
 
-*Defined in [packages/typegen/src/util/register.ts:6](https://github.com/polkadot-js/api/blob/7070f757c/packages/typegen/src/util/register.ts#L6)*
+*Defined in [packages/typegen/src/util/register.ts:6](https://github.com/polkadot-js/api/blob/c6bc664f8/packages/typegen/src/util/register.ts#L6)*
 
 #### Parameters:
 
