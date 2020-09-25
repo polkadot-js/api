@@ -21,7 +21,7 @@
 
 •  **name**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)
 
-*Defined in [packages/types/src/types/registry.ts:33](https://github.com/polkadot-js/api/blob/5ce3524cc/packages/types/src/types/registry.ts#L33)*
+*Defined in [packages/types/src/types/registry.ts:33](https://github.com/polkadot-js/api/blob/19d6165bd/packages/types/src/types/registry.ts#L33)*
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 •  **type**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)
 
-*Defined in [packages/types/src/types/registry.ts:34](https://github.com/polkadot-js/api/blob/5ce3524cc/packages/types/src/types/registry.ts#L34)*
+*Defined in [packages/types/src/types/registry.ts:34](https://github.com/polkadot-js/api/blob/19d6165bd/packages/types/src/types/registry.ts#L34)*

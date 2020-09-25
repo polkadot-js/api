@@ -16,7 +16,7 @@
 
 ▸ **erasHistoric**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasHistoric.ts:14](https://github.com/polkadot-js/api/blob/5ce3524cc/packages/api-derive/src/staking/erasHistoric.ts#L14)*
+*Defined in [packages/api-derive/src/staking/erasHistoric.ts:14](https://github.com/polkadot-js/api/blob/19d6165bd/packages/api-derive/src/staking/erasHistoric.ts#L14)*
 
 #### Parameters:
 

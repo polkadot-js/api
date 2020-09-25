@@ -2,17 +2,20 @@
 
 ## 1.35.0-beta.x
 
-- **Important** Metadata versions before v9 is not supported anymore. v4 was the first version to go with the Substrate 1.0 while Kusama itself starts at v9 as the earliest version. This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
-- **Breaking change** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+Upgrade priority: Medium. Required for all teams building on Substrate 2.0 for full compatibility.
+
+- **Important** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+- **Breaking change** Metadata versions before v9 as not supported anymore. v4 was the first version to go with the Substrate 1.0 while Kusama itself starts at v9 as the earliest version. This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
 - **Breaking change** Support for the old-style linked-map retrievals via `query.<module>.map()` have been dropped, only the existing `.keys()/.entries()` are available for map iteration.
 
 Changes:
 
-- Drop support for Substrate 1.0 metadata versions 0-4
-- Adjust `RefCount` type as per substrate 2.0
-- Add bounty type definitions from treasury
+- Drop support for Substrate 1.0 metadata versions 0-8
 - Add support for `grandpa_proveFinality` RPC
-- Drop support for linked maps (deprecated since early versions of Substrate 2)
+- Drop support for linked map queries not via .entries (deprecated since early versions of Substrate 2)
+- Add bounty type definitions from treasury palette
+- Adjust `RefCount` type as per substrate 2.0
+- Add `PalletVersion` types for future palette versioning
 
 
 ## 1.34.1 Sep 21, 2020
