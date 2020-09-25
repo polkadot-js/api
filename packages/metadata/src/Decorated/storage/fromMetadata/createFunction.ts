@@ -161,20 +161,6 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
       : prefixKey;
 }
 
-// attach the head key hashing for linked maps
-/** @internal */
-function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction, metaVersion: number): StorageEntry {
-  const key = metaVersion <= 8
-    ? hasher(`head of ${stringKey}`)
-    : u8aConcat(xxhashAsU8a(itemFn.prefix, 128), xxhashAsU8a(`HeadOf${itemFn.method}`, 128));
-
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
-    new Raw(registry, key)
-  );
-
-  return storageFn;
-}
-
 // attach the full list hashing for prefixed maps
 /** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
@@ -215,13 +201,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   const storageFn = expandWithMeta(itemFn, _storageFn as StorageEntry);
 
   if (type.isMap) {
-    const map = type.asMap;
-
-    if (map.linked.isTrue) {
-      extendLinkedMap(registry, itemFn, storageFn, stringKey, hasher, options.metaVersion);
-    } else {
-      extendPrefixedMap(registry, itemFn, storageFn);
-    }
+    extendPrefixedMap(registry, itemFn, storageFn);
   } else if (type.isDoubleMap) {
     extendDoubleMap(registry, itemFn, storageFn);
   }

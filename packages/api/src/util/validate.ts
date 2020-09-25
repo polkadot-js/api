@@ -20,11 +20,9 @@ function doDoubleMap (creator: StorageEntry, args: unknown[]): [StorageEntry, [a
 }
 
 function doMap (creator: StorageEntry, args: unknown[]): [StorageEntry] | [StorageEntry, any] {
-  const { key, linked } = creator.meta.type.asMap;
+  const { key } = creator.meta.type.asMap;
 
-  linked.isTrue
-    ? assert(args.length <= 1, `${sig(creator, key)} is a linked map, requiring either 0 arguments (retrieving all) or 1 argument, ${args.length} found`)
-    : assert(args.length === 1, `${sig(creator, key)} is a map, requiring 1 argument, ${args.length} found`);
+  assert(args.length === 1, `${sig(creator, key)} is a map, requiring 1 argument, ${args.length} found`);
 
   // expand
   return args.length

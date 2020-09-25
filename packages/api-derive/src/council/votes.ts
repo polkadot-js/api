@@ -13,35 +13,19 @@ import { Vec } from '@polkadot/types';
 import { memo } from '../util';
 
 function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
-  const elections = (api.query.electionsPhragmen || api.query.elections);
-
-  return elections.stakeOf.creator.meta.type.asMap.linked.isTrue
-    ? elections.stakeOf<ITuple<[Vec<AccountId>, Vec<Balance>]>>().pipe(
-      map(([voters, stake]) =>
-        voters.map((voter, index): [AccountId, Balance] => [voter, stake[index]])
-      )
+  return (api.query.electionsPhragmen || api.query.elections).stakeOf.entries<Balance>().pipe(
+    map((entries) =>
+      entries.map(([key, stake]) => [key.args[0] as AccountId, stake])
     )
-    : elections.stakeOf.entries<Balance>().pipe(
-      map((entries) =>
-        entries.map(([key, stake]) => [key.args[0] as AccountId, stake])
-      )
-    );
+  );
 }
 
 function retrieveVoteOf (api: ApiInterfaceRx): Observable<[AccountId, AccountId[]][]> {
-  const elections = (api.query.electionsPhragmen || api.query.elections);
-
-  return elections.votesOf.creator.meta.type.asMap.linked.isTrue
-    ? elections.votesOf<ITuple<[Vec<AccountId>, Vec<Vec<AccountId>>]>>().pipe(
-      map(([voters, votes]) =>
-        voters.map((voter, index) => [voter, votes[index]])
-      )
+  return (api.query.electionsPhragmen || api.query.elections).votesOf.entries<Vec<AccountId>>().pipe(
+    map((entries) =>
+      entries.map(([key, votes]) => [key.args[0] as AccountId, votes])
     )
-    : elections.votesOf.entries<Vec<AccountId>>().pipe(
-      map((entries) =>
-        entries.map(([key, votes]) => [key.args[0] as AccountId, votes])
-      )
-    );
+  );
 }
 
 function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
