@@ -51,10 +51,12 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
   const keys = (sub as TypeDef[]).map(({ info, name = '', type }): string => {
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
     const isComplexType = [TypeDefInfo.Tuple, TypeDefInfo.VecFixed].includes(info);
-    const asGetter = type === 'Null'
+    const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `as${getter}`, isComplexType ? formatType(definitions, type, imports) : type, imports);
-    const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
+    const isGetter = info === TypeDefInfo.DoNotConstruct
+      ? ''
+      : createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
       case TypeDefInfo.Compact:
@@ -64,6 +66,9 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
       case TypeDefInfo.Option:
       case TypeDefInfo.VecFixed:
         return `${isGetter}${asGetter}`;
+
+      case TypeDefInfo.DoNotConstruct:
+        return '';
 
       default:
         throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}`);
