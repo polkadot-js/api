@@ -3,16 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '@polkadot/types/interfaces';
-import { ContractABIPre } from '../types';
 
 import { ApiPromise } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/promise';
 
-import Abi from '../Abi';
+import InkAbi from '../InkAbi';
 import Blueprint from '../base/Blueprint';
 
 export default class PromiseBlueprint extends Blueprint<'promise'> {
-  constructor (api: ApiPromise, abi: ContractABIPre | Abi, codeHash: string | Hash) {
+  constructor (api: ApiPromise, abi: InkAbi, codeHash: string | Hash) {
     super(api, abi, decorateMethod, codeHash);
   }
 }

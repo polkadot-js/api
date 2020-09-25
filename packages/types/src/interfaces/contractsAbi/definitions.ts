@@ -3,23 +3,45 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 const layout = {
-  InkLayoutKey: '[u8; 32]',
-  InkLayoutField: {
-    name: 'MtLookupTextId',
-    layout: 'InkStorageLayout'
-  },
-  InkLayoutRange: {
-    offset: 'InkLayoutKey',
+  InkLayoutArray: {
+    cells_per_elem: 'u32',
+    layout: 'InkStorageLayout',
     len: 'u32',
-    elemType: 'MtLookupTextId'
+    offset: 'InkLayoutKey'
+  },
+  InkLayoutCell: {
+    key: 'InkLayoutKey',
+    ty: 'MtLookupTypeId'
+  },
+  InkLayoutField: {
+    layout: 'InkStorageLayout',
+    name: 'Text'
+  },
+  InkLayoutHash: {
+    layout: 'InkStorageLayout',
+    offset: 'InkLayoutKey',
+    strategy: 'InkLayoutHashStrategy'
+  },
+  InkLayoutHashStrategy: {
+    hasher: 'Text',
+    postfix: 'Text',
+    prefix: 'InkLayoutKey'
+  },
+  InkLayoutKey: '[u8; 32]',
+  InkLayoutRange: {
+    elemType: 'Text',
+    len: 'u32',
+    offset: 'InkLayoutKey'
   },
   InkLayoutStruct: {
-    type: 'MtLookupTextId',
     fields: 'Vec<InkLayoutField>'
   },
   InkStorageLayout: {
     _enum: {
-      Range: 'InkLayoutRange',
+      Array: 'InkLayoutArray',
+      Cell: 'InkLayoutCell',
+      // Enum: 'InkLayoutEnum',
+      Hash: 'InkLayoutHash',
       Struct: 'InkLayoutStruct'
     }
   }
@@ -27,112 +49,108 @@ const layout = {
 
 const spec = {
   InkConstructorSpec: {
-    name: 'MtLookupTextId',
-    selector: 'InkSelector',
     args: 'Vec<InkMessageParamSpec>',
-    docs: 'Vec<Text>'
+    docs: 'Vec<Text>',
+    name: 'Text',
+    selector: 'InkSelector'
   },
   InkContractSpec: {
-    name: 'MtLookupTextId',
     constructors: 'Vec<InkConstructorSpec>',
-    messages: 'Vec<InkMessageSpec>',
+    docs: 'Vec<Text>',
     events: 'Vec<InkEventSpec>',
-    docs: 'Vec<Text>'
+    messages: 'Vec<InkMessageSpec>',
+    name: 'Text'
   },
   InkEventParamSpec: {
-    name: 'MtLookupTextId',
+    docs: 'Vec<Text>',
     indexed: 'bool',
-    type: 'InkTypeSpec',
-    docs: 'Vec<Text>'
+    name: 'Text',
+    type: 'InkTypeSpec'
   },
   InkEventSpec: {
-    name: 'MtLookupTextId',
     args: 'Vec<InkEventParamSpec>',
-    docs: 'Vec<Text>'
+    docs: 'Vec<Text>',
+    name: 'Text'
   },
   InkMessageParamSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     type: 'InkTypeSpec'
   },
   InkMessageSpec: {
-    name: 'MtLookupTextId',
-    selector: 'InkSelector',
-    mutates: 'bool',
     args: 'Vec<InkMessageParamSpec>',
+    docs: 'Vec<Text>',
+    mutates: 'bool',
+    name: 'Text',
     returnType: 'Option<InkTypeSpec>',
-    docs: 'Vec<Text>'
+    selector: 'InkSelector'
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
-    id: 'MtLookupTypeId',
-    displayName: 'MtLookupTextId'
+    displayName: 'Text',
+    id: 'MtLookupTypeId'
   }
 };
 
 const registry = {
-  MtLookupTypeId: 'u32',
-  MtLookupTextId: 'u32',
   MtField: {
-    name: 'Option<MtLookupTextId>',
+    name: 'Option<Text>',
     type: 'MtLookupTypeId'
   },
-  MtRegistry: {
-    strings: 'Vec<Text>',
-    types: 'Vec<MtType>'
-  },
+  MtLookupTypeId: 'u32',
   MtType: {
+    def: 'MtTypeDef',
+    params: 'Vec<MtLookupTypeId>',
+    path: 'Vec<Text>'
+  },
+  MtTypeDef: {
     _enum: {
-      Composite: 'MtTypeComposite',
-      Variant: 'MtTypeVariant',
-      Slice: 'MtTypeSlice',
-      Array: 'MtTypeArray',
-      Tuple: 'MtTypeTuple',
-      Primitive: 'MtTypePrimitive'
+      Array: 'MtTypeDefArray',
+      Composite: 'MtTypeDefComposite',
+      Primitive: 'MtTypeDefPrimitive',
+      Sequence: 'MtTypeDefSequence',
+      Slice: 'MtTypeDefSlice',
+      Tuple: 'MtTypeDefTuple',
+      Variant: 'MtTypeDefVariant'
     }
   },
-  MtTypeComposite: {
-    name: 'MtLookupTextId',
-    namespace: 'Vec<MtLookupTextId>',
-    params: 'Vec<MtLookupTypeId>',
-    fields: 'Vec<MtField>'
-  },
-  MtTypeVariant: {
-    name: 'MtLookupTextId',
-    namespace: 'Vec<MtLookupTextId>',
-    params: 'Vec<MtLookupTypeId>',
-    variants: 'Vec<MtVariant>'
-  },
-  MtTypeArray: {
+  MtTypeDefArray: {
     len: 'u16',
     type: 'MtLookupTypeId'
   },
-  MtTypePrimitive: {
+  MtTypeDefComposite: {
+    fields: 'Vec<MtField>'
+  },
+  MtTypeDefPrimitive: {
     // this enum definition is mapped in api-contracts/inkTypes.ts
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
   },
-  MtTypeSlice: {
+  MtTypeDefSequence: {
     type: 'MtLookupTypeId'
   },
-  MtTypeTuple: 'Vec<MtLookupTypeId>',
+  MtTypeDefSlice: {
+    type: 'MtLookupTypeId'
+  },
+  MtTypeDefTuple: 'Vec<MtLookupTypeId>',
+  MtTypeDefVariant: {
+    variants: 'Vec<MtVariant>'
+  },
   MtVariant: {
-    name: 'MtLookupTextId',
+    discriminant: 'Option<u64>',
     fields: 'Vec<MtField>',
-    discriminant: 'Option<u64>'
+    name: 'Text'
   }
 };
 
 export default {
+  rpc: {},
   types: {
     ...layout,
     ...registry,
     ...spec,
     InkProject: {
-      _alias: {
-        lookup: 'registry'
-      },
-      lookup: 'MtRegistry',
+      spec: 'InkContractSpec',
       storage: 'InkStorageLayout',
-      contract: 'InkContractSpec'
+      types: 'Vec<MtType>'
     }
   }
 };

@@ -6,40 +6,68 @@ import { Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 
 /** @name InkConstructorSpec */
 export interface InkConstructorSpec extends Struct {
-  readonly name: MtLookupTextId;
-  readonly selector: InkSelector;
   readonly args: Vec<InkMessageParamSpec>;
   readonly docs: Vec<Text>;
+  readonly name: Text;
+  readonly selector: InkSelector;
 }
 
 /** @name InkContractSpec */
 export interface InkContractSpec extends Struct {
-  readonly name: MtLookupTextId;
   readonly constructors: Vec<InkConstructorSpec>;
-  readonly messages: Vec<InkMessageSpec>;
-  readonly events: Vec<InkEventSpec>;
   readonly docs: Vec<Text>;
+  readonly events: Vec<InkEventSpec>;
+  readonly messages: Vec<InkMessageSpec>;
+  readonly name: Text;
 }
 
 /** @name InkEventParamSpec */
 export interface InkEventParamSpec extends Struct {
-  readonly name: MtLookupTextId;
-  readonly indexed: bool;
-  readonly type: InkTypeSpec;
   readonly docs: Vec<Text>;
+  readonly indexed: bool;
+  readonly name: Text;
+  readonly type: InkTypeSpec;
 }
 
 /** @name InkEventSpec */
 export interface InkEventSpec extends Struct {
-  readonly name: MtLookupTextId;
   readonly args: Vec<InkEventParamSpec>;
   readonly docs: Vec<Text>;
+  readonly name: Text;
+}
+
+/** @name InkLayoutArray */
+export interface InkLayoutArray extends Struct {
+  readonly cells_per_elem: u32;
+  readonly layout: InkStorageLayout;
+  readonly len: u32;
+  readonly offset: InkLayoutKey;
+}
+
+/** @name InkLayoutCell */
+export interface InkLayoutCell extends Struct {
+  readonly key: InkLayoutKey;
+  readonly ty: MtLookupTypeId;
 }
 
 /** @name InkLayoutField */
 export interface InkLayoutField extends Struct {
-  readonly name: MtLookupTextId;
   readonly layout: InkStorageLayout;
+  readonly name: Text;
+}
+
+/** @name InkLayoutHash */
+export interface InkLayoutHash extends Struct {
+  readonly layout: InkStorageLayout;
+  readonly offset: InkLayoutKey;
+  readonly strategy: InkLayoutHashStrategy;
+}
+
+/** @name InkLayoutHashStrategy */
+export interface InkLayoutHashStrategy extends Struct {
+  readonly hasher: Text;
+  readonly postfix: Text;
+  readonly prefix: InkLayoutKey;
 }
 
 /** @name InkLayoutKey */
@@ -47,38 +75,37 @@ export interface InkLayoutKey extends U8aFixed {}
 
 /** @name InkLayoutRange */
 export interface InkLayoutRange extends Struct {
-  readonly offset: InkLayoutKey;
+  readonly elemType: Text;
   readonly len: u32;
-  readonly elemType: MtLookupTextId;
+  readonly offset: InkLayoutKey;
 }
 
 /** @name InkLayoutStruct */
 export interface InkLayoutStruct extends Struct {
-  readonly type: MtLookupTextId;
   readonly fields: Vec<InkLayoutField>;
 }
 
 /** @name InkMessageParamSpec */
 export interface InkMessageParamSpec extends Struct {
-  readonly name: MtLookupTextId;
+  readonly name: Text;
   readonly type: InkTypeSpec;
 }
 
 /** @name InkMessageSpec */
 export interface InkMessageSpec extends Struct {
-  readonly name: MtLookupTextId;
-  readonly selector: InkSelector;
-  readonly mutates: bool;
   readonly args: Vec<InkMessageParamSpec>;
-  readonly returnType: Option<InkTypeSpec>;
   readonly docs: Vec<Text>;
+  readonly mutates: bool;
+  readonly name: Text;
+  readonly returnType: Option<InkTypeSpec>;
+  readonly selector: InkSelector;
 }
 
 /** @name InkProject */
 export interface InkProject extends Struct {
-  readonly lookup: MtRegistry;
+  readonly spec: InkContractSpec;
   readonly storage: InkStorageLayout;
-  readonly contract: InkContractSpec;
+  readonly types: Vec<MtType>;
 }
 
 /** @name InkSelector */
@@ -86,68 +113,69 @@ export interface InkSelector extends U8aFixed {}
 
 /** @name InkStorageLayout */
 export interface InkStorageLayout extends Enum {
-  readonly isRange: boolean;
-  readonly asRange: InkLayoutRange;
+  readonly isArray: boolean;
+  readonly asArray: InkLayoutArray;
+  readonly isCell: boolean;
+  readonly asCell: InkLayoutCell;
+  readonly isHash: boolean;
+  readonly asHash: InkLayoutHash;
   readonly isStruct: boolean;
   readonly asStruct: InkLayoutStruct;
 }
 
 /** @name InkTypeSpec */
 export interface InkTypeSpec extends Struct {
+  readonly displayName: Text;
   readonly id: MtLookupTypeId;
-  readonly displayName: MtLookupTextId;
 }
 
 /** @name MtField */
 export interface MtField extends Struct {
-  readonly name: Option<MtLookupTextId>;
+  readonly name: Option<Text>;
   readonly type: MtLookupTypeId;
 }
-
-/** @name MtLookupTextId */
-export interface MtLookupTextId extends u32 {}
 
 /** @name MtLookupTypeId */
 export interface MtLookupTypeId extends u32 {}
 
-/** @name MtRegistry */
-export interface MtRegistry extends Struct {
-  readonly strings: Vec<Text>;
-  readonly types: Vec<MtType>;
-}
-
 /** @name MtType */
-export interface MtType extends Enum {
-  readonly isComposite: boolean;
-  readonly asComposite: MtTypeComposite;
-  readonly isVariant: boolean;
-  readonly asVariant: MtTypeVariant;
-  readonly isSlice: boolean;
-  readonly asSlice: MtTypeSlice;
-  readonly isArray: boolean;
-  readonly asArray: MtTypeArray;
-  readonly isTuple: boolean;
-  readonly asTuple: MtTypeTuple;
-  readonly isPrimitive: boolean;
-  readonly asPrimitive: MtTypePrimitive;
+export interface MtType extends Struct {
+  readonly def: MtTypeDef;
+  readonly params: Vec<MtLookupTypeId>;
+  readonly path: Vec<Text>;
 }
 
-/** @name MtTypeArray */
-export interface MtTypeArray extends Struct {
+/** @name MtTypeDef */
+export interface MtTypeDef extends Enum {
+  readonly isArray: boolean;
+  readonly asArray: MtTypeDefArray;
+  readonly isComposite: boolean;
+  readonly asComposite: MtTypeDefComposite;
+  readonly isPrimitive: boolean;
+  readonly asPrimitive: MtTypeDefPrimitive;
+  readonly isSequence: boolean;
+  readonly asSequence: MtTypeDefSequence;
+  readonly isSlice: boolean;
+  readonly asSlice: MtTypeDefSlice;
+  readonly isTuple: boolean;
+  readonly asTuple: MtTypeDefTuple;
+  readonly isVariant: boolean;
+  readonly asVariant: MtTypeDefVariant;
+}
+
+/** @name MtTypeDefArray */
+export interface MtTypeDefArray extends Struct {
   readonly len: u16;
   readonly type: MtLookupTypeId;
 }
 
-/** @name MtTypeComposite */
-export interface MtTypeComposite extends Struct {
-  readonly name: MtLookupTextId;
-  readonly namespace: Vec<MtLookupTextId>;
-  readonly params: Vec<MtLookupTypeId>;
+/** @name MtTypeDefComposite */
+export interface MtTypeDefComposite extends Struct {
   readonly fields: Vec<MtField>;
 }
 
-/** @name MtTypePrimitive */
-export interface MtTypePrimitive extends Enum {
+/** @name MtTypeDefPrimitive */
+export interface MtTypeDefPrimitive extends Enum {
   readonly isBool: boolean;
   readonly isChar: boolean;
   readonly isStr: boolean;
@@ -163,27 +191,29 @@ export interface MtTypePrimitive extends Enum {
   readonly isI128: boolean;
 }
 
-/** @name MtTypeSlice */
-export interface MtTypeSlice extends Struct {
+/** @name MtTypeDefSequence */
+export interface MtTypeDefSequence extends Struct {
   readonly type: MtLookupTypeId;
 }
 
-/** @name MtTypeTuple */
-export interface MtTypeTuple extends Vec<MtLookupTypeId> {}
+/** @name MtTypeDefSlice */
+export interface MtTypeDefSlice extends Struct {
+  readonly type: MtLookupTypeId;
+}
 
-/** @name MtTypeVariant */
-export interface MtTypeVariant extends Struct {
-  readonly name: MtLookupTextId;
-  readonly namespace: Vec<MtLookupTextId>;
-  readonly params: Vec<MtLookupTypeId>;
+/** @name MtTypeDefTuple */
+export interface MtTypeDefTuple extends Vec<MtLookupTypeId> {}
+
+/** @name MtTypeDefVariant */
+export interface MtTypeDefVariant extends Struct {
   readonly variants: Vec<MtVariant>;
 }
 
 /** @name MtVariant */
 export interface MtVariant extends Struct {
-  readonly name: MtLookupTextId;
-  readonly fields: Vec<MtField>;
   readonly discriminant: Option<u64>;
+  readonly fields: Vec<MtField>;
+  readonly name: Text;
 }
 
 export type PHANTOM_CONTRACTSABI = 'contractsAbi';

@@ -5,13 +5,14 @@
 import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
-import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome } from '../types';
+import { ApiObject, ContractCallOutcome, InkMessage } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import Abi from '../Abi';
+import { assert } from '@polkadot/util';
+import InkAbi from '../InkAbi';
 import { formatData } from '../util';
 import { BaseWithTxAndRpcCall } from './util';
 
@@ -34,16 +35,18 @@ export type ContractCallResult<CallType extends ContractCallTypes> = CallType ex
 export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
   public readonly address: Address;
 
-  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
+  constructor (api: ApiObject<ApiType>, abi: InkAbi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
-    this.address = this.registry.createType('Address', address);
+    this.address = this.api.registry.createType('Address', address);
   }
 
-  public call (as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
-  public call (as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
-  public call<CallType extends ContractCallTypes> (as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
-    const { def, fn } = this.getMessage(message);
+  public call (as: 'rpc', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
+  public call (as: 'tx', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
+  public call<CallType extends ContractCallTypes> (as: CallType, messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
+    assert(messageIndex < this.abi.messages.length, 'Attempted to call invalid contract message');
+
+    const fn = this.abi.messages[messageIndex];
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -51,7 +54,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
         as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>
             this._rpcContractsCall(
-              this.registry.createType('ContractCallRequest', {
+              this.api.registry.createType('ContractCallRequest', {
                 dest: this.address.toString(),
                 gasLimit,
                 inputData: fn(...params),
@@ -59,7 +62,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
                 value
               })
             ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
-              this._createOutcome(result, this.registry.createType('AccountId', account), def, params)
+              this._createOutcome(result, this.api.registry.createType('AccountId', account), fn, params)
             ))
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
             this._apiContracts
@@ -69,15 +72,15 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     };
   }
 
-  private _createOutcome (result: ContractExecResult, origin: AccountId, message: ContractABIMessage, params: CodecArg[]): ContractCallOutcome {
+  private _createOutcome (result: ContractExecResult, origin: AccountId, message: InkMessage, params: CodecArg[]): ContractCallOutcome {
     let output: Codec | null = null;
 
     if (result.isSuccess) {
       const { data } = result.asSuccess;
 
       output = message.returnType
-        ? formatData(this.registry, data, message.returnType)
-        : this.registry.createType('Raw', data);
+        ? formatData(this.api.registry, data, message.returnType.type)
+        : this.api.registry.createType('Raw', data);
     }
 
     return {

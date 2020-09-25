@@ -1,0 +1,88 @@
+{
+    "metadata_version": "0.1.0",
+    "source": {
+      "hash": "0x66233d0f8d9cc9c11dec3fbf7ed7df4d775d897b0dc9d253c3e8656274349cae",
+      "language": "ink! 2.1.0",
+      "compiler": "rustc 1.48.0-nightly"
+    },
+    "contract": {
+      "name": "flipper",
+      "version": "2.1.0",
+      "authors": [
+        "Parity Technologies <admin@parity.io>"
+      ]
+    },
+    "spec": {
+      "constructors": [
+        {
+          "args": [
+            {
+              "name": "init_value",
+              "type": {
+                "displayName": [
+                  "bool"
+                ],
+                "id": 1
+              }
+            }
+          ],
+          "docs": [],
+          "name": "new",
+          "selector": "0x41e691fc"
+        },
+        {
+          "args": [],
+          "docs": [],
+          "name": "default",
+          "selector": "0xcfee7c08"
+        }
+      ],
+      "docs": [],
+      "events": [],
+      "messages": [
+        {
+          "args": [],
+          "docs": [],
+          "mutates": true,
+          "name": "flip",
+          "returnType": null,
+          "selector": "0xd96ef951"
+        },
+        {
+          "args": [],
+          "docs": [],
+          "mutates": false,
+          "name": "get",
+          "returnType": {
+            "displayName": [
+              "bool"
+            ],
+            "id": 1
+          },
+          "selector": "0x6817c00f"
+        }
+      ]
+    },
+    "storage": {
+      "Struct": {
+        "fields": [
+          {
+            "layout": {
+              "Cell": {
+                "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "ty": 1
+              }
+            },
+            "name": "value"
+          }
+        ]
+      }
+    },
+    "types": [
+      {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    ]
+  }
