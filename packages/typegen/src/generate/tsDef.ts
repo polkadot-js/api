@@ -50,9 +50,10 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
 
   const keys = (sub as TypeDef[]).map(({ info, name = '', type }): string => {
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
+    const isComplexType = [TypeDefInfo.Tuple, TypeDefInfo.VecFixed].includes(info);
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
-      : createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, type, imports) : type, imports);
+      : createGetter(definitions, `as${getter}`, isComplexType ? formatType(definitions, type, imports) : type, imports);
     const isGetter = info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `is${getter}`, 'boolean', imports);
@@ -63,6 +64,7 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
       case TypeDefInfo.Option:
+      case TypeDefInfo.VecFixed:
         return `${isGetter}${asGetter}`;
 
       case TypeDefInfo.DoNotConstruct:

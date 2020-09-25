@@ -28,7 +28,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     return ['', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(allDefs, registry, storageEntry.type.asMap.key.toString(), imports);
+    const similarTypes = getSimilarTypes(registry, allDefs, storageEntry.type.asMap.key.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes,
@@ -41,8 +41,8 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similar types of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key2.toString(), imports);
+    const similarTypes1 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key1.toString(), imports);
+    const similarTypes2 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key2.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes1,

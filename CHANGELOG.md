@@ -4,6 +4,7 @@
 
 - **Important** Metadata versions before v5 is not supported anymore. v4 was the first version to go with the Substrate 1.0 (Kusama itself starts at v9). This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
 - **Breaking change** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+- **Breaking change** Support for the old-style linked-map retrievals have been dropped, only `.keys()/.entries()` are available now for map iteration. Al known live chains have been upgraded to versions that don't have linked lists.
 
 Changes:
 
@@ -11,6 +12,7 @@ Changes:
 - Adjust `RefCount` type as per substrate 2.0
 - Add bounty type definitions from treasury
 - Add support for `grandpa_proveFinality` RPC
+- Drop support for linked maps (deprecated since early versions of Substrate 2)
 
 
 ## 1.34.1 Sep 21, 2020
