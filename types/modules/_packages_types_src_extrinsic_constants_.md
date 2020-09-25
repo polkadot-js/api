@@ -21,7 +21,7 @@
 
 • `Const` **BIT\_SIGNED**: 128 = 128
 
-*Defined in [packages/types/src/extrinsic/constants.ts:4](https://github.com/polkadot-js/api/blob/7af915185/packages/types/src/extrinsic/constants.ts#L4)*
+*Defined in [packages/types/src/extrinsic/constants.ts:4](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/types/src/extrinsic/constants.ts#L4)*
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 • `Const` **BIT\_UNSIGNED**: 0 = 0
 
-*Defined in [packages/types/src/extrinsic/constants.ts:6](https://github.com/polkadot-js/api/blob/7af915185/packages/types/src/extrinsic/constants.ts#L6)*
+*Defined in [packages/types/src/extrinsic/constants.ts:6](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/types/src/extrinsic/constants.ts#L6)*
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • `Const` **DEFAULT\_VERSION**: 1 = 1
 
-*Defined in [packages/types/src/extrinsic/constants.ts:12](https://github.com/polkadot-js/api/blob/7af915185/packages/types/src/extrinsic/constants.ts#L12)*
+*Defined in [packages/types/src/extrinsic/constants.ts:12](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/types/src/extrinsic/constants.ts#L12)*
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 • `Const` **EMPTY\_U8A**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) = new Uint8Array()
 
-*Defined in [packages/types/src/extrinsic/constants.ts:8](https://github.com/polkadot-js/api/blob/7af915185/packages/types/src/extrinsic/constants.ts#L8)*
+*Defined in [packages/types/src/extrinsic/constants.ts:8](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/types/src/extrinsic/constants.ts#L8)*
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 • `Const` **IMMORTAL\_ERA**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) = new Uint8Array([0])
 
-*Defined in [packages/types/src/extrinsic/constants.ts:14](https://github.com/polkadot-js/api/blob/7af915185/packages/types/src/extrinsic/constants.ts#L14)*
+*Defined in [packages/types/src/extrinsic/constants.ts:14](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/types/src/extrinsic/constants.ts#L14)*
 
 ___
 
@@ -61,4 +61,4 @@ ___
 
 • `Const` **UNMASK\_VERSION**: 127 = 127
 
-*Defined in [packages/types/src/extrinsic/constants.ts:16](https://github.com/polkadot-js/api/blob/7af915185/packages/types/src/extrinsic/constants.ts#L16)*
+*Defined in [packages/types/src/extrinsic/constants.ts:16](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/types/src/extrinsic/constants.ts#L16)*

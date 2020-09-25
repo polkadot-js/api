@@ -22,7 +22,7 @@
 
 Ƭ  **AugmentedSubmittable**\<T>: T & CallBase
 
-*Defined in [packages/api/src/types/submittable.ts:12](https://github.com/polkadot-js/api/blob/7af915185/packages/api/src/types/submittable.ts#L12)*
+*Defined in [packages/api/src/types/submittable.ts:12](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/api/src/types/submittable.ts#L12)*
 
 #### Type parameters:
 
