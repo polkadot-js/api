@@ -191,8 +191,6 @@ export default class InkRegistry {
       ...typeDef
     });
 
-    // console.log(result);
-
     return result;
   }
 

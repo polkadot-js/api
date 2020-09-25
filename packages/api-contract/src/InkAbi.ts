@@ -90,9 +90,6 @@ export default class InkAbi extends InkRegistry {
       };
     });
 
-    console.log('_createBase args');
-    console.log(JSON.stringify(args));
-
     const Clazz = createArgClass(this.registry, args, isUndefined(spec.selector) ? {} : { __selector: 'u32' });
     const baseStruct: { [index: string]: any } = { __selector: this.registry.createType('u32', spec.selector) };
 
@@ -116,8 +113,6 @@ export default class InkAbi extends InkRegistry {
     fn.args = args;
     fn.identifier = identifier;
     fn.docs = spec.docs.map((doc) => doc.toString());
-
-    console.log(fn.docs);
 
     return fn;
   }
