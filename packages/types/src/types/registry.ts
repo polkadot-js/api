@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
 
 import { ChainProperties } from '../interfaces/system';
+import { u8 } from '../primitive';
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
 import { DefinitionRpc, DefinitionRpcSub } from './definitions';
@@ -79,6 +79,7 @@ export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
   errors: RegistryMetadataErrors;
   events: RegistryMetadataEvents;
+  index: u8;
   name: RegistryMetadataText;
 }
 
@@ -141,7 +142,7 @@ export interface Registry {
   readonly signedExtensions: string[];
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
-  findMetaError (errorIndex: Uint8Array): RegistryError;
+  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
@@ -161,6 +162,7 @@ export interface Registry {
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
   hash (data: Uint8Array): Uint8Array;
+  init (): Registry;
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId } from '../interfaces/runtime';
 
@@ -10,11 +9,14 @@ import { bnToBn } from '@polkadot/util';
 import Bytes from '../primitive/Bytes';
 import U32 from '../primitive/U32';
 
+// there are all reversed since it is actually encoded as u32, LE,
+// this means that FRNK has the bytes as KNRF
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x45424142; // 'BABE'
 const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
+const CID_POW = 0x5f776f70; // 'pow_'
 
-export { CID_AURA, CID_BABE, CID_GRPA };
+export { CID_AURA, CID_BABE, CID_GRPA, CID_POW };
 
 /**
  * @name ConsensusEngineId
@@ -57,6 +59,13 @@ export default class ConsensusEngineId extends U32 {
     return this.eq(CID_GRPA);
   }
 
+  /**
+   * @description `true` is the engine matches pow
+   */
+  public get isPow (): boolean {
+    return this.eq(CID_POW);
+  }
+
   private _getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     return sessionValidators[
       this.registry.createType('RawAuraPreDigest', bytes.toU8a(true))
@@ -74,6 +83,10 @@ export default class ConsensusEngineId extends U32 {
     ];
   }
 
+  private _getPowAuthor (bytes: Bytes): AccountId {
+    return this.registry.createType('AccountId', bytes);
+  }
+
   /**
    * @description From the input bytes, decode into an author
    */
@@ -84,6 +97,10 @@ export default class ConsensusEngineId extends U32 {
       } else if (this.isBabe) {
         return this._getBabeAuthor(bytes, sessionValidators);
       }
+    }
+
+    if (this.isPow) {
+      return this._getPowAuthor(bytes);
     }
 
     return undefined;

@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import Handlebars from 'handlebars';
 
 import Raw from '@polkadot/types/codec/Raw';
+import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
 
@@ -21,6 +21,8 @@ const generateInterfaceTypesTemplate = Handlebars.compile(template);
 
 /** @internal */
 export function generateInterfaceTypes (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, dest: string): void {
+  const registry = new TypeRegistry();
+
   writeFile(dest, (): string => {
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {});
 
@@ -35,7 +37,7 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
       .forEach((primitiveName) => {
         setImports(definitions, imports, [primitiveName]);
 
-        items.push(...getDerivedTypes(definitions, primitiveName, primitiveName, imports));
+        items.push(...getDerivedTypes(registry, definitions, primitiveName, primitiveName, imports));
       });
 
     const existingTypes: Record<string, boolean> = {};
@@ -48,7 +50,7 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
       uniqueTypes.forEach((type) => {
         existingTypes[type] = true;
 
-        items.push(...getDerivedTypes(definitions, type, types[type] as string, imports));
+        items.push(...getDerivedTypes(registry, definitions, type, types[type] as string, imports));
       });
     });
 

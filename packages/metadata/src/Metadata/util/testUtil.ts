@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Codec, Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
@@ -14,6 +13,8 @@ import Metadata from '../Metadata';
 export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>): void {
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(registry, rpcData);
+
+    registry.setMetadata(metadata);
 
     try {
       expect(metadata.version).toBe(version);
@@ -30,11 +31,15 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
 /** @internal */
 export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
-    const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
-    const metadataLatest = new Metadata(registry, rpcData).asLatest;
+    const metadata = new Metadata(registry, rpcData);
+
+    registry.setMetadata(metadata);
+
+    const metadataInit = metadata[`asV${version}` as keyof Metadata];
+    const metadataLatest = metadata.asLatest;
 
     expect(
-      getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, withThrow)
+      getUniqTypes(registry, metadataInit as unknown as MetadataInterface<Modules>, withThrow)
     ).toEqual(
       getUniqTypes(registry, metadataLatest, withThrow)
     );

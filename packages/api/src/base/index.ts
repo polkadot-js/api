@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
@@ -288,7 +287,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
     if (isString(address)) {
       const _signer = signer || this._rx.signer;
 
-      assert(_signer?.signRaw, 'No signer exists with a signRaw interface');
+      assert(_signer?.signRaw, 'No signer exists with a signRaw interface. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
       return (
         await _signer.signRaw({

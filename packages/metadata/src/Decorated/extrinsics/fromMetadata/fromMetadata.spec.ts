@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
@@ -10,6 +9,9 @@ import fromMetadata from '.';
 // Use the pre-generated metadata
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, json);
+
+registry.setMetadata(metadata);
+
 const newExtrinsics = fromMetadata(registry, metadata);
 
 describe('fromMetadata', (): void => {

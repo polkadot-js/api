@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
@@ -21,8 +20,14 @@ import { getTypeDef } from './getTypeDef';
 
 // create error mapping from metadata
 function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
+  const modules = metadata.asLatest.modules;
+  const isIndexed = modules.some(({ index }) => !index.eqn(255));
+
   // decorate the errors
-  metadata.asLatest.modules.forEach((section, sectionIndex): void => {
+  modules.forEach((section, _sectionIndex): void => {
+    const sectionIndex = isIndexed
+      ? section.index.toNumber()
+      : _sectionIndex;
     const sectionName = stringCamelCase(section.name.toString());
 
     section.errors.forEach(({ documentation, name }, index): void => {
@@ -40,10 +45,16 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
 
 // create event classes from metadata
 function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
+  const modules = metadata.asLatest.modules;
+  const isIndexed = modules.some(({ index }) => !index.eqn(255));
+
   // decorate the events
-  metadata.asLatest.modules
+  modules
     .filter(({ events }): boolean => events.isSome)
-    .forEach((section, sectionIndex): void => {
+    .forEach((section, _sectionIndex): void => {
+      const sectionIndex = isIndexed
+        ? section.index.toNumber()
+        : _sectionIndex;
       const sectionName = stringCamelCase(section.name.toString());
 
       section.events.unwrap().forEach((meta, methodIndex): void => {
@@ -81,9 +92,9 @@ function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, met
 }
 
 export class TypeRegistry implements Registry {
-  readonly #classes = new Map<string, Constructor>();
+  #classes = new Map<string, Constructor>();
 
-  readonly #definitions = new Map<string, string>();
+  #definitions = new Map<string, string>();
 
   readonly #metadataCalls: Record<string, CallFunction> = {};
 
@@ -91,32 +102,49 @@ export class TypeRegistry implements Registry {
 
   readonly #metadataEvents: Record<string, Constructor<EventData>> = {};
 
-  readonly #unknownTypes = new Map<string, boolean>();
+  #unknownTypes = new Map<string, boolean>();
 
   #chainProperties?: ChainProperties;
 
   #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
+
+  readonly #knownDefaults: RegistryTypes;
+
+  readonly #knownDefinitions: Record<string, { types: RegistryTypes }>;
 
   #knownTypes: RegisteredTypes = {};
 
   #signedExtensions: string[] = defaultExtensions;
 
   constructor () {
-    // we only want to import these on creation, i.e. we want to avoid types
-    // weird side-effects from circular references. (Since registry is injected
-    // into types, this can  be a real concern now)
+    // we only want to import these on creation, i.e. we want to avoid weird
+    // side-effects from circular references. (Since registry is injected
+    // into types, this can be a real concern now)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const baseTypes: RegistryTypes = require('../index.types');
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
-    // since these are classes, they are injected first
-    this.register({ Raw, ...baseTypes });
+    this.#knownDefaults = { Raw, ...baseTypes };
+    this.#knownDefinitions = definitions;
 
-    // since these are definitions, they would only get created when needed
-    Object.values(definitions).forEach(({ types }): void =>
+    this.init();
+  }
+
+  public init (): this {
+    // start clean
+    this.#classes = new Map<string, Constructor>();
+    this.#definitions = new Map<string, string>();
+    this.#unknownTypes = new Map<string, boolean>();
+    this.#knownTypes = {};
+
+    // register know, first classes then on-demand-created definitions
+    this.register(this.#knownDefaults);
+    Object.values(this.#knownDefinitions).forEach(({ types }): void =>
       this.register(types)
     );
+
+    return this;
   }
 
   public get chainDecimals (): number {

@@ -13,7 +13,7 @@ import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
-import { JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
+import { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
 import { StorageKind } from '@polkadot/types/interfaces/offchain';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
@@ -136,6 +136,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       finalizeBlock: AugmentedRpc<(hash: BlockHash | string | Uint8Array, justification?: Justification | string | Uint8Array) => Observable<bool>>;
     };
     grandpa: {
+      /**
+       * Prove finality for the range (begin; end] hash.
+       **/
+      proveFinality: AugmentedRpc<(begin: BlockHash | string | Uint8Array, end: BlockHash | string | Uint8Array, authoritiesSetId?: u64 | AnyNumber | Uint8Array) => Observable<Option<EncodedFinalityProofs>>>;
       /**
        * Returns the state of the current best round state as well as the ongoing background rounds
        **/

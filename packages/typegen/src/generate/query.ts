@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import Handlebars from 'handlebars';
 
@@ -29,7 +28,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     return ['', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(allDefs, registry, storageEntry.type.asMap.key.toString(), imports);
+    const similarTypes = getSimilarTypes(registry, allDefs, storageEntry.type.asMap.key.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes,
@@ -42,8 +41,8 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similar types of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key2.toString(), imports);
+    const similarTypes1 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key1.toString(), imports);
+    const similarTypes2 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key2.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes1,
@@ -134,5 +133,9 @@ export default function generateQuery (dest = 'packages/api/src/augment/query.ts
 
   registerDefinitions(registry, extraTypes);
 
-  return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes, isStrict);
+  const metadata = new Metadata(registry, data);
+
+  registry.setMetadata(metadata);
+
+  return generateForMeta(registry, metadata, dest, extraTypes, isStrict);
 }

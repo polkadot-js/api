@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Calls, ModulesWithCalls, Registry, RegistryMetadata, RegistryMetadataModule } from '@polkadot/types/types';
 
@@ -11,9 +10,15 @@ import createUnchecked from './createUnchecked';
 
 /** @internal */
 export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
-  return metadata.asLatest.modules
-    .filter(({ calls }): boolean => calls.isSome)
-    .reduce((result, { calls, name }: RegistryMetadataModule, sectionIndex): ModulesWithCalls => {
+  const modules = metadata.asLatest.modules;
+  const isIndexed = modules.some(({ index }) => !index.eqn(255));
+
+  return modules
+    .filter(({ calls }) => calls.isSome)
+    .reduce((result, { calls, index, name }: RegistryMetadataModule, _sectionIndex): ModulesWithCalls => {
+      const sectionIndex = isIndexed
+        ? index.toNumber()
+        : _sectionIndex;
       const section = stringCamelCase(name.toString());
 
       result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {

@@ -1,18 +1,17 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
 
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import EventEmitter from 'eventemitter3';
-import { assert, isNull, isUndefined, isChildClass, logger } from '@polkadot/util';
+import { assert, isChildClass, isNull, isUndefined, logger } from '@polkadot/util';
+import WS from '@polkadot/x-ws';
 
 import Coder from '../coder';
 import defaults from '../defaults';
 import { getWSErrorString } from './errors';
-import getWSClass from './getWSClass';
 
 interface SubscriptionHandler {
   callback: ProviderInterfaceCallback;
@@ -143,17 +142,16 @@ export default class WsProvider implements ProviderInterface {
    * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async connect (): Promise<void> {
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
-
-      const WS = await getWSClass();
-
       this.#websocket = typeof WebSocket !== 'undefined' && isChildClass(WebSocket, WS)
         ? new WS(this.#endpoints[this.#endpointIndex])
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
         : new WS(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers);
+
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;

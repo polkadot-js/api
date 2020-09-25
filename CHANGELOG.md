@@ -1,6 +1,40 @@
 # CHANGELOG
 
-## 1.33.0-beta.x
+## 1.35.0-beta.x
+
+- **Breaking change** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+
+Changes:
+
+- Adjust `RefCount` type as per substrate 2.0
+- Add bounty type definitions from treasury
+- Add support for `grandpa_proveFinality` RPC
+
+
+## 1.34.1 Sep 21, 2020
+
+Upgrade priority: High. Metadata v12 is the next major version containing structural data exchange changes and will start rolling out to test and live networks in due course.
+
+- **Breaking change** The `Decorated` (from `@polkadot/metadata`) class signature has changed. It now always expects a valid `Metadata` object to be passed-in, instead of raw data. It is recommended to create a `Metadata` object, set it on the registry with `.setMetadata` and then only create a `Decorated` instance. (Only affects metadata-only users of the API)
+
+Contributed:
+
+- Added support for POW block author extraction (Thanks to https://github.com/sorpaas)
+
+Changes:
+
+- Ensure Metadata retrieval does not pollute the default registry
+- When passing `{ nonce: -1 }` to `signAndSend` the API will use `system.accountNextIndex` to determine the nonce
+- Ensure that upgrades override old registry types (non-specified in current)
+- Support for Metadata v12 with fixed indices
+- Cleanups for WebSocket class detection and creation
+- Ensure that ignored map params yield an error on `iterKey`
+- Cater for older chains in derive democracy locks (availability detection)
+
+
+## 1.33.1 Sep 14, 2020
+
+Upgrade priority: Low. Recommended when using clones instances.
 
 Changes:
 

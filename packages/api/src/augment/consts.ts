@@ -183,6 +183,22 @@ declare module '@polkadot/api/types/consts' {
        **/
       deposit: BalanceOf & AugmentedConst<ApiType>;
     };
+    multisig: {
+      [key: string]: Codec;
+      /**
+       * The base amount of currency needed to reserve for creating a multisig execution or to store
+       * a dispatch call for later.
+       **/
+      depositBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The amount of currency needed per unit threshold when creating a multisig execution.
+       **/
+      depositFactor: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The maximum amount of signatories allowed for a given multisig.
+       **/
+      maxSignatories: u16 & AugmentedConst<ApiType>;
+    };
     proxy: {
       [key: string]: Codec;
       /**

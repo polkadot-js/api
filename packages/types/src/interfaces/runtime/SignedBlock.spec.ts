@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
@@ -13,9 +12,9 @@ import mortalTxs from '../../json/SignedBlock.004.mortal.json';
 import knownMehods from '../../json/SignedBlock.005.json';
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, metadataStatic);
+registry.setMetadata(metadata);
 
 describe('SignedBlock', (): void => {
   it('decodes a full block', (): void => {

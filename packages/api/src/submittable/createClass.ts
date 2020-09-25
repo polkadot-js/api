@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable no-dupe-class-members */
 
@@ -240,7 +239,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // NOTE here we actually override nonce if it was specified (backwards compat for
-    // the previous signature - don't let userspace break, but allow then time to upgrade)
+    // the previous signature - don't let user space break, but allow then time to upgrade)
     #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions> = {}): Partial<SignerOptions> => {
       return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
         ? { nonce: optionsOrNonce }
@@ -250,7 +249,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
       const signer = options.signer || api.signer;
 
-      assert(signer, 'No signer specified, either via api.setSigner or via sign options');
+      assert(signer, 'No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
       const payload = this.registry.createType('SignerPayload', {
         ...options,

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -18,8 +17,9 @@ describe('EventRecord', (): void => {
 
   describe('EventRecordTo76', (): void => {
     beforeEach((): void => {
-      // eslint-disable-next-line no-new
-      new Metadata(registry, rpcMetadataV1);
+      const metadata = new Metadata(registry, rpcMetadataV1);
+
+      registry.setMetadata(metadata);
     });
 
     it('decodes correctly', (): void => {
@@ -32,8 +32,9 @@ describe('EventRecord', (): void => {
 
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
-      // eslint-disable-next-line no-new
-      new Metadata(registry, rpcMetadata);
+      const metadata = new Metadata(registry, rpcMetadata);
+
+      registry.setMetadata(metadata);
     });
 
     it('decodes older EventRecord correctly', (): void => {

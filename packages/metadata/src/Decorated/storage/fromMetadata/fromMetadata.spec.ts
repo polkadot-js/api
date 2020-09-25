@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { TypeRegistry } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 
+import Metadata from '../../../Metadata';
 import rpcMetadata from '../../../Metadata/static';
 import rpcMetadataV8 from '../../../Metadata/v8/static';
 import Decorated from '../../Decorated';
@@ -15,7 +15,11 @@ const keyring = testingPairs({ type: 'ed25519' });
 describe('fromMetadata', (): void => {
   describe('latest', (): void => {
     const registry = new TypeRegistry();
-    const decorated = new Decorated(registry, rpcMetadata);
+    const metadata = new Metadata(registry, rpcMetadata);
+
+    registry.setMetadata(metadata);
+
+    const decorated = new Decorated(registry, metadata);
 
     it('should throw if the storage function expects an argument', (): void => {
       expect((): any => decorated.query.balances.account()).toThrowError(/requires one argument/);
@@ -38,7 +42,11 @@ describe('fromMetadata', (): void => {
 
   describe('V8', (): void => {
     const registry = new TypeRegistry();
-    const decorated = new Decorated(registry, rpcMetadataV8);
+    const metadata = new Metadata(registry, rpcMetadataV8);
+
+    registry.setMetadata(metadata);
+
+    const decorated = new Decorated(registry, metadata);
 
     it('should return the correct length-prefixed storage key', (): void => {
       expect(

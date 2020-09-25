@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 import { Constructor, Registry } from '@polkadot/types/types';
@@ -34,9 +33,9 @@ const voteConvictions = arrayToStrType(AllConvictions);
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */
-export function getDerivedTypes (definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
+export function getDerivedTypes (registry: Registry, definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName]);
+  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName] || ClassOfUnsafe(registry, type));
   const def = getTypeDef(type);
 
   setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
@@ -73,7 +72,7 @@ export function getDerivedTypes (definitions: Record<string, ModuleTypes>, type:
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
 /** @internal */
-export function getSimilarTypes (definitions: Record<string, ModuleTypes>, registry: Registry, _type: string, imports: TypeImports): string[] {
+export function getSimilarTypes (registry: Registry, definitions: Record<string, ModuleTypes>, _type: string, imports: TypeImports): string[] {
   const typeParts = _type.split('::');
   const type = typeParts[typeParts.length - 1];
   const possibleTypes = [type];
@@ -98,10 +97,10 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
     // this could be that we define a Vec type and refer to it by name
     if (subDef) {
       if (subDef.info === TypeDefInfo.Plain) {
-        possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
+        possibleTypes.push(`(${getSimilarTypes(registry, definitions, subDef.type, imports).join(' | ')})[]`);
       } else if (subDef.info === TypeDefInfo.Tuple) {
         const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
-          getSimilarTypes(definitions, registry, type, imports).join(' | ')
+          getSimilarTypes(registry, definitions, type, imports).join(' | ')
         );
 
         possibleTypes.push(`([${subs.join(', ')}])[]`);
@@ -150,7 +149,7 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
 
     // this could be that we define a Tuple type and refer to it by name
     if (Array.isArray(subDef)) {
-      const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
+      const subs = subDef.map(({ type }) => getSimilarTypes(registry, definitions, type, imports).join(' | '));
 
       possibleTypes.push(`[${subs.join(', ')}]`);
     }

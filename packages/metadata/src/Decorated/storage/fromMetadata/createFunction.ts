@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Codec, Registry } from '@polkadot/types/types';
@@ -181,11 +180,13 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   const { meta: { type } } = itemFn;
 
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw =>
-    type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
+  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw => {
+    assert(type.isDoubleMap || isUndefined(arg), 'Filtering arguments for keys/entries are only valid on double maps');
+
+    return type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
       ? new Raw(registry, u8aConcat(createPrefixedKey(itemFn), getHasher(type.asDoubleMap.hasher)(registry.createType(type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a())))
-      : new Raw(registry, createPrefixedKey(itemFn))
-  );
+      : new Raw(registry, createPrefixedKey(itemFn));
+  });
 
   return storageFn;
 }

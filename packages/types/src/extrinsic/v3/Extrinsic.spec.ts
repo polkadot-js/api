@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 import Decorated from '@polkadot/metadata/Decorated';
@@ -12,11 +11,11 @@ import { TypeRegistry } from '../../create';
 import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();
-const decorated = new Decorated(registry, rpcMetadata);
+const metadata = new Metadata(registry, rpcMetadata);
+const decorated = new Decorated(registry, metadata);
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, rpcMetadata);
+registry.setMetadata(metadata);
 
 describe('ExtrinsicV3', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {

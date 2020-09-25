@@ -1,12 +1,10 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
-import './polyfill';
-
 import { assert, logger } from '@polkadot/util';
+import fetch from '@polkadot/x-fetch';
 
 import Coder from '../coder';
 import defaults from '../defaults';
