@@ -3,12 +3,14 @@
 ## 1.35.0-beta.x
 
 - **Breaking change** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+- **Breaking change** Support for the old-style linked-map retrievals have been dropped, only `.keys()/.entries()` are available now for map iteration. Al known live chains have been upgraded to versions that don't have linked lists.
 
 Changes:
 
 - Adjust `RefCount` type as per substrate 2.0
 - Add bounty type definitions from treasury
 - Add support for `grandpa_proveFinality` RPC
+- Drop support for linked maps (deprecated since early versions of Substrate 2)
 
 
 ## 1.34.1 Sep 21, 2020

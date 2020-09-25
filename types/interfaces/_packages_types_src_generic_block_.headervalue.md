@@ -24,7 +24,7 @@
 
 • `Optional` **digest**: Digest \| { logs: DigestItem[]  }
 
-*Defined in [packages/types/src/generic/Block.ts:12](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/generic/Block.ts#L12)*
+*Defined in [packages/types/src/generic/Block.ts:12](https://github.com/polkadot-js/api/blob/7fd45f63d/packages/types/src/generic/Block.ts#L12)*
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 • `Optional` **extrinsicsRoot**: [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)
 
-*Defined in [packages/types/src/generic/Block.ts:13](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/generic/Block.ts#L13)*
+*Defined in [packages/types/src/generic/Block.ts:13](https://github.com/polkadot-js/api/blob/7fd45f63d/packages/types/src/generic/Block.ts#L13)*
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 • `Optional` **number**: [AnyNumber](../modules/_packages_types_src_types_helpers_.md#anynumber)
 
-*Defined in [packages/types/src/generic/Block.ts:14](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/generic/Block.ts#L14)*
+*Defined in [packages/types/src/generic/Block.ts:14](https://github.com/polkadot-js/api/blob/7fd45f63d/packages/types/src/generic/Block.ts#L14)*
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 • `Optional` **parentHash**: [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)
 
-*Defined in [packages/types/src/generic/Block.ts:15](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/generic/Block.ts#L15)*
+*Defined in [packages/types/src/generic/Block.ts:15](https://github.com/polkadot-js/api/blob/7fd45f63d/packages/types/src/generic/Block.ts#L15)*
 
 ___
 
@@ -56,4 +56,4 @@ ___
 
 • `Optional` **stateRoot**: [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)
 
-*Defined in [packages/types/src/generic/Block.ts:16](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/generic/Block.ts#L16)*
+*Defined in [packages/types/src/generic/Block.ts:16](https://github.com/polkadot-js/api/blob/7fd45f63d/packages/types/src/generic/Block.ts#L16)*

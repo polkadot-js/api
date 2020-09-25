@@ -16,7 +16,7 @@
 
 ▸ **compareArray**(`a`: unknown[], `b?`: unknown): boolean
 
-*Defined in [packages/types/src/codec/utils/compareArray.ts:10](https://github.com/polkadot-js/api/blob/05c0379f4/packages/types/src/codec/utils/compareArray.ts#L10)*
+*Defined in [packages/types/src/codec/utils/compareArray.ts:10](https://github.com/polkadot-js/api/blob/7fd45f63d/packages/types/src/codec/utils/compareArray.ts#L10)*
 
 #### Parameters:
 
