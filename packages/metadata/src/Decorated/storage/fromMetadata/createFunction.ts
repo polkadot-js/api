@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { Compact, Raw } from '@polkadot/types/codec';
 import { createTypeUnsafe } from '@polkadot/types/create';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
+import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import getHasher, { HasherFunction } from './getHasher';
@@ -68,7 +68,7 @@ function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
 
 // create a key for a DoubleMap type
 /** @internal */
-function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey: string, args: [CreateArgType, CreateArgType], [hasher1, hasher2]: [HasherFunction, HasherFunction?], metaVersion: number): Uint8Array {
+function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey: string, args: [CreateArgType, CreateArgType], [hasher1, hasher2]: [HasherFunction, HasherFunction?]): Uint8Array {
   const { meta: { name, type } } = itemFn;
 
   // since we are passing an almost-unknown through, trust, but verify
@@ -83,23 +83,16 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey
   const val2 = createTypeUnsafe(registry, map.key2.toString(), [key2]).toU8a();
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
-  return Compact.addLengthPrefix(
-    metaVersion <= 8
-      ? u8aConcat(
-        hasher1(u8aConcat(stringToU8a(stringKey), val1)),
-        hasher2(val2)
-      )
-      : u8aConcat(
-        createPrefixedKey(itemFn),
-        hasher1(val1),
-        hasher2(val2)
-      )
-  );
+  return Compact.addLengthPrefix(u8aConcat(
+    createPrefixedKey(itemFn),
+    hasher1(val1),
+    hasher2(val2)
+  ));
 }
 
 // create a key for either a map or a plain value
 /** @internal */
-function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array, metaVersion: number): Uint8Array {
+function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
   const { meta: { name, type } } = itemFn;
   let param: Uint8Array = EMPTY_U8A;
 
@@ -112,11 +105,12 @@ function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string,
   }
 
   // StorageKey is a Bytes, so is length-prefixed
-  return Compact.addLengthPrefix(
-    metaVersion <= 8
-      ? hasher(u8aConcat(stringToU8a(stringKey), param))
-      : u8aConcat(createPrefixedKey(itemFn), param.length ? hasher(param) : EMPTY_U8A)
-  );
+  return Compact.addLengthPrefix(u8aConcat(
+    createPrefixedKey(itemFn),
+    param.length
+      ? hasher(param)
+      : EMPTY_U8A
+  ));
 }
 
 // attach the metadata to expand to a StorageFunction
@@ -195,8 +189,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     type.isDoubleMap
-      ? createKeyDoubleMap(registry, itemFn, stringKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher], options.metaVersion)
-      : createKey(registry, itemFn, stringKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher, options.metaVersion);
+      ? createKeyDoubleMap(registry, itemFn, stringKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
+      : createKey(registry, itemFn, stringKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
 
   const storageFn = expandWithMeta(itemFn, _storageFn as StorageEntry);
 
