@@ -5,7 +5,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadataV1 from '@polkadot/metadata/Metadata/v1/static';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import { TypeRegistry } from '../../create';
@@ -14,21 +13,6 @@ import json3 from '../../json/EventRecord.003.json';
 
 describe('EventRecord', (): void => {
   const registry = new TypeRegistry();
-
-  describe('EventRecordTo76', (): void => {
-    beforeEach((): void => {
-      const metadata = new Metadata(registry, rpcMetadataV1);
-
-      registry.setMetadata(metadata);
-    });
-
-    it('decodes correctly', (): void => {
-      const records = registry.createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
-      const er = records[0];
-
-      expect(er.phase.type).toEqual('ApplyExtrinsic');
-    });
-  });
 
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {

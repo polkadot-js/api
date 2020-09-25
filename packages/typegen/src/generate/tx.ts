@@ -48,7 +48,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
             const params = args
               .map(({ name, type }) => {
                 const typeStr = type.toString();
-                const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
+                const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
                 const nameStr = mapName(name);
 
                 setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(') && !type.startsWith('{')), typeStr]);

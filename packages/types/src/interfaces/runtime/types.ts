@@ -4,7 +4,7 @@
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Int, Struct, U8aFixed, UInt, Vec } from '@polkadot/types/codec';
 import { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource } from '@polkadot/types/generic';
-import { Bytes, DoNotConstruct, Null, StorageKey, u128, u16, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, DoNotConstruct, Null, StorageKey, u32, u64 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
 
@@ -24,7 +24,7 @@ export interface Address extends GenericAddress {}
 export interface AssetId extends u32 {}
 
 /** @name Balance */
-export interface Balance extends u128 {}
+export interface Balance extends UInt {}
 
 /** @name BalanceOf */
 export interface BalanceOf extends Balance {}
@@ -170,19 +170,19 @@ export interface Pays extends Enum {
 }
 
 /** @name Perbill */
-export interface Perbill extends u32 {}
+export interface Perbill extends UInt {}
 
 /** @name Percent */
-export interface Percent extends u8 {}
+export interface Percent extends UInt {}
 
 /** @name Permill */
-export interface Permill extends u32 {}
+export interface Permill extends UInt {}
 
 /** @name Perquintill */
-export interface Perquintill extends u64 {}
+export interface Perquintill extends UInt {}
 
 /** @name PerU16 */
-export interface PerU16 extends u16 {}
+export interface PerU16 extends UInt {}
 
 /** @name Phantom */
 export interface Phantom extends Null {}

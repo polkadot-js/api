@@ -178,10 +178,6 @@ export default {
       event: 'Event',
       topics: 'Vec<Hash>'
     },
-    EventRecordTo76: {
-      phase: 'Phase',
-      event: 'Event'
-    },
     Health: {
       peers: 'u64',
       isSyncing: 'bool',
@@ -274,7 +270,8 @@ export default {
         Initialization: 'Null'
       }
     },
-    RefCount: 'u8',
+    RefCount: 'u32',
+    RefCountTo259: 'u8',
     TransactionValidityError: {
       _enum: {
         Invalid: 'InvalidTransaction',

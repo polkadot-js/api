@@ -4,20 +4,19 @@
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, tap, toArray } from 'rxjs/operators';
+import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/types';
-import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
+import { Metadata, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/types';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
@@ -35,8 +34,6 @@ interface MetaDecoration {
   section: string;
   toJSON: () => any;
 }
-
-type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
 
 const PAGE_SIZE_KEYS = 256;
 const PAGE_SIZE_VALS = PAGE_SIZE_KEYS;
@@ -336,10 +333,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
-      ? this._decorateStorageLinked(creator, decorateMethod)
-      : this._decorateStorageCall(creator, decorateMethod);
+    const decorated = this._decorateStorageCall(creator, decorateMethod);
 
     decorated.creator = creator;
 
@@ -422,85 +416,6 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ));
   }
 
-  // This is deprecated/removed on substrate - we still have some live chains, eg. Edgeware needing it, so it
-  // has not been dropped yet. Slated for removal in API 2.0
-  private _decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    const result = new Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null>();
-    let subject: BehaviorSubject<LinkageResult>;
-    let head: Codec | null = null;
-    const iterKey = creator.iterKey;
-
-    assert(iterKey, 'iterKey field is missing');
-
-    // retrieve a value based on the key, iterating if it has a next entry. Since
-    // entries can be re-linked in the middle of a list, we subscribe here to make
-    // sure we catch any updates, no matter the list position
-    const getNext = (key: Codec): Observable<LinkageResult> =>
-      this._rpcCore.state.getStorage<LinkageData | Option<LinkageData>>([creator, key]).pipe(
-        switchMap((_data: LinkageData | Option<LinkageData>): Observable<LinkageResult> => {
-          const data = creator.meta.modifier.isOptional
-            ? (_data as Option<LinkageData>).unwrapOr(null)
-            : _data as LinkageData;
-
-          result.set(key, data);
-
-          // iterate from this key to the linkages, constructing entries for all
-          // those found and available
-          if (data && data[1].next.isSome) {
-            return getNext(data[1].next.unwrap());
-          }
-
-          const [keys, vals]: [Codec[], Codec[]] = [[], []];
-          let nextKey = head;
-
-          // loop through the results collected, starting at the head an re-creating
-          // the list. Our map may have old entries, based on the linking these will
-          // not be returned in the final result
-          while (nextKey) {
-            const entry = result.get(nextKey);
-
-            if (!entry) {
-              break;
-            }
-
-            const [item, linkage] = entry;
-
-            keys.push(nextKey);
-            vals.push(item);
-
-            nextKey = linkage.next?.unwrapOr(null);
-          }
-
-          const nextResult = vals.length
-            ? new LinkageResult(this.#registry, [keys[0].constructor as any, keys], [vals[0].constructor as any, vals])
-            : new LinkageResult(this.#registry, [Null, []], [Null, []]);
-
-          // we set our result into a subject so we have a single observable for
-          // which the value changes over time. Initially create, follow-up next
-          if (subject) {
-            subject.next(nextResult);
-          } else {
-            subject = new BehaviorSubject(nextResult);
-          }
-
-          return subject;
-        }));
-
-    // this handles the case where the head changes effectively, i.e. a new entry
-    // appears at the top of the list, the new getNext gets kicked off
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((...args: unknown[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
-      args.length
-        ? this._rpcCore.state
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
-          .pipe(map(([data]) => data))
-        : this._rpcCore.state
-          .subscribeStorage<[LinkageResult]>([iterKey()])
-          .pipe(switchMap(([key]) => getNext(head = key)))
-    );
-  }
-
   private _retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
@@ -540,11 +455,14 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           of(keys),
           ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
             .fill(0)
-            .map((_, index): Observable<Codec[]> =>
-              this._rpcCore.state.queryStorageAt<Codec[]>(
-                keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS)
-              )
-            )
+            .map((_, index): Observable<Codec[]> => {
+              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
+
+              return this._rpcCore.state.queryStorageAt
+                ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
+                // this is horrible, but need older support
+                : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
+            })
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>
