@@ -16,7 +16,7 @@
 
 ▸ **events**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/tx/events.ts:17](https://github.com/polkadot-js/api/blob/7fd45f63d/packages/api-derive/src/tx/events.ts#L17)*
+*Defined in [packages/api-derive/src/tx/events.ts:17](https://github.com/polkadot-js/api/blob/7af915185/packages/api-derive/src/tx/events.ts#L17)*
 
 #### Parameters:
 
