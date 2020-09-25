@@ -20,4 +20,4 @@
 
 • `Const` **MAGIC\_NUMBER**: 1635018093 = 1635018093
 
-*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:10](https://github.com/polkadot-js/api/blob/ee6b6da02/packages/metadata/src/Metadata/MagicNumber.ts#L10)*
+*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:10](https://github.com/polkadot-js/api/blob/5ce3524cc/packages/metadata/src/Metadata/MagicNumber.ts#L10)*

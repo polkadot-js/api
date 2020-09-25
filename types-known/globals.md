@@ -8,7 +8,6 @@
 
 ### Modules
 
-* ["packages/types-known/src/metadata"](modules/_packages_types_known_src_metadata_.md)
 * ["packages/types-known/src/modules"](modules/_packages_types_known_src_modules_.md)
 * ["packages/types-known/src/spec/centrifuge-chain"](modules/_packages_types_known_src_spec_centrifuge_chain_.md)
 * ["packages/types-known/src/spec/kusama"](modules/_packages_types_known_src_spec_kusama_.md)
