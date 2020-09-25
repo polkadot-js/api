@@ -22,62 +22,73 @@ export { AllHashers };
 export default {
   rpc: {},
   types: {
-    // v5
-    DoubleMapTypeV5: {
-      hasher: 'StorageHasherV5',
+    // v9
+    DoubleMapTypeV9: {
+      hasher: 'StorageHasherV9',
       key1: 'Type',
       key2: 'Type',
       value: 'Type',
-      key2Hasher: 'StorageHasherV5'
+      key2Hasher: 'StorageHasherV9'
     },
-    EventMetadataV5: {
+    ErrorMetadataV9: {
+      name: 'Text',
+      documentation: 'Vec<Text>'
+    },
+    EventMetadataV9: {
       name: 'Text',
       args: 'Vec<Type>',
       documentation: 'Vec<Text>'
     },
-    FunctionArgumentMetadataV5: {
+    FunctionArgumentMetadataV9: {
       name: 'Text',
       type: 'Type'
     },
-    FunctionMetadataV5: {
+    FunctionMetadataV9: {
       name: 'Text',
-      args: 'Vec<FunctionArgumentMetadataV5>',
+      args: 'Vec<FunctionArgumentMetadataV9>',
       documentation: 'Vec<Text>'
     },
-    MapTypeV5: {
-      hasher: 'StorageHasherV5',
+    MapTypeV9: {
+      hasher: 'StorageHasherV9',
       key: 'Type',
       value: 'Type',
       linked: 'bool'
     },
-    MetadataV5: {
-      modules: 'Vec<ModuleMetadataV5>'
+    MetadataV9: {
+      modules: 'Vec<ModuleMetadataV9>'
     },
-    ModuleMetadataV5: {
+    ModuleConstantMetadataV9: {
       name: 'Text',
-      prefix: 'Text',
-      storage: 'Option<Vec<StorageFunctionMetadataV5>>',
-      calls: 'Option<Vec<FunctionMetadataV5>>',
-      events: 'Option<Vec<EventMetadataV5>>'
+      type: 'Type',
+      value: 'Bytes',
+      documentation: 'Vec<Text>'
     },
-    StorageFunctionMetadataV5: {
+    ModuleMetadataV9: {
       name: 'Text',
-      modifier: 'StorageFunctionModifierV5',
-      type: 'StorageFunctionTypeV5',
+      storage: 'Option<StorageMetadataV9>',
+      calls: 'Option<Vec<FunctionMetadataV9>>',
+      events: 'Option<Vec<EventMetadataV9>>',
+      constants: 'Vec<ModuleConstantMetadataV9>',
+      errors: 'Vec<ErrorMetadataV9>'
+    },
+    StorageEntryMetadataV9: {
+      name: 'Text',
+      modifier: 'StorageEntryModifierV9',
+      type: 'StorageEntryTypeV9',
       fallback: 'Bytes',
       documentation: 'Vec<Text>'
     },
-    StorageFunctionModifierV5: {
+    StorageEntryModifierV9: {
       _enum: ['Optional', 'Default', 'Required']
     },
-    StorageFunctionTypeV5: {
+    StorageEntryTypeV9: {
       _enum: {
         Plain: 'Type',
-        Map: 'MapTypeV5',
-        DoubleMap: 'DoubleMapTypeV5'
+        Map: 'MapTypeV9',
+        DoubleMap: 'DoubleMapTypeV9'
       }
     },
-    StorageHasherV5: {
+    StorageHasherV9: {
       _enum: {
         Blake2_128: null, // eslint-disable-line camelcase
         Blake2_256: null, // eslint-disable-line camelcase
@@ -86,104 +97,10 @@ export default {
         Twox64Concat: null
       }
     },
-
-    // v6
-    DoubleMapTypeV6: 'DoubleMapTypeV5',
-    EventMetadataV6: 'EventMetadataV5',
-    FunctionArgumentMetadataV6: 'FunctionArgumentMetadataV5',
-    FunctionMetadataV6: 'FunctionMetadataV5',
-    MapTypeV6: 'MapTypeV5',
-    MetadataV6: {
-      modules: 'Vec<ModuleMetadataV6>'
-    },
-    ModuleConstantMetadataV6: {
-      name: 'Text',
-      type: 'Type',
-      value: 'Bytes',
-      documentation: 'Vec<Text>'
-    },
-    ModuleMetadataV6: {
-      name: 'Text',
+    StorageMetadataV9: {
       prefix: 'Text',
-      storage: 'Option<Vec<StorageEntryMetadataV6>>',
-      calls: 'Option<Vec<FunctionMetadataV6>>',
-      events: 'Option<Vec<EventMetadataV6>>',
-      constants: 'Vec<ModuleConstantMetadataV6>'
+      items: 'Vec<StorageEntryMetadataV9>'
     },
-    PlainTypeV6: 'Type',
-    StorageEntryModifierV6: 'StorageFunctionModifierV5',
-    StorageEntryMetadataV6: 'StorageFunctionMetadataV5',
-    StorageEntryTypeV6: 'StorageFunctionTypeV5',
-    StorageHasherV6: 'StorageHasherV5',
-
-    // v7
-    DoubleMapTypeV7: 'DoubleMapTypeV6',
-    EventMetadataV7: 'EventMetadataV6',
-    FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6',
-    FunctionMetadataV7: 'FunctionMetadataV6',
-    MapTypeV7: 'MapTypeV6',
-    MetadataV7: {
-      modules: 'Vec<ModuleMetadataV7>'
-    },
-    ModuleConstantMetadataV7: 'ModuleConstantMetadataV6',
-    ModuleMetadataV7: {
-      name: 'Text',
-      storage: 'Option<StorageMetadataV7>',
-      calls: 'Option<Vec<FunctionMetadataV7>>',
-      events: 'Option<Vec<EventMetadataV7>>',
-      constants: 'Vec<ModuleConstantMetadataV7>'
-    },
-    PlainTypeV7: 'Type',
-    StorageEntryModifierV7: 'StorageEntryModifierV6',
-    StorageEntryMetadataV7: 'StorageEntryMetadataV6',
-    StorageEntryTypeV7: 'StorageEntryTypeV6',
-    StorageHasherV7: 'StorageHasherV6',
-    StorageMetadataV7: {
-      prefix: 'Text',
-      items: 'Vec<StorageEntryMetadataV7>'
-    },
-
-    // v8
-    DoubleMapTypeV8: 'DoubleMapTypeV7',
-    ErrorMetadataV8: {
-      name: 'Text',
-      documentation: 'Vec<Text>'
-    },
-    EventMetadataV8: 'EventMetadataV7',
-    FunctionArgumentMetadataV8: 'FunctionArgumentMetadataV7',
-    FunctionMetadataV8: 'FunctionMetadataV7',
-    MetadataV8: {
-      modules: 'Vec<ModuleMetadataV8>'
-    },
-    ModuleConstantMetadataV8: 'ModuleConstantMetadataV7',
-    ModuleMetadataV8: {
-      name: 'Text',
-      storage: 'Option<StorageMetadataV8>',
-      calls: 'Option<Vec<FunctionMetadataV8>>',
-      events: 'Option<Vec<EventMetadataV8>>',
-      constants: 'Vec<ModuleConstantMetadataV8>',
-      errors: 'Vec<ErrorMetadataV8>'
-    },
-    StorageEntryModifierV8: 'StorageEntryModifierV7',
-    StorageEntryMetadataV8: 'StorageEntryMetadataV7',
-    StorageEntryTypeV8: 'StorageEntryTypeV7',
-    StorageHasherV8: 'StorageHasherV7',
-    StorageMetadataV8: 'StorageMetadataV7',
-
-    // v9
-    DoubleMapTypeV9: 'DoubleMapTypeV8',
-    ErrorMetadataV9: 'ErrorMetadataV8',
-    EventMetadataV9: 'EventMetadataV8',
-    FunctionArgumentMetadataV9: 'FunctionArgumentMetadataV8',
-    FunctionMetadataV9: 'FunctionMetadataV8',
-    MetadataV9: 'MetadataV8',
-    ModuleConstantMetadataV9: 'ModuleConstantMetadataV8',
-    ModuleMetadataV9: 'ModuleMetadataV8',
-    StorageEntryModifierV9: 'StorageEntryModifierV8',
-    StorageEntryMetadataV9: 'StorageEntryMetadataV8',
-    StorageEntryTypeV9: 'StorageEntryTypeV8',
-    StorageHasherV9: 'StorageHasherV8',
-    StorageMetadataV9: 'StorageMetadataV8',
 
     // v10
     DoubleMapTypeV10: {
