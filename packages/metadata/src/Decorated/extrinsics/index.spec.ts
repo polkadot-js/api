@@ -37,12 +37,13 @@ describe('extrinsics', (): void => {
       }).toHex()
     ).toEqual(
       '0x' +
-      '2502' + // length
-      '81' + // signed flag
+      '2d02' + // length
+      '84' + // signed flag
       'ffd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' + // who
-      '5322aca55349f72dbfa57f3e2484f3457c960fbd7f540fcf70433180c70f8af5' + // sig1
-      '0f3c8dd7a7fbc8e23cfd9e3bc87f31008598e2be3feef512ed942f0240e1a908' + // sig2
-      '0000' + // nonce & era
+      '00' + // ed25519
+      '4634f7b973084f983ef48e2afbd72a990f7d4dd9d86c39e645cb34d9a45466b6' + // sig1
+      '263f0f2020363a6475f91e323a8b1bd43dedd97e78ec3c5d5b5197466305400e' + // sig2
+      '000000' + // nonce, era, tip
       '0600' + // balances.transfer
       'ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' + // to
       'e56c' // value

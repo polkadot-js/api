@@ -25,7 +25,7 @@ describe('SignerPayload', (): void => {
     specVersion: '0x00000006',
     tip: '0x00000000000000000000000000005678',
     transactionVersion: '0x00000007',
-    version: 3
+    version: 4
   };
 
   it('creates a valid JSON output', (): void => {
@@ -40,7 +40,7 @@ describe('SignerPayload', (): void => {
         nonce: 0x1234,
         signedExtensions: ['CheckNonce'],
         tip: 0x5678,
-        version: 3
+        version: 4
       }).toPayload()
     ).toEqual({
       address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
@@ -54,7 +54,7 @@ describe('SignerPayload', (): void => {
       specVersion: '0x00000000',
       tip: '0x00000000000000000000000000005678',
       transactionVersion: '0x00000000',
-      version: 3
+      version: 4
     });
   });
 
