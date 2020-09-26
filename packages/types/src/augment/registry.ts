@@ -20,7 +20,7 @@ import { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, Vote
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
 import { EthereumAccountId, EthereumLookupSource } from '@polkadot/types/interfaces/ethereum';
 import { Account, Log, Vicinity } from '@polkadot/types/interfaces/evm';
-import { EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicSignatureV3, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV3, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
+import { EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, EncodedFinalityProofs, GrandpaEquivocation, GrandpaEquivocationProof, GrandpaEquivocationValue, GrandpaPrevote, JustificationNotification, KeyOwnerProof, NextAuthority, PendingPause, PendingResume, Precommits, Prevotes, ReportedRoundStates, RoundState, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
@@ -626,15 +626,6 @@ declare module '@polkadot/types/types/registry' {
     ExtrinsicPayload: ExtrinsicPayload;
     'Option<ExtrinsicPayload>': Option<ExtrinsicPayload>;
     'Vec<ExtrinsicPayload>': Vec<ExtrinsicPayload>;
-    ExtrinsicV3: ExtrinsicV3;
-    'Option<ExtrinsicV3>': Option<ExtrinsicV3>;
-    'Vec<ExtrinsicV3>': Vec<ExtrinsicV3>;
-    ExtrinsicPayloadV3: ExtrinsicPayloadV3;
-    'Option<ExtrinsicPayloadV3>': Option<ExtrinsicPayloadV3>;
-    'Vec<ExtrinsicPayloadV3>': Vec<ExtrinsicPayloadV3>;
-    ExtrinsicSignatureV3: ExtrinsicSignatureV3;
-    'Option<ExtrinsicSignatureV3>': Option<ExtrinsicSignatureV3>;
-    'Vec<ExtrinsicSignatureV3>': Vec<ExtrinsicSignatureV3>;
     ExtrinsicV4: ExtrinsicV4;
     'Option<ExtrinsicV4>': Option<ExtrinsicV4>;
     'Vec<ExtrinsicV4>': Vec<ExtrinsicV4>;

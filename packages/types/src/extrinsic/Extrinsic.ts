@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { FunctionMetadataLatest } from '../interfaces/metadata/types';
-import { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV3, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
+import { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import { Address, Balance, Call, Index } from '../interfaces/runtime';
 import { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../types';
 
@@ -10,7 +10,6 @@ import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/u
 
 import Base from '../codec/Base';
 import Compact from '../codec/Compact';
-import { ExtrinsicValueV3 } from './v3/Extrinsic';
 import { ExtrinsicValueV4 } from './v4/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
@@ -22,14 +21,14 @@ interface CreateOptions {
 // NOTE The following 2 types, as well as the VERSION structure and the latest export
 // is to be changed with the addition of a new extrinsic version
 
-type ExtrinsicVx = ExtrinsicV3 | ExtrinsicV4;
-type ExtrinsicValue = ExtrinsicValueV3 | ExtrinsicValueV4;
+type ExtrinsicVx = ExtrinsicV4;
+type ExtrinsicValue = ExtrinsicValueV4;
 
 const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
-  'ExtrinsicV3',
+  'ExtrinsicUnknown',
   'ExtrinsicV4'
 ];
 
