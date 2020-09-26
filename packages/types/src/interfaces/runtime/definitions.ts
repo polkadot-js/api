@@ -84,6 +84,11 @@ export default {
     Moment: 'u64',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
+    PalletVersion: {
+      major: 'u16',
+      minor: 'u8',
+      patch: 'u8'
+    },
     Pays: {
       _enum: ['Yes', 'No']
     },

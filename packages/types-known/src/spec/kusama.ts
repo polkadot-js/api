@@ -133,10 +133,16 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [2023, undefined],
+    minmax: [2023, 2024],
     types: {
       ...sharedTypes,
       RefCount: 'RefCountTo259'
+    }
+  },
+  {
+    minmax: [2025, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];
