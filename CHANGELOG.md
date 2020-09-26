@@ -6,7 +6,7 @@ Upgrade priority: Medium. Required for all teams building on Substrate 2.0 for f
 
 - **Important** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
 - **Breaking change** Metadata versions before v9 as not supported anymore. v4 was the first version to go with the Substrate 1.0 while Kusama itself starts at v9 as the earliest version. This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
-- **Breaking change** Extrinsic versions before v3 are not supported anymore. This aligns with the above metadata change, where v4 is the canonical version.
+- **Breaking change** Extrinsic versions before v4 (1-3) are not supported anymore. This aligns with the above metadata change, where v4 is the canonical version.
 - **Breaking change** Support for the old-style linked-map retrievals via `query.<module>.map()` have been dropped, only the existing `.keys()/.entries()` are available for map iteration.
 
 Changes:
