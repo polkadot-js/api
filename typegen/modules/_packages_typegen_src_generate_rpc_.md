@@ -16,6 +16,6 @@
 
 ▸ **generateDefaultRpcTypes**(): void
 
-*Defined in [packages/typegen/src/generate/rpc.ts:116](https://github.com/polkadot-js/api/blob/19d6165bd/packages/typegen/src/generate/rpc.ts#L116)*
+*Defined in [packages/typegen/src/generate/rpc.ts:116](https://github.com/polkadot-js/api/blob/c27e41be3/packages/typegen/src/generate/rpc.ts#L116)*
 
 **Returns:** void
