@@ -16,7 +16,7 @@
 
 ▸ **stashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stashes.ts:15](https://github.com/polkadot-js/api/blob/c27e41be3/packages/api-derive/src/staking/stashes.ts#L15)*
+*Defined in [packages/api-derive/src/staking/stashes.ts:15](https://github.com/polkadot-js/api/blob/cb93cb34b/packages/api-derive/src/staking/stashes.ts#L15)*
 
 **`description`** Retrieve the list of all validator stashes
 
