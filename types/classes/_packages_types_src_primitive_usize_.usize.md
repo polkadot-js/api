@@ -65,7 +65,7 @@ ___
 
 *Overrides [UInt](_packages_types_src_codec_uint_.uint.md).[constructor](_packages_types_src_codec_uint_.uint.md#constructor)*
 
-*Defined in [packages/types/src/primitive/USize.ts:15](https://github.com/polkadot-js/api/blob/8631f68ba/packages/types/src/primitive/USize.ts#L15)*
+*Defined in [packages/types/src/primitive/USize.ts:15](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/primitive/USize.ts#L15)*
 
 #### Parameters:
 
@@ -84,7 +84,7 @@ Name | Type |
 
 *Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[with](_packages_types_src_codec_uint_.uint.md#with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/8631f68ba/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/codec/UInt.ts#L23)*
 
 #### Parameters:
 

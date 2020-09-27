@@ -16,6 +16,6 @@
 
 ▸ **main**(): void
 
-*Defined in [packages/typegen/src/fromDefs.ts:11](https://github.com/polkadot-js/api/blob/8631f68ba/packages/typegen/src/fromDefs.ts#L11)*
+*Defined in [packages/typegen/src/fromDefs.ts:11](https://github.com/polkadot-js/api/blob/73ffb034d/packages/typegen/src/fromDefs.ts#L11)*
 
 **Returns:** void

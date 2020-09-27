@@ -17,7 +17,7 @@
 
 ▪ `Const` **deriveMapCache**: object
 
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:8](https://github.com/polkadot-js/api/blob/8631f68ba/packages/api-derive/src/util/cacheImpl.ts#L8)*
+*Defined in [packages/api-derive/src/util/cacheImpl.ts:8](https://github.com/polkadot-js/api/blob/73ffb034d/packages/api-derive/src/util/cacheImpl.ts#L8)*
 
 #### Properties:
 
@@ -34,7 +34,7 @@ ___
 
 ▪ `Const` **deriveNoopCache**: object
 
-*Defined in [packages/api-derive/src/util/cacheImpl.ts:27](https://github.com/polkadot-js/api/blob/8631f68ba/packages/api-derive/src/util/cacheImpl.ts#L27)*
+*Defined in [packages/api-derive/src/util/cacheImpl.ts:27](https://github.com/polkadot-js/api/blob/73ffb034d/packages/api-derive/src/util/cacheImpl.ts#L27)*
 
 #### Properties:
 

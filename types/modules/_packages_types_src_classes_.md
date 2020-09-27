@@ -16,4 +16,4 @@
 
 Ƭ  **CodecTypes**: keyof *typeof* Classes
 
-*Defined in [packages/types/src/classes.ts:6](https://github.com/polkadot-js/api/blob/8631f68ba/packages/types/src/classes.ts#L6)*
+*Defined in [packages/types/src/classes.ts:6](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/classes.ts#L6)*
