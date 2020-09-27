@@ -124,7 +124,7 @@ describe('UInt', (): void => {
       expect(registry.createType('Perbill', 12_340_000).toHuman()).toEqual('1.23%');
       expect(registry.createType('Percent', 12).toHuman()).toEqual('12.00%');
       expect(registry.createType('Permill', 16_900).toHuman()).toEqual('1.69%');
-      expect(registry.createType('Balance', '123456789012345').toHuman()).toEqual('123.456 Unit');
+      expect(registry.createType('Balance', '123456789012345').toHuman()).toEqual('123.4567 Unit');
     });
   });
 });

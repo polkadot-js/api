@@ -36,10 +36,10 @@ describe('Extrinsic', (): void => {
 
       expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '1,024', phase: '186' } });
       expect(extrinsic.nonce.toNumber()).toEqual(68);
-      expect(extrinsic.tip.toHuman()).toEqual('30.000m Unit');
+      expect(extrinsic.tip.toHuman()).toEqual('30.0000 mUnit');
       expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 0]));
       expect(extrinsic.args[0].toHex()).toEqual('0xff495e1e506f266418af07fa0c5c108dd436f2faa59fe7d9e54403779f5bbd7718');
-      expect(extrinsic.args[1].toHuman()).toEqual('104.560 Unit');
+      expect(extrinsic.args[1].toHuman()).toEqual('104.5609 Unit');
     });
   });
 });
