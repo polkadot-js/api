@@ -19,7 +19,7 @@
                     "linked": false
                   }
                 },
-                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
                   " The full account information for a particular account ID."
                 ]
@@ -189,6 +189,17 @@
                 "fallback": "0x00",
                 "documentation": [
                   " Stores the `spec_version` and `spec_name` of when the last runtime upgrade happened."
+                ]
+              },
+              {
+                "name": "UpgradedToU32RefCount",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "bool"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " True if we have upgraded so that `type RefCount` is `u32`. False (default) if not."
                 ]
               },
               {
@@ -403,7 +414,7 @@
                 "DispatchInfo"
               ],
               "documentation": [
-                " An extrinsic completed successfully. [info]"
+                " An extrinsic completed successfully. \\[info\\]"
               ]
             },
             {
@@ -413,7 +424,7 @@
                 "DispatchInfo"
               ],
               "documentation": [
-                " An extrinsic failed. [error, info]"
+                " An extrinsic failed. \\[error, info\\]"
               ]
             },
             {
@@ -429,7 +440,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A new [account] was created."
+                " A new \\[account\\] was created."
               ]
             },
             {
@@ -438,7 +449,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An [account] was reaped."
+                " An \\[account\\] was reaped."
               ]
             }
           ],
@@ -603,7 +614,7 @@
               ],
               "documentation": [
                 " Batch of dispatches did not complete fully. Index of first failing dispatch given, as",
-                " well as the error. [index, error]"
+                " well as the error. \\[index, error\\]"
               ]
             },
             {
@@ -1070,7 +1081,6 @@
                 " - One reserve operation.",
                 " - One event.",
                 " -------------------",
-                " - Base Weight: 28.69 µs",
                 " - DB Weight: 1 Read/Write (Accounts)",
                 " # </weight>"
               ]
@@ -1104,7 +1114,6 @@
                 " - One transfer operation.",
                 " - One event.",
                 " -------------------",
-                " - Base Weight: 33.74 µs",
                 " - DB Weight:",
                 "    - Reads: Indices Accounts, System Account (recipient)",
                 "    - Writes: Indices Accounts, System Account (recipient)",
@@ -1136,7 +1145,6 @@
                 " - One reserve operation.",
                 " - One event.",
                 " -------------------",
-                " - Base Weight: 25.53 µs",
                 " - DB Weight: 1 Read/Write (Accounts)",
                 " # </weight>"
               ]
@@ -1175,7 +1183,6 @@
                 " - Up to one reserve operation.",
                 " - One event.",
                 " -------------------",
-                " - Base Weight: 26.83 µs",
                 " - DB Weight:",
                 "    - Reads: Indices Accounts, System Account (original owner)",
                 "    - Writes: Indices Accounts, System Account (original owner)",
@@ -1206,7 +1213,6 @@
                 " - Up to one slash operation.",
                 " - One event.",
                 " -------------------",
-                " - Base Weight: 30.86 µs",
                 " - DB Weight: 1 Read/Write (Accounts)",
                 " # </weight>"
               ]
@@ -1220,7 +1226,7 @@
                 "AccountIndex"
               ],
               "documentation": [
-                " A account index was assigned. [who, index]"
+                " A account index was assigned. \\[who, index\\]"
               ]
             },
             {
@@ -1229,7 +1235,7 @@
                 "AccountIndex"
               ],
               "documentation": [
-                " A account index has been freed up (unassigned). [index]"
+                " A account index has been freed up (unassigned). \\[index\\]"
               ]
             },
             {
@@ -1239,7 +1245,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A account index has been frozen to its current account ID. [who, index]"
+                " A account index has been frozen to its current account ID. \\[who, index\\]"
               ]
             }
           ],
@@ -1462,7 +1468,7 @@
                 "Balance"
               ],
               "documentation": [
-                " An account was created with some free balance. [account, free_balance]"
+                " An account was created with some free balance. \\[account, free_balance\\]"
               ]
             },
             {
@@ -1473,7 +1479,7 @@
               ],
               "documentation": [
                 " An account was removed whose balance was non-zero but below ExistentialDeposit,",
-                " resulting in an outright loss. [account, balance]"
+                " resulting in an outright loss. \\[account, balance\\]"
               ]
             },
             {
@@ -1484,7 +1490,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Transfer succeeded. [from, to, value]"
+                " Transfer succeeded. \\[from, to, value\\]"
               ]
             },
             {
@@ -1495,7 +1501,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A balance was set by root. [who, free, reserved]"
+                " A balance was set by root. \\[who, free, reserved\\]"
               ]
             },
             {
@@ -1505,7 +1511,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some amount was deposited (e.g. for transaction fees). [who, deposit]"
+                " Some amount was deposited (e.g. for transaction fees). \\[who, deposit\\]"
               ]
             },
             {
@@ -1515,7 +1521,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some balance was reserved (moved from free to reserved). [who, value]"
+                " Some balance was reserved (moved from free to reserved). \\[who, value\\]"
               ]
             },
             {
@@ -1525,7 +1531,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some balance was unreserved (moved from reserved to free). [who, value]"
+                " Some balance was unreserved (moved from reserved to free). \\[who, value\\]"
               ]
             },
             {
@@ -1539,7 +1545,7 @@
               "documentation": [
                 " Some balance was moved from the reserve of the first account to the second account.",
                 " Final argument indicates the destination balance type.",
-                " [from, to, balance, destination_status]"
+                " \\[from, to, balance, destination_status\\]"
               ]
             }
           ],
@@ -2224,7 +2230,7 @@
                 " NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned",
                 " unless the `origin` falls below _existential deposit_ and gets removed as dust.",
                 " ------------------",
-                " Base Weight: 67.87 µs",
+                " Weight: O(1)",
                 " DB Weight:",
                 " - Read: Bonded, Ledger, [Origin Account], Current Era, History Depth, Locks",
                 " - Write: Bonded, Payee, [Origin Account], Locks, Ledger",
@@ -2257,7 +2263,6 @@
                 " - O(1).",
                 " - One DB entry.",
                 " ------------",
-                " Base Weight: 54.88 µs",
                 " DB Weight:",
                 " - Read: Era Election Status, Bonded, Ledger, [Origin Account], Locks",
                 " - Write: [Origin Account], Locks, Ledger",
@@ -2300,10 +2305,10 @@
                 "   `withdraw_unbonded`.",
                 " - One DB entry.",
                 " ----------",
-                " Base Weight: 50.34 µs",
+                " Weight: O(1)",
                 " DB Weight:",
-                " - Read: Era Election Status, Ledger, Current Era, Locks, [Origin Account]",
-                " - Write: [Origin Account], Locks, Ledger",
+                " - Read: EraElectionStatus, Ledger, CurrentEra, Locks, BalanceOf Stash,",
+                " - Write: Locks, Ledger, BalanceOf Stash,",
                 " </weight>"
               ]
             },
@@ -2336,13 +2341,14 @@
                 " - Writes are limited to the `origin` account key.",
                 " ---------------",
                 " Complexity O(S) where S is the number of slashing spans to remove",
-                " Base Weight:",
-                " Update: 50.52 + .028 * S µs",
+                " Update:",
                 " - Reads: EraElectionStatus, Ledger, Current Era, Locks, [Origin Account]",
                 " - Writes: [Origin Account], Locks, Ledger",
-                " Kill: 79.41 + 2.366 * S µs",
-                " - Reads: EraElectionStatus, Ledger, Current Era, Bonded, Slashing Spans, [Origin Account], Locks",
-                " - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, [Origin Account], Locks",
+                " Kill:",
+                " - Reads: EraElectionStatus, Ledger, Current Era, Bonded, Slashing Spans, [Origin",
+                "   Account], Locks, BalanceOf stash",
+                " - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,",
+                "   [Origin Account], Locks, BalanceOf stash.",
                 " - Writes Each: SpanSlash * S",
                 " NOTE: Weight annotation is the kill scenario, we refund otherwise.",
                 " # </weight>"
@@ -2369,7 +2375,7 @@
                 " - Contains a limited number of reads.",
                 " - Writes are limited to the `origin` account key.",
                 " -----------",
-                " Base Weight: 17.13 µs",
+                " Weight: O(1)",
                 " DB Weight:",
                 " - Read: Era Election Status, Ledger",
                 " - Write: Nominators, Validators",
@@ -2398,7 +2404,7 @@
                 " which is capped at CompactAssignments::LIMIT (MAX_NOMINATIONS).",
                 " - Both the reads and writes follow a similar pattern.",
                 " ---------",
-                " Base Weight: 22.34 + .36 * N µs",
+                " Weight: O(N)",
                 " where N is the number of targets",
                 " DB Weight:",
                 " - Reads: Era Election Status, Ledger, Current Era",
@@ -2422,7 +2428,7 @@
                 " - Contains one read.",
                 " - Writes are limited to the `origin` account key.",
                 " --------",
-                " Base Weight: 16.53 µs",
+                " Weight: O(1)",
                 " DB Weight:",
                 " - Read: EraElectionStatus, Ledger",
                 " - Write: Validators, Nominators",
@@ -2449,7 +2455,7 @@
                 " - Contains a limited number of reads.",
                 " - Writes are limited to the `origin` account key.",
                 " ---------",
-                " - Base Weight: 11.33 µs",
+                " - Weight: O(1)",
                 " - DB Weight:",
                 "     - Read: Ledger",
                 "     - Write: Payee",
@@ -2476,7 +2482,7 @@
                 " - Contains a limited number of reads.",
                 " - Writes are limited to the `origin` account key.",
                 " ----------",
-                " Base Weight: 25.22 µs",
+                " Weight: O(1)",
                 " DB Weight:",
                 " - Read: Bonded, Ledger New Controller, Ledger Old Controller",
                 " - Write: Bonded, Ledger New Controller, Ledger Old Controller",
@@ -2497,7 +2503,7 @@
                 " The dispatch origin must be Root.",
                 "",
                 " # <weight>",
-                " Base Weight: 1.717 µs",
+                " Weight: O(1)",
                 " Write: Validator Count",
                 " # </weight>"
               ]
@@ -2516,8 +2522,7 @@
                 " The dispatch origin must be Root.",
                 "",
                 " # <weight>",
-                " Base Weight: 1.717 µs",
-                " Read/Write: Validator Count",
+                " Same as [`set_validator_count`].",
                 " # </weight>"
               ]
             },
@@ -2535,8 +2540,7 @@
                 " The dispatch origin must be Root.",
                 "",
                 " # <weight>",
-                " Base Weight: 1.717 µs",
-                " Read/Write: Validator Count",
+                " Same as [`set_validator_count`].",
                 " # </weight>"
               ]
             },
@@ -2550,7 +2554,7 @@
                 "",
                 " # <weight>",
                 " - No arguments.",
-                " - Base Weight: 1.857 µs",
+                " - Weight: O(1)",
                 " - Write: ForceEra",
                 " # </weight>"
               ]
@@ -2566,7 +2570,7 @@
                 "",
                 " # <weight>",
                 " - No arguments.",
-                " - Base Weight: 1.959 µs",
+                " - Weight: O(1)",
                 " - Write ForceEra",
                 " # </weight>"
               ]
@@ -2575,7 +2579,7 @@
               "name": "set_invulnerables",
               "args": [
                 {
-                  "name": "validators",
+                  "name": "invulnerables",
                   "type": "Vec<AccountId>"
                 }
               ],
@@ -2586,7 +2590,6 @@
                 "",
                 " # <weight>",
                 " - O(V)",
-                " - Base Weight: 2.208 + .006 * V µs",
                 " - Write: Invulnerables",
                 " # </weight>"
               ]
@@ -2610,7 +2613,6 @@
                 "",
                 " # <weight>",
                 " O(S) where S is the number of slashing spans to be removed",
-                " Base Weight: 53.07 + 2.365 * S µs",
                 " Reads: Bonded, Slashing Spans, Account, Locks",
                 " Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Account, Locks",
                 " Writes Each: SpanSlash * S",
@@ -2626,7 +2628,7 @@
                 " The dispatch origin must be Root.",
                 "",
                 " # <weight>",
-                " - Base Weight: 2.05 µs",
+                " - Weight: O(1)",
                 " - Write: ForceEra",
                 " # </weight>"
               ]
@@ -2654,7 +2656,6 @@
                 " Complexity: O(U + S)",
                 " with U unapplied slashes weighted with U=1000",
                 " and S is the number of slash indices to be canceled.",
-                " - Base: 5870 + 34.61 * S µs",
                 " - Read: Unapplied Slashes",
                 " - Write: Unapplied Slashes",
                 " # </weight>"
@@ -2689,14 +2690,17 @@
                 " - Contains a limited number of reads and writes.",
                 " -----------",
                 " N is the Number of payouts for the validator (including the validator)",
-                " Base Weight:",
-                " - Reward Destination Staked: 110 + 54.2 * N µs (Median Slopes)",
-                " - Reward Destination Controller (Creating): 120 + 41.95 * N µs (Median Slopes)",
+                " Weight:",
+                " - Reward Destination Staked: O(N)",
+                " - Reward Destination Controller (Creating): O(N)",
                 " DB Weight:",
                 " - Read: EraElectionStatus, CurrentEra, HistoryDepth, ErasValidatorReward,",
                 "         ErasStakersClipped, ErasRewardPoints, ErasValidatorPrefs (8 items)",
                 " - Read Each: Bonded, Ledger, Payee, Locks, System Account (5 items)",
                 " - Write Each: System Account, Locks, Ledger (3 items)",
+                "",
+                "   NOTE: weights are assuming that payouts are made to alive stash account (Staked).",
+                "   Paying even a dead controller is cheaper weight-wise. We don't do any refunds here.",
                 " # </weight>"
               ]
             },
@@ -2719,7 +2723,6 @@
                 " - Bounded by `MAX_UNLOCKING_CHUNKS`.",
                 " - Storage changes: Can't increase storage, only decrease it.",
                 " ---------------",
-                " - Base Weight: 34.51 µs * .048 L µs",
                 " - DB Weight:",
                 "     - Reads: EraElectionStatus, Ledger, Locks, [Origin Account]",
                 "     - Writes: [Origin Account], Locks, Ledger",
@@ -2753,7 +2756,7 @@
                 "",
                 " # <weight>",
                 " - E: Number of history depths removed, i.e. 10 -> 7 = 3",
-                " - Base Weight: 29.13 * E µs",
+                " - Weight: O(E)",
                 " - DB Weight:",
                 "     - Reads: Current Era, History Depth",
                 "     - Writes: History Depth",
@@ -2785,7 +2788,6 @@
                 "",
                 " # <weight>",
                 " Complexity: O(S) where S is the number of slashing spans on the account.",
-                " Base Weight: 75.94 + 2.396 * S µs",
                 " DB Weight:",
                 " - Reads: Stash Account, Bonded, Slashing Spans, Locks",
                 " - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Stash Account, Locks",
@@ -2863,7 +2865,9 @@
                 "    minimized (to ensure less variance)",
                 "",
                 " # <weight>",
-                " See `crate::weight` module.",
+                " The transaction is assumed to be the longest path, a better solution.",
+                "   - Initial solution is almost the same.",
+                "   - Worse solution is retraced in pre-dispatch-checks which sets its own weight.",
                 " # </weight>"
               ]
             },
@@ -2915,7 +2919,7 @@
               "documentation": [
                 " The era payout has been set; the first balance is the validator-payout; the second is",
                 " the remainder from the maximum amount of reward.",
-                " [era_index, validator_payout, remainder]"
+                " \\[era_index, validator_payout, remainder\\]"
               ]
             },
             {
@@ -2925,7 +2929,7 @@
                 "Balance"
               ],
               "documentation": [
-                " The staker has been rewarded by this amount. [stash, amount]"
+                " The staker has been rewarded by this amount. \\[stash, amount\\]"
               ]
             },
             {
@@ -2936,7 +2940,7 @@
               ],
               "documentation": [
                 " One validator (and its nominators) has been slashed by the given amount.",
-                " [validator, amount]"
+                " \\[validator, amount\\]"
               ]
             },
             {
@@ -2946,7 +2950,7 @@
               ],
               "documentation": [
                 " An old slashing report from a prior era was discarded because it could",
-                " not be processed. [session_index]"
+                " not be processed. \\[session_index\\]"
               ]
             },
             {
@@ -2955,7 +2959,7 @@
                 "ElectionCompute"
               ],
               "documentation": [
-                " A new set of stakers was elected with the given [compute]."
+                " A new set of stakers was elected with the given \\[compute\\]."
               ]
             },
             {
@@ -2964,7 +2968,7 @@
                 "ElectionCompute"
               ],
               "documentation": [
-                " A new solution for the upcoming election has been stored. [compute]"
+                " A new solution for the upcoming election has been stored. \\[compute\\]"
               ]
             },
             {
@@ -2974,7 +2978,7 @@
                 "Balance"
               ],
               "documentation": [
-                " An account has bonded this amount. [stash, amount]",
+                " An account has bonded this amount. \\[stash, amount\\]",
                 "",
                 " NOTE: This event is only emitted when funds are bonded via a dispatchable. Notably,",
                 " it will not be emitted for staking rewards when they are added to stake."
@@ -2987,7 +2991,7 @@
                 "Balance"
               ],
               "documentation": [
-                " An account has unbonded this amount. [stash, amount]"
+                " An account has unbonded this amount. \\[stash, amount\\]"
               ]
             },
             {
@@ -2998,7 +3002,7 @@
               ],
               "documentation": [
                 " An account has called `withdraw_unbonded` and removed unbonding chunks worth `Balance`",
-                " from the unlocking queue. [stash, amount]"
+                " from the unlocking queue. \\[stash, amount\\]"
               ]
             }
           ],
@@ -3422,7 +3426,7 @@
                 "SessionIndex"
               ],
               "documentation": [
-                " New session has happened. Note that the argument is the [session_index], not the block",
+                " New session has happened. Note that the argument is the \\[session_index\\], not the block",
                 " number as the type might suggest."
               ]
             }
@@ -3695,11 +3699,7 @@
                 "",
                 " Emits `Proposed`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(1)`",
-                " - Db reads: `PublicPropCount`, `PublicProps`",
-                " - Db writes: `PublicPropCount`, `PublicProps`, `DepositOf`",
-                " # </weight>"
+                " Weight: `O(p)`"
               ]
             },
             {
@@ -3724,11 +3724,7 @@
                 " - `seconds_upper_bound`: an upper bound on the current number of seconds on this",
                 "   proposal. Extrinsic is weighted according to this value with no refund.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(S)` where S is the number of seconds a proposal already has.",
-                " - Db reads: `DepositOf`",
-                " - Db writes: `DepositOf`",
-                " # </weight>"
+                " Weight: `O(S)` where S is the number of seconds a proposal already has."
               ]
             },
             {
@@ -3752,12 +3748,7 @@
                 " - `ref_index`: The index of the referendum to vote for.",
                 " - `vote`: The vote configuration.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(R)` where R is the number of referendums the voter has voted on.",
-                "   weight is charged as if maximum votes.",
-                " - Db reads: `ReferendumInfoOf`, `VotingOf`, `balances locks`",
-                " - Db writes: `ReferendumInfoOf`, `VotingOf`, `balances locks`",
-                " # </weight>"
+                " Weight: `O(R)` where R is the number of referendums the voter has voted on."
               ]
             },
             {
@@ -3776,11 +3767,7 @@
                 "",
                 " -`ref_index`: The index of the referendum to cancel.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(1)`.",
-                " - Db reads: `ReferendumInfoOf`, `Cancellations`",
-                " - Db writes: `ReferendumInfoOf`, `Cancellations`",
-                " # </weight>"
+                " Weight: `O(1)`."
               ]
             },
             {
@@ -3799,12 +3786,8 @@
                 "",
                 " - `proposal_hash`: The preimage hash of the proposal.",
                 "",
-                " # <weight>",
-                " - Complexity `O(V)` with V number of vetoers in the blacklist of proposal.",
-                "   Decoding vec of length V. Charged as maximum",
-                " - Db reads: `NextExternal`, `Blacklist`",
-                " - Db writes: `NextExternal`",
-                " # </weight>"
+                " Weight: `O(V)` with V number of vetoers in the blacklist of proposal.",
+                "   Decoding vec of length V. Charged as maximum"
               ]
             },
             {
@@ -3826,10 +3809,7 @@
                 " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
                 " pre-scheduled `external_propose` call.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(1)`",
-                " - Db write: `NextExternal`",
-                " # </weight>"
+                " Weight: `O(1)`"
               ]
             },
             {
@@ -3851,10 +3831,7 @@
                 " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
                 " pre-scheduled `external_propose` call.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(1)`",
-                " - Db write: `NextExternal`",
-                " # </weight>"
+                " Weight: `O(1)`"
               ]
             },
             {
@@ -3888,12 +3865,7 @@
                 "",
                 " Emits `Started`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(1)`",
-                " - Db reads: `NextExternal`, `ReferendumCount`",
-                " - Db writes: `NextExternal`, `ReferendumCount`, `ReferendumInfoOf`",
-                " - Base Weight: 30.1 µs",
-                " # </weight>"
+                " Weight: `O(1)`"
               ]
             },
             {
@@ -3913,12 +3885,7 @@
                 "",
                 " Emits `Vetoed`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(V + log(V))` where V is number of `existing vetoers`",
-                "   Performs a binary search on `existing_vetoers` which should not be very large.",
-                " - Db reads: `NextExternal`, `Blacklist`",
-                " - Db writes: `NextExternal`, `Blacklist`",
-                " # </weight>"
+                " Weight: `O(V + log(V))` where V is number of `existing vetoers`"
               ]
             },
             {
@@ -3936,10 +3903,7 @@
                 "",
                 " - `ref_index`: The index of the referendum to cancel.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(1)`.",
-                " - Db writes: `ReferendumInfoOf`",
-                " # </weight>"
+                " # Weight: `O(1)`."
               ]
             },
             {
@@ -3957,11 +3921,7 @@
                 "",
                 " - `which`: The index of the referendum to cancel.",
                 "",
-                " # <weight>",
-                " - `O(D)` where `D` is the items in the dispatch queue. Weighted as `D = 10`.",
-                " - Db reads: `scheduler lookup`, scheduler agenda`",
-                " - Db writes: `scheduler lookup`, scheduler agenda`",
-                " # </weight>"
+                " Weight: `O(D)` where `D` is the items in the dispatch queue. Weighted as `D = 10`."
               ]
             },
             {
@@ -3999,14 +3959,8 @@
                 "",
                 " Emits `Delegated`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(R)` where R is the number of referendums the voter delegating to has",
-                "   voted on. Weight is charged as if maximum votes.",
-                " - Db reads: 3*`VotingOf`, `origin account locks`",
-                " - Db writes: 3*`VotingOf`, `origin account locks`",
-                " - Db reads per votes: `ReferendumInfoOf`",
-                " - Db writes per votes: `ReferendumInfoOf`",
-                " # </weight>"
+                " Weight: `O(R)` where R is the number of referendums the voter delegating to has",
+                "   voted on. Weight is charged as if maximum votes."
               ]
             },
             {
@@ -4023,14 +3977,8 @@
                 "",
                 " Emits `Undelegated`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(R)` where R is the number of referendums the voter delegating to has",
-                "   voted on. Weight is charged as if maximum votes.",
-                " - Db reads: 2*`VotingOf`",
-                " - Db writes: 2*`VotingOf`",
-                " - Db reads per votes: `ReferendumInfoOf`",
-                " - Db writes per votes: `ReferendumInfoOf`",
-                " # </weight>"
+                " Weight: `O(R)` where R is the number of referendums the voter delegating to has",
+                "   voted on. Weight is charged as if maximum votes."
               ]
             },
             {
@@ -4041,10 +3989,7 @@
                 "",
                 " The dispatch origin of this call must be _Root_.",
                 "",
-                " # <weight>",
-                " - `O(1)`.",
-                " - Db writes: `PublicProps`",
-                " # </weight>"
+                " Weight: `O(1)`."
               ]
             },
             {
@@ -4065,11 +4010,7 @@
                 "",
                 " Emits `PreimageNoted`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).",
-                " - Db reads: `Preimages`",
-                " - Db writes: `Preimages`",
-                " # </weight>"
+                " Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit)."
               ]
             },
             {
@@ -4104,11 +4045,7 @@
                 "",
                 " Emits `PreimageNoted`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).",
-                " - Db reads: `Preimages`",
-                " - Db writes: `Preimages`",
-                " # </weight>"
+                " Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit)."
               ]
             },
             {
@@ -4150,11 +4087,7 @@
                 "",
                 " Emits `PreimageReaped`.",
                 "",
-                " # <weight>",
-                " - Complexity: `O(D)` where D is length of proposal.",
-                " - Db reads: `Preimages`, provider account data",
-                " - Db writes: `Preimages` provider account data",
-                " # </weight>"
+                " Weight: `O(D)` where D is length of proposal."
               ]
             },
             {
@@ -4172,11 +4105,7 @@
                 "",
                 " - `target`: The account to remove the lock on.",
                 "",
-                " # <weight>",
-                " - Complexity `O(R)` with R number of vote of target.",
-                " - Db reads: `VotingOf`, `balances locks`, `target account`",
-                " - Db writes: `VotingOf`, `balances locks`, `target account`",
-                " # </weight>"
+                " Weight: `O(R)` with R number of vote of target."
               ]
             },
             {
@@ -4213,12 +4142,8 @@
                 "",
                 " - `index`: The index of referendum of the vote to be removed.",
                 "",
-                " # <weight>",
-                " - `O(R + log R)` where R is the number of referenda that `target` has voted on.",
-                "   Weight is calculated for the maximum number of vote.",
-                " - Db reads: `ReferendumInfoOf`, `VotingOf`",
-                " - Db writes: `ReferendumInfoOf`, `VotingOf`",
-                " # </weight>"
+                " Weight: `O(R + log R)` where R is the number of referenda that `target` has voted on.",
+                "   Weight is calculated for the maximum number of vote."
               ]
             },
             {
@@ -4247,12 +4172,8 @@
                 "   referendum `index`.",
                 " - `index`: The index of referendum of the vote to be removed.",
                 "",
-                " # <weight>",
-                " - `O(R + log R)` where R is the number of referenda that `target` has voted on.",
-                "   Weight is calculated for the maximum number of vote.",
-                " - Db reads: `ReferendumInfoOf`, `VotingOf`",
-                " - Db writes: `ReferendumInfoOf`, `VotingOf`",
-                " # </weight>"
+                " Weight: `O(R + log R)` where R is the number of referenda that `target` has voted on.",
+                "   Weight is calculated for the maximum number of vote."
               ]
             },
             {
@@ -4270,6 +4191,54 @@
               "documentation": [
                 " Enact a proposal from a referendum. For now we just make the weight be the maximum."
               ]
+            },
+            {
+              "name": "blacklist",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                },
+                {
+                  "name": "maybe_ref_index",
+                  "type": "Option<ReferendumIndex>"
+                }
+              ],
+              "documentation": [
+                " Permanently place a proposal into the blacklist. This prevents it from ever being",
+                " proposed again.",
+                "",
+                " If called on a queued public or external proposal, then this will result in it being",
+                " removed. If the `ref_index` supplied is an active referendum with the proposal hash,",
+                " then it will be cancelled.",
+                "",
+                " The dispatch origin of this call must be `BlacklistOrigin`.",
+                "",
+                " - `proposal_hash`: The proposal hash to blacklist permanently.",
+                " - `ref_index`: An ongoing referendum whose hash is `proposal_hash`, which will be",
+                " cancelled.",
+                "",
+                " Weight: `O(p)` (though as this is an high-privilege dispatch, we assume it has a",
+                "   reasonable value)."
+              ]
+            },
+            {
+              "name": "cancel_proposal",
+              "args": [
+                {
+                  "name": "prop_index",
+                  "type": "Compact<PropIndex>"
+                }
+              ],
+              "documentation": [
+                " Remove a proposal.",
+                "",
+                " The dispatch origin of this call must be `CancelProposalOrigin`.",
+                "",
+                " - `prop_index`: The index of the proposal to cancel.",
+                "",
+                " Weight: `O(p)` where `p = PublicProps::<T>::decode_len()`"
+              ]
             }
           ],
           "events": [
@@ -4280,7 +4249,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A motion has been proposed by a public account. [proposal_index, deposit]"
+                " A motion has been proposed by a public account. \\[proposal_index, deposit\\]"
               ]
             },
             {
@@ -4291,7 +4260,7 @@
                 "Vec<AccountId>"
               ],
               "documentation": [
-                " A public proposal has been tabled for referendum vote. [proposal_index, deposit, depositors]"
+                " A public proposal has been tabled for referendum vote. \\[proposal_index, deposit, depositors\\]"
               ]
             },
             {
@@ -4308,7 +4277,7 @@
                 "VoteThreshold"
               ],
               "documentation": [
-                " A referendum has begun. [ref_index, threshold]"
+                " A referendum has begun. \\[ref_index, threshold\\]"
               ]
             },
             {
@@ -4317,7 +4286,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal has been approved by referendum. [ref_index]"
+                " A proposal has been approved by referendum. \\[ref_index\\]"
               ]
             },
             {
@@ -4326,7 +4295,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal has been rejected by referendum. [ref_index]"
+                " A proposal has been rejected by referendum. \\[ref_index\\]"
               ]
             },
             {
@@ -4335,7 +4304,7 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A referendum has been cancelled. [ref_index]"
+                " A referendum has been cancelled. \\[ref_index\\]"
               ]
             },
             {
@@ -4345,7 +4314,7 @@
                 "bool"
               ],
               "documentation": [
-                " A proposal has been enacted. [ref_index, is_ok]"
+                " A proposal has been enacted. \\[ref_index, is_ok\\]"
               ]
             },
             {
@@ -4355,7 +4324,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An account has delegated their vote to another account. [who, target]"
+                " An account has delegated their vote to another account. \\[who, target\\]"
               ]
             },
             {
@@ -4364,7 +4333,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An [account] has cancelled a previous delegation operation."
+                " An \\[account\\] has cancelled a previous delegation operation."
               ]
             },
             {
@@ -4375,7 +4344,7 @@
                 "BlockNumber"
               ],
               "documentation": [
-                " An external proposal has been vetoed. [who, proposal_hash, until]"
+                " An external proposal has been vetoed. \\[who, proposal_hash, until\\]"
               ]
             },
             {
@@ -4386,7 +4355,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A proposal's preimage was noted, and the deposit taken. [proposal_hash, who, deposit]"
+                " A proposal's preimage was noted, and the deposit taken. \\[proposal_hash, who, deposit\\]"
               ]
             },
             {
@@ -4398,7 +4367,7 @@
               ],
               "documentation": [
                 " A proposal preimage was removed and used (the deposit was returned).",
-                " [proposal_hash, provider, deposit]"
+                " \\[proposal_hash, provider, deposit\\]"
               ]
             },
             {
@@ -4408,7 +4377,8 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal could not be executed because its preimage was invalid. [proposal_hash, ref_index]"
+                " A proposal could not be executed because its preimage was invalid.",
+                " \\[proposal_hash, ref_index\\]"
               ]
             },
             {
@@ -4418,7 +4388,8 @@
                 "ReferendumIndex"
               ],
               "documentation": [
-                " A proposal could not be executed because its preimage was missing. [proposal_hash, ref_index]"
+                " A proposal could not be executed because its preimage was missing.",
+                " \\[proposal_hash, ref_index\\]"
               ]
             },
             {
@@ -4431,7 +4402,7 @@
               ],
               "documentation": [
                 " A registered preimage was removed and the deposit collected by the reaper.",
-                " [proposal_hash, provider, deposit, reaper]"
+                " \\[proposal_hash, provider, deposit, reaper\\]"
               ]
             },
             {
@@ -4440,7 +4411,16 @@
                 "AccountId"
               ],
               "documentation": [
-                " An [account] has been unlocked successfully."
+                " An \\[account\\] has been unlocked successfully."
+              ]
+            },
+            {
+              "name": "Blacklisted",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A proposal \\[hash\\] has been blacklisted permanently."
               ]
             }
           ],
@@ -4713,6 +4693,18 @@
               "documentation": [
                 " Maximum number of votes reached."
               ]
+            },
+            {
+              "name": "InvalidWitness",
+              "documentation": [
+                " The provided witness data is wrong."
+              ]
+            },
+            {
+              "name": "TooManyProposals",
+              "documentation": [
+                " Maximum number of proposals reached."
+              ]
             }
           ],
           "index": 10
@@ -4795,8 +4787,7 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The member who provides the default vote for any other members that do not vote before",
-                  " the timeout. If None, then no member has that privilege."
+                  " The prime member that helps determine the default vote behavior in case of absentations."
                 ]
               }
             ]
@@ -5034,7 +5025,7 @@
               "documentation": [
                 " A motion (given hash) has been proposed (by given account) with a threshold (given",
                 " `MemberCount`).",
-                " [account, proposal_index, proposal_hash, threshold]"
+                " \\[account, proposal_index, proposal_hash, threshold\\]"
               ]
             },
             {
@@ -5049,7 +5040,7 @@
               "documentation": [
                 " A motion (given hash) has been voted on by given account, leaving",
                 " a tally (yes votes and no votes given respectively as `MemberCount`).",
-                " [account, proposal_hash, voted, yes, no]"
+                " \\[account, proposal_hash, voted, yes, no\\]"
               ]
             },
             {
@@ -5059,7 +5050,7 @@
               ],
               "documentation": [
                 " A motion was approved by the required threshold.",
-                " [proposal_hash]"
+                " \\[proposal_hash\\]"
               ]
             },
             {
@@ -5069,7 +5060,7 @@
               ],
               "documentation": [
                 " A motion was not approved by the required threshold.",
-                " [proposal_hash]"
+                " \\[proposal_hash\\]"
               ]
             },
             {
@@ -5080,7 +5071,7 @@
               ],
               "documentation": [
                 " A motion was executed; result will be `Ok` if it returned without error.",
-                " [proposal_hash, result]"
+                " \\[proposal_hash, result\\]"
               ]
             },
             {
@@ -5091,7 +5082,7 @@
               ],
               "documentation": [
                 " A single member did some action; result will be `Ok` if it returned without error.",
-                " [proposal_hash, result]"
+                " \\[proposal_hash, result\\]"
               ]
             },
             {
@@ -5103,7 +5094,7 @@
               ],
               "documentation": [
                 " A proposal was closed because its threshold was reached or after its duration was up.",
-                " [proposal_hash, yes, no]"
+                " \\[proposal_hash, yes, no\\]"
               ]
             }
           ],
@@ -5250,8 +5241,7 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The member who provides the default vote for any other members that do not vote before",
-                  " the timeout. If None, then no member has that privilege."
+                  " The prime member that helps determine the default vote behavior in case of absentations."
                 ]
               }
             ]
@@ -5489,7 +5479,7 @@
               "documentation": [
                 " A motion (given hash) has been proposed (by given account) with a threshold (given",
                 " `MemberCount`).",
-                " [account, proposal_index, proposal_hash, threshold]"
+                " \\[account, proposal_index, proposal_hash, threshold\\]"
               ]
             },
             {
@@ -5504,7 +5494,7 @@
               "documentation": [
                 " A motion (given hash) has been voted on by given account, leaving",
                 " a tally (yes votes and no votes given respectively as `MemberCount`).",
-                " [account, proposal_hash, voted, yes, no]"
+                " \\[account, proposal_hash, voted, yes, no\\]"
               ]
             },
             {
@@ -5514,7 +5504,7 @@
               ],
               "documentation": [
                 " A motion was approved by the required threshold.",
-                " [proposal_hash]"
+                " \\[proposal_hash\\]"
               ]
             },
             {
@@ -5524,7 +5514,7 @@
               ],
               "documentation": [
                 " A motion was not approved by the required threshold.",
-                " [proposal_hash]"
+                " \\[proposal_hash\\]"
               ]
             },
             {
@@ -5535,7 +5525,7 @@
               ],
               "documentation": [
                 " A motion was executed; result will be `Ok` if it returned without error.",
-                " [proposal_hash, result]"
+                " \\[proposal_hash, result\\]"
               ]
             },
             {
@@ -5546,7 +5536,7 @@
               ],
               "documentation": [
                 " A single member did some action; result will be `Ok` if it returned without error.",
-                " [proposal_hash, result]"
+                " \\[proposal_hash, result\\]"
               ]
             },
             {
@@ -5558,7 +5548,7 @@
               ],
               "documentation": [
                 " A proposal was closed because its threshold was reached or after its duration was up.",
-                " [proposal_hash, yes, no]"
+                " \\[proposal_hash, yes, no\\]"
               ]
             }
           ],
@@ -5651,7 +5641,7 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The current runners_up. Sorted based on low to high merit (worse to best runner)."
+                  " The current runners_up. Sorted based on low to high merit (worse to best)."
                 ]
               },
               {
@@ -5730,6 +5720,7 @@
                 " State reads:",
                 " \t- Candidates.len() + Members.len() + RunnersUp.len()",
                 " \t- Voting (is_voter)",
+                " \t- Lock",
                 " \t- [AccountBalance(who) (unreserve + total_balance)]",
                 " State writes:",
                 " \t- Voting",
@@ -5816,7 +5807,6 @@
                 " Base weight = 33.33 µs",
                 " Complexity of candidate_count: 0.375 µs",
                 " State reads:",
-                " \t- Candidates.len()",
                 " \t- Candidates",
                 " \t- Members",
                 " \t- RunnersUp",
@@ -5871,8 +5861,6 @@
                 " \tState writes:",
                 " \t\t- RunnersUp (remove_and_replace_member),",
                 " \t\t- [AccountData(who) (unreserve)]",
-                "",
-                " Weight note: The call into changeMembers need to be accounted for.",
                 " </weight>"
               ]
             },
@@ -5917,9 +5905,9 @@
                 "Vec<(AccountId,Balance)>"
               ],
               "documentation": [
-                " A new term with [new_members]. This indicates that enough candidates existed to run the",
+                " A new term with \\[new_members\\]. This indicates that enough candidates existed to run the",
                 " election, not that enough have has been elected. The inner value must be examined for",
-                " this purpose. A `NewTerm([])` indicates that some candidates got their bond slashed and",
+                " this purpose. A `NewTerm(\\[\\])` indicates that some candidates got their bond slashed and",
                 " none were elected, whilst `EmptyTerm` means that no candidates existed to begin with."
               ]
             },
@@ -5928,7 +5916,14 @@
               "args": [],
               "documentation": [
                 " No (or not enough) candidates existed for this round. This is different from",
-                " `NewTerm([])`. See the description of `NewTerm`."
+                " `NewTerm(\\[\\])`. See the description of `NewTerm`."
+              ]
+            },
+            {
+              "name": "ElectionError",
+              "args": [],
+              "documentation": [
+                " Internal error happened while trying to perform election."
               ]
             },
             {
@@ -5937,7 +5932,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [member] has been removed. This should always be followed by either `NewTerm` ot",
+                " A \\[member\\] has been removed. This should always be followed by either `NewTerm` or",
                 " `EmptyTerm`."
               ]
             },
@@ -5947,7 +5942,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [member] has renounced their candidacy."
+                " A \\[member\\] has renounced their candidacy."
               ]
             },
             {
@@ -5959,7 +5954,7 @@
               ],
               "documentation": [
                 " A voter was reported with the the report being successful or not.",
-                " [voter, reporter, success]"
+                " \\[voter, reporter, success\\]"
               ]
             }
           ],
@@ -6499,7 +6494,7 @@
                 "AuthorityList"
               ],
               "documentation": [
-                " New authority set has been applied. [authority_set]"
+                " New authority set has been applied. \\[authority_set\\]"
               ]
             },
             {
@@ -6643,6 +6638,60 @@
                   " Simple preimage lookup from the reason's hash to the original data. Again, has an",
                   " insecure enumerable hash since the key is guaranteed to be the result of a secure hash."
                 ]
+              },
+              {
+                "name": "BountyCount",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "BountyIndex"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " Number of bounty proposals that have been made."
+                ]
+              },
+              {
+                "name": "Bounties",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "BountyIndex",
+                    "value": "Bounty",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Bounties that have been made."
+                ]
+              },
+              {
+                "name": "BountyDescriptions",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "BountyIndex",
+                    "value": "Bytes",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The description of each bounty."
+                ]
+              },
+              {
+                "name": "BountyApprovals",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<BountyIndex>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Bounty indices that have been approved but not yet funded."
+                ]
               }
             ]
           },
@@ -6730,7 +6779,7 @@
                 " The dispatch origin for this call must be _Signed_.",
                 "",
                 " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
-                " `TipReportDepositPerByte` for each byte in `reason`.",
+                " `DataDepositPerByte` for each byte in `reason`.",
                 "",
                 " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
                 "   a UTF-8-encoded URL.",
@@ -6741,8 +6790,8 @@
                 " # <weight>",
                 " - Complexity: `O(R)` where `R` length of `reason`.",
                 "   - encoding and hashing of 'reason'",
-                " - DbReads: `Reasons`, `Tips`, `who account data`",
-                " - DbWrites: `Tips`, `who account data`",
+                " - DbReads: `Reasons`, `Tips`",
+                " - DbWrites: `Reasons`, `Tips`",
                 " # </weight>"
               ]
             },
@@ -6789,7 +6838,7 @@
                 },
                 {
                   "name": "tip_value",
-                  "type": "BalanceOf"
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "documentation": [
@@ -6826,7 +6875,7 @@
                 },
                 {
                   "name": "tip_value",
-                  "type": "BalanceOf"
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "documentation": [
@@ -6884,6 +6933,209 @@
                 " - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "propose_bounty",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "description",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Propose a new bounty.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
+                " `DataDepositPerByte` for each byte in `reason`. It will be unreserved upon approval,",
+                " or slashed when rejected.",
+                "",
+                " - `curator`: The curator account whom will manage this bounty.",
+                " - `fee`: The curator fee.",
+                " - `value`: The total payment amount of this bounty, curator fee included.",
+                " - `description`: The description of this bounty."
+              ]
+            },
+            {
+              "name": "approve_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<ProposalIndex>"
+                }
+              ],
+              "documentation": [
+                " Approve a bounty proposal. At a later time, the bounty will be funded and become active",
+                " and the original deposit will be returned.",
+                "",
+                " May only be called from `T::ApproveOrigin`.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "propose_curator",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<ProposalIndex>"
+                },
+                {
+                  "name": "curator",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "fee",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Assign a curator to a funded bounty.",
+                "",
+                " May only be called from `T::ApproveOrigin`.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "unassign_curator",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<ProposalIndex>"
+                }
+              ],
+              "documentation": [
+                " Unassign curator from a bounty.",
+                "",
+                " This function can only be called by the `RejectOrigin` a signed origin.",
+                "",
+                " If this function is called by the `RejectOrigin`, we assume that the curator is malicious",
+                " or inactive. As a result, we will slash the curator when possible.",
+                "",
+                " If the origin is the curator, we take this as a sign they are unable to do their job and",
+                " they willingly give up. We could slash them, but for now we allow them to recover their",
+                " deposit and exit without issue. (We may want to change this if it is abused.)",
+                "",
+                " Finally, the origin can be anyone if and only if the curator is \"inactive\". This allows",
+                " anyone in the community to call out that a curator is not doing their due diligence, and",
+                " we should pick a new curator. In this case the curator should also be slashed.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "accept_curator",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<ProposalIndex>"
+                }
+              ],
+              "documentation": [
+                " Accept the curator role for a bounty.",
+                " A deposit will be reserved from curator and refund upon successful payout.",
+                "",
+                " May only be called from the curator.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "award_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<ProposalIndex>"
+                },
+                {
+                  "name": "beneficiary",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Award bounty to a beneficiary account. The beneficiary will be able to claim the funds after a delay.",
+                "",
+                " The dispatch origin for this call must be the curator of this bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to award.",
+                " - `beneficiary`: The beneficiary account whom will receive the payout."
+              ]
+            },
+            {
+              "name": "claim_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                }
+              ],
+              "documentation": [
+                " Claim the payout from an awarded bounty after payout delay.",
+                "",
+                " The dispatch origin for this call must be the beneficiary of this bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to claim."
+              ]
+            },
+            {
+              "name": "close_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                }
+              ],
+              "documentation": [
+                " Cancel a proposed or active bounty. All the funds will be sent to treasury and",
+                " the curator deposit will be unreserved if possible.",
+                "",
+                " Only `T::RejectOrigin` is able to cancel a bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to cancel."
+              ]
+            },
+            {
+              "name": "extend_bounty_expiry",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                },
+                {
+                  "name": "_remark",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Extend the expiry time of an active bounty.",
+                "",
+                " The dispatch origin for this call must be the curator of this bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to extend.",
+                " - `remark`: additional information."
+              ]
             }
           ],
           "events": [
@@ -6893,7 +7145,7 @@
                 "ProposalIndex"
               ],
               "documentation": [
-                " New proposal. [proposal_index]"
+                " New proposal. \\[proposal_index\\]"
               ]
             },
             {
@@ -6902,7 +7154,7 @@
                 "Balance"
               ],
               "documentation": [
-                " We have ended a spend period and will now allocate funds. [budget_remaining]"
+                " We have ended a spend period and will now allocate funds. \\[budget_remaining\\]"
               ]
             },
             {
@@ -6913,7 +7165,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " Some funds have been allocated. [proposal_index, award, beneficiary]"
+                " Some funds have been allocated. \\[proposal_index, award, beneficiary\\]"
               ]
             },
             {
@@ -6923,7 +7175,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A proposal was rejected; funds were slashed. [proposal_index, slashed]"
+                " A proposal was rejected; funds were slashed. \\[proposal_index, slashed\\]"
               ]
             },
             {
@@ -6932,7 +7184,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some of our funds have been burnt. [burn]"
+                " Some of our funds have been burnt. \\[burn\\]"
               ]
             },
             {
@@ -6941,7 +7193,8 @@
                 "Balance"
               ],
               "documentation": [
-                " Spending has finished; this is the amount that rolls over until next spend. [budget_remaining]"
+                " Spending has finished; this is the amount that rolls over until next spend.",
+                " \\[budget_remaining\\]"
               ]
             },
             {
@@ -6950,7 +7203,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some funds have been deposited. [deposit]"
+                " Some funds have been deposited. \\[deposit\\]"
               ]
             },
             {
@@ -6959,7 +7212,7 @@
                 "Hash"
               ],
               "documentation": [
-                " A new tip suggestion has been opened. [tip_hash]"
+                " A new tip suggestion has been opened. \\[tip_hash\\]"
               ]
             },
             {
@@ -6968,7 +7221,7 @@
                 "Hash"
               ],
               "documentation": [
-                " A tip suggestion has reached threshold and is closing. [tip_hash]"
+                " A tip suggestion has reached threshold and is closing. \\[tip_hash\\]"
               ]
             },
             {
@@ -6979,7 +7232,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A tip suggestion has been closed. [tip_hash, who, payout]"
+                " A tip suggestion has been closed. \\[tip_hash, who, payout\\]"
               ]
             },
             {
@@ -6988,7 +7241,74 @@
                 "Hash"
               ],
               "documentation": [
-                " A tip suggestion has been retracted. [tip_hash]"
+                " A tip suggestion has been retracted. \\[tip_hash\\]"
+              ]
+            },
+            {
+              "name": "BountyProposed",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " New bounty proposal. [index]"
+              ]
+            },
+            {
+              "name": "BountyRejected",
+              "args": [
+                "BountyIndex",
+                "Balance"
+              ],
+              "documentation": [
+                " A bounty proposal was rejected; funds were slashed. [index, bond]"
+              ]
+            },
+            {
+              "name": "BountyBecameActive",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " A bounty proposal is funded and became active. [index]"
+              ]
+            },
+            {
+              "name": "BountyAwarded",
+              "args": [
+                "BountyIndex",
+                "AccountId"
+              ],
+              "documentation": [
+                " A bounty is awarded to a beneficiary. [index, beneficiary]"
+              ]
+            },
+            {
+              "name": "BountyClaimed",
+              "args": [
+                "BountyIndex",
+                "Balance",
+                "AccountId"
+              ],
+              "documentation": [
+                " A bounty is claimed by beneficiary. [index, payout, beneficiary]"
+              ]
+            },
+            {
+              "name": "BountyCanceled",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " A bounty is cancelled. [index]"
+              ]
+            },
+            {
+              "name": "BountyExtended",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " A bounty expiry is extended. [index]"
               ]
             }
           ],
@@ -7051,11 +7371,11 @@
               ]
             },
             {
-              "name": "TipReportDepositPerByte",
+              "name": "DataDepositPerByte",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
               "documentation": [
-                " The amount held on deposit per byte within the tip report reason."
+                " The amount held on deposit per byte within the tip report reason or bounty description."
               ]
             },
             {
@@ -7064,6 +7384,44 @@
               "value": "0x70792f7472737279",
               "documentation": [
                 " The treasury's module id, used for deriving its sovereign account ID."
+              ]
+            },
+            {
+              "name": "BountyDepositBase",
+              "type": "BalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " The amount held on deposit for placing a bounty proposal."
+              ]
+            },
+            {
+              "name": "BountyDepositPayoutDelay",
+              "type": "BlockNumber",
+              "value": "0x80700000",
+              "documentation": [
+                " The delay period for which a bounty beneficiary need to wait before claim the payout."
+              ]
+            },
+            {
+              "name": "BountyCuratorDeposit",
+              "type": "Permill",
+              "value": "0x20a10700",
+              "documentation": [
+                " Percentage of the curator fee that will be reserved upfront as deposit for bounty curator."
+              ]
+            },
+            {
+              "name": "BountyValueMinimum",
+              "type": "BalanceOf",
+              "value": "0x00406352bfc601000000000000000000",
+              "documentation": []
+            },
+            {
+              "name": "MaximumReasonLength",
+              "type": "u32",
+              "value": "0x00400000",
+              "documentation": [
+                " Maximum acceptable reason length."
               ]
             }
           ],
@@ -7075,9 +7433,9 @@
               ]
             },
             {
-              "name": "InvalidProposalIndex",
+              "name": "InvalidIndex",
               "documentation": [
-                " No proposal at that index."
+                " No proposal or bounty at that index."
               ]
             },
             {
@@ -7114,6 +7472,37 @@
               "name": "Premature",
               "documentation": [
                 " The tip cannot be claimed/closed because it's still in the countdown period."
+              ]
+            },
+            {
+              "name": "UnexpectedStatus",
+              "documentation": [
+                " The bounty status is unexpected."
+              ]
+            },
+            {
+              "name": "RequireCurator",
+              "documentation": [
+                " Require bounty curator."
+              ]
+            },
+            {
+              "name": "InvalidValue",
+              "documentation": [
+                " Invalid bounty value."
+              ]
+            },
+            {
+              "name": "InvalidFee",
+              "documentation": [
+                " Invalid bounty fee."
+              ]
+            },
+            {
+              "name": "PendingPayout",
+              "documentation": [
+                " A bounty payout is pending.",
+                " To cancel the bounty, you must unassign and slash the curator."
               ]
             }
           ],
@@ -7318,7 +7707,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " Contract deployed by address at the specified address. [owner, contract]"
+                " Contract deployed by address at the specified address. \\[owner, contract\\]"
               ]
             },
             {
@@ -7329,7 +7718,7 @@
               ],
               "documentation": [
                 " Contract has been evicted and is now in tombstone state.",
-                " [contract, tombstone]",
+                " \\[contract, tombstone\\]",
                 " ",
                 " # Params",
                 "",
@@ -7347,7 +7736,7 @@
               ],
               "documentation": [
                 " Restoration for a contract has been successful.",
-                " [donor, dest, code_hash, rent_allowance]",
+                " \\[donor, dest, code_hash, rent_allowance\\]",
                 " ",
                 " # Params",
                 "",
@@ -7364,7 +7753,7 @@
               ],
               "documentation": [
                 " Code with the specified hash has been stored.",
-                " [code_hash]"
+                " \\[code_hash\\]"
               ]
             },
             {
@@ -7373,7 +7762,7 @@
                 "u32"
               ],
               "documentation": [
-                " Triggered when the current [schedule] is updated."
+                " Triggered when the current \\[schedule\\] is updated."
               ]
             },
             {
@@ -7384,7 +7773,7 @@
               ],
               "documentation": [
                 " An event deposited upon execution of a contract from the account.",
-                " [account, data]"
+                " \\[account, data\\]"
               ]
             }
           ],
@@ -7709,7 +8098,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A sudo just took place. [result]"
+                " A sudo just took place. \\[result\\]"
               ]
             },
             {
@@ -7718,7 +8107,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " The [sudoer] just switched identity; the old key is supplied."
+                " The \\[sudoer\\] just switched identity; the old key is supplied."
               ]
             },
             {
@@ -7727,7 +8116,7 @@
                 "bool"
               ],
               "documentation": [
-                " A sudo just took place. [result]"
+                " A sudo just took place. \\[result\\]"
               ]
             }
           ],
@@ -7827,9 +8216,8 @@
               ],
               "documentation": [
                 " # <weight>",
-                " - Complexity: `O(K + E)` where K is length of `Keys` and E is length of",
-                "   `Heartbeat.network_state.external_address`",
-                "",
+                " - Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len)",
+                "   and E is length of `heartbeat.network_state.external_address`",
                 "   - `O(K)`: decoding of length `K`",
                 "   - `O(E)`: decoding/encoding of length `E`",
                 " - DbReads: pallet_session `Validators`, pallet_session `CurrentIndex`, `Keys`,",
@@ -7846,7 +8234,7 @@
                 "AuthorityId"
               ],
               "documentation": [
-                " A new heartbeat was received from `AuthorityId` [authority_id]"
+                " A new heartbeat was received from `AuthorityId` \\[authority_id\\]"
               ]
             },
             {
@@ -7862,7 +8250,7 @@
                 "Vec<IdentificationTuple>"
               ],
               "documentation": [
-                " At the end of the session, at least one validator was found to be [offline]."
+                " At the end of the session, at least one validator was found to be \\[offline\\]."
               ]
             }
           ],
@@ -7977,8 +8365,8 @@
               "documentation": [
                 " There is an offence reported of the given `kind` happened at the `session_index` and",
                 " (kind-specific) time slot. This event is not deposited for duplicate slashes. last",
-                " element indicates of the offence was applied (true) or queued (false) ",
-                " [kind, timeslot, applied]."
+                " element indicates of the offence was applied (true) or queued (false)",
+                " \\[kind, timeslot, applied\\]."
               ]
             }
           ],
@@ -8509,7 +8897,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A name was set or reset (which will remove all judgements). [who]"
+                " A name was set or reset (which will remove all judgements). \\[who\\]"
               ]
             },
             {
@@ -8519,7 +8907,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A name was cleared, and the given balance returned. [who, deposit]"
+                " A name was cleared, and the given balance returned. \\[who, deposit\\]"
               ]
             },
             {
@@ -8529,7 +8917,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A name was removed and the given balance slashed. [who, deposit]"
+                " A name was removed and the given balance slashed. \\[who, deposit\\]"
               ]
             },
             {
@@ -8539,7 +8927,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A judgement was asked from a registrar. [who, registrar_index]"
+                " A judgement was asked from a registrar. \\[who, registrar_index\\]"
               ]
             },
             {
@@ -8549,7 +8937,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A judgement request was retracted. [who, registrar_index]"
+                " A judgement request was retracted. \\[who, registrar_index\\]"
               ]
             },
             {
@@ -8559,7 +8947,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A judgement was given by a registrar. [target, registrar_index]"
+                " A judgement was given by a registrar. \\[target, registrar_index\\]"
               ]
             },
             {
@@ -8568,7 +8956,7 @@
                 "RegistrarIndex"
               ],
               "documentation": [
-                " A registrar was added. [registrar_index]"
+                " A registrar was added. \\[registrar_index\\]"
               ]
             },
             {
@@ -8579,7 +8967,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A sub-identity was added to an identity and the deposit paid. [sub, main, deposit]"
+                " A sub-identity was added to an identity and the deposit paid. \\[sub, main, deposit\\]"
               ]
             },
             {
@@ -8591,7 +8979,7 @@
               ],
               "documentation": [
                 " A sub-identity was removed from an identity and the deposit freed.",
-                " [sub, main, deposit]"
+                " \\[sub, main, deposit\\]"
               ]
             },
             {
@@ -8603,7 +8991,7 @@
               ],
               "documentation": [
                 " A sub-identity was cleared, and the given deposit repatriated from the",
-                " main identity account to the sub-identity account. [sub, main, deposit]"
+                " main identity account to the sub-identity account. \\[sub, main, deposit\\]"
               ]
             }
           ],
@@ -9421,7 +9809,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " The society is founded by the given identity. [founder]"
+                " The society is founded by the given identity. \\[founder\\]"
               ]
             },
             {
@@ -9432,7 +9820,7 @@
               ],
               "documentation": [
                 " A membership bid just happened. The given account is the candidate's ID and their offer",
-                " is the second. [candidate_id, offer]"
+                " is the second. \\[candidate_id, offer\\]"
               ]
             },
             {
@@ -9444,7 +9832,7 @@
               ],
               "documentation": [
                 " A membership bid just happened by vouching. The given account is the candidate's ID and",
-                " their offer is the second. The vouching party is the third. [candidate_id, offer, vouching]"
+                " their offer is the second. The vouching party is the third. \\[candidate_id, offer, vouching\\]"
               ]
             },
             {
@@ -9453,7 +9841,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [candidate] was dropped (due to an excess of bids in the system)."
+                " A \\[candidate\\] was dropped (due to an excess of bids in the system)."
               ]
             },
             {
@@ -9462,7 +9850,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [candidate] was dropped (by their request)."
+                " A \\[candidate\\] was dropped (by their request)."
               ]
             },
             {
@@ -9471,7 +9859,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [candidate] was dropped (by request of who vouched for them)."
+                " A \\[candidate\\] was dropped (by request of who vouched for them)."
               ]
             },
             {
@@ -9482,7 +9870,7 @@
               ],
               "documentation": [
                 " A group of candidates have been inducted. The batch's primary is the first value, the",
-                " batch in full is the second. [primary, candidates]"
+                " batch in full is the second. \\[primary, candidates\\]"
               ]
             },
             {
@@ -9492,7 +9880,7 @@
                 "bool"
               ],
               "documentation": [
-                " A suspended member has been judged. [who, judged]"
+                " A suspended member has been judged. \\[who, judged\\]"
               ]
             },
             {
@@ -9501,7 +9889,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [candidate] has been suspended"
+                " A \\[candidate\\] has been suspended"
               ]
             },
             {
@@ -9510,7 +9898,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [member] has been suspended"
+                " A \\[member\\] has been suspended"
               ]
             },
             {
@@ -9519,7 +9907,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A [member] has been challenged"
+                " A \\[member\\] has been challenged"
               ]
             },
             {
@@ -9530,7 +9918,7 @@
                 "bool"
               ],
               "documentation": [
-                " A vote has been placed [candidate, voter, vote]"
+                " A vote has been placed \\[candidate, voter, vote\\]"
               ]
             },
             {
@@ -9540,7 +9928,7 @@
                 "bool"
               ],
               "documentation": [
-                " A vote has been placed for a defending member [voter, vote]"
+                " A vote has been placed for a defending member \\[voter, vote\\]"
               ]
             },
             {
@@ -9549,7 +9937,7 @@
                 "u32"
               ],
               "documentation": [
-                " A new [max] member count has been set"
+                " A new \\[max\\] member count has been set"
               ]
             },
             {
@@ -9558,7 +9946,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " Society is unfounded. [founder]"
+                " Society is unfounded. \\[founder\\]"
               ]
             },
             {
@@ -9567,7 +9955,7 @@
                 "Balance"
               ],
               "documentation": [
-                " Some funds were deposited into the society account. [value]"
+                " Some funds were deposited into the society account. \\[value\\]"
               ]
             }
           ],
@@ -10099,7 +10487,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A recovery process has been set up for an [account]."
+                " A recovery process has been set up for an \\[account\\]."
               ]
             },
             {
@@ -10110,7 +10498,7 @@
               ],
               "documentation": [
                 " A recovery process has been initiated for lost account by rescuer account.",
-                " [lost, rescuer]"
+                " \\[lost, rescuer\\]"
               ]
             },
             {
@@ -10122,7 +10510,7 @@
               ],
               "documentation": [
                 " A recovery process for lost account by rescuer account has been vouched for by sender.",
-                " [lost, rescuer, sender]"
+                " \\[lost, rescuer, sender\\]"
               ]
             },
             {
@@ -10133,7 +10521,7 @@
               ],
               "documentation": [
                 " A recovery process for lost account by rescuer account has been closed.",
-                " [lost, rescuer]"
+                " \\[lost, rescuer\\]"
               ]
             },
             {
@@ -10144,7 +10532,7 @@
               ],
               "documentation": [
                 " Lost account has been successfully recovered by rescuer account.",
-                " [lost, rescuer]"
+                " \\[lost, rescuer\\]"
               ]
             },
             {
@@ -10153,7 +10541,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " A recovery process has been removed for an [account]."
+                " A recovery process has been removed for an \\[account\\]."
               ]
             }
           ],
@@ -10331,10 +10719,6 @@
                 " - DbWeight: 2 Reads, 2 Writes",
                 "     - Reads: Vesting Storage, Balances Locks, [Sender Account]",
                 "     - Writes: Vesting Storage, Balances Locks, [Sender Account]",
-                " - Benchmark:",
-                "     - Unlocked: 48.76 + .048 * l µs (min square analysis)",
-                "     - Locked: 44.43 + .284 * l µs (min square analysis)",
-                " - Using 50 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.",
                 " # </weight>"
               ]
             },
@@ -10361,10 +10745,6 @@
                 " - DbWeight: 3 Reads, 3 Writes",
                 "     - Reads: Vesting Storage, Balances Locks, Target Account",
                 "     - Writes: Vesting Storage, Balances Locks, Target Account",
-                " - Benchmark:",
-                "     - Unlocked: 44.3 + .294 * l µs (min square analysis)",
-                "     - Locked: 48.16 + .103 * l µs (min square analysis)",
-                " - Using 50 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.",
                 " # </weight>"
               ]
             },
@@ -10396,8 +10776,6 @@
                 " - DbWeight: 3 Reads, 3 Writes",
                 "     - Reads: Vesting Storage, Balances Locks, Target Account, [Sender Account]",
                 "     - Writes: Vesting Storage, Balances Locks, Target Account, [Sender Account]",
-                " - Benchmark: 100.3 + .365 * l µs (min square analysis)",
-                " - Using 100 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.",
                 " # </weight>"
               ]
             },
@@ -10434,8 +10812,6 @@
                 " - DbWeight: 4 Reads, 4 Writes",
                 "     - Reads: Vesting Storage, Balances Locks, Target Account, Source Account",
                 "     - Writes: Vesting Storage, Balances Locks, Target Account, Source Account",
-                " - Benchmark: 100.3 + .365 * l µs (min square analysis)",
-                " - Using 100 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.",
                 " # </weight>"
               ]
             }
@@ -10449,8 +10825,8 @@
               ],
               "documentation": [
                 " The amount vested has been updated. This could indicate more funds are available. The",
-                " balance given is the amount which is left unvested (and thus locked). ",
-                " [account, unvested]"
+                " balance given is the amount which is left unvested (and thus locked).",
+                " \\[account, unvested\\]"
               ]
             },
             {
@@ -10459,7 +10835,7 @@
                 "AccountId"
               ],
               "documentation": [
-                " An [account] has become fully vested. No further vesting can happen."
+                " An \\[account\\] has become fully vested. No further vesting can happen."
               ]
             }
           ],
@@ -10733,7 +11109,7 @@
                 "u32"
               ],
               "documentation": [
-                " Scheduled some task. [when, index]"
+                " Scheduled some task. \\[when, index\\]"
               ]
             },
             {
@@ -10743,7 +11119,7 @@
                 "u32"
               ],
               "documentation": [
-                " Canceled some task. [when, index]"
+                " Canceled some task. \\[when, index\\]"
               ]
             },
             {
@@ -10754,7 +11130,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " Dispatched some task. [task, id, result]"
+                " Dispatched some task. \\[task, id, result\\]"
               ]
             }
           ],
@@ -11167,7 +11543,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A proxy was executed correctly, with the given [result]."
+                " A proxy was executed correctly, with the given \\[result\\]."
               ]
             },
             {
@@ -11180,7 +11556,7 @@
               ],
               "documentation": [
                 " Anonymous account has been created by new proxy with given",
-                " disambiguation index and proxy type. [anonymous, who, proxy_type, disambiguation_index]"
+                " disambiguation index and proxy type. \\[anonymous, who, proxy_type, disambiguation_index\\]"
               ]
             },
             {
@@ -11191,7 +11567,7 @@
                 "Hash"
               ],
               "documentation": [
-                " An announcement was placed to make a call in the future. [real, proxy, call_hash]"
+                " An announcement was placed to make a call in the future. \\[real, proxy, call_hash\\]"
               ]
             }
           ],
@@ -11356,7 +11732,6 @@
                 " # <weight>",
                 " O(Z + C) where Z is the length of the call and C its execution weight.",
                 " -------------------------------",
-                " - Base Weight: 33.72 + 0.002 * Z µs",
                 " - DB Weight: None",
                 " - Plus Call Weight",
                 " # </weight>"
@@ -11432,11 +11807,6 @@
                 "   deposit taken for its lifetime of",
                 "   `DepositBase + threshold * DepositFactor`.",
                 " -------------------------------",
-                " - Base Weight:",
-                "     - Create:          41.89 + 0.118 * S + .002 * Z µs",
-                "     - Create w/ Store: 53.57 + 0.119 * S + .003 * Z µs",
-                "     - Approve:         31.39 + 0.136 * S + .002 * Z µs",
-                "     - Complete:        39.94 + 0.26  * S + .002 * Z µs",
                 " - DB Weight:",
                 "     - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)",
                 "     - Writes: Multisig Storage, [Caller Account], Calls (if `store_call`)",
@@ -11501,9 +11871,6 @@
                 "   deposit taken for its lifetime of",
                 "   `DepositBase + threshold * DepositFactor`.",
                 " ----------------------------------",
-                " - Base Weight:",
-                "     - Create: 44.71 + 0.088 * S",
-                "     - Approve: 31.48 + 0.116 * S",
                 " - DB Weight:",
                 "     - Read: Multisig Storage, [Caller Account]",
                 "     - Write: Multisig Storage, [Caller Account]",
@@ -11553,7 +11920,6 @@
                 " - I/O: 1 read `O(S)`, one remove.",
                 " - Storage: removes one item.",
                 " ----------------------------------",
-                " - Base Weight: 36.07 + 0.124 * S",
                 " - DB Weight:",
                 "     - Read: Multisig Storage, [Caller Account], Refund Account, Calls",
                 "     - Write: Multisig Storage, [Caller Account], Refund Account, Calls",
@@ -11570,7 +11936,7 @@
                 "CallHash"
               ],
               "documentation": [
-                " A new multisig operation has begun. [approving, multisig, call_hash]"
+                " A new multisig operation has begun. \\[approving, multisig, call_hash\\]"
               ]
             },
             {
@@ -11582,7 +11948,8 @@
                 "CallHash"
               ],
               "documentation": [
-                " A multisig operation has been approved by someone. [approving, timepoint, multisig, call_hash]"
+                " A multisig operation has been approved by someone.",
+                " \\[approving, timepoint, multisig, call_hash\\]"
               ]
             },
             {
@@ -11595,7 +11962,7 @@
                 "DispatchResult"
               ],
               "documentation": [
-                " A multisig operation has been executed. [approving, timepoint, multisig, call_hash]"
+                " A multisig operation has been executed. \\[approving, timepoint, multisig, call_hash\\]"
               ]
             },
             {
@@ -11607,7 +11974,7 @@
                 "CallHash"
               ],
               "documentation": [
-                " A multisig operation has been cancelled. [cancelling, timepoint, multisig, call_hash]"
+                " A multisig operation has been cancelled. \\[cancelling, timepoint, multisig, call_hash\\]"
               ]
             }
           ],
