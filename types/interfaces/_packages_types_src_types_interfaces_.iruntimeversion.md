@@ -26,7 +26,7 @@
 
 • `Readonly` **apis**: any[]
 
-*Defined in [packages/types/src/types/interfaces.ts:36](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/interfaces.ts#L36)*
+*Defined in [packages/types/src/types/interfaces.ts:36](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/interfaces.ts#L36)*
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 • `Readonly` **authoringVersion**: BN
 
-*Defined in [packages/types/src/types/interfaces.ts:37](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/interfaces.ts#L37)*
+*Defined in [packages/types/src/types/interfaces.ts:37](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/interfaces.ts#L37)*
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 • `Readonly` **implName**: [String](../classes/_packages_types_src_primitive_text_.text.md#string)
 
-*Defined in [packages/types/src/types/interfaces.ts:39](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/interfaces.ts#L39)*
+*Defined in [packages/types/src/types/interfaces.ts:39](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/interfaces.ts#L39)*
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 • `Readonly` **implVersion**: BN
 
-*Defined in [packages/types/src/types/interfaces.ts:40](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/interfaces.ts#L40)*
+*Defined in [packages/types/src/types/interfaces.ts:40](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/interfaces.ts#L40)*
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 • `Readonly` **specName**: [String](../classes/_packages_types_src_primitive_text_.text.md#string)
 
-*Defined in [packages/types/src/types/interfaces.ts:42](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/interfaces.ts#L42)*
+*Defined in [packages/types/src/types/interfaces.ts:42](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/interfaces.ts#L42)*
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 • `Readonly` **specVersion**: BN
 
-*Defined in [packages/types/src/types/interfaces.ts:43](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/interfaces.ts#L43)*
+*Defined in [packages/types/src/types/interfaces.ts:43](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/interfaces.ts#L43)*
 
 ___
 
@@ -74,4 +74,4 @@ ___
 
 • `Readonly` **transactionVersion**: BN
 
-*Defined in [packages/types/src/types/interfaces.ts:44](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/interfaces.ts#L44)*
+*Defined in [packages/types/src/types/interfaces.ts:44](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/interfaces.ts#L44)*

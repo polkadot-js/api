@@ -24,7 +24,7 @@
 
 ▸ **signAndSend**(`account`: IKeyringPair \| string \| AccountId \| Address): BlueprintCreateResultSubscription\<ApiType>
 
-*Defined in [packages/api-contract/src/base/Blueprint.ts:23](https://github.com/polkadot-js/api/blob/73ffb034d/packages/api-contract/src/base/Blueprint.ts#L23)*
+*Defined in [packages/api-contract/src/base/Blueprint.ts:23](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api-contract/src/base/Blueprint.ts#L23)*
 
 #### Parameters:
 

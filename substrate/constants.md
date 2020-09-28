@@ -418,9 +418,32 @@ ___
 
 ## treasury
  
+### bountyCuratorDeposit: `Permill`
+- **interface**: `api.consts.treasury.bountyCuratorDeposit`
+- **summary**:   Percentage of the curator fee that will be reserved upfront as deposit for bounty curator. 
+ 
+### bountyDepositBase: `BalanceOf`
+- **interface**: `api.consts.treasury.bountyDepositBase`
+- **summary**:   The amount held on deposit for placing a bounty proposal. 
+ 
+### bountyDepositPayoutDelay: `BlockNumber`
+- **interface**: `api.consts.treasury.bountyDepositPayoutDelay`
+- **summary**:   The delay period for which a bounty beneficiary need to wait before claim the payout. 
+ 
+### bountyValueMinimum: `BalanceOf`
+- **interface**: `api.consts.treasury.bountyValueMinimum`
+ 
 ### burn: `Permill`
 - **interface**: `api.consts.treasury.burn`
 - **summary**:   Percentage of spare funds (if any) that are burnt per spend period. 
+ 
+### dataDepositPerByte: `BalanceOf`
+- **interface**: `api.consts.treasury.dataDepositPerByte`
+- **summary**:   The amount held on deposit per byte within the tip report reason or bounty description. 
+ 
+### maximumReasonLength: `u32`
+- **interface**: `api.consts.treasury.maximumReasonLength`
+- **summary**:   Maximum acceptable reason length. 
  
 ### moduleId: `ModuleId`
 - **interface**: `api.consts.treasury.moduleId`
@@ -449,10 +472,6 @@ ___
 ### tipReportDepositBase: `BalanceOf`
 - **interface**: `api.consts.treasury.tipReportDepositBase`
 - **summary**:   The amount held on deposit for placing a tip report. 
- 
-### tipReportDepositPerByte: `BalanceOf`
-- **interface**: `api.consts.treasury.tipReportDepositPerByte`
-- **summary**:   The amount held on deposit per byte within the tip report reason. 
 
 ___
 

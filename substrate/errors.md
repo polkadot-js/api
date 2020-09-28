@@ -233,6 +233,9 @@ ___
 ### InvalidHash
 - **summary**:   Invalid hash 
  
+### InvalidWitness
+- **summary**:   The provided witness data is wrong. 
+ 
 ### MaxVotesReached
 - **summary**:   Maximum number of votes reached. 
  
@@ -289,6 +292,9 @@ ___
  
 ### TooEarly
 - **summary**:   Too early 
+ 
+### TooManyProposals
+- **summary**:   Maximum number of proposals reached. 
  
 ### Underflow
 - **summary**:   An unexpected integer underflow occurred. 
@@ -849,11 +855,20 @@ ___
 ### InsufficientProposersBalance
 - **summary**:   Proposer's balance is too low. 
  
-### InvalidProposalIndex
-- **summary**:   No proposal at that index. 
+### InvalidFee
+- **summary**:   Invalid bounty fee. 
+ 
+### InvalidIndex
+- **summary**:   No proposal or bounty at that index. 
+ 
+### InvalidValue
+- **summary**:   Invalid bounty value. 
  
 ### NotFinder
 - **summary**:   The account attempting to retract the tip is not the finder of the tip. 
+ 
+### PendingPayout
+- **summary**:   A bounty payout is pending. To cancel the bounty, you must unassign and slash the curator. 
  
 ### Premature
 - **summary**:   The tip cannot be claimed/closed because it's still in the countdown period. 
@@ -861,8 +876,14 @@ ___
 ### ReasonTooBig
 - **summary**:   The reason given is just too big. 
  
+### RequireCurator
+- **summary**:   Require bounty curator. 
+ 
 ### StillOpen
 - **summary**:   The tip cannot be claimed/closed because there are not enough tippers yet. 
+ 
+### UnexpectedStatus
+- **summary**:   The bounty status is unexpected. 
  
 ### UnknownTip
 - **summary**:   The tip hash is unknown. 

@@ -202,7 +202,7 @@ ___
  
 ### prime(): `Option<AccountId>`
 - **interface**: `api.query.council.prime`
-- **summary**:   The member who provides the default vote for any other members that do not vote before the timeout. If None, then no member has that privilege. 
+- **summary**:   The prime member that helps determine the default vote behavior in case of absentations. 
  
 ### proposalCount(): `u32`
 - **interface**: `api.query.council.proposalCount`
@@ -314,7 +314,7 @@ ___
  
 ### runnersUp(): `Vec<(AccountId,BalanceOf)>`
 - **interface**: `api.query.elections.runnersUp`
-- **summary**:   The current runners_up. Sorted based on low to high merit (worse to best runner). 
+- **summary**:   The current runners_up. Sorted based on low to high merit (worse to best). 
  
 ### voting(`AccountId`): `(BalanceOf,Vec<AccountId>)`
 - **interface**: `api.query.elections.voting`
@@ -869,6 +869,10 @@ ___
 ### parentHash(): `Hash`
 - **interface**: `api.query.system.parentHash`
 - **summary**:   Hash of the previous block. 
+ 
+### upgradedToU32RefCount(): `bool`
+- **interface**: `api.query.system.upgradedToU32RefCount`
+- **summary**:   True if we have upgraded so that `type RefCount` is `u32`. False (default) if not. 
 
 ___
 
@@ -881,7 +885,7 @@ ___
  
 ### prime(): `Option<AccountId>`
 - **interface**: `api.query.technicalCommittee.prime`
-- **summary**:   The member who provides the default vote for any other members that do not vote before the timeout. If None, then no member has that privilege. 
+- **summary**:   The prime member that helps determine the default vote behavior in case of absentations. 
  
 ### proposalCount(): `u32`
 - **interface**: `api.query.technicalCommittee.proposalCount`
@@ -944,6 +948,22 @@ ___
 ### approvals(): `Vec<ProposalIndex>`
 - **interface**: `api.query.treasury.approvals`
 - **summary**:   Proposal indices that have been approved but not yet awarded. 
+ 
+### bounties(`BountyIndex`): `Option<Bounty>`
+- **interface**: `api.query.treasury.bounties`
+- **summary**:   Bounties that have been made. 
+ 
+### bountyApprovals(): `Vec<BountyIndex>`
+- **interface**: `api.query.treasury.bountyApprovals`
+- **summary**:   Bounty indices that have been approved but not yet funded. 
+ 
+### bountyCount(): `BountyIndex`
+- **interface**: `api.query.treasury.bountyCount`
+- **summary**:   Number of bounty proposals that have been made. 
+ 
+### bountyDescriptions(`BountyIndex`): `Option<Bytes>`
+- **interface**: `api.query.treasury.bountyDescriptions`
+- **summary**:   The description of each bounty. 
  
 ### proposalCount(): `ProposalIndex`
 - **interface**: `api.query.treasury.proposalCount`

@@ -415,6 +415,30 @@ ___
 
 ## democracy
  
+### blacklist(proposal_hash: `Hash`, maybe_ref_index: `Option<ReferendumIndex>`)
+- **interface**: `api.tx.democracy.blacklist`
+- **summary**:   Permanently place a proposal into the blacklist. This prevents it from ever being proposed again. 
+
+  If called on a queued public or external proposal, then this will result in it being removed. If the `ref_index` supplied is an active referendum with the proposal hash, then it will be cancelled. 
+
+  The dispatch origin of this call must be `BlacklistOrigin`. 
+
+  - `proposal_hash`: The proposal hash to blacklist permanently. 
+
+  - `ref_index`: An ongoing referendum whose hash is `proposal_hash`, which will becancelled. 
+
+  Weight: `O(p)` (though as this is an high-privilege dispatch, we assume it has a   reasonable value). 
+ 
+### cancelProposal(prop_index: `Compact<PropIndex>`)
+- **interface**: `api.tx.democracy.cancelProposal`
+- **summary**:   Remove a proposal. 
+
+  The dispatch origin of this call must be `CancelProposalOrigin`. 
+
+  - `prop_index`: The index of the proposal to cancel. 
+
+  Weight: `O(p)` where `p = PublicProps::<T>::decode_len()` 
+ 
 ### cancelQueued(which: `ReferendumIndex`)
 - **interface**: `api.tx.democracy.cancelQueued`
 - **summary**:   Cancel a proposal queued for enactment. 
@@ -423,17 +447,7 @@ ___
 
   - `which`: The index of the referendum to cancel. 
 
-  \# \<weight>
-
-   
-
-  - `O(D)` where `D` is the items in the dispatch queue. Weighted as `D = 10`.
-
-  - Db reads: `scheduler lookup`, scheduler agenda`
-
-  - Db writes: `scheduler lookup`, scheduler agenda`
-
-  \# \</weight> 
+  Weight: `O(D)` where `D` is the items in the dispatch queue. Weighted as `D = 10`. 
  
 ### cancelReferendum(ref_index: `Compact<ReferendumIndex>`)
 - **interface**: `api.tx.democracy.cancelReferendum`
@@ -443,15 +457,7 @@ ___
 
   - `ref_index`: The index of the referendum to cancel. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(1)`.
-
-  - Db writes: `ReferendumInfoOf`
-
-  \# \</weight> 
+  #### Weight: `O(1)`. 
  
 ### clearPublicProposals()
 - **interface**: `api.tx.democracy.clearPublicProposals`
@@ -459,15 +465,7 @@ ___
 
   The dispatch origin of this call must be _Root_. 
 
-  \# \<weight>
-
-   
-
-  - `O(1)`.
-
-  - Db writes: `PublicProps`
-
-  \# \</weight> 
+  Weight: `O(1)`. 
  
 ### delegate(to: `AccountId`, conviction: `Conviction`, balance: `BalanceOf`)
 - **interface**: `api.tx.democracy.delegate`
@@ -489,21 +487,7 @@ ___
 
   Emits `Delegated`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(R)` where R is the number of referendums the voter delegating to has  voted on. Weight is charged as if maximum votes. 
-
-  - Db reads: 3*`VotingOf`, `origin account locks`
-
-  - Db writes: 3*`VotingOf`, `origin account locks`
-
-  - Db reads per votes: `ReferendumInfoOf`
-
-  - Db writes per votes: `ReferendumInfoOf`
-
-  \# \</weight> 
+  Weight: `O(R)` where R is the number of referendums the voter delegating to has   voted on. Weight is charged as if maximum votes. 
  
 ### emergencyCancel(ref_index: `ReferendumIndex`)
 - **interface**: `api.tx.democracy.emergencyCancel`
@@ -513,17 +497,7 @@ ___
 
   -`ref_index`: The index of the referendum to cancel. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(1)`.
-
-  - Db reads: `ReferendumInfoOf`, `Cancellations`
-
-  - Db writes: `ReferendumInfoOf`, `Cancellations`
-
-  \# \</weight> 
+  Weight: `O(1)`. 
  
 ### enactProposal(proposal_hash: `Hash`, index: `ReferendumIndex`)
 - **interface**: `api.tx.democracy.enactProposal`
@@ -537,17 +511,7 @@ ___
 
   - `proposal_hash`: The preimage hash of the proposal. 
 
-  \# \<weight>
-
-   
-
-  - Complexity `O(V)` with V number of vetoers in the blacklist of proposal.  Decoding vec of length V. Charged as maximum 
-
-  - Db reads: `NextExternal`, `Blacklist`
-
-  - Db writes: `NextExternal`
-
-  \# \</weight> 
+  Weight: `O(V)` with V number of vetoers in the blacklist of proposal.   Decoding vec of length V. Charged as maximum 
  
 ### externalProposeDefault(proposal_hash: `Hash`)
 - **interface**: `api.tx.democracy.externalProposeDefault`
@@ -559,15 +523,7 @@ ___
 
   Unlike `external_propose`, blacklisting has no effect on this and it may replace a pre-scheduled `external_propose` call. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(1)`
-
-  - Db write: `NextExternal`
-
-  \# \</weight> 
+  Weight: `O(1)` 
  
 ### externalProposeMajority(proposal_hash: `Hash`)
 - **interface**: `api.tx.democracy.externalProposeMajority`
@@ -579,15 +535,7 @@ ___
 
   Unlike `external_propose`, blacklisting has no effect on this and it may replace a pre-scheduled `external_propose` call. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(1)`
-
-  - Db write: `NextExternal`
-
-  \# \</weight> 
+  Weight: `O(1)` 
  
 ### fastTrack(proposal_hash: `Hash`, voting_period: `BlockNumber`, delay: `BlockNumber`)
 - **interface**: `api.tx.democracy.fastTrack`
@@ -603,19 +551,7 @@ ___
 
   Emits `Started`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(1)`
-
-  - Db reads: `NextExternal`, `ReferendumCount`
-
-  - Db writes: `NextExternal`, `ReferendumCount`, `ReferendumInfoOf`
-
-  - Base Weight: 30.1 µs
-
-  \# \</weight> 
+  Weight: `O(1)` 
  
 ### noteImminentPreimage(encoded_proposal: `Bytes`)
 - **interface**: `api.tx.democracy.noteImminentPreimage`
@@ -627,17 +563,7 @@ ___
 
   Emits `PreimageNoted`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-
-  - Db reads: `Preimages`
-
-  - Db writes: `Preimages`
-
-  \# \</weight> 
+  Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit). 
  
 ### noteImminentPreimageOperational(encoded_proposal: `Bytes`)
 - **interface**: `api.tx.democracy.noteImminentPreimageOperational`
@@ -653,17 +579,7 @@ ___
 
   Emits `PreimageNoted`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-
-  - Db reads: `Preimages`
-
-  - Db writes: `Preimages`
-
-  \# \</weight> 
+  Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit). 
  
 ### notePreimageOperational(encoded_proposal: `Bytes`)
 - **interface**: `api.tx.democracy.notePreimageOperational`
@@ -681,17 +597,7 @@ ___
 
   Emits `Proposed`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(1)`
-
-  - Db reads: `PublicPropCount`, `PublicProps`
-
-  - Db writes: `PublicPropCount`, `PublicProps`, `DepositOf`
-
-  \# \</weight> 
+  Weight: `O(p)` 
  
 ### reapPreimage(proposal_hash: `Hash`, proposal_len_upper_bound: `Compact<u32>`)
 - **interface**: `api.tx.democracy.reapPreimage`
@@ -707,17 +613,7 @@ ___
 
   Emits `PreimageReaped`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(D)` where D is length of proposal.
-
-  - Db reads: `Preimages`, provider account data
-
-  - Db writes: `Preimages` provider account data
-
-  \# \</weight> 
+  Weight: `O(D)` where D is length of proposal. 
  
 ### removeOtherVote(target: `AccountId`, index: `ReferendumIndex`)
 - **interface**: `api.tx.democracy.removeOtherVote`
@@ -731,17 +627,7 @@ ___
 
   - `index`: The index of referendum of the vote to be removed.
 
-  \# \<weight>
-
-   
-
-  - `O(R + log R)` where R is the number of referenda that `target` has voted on.  Weight is calculated for the maximum number of vote. 
-
-  - Db reads: `ReferendumInfoOf`, `VotingOf`
-
-  - Db writes: `ReferendumInfoOf`, `VotingOf`
-
-  \# \</weight> 
+  Weight: `O(R + log R)` where R is the number of referenda that `target` has voted on.   Weight is calculated for the maximum number of vote. 
  
 ### removeVote(index: `ReferendumIndex`)
 - **interface**: `api.tx.democracy.removeVote`
@@ -775,17 +661,7 @@ ___
 
   - `index`: The index of referendum of the vote to be removed. 
 
-  \# \<weight>
-
-   
-
-  - `O(R + log R)` where R is the number of referenda that `target` has voted on.  Weight is calculated for the maximum number of vote. 
-
-  - Db reads: `ReferendumInfoOf`, `VotingOf`
-
-  - Db writes: `ReferendumInfoOf`, `VotingOf`
-
-  \# \</weight> 
+  Weight: `O(R + log R)` where R is the number of referenda that `target` has voted on.   Weight is calculated for the maximum number of vote. 
  
 ### second(proposal: `Compact<PropIndex>`, seconds_upper_bound: `Compact<u32>`)
 - **interface**: `api.tx.democracy.second`
@@ -797,17 +673,7 @@ ___
 
   - `seconds_upper_bound`: an upper bound on the current number of seconds on this  proposal. Extrinsic is weighted according to this value with no refund. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(S)` where S is the number of seconds a proposal already has.
-
-  - Db reads: `DepositOf`
-
-  - Db writes: `DepositOf`
-
-  \# \</weight> 
+  Weight: `O(S)` where S is the number of seconds a proposal already has. 
  
 ### undelegate()
 - **interface**: `api.tx.democracy.undelegate`
@@ -819,21 +685,7 @@ ___
 
   Emits `Undelegated`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(R)` where R is the number of referendums the voter delegating to has  voted on. Weight is charged as if maximum votes. 
-
-  - Db reads: 2*`VotingOf`
-
-  - Db writes: 2*`VotingOf`
-
-  - Db reads per votes: `ReferendumInfoOf`
-
-  - Db writes per votes: `ReferendumInfoOf`
-
-  \# \</weight> 
+  Weight: `O(R)` where R is the number of referendums the voter delegating to has   voted on. Weight is charged as if maximum votes. 
  
 ### unlock(target: `AccountId`)
 - **interface**: `api.tx.democracy.unlock`
@@ -843,17 +695,7 @@ ___
 
   - `target`: The account to remove the lock on. 
 
-  \# \<weight>
-
-   
-
-  - Complexity `O(R)` with R number of vote of target.
-
-  - Db reads: `VotingOf`, `balances locks`, `target account`
-
-  - Db writes: `VotingOf`, `balances locks`, `target account`
-
-  \# \</weight> 
+  Weight: `O(R)` with R number of vote of target. 
  
 ### vetoExternal(proposal_hash: `Hash`)
 - **interface**: `api.tx.democracy.vetoExternal`
@@ -865,17 +707,7 @@ ___
 
   Emits `Vetoed`. 
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(V + log(V))` where V is number of `existing vetoers`  Performs a binary search on `existing_vetoers` which should not be very large. 
-
-  - Db reads: `NextExternal`, `Blacklist`
-
-  - Db writes: `NextExternal`, `Blacklist`
-
-  \# \</weight> 
+  Weight: `O(V + log(V))` where V is number of `existing vetoers` 
  
 ### vote(ref_index: `Compact<ReferendumIndex>`, vote: `AccountVote`)
 - **interface**: `api.tx.democracy.vote`
@@ -887,17 +719,7 @@ ___
 
   - `vote`: The vote configuration.
 
-  \# \<weight>
-
-   
-
-  - Complexity: `O(R)` where R is the number of referendums the voter has voted on.  weight is charged as if maximum votes. 
-
-  - Db reads: `ReferendumInfoOf`, `VotingOf`, `balances locks`
-
-  - Db writes: `ReferendumInfoOf`, `VotingOf`, `balances locks`
-
-  \# \</weight> 
+  Weight: `O(R)` where R is the number of referendums the voter has voted on. 
 
 ___
 
@@ -982,9 +804,7 @@ ___
 
   		- RunnersUp (remove_and_replace_member),
 
-  		- [AccountData(who) (unreserve)]
-
-  Weight note: The call into changeMembers need to be accounted for. </weight> 
+  		- [AccountData(who) (unreserve)]</weight> 
  
 ### reportDefunctVoter(defunct: `DefunctVoter`)
 - **interface**: `api.tx.elections.reportDefunctVoter`
@@ -1034,8 +854,6 @@ ___
 
    Base weight = 33.33 µs Complexity of candidate_count: 0.375 µs State reads: 
 
-  	- Candidates.len()
-
   	- Candidates
 
   	- Members
@@ -1071,6 +889,8 @@ ___
   	- Candidates.len() + Members.len() + RunnersUp.len()
 
   	- Voting (is_voter)
+
+  	- Lock
 
   	- [AccountBalance(who) (unreserve + total_balance)]State writes: 
 
@@ -1452,9 +1272,9 @@ ___
 
    
 
-  - Complexity: `O(K + E)` where K is length of `Keys` and E is length of  `Heartbeat.network_state.external_address` 
+  - Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len)  and E is length of `heartbeat.network_state.external_address` 
 
-    - `O(K)`: decoding of length `K` 
+    - `O(K)`: decoding of length `K`
 
     - `O(E)`: decoding/encoding of length `E`
 
@@ -1495,8 +1315,6 @@ ___
 
   -------------------
 
-  - Base Weight: 28.69 µs
-
   - DB Weight: 1 Read/Write (Accounts)
 
   \# \</weight> 
@@ -1528,8 +1346,6 @@ ___
   - One event.
 
   -------------------
-
-  - Base Weight: 26.83 µs
 
   - DB Weight:
 
@@ -1565,8 +1381,6 @@ ___
 
   -------------------
 
-  - Base Weight: 25.53 µs
-
   - DB Weight: 1 Read/Write (Accounts)
 
   \# \</weight> 
@@ -1594,8 +1408,6 @@ ___
   - One event.
 
   -------------------
-
-  - Base Weight: 30.86 µs
 
   - DB Weight: 1 Read/Write (Accounts)
 
@@ -1626,8 +1438,6 @@ ___
   - One event.
 
   -------------------
-
-  - Base Weight: 33.74 µs
 
   - DB Weight:
 
@@ -1681,12 +1491,6 @@ ___
   - Storage: inserts one item, value size bounded by `MaxSignatories`, with a  deposit taken for its lifetime of   `DepositBase + threshold * DepositFactor`. 
 
   ----------------------------------
-
-  - Base Weight:
-
-      - Create: 44.71 + 0.088 * S
-
-      - Approve: 31.48 + 0.116 * S
 
   - DB Weight:
 
@@ -1744,16 +1548,6 @@ ___
 
   -------------------------------
 
-  - Base Weight:
-
-      - Create:          41.89 + 0.118 * S + .002 * Z µs
-
-      - Create w/ Store: 53.57 + 0.119 * S + .003 * Z µs
-
-      - Approve:         31.39 + 0.136 * S + .002 * Z µs
-
-      - Complete:        39.94 + 0.26  * S + .002 * Z µs
-
   - DB Weight:
 
       - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)
@@ -1781,8 +1575,6 @@ ___
    O(Z + C) where Z is the length of the call and C its execution weight. 
 
   -------------------------------
-
-  - Base Weight: 33.72 + 0.002 * Z µs
 
   - DB Weight: None
 
@@ -1823,8 +1615,6 @@ ___
   - Storage: removes one item.
 
   ----------------------------------
-
-  - Base Weight: 36.07 + 0.124 * S
 
   - DB Weight:
 
@@ -2934,7 +2724,7 @@ ___
 
   NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless the `origin` falls below _existential deposit_ and gets removed as dust. 
 
-  ------------------Base Weight: 67.87 µs DB Weight: 
+  ------------------Weight: O(1) DB Weight: 
 
   - Read: Bonded, Ledger, [Origin Account], Current Era, History Depth, Locks
 
@@ -2962,7 +2752,7 @@ ___
 
   - One DB entry.
 
-  ------------Base Weight: 54.88 µs DB Weight: 
+  ------------DB Weight: 
 
   - Read: Era Election Status, Bonded, Ledger, [Origin Account], Locks
 
@@ -2981,8 +2771,6 @@ ___
   \# \<weight>
 
    Complexity: O(U + S) with U unapplied slashes weighted with U=1000 and S is the number of slash indices to be canceled. 
-
-  - Base: 5870 + 34.61 * S µs
 
   - Read: Unapplied Slashes
 
@@ -3008,7 +2796,7 @@ ___
 
   - Writes are limited to the `origin` account key.
 
-  --------Base Weight: 16.53 µs DB Weight: 
+  --------Weight: O(1) DB Weight: 
 
   - Read: EraElectionStatus, Ledger
 
@@ -3028,7 +2816,7 @@ ___
 
   - No arguments.
 
-  - Base Weight: 1.959 µs
+  - Weight: O(1)
 
   - Write ForceEra
 
@@ -3044,7 +2832,7 @@ ___
 
    
 
-  - Base Weight: 2.05 µs
+  - Weight: O(1)
 
   - Write: ForceEra
 
@@ -3062,7 +2850,7 @@ ___
 
   - No arguments.
 
-  - Base Weight: 1.857 µs
+  - Weight: O(1)
 
   - Write: ForceEra
 
@@ -3076,7 +2864,7 @@ ___
 
   \# \<weight>
 
-   O(S) where S is the number of slashing spans to be removed Base Weight: 53.07 + 2.365 * S µs Reads: Bonded, Slashing Spans, Account, Locks Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Account, Locks Writes Each: SpanSlash * S 
+   O(S) where S is the number of slashing spans to be removed Reads: Bonded, Slashing Spans, Account, Locks Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Account, Locks Writes Each: SpanSlash * S 
 
   \# \</weight> 
  
@@ -3088,7 +2876,7 @@ ___
 
   \# \<weight>
 
-   Base Weight: 1.717 µs Read/Write: Validator Count 
+   Same as [`set_validator_count`]. 
 
   \# \</weight> 
  
@@ -3108,7 +2896,7 @@ ___
 
   - Both the reads and writes follow a similar pattern.
 
-  ---------Base Weight: 22.34 + .36 * N µs where N is the number of targets DB Weight: 
+  ---------Weight: O(N) where N is the number of targets DB Weight: 
 
   - Reads: Era Election Status, Ledger, Current Era
 
@@ -3136,17 +2924,19 @@ ___
 
   - Contains a limited number of reads and writes.
 
-  -----------N is the Number of payouts for the validator (including the validator) Base Weight: 
+  -----------N is the Number of payouts for the validator (including the validator) Weight: 
 
-  - Reward Destination Staked: 110 + 54.2 * N µs (Median Slopes)
+  - Reward Destination Staked: O(N)
 
-  - Reward Destination Controller (Creating): 120 + 41.95 * N µs (Median Slopes)DB Weight: 
+  - Reward Destination Controller (Creating): O(N)DB Weight: 
 
   - Read: EraElectionStatus, CurrentEra, HistoryDepth, ErasValidatorReward,        ErasStakersClipped, ErasRewardPoints, ErasValidatorPrefs (8 items) 
 
   - Read Each: Bonded, Ledger, Payee, Locks, System Account (5 items)
 
   - Write Each: System Account, Locks, Ledger (3 items)
+
+    NOTE: weights are assuming that payouts are made to alive stash account (Staked).   Paying even a dead controller is cheaper weight-wise. We don't do any refunds here. 
 
   \# \</weight> 
  
@@ -3160,7 +2950,7 @@ ___
 
   \# \<weight>
 
-   Complexity: O(S) where S is the number of slashing spans on the account. Base Weight: 75.94 + 2.396 * S µs DB Weight: 
+   Complexity: O(S) where S is the number of slashing spans on the account. DB Weight: 
 
   - Reads: Stash Account, Bonded, Slashing Spans, Locks
 
@@ -3188,8 +2978,6 @@ ___
 
   ---------------
 
-  - Base Weight: 34.51 µs * .048 L µs
-
   - DB Weight:
 
       - Reads: EraElectionStatus, Ledger, Locks, [Origin Account]
@@ -3206,7 +2994,7 @@ ___
 
   \# \<weight>
 
-   Base Weight: 1.717 µs Read/Write: Validator Count 
+   Same as [`set_validator_count`]. 
 
   \# \</weight> 
  
@@ -3228,7 +3016,7 @@ ___
 
   - Writes are limited to the `origin` account key.
 
-  ----------Base Weight: 25.22 µs DB Weight: 
+  ----------Weight: O(1) DB Weight: 
 
   - Read: Bonded, Ledger New Controller, Ledger Old Controller
 
@@ -3254,7 +3042,7 @@ ___
 
   - E: Number of history depths removed, i.e. 10 -> 7 = 3
 
-  - Base Weight: 29.13 * E µs
+  - Weight: O(E)
 
   - DB Weight:
 
@@ -3268,7 +3056,7 @@ ___
 
   \# \</weight> 
  
-### setInvulnerables(validators: `Vec<AccountId>`)
+### setInvulnerables(invulnerables: `Vec<AccountId>`)
 - **interface**: `api.tx.staking.setInvulnerables`
 - **summary**:   Set the validators who cannot be slashed (if any). 
 
@@ -3279,8 +3067,6 @@ ___
    
 
   - O(V)
-
-  - Base Weight: 2.208 + .006 * V µs
 
   - Write: Invulnerables
 
@@ -3306,7 +3092,7 @@ ___
 
   ---------
 
-  - Base Weight: 11.33 µs
+  - Weight: O(1)
 
   - DB Weight:
 
@@ -3324,7 +3110,7 @@ ___
 
   \# \<weight>
 
-   Base Weight: 1.717 µs Write: Validator Count 
+   Weight: O(1) Write: Validator Count 
 
   \# \</weight> 
  
@@ -3358,7 +3144,11 @@ ___
 
   \# \<weight>
 
-   See `crate::weight` module. 
+   The transaction is assumed to be the longest path, a better solution. 
+
+    - Initial solution is almost the same.
+
+    - Worse solution is retraced in pre-dispatch-checks which sets its own weight.
 
   \# \</weight> 
  
@@ -3400,11 +3190,11 @@ ___
 
   - One DB entry.
 
-  ----------Base Weight: 50.34 µs DB Weight: 
+  ----------Weight: O(1) DB Weight: 
 
-  - Read: Era Election Status, Ledger, Current Era, Locks, [Origin Account]
+  - Read: EraElectionStatus, Ledger, CurrentEra, Locks, BalanceOf Stash,
 
-  - Write: [Origin Account], Locks, Ledger</weight> 
+  - Write: Locks, Ledger, BalanceOf Stash,</weight> 
  
 ### validate(prefs: `ValidatorPrefs`)
 - **interface**: `api.tx.staking.validate`
@@ -3424,7 +3214,7 @@ ___
 
   - Writes are limited to the `origin` account key.
 
-  -----------Base Weight: 17.13 µs DB Weight: 
+  -----------Weight: O(1) DB Weight: 
 
   - Read: Era Election Status, Ledger
 
@@ -3454,15 +3244,15 @@ ___
 
   - Writes are limited to the `origin` account key.
 
-  ---------------Complexity O(S) where S is the number of slashing spans to remove Base Weight: Update: 50.52 + .028 * S µs 
+  ---------------Complexity O(S) where S is the number of slashing spans to remove Update: 
 
   - Reads: EraElectionStatus, Ledger, Current Era, Locks, [Origin Account]
 
-  - Writes: [Origin Account], Locks, LedgerKill: 79.41 + 2.366 * S µs 
+  - Writes: [Origin Account], Locks, LedgerKill: 
 
-  - Reads: EraElectionStatus, Ledger, Current Era, Bonded, Slashing Spans, [Origin Account], Locks
+  - Reads: EraElectionStatus, Ledger, Current Era, Bonded, Slashing Spans, [Origin  Account], Locks, BalanceOf stash 
 
-  - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, [Origin Account], Locks
+  - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,  [Origin Account], Locks, BalanceOf stash. 
 
   - Writes Each: SpanSlash * SNOTE: Weight annotation is the kill scenario, we refund otherwise. 
 
@@ -3990,6 +3780,42 @@ ___
 
 ## treasury
  
+### acceptCurator(bounty_id: `Compact<ProposalIndex>`)
+- **interface**: `api.tx.treasury.acceptCurator`
+- **summary**:   Accept the curator role for a bounty. A deposit will be reserved from curator and refund upon successful payout. 
+
+  May only be called from the curator. 
+
+  \# \<weight>
+
+   
+
+  - O(1).
+
+  - Limited storage reads.
+
+  - One DB change.
+
+  \# \</weight> 
+ 
+### approveBounty(bounty_id: `Compact<ProposalIndex>`)
+- **interface**: `api.tx.treasury.approveBounty`
+- **summary**:   Approve a bounty proposal. At a later time, the bounty will be funded and become active and the original deposit will be returned. 
+
+  May only be called from `T::ApproveOrigin`. 
+
+  \# \<weight>
+
+   
+
+  - O(1).
+
+  - Limited storage reads.
+
+  - One DB change.
+
+  \# \</weight> 
+ 
 ### approveProposal(proposal_id: `Compact<ProposalIndex>`)
 - **interface**: `api.tx.treasury.approveProposal`
 - **summary**:   Approve a proposal. At a later time, the proposal will be allocated to the beneficiary and the original deposit will be returned. 
@@ -4007,6 +3833,32 @@ ___
   - DbWrite: `Approvals`
 
   \# \</weight> 
+ 
+### awardBounty(bounty_id: `Compact<ProposalIndex>`, beneficiary: `LookupSource`)
+- **interface**: `api.tx.treasury.awardBounty`
+- **summary**:   Award bounty to a beneficiary account. The beneficiary will be able to claim the funds after a delay. 
+
+  The dispatch origin for this call must be the curator of this bounty. 
+
+  - `bounty_id`: Bounty ID to award. 
+
+  - `beneficiary`: The beneficiary account whom will receive the payout.
+ 
+### claimBounty(bounty_id: `Compact<BountyIndex>`)
+- **interface**: `api.tx.treasury.claimBounty`
+- **summary**:   Claim the payout from an awarded bounty after payout delay. 
+
+  The dispatch origin for this call must be the beneficiary of this bounty. 
+
+  - `bounty_id`: Bounty ID to claim. 
+ 
+### closeBounty(bounty_id: `Compact<BountyIndex>`)
+- **interface**: `api.tx.treasury.closeBounty`
+- **summary**:   Cancel a proposed or active bounty. All the funds will be sent to treasury and the curator deposit will be unreserved if possible. 
+
+  Only `T::RejectOrigin` is able to cancel a bounty. 
+
+  - `bounty_id`: Bounty ID to cancel. 
  
 ### closeTip(hash: `Hash`)
 - **interface**: `api.tx.treasury.closeTip`
@@ -4027,6 +3879,50 @@ ___
   - DbReads: `Tips`, `Tippers`, `tip finder`
 
   - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`
+
+  \# \</weight> 
+ 
+### extendBountyExpiry(bounty_id: `Compact<BountyIndex>`, _remark: `Bytes`)
+- **interface**: `api.tx.treasury.extendBountyExpiry`
+- **summary**:   Extend the expiry time of an active bounty. 
+
+  The dispatch origin for this call must be the curator of this bounty. 
+
+  - `bounty_id`: Bounty ID to extend. 
+
+  - `remark`: additional information.
+ 
+### proposeBounty(value: `Compact<BalanceOf>`, description: `Bytes`)
+- **interface**: `api.tx.treasury.proposeBounty`
+- **summary**:   Propose a new bounty. 
+
+  The dispatch origin for this call must be _Signed_. 
+
+  Payment: `TipReportDepositBase` will be reserved from the origin account, as well as `DataDepositPerByte` for each byte in `reason`. It will be unreserved upon approval, or slashed when rejected. 
+
+  - `curator`: The curator account whom will manage this bounty. 
+
+  - `fee`: The curator fee.
+
+  - `value`: The total payment amount of this bounty, curator fee included.
+
+  - `description`: The description of this bounty.
+ 
+### proposeCurator(bounty_id: `Compact<ProposalIndex>`, curator: `LookupSource`, fee: `Compact<BalanceOf>`)
+- **interface**: `api.tx.treasury.proposeCurator`
+- **summary**:   Assign a curator to a funded bounty. 
+
+  May only be called from `T::ApproveOrigin`. 
+
+  \# \<weight>
+
+   
+
+  - O(1).
+
+  - Limited storage reads.
+
+  - One DB change.
 
   \# \</weight> 
  
@@ -4070,7 +3966,7 @@ ___
 
   The dispatch origin for this call must be _Signed_. 
 
-  Payment: `TipReportDepositBase` will be reserved from the origin account, as well as `TipReportDepositPerByte` for each byte in `reason`. 
+  Payment: `TipReportDepositBase` will be reserved from the origin account, as well as `DataDepositPerByte` for each byte in `reason`. 
 
   - `reason`: The reason for, or the thing that deserves, the tip; generally this will be   a UTF-8-encoded URL. 
 
@@ -4086,9 +3982,9 @@ ___
 
     - encoding and hashing of 'reason'
 
-  - DbReads: `Reasons`, `Tips`, `who account data`
+  - DbReads: `Reasons`, `Tips`
 
-  - DbWrites: `Tips`, `who account data`
+  - DbWrites: `Reasons`, `Tips`
 
   \# \</weight> 
  
@@ -4118,7 +4014,7 @@ ___
 
   \# \</weight> 
  
-### tip(hash: `Hash`, tip_value: `BalanceOf`)
+### tip(hash: `Hash`, tip_value: `Compact<BalanceOf>`)
 - **interface**: `api.tx.treasury.tip`
 - **summary**:   Declare a tip value for an already-open tip. 
 
@@ -4144,7 +4040,7 @@ ___
 
   \# \</weight> 
  
-### tipNew(reason: `Bytes`, who: `AccountId`, tip_value: `BalanceOf`)
+### tipNew(reason: `Bytes`, who: `AccountId`, tip_value: `Compact<BalanceOf>`)
 - **interface**: `api.tx.treasury.tipNew`
 - **summary**:   Give a tip for something new; no finder's fee will be taken. 
 
@@ -4171,6 +4067,30 @@ ___
   - DbReads: `Tippers`, `Reasons`
 
   - DbWrites: `Reasons`, `Tips`
+
+  \# \</weight> 
+ 
+### unassignCurator(bounty_id: `Compact<ProposalIndex>`)
+- **interface**: `api.tx.treasury.unassignCurator`
+- **summary**:   Unassign curator from a bounty. 
+
+  This function can only be called by the `RejectOrigin` a signed origin. 
+
+  If this function is called by the `RejectOrigin`, we assume that the curator is malicious or inactive. As a result, we will slash the curator when possible. 
+
+  If the origin is the curator, we take this as a sign they are unable to do their job and they willingly give up. We could slash them, but for now we allow them to recover their deposit and exit without issue. (We may want to change this if it is abused.) 
+
+  Finally, the origin can be anyone if and only if the curator is "inactive". This allows anyone in the community to call out that a curator is not doing their due diligence, and we should pick a new curator. In this case the curator should also be slashed. 
+
+  \# \<weight>
+
+   
+
+  - O(1).
+
+  - Limited storage reads.
+
+  - One DB change.
 
   \# \</weight> 
 
@@ -4248,10 +4168,6 @@ ___
 
       - Writes: Vesting Storage, Balances Locks, Target Account, Source Account
 
-  - Benchmark: 100.3 + .365 * l µs (min square analysis)
-
-  - Using 100 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.
-
   \# \</weight> 
  
 ### vest()
@@ -4273,14 +4189,6 @@ ___
       - Reads: Vesting Storage, Balances Locks, [Sender Account]
 
       - Writes: Vesting Storage, Balances Locks, [Sender Account]
-
-  - Benchmark:
-
-      - Unlocked: 48.76 + .048 * l µs (min square analysis)
-
-      - Locked: 44.43 + .284 * l µs (min square analysis)
-
-  - Using 50 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.
 
   \# \</weight> 
  
@@ -4305,14 +4213,6 @@ ___
       - Reads: Vesting Storage, Balances Locks, Target Account
 
       - Writes: Vesting Storage, Balances Locks, Target Account
-
-  - Benchmark:
-
-      - Unlocked: 44.3 + .294 * l µs (min square analysis)
-
-      - Locked: 48.16 + .103 * l µs (min square analysis)
-
-  - Using 50 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.
 
   \# \</weight> 
  
@@ -4341,9 +4241,5 @@ ___
       - Reads: Vesting Storage, Balances Locks, Target Account, [Sender Account]
 
       - Writes: Vesting Storage, Balances Locks, Target Account, [Sender Account]
-
-  - Benchmark: 100.3 + .365 * l µs (min square analysis)
-
-  - Using 100 µs fixed. Assuming less than 50 locks on any user, else we may want factor in number of locks.
 
   \# \</weight> 

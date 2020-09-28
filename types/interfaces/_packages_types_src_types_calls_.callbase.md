@@ -26,7 +26,7 @@
 
 •  **callIndex**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/calls.ts#L8)*
+*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/calls.ts#L8)*
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 •  **meta**: FunctionMetadataLatest
 
-*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/calls.ts#L9)*
+*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/calls.ts#L9)*
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 •  **method**: string
 
-*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/calls.ts#L10)*
+*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/calls.ts#L10)*
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 •  **section**: string
 
-*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/calls.ts#L11)*
+*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/calls.ts#L11)*
 
 ___
 
@@ -58,4 +58,4 @@ ___
 
 •  **toJSON**: () => any
 
-*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/73ffb034d/packages/types/src/types/calls.ts#L12)*
+*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/types/calls.ts#L12)*

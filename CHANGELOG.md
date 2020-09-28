@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.35.0-beta.x
+## 2.0.1 Sep 28, 2020
 
 Upgrade priority: Medium. Required for all teams building on Substrate 2.0 for full compatibility.
 
@@ -9,15 +9,23 @@ Upgrade priority: Medium. Required for all teams building on Substrate 2.0 for f
 - **Breaking change** Extrinsic versions before v4 (1-3) are not supported anymore. This aligns with the above metadata change, where v4 is the canonical version.
 - **Breaking change** Support for the old-style linked-map retrievals via `query.<module>.map()` have been dropped, only the existing `.keys()/.entries()` are available for map iteration.
 
+Contributed:
+
+- Add secondary fields to EpochAuthorship (Thanks to https://github.com/andresilva)
+- Add support for FixedVec in enums (Thanks to https://github.com/monitz87)
+
 Changes:
 
 - Drop support for Substrate 1.0 metadata versions 1-8
 - Drop support for Substrate 1.0 extrinsics version 1-3
 - Add support for `grandpa_proveFinality` RPC
 - Drop support for linked map queries not via .entries (deprecated since early versions of Substrate 2)
+- Support `.entries()` on older chains without `queryStorageAt` support
 - Add bounty type definitions from treasury palette
 - Adjust `RefCount` type as per substrate 2.0
 - Add `PalletVersion` types for future palette versioning
+- Adjust formatting for `Per{cent, bill, mill}` without instance checks
+- Skip invalid keys on validator retrievals
 
 
 ## 1.34.1 Sep 21, 2020
