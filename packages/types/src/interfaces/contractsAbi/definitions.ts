@@ -1,13 +1,17 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// Copyright 2017-2020 @polkadot/types authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import { Definitions } from '../../types';
+
+// order important in structs... :)
+/* eslint-disable sort-keys */
 
 const layout = {
-  InkLayoutKey: '[u8; 32]',
   InkLayoutField: {
     name: 'MtLookupTextId',
     layout: 'InkStorageLayout'
   },
+  InkLayoutKey: '[u8; 32]',
   InkLayoutRange: {
     offset: 'InkLayoutKey',
     len: 'u32',
@@ -122,6 +126,7 @@ const registry = {
 };
 
 export default {
+  rpc: {},
   types: {
     ...layout,
     ...registry,
@@ -135,4 +140,4 @@ export default {
       contract: 'InkContractSpec'
     }
   }
-};
+} as Definitions;

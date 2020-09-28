@@ -511,12 +511,12 @@ declare module '@polkadot/types/types/registry' {
     TrieId: TrieId;
     'Option<TrieId>': Option<TrieId>;
     'Vec<TrieId>': Vec<TrieId>;
-    InkLayoutKey: InkLayoutKey;
-    'Option<InkLayoutKey>': Option<InkLayoutKey>;
-    'Vec<InkLayoutKey>': Vec<InkLayoutKey>;
     InkLayoutField: InkLayoutField;
     'Option<InkLayoutField>': Option<InkLayoutField>;
     'Vec<InkLayoutField>': Vec<InkLayoutField>;
+    InkLayoutKey: InkLayoutKey;
+    'Option<InkLayoutKey>': Option<InkLayoutKey>;
+    'Vec<InkLayoutKey>': Vec<InkLayoutKey>;
     InkLayoutRange: InkLayoutRange;
     'Option<InkLayoutRange>': Option<InkLayoutRange>;
     'Vec<InkLayoutRange>': Vec<InkLayoutRange>;
