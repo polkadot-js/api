@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
@@ -16,8 +15,8 @@ import { parseImage } from './util';
 
 type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
 
-export function preimages (api: ApiInterfaceRx): (hashes: Hash[]) => Observable<(DeriveProposalImage | undefined)[]> {
-  return memo((hashes: Hash[]): Observable<(DeriveProposalImage | undefined)[]> =>
+export function preimages (instanceId: string, api: ApiInterfaceRx): (hashes: Hash[]) => Observable<(DeriveProposalImage | undefined)[]> {
+  return memo(instanceId, (hashes: Hash[]): Observable<(DeriveProposalImage | undefined)[]> =>
     api.query.democracy.preimages.multi<PreImage>(hashes).pipe(
       map((images): (DeriveProposalImage | undefined)[] =>
         images.map((imageOpt) => parseImage(api, imageOpt))

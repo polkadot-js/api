@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SessionIndex } from '@polkadot/types/interfaces';
 import { DeriveSessionInfo, DeriveSessionIndexes } from '../types';
@@ -62,8 +61,8 @@ function queryBabe (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
 /**
  * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
-export function info (api: ApiInterfaceRx): () => Observable<DeriveSessionInfo> {
-  return memo((): Observable<DeriveSessionInfo> =>
+export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionInfo> {
+  return memo(instanceId, (): Observable<DeriveSessionInfo> =>
     api.consts.babe
       ? queryBabe(api)
       : queryAura(api)

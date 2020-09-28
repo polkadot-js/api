@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
 /* eslint-disable sort-keys */
@@ -10,6 +9,37 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
+    Bounty: {
+      proposer: 'AccountId',
+      value: 'Balance',
+      fee: 'Balance',
+      curatorDeposit: 'Balance',
+      bond: 'Balance',
+      status: 'BountyStatus'
+    },
+    BountyIndex: 'u32',
+    BountyStatus: {
+      _enum: {
+        Proposed: 'Null',
+        Approved: 'Null',
+        Funded: 'Null',
+        CuratorProposed: 'BountyStatusCuratorProposed',
+        Active: 'BountyStatusActive',
+        PendingPayout: 'BountyStatusPendingPayout'
+      }
+    },
+    BountyStatusActive: {
+      curator: 'AccountId',
+      updateDue: 'BlockNumber'
+    },
+    BountyStatusCuratorProposed: {
+      curator: 'AccountId'
+    },
+    BountyStatusPendingPayout: {
+      curator: 'AccountId',
+      beneficiary: 'AccountId',
+      unlockAt: 'BlockNumber'
+    },
     OpenTip: {
       reason: 'Hash',
       who: 'AccountId',

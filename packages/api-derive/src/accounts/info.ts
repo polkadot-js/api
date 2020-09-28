@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Balance, Registration } from '@polkadot/types/interfaces';
@@ -113,8 +112,8 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
  * @name info
  * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex and nickname
  */
-export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
-  return memo((address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
+export function info (instanceId: string, api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
+  return memo(instanceId, (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     api.derive.accounts.idAndIndex(address).pipe(
       switchMap(([accountId, accountIndex]): Observable<[Partial<DeriveAccountInfo>, DeriveAccountRegistration, string?]> =>
         combineLatest([

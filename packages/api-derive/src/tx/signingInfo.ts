@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Header, Index } from '@polkadot/types/interfaces';
 import { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
@@ -24,6 +23,12 @@ function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
   );
 }
 
+function nextNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
+  return api.rpc.system?.accountNextIndex
+    ? api.rpc.system.accountNextIndex(address)
+    : latestNonce(api, address);
+}
+
 function signingHeader (api: ApiInterfaceRx): Observable<Header> {
   return combineLatest([
     api.rpc.chain.getHeader(),
@@ -40,14 +45,16 @@ function signingHeader (api: ApiInterfaceRx): Observable<Header> {
   );
 }
 
-export function signingInfo (api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
+export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
   // no memo, we want to do this fresh on each run
   return (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number): Observable<Result> =>
     combineLatest([
       // retrieve nonce if none was specified
       isUndefined(nonce)
         ? latestNonce(api, address)
-        : of(api.registry.createType('Index', nonce)),
+        : nonce === -1
+          ? nextNonce(api, address)
+          : of(api.registry.createType('Index', nonce)),
       // if no era (create) or era > 0 (mortal), do block retrieval
       (isUndefined(era) || (isNumber(era) && era > 0))
         ? signingHeader(api)

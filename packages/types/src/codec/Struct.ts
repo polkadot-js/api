@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
@@ -102,8 +101,6 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unk
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
   S extends TypesDef = TypesDef,
-  // internal type, instance of classes mapped by key
-  T extends { [K in keyof S]: Codec } = { [K in keyof S]: Codec },
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S

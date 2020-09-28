@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { AccountIdAndIndex } from '../types';
@@ -51,7 +50,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * });
  * ```
  */
-export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
-  return memo((address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
+  return memo(instanceId, (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
     retrieve(api, address));
 }

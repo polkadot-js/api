@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
@@ -29,8 +28,8 @@ function parse ([hashes, proposals, votes]: Result): DeriveCollectiveProposal[] 
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DeriveCollectiveProposal[]> {
-  return memo((): Observable<DeriveCollectiveProposal[]> =>
+export function proposals (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DeriveCollectiveProposal[]> {
+  return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
     isFunction(api.query[section]?.proposals)
       ? api.query[section].proposals().pipe(
         switchMap((hashes: Hash[]): Observable<Result> =>

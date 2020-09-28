@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
@@ -30,8 +29,8 @@ function mapSlashes (era: EraIndex, noms: [StorageKey, Option<BalanceOf>][], val
   return { era, nominators, validators };
 }
 
-export function _eraSlashes (api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraSlashes> {
-  return memo((era: EraIndex, withActive: boolean): Observable<DeriveEraSlashes> => {
+export function _eraSlashes (instanceId: string, api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraSlashes> {
+  return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraSlashes> => {
     const cacheKey = `${CACHE_KEY}-${era.toString()}`;
     const cached = withActive
       ? undefined
@@ -54,14 +53,14 @@ export function _eraSlashes (api: ApiInterfaceRx): (era: EraIndex, withActive: b
   });
 }
 
-export function eraSlashes (api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraSlashes> {
-  return memo((era: EraIndex): Observable<DeriveEraSlashes> =>
+export function eraSlashes (instanceId: string, api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraSlashes> {
+  return memo(instanceId, (era: EraIndex): Observable<DeriveEraSlashes> =>
     api.derive.staking._eraSlashes(era, true)
   );
 }
 
-export function _erasSlashes (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraSlashes[]> {
-  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraSlashes[]> =>
+export function _erasSlashes (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraSlashes[]> {
+  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraSlashes[]> =>
     eras.length
       ? combineLatest(
         eras.map((era) => api.derive.staking._eraSlashes(era, withActive))
@@ -70,8 +69,8 @@ export function _erasSlashes (api: ApiInterfaceRx): (eras: EraIndex[], withActiv
   );
 }
 
-export function erasSlashes (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
-  return memo((withActive = false): Observable<DeriveEraSlashes[]> =>
+export function erasSlashes (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
+  return memo(instanceId, (withActive = false): Observable<DeriveEraSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._erasSlashes(eras, withActive))
     )

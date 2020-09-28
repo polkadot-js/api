@@ -133,12 +133,6 @@ export interface EventRecord extends Struct {
   readonly topics: Vec<Hash>;
 }
 
-/** @name EventRecordTo76 */
-export interface EventRecordTo76 extends Struct {
-  readonly phase: Phase;
-  readonly event: Event;
-}
-
 /** @name Health */
 export interface Health extends Struct {
   readonly peers: u64;
@@ -255,7 +249,10 @@ export interface Phase extends Enum {
 }
 
 /** @name RefCount */
-export interface RefCount extends u8 {}
+export interface RefCount extends u32 {}
+
+/** @name RefCountTo259 */
+export interface RefCountTo259 extends u8 {}
 
 /** @name TransactionValidityError */
 export interface TransactionValidityError extends Enum {

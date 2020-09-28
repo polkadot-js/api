@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
 /* eslint-disable sort-keys */
@@ -16,11 +15,11 @@ const numberTypes = {
   FixedU128: 'UInt<128, FixedU128>',
   I32F32: 'Int<64, I32F32>',
   U32F32: 'UInt<64, U32F32>',
-  PerU16: 'u16',
-  Perbill: 'u32',
-  Percent: 'u8',
-  Permill: 'u32',
-  Perquintill: 'u64'
+  PerU16: 'UInt<16, PerU16>',
+  Perbill: 'UInt<32, Perbill>',
+  Percent: 'UInt<8, Percent>',
+  Permill: 'UInt<32, Permill>',
+  Perquintill: 'UInt<64, Perquintill>'
 };
 
 export default {
@@ -32,7 +31,7 @@ export default {
     AccountIndex: 'GenericAccountIndex',
     Address: 'GenericAddress',
     AssetId: 'u32',
-    Balance: 'u128',
+    Balance: 'UInt<128, Balance>',
     BalanceOf: 'Balance',
     Block: 'GenericBlock',
     BlockNumber: 'u32',
@@ -85,6 +84,11 @@ export default {
     Moment: 'u64',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
+    PalletVersion: {
+      major: 'u16',
+      minor: 'u8',
+      patch: 'u8'
+    },
     Pays: {
       _enum: ['Yes', 'No']
     },

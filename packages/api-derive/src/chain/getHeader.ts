@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
@@ -24,8 +23,8 @@ import { memo } from '../util';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
+  return memo(instanceId, (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getHeader(hash),
       api.query.session

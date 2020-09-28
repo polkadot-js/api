@@ -1,10 +1,97 @@
 # CHANGELOG
 
-## 1.32.0-beta.x
+## 2.0.1 Sep 28, 2020
+
+Upgrade priority: Medium. Required for all teams building on Substrate 2.0 for full compatibility.
+
+- **Important** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+- **Breaking change** Metadata versions before v9 as not supported anymore. v4 was the first version to go with the Substrate 1.0 while Kusama itself starts at v9 as the earliest version. This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
+- **Breaking change** Extrinsic versions before v4 (1-3) are not supported anymore. This aligns with the above metadata change, where v4 is the canonical version.
+- **Breaking change** Support for the old-style linked-map retrievals via `query.<module>.map()` have been dropped, only the existing `.keys()/.entries()` are available for map iteration.
+
+Contributed:
+
+- Add secondary fields to EpochAuthorship (Thanks to https://github.com/andresilva)
+- Add support for FixedVec in enums (Thanks to https://github.com/monitz87)
 
 Changes:
 
+- Drop support for Substrate 1.0 metadata versions 1-8
+- Drop support for Substrate 1.0 extrinsics version 1-3
+- Add support for `grandpa_proveFinality` RPC
+- Drop support for linked map queries not via .entries (deprecated since early versions of Substrate 2)
+- Support `.entries()` on older chains without `queryStorageAt` support
+- Add bounty type definitions from treasury palette
+- Adjust `RefCount` type as per substrate 2.0
+- Add `PalletVersion` types for future palette versioning
+- Adjust formatting for `Per{cent, bill, mill}` without instance checks
+- Skip invalid keys on validator retrievals
+
+
+## 1.34.1 Sep 21, 2020
+
+Upgrade priority: High. Metadata v12 is the next major version containing structural data exchange changes and will start rolling out to test and live networks in due course.
+
+- **Breaking change** The `Decorated` (from `@polkadot/metadata`) class signature has changed. It now always expects a valid `Metadata` object to be passed-in, instead of raw data. It is recommended to create a `Metadata` object, set it on the registry with `.setMetadata` and then only create a `Decorated` instance. (Only affects metadata-only users of the API)
+
+Contributed:
+
+- Added support for POW block author extraction (Thanks to https://github.com/sorpaas)
+
+Changes:
+
+- Ensure Metadata retrieval does not pollute the default registry
+- When passing `{ nonce: -1 }` to `signAndSend` the API will use `system.accountNextIndex` to determine the nonce
+- Ensure that upgrades override old registry types (non-specified in current)
+- Support for Metadata v12 with fixed indices
+- Cleanups for WebSocket class detection and creation
+- Ensure that ignored map params yield an error on `iterKey`
+- Cater for older chains in derive democracy locks (availability detection)
+
+
+## 1.33.1 Sep 14, 2020
+
+Upgrade priority: Low. Recommended when using clones instances.
+
+Changes:
+
+- Allow `paymentInfo` on any extrinsic with `tx.paymentInfo(<address>, <at>)` (hash specified)
+- When cloning an API instance the runtimeChain is now properly set from source
+- When cloning an API instance the registry is shared with the source
+- Optimize derive `receivedHeartbeats` to not re-create the full object
+- Add `staking.stakerPrefs` derive to retrieve validatorPrefs over a range of eras
+- Basic map of Websocket error codes to short descriptions (where none available)
+
+
+## 1.32.1 Sep 7, 2020
+
+Upgrade priority: Low. Recommended when manually using provider connect/disconnect or using multiple instances in a single process.
+
+- **Breaking change** Previously `.isReady` could throw an error, now it will always succeed on connection. For trapping errors, use the `.isReadyOrError` variant on the API
+- **Breaking change** The `isConnected` provider interface is now a getter, replacing previous calls to `provider.isConnected()`. Additionally the `provider.disconnect()` is now async, aligning with `.connect()`.
+
+Contributed:
+
+- Expand vesting information via derive balances (Thanks to https://github.com/niklabh)
+- Add `isReadyOrError` to API, `isReady` always succeeds (Thanks to https://github.com/shawntabrizi)
+
+Changes:
+
+- Adjust memoization to work on a per-instance basis, with no contamination between multiple api/provider instances
 - Added `derive.chain.getBlock(hash)` to retrieve a `SignedBlock` extended with an `.author` (same as `derive.chain.getHeader(...)`)
+- Added `api.{connect, disconnect}()` as well as `isConnected` interfaces. The first functions async returning `Promise<void>`
+- Error on provider connections will now emit all (as expected) via the event emitter
+- Ensure that initial connection failures always retry (when using auto-connection management)
+- The `api.derive.staking.query/queryMulti` no longer retrieves session keys (can be done via `.keys/keysMulti`)
+- Add `api.derive.accounts.accountId` to perform AccountId lookups (from indices or actual AccountId)
+- Lessen load of `paymentInfo` queries to only use accounId mappings as available
+- Adjust staking derives to cater for early Substrate 2.0 chains (optional/non-optional EraIndexes)
+- Cater for the handling of nested aliased types, e.g. wrapped inside Vec or Tuple
+- Add the support for the `grandpa_subscribeJustifications` RPC
+- Adjust `Call.toHuman()` to remove decoding-related technical internal details
+- Static metadata & tests updated for the latest substrate master
+- `toHuman()` & `.toBigInt()` has been explicitly added to the API documentation
+- Adjust known types for latest Kusama network state
 
 
 ## 1.31.1 Aug 31, 2020

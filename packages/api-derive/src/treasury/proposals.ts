@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces';
@@ -74,8 +73,8 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
 /**
  * @description Retrieve all active and approved treasury proposals, along with their info
  */
-export function proposals (api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
-  return memo((): Observable<DeriveTreasuryProposals> =>
+export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
+  return memo(instanceId, (): Observable<DeriveTreasuryProposals> =>
     api.query.treasury
       ? combineLatest([
         api.query.treasury.proposalCount(),

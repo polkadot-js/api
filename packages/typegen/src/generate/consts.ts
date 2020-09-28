@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import Handlebars from 'handlebars';
 
@@ -78,5 +77,9 @@ export default function generateConsts (dest = 'packages/api/src/augment/consts.
 
   registerDefinitions(registry, extraTypes);
 
-  return generateForMeta(new Metadata(registry, data), dest, extraTypes, isStrict);
+  const metadata = new Metadata(registry, data);
+
+  registry.setMetadata(metadata);
+
+  return generateForMeta(metadata, dest, extraTypes, isStrict);
 }

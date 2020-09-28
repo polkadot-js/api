@@ -1,13 +1,12 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
-import { Metadata } from '@polkadot/types';
+import { Metadata, Text } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
@@ -118,6 +117,13 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
+   * @description true is the underlying provider is connected
+   */
+  public get isConnected (): boolean {
+    return this._isConnected.getValue();
+  }
+
+  /**
    * @description The library information name & version (from package.json)
    */
   public get libraryInfo (): string {
@@ -187,6 +193,13 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
+   * @description Contains the chain information for the current node.
+   */
+  public get runtimeChain (): Text {
+    return assertResult(this._runtimeChain);
+  }
+
+  /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
   public get runtimeMetadata (): Metadata {
@@ -233,10 +246,17 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
+   * @description Connect from the underlying provider, halting all network traffic
+   */
+  public connect (): Promise<void> {
+    return this._rpcCore.connect();
+  }
+
+  /**
    * @description Disconnect from the underlying provider, halting all network traffic
    */
-  public disconnect (): void {
-    this._rpcCore.disconnect();
+  public disconnect (): Promise<void> {
+    return this._rpcCore.disconnect();
   }
 
   /**
@@ -267,7 +287,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
     if (isString(address)) {
       const _signer = signer || this._rx.signer;
 
-      assert(_signer?.signRaw, 'No signer exists with a signRaw interface');
+      assert(_signer?.signRaw, 'No signer exists with a signRaw interface. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
       return (
         await _signer.signRaw({

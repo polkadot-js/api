@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
@@ -18,14 +17,15 @@ const UNCONSTRUCTABLE = [
   'ExtrinsicPayloadUnknown', 'GenericExtrinsicPayloadUnknown',
   'ExtrinsicUnknown', 'GenericExtrinsicUnknown',
   'DoNotConstruct',
+  'MetadataAll',
   'Origin',
   'usize'
 ].map((v): string => v.toLowerCase());
 
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
 
-// eslint-disable-next-line no-new
-new Metadata(registry, metadataStatic);
+registry.setMetadata(metadata);
 
 function testTypes (type: string, typeNames: string[]): void {
   describe(type, (): void => {

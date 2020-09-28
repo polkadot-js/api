@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import WsProvider from './';
 import { Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+
+import WsProvider from './';
 
 function sleepMs (ms = 0): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -30,26 +30,26 @@ describe('onConnect', (): void => {
   it('Does not connect when autoConnect is false', (): void => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 0);
 
-    expect(provider.isConnected()).toBe(false);
+    expect(provider.isConnected).toBe(false);
   });
 
   it('Does connect when autoConnect is true', async () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 1);
 
     await sleepMs(100); // Hack to give the provider time to connect
-    expect(provider.isConnected()).toBe(true);
+    expect(provider.isConnected).toBe(true);
   });
 
   it('Creates a new WebSocket instance by calling the connect() method', async () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
 
-    expect(provider.isConnected()).toBe(false);
+    expect(provider.isConnected).toBe(false);
     expect(mocks[0].server.clients().length).toBe(0);
 
     await provider.connect();
     await sleepMs(100); // Hack to give the provider time to connect
 
-    expect(provider.isConnected()).toBe(true);
+    expect(provider.isConnected).toBe(true);
     expect(mocks[0].server.clients().length).toBe(1);
   });
 
@@ -59,7 +59,7 @@ describe('onConnect', (): void => {
     await provider.connect();
     await sleepMs(100); // Hack to give the provider time to connect
 
-    expect(provider.isConnected()).toBe(true);
+    expect(provider.isConnected).toBe(true);
   });
 
   it('Connects to the second endpoint when the first is unreachable', async () => {
@@ -71,7 +71,7 @@ describe('onConnect', (): void => {
 
     await sleepMs(100); // Hack to give the provider time to connect
 
-    expect(provider.isConnected()).toBe(true);
+    expect(provider.isConnected).toBe(true);
   });
 
   it('Connects to the second endpoint when the first is dropped', async () => {
@@ -92,7 +92,7 @@ describe('onConnect', (): void => {
 
     // Check that second server is connected
     expect(mocks[1].server.clients().length).toBe(1);
-    expect(provider.isConnected()).toBe(true);
+    expect(provider.isConnected).toBe(true);
   });
 
   it('Round-robin of endpoints on WsProvider', async () => {
@@ -124,7 +124,7 @@ describe('onConnect', (): void => {
         // Check that first server is connected and the next one isn't
         expect(mocks[index].server.clients().length).toBe(1);
         expect(mockNext[index].server.clients().length).toBe(0);
-        expect(provider.isConnected()).toBe(true);
+        expect(provider.isConnected).toBe(true);
 
         // Close connection from first server
         mocks[index].server.clients()[0].close();

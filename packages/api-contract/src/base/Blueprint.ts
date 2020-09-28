@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
@@ -17,6 +16,7 @@ import Abi from '../Abi';
 import Contract from './Contract';
 import { BaseWithTx } from './util';
 
+// eslint-disable-next-line no-use-before-define
 type BlueprintCreateResultSubscription<ApiType extends ApiTypes> = Observable<BlueprintCreateResult<ApiType>>;
 
 export interface BlueprintCreate<ApiType extends ApiTypes> {

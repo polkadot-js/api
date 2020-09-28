@@ -1,12 +1,10 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
-import './polyfill';
-
 import { assert, logger } from '@polkadot/util';
+import fetch from '@polkadot/x-fetch';
 
 import Coder from '../coder';
 import defaults from '../defaults';
@@ -68,9 +66,16 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
+   * @description Manually connect from the connection
+   */
+  public async connect (): Promise<void> {
+    // noop
+  }
+
+  /**
    * @description Manually disconnect from the connection
    */
-  public disconnect (): void {
+  public async disconnect (): Promise<void> {
     // noop
   }
 
@@ -78,7 +83,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
-  public isConnected (): boolean {
+  public get isConnected (): boolean {
     return true;
   }
 

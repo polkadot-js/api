@@ -1,13 +1,11 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
-/* eslint-disable @typescript-eslint/no-use-before-define */
-
-type Mapper = (value: string, options?: SanitizeOptions) => string;
+// SPDX-License-Identifier: Apache-2.0
 
 interface SanitizeOptions {
   allowNamespaces?: boolean;
 }
+
+type Mapper = (value: string, options?: SanitizeOptions) => string;
 
 const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'DoNotConstruct', 'HashMap', 'Int', 'Linkage', 'Result', 'Option', 'UInt', 'Vec'];
 const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple

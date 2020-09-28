@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
@@ -15,8 +14,8 @@ import { deriveCache, memo } from '../util';
 
 const CACHE_KEY = 'ownSlash';
 
-export function _ownSlash (api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex, withActive: boolean) => Observable<DeriveStakerSlashes> {
-  return memo((accountId: Uint8Array | string, era: EraIndex, withActive: boolean): Observable<DeriveStakerSlashes> => {
+export function _ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex, withActive: boolean) => Observable<DeriveStakerSlashes> {
+  return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex, withActive: boolean): Observable<DeriveStakerSlashes> => {
     const cacheKey = `${CACHE_KEY}-${era.toString()}-${accountId.toString()}`;
     const cached = withActive
       ? undefined
@@ -44,14 +43,14 @@ export function _ownSlash (api: ApiInterfaceRx): (accountId: Uint8Array | string
   });
 }
 
-export function ownSlash (api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveStakerSlashes> {
-  return memo((accountId: Uint8Array | string, era: EraIndex): Observable<DeriveStakerSlashes> =>
+export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveStakerSlashes> {
+  return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex): Observable<DeriveStakerSlashes> =>
     api.derive.staking._ownSlash(accountId, era, true)
   );
 }
 
-export function _ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo((accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerSlashes[]> =>
+export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
+  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerSlashes[]> =>
     eras.length
       ? combineLatest(
         eras.map((era) => api.derive.staking._ownSlash(accountId, era, withActive))
@@ -60,8 +59,8 @@ export function _ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | stri
   );
 }
 
-export function ownSlashes (api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo((accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerSlashes[]> => {
+export function ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
+  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerSlashes[]> => {
     return api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) =>
         api.derive.staking._ownSlashes(accountId, eras, withActive)

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, AccountData, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
@@ -80,10 +79,10 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
  * });
  * ```
  */
-export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
-  return memo((address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
-    api.derive.accounts.info(address).pipe(
-      switchMap(({ accountId }): Observable<[AccountId, Result]> =>
+export function account (instanceId: string, api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
+  return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
+    api.derive.accounts.accountId(address).pipe(
+      switchMap((accountId): Observable<[AccountId, Result]> =>
         (accountId
           ? combineLatest([
             of(accountId),

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AnyFunction } from '@polkadot/types/types';
@@ -36,7 +35,7 @@ type DeriveAllSections<AllSections> = {
   [Section in keyof AllSections]: DeriveSection<AllSections[Section]>
 };
 
-export type DeriveCustom = Record<string, Record<string, (api: ApiInterfaceRx) => (...args: any[]) => Observable<any>>>;
+export type DeriveCustom = Record<string, Record<string, (instanceId: string, api: ApiInterfaceRx) => (...args: any[]) => Observable<any>>>;
 
 export type ExactDerive = DeriveAllSections<typeof derive>;
 
@@ -60,7 +59,7 @@ const deriveAvail: Record<string, string[]> = {
  * `allSections`, and keep the object architecture of `allSections`.
  */
 /** @internal */
-function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
+function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
   const queryKeys = Object.keys(api.query);
 
   return Object
@@ -77,7 +76,7 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
           const methodName = _methodName as keyof typeof section;
           // Not sure what to do here, casting as any. Though the final types are good
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-          const method = (section[methodName] as any)(api);
+          const method = (section[methodName] as any)(instanceId, api);
 
           // idem
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
@@ -93,9 +92,9 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
 /** @internal */
-export default function decorateDerive (api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
+export default function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
-    ...injectFunctions(api, derive),
-    ...injectFunctions(api, custom)
+    ...injectFunctions(instanceId, api, derive),
+    ...injectFunctions(instanceId, api, custom)
   };
 }

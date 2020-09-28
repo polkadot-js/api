@@ -1,6 +1,5 @@
 // Copyright 2017-2019 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { Type } from '@polkadot/types';
@@ -21,11 +20,9 @@ function doDoubleMap (creator: StorageEntry, args: unknown[]): [StorageEntry, [a
 }
 
 function doMap (creator: StorageEntry, args: unknown[]): [StorageEntry] | [StorageEntry, any] {
-  const { key, linked } = creator.meta.type.asMap;
+  const { key } = creator.meta.type.asMap;
 
-  linked.isTrue
-    ? assert(args.length <= 1, `${sig(creator, key)} is a linked map, requiring either 0 arguments (retrieving all) or 1 argument, ${args.length} found`)
-    : assert(args.length === 1, `${sig(creator, key)} is a map, requiring 1 argument, ${args.length} found`);
+  assert(args.length === 1, `${sig(creator, key)} is a map, requiring 1 argument, ${args.length} found`);
 
   // expand
   return args.length

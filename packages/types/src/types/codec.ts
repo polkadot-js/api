@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts } from './helpers';
@@ -8,22 +7,7 @@ import { Registry } from './registry';
 
 import BN from 'bn.js';
 
-export type ArgsDef = Record<string, Constructor>;
-
-// We cannot inline this into CodecArg, TS thrws up when building docs
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface CodecArgArray extends Array<CodecArg> {}
-
-export type CodecArg = Codec | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | { [index: string]: CodecArg };
-
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
-
-export interface Constructor<T = Codec> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(registry: Registry, ...value: any[]): T;
-}
-
-export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
 /**
  * @name Codec
@@ -89,3 +73,19 @@ export interface Codec {
    */
   toU8a (isBare?: BareOpts): Uint8Array;
 }
+
+// eslint-disable-next-line no-use-before-define
+export type CodecArg = Codec | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | { [index: string]: CodecArg };
+
+// We cannot inline this into CodecArg, TS throws up when building docs
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface CodecArgArray extends Array<CodecArg> {}
+
+export interface Constructor<T = Codec> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  new(registry: Registry, ...value: any[]): T;
+}
+
+export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
+
+export type ArgsDef = Record<string, Constructor>;

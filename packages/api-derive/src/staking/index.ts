@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 export * from './account';
 export * from './currentPoints';
@@ -11,12 +10,14 @@ export * from './erasPrefs';
 export * from './erasRewards';
 export * from './erasSlashes';
 export * from './electedInfo';
+export * from './keys';
 export * from './overview';
 export * from './ownExposure';
 export * from './ownSlashes';
 export * from './query';
 export * from './stakerExposure';
 export * from './stakerPoints';
+export * from './stakerPrefs';
 export * from './stakerRewards';
 export * from './stakerSlashes';
 export * from './stashes';

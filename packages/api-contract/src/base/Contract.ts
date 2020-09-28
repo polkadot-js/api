@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
@@ -18,7 +17,9 @@ import { BaseWithTxAndRpcCall } from './util';
 type ContractCallTypes = 'tx' | 'rpc';
 
 type ContractCallResultSubscription<ApiType extends ApiTypes, CallType extends ContractCallTypes> = ApiType extends 'rxjs'
+  // eslint-disable-next-line no-use-before-define
   ? Observable<ContractCallResult<CallType>>
+  // eslint-disable-next-line no-use-before-define
   : Promise<ObsInnerType<ContractCallResult<CallType>>>;
 
 export interface ContractCall<ApiType extends ApiTypes, CallType extends ContractCallTypes> {

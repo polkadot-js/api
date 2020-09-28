@@ -1,17 +1,17 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
 
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import EventEmitter from 'eventemitter3';
-import { assert, isNull, isUndefined, isChildClass, logger } from '@polkadot/util';
+import { assert, isChildClass, isNull, isUndefined, logger } from '@polkadot/util';
+import WS from '@polkadot/x-ws';
 
 import Coder from '../coder';
 import defaults from '../defaults';
-import getWSClass from './getWSClass';
+import { getWSErrorString } from './errors';
 
 interface SubscriptionHandler {
   callback: ProviderInterfaceCallback;
@@ -30,15 +30,13 @@ interface WsStateSubscription extends SubscriptionHandler {
   params: any[];
 }
 
-interface WSProviderInterface extends ProviderInterface {
-  connect (): void;
-}
-
 const ALIASSES: { [index: string]: string } = {
   chain_finalisedHead: 'chain_finalizedHead',
   chain_subscribeFinalisedHeads: 'chain_subscribeFinalizedHeads',
   chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
 };
+
+const RETRY_DELAY = 1000;
 
 const l = logger('api-ws');
 
@@ -62,7 +60,7 @@ const l = logger('api-ws');
  *
  * @see [[HttpProvider]]
  */
-export default class WsProvider implements WSProviderInterface {
+export default class WsProvider implements ProviderInterface {
   readonly #coder: Coder;
 
   readonly #endpoints: string[];
@@ -91,7 +89,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = 1000, headers: Record<string, string> = {}) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -111,8 +109,9 @@ export default class WsProvider implements WSProviderInterface {
     this.#websocket = null;
 
     if (autoConnectMs > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.connect();
+      this.connectWithRetry().catch((): void => {
+        // does not throw
+      });
     }
   }
 
@@ -121,6 +120,14 @@ export default class WsProvider implements WSProviderInterface {
    */
   public get hasSubscriptions (): boolean {
     return true;
+  }
+
+  /**
+   * @summary Whether the node is connected or not.
+   * @return {boolean} true if connected
+   */
+  public get isConnected (): boolean {
+    return this.#isConnected;
   }
 
   /**
@@ -135,48 +142,65 @@ export default class WsProvider implements WSProviderInterface {
    * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async connect (): Promise<void> {
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
-
-      const WS = await getWSClass();
-
       this.#websocket = typeof WebSocket !== 'undefined' && isChildClass(WebSocket, WS)
         ? new WS(this.#endpoints[this.#endpointIndex])
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
         : new WS(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers);
+
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
       this.#websocket.onopen = this.#onSocketOpen;
     } catch (error) {
       l.error(error);
+
+      this.#emit('error', error);
+
+      throw error;
+    }
+  }
+
+  /**
+   * @description Connect, never throwing an error, but rather forcing a retry
+   */
+  public async connectWithRetry (): Promise<void> {
+    try {
+      await this.connect();
+    } catch (error) {
+      setTimeout((): void => {
+        this.connectWithRetry().catch((): void => {
+          // does not throw
+        });
+      }, this.#autoConnectMs || RETRY_DELAY);
     }
   }
 
   /**
    * @description Manually disconnect from the connection, clearing autoconnect logic
    */
-  public disconnect (): void {
-    if (isNull(this.#websocket)) {
-      throw new Error('Cannot disconnect on a non-open websocket');
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async disconnect (): Promise<void> {
+    try {
+      assert(!isNull(this.#websocket), 'Cannot disconnect on a non-connected websocket');
+
+      // switch off autoConnect, we are in manual mode now
+      this.#autoConnectMs = 0;
+
+      // 1000 - Normal closure; the connection successfully completed
+      this.#websocket.close(1000);
+      this.#websocket = null;
+    } catch (error) {
+      l.error(error);
+
+      this.#emit('error', error);
+
+      throw error;
     }
-
-    // switch off autoConnect, we are in manual mode now
-    this.#autoConnectMs = 0;
-
-    // 1000 - Normal closure; the connection successfully completed
-    this.#websocket.close(1000);
-    this.#websocket = null;
-  }
-
-  /**
-   * @summary Whether the node is connected or not.
-   * @return {boolean} true if connected
-   */
-  public isConnected (): boolean {
-    return this.#isConnected;
   }
 
   /**
@@ -220,7 +244,7 @@ export default class WsProvider implements WSProviderInterface {
           subscription
         };
 
-        if (this.isConnected() && !isNull(this.#websocket)) {
+        if (this.isConnected && !isNull(this.#websocket)) {
           this.#websocket.send(json);
         } else {
           this.#queued[id] = json;
@@ -289,7 +313,7 @@ export default class WsProvider implements WSProviderInterface {
 
   #onSocketClose = (event: CloseEvent): void => {
     if (this.#autoConnectMs > 0) {
-      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]} code: '${event.code}' reason: '${event.reason}'`);
+      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
     }
 
     this.#isConnected = false;
@@ -297,8 +321,9 @@ export default class WsProvider implements WSProviderInterface {
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        this.connect();
+        this.connectWithRetry().catch(() => {
+          // does not throw
+        });
       }, this.#autoConnectMs);
     }
   }

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import { Hash } from '@polkadot/types/interfaces';
@@ -66,6 +65,8 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
  * ```
  */
 export default class Rpc implements RpcInterface {
+  #instanceId: string;
+
   #registryDefault: Registry;
 
   #getBlockRegistry?: (blockHash: string | Uint8Array) => Promise<{ registry: Registry }>;
@@ -111,10 +112,11 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
+  constructor (instanceId: string, registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
+    this.#instanceId = instanceId;
     this.#registryDefault = registry;
     this.provider = provider;
 
@@ -127,10 +129,24 @@ export default class Rpc implements RpcInterface {
   }
 
   /**
+   * @description Returns the connected status of a provider
+   */
+  public get isConnected (): boolean {
+    return this.provider.isConnected;
+  }
+
+  /**
+   * @description Manually connect from the attached provider
+   */
+  public connect (): Promise<void> {
+    return this.provider.connect();
+  }
+
+  /**
    * @description Manually disconnect from the attached provider
    */
-  public disconnect (): void {
-    this.provider.disconnect();
+  public disconnect (): Promise<void> {
+    return this.provider.disconnect();
   }
 
   /**
@@ -251,7 +267,7 @@ export default class Rpc implements RpcInterface {
 
     memoized = memoizee(this._createMethodWithRaw(creator), {
       length: false,
-      normalizer: JSON.stringify
+      normalizer: (args) => this.#instanceId + JSON.stringify(args)
     });
 
     return memoized;
@@ -340,7 +356,7 @@ export default class Rpc implements RpcInterface {
       // together are cached together.
       // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      normalizer: JSON.stringify
+      normalizer: (args) => this.#instanceId + JSON.stringify(args)
     });
 
     return memoized;

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 export interface JsonRpcObject {
   id: number;
@@ -44,9 +43,11 @@ export type ProviderInterfaceEmitCb = (value?: any) => any;
 
 export interface ProviderInterface {
   readonly hasSubscriptions: boolean;
+  readonly isConnected: boolean;
+
   clone (): ProviderInterface;
-  disconnect (): void;
-  isConnected (): boolean;
+  connect (): Promise<void>;
+  disconnect (): Promise<void>;
   on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void;
   send (method: string, params: any[]): Promise<any>;
   subscribe (type: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number | string>;

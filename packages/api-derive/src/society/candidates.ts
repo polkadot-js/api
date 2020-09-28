@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
@@ -19,8 +18,8 @@ type Result = [Bid[], ResultSuspend[]]
 /**
  * @description Get the candidate info for a society
  */
-export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
-  return memo((): Observable<DeriveSocietyCandidate[]> =>
+export function candidates (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
+  return memo(instanceId, (): Observable<DeriveSocietyCandidate[]> =>
     api.query.society.candidates<Vec<Bid>>().pipe(
       switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([

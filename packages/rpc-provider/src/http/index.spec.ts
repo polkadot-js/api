@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TEST_HTTP_URL } from '../../test/mockHttp';
 import Http from './';
@@ -31,7 +30,7 @@ describe('Http', (): void => {
   });
 
   it('always returns isConnected true', (): void => {
-    expect(http.isConnected()).toEqual(true);
+    expect(http.isConnected).toEqual(true);
   });
 
   it('does not (yet) support subscribe', (): Promise<number | void> => {

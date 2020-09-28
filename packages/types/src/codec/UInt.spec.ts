@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 
@@ -119,6 +118,13 @@ describe('UInt', (): void => {
       expect(
         new (UInt.with(64, 'SomethingElse'))(registry).toRawType()
       ).toEqual('SomethingElse');
+    });
+
+    it('has proper toHuman() for PerMill/PerBill/Percent/Balance', (): void => {
+      expect(registry.createType('Perbill', 12_340_000).toHuman()).toEqual('1.23%');
+      expect(registry.createType('Percent', 12).toHuman()).toEqual('12.00%');
+      expect(registry.createType('Permill', 16_900).toHuman()).toEqual('1.69%');
+      expect(registry.createType('Balance', '123456789012345').toHuman()).toEqual('123.4567 Unit');
     });
   });
 });

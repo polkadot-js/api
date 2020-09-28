@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, ReferendumInfo, ReferendumInfoTo239, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
@@ -74,16 +73,18 @@ function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<
   );
 }
 
-export function locks (api: ApiInterfaceRx): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
-  return memo((accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
-    api.query.democracy.votingOf(accountId).pipe(
-      switchMap((voting): Observable<DeriveDemocracyLock[]> =>
-        voting.isDirect
-          ? directLocks(api, voting.asDirect)
-          : voting.isDelegating
-            ? delegateLocks(api, voting.asDelegating)
-            : of([])
+export function locks (instanceId: string, api: ApiInterfaceRx): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
+  return memo(instanceId, (accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
+    api.query.democracy.votingOf
+      ? api.query.democracy.votingOf(accountId).pipe(
+        switchMap((voting): Observable<DeriveDemocracyLock[]> =>
+          voting.isDirect
+            ? directLocks(api, voting.asDirect)
+            : voting.isDelegating
+              ? delegateLocks(api, voting.asDelegating)
+              : of([])
+        )
       )
-    )
+      : of([])
   );
 }

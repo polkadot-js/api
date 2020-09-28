@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Address, Balance } from '@polkadot/types/interfaces';
@@ -31,8 +30,8 @@ function isIncludedFn (accountId: AccountId | Address | string): (_: AccountId |
  * @name info
  * @description Returns account membership flags
  */
-export function flags (api: ApiInterfaceRx): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
-  return memo((address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
+export function flags (instanceId: string, api: ApiInterfaceRx): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
+  return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
     const councilSection = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
     return (

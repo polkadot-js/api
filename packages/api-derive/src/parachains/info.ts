@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { CollatorId, ParaId } from '@polkadot/types/interfaces';
 import { DeriveParachainInfo, DeriveParachainFull, DeriveParachainActive } from '../types';
@@ -77,8 +76,8 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
   };
 }
 
-export function info (api: ApiInterfaceRx): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
-  return memo((id: ParaId | number): Observable<DeriveParachainFull | null> =>
+export function info (instanceId: string, api: ApiInterfaceRx): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
+  return memo(instanceId, (id: ParaId | number): Observable<DeriveParachainFull | null> =>
     api.query.registrar && api.query.parachains
       ? api.queryMulti<Result>([
         api.query.registrar.active,

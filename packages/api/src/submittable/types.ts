@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsicEra, IKeyringPair, Signer, ISubmittableResult } from '@polkadot/types/types';
+import { AnyNumber, Callback, Codec, IExtrinsicEra, IKeyringPair, Signer, ISubmittableResult } from '@polkadot/types/types';
 import { ApiTypes } from '../types';
 
 import { Observable } from 'rxjs';
@@ -34,7 +33,7 @@ export type SubmittableThis<ApiType extends ApiTypes, THIS> =
     : Promise<THIS>;
 
 export interface SignerOptions {
-  blockHash: AnyU8a;
+  blockHash: Uint8Array | string;
   era?: IExtrinsicEra | number;
   nonce: AnyNumber | Codec;
   signer?: Signer;

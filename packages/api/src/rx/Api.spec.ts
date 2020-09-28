@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '../submittable/types';
 
@@ -9,7 +8,6 @@ import { map, switchMap } from 'rxjs/operators';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import Mock from '@polkadot/rpc-provider/mock/index';
 import { TypeRegistry } from '@polkadot/types';
-import { isObservable } from '@polkadot/util';
 
 import { SingleAccountSigner } from '../../test/util';
 import ApiRx from './Api';
@@ -22,14 +20,6 @@ describe('ApiRx', (): void => {
   beforeEach((): void => {
     jest.setTimeout(3000000);
     provider = new Mock(registry);
-  });
-
-  it('has isConnected', (): void => {
-    const api = new ApiRx();
-
-    expect(
-      isObservable(api.isConnected)
-    ).toBe(true);
   });
 
   describe('decorator.signAsync', (): void => {

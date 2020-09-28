@@ -35,6 +35,7 @@ export interface BabeWeight extends u64 {}
 export interface EpochAuthorship extends Struct {
   readonly primary: Vec<u64>;
   readonly secondary: Vec<u64>;
+  readonly secondary_vrf: Vec<u64>;
 }
 
 /** @name MaybeRandomness */

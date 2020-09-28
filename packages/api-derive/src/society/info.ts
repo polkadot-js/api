@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, BalanceOf, Bid } from '@polkadot/types/interfaces';
@@ -17,8 +16,8 @@ type Result = [Vec<Bid>, Option<AccountId>, Option<AccountId>, Option<AccountId>
 /**
  * @description Get the overall info for a society
  */
-export function info (api: ApiInterfaceRx): () => Observable<DeriveSociety> {
-  return memo((): Observable<DeriveSociety> =>
+export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSociety> {
+  return memo(instanceId, (): Observable<DeriveSociety> =>
     api.queryMulti<Result>([
       api.query.society.bids,
       api.query.society.defender,

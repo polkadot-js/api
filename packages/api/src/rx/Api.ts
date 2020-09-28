@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Codec } from '@polkadot/types/types';
 import { ApiOptions, DecorateFn } from '../types';
@@ -21,7 +20,7 @@ export function decorateMethod <Method extends DecorateFn<Codec>> (method: Metho
  * @name ApiRx
  *
  * @description
- * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
+ * ApiRx is a powerful RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
  *
  * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
  *
@@ -35,7 +34,7 @@ export function decorateMethod <Method extends DecorateFn<Codec>> (method: Metho
  * ```javascript
  * import ApiRx from '@polkadot/api/rx';
  *
- * // initialise via Promise & static create
+ * // initialize via Promise & static create
  * const api = await ApiRx.create().toPromise();
  *
  * // make a call to retrieve the current network head
@@ -54,10 +53,10 @@ export function decorateMethod <Method extends DecorateFn<Codec>> (method: Metho
  * import { ApiRx, WsProvider } from '@polkadot/api';
  *
  *
- * // initialise a provider with a specific endpoint
+ * // initialize a provider with a specific endpoint
  * const provider = new WsProvider('wss://example.com:9944')
  *
- * // initialise via isReady & new with specific provider
+ * // initialize via isReady & new with specific provider
  * new ApiRx({ provider })
  *   .isReady
  *   .pipe(
@@ -99,7 +98,7 @@ export function decorateMethod <Method extends DecorateFn<Codec>> (method: Metho
  *        api.tx.balances
  *          // create transfer
  *          .transfer(keyring.bob.address, 12345)
- *          // sign the transcation
+ *          // sign the transaction
  *          .sign(keyring.alice, { nonce })
  *          // send the transaction
  *          .send()
@@ -118,7 +117,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or [[WsProvider]]
+   * @param options options that is passed to the class constructor. Can be either [[ApiOptions]] or [[WsProvider]]
    * @example
    * <BR>
    *
@@ -171,13 +170,6 @@ export default class ApiRx extends ApiBase<'rxjs'> {
         });
       })
     );
-  }
-
-  /**
-   * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
-   */
-  public get isConnected (): Observable<boolean> {
-    return this._isConnected;
   }
 
   /**

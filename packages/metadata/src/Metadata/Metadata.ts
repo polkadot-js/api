@@ -1,22 +1,31 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Registry } from '@polkadot/types/types';
 
-import { isHex, hexToU8a } from '@polkadot/util';
+import { isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import MetadataVersioned from './MetadataVersioned';
 
-const VERSION_IDX = 4; // magic u32 preceding
+// magic u32 preceding the version id
+const VERSION_IDX = 4;
 
-// first we try and parse using the versioned structure, if this does fail,
-// we adjust with the magic number and a manual version and re-try. As soon as
-// we remove support for V0, we will just do a new here
-function decodeMetadata (registry: Registry, _value: Uint8Array | string = new Uint8Array()): MetadataVersioned {
-  const value = isHex(_value)
-    ? hexToU8a(_value)
+// magic + lowest supported version
+const EMPTY_METADATA = u8aConcat(new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]));
+const EMPTY_U8A = new Uint8Array();
+
+function sanitizeInput (_value: Uint8Array | string = EMPTY_U8A): Uint8Array {
+  if (isString(_value)) {
+    return sanitizeInput(u8aToU8a(_value));
+  }
+
+  return _value.length === 0
+    ? EMPTY_METADATA
     : _value;
+}
+
+function decodeMetadata (registry: Registry, _value?: Uint8Array | string): MetadataVersioned {
+  const value = sanitizeInput(_value);
   const version = value[VERSION_IDX];
 
   try {

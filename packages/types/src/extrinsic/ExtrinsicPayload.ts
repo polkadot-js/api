@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
+import { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import { Balance, Hash, Index } from '../interfaces/runtime';
 import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
 
@@ -20,13 +19,13 @@ interface ExtrinsicPayloadOptions {
 }
 
 // all our known types that can be returned
-type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 | ExtrinsicPayloadV4;
+type ExtrinsicPayloadVx = ExtrinsicPayloadV4;
 
 const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
-  'ExtrinsicPayloadV1',
-  'ExtrinsicPayloadV2',
-  'ExtrinsicPayloadV3',
+  'ExtrinsicPayloadUnknown',
+  'ExtrinsicPayloadUnknown',
+  'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadV4'
 ];
 
@@ -69,7 +68,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return (this._raw as ExtrinsicPayloadV3).genesisHash || this.registry.createType('Hash');
+    return this._raw.genesisHash || this.registry.createType('Hash');
   }
 
   /**
@@ -91,7 +90,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return (this._raw as ExtrinsicPayloadV3).specVersion || this.registry.createType('u32');
+    return this._raw.specVersion || this.registry.createType('u32');
   }
 
   /**
@@ -99,7 +98,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return (this._raw as ExtrinsicPayloadV2).tip || this.registry.createType('Compact<Balance>');
+    return this._raw.tip || this.registry.createType('Compact<Balance>');
   }
 
   /**
@@ -107,7 +106,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get transactionVersion (): u32 {
     // NOTE only v4+
-    return (this._raw as ExtrinsicPayloadV4).transactionVersion || this.registry.createType('u32');
+    return this._raw.transactionVersion || this.registry.createType('u32');
   }
 
   /**

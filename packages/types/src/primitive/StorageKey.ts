@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import { AnyJson, AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
@@ -43,30 +42,20 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   Twox64Concat: [8, true]
 };
 
-function getStorageType (type: StorageEntryTypeLatest, isOptionalLinked?: boolean): [boolean, string] {
+function getStorageType (type: StorageEntryTypeLatest): [boolean, string] {
   if (type.isPlain) {
     return [false, type.asPlain.toString()];
   } else if (type.isDoubleMap) {
     return [false, type.asDoubleMap.value.toString()];
   }
 
-  const map = type.asMap;
-
-  if (map.linked.isTrue) {
-    const [pre, post] = isOptionalLinked
-      ? ['Option<', '>']
-      : ['', ''];
-
-    return [true, `(${pre}${map.value.toString()}${post}, Linkage<${map.key.toString()}>)`];
-  }
-
-  return [false, map.value.toString()];
+  return [false, type.asMap.value.toString()];
 }
 
 // we unwrap the type here, turning into an output usable for createType
 /** @internal */
 export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const [hasWrapper, outputType] = getStorageType(type, isOptional);
+  const [hasWrapper, outputType] = getStorageType(type);
 
   return isOptional && !hasWrapper
     ? `Option<${outputType}>` as keyof InterfaceTypes

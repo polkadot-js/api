@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Callback, Codec } from '@polkadot/types/types';
 import { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
@@ -197,6 +196,7 @@ export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType
  */
 export default class ApiPromise extends ApiBase<'promise'> {
   #isReadyPromise: Promise<ApiPromise>;
+  #isReadyOrErrorPromise: Promise<ApiPromise>;
 
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
@@ -239,7 +239,13 @@ export default class ApiPromise extends ApiBase<'promise'> {
   constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
-    this.#isReadyPromise = new Promise((resolve, reject): void => {
+    this.#isReadyPromise = new Promise((resolve): void => {
+      super.once('ready', (): void => {
+        resolve(this);
+      });
+    });
+
+    this.#isReadyOrErrorPromise = new Promise((resolve, reject): void => {
       super.once('ready', (): void => {
         resolve(this);
       });
@@ -250,10 +256,17 @@ export default class ApiPromise extends ApiBase<'promise'> {
   }
 
   /**
-   * @description Promise that returns the first time we are connected and loaded
+   * @description Promise that resolves the first time we are connected and loaded
    */
   public get isReady (): Promise<ApiPromise> {
     return this.#isReadyPromise;
+  }
+
+  /**
+   * @description Promise that resolves if we can connect, or reject if there is an error
+   */
+  public get isReadyOrError (): Promise<ApiPromise> {
+    return this.#isReadyOrErrorPromise;
   }
 
   /**

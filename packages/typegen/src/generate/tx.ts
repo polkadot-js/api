@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import Handlebars from 'handlebars';
 
@@ -49,7 +48,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
             const params = args
               .map(({ name, type }) => {
                 const typeStr = type.toString();
-                const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
+                const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
                 const nameStr = mapName(name);
 
                 setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(') && !type.startsWith('{')), typeStr]);
@@ -99,5 +98,9 @@ export default function generateTx (dest = 'packages/api/src/augment/tx.ts', dat
 
   registerDefinitions(registry, extraTypes);
 
-  return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes, isStrict);
+  const metadata = new Metadata(registry, data);
+
+  registry.setMetadata(metadata);
+
+  return generateForMeta(registry, metadata, dest, extraTypes, isStrict);
 }

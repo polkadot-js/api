@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, Balance, Hash, PropIndex } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
@@ -49,8 +48,8 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
     });
 }
 
-export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
-  return memo((): Observable<DeriveProposal[]> =>
+export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
+  return memo(instanceId, (): Observable<DeriveProposal[]> =>
     api.query.democracy?.publicProps && api.query.democracy?.preimages
       ? api.query.democracy.publicProps<Proposals>().pipe(
         switchMap((proposals) =>

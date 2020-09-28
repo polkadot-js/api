@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/interfaces';
@@ -14,8 +13,8 @@ import { memo } from '../util';
 /**
  * @description Get the member info for a society
  */
-export function members (api: ApiInterfaceRx): () => Observable<DeriveSocietyMember[]> {
-  return memo((): Observable<DeriveSocietyMember[]> =>
+export function members (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSocietyMember[]> {
+  return memo(instanceId, (): Observable<DeriveSocietyMember[]> =>
     api.query.society.members<AccountId[]>().pipe(
       switchMap((members): Observable<DeriveSocietyMember[]> =>
         combineLatest(

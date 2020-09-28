@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable no-dupe-class-members */
 
@@ -11,7 +10,7 @@ import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentR
 
 import { Observable, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { assert, isBn, isFunction, isNumber } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
@@ -37,8 +36,15 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // calculate the payment info for this transaction (if signed and submitted)
-    public paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType> {
-      const [allOptions] = this.#makeSignAndSendOptions(options);
+    public paymentInfo (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittablePaymentResult<ApiType> {
+      if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return decorateMethod(
+          () => api.rpc.payment.queryInfo(this.toHex(), optionsOrHash)
+        );
+      }
+
+      const [allOptions] = this.#makeSignAndSendOptions(optionsOrHash);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
@@ -233,7 +239,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // NOTE here we actually override nonce if it was specified (backwards compat for
-    // the previous signature - don't let userspace break, but allow then time to upgrade)
+    // the previous signature - don't let user space break, but allow then time to upgrade)
     #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions> = {}): Partial<SignerOptions> => {
       return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
         ? { nonce: optionsOrNonce }
@@ -243,7 +249,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
       const signer = options.signer || api.signer;
 
-      assert(signer, 'No signer specified, either via api.setSigner or via sign options');
+      assert(signer, 'No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
       const payload = this.registry.createType('SignerPayload', {
         ...options,

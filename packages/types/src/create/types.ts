@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Codec, InterfaceTypes } from '../types';
 
@@ -112,6 +111,11 @@ export interface MetaTypeDefEnumVariantTupleStruct {
   'tuple_struct_variant.types': TypeIndex[];
 }
 
+export interface MetaTypeDefStructField {
+  name: StringIndex;
+  type: TypeIndex;
+}
+
 export interface MetaTypeDefEnumVariantStruct {
   'struct_variant.name': StringIndex;
   'struct_variant.fields': MetaTypeDefStructField[];
@@ -121,11 +125,6 @@ export type MetaTypeDefEnumVariant = MetaTypeDefEnumVariantUnit | MetaTypeDefEnu
 
 export interface MetaTypeDefEnum {
   'enum.variants': MetaTypeDefEnumVariant[];
-}
-
-export interface MetaTypeDefStructField {
-  name: StringIndex;
-  type: TypeIndex;
 }
 
 export type MetaTypeDefUnionField = MetaTypeDefStructField;

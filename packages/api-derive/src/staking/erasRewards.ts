@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance, EraIndex } from '@polkadot/types/interfaces';
@@ -21,8 +20,8 @@ function mapRewards (eras: EraIndex[], optRewards: Option<Balance>[]): DeriveEra
   }));
 }
 
-export function _erasRewards (api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
-  return memo((eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> => {
+export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
+  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> => {
     if (!eras.length) {
       return of([]);
     }
@@ -53,8 +52,8 @@ export function _erasRewards (api: ApiInterfaceRx): (eras: EraIndex[], withActiv
   });
 }
 
-export function erasRewards (api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
-  return memo((withActive = false): Observable<DeriveEraRewards[]> =>
+export function erasRewards (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
+  return memo(instanceId, (withActive = false): Observable<DeriveEraRewards[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._erasRewards(eras, withActive))
     )

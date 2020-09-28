@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Registry } from '../types';
 
@@ -12,6 +11,7 @@ import Base from '../codec/Base';
 import AccountIndex from '../generic/AccountIndex';
 import EthereumAccountId from './AccountId';
 
+// eslint-disable-next-line no-use-before-define
 type AnyAddress = BN | LookupSource | EthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
