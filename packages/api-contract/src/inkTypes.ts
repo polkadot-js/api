@@ -47,13 +47,10 @@ function resolveTypeFromPath (project: InkProject, type: MtType): string {
 
 // Fields must either be *all* named (e.g. a struct) or *all* unnamed (e.g a tuple)
 function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string {
-  let allNamed = true;
-  let allUnnamed = true;
-
-  for (const field of typeFields) {
-    allNamed = allNamed && field.name.isSome;
-    allUnnamed = allUnnamed && field.name.isNone;
-  }
+  const [allNamed, allUnnamed] = typeFields.reduce(([allNamed, allUnnamed], { name }): [boolean, boolean] => [
+    allNamed && name.isSome,
+    allUnnamed && name.isNone
+  ], [true, true]);
 
   if (allNamed) {
     const fields = typeFields.map((field): string => {
@@ -82,11 +79,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
 }
 
 function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeDefVariant): string {
-  let allUnitVariants = true;
-
-  for (const variant of typeVariant.variants) {
-    allUnitVariants = allUnitVariants && variant.fields.length === 0;
-  }
+  const allUnitVariants = typeVariant.variants.reduce((allUnitVariants, { fields }) => allUnitVariants && fields.length === 0, true);
 
   if (allUnitVariants) {
     // FIXME We are currently ignoring the discriminant
@@ -160,9 +153,9 @@ function buildTypeDef (project: InkProject, type: MtTypeDef): string | null {
     return buildTypeDefFields(project, type.asComposite.fields);
   } else if (type.isVariant) {
     return buildTypeDefVariant(project, type.asVariant);
-  } else {
-    return null;
   }
+
+  return null;
 }
 
 function convertType (project: InkProject, type: MtType, index: number): [number, string, string | null] {
