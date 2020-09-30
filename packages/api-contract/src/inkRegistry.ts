@@ -1,34 +1,19 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkProject, MtLookupTextId, MtLookupTypeId, MtType } from '@polkadot/types/interfaces';
+import { InkProject, MtLookupTypeId, MtType } from '@polkadot/types/interfaces';
 
 import { assert, isUndefined } from '@polkadot/util';
 
 // convert the offset into project-specific, index-1
-export function getRegistryOffset (id: MtLookupTextId | MtLookupTypeId): number {
+export function getRegistryOffset (id: MtLookupTypeId): number {
   return id.toNumber() - 1;
-}
-
-// extract a single string from the project
-export function getInkString (project: InkProject, id: MtLookupTextId): string {
-  const offset = getRegistryOffset(id);
-  const value = project.lookup.strings[offset];
-
-  assert(!isUndefined(value), `getInkString:: Unable to find ${id.toNumber()} in string values`);
-
-  return value.toString();
-}
-
-// extract and array of strings from the project
-export function getInkStrings (project: InkProject, ids: MtLookupTextId[]): string[] {
-  return ids.map((id): string => getInkString(project, id));
 }
 
 // extract a single ink type defintion from the project
 export function getInkType (project: InkProject, id: MtLookupTypeId): MtType {
   const offset = getRegistryOffset(id);
-  const type = project.lookup.types[offset];
+  const type = project.types[offset];
 
   assert(!isUndefined(type), `getInkType:: Unable to find ${id.toNumber()} in type values`);
 

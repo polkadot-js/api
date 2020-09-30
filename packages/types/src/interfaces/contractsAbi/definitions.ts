@@ -7,23 +7,27 @@ import { Definitions } from '../../types';
 /* eslint-disable sort-keys */
 
 const layout = {
+  InkLayoutCell: {
+    key: 'InkLayoutKey',
+    ty: 'MtLookupTypeId'
+  },
   InkLayoutField: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     layout: 'InkStorageLayout'
   },
   InkLayoutKey: '[u8; 32]',
   InkLayoutRange: {
     offset: 'InkLayoutKey',
     len: 'u32',
-    elemType: 'MtLookupTextId'
+    elemType: 'Text'
   },
   InkLayoutStruct: {
-    type: 'MtLookupTextId',
     fields: 'Vec<InkLayoutField>'
   },
   InkStorageLayout: {
     _enum: {
-      Range: 'InkLayoutRange',
+      Cell: 'InkLayoutCell',
+      // todo: Hash, Array, Enum
       Struct: 'InkLayoutStruct'
     }
   }
@@ -31,35 +35,35 @@ const layout = {
 
 const spec = {
   InkConstructorSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     selector: 'InkSelector',
     args: 'Vec<InkMessageParamSpec>',
     docs: 'Vec<Text>'
   },
   InkContractSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     constructors: 'Vec<InkConstructorSpec>',
     messages: 'Vec<InkMessageSpec>',
     events: 'Vec<InkEventSpec>',
     docs: 'Vec<Text>'
   },
   InkEventParamSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     indexed: 'bool',
     type: 'InkTypeSpec',
     docs: 'Vec<Text>'
   },
   InkEventSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     args: 'Vec<InkEventParamSpec>',
     docs: 'Vec<Text>'
   },
   InkMessageParamSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     type: 'InkTypeSpec'
   },
   InkMessageSpec: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     selector: 'InkSelector',
     mutates: 'bool',
     args: 'Vec<InkMessageParamSpec>',
@@ -69,15 +73,14 @@ const spec = {
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
     id: 'MtLookupTypeId',
-    displayName: 'MtLookupTextId'
+    displayName: 'Text'
   }
 };
 
 const registry = {
   MtLookupTypeId: 'u32',
-  MtLookupTextId: 'u32',
   MtField: {
-    name: 'Option<MtLookupTextId>',
+    name: 'Option<Text>',
     type: 'MtLookupTypeId'
   },
   MtRegistry: {
@@ -85,41 +88,40 @@ const registry = {
     types: 'Vec<MtType>'
   },
   MtType: {
+    path: 'Vec<Text>',
+    params: 'Vec<MtLookupTypeId>',
+    def: 'MtTypeDef'
+  },
+  MtTypeDef: {
     _enum: {
-      Composite: 'MtTypeComposite',
-      Variant: 'MtTypeVariant',
-      Slice: 'MtTypeSlice',
-      Array: 'MtTypeArray',
-      Tuple: 'MtTypeTuple',
-      Primitive: 'MtTypePrimitive'
+      Composite: 'MtTypeDefComposite',
+      Variant: 'MtTypeDefVariant',
+      Slice: 'MtTypeDefSlice',
+      Array: 'MtTypeDefArray',
+      Tuple: 'MtTypeDefTuple',
+      Primitive: 'MtTypeDefPrimitive'
     }
   },
-  MtTypeComposite: {
-    name: 'MtLookupTextId',
-    namespace: 'Vec<MtLookupTextId>',
-    params: 'Vec<MtLookupTypeId>',
+  MtTypeDefComposite: {
     fields: 'Vec<MtField>'
   },
-  MtTypeVariant: {
-    name: 'MtLookupTextId',
-    namespace: 'Vec<MtLookupTextId>',
-    params: 'Vec<MtLookupTypeId>',
+  MtTypeDefVariant: {
     variants: 'Vec<MtVariant>'
   },
-  MtTypeArray: {
+  MtTypeDefArray: {
     len: 'u16',
     type: 'MtLookupTypeId'
   },
-  MtTypePrimitive: {
+  MtTypeDefPrimitive: {
     // this enum definition is mapped in api-contracts/inkTypes.ts
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
   },
-  MtTypeSlice: {
+  MtTypeDefSlice: {
     type: 'MtLookupTypeId'
   },
-  MtTypeTuple: 'Vec<MtLookupTypeId>',
+  MtTypeDefTuple: 'Vec<MtLookupTypeId>',
   MtVariant: {
-    name: 'MtLookupTextId',
+    name: 'Text',
     fields: 'Vec<MtField>',
     discriminant: 'Option<u64>'
   }
@@ -132,12 +134,9 @@ export default {
     ...registry,
     ...spec,
     InkProject: {
-      _alias: {
-        lookup: 'registry'
-      },
-      lookup: 'MtRegistry',
+      spec: 'InkContractSpec',
       storage: 'InkStorageLayout',
-      contract: 'InkContractSpec'
+      types: 'Vec<MtType>'
     }
   }
 } as Definitions;
