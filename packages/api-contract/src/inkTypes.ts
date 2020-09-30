@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { InkProject, MtField, MtLookupTypeId, MtLookupTextId, MtType, MtTypeArray, MtTypeVariant, MtTypePrimitive, MtTypeSlice, MtTypeTuple } from '@polkadot/types/interfaces';
 import { InterfaceTypes } from '@polkadot/types/types';
@@ -28,6 +27,7 @@ function sanitizeOrNull (type: string | null): string | null {
 
 function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string {
   const type = getInkType(project, typeId);
+
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return resolveType(project, type);
 }
@@ -36,7 +36,7 @@ function resolveTypeFromId (project: InkProject, typeId: MtLookupTypeId): string
 function getTypeArray (project: InkProject, idArray: MtTypeArray): string {
   const type = resolveTypeFromId(project, idArray.type);
 
-  return `[${type};${idArray.len}]`;
+  return `[${type};${idArray.len.toNumber()}]`;
 }
 
 // convert a typeid into the custom
@@ -57,6 +57,7 @@ function resolveTypeFromPath (project: InkProject, path: TypePath): string {
 function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string {
   let allNamed = true;
   let allUnnamed = true;
+
   for (const field of typeFields) {
     allNamed = allNamed && field.name.isSome;
     allUnnamed = allUnnamed && field.name.isNone;
@@ -65,8 +66,8 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
   if (allNamed) {
     const fields = typeFields.map((field): string => {
       const type = resolveTypeFromId(project, field.type);
-
       const name = getInkString(project, field.name.unwrap());
+
       return `"${name}": ${JSON.stringify(type)}`;
     });
 
@@ -90,6 +91,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
 
 function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): string {
   let allUnitVariants = true;
+
   for (const variant of typeVariant.variants) {
     allUnitVariants = allUnitVariants && variant.fields.length === 0;
   }
@@ -105,7 +107,7 @@ function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): 
       : 'Null';
   }
 
-  const variants = typeVariant.variants.map(({ name, fields, discriminant }): string => {
+  const variants = typeVariant.variants.map(({ discriminant, fields, name }): string => {
     assert(discriminant.isNone, "Only enums with all 'unit' variants (i.e. C-like enums) can have discriminants");
 
     const variantName = getInkString(project, name);
@@ -123,7 +125,7 @@ function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeVariant): 
 function getTypePrimitive (_project: InkProject, idPrim: MtTypePrimitive): keyof InterfaceTypes {
   const primitive = PRIMITIVES[idPrim.index];
 
-  assert(!isUndefined(primitive), `getTypePrimitive:: Unable to convert ${idPrim} to primitive`);
+  assert(!isUndefined(primitive), `getTypePrimitive:: Unable to convert ${idPrim.toString()} to primitive`);
 
   return primitive;
 }
@@ -158,7 +160,7 @@ function resolveType (project: InkProject, type: MtType): string {
     return getTypeTuple(project, type.asTuple);
   }
 
-  throw new Error(`convertType:: Unable to create type from ${type}`);
+  throw new Error(`convertType:: Unable to create type from ${type.toString()}`);
 }
 
 // builds the type definition for any user defined complex type e.g structs/enums
@@ -175,6 +177,7 @@ function buildTypeDef (project: InkProject, type: MtType): string | null {
 function convertType (project: InkProject, type: MtType, index: number): [number, string, string | null] {
   const name = sanitize(resolveType(project, type), { allowNamespaces: true });
   const typeDef = sanitizeOrNull(buildTypeDef(project, type));
+
   return [index, name, typeDef];
 }
 

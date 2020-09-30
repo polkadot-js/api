@@ -67,7 +67,7 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
   try {
     return createFromValue(registry, def, index, value);
   } catch (error) {
-    throw new Error(`Enum(${key}):: ${error.message}`);
+    throw new Error(`Enum(${key}):: ${(error as Error).message}`);
   }
 }
 
