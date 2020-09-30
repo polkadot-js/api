@@ -59,7 +59,7 @@
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[authorship](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#authorship)*
 
-*Defined in [packages/api/src/augment/query.ts:35](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L35)*
+*Defined in [packages/api/src/augment/query.ts:35](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L35)*
 
 #### Type declaration:
 
@@ -77,7 +77,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[babe](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#babe)*
 
-*Defined in [packages/api/src/augment/query.ts:50](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L50)*
+*Defined in [packages/api/src/augment/query.ts:50](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L50)*
 
 #### Type declaration:
 
@@ -103,7 +103,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[balances](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#balances)*
 
-*Defined in [packages/api/src/augment/query.ts:120](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L120)*
+*Defined in [packages/api/src/augment/query.ts:120](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L120)*
 
 #### Type declaration:
 
@@ -122,7 +122,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[contracts](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#contracts)*
 
-*Defined in [packages/api/src/augment/query.ts:144](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L144)*
+*Defined in [packages/api/src/augment/query.ts:144](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L144)*
 
 #### Type declaration:
 
@@ -142,14 +142,14 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[council](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#council)*
 
-*Defined in [packages/api/src/augment/query.ts:169](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L169)*
+*Defined in [packages/api/src/augment/query.ts:169](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L169)*
 
 #### Type declaration:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `members` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<AccountId>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The current members of the collective. This is stored sorted (just by value). |
-`prime` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<AccountId>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The member who provides the default vote for any other members that do not vote before the timeout. If None, then no member has that privilege. |
+`prime` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<AccountId>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The prime member that helps determine the default vote behavior in case of absentations. |
 `proposalCount` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<u32>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Proposals so far. |
 `proposalOf` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Option\<Proposal>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Actual proposal for a given hash, if it's current. |
 `proposals` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<Hash>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The hashes of the active proposals. |
@@ -163,7 +163,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[democracy](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#democracy)*
 
-*Defined in [packages/api/src/augment/query.ts:197](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L197)*
+*Defined in [packages/api/src/augment/query.ts:196](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L196)*
 
 #### Type declaration:
 
@@ -192,7 +192,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[elections](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#elections)*
 
-*Defined in [packages/api/src/augment/query.ts:275](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L275)*
+*Defined in [packages/api/src/augment/query.ts:274](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L274)*
 
 #### Type declaration:
 
@@ -201,7 +201,7 @@ Name | Type | Description |
 `candidates` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<AccountId>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The present candidate list. Sorted based on account-id. A current member or runner-up can never enter this vector and is always implicitly assumed to be a candidate. |
 `electionRounds` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<u32>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The total number of vote rounds that have happened, excluding the upcoming one. |
 `members` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<ITuple\<[AccountId, BalanceOf]>>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The current elected membership. Sorted based on account id. |
-`runnersUp` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<ITuple\<[AccountId, BalanceOf]>>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The current runners_up. Sorted based on low to high merit (worse to best runner). |
+`runnersUp` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<ITuple\<[AccountId, BalanceOf]>>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The current runners_up. Sorted based on low to high merit (worse to best). |
 `voting` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: AccountId \| string \| Uint8Array) => Observable\<ITuple\<[BalanceOf, Vec\<AccountId>]>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Votes and locked stake of a particular voter.  TWOX-NOTE: SAFE as `AccountId` is a crypto hash  |
 
 ___
@@ -212,7 +212,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[grandpa](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#grandpa)*
 
-*Defined in [packages/api/src/augment/query.ts:301](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L301)*
+*Defined in [packages/api/src/augment/query.ts:300](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L300)*
 
 #### Type declaration:
 
@@ -233,7 +233,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[identity](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#identity)*
 
-*Defined in [packages/api/src/augment/query.ts:332](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L332)*
+*Defined in [packages/api/src/augment/query.ts:331](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L331)*
 
 #### Type declaration:
 
@@ -252,7 +252,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[imOnline](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#imonline)*
 
-*Defined in [packages/api/src/augment/query.ts:361](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L361)*
+*Defined in [packages/api/src/augment/query.ts:360](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L360)*
 
 #### Type declaration:
 
@@ -271,7 +271,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[indices](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#indices)*
 
-*Defined in [packages/api/src/augment/query.ts:387](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L387)*
+*Defined in [packages/api/src/augment/query.ts:386](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L386)*
 
 #### Type declaration:
 
@@ -287,7 +287,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[multisig](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#multisig)*
 
-*Defined in [packages/api/src/augment/query.ts:394](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L394)*
+*Defined in [packages/api/src/augment/query.ts:393](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L393)*
 
 #### Type declaration:
 
@@ -304,7 +304,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[offences](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#offences)*
 
-*Defined in [packages/api/src/augment/query.ts:402](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L402)*
+*Defined in [packages/api/src/augment/query.ts:401](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L401)*
 
 #### Type declaration:
 
@@ -323,7 +323,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[proxy](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#proxy)*
 
-*Defined in [packages/api/src/augment/query.ts:427](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L427)*
+*Defined in [packages/api/src/augment/query.ts:426](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L426)*
 
 #### Type declaration:
 
@@ -340,7 +340,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[randomnessCollectiveFlip](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#randomnesscollectiveflip)*
 
-*Defined in [packages/api/src/augment/query.ts:439](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L439)*
+*Defined in [packages/api/src/augment/query.ts:438](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L438)*
 
 #### Type declaration:
 
@@ -356,7 +356,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[recovery](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#recovery)*
 
-*Defined in [packages/api/src/augment/query.ts:448](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L448)*
+*Defined in [packages/api/src/augment/query.ts:447](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L447)*
 
 #### Type declaration:
 
@@ -374,7 +374,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[scheduler](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#scheduler)*
 
-*Defined in [packages/api/src/augment/query.ts:468](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L468)*
+*Defined in [packages/api/src/augment/query.ts:467](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L467)*
 
 #### Type declaration:
 
@@ -392,7 +392,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[session](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#session)*
 
-*Defined in [packages/api/src/augment/query.ts:485](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L485)*
+*Defined in [packages/api/src/augment/query.ts:484](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L484)*
 
 #### Type declaration:
 
@@ -414,7 +414,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[society](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#society)*
 
-*Defined in [packages/api/src/augment/query.ts:520](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L520)*
+*Defined in [packages/api/src/augment/query.ts:519](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L519)*
 
 #### Type declaration:
 
@@ -445,7 +445,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[staking](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#staking)*
 
-*Defined in [packages/api/src/augment/query.ts:588](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L588)*
+*Defined in [packages/api/src/augment/query.ts:587](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L587)*
 
 #### Type declaration:
 
@@ -495,7 +495,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[sudo](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#sudo)*
 
-*Defined in [packages/api/src/augment/query.ts:785](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L785)*
+*Defined in [packages/api/src/augment/query.ts:784](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L784)*
 
 #### Type declaration:
 
@@ -507,11 +507,11 @@ ___
 
 ### system
 
-•  **system**: { [key:string]: [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>; account: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: AccountId \| string \| Uint8Array) => Observable\<AccountInfo>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; allExtrinsicsLen: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<u32>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; blockHash: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: BlockNumber \| AnyNumber \| Uint8Array) => Observable\<Hash>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; blockWeight: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<ExtrinsicsWeight>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; digest: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<DigestOf>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; eventCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<EventIndex>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; eventTopics: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Vec\<ITuple\<[BlockNumber, EventIndex]>>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; events: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<EventRecord>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; executionPhase: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<Phase>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; extrinsicCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<u32>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; extrinsicData: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: u32 \| AnyNumber \| Uint8Array) => Observable\<Bytes>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; extrinsicsRoot: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Hash>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; lastRuntimeUpgrade: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<LastRuntimeUpgradeInfo>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; number: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<BlockNumber>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; parentHash: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Hash>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>  }
+•  **system**: { [key:string]: [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>; account: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: AccountId \| string \| Uint8Array) => Observable\<AccountInfo>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; allExtrinsicsLen: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<u32>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; blockHash: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: BlockNumber \| AnyNumber \| Uint8Array) => Observable\<Hash>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; blockWeight: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<ExtrinsicsWeight>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; digest: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<DigestOf>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; eventCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<EventIndex>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; eventTopics: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Vec\<ITuple\<[BlockNumber, EventIndex]>>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; events: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<EventRecord>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; executionPhase: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<Phase>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; extrinsicCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<u32>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; extrinsicData: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: u32 \| AnyNumber \| Uint8Array) => Observable\<Bytes>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; extrinsicsRoot: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Hash>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; lastRuntimeUpgrade: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<LastRuntimeUpgradeInfo>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; number: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<BlockNumber>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; parentHash: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Hash>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; upgradedToU32RefCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<bool>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>  }
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[system](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#system)*
 
-*Defined in [packages/api/src/augment/query.ts:792](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L792)*
+*Defined in [packages/api/src/augment/query.ts:791](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L791)*
 
 #### Type declaration:
 
@@ -532,6 +532,7 @@ Name | Type | Description |
 `lastRuntimeUpgrade` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<LastRuntimeUpgradeInfo>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Stores the `spec_version` and `spec_name` of when the last runtime upgrade happened. |
 `number` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<BlockNumber>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The current block number being processed. Set by `execute_block`. |
 `parentHash` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Hash>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Hash of the previous block. |
+`upgradedToU32RefCount` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<bool>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | True if we have upgraded so that `type RefCount` is `u32`. False (default) if not. |
 
 ___
 
@@ -541,14 +542,14 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[technicalCommittee](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#technicalcommittee)*
 
-*Defined in [packages/api/src/augment/query.ts:864](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L864)*
+*Defined in [packages/api/src/augment/query.ts:867](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L867)*
 
 #### Type declaration:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `members` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<AccountId>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The current members of the collective. This is stored sorted (just by value). |
-`prime` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<AccountId>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The member who provides the default vote for any other members that do not vote before the timeout. If None, then no member has that privilege. |
+`prime` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Option\<AccountId>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The prime member that helps determine the default vote behavior in case of absentations. |
 `proposalCount` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<u32>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Proposals so far. |
 `proposalOf` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Option\<Proposal>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Actual proposal for a given hash, if it's current. |
 `proposals` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<Hash>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The hashes of the active proposals. |
@@ -562,7 +563,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[technicalMembership](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#technicalmembership)*
 
-*Defined in [packages/api/src/augment/query.ts:892](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L892)*
+*Defined in [packages/api/src/augment/query.ts:894](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L894)*
 
 #### Type declaration:
 
@@ -579,7 +580,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[timestamp](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#timestamp)*
 
-*Defined in [packages/api/src/augment/query.ts:903](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L903)*
+*Defined in [packages/api/src/augment/query.ts:905](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L905)*
 
 #### Type declaration:
 
@@ -596,7 +597,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[transactionPayment](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#transactionpayment)*
 
-*Defined in [packages/api/src/augment/query.ts:914](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L914)*
+*Defined in [packages/api/src/augment/query.ts:916](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L916)*
 
 #### Type declaration:
 
@@ -609,17 +610,21 @@ ___
 
 ### treasury
 
-•  **treasury**: { [key:string]: [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>; approvals: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<ProposalIndex>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; proposalCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<ProposalIndex>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; proposals: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: ProposalIndex \| AnyNumber \| Uint8Array) => Observable\<Option\<TreasuryProposal>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; reasons: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Option\<Bytes>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; tips: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Option\<OpenTip>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>  }
+•  **treasury**: { [key:string]: [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>; approvals: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<ProposalIndex>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; bounties: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: BountyIndex \| AnyNumber \| Uint8Array) => Observable\<Option\<Bounty>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; bountyApprovals: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<BountyIndex>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; bountyCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<BountyIndex>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; bountyDescriptions: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: BountyIndex \| AnyNumber \| Uint8Array) => Observable\<Option\<Bytes>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; proposalCount: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<ProposalIndex>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; proposals: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: ProposalIndex \| AnyNumber \| Uint8Array) => Observable\<Option\<TreasuryProposal>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; reasons: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Option\<Bytes>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> ; tips: [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Option\<OpenTip>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType>  }
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[treasury](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#treasury)*
 
-*Defined in [packages/api/src/augment/query.ts:919](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L919)*
+*Defined in [packages/api/src/augment/query.ts:921](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L921)*
 
 #### Type declaration:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `approvals` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<ProposalIndex>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Proposal indices that have been approved but not yet awarded. |
+`bounties` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: BountyIndex \| AnyNumber \| Uint8Array) => Observable\<Option\<Bounty>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Bounties that have been made. |
+`bountyApprovals` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<Vec\<BountyIndex>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Bounty indices that have been approved but not yet funded. |
+`bountyCount` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<BountyIndex>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Number of bounty proposals that have been made. |
+`bountyDescriptions` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: BountyIndex \| AnyNumber \| Uint8Array) => Observable\<Option\<Bytes>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | The description of each bounty. |
 `proposalCount` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, () => Observable\<ProposalIndex>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Number of proposals that have been made. |
 `proposals` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: ProposalIndex \| AnyNumber \| Uint8Array) => Observable\<Option\<TreasuryProposal>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Proposals that have been made. |
 `reasons` | [AugmentedQuery](../modules/_packages_api_src_types_storage_.md#augmentedquery)\<ApiType, (arg: Hash \| string \| Uint8Array) => Observable\<Option\<Bytes>>> & [QueryableStorageEntry](../modules/_packages_api_src_types_storage_.md#queryablestorageentry)\<ApiType> | Simple preimage lookup from the reason's hash to the original data. Again, has an insecure enumerable hash since the key is guaranteed to be the result of a secure hash. |
@@ -633,7 +638,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[vesting](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#vesting)*
 
-*Defined in [packages/api/src/augment/query.ts:945](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/augment/query.ts#L945)*
+*Defined in [packages/api/src/augment/query.ts:963](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/augment/query.ts#L963)*
 
 #### Type declaration:
 

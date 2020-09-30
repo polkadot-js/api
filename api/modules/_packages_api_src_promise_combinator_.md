@@ -24,7 +24,7 @@
 
 Ƭ  **CombinatorCallback**\<T>: Callback\<T>
 
-*Defined in [packages/api/src/promise/Combinator.ts:9](https://github.com/polkadot-js/api/blob/ff59962c5/packages/api/src/promise/Combinator.ts#L9)*
+*Defined in [packages/api/src/promise/Combinator.ts:9](https://github.com/polkadot-js/api/blob/9d548f787/packages/api/src/promise/Combinator.ts#L9)*
 
 #### Type parameters:
 

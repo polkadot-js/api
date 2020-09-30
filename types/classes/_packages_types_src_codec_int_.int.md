@@ -79,7 +79,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/Int.ts:18](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/codec/Int.ts#L18)*
+*Defined in [packages/types/src/codec/Int.ts:18](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/codec/Int.ts#L18)*
 
 #### Parameters:
 
@@ -98,7 +98,7 @@ Name | Type | Default value |
 
 ▸ `Static`**with**(`bitLength`: [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength), `typeName?`: undefined \| string): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<[Int](_packages_types_src_codec_int_.int.md)>
 
-*Defined in [packages/types/src/codec/Int.ts:23](https://github.com/polkadot-js/api/blob/ff59962c5/packages/types/src/codec/Int.ts#L23)*
+*Defined in [packages/types/src/codec/Int.ts:23](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/codec/Int.ts#L23)*
 
 #### Parameters:
 
