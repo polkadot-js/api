@@ -22,5 +22,5 @@ export function getInkType (project: InkProject, id: MtLookupTypeId): MtType {
 
 // extract and array of ink type defs from the project
 export function getInkTypes (project: InkProject, ids: MtLookupTypeId[]): MtType[] {
-  return ids.map((id): MtType => getInkType(project, id));
+  return ids.map((id) => getInkType(project, id));
 }

@@ -18,13 +18,12 @@ function parseSelector (registry: Registry, fnname: string, input: ContractABIMe
     return registry.createType('u32', hexToU8a(input));
   } else if (typeof input === 'string') {
     try {
-      const array = JSON.parse(input) as unknown[];
+      const array = JSON.parse(input) as (string | number)[];
 
       assert(array.length === 4, `${fnname}: Invalid selector length`);
 
       return registry.createType('u32', Uint8Array.from(
-        // the as number[] is here to pacify TS, it doesn't quite know how to handle the cb
-        (array as number[]).map((value: string | number): number =>
+        array.map((value: string | number) =>
           isHex(value)
             ? hexToNumber(value.toString())
             : value

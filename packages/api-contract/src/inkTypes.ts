@@ -36,7 +36,7 @@ function getTypeArray (project: InkProject, idArray: MtTypeDefArray): string {
 function resolveTypeFromPath (project: InkProject, type: MtType): string {
   const nameSegments = type.path.map((segment) => segment.toString());
   const params = type.params.length
-    ? `<${type.params.map((type): string | null => resolveTypeFromId(project, type)).join(', ')}>`
+    ? `<${type.params.map((type) => resolveTypeFromId(project, type)).join(', ')}>`
     : '';
   const name = nameSegments.length
     ? `${type.path.join('::')}::`
@@ -47,7 +47,7 @@ function resolveTypeFromPath (project: InkProject, type: MtType): string {
 
 // Fields must either be *all* named (e.g. a struct) or *all* unnamed (e.g a tuple)
 function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string {
-  const [allNamed, allUnnamed] = typeFields.reduce(([allNamed, allUnnamed], { name }): [boolean, boolean] => [
+  const [allNamed, allUnnamed] = typeFields.reduce(([allNamed, allUnnamed], { name }) => [
     allNamed && name.isSome,
     allUnnamed && name.isNone
   ], [true, true]);
@@ -66,9 +66,7 @@ function buildTypeDefFields (project: InkProject, typeFields: MtField[]): string
   }
 
   if (allUnnamed) {
-    const fields = typeFields.map((field): string =>
-      resolveTypeFromId(project, field.type)
-    );
+    const fields = typeFields.map((field) => resolveTypeFromId(project, field.type));
 
     return fields.length
       ? `(${fields.join(', ')})`
@@ -83,9 +81,7 @@ function buildTypeDefVariant (project: InkProject, typeVariant: MtTypeDefVariant
 
   if (allUnitVariants) {
     // FIXME We are currently ignoring the discriminant
-    const variants = typeVariant.variants.map(({ name }): string =>
-      name.toString()
-    );
+    const variants = typeVariant.variants.map(({ name }) => name.toString());
 
     return variants.length
       ? `{_enum:[${variants.join(', ')}]}`
@@ -166,9 +162,7 @@ function convertType (project: InkProject, type: MtType, index: number): [number
 }
 
 function convertTypes (project: InkProject, types: MtType[]): [number, string, string | null][] {
-  return types.map((type, index): [number, string, string | null] =>
-    convertType(project, type, index + 1)
-  );
+  return types.map((type, index) => convertType(project, type, index + 1));
 }
 
 export function getProjectTypes (project: InkProject): [number, string, string | null][] {
