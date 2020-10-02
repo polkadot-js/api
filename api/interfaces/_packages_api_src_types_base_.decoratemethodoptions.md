@@ -21,7 +21,7 @@
 
 • `Optional` **methodName**: undefined \| string
 
-*Defined in [packages/api/src/types/base.ts:72](https://github.com/polkadot-js/api/blob/33c161f87/packages/api/src/types/base.ts#L72)*
+*Defined in [packages/api/src/types/base.ts:72](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/base.ts#L72)*
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 • `Optional` **overrideNoSub**: undefined \| (...args: unknown[]) => Observable\<Codec>
 
-*Defined in [packages/api/src/types/base.ts:73](https://github.com/polkadot-js/api/blob/33c161f87/packages/api/src/types/base.ts#L73)*
+*Defined in [packages/api/src/types/base.ts:73](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/base.ts#L73)*

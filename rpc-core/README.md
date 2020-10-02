@@ -74,7 +74,3 @@ rpc
     }
   );
 ```
-
-## Classes
-
-[Classes](SUMMARY.md)
