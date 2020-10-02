@@ -16,7 +16,7 @@
 
 ▸ **votingBalances**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/balances/votingBalances.ts:12](https://github.com/polkadot-js/api/blob/27c58b930/packages/api-derive/src/balances/votingBalances.ts#L12)*
+*Defined in [packages/api-derive/src/balances/votingBalances.ts:12](https://github.com/polkadot-js/api/blob/33c161f87/packages/api-derive/src/balances/votingBalances.ts#L12)*
 
 #### Parameters:
 

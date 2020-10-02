@@ -78,6 +78,7 @@
 * ["packages/api-derive/src/staking/stakerSlashes"](modules/_packages_api_derive_src_staking_stakerslashes_.md)
 * ["packages/api-derive/src/staking/stashes"](modules/_packages_api_derive_src_staking_stashes_.md)
 * ["packages/api-derive/src/staking/validators"](modules/_packages_api_derive_src_staking_validators_.md)
+* ["packages/api-derive/src/staking/validatorsFrom"](modules/_packages_api_derive_src_staking_validatorsfrom_.md)
 * ["packages/api-derive/src/staking/waitingInfo"](modules/_packages_api_derive_src_staking_waitinginfo_.md)
 * ["packages/api-derive/src/technicalCommittee/proposals"](modules/_packages_api_derive_src_technicalcommittee_proposals_.md)
 * ["packages/api-derive/src/treasury/proposals"](modules/_packages_api_derive_src_treasury_proposals_.md)
