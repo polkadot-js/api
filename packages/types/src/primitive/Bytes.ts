@@ -8,7 +8,7 @@ import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
-const MAX_LENGTH = 131072;
+const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
 function decodeBytesU8a (value: Uint8Array): Uint8Array {

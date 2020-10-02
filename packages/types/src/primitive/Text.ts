@@ -9,7 +9,7 @@ import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex }
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
-const MAX_LENGTH = 16384;
+const MAX_LENGTH = 16 * 1024;
 
 /** @internal */
 function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
