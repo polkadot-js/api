@@ -8,6 +8,8 @@ import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
+const MAX_LENGTH = 131072;
+
 /** @internal */
 function decodeBytesU8a (value: Uint8Array): Uint8Array {
   if (!value.length) {
@@ -18,6 +20,7 @@ function decodeBytesU8a (value: Uint8Array): Uint8Array {
   const [offset, length] = Compact.decodeU8a(value);
   const total = offset + length.toNumber();
 
+  assert(length.lten(MAX_LENGTH), `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
   assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
   return value.subarray(offset, total);
