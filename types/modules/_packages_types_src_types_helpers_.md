@@ -23,7 +23,7 @@
 
 Ƭ  **AnyFunction**: (...args: any[]) => any
 
-*Defined in [packages/types/src/types/helpers.ts:10](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L10)*
+*Defined in [packages/types/src/types/helpers.ts:10](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L10)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 Ƭ  **AnyJson**: string \| number \| boolean \| null \| undefined \| AnyJsonArray \| { [index:string]: [AnyJson](_packages_types_src_types_helpers_.md#anyjson);  }
 
-*Defined in [packages/types/src/types/helpers.ts:13](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L13)*
+*Defined in [packages/types/src/types/helpers.ts:13](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L13)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 Ƭ  **AnyNumber**: BN \| BigInt \| [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) \| number \| string
 
-*Defined in [packages/types/src/types/helpers.ts:18](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L18)*
+*Defined in [packages/types/src/types/helpers.ts:18](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L18)*
 
 ___
 
@@ -47,7 +47,7 @@ ___
 
 Ƭ  **AnyString**: string \| string
 
-*Defined in [packages/types/src/types/helpers.ts:20](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L20)*
+*Defined in [packages/types/src/types/helpers.ts:20](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L20)*
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 Ƭ  **AnyU8a**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) \| number[] \| string
 
-*Defined in [packages/types/src/types/helpers.ts:22](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L22)*
+*Defined in [packages/types/src/types/helpers.ts:22](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L22)*
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 Ƭ  **ArrayElementType**\<T>: T *extends* ReadonlyArray\<*infer* ElementType> ? ElementType : never
 
-*Defined in [packages/types/src/types/helpers.ts:25](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L25)*
+*Defined in [packages/types/src/types/helpers.ts:25](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L25)*
 
 #### Type parameters:
 
@@ -77,7 +77,7 @@ ___
 
 Ƭ  **BareOpts**: boolean \| Record\<string, boolean>
 
-*Defined in [packages/types/src/types/helpers.ts:29](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L29)*
+*Defined in [packages/types/src/types/helpers.ts:29](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L29)*
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 Ƭ  **Callback**\<T, E>: E *extends* Codec ? (result: T,extra: E) => void \| Promise\<void> : (result: T) => void \| Promise\<void>
 
-*Defined in [packages/types/src/types/helpers.ts:31](https://github.com/polkadot-js/api/blob/9d548f787/packages/types/src/types/helpers.ts#L31)*
+*Defined in [packages/types/src/types/helpers.ts:31](https://github.com/polkadot-js/api/blob/5577723b7/packages/types/src/types/helpers.ts#L31)*
 
 #### Type parameters:
 

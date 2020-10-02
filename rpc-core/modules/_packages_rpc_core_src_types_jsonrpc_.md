@@ -20,7 +20,7 @@
 
 Ƭ  **AugmentedRpc**\<F>: F
 
-*Defined in [packages/rpc-core/src/types.jsonrpc.ts:11](https://github.com/polkadot-js/api/blob/9d548f787/packages/rpc-core/src/types.jsonrpc.ts#L11)*
+*Defined in [packages/rpc-core/src/types.jsonrpc.ts:11](https://github.com/polkadot-js/api/blob/5577723b7/packages/rpc-core/src/types.jsonrpc.ts#L11)*
 
 #### Type parameters:
 
