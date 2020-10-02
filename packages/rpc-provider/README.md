@@ -39,7 +39,3 @@ const version = await provider.send('chain_getBlockHash', []);
 
 console.log('latest block Hash', hash);
 ```
-
-## Classes
-
-[Classes](SUMMARY.md)
