@@ -9,6 +9,8 @@ import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex }
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
+const MAX_LENGTH = 128 * 1024;
+
 /** @internal */
 function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
   if (isHex(value)) {
@@ -27,6 +29,7 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
     const [offset, length] = Compact.decodeU8a(value);
     const total = offset + length.toNumber();
 
+    assert(length.lten(MAX_LENGTH), `Text length ${length.toString()} exceeds ${MAX_LENGTH}`);
     assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
     return u8aToString(value.subarray(offset, total));
