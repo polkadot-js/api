@@ -11,7 +11,7 @@ function formatErrorData (data?: string | number): string {
   }
 
   const formatted = `: ${isString(data)
-    ? data.replace(/Error\(/g, '').replace(/\("/g, '(').replace(/"\)/g, ')').replace(/\(/g, ', ').replace(/\)/g, '')
+    ? data.replace(/Error\("/g, '').replace(/\("/g, '(').replace(/"\)/g, ')').replace(/\(/g, ', ').replace(/\)/g, '')
     : JSON.stringify(data)}`;
 
   // We need some sort of cut-off here since these can be very large and
