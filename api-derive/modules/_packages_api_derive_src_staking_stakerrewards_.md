@@ -20,7 +20,7 @@
 
 ▸ **_stakerRewards**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerRewards.ts:173](https://github.com/polkadot-js/api/blob/e055438c5/packages/api-derive/src/staking/stakerRewards.ts#L173)*
+*Defined in [packages/api-derive/src/staking/stakerRewards.ts:173](https://github.com/polkadot-js/api/blob/27c58b930/packages/api-derive/src/staking/stakerRewards.ts#L173)*
 
 #### Parameters:
 
@@ -37,7 +37,7 @@ ___
 
 ▸ **_stakerRewardsEras**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerRewards.ts:160](https://github.com/polkadot-js/api/blob/e055438c5/packages/api-derive/src/staking/stakerRewards.ts#L160)*
+*Defined in [packages/api-derive/src/staking/stakerRewards.ts:160](https://github.com/polkadot-js/api/blob/27c58b930/packages/api-derive/src/staking/stakerRewards.ts#L160)*
 
 #### Parameters:
 
@@ -54,7 +54,7 @@ ___
 
 ▸ **stakerRewards**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerRewards.ts:193](https://github.com/polkadot-js/api/blob/e055438c5/packages/api-derive/src/staking/stakerRewards.ts#L193)*
+*Defined in [packages/api-derive/src/staking/stakerRewards.ts:193](https://github.com/polkadot-js/api/blob/27c58b930/packages/api-derive/src/staking/stakerRewards.ts#L193)*
 
 #### Parameters:
 
@@ -71,7 +71,7 @@ ___
 
 ▸ **stakerRewardsMulti**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerRewards.ts:209](https://github.com/polkadot-js/api/blob/e055438c5/packages/api-derive/src/staking/stakerRewards.ts#L209)*
+*Defined in [packages/api-derive/src/staking/stakerRewards.ts:209](https://github.com/polkadot-js/api/blob/27c58b930/packages/api-derive/src/staking/stakerRewards.ts#L209)*
 
 #### Parameters:
 
@@ -88,7 +88,7 @@ ___
 
 ▸ **stakerRewardsMultiEras**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerRewards.ts:201](https://github.com/polkadot-js/api/blob/e055438c5/packages/api-derive/src/staking/stakerRewards.ts#L201)*
+*Defined in [packages/api-derive/src/staking/stakerRewards.ts:201](https://github.com/polkadot-js/api/blob/27c58b930/packages/api-derive/src/staking/stakerRewards.ts#L201)*
 
 #### Parameters:
 

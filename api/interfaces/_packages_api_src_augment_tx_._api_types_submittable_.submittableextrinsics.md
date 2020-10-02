@@ -18,7 +18,7 @@
 
 ▸ (`extrinsic`: Call \| Extrinsic \| Uint8Array \| string): SubmittableExtrinsic\<ApiType>
 
-*Defined in [packages/api/src/augment/tx.ts:3443](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L3443)*
+*Defined in [packages/api/src/augment/tx.ts:3443](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L3443)*
 
 #### Parameters:
 
@@ -72,7 +72,7 @@ Name | Type |
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[authorship](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#authorship)*
 
-*Defined in [packages/api/src/augment/tx.ts:30](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L30)*
+*Defined in [packages/api/src/augment/tx.ts:30](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L30)*
 
 #### Type declaration:
 
@@ -88,7 +88,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[babe](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#babe)*
 
-*Defined in [packages/api/src/augment/tx.ts:37](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L37)*
+*Defined in [packages/api/src/augment/tx.ts:37](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L37)*
 
 #### Type declaration:
 
@@ -105,7 +105,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[balances](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#balances)*
 
-*Defined in [packages/api/src/augment/tx.ts:58](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L58)*
+*Defined in [packages/api/src/augment/tx.ts:58](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L58)*
 
 #### Type declaration:
 
@@ -124,7 +124,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[contracts](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#contracts)*
 
-*Defined in [packages/api/src/augment/tx.ts:135](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L135)*
+*Defined in [packages/api/src/augment/tx.ts:135](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L135)*
 
 #### Type declaration:
 
@@ -144,7 +144,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[council](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#council)*
 
-*Defined in [packages/api/src/augment/tx.ts:180](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L180)*
+*Defined in [packages/api/src/augment/tx.ts:180](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L180)*
 
 #### Type declaration:
 
@@ -165,7 +165,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[democracy](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#democracy)*
 
-*Defined in [packages/api/src/augment/tx.ts:314](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L314)*
+*Defined in [packages/api/src/augment/tx.ts:314](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L314)*
 
 #### Type declaration:
 
@@ -205,7 +205,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[elections](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#elections)*
 
-*Defined in [packages/api/src/augment/tx.ts:647](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L647)*
+*Defined in [packages/api/src/augment/tx.ts:647](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L647)*
 
 #### Type declaration:
 
@@ -226,7 +226,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[finalityTracker](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#finalitytracker)*
 
-*Defined in [packages/api/src/augment/tx.ts:808](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L808)*
+*Defined in [packages/api/src/augment/tx.ts:808](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L808)*
 
 #### Type declaration:
 
@@ -242,7 +242,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[grandpa](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#grandpa)*
 
-*Defined in [packages/api/src/augment/tx.ts:816](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L816)*
+*Defined in [packages/api/src/augment/tx.ts:816](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L816)*
 
 #### Type declaration:
 
@@ -260,7 +260,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[identity](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#identity)*
 
-*Defined in [packages/api/src/augment/tx.ts:848](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L848)*
+*Defined in [packages/api/src/augment/tx.ts:848](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L848)*
 
 #### Type declaration:
 
@@ -290,7 +290,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[imOnline](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#imonline)*
 
-*Defined in [packages/api/src/augment/tx.ts:1112](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1112)*
+*Defined in [packages/api/src/augment/tx.ts:1112](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1112)*
 
 #### Type declaration:
 
@@ -306,7 +306,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[indices](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#indices)*
 
-*Defined in [packages/api/src/augment/tx.ts:1127](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1127)*
+*Defined in [packages/api/src/augment/tx.ts:1127](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1127)*
 
 #### Type declaration:
 
@@ -326,7 +326,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[multisig](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#multisig)*
 
-*Defined in [packages/api/src/augment/tx.ts:1239](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1239)*
+*Defined in [packages/api/src/augment/tx.ts:1239](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1239)*
 
 #### Type declaration:
 
@@ -345,7 +345,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[proxy](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#proxy)*
 
-*Defined in [packages/api/src/augment/tx.ts:1378](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1378)*
+*Defined in [packages/api/src/augment/tx.ts:1378](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1378)*
 
 #### Type declaration:
 
@@ -370,7 +370,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[recovery](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#recovery)*
 
-*Defined in [packages/api/src/augment/tx.ts:1571](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1571)*
+*Defined in [packages/api/src/augment/tx.ts:1571](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1571)*
 
 #### Type declaration:
 
@@ -394,7 +394,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[scheduler](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#scheduler)*
 
-*Defined in [packages/api/src/augment/tx.ts:1773](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1773)*
+*Defined in [packages/api/src/augment/tx.ts:1773](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1773)*
 
 #### Type declaration:
 
@@ -415,7 +415,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[session](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#session)*
 
-*Defined in [packages/api/src/augment/tx.ts:1844](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1844)*
+*Defined in [packages/api/src/augment/tx.ts:1844](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1844)*
 
 #### Type declaration:
 
@@ -432,7 +432,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[society](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#society)*
 
-*Defined in [packages/api/src/augment/tx.ts:1879](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L1879)*
+*Defined in [packages/api/src/augment/tx.ts:1879](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L1879)*
 
 #### Type declaration:
 
@@ -459,7 +459,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[staking](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#staking)*
 
-*Defined in [packages/api/src/augment/tx.ts:2199](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L2199)*
+*Defined in [packages/api/src/augment/tx.ts:2199](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L2199)*
 
 #### Type declaration:
 
@@ -498,7 +498,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[sudo](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#sudo)*
 
-*Defined in [packages/api/src/augment/tx.ts:2681](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L2681)*
+*Defined in [packages/api/src/augment/tx.ts:2681](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L2681)*
 
 #### Type declaration:
 
@@ -517,7 +517,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[system](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#system)*
 
-*Defined in [packages/api/src/augment/tx.ts:2736](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L2736)*
+*Defined in [packages/api/src/augment/tx.ts:2736](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L2736)*
 
 #### Type declaration:
 
@@ -542,7 +542,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[technicalCommittee](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#technicalcommittee)*
 
-*Defined in [packages/api/src/augment/tx.ts:2850](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L2850)*
+*Defined in [packages/api/src/augment/tx.ts:2850](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L2850)*
 
 #### Type declaration:
 
@@ -563,7 +563,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[technicalMembership](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#technicalmembership)*
 
-*Defined in [packages/api/src/augment/tx.ts:2984](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L2984)*
+*Defined in [packages/api/src/augment/tx.ts:2984](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L2984)*
 
 #### Type declaration:
 
@@ -585,7 +585,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[timestamp](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#timestamp)*
 
-*Defined in [packages/api/src/augment/tx.ts:3034](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L3034)*
+*Defined in [packages/api/src/augment/tx.ts:3034](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L3034)*
 
 #### Type declaration:
 
@@ -601,7 +601,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[treasury](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#treasury)*
 
-*Defined in [packages/api/src/augment/tx.ts:3055](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L3055)*
+*Defined in [packages/api/src/augment/tx.ts:3055](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L3055)*
 
 #### Type declaration:
 
@@ -633,7 +633,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[utility](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#utility)*
 
-*Defined in [packages/api/src/augment/tx.ts:3323](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L3323)*
+*Defined in [packages/api/src/augment/tx.ts:3323](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L3323)*
 
 #### Type declaration:
 
@@ -650,7 +650,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[vesting](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#vesting)*
 
-*Defined in [packages/api/src/augment/tx.ts:3365](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/tx.ts#L3365)*
+*Defined in [packages/api/src/augment/tx.ts:3365](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/tx.ts#L3365)*
 
 #### Type declaration:
 

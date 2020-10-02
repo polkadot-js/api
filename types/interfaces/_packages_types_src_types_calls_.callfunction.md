@@ -14,7 +14,7 @@
 
 ▸ (...`args`: any[]): Call
 
-*Defined in [packages/types/src/types/calls.ts:15](https://github.com/polkadot-js/api/blob/e055438c5/packages/types/src/types/calls.ts#L15)*
+*Defined in [packages/types/src/types/calls.ts:15](https://github.com/polkadot-js/api/blob/27c58b930/packages/types/src/types/calls.ts#L15)*
 
 #### Parameters:
 
@@ -42,7 +42,7 @@ Name | Type |
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[callIndex](_packages_types_src_types_calls_.callbase.md#callindex)*
 
-*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/e055438c5/packages/types/src/types/calls.ts#L8)*
+*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/27c58b930/packages/types/src/types/calls.ts#L8)*
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[meta](_packages_types_src_types_calls_.callbase.md#meta)*
 
-*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/e055438c5/packages/types/src/types/calls.ts#L9)*
+*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/27c58b930/packages/types/src/types/calls.ts#L9)*
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[method](_packages_types_src_types_calls_.callbase.md#method)*
 
-*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/e055438c5/packages/types/src/types/calls.ts#L10)*
+*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/27c58b930/packages/types/src/types/calls.ts#L10)*
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[section](_packages_types_src_types_calls_.callbase.md#section)*
 
-*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/e055438c5/packages/types/src/types/calls.ts#L11)*
+*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/27c58b930/packages/types/src/types/calls.ts#L11)*
 
 ___
 
@@ -82,4 +82,4 @@ ___
 
 *Inherited from [CallBase](_packages_types_src_types_calls_.callbase.md).[toJSON](_packages_types_src_types_calls_.callbase.md#tojson)*
 
-*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/e055438c5/packages/types/src/types/calls.ts#L12)*
+*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/27c58b930/packages/types/src/types/calls.ts#L12)*

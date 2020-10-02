@@ -31,7 +31,7 @@
 
 •  **author**: { hasKey: AugmentedRpc\<(publicKey: Bytes \| string \| Uint8Array,keyType: Text \| string) => Observable\<bool>> ; hasSessionKeys: AugmentedRpc\<(sessionKeys: Bytes \| string \| Uint8Array) => Observable\<bool>> ; insertKey: AugmentedRpc\<(keyType: Text \| string,suri: Text \| string,publicKey: Bytes \| string \| Uint8Array) => Observable\<Bytes>> ; pendingExtrinsics: AugmentedRpc\<() => Observable\<Vec\<Extrinsic>>> ; removeExtrinsic: AugmentedRpc\<(bytesOrHash: Vec\<ExtrinsicOrHash> \| (ExtrinsicOrHash \| { Hash: any  } \| { Extrinsic: any  } \| string \| Uint8Array)[]) => Observable\<Vec\<Hash>>> ; rotateKeys: AugmentedRpc\<() => Observable\<Bytes>> ; submitAndWatchExtrinsic: AugmentedRpc\<(extrinsic: IExtrinsic) => Observable\<ExtrinsicStatus>> ; submitExtrinsic: AugmentedRpc\<(extrinsic: IExtrinsic) => Observable\<Hash>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:26](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L26)*
+*Defined in [packages/api/src/augment/rpc.ts:26](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L26)*
 
 #### Type declaration:
 
@@ -52,7 +52,7 @@ ___
 
 •  **babe**: { epochAuthorship: AugmentedRpc\<() => Observable\<HashMap\<AuthorityId, EpochAuthorship>>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:60](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L60)*
+*Defined in [packages/api/src/augment/rpc.ts:60](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L60)*
 
 #### Type declaration:
 
@@ -66,7 +66,7 @@ ___
 
 •  **chain**: { getBlock: AugmentedRpc\<(hash?: BlockHash \| string \| Uint8Array) => Observable\<SignedBlock>> ; getBlockHash: AugmentedRpc\<(blockNumber?: BlockNumber \| AnyNumber \| Uint8Array) => Observable\<BlockHash>> ; getFinalizedHead: AugmentedRpc\<() => Observable\<BlockHash>> ; getHeader: AugmentedRpc\<(hash?: BlockHash \| string \| Uint8Array) => Observable\<Header>> ; subscribeAllHeads: AugmentedRpc\<() => Observable\<Header>> ; subscribeFinalizedHeads: AugmentedRpc\<() => Observable\<Header>> ; subscribeNewHeads: AugmentedRpc\<() => Observable\<Header>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:66](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L66)*
+*Defined in [packages/api/src/augment/rpc.ts:66](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L66)*
 
 #### Type declaration:
 
@@ -86,7 +86,7 @@ ___
 
 •  **childstate**: { getKeys: AugmentedRpc\<(childKey: PrefixedStorageKey \| string \| Uint8Array,prefix: StorageKey \| string \| Uint8Array \| any,at?: Hash \| string \| Uint8Array) => Observable\<Vec\<StorageKey>>> ; getStorage: AugmentedRpc\<(childKey: PrefixedStorageKey \| string \| Uint8Array,key: StorageKey \| string \| Uint8Array \| any,at?: Hash \| string \| Uint8Array) => Observable\<Option\<StorageData>>> ; getStorageHash: AugmentedRpc\<(childKey: PrefixedStorageKey \| string \| Uint8Array,key: StorageKey \| string \| Uint8Array \| any,at?: Hash \| string \| Uint8Array) => Observable\<Option\<Hash>>> ; getStorageSize: AugmentedRpc\<(childKey: PrefixedStorageKey \| string \| Uint8Array,key: StorageKey \| string \| Uint8Array \| any,at?: Hash \| string \| Uint8Array) => Observable\<Option\<u64>>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:96](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L96)*
+*Defined in [packages/api/src/augment/rpc.ts:96](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L96)*
 
 #### Type declaration:
 
@@ -103,7 +103,7 @@ ___
 
 •  **contracts**: { call: AugmentedRpc\<(callRequest: ContractCallRequest \| { dest?: any ; gasLimit?: any ; inputData?: any ; origin?: any ; value?: any  } \| string \| Uint8Array,at?: BlockHash \| string \| Uint8Array) => Observable\<ContractExecResult>> ; getStorage: AugmentedRpc\<(address: AccountId \| string \| Uint8Array,key: H256 \| string \| Uint8Array,at?: BlockHash \| string \| Uint8Array) => Observable\<Option\<Bytes>>> ; rentProjection: AugmentedRpc\<(address: AccountId \| string \| Uint8Array,at?: BlockHash \| string \| Uint8Array) => Observable\<Option\<BlockNumber>>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:114](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L114)*
+*Defined in [packages/api/src/augment/rpc.ts:114](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L114)*
 
 #### Type declaration:
 
@@ -119,7 +119,7 @@ ___
 
 •  **engine**: { createBlock: AugmentedRpc\<(createEmpty: bool \| boolean \| Uint8Array,finalize: bool \| boolean \| Uint8Array,parentHash?: BlockHash \| string \| Uint8Array) => Observable\<CreatedBlock>> ; finalizeBlock: AugmentedRpc\<(hash: BlockHash \| string \| Uint8Array,justification?: Justification \| string \| Uint8Array) => Observable\<bool>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:128](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L128)*
+*Defined in [packages/api/src/augment/rpc.ts:128](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L128)*
 
 #### Type declaration:
 
@@ -134,7 +134,7 @@ ___
 
 •  **grandpa**: { proveFinality: AugmentedRpc\<(begin: BlockHash \| string \| Uint8Array,end: BlockHash \| string \| Uint8Array,authoritiesSetId?: u64 \| AnyNumber \| Uint8Array) => Observable\<Option\<EncodedFinalityProofs>>> ; roundState: AugmentedRpc\<() => Observable\<ReportedRoundStates>> ; subscribeJustifications: AugmentedRpc\<() => Observable\<JustificationNotification>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:138](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L138)*
+*Defined in [packages/api/src/augment/rpc.ts:138](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L138)*
 
 #### Type declaration:
 
@@ -150,7 +150,7 @@ ___
 
 •  **offchain**: { localStorageGet: AugmentedRpc\<(kind: StorageKind \| \"\_\_UNUSED\" \| \"PERSISTENT\" \| \"LOCAL\" \| number \| Uint8Array,key: Bytes \| string \| Uint8Array) => Observable\<Option\<Bytes>>> ; localStorageSet: AugmentedRpc\<(kind: StorageKind \| \"\_\_UNUSED\" \| \"PERSISTENT\" \| \"LOCAL\" \| number \| Uint8Array,key: Bytes \| string \| Uint8Array,value: Bytes \| string \| Uint8Array) => Observable\<Null>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:152](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L152)*
+*Defined in [packages/api/src/augment/rpc.ts:152](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L152)*
 
 #### Type declaration:
 
@@ -165,7 +165,7 @@ ___
 
 •  **payment**: { queryInfo: AugmentedRpc\<(extrinsic: Bytes \| string \| Uint8Array,at?: BlockHash \| string \| Uint8Array) => Observable\<RuntimeDispatchInfo>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:162](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L162)*
+*Defined in [packages/api/src/augment/rpc.ts:162](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L162)*
 
 #### Type declaration:
 
@@ -179,7 +179,7 @@ ___
 
 •  **rpc**: { methods: AugmentedRpc\<() => Observable\<RpcMethods>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:168](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L168)*
+*Defined in [packages/api/src/augment/rpc.ts:168](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L168)*
 
 #### Type declaration:
 
@@ -193,7 +193,7 @@ ___
 
 •  **state**: { call: AugmentedRpc\<(method: Text \| string,data: Bytes \| string \| Uint8Array,at?: BlockHash \| string \| Uint8Array) => Observable\<Bytes>> ; getChildKeys: AugmentedRpc\<(childStorageKey: StorageKey \| string \| Uint8Array \| any,childDefinition: StorageKey \| string \| Uint8Array \| any,childType: u32 \| AnyNumber \| Uint8Array,key: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<Vec\<StorageKey>>> ; getChildStorage: AugmentedRpc\<(childStorageKey: StorageKey \| string \| Uint8Array \| any,childDefinition: StorageKey \| string \| Uint8Array \| any,childType: u32 \| AnyNumber \| Uint8Array,key: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<StorageData>> ; getChildStorageHash: AugmentedRpc\<(childStorageKey: StorageKey \| string \| Uint8Array \| any,childDefinition: StorageKey \| string \| Uint8Array \| any,childType: u32 \| AnyNumber \| Uint8Array,key: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<Hash>> ; getChildStorageSize: AugmentedRpc\<(childStorageKey: StorageKey \| string \| Uint8Array \| any,childDefinition: StorageKey \| string \| Uint8Array \| any,childType: u32 \| AnyNumber \| Uint8Array,key: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<u64>> ; getKeys: AugmentedRpc\<(key: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<Vec\<StorageKey>>> ; getKeysPaged: AugmentedRpc\<(key: StorageKey \| string \| Uint8Array \| any,count: u32 \| AnyNumber \| Uint8Array,startKey?: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<Vec\<StorageKey>>> ; getMetadata: AugmentedRpc\<(at?: BlockHash \| string \| Uint8Array) => Observable\<Metadata>> ; getPairs: AugmentedRpc\<(prefix: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<Vec\<KeyValue>>> ; getReadProof: AugmentedRpc\<(keys: Vec\<StorageKey> \| (StorageKey \| string \| Uint8Array \| any)[],at?: BlockHash \| string \| Uint8Array) => Observable\<ReadProof>> ; getRuntimeVersion: AugmentedRpc\<(at?: BlockHash \| string \| Uint8Array) => Observable\<RuntimeVersion>> ; getStorage: AugmentedRpc\<\<T>(key: StorageKey \| string \| Uint8Array \| any,block?: Hash \| Uint8Array \| string) => Observable\<T>> ; getStorageHash: AugmentedRpc\<(key: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<Hash>> ; getStorageSize: AugmentedRpc\<(key: StorageKey \| string \| Uint8Array \| any,at?: BlockHash \| string \| Uint8Array) => Observable\<u64>> ; queryStorage: AugmentedRpc\<\<T>(keys: Vec\<StorageKey> \| (StorageKey \| string \| Uint8Array \| any)[],fromBlock?: Hash \| Uint8Array \| string,toBlock?: Hash \| Uint8Array \| string) => Observable\<[Hash, T][]>> ; queryStorageAt: AugmentedRpc\<\<T>(keys: Vec\<StorageKey> \| (StorageKey \| string \| Uint8Array \| any)[],at?: Hash \| Uint8Array \| string) => Observable\<T>> ; subscribeRuntimeVersion: AugmentedRpc\<() => Observable\<RuntimeVersion>> ; subscribeStorage: AugmentedRpc\<\<T>(keys?: Vec\<StorageKey> \| (StorageKey \| string \| Uint8Array \| any)[]) => Observable\<T>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:174](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L174)*
+*Defined in [packages/api/src/augment/rpc.ts:174](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L174)*
 
 #### Type declaration:
 
@@ -224,7 +224,7 @@ ___
 
 •  **system**: { accountNextIndex: AugmentedRpc\<(accountId: AccountId \| string \| Uint8Array) => Observable\<Index>> ; addReservedPeer: AugmentedRpc\<(peer: Text \| string) => Observable\<Text>> ; chain: AugmentedRpc\<() => Observable\<Text>> ; chainType: AugmentedRpc\<() => Observable\<ChainType>> ; dryRun: AugmentedRpc\<(extrinsic: Bytes \| string \| Uint8Array,at?: BlockHash \| string \| Uint8Array) => Observable\<ApplyExtrinsicResult>> ; health: AugmentedRpc\<() => Observable\<Health>> ; localListenAddresses: AugmentedRpc\<() => Observable\<Vec\<Text>>> ; localPeerId: AugmentedRpc\<() => Observable\<Text>> ; name: AugmentedRpc\<() => Observable\<Text>> ; networkState: AugmentedRpc\<() => Observable\<NetworkState>> ; nodeRoles: AugmentedRpc\<() => Observable\<Vec\<NodeRole>>> ; peers: AugmentedRpc\<() => Observable\<Vec\<PeerInfo>>> ; properties: AugmentedRpc\<() => Observable\<ChainProperties>> ; removeReservedPeer: AugmentedRpc\<(peerId: Text \| string) => Observable\<Text>> ; version: AugmentedRpc\<() => Observable\<Text>>  }
 
-*Defined in [packages/api/src/augment/rpc.ts:248](https://github.com/polkadot-js/api/blob/e055438c5/packages/api/src/augment/rpc.ts#L248)*
+*Defined in [packages/api/src/augment/rpc.ts:248](https://github.com/polkadot-js/api/blob/27c58b930/packages/api/src/augment/rpc.ts#L248)*
 
 #### Type declaration:
 
