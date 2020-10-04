@@ -24,4 +24,4 @@
 
 • `Const` **EXTRINSIC\_VERSION**: 4 = 4
 
-*Defined in [packages/types/src/extrinsic/v4/Extrinsic.ts:13](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/extrinsic/v4/Extrinsic.ts#L13)*
+*Defined in [packages/types/src/extrinsic/v4/Extrinsic.ts:13](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/types/src/extrinsic/v4/Extrinsic.ts#L13)*

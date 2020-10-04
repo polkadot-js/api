@@ -47,7 +47,7 @@ Name | Type |
 
 \+ **new Base**(`api`: ApiObject\<ApiType>, `abi`: ContractABIPre \| Abi, `decorateMethod`: DecorateMethod\<ApiType>): [Base](_packages_api_contract_src_base_util_.base.md)
 
-*Defined in [packages/api-contract/src/base/util.ts:19](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/util.ts#L19)*
+*Defined in [packages/api-contract/src/base/util.ts:19](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-contract/src/base/util.ts#L19)*
 
 #### Parameters:
 
@@ -65,7 +65,7 @@ Name | Type |
 
 • `Readonly` **abi**: Abi
 
-*Defined in [packages/api-contract/src/base/util.ts:13](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/util.ts#L13)*
+*Defined in [packages/api-contract/src/base/util.ts:13](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-contract/src/base/util.ts#L13)*
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 • `Readonly` **api**: ApiObject\<ApiType>
 
-*Defined in [packages/api-contract/src/base/util.ts:15](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/util.ts#L15)*
+*Defined in [packages/api-contract/src/base/util.ts:15](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-contract/src/base/util.ts#L15)*
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 • `Readonly` **decorateMethod**: DecorateMethod\<ApiType>
 
-*Defined in [packages/api-contract/src/base/util.ts:17](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/util.ts#L17)*
+*Defined in [packages/api-contract/src/base/util.ts:17](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-contract/src/base/util.ts#L17)*
 
 ___
 
@@ -89,7 +89,7 @@ ___
 
 • `Readonly` **registry**: Registry
 
-*Defined in [packages/api-contract/src/base/util.ts:19](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/util.ts#L19)*
+*Defined in [packages/api-contract/src/base/util.ts:19](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-contract/src/base/util.ts#L19)*
 
 ## Accessors
 
@@ -97,7 +97,7 @@ ___
 
 • get **messages**(): ContractMessage[]
 
-*Defined in [packages/api-contract/src/base/util.ts:30](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/util.ts#L30)*
+*Defined in [packages/api-contract/src/base/util.ts:30](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-contract/src/base/util.ts#L30)*
 
 **Returns:** ContractMessage[]
 
@@ -107,7 +107,7 @@ ___
 
 ▸ **getMessage**(`nameOrIndex?`: string \| number): ContractMessage
 
-*Defined in [packages/api-contract/src/base/util.ts:40](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/util.ts#L40)*
+*Defined in [packages/api-contract/src/base/util.ts:40](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-contract/src/base/util.ts#L40)*
 
 #### Parameters:
 
