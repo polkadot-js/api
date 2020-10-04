@@ -68,9 +68,7 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
       catchError((error) => tracker.reject(error))
     ).subscribe((result): void => {
       tracker.resolve(result);
-      typeof setImmediate === 'undefined'
-        ? setTimeout(() => subscription.unsubscribe(), 0)
-        : setImmediate(() => subscription.unsubscribe());
+      setTimeout(() => subscription.unsubscribe(), 0);
     });
   });
 }
@@ -86,11 +84,8 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
       catchError((error) => tracker.reject(error)),
       tap(() => tracker.resolve(() => subscription.unsubscribe()))
     ).subscribe((result): void => {
-      // We use setImmediate here to ensure that the Promise above (tracker) has resolved, before returning
-      // the first result. By putting is back in the queue, the promise above is guarded for first execution
-      typeof setImmediate === 'undefined'
-        ? setTimeout(() => resultCb(result) as void, 0)
-        : setImmediate(() => resultCb(result) as void);
+      // queue result (back of queue to clear current)
+      setTimeout(() => resultCb(result) as void, 0);
     });
   });
 }
