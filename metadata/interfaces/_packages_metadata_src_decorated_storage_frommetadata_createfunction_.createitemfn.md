@@ -23,7 +23,7 @@
 
 •  **meta**: StorageEntryMetadataLatest
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:23](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L23)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:23](https://github.com/polkadot-js/api/blob/f778bf32e/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L23)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 •  **method**: string
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:24](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L24)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:24](https://github.com/polkadot-js/api/blob/f778bf32e/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L24)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 •  **prefix**: string
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:25](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L25)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:25](https://github.com/polkadot-js/api/blob/f778bf32e/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L25)*
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 •  **section**: string
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:26](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L26)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:26](https://github.com/polkadot-js/api/blob/f778bf32e/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L26)*

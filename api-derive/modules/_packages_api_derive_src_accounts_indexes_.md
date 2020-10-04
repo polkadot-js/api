@@ -16,7 +16,7 @@
 
 ▸ **indexes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/indexes.ts:74](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-derive/src/accounts/indexes.ts#L74)*
+*Defined in [packages/api-derive/src/accounts/indexes.ts:74](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api-derive/src/accounts/indexes.ts#L74)*
 
 **`name`** indexes
 

@@ -17,7 +17,7 @@
 
 ▸ **readTemplate**(`path`: string): string
 
-*Defined in [packages/typegen/src/util/file.ts:22](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/typegen/src/util/file.ts#L22)*
+*Defined in [packages/typegen/src/util/file.ts:22](https://github.com/polkadot-js/api/blob/f778bf32e/packages/typegen/src/util/file.ts#L22)*
 
 #### Parameters:
 
@@ -33,7 +33,7 @@ ___
 
 ▸ **writeFile**(`dest`: string, `generator`: () => string, `noLog?`: undefined \| false \| true): void
 
-*Defined in [packages/typegen/src/util/file.ts:6](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/typegen/src/util/file.ts#L6)*
+*Defined in [packages/typegen/src/util/file.ts:6](https://github.com/polkadot-js/api/blob/f778bf32e/packages/typegen/src/util/file.ts#L6)*
 
 #### Parameters:
 

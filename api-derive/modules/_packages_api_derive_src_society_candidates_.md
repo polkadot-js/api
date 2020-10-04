@@ -16,7 +16,7 @@
 
 ▸ **candidates**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/society/candidates.ts:21](https://github.com/polkadot-js/api/blob/d13e58fb3/packages/api-derive/src/society/candidates.ts#L21)*
+*Defined in [packages/api-derive/src/society/candidates.ts:21](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api-derive/src/society/candidates.ts#L21)*
 
 **`description`** Get the candidate info for a society
 
