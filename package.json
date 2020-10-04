@@ -28,14 +28,14 @@
     "@babel/core": "^7.11.6",
     "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
-    "@polkadot/dev": "^0.55.56",
+    "@polkadot/dev": "^0.57.1",
     "@polkadot/ts": "^0.3.48",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.14",
     "@vuepress/plugin-search": "^1.6.0",
     "copyfiles": "^2.4.0",
     "typedoc": "^0.19.2",
-    "typedoc-plugin-markdown": "^3.0.5",
+    "typedoc-plugin-markdown": "^3.0.6",
     "typedoc-plugin-no-inherit": "^1.2.0"
   },
   "version": "2.1.0-beta.7"
