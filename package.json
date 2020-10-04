@@ -33,9 +33,9 @@
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.14",
     "@vuepress/plugin-search": "^1.6.0",
-    "copyfiles": "^2.3.0",
+    "copyfiles": "^2.4.0",
     "typedoc": "^0.19.2",
-    "typedoc-plugin-markdown": "^3.0.3",
+    "typedoc-plugin-markdown": "^3.0.5",
     "typedoc-plugin-no-inherit": "^1.2.0"
   },
   "version": "2.1.0-beta.5"
