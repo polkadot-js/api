@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/rpc-core/src/rxjs/refCountDelay"
+> [Globals](../globals.md) / "packages/rpc-core/src/rxjs/refCountDelay"
 
 # Module: "packages/rpc-core/src/rxjs/refCountDelay"

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/erasPoints"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/erasPoints"
 
 # Module: "packages/api-derive/src/staking/erasPoints"
 
@@ -17,7 +17,7 @@
 
 ▸ **_erasPoints**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasPoints.ts:34](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/erasPoints.ts#L34)*
+*Defined in [packages/api-derive/src/staking/erasPoints.ts:34](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/erasPoints.ts#L34)*
 
 #### Parameters:
 
@@ -34,7 +34,7 @@ ___
 
 ▸ **erasPoints**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasPoints.ts:64](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/erasPoints.ts#L64)*
+*Defined in [packages/api-derive/src/staking/erasPoints.ts:64](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/erasPoints.ts#L64)*
 
 #### Parameters:
 

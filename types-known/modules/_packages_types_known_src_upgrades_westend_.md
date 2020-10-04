@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types-known/src/upgrades/westend"
+> [Globals](../globals.md) / "packages/types-known/src/upgrades/westend"
 
 # Module: "packages/types-known/src/upgrades/westend"

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataCallArg
+> [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataCallArg
 
 # Interface: RegistryMetadataCallArg
 
@@ -21,7 +21,7 @@
 
 •  **name**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)
 
-*Defined in [packages/types/src/types/registry.ts:33](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L33)*
+*Defined in [packages/types/src/types/registry.ts:33](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L33)*
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 •  **type**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)
 
-*Defined in [packages/types/src/types/registry.ts:34](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L34)*
+*Defined in [packages/types/src/types/registry.ts:34](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L34)*

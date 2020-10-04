@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/submittable/createClass"
+> [Globals](../globals.md) / "packages/api/src/submittable/createClass"
 
 # Module: "packages/api/src/submittable/createClass"
 
@@ -16,7 +16,7 @@
 
 ▸ **createClass**\<ApiType>(`__namedParameters`: { api: ApiInterfaceRx ; apiType: [ApiTypes](_packages_api_src_types_base_.md#apitypes) ; decorateMethod: [DecorateMethod](_packages_api_src_types_base_.md#decoratemethod)\<ApiType>  }): Constructor\<SubmittableExtrinsic\<ApiType>>
 
-*Defined in [packages/api/src/submittable/createClass.ts:25](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/submittable/createClass.ts#L25)*
+*Defined in [packages/api/src/submittable/createClass.ts:25](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/submittable/createClass.ts#L25)*
 
 #### Type parameters:
 

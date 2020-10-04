@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/metadata/src/Metadata/MagicNumber"
+> [Globals](../globals.md) / "packages/metadata/src/Metadata/MagicNumber"
 
 # Module: "packages/metadata/src/Metadata/MagicNumber"
 
@@ -20,4 +20,4 @@
 
 • `Const` **MAGIC\_NUMBER**: 1635018093 = 1635018093
 
-*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:10](https://github.com/polkadot-js/api/blob/d20228788/packages/metadata/src/Metadata/MagicNumber.ts#L10)*
+*Defined in [packages/metadata/src/Metadata/MagicNumber.ts:10](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/metadata/src/Metadata/MagicNumber.ts#L10)*

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/primitive/U16"](../modules/_packages_types_src_primitive_u16_.md) / U16
+> [Globals](../globals.md) / ["packages/types/src/primitive/U16"](../modules/_packages_types_src_primitive_u16_.md) / U16
 
 # Class: U16
 
@@ -65,7 +65,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/UInt.ts#L18)*
+*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/UInt.ts#L18)*
 
 #### Parameters:
 
@@ -86,7 +86,7 @@ Name | Type | Default value |
 
 *Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[with](_packages_types_src_codec_uint_.uint.md#with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/UInt.ts#L23)*
 
 #### Parameters:
 

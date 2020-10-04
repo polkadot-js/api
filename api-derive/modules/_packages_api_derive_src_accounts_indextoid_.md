@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/accounts/indexToId"
+> [Globals](../globals.md) / "packages/api-derive/src/accounts/indexToId"
 
 # Module: "packages/api-derive/src/accounts/indexToId"
 
@@ -16,7 +16,7 @@
 
 ▸ **indexToId**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/indexToId.ts:51](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/accounts/indexToId.ts#L51)*
+*Defined in [packages/api-derive/src/accounts/indexToId.ts:51](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/accounts/indexToId.ts#L51)*
 
 **`name`** indexToId
 

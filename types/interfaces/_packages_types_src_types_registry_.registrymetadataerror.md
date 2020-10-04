@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataError
+> [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataError
 
 # Interface: RegistryMetadataError
 
@@ -21,7 +21,7 @@
 
 •  **documentation**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)[]
 
-*Defined in [packages/types/src/types/registry.ts:58](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L58)*
+*Defined in [packages/types/src/types/registry.ts:58](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L58)*
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 •  **name**: [RegistryMetadataText](_packages_types_src_types_registry_.registrymetadatatext.md)
 
-*Defined in [packages/types/src/types/registry.ts:57](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L57)*
+*Defined in [packages/types/src/types/registry.ts:57](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L57)*

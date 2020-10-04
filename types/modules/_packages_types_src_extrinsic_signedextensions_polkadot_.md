@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/extrinsic/signedExtensions/polkadot"
+> [Globals](../globals.md) / "packages/types/src/extrinsic/signedExtensions/polkadot"
 
 # Module: "packages/types/src/extrinsic/signedExtensions/polkadot"

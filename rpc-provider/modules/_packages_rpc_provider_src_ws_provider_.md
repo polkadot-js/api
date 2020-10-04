@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/rpc-provider/src/ws/Provider"
+> [Globals](../globals.md) / "packages/rpc-provider/src/ws/Provider"
 
 # Module: "packages/rpc-provider/src/ws/Provider"
 

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/dispatchQueue"
+> [Globals](../globals.md) / "packages/api-derive/src/democracy/dispatchQueue"
 
 # Module: "packages/api-derive/src/democracy/dispatchQueue"
 
@@ -16,7 +16,7 @@
 
 ▸ **dispatchQueue**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/dispatchQueue.ts:96](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/democracy/dispatchQueue.ts#L96)*
+*Defined in [packages/api-derive/src/democracy/dispatchQueue.ts:96](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/democracy/dispatchQueue.ts#L96)*
 
 #### Parameters:
 

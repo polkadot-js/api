@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/stakerPoints"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/stakerPoints"
 
 # Module: "packages/api-derive/src/staking/stakerPoints"
 
@@ -17,7 +17,7 @@
 
 ▸ **_stakerPoints**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerPoints.ts:13](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/stakerPoints.ts#L13)*
+*Defined in [packages/api-derive/src/staking/stakerPoints.ts:13](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/stakerPoints.ts#L13)*
 
 #### Parameters:
 
@@ -34,7 +34,7 @@ ___
 
 ▸ **stakerPoints**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/stakerPoints.ts:29](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/stakerPoints.ts#L29)*
+*Defined in [packages/api-derive/src/staking/stakerPoints.ts:29](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/stakerPoints.ts#L29)*
 
 #### Parameters:
 

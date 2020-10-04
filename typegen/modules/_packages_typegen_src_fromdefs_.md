@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/fromDefs"
+> [Globals](../globals.md) / "packages/typegen/src/fromDefs"
 
 # Module: "packages/typegen/src/fromDefs"
 
@@ -16,6 +16,6 @@
 
 ▸ **main**(): void
 
-*Defined in [packages/typegen/src/fromDefs.ts:11](https://github.com/polkadot-js/api/blob/d20228788/packages/typegen/src/fromDefs.ts#L11)*
+*Defined in [packages/typegen/src/fromDefs.ts:11](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/typegen/src/fromDefs.ts#L11)*
 
 **Returns:** void

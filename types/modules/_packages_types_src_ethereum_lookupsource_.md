@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/ethereum/LookupSource"
+> [Globals](../globals.md) / "packages/types/src/ethereum/LookupSource"
 
 # Module: "packages/types/src/ethereum/LookupSource"
 
@@ -20,4 +20,4 @@
 
 • `Const` **ACCOUNT\_ID\_PREFIX**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array) = new Uint8Array([0xff])
 
-*Defined in [packages/types/src/ethereum/LookupSource.ts:17](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/ethereum/LookupSource.ts#L17)*
+*Defined in [packages/types/src/ethereum/LookupSource.ts:17](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/ethereum/LookupSource.ts#L17)*

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/metadataMd"
+> [Globals](../globals.md) / "packages/typegen/src/metadataMd"
 
 # Module: "packages/typegen/src/metadataMd"
 
@@ -16,6 +16,6 @@
 
 ▸ **main**(): void
 
-*Defined in [packages/typegen/src/metadataMd.ts:302](https://github.com/polkadot-js/api/blob/d20228788/packages/typegen/src/metadataMd.ts#L302)*
+*Defined in [packages/typegen/src/metadataMd.ts:302](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/typegen/src/metadataMd.ts#L302)*
 
 **Returns:** void

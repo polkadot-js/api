@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/accounts/idAndIndex"
+> [Globals](../globals.md) / "packages/api-derive/src/accounts/idAndIndex"
 
 # Module: "packages/api-derive/src/accounts/idAndIndex"
 
@@ -16,7 +16,7 @@
 
 ▸ **idAndIndex**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/idAndIndex.ts:53](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/accounts/idAndIndex.ts#L53)*
+*Defined in [packages/api-derive/src/accounts/idAndIndex.ts:53](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/accounts/idAndIndex.ts#L53)*
 
 **`name`** idAndIndex
 

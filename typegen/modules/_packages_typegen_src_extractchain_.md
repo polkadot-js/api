@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/extractChain"
+> [Globals](../globals.md) / "packages/typegen/src/extractChain"
 
 # Module: "packages/typegen/src/extractChain"
 
@@ -16,6 +16,6 @@
 
 ▸ **main**(): void
 
-*Defined in [packages/typegen/src/extractChain.ts:27](https://github.com/polkadot-js/api/blob/d20228788/packages/typegen/src/extractChain.ts#L27)*
+*Defined in [packages/typegen/src/extractChain.ts:27](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/typegen/src/extractChain.ts#L27)*
 
 **Returns:** void

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/util/formatting"
+> [Globals](../globals.md) / "packages/typegen/src/util/formatting"
 
 # Module: "packages/typegen/src/util/formatting"
 
@@ -16,7 +16,7 @@
 
 ▸ `Const`**HEADER**(`type`: \"chain\" \| \"defs\"): string
 
-*Defined in [packages/typegen/src/util/formatting.ts:24](https://github.com/polkadot-js/api/blob/d20228788/packages/typegen/src/util/formatting.ts#L24)*
+*Defined in [packages/typegen/src/util/formatting.ts:24](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/typegen/src/util/formatting.ts#L24)*
 
 #### Parameters:
 

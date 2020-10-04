@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/augment/query"](_packages_api_src_augment_query_.md) / "api/types/storage"
+> [Globals](../globals.md) / ["packages/api/src/augment/query"](_packages_api_src_augment_query_.md) / "api/types/storage"
 
 # Module: "api/types/storage"
 

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/generate/interfaceRegistry"
+> [Globals](../globals.md) / "packages/typegen/src/generate/interfaceRegistry"
 
 # Module: "packages/typegen/src/generate/interfaceRegistry"
 
@@ -16,6 +16,6 @@
 
 ▸ **generateDefaultInterfaceTypes**(): void
 
-*Defined in [packages/typegen/src/generate/interfaceRegistry.ts:74](https://github.com/polkadot-js/api/blob/d20228788/packages/typegen/src/generate/interfaceRegistry.ts#L74)*
+*Defined in [packages/typegen/src/generate/interfaceRegistry.ts:74](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/typegen/src/generate/interfaceRegistry.ts#L74)*
 
 **Returns:** void

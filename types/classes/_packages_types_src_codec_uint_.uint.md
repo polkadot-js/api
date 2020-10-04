@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/UInt"](../modules/_packages_types_src_codec_uint_.md) / UInt
+> [Globals](../globals.md) / ["packages/types/src/codec/UInt"](../modules/_packages_types_src_codec_uint_.md) / UInt
 
 # Class: UInt
 
@@ -79,7 +79,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/UInt.ts#L18)*
+*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/UInt.ts#L18)*
 
 #### Parameters:
 
@@ -98,7 +98,7 @@ Name | Type | Default value |
 
 ▸ `Static`**with**(`bitLength`: [UIntBitLength](../modules/_packages_types_src_codec_abstractint_.md#uintbitlength), `typeName?`: undefined \| string): [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md)\<[UInt](_packages_types_src_codec_uint_.uint.md)>
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/UInt.ts#L23)*
 
 #### Parameters:
 

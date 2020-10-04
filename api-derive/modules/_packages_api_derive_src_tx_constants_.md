@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/tx/constants"
+> [Globals](../globals.md) / "packages/api-derive/src/tx/constants"
 
 # Module: "packages/api-derive/src/tx/constants"
 
@@ -19,7 +19,7 @@
 
 • `Const` **FALLBACK\_MAX\_HASH\_COUNT**: 250 = 250
 
-*Defined in [packages/api-derive/src/tx/constants.ts:6](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/tx/constants.ts#L6)*
+*Defined in [packages/api-derive/src/tx/constants.ts:6](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/tx/constants.ts#L6)*
 
 ___
 
@@ -27,7 +27,7 @@ ___
 
 • `Const` **FALLBACK\_PERIOD**: BN = new BN(6 * 1000)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:9](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/tx/constants.ts#L9)*
+*Defined in [packages/api-derive/src/tx/constants.ts:9](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/tx/constants.ts#L9)*
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 • `Const` **MAX\_FINALITY\_LAG**: BN = new BN(5)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:11](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/tx/constants.ts#L11)*
+*Defined in [packages/api-derive/src/tx/constants.ts:11](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/tx/constants.ts#L11)*
 
 ___
 
@@ -43,4 +43,4 @@ ___
 
 • `Const` **MORTAL\_PERIOD**: BN = new BN(5 * 60 * 1000)
 
-*Defined in [packages/api-derive/src/tx/constants.ts:13](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/tx/constants.ts#L13)*
+*Defined in [packages/api-derive/src/tx/constants.ts:13](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/tx/constants.ts#L13)*

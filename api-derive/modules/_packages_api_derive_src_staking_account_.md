@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/account"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/account"
 
 # Module: "packages/api-derive/src/staking/account"
 
@@ -17,7 +17,7 @@
 
 ▸ **account**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/account.ts:78](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/account.ts#L78)*
+*Defined in [packages/api-derive/src/staking/account.ts:78](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/account.ts#L78)*
 
 **`description`** From a stash, retrieve the controllerId and fill in all the relevant staking details
 
@@ -36,7 +36,7 @@ ___
 
 ▸ **accounts**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/account.ts:60](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/account.ts#L60)*
+*Defined in [packages/api-derive/src/staking/account.ts:60](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/account.ts#L60)*
 
 **`description`** From a list of stashes, fill in all the relevant staking details
 

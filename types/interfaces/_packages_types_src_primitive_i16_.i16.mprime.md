@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/primitive/I16"](../modules/_packages_types_src_primitive_i16_.md) / [I16](../classes/_packages_types_src_primitive_i16_.i16.md) / MPrime
+> [Globals](../globals.md) / ["packages/types/src/primitive/I16"](../modules/_packages_types_src_primitive_i16_.md) / [I16](../classes/_packages_types_src_primitive_i16_.i16.md) / MPrime
 
 # Interface: MPrime
 

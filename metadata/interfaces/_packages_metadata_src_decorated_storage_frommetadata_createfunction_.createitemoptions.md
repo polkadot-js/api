@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/metadata/src/Decorated/storage/fromMetadata/createFunction"](../modules/_packages_metadata_src_decorated_storage_frommetadata_createfunction_.md) / CreateItemOptions
+> [Globals](../globals.md) / ["packages/metadata/src/Decorated/storage/fromMetadata/createFunction"](../modules/_packages_metadata_src_decorated_storage_frommetadata_createfunction_.md) / CreateItemOptions
 
 # Interface: CreateItemOptions
 
@@ -22,7 +22,7 @@
 
 • `Optional` **key**: undefined \| string
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:17](https://github.com/polkadot-js/api/blob/d20228788/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L17)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:17](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L17)*
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 •  **metaVersion**: number
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:18](https://github.com/polkadot-js/api/blob/d20228788/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L18)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:18](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L18)*
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 • `Optional` **skipHashing**: undefined \| false \| true
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:19](https://github.com/polkadot-js/api/blob/d20228788/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L19)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts:19](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/metadata/src/Decorated/storage/fromMetadata/createFunction.ts#L19)*

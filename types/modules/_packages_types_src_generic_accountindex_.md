@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/generic/AccountIndex"
+> [Globals](../globals.md) / "packages/types/src/generic/AccountIndex"
 
 # Module: "packages/types/src/generic/AccountIndex"
 
@@ -20,4 +20,4 @@
 
 • `Const` **ENUMSET\_SIZE**: BN = new BN(64)
 
-*Defined in [packages/types/src/generic/AccountIndex.ts:12](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/generic/AccountIndex.ts#L12)*
+*Defined in [packages/types/src/generic/AccountIndex.ts:12](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/generic/AccountIndex.ts#L12)*

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/utils/compareMap"
+> [Globals](../globals.md) / "packages/types/src/codec/utils/compareMap"
 
 # Module: "packages/types/src/codec/utils/compareMap"
 
@@ -16,7 +16,7 @@
 
 ▸ **compareMap**(`a`: [Map](../classes/_packages_types_src_codec_struct_.struct.md#map)\<any, any>, `b?`: unknown): boolean
 
-*Defined in [packages/types/src/codec/utils/compareMap.ts:29](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/utils/compareMap.ts#L29)*
+*Defined in [packages/types/src/codec/utils/compareMap.ts:29](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/utils/compareMap.ts#L29)*
 
 #### Parameters:
 

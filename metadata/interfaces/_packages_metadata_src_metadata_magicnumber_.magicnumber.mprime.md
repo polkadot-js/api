@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/metadata/src/Metadata/MagicNumber"](../modules/_packages_metadata_src_metadata_magicnumber_.md) / [MagicNumber](../classes/_packages_metadata_src_metadata_magicnumber_.magicnumber.md) / MPrime
+> [Globals](../globals.md) / ["packages/metadata/src/Metadata/MagicNumber"](../modules/_packages_metadata_src_metadata_magicnumber_.md) / [MagicNumber](../classes/_packages_metadata_src_metadata_magicnumber_.magicnumber.md) / MPrime
 
 # Interface: MPrime
 

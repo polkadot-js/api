@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/util/isKeyringPair"
+> [Globals](../globals.md) / "packages/api/src/util/isKeyringPair"
 
 # Module: "packages/api/src/util/isKeyringPair"
 
@@ -16,7 +16,7 @@
 
 ▸ **isKeyringPair**(`account`: string \| IKeyringPair \| AccountId \| Address): account is IKeyringPair
 
-*Defined in [packages/api/src/util/isKeyringPair.ts:9](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/util/isKeyringPair.ts#L9)*
+*Defined in [packages/api/src/util/isKeyringPair.ts:9](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/util/isKeyringPair.ts#L9)*
 
 #### Parameters:
 

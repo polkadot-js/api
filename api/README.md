@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](README.md)**
 
-> README / [Globals](globals.md)
+> [Globals](globals.md)
 
 # @polkadot/api
 

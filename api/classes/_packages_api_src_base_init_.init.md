@@ -1,12 +1,14 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/base/Init"](../modules/_packages_api_src_base_init_.md) / Init
+> [Globals](../globals.md) / ["packages/api/src/base/Init"](../modules/_packages_api_src_base_init_.md) / Init
 
 # Class: Init\<**ApiType**>
 
 ## Type parameters
 
-* ApiType
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes) |
 
 ## Hierarchy
 
@@ -43,7 +45,7 @@
 
 *Overrides [Decorate](_packages_api_src_base_decorate_.decorate.md).[constructor](_packages_api_src_base_decorate_.decorate.md#constructor)*
 
-*Defined in [packages/api/src/base/Init.ts:30](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Init.ts#L30)*
+*Defined in [packages/api/src/base/Init.ts:30](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Init.ts#L30)*
 
 #### Parameters:
 
@@ -63,7 +65,7 @@ Name | Type |
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[hasSubscriptions](_packages_api_src_base_decorate_.decorate.md#hassubscriptions)*
 
-*Defined in [packages/api/src/base/Decorate.ts:170](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Decorate.ts#L170)*
+*Defined in [packages/api/src/base/Decorate.ts:170](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Decorate.ts#L170)*
 
 **Returns:** boolean
 
@@ -77,7 +79,7 @@ ___
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[registry](_packages_api_src_base_decorate_.decorate.md#registry)*
 
-*Defined in [packages/api/src/base/Decorate.ts:149](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Decorate.ts#L149)*
+*Defined in [packages/api/src/base/Decorate.ts:149](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Decorate.ts#L149)*
 
 **`description`** Return the current used registry
 
@@ -91,7 +93,7 @@ ___
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[createType](_packages_api_src_base_decorate_.decorate.md#createtype)*
 
-*Defined in [packages/api/src/base/Decorate.ts:156](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Decorate.ts#L156)*
+*Defined in [packages/api/src/base/Decorate.ts:156](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Decorate.ts#L156)*
 
 **`description`** Creates an instance of a type as registered
 
@@ -116,7 +118,7 @@ ___
 
 ▸ **getBlockRegistry**(`blockHash`: string \| Uint8Array): Promise\<VersionedRegistry>
 
-*Defined in [packages/api/src/base/Init.ts:90](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Init.ts#L90)*
+*Defined in [packages/api/src/base/Init.ts:90](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Init.ts#L90)*
 
 **`description`** Sets up a registry based on the block hash defined
 
@@ -136,7 +138,7 @@ ___
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[injectMetadata](_packages_api_src_base_decorate_.decorate.md#injectmetadata)*
 
-*Defined in [packages/api/src/base/Decorate.ts:174](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Decorate.ts#L174)*
+*Defined in [packages/api/src/base/Decorate.ts:174](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Decorate.ts#L174)*
 
 #### Parameters:
 
@@ -156,7 +158,7 @@ ___
 
 *Inherited from [Events](_packages_api_src_base_events_.events.md).[off](_packages_api_src_base_events_.events.md#off)*
 
-*Defined in [packages/api/src/base/Events.ts:61](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Events.ts#L61)*
+*Defined in [packages/api/src/base/Events.ts:61](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Events.ts#L61)*
 
 **`description`** Remove the given eventemitter handler
 
@@ -192,7 +194,7 @@ ___
 
 *Inherited from [Events](_packages_api_src_base_events_.events.md).[on](_packages_api_src_base_events_.events.md#on)*
 
-*Defined in [packages/api/src/base/Events.ts:34](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Events.ts#L34)*
+*Defined in [packages/api/src/base/Events.ts:34](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Events.ts#L34)*
 
 **`description`** Attach an eventemitter handler to listen to a specific event
 
@@ -226,7 +228,7 @@ ___
 
 *Inherited from [Events](_packages_api_src_base_events_.events.md).[once](_packages_api_src_base_events_.events.md#once)*
 
-*Defined in [packages/api/src/base/Events.ts:86](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Events.ts#L86)*
+*Defined in [packages/api/src/base/Events.ts:86](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Events.ts#L86)*
 
 **`description`** Attach an one-time eventemitter handler to listen to a specific event
 
@@ -260,7 +262,7 @@ ___
 
 *Inherited from [Decorate](_packages_api_src_base_decorate_.decorate.md).[registerTypes](_packages_api_src_base_decorate_.decorate.md#registertypes)*
 
-*Defined in [packages/api/src/base/Decorate.ts:163](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/base/Decorate.ts#L163)*
+*Defined in [packages/api/src/base/Decorate.ts:163](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/base/Decorate.ts#L163)*
 
 **`description`** Register additional user-defined of chain-specific types in the type registry
 

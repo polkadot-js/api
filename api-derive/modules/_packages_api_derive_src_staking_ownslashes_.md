@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/ownSlashes"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/ownSlashes"
 
 # Module: "packages/api-derive/src/staking/ownSlashes"
 
@@ -19,7 +19,7 @@
 
 ▸ **_ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:17](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/ownSlashes.ts#L17)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:17](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/ownSlashes.ts#L17)*
 
 #### Parameters:
 
@@ -36,7 +36,7 @@ ___
 
 ▸ **_ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:52](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/ownSlashes.ts#L52)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:52](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/ownSlashes.ts#L52)*
 
 #### Parameters:
 
@@ -53,7 +53,7 @@ ___
 
 ▸ **ownSlash**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:46](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/ownSlashes.ts#L46)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:46](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/ownSlashes.ts#L46)*
 
 #### Parameters:
 
@@ -70,7 +70,7 @@ ___
 
 ▸ **ownSlashes**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/ownSlashes.ts:62](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/ownSlashes.ts#L62)*
+*Defined in [packages/api-derive/src/staking/ownSlashes.ts:62](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/ownSlashes.ts#L62)*
 
 #### Parameters:
 

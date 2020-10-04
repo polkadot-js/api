@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-contract/src/util"
+> [Globals](../globals.md) / "packages/api-contract/src/util"
 
 # Module: "packages/api-contract/src/util"
 
@@ -16,7 +16,7 @@
 
 ▸ **formatData**(`registry`: Registry, `data`: Raw, `__namedParameters`: { info: TypeDefInfo ; type: string  }): Codec
 
-*Defined in [packages/api-contract/src/util.ts:8](https://github.com/polkadot-js/api/blob/d20228788/packages/api-contract/src/util.ts#L8)*
+*Defined in [packages/api-contract/src/util.ts:8](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/util.ts#L8)*
 
 #### Parameters:
 

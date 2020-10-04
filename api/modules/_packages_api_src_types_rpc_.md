@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/types/rpc"
+> [Globals](../globals.md) / "packages/api/src/types/rpc"
 
 # Module: "packages/api/src/types/rpc"
 
@@ -23,7 +23,7 @@
 
 Ƭ  **DecoratedRpc**\<ApiType, AllSections>: {}
 
-*Defined in [packages/api/src/types/rpc.ts:32](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/rpc.ts#L32)*
+*Defined in [packages/api/src/types/rpc.ts:32](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/rpc.ts#L32)*
 
 #### Type parameters:
 
@@ -38,7 +38,7 @@ ___
 
 Ƭ  **DecoratedRpcSection**\<ApiType, Section>: {}
 
-*Defined in [packages/api/src/types/rpc.ts:26](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/rpc.ts#L26)*
+*Defined in [packages/api/src/types/rpc.ts:26](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/rpc.ts#L26)*
 
 #### Type parameters:
 
@@ -53,7 +53,7 @@ ___
 
 Ƭ  **RpcMethodResult**\<ApiType, F>: ApiType *extends* \"rxjs\" ? RpcRxResult\<F> : RpcPromiseResult\<F>
 
-*Defined in [packages/api/src/types/rpc.ts:22](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/rpc.ts#L22)*
+*Defined in [packages/api/src/types/rpc.ts:22](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/rpc.ts#L22)*
 
 #### Type parameters:
 

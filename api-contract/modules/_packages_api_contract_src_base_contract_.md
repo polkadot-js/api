@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-contract/src/base/Contract"
+> [Globals](../globals.md) / "packages/api-contract/src/base/Contract"
 
 # Module: "packages/api-contract/src/base/Contract"
 
@@ -24,7 +24,7 @@
 
 Ƭ  **ContractCallResult**\<CallType>: CallType *extends* \"rpc\" ? Observable\<ContractCallOutcome> : Observable\<SubmittableResult>
 
-*Defined in [packages/api-contract/src/base/Contract.ts:29](https://github.com/polkadot-js/api/blob/d20228788/packages/api-contract/src/base/Contract.ts#L29)*
+*Defined in [packages/api-contract/src/base/Contract.ts:29](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-contract/src/base/Contract.ts#L29)*
 
 #### Type parameters:
 

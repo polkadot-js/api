@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/calls"](../modules/_packages_types_src_types_calls_.md) / CallBase
+> [Globals](../globals.md) / ["packages/types/src/types/calls"](../modules/_packages_types_src_types_calls_.md) / CallBase
 
 # Interface: CallBase
 
@@ -26,7 +26,7 @@
 
 •  **callIndex**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/calls.ts#L8)*
+*Defined in [packages/types/src/types/calls.ts:8](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/calls.ts#L8)*
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 •  **meta**: FunctionMetadataLatest
 
-*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/calls.ts#L9)*
+*Defined in [packages/types/src/types/calls.ts:9](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/calls.ts#L9)*
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 •  **method**: string
 
-*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/calls.ts#L10)*
+*Defined in [packages/types/src/types/calls.ts:10](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/calls.ts#L10)*
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 •  **section**: string
 
-*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/calls.ts#L11)*
+*Defined in [packages/types/src/types/calls.ts:11](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/calls.ts#L11)*
 
 ___
 
@@ -58,4 +58,4 @@ ___
 
 •  **toJSON**: () => any
 
-*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/calls.ts#L12)*
+*Defined in [packages/types/src/types/calls.ts:12](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/calls.ts#L12)*

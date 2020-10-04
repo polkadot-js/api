@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/accounts/flags"
+> [Globals](../globals.md) / "packages/api-derive/src/accounts/flags"
 
 # Module: "packages/api-derive/src/accounts/flags"
 
@@ -16,7 +16,7 @@
 
 ▸ **flags**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/accounts/flags.ts:33](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/accounts/flags.ts#L33)*
+*Defined in [packages/api-derive/src/accounts/flags.ts:33](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/accounts/flags.ts#L33)*
 
 **`name`** info
 

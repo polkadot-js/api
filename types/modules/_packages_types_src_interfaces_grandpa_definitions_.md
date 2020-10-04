@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/interfaces/grandpa/definitions"
+> [Globals](../globals.md) / "packages/types/src/interfaces/grandpa/definitions"
 
 # Module: "packages/types/src/interfaces/grandpa/definitions"

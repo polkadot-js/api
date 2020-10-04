@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/metadata/src/Decorated/storage/fromMetadata/getHasher"
+> [Globals](../globals.md) / "packages/metadata/src/Decorated/storage/fromMetadata/getHasher"
 
 # Module: "packages/metadata/src/Decorated/storage/fromMetadata/getHasher"
 
@@ -17,7 +17,7 @@
 
 Ƭ  **HasherFunction**: (data: [HasherInput](_packages_metadata_src_decorated_storage_frommetadata_gethasher_.md#hasherinput)) => Uint8Array
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:11](https://github.com/polkadot-js/api/blob/d20228788/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L11)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:11](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L11)*
 
 ___
 
@@ -25,4 +25,4 @@ ___
 
 Ƭ  **HasherInput**: string \| Buffer \| Uint8Array
 
-*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:9](https://github.com/polkadot-js/api/blob/d20228788/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L9)*
+*Defined in [packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts:9](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/metadata/src/Decorated/storage/fromMetadata/getHasher.ts#L9)*

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/chain/getHeader"
+> [Globals](../globals.md) / "packages/api-derive/src/chain/getHeader"
 
 # Module: "packages/api-derive/src/chain/getHeader"
 
@@ -16,7 +16,7 @@
 
 ▸ **getHeader**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/chain/getHeader.ts:26](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/chain/getHeader.ts#L26)*
+*Defined in [packages/api-derive/src/chain/getHeader.ts:26](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/chain/getHeader.ts#L26)*
 
 **`name`** getHeader
 

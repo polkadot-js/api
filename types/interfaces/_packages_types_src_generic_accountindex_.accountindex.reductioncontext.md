@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/generic/AccountIndex"](../modules/_packages_types_src_generic_accountindex_.md) / [AccountIndex](../classes/_packages_types_src_generic_accountindex_.accountindex.md) / ReductionContext
+> [Globals](../globals.md) / ["packages/types/src/generic/AccountIndex"](../modules/_packages_types_src_generic_accountindex_.md) / [AccountIndex](../classes/_packages_types_src_generic_accountindex_.accountindex.md) / ReductionContext
 
 # Interface: ReductionContext
 

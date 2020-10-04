@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/types/submittable"
+> [Globals](../globals.md) / "packages/api/src/types/submittable"
 
 # Module: "packages/api/src/types/submittable"
 
@@ -22,7 +22,7 @@
 
 Ƭ  **AugmentedSubmittable**\<T>: T & CallBase
 
-*Defined in [packages/api/src/types/submittable.ts:12](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/submittable.ts#L12)*
+*Defined in [packages/api/src/types/submittable.ts:12](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/submittable.ts#L12)*
 
 #### Type parameters:
 

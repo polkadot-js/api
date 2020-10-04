@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/metadata/src/Metadata/util/extractTypes"
+> [Globals](../globals.md) / "packages/metadata/src/Metadata/util/extractTypes"
 
 # Module: "packages/metadata/src/Metadata/util/extractTypes"

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/rpc-core/src/rxjs/drr"
+> [Globals](../globals.md) / "packages/rpc-core/src/rxjs/drr"
 
 # Module: "packages/rpc-core/src/rxjs/drr"
 
@@ -16,4 +16,4 @@
 
 Ƭ  **DrrResult**: \<T>(source$: Observable\<T>) => Observable\<T>
 
-*Defined in [packages/rpc-core/src/rxjs/drr.ts:11](https://github.com/polkadot-js/api/blob/d20228788/packages/rpc-core/src/rxjs/drr.ts#L11)*
+*Defined in [packages/rpc-core/src/rxjs/drr.ts:11](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/rpc-core/src/rxjs/drr.ts#L11)*

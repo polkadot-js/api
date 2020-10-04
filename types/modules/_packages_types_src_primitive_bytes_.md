@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/primitive/Bytes"
+> [Globals](../globals.md) / "packages/types/src/primitive/Bytes"
 
 # Module: "packages/types/src/primitive/Bytes"
 

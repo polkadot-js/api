@@ -1,12 +1,14 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/Enum"](../modules/_packages_types_src_codec_enum_.md) / EnumConstructor
+> [Globals](../globals.md) / ["packages/types/src/codec/Enum"](../modules/_packages_types_src_codec_enum_.md) / EnumConstructor
 
 # Interface: EnumConstructor\<**T**>
 
 ## Type parameters
 
-* T
+Name | Default |
+------ | ------ |
+`T` | Codec |
 
 ## Hierarchy
 
@@ -24,7 +26,7 @@
 
 \+ **new EnumConstructor**(`registry`: [Registry](_packages_types_src_types_registry_.registry.md), `value?`: any, `index?`: undefined \| number): T
 
-*Defined in [packages/types/src/codec/Enum.ts:15](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/Enum.ts#L15)*
+*Defined in [packages/types/src/codec/Enum.ts:15](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/Enum.ts#L15)*
 
 #### Parameters:
 

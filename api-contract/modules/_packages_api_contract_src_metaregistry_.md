@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-contract/src/MetaRegistry"
+> [Globals](../globals.md) / "packages/api-contract/src/MetaRegistry"
 
 # Module: "packages/api-contract/src/MetaRegistry"
 

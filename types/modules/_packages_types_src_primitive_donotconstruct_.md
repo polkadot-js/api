@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/primitive/DoNotConstruct"
+> [Globals](../globals.md) / "packages/types/src/primitive/DoNotConstruct"
 
 # Module: "packages/types/src/primitive/DoNotConstruct"
 

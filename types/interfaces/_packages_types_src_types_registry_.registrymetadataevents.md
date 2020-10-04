@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataEvents
+> [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / RegistryMetadataEvents
 
 # Interface: RegistryMetadataEvents
 
@@ -24,7 +24,7 @@
 
 •  **isSome**: boolean
 
-*Defined in [packages/types/src/types/registry.ts:69](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L69)*
+*Defined in [packages/types/src/types/registry.ts:69](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L69)*
 
 ## Methods
 
@@ -32,6 +32,6 @@
 
 ▸ **unwrap**(): [RegistryMetadataEvent](_packages_types_src_types_registry_.registrymetadataevent.md)[]
 
-*Defined in [packages/types/src/types/registry.ts:70](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L70)*
+*Defined in [packages/types/src/types/registry.ts:70](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L70)*
 
 **Returns:** [RegistryMetadataEvent](_packages_types_src_types_registry_.registrymetadataevent.md)[]

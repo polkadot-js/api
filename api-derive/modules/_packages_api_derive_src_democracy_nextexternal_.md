@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/nextExternal"
+> [Globals](../globals.md) / "packages/api-derive/src/democracy/nextExternal"
 
 # Module: "packages/api-derive/src/democracy/nextExternal"
 
@@ -16,7 +16,7 @@
 
 ▸ **nextExternal**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/nextExternal.ts:31](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/democracy/nextExternal.ts#L31)*
+*Defined in [packages/api-derive/src/democracy/nextExternal.ts:31](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/democracy/nextExternal.ts#L31)*
 
 #### Parameters:
 

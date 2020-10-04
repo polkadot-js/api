@@ -1,13 +1,15 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/storage"](../modules/_packages_api_src_types_storage_.md) / StorageEntryBase
+> [Globals](../globals.md) / ["packages/api/src/types/storage"](../modules/_packages_api_src_types_storage_.md) / StorageEntryBase
 
 # Interface: StorageEntryBase\<**ApiType, F**>
 
 ## Type parameters
 
-* ApiType
-* F
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes) |
+`F` | AnyFunction |
 
 ## Hierarchy
 
@@ -38,7 +40,7 @@
 
 •  **at**: \<T>(hash: Hash \| Uint8Array \| string,...args: Parameters\<F>) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, T>
 
-*Defined in [packages/api/src/types/storage.ts:40](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L40)*
+*Defined in [packages/api/src/types/storage.ts:40](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L40)*
 
 ___
 
@@ -46,7 +48,7 @@ ___
 
 •  **creator**: StorageEntry
 
-*Defined in [packages/api/src/types/storage.ts:41](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L41)*
+*Defined in [packages/api/src/types/storage.ts:41](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L41)*
 
 ___
 
@@ -54,7 +56,7 @@ ___
 
 •  **entries**: \<T>(arg?: Parameters\<F>[0]) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, [StorageKey, T][]>
 
-*Defined in [packages/api/src/types/storage.ts:42](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L42)*
+*Defined in [packages/api/src/types/storage.ts:42](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L42)*
 
 ___
 
@@ -62,7 +64,7 @@ ___
 
 •  **entriesPaged**: \<T>(opts: [PaginationOptions](_packages_api_src_types_base_.paginationoptions.md)\<Parameters\<F>[0]>) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, [StorageKey, T][]>
 
-*Defined in [packages/api/src/types/storage.ts:43](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L43)*
+*Defined in [packages/api/src/types/storage.ts:43](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L43)*
 
 ___
 
@@ -70,7 +72,7 @@ ___
 
 •  **hash**: (...args: Parameters\<F>) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, Hash>
 
-*Defined in [packages/api/src/types/storage.ts:44](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L44)*
+*Defined in [packages/api/src/types/storage.ts:44](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L44)*
 
 ___
 
@@ -78,7 +80,7 @@ ___
 
 •  **key**: (...args: Parameters\<F>) => string
 
-*Defined in [packages/api/src/types/storage.ts:45](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L45)*
+*Defined in [packages/api/src/types/storage.ts:45](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L45)*
 
 ___
 
@@ -86,7 +88,7 @@ ___
 
 •  **keyPrefix**: () => string
 
-*Defined in [packages/api/src/types/storage.ts:46](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L46)*
+*Defined in [packages/api/src/types/storage.ts:46](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L46)*
 
 ___
 
@@ -94,7 +96,7 @@ ___
 
 •  **keys**: (arg?: any) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, StorageKey[]>
 
-*Defined in [packages/api/src/types/storage.ts:47](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L47)*
+*Defined in [packages/api/src/types/storage.ts:47](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L47)*
 
 ___
 
@@ -102,7 +104,7 @@ ___
 
 •  **keysPaged**: (opts: [PaginationOptions](_packages_api_src_types_base_.paginationoptions.md)\<Parameters\<F>[0]>) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, StorageKey[]>
 
-*Defined in [packages/api/src/types/storage.ts:48](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L48)*
+*Defined in [packages/api/src/types/storage.ts:48](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L48)*
 
 ___
 
@@ -110,7 +112,7 @@ ___
 
 •  **multi**: ApiType *extends* \"rxjs\" ? StorageEntryObservableMulti : StorageEntryPromiseMulti
 
-*Defined in [packages/api/src/types/storage.ts:51](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L51)*
+*Defined in [packages/api/src/types/storage.ts:51](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L51)*
 
 ___
 
@@ -118,7 +120,7 @@ ___
 
 •  **range**: \<T>(__namedParameters: [string \| Hash \| Uint8Array, undefined \| string \| Hash \| Uint8Array],...args: Parameters\<F>) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, [Hash, T][]>
 
-*Defined in [packages/api/src/types/storage.ts:49](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L49)*
+*Defined in [packages/api/src/types/storage.ts:49](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L49)*
 
 ___
 
@@ -126,4 +128,4 @@ ___
 
 •  **size**: (...args: Parameters\<F>) => [PromiseOrObs](../modules/_packages_api_src_types_base_.md#promiseorobs)\<ApiType, u64>
 
-*Defined in [packages/api/src/types/storage.ts:50](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L50)*
+*Defined in [packages/api/src/types/storage.ts:50](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L50)*

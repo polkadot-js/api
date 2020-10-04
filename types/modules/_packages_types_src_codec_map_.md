@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/Map"
+> [Globals](../globals.md) / "packages/types/src/codec/Map"
 
 # Module: "packages/types/src/codec/Map"
 

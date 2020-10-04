@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](README.md)**
 
-> README / [Globals](globals.md)
+> [Globals](globals.md)
 
 # @polkadot/rpc-core
 
@@ -14,7 +14,7 @@ Installation -
 yarn add @polkadot/rpc-core
 ```
 
-Initialisation -
+Initialization -
 
 ```js
 import Rpc from '@polkadot/rpc-core';

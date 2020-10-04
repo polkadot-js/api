@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/erasHistoric"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/erasHistoric"
 
 # Module: "packages/api-derive/src/staking/erasHistoric"
 
@@ -16,7 +16,7 @@
 
 ▸ **erasHistoric**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasHistoric.ts:14](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/erasHistoric.ts#L14)*
+*Defined in [packages/api-derive/src/staking/erasHistoric.ts:14](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/erasHistoric.ts#L14)*
 
 #### Parameters:
 

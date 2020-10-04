@@ -1,12 +1,14 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/submittable"](../modules/_packages_api_src_types_submittable_.md) / SubmittableModuleExtrinsics
+> [Globals](../globals.md) / ["packages/api/src/types/submittable"](../modules/_packages_api_src_types_submittable_.md) / SubmittableModuleExtrinsics
 
 # Interface: SubmittableModuleExtrinsics\<**ApiType**>
 
 ## Type parameters
 
-* ApiType
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes) |
 
 ## Hierarchy
 

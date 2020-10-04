@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/augment/registry"](_packages_types_src_augment_registry_.md) / "registry"
+> [Globals](../globals.md) / ["packages/types/src/augment/registry"](_packages_types_src_augment_registry_.md) / "registry"
 
 # Module: "registry"
 

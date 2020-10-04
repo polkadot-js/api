@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/submittable/Result"
+> [Globals](../globals.md) / "packages/api/src/submittable/Result"
 
 # Module: "packages/api/src/submittable/Result"
 

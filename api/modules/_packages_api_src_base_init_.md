@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/base/Init"
+> [Globals](../globals.md) / "packages/api/src/base/Init"
 
 # Module: "packages/api/src/base/Init"
 

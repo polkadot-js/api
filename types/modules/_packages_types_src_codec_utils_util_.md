@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/utils/util"
+> [Globals](../globals.md) / "packages/types/src/codec/utils/util"
 
 # Module: "packages/types/src/codec/utils/util"
 
@@ -16,7 +16,7 @@
 
 ▸ **hasEq**(`o`: unknown): o is object
 
-*Defined in [packages/types/src/codec/utils/util.ts:6](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/utils/util.ts#L6)*
+*Defined in [packages/types/src/codec/utils/util.ts:6](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/utils/util.ts#L6)*
 
 #### Parameters:
 

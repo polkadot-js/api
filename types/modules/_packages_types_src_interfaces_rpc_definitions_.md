@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/interfaces/rpc/definitions"
+> [Globals](../globals.md) / "packages/types/src/interfaces/rpc/definitions"
 
 # Module: "packages/types/src/interfaces/rpc/definitions"

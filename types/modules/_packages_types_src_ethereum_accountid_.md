@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/ethereum/AccountId"
+> [Globals](../globals.md) / "packages/types/src/ethereum/AccountId"
 
 # Module: "packages/types/src/ethereum/AccountId"
 

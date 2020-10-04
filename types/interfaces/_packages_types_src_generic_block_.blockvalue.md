@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/generic/Block"](../modules/_packages_types_src_generic_block_.md) / BlockValue
+> [Globals](../globals.md) / ["packages/types/src/generic/Block"](../modules/_packages_types_src_generic_block_.md) / BlockValue
 
 # Interface: BlockValue
 
@@ -21,7 +21,7 @@
 
 • `Optional` **extrinsics**: [AnyU8a](../modules/_packages_types_src_types_helpers_.md#anyu8a)[]
 
-*Defined in [packages/types/src/generic/Block.ts:20](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/generic/Block.ts#L20)*
+*Defined in [packages/types/src/generic/Block.ts:20](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/generic/Block.ts#L20)*
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 • `Optional` **header**: [HeaderValue](_packages_types_src_generic_block_.headervalue.md)
 
-*Defined in [packages/types/src/generic/Block.ts:21](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/generic/Block.ts#L21)*
+*Defined in [packages/types/src/generic/Block.ts:21](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/generic/Block.ts#L21)*

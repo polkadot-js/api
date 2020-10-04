@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/primitive/I64"](../modules/_packages_types_src_primitive_i64_.md) / [I64](../classes/_packages_types_src_primitive_i64_.i64.md) / ReductionContext
+> [Globals](../globals.md) / ["packages/types/src/primitive/I64"](../modules/_packages_types_src_primitive_i64_.md) / [I64](../classes/_packages_types_src_primitive_i64_.i64.md) / ReductionContext
 
 # Interface: ReductionContext
 

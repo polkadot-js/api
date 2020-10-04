@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/augment/rpc"](_packages_api_src_augment_rpc_.md) / "rpc-core/types"
+> [Globals](../globals.md) / ["packages/api/src/augment/rpc"](_packages_api_src_augment_rpc_.md) / "rpc-core/types"
 
 # Module: "rpc-core/types"
 

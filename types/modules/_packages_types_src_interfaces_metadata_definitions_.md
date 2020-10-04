@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/interfaces/metadata/definitions"
+> [Globals](../globals.md) / "packages/types/src/interfaces/metadata/definitions"
 
 # Module: "packages/types/src/interfaces/metadata/definitions"
 
@@ -16,7 +16,7 @@
 
 ▪ `Const` **AllHashers**: object
 
-*Defined in [packages/types/src/interfaces/metadata/definitions.ts:9](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/interfaces/metadata/definitions.ts#L9)*
+*Defined in [packages/types/src/interfaces/metadata/definitions.ts:9](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/interfaces/metadata/definitions.ts#L9)*
 
 #### Properties:
 

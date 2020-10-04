@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-contract/src/promise/PromiseBlueprint"
+> [Globals](../globals.md) / "packages/api-contract/src/promise/PromiseBlueprint"
 
 # Module: "packages/api-contract/src/promise/PromiseBlueprint"
 

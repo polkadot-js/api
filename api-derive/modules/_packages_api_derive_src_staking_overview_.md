@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/overview"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/overview"
 
 # Module: "packages/api-derive/src/staking/overview"
 
@@ -16,7 +16,7 @@
 
 ▸ **overview**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/overview.ts:15](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/overview.ts#L15)*
+*Defined in [packages/api-derive/src/staking/overview.ts:15](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/overview.ts#L15)*
 
 **`description`** Retrieve the staking overview, including elected and points earned
 

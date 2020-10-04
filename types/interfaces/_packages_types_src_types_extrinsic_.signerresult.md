@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/extrinsic"](../modules/_packages_types_src_types_extrinsic_.md) / SignerResult
+> [Globals](../globals.md) / ["packages/types/src/types/extrinsic"](../modules/_packages_types_src_types_extrinsic_.md) / SignerResult
 
 # Interface: SignerResult
 
@@ -21,7 +21,7 @@
 
 •  **id**: number
 
-*Defined in [packages/types/src/types/extrinsic.ts:121](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/extrinsic.ts#L121)*
+*Defined in [packages/types/src/types/extrinsic.ts:121](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/extrinsic.ts#L121)*
 
 **`description`** The id for this request
 
@@ -31,6 +31,6 @@ ___
 
 •  **signature**: string
 
-*Defined in [packages/types/src/types/extrinsic.ts:126](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/extrinsic.ts#L126)*
+*Defined in [packages/types/src/types/extrinsic.ts:126](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/extrinsic.ts#L126)*
 
 **`description`** The resulting signature in hex

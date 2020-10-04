@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / ChainUpgrades
+> [Globals](../globals.md) / ["packages/types/src/types/registry"](../modules/_packages_types_src_types_registry_.md) / ChainUpgrades
 
 # Interface: ChainUpgrades
 
@@ -21,7 +21,7 @@
 
 •  **genesisHash**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/registry.ts:22](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L22)*
+*Defined in [packages/types/src/types/registry.ts:22](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L22)*
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 •  **versions**: [ChainUpgradeVersion](_packages_types_src_types_registry_.chainupgradeversion.md)[]
 
-*Defined in [packages/types/src/types/registry.ts:23](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/registry.ts#L23)*
+*Defined in [packages/types/src/types/registry.ts:23](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/registry.ts#L23)*

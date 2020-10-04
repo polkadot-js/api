@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types-known/src/upgrades/polkadot"
+> [Globals](../globals.md) / "packages/types-known/src/upgrades/polkadot"
 
 # Module: "packages/types-known/src/upgrades/polkadot"

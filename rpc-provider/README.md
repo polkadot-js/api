@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](README.md)**
 
-> README / [Globals](globals.md)
+> [Globals](globals.md)
 
 # @polkadot/rpc-provider
 
@@ -20,7 +20,7 @@ Installation -
 yarn add @polkadot/rpc-provider
 ```
 
-WebSocket Initialisation -
+WebSocket Initialization -
 
 ```javascript
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -32,7 +32,7 @@ const version = await provider.send('client_version', []);
 console.log('client version', version);
 ```
 
-HTTP Initialisation -
+HTTP Initialization -
 
 ```javascript
 import { HttpProvider } from '@polkadot/rpc-provider';

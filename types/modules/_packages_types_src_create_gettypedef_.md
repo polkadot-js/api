@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/create/getTypeDef"
+> [Globals](../globals.md) / "packages/types/src/create/getTypeDef"
 
 # Module: "packages/types/src/create/getTypeDef"
 
@@ -16,7 +16,7 @@
 
 ▸ **getTypeDef**(`_type`: string, `__namedParameters`: { displayName: undefined \| string ; name: undefined \| string  }, `count`: number): TypeDef
 
-*Defined in [packages/types/src/create/getTypeDef.ts:177](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/create/getTypeDef.ts#L177)*
+*Defined in [packages/types/src/create/getTypeDef.ts:177](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/create/getTypeDef.ts#L177)*
 
 #### Parameters:
 

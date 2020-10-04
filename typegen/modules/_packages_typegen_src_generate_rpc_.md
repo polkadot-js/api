@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/generate/rpc"
+> [Globals](../globals.md) / "packages/typegen/src/generate/rpc"
 
 # Module: "packages/typegen/src/generate/rpc"
 
@@ -16,6 +16,6 @@
 
 ▸ **generateDefaultRpcTypes**(): void
 
-*Defined in [packages/typegen/src/generate/rpc.ts:116](https://github.com/polkadot-js/api/blob/d20228788/packages/typegen/src/generate/rpc.ts#L116)*
+*Defined in [packages/typegen/src/generate/rpc.ts:116](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/typegen/src/generate/rpc.ts#L116)*
 
 **Returns:** void

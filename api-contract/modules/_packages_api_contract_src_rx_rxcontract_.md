@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-contract/src/rx/RxContract"
+> [Globals](../globals.md) / "packages/api-contract/src/rx/RxContract"
 
 # Module: "packages/api-contract/src/rx/RxContract"
 

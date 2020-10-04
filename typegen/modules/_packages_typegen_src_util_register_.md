@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/typegen/src/util/register"
+> [Globals](../globals.md) / "packages/typegen/src/util/register"
 
 # Module: "packages/typegen/src/util/register"
 
@@ -16,7 +16,7 @@
 
 ▸ **registerDefinitions**(`registry`: TypeRegistry, `extras`: Record\<string, Record\<string, { types: Record\<string, any>  }>>): void
 
-*Defined in [packages/typegen/src/util/register.ts:6](https://github.com/polkadot-js/api/blob/d20228788/packages/typegen/src/util/register.ts#L6)*
+*Defined in [packages/typegen/src/util/register.ts:6](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/typegen/src/util/register.ts#L6)*
 
 #### Parameters:
 

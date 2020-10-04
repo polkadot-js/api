@@ -1,12 +1,14 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/storage"](../modules/_packages_api_src_types_storage_.md) / QueryableStorageMultiPromise
+> [Globals](../globals.md) / ["packages/api/src/types/storage"](../modules/_packages_api_src_types_storage_.md) / QueryableStorageMultiPromise
 
 # Interface: QueryableStorageMultiPromise\<**ApiType**>
 
 ## Type parameters
 
-* ApiType
+Name | Type |
+------ | ------ |
+`ApiType` | [ApiTypes](../modules/_packages_api_src_types_base_.md#apitypes) |
 
 ## Hierarchy
 
@@ -16,7 +18,7 @@
 
 ▸ \<T>(`calls`: [QueryableStorageMultiArg](../modules/_packages_api_src_types_storage_.md#queryablestoragemultiarg)\<ApiType>[], `callback`: Callback\<T>): [UnsubscribePromise](../modules/_packages_api_src_types_base_.md#unsubscribepromise)
 
-*Defined in [packages/api/src/types/storage.ts:66](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L66)*
+*Defined in [packages/api/src/types/storage.ts:66](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L66)*
 
 #### Type parameters:
 
@@ -35,7 +37,7 @@ Name | Type |
 
 ▸ \<T>(`calls`: [QueryableStorageMultiArg](../modules/_packages_api_src_types_storage_.md#queryablestoragemultiarg)\<ApiType>[]): Promise\<T>
 
-*Defined in [packages/api/src/types/storage.ts:67](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/storage.ts#L67)*
+*Defined in [packages/api/src/types/storage.ts:67](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/storage.ts#L67)*
 
 #### Type parameters:
 

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/erasRewards"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/erasRewards"
 
 # Module: "packages/api-derive/src/staking/erasRewards"
 
@@ -17,7 +17,7 @@
 
 ▸ **_erasRewards**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasRewards.ts:23](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/erasRewards.ts#L23)*
+*Defined in [packages/api-derive/src/staking/erasRewards.ts:23](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/erasRewards.ts#L23)*
 
 #### Parameters:
 
@@ -34,7 +34,7 @@ ___
 
 ▸ **erasRewards**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/erasRewards.ts:55](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/erasRewards.ts#L55)*
+*Defined in [packages/api-derive/src/staking/erasRewards.ts:55](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/erasRewards.ts#L55)*
 
 #### Parameters:
 

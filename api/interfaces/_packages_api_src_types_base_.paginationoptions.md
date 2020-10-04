@@ -1,12 +1,14 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) / PaginationOptions
+> [Globals](../globals.md) / ["packages/api/src/types/base"](../modules/_packages_api_src_types_base_.md) / PaginationOptions
 
 # Interface: PaginationOptions\<**ArgType**>
 
 ## Type parameters
 
-* ArgType
+Name | Default |
+------ | ------ |
+`ArgType` | CodecArg |
 
 ## Hierarchy
 
@@ -26,7 +28,7 @@
 
 • `Optional` **arg**: ArgType
 
-*Defined in [packages/api/src/types/base.ts:79](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/base.ts#L79)*
+*Defined in [packages/api/src/types/base.ts:79](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/base.ts#L79)*
 
 ___
 
@@ -34,7 +36,7 @@ ___
 
 •  **pageSize**: number
 
-*Defined in [packages/api/src/types/base.ts:80](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/base.ts#L80)*
+*Defined in [packages/api/src/types/base.ts:80](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/base.ts#L80)*
 
 ___
 
@@ -42,4 +44,4 @@ ___
 
 • `Optional` **startKey**: undefined \| string
 
-*Defined in [packages/api/src/types/base.ts:81](https://github.com/polkadot-js/api/blob/d20228788/packages/api/src/types/base.ts#L81)*
+*Defined in [packages/api/src/types/base.ts:81](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api/src/types/base.ts#L81)*

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / ["packages/types/src/codec/UInt"](../modules/_packages_types_src_codec_uint_.md) / [UInt](../classes/_packages_types_src_codec_uint_.uint.md) / ReductionContext
+> [Globals](../globals.md) / ["packages/types/src/codec/UInt"](../modules/_packages_types_src_codec_uint_.md) / [UInt](../classes/_packages_types_src_codec_uint_.uint.md) / ReductionContext
 
 # Interface: ReductionContext
 

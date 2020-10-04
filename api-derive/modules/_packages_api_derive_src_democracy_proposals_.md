@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/democracy/proposals"
+> [Globals](../globals.md) / "packages/api-derive/src/democracy/proposals"
 
 # Module: "packages/api-derive/src/democracy/proposals"
 
@@ -16,7 +16,7 @@
 
 ▸ **proposals**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/democracy/proposals.ts:51](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/democracy/proposals.ts#L51)*
+*Defined in [packages/api-derive/src/democracy/proposals.ts:51](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/democracy/proposals.ts#L51)*
 
 #### Parameters:
 

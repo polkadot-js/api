@@ -1,5 +1,5 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/metadata/src/Metadata/static"
+> [Globals](../globals.md) / "packages/metadata/src/Metadata/static"
 
 # Module: "packages/metadata/src/Metadata/static"

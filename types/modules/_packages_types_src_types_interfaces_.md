@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/types/interfaces"
+> [Globals](../globals.md) / "packages/types/src/types/interfaces"
 
 # Module: "packages/types/src/types/interfaces"
 
@@ -24,7 +24,7 @@
 
 Ƭ  **ITuple**\<Sub>: Sub & [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)
 
-*Defined in [packages/types/src/types/interfaces.ts:49](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/types/interfaces.ts#L49)*
+*Defined in [packages/types/src/types/interfaces.ts:49](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/types/interfaces.ts#L49)*
 
 #### Type parameters:
 

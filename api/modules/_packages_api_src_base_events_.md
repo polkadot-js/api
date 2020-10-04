@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api/src/base/Events"
+> [Globals](../globals.md) / "packages/api/src/base/Events"
 
 # Module: "packages/api/src/base/Events"
 

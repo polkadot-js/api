@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/AbstractInt"
+> [Globals](../globals.md) / "packages/types/src/codec/AbstractInt"
 
 # Module: "packages/types/src/codec/AbstractInt"
 
@@ -20,7 +20,7 @@
 
 Ƭ  **UIntBitLength**: 8 \| 16 \| 32 \| 64 \| 128 \| 256
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:12](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/AbstractInt.ts#L12)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:12](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/AbstractInt.ts#L12)*
 
 ## Variables
 
@@ -28,4 +28,4 @@
 
 • `Const` **DEFAULT\_UINT\_BITS**: 64 = 64
 
-*Defined in [packages/types/src/codec/AbstractInt.ts:14](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/AbstractInt.ts#L14)*
+*Defined in [packages/types/src/codec/AbstractInt.ts:14](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/AbstractInt.ts#L14)*

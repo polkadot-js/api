@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/utils/compareSet"
+> [Globals](../globals.md) / "packages/types/src/codec/utils/compareSet"
 
 # Module: "packages/types/src/codec/utils/compareSet"
 
@@ -16,7 +16,7 @@
 
 ▸ **compareSet**(`a`: [Set](../classes/_packages_types_src_codec_btreeset_.btreeset.md#set)\<unknown>, `b?`: unknown): boolean
 
-*Defined in [packages/types/src/codec/utils/compareSet.ts:13](https://github.com/polkadot-js/api/blob/d20228788/packages/types/src/codec/utils/compareSet.ts#L13)*
+*Defined in [packages/types/src/codec/utils/compareSet.ts:13](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/types/src/codec/utils/compareSet.ts#L13)*
 
 #### Parameters:
 

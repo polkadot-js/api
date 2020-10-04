@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/staking/validatorsFrom"
+> [Globals](../globals.md) / "packages/api-derive/src/staking/validatorsFrom"
 
 # Module: "packages/api-derive/src/staking/validatorsFrom"
 
@@ -16,7 +16,7 @@
 
 ▸ **validatorsFrom**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/validatorsFrom.ts:17](https://github.com/polkadot-js/api/blob/d20228788/packages/api-derive/src/staking/validatorsFrom.ts#L17)*
+*Defined in [packages/api-derive/src/staking/validatorsFrom.ts:17](https://github.com/polkadot-js/api/blob/95c4f03bc/packages/api-derive/src/staking/validatorsFrom.ts#L17)*
 
 **`description`** From a list of stashIds, staking ledgers for those acting as validators and those being nominated
 

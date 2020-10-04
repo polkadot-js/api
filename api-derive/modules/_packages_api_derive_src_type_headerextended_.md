@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/api-derive/src/type/HeaderExtended"
+> [Globals](../globals.md) / "packages/api-derive/src/type/HeaderExtended"
 
 # Module: "packages/api-derive/src/type/HeaderExtended"
 

@@ -1,6 +1,6 @@
-**Polkadot JS API**
+**[Polkadot JS API](../README.md)**
 
-> [README](../README.md) / [Globals](../globals.md) / "packages/types/src/codec/BTreeSet"
+> [Globals](../globals.md) / "packages/types/src/codec/BTreeSet"
 
 # Module: "packages/types/src/codec/BTreeSet"
 
