@@ -10,7 +10,7 @@ import { isU8a } from '@polkadot/util';
 
 import Struct from '../../codec/Struct';
 
-export const TRANSACTION_VERSION = 4;
+export const EXTRINSIC_VERSION = 4;
 
 export interface ExtrinsicValueV4 {
   method?: Call;
@@ -76,7 +76,7 @@ export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
    * @description The version for the signature
    */
   public get version (): number {
-    return TRANSACTION_VERSION;
+    return EXTRINSIC_VERSION;
   }
 
   /**
