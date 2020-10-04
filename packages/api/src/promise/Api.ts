@@ -63,15 +63,28 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
     // single result tracker - either reject with Error or resolve with Codec result
     const tracker = promiseTracker(resolve, reject);
 
-    // errors reject immediately, any result unsubscribes and resolves
-    const subscription: Subscription = method(...actualArgs).pipe(
-      catchError((error) => tracker.reject(error))
-    ).subscribe((result): void => {
-      tracker.resolve(result);
+    // schedule an unsubscription
+    const immediateUnsub = (subscription: Subscription): void => {
       typeof setImmediate === 'undefined'
         ? setTimeout(() => subscription.unsubscribe(), 0)
         : setImmediate(() => subscription.unsubscribe());
-    });
+    };
+
+    // encoding errors reject immediately, any result unsubscribes and resolves
+    const subscription: Subscription = method(...actualArgs).pipe(
+      catchError((error) => tracker.reject(error))
+    ).subscribe(
+      // resolve with the result
+      (result): void => {
+        tracker.resolve(result);
+        immediateUnsub(subscription);
+      },
+      // ensure that all processing errors result in a rejection
+      (error): void => {
+        tracker.reject(error);
+        immediateUnsub(subscription);
+      }
+    );
   });
 }
 
@@ -85,13 +98,19 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
     const subscription: Subscription = method(...actualArgs).pipe(
       catchError((error) => tracker.reject(error)),
       tap(() => tracker.resolve(() => subscription.unsubscribe()))
-    ).subscribe((result): void => {
-      // We use setImmediate here to ensure that the Promise above (tracker) has resolved, before returning
-      // the first result. By putting is back in the queue, the promise above is guarded for first execution
-      typeof setImmediate === 'undefined'
-        ? setTimeout(() => resultCb(result) as void, 0)
-        : setImmediate(() => resultCb(result) as void);
-    });
+    ).subscribe(
+      (result): void => {
+        // We use setImmediate here to ensure that the Promise above (tracker) has resolved, before returning
+        // the first result. By putting is back in the queue, the promise above is guarded for first execution
+        typeof setImmediate === 'undefined'
+          ? setTimeout(() => resultCb(result) as void, 0)
+          : setImmediate(() => resultCb(result) as void);
+      },
+      // for subscriptions (as of now), don't bubble
+      (): void => {
+        // noop
+      }
+    );
   });
 }
 
