@@ -24,7 +24,7 @@
 
 •  **address**: string
 
-*Defined in [packages/types/src/types/extrinsic.ts:104](https://github.com/polkadot-js/api/blob/f778bf32e/packages/types/src/types/extrinsic.ts#L104)*
+*Defined in [packages/types/src/types/extrinsic.ts:104](https://github.com/polkadot-js/api/blob/d3703c072/packages/types/src/types/extrinsic.ts#L104)*
 
 **`description`** The ss-58 encoded address
 
@@ -36,7 +36,7 @@ ___
 
 *Inherited from [SignerPayloadRawBase](_packages_types_src_types_extrinsic_.signerpayloadrawbase.md).[data](_packages_types_src_types_extrinsic_.signerpayloadrawbase.md#data)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:92](https://github.com/polkadot-js/api/blob/f778bf32e/packages/types/src/types/extrinsic.ts#L92)*
+*Defined in [packages/types/src/types/extrinsic.ts:92](https://github.com/polkadot-js/api/blob/d3703c072/packages/types/src/types/extrinsic.ts#L92)*
 
 **`description`** The hex-encoded data for this request
 
@@ -48,6 +48,6 @@ ___
 
 *Overrides [SignerPayloadRawBase](_packages_types_src_types_extrinsic_.signerpayloadrawbase.md).[type](_packages_types_src_types_extrinsic_.signerpayloadrawbase.md#type)*
 
-*Defined in [packages/types/src/types/extrinsic.ts:109](https://github.com/polkadot-js/api/blob/f778bf32e/packages/types/src/types/extrinsic.ts#L109)*
+*Defined in [packages/types/src/types/extrinsic.ts:109](https://github.com/polkadot-js/api/blob/d3703c072/packages/types/src/types/extrinsic.ts#L109)*
 
 **`description`** The type of the contained data

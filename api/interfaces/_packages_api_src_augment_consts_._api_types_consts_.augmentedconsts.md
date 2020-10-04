@@ -43,7 +43,7 @@ Name |
 
 •  **babe**: { [key:string]: Codec; epochDuration: u64 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; expectedBlockTime: Moment & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:15](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L15)*
+*Defined in [packages/api/src/augment/consts.ts:15](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L15)*
 
 #### Type declaration:
 
@@ -58,7 +58,7 @@ ___
 
 •  **balances**: { [key:string]: Codec; existentialDeposit: Balance & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:31](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L31)*
+*Defined in [packages/api/src/augment/consts.ts:31](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L31)*
 
 #### Type declaration:
 
@@ -72,7 +72,7 @@ ___
 
 •  **contracts**: { [key:string]: Codec; maxDepth: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxValueSize: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; rentByteFee: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; rentDepositOffset: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; signedClaimHandicap: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; storageSizeOffset: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; surchargeReward: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; tombstoneDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:38](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L38)*
+*Defined in [packages/api/src/augment/consts.ts:38](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L38)*
 
 #### Type declaration:
 
@@ -93,7 +93,7 @@ ___
 
 •  **democracy**: { [key:string]: Codec; cooloffPeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; enactmentPeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; fastTrackVotingPeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; launchPeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxVotes: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; minimumDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; preimageByteDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; votingPeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:89](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L89)*
+*Defined in [packages/api/src/augment/consts.ts:89](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L89)*
 
 #### Type declaration:
 
@@ -114,7 +114,7 @@ ___
 
 •  **elections**: { [key:string]: Codec; candidacyBond: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; desiredMembers: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; desiredRunnersUp: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; moduleId: LockIdentifier & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; termDuration: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; votingBond: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:128](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L128)*
+*Defined in [packages/api/src/augment/consts.ts:128](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L128)*
 
 #### Type declaration:
 
@@ -133,7 +133,7 @@ ___
 
 •  **finalityTracker**: { [key:string]: Codec; reportLatency: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; windowSize: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:137](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L137)*
+*Defined in [packages/api/src/augment/consts.ts:137](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L137)*
 
 #### Type declaration:
 
@@ -148,7 +148,7 @@ ___
 
 •  **identity**: { [key:string]: Codec; basicDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; fieldDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxAdditionalFields: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxRegistrars: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxSubAccounts: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; subAccountDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:148](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L148)*
+*Defined in [packages/api/src/augment/consts.ts:148](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L148)*
 
 #### Type declaration:
 
@@ -167,7 +167,7 @@ ___
 
 •  **indices**: { [key:string]: Codec; deposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:179](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L179)*
+*Defined in [packages/api/src/augment/consts.ts:179](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L179)*
 
 #### Type declaration:
 
@@ -181,7 +181,7 @@ ___
 
 •  **multisig**: { [key:string]: Codec; depositBase: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; depositFactor: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxSignatories: u16 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:186](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L186)*
+*Defined in [packages/api/src/augment/consts.ts:186](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L186)*
 
 #### Type declaration:
 
@@ -197,7 +197,7 @@ ___
 
 •  **proxy**: { [key:string]: Codec; announcementDepositBase: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; announcementDepositFactor: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxPending: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxProxies: u16 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; proxyDepositBase: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; proxyDepositFactor: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:202](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L202)*
+*Defined in [packages/api/src/augment/consts.ts:202](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L202)*
 
 #### Type declaration:
 
@@ -216,7 +216,7 @@ ___
 
 •  **recovery**: { [key:string]: Codec; configDepositBase: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; friendDepositFactor: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxFriends: u16 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; recoveryDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:229](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L229)*
+*Defined in [packages/api/src/augment/consts.ts:229](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L229)*
 
 #### Type declaration:
 
@@ -233,7 +233,7 @@ ___
 
 •  **society**: { [key:string]: Codec; candidateDeposit: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; challengePeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxStrikes: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; moduleId: ModuleId & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; periodSpend: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; rotationPeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; wrongSideDeduction: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:248](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L248)*
+*Defined in [packages/api/src/augment/consts.ts:248](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L248)*
 
 #### Type declaration:
 
@@ -253,7 +253,7 @@ ___
 
 •  **staking**: { [key:string]: Codec; bondingDuration: EraIndex & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; electionLookahead: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxIterations: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maxNominatorRewardedPerValidator: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; minSolutionScoreBump: Perbill & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; sessionsPerEra: SessionIndex & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; slashDeferDuration: EraIndex & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:281](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L281)*
+*Defined in [packages/api/src/augment/consts.ts:281](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L281)*
 
 #### Type declaration:
 
@@ -273,7 +273,7 @@ ___
 
 •  **system**: { [key:string]: Codec; blockExecutionWeight: Weight & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; blockHashCount: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; dbWeight: RuntimeDbWeight & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; extrinsicBaseWeight: Weight & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maximumBlockLength: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maximumBlockWeight: Weight & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:327](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L327)*
+*Defined in [packages/api/src/augment/consts.ts:327](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L327)*
 
 #### Type declaration:
 
@@ -292,7 +292,7 @@ ___
 
 •  **timestamp**: { [key:string]: Codec; minimumPeriod: Moment & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:354](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L354)*
+*Defined in [packages/api/src/augment/consts.ts:354](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L354)*
 
 #### Type declaration:
 
@@ -306,7 +306,7 @@ ___
 
 •  **transactionPayment**: { [key:string]: Codec; transactionByteFee: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; weightToFee: Vec\<WeightToFeeCoefficient> & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:364](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L364)*
+*Defined in [packages/api/src/augment/consts.ts:364](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L364)*
 
 #### Type declaration:
 
@@ -321,7 +321,7 @@ ___
 
 •  **treasury**: { [key:string]: Codec; bountyCuratorDeposit: Permill & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; bountyDepositBase: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; bountyDepositPayoutDelay: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; bountyValueMinimum: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; burn: Permill & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; dataDepositPerByte: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; maximumReasonLength: u32 & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; moduleId: ModuleId & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; proposalBond: Permill & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; proposalBondMinimum: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; spendPeriod: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; tipCountdown: BlockNumber & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; tipFindersFee: Percent & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType> ; tipReportDepositBase: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:375](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L375)*
+*Defined in [packages/api/src/augment/consts.ts:375](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L375)*
 
 #### Type declaration:
 
@@ -348,7 +348,7 @@ ___
 
 •  **vesting**: { [key:string]: Codec; minVestedTransfer: BalanceOf & [AugmentedConst](_packages_api_src_types_consts_.augmentedconst.md)\<ApiType>  }
 
-*Defined in [packages/api/src/augment/consts.ts:432](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api/src/augment/consts.ts#L432)*
+*Defined in [packages/api/src/augment/consts.ts:432](https://github.com/polkadot-js/api/blob/d3703c072/packages/api/src/augment/consts.ts#L432)*
 
 #### Type declaration:
 

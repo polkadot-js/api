@@ -16,7 +16,7 @@
 
 ▸ **validatorsFrom**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/validatorsFrom.ts:17](https://github.com/polkadot-js/api/blob/f778bf32e/packages/api-derive/src/staking/validatorsFrom.ts#L17)*
+*Defined in [packages/api-derive/src/staking/validatorsFrom.ts:17](https://github.com/polkadot-js/api/blob/d3703c072/packages/api-derive/src/staking/validatorsFrom.ts#L17)*
 
 **`description`** From a list of stashIds, staking ledgers for those acting as validators and those being nominated
 
