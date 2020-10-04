@@ -32,7 +32,7 @@ const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicV4'
 ];
 
-export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
+export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   /**
