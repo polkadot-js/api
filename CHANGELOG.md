@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.1.2-x
+
+Changes:
+
+- Allow `null` input on `Text` values
+
 ## 2.1.1 Oct 5, 2020
 
 Upgrade priority: Low.
