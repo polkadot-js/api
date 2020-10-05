@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 2.1.1 Oct 5, 2020
+
+Upgrade priority: Low.
+
+Contributed:
+
+- Remove unused documentation link (Thanks to https://github.com/roccomuso)
+
+Changes:
+
+- Adjust RPC error formatting with string cleanups and a larger allowed range
+- Apply limit protection on `Text` & `Bytes`, protecting against OOM on erroneous decoding
+- Add `derive.staking.validatorsFrom` to determine validators nominated and own validators
+- Cleanup document generation without (currently unused) summary links
+- Rename static TRANSACTION_VERSION to EXTRINSIC_VERSION (Substrate alignment)
+- Bump Substrate metadata (tests, doc generation)
+
+
 ## 2.0.1 Sep 28, 2020
 
 Upgrade priority: Medium. Required for all teams building on Substrate 2.0 for full compatibility.
