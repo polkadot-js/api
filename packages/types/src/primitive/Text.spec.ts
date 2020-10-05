@@ -10,7 +10,7 @@ describe('Text', (): void => {
   const registry = new TypeRegistry();
 
   it('can be created from null', (): void => {
-    expect(new Text(registry, null)).toEqual('');
+    expect(new Text(registry, null).toString()).toEqual('');
   });
 
   describe('decode', (): void => {
