@@ -26,4 +26,4 @@ Name | Type |
 
 •  **meta**: ModuleConstantMetadataLatest
 
-*Defined in [packages/api/src/types/consts.ts:17](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/types/consts.ts#L17)*
+*Defined in [packages/api/src/types/consts.ts:17](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/types/consts.ts#L17)*

@@ -61,7 +61,7 @@ Name | Type |
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[authorship](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#authorship)*
 
-*Defined in [packages/api/src/augment/query.ts:35](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L35)*
+*Defined in [packages/api/src/augment/query.ts:35](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L35)*
 
 #### Type declaration:
 
@@ -79,7 +79,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[babe](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#babe)*
 
-*Defined in [packages/api/src/augment/query.ts:50](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L50)*
+*Defined in [packages/api/src/augment/query.ts:50](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L50)*
 
 #### Type declaration:
 
@@ -105,7 +105,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[balances](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#balances)*
 
-*Defined in [packages/api/src/augment/query.ts:120](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L120)*
+*Defined in [packages/api/src/augment/query.ts:120](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L120)*
 
 #### Type declaration:
 
@@ -124,7 +124,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[contracts](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#contracts)*
 
-*Defined in [packages/api/src/augment/query.ts:144](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L144)*
+*Defined in [packages/api/src/augment/query.ts:144](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L144)*
 
 #### Type declaration:
 
@@ -144,7 +144,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[council](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#council)*
 
-*Defined in [packages/api/src/augment/query.ts:169](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L169)*
+*Defined in [packages/api/src/augment/query.ts:169](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L169)*
 
 #### Type declaration:
 
@@ -165,7 +165,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[democracy](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#democracy)*
 
-*Defined in [packages/api/src/augment/query.ts:196](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L196)*
+*Defined in [packages/api/src/augment/query.ts:196](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L196)*
 
 #### Type declaration:
 
@@ -194,7 +194,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[elections](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#elections)*
 
-*Defined in [packages/api/src/augment/query.ts:274](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L274)*
+*Defined in [packages/api/src/augment/query.ts:274](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L274)*
 
 #### Type declaration:
 
@@ -214,7 +214,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[grandpa](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#grandpa)*
 
-*Defined in [packages/api/src/augment/query.ts:300](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L300)*
+*Defined in [packages/api/src/augment/query.ts:300](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L300)*
 
 #### Type declaration:
 
@@ -235,7 +235,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[identity](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#identity)*
 
-*Defined in [packages/api/src/augment/query.ts:331](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L331)*
+*Defined in [packages/api/src/augment/query.ts:331](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L331)*
 
 #### Type declaration:
 
@@ -254,7 +254,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[imOnline](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#imonline)*
 
-*Defined in [packages/api/src/augment/query.ts:360](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L360)*
+*Defined in [packages/api/src/augment/query.ts:360](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L360)*
 
 #### Type declaration:
 
@@ -273,7 +273,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[indices](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#indices)*
 
-*Defined in [packages/api/src/augment/query.ts:386](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L386)*
+*Defined in [packages/api/src/augment/query.ts:386](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L386)*
 
 #### Type declaration:
 
@@ -289,7 +289,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[multisig](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#multisig)*
 
-*Defined in [packages/api/src/augment/query.ts:393](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L393)*
+*Defined in [packages/api/src/augment/query.ts:393](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L393)*
 
 #### Type declaration:
 
@@ -306,7 +306,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[offences](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#offences)*
 
-*Defined in [packages/api/src/augment/query.ts:401](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L401)*
+*Defined in [packages/api/src/augment/query.ts:401](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L401)*
 
 #### Type declaration:
 
@@ -325,7 +325,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[proxy](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#proxy)*
 
-*Defined in [packages/api/src/augment/query.ts:426](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L426)*
+*Defined in [packages/api/src/augment/query.ts:426](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L426)*
 
 #### Type declaration:
 
@@ -342,7 +342,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[randomnessCollectiveFlip](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#randomnesscollectiveflip)*
 
-*Defined in [packages/api/src/augment/query.ts:438](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L438)*
+*Defined in [packages/api/src/augment/query.ts:438](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L438)*
 
 #### Type declaration:
 
@@ -358,7 +358,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[recovery](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#recovery)*
 
-*Defined in [packages/api/src/augment/query.ts:447](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L447)*
+*Defined in [packages/api/src/augment/query.ts:447](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L447)*
 
 #### Type declaration:
 
@@ -376,7 +376,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[scheduler](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#scheduler)*
 
-*Defined in [packages/api/src/augment/query.ts:467](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L467)*
+*Defined in [packages/api/src/augment/query.ts:467](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L467)*
 
 #### Type declaration:
 
@@ -394,7 +394,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[session](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#session)*
 
-*Defined in [packages/api/src/augment/query.ts:484](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L484)*
+*Defined in [packages/api/src/augment/query.ts:484](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L484)*
 
 #### Type declaration:
 
@@ -416,7 +416,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[society](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#society)*
 
-*Defined in [packages/api/src/augment/query.ts:519](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L519)*
+*Defined in [packages/api/src/augment/query.ts:519](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L519)*
 
 #### Type declaration:
 
@@ -447,7 +447,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[staking](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#staking)*
 
-*Defined in [packages/api/src/augment/query.ts:587](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L587)*
+*Defined in [packages/api/src/augment/query.ts:587](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L587)*
 
 #### Type declaration:
 
@@ -497,7 +497,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[sudo](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#sudo)*
 
-*Defined in [packages/api/src/augment/query.ts:784](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L784)*
+*Defined in [packages/api/src/augment/query.ts:784](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L784)*
 
 #### Type declaration:
 
@@ -513,7 +513,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[system](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#system)*
 
-*Defined in [packages/api/src/augment/query.ts:791](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L791)*
+*Defined in [packages/api/src/augment/query.ts:791](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L791)*
 
 #### Type declaration:
 
@@ -544,7 +544,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[technicalCommittee](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#technicalcommittee)*
 
-*Defined in [packages/api/src/augment/query.ts:867](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L867)*
+*Defined in [packages/api/src/augment/query.ts:867](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L867)*
 
 #### Type declaration:
 
@@ -565,7 +565,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[technicalMembership](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#technicalmembership)*
 
-*Defined in [packages/api/src/augment/query.ts:894](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L894)*
+*Defined in [packages/api/src/augment/query.ts:894](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L894)*
 
 #### Type declaration:
 
@@ -582,7 +582,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[timestamp](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#timestamp)*
 
-*Defined in [packages/api/src/augment/query.ts:905](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L905)*
+*Defined in [packages/api/src/augment/query.ts:905](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L905)*
 
 #### Type declaration:
 
@@ -599,7 +599,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[transactionPayment](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#transactionpayment)*
 
-*Defined in [packages/api/src/augment/query.ts:916](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L916)*
+*Defined in [packages/api/src/augment/query.ts:916](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L916)*
 
 #### Type declaration:
 
@@ -616,7 +616,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[treasury](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#treasury)*
 
-*Defined in [packages/api/src/augment/query.ts:921](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L921)*
+*Defined in [packages/api/src/augment/query.ts:921](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L921)*
 
 #### Type declaration:
 
@@ -640,7 +640,7 @@ ___
 
 *Inherited from [AugmentedQueries](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md).[vesting](_packages_api_src_augment_query_._api_types_storage_.augmentedqueries.md#vesting)*
 
-*Defined in [packages/api/src/augment/query.ts:963](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/query.ts#L963)*
+*Defined in [packages/api/src/augment/query.ts:963](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/query.ts#L963)*
 
 #### Type declaration:
 

@@ -20,7 +20,7 @@ Name | Type |
 
 ▸ (`extrinsic`: Call \| Extrinsic \| Uint8Array \| string): SubmittableExtrinsic\<ApiType>
 
-*Defined in [packages/api/src/augment/tx.ts:3443](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L3443)*
+*Defined in [packages/api/src/augment/tx.ts:3445](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L3445)*
 
 #### Parameters:
 
@@ -74,7 +74,7 @@ Name | Type |
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[authorship](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#authorship)*
 
-*Defined in [packages/api/src/augment/tx.ts:30](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L30)*
+*Defined in [packages/api/src/augment/tx.ts:30](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L30)*
 
 #### Type declaration:
 
@@ -90,7 +90,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[babe](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#babe)*
 
-*Defined in [packages/api/src/augment/tx.ts:37](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L37)*
+*Defined in [packages/api/src/augment/tx.ts:37](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L37)*
 
 #### Type declaration:
 
@@ -107,7 +107,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[balances](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#balances)*
 
-*Defined in [packages/api/src/augment/tx.ts:58](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L58)*
+*Defined in [packages/api/src/augment/tx.ts:58](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L58)*
 
 #### Type declaration:
 
@@ -126,7 +126,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[contracts](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#contracts)*
 
-*Defined in [packages/api/src/augment/tx.ts:135](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L135)*
+*Defined in [packages/api/src/augment/tx.ts:135](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L135)*
 
 #### Type declaration:
 
@@ -146,7 +146,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[council](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#council)*
 
-*Defined in [packages/api/src/augment/tx.ts:180](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L180)*
+*Defined in [packages/api/src/augment/tx.ts:180](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L180)*
 
 #### Type declaration:
 
@@ -167,7 +167,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[democracy](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#democracy)*
 
-*Defined in [packages/api/src/augment/tx.ts:314](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L314)*
+*Defined in [packages/api/src/augment/tx.ts:314](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L314)*
 
 #### Type declaration:
 
@@ -207,7 +207,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[elections](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#elections)*
 
-*Defined in [packages/api/src/augment/tx.ts:647](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L647)*
+*Defined in [packages/api/src/augment/tx.ts:647](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L647)*
 
 #### Type declaration:
 
@@ -228,7 +228,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[finalityTracker](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#finalitytracker)*
 
-*Defined in [packages/api/src/augment/tx.ts:808](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L808)*
+*Defined in [packages/api/src/augment/tx.ts:808](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L808)*
 
 #### Type declaration:
 
@@ -244,7 +244,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[grandpa](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#grandpa)*
 
-*Defined in [packages/api/src/augment/tx.ts:816](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L816)*
+*Defined in [packages/api/src/augment/tx.ts:816](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L816)*
 
 #### Type declaration:
 
@@ -262,7 +262,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[identity](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#identity)*
 
-*Defined in [packages/api/src/augment/tx.ts:848](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L848)*
+*Defined in [packages/api/src/augment/tx.ts:848](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L848)*
 
 #### Type declaration:
 
@@ -292,7 +292,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[imOnline](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#imonline)*
 
-*Defined in [packages/api/src/augment/tx.ts:1112](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1112)*
+*Defined in [packages/api/src/augment/tx.ts:1112](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1112)*
 
 #### Type declaration:
 
@@ -308,7 +308,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[indices](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#indices)*
 
-*Defined in [packages/api/src/augment/tx.ts:1127](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1127)*
+*Defined in [packages/api/src/augment/tx.ts:1127](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1127)*
 
 #### Type declaration:
 
@@ -328,7 +328,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[multisig](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#multisig)*
 
-*Defined in [packages/api/src/augment/tx.ts:1239](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1239)*
+*Defined in [packages/api/src/augment/tx.ts:1239](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1239)*
 
 #### Type declaration:
 
@@ -347,13 +347,13 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[proxy](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#proxy)*
 
-*Defined in [packages/api/src/augment/tx.ts:1378](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1378)*
+*Defined in [packages/api/src/augment/tx.ts:1378](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1378)*
 
 #### Type declaration:
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`addProxy` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(delegate: AccountId \| string \| Uint8Array,proxyType: ProxyType \| \"Any\" \| \"NonTransfer\" \| \"Governance\" \| \"Staking\" \| number \| Uint8Array,delay: BlockNumber \| AnyNumber \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Register a proxy account for the sender that is able to make calls on its behalf.  The dispatch origin for this call must be _Signed_.  Parameters: - `proxy`: The account that the `caller` would like to make a proxy. - `proxy_type`: The permissions allowed for this proxy account.  # <weight> Weight is a function of the number of proxies the user has (P). # </weight>  |
+`addProxy` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(delegate: AccountId \| string \| Uint8Array,proxyType: ProxyType \| \"Any\" \| \"NonTransfer\" \| \"Governance\" \| \"Staking\" \| number \| Uint8Array,delay: BlockNumber \| AnyNumber \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Register a proxy account for the sender that is able to make calls on its behalf.  The dispatch origin for this call must be _Signed_.  Parameters: - `proxy`: The account that the `caller` would like to make a proxy. - `proxy_type`: The permissions allowed for this proxy account. - `delay`: The announcement period required of the initial proxy. Will generally be zero.  # <weight> Weight is a function of the number of proxies the user has (P). # </weight>  |
 `announce` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(real: AccountId \| string \| Uint8Array,callHash: CallHashOf \| string \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Publish the hash of a proxy-call that will be made in the future.  This must be called some number of blocks before the corresponding `proxy` is attempted if the delay associated with the proxy relationship is greater than zero.  No more than `MaxPending` announcements may be made at any one time.  This will take a deposit of `AnnouncementDepositFactor` as well as `AnnouncementDepositBase` if there are no other pending announcements.  The dispatch origin for this call must be _Signed_ and a proxy of `real`.  Parameters: - `real`: The account that the proxy will make a call on behalf of. - `call_hash`: The hash of the call to be made by the `real` account.  # <weight> Weight is a function of: - A: the number of announcements made. - P: the number of proxies the user has. # </weight>  |
 `anonymous` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(proxyType: ProxyType \| \"Any\" \| \"NonTransfer\" \| \"Governance\" \| \"Staking\" \| number \| Uint8Array,delay: BlockNumber \| AnyNumber \| Uint8Array,index: u16 \| AnyNumber \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Spawn a fresh new account that is guaranteed to be otherwise inaccessible, and initialize it with a proxy of `proxy_type` for `origin` sender.  Requires a `Signed` origin.  - `proxy_type`: The type of the proxy that the sender will be registered as over the new account. This will almost always be the most permissive `ProxyType` possible to allow for maximum flexibility. - `index`: A disambiguation index, in case this is called multiple times in the same transaction (e.g. with `utility::batch`). Unless you're using `batch` you probably just want to use `0`. - `delay`: The announcement period required of the initial proxy. Will generally be zero.  Fails with `Duplicate` if this has already been called in this transaction, from the same sender, with the same parameters.  Fails if there are insufficient funds to pay for deposit.  # <weight> Weight is a function of the number of proxies the user has (P). # </weight> TODO: Might be over counting 1 read  |
 `killAnonymous` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(spawner: AccountId \| string \| Uint8Array,proxyType: ProxyType \| \"Any\" \| \"NonTransfer\" \| \"Governance\" \| \"Staking\" \| number \| Uint8Array,index: u16 \| AnyNumber \| Uint8Array,height: Compact\<BlockNumber> \| AnyNumber \| Uint8Array,extIndex: Compact\<u32> \| AnyNumber \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Removes a previously spawned anonymous proxy.  WARNING: **All access to this account will be lost.** Any funds held in it will be inaccessible.  Requires a `Signed` origin, and the sender account must have been created by a call to `anonymous` with corresponding parameters.  - `spawner`: The account that originally called `anonymous` to create this account. - `index`: The disambiguation index originally passed to `anonymous`. Probably `0`. - `proxy_type`: The proxy type originally passed to `anonymous`. - `height`: The height of the chain when the call to `anonymous` was processed. - `ext_index`: The extrinsic index in which the call to `anonymous` was processed.  Fails with `NoPermission` in case the caller is not a previously created anonymous account whose `anonymous` call has corresponding parameters.  # <weight> Weight is a function of the number of proxies the user has (P). # </weight>  |
@@ -372,7 +372,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[recovery](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#recovery)*
 
-*Defined in [packages/api/src/augment/tx.ts:1571](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1571)*
+*Defined in [packages/api/src/augment/tx.ts:1573](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1573)*
 
 #### Type declaration:
 
@@ -396,7 +396,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[scheduler](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#scheduler)*
 
-*Defined in [packages/api/src/augment/tx.ts:1773](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1773)*
+*Defined in [packages/api/src/augment/tx.ts:1775](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1775)*
 
 #### Type declaration:
 
@@ -417,7 +417,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[session](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#session)*
 
-*Defined in [packages/api/src/augment/tx.ts:1844](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1844)*
+*Defined in [packages/api/src/augment/tx.ts:1846](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1846)*
 
 #### Type declaration:
 
@@ -434,7 +434,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[society](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#society)*
 
-*Defined in [packages/api/src/augment/tx.ts:1879](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L1879)*
+*Defined in [packages/api/src/augment/tx.ts:1881](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L1881)*
 
 #### Type declaration:
 
@@ -461,7 +461,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[staking](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#staking)*
 
-*Defined in [packages/api/src/augment/tx.ts:2199](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L2199)*
+*Defined in [packages/api/src/augment/tx.ts:2201](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L2201)*
 
 #### Type declaration:
 
@@ -487,7 +487,7 @@ Name | Type | Description |
 `setPayee` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(payee: RewardDestination \| { Staked: any  } \| { Stash: any  } \| { Controller: any  } \| { Account: any  } \| string \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | (Re-)set the payment target for a controller.  Effects will be felt at the beginning of the next era.  The dispatch origin for this call must be _Signed_ by the controller, not the stash.  # <weight> - Independent of the arguments. Insignificant complexity. - Contains a limited number of reads. - Writes are limited to the `origin` account key. --------- - Weight: O(1) - DB Weight: - Read: Ledger - Write: Payee # </weight>  |
 `setValidatorCount` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(updated: Compact\<u32> \| AnyNumber \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Sets the ideal number of validators.  The dispatch origin must be Root.  # <weight> Weight: O(1) Write: Validator Count # </weight>  |
 `submitElectionSolution` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(winners: Vec\<ValidatorIndex> \| (ValidatorIndex \| AnyNumber \| Uint8Array)[],compact: CompactAssignments \| { votes1?: any ; votes10?: any ; votes11?: any ; votes12?: any ; votes13?: any ; votes14?: any ; votes15?: any ; votes16?: any ; votes2?: any ; votes3?: any ; votes4?: any ; votes5?: any ; votes6?: any ; votes7?: any ; votes8?: any ; votes9?: any  } \| string \| Uint8Array,score: ElectionScore,era: EraIndex \| AnyNumber \| Uint8Array,size: ElectionSize \| { nominators?: any ; validators?: any  } \| string \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Submit an election result to the chain. If the solution:  1. is valid. 2. has a better score than a potentially existing solution on chain.  then, it will be _put_ on chain.  A solution consists of two pieces of data:  1. `winners`: a flat vector of all the winners of the round. 2. `assignments`: the compact version of an assignment vector that encodes the edge weights.  Both of which may be computed using _phragmen_, or any other algorithm.  Additionally, the submitter must provide:  - The `score` that they claim their solution has.  Both validators and nominators will be represented by indices in the solution. The indices should respect the corresponding types ([`ValidatorIndex`] and [`NominatorIndex`]). Moreover, they should be valid when used to index into [`SnapshotValidators`] and [`SnapshotNominators`]. Any invalid index will cause the solution to be rejected. These two storage items are set during the election window and may be used to determine the indices.  A solution is valid if:  0. It is submitted when [`EraElectionStatus`] is `Open`. 1. Its claimed score is equal to the score computed on-chain. 2. Presents the correct number of winners. 3. All indexes must be value according to the snapshot vectors. All edge values must also be correct and should not overflow the granularity of the ratio type (i.e. 256 or billion). 4. For each edge, all targets are actually nominated by the voter. 5. Has correct self-votes.  A solutions score is consisted of 3 parameters:  1. `min { support.total }` for each support of a winner. This value should be maximized. 2. `sum { support.total }` for each support of a winner. This value should be minimized. 3. `sum { support.total^2 }` for each support of a winner. This value should be minimized (to ensure less variance)  # <weight> The transaction is assumed to be the longest path, a better solution. - Initial solution is almost the same. - Worse solution is retraced in pre-dispatch-checks which sets its own weight. # </weight>  |
-`submitElectionSolutionUnsigned` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(winners: Vec\<ValidatorIndex> \| (ValidatorIndex \| AnyNumber \| Uint8Array)[],compact: CompactAssignments \| { votes1?: any ; votes10?: any ; votes11?: any ; votes12?: any ; votes13?: any ; votes14?: any ; votes15?: any ; votes16?: any ; votes2?: any ; votes3?: any ; votes4?: any ; votes5?: any ; votes6?: any ; votes7?: any ; votes8?: any ; votes9?: any  } \| string \| Uint8Array,score: ElectionScore,era: EraIndex \| AnyNumber \| Uint8Array,size: ElectionSize \| { nominators?: any ; validators?: any  } \| string \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Unsigned version of `submit_election_solution`.  Note that this must pass the [`ValidateUnsigned`] check which only allows transactions from the local node to be included. In other words, only the block author can include a transaction in the block.  # <weight> See `crate::weight` module. # </weight>  |
+`submitElectionSolutionUnsigned` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(winners: Vec\<ValidatorIndex> \| (ValidatorIndex \| AnyNumber \| Uint8Array)[],compact: CompactAssignments \| { votes1?: any ; votes10?: any ; votes11?: any ; votes12?: any ; votes13?: any ; votes14?: any ; votes15?: any ; votes16?: any ; votes2?: any ; votes3?: any ; votes4?: any ; votes5?: any ; votes6?: any ; votes7?: any ; votes8?: any ; votes9?: any  } \| string \| Uint8Array,score: ElectionScore,era: EraIndex \| AnyNumber \| Uint8Array,size: ElectionSize \| { nominators?: any ; validators?: any  } \| string \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Unsigned version of `submit_election_solution`.  Note that this must pass the [`ValidateUnsigned`] check which only allows transactions from the local node to be included. In other words, only the block author can include a transaction in the block.  # <weight> See [`submit_election_solution`]. # </weight>  |
 `unbond` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(value: Compact\<BalanceOf> \| AnyNumber \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Schedule a portion of the stash to be unlocked ready for transfer out after the bond period ends. If this leaves an amount actively bonded less than T::Currency::minimum_balance(), then it is increased to the full amount.  Once the unlock period is done, you can call `withdraw_unbonded` to actually move the funds out of management ready for transfer.  No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`) can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need to be called first to remove some of the chunks (if possible).  The dispatch origin for this call must be _Signed_ by the controller, not the stash. And, it can be only called when [`EraElectionStatus`] is `Closed`.  Emits `Unbonded`.  See also [`Call::withdraw_unbonded`].  # <weight> - Independent of the arguments. Limited but potentially exploitable complexity. - Contains a limited number of reads. - Each call (requires the remainder of the bonded balance to be above `minimum_balance`) will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage. The only way to clean the aforementioned storage item is also user-controlled via `withdraw_unbonded`. - One DB entry. ---------- Weight: O(1) DB Weight: - Read: EraElectionStatus, Ledger, CurrentEra, Locks, BalanceOf Stash, - Write: Locks, Ledger, BalanceOf Stash, </weight>  |
 `validate` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(prefs: ValidatorPrefs \| { commission?: any  } \| string \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Declare the desire to validate for the origin controller.  Effects will be felt at the beginning of the next era.  The dispatch origin for this call must be _Signed_ by the controller, not the stash. And, it can be only called when [`EraElectionStatus`] is `Closed`.  # <weight> - Independent of the arguments. Insignificant complexity. - Contains a limited number of reads. - Writes are limited to the `origin` account key. ----------- Weight: O(1) DB Weight: - Read: Era Election Status, Ledger - Write: Nominators, Validators # </weight>  |
 `withdrawUnbonded` | [AugmentedSubmittable](../modules/_packages_api_src_types_submittable_.md#augmentedsubmittable)\<(numSlashingSpans: u32 \| AnyNumber \| Uint8Array) => SubmittableExtrinsic\<ApiType>> | Remove any unlocked chunks from the `unlocking` queue from our management.  This essentially frees up that balance to be used by the stash account to do whatever it wants.  The dispatch origin for this call must be _Signed_ by the controller, not the stash. And, it can be only called when [`EraElectionStatus`] is `Closed`.  Emits `Withdrawn`.  See also [`Call::unbond`].  # <weight> - Could be dependent on the `origin` argument and how much `unlocking` chunks exist. It implies `consolidate_unlocked` which loops over `Ledger.unlocking`, which is indirectly user-controlled. See [`unbond`] for more detail. - Contains a limited number of reads, yet the size of which could be large based on `ledger`. - Writes are limited to the `origin` account key. --------------- Complexity O(S) where S is the number of slashing spans to remove Update: - Reads: EraElectionStatus, Ledger, Current Era, Locks, [Origin Account] - Writes: [Origin Account], Locks, Ledger Kill: - Reads: EraElectionStatus, Ledger, Current Era, Bonded, Slashing Spans, [Origin Account], Locks, BalanceOf stash - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, [Origin Account], Locks, BalanceOf stash. - Writes Each: SpanSlash * S NOTE: Weight annotation is the kill scenario, we refund otherwise. # </weight>  |
@@ -500,7 +500,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[sudo](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#sudo)*
 
-*Defined in [packages/api/src/augment/tx.ts:2681](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L2681)*
+*Defined in [packages/api/src/augment/tx.ts:2683](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L2683)*
 
 #### Type declaration:
 
@@ -519,7 +519,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[system](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#system)*
 
-*Defined in [packages/api/src/augment/tx.ts:2736](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L2736)*
+*Defined in [packages/api/src/augment/tx.ts:2738](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L2738)*
 
 #### Type declaration:
 
@@ -544,7 +544,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[technicalCommittee](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#technicalcommittee)*
 
-*Defined in [packages/api/src/augment/tx.ts:2850](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L2850)*
+*Defined in [packages/api/src/augment/tx.ts:2852](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L2852)*
 
 #### Type declaration:
 
@@ -565,7 +565,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[technicalMembership](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#technicalmembership)*
 
-*Defined in [packages/api/src/augment/tx.ts:2984](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L2984)*
+*Defined in [packages/api/src/augment/tx.ts:2986](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L2986)*
 
 #### Type declaration:
 
@@ -587,7 +587,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[timestamp](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#timestamp)*
 
-*Defined in [packages/api/src/augment/tx.ts:3034](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L3034)*
+*Defined in [packages/api/src/augment/tx.ts:3036](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L3036)*
 
 #### Type declaration:
 
@@ -603,7 +603,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[treasury](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#treasury)*
 
-*Defined in [packages/api/src/augment/tx.ts:3055](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L3055)*
+*Defined in [packages/api/src/augment/tx.ts:3057](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L3057)*
 
 #### Type declaration:
 
@@ -635,7 +635,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[utility](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#utility)*
 
-*Defined in [packages/api/src/augment/tx.ts:3323](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L3323)*
+*Defined in [packages/api/src/augment/tx.ts:3325](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L3325)*
 
 #### Type declaration:
 
@@ -652,7 +652,7 @@ ___
 
 *Inherited from [AugmentedSubmittables](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md).[vesting](_packages_api_src_augment_tx_._api_types_submittable_.augmentedsubmittables.md#vesting)*
 
-*Defined in [packages/api/src/augment/tx.ts:3365](https://github.com/polkadot-js/api/blob/cc926596e/packages/api/src/augment/tx.ts#L3365)*
+*Defined in [packages/api/src/augment/tx.ts:3367](https://github.com/polkadot-js/api/blob/acb565d46/packages/api/src/augment/tx.ts#L3367)*
 
 #### Type declaration:
 

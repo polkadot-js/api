@@ -23,7 +23,7 @@
 
 •  **address**: string
 
-*Defined in [packages/types/src/types/interfaces.ts:18](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/interfaces.ts#L18)*
+*Defined in [packages/types/src/types/interfaces.ts:18](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/interfaces.ts#L18)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 •  **addressRaw**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/interfaces.ts:19](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/interfaces.ts#L19)*
+*Defined in [packages/types/src/types/interfaces.ts:19](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/interfaces.ts#L19)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 •  **publicKey**: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/interfaces.ts:20](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/interfaces.ts#L20)*
+*Defined in [packages/types/src/types/interfaces.ts:20](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/interfaces.ts#L20)*
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 •  **sign**: (data: [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array),options?: SignOptions) => [Uint8Array](../classes/_packages_types_src_codec_raw_.raw.md#uint8array)
 
-*Defined in [packages/types/src/types/interfaces.ts:21](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/interfaces.ts#L21)*
+*Defined in [packages/types/src/types/interfaces.ts:21](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/interfaces.ts#L21)*

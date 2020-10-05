@@ -27,7 +27,7 @@
 
 • `Optional` **alias**: string[]
 
-*Defined in [packages/types/src/types/definitions.ts:23](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/definitions.ts#L23)*
+*Defined in [packages/types/src/types/definitions.ts:23](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L23)*
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 •  **description**: string
 
-*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/definitions.ts#L24)*
+*Defined in [packages/types/src/types/definitions.ts:24](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L24)*
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 •  **params**: [DefinitionRpcParam](_packages_types_src_types_definitions_.definitionrpcparam.md)[]
 
-*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/definitions.ts#L25)*
+*Defined in [packages/types/src/types/definitions.ts:25](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L25)*
 
 ___
 
@@ -51,4 +51,4 @@ ___
 
 •  **type**: [DefinitionTypeType](../modules/_packages_types_src_types_definitions_.md#definitiontypetype)
 
-*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/definitions.ts#L26)*
+*Defined in [packages/types/src/types/definitions.ts:26](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L26)*

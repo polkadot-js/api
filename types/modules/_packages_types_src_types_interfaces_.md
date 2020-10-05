@@ -24,7 +24,7 @@
 
 Ƭ  **ITuple**\<Sub>: Sub & [Codec](../interfaces/_packages_types_src_types_codec_.codec.md)
 
-*Defined in [packages/types/src/types/interfaces.ts:49](https://github.com/polkadot-js/api/blob/cc926596e/packages/types/src/types/interfaces.ts#L49)*
+*Defined in [packages/types/src/types/interfaces.ts:49](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/interfaces.ts#L49)*
 
 #### Type parameters:
 
