@@ -9,6 +9,10 @@ import Text from './Text';
 describe('Text', (): void => {
   const registry = new TypeRegistry();
 
+  it('can be created from null', (): void => {
+    expect(new Text(registry, null)).toEqual('');
+  });
+
   describe('decode', (): void => {
     const testDecode = (type: string, input: string | Uint8Array | { toString: () => string }, expected: string, toFn: 'toString' | 'toHex' = 'toString'): void =>
       it(`can decode from ${type}`, (): void => {

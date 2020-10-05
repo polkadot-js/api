@@ -94,7 +94,7 @@ export default {
           type: 'Text'
         }
       ],
-      type: 'Text'
+      type: 'Null'
     },
     removeReservedPeer: {
       description: 'Remove a reserved peer',
@@ -104,7 +104,7 @@ export default {
           type: 'Text'
         }
       ],
-      type: 'Text'
+      type: 'Null'
     },
     nodeRoles: {
       description: 'Returns the roles the node is running as',

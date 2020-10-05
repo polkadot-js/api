@@ -12,7 +12,7 @@ import Raw from '../codec/Raw';
 const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
-function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
+function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): string {
   if (isHex(value)) {
     return u8aToString(hexToU8a(value.toString()));
   } else if (value instanceof Uint8Array) {
@@ -35,7 +35,7 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
     return u8aToString(value.subarray(offset, total));
   }
 
-  return value.toString();
+  return value ? value.toString() : '';
 }
 
 /**
@@ -53,7 +53,7 @@ export default class Text extends String implements Codec {
 
   #override: string | null = null;
 
-  constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
+  constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
     super(decodeText(value));
 
     this.registry = registry;
