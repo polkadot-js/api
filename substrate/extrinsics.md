@@ -1641,6 +1641,8 @@ ___
 
   - `proxy_type`: The permissions allowed for this proxy account.
 
+  - `delay`: The announcement period required of the initial proxy. Will generally bezero. 
+
   \# \<weight>
 
    Weight is a function of the number of proxies the user has (P). 
@@ -3160,7 +3162,7 @@ ___
 
   \# \<weight>
 
-   See `crate::weight` module. 
+   See [`submit_election_solution`]. 
 
   \# \</weight> 
  

@@ -20,7 +20,7 @@
 
 ▸ **calcPassing**(`threshold`: VoteThreshold, `sqrtElectorate`: BN, `__namedParameters`: { votedAye: BN ; votedNay: BN ; votedTotal: BN  }): boolean
 
-*Defined in [packages/api-derive/src/democracy/util.ts:61](https://github.com/polkadot-js/api/blob/d3703c072/packages/api-derive/src/democracy/util.ts#L61)*
+*Defined in [packages/api-derive/src/democracy/util.ts:61](https://github.com/polkadot-js/api/blob/cc926596e/packages/api-derive/src/democracy/util.ts#L61)*
 
 #### Parameters:
 
@@ -38,7 +38,7 @@ ___
 
 ▸ **calcVotes**(`sqrtElectorate`: BN, `referendum`: DeriveReferendum, `votes`: DeriveReferendumVote[]): DeriveReferendumVotes
 
-*Defined in [packages/api-derive/src/democracy/util.ts:131](https://github.com/polkadot-js/api/blob/d3703c072/packages/api-derive/src/democracy/util.ts#L131)*
+*Defined in [packages/api-derive/src/democracy/util.ts:131](https://github.com/polkadot-js/api/blob/cc926596e/packages/api-derive/src/democracy/util.ts#L131)*
 
 #### Parameters:
 
@@ -56,7 +56,7 @@ ___
 
 ▸ **compareRationals**(`n1`: BN, `d1`: BN, `n2`: BN, `d2`: BN): boolean
 
-*Defined in [packages/api-derive/src/democracy/util.ts:34](https://github.com/polkadot-js/api/blob/d3703c072/packages/api-derive/src/democracy/util.ts#L34)*
+*Defined in [packages/api-derive/src/democracy/util.ts:34](https://github.com/polkadot-js/api/blob/cc926596e/packages/api-derive/src/democracy/util.ts#L34)*
 
 #### Parameters:
 
@@ -75,7 +75,7 @@ ___
 
 ▸ **getStatus**(`info`: Option\<ReferendumInfo \| ReferendumInfoTo239>): ReferendumStatus \| ReferendumInfoTo239 \| null
 
-*Defined in [packages/api-derive/src/democracy/util.ts:143](https://github.com/polkadot-js/api/blob/d3703c072/packages/api-derive/src/democracy/util.ts#L143)*
+*Defined in [packages/api-derive/src/democracy/util.ts:143](https://github.com/polkadot-js/api/blob/cc926596e/packages/api-derive/src/democracy/util.ts#L143)*
 
 #### Parameters:
 
@@ -91,7 +91,7 @@ ___
 
 ▸ **parseImage**(`api`: ApiInterfaceRx, `imageOpt`: Option\<OldPreimage> \| Option\<PreimageStatus>): DeriveProposalImage \| undefined
 
-*Defined in [packages/api-derive/src/democracy/util.ts:172](https://github.com/polkadot-js/api/blob/d3703c072/packages/api-derive/src/democracy/util.ts#L172)*
+*Defined in [packages/api-derive/src/democracy/util.ts:172](https://github.com/polkadot-js/api/blob/cc926596e/packages/api-derive/src/democracy/util.ts#L172)*
 
 #### Parameters:
 
