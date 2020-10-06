@@ -79,10 +79,8 @@ function renderPage (page: Page): string {
     section.items.forEach((item) => {
       md += ` \n### ${item.name}`;
 
-      let tmp = '';
-
       Object.keys(item).filter((i) => i !== 'name').forEach((bullet) => {
-        tmp += `\n- **${bullet}**: ${
+        md += `\n- **${bullet}**: ${
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           item[bullet] instanceof Vec
             ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
@@ -90,7 +88,7 @@ function renderPage (page: Page): string {
         }`;
       });
 
-      md += `${tmp}\n`;
+      md += '\n';
     });
   });
 
