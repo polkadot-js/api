@@ -1,4 +1,6 @@
-## Errors
+---
+title: Errors
+---
 
 This page lists the errors that can be encountered in the different modules. 
 

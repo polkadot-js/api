@@ -76,7 +76,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/codec/UInt.ts#L18)*
+*Defined in [packages/types/src/codec/UInt.ts:18](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/codec/UInt.ts#L18)*
 
 #### Parameters:
 
@@ -95,7 +95,7 @@ Name | Type | Default value |
 
 • get **isAura**(): boolean
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:44](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L44)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:44](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L44)*
 
 **`description`** `true` if the engine matches aura
 
@@ -107,7 +107,7 @@ ___
 
 • get **isBabe**(): boolean
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:51](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L51)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:51](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L51)*
 
 **`description`** `true` is the engine matches babe
 
@@ -119,7 +119,7 @@ ___
 
 • get **isGrandpa**(): boolean
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:58](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L58)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:58](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L58)*
 
 **`description`** `true` is the engine matches grandpa
 
@@ -131,7 +131,7 @@ ___
 
 • get **isPow**(): boolean
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:65](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L65)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:65](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L65)*
 
 **`description`** `true` is the engine matches pow
 
@@ -143,7 +143,7 @@ ___
 
 ▸ **extractAuthor**(`bytes`: [Bytes](_packages_types_src_primitive_bytes_.bytes.md), `sessionValidators`: AccountId[]): AccountId \| undefined
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:93](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L93)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:93](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L93)*
 
 **`description`** From the input bytes, decode into an author
 
@@ -166,7 +166,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:112](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L112)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:112](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L112)*
 
 **`description`** Override the default toString to return a 4-byte string
 
@@ -178,7 +178,7 @@ ___
 
 ▸ `Static`**idToString**(`input`: number \| BN): string
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:27](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L27)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:27](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L27)*
 
 #### Parameters:
 
@@ -194,7 +194,7 @@ ___
 
 ▸ `Static`**stringToId**(`input`: string): number
 
-*Defined in [packages/types/src/generic/ConsensusEngineId.ts:34](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/generic/ConsensusEngineId.ts#L34)*
+*Defined in [packages/types/src/generic/ConsensusEngineId.ts:34](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/generic/ConsensusEngineId.ts#L34)*
 
 #### Parameters:
 
@@ -212,7 +212,7 @@ ___
 
 *Inherited from [UInt](_packages_types_src_codec_uint_.uint.md).[with](_packages_types_src_codec_uint_.uint.md#with)*
 
-*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [packages/types/src/codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/codec/UInt.ts#L23)*
 
 #### Parameters:
 

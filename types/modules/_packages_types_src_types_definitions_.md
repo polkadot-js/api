@@ -28,7 +28,7 @@
 
 Ƭ  **DefinitionType**: string \| [DefinitionTypeEnum](_packages_types_src_types_definitions_.md#definitiontypeenum) \| [DefinitionTypeSet](_packages_types_src_types_definitions_.md#definitiontypeset) \| [DefinitionTypeStruct](_packages_types_src_types_definitions_.md#definitiontypestruct)
 
-*Defined in [packages/types/src/types/definitions.ts:12](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L12)*
+*Defined in [packages/types/src/types/definitions.ts:12](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/definitions.ts#L12)*
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 Ƭ  **DefinitionTypeEnum**: { _enum: [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype)[]  } \| { _enum: Record\<string, [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype) \| null>  }
 
-*Defined in [packages/types/src/types/definitions.ts:6](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L6)*
+*Defined in [packages/types/src/types/definitions.ts:6](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/definitions.ts#L6)*
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 Ƭ  **DefinitionTypeSet**: { _set: Record\<string, number>  }
 
-*Defined in [packages/types/src/types/definitions.ts:8](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L8)*
+*Defined in [packages/types/src/types/definitions.ts:8](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/definitions.ts#L8)*
 
 #### Type declaration:
 
@@ -58,7 +58,7 @@ ___
 
 Ƭ  **DefinitionTypeStruct**: Record\<string, [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype)> \| { _alias?: Record\<string, [DefinitionTypeType](_packages_types_src_types_definitions_.md#definitiontypetype)>  } & Record\<string, unknown>
 
-*Defined in [packages/types/src/types/definitions.ts:10](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L10)*
+*Defined in [packages/types/src/types/definitions.ts:10](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/definitions.ts#L10)*
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 Ƭ  **DefinitionTypeType**: string
 
-*Defined in [packages/types/src/types/definitions.ts:4](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/definitions.ts#L4)*
+*Defined in [packages/types/src/types/definitions.ts:4](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/definitions.ts#L4)*

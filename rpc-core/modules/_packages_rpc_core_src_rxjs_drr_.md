@@ -16,4 +16,4 @@
 
 Ƭ  **DrrResult**: \<T>(source$: Observable\<T>) => Observable\<T>
 
-*Defined in [packages/rpc-core/src/rxjs/drr.ts:11](https://github.com/polkadot-js/api/blob/acb565d46/packages/rpc-core/src/rxjs/drr.ts#L11)*
+*Defined in [packages/rpc-core/src/rxjs/drr.ts:11](https://github.com/polkadot-js/api/blob/014fa123b/packages/rpc-core/src/rxjs/drr.ts#L11)*

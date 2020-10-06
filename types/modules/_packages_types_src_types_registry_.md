@@ -41,7 +41,7 @@
 
 Ƭ  **OverrideModuleType**: Record\<string, string>
 
-*Defined in [packages/types/src/types/registry.ts:100](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/registry.ts#L100)*
+*Defined in [packages/types/src/types/registry.ts:100](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/registry.ts#L100)*
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 Ƭ  **RegistryMetadataErrors**: [RegistryMetadataError](../interfaces/_packages_types_src_types_registry_.registrymetadataerror.md)[]
 
-*Defined in [packages/types/src/types/registry.ts:61](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/registry.ts#L61)*
+*Defined in [packages/types/src/types/registry.ts:61](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/registry.ts#L61)*
 
 ___
 
@@ -57,4 +57,4 @@ ___
 
 Ƭ  **RegistryTypes**: Record\<string, [Constructor](../interfaces/_packages_types_src_types_codec_.constructor.md) \| string \| Record\<string, string> \| { _enum: string[] \| Record\<string, string \| null>  } \| { _set: Record\<string, number>  }>
 
-*Defined in [packages/types/src/types/registry.ts:26](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/types/registry.ts#L26)*
+*Defined in [packages/types/src/types/registry.ts:26](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/types/registry.ts#L26)*

@@ -1,4 +1,6 @@
-## JSON-RPC
+---
+title: JSON-RPC
+---
 
 The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.
 

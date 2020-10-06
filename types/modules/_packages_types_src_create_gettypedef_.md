@@ -16,7 +16,7 @@
 
 ▸ **getTypeDef**(`_type`: string, `__namedParameters`: { displayName: undefined \| string ; name: undefined \| string  }, `count`: number): TypeDef
 
-*Defined in [packages/types/src/create/getTypeDef.ts:177](https://github.com/polkadot-js/api/blob/acb565d46/packages/types/src/create/getTypeDef.ts#L177)*
+*Defined in [packages/types/src/create/getTypeDef.ts:177](https://github.com/polkadot-js/api/blob/014fa123b/packages/types/src/create/getTypeDef.ts#L177)*
 
 #### Parameters:
 

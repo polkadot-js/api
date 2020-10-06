@@ -1,4 +1,6 @@
-## Constants
+---
+title: Constants
+---
 
 The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via `api.consts.<module>.<method>`. 
 

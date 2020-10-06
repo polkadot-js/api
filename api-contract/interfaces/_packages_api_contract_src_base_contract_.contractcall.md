@@ -27,7 +27,7 @@ Name | Type |
 
 ▸ **send**(`account`: IKeyringPair \| string \| AccountId \| Address): ContractCallResultSubscription\<ApiType, CallType>
 
-*Defined in [packages/api-contract/src/base/Contract.ts:26](https://github.com/polkadot-js/api/blob/acb565d46/packages/api-contract/src/base/Contract.ts#L26)*
+*Defined in [packages/api-contract/src/base/Contract.ts:26](https://github.com/polkadot-js/api/blob/014fa123b/packages/api-contract/src/base/Contract.ts#L26)*
 
 #### Parameters:
 

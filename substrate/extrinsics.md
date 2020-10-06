@@ -1,4 +1,6 @@
-## Extrinsics
+---
+title: Extrinsics
+---
 
 The following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via `api.tx.<module>.<method>`. 
 
@@ -88,13 +90,7 @@ ___
  
 ### forceTransfer(source: `LookupSource`, dest: `LookupSource`, value: `Compact<Balance>`)
 - **interface**: `api.tx.balances.forceTransfer`
-- **summary**:   Exactly as `transfer`, except the origin must be root and the source account may be specified. \# \<weight>
-
-   
-
-  - Same as transfer, but additional read and write because the source account is  not assumed to be in the overlay. 
-
-  \# \</weight> 
+- **summary**:   Exactly as `transfer`, except the origin must be root and the source account may be specified.  
  
 ### setBalance(who: `LookupSource`, new_free: `Compact<Balance>`, new_reserved: `Compact<Balance>`)
 - **interface**: `api.tx.balances.setBalance`
@@ -104,25 +100,7 @@ ___
 
   The dispatch origin for this call is `root`. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments.
-
-  - Contains a limited number of reads and writes.
-
-  ---------------------
-
-  - Base Weight:
-
-      - Creating: 27.56 µs
-
-      - Killing: 35.11 µs
-
-  - DB Weight: 1 Read, 1 Write to `who`
-
-  \# \</weight> 
  
 ### transfer(dest: `LookupSource`, value: `Compact<Balance>`)
 - **interface**: `api.tx.balances.transfer`
@@ -132,33 +110,7 @@ ___
 
   The dispatch origin for this call must be `Signed` by the transactor. 
 
-  \# \<weight>
-
    
-
-  - Dependent on arguments but not critical, given proper implementations for  input config types. See related functions below. 
-
-  - It contains a limited number of reads and writes internally and no complex computation.
-
-  Related functions: 
-
-    - `ensure_can_withdraw` is always called internally but has a bounded complexity. 
-
-    - Transferring balances to accounts that did not exist before will cause     `T::OnNewAccount::on_new_account` to be called. 
-
-    - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced`.
-
-    - `transfer_keep_alive` works the same way as `transfer`, but has an additional    check that the transfer will not kill the origin account. 
-
-  ---------------------------------
-
-  - Base Weight: 73.64 µs, worst case scenario (account created, account removed)
-
-  - DB Weight: 1 Read and 1 Write to destination account
-
-  - Origin account is already in memory, so no DB operations for them.
-
-  \# \</weight> 
  
 ### transferKeepAlive(dest: `LookupSource`, value: `Compact<Balance>`)
 - **interface**: `api.tx.balances.transferKeepAlive`
@@ -166,15 +118,7 @@ ___
 
   99% of the time you want [`transfer`] instead. 
 
-  [`transfer`]: struct.Module.html#method.transfer \# \<weight>
-
-   
-
-  - Cheaper than transfer because account cannot be killed.
-
-  - Base Weight: 51.4 µs
-
-  - DB Weight: 1 Read and 1 Write to dest (sender is in overlay already)#</weight> 
+  [`transfer`]: struct.Module.html#method.transfer  
 
 ___
 
@@ -238,31 +182,7 @@ ___
 
   + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal. + `length_bound`: The upper bound for the length of the proposal in storage. Checked via                   `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(B + M + P1 + P2)` where:
-
-    - `B` is `proposal` size in bytes (length-fee-bounded)
-
-    - `M` is members-count (code- and governance-bounded)
-
-    - `P1` is the complexity of `proposal` preimage.
-
-    - `P2` is proposal-count (code-bounded)
-
-  - DB:
-
-   - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)
-
-   - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)
-
-   - any mutations done while executing `proposal` (`P1`)
-
-  - up to 3 events
-
-  \# \</weight> 
+   
  
 ### disapproveProposal(proposal_hash: `Hash`)
 - **interface**: `api.tx.council.disapproveProposal`
@@ -274,15 +194,7 @@ ___
 
   * `proposal_hash`: The hash of the proposal that should be disapproved.
 
-  \# \<weight>
-
-   Complexity: O(P) where P is the number of max proposals DB Weight: 
-
-  * Reads: Proposals
-
-  * Writes: Voting, Proposals, ProposalOf
-
-  \# \</weight> 
+   
  
 ### execute(proposal: `Proposal`, length_bound: `Compact<u32>`)
 - **interface**: `api.tx.council.execute`
@@ -290,17 +202,7 @@ ___
 
   Origin must be a member of the collective. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`
-
-  - DB: 1 read (codec `O(M)`) + DB access of `proposal`
-
-  - 1 event
-
-  \# \</weight> 
+   
  
 ### propose(threshold: `Compact<MemberCount>`, proposal: `Proposal`, length_bound: `Compact<u32>`)
 - **interface**: `api.tx.council.propose`
@@ -310,45 +212,7 @@ ___
 
   `threshold` determines whether `proposal` is executed directly (`threshold < 2`) or put up for voting. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(B + M + P1)` or `O(B + M + P2)` where:
-
-    - `B` is `proposal` size in bytes (length-fee-bounded)
-
-    - `M` is members-count (code- and governance-bounded)
-
-    - branching is influenced by `threshold` where:
-
-      - `P1` is proposal execution complexity (`threshold < 2`)
-
-      - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
-
-  - DB:
-
-    - 1 storage read `is_member` (codec `O(M)`)
-
-    - 1 storage read `ProposalOf::contains_key` (codec `O(1)`)
-
-    - DB accesses influenced by `threshold`:
-
-      - EITHER storage accesses done by `proposal` (`threshold < 2`)
-
-      - OR proposal insertion (`threshold <= 2`)
-
-        - 1 storage mutation `Proposals` (codec `O(P2)`)
-
-        - 1 storage mutation `ProposalCount` (codec `O(1)`)
-
-        - 1 storage write `ProposalOf` (codec `O(B)`)
-
-        - 1 storage write `Voting` (codec `O(M)`)
-
-    - 1 event
-
-  \# \</weight> 
+   
  
 ### setMembers(new_members: `Vec<AccountId>`, prime: `Option<AccountId>`, old_count: `MemberCount`)
 - **interface**: `api.tx.council.setMembers`
@@ -364,29 +228,7 @@ ___
 
   NOTE: Does not enforce the expected `MaxMembers` limit on the amount of members, but       the weight estimations rely on it to estimate dispatchable weight. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(MP + N)` where:
-
-    - `M` old-members-count (code- and governance-bounded)
-
-    - `N` new-members-count (code- and governance-bounded)
-
-    - `P` proposals-count (code-bounded)
-
-  - DB:
-
-    - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members
-
-    - 1 storage read (codec `O(P)`) for reading the proposals
-
-    - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal
-
-    - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one
-
-  \# \</weight> 
+   
  
 ### vote(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 - **interface**: `api.tx.council.vote`
@@ -394,21 +236,7 @@ ___
 
   Requires the sender to be a member. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(M)` where `M` is members-count (code- and governance-bounded)
-
-  - DB:
-
-    - 1 storage read `Members` (codec `O(M)`)
-
-    - 1 storage mutation `Voting` (codec `O(M)`)
-
-  - 1 event
-
-  \# \</weight> 
+   
 
 ___
 
@@ -457,7 +285,7 @@ ___
 
   - `ref_index`: The index of the referendum to cancel. 
 
-  #### Weight: `O(1)`. 
+  Weight: `O(1)`. 
  
 ### clearPublicProposals()
 - **interface**: `api.tx.democracy.clearPublicProposals`
@@ -734,43 +562,13 @@ ___
 
   Note that this does not affect the designated block number of the next election. 
 
-  \# \<weight>
-
-   If we have a replacement: 
-
-  	- Base weight: 50.93 µs
-
-  	- State reads:
-
-  		- RunnersUp.len()
-
-  		- Members, RunnersUp (remove_and_replace_member)
-
-  	- State writes:
-
-  		- Members, RunnersUp (remove_and_replace_member)Else, since this is a root call and will go into phragmen, we assume full block for now. 
-
-  \# \</weight> 
+   
  
 ### removeVoter()
 - **interface**: `api.tx.elections.removeVoter`
 - **summary**:   Remove `origin` as a voter. This removes the lock and returns the bond. 
 
-  \# \<weight>
-
-   Base weight: 36.8 µs All state access is from do_remove_voter. State reads: 
-
-  	- Voting
-
-  	- [AccountData(who)]State writes: 
-
-  	- Voting
-
-  	- Locks
-
-  	- [AccountData(who)]
-
-  \# \</weight> 
+   
  
 ### renounceCandidacy(renouncing: `Renouncing`)
 - **interface**: `api.tx.elections.renounceCandidacy`
@@ -780,31 +578,7 @@ ___
 
   - `origin` is a current runner-up. In this case, the bond is unreserved, returned and  origin is removed as a runner-up. 
 
-  - `origin` is a current member. In this case, the bond is unreserved and origin is  removed as a member, consequently not being a candidate for the next round anymore.   Similar to [`remove_voter`], if replacement runners exists, they are immediately used. <weight> If a candidate is renouncing: 	Base weight: 17.28 µs 	Complexity of candidate_count: 0.235 µs 	State reads: 
-
-  		- Candidates
-
-  		- [AccountBalance(who) (unreserve)]	State writes: 
-
-  		- Candidates
-
-  		- [AccountBalance(who) (unreserve)]If member is renouncing: 	Base weight: 46.25 µs 	State reads: 
-
-  		- Members, RunnersUp (remove_and_replace_member),
-
-  		- [AccountData(who) (unreserve)]	State writes: 
-
-  		- Members, RunnersUp (remove_and_replace_member),
-
-  		- [AccountData(who) (unreserve)]If runner is renouncing: 	Base weight: 46.25 µs 	State reads: 
-
-  		- RunnersUp (remove_and_replace_member),
-
-  		- [AccountData(who) (unreserve)]	State writes: 
-
-  		- RunnersUp (remove_and_replace_member),
-
-  		- [AccountData(who) (unreserve)]</weight> 
+  - `origin` is a current member. In this case, the bond is unreserved and origin is  removed as a member, consequently not being a candidate for the next round anymore.   Similar to [`remove_voter`], if replacement runners exists, they are immediately used.  
  
 ### reportDefunctVoter(defunct: `DefunctVoter`)
 - **interface**: `api.tx.elections.reportDefunctVoter`
@@ -818,25 +592,7 @@ ___
 
   The origin must provide the number of current candidates and votes of the reported target for the purpose of accurate weight calculation. 
 
-  \# \<weight>
-
-   No Base weight based on min square analysis. Complexity of candidate_count: 1.755 µs Complexity of vote_count: 18.51 µs State reads: 
-
-   	- Voting(reporter)
-
-   	- Candidate.len()
-
-   	- Voting(Target)
-
-   	- Candidates, Members, RunnersUp (is_defunct_voter)State writes: 
-
-  	- Lock(reporter || target)
-
-  	- [AccountBalance(reporter)] + AccountBalance(target)
-
-  	- Voting(reporter || target)Note: the db access is worse with respect to db, which is when the report is correct. 
-
-  \# \</weight> 
+   
  
 ### submitCandidacy(candidate_count: `Compact<u32>`)
 - **interface**: `api.tx.elections.submitCandidacy`
@@ -850,23 +606,7 @@ ___
 
     - Become a runner-up. Runners-ups are reserved members in case one gets forcefully    removed. 
 
-  \# \<weight>
-
-   Base weight = 33.33 µs Complexity of candidate_count: 0.375 µs State reads: 
-
-  	- Candidates
-
-  	- Members
-
-  	- RunnersUp
-
-  	- [AccountBalance(who)]State writes: 
-
-  	- [AccountBalance(who)]
-
-  	- Candidates
-
-  \# \</weight> 
+   
  
 ### vote(votes: `Vec<AccountId>`, value: `Compact<BalanceOf>`)
 - **interface**: `api.tx.elections.vote`
@@ -882,25 +622,7 @@ ___
 
   It is the responsibility of the caller to not place all of their balance into the lock and keep some for further transactions. 
 
-  \# \<weight>
-
-   Base weight: 47.93 µs State reads: 
-
-  	- Candidates.len() + Members.len() + RunnersUp.len()
-
-  	- Voting (is_voter)
-
-  	- Lock
-
-  	- [AccountBalance(who) (unreserve + total_balance)]State writes: 
-
-  	- Voting
-
-  	- Lock
-
-  	- [AccountBalance(who) (unreserve -- only when creating a new voter)]
-
-  \# \</weight> 
+   
 
 ___
 
@@ -945,17 +667,7 @@ ___
 
   Emits `RegistrarAdded` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(R)` where `R` registrar-count (governance-bounded and code-bounded).
-
-  - One storage mutation (codec `O(R)`).
-
-  - One event.
-
-  \# \</weight> 
  
 ### addSub(sub: `LookupSource`, data: `Data`)
 - **interface**: `api.tx.identity.addSub`
@@ -977,19 +689,7 @@ ___
 
   Emits `JudgementUnrequested` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(R + X)`.
-
-  - One balance-reserve operation.
-
-  - One storage mutation `O(R + X)`.
-
-  - One event
-
-  \# \</weight> 
  
 ### clearIdentity()
 - **interface**: `api.tx.identity.clearIdentity`
@@ -1001,25 +701,7 @@ ___
 
   Emits `IdentityCleared` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(R + S + X)`
-
-    - where `R` registrar-count (governance-bounded).
-
-    - where `S` subs-count (hard- and deposit-bounded).
-
-    - where `X` additional-field-count (deposit-bounded and code-bounded).
-
-  - One balance-unreserve operation.
-
-  - `2` storage reads and `S + 2` storage deletions.
-
-  - One event.
-
-  \# \</weight> 
  
 ### killIdentity(target: `LookupSource`)
 - **interface**: `api.tx.identity.killIdentity`
@@ -1033,19 +715,7 @@ ___
 
   Emits `IdentityKilled` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(R + S + X)`.
-
-  - One balance-reserve operation.
-
-  - `S + 2` storage mutations.
-
-  - One event.
-
-  \# \</weight> 
  
 ### provideJudgement(reg_index: `Compact<RegistrarIndex>`, target: `LookupSource`, judgement: `IdentityJudgement`)
 - **interface**: `api.tx.identity.provideJudgement`
@@ -1061,21 +731,7 @@ ___
 
   Emits `JudgementGiven` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(R + X)`.
-
-  - One balance-transfer operation.
-
-  - Up to one account-lookup operation.
-
-  - Storage: 1 read `O(R)`, 1 mutate `O(R + X)`.
-
-  - One event.
-
-  \# \</weight> 
  
 ### quitSub()
 - **interface**: `api.tx.identity.quitSub`
@@ -1117,19 +773,7 @@ ___
 
   Emits `JudgementRequested` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(R + X)`.
-
-  - One balance-reserve operation.
-
-  - Storage: 1 read `O(R)`, 1 mutate `O(X + R)`.
-
-  - One event.
-
-  \# \</weight> 
  
 ### setAccountId(index: `Compact<RegistrarIndex>`, new: `AccountId`)
 - **interface**: `api.tx.identity.setAccountId`
@@ -1141,17 +785,7 @@ ___
 
   - `new`: the new account ID.
 
-  \# \<weight>
-
    
-
-  - `O(R)`.
-
-  - One storage mutation `O(R)`.
-
-  - Benchmark: 8.823 + R * 0.32 µs (min squares analysis)
-
-  \# \</weight> 
  
 ### setFee(index: `Compact<RegistrarIndex>`, fee: `Compact<BalanceOf>`)
 - **interface**: `api.tx.identity.setFee`
@@ -1163,17 +797,7 @@ ___
 
   - `fee`: the new fee.
 
-  \# \<weight>
-
    
-
-  - `O(R)`.
-
-  - One storage mutation `O(R)`.
-
-  - Benchmark: 7.315 + R * 0.329 µs (min squares analysis)
-
-  \# \</weight> 
  
 ### setFields(index: `Compact<RegistrarIndex>`, fields: `IdentityFields`)
 - **interface**: `api.tx.identity.setFields`
@@ -1185,17 +809,7 @@ ___
 
   - `fields`: the fields that the registrar concerns themselves with.
 
-  \# \<weight>
-
    
-
-  - `O(R)`.
-
-  - One storage mutation `O(R)`.
-
-  - Benchmark: 7.464 + R * 0.325 µs (min squares analysis)
-
-  \# \</weight> 
  
 ### setIdentity(info: `IdentityInfo`)
 - **interface**: `api.tx.identity.setIdentity`
@@ -1209,23 +823,7 @@ ___
 
   Emits `IdentitySet` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(X + X' + R)`
-
-    - where `X` additional-field-count (deposit-bounded and code-bounded)
-
-    - where `R` judgements-count (registrar-count-bounded)
-
-  - One balance reserve operation.
-
-  - One storage mutation (codec-read `O(X' + R)`, codec-write `O(X + R)`).
-
-  - One event.
-
-  \# \</weight> 
  
 ### setSubs(subs: `Vec<(AccountId,Data)>`)
 - **interface**: `api.tx.identity.setSubs`
@@ -1237,29 +835,7 @@ ___
 
   - `subs`: The identity's (new) sub-accounts. 
 
-  \# \<weight>
-
    
-
-  - `O(P + S)`
-
-    - where `P` old-subs-count (hard- and deposit-bounded).
-
-    - where `S` subs-count (hard- and deposit-bounded).
-
-  - At most one balance operations.
-
-  - DB:
-
-    - `P + S` storage mutations (codec complexity `O(1)`)
-
-    - One storage read (codec complexity `O(P)`).
-
-    - One storage write (codec complexity `O(S)`).
-
-    - One storage-exists (`IdentityOf::contains_key`).
-
-  \# \</weight> 
 
 ___
 
@@ -1268,21 +844,7 @@ ___
  
 ### heartbeat(heartbeat: `Heartbeat`, _signature: `Signature`)
 - **interface**: `api.tx.imOnline.heartbeat`
-- **summary**:   \# \<weight>
-
-   
-
-  - Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len)  and E is length of `heartbeat.network_state.external_address` 
-
-    - `O(K)`: decoding of length `K`
-
-    - `O(E)`: decoding/encoding of length `E`
-
-  - DbReads: pallet_session `Validators`, pallet_session `CurrentIndex`, `Keys`,  `ReceivedHeartbeats` 
-
-  - DbWrites: `ReceivedHeartbeats`
-
-  \# \</weight> 
+- **summary**:    
 
 ___
 
@@ -1301,23 +863,7 @@ ___
 
   Emits `IndexAssigned` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - One storage mutation (codec `O(1)`).
-
-  - One reserve operation.
-
-  - One event.
-
-  -------------------
-
-  - DB Weight: 1 Read/Write (Accounts)
-
-  \# \</weight> 
  
 ### forceTransfer(new: `AccountId`, index: `AccountIndex`, freeze: `bool`)
 - **interface**: `api.tx.indices.forceTransfer`
@@ -1333,27 +879,7 @@ ___
 
   Emits `IndexAssigned` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - One storage mutation (codec `O(1)`).
-
-  - Up to one reserve operation.
-
-  - One event.
-
-  -------------------
-
-  - DB Weight:
-
-     - Reads: Indices Accounts, System Account (original owner)
-
-     - Writes: Indices Accounts, System Account (original owner)
-
-  \# \</weight> 
  
 ### free(index: `AccountIndex`)
 - **interface**: `api.tx.indices.free`
@@ -1367,23 +893,7 @@ ___
 
   Emits `IndexFreed` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - One storage mutation (codec `O(1)`).
-
-  - One reserve operation.
-
-  - One event.
-
-  -------------------
-
-  - DB Weight: 1 Read/Write (Accounts)
-
-  \# \</weight> 
  
 ### freeze(index: `AccountIndex`)
 - **interface**: `api.tx.indices.freeze`
@@ -1395,23 +905,7 @@ ___
 
   Emits `IndexFrozen` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - One storage mutation (codec `O(1)`).
-
-  - Up to one slash operation.
-
-  - One event.
-
-  -------------------
-
-  - DB Weight: 1 Read/Write (Accounts)
-
-  \# \</weight> 
  
 ### transfer(new: `AccountId`, index: `AccountIndex`)
 - **interface**: `api.tx.indices.transfer`
@@ -1425,27 +919,7 @@ ___
 
   Emits `IndexAssigned` if successful. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - One storage mutation (codec `O(1)`).
-
-  - One transfer operation.
-
-  - One event.
-
-  -------------------
-
-  - DB Weight:
-
-     - Reads: Indices Accounts, System Account (recipient)
-
-     - Writes: Indices Accounts, System Account (recipient)
-
-  \# \</weight> 
 
 ___
 
@@ -1470,35 +944,7 @@ ___
 
   NOTE: If this is the final approval, you will want to use `as_multi` instead. 
 
-  \# \<weight>
-
    
-
-  - `O(S)`.
-
-  - Up to one balance-reserve or unreserve operation.
-
-  - One passthrough operation, one insert, both `O(S)` where `S` is the number of  signatories. `S` is capped by `MaxSignatories`, with weight being proportional. 
-
-  - One encode & hash, both of complexity `O(S)`.
-
-  - Up to one binary search and insert (`O(logS + S)`).
-
-  - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.
-
-  - One event.
-
-  - Storage: inserts one item, value size bounded by `MaxSignatories`, with a  deposit taken for its lifetime of   `DepositBase + threshold * DepositFactor`. 
-
-  ----------------------------------
-
-  - DB Weight:
-
-      - Read: Multisig Storage, [Caller Account]
-
-      - Write: Multisig Storage, [Caller Account]
-
-  \# \</weight> 
  
 ### asMulti(threshold: `u16`, other_signatories: `Vec<AccountId>`, maybe_timepoint: `Option<Timepoint>`, call: `OpaqueCall`, store_call: `bool`, max_weight: `Weight`)
 - **interface**: `api.tx.multisig.asMulti`
@@ -1522,41 +968,7 @@ ___
 
   Result is equivalent to the dispatched result if `threshold` is exactly `1`. Otherwise on success, result is `Ok` and the result from the interior call, if it was executed, may be found in the deposited `MultisigExecuted` event. 
 
-  \# \<weight>
-
    
-
-  - `O(S + Z + Call)`.
-
-  - Up to one balance-reserve or unreserve operation.
-
-  - One passthrough operation, one insert, both `O(S)` where `S` is the number of  signatories. `S` is capped by `MaxSignatories`, with weight being proportional. 
-
-  - One call encode & hash, both of complexity `O(Z)` where `Z` is tx-len.
-
-  - One encode & hash, both of complexity `O(S)`.
-
-  - Up to one binary search and insert (`O(logS + S)`).
-
-  - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.
-
-  - One event.
-
-  - The weight of the `call`.
-
-  - Storage: inserts one item, value size bounded by `MaxSignatories`, with a  deposit taken for its lifetime of   `DepositBase + threshold * DepositFactor`. 
-
-  -------------------------------
-
-  - DB Weight:
-
-      - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)
-
-      - Writes: Multisig Storage, [Caller Account], Calls (if `store_call`)
-
-  - Plus Call Weight
-
-  \# \</weight> 
  
 ### asMultiThreshold1(other_signatories: `Vec<AccountId>`, call: `Call`)
 - **interface**: `api.tx.multisig.asMultiThreshold1`
@@ -1570,17 +982,7 @@ ___
 
   Result is equivalent to the dispatched result. 
 
-  \# \<weight>
-
-   O(Z + C) where Z is the length of the call and C its execution weight. 
-
-  -------------------------------
-
-  - DB Weight: None
-
-  - Plus Call Weight
-
-  \# \</weight> 
+   
  
 ### cancelAsMulti(threshold: `u16`, other_signatories: `Vec<AccountId>`, timepoint: `Timepoint`, call_hash: `[u8;32]`)
 - **interface**: `api.tx.multisig.cancelAsMulti`
@@ -1596,33 +998,7 @@ ___
 
   - `call_hash`: The hash of the call to be executed.
 
-  \# \<weight>
-
    
-
-  - `O(S)`.
-
-  - Up to one balance-reserve or unreserve operation.
-
-  - One passthrough operation, one insert, both `O(S)` where `S` is the number of  signatories. `S` is capped by `MaxSignatories`, with weight being proportional. 
-
-  - One encode & hash, both of complexity `O(S)`.
-
-  - One event.
-
-  - I/O: 1 read `O(S)`, one remove.
-
-  - Storage: removes one item.
-
-  ----------------------------------
-
-  - DB Weight:
-
-      - Read: Multisig Storage, [Caller Account], Refund Account, Calls
-
-      - Write: Multisig Storage, [Caller Account], Refund Account, Calls
-
-  \# \</weight> 
 
 ___
 
@@ -1643,11 +1019,7 @@ ___
 
   - `delay`: The announcement period required of the initial proxy. Will generally bezero. 
 
-  \# \<weight>
-
-   Weight is a function of the number of proxies the user has (P). 
-
-  \# \</weight> 
+   
  
 ### announce(real: `AccountId`, call_hash: `CallHashOf`)
 - **interface**: `api.tx.proxy.announce`
@@ -1667,15 +1039,7 @@ ___
 
   - `call_hash`: The hash of the call to be made by the `real` account.
 
-  \# \<weight>
-
-   Weight is a function of: 
-
-  - A: the number of announcements made.
-
-  - P: the number of proxies the user has.
-
-  \# \</weight> 
+   
  
 ### anonymous(proxy_type: `ProxyType`, delay: `BlockNumber`, index: `u16`)
 - **interface**: `api.tx.proxy.anonymous`
@@ -1693,11 +1057,7 @@ ___
 
   Fails if there are insufficient funds to pay for deposit. 
 
-  \# \<weight>
-
-   Weight is a function of the number of proxies the user has (P). 
-
-  \# \</weight> TODO: Might be over counting 1 read 
+   TODO: Might be over counting 1 read 
  
 ### killAnonymous(spawner: `AccountId`, proxy_type: `ProxyType`, index: `u16`, height: `Compact<BlockNumber>`, ext_index: `Compact<u32>`)
 - **interface**: `api.tx.proxy.killAnonymous`
@@ -1719,11 +1079,7 @@ ___
 
   Fails with `NoPermission` in case the caller is not a previously created anonymous account whose `anonymous` call has corresponding parameters. 
 
-  \# \<weight>
-
-   Weight is a function of the number of proxies the user has (P). 
-
-  \# \</weight> 
+   
  
 ### proxy(real: `AccountId`, force_proxy_type: `Option<ProxyType>`, call: `Call`)
 - **interface**: `api.tx.proxy.proxy`
@@ -1741,11 +1097,7 @@ ___
 
   - `call`: The call to be made by the `real` account.
 
-  \# \<weight>
-
-   Weight is a function of the number of proxies the user has (P). 
-
-  \# \</weight> 
+   
  
 ### proxyAnnounced(delegate: `AccountId`, real: `AccountId`, force_proxy_type: `Option<ProxyType>`, call: `Call`)
 - **interface**: `api.tx.proxy.proxyAnnounced`
@@ -1763,15 +1115,7 @@ ___
 
   - `call`: The call to be made by the `real` account.
 
-  \# \<weight>
-
-   Weight is a function of: 
-
-  - A: the number of announcements made.
-
-  - P: the number of proxies the user has.
-
-  \# \</weight> 
+   
  
 ### rejectAnnouncement(delegate: `AccountId`, call_hash: `CallHashOf`)
 - **interface**: `api.tx.proxy.rejectAnnouncement`
@@ -1787,15 +1131,7 @@ ___
 
   - `call_hash`: The hash of the call to be made.
 
-  \# \<weight>
-
-   Weight is a function of: 
-
-  - A: the number of announcements made.
-
-  - P: the number of proxies the user has.
-
-  \# \</weight> 
+   
  
 ### removeAnnouncement(real: `AccountId`, call_hash: `CallHashOf`)
 - **interface**: `api.tx.proxy.removeAnnouncement`
@@ -1811,15 +1147,7 @@ ___
 
   - `call_hash`: The hash of the call to be made by the `real` account.
 
-  \# \<weight>
-
-   Weight is a function of: 
-
-  - A: the number of announcements made.
-
-  - P: the number of proxies the user has.
-
-  \# \</weight> 
+   
  
 ### removeProxies()
 - **interface**: `api.tx.proxy.removeProxies`
@@ -1829,11 +1157,7 @@ ___
 
   WARNING: This may be called on accounts created by `anonymous`, however if done, then the unreserved fees will be inaccessible. **All access to this account will be lost.** 
 
-  \# \<weight>
-
-   Weight is a function of the number of proxies the user has (P). 
-
-  \# \</weight> 
+   
  
 ### removeProxy(delegate: `AccountId`, proxy_type: `ProxyType`, delay: `BlockNumber`)
 - **interface**: `api.tx.proxy.removeProxy`
@@ -1847,11 +1171,7 @@ ___
 
   - `proxy_type`: The permissions currently enabled for the removed proxy account.
 
-  \# \<weight>
-
-   Weight is a function of the number of proxies the user has (P). 
-
-  \# \</weight> 
+   
 
 ___
 
@@ -1870,15 +1190,7 @@ ___
 
   - `call`: The call you want to make with the recovered account.
 
-  \# \<weight>
-
    
-
-  - The weight of the `call` + 10,000.
-
-  - One storage lookup to check account is recovered by `who`. O(1)
-
-  \# \</weight> 
  
 ### cancelRecovered(account: `AccountId`)
 - **interface**: `api.tx.recovery.cancelRecovered`
@@ -1890,13 +1202,7 @@ ___
 
   - `account`: The recovered account you are able to call on-behalf-of.
 
-  \# \<weight>
-
    
-
-  - One storage mutation to check account is recovered by `who`. O(1)
-
-  \# \</weight> 
  
 ### claimRecovery(account: `AccountId`)
 - **interface**: `api.tx.recovery.claimRecovery`
@@ -1908,23 +1214,7 @@ ___
 
   - `account`: The lost account that you want to claim has been successfully  recovered by you. 
 
-  \# \<weight>
-
-   Key: F (len of friends in config), V (len of vouching friends) 
-
-  - One storage read to get the recovery configuration. O(1), Codec O(F)
-
-  - One storage read to get the active recovery process. O(1), Codec O(V)
-
-  - One storage read to get the current block number. O(1)
-
-  - One storage write. O(1), Codec O(V).
-
-  - One event.
-
-  Total Complexity: O(F + V) 
-
-  \# \</weight> 
+   
  
 ### closeRecovery(rescuer: `AccountId`)
 - **interface**: `api.tx.recovery.closeRecovery`
@@ -1938,19 +1228,7 @@ ___
 
   - `rescuer`: The account trying to rescue this recoverable account.
 
-  \# \<weight>
-
-   Key: V (len of vouching friends) 
-
-  - One storage read/remove to get the active recovery process. O(1), Codec O(V)
-
-  - One balance call to repatriate reserved. O(X)
-
-  - One event.
-
-  Total Complexity: O(V + X) 
-
-  \# \</weight> 
+   
  
 ### createRecovery(friends: `Vec<AccountId>`, threshold: `u16`, delay_period: `BlockNumber`)
 - **interface**: `api.tx.recovery.createRecovery`
@@ -1968,25 +1246,7 @@ ___
 
   - `delay_period`: The number of blocks after a recovery attempt is initialized  that needs to pass before the account can be recovered. 
 
-  \# \<weight>
-
    
-
-  - Key: F (len of friends)
-
-  - One storage read to check that account is not already recoverable. O(1).
-
-  - A check that the friends list is sorted and unique. O(F)
-
-  - One currency reserve operation. O(X)
-
-  - One storage write. O(1). Codec O(F).
-
-  - One event.
-
-  Total Complexity: O(F + X) 
-
-  \# \</weight> 
  
 ### initiateRecovery(account: `AccountId`)
 - **interface**: `api.tx.recovery.initiateRecovery`
@@ -2000,25 +1260,7 @@ ___
 
   - `account`: The lost account that you want to recover. This account  needs to be recoverable (i.e. have a recovery configuration). 
 
-  \# \<weight>
-
    
-
-  - One storage read to check that account is recoverable. O(F)
-
-  - One storage read to check that this recovery process hasn't already started. O(1)
-
-  - One currency reserve operation. O(X)
-
-  - One storage read to get the current block number. O(1)
-
-  - One storage write. O(1).
-
-  - One event.
-
-  Total Complexity: O(F + X) 
-
-  \# \</weight> 
  
 ### removeRecovery()
 - **interface**: `api.tx.recovery.removeRecovery`
@@ -2030,21 +1272,7 @@ ___
 
   The dispatch origin for this call must be _Signed_ and must be a recoverable account (i.e. has a recovery configuration). 
 
-  \# \<weight>
-
-   Key: F (len of friends) 
-
-  - One storage read to get the prefix iterator for active recoveries. O(1)
-
-  - One storage read/remove to get the recovery configuration. O(1), Codec O(F)
-
-  - One balance call to unreserved. O(X)
-
-  - One event.
-
-  Total Complexity: O(F + X) 
-
-  \# \</weight> 
+   
  
 ### setRecovered(lost: `AccountId`, rescuer: `AccountId`)
 - **interface**: `api.tx.recovery.setRecovered`
@@ -2058,15 +1286,7 @@ ___
 
   - `rescuer`: The "rescuer account" which can call as the lost account.
 
-  \# \<weight>
-
    
-
-  - One storage write O(1)
-
-  - One event
-
-  \# \</weight> 
  
 ### vouchRecovery(lost: `AccountId`, rescuer: `AccountId`)
 - **interface**: `api.tx.recovery.vouchRecovery`
@@ -2082,25 +1302,7 @@ ___
 
   The combination of these two parameters must point to an active recovery process. 
 
-  \# \<weight>
-
-   Key: F (len of friends in config), V (len of vouching friends) 
-
-  - One storage read to get the recovery configuration. O(1), Codec O(F)
-
-  - One storage read to get the active recovery process. O(1), Codec O(V)
-
-  - One binary search to confirm caller is a friend. O(logF)
-
-  - One binary search to confirm caller has not already vouched. O(logV)
-
-  - One storage write. O(1), Codec O(V).
-
-  - One event.
-
-  Total Complexity: O(F + logF + V + logV) 
-
-  \# \</weight> 
+   
 
 ___
 
@@ -2111,109 +1313,37 @@ ___
 - **interface**: `api.tx.scheduler.cancel`
 - **summary**:   Cancel an anonymously scheduled task. 
 
-  \# \<weight>
-
    
-
-  - S = Number of already scheduled calls
-
-  - Base Weight: 22.15 + 2.869 * S µs
-
-  - DB Weight:
-
-      - Read: Agenda
-
-      - Write: Agenda, Lookup
-
-  - Will use base weight of 100 which should be good for up to 30 scheduled calls
-
-  \# \</weight> 
  
 ### cancelNamed(id: `Bytes`)
 - **interface**: `api.tx.scheduler.cancelNamed`
 - **summary**:   Cancel a named scheduled task. 
 
-  \# \<weight>
-
    
-
-  - S = Number of already scheduled calls
-
-  - Base Weight: 24.91 + 2.907 * S µs
-
-  - DB Weight:
-
-      - Read: Agenda, Lookup
-
-      - Write: Agenda, Lookup
-
-  - Will use base weight of 100 which should be good for up to 30 scheduled calls
-
-  \# \</weight> 
  
 ### schedule(when: `BlockNumber`, maybe_periodic: `Option<Period>`, priority: `Priority`, call: `Call`)
 - **interface**: `api.tx.scheduler.schedule`
 - **summary**:   Anonymously schedule a task. 
 
-  \# \<weight>
-
    
-
-  - S = Number of already scheduled calls
-
-  - Base Weight: 22.29 + .126 * S µs
-
-  - DB Weight:
-
-      - Read: Agenda
-
-      - Write: Agenda
-
-  - Will use base weight of 25 which should be good for up to 30 scheduled calls
-
-  \# \</weight> 
  
 ### scheduleAfter(after: `BlockNumber`, maybe_periodic: `Option<Period>`, priority: `Priority`, call: `Call`)
 - **interface**: `api.tx.scheduler.scheduleAfter`
 - **summary**:   Anonymously schedule a task after a delay. 
 
-  \# \<weight>
-
-   Same as [`schedule`]. 
-
-  \# \</weight> 
+   
  
 ### scheduleNamed(id: `Bytes`, when: `BlockNumber`, maybe_periodic: `Option<Period>`, priority: `Priority`, call: `Call`)
 - **interface**: `api.tx.scheduler.scheduleNamed`
 - **summary**:   Schedule a named task. 
 
-  \# \<weight>
-
    
-
-  - S = Number of already scheduled calls
-
-  - Base Weight: 29.6 + .159 * S µs
-
-  - DB Weight:
-
-      - Read: Agenda, Lookup
-
-      - Write: Agenda, Lookup
-
-  - Will use base weight of 35 which should be good for more than 30 scheduled calls
-
-  \# \</weight> 
  
 ### scheduleNamedAfter(id: `Bytes`, after: `BlockNumber`, maybe_periodic: `Option<Period>`, priority: `Priority`, call: `Call`)
 - **interface**: `api.tx.scheduler.scheduleNamedAfter`
 - **summary**:   Schedule a named task after a delay. 
 
-  \# \<weight>
-
-   Same as [`schedule_named`]. 
-
-  \# \</weight> 
+   
 
 ___
 
@@ -2226,19 +1356,7 @@ ___
 
   The dispatch origin of this function must be signed. 
 
-  \# \<weight>
-
    
-
-  - Complexity: `O(1)` in number of key types.  Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed. 
-
-  - DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`
-
-  - DbWrites: `NextKeys`, `origin account`
-
-  - DbWrites per key id: `KeyOwnder`
-
-  \# \</weight> 
  
 ### setKeys(keys: `Keys`, proof: `Bytes`)
 - **interface**: `api.tx.session.setKeys`
@@ -2246,21 +1364,7 @@ ___
 
   The dispatch origin of this function must be signed. 
 
-  \# \<weight>
-
    
-
-  - Complexity: `O(1)`  Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed. 
-
-  - DbReads: `origin account`, `T::ValidatorIdOf`, `NextKeys`
-
-  - DbWrites: `origin account`, `NextKeys`
-
-  - DbReads per key id: `KeyOwner`
-
-  - DbWrites per key id: `KeyOwner`
-
-  \# \</weight> 
 
 ___
 
@@ -2279,49 +1383,7 @@ ___
 
   - `value`: A one time payment the bid would like to receive when joining the society.
 
-  \# \<weight>
-
-   Key: B (len of bids), C (len of candidates), M (len of members), X (balance reserve) 
-
-  - Storage Reads:
-
-  	- One storage read to check for suspended candidate. O(1)
-
-  	- One storage read to check for suspended member. O(1)
-
-  	- One storage read to retrieve all current bids. O(B)
-
-  	- One storage read to retrieve all current candidates. O(C)
-
-  	- One storage read to retrieve all members. O(M)
-
-  - Storage Writes:
-
-  	- One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization w/ read)
-
-  	- Up to one storage removal if bid.len() > MAX_BID_COUNT. O(1)
-
-  - Notable Computation:
-
-  	- O(B + C + log M) search to check user is not already a part of society.
-
-  	- O(log B) search to insert the new bid sorted.
-
-  - External Module Operations:
-
-  	- One balance reserve operation. O(X)
-
-  	- Up to one balance unreserve operation if bids.len() > MAX_BID_COUNT.
-
-  - Events:
-
-  	- One event for new bid.
-
-  	- Up to one event for AutoUnbid if bid.len() > MAX_BID_COUNT.
-
-  Total Complexity: O(M + B + C + logM + logB + X) 
-
-  \# \</weight> 
+   
  
 ### defenderVote(approve: `bool`)
 - **interface**: `api.tx.society.defenderVote`
@@ -2333,21 +1395,7 @@ ___
 
   - `approve`: A boolean which says if the candidate should beapproved (`true`) or rejected (`false`). 
 
-  \# \<weight>
-
    
-
-  - Key: M (len of members)
-
-  - One storage read O(M) and O(log M) search to check user is a member.
-
-  - One storage write to add vote to votes. O(1)
-
-  - One event.
-
-  Total Complexity: O(M + logM) 
-
-  \# \</weight> 
  
 ### found(founder: `AccountId`, max_members: `u32`, rules: `Bytes`)
 - **interface**: `api.tx.society.found`
@@ -2365,19 +1413,7 @@ ___
 
   - `rules` - The rules of this society concerning membership.
 
-  \# \<weight>
-
    
-
-  - Two storage mutates to set `Head` and `Founder`. O(1)
-
-  - One storage write to add the first member to society. O(1)
-
-  - One event.
-
-  Total Complexity: O(1) 
-
-  \# \</weight> 
  
 ### judgeSuspendedCandidate(who: `AccountId`, judgement: `SocietyJudgement`)
 - **interface**: `api.tx.society.judgeSuspendedCandidate`
@@ -2397,49 +1433,7 @@ ___
 
   - `judgement` - `Approve`, `Reject`, or `Rebid`.
 
-  \# \<weight>
-
-   Key: B (len of bids), M (len of members), X (balance action) 
-
-  - One storage read to check `who` is a suspended candidate.
-
-  - One storage removal of the suspended candidate.
-
-  - Approve Logic
-
-  	- One storage read to get the available pot to pay users with. O(1)
-
-  	- One storage write to update the available pot. O(1)
-
-  	- One storage read to get the current block number. O(1)
-
-  	- One storage read to get all members. O(M)
-
-  	- Up to one unreserve currency action.
-
-  	- Up to two new storage writes to payouts.
-
-  	- Up to one storage write with O(log M) binary search to add a member to society.
-
-  - Reject Logic
-
-  	- Up to one repatriate reserved currency action. O(X)
-
-  	- Up to one storage write to ban the vouching member from vouching again.
-
-  - Rebid Logic
-
-  	- Storage mutate with O(log B) binary search to place the user back into bids.
-
-  - Up to one additional event if unvouch takes place.
-
-  - One storage removal.
-
-  - One event for the judgement.
-
-  Total Complexity: O(M + logM + B + X) 
-
-  \# \</weight> 
+   
  
 ### judgeSuspendedMember(who: `AccountId`, forgive: `bool`)
 - **interface**: `api.tx.society.judgeSuspendedMember`
@@ -2457,27 +1451,7 @@ ___
 
   - `forgive` - A boolean representing whether the suspension judgement origin              forgives (`true`) or rejects (`false`) a suspended member. 
 
-  \# \<weight>
-
-   Key: B (len of bids), M (len of members) 
-
-  - One storage read to check `who` is a suspended member. O(1)
-
-  - Up to one storage write O(M) with O(log M) binary search to add a member back to society.
-
-  - Up to 3 storage removals O(1) to clean up a removed member.
-
-  - Up to one storage write O(B) with O(B) search to remove vouched bid from bids.
-
-  - Up to one additional event if unvouch takes place.
-
-  - One storage removal. O(1)
-
-  - One event for the judgement.
-
-  Total Complexity: O(M + logM + B) 
-
-  \# \</weight> 
+   
  
 ### payout()
 - **interface**: `api.tx.society.payout`
@@ -2489,23 +1463,7 @@ ___
 
   The dispatch origin for this call must be _Signed_ and a member with payouts remaining. 
 
-  \# \<weight>
-
-   Key: M (len of members), P (number of payouts for a particular member) 
-
-  - One storage read O(M) and O(log M) search to check signer is a member.
-
-  - One storage read O(P) to get all payouts for a member.
-
-  - One storage read O(1) to get the current block number.
-
-  - One currency transfer call. O(X)
-
-  - One storage write or removal to update the member's payouts. O(P)
-
-  Total Complexity: O(M + logM + P + X) 
-
-  \# \</weight> 
+   
  
 ### setMaxMembers(max: `u32`)
 - **interface**: `api.tx.society.setMaxMembers`
@@ -2517,17 +1475,7 @@ ___
 
   - `max` - The maximum number of members for the society.
 
-  \# \<weight>
-
    
-
-  - One storage write to update the max. O(1)
-
-  - One event.
-
-  Total Complexity: O(1) 
-
-  \# \</weight> 
  
 ### unbid(pos: `u32`)
 - **interface**: `api.tx.society.unbid`
@@ -2541,19 +1489,7 @@ ___
 
   - `pos`: Position in the `Bids` vector of the bid who wants to unbid.
 
-  \# \<weight>
-
-   Key: B (len of bids), X (balance unreserve) 
-
-  - One storage read and write to retrieve and update the bids. O(B)
-
-  - Either one unreserve balance action O(X) or one vouching storage removal. O(1)
-
-  - One event.
-
-  Total Complexity: O(B + X) 
-
-  \# \</weight> 
+   
  
 ### unfound()
 - **interface**: `api.tx.society.unfound`
@@ -2561,19 +1497,7 @@ ___
 
   The dispatch origin for this call must be Signed, and the signing account must be both the `Founder` and the `Head`. This implies that it may only be done when there is one member. 
 
-  \# \<weight>
-
    
-
-  - Two storage reads O(1).
-
-  - Four storage removals O(1).
-
-  - One event.
-
-  Total Complexity: O(1) 
-
-  \# \</weight> 
  
 ### unvouch(pos: `u32`)
 - **interface**: `api.tx.society.unvouch`
@@ -2585,21 +1509,7 @@ ___
 
   - `pos`: Position in the `Bids` vector of the bid who should be unvouched.
 
-  \# \<weight>
-
-   Key: B (len of bids) 
-
-  - One storage read O(1) to check the signer is a vouching member.
-
-  - One storage mutate to retrieve and update the bids. O(B)
-
-  - One vouching storage removal. O(1)
-
-  - One event.
-
-  Total Complexity: O(B) 
-
-  \# \</weight> 
+   
  
 ### vote(candidate: `LookupSource`, approve: `bool`)
 - **interface**: `api.tx.society.vote`
@@ -2613,23 +1523,7 @@ ___
 
   - `approve`: A boolean which says if the candidate should be             approved (`true`) or rejected (`false`). 
 
-  \# \<weight>
-
-   Key: C (len of candidates), M (len of members) 
-
-  - One storage read O(M) and O(log M) search to check user is a member.
-
-  - One account lookup.
-
-  - One storage read O(C) and O(C) search to check that user is a candidate.
-
-  - One storage write to add vote to votes. O(1)
-
-  - One event.
-
-  Total Complexity: O(M + logM + C) 
-
-  \# \</weight> 
+   
  
 ### vouch(who: `AccountId`, value: `BalanceOf`, tip: `BalanceOf`)
 - **interface**: `api.tx.society.vouch`
@@ -2649,55 +1543,7 @@ ___
 
   - `tip`: Your cut of the total `value` payout when the candidate is inducted intothe society. Tips larger than `value` will be saturated upon payout. 
 
-  \# \<weight>
-
-   Key: B (len of bids), C (len of candidates), M (len of members) 
-
-  - Storage Reads:
-
-  	- One storage read to retrieve all members. O(M)
-
-  	- One storage read to check member is not already vouching. O(1)
-
-  	- One storage read to check for suspended candidate. O(1)
-
-  	- One storage read to check for suspended member. O(1)
-
-  	- One storage read to retrieve all current bids. O(B)
-
-  	- One storage read to retrieve all current candidates. O(C)
-
-  - Storage Writes:
-
-  	- One storage write to insert vouching status to the member. O(1)
-
-  	- One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization w/ read)
-
-  	- Up to one storage removal if bid.len() > MAX_BID_COUNT. O(1)
-
-  - Notable Computation:
-
-  	- O(log M) search to check sender is a member.
-
-  	- O(B + C + log M) search to check user is not already a part of society.
-
-  	- O(log B) search to insert the new bid sorted.
-
-  - External Module Operations:
-
-  	- One balance reserve operation. O(X)
-
-  	- Up to one balance unreserve operation if bids.len() > MAX_BID_COUNT.
-
-  - Events:
-
-  	- One event for vouch.
-
-  	- Up to one event for AutoUnbid if bid.len() > MAX_BID_COUNT.
-
-  Total Complexity: O(M + B + C + logM + logB + X) 
-
-  \# \</weight> 
+   
 
 ___
 
@@ -2714,25 +1560,7 @@ ___
 
   Emits `Bonded`. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments. Moderate complexity.
-
-  - O(1).
-
-  - Three extra DB entries.
-
-  NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless the `origin` falls below _existential deposit_ and gets removed as dust. 
-
-  ------------------Weight: O(1) DB Weight: 
-
-  - Read: Bonded, Ledger, [Origin Account], Current Era, History Depth, Locks
-
-  - Write: Bonded, Payee, [Origin Account], Locks, Ledger
-
-  \# \</weight> 
  
 ### bondExtra(max_additional: `Compact<BalanceOf>`)
 - **interface**: `api.tx.staking.bondExtra`
@@ -2744,23 +1572,7 @@ ___
 
   Emits `Bonded`. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments. Insignificant complexity.
-
-  - O(1).
-
-  - One DB entry.
-
-  ------------DB Weight: 
-
-  - Read: Era Election Status, Bonded, Ledger, [Origin Account], Locks
-
-  - Write: [Origin Account], Locks, Ledger
-
-  \# \</weight> 
  
 ### cancelDeferredSlash(era: `EraIndex`, slash_indices: `Vec<u32>`)
 - **interface**: `api.tx.staking.cancelDeferredSlash`
@@ -2770,15 +1582,7 @@ ___
 
   Parameters: era and indices of the slashes for that era to kill. 
 
-  \# \<weight>
-
-   Complexity: O(U + S) with U unapplied slashes weighted with U=1000 and S is the number of slash indices to be canceled. 
-
-  - Read: Unapplied Slashes
-
-  - Write: Unapplied Slashes
-
-  \# \</weight> 
+   
  
 ### chill()
 - **interface**: `api.tx.staking.chill`
@@ -2788,23 +1592,7 @@ ___
 
   The dispatch origin for this call must be _Signed_ by the controller, not the stash. And, it can be only called when [`EraElectionStatus`] is `Closed`. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments. Insignificant complexity.
-
-  - Contains one read.
-
-  - Writes are limited to the `origin` account key.
-
-  --------Weight: O(1) DB Weight: 
-
-  - Read: EraElectionStatus, Ledger
-
-  - Write: Validators, Nominators
-
-  \# \</weight> 
  
 ### forceNewEra()
 - **interface**: `api.tx.staking.forceNewEra`
@@ -2812,17 +1600,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
    
-
-  - No arguments.
-
-  - Weight: O(1)
-
-  - Write ForceEra
-
-  \# \</weight> 
  
 ### forceNewEraAlways()
 - **interface**: `api.tx.staking.forceNewEraAlways`
@@ -2830,15 +1608,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
    
-
-  - Weight: O(1)
-
-  - Write: ForceEra
-
-  \# \</weight> 
  
 ### forceNoEras()
 - **interface**: `api.tx.staking.forceNoEras`
@@ -2846,17 +1616,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
    
-
-  - No arguments.
-
-  - Weight: O(1)
-
-  - Write: ForceEra
-
-  \# \</weight> 
  
 ### forceUnstake(stash: `AccountId`, num_slashing_spans: `u32`)
 - **interface**: `api.tx.staking.forceUnstake`
@@ -2864,11 +1624,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
-   O(S) where S is the number of slashing spans to be removed Reads: Bonded, Slashing Spans, Account, Locks Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Account, Locks Writes Each: SpanSlash * S 
-
-  \# \</weight> 
+   
  
 ### increaseValidatorCount(additional: `Compact<u32>`)
 - **interface**: `api.tx.staking.increaseValidatorCount`
@@ -2876,11 +1632,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
-   Same as [`set_validator_count`]. 
-
-  \# \</weight> 
+   
  
 ### nominate(targets: `Vec<LookupSource>`)
 - **interface**: `api.tx.staking.nominate`
@@ -2890,21 +1642,7 @@ ___
 
   The dispatch origin for this call must be _Signed_ by the controller, not the stash. And, it can be only called when [`EraElectionStatus`] is `Closed`. 
 
-  \# \<weight>
-
    
-
-  - The transaction's complexity is proportional to the size of `targets` (N)which is capped at CompactAssignments::LIMIT (MAX_NOMINATIONS). 
-
-  - Both the reads and writes follow a similar pattern.
-
-  ---------Weight: O(N) where N is the number of targets DB Weight: 
-
-  - Reads: Era Election Status, Ledger, Current Era
-
-  - Writes: Validators, Nominators
-
-  \# \</weight> 
  
 ### payoutStakers(validator_stash: `AccountId`, era: `EraIndex`)
 - **interface**: `api.tx.staking.payoutStakers`
@@ -2918,29 +1656,7 @@ ___
 
   This can only be called when [`EraElectionStatus`] is `Closed`. 
 
-  \# \<weight>
-
    
-
-  - Time complexity: at most O(MaxNominatorRewardedPerValidator).
-
-  - Contains a limited number of reads and writes.
-
-  -----------N is the Number of payouts for the validator (including the validator) Weight: 
-
-  - Reward Destination Staked: O(N)
-
-  - Reward Destination Controller (Creating): O(N)DB Weight: 
-
-  - Read: EraElectionStatus, CurrentEra, HistoryDepth, ErasValidatorReward,        ErasStakersClipped, ErasRewardPoints, ErasValidatorPrefs (8 items) 
-
-  - Read Each: Bonded, Ledger, Payee, Locks, System Account (5 items)
-
-  - Write Each: System Account, Locks, Ledger (3 items)
-
-    NOTE: weights are assuming that payouts are made to alive stash account (Staked).   Paying even a dead controller is cheaper weight-wise. We don't do any refunds here. 
-
-  \# \</weight> 
  
 ### reapStash(stash: `AccountId`, num_slashing_spans: `u32`)
 - **interface**: `api.tx.staking.reapStash`
@@ -2950,17 +1666,7 @@ ___
 
   - `stash`: The stash account to reap. Its balance must be zero. 
 
-  \# \<weight>
-
-   Complexity: O(S) where S is the number of slashing spans on the account. DB Weight: 
-
-  - Reads: Stash Account, Bonded, Slashing Spans, Locks
-
-  - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Stash Account, Locks
-
-  - Writes Each: SpanSlash * S
-
-  \# \</weight> 
+   
  
 ### rebond(value: `Compact<BalanceOf>`)
 - **interface**: `api.tx.staking.rebond`
@@ -2968,25 +1674,7 @@ ___
 
   The dispatch origin must be signed by the controller, and it can be only called when [`EraElectionStatus`] is `Closed`. 
 
-  \# \<weight>
-
    
-
-  - Time complexity: O(L), where L is unlocking chunks
-
-  - Bounded by `MAX_UNLOCKING_CHUNKS`.
-
-  - Storage changes: Can't increase storage, only decrease it.
-
-  ---------------
-
-  - DB Weight:
-
-      - Reads: EraElectionStatus, Ledger, Locks, [Origin Account]
-
-      - Writes: [Origin Account], Locks, Ledger
-
-  \# \</weight> 
  
 ### scaleValidatorCount(factor: `Percent`)
 - **interface**: `api.tx.staking.scaleValidatorCount`
@@ -2994,11 +1682,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
-   Same as [`set_validator_count`]. 
-
-  \# \</weight> 
+   
  
 ### setController(controller: `LookupSource`)
 - **interface**: `api.tx.staking.setController`
@@ -3008,23 +1692,7 @@ ___
 
   The dispatch origin for this call must be _Signed_ by the stash, not the controller. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments. Insignificant complexity.
-
-  - Contains a limited number of reads.
-
-  - Writes are limited to the `origin` account key.
-
-  ----------Weight: O(1) DB Weight: 
-
-  - Read: Bonded, Ledger New Controller, Ledger Old Controller
-
-  - Write: Bonded, Ledger New Controller, Ledger Old Controller
-
-  \# \</weight> 
  
 ### setHistoryDepth(new_history_depth: `Compact<EraIndex>`, _era_items_deleted: `Compact<u32>`)
 - **interface**: `api.tx.staking.setHistoryDepth`
@@ -3038,25 +1706,7 @@ ___
 
   Origin must be root. 
 
-  \# \<weight>
-
    
-
-  - E: Number of history depths removed, i.e. 10 -> 7 = 3
-
-  - Weight: O(E)
-
-  - DB Weight:
-
-      - Reads: Current Era, History Depth
-
-      - Writes: History Depth
-
-      - Clear Prefix Each: Era Stakers, EraStakersClipped, ErasValidatorPrefs
-
-      - Writes Each: ErasValidatorReward, ErasRewardPoints, ErasTotalStake, ErasStartSessionIndex
-
-  \# \</weight> 
  
 ### setInvulnerables(invulnerables: `Vec<AccountId>`)
 - **interface**: `api.tx.staking.setInvulnerables`
@@ -3064,15 +1714,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
    
-
-  - O(V)
-
-  - Write: Invulnerables
-
-  \# \</weight> 
  
 ### setPayee(payee: `RewardDestination`)
 - **interface**: `api.tx.staking.setPayee`
@@ -3082,27 +1724,7 @@ ___
 
   The dispatch origin for this call must be _Signed_ by the controller, not the stash. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments. Insignificant complexity.
-
-  - Contains a limited number of reads.
-
-  - Writes are limited to the `origin` account key.
-
-  ---------
-
-  - Weight: O(1)
-
-  - DB Weight:
-
-      - Read: Ledger
-
-      - Write: Payee
-
-  \# \</weight> 
  
 ### setValidatorCount(new: `Compact<u32>`)
 - **interface**: `api.tx.staking.setValidatorCount`
@@ -3110,11 +1732,7 @@ ___
 
   The dispatch origin must be Root. 
 
-  \# \<weight>
-
-   Weight: O(1) Write: Validator Count 
-
-  \# \</weight> 
+   
  
 ### submitElectionSolution(winners: `Vec<ValidatorIndex>`, compact: `CompactAssignments`, score: `ElectionScore`, era: `EraIndex`, size: `ElectionSize`)
 - **interface**: `api.tx.staking.submitElectionSolution`
@@ -3144,15 +1762,7 @@ ___
 
   1. `min { support.total }` for each support of a winner. This value should be maximized. 2. `sum { support.total }` for each support of a winner. This value should be minimized. 3. `sum { support.total^2 }` for each support of a winner. This value should be    minimized (to ensure less variance) 
 
-  \# \<weight>
-
-   The transaction is assumed to be the longest path, a better solution. 
-
-    - Initial solution is almost the same.
-
-    - Worse solution is retraced in pre-dispatch-checks which sets its own weight.
-
-  \# \</weight> 
+   
  
 ### submitElectionSolutionUnsigned(winners: `Vec<ValidatorIndex>`, compact: `CompactAssignments`, score: `ElectionScore`, era: `EraIndex`, size: `ElectionSize`)
 - **interface**: `api.tx.staking.submitElectionSolutionUnsigned`
@@ -3160,11 +1770,7 @@ ___
 
   Note that this must pass the [`ValidateUnsigned`] check which only allows transactions from the local node to be included. In other words, only the block author can include a transaction in the block. 
 
-  \# \<weight>
-
-   See [`submit_election_solution`]. 
-
-  \# \</weight> 
+   
  
 ### unbond(value: `Compact<BalanceOf>`)
 - **interface**: `api.tx.staking.unbond`
@@ -3180,23 +1786,7 @@ ___
 
   See also [`Call::withdraw_unbonded`]. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments. Limited but potentially exploitable complexity.
-
-  - Contains a limited number of reads.
-
-  - Each call (requires the remainder of the bonded balance to be above `minimum_balance`)  will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage.   The only way to clean the aforementioned storage item is also user-controlled via   `withdraw_unbonded`. 
-
-  - One DB entry.
-
-  ----------Weight: O(1) DB Weight: 
-
-  - Read: EraElectionStatus, Ledger, CurrentEra, Locks, BalanceOf Stash,
-
-  - Write: Locks, Ledger, BalanceOf Stash,</weight> 
  
 ### validate(prefs: `ValidatorPrefs`)
 - **interface**: `api.tx.staking.validate`
@@ -3206,23 +1796,7 @@ ___
 
   The dispatch origin for this call must be _Signed_ by the controller, not the stash. And, it can be only called when [`EraElectionStatus`] is `Closed`. 
 
-  \# \<weight>
-
    
-
-  - Independent of the arguments. Insignificant complexity.
-
-  - Contains a limited number of reads.
-
-  - Writes are limited to the `origin` account key.
-
-  -----------Weight: O(1) DB Weight: 
-
-  - Read: Era Election Status, Ledger
-
-  - Write: Nominators, Validators
-
-  \# \</weight> 
  
 ### withdrawUnbonded(num_slashing_spans: `u32`)
 - **interface**: `api.tx.staking.withdrawUnbonded`
@@ -3236,29 +1810,7 @@ ___
 
   See also [`Call::unbond`]. 
 
-  \# \<weight>
-
    
-
-  - Could be dependent on the `origin` argument and how much `unlocking` chunks exist. It implies `consolidate_unlocked` which loops over `Ledger.unlocking`, which is  indirectly user-controlled. See [`unbond`] for more detail. 
-
-  - Contains a limited number of reads, yet the size of which could be large based on `ledger`.
-
-  - Writes are limited to the `origin` account key.
-
-  ---------------Complexity O(S) where S is the number of slashing spans to remove Update: 
-
-  - Reads: EraElectionStatus, Ledger, Current Era, Locks, [Origin Account]
-
-  - Writes: [Origin Account], Locks, LedgerKill: 
-
-  - Reads: EraElectionStatus, Ledger, Current Era, Bonded, Slashing Spans, [Origin  Account], Locks, BalanceOf stash 
-
-  - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,  [Origin Account], Locks, BalanceOf stash. 
-
-  - Writes Each: SpanSlash * SNOTE: Weight annotation is the kill scenario, we refund otherwise. 
-
-  \# \</weight> 
 
 ___
 
@@ -3271,17 +1823,7 @@ ___
 
   The dispatch origin for this call must be _Signed_. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - Limited storage reads.
-
-  - One DB change.
-
-  \# \</weight> 
  
 ### sudo(call: `Call`)
 - **interface**: `api.tx.sudo.sudo`
@@ -3289,19 +1831,7 @@ ___
 
   The dispatch origin for this call must be _Signed_. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - Limited storage reads.
-
-  - One DB write (event).
-
-  - Weight of derivative `call` execution + 10,000.
-
-  \# \</weight> 
  
 ### sudoAs(who: `LookupSource`, call: `Call`)
 - **interface**: `api.tx.sudo.sudoAs`
@@ -3309,19 +1839,7 @@ ___
 
   The dispatch origin for this call must be _Signed_. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - Limited storage reads.
-
-  - One DB write (event).
-
-  - Weight of derivative `call` execution + 10,000.
-
-  \# \</weight> 
  
 ### sudoUncheckedWeight(call: `Call`, _weight: `Weight`)
 - **interface**: `api.tx.sudo.sudoUncheckedWeight`
@@ -3329,15 +1847,7 @@ ___
 
   The dispatch origin for this call must be _Signed_. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - The weight of this call is defined by the caller.
-
-  \# \</weight> 
 
 ___
 
@@ -3354,161 +1864,55 @@ ___
 
   **NOTE:** We rely on the Root origin to provide us the number of subkeys under the prefix we are removing to accurately calculate the weight of this function. 
 
-  \# \<weight>
-
    
-
-  - `O(P)` where `P` amount of keys with prefix `prefix`
-
-  - `P` storage deletions.
-
-  - Base Weight: 0.834 * P µs
-
-  - Writes: Number of subkeys + 1
-
-  \# \</weight> 
  
 ### killStorage(keys: `Vec<Key>`)
 - **interface**: `api.tx.system.killStorage`
 - **summary**:   Kill some items from storage. 
 
-  \# \<weight>
-
    
-
-  - `O(IK)` where `I` length of `keys` and `K` length of one key
-
-  - `I` storage deletions.
-
-  - Base Weight: .378 * i µs
-
-  - Writes: Number of items
-
-  \# \</weight> 
  
 ### remark(_remark: `Bytes`)
 - **interface**: `api.tx.system.remark`
 - **summary**:   Make some on-chain remark. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`
-
-  - Base Weight: 0.665 µs, independent of remark length.
-
-  - No DB operations.
-
-  \# \</weight> 
  
 ### setChangesTrieConfig(changes_trie_config: `Option<ChangesTrieConfiguration>`)
 - **interface**: `api.tx.system.setChangesTrieConfig`
 - **summary**:   Set the new changes trie configuration. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`
-
-  - 1 storage write or delete (codec `O(1)`).
-
-  - 1 call to `deposit_log`: Uses `append` API, so O(1)
-
-  - Base Weight: 7.218 µs
-
-  - DB Weight:
-
-      - Writes: Changes Trie, System Digest
-
-  \# \</weight> 
  
 ### setCode(code: `Bytes`)
 - **interface**: `api.tx.system.setCode`
 - **summary**:   Set the new runtime code. 
 
-  \# \<weight>
-
    
-
-  - `O(C + S)` where `C` length of `code` and `S` complexity of `can_set_code`
-
-  - 1 storage write (codec `O(C)`).
-
-  - 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is expensive).
-
-  - 1 event.The weight of this function is dependent on the runtime, but generally this is very expensive. We will treat this as a full block. 
-
-  \# \</weight> 
  
 ### setCodeWithoutChecks(code: `Bytes`)
 - **interface**: `api.tx.system.setCodeWithoutChecks`
 - **summary**:   Set the new runtime code without doing any checks of the given `code`. 
 
-  \# \<weight>
-
    
-
-  - `O(C)` where `C` length of `code`
-
-  - 1 storage write (codec `O(C)`).
-
-  - 1 event.The weight of this function is dependent on the runtime. We will treat this as a full block. 
-
-  \# \</weight> 
  
 ### setHeapPages(pages: `u64`)
 - **interface**: `api.tx.system.setHeapPages`
 - **summary**:   Set the number of pages in the WebAssembly environment's heap. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`
-
-  - 1 storage write.
-
-  - Base Weight: 1.405 µs
-
-  - 1 write to HEAP_PAGES
-
-  \# \</weight> 
  
 ### setStorage(items: `Vec<KeyValue>`)
 - **interface**: `api.tx.system.setStorage`
 - **summary**:   Set some items of storage. 
 
-  \# \<weight>
-
    
-
-  - `O(I)` where `I` length of `items`
-
-  - `I` storage writes (`O(1)`).
-
-  - Base Weight: 0.568 * i µs
-
-  - Writes: Number of items
-
-  \# \</weight> 
  
 ### suicide()
 - **interface**: `api.tx.system.suicide`
 - **summary**:   Kill the sending account, assuming there are no references outstanding and the composite data is equal to its default value. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`
-
-  - 1 storage read and deletion.
-
-  --------------------Base Weight: 8.626 µs No DB Read or Write operations because caller is already in overlay 
-
-  \# \</weight> 
 
 ___
 
@@ -3527,31 +1931,7 @@ ___
 
   + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal. + `length_bound`: The upper bound for the length of the proposal in storage. Checked via                   `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(B + M + P1 + P2)` where:
-
-    - `B` is `proposal` size in bytes (length-fee-bounded)
-
-    - `M` is members-count (code- and governance-bounded)
-
-    - `P1` is the complexity of `proposal` preimage.
-
-    - `P2` is proposal-count (code-bounded)
-
-  - DB:
-
-   - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)
-
-   - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)
-
-   - any mutations done while executing `proposal` (`P1`)
-
-  - up to 3 events
-
-  \# \</weight> 
+   
  
 ### disapproveProposal(proposal_hash: `Hash`)
 - **interface**: `api.tx.technicalCommittee.disapproveProposal`
@@ -3563,15 +1943,7 @@ ___
 
   * `proposal_hash`: The hash of the proposal that should be disapproved.
 
-  \# \<weight>
-
-   Complexity: O(P) where P is the number of max proposals DB Weight: 
-
-  * Reads: Proposals
-
-  * Writes: Voting, Proposals, ProposalOf
-
-  \# \</weight> 
+   
  
 ### execute(proposal: `Proposal`, length_bound: `Compact<u32>`)
 - **interface**: `api.tx.technicalCommittee.execute`
@@ -3579,17 +1951,7 @@ ___
 
   Origin must be a member of the collective. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`
-
-  - DB: 1 read (codec `O(M)`) + DB access of `proposal`
-
-  - 1 event
-
-  \# \</weight> 
+   
  
 ### propose(threshold: `Compact<MemberCount>`, proposal: `Proposal`, length_bound: `Compact<u32>`)
 - **interface**: `api.tx.technicalCommittee.propose`
@@ -3599,45 +1961,7 @@ ___
 
   `threshold` determines whether `proposal` is executed directly (`threshold < 2`) or put up for voting. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(B + M + P1)` or `O(B + M + P2)` where:
-
-    - `B` is `proposal` size in bytes (length-fee-bounded)
-
-    - `M` is members-count (code- and governance-bounded)
-
-    - branching is influenced by `threshold` where:
-
-      - `P1` is proposal execution complexity (`threshold < 2`)
-
-      - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
-
-  - DB:
-
-    - 1 storage read `is_member` (codec `O(M)`)
-
-    - 1 storage read `ProposalOf::contains_key` (codec `O(1)`)
-
-    - DB accesses influenced by `threshold`:
-
-      - EITHER storage accesses done by `proposal` (`threshold < 2`)
-
-      - OR proposal insertion (`threshold <= 2`)
-
-        - 1 storage mutation `Proposals` (codec `O(P2)`)
-
-        - 1 storage mutation `ProposalCount` (codec `O(1)`)
-
-        - 1 storage write `ProposalOf` (codec `O(B)`)
-
-        - 1 storage write `Voting` (codec `O(M)`)
-
-    - 1 event
-
-  \# \</weight> 
+   
  
 ### setMembers(new_members: `Vec<AccountId>`, prime: `Option<AccountId>`, old_count: `MemberCount`)
 - **interface**: `api.tx.technicalCommittee.setMembers`
@@ -3653,29 +1977,7 @@ ___
 
   NOTE: Does not enforce the expected `MaxMembers` limit on the amount of members, but       the weight estimations rely on it to estimate dispatchable weight. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(MP + N)` where:
-
-    - `M` old-members-count (code- and governance-bounded)
-
-    - `N` new-members-count (code- and governance-bounded)
-
-    - `P` proposals-count (code-bounded)
-
-  - DB:
-
-    - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members
-
-    - 1 storage read (codec `O(P)`) for reading the proposals
-
-    - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal
-
-    - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one
-
-  \# \</weight> 
+   
  
 ### vote(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 - **interface**: `api.tx.technicalCommittee.vote`
@@ -3683,21 +1985,7 @@ ___
 
   Requires the sender to be a member. 
 
-  \# \<weight>
-
-   #### Weight 
-
-  - `O(M)` where `M` is members-count (code- and governance-bounded)
-
-  - DB:
-
-    - 1 storage read `Members` (codec `O(M)`)
-
-    - 1 storage mutation `Voting` (codec `O(M)`)
-
-  - 1 event
-
-  \# \</weight> 
+   
 
 ___
 
@@ -3765,17 +2053,7 @@ ___
 
   The dispatch origin for this call must be `Inherent`. 
 
-  \# \<weight>
-
    
-
-  - `O(T)` where `T` complexity of `on_timestamp_set`
-
-  - 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in `on_finalize`)
-
-  - 1 event handler `on_timestamp_set` `O(T)`.
-
-  \# \</weight> 
 
 ___
 
@@ -3788,17 +2066,7 @@ ___
 
   May only be called from the curator. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - Limited storage reads.
-
-  - One DB change.
-
-  \# \</weight> 
  
 ### approveBounty(bounty_id: `Compact<ProposalIndex>`)
 - **interface**: `api.tx.treasury.approveBounty`
@@ -3806,17 +2074,7 @@ ___
 
   May only be called from `T::ApproveOrigin`. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - Limited storage reads.
-
-  - One DB change.
-
-  \# \</weight> 
  
 ### approveProposal(proposal_id: `Compact<ProposalIndex>`)
 - **interface**: `api.tx.treasury.approveProposal`
@@ -3824,17 +2082,7 @@ ___
 
   May only be called from `T::ApproveOrigin`. 
 
-  \# \<weight>
-
    
-
-  - Complexity: O(1).
-
-  - DbReads: `Proposals`, `Approvals`
-
-  - DbWrite: `Approvals`
-
-  \# \</weight> 
  
 ### awardBounty(bounty_id: `Compact<ProposalIndex>`, beneficiary: `LookupSource`)
 - **interface**: `api.tx.treasury.awardBounty`
@@ -3872,17 +2120,7 @@ ___
 
   - `hash`: The identity of the open tip for which a tip value is declared. This is formed   as the hash of the tuple of the original tip `reason` and the beneficiary account ID. 
 
-  \# \<weight>
-
    
-
-  - Complexity: `O(T)` where `T` is the number of tippers.  decoding `Tipper` vec of length `T`.   `T` is charged as upper bound given by `ContainsLengthBound`.   The actual cost depends on the implementation of `T::Tippers`. 
-
-  - DbReads: `Tips`, `Tippers`, `tip finder`
-
-  - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`
-
-  \# \</weight> 
  
 ### extendBountyExpiry(bounty_id: `Compact<BountyIndex>`, _remark: `Bytes`)
 - **interface**: `api.tx.treasury.extendBountyExpiry`
@@ -3916,33 +2154,13 @@ ___
 
   May only be called from `T::ApproveOrigin`. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - Limited storage reads.
-
-  - One DB change.
-
-  \# \</weight> 
  
 ### proposeSpend(value: `Compact<BalanceOf>`, beneficiary: `LookupSource`)
 - **interface**: `api.tx.treasury.proposeSpend`
 - **summary**:   Put forward a suggestion for spending. A deposit proportional to the value is reserved and slashed if the proposal is rejected. It is returned once the proposal is awarded. 
 
-  \# \<weight>
-
    
-
-  - Complexity: O(1)
-
-  - DbReads: `ProposalCount`, `origin account`
-
-  - DbWrites: `ProposalCount`, `Proposals`, `origin account`
-
-  \# \</weight> 
  
 ### rejectProposal(proposal_id: `Compact<ProposalIndex>`)
 - **interface**: `api.tx.treasury.rejectProposal`
@@ -3950,17 +2168,7 @@ ___
 
   May only be called from `T::RejectOrigin`. 
 
-  \# \<weight>
-
    
-
-  - Complexity: O(1)
-
-  - DbReads: `Proposals`, `rejected proposer account`
-
-  - DbWrites: `Proposals`, `rejected proposer account`
-
-  \# \</weight> 
  
 ### reportAwesome(reason: `Bytes`, who: `AccountId`)
 - **interface**: `api.tx.treasury.reportAwesome`
@@ -3976,19 +2184,7 @@ ___
 
   Emits `NewTip` if successful. 
 
-  \# \<weight>
-
    
-
-  - Complexity: `O(R)` where `R` length of `reason`.
-
-    - encoding and hashing of 'reason'
-
-  - DbReads: `Reasons`, `Tips`
-
-  - DbWrites: `Reasons`, `Tips`
-
-  \# \</weight> 
  
 ### retractTip(hash: `Hash`)
 - **interface**: `api.tx.treasury.retractTip`
@@ -4002,19 +2198,7 @@ ___
 
   Emits `TipRetracted` if successful. 
 
-  \# \<weight>
-
    
-
-  - Complexity: `O(1)`
-
-    - Depends on the length of `T::Hash` which is fixed.
-
-  - DbReads: `Tips`, `origin account`
-
-  - DbWrites: `Reasons`, `Tips`, `origin account`
-
-  \# \</weight> 
  
 ### tip(hash: `Hash`, tip_value: `Compact<BalanceOf>`)
 - **interface**: `api.tx.treasury.tip`
@@ -4028,19 +2212,7 @@ ___
 
   Emits `TipClosing` if the threshold of tippers has been reached and the countdown period has started. 
 
-  \# \<weight>
-
    
-
-  - Complexity: `O(T)` where `T` is the number of tippers.  decoding `Tipper` vec of length `T`, insert tip and check closing,   `T` is charged as upper bound given by `ContainsLengthBound`.   The actual cost depends on the implementation of `T::Tippers`. 
-
-    Actually weight could be lower as it depends on how many tips are in `OpenTip` but it   is weighted as if almost full i.e of length `T-1`. 
-
-  - DbReads: `Tippers`, `Tips`
-
-  - DbWrites: `Tips`
-
-  \# \</weight> 
  
 ### tipNew(reason: `Bytes`, who: `AccountId`, tip_value: `Compact<BalanceOf>`)
 - **interface**: `api.tx.treasury.tipNew`
@@ -4056,21 +2228,7 @@ ___
 
   Emits `NewTip` if successful. 
 
-  \# \<weight>
-
    
-
-  - Complexity: `O(R + T)` where `R` length of `reason`, `T` is the number of tippers.
-
-    - `O(T)`: decoding `Tipper` vec of length `T`    `T` is charged as upper bound given by `ContainsLengthBound`.     The actual cost depends on the implementation of `T::Tippers`. 
-
-    - `O(R)`: hashing and encoding of reason of length `R`
-
-  - DbReads: `Tippers`, `Reasons`
-
-  - DbWrites: `Reasons`, `Tips`
-
-  \# \</weight> 
  
 ### unassignCurator(bounty_id: `Compact<ProposalIndex>`)
 - **interface**: `api.tx.treasury.unassignCurator`
@@ -4084,17 +2242,7 @@ ___
 
   Finally, the origin can be anyone if and only if the curator is "inactive". This allows anyone in the community to call out that a curator is not doing their due diligence, and we should pick a new curator. In this case the curator should also be slashed. 
 
-  \# \<weight>
-
    
-
-  - O(1).
-
-  - Limited storage reads.
-
-  - One DB change.
-
-  \# \</weight> 
 
 ___
 
@@ -4123,17 +2271,7 @@ ___
 
   If origin is root then call are dispatch without checking origin filter. (This includes bypassing `frame_system::Trait::BaseCallFilter`). 
 
-  \# \<weight>
-
    
-
-  - Base weight: 14.39 + .987 * c µs
-
-  - Plus the sum of the weights of the `calls`.
-
-  - Plus one additional event. (repeat read/write)
-
-  \# \</weight> 
 
   This will return `Ok` in all circumstances. To determine the success of the batch, an event is deposited. If a call failed and the batch was interrupted, then the `BatchInterrupted` event is deposited, along with the number of successful calls made and the error of the failed call. If all were successful, then the `BatchCompleted` event is deposited. 
 
@@ -4158,19 +2296,7 @@ ___
 
   Emits `VestingCreated`. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - DbWeight: 4 Reads, 4 Writes
-
-      - Reads: Vesting Storage, Balances Locks, Target Account, Source Account
-
-      - Writes: Vesting Storage, Balances Locks, Target Account, Source Account
-
-  \# \</weight> 
  
 ### vest()
 - **interface**: `api.tx.vesting.vest`
@@ -4180,19 +2306,7 @@ ___
 
   Emits either `VestingCompleted` or `VestingUpdated`. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - DbWeight: 2 Reads, 2 Writes
-
-      - Reads: Vesting Storage, Balances Locks, [Sender Account]
-
-      - Writes: Vesting Storage, Balances Locks, [Sender Account]
-
-  \# \</weight> 
  
 ### vestOther(target: `LookupSource`)
 - **interface**: `api.tx.vesting.vestOther`
@@ -4204,19 +2318,7 @@ ___
 
   Emits either `VestingCompleted` or `VestingUpdated`. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - DbWeight: 3 Reads, 3 Writes
-
-      - Reads: Vesting Storage, Balances Locks, Target Account
-
-      - Writes: Vesting Storage, Balances Locks, Target Account
-
-  \# \</weight> 
  
 ### vestedTransfer(target: `LookupSource`, schedule: `VestingInfo`)
 - **interface**: `api.tx.vesting.vestedTransfer`
@@ -4232,16 +2334,4 @@ ___
 
   Emits `VestingCreated`. 
 
-  \# \<weight>
-
    
-
-  - `O(1)`.
-
-  - DbWeight: 3 Reads, 3 Writes
-
-      - Reads: Vesting Storage, Balances Locks, Target Account, [Sender Account]
-
-      - Writes: Vesting Storage, Balances Locks, Target Account, [Sender Account]
-
-  \# \</weight> 

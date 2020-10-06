@@ -17,7 +17,7 @@
 
 ▸ **keys**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/keys.ts:25](https://github.com/polkadot-js/api/blob/acb565d46/packages/api-derive/src/staking/keys.ts#L25)*
+*Defined in [packages/api-derive/src/staking/keys.ts:25](https://github.com/polkadot-js/api/blob/014fa123b/packages/api-derive/src/staking/keys.ts#L25)*
 
 #### Parameters:
 
@@ -34,7 +34,7 @@ ___
 
 ▸ **keysMulti**(`instanceId`: string, `api`: ApiInterfaceRx): function
 
-*Defined in [packages/api-derive/src/staking/keys.ts:33](https://github.com/polkadot-js/api/blob/acb565d46/packages/api-derive/src/staking/keys.ts#L33)*
+*Defined in [packages/api-derive/src/staking/keys.ts:33](https://github.com/polkadot-js/api/blob/014fa123b/packages/api-derive/src/staking/keys.ts#L33)*
 
 #### Parameters:
 
