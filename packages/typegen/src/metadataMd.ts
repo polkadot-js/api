@@ -46,18 +46,18 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
         ? `${md}\n\n` // empty line
         : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n')
           ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
-          : `${md}${docLine // line continuing the preceding line
-            .replace(/^# <weight>$/g, '\\# \\<weight>\n\n')
-            .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
-            .replace(/^#{1,3} /, '#### ')} `
-    , '');
+          : `${md}${docLine.replace(/^#{1,3} /, '#### ')} `
+    , '')
+    .replace(/#### <weight>/g, '<weight>')
+    .replace(/<weight>(.|\n)*?<\/weight>/g, '')
+    .replace(/#### Weight:/g, 'Weight:');
 
   // prefix each line with indentation
   return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
 function renderPage (page: Page): string {
-  let md = `## ${page.title}\n\n`;
+  let md = `---\ntitle: ${page.title}\n---\n\n`;
 
   if (page.description) {
     md += `${page.description}\n\n`;
@@ -79,8 +79,10 @@ function renderPage (page: Page): string {
     section.items.forEach((item) => {
       md += ` \n### ${item.name}`;
 
+      let tmp = '';
+
       Object.keys(item).filter((i) => i !== 'name').forEach((bullet) => {
-        md += `\n- **${bullet}**: ${
+        tmp += `\n- **${bullet}**: ${
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           item[bullet] instanceof Vec
             ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
@@ -88,7 +90,7 @@ function renderPage (page: Page): string {
         }`;
       });
 
-      md += '\n';
+      md += `${tmp}\n`;
     });
   });
 
