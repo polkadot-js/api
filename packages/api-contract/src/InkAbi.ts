@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { CodecArg, Constructor, Registry } from '@polkadot/types/types';
-import { InkConstructorSpec, InkMessageSpec, InkProject, InkTypeSpec } from '@polkadot/types/interfaces';
-import { InkMessages, InkMessage, InkMessageParam, InkConstructors, InkType } from './types';
+import { AnyJson, CodecArg, Constructor, Registry } from '@polkadot/types/types';
+import { InkConstructorSpec, InkMessageSpec, InkTypeSpec } from '@polkadot/types/interfaces';
+import { InkConstructor, InkMessageBase, InkMessage, InkMessageParam, InkType } from './types';
 
 import { Compact, createClass, encodeType } from '@polkadot/types';
 import { assert, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
@@ -25,62 +24,25 @@ function createArgClass (registry: Registry, args: InkMessageParam[], baseDef: R
 }
 
 export default class InkAbi extends InkRegistry {
-  public readonly constructors: InkConstructors;
+  public readonly constructors: InkConstructor[];
 
-  public readonly messages: InkMessages;
+  public readonly messages: InkMessage[];
 
-  constructor (registry: Registry, project: InkProject) {
-    super(registry, project);
+  constructor (registry: Registry, json: AnyJson) {
+    super(registry, json);
     [this.constructors, this.messages] = this._decodeProject();
   }
 
   private _createInkType (spec: InkTypeSpec): InkType {
+    const displayName = spec.displayName.toString();
+
     return {
-      displayName: spec.displayName.toString(),
+      displayName: displayName?.length > 0 ? displayName : undefined,
       type: this.typeDefAt(spec.id)
     };
   }
 
-  // private _create<SpecType extends SpecTypes, MessageType extends MessageTypes> (name: string, spec: SpecType): MessageType;
-  // private _create<InkConstructorSpec, InkConstructor>(name: string, spec: InkConstructorSpec): InkConstructor {
-
-  // }
-  // private _create (name: string, spec: InkMessageSpec): InkMessage;
-  //   const args = spec.args.map(({ name, type }): InkMessageParam => {
-  //     assert(isObject(type), `Invalid type at index ${type.toString()}`);
-
-  //     return {
-  //       name: stringCamelCase(name.toString()),
-  //       type: this.typeDefAt(type.id)
-  //     };
-  //   });
-
-  //   const Clazz = createArgClass(this.registry, args, isUndefined(spec.selector) ? {} : { __selector: 'u32' });
-  //   const baseStruct: { [index: string]: any } = { __selector: this.registry.createType('u32', spec.selector) };
-
-  //   const encoder = (...params: CodecArg[]): Uint8Array => {
-  //     assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
-
-  //     const u8a = new Clazz(
-  //       this.registry,
-  //       args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
-  //         mapped[name] = params[index];
-
-  //         return mapped;
-  //       }, { ...baseStruct })
-  //     ).toU8a();
-
-  //     return Compact.addLengthPrefix(u8a);
-  //   };
-
-  //   const fn = (encoder as InkMessage);
-
-  //   fn.args = args;
-
-  //   return fn;
-  // }
-
-  private _createBase (identifier: string, spec: InkMessageSpec | InkConstructorSpec): InkMessage {
+  private _createBase (identifier: string, spec: InkMessageSpec | InkConstructorSpec): InkMessageBase {
     const args = spec.args.map(({ name, type }): InkMessageParam => {
       assert(isObject(type), `Invalid type at index ${type.toString()}`);
 
@@ -93,7 +55,7 @@ export default class InkAbi extends InkRegistry {
     const Clazz = createArgClass(this.registry, args, isUndefined(spec.selector) ? {} : { __selector: 'u32' });
     const baseStruct: { [index: string]: any } = { __selector: this.registry.createType('u32', spec.selector) };
 
-    const encoder = (...params: CodecArg[]): Uint8Array => {
+    const fn = ((...params: CodecArg[]): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract message '${identifier}', found ${params.length}`);
 
       const u8a = new Clazz(
@@ -106,9 +68,7 @@ export default class InkAbi extends InkRegistry {
       ).toU8a();
 
       return Compact.addLengthPrefix(u8a);
-    };
-
-    const fn = (encoder as InkMessage);
+    }) as InkMessage;
 
     fn.args = args;
     fn.identifier = identifier;
@@ -117,29 +77,28 @@ export default class InkAbi extends InkRegistry {
     return fn;
   }
 
-  private _createConstructor (name: string, spec: InkConstructorSpec): InkMessage {
-    const fn = this._createBase(name, spec);
+  private _createConstructor (identifier: string, spec: InkConstructorSpec): InkConstructor {
+    const fn = this._createBase(identifier, spec);
 
     fn.isConstructor = true;
 
     return fn;
   }
 
-  private _createMessage (name: string, spec: InkMessageSpec): InkMessage {
-    const fn = this._createBase(name, spec);
+  private _createMessage (identifier: string, spec: InkMessageSpec): InkMessage {
+    const fn = this._createBase(identifier, spec) as InkMessage;
 
     fn.isConstructor = false;
     fn.mutates = spec.mutates.valueOf();
-    fn.returnType = spec.returnType.isSome ? this._createInkType(spec.returnType.unwrap()) : null;
+    fn.payable = spec.payable.valueOf();
+    fn.returnType = spec.returnType.isSome ? this._createInkType(spec.returnType.unwrap()) || null : null;
 
     return fn;
   }
 
-  private _decodeProject (): [InkConstructors, InkMessages] {
-    // this.validateAbi(abiPre);
-
+  private _decodeProject (): [InkConstructor[], InkMessage[]] {
     const constructors = this.project.spec.constructors.map(
-      (constructor): InkMessage => {
+      (constructor): InkConstructor => {
         return this._createConstructor(constructor.name.toString(), constructor);
       }
     );

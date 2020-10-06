@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import fs from 'fs';
@@ -61,12 +60,10 @@ describe('InkRegistry', (): void => {
       compare('multisigPlain', registry);
     });
 
-    // it('initializes from a contract ABI (SharedVec)', (): void => {
-    //   compare(new InkRegistry(registry, sharedVecAbi), sharedVecCmp);
-    // });
+    it('stores base project as JSON', (): void => {
+      const inkRegistry = new InkRegistry(registry, abis.dns);
 
-    // it('initializes from a contract ABI (Other, test001)', (): void => {
-    //   compare(new InkRegistry(registry, test001Abi), test001Cmp);
-    // });
+      expect(inkRegistry.json).toEqual(abis.dns);
+    });
   });
 });

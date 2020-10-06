@@ -1,13 +1,13 @@
 {
-  "metadata_version": "0.1.0",
+  "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0x90b3de750184cf562ee446d3baba0b82228d5290924f30084215864bb02198d6",
-    "language": "ink! 2.1.0",
+    "hash": "0xe069a3d4cd8354eaed681c9c827ec32400a86f75c63d20c11697a5d17bc64472",
+    "language": "ink! 3.0.0",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "erc721",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -17,10 +17,12 @@
       {
         "args": [],
         "docs": [
-          "Creates a new ERC721 token contract."
+          " Creates a new ERC721 token contract."
         ],
-        "name": "new",
-        "selector": "0x41e691fc"
+        "name": [
+          "new"
+        ],
+        "selector": "0xd183512b"
       }
     ],
     "docs": [],
@@ -62,7 +64,7 @@
           }
         ],
         "docs": [
-          "Event emitted when a token transfer occurs."
+          " Event emitted when a token transfer occurs."
         ],
         "name": "Transfer"
       },
@@ -103,7 +105,7 @@
           }
         ],
         "docs": [
-          "Event emited when a token approve occurs."
+          " Event emited when a token approve occurs."
         ],
         "name": "Approval"
       },
@@ -144,8 +146,8 @@
           }
         ],
         "docs": [
-          "Event emitted when an operator is enabled or disabled for an owner.",
-          "The operator can manage all NFTs of the owner."
+          " Event emitted when an operator is enabled or disabled for an owner.",
+          " The operator can manage all NFTs of the owner."
         ],
         "name": "ApprovalForAll"
       }
@@ -164,19 +166,22 @@
           }
         ],
         "docs": [
-          "Returns the balance of the owner.",
+          " Returns the balance of the owner.",
           "",
-          "This represents the amount of unique tokens the owner has."
+          " This represents the amount of unique tokens the owner has."
         ],
         "mutates": false,
-        "name": "balance_of",
+        "name": [
+          "balance_of"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "u32"
           ],
           "id": 2
         },
-        "selector": "0xd35a73cd"
+        "selector": "0x56e929b2"
       },
       {
         "args": [
@@ -191,17 +196,20 @@
           }
         ],
         "docs": [
-          "Returns the owner of the token."
+          " Returns the owner of the token."
         ],
         "mutates": false,
-        "name": "owner_of",
+        "name": [
+          "owner_of"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Option"
           ],
           "id": 15
         },
-        "selector": "0x3f552df1"
+        "selector": "0xf7860ada"
       },
       {
         "args": [
@@ -216,17 +224,20 @@
           }
         ],
         "docs": [
-          "Returns the approved account ID for this token if any."
+          " Returns the approved account ID for this token if any."
         ],
         "mutates": false,
-        "name": "get_approved",
+        "name": [
+          "get_approved"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Option"
           ],
           "id": 15
         },
-        "selector": "0x5309065f"
+        "selector": "0xb09dc487"
       },
       {
         "args": [
@@ -250,17 +261,20 @@
           }
         ],
         "docs": [
-          "Returns `true` if the operator is approved by the owner."
+          " Returns `true` if the operator is approved by the owner."
         ],
         "mutates": false,
-        "name": "is_approved_for_all",
+        "name": [
+          "is_approved_for_all"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "bool"
           ],
           "id": 14
         },
-        "selector": "0x2aaa3ea1"
+        "selector": "0xc666bf03"
       },
       {
         "args": [
@@ -284,17 +298,20 @@
           }
         ],
         "docs": [
-          "Approves or disapproves the operator for all tokens of the caller."
+          " Approves or disapproves the operator for all tokens of the caller."
         ],
         "mutates": true,
-        "name": "set_approval_for_all",
+        "name": [
+          "set_approval_for_all"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 16
         },
-        "selector": "0xc4d86ca3"
+        "selector": "0x51176f12"
       },
       {
         "args": [
@@ -318,17 +335,20 @@
           }
         ],
         "docs": [
-          "Approves the account to transfer the specified token on behalf of the caller."
+          " Approves the account to transfer the specified token on behalf of the caller."
         ],
         "mutates": true,
-        "name": "approve",
+        "name": [
+          "approve"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 16
         },
-        "selector": "0x5219209e"
+        "selector": "0x03d0e114"
       },
       {
         "args": [
@@ -352,17 +372,20 @@
           }
         ],
         "docs": [
-          "Transfers the token from the caller to the given destination."
+          " Transfers the token from the caller to the given destination."
         ],
         "mutates": true,
-        "name": "transfer",
+        "name": [
+          "transfer"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 16
         },
-        "selector": "0xb483afd3"
+        "selector": "0xfae3a09d"
       },
       {
         "args": [
@@ -395,17 +418,20 @@
           }
         ],
         "docs": [
-          "Transfer approved or owned token."
+          " Transfer approved or owned token."
         ],
         "mutates": true,
-        "name": "transfer_from",
+        "name": [
+          "transfer_from"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 16
         },
-        "selector": "0x07704ffe"
+        "selector": "0xfcfb2ccd"
       },
       {
         "args": [
@@ -420,17 +446,20 @@
           }
         ],
         "docs": [
-          "Creates a new token."
+          " Creates a new token."
         ],
         "mutates": true,
-        "name": "mint",
+        "name": [
+          "mint"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 16
         },
-        "selector": "0xdaf0b3c5"
+        "selector": "0xf8885eeb"
       },
       {
         "args": [
@@ -445,34 +474,37 @@
           }
         ],
         "docs": [
-          "Deletes an existing token. Only the owner can burn the token."
+          " Deletes an existing token. Only the owner can burn the token."
         ],
         "mutates": true,
-        "name": "burn",
+        "name": [
+          "burn"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 16
         },
-        "selector": "0xf43e8cfd"
+        "selector": "0x120bc564"
       }
     ]
   },
   "storage": {
-    "Struct": {
+    "struct": {
       "fields": [
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
                               "ty": 1
                             }
@@ -481,11 +513,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0100000000000000000000000000000000000000000000000000000000000000",
                                       "ty": 2
                                     }
@@ -494,10 +526,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0100000001000000000000000000000000000000000000000000000000000000",
                                           "ty": 3
                                         }
@@ -520,9 +552,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0200000001000000000000000000000000000000000000000000000000000000",
                           "ty": 5
                         }
@@ -544,15 +576,15 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0200000001000000000000000000000000000000000000000000000000000000",
                               "ty": 1
                             }
@@ -561,11 +593,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0300000001000000000000000000000000000000000000000000000000000000",
                                       "ty": 2
                                     }
@@ -574,10 +606,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0300000002000000000000000000000000000000000000000000000000000000",
                                           "ty": 3
                                         }
@@ -600,9 +632,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0400000002000000000000000000000000000000000000000000000000000000",
                           "ty": 5
                         }
@@ -624,15 +656,15 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0400000002000000000000000000000000000000000000000000000000000000",
                               "ty": 1
                             }
@@ -641,11 +673,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0500000002000000000000000000000000000000000000000000000000000000",
                                       "ty": 2
                                     }
@@ -654,10 +686,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0500000003000000000000000000000000000000000000000000000000000000",
                                           "ty": 9
                                         }
@@ -680,9 +712,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0600000003000000000000000000000000000000000000000000000000000000",
                           "ty": 10
                         }
@@ -704,15 +736,15 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0600000003000000000000000000000000000000000000000000000000000000",
                               "ty": 1
                             }
@@ -721,11 +753,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0700000003000000000000000000000000000000000000000000000000000000",
                                       "ty": 2
                                     }
@@ -734,10 +766,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0700000004000000000000000000000000000000000000000000000000000000",
                                           "ty": 11
                                         }
@@ -760,9 +792,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0800000004000000000000000000000000000000000000000000000000000000",
                           "ty": 13
                         }
@@ -806,8 +838,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Header"
@@ -845,8 +876,7 @@
         2
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"
@@ -868,8 +898,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "VacantEntry"
@@ -894,8 +923,7 @@
         6
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "hashmap",
         "ValueEntry"
@@ -912,8 +940,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "env",
+        "ink_env",
         "types",
         "AccountId"
       ]
@@ -958,8 +985,7 @@
         6
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"
@@ -984,8 +1010,7 @@
         2
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "hashmap",
         "ValueEntry"
@@ -1018,8 +1043,7 @@
         12
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"
@@ -1052,8 +1076,7 @@
         14
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "hashmap",
         "ValueEntry"

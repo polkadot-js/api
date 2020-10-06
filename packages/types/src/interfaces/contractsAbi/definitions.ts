@@ -1,6 +1,5 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// Copyright 2017-2020 @polkadot/types authors & contributors
+// SPDX-License-Identifier: Apache-2.0
 
 const layout = {
   InkLayoutArray: {
@@ -12,6 +11,10 @@ const layout = {
   InkLayoutCell: {
     key: 'InkLayoutKey',
     ty: 'MtLookupTypeId'
+  },
+  InkLayoutEnum: {
+    dispatch_key: 'InkLayoutKey',
+    variants: 'HashMap<u32, InkLayoutStruct>'
   },
   InkLayoutField: {
     layout: 'InkStorageLayout',
@@ -38,11 +41,11 @@ const layout = {
   },
   InkStorageLayout: {
     _enum: {
-      Array: 'InkLayoutArray',
-      Cell: 'InkLayoutCell',
-      // Enum: 'InkLayoutEnum',
-      Hash: 'InkLayoutHash',
-      Struct: 'InkLayoutStruct'
+      array: 'InkLayoutArray',
+      cell: 'InkLayoutCell',
+      enum: 'InkLayoutEnum',
+      hash: 'InkLayoutHash',
+      struct: 'InkLayoutStruct'
     }
   }
 };
@@ -81,6 +84,7 @@ const spec = {
     docs: 'Vec<Text>',
     mutates: 'bool',
     name: 'Text',
+    payable: 'bool',
     returnType: 'Option<InkTypeSpec>',
     selector: 'InkSelector'
   },
@@ -147,7 +151,20 @@ export default {
     ...layout,
     ...registry,
     ...spec,
+    InkContractContract: {
+      authors: 'Vec<Text>',
+      name: 'Text',
+      version: 'Text'
+    },
+    InkContractSource: {
+      compiler: 'Text',
+      hash: '[u8; 32]',
+      language: 'Text'
+    },
     InkProject: {
+      contract: 'InkContractContract',
+      metadata_version: 'Text',
+      source: 'InkContractSource',
       spec: 'InkContractSpec',
       storage: 'InkStorageLayout',
       types: 'Vec<MtType>'

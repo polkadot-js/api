@@ -1,13 +1,13 @@
 {
-  "metadata_version": "0.1.0",
+  "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0x33278f95a8539372a421d21d15f81126adb34892a0e4f7be072ac2c554552d2b",
-    "language": "ink! 2.1.0",
+    "hash": "0x3e6dbdd71e36888e06298b7b44d3c886cd4899267bffce0ac4d5795ee9d7ede5",
+    "language": "ink! 3.0.0",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "multisig_plain",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -36,17 +36,19 @@
           }
         ],
         "docs": [
-          "The only constructor of the contract.",
+          " The only constructor of the contract.",
           "",
-          "A list of owners must be supplied and a number of how many of them must",
-          "confirm a transaction. Duplicate owners are silently dropped.",
+          " A list of owners must be supplied and a number of how many of them must",
+          " confirm a transaction. Duplicate owners are silently dropped.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If `requirement` violates our invariant."
+          " If `requirement` violates our invariant."
         ],
-        "name": "new",
-        "selector": "0x41e691fc"
+        "name": [
+          "new"
+        ],
+        "selector": "0xd183512b"
       }
     ],
     "docs": [],
@@ -55,7 +57,7 @@
         "args": [
           {
             "docs": [
-              "The transaction that was confirmed."
+              " The transaction that was confirmed."
             ],
             "indexed": true,
             "name": "transaction",
@@ -68,7 +70,7 @@
           },
           {
             "docs": [
-              "The owner that sent the confirmation."
+              " The owner that sent the confirmation."
             ],
             "indexed": true,
             "name": "from",
@@ -81,7 +83,7 @@
           },
           {
             "docs": [
-              "The confirmation status after this confirmation was applied."
+              " The confirmation status after this confirmation was applied."
             ],
             "indexed": true,
             "name": "status",
@@ -94,7 +96,7 @@
           }
         ],
         "docs": [
-          "Emitted when an owner confirms a transaction."
+          " Emitted when an owner confirms a transaction."
         ],
         "name": "Confirmation"
       },
@@ -102,7 +104,7 @@
         "args": [
           {
             "docs": [
-              "The transaction that was revoked."
+              " The transaction that was revoked."
             ],
             "indexed": true,
             "name": "transaction",
@@ -115,7 +117,7 @@
           },
           {
             "docs": [
-              "The owner that sent the revokation."
+              " The owner that sent the revokation."
             ],
             "indexed": true,
             "name": "from",
@@ -128,7 +130,7 @@
           }
         ],
         "docs": [
-          "Emitted when an owner revoked a confirmation."
+          " Emitted when an owner revoked a confirmation."
         ],
         "name": "Revokation"
       },
@@ -136,7 +138,7 @@
         "args": [
           {
             "docs": [
-              "The transaction that was submitted."
+              " The transaction that was submitted."
             ],
             "indexed": true,
             "name": "transaction",
@@ -149,7 +151,7 @@
           }
         ],
         "docs": [
-          "Emitted when an owner submits a transaction."
+          " Emitted when an owner submits a transaction."
         ],
         "name": "Submission"
       },
@@ -157,7 +159,7 @@
         "args": [
           {
             "docs": [
-              "The transaction that was canceled."
+              " The transaction that was canceled."
             ],
             "indexed": true,
             "name": "transaction",
@@ -170,7 +172,7 @@
           }
         ],
         "docs": [
-          "Emitted when a transaction was canceled."
+          " Emitted when a transaction was canceled."
         ],
         "name": "Cancelation"
       },
@@ -178,7 +180,7 @@
         "args": [
           {
             "docs": [
-              "The transaction that was executed."
+              " The transaction that was executed."
             ],
             "indexed": true,
             "name": "transaction",
@@ -191,9 +193,9 @@
           },
           {
             "docs": [
-              "Indicates whether the transaction executed successfully. If so the `Ok` value holds",
-              "the output in bytes. The Option is `None` when the transaction was executed through",
-              "`invoke_transaction` rather than `evaluate_transaction`."
+              " Indicates whether the transaction executed successfully. If so the `Ok` value holds",
+              " the output in bytes. The Option is `None` when the transaction was executed through",
+              " `invoke_transaction` rather than `evaluate_transaction`."
             ],
             "indexed": true,
             "name": "result",
@@ -206,7 +208,7 @@
           }
         ],
         "docs": [
-          "Emitted when a transaction was executed."
+          " Emitted when a transaction was executed."
         ],
         "name": "Execution"
       },
@@ -214,7 +216,7 @@
         "args": [
           {
             "docs": [
-              "The owner that was added."
+              " The owner that was added."
             ],
             "indexed": true,
             "name": "owner",
@@ -227,7 +229,7 @@
           }
         ],
         "docs": [
-          "Emitted when an owner is added to the wallet."
+          " Emitted when an owner is added to the wallet."
         ],
         "name": "OwnerAddition"
       },
@@ -235,7 +237,7 @@
         "args": [
           {
             "docs": [
-              "The owner that was removed."
+              " The owner that was removed."
             ],
             "indexed": true,
             "name": "owner",
@@ -248,7 +250,7 @@
           }
         ],
         "docs": [
-          "Emitted when an owner is removed from the wallet."
+          " Emitted when an owner is removed from the wallet."
         ],
         "name": "OwnerRemoval"
       },
@@ -256,7 +258,7 @@
         "args": [
           {
             "docs": [
-              "The new requirement value."
+              " The new requirement value."
             ],
             "indexed": false,
             "name": "new_requirement",
@@ -269,7 +271,7 @@
           }
         ],
         "docs": [
-          "Emitted when the requirement changed."
+          " Emitted when the requirement changed."
         ],
         "name": "RequirementChange"
       }
@@ -288,58 +290,61 @@
           }
         ],
         "docs": [
-          "Add a new owner to the contract.",
+          " Add a new owner to the contract.",
           "",
-          "Only callable by the wallet itself.",
+          " Only callable by the wallet itself.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If the owner already exists.",
+          " If the owner already exists.",
           "",
-          "# Examples",
+          " # Examples",
           "",
-          "Since this message must be send by the wallet itself it has to be build as a",
-          "`Transaction` and dispatched through `submit_transaction` + `invoke_transaction`:",
-          "```no_run",
-          "use ink_core::env::{DefaultEnvTypes as Env, AccountId, call::{CallParams, Selector}, test::CallData};",
-          "use multisig_plain::{Transaction, ConfirmationStatus};",
+          " Since this message must be send by the wallet itself it has to be build as a",
+          " `Transaction` and dispatched through `submit_transaction` + `invoke_transaction`:",
+          " ```no_run",
+          " use ink_env::{DefaultEnvTypes as Env, AccountId, call::{CallParams, Selector}, test::CallData};",
+          " use multisig_plain::{Transaction, ConfirmationStatus};",
           "",
-          "// address of an existing MultiSigPlain contract",
-          "let wallet_id: AccountId = [7u8; 32].into();",
+          " // address of an existing MultiSigPlain contract",
+          " let wallet_id: AccountId = [7u8; 32].into();",
           "",
-          "// first create the transaction that adds `alice` through `add_owner`",
-          "let alice: AccountId = [1u8; 32].into();",
-          "let mut call = CallData::new(Selector::new([166, 229, 27, 154])); // add_owner",
-          "call.push_arg(&alice);",
-          "let transaction = Transaction {",
-          "callee: wallet_id,",
-          "selector: call.selector().to_bytes(),",
-          "input: call.params().to_owned(),",
-          "transferred_value: 0,",
-          "gas_limit: 0",
-          "};",
+          " // first create the transaction that adds `alice` through `add_owner`",
+          " let alice: AccountId = [1u8; 32].into();",
+          " let mut call = CallData::new(Selector::new([166, 229, 27, 154])); // add_owner",
+          " call.push_arg(&alice);",
+          " let transaction = Transaction {",
+          "     callee: wallet_id,",
+          "     selector: call.selector().to_bytes(),",
+          "     input: call.params().to_owned(),",
+          "     transferred_value: 0,",
+          "     gas_limit: 0",
+          " };",
           "",
-          "// submit the transaction for confirmation",
-          "let mut submit = CallParams::<Env, _, _>::eval(",
-          "wallet_id,",
-          "Selector::new([86, 244, 13, 223]) // submit_transaction",
-          ");",
-          "let (id, _): (u32, ConfirmationStatus)  = submit.push_arg(&transaction)",
-          ".fire()",
-          ".expect(\\\"submit_transaction won\\'t panic.\\\");",
+          " // submit the transaction for confirmation",
+          " let mut submit = CallParams::<Env, _, _>::eval(",
+          "     wallet_id,",
+          "     Selector::new([86, 244, 13, 223]) // submit_transaction",
+          " );",
+          " let (id, _): (u32, ConfirmationStatus)  = submit.push_arg(&transaction)",
+          "     .fire()",
+          "     .expect(\"submit_transaction won't panic.\");",
           "",
-          "// wait until all required owners have confirmed and then execute the transaction",
-          "let mut invoke = CallParams::<Env, _, ()>::invoke(",
-          "wallet_id,",
-          "Selector::new([185, 50, 225, 236]) // invoke_transaction",
-          ");",
-          "invoke.push_arg(&id).fire();",
-          "```"
+          " // wait until all required owners have confirmed and then execute the transaction",
+          " let mut invoke = CallParams::<Env, _, ()>::invoke(",
+          "     wallet_id,",
+          "     Selector::new([185, 50, 225, 236]) // invoke_transaction",
+          " );",
+          " invoke.push_arg(&id).fire();",
+          " ```"
         ],
         "mutates": true,
-        "name": "add_owner",
+        "name": [
+          "add_owner"
+        ],
+        "payable": false,
         "returnType": null,
-        "selector": "0x59201361"
+        "selector": "0xf3fcef36"
       },
       {
         "args": [
@@ -354,20 +359,23 @@
           }
         ],
         "docs": [
-          "Remove an owner from the contract.",
+          " Remove an owner from the contract.",
           "",
-          "Only callable by the wallet itself. If by doing this the amount of owners",
-          "would be smaller than the requirement it is adjusted to be exactly the",
-          "number of owners.",
+          " Only callable by the wallet itself. If by doing this the amount of owners",
+          " would be smaller than the requirement it is adjusted to be exactly the",
+          " number of owners.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If `owner` is no owner of the wallet."
+          " If `owner` is no owner of the wallet."
         ],
         "mutates": true,
-        "name": "remove_owner",
+        "name": [
+          "remove_owner"
+        ],
+        "payable": false,
         "returnType": null,
-        "selector": "0x686871fe"
+        "selector": "0xe397f829"
       },
       {
         "args": [
@@ -391,18 +399,21 @@
           }
         ],
         "docs": [
-          "Replace an owner from the contract with a new one.",
+          " Replace an owner from the contract with a new one.",
           "",
-          "Only callable by the wallet itself.",
+          " Only callable by the wallet itself.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If `old_owner` is no owner or if `new_owner` already is one."
+          " If `old_owner` is no owner or if `new_owner` already is one."
         ],
         "mutates": true,
-        "name": "replace_owner",
+        "name": [
+          "replace_owner"
+        ],
+        "payable": false,
         "returnType": null,
-        "selector": "0x0163307f"
+        "selector": "0xab4bc64a"
       },
       {
         "args": [
@@ -417,18 +428,21 @@
           }
         ],
         "docs": [
-          "Change the requirement to a new value.",
+          " Change the requirement to a new value.",
           "",
-          "Only callable by the wallet itself.",
+          " Only callable by the wallet itself.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If the `new_requirement` violates our invariant."
+          " If the `new_requirement` violates our invariant."
         ],
         "mutates": true,
-        "name": "change_requirement",
+        "name": [
+          "change_requirement"
+        ],
+        "payable": false,
         "returnType": null,
-        "selector": "0xa4e3456d"
+        "selector": "0x7347595d"
       },
       {
         "args": [
@@ -443,17 +457,20 @@
           }
         ],
         "docs": [
-          "Add a new transaction candiate to the contract.",
+          " Add a new transaction candiate to the contract.",
           "",
-          "This also confirms the transaction for the caller. This can be called by any owner."
+          " This also confirms the transaction for the caller. This can be called by any owner."
         ],
         "mutates": true,
-        "name": "submit_transaction",
+        "name": [
+          "submit_transaction"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [],
           "id": 21
         },
-        "selector": "0x1cbe0560"
+        "selector": "0x349db9e8"
       },
       {
         "args": [
@@ -468,17 +485,20 @@
           }
         ],
         "docs": [
-          "Remove a transaction from the contract.",
-          "Only callable by the wallet itself.",
+          " Remove a transaction from the contract.",
+          " Only callable by the wallet itself.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If `trans_id` is no valid transaction id."
+          " If `trans_id` is no valid transaction id."
         ],
         "mutates": true,
-        "name": "cancel_transaction",
+        "name": [
+          "cancel_transaction"
+        ],
+        "payable": false,
         "returnType": null,
-        "selector": "0x14207a94"
+        "selector": "0xd31b7656"
       },
       {
         "args": [
@@ -493,23 +513,26 @@
           }
         ],
         "docs": [
-          "Confirm a transaction for the sender that was submitted by any owner.",
+          " Confirm a transaction for the sender that was submitted by any owner.",
           "",
-          "This can be called by any owner.",
+          " This can be called by any owner.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If `trans_id` is no valid transaction id."
+          " If `trans_id` is no valid transaction id."
         ],
         "mutates": true,
-        "name": "confirm_transaction",
+        "name": [
+          "confirm_transaction"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "ConfirmationStatus"
           ],
           "id": 22
         },
-        "selector": "0x2d2f1d04"
+        "selector": "0xea923d30"
       },
       {
         "args": [
@@ -524,18 +547,21 @@
           }
         ],
         "docs": [
-          "Revoke the senders confirmation.",
+          " Revoke the senders confirmation.",
           "",
-          "This can be called by any owner.",
+          " This can be called by any owner.",
           "",
-          "# Panics",
+          " # Panics",
           "",
-          "If `trans_id` is no valid transaction id."
+          " If `trans_id` is no valid transaction id."
         ],
         "mutates": true,
-        "name": "revoke_confirmation",
+        "name": [
+          "revoke_confirmation"
+        ],
+        "payable": false,
         "returnType": null,
-        "selector": "0x50911620"
+        "selector": "0x13ee3e97"
       },
       {
         "args": [
@@ -550,20 +576,23 @@
           }
         ],
         "docs": [
-          "Invoke a confirmed execution without getting its output.",
+          " Invoke a confirmed execution without getting its output.",
           "",
-          "Its return value indicates whether the called transaction was successful.",
-          "This can be called by anyone."
+          " Its return value indicates whether the called transaction was successful.",
+          " This can be called by anyone."
         ],
         "mutates": true,
-        "name": "invoke_transaction",
+        "name": [
+          "invoke_transaction"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 23
         },
-        "selector": "0x542e48b3"
+        "selector": "0x6131abbb"
       },
       {
         "args": [
@@ -578,38 +607,41 @@
           }
         ],
         "docs": [
-          "Evaluate a confirmed execution and return its output as bytes.",
+          " Evaluate a confirmed execution and return its output as bytes.",
           "",
-          "Its return value indicates whether the called transaction was successful and contains",
-          "its output when sucesful.",
-          "This can be called by anyone."
+          " Its return value indicates whether the called transaction was successful and contains",
+          " its output when sucesful.",
+          " This can be called by anyone."
         ],
         "mutates": true,
-        "name": "eval_transaction",
+        "name": [
+          "eval_transaction"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Result"
           ],
           "id": 24
         },
-        "selector": "0x956af758"
+        "selector": "0xe667c7ac"
       }
     ]
   },
   "storage": {
-    "Struct": {
+    "struct": {
       "fields": [
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
                               "ty": 1
                             }
@@ -618,11 +650,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0100000000000000000000000000000000000000000000000000000000000000",
                                       "ty": 2
                                     }
@@ -631,10 +663,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0100000001000000000000000000000000000000000000000000000000000000",
                                           "ty": 3
                                         }
@@ -657,9 +689,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0200000001000000000000000000000000000000000000000000000000000000",
                           "ty": 9
                         }
@@ -681,15 +713,15 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0200000001000000000000000000000000000000000000000000000000000000",
                               "ty": 1
                             }
@@ -698,11 +730,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0300000001000000000000000000000000000000000000000000000000000000",
                                       "ty": 2
                                     }
@@ -711,10 +743,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0300000002000000000000000000000000000000000000000000000000000000",
                                           "ty": 11
                                         }
@@ -737,9 +769,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0400000002000000000000000000000000000000000000000000000000000000",
                           "ty": 12
                         }
@@ -761,11 +793,11 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Cell": {
+                    "cell": {
                       "key": "0x0400000002000000000000000000000000000000000000000000000000000000",
                       "ty": 1
                     }
@@ -774,11 +806,11 @@
                 },
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0500000002000000000000000000000000000000000000000000000000000000",
                               "ty": 2
                             }
@@ -787,10 +819,10 @@
                         },
                         {
                           "layout": {
-                            "Array": {
+                            "array": {
                               "cells_per_elem": 1,
                               "layout": {
-                                "Cell": {
+                                "cell": {
                                   "key": "0x0500000003000000000000000000000000000000000000000000000000000000",
                                   "ty": 13
                                 }
@@ -813,11 +845,11 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Cell": {
+                    "cell": {
                       "key": "0x0500000003000000000000000000000000000000000000000000000000000000",
                       "ty": 2
                     }
@@ -826,10 +858,10 @@
                 },
                 {
                   "layout": {
-                    "Array": {
+                    "array": {
                       "cells_per_elem": 1,
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0500000004000000000000000000000000000000000000000000000000000000",
                           "ty": 5
                         }
@@ -847,15 +879,15 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0500000004000000000000000000000000000000000000000000000000000000",
                               "ty": 1
                             }
@@ -864,11 +896,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0600000004000000000000000000000000000000000000000000000000000000",
                                       "ty": 2
                                     }
@@ -877,10 +909,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0600000005000000000000000000000000000000000000000000000000000000",
                                           "ty": 19
                                         }
@@ -903,9 +935,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0700000005000000000000000000000000000000000000000000000000000000",
                           "ty": 9
                         }
@@ -927,7 +959,7 @@
         },
         {
           "layout": {
-            "Cell": {
+            "cell": {
               "key": "0x0700000005000000000000000000000000000000000000000000000000000000",
               "ty": 2
             }
@@ -958,8 +990,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Header"
@@ -997,8 +1028,7 @@
         4
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"
@@ -1023,8 +1053,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "env",
+        "ink_env",
         "types",
         "AccountId"
       ]
@@ -1058,8 +1087,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "VacantEntry"
@@ -1084,8 +1112,7 @@
         10
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "hashmap",
         "ValueEntry"
@@ -1123,8 +1150,7 @@
         2
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"
@@ -1149,8 +1175,7 @@
         2
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "hashmap",
         "ValueEntry"
@@ -1183,8 +1208,7 @@
         14
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"
@@ -1275,8 +1299,7 @@
         5
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"

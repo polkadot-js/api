@@ -1,13 +1,13 @@
 {
-  "metadata_version": "0.1.0",
+  "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0xb41a354ad6adbb525076bb45e052226a458d9bbbe1b0333b0df0939baa728752",
-    "language": "ink! 2.1.0",
+    "hash": "0xae28fa9f075f218d559a36f720b0704b2c09326590fe19d7d76a7eaa40d079b3",
+    "language": "ink! 3.0.0",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "erc20",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -27,8 +27,10 @@
           }
         ],
         "docs": [],
-        "name": "new",
-        "selector": "0x41e691fc"
+        "name": [
+          "new"
+        ],
+        "selector": "0xd183512b"
       }
     ],
     "docs": [],
@@ -117,14 +119,17 @@
         "args": [],
         "docs": [],
         "mutates": false,
-        "name": "total_supply",
+        "name": [
+          "total_supply"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Balance"
           ],
           "id": 1
         },
-        "selector": "0xb1557182"
+        "selector": "0xdcb736b5"
       },
       {
         "args": [
@@ -140,14 +145,17 @@
         ],
         "docs": [],
         "mutates": false,
-        "name": "balance_of",
+        "name": [
+          "balance_of"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Balance"
           ],
           "id": 1
         },
-        "selector": "0xd35a73cd"
+        "selector": "0x56e929b2"
       },
       {
         "args": [
@@ -172,14 +180,17 @@
         ],
         "docs": [],
         "mutates": false,
-        "name": "allowance",
+        "name": [
+          "allowance"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "Balance"
           ],
           "id": 1
         },
-        "selector": "0xc9e888a1"
+        "selector": "0xf3cfff66"
       },
       {
         "args": [
@@ -204,14 +215,17 @@
         ],
         "docs": [],
         "mutates": true,
-        "name": "transfer",
+        "name": [
+          "transfer"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "bool"
           ],
           "id": 12
         },
-        "selector": "0xb483afd3"
+        "selector": "0xfae3a09d"
       },
       {
         "args": [
@@ -236,14 +250,17 @@
         ],
         "docs": [],
         "mutates": true,
-        "name": "approve",
+        "name": [
+          "approve"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "bool"
           ],
           "id": 12
         },
-        "selector": "0x5219209e"
+        "selector": "0x03d0e114"
       },
       {
         "args": [
@@ -277,23 +294,26 @@
         ],
         "docs": [],
         "mutates": true,
-        "name": "transfer_from",
+        "name": [
+          "transfer_from"
+        ],
+        "payable": false,
         "returnType": {
           "displayName": [
             "bool"
           ],
           "id": 12
         },
-        "selector": "0x07704ffe"
+        "selector": "0xfcfb2ccd"
       }
     ]
   },
   "storage": {
-    "Struct": {
+    "struct": {
       "fields": [
         {
           "layout": {
-            "Cell": {
+            "cell": {
               "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "ty": 1
             }
@@ -302,15 +322,15 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0100000000000000000000000000000000000000000000000000000000000000",
                               "ty": 2
                             }
@@ -319,11 +339,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
                                       "ty": 3
                                     }
@@ -332,10 +352,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0200000001000000000000000000000000000000000000000000000000000000",
                                           "ty": 4
                                         }
@@ -358,9 +378,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0300000001000000000000000000000000000000000000000000000000000000",
                           "ty": 9
                         }
@@ -382,15 +402,15 @@
         },
         {
           "layout": {
-            "Struct": {
+            "struct": {
               "fields": [
                 {
                   "layout": {
-                    "Struct": {
+                    "struct": {
                       "fields": [
                         {
                           "layout": {
-                            "Cell": {
+                            "cell": {
                               "key": "0x0300000001000000000000000000000000000000000000000000000000000000",
                               "ty": 2
                             }
@@ -399,11 +419,11 @@
                         },
                         {
                           "layout": {
-                            "Struct": {
+                            "struct": {
                               "fields": [
                                 {
                                   "layout": {
-                                    "Cell": {
+                                    "cell": {
                                       "key": "0x0400000001000000000000000000000000000000000000000000000000000000",
                                       "ty": 3
                                     }
@@ -412,10 +432,10 @@
                                 },
                                 {
                                   "layout": {
-                                    "Array": {
+                                    "array": {
                                       "cells_per_elem": 1,
                                       "layout": {
-                                        "Cell": {
+                                        "cell": {
                                           "key": "0x0400000002000000000000000000000000000000000000000000000000000000",
                                           "ty": 10
                                         }
@@ -438,9 +458,9 @@
                 },
                 {
                   "layout": {
-                    "Hash": {
+                    "hash": {
                       "layout": {
-                        "Cell": {
+                        "cell": {
                           "key": "0x0500000002000000000000000000000000000000000000000000000000000000",
                           "ty": 9
                         }
@@ -489,8 +509,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Header"
@@ -528,8 +547,7 @@
         5
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"
@@ -546,8 +564,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "env",
+        "ink_env",
         "types",
         "AccountId"
       ]
@@ -581,8 +598,7 @@
         }
       },
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "VacantEntry"
@@ -607,8 +623,7 @@
         1
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "hashmap",
         "ValueEntry"
@@ -641,8 +656,7 @@
         11
       ],
       "path": [
-        "ink_core",
-        "storage2",
+        "ink_storage",
         "collections",
         "stash",
         "Entry"

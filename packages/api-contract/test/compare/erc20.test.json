@@ -5,7 +5,7 @@
   },
   {
     "displayName": "Header",
-    "namespace": "ink_core::storage2::collections::stash",
+    "namespace": "ink_storage::collections::stash",
     "info": 9,
     "sub": [
       {
@@ -32,11 +32,11 @@
   },
   {
     "displayName": "Entry",
-    "namespace": "ink_core::storage2::collections::stash",
+    "namespace": "ink_storage::collections::stash",
     "params": [
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -50,7 +50,7 @@
     "sub": [
       {
         "displayName": "VacantEntry",
-        "namespace": "ink_core::storage2::collections::stash",
+        "namespace": "ink_storage::collections::stash",
         "info": 9,
         "sub": [
           {
@@ -69,7 +69,7 @@
       },
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -84,7 +84,7 @@
   },
   {
     "displayName": "AccountId",
-    "namespace": "ink_core::env::types",
+    "namespace": "ink_env::types",
     "info": 12,
     "length": 32,
     "sub": {
@@ -108,7 +108,7 @@
   },
   {
     "displayName": "VacantEntry",
-    "namespace": "ink_core::storage2::collections::stash",
+    "namespace": "ink_storage::collections::stash",
     "info": 9,
     "sub": [
       {
@@ -126,7 +126,7 @@
   },
   {
     "displayName": "ValueEntry",
-    "namespace": "ink_core::storage2::collections::hashmap",
+    "namespace": "ink_storage::collections::hashmap",
     "params": [
       {
         "info": 6,
@@ -150,14 +150,14 @@
   },
   {
     "displayName": "Entry",
-    "namespace": "ink_core::storage2::collections::stash",
+    "namespace": "ink_storage::collections::stash",
     "params": [
       {
         "info": 10,
         "sub": [
           {
             "displayName": "AccountId",
-            "namespace": "ink_core::env::types",
+            "namespace": "ink_env::types",
             "info": 12,
             "length": 32,
             "sub": {
@@ -168,7 +168,7 @@
           },
           {
             "displayName": "AccountId",
-            "namespace": "ink_core::env::types",
+            "namespace": "ink_env::types",
             "info": 12,
             "length": 32,
             "sub": {
@@ -185,7 +185,7 @@
     "sub": [
       {
         "displayName": "VacantEntry",
-        "namespace": "ink_core::storage2::collections::stash",
+        "namespace": "ink_storage::collections::stash",
         "info": 9,
         "sub": [
           {
@@ -207,7 +207,7 @@
         "sub": [
           {
             "displayName": "AccountId",
-            "namespace": "ink_core::env::types",
+            "namespace": "ink_env::types",
             "info": 12,
             "length": 32,
             "sub": {
@@ -218,7 +218,7 @@
           },
           {
             "displayName": "AccountId",
-            "namespace": "ink_core::env::types",
+            "namespace": "ink_env::types",
             "info": 12,
             "length": 32,
             "sub": {
@@ -239,7 +239,7 @@
     "sub": [
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -250,7 +250,7 @@
       },
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -271,7 +271,7 @@
     "params": [
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -284,7 +284,7 @@
     "info": 5,
     "sub": {
       "displayName": "AccountId",
-      "namespace": "ink_core::env::types",
+      "namespace": "ink_env::types",
       "info": 12,
       "length": 32,
       "sub": {

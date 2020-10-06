@@ -12,6 +12,20 @@ export interface InkConstructorSpec extends Struct {
   readonly selector: InkSelector;
 }
 
+/** @name InkContractContract */
+export interface InkContractContract extends Struct {
+  readonly authors: Vec<Text>;
+  readonly name: Text;
+  readonly version: Text;
+}
+
+/** @name InkContractSource */
+export interface InkContractSource extends Struct {
+  readonly compiler: Text;
+  readonly hash: U8aFixed;
+  readonly language: Text;
+}
+
 /** @name InkContractSpec */
 export interface InkContractSpec extends Struct {
   readonly constructors: Vec<InkConstructorSpec>;
@@ -97,12 +111,16 @@ export interface InkMessageSpec extends Struct {
   readonly docs: Vec<Text>;
   readonly mutates: bool;
   readonly name: Text;
+  readonly payable: bool;
   readonly returnType: Option<InkTypeSpec>;
   readonly selector: InkSelector;
 }
 
 /** @name InkProject */
 export interface InkProject extends Struct {
+  readonly contract: InkContractContract;
+  readonly metadata_version: Text;
+  readonly source: InkContractSource;
   readonly spec: InkContractSpec;
   readonly storage: InkStorageLayout;
   readonly types: Vec<MtType>;

@@ -3,7 +3,7 @@
 
 import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-import { Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
+import { AnyJson, Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, ContractCallOutcome, InkMessage } from '../types';
 
 import BN from 'bn.js';
@@ -34,7 +34,7 @@ export type ContractCallResult<CallType extends ContractCallTypes> = CallType ex
 export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
   public readonly address: Address;
 
-  constructor (api: ApiObject<ApiType>, abi: InkAbi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
     this.address = this.api.registry.createType('Address', address);
@@ -45,7 +45,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
   public call<CallType extends ContractCallTypes> (as: CallType, messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
     assert(messageIndex < this.abi.messages.length, 'Attempted to call invalid contract message');
 
-    const fn = this.abi.messages[messageIndex];
+    const message = this.abi.messages[messageIndex];
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -56,16 +56,16 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
               this.api.registry.createType('ContractCallRequest', {
                 dest: this.address.toString(),
                 gasLimit,
-                inputData: fn(...params),
+                inputData: message(...params),
                 origin: account,
                 value
               })
             ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
-              this._createOutcome(result, this.api.registry.createType('AccountId', account), fn, params)
+              this._createOutcome(result, this.api.registry.createType('AccountId', account), message, params)
             ))
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
             this._apiContracts
-              .call(this.address, value, gasLimit, fn(...params))
+              .call(this.address, value, gasLimit, message(...params))
               .signAndSend(account)
       )
     };

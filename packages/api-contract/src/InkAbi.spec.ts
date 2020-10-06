@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '@polkadot/types';
 import { TestContracts } from './types';
@@ -13,7 +12,7 @@ const abis: Record<TestContracts, any> = { ...testContracts };
 
 function compare (name: TestContracts, registry: TypeRegistry, messageIds: string[]): void {
   try {
-    const inkAbi = new InkAbi(registry, registry.createType('InkProject', abis[name]));
+    const inkAbi = new InkAbi(registry, abis[name]);
 
     expect(inkAbi.messages.map(({ identifier }): string => identifier)).toEqual(messageIds);
   } catch (error) {
@@ -46,13 +45,20 @@ describe('InkAbi', (): void => {
       ]);
     });
 
+    it('initializes from a contract ABI (delegator)', (): void => {
+      compare('delegator', registry, [
+        'get',
+        'change',
+        'switch'
+      ]);
+    });
+
     it('initializes from a contract ABI (dns)', (): void => {
       compare('dns', registry, [
         'register',
         'set_address',
         'transfer',
         'get_address',
-        'is_name_assigned'
       ]);
     });
 
@@ -85,13 +91,5 @@ describe('InkAbi', (): void => {
         'eval_transaction'
       ]);
     });
-
-    // it('initializes from a contract ABI (SharedVec)', (): void => {
-    //   compare(new InkRegistry(registry, sharedVecAbi), sharedVecCmp);
-    // });
-
-    // it('initializes from a contract ABI (Other, test001)', (): void => {
-    //   compare(new InkRegistry(registry, test001Abi), test001Cmp);
-    // });
   });
 });

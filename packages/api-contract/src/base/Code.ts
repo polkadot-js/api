@@ -3,7 +3,7 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
+import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject } from '../types';
 
 import BN from 'bn.js';
@@ -37,7 +37,7 @@ class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
 export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
   public readonly code: Uint8Array;
 
-  constructor (api: ApiObject<ApiType>, abi: InkAbi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
     super(api, abi, decorateMethod);
 
     this.code = u8aToU8a(wasm);

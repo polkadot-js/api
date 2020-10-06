@@ -13,7 +13,7 @@ import InkAbi from './InkAbi';
 // I give up, too hard to untangle atm... and is basically deprecated
 /* eslint-disable no-use-before-define */
 
-export type TestContracts = 'flipper' | 'incrementer' | 'erc20' | 'dns' | 'erc721' | 'multisigPlain';
+export type TestContracts = 'flipper' | 'incrementer' | 'erc20' | 'delegator' | 'dns' | 'erc721' | 'multisigPlain';
 
 export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx
@@ -27,89 +27,8 @@ export interface ContractBase<ApiType extends ApiTypes> {
   messages: InkMessage[];
 }
 
-// export interface ContractABITypePre {
-//   ty: TypeIndex;
-//   // eslint-disable-next-line camelcase
-//   display_name: StringIndex[];
-// }
-
-// export interface ContractABIArgBasePre {
-//   name: StringIndex;
-//   type: ContractABITypePre;
-// }
-
-// export interface ContractABIArgBase {
-//   name: string;
-//   type: TypeDef;
-// }
-
-// export type ContractABIMessageArgPre = ContractABIArgBasePre;
-
-// export type ContractABIMessageArg = ContractABIArgBase;
-
-// export interface ContractABIMessageBase {
-//   args: ContractABIMessageArg[];
-// }
-
-// export interface ContractABIMessageBasePre {
-//   args: ContractABIMessageArgPre[];
-// }
-
-// export interface ContractABIMessageCommon {
-//   docs?: ContractABIDocs;
-//   mutates?: boolean;
-//   selector: string | number;
-// }
-
-// export interface ContractABIMessagePre extends ContractABIMessageCommon, ContractABIMessageBasePre {
-//   name: StringIndex;
-//   // eslint-disable-next-line camelcase
-//   return_type: ContractABITypePre | null;
-// }
-
-// export interface ContractABIMessage extends ContractABIMessageCommon {
-//   args: ContractABIMessageArg[];
-//   name: string;
-//   returnType: TypeDef | null;
-// }
-
-// export interface ContractABIContractCommon {
-//   docs?: ContractABIDocs;
-// }
-
-// export interface ContractABIContractPre extends ContractABIContractCommon {
-//   constructors: ContractABIMessagePre[];
-//   messages: ContractABIMessagePre[];
-//   name: StringIndex;
-//   events?: ContractABIEventPre[];
-//   docs?: ContractABIDocs;
-// }
-
-// export interface ContractABIContract extends ContractABIContractCommon {
-//   constructors: ContractABIMessage[];
-//   messages: ContractABIMessage[];
-//   name: string;
-//   events?: ContractABIEvent[];
-//   docs?: ContractABIDocs;
-// }
-
-// export interface ContractABIPre extends MetaRegistryJson {
-//   storage: ContractABIStoragePre;
-//   contract: ContractABIContractPre;
-// }
-
-// export interface ContractABI {
-//   storage: ContractABIStorage;
-//   contract: ContractABIContract;
-// }
-
-// export interface ContractABIFnArg {
-//   name: string;
-//   type: TypeDef;
-// }
-
 export interface InkType {
-  displayName: string;
+  displayName?: string;
   type: TypeDef;
 }
 
@@ -118,107 +37,26 @@ export interface InkMessageParam {
   type: TypeDef;
 }
 
-export interface InkMessage {
+export interface InkMessageBase {
   args: InkMessageParam[];
   docs: string[];
   identifier: string;
   selector: string;
-  isConstructor: boolean;
-  mutates: boolean;
-  returnType: InkType | null;
+  isConstructor?: boolean;
   (...args: CodecArg[]): Uint8Array;
 }
 
-// export interface InkConstructor {
-//   args: InkMessageParam[];
-//   docs: string[];
-//   name: string;
-//   selector: string;
-//   isConstructor: true;
-//   (...args: CodecArg[]): Uint8Array;
-// }
+export type InkConstructor = InkMessageBase;
 
-// export interface InkMessage extends InkConstructor {
-//   isConstructor: false;
-//   mutates: boolean;
-//   returnType: InkType | null;
-// }
-
-export interface ContractABIEventArgBase {
-  indexed: boolean;
+export interface InkMessage extends InkMessageBase {
+  mutates: boolean;
+  payable: boolean;
+  returnType: InkType | null;
 }
-
-// export interface ContractABIEventArgPre extends ContractABIArgBasePre, ContractABIEventArgBase {}
-
-// export interface ContractABIEventArg extends ContractABIArgBase, ContractABIEventArgBase {}
-
-// export type ContractABIDocs = string[];
-
-// export interface ContractABIEventPre {
-//   args: ContractABIEventArgPre[];
-// }
-
-// export interface ContractABIEvent {
-//   args: ContractABIEventArg[];
-// }
-
-// export interface ContractABIRangeBase {
-//   // can be number[] (old) or hex (new)
-//   'range.offset': number[] | string;
-//   'range.len': number;
-// }
-
-// export interface ContractABIRangePre extends ContractABIRangeBase {
-//   'range.elem_type': TypeIndex;
-// }
-
-// export interface ContractABIRange extends ContractABIRangeBase {
-//   'range.elem_type': TypeDef;
-// }
-
-// export type ContractABIStorageLayoutPre = ContractABIStorageStructPre | ContractABIRangePre;
-
-// export type ContractABIStorageLayout = ContractABIStorageStruct | ContractABIRange;
-
-// export interface ContractABIStorageStructFieldPre {
-//   name: StringIndex;
-//   layout: ContractABIStorageLayoutPre;
-// }
-
-// export interface ContractABIStorageStructField {
-//   name: string;
-//   layout: ContractABIStorageLayout;
-// }
-
-// export interface ContractABIStorageStructPre {
-//   'struct.type': TypeIndex;
-//   'struct.fields': ContractABIStorageStructFieldPre[];
-// }
-
-// export interface ContractABIStorageStruct {
-//   'struct.type': TypeDef;
-//   'struct.fields': ContractABIStorageStructField[];
-// }
-
-// export type ContractABIStoragePre = ContractABIStorageStructPre;
-
-// export type ContractABIStorage = ContractABIStorageStruct;
-
-// export interface ContractMessage {
-//   index: number;
-//   fn: ContractABIFn;
-//   def: ContractABIMessage;
-// }
 
 export type InkConstructors = InkMessage[];
 
 export type InkMessages = InkMessage[];
-
-// export interface InterfaceAbi {
-//   readonly abi: InkAbi;
-//   readonly constructors: InkConstructors;
-//   readonly messages: InkMessages;
-// }
 
 export interface InterfaceContractCalls {
   // eslint-disable-next-line @typescript-eslint/ban-types

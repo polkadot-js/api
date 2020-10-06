@@ -15,7 +15,7 @@ import { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claim
 import { MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractExecResultSuccessTo255, ContractExecResultTo255, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import { InkConstructorSpec, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutArray, InkLayoutCell, InkLayoutField, InkLayoutHash, InkLayoutHashStrategy, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSequence, MtTypeDefSlice, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
+import { InkConstructorSpec, InkContractContract, InkContractSource, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutArray, InkLayoutCell, InkLayoutField, InkLayoutHash, InkLayoutHashStrategy, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSequence, MtTypeDefSlice, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
@@ -596,6 +596,12 @@ declare module '@polkadot/types/types/registry' {
     InkTypeSpec: InkTypeSpec;
     'Option<InkTypeSpec>': Option<InkTypeSpec>;
     'Vec<InkTypeSpec>': Vec<InkTypeSpec>;
+    InkContractContract: InkContractContract;
+    'Option<InkContractContract>': Option<InkContractContract>;
+    'Vec<InkContractContract>': Vec<InkContractContract>;
+    InkContractSource: InkContractSource;
+    'Option<InkContractSource>': Option<InkContractSource>;
+    'Vec<InkContractSource>': Vec<InkContractSource>;
     InkProject: InkProject;
     'Option<InkProject>': Option<InkProject>;
     'Vec<InkProject>': Vec<InkProject>;

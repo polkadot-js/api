@@ -1,7 +1,7 @@
 [
   {
     "displayName": "Header",
-    "namespace": "ink_core::storage2::collections::stash",
+    "namespace": "ink_storage::collections::stash",
     "info": 9,
     "sub": [
       {
@@ -28,11 +28,11 @@
   },
   {
     "displayName": "Entry",
-    "namespace": "ink_core::storage2::collections::stash",
+    "namespace": "ink_storage::collections::stash",
     "params": [
       {
         "displayName": "Hash",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -46,7 +46,7 @@
     "sub": [
       {
         "displayName": "VacantEntry",
-        "namespace": "ink_core::storage2::collections::stash",
+        "namespace": "ink_storage::collections::stash",
         "info": 9,
         "sub": [
           {
@@ -65,7 +65,7 @@
       },
       {
         "displayName": "Hash",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -80,7 +80,7 @@
   },
   {
     "displayName": "Hash",
-    "namespace": "ink_core::env::types",
+    "namespace": "ink_env::types",
     "info": 12,
     "length": 32,
     "sub": {
@@ -104,7 +104,7 @@
   },
   {
     "displayName": "VacantEntry",
-    "namespace": "ink_core::storage2::collections::stash",
+    "namespace": "ink_storage::collections::stash",
     "info": 9,
     "sub": [
       {
@@ -122,11 +122,11 @@
   },
   {
     "displayName": "ValueEntry",
-    "namespace": "ink_core::storage2::collections::hashmap",
+    "namespace": "ink_storage::collections::hashmap",
     "params": [
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -140,7 +140,7 @@
     "sub": [
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -160,7 +160,7 @@
   },
   {
     "displayName": "AccountId",
-    "namespace": "ink_core::env::types",
+    "namespace": "ink_env::types",
     "info": 12,
     "length": 32,
     "sub": {
@@ -268,15 +268,11 @@
     "type": "[\"NameAlreadyExists\", \"CallerIsNotOwner\"]"
   },
   {
-    "info": 6,
-    "type": "bool"
-  },
-  {
     "displayName": "Option",
     "params": [
       {
         "displayName": "AccountId",
-        "namespace": "ink_core::env::types",
+        "namespace": "ink_env::types",
         "info": 12,
         "length": 32,
         "sub": {
@@ -289,7 +285,7 @@
     "info": 5,
     "sub": {
       "displayName": "AccountId",
-      "namespace": "ink_core::env::types",
+      "namespace": "ink_env::types",
       "info": 12,
       "length": 32,
       "sub": {
