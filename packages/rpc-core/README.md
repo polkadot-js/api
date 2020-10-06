@@ -10,7 +10,7 @@ Installation -
 yarn add @polkadot/rpc-core
 ```
 
-Initialisation -
+Initialization -
 
 ```js
 import Rpc from '@polkadot/rpc-core';
@@ -70,7 +70,3 @@ rpc
     }
   );
 ```
-
-## Classes
-
-[Classes](SUMMARY.md)

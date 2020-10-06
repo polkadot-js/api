@@ -10,7 +10,7 @@ import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, Dec
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, tap, toArray } from 'rxjs/operators';
+import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import DecoratedMeta from '@polkadot/metadata/Decorated';
@@ -455,11 +455,14 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           of(keys),
           ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
             .fill(0)
-            .map((_, index): Observable<Codec[]> =>
-              this._rpcCore.state.queryStorageAt<Codec[]>(
-                keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS)
-              )
-            )
+            .map((_, index): Observable<Codec[]> => {
+              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
+
+              return this._rpcCore.state.queryStorageAt
+                ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
+                // this is horrible, but need older support
+                : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
+            })
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>

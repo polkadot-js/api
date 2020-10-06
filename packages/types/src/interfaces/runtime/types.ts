@@ -4,7 +4,7 @@
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Int, Struct, U8aFixed, UInt, Vec } from '@polkadot/types/codec';
 import { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource } from '@polkadot/types/generic';
-import { Bytes, DoNotConstruct, Null, StorageKey, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, DoNotConstruct, Null, StorageKey, u16, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
 
@@ -162,6 +162,13 @@ export interface OpaqueCall extends Bytes {}
 
 /** @name Origin */
 export interface Origin extends DoNotConstruct {}
+
+/** @name PalletVersion */
+export interface PalletVersion extends Struct {
+  readonly major: u16;
+  readonly minor: u8;
+  readonly patch: u8;
+}
 
 /** @name Pays */
 export interface Pays extends Enum {

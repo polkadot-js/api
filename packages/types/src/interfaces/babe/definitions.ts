@@ -31,7 +31,8 @@ export default {
     MaybeVrf: 'Option<VrfData>',
     EpochAuthorship: {
       primary: 'Vec<u64>',
-      secondary: 'Vec<u64>'
+      secondary: 'Vec<u64>',
+      secondary_vrf: 'Vec<u64>'
     },
     NextConfigDescriptor: {
       _enum: {

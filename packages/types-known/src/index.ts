@@ -9,7 +9,6 @@ import { Text } from '@polkadot/types';
 import { bnToBn, isUndefined } from '@polkadot/util';
 
 import typesChain from './chain';
-import typesMeta from './metadata';
 import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
@@ -27,13 +26,6 @@ function filterVersions (versions: OverrideVersionedType[] = [], specVersion: nu
       ...result,
       ...types
     }), {});
-}
-
-/**
- * @description Based on the metadata version, return the registry types
- */
-export function getMetadataTypes (_registry: Registry, specVersion: number): RegistryTypes {
-  return filterVersions(typesMeta, specVersion);
 }
 
 /**

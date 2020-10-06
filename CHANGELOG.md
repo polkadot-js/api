@@ -1,16 +1,55 @@
 # CHANGELOG
 
-## 1.35.0-beta.x
-
-- **Breaking change** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
-- **Breaking change** Support for the old-style linked-map retrievals have been dropped, only `.keys()/.entries()` are available now for map iteration. Al known live chains have been upgraded to versions that don't have linked lists.
+## 2.1.2-x
 
 Changes:
 
-- Adjust `RefCount` type as per substrate 2.0
-- Add bounty type definitions from treasury
+- Allow `null` input on `Text` values
+
+## 2.1.1 Oct 5, 2020
+
+Upgrade priority: Low.
+
+Contributed:
+
+- Remove unused documentation link (Thanks to https://github.com/roccomuso)
+
+Changes:
+
+- Adjust RPC error formatting with string cleanups and a larger allowed range
+- Apply limit protection on `Text` & `Bytes`, protecting against OOM on erroneous decoding
+- Add `derive.staking.validatorsFrom` to determine validators nominated and own validators
+- Cleanup document generation without (currently unused) summary links
+- Rename static TRANSACTION_VERSION to EXTRINSIC_VERSION (Substrate alignment)
+- Bump Substrate metadata (tests, doc generation)
+
+
+## 2.0.1 Sep 28, 2020
+
+Upgrade priority: Medium. Required for all teams building on Substrate 2.0 for full compatibility.
+
+- **Important** The `RefCount` type (used by `query.system.accounts`) has been changed to a `u32`. On older chains supply the `RefCount: 'RefCountTo259'` override
+- **Breaking change** Metadata versions before v9 as not supported anymore. v4 was the first version to go with the Substrate 1.0 while Kusama itself starts at v9 as the earliest version. This means that Substrate 1.x chains that have not had any upgrades are not supported in this version of the API anymore.
+- **Breaking change** Extrinsic versions before v4 (1-3) are not supported anymore. This aligns with the above metadata change, where v4 is the canonical version.
+- **Breaking change** Support for the old-style linked-map retrievals via `query.<module>.map()` have been dropped, only the existing `.keys()/.entries()` are available for map iteration.
+
+Contributed:
+
+- Add secondary fields to EpochAuthorship (Thanks to https://github.com/andresilva)
+- Add support for FixedVec in enums (Thanks to https://github.com/monitz87)
+
+Changes:
+
+- Drop support for Substrate 1.0 metadata versions 1-8
+- Drop support for Substrate 1.0 extrinsics version 1-3
 - Add support for `grandpa_proveFinality` RPC
-- Drop support for linked maps (deprecated since early versions of Substrate 2)
+- Drop support for linked map queries not via .entries (deprecated since early versions of Substrate 2)
+- Support `.entries()` on older chains without `queryStorageAt` support
+- Add bounty type definitions from treasury palette
+- Adjust `RefCount` type as per substrate 2.0
+- Add `PalletVersion` types for future palette versioning
+- Adjust formatting for `Per{cent, bill, mill}` without instance checks
+- Skip invalid keys on validator retrievals
 
 
 ## 1.34.1 Sep 21, 2020

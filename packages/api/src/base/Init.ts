@@ -11,7 +11,7 @@ import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text, TypeRegistry } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getMetadataTypes, getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -264,9 +264,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   }
 
   private async _initFromMeta (metadata: Metadata): Promise<boolean> {
-    // inject types based on metadata, if applicable
-    this.registerTypes(getMetadataTypes(this.registry, metadata.version));
-
     const metaExtrinsic = metadata.asLatest.extrinsic;
 
     // only inject if we are not a clone (global init)

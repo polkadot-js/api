@@ -20,15 +20,15 @@ describe('ExtrinsicPayload', (): void => {
   };
 
   it('creates and can re-create from itself (U8a)', (): void => {
-    const a = new ExtrinsicPayload(registry, TEST, { version: 3 });
-    const b = new ExtrinsicPayload(registry, a.toU8a(), { version: 3 });
+    const a = new ExtrinsicPayload(registry, TEST, { version: 4 });
+    const b = new ExtrinsicPayload(registry, a.toU8a(), { version: 4 });
 
     expect(a).toEqual(b);
   });
 
   it('creates and can re-create from itself (hex)', (): void => {
-    const a = new ExtrinsicPayload(registry, TEST, { version: 3 });
-    const b = new ExtrinsicPayload(registry, a.toHex(), { version: 3 });
+    const a = new ExtrinsicPayload(registry, TEST, { version: 4 });
+    const b = new ExtrinsicPayload(registry, a.toHex(), { version: 4 });
 
     expect(a).toEqual(b);
   });
@@ -36,7 +36,7 @@ describe('ExtrinsicPayload', (): void => {
   it('handles toU8a(true) correctly', (): void => {
     expect(
       u8aToHex(
-        new ExtrinsicPayload(registry, TEST, { version: 3 }).toU8a(true)
+        new ExtrinsicPayload(registry, TEST, { version: 4 }).toU8a(true)
       )
     ).toEqual(
       // no method length prefix
@@ -47,7 +47,7 @@ describe('ExtrinsicPayload', (): void => {
   it('handles toU8a(false) correctly', (): void => {
     expect(
       u8aToHex(
-        new ExtrinsicPayload(registry, TEST, { version: 3 }).toU8a()
+        new ExtrinsicPayload(registry, TEST, { version: 4 }).toU8a()
       )
     ).toEqual(
       // with method length prefix

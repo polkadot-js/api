@@ -10,13 +10,15 @@ function formatErrorData (data?: string | number): string {
     return '';
   }
 
-  const formatted = isString(data)
-    ? data.replace('Error("', '').replace('")', '')
-    : JSON.stringify(data);
+  const formatted = `: ${isString(data)
+    ? data.replace(/Error\("/g, '').replace(/\("/g, '(').replace(/"\)/g, ')').replace(/\(/g, ', ').replace(/\)/g, '')
+    : JSON.stringify(data)}`;
 
   // We need some sort of cut-off here since these can be very large and
   // very nested, pick a number and trim the result display to it
-  return `: ${formatted.substr(0, 100)}`;
+  return formatted.length <= 256
+    ? formatted
+    : `${formatted.substr(0, 255)}…`;
 }
 
 /** @internal */

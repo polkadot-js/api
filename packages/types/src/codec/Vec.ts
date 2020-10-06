@@ -9,7 +9,7 @@ import Compact from './Compact';
 import { decodeU8a, typeToConstructor } from './utils';
 import AbstractArray from './AbstractArray';
 
-const MAX_LENGTH = 32768;
+const MAX_LENGTH = 64 * 1024;
 
 /**
  * @name Vec

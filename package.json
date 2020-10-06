@@ -14,7 +14,8 @@
     "build": "yarn build:interfaces && polkadot-dev-build-ts && (cd packages/typegen && copyfiles scripts/* build)",
     "build:interfaces": "polkadot-types-internal-interfaces",
     "build:release": "polkadot-ci-ghact-build",
-    "docs": "polkadot-types-internal-metadata && polkadot-dev-build-docs",
+    "docs": "yarn docs:metadata && polkadot-dev-build-docs",
+    "docs:metadata": "polkadot-types-internal-metadata",
     "docs:release": "polkadot-ci-ghact-docs",
     "chain:info": "polkadot-types-chain-info",
     "lint": "polkadot-dev-run-lint",
@@ -28,15 +29,15 @@
     "@babel/core": "^7.11.6",
     "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
-    "@polkadot/dev": "^0.55.54",
-    "@polkadot/ts": "^0.3.47",
+    "@polkadot/dev": "^0.57.8",
+    "@polkadot/ts": "^0.3.49",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.14",
-    "@vuepress/plugin-search": "^1.5.4",
-    "copyfiles": "^2.3.0",
+    "@vuepress/plugin-search": "^1.6.0",
+    "copyfiles": "^2.4.0",
     "typedoc": "^0.19.2",
-    "typedoc-plugin-markdown": "^3.0.2",
+    "typedoc-plugin-markdown": "^3.0.7",
     "typedoc-plugin-no-inherit": "^1.2.0"
   },
-  "version": "1.35.0-beta.11"
+  "version": "2.1.2-1"
 }
