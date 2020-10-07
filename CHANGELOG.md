@@ -5,6 +5,8 @@
 Changes:
 
 - Allow `null` input on `Text` values
+- Move documentation to docs repo
+
 
 ## 2.1.1 Oct 5, 2020
 
