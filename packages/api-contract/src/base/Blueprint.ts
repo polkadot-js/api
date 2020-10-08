@@ -3,8 +3,8 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
-import { ApiObject, ContractABIPre } from '../types';
+import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
+import { ApiObject } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -37,7 +37,7 @@ class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult 
 export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
   public readonly codeHash: Hash;
 
-  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
     super(api, abi, decorateMethod);
 
     this.codeHash = this.registry.createType('Hash', codeHash);
@@ -48,13 +48,12 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      signAndSend: this.decorateMethod(
-        (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType> => {
-          return this._apiContracts
+      signAndSend: this._decorateMethod(
+        (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType> =>
+          this._apiContracts
             .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
             .signAndSend(account)
-            .pipe(map(this._createResult));
-        }
+            .pipe(map(this._createResult))
       )
     };
   }
@@ -62,11 +61,11 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
   private _createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
     let contract: Contract<ApiType> | undefined;
 
-    if (result.isInBlock) {
+    if (result.isInBlock || result.isFinalized) {
       const record = result.findRecord('contract', 'Instantiated');
 
       if (record) {
-        contract = new Contract<ApiType>(this.api, this.abi, this.decorateMethod, record.event.data[1] as Address);
+        contract = new Contract<ApiType>(this.api, this.abi, this._decorateMethod, record.event.data[1] as Address);
       }
     }
 
