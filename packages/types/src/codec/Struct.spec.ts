@@ -99,7 +99,7 @@ describe('Struct', (): void => {
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
   });
 
-  it.only('decodes from a snake_case input', (): void => {
+  it('decodes from a snake_case input', (): void => {
     const input = new Struct(registry, {
       snakeCaseA: U32,
       snakeCaseB: Text,
