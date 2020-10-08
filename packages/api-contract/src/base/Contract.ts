@@ -73,7 +73,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     };
   }
 
-  public call = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> => {
+  public read = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> => {
     assert(this.hasRpcContractsCall, 'Your node does not support constract RPC read calls');
 
     const [inputData, messageFn] = this._createInput(message, params);
