@@ -84,6 +84,13 @@ export default {
     Moment: 'u64',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
+    OriginCaller: {
+      _enum: {
+        // this should be dynamically built from the actual modules, based on index
+        System: 'SystemOrigin'
+      }
+    },
+    PalletsOrigin: 'OriginCaller',
     PalletVersion: {
       major: 'u16',
       minor: 'u8',
