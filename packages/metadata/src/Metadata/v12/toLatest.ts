@@ -8,6 +8,8 @@ import { getModuleTypes } from '@polkadot/types-known';
 import { Type } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
 
+// Since we don't have insight into the origin specification, we can only define what we know about
+// in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
 const KNOWN_ORIGINS: Record<string, string> = {
   Council: 'CollectiveOrigin',
   System: 'SystemOrigin',
