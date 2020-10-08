@@ -9,6 +9,12 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
+    CollectiveRawOrigin: {
+      _enum: {
+        Members: '(MemberCount, MemberCount)',
+        Member: 'AccountId'
+      }
+    },
     MemberCount: 'u32',
     ProposalIndex: 'u32',
     VotesTo230: {

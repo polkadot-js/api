@@ -270,6 +270,13 @@ export default {
         Initialization: 'Null'
       }
     },
+    RawOrigin: {
+      _enum: {
+        Root: 'Null',
+        Signed: 'AccountId',
+        None: 'Null'
+      }
+    },
     RefCount: 'u32',
     RefCountTo259: 'u8',
     TransactionValidityError: {
