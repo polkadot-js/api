@@ -3,14 +3,18 @@
 
 const layout = {
   InkLayoutArray: {
-    cells_per_elem: 'u32',
-    layout: 'InkStorageLayout',
-    len: 'u32',
-    offset: 'InkLayoutKey'
+    array: {
+      cells_per_elem: 'u32',
+      layout: 'InkStorageLayout',
+      len: 'u32',
+      offset: 'InkLayoutKey'
+    }
   },
   InkLayoutCell: {
-    key: 'InkLayoutKey',
-    ty: 'MtLookupTypeId'
+    cell: {
+      key: 'InkLayoutKey',
+      ty: 'MtLookupTypeId'
+    }
   },
   InkLayoutEnum: {
     dispatch_key: 'InkLayoutKey',
@@ -21,9 +25,11 @@ const layout = {
     name: 'Text'
   },
   InkLayoutHash: {
-    layout: 'InkStorageLayout',
-    offset: 'InkLayoutKey',
-    strategy: 'InkLayoutHashStrategy'
+    hash: {
+      layout: 'InkStorageLayout',
+      offset: 'InkLayoutKey',
+      strategy: 'InkLayoutHashStrategy'
+    }
   },
   InkLayoutHashStrategy: {
     hasher: 'Text',
@@ -32,20 +38,24 @@ const layout = {
   },
   InkLayoutKey: '[u8; 32]',
   InkLayoutRange: {
-    elemType: 'Text',
-    len: 'u32',
-    offset: 'InkLayoutKey'
+    range: {
+      elemType: 'Text',
+      len: 'u32',
+      offset: 'InkLayoutKey'
+    }
   },
   InkLayoutStruct: {
-    fields: 'Vec<InkLayoutField>'
+    struct: {
+      fields: 'Vec<InkLayoutField>'
+    }
   },
   InkStorageLayout: {
     _enum: {
-      array: 'InkLayoutArray',
-      cell: 'InkLayoutCell',
-      enum: 'InkLayoutEnum',
-      hash: 'InkLayoutHash',
-      struct: 'InkLayoutStruct'
+      Array: 'InkLayoutArray',
+      Cell: 'InkLayoutCell',
+      Enum: 'InkLayoutEnum',
+      Hash: 'InkLayoutHash',
+      Struct: 'InkLayoutStruct'
     }
   }
 };
