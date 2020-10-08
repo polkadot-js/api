@@ -3,6 +3,7 @@
 
 import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
+import { H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name InkConstructorSpec */
 export interface InkConstructorSpec extends Struct {
@@ -10,6 +11,20 @@ export interface InkConstructorSpec extends Struct {
   readonly selector: InkSelector;
   readonly args: Vec<InkMessageParamSpec>;
   readonly docs: Vec<Text>;
+}
+
+/** @name InkContractContract */
+export interface InkContractContract extends Struct {
+  readonly authors: Vec<Text>;
+  readonly name: Text;
+  readonly version: Text;
+}
+
+/** @name InkContractSource */
+export interface InkContractSource extends Struct {
+  readonly compiler: Text;
+  readonly hash: H256;
+  readonly language: Text;
 }
 
 /** @name InkContractSpec */
@@ -74,6 +89,7 @@ export interface InkMessageSpec extends Struct {
   readonly name: Text;
   readonly selector: InkSelector;
   readonly mutates: bool;
+  readonly payable: bool;
   readonly args: Vec<InkMessageParamSpec>;
   readonly returnType: Option<InkTypeSpec>;
   readonly docs: Vec<Text>;
@@ -81,9 +97,11 @@ export interface InkMessageSpec extends Struct {
 
 /** @name InkProject */
 export interface InkProject extends Struct {
-  readonly spec: InkContractSpec;
-  readonly storage: InkStorageLayout;
+  readonly metadataVersion: Text;
+  readonly source: InkContractSource;
+  readonly contract: InkContractContract;
   readonly types: Vec<MtType>;
+  readonly spec: InkContractSpec;
 }
 
 /** @name InkSelector */
@@ -131,8 +149,8 @@ export interface MtTypeDef extends Enum {
   readonly asComposite: MtTypeDefComposite;
   readonly isVariant: boolean;
   readonly asVariant: MtTypeDefVariant;
-  readonly isSlice: boolean;
-  readonly asSlice: MtTypeDefSlice;
+  readonly isSequence: boolean;
+  readonly asSequence: MtTypeDefSequence;
   readonly isArray: boolean;
   readonly asArray: MtTypeDefArray;
   readonly isTuple: boolean;
@@ -169,8 +187,8 @@ export interface MtTypeDefPrimitive extends Enum {
   readonly isI128: boolean;
 }
 
-/** @name MtTypeDefSlice */
-export interface MtTypeDefSlice extends Struct {
+/** @name MtTypeDefSequence */
+export interface MtTypeDefSequence extends Struct {
   readonly type: MtLookupTypeId;
 }
 
