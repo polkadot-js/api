@@ -31,7 +31,17 @@ export default class Abi extends ContractRegistry {
   constructor (registry: Registry, json: AnyJson) {
     super(registry, json);
 
-    [this.constructors, this.messages] = this._decodeProject();
+    this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec) =>
+      this._createBase<AbiConstructor>(spec, { isConstructor: true })
+    );
+    this.messages = this.project.spec.messages.map((spec: InkMessageSpec): AbiMessage =>
+      this._createBase<AbiMessage>(spec, {
+        isConstructor: false,
+        isMutating: spec.mutates.isTrue,
+        isPayable: spec.payable.isTrue,
+        returnType: this._createAbiType(spec.returnType.unwrapOr(null))
+      })
+    );
   }
 
   private _createAbiType (spec: InkTypeSpec | null): AbiType | null {
@@ -43,7 +53,8 @@ export default class Abi extends ContractRegistry {
       : null;
   }
 
-  private _createBase (identifier: string, spec: InkMessageSpec | InkConstructorSpec): AbiMessageBase {
+  private _createBase <T extends AbiMessageBase = AbiMessageBase> (spec: InkMessageSpec | InkConstructorSpec, add: Partial<T> = {}): T {
+    const identifier = spec.name.toString();
     const args = spec.args.map(({ name, type }): AbiMessageParam => {
       assert(isObject(type), `Invalid type at index ${type.toString()}`);
 
@@ -69,47 +80,19 @@ export default class Abi extends ContractRegistry {
       ).toU8a();
 
       return Compact.addLengthPrefix(u8a);
-    }) as AbiMessage;
+    }) as T;
 
     fn.args = args;
     fn.identifier = identifier;
     fn.docs = spec.docs.map((doc) => doc.toString());
 
-    return fn;
-  }
+    Object.entries(add).reduce((fn: T, [key, value]): T => {
+      // do some magic
+      fn[key as 'args'] = value as AbiMessageParam[];
 
-  private _createConstructor (identifier: string, spec: InkConstructorSpec): AbiConstructor {
-    const fn = this._createBase(identifier, spec);
-
-    fn.isConstructor = true;
-
-    return fn;
-  }
-
-  private _createMessage (identifier: string, spec: InkMessageSpec): AbiMessage {
-    const fn = this._createBase(identifier, spec) as AbiMessage;
-
-    fn.isConstructor = false;
-    fn.isMutating = spec.mutates.isTrue;
-    fn.isPayable = spec.payable.isTrue;
-    fn.returnType = this._createAbiType(spec.returnType.unwrapOr(null));
+      return fn;
+    }, fn);
 
     return fn;
-  }
-
-  private _decodeProject (): [AbiConstructor[], AbiMessage[]] {
-    const constructors = this.project.spec.constructors.map(
-      (constructor): AbiConstructor => {
-        return this._createConstructor(constructor.name.toString(), constructor);
-      }
-    );
-
-    const messages = this.project.spec.messages.map(
-      (message): AbiMessage => {
-        return this._createMessage(message.name.toString(), message);
-      }
-    );
-
-    return [constructors, messages];
   }
 }

@@ -13,8 +13,8 @@ import { SubmittableResult } from '@polkadot/api';
 import { assert } from '@polkadot/util';
 
 import Abi from '../Abi';
+import Base from './Base';
 import Contract from './Contract';
-import { BaseWithTx } from './util';
 
 // eslint-disable-next-line no-use-before-define
 type BlueprintCreateResultSubscription<ApiType extends ApiTypes> = Observable<BlueprintCreateResult<ApiType>>;
@@ -34,7 +34,7 @@ class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult 
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
+export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly codeHash: Hash;
 
   constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {

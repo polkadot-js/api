@@ -14,7 +14,7 @@ import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from '../Abi';
 import Blueprint from './Blueprint';
-import { BaseWithTx } from './util';
+import Base from './Base';
 
 // eslint-disable-next-line no-use-before-define
 type CodePutCodeResultSubscription<ApiType extends ApiTypes> = Observable<CodePutCodeResult<ApiType>>;
@@ -34,7 +34,7 @@ class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
+export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
   constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {

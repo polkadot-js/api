@@ -1,7 +1,8 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod, DecoratedRpc, ObsInnerType } from '@polkadot/api/types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
@@ -10,11 +11,11 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import { assert } from '@polkadot/util';
+import { assert, isFunction } from '@polkadot/util';
 
 import Abi from '../Abi';
 import { formatData } from '../util';
-import { BaseWithTxAndRpcCall } from './util';
+import Base from './Base';
 
 type ContractCallTypes = 'tx' | 'rpc';
 
@@ -32,13 +33,23 @@ export type ContractCallResult<CallType extends ContractCallTypes> = CallType ex
   ? Observable<ContractCallOutcome>
   : Observable<SubmittableResult>;
 
-export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
+export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly address: Address;
 
   constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
     this.address = this.registry.createType('Address', address);
+  }
+
+  public get hasRpcContractsCall (): boolean {
+    return isFunction(this.api.rx.rpc.contracts?.call);
+  }
+
+  protected get _rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
+    assert(this.hasRpcContractsCall, 'You need to connect to a node with the contracts.call RPC method.');
+
+    return this.api.rx.rpc.contracts.call;
   }
 
   public call (as: 'rpc', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;

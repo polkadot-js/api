@@ -6,7 +6,6 @@ import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
 import { withTypeString } from '@polkadot/types';
-import { u32 as U32 } from '@polkadot/types/primitive';
 
 // convert the offset into project-specific, index-1
 export function getRegistryOffset (id: MtLookupTypeId): number {
@@ -28,7 +27,7 @@ export default class ContractRegistry {
     this.project = registry.createType('InkProject', json);
 
     // Generate TypeDefs for each provided registry type
-    this.project.types.forEach((_, index) => this.setTypeDef(new U32(this.registry, index + 1)));
+    this.project.types.forEach((_, index) => this.setTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
   }
 
   public getAbiType (id: MtLookupTypeId): MtType {
