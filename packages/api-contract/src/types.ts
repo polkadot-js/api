@@ -30,23 +30,21 @@ export interface AbiMessageParam {
   type: TypeDef;
 }
 
-export interface AbiMessageBase {
+export interface AbiMessage {
   args: AbiMessageParam[];
   docs: string[];
   identifier: string;
+  index: number;
   isConstructor?: boolean;
+  isMutating?: boolean;
+  isPayable?: boolean;
+  returnType?: AbiType | null;
   selector: string;
 
   (...args: CodecArg[]): Uint8Array;
 }
 
-export type AbiConstructor = AbiMessageBase;
-
-export interface AbiMessage extends AbiMessageBase {
-  isMutating: boolean;
-  isPayable: boolean;
-  returnType: AbiType | null;
-}
+export type AbiConstructor = AbiMessage;
 
 export interface InterfaceContractCalls {
   // eslint-disable-next-line @typescript-eslint/ban-types

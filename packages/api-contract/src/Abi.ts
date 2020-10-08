@@ -3,7 +3,7 @@
 
 import { AnyJson, CodecArg, Constructor, Registry } from '@polkadot/types/types';
 import { InkConstructorSpec, InkMessageSpec, InkTypeSpec } from '@polkadot/types/interfaces';
-import { AbiConstructor, AbiMessageBase, AbiMessage, AbiMessageParam, AbiType } from './types';
+import { AbiConstructor, AbiMessage, AbiMessageParam, AbiType } from './types';
 
 import { Compact, createClass, encodeType } from '@polkadot/types';
 import { assert, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
@@ -23,8 +23,8 @@ function createArgClass (registry: Registry, args: AbiMessageParam[], baseDef: R
   );
 }
 
-function extendBase <T extends AbiMessageBase = AbiMessageBase> (fn: T, add: Partial<T> = {}): T {
-  return Object.entries(add).reduce((fn: T, [key, value]): T => {
+function extendBase (fn: AbiMessage, add: Partial<AbiMessage> = {}): AbiMessage {
+  return Object.entries(add).reduce((fn: AbiMessage, [key, value]): AbiMessage => {
     // do some magic
     fn[key as 'args'] = value as AbiMessageParam[];
 
@@ -40,12 +40,15 @@ export default class Abi extends ContractRegistry {
   constructor (registry: Registry, json: AnyJson) {
     super(registry, json);
 
-    this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec) =>
-      this._createBase<AbiConstructor>(spec, { isConstructor: true })
+    this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
+      this._createBase(spec, {
+        index,
+        isConstructor: true
+      })
     );
-    this.messages = this.project.spec.messages.map((spec: InkMessageSpec): AbiMessage =>
-      this._createBase<AbiMessage>(spec, {
-        isConstructor: false,
+    this.messages = this.project.spec.messages.map((spec: InkMessageSpec, index): AbiMessage =>
+      this._createBase(spec, {
+        index,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: this._createAbiType(spec.returnType.unwrapOr(null))
@@ -62,7 +65,7 @@ export default class Abi extends ContractRegistry {
       : null;
   }
 
-  private _createBase <T extends AbiMessageBase = AbiMessageBase> (spec: InkMessageSpec | InkConstructorSpec, add: Partial<T> = {}): T {
+  private _createBase (spec: InkMessageSpec | InkConstructorSpec, add: Partial<AbiMessage> = {}): AbiMessage {
     const identifier = spec.name.toString();
     const args = spec.args.map(({ name, type }): AbiMessageParam => {
       assert(isObject(type), `Invalid type at index ${type.toString()}`);
@@ -84,9 +87,9 @@ export default class Abi extends ContractRegistry {
 
         return mapped;
       }, { ...baseStruct })).toU8a());
-    }) as T;
+    }) as AbiMessage;
 
-    return extendBase<T>(fn, {
+    return extendBase(fn, {
       ...add,
       args,
       docs: spec.docs.map((doc) => doc.toString()),
