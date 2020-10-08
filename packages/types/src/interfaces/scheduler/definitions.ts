@@ -17,6 +17,13 @@ export default {
       maybeId: 'Option<Bytes>',
       priority: 'SchedulePriority',
       call: 'Call',
+      maybePeriodic: 'Option<SchedulePeriod>',
+      origin: 'PalletsOrigin'
+    },
+    ScheduledTo254: {
+      maybeId: 'Option<Bytes>',
+      priority: 'SchedulePriority',
+      call: 'Call',
       maybePeriodic: 'Option<SchedulePeriod>'
     },
     TaskAddress: '(BlockNumber, u32)'
