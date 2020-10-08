@@ -13,7 +13,7 @@ function compare (name: string, registry: TypeRegistry, messageIds: string[]): v
   try {
     const inkAbi = new Abi(registry, abis[name]);
 
-    expect(inkAbi.messages.map(({ identifier }): string => identifier)).toEqual(messageIds);
+    expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
   } catch (error) {
     console.error(error);
 
