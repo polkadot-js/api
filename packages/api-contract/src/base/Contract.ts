@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod, DecoratedRpc, ObsInnerType } from '@polkadot/api/types';
-import { RpcInterface } from '@polkadot/rpc-core/types';
+import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
@@ -46,12 +45,6 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
-  protected get _rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
-    assert(this.hasRpcContractsCall, 'You need to connect to a node with the contracts.call RPC method.');
-
-    return this.api.rx.rpc.contracts.call;
-  }
-
   public call (as: 'rpc', message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
   public call (as: 'tx', message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
   public call<CallType extends ContractCallTypes> (as: CallType, message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
@@ -66,7 +59,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       send: this._decorateMethod(
         as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>
-            this._rpcContractsCall(
+            this.api.rx.rpc.contracts.call(
               this.registry.createType('ContractCallRequest', {
                 dest: this.address.toString(),
                 gasLimit,
