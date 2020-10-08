@@ -1,9 +1,5 @@
 [
   {
-    "info": 6,
-    "type": "u128"
-  },
-  {
     "displayName": "Header",
     "namespace": "ink_storage::collections::stash",
     "info": 9,
@@ -35,10 +31,10 @@
     "namespace": "ink_storage::collections::stash",
     "params": [
       {
-        "displayName": "AccountId",
+        "displayName": "Hash",
         "namespace": "ink_env::types",
         "info": 6,
-        "type": "AccountId"
+        "type": "Hash"
       }
     ],
     "info": 3,
@@ -63,20 +59,20 @@
         "name": "Vacant"
       },
       {
-        "displayName": "AccountId",
+        "displayName": "Hash",
         "namespace": "ink_env::types",
         "info": 6,
-        "type": "AccountId",
+        "type": "Hash",
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"AccountId\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"Hash\"}}"
   },
   {
-    "displayName": "AccountId",
+    "displayName": "Hash",
     "namespace": "ink_env::types",
     "info": 6,
-    "type": "AccountId"
+    "type": "Hash"
   },
   {
     "info": 12,
@@ -114,15 +110,19 @@
     "namespace": "ink_storage::collections::hashmap",
     "params": [
       {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
         "info": 6,
-        "type": "u128"
+        "type": "AccountId"
       }
     ],
     "info": 9,
     "sub": [
       {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
         "info": 6,
-        "type": "u128",
+        "type": "AccountId",
         "name": "value"
       },
       {
@@ -131,95 +131,111 @@
         "name": "key_index"
       }
     ],
-    "type": "{\"value\":\"u128\",\"key_index\":\"u32\"}"
+    "type": "{\"value\":\"AccountId\",\"key_index\":\"u32\"}"
   },
   {
-    "displayName": "Entry",
-    "namespace": "ink_storage::collections::stash",
+    "displayName": "AccountId",
+    "namespace": "ink_env::types",
+    "info": 6,
+    "type": "AccountId"
+  },
+  {
+    "displayName": "Result",
     "params": [
       {
         "info": 10,
-        "sub": [
-          {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
-            "info": 6,
-            "type": "AccountId"
-          },
-          {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
-            "info": 6,
-            "type": "AccountId"
-          }
-        ],
-        "type": "(AccountId, AccountId)"
-      }
-    ],
-    "info": 3,
-    "sub": [
-      {
-        "displayName": "VacantEntry",
-        "namespace": "ink_storage::collections::stash",
-        "info": 9,
-        "sub": [
-          {
-            "info": 6,
-            "type": "u32",
-            "name": "next"
-          },
-          {
-            "info": 6,
-            "type": "u32",
-            "name": "prev"
-          }
-        ],
-        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
-        "name": "Vacant"
+        "sub": [],
+        "type": "()"
       },
       {
-        "info": 10,
+        "displayName": "Error",
+        "namespace": "dns::dns",
+        "info": 3,
         "sub": [
           {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
+            "ext": {
+              "discriminant": 0
+            },
             "info": 6,
-            "type": "AccountId"
+            "name": "NameAlreadyExists",
+            "type": "Null"
           },
           {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
+            "ext": {
+              "discriminant": 1
+            },
             "info": 6,
-            "type": "AccountId"
+            "name": "CallerIsNotOwner",
+            "type": "Null"
           }
         ],
-        "type": "(AccountId, AccountId)",
-        "name": "Occupied"
+        "type": "[\"NameAlreadyExists\", \"CallerIsNotOwner\"]"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(AccountId, AccountId)\"}}"
+    "info": 7,
+    "sub": [
+      {
+        "name": "Ok",
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      },
+      {
+        "name": "Error",
+        "displayName": "Error",
+        "namespace": "dns::dns",
+        "info": 3,
+        "sub": [
+          {
+            "ext": {
+              "discriminant": 0
+            },
+            "info": 6,
+            "name": "NameAlreadyExists",
+            "type": "Null"
+          },
+          {
+            "ext": {
+              "discriminant": 1
+            },
+            "info": 6,
+            "name": "CallerIsNotOwner",
+            "type": "Null"
+          }
+        ],
+        "type": "[\"NameAlreadyExists\", \"CallerIsNotOwner\"]"
+      }
+    ],
+    "type": "Result<(), Error>"
   },
   {
     "info": 10,
-    "sub": [
-      {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
-        "info": 6,
-        "type": "AccountId"
-      },
-      {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
-        "info": 6,
-        "type": "AccountId"
-      }
-    ],
-    "type": "(AccountId, AccountId)"
+    "sub": [],
+    "type": "()"
   },
   {
-    "info": 6,
-    "type": "bool"
+    "displayName": "Error",
+    "namespace": "dns::dns",
+    "info": 3,
+    "sub": [
+      {
+        "ext": {
+          "discriminant": 0
+        },
+        "info": 6,
+        "name": "NameAlreadyExists",
+        "type": "Null"
+      },
+      {
+        "ext": {
+          "discriminant": 1
+        },
+        "info": 6,
+        "name": "CallerIsNotOwner",
+        "type": "Null"
+      }
+    ],
+    "type": "[\"NameAlreadyExists\", \"CallerIsNotOwner\"]"
   },
   {
     "displayName": "Option",

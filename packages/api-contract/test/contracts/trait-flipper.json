@@ -1,12 +1,12 @@
 {
   "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0xafe9cfb918e19fc701470017985ab0324017c66dbcfb13cb3ceca39e68cddd86",
+    "hash": "0x4c7e27282d0877aef2390dd50254a0fea52de5b61bc1104b41c791044f47133c",
     "language": "ink! 3.0.0",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
-    "name": "incrementer",
+    "name": "flipper",
     "version": "3.0.0",
     "authors": [
       "Parity Technologies <admin@parity.io>"
@@ -15,12 +15,22 @@
   "spec": {
     "constructors": [
       {
+        "args": [],
+        "docs": [
+          " Creates a new flipper smart contract initialized to `false`."
+        ],
+        "name": [
+          "default"
+        ],
+        "selector": "0x6a3712e2"
+      },
+      {
         "args": [
           {
             "name": "init_value",
             "type": {
               "displayName": [
-                "i32"
+                "bool"
               ],
               "id": 1
             }
@@ -28,58 +38,43 @@
         ],
         "docs": [],
         "name": [
+          "Flip",
           "new"
         ],
-        "selector": "0xd183512b"
-      },
-      {
-        "args": [],
-        "docs": [],
-        "name": [
-          "default"
-        ],
-        "selector": "0x6a3712e2"
+        "selector": "0x818482e7"
       }
     ],
     "docs": [],
     "events": [],
     "messages": [
       {
-        "args": [
-          {
-            "name": "by",
-            "type": {
-              "displayName": [
-                "i32"
-              ],
-              "id": 1
-            }
-          }
-        ],
+        "args": [],
         "docs": [],
         "mutates": true,
         "name": [
-          "inc"
+          "Flip",
+          "flip"
         ],
         "payable": false,
         "returnType": null,
-        "selector": "0x2fb8d143"
+        "selector": "0xad931d5f"
       },
       {
         "args": [],
         "docs": [],
         "mutates": false,
         "name": [
+          "Flip",
           "get"
         ],
         "payable": false,
         "returnType": {
           "displayName": [
-            "i32"
+            "bool"
           ],
           "id": 1
         },
-        "selector": "0x1e5ca456"
+        "selector": "0x6b3549bc"
       }
     ]
   },
@@ -101,7 +96,7 @@
   "types": [
     {
       "def": {
-        "primitive": "i32"
+        "primitive": "bool"
       }
     }
   ]
