@@ -66,6 +66,7 @@ const spec = {
     name: 'Text',
     selector: 'InkSelector',
     mutates: 'bool',
+    payable: 'bool',
     args: 'Vec<InkMessageParamSpec>',
     returnType: 'Option<InkTypeSpec>',
     docs: 'Vec<Text>'
@@ -78,11 +79,11 @@ const spec = {
 };
 
 const registry = {
-  MtLookupTypeId: 'u32',
   MtField: {
     name: 'Option<Text>',
     type: 'MtLookupTypeId'
   },
+  MtLookupTypeId: 'u32',
   MtRegistry: {
     strings: 'Vec<Text>',
     types: 'Vec<MtType>'
@@ -96,11 +97,15 @@ const registry = {
     _enum: {
       Composite: 'MtTypeDefComposite',
       Variant: 'MtTypeDefVariant',
-      Slice: 'MtTypeDefSlice',
+      Sequence: 'MtTypeDefSequence',
       Array: 'MtTypeDefArray',
       Tuple: 'MtTypeDefTuple',
       Primitive: 'MtTypeDefPrimitive'
     }
+  },
+  MtTypeDefArray: {
+    len: 'u16',
+    type: 'MtLookupTypeId'
   },
   MtTypeDefComposite: {
     fields: 'Vec<MtField>'
@@ -108,15 +113,11 @@ const registry = {
   MtTypeDefVariant: {
     variants: 'Vec<MtVariant>'
   },
-  MtTypeDefArray: {
-    len: 'u16',
-    type: 'MtLookupTypeId'
-  },
   MtTypeDefPrimitive: {
     // this enum definition is mapped in api-contracts/inkTypes.ts
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
   },
-  MtTypeDefSlice: {
+  MtTypeDefSequence: {
     type: 'MtLookupTypeId'
   },
   MtTypeDefTuple: 'Vec<MtLookupTypeId>',
@@ -133,10 +134,26 @@ export default {
     ...layout,
     ...registry,
     ...spec,
+    InkContractContract: {
+      authors: 'Vec<Text>',
+      name: 'Text',
+      version: 'Text'
+    },
+    InkContractSource: {
+      compiler: 'Text',
+      hash: 'H256',
+      language: 'Text'
+    },
     InkProject: {
-      spec: 'InkContractSpec',
-      storage: 'InkStorageLayout',
-      types: 'Vec<MtType>'
+      // added by ABI serialization
+      metadataVersion: 'Text',
+      source: 'InkContractSource',
+      contract: 'InkContractContract',
+      // expanded scale registry: RegistryReadOnly
+      types: 'Vec<MtType>',
+      // renamed from layout (ignored for now, incomplete)
+      // storage: 'InkStorageLayout',
+      spec: 'InkContractSpec'
     }
   }
 } as Definitions;
