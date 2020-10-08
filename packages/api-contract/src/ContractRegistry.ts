@@ -1,226 +1,228 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CodecArg, Constructor, Registry, TypeDef } from '@polkadot/types/types';
-import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMessage, ContractABIMessageBase, ContractABIMessagePre, ContractABI, ContractABIMessageCommon, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
+import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
+import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
-import { Compact, u32, createClass, encodeType } from '@polkadot/types';
-import { assert, hexToU8a, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase, isHex, hexToNumber } from '@polkadot/util';
+import { assert, isUndefined } from '@polkadot/util';
+import { withTypeString } from '@polkadot/types';
 
-import MetaRegistry from './MetaRegistry';
+// convert the offset into project-specific, index-1
+export function getRegistryOffset (id: MtLookupTypeId): number {
+  return id.toNumber() - 1;
+}
 
-// parse a selector, this can be a number (older) or of [<hex>, <hex>, ...]. However,
-// just catch everything (since this is now non-standard for u32 anyway)
-function parseSelector (registry: Registry, fnname: string, input: ContractABIMessageCommon['selector']): u32 {
-  if (isNumber(input)) {
-    return registry.createType('u32', input);
-  } else if (isHex(input)) {
-    return registry.createType('u32', hexToU8a(input));
-  } else if (typeof input === 'string') {
-    try {
-      const array = JSON.parse(input) as (string | number)[];
+export default class ContractRegistry {
+  public typeDefs: TypeDef[] = [];
 
-      assert(array.length === 4, `${fnname}: Invalid selector length`);
+  public registry: Registry;
 
-      return registry.createType('u32', Uint8Array.from(
-        array.map((value: string | number) =>
-          isHex(value)
-            ? hexToNumber(value.toString())
-            : value
-        )
-      ));
-    } catch (e) {
-      console.error(e);
+  public project: InkProject;
+
+  public json: AnyJson;
+
+  constructor (registry: Registry, json: AnyJson) {
+    this.registry = registry;
+    this.json = json;
+    this.project = registry.createType('InkProject', json);
+
+    // Generate TypeDefs for each provided registry type
+    this.project.types.forEach((_, index) => this.setTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
+  }
+
+  public getAbiType (id: MtLookupTypeId): MtType {
+    const offset = getRegistryOffset(id);
+    const type = this.project.types[offset];
+
+    assert(!isUndefined(type), `getAbiType:: Unable to find ${id.toNumber()} in type values`);
+
+    return this.registry.createType('MtType', type);
+  }
+
+  public getAbiTypes (ids: MtLookupTypeId[]): MtType[] {
+    return ids.map((id): MtType => this.getAbiType(id));
+  }
+
+  public hasTypeDefAt (id: MtLookupTypeId): boolean {
+    return !!this.typeDefs[getRegistryOffset(id)];
+  }
+
+  public typeDefAt (id: MtLookupTypeId, extra: Pick<TypeDef, never> = {}): TypeDef {
+    if (!this.hasTypeDefAt(id)) {
+      this.setTypeDef(id);
     }
+
+    return {
+      ...this.typeDefs[getRegistryOffset(id)],
+      ...extra
+    };
   }
 
-  throw new Error(`${fnname}: Unable to parse selector`);
-}
+  public typeDefsAt (ids: MtLookupTypeId[]): TypeDef[] {
+    return ids.map((id) => this.typeDefAt(id));
+  }
 
-function createArgClass (registry: Registry, args: ContractABIFnArg[], baseDef: Record<string, string>): Constructor {
-  return createClass(
-    registry,
-    JSON.stringify(
-      args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = type.displayName || encodeType(type);
+  public setTypeDef (id: MtLookupTypeId): void {
+    this.typeDefs[getRegistryOffset(id)] = this.extractType(this.getAbiType(id), id) as TypeDef;
+  }
 
-        return base;
-      }, baseDef)
-    )
-  );
-}
+  private extractType (inkType: MtType, id: MtLookupTypeId): Pick<TypeDef, never> {
+    const path = [...inkType.path];
+    let typeDef;
 
-export default class ContractRegistry extends MetaRegistry {
-  // Contract ABI helpers
-  public validateArgs (name: string, args: ContractABIArgBasePre[]): void {
-    assert(Array.isArray(args), `Expected 'args' to exist on ${name}`);
+    if (inkType.path.join('::').startsWith('ink_env::types::') || inkType.def.isPrimitive) {
+      typeDef = this.extractPrimitive(inkType);
+    } else if (inkType.def.isComposite) {
+      typeDef = this.extractFields(inkType.def.asComposite.fields);
+    } else if (inkType.def.isVariant) {
+      typeDef = this.extractVariant(inkType.def.asVariant, id);
+    } else if (inkType.def.isArray) {
+      typeDef = this.extractArray(inkType.def.asArray);
+    } else if (inkType.def.isSequence) {
+      typeDef = this.extractSequence(inkType.def.asSequence, id);
+    } else if (inkType.def.isTuple) {
+      typeDef = this.extractTuple(inkType.def.asTuple);
+    } else {
+      throw new Error(`Invalid ink! type at index ${id.toString()}`);
+    }
 
-    args.forEach((arg): void => {
-      const unknownKeys = Object.keys(arg).filter((key): boolean => !['name', 'type'].includes(key));
+    const displayName = path.pop()?.toString();
 
-      assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for ${name}`);
-      assert(isNumber(arg.name) && isString(this._stringAt(arg.name)), `${name} args should have valid name `);
-      assert(isNumber(arg.type.ty) && isObject(this.typeDefAt(arg.type.ty)), `${name} args should have valid type`);
+    return withTypeString({
+      ...(displayName
+        ? { displayName }
+        : {}
+      ),
+      ...(path.length > 1
+        ? { namespace: path.map((segment) => segment.toString()).join('::') }
+        : {}
+      ),
+      ...(inkType.params.length > 0
+        ? { params: this.typeDefsAt(inkType.params) }
+        : {}
+      ),
+      ...typeDef
     });
   }
 
-  public validateConstructors ({ contract: { constructors } }: ContractABIPre): void {
-    constructors.forEach((constructor: ContractABIMessagePre, index): void => {
-      const unknownKeys = Object.keys(constructor).filter((key): boolean => !['args', 'docs', 'name', 'selector'].includes(key));
+  private extractVariant ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Pick<TypeDef, never> {
+    const { params, path } = this.getAbiType(id);
+    const specialVariant = path[0].toString();
 
-      assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI constructor`);
-
-      this.validateArgs(`constructor ${index}`, constructor.args);
-    });
-  }
-
-  public validateMessages ({ contract: { messages } }: ContractABIPre): void {
-    messages.forEach((message): void => {
-      const unknownKeys = Object.keys(message).filter((key): boolean => !['args', 'docs', 'mutates', 'name', 'selector', 'return_type'].includes(key));
-      const fnname = `messages.${message.name}`;
-
-      assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${message.name}`);
-
-      const { name, return_type: returnType, selector } = message;
-
-      assert(isNumber(name) && isString(this._stringAt(name)), `Expected name for ${fnname}`);
-      assert(isNull(returnType) || (isNumber(returnType.ty) && isObject(this.typeDefAt(returnType.ty))), `Expected return_type for ${fnname}`);
-
-      parseSelector(this.registry, fnname, selector);
-      this.validateArgs(fnname, message.args);
-    });
-  }
-
-  public validateAbi (abi: ContractABIPre): void {
-    const unknownKeys = Object.keys(abi.contract).filter((key): boolean => !['constructors', 'docs', 'events', 'messages', 'name'].includes(key));
-
-    assert(unknownKeys.length === 0, `Unknown fields ${unknownKeys.join(', ')} found in ABI`);
-
-    const { contract: { constructors, messages, name } } = abi;
-
-    assert(constructors && messages && isString(this._stringAt(name)), 'ABI should have constructors, messages & name sections');
-
-    this.validateConstructors(abi);
-    this.validateMessages(abi);
-  }
-
-  public createMessage (name: string, message: Partial<ContractABIMessage> & ContractABIMessageBase): ContractABIFn {
-    const args = message.args.map(({ name, type }): ContractABIFnArg => {
-      assert(isObject(type), `Invalid type at index ${type.toString()}`);
-
+    if (specialVariant === 'Option') {
       return {
-        name: stringCamelCase(name),
-        type
+        info: TypeDefInfo.Option,
+        sub: this.typeDefAt(params[0])
+      };
+    } else if (specialVariant === 'Result') {
+      return {
+        info: TypeDefInfo.Result,
+        sub: params.map((param, index) => ({
+          name: ['Ok', 'Error'][index],
+          ...this.typeDefAt(param)
+        }))
+      };
+    }
+
+    return {
+      info: TypeDefInfo.Enum,
+      sub: this.extractVariantSub(variants)
+    };
+  }
+
+  private extractVariantSub (variants: MtVariant[]): Pick<TypeDef, any>[] {
+    const isAllUnitVariants = variants.every(({ fields }) => fields.length === 0);
+
+    if (isAllUnitVariants) {
+      return variants.map(({ discriminant, name }) => ({
+        ...(
+          discriminant.isSome
+            ? { ext: { discriminant: discriminant.unwrap().toNumber() } }
+            : {}
+        ),
+        info: TypeDefInfo.Plain,
+        name: name.toString(),
+        type: 'Null'
+      }));
+    }
+
+    return variants.map(({ fields, name }) => ({
+      ...this.extractFields(fields),
+      name: name.toString()
+    }));
+  }
+
+  private extractFields (fields: MtField[]): Pick<TypeDef, any> {
+    const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
+      isAllNamed && name.isSome,
+      isAllUnnamed && name.isNone
+    ]),
+    [true, true]);
+
+    let info;
+
+    // check for tuple first (no fields may be available)
+    if (isTuple) {
+      info = TypeDefInfo.Tuple;
+    } else if (isStruct) {
+      info = TypeDefInfo.Struct;
+    } else {
+      throw new Error('Invalid fields type detected, expected either Tuple or Struct');
+    }
+
+    const sub = fields.map(({ name, type }) => {
+      return {
+        ...this.typeDefAt(type),
+        ...(name.isSome ? { name: name.unwrap().toString() } : {})
       };
     });
 
-    const Clazz = createArgClass(this.registry, args, isUndefined(message.selector) ? {} : { __selector: 'u32' });
-    const baseStruct: { [index: string]: any } = { __selector: isUndefined(message.selector) ? undefined : parseSelector(this.registry, name, message.selector) };
-
-    const encoder = (...params: CodecArg[]): Uint8Array => {
-      assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
-
-      const u8a = new Clazz(
-        this.registry,
-        args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
-          mapped[name] = params[index];
-
-          return mapped;
-        }, { ...baseStruct })
-      ).toU8a();
-
-      return Compact.addLengthPrefix(u8a);
-    };
-
-    const fn = (encoder as ContractABIFn);
-
-    fn.args = args;
-    fn.isConstant = !(message.mutates || false);
-    fn.type = message.returnType || null;
-
-    return fn;
+    return isTuple && sub.length === 1
+      ? sub[0]
+      : { info, sub };
   }
 
-  public convertAbi ({ contract, storage }: ContractABIPre): ContractABI {
+  private extractArray ({ len: length, type }: MtTypeDefArray): Pick<TypeDef, never> {
+    assert(!length || length.toNumber() <= 256, 'ContractRegistry: Only support for [Type; <length>], where length > 256');
+
     return {
-      contract: this.convertContract(contract),
-      storage: this.convertStorage(storage)
+      info: TypeDefInfo.VecFixed,
+      length: length.toNumber(),
+      sub: this.typeDefAt(type)
     };
   }
 
-  public convertArgs (args: ContractABIArgBasePre[]): any[] {
-    return args.map(({ name, type, ...arg }) => ({ ...arg, name: this._stringAt(name), type: this.convertType(type) }));
-  }
+  private extractSequence ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Pick<TypeDef, never> {
+    assert(!!type, `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
 
-  public convertType ({ display_name: displayNameIndices, ty }: ContractABITypePre): TypeDef {
-    const displayName = this.stringsAt(displayNameIndices).join('::');
-
-    return this.typeDefAt(ty, { displayName });
-  }
-
-  public convertContract ({ constructors, events, messages, name, ...contract }: ContractABIContractPre): ContractABIContract {
     return {
-      constructors: this.convertConstructors(constructors),
-      messages: messages.map((message) => this.convertMessage(message)),
-      name: this._stringAt(name),
-      ...(events
-        ? { events: events.map((event) => this.convertEvent(event)) }
-        : {}),
-      ...contract
+      info: TypeDefInfo.Vec,
+      sub: this.typeDefAt(type)
     };
   }
 
-  public convertConstructors (constructors: ContractABIMessagePre[]): ContractABIMessage[] {
-    return constructors.map(
-      (constructor: ContractABIMessagePre): ContractABIMessage => {
-        return this.convertMessage(constructor);
-      }
-    );
+  private extractTuple (ids: MtTypeDefTuple): Pick<TypeDef, never> {
+    return ids.length === 1
+      ? this.typeDefAt(ids[0])
+      : {
+        info: TypeDefInfo.Tuple,
+        sub: ids.map((id) => this.typeDefAt(id))
+      };
   }
 
-  public convertMessage ({ args, name, return_type: returnType, ...message }: ContractABIMessagePre): ContractABIMessage {
-    return {
-      ...message,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      args: this.convertArgs(args),
-      name: this._stringAt(name),
-      returnType: returnType ? this.convertType(returnType) : null
-    };
-  }
-
-  public convertEvent ({ args }: ContractABIEventPre): ContractABIEvent {
-    return {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      args: this.convertArgs(args)
-    };
-  }
-
-  public convertStorage (storage: ContractABIStoragePre): ContractABIStorage {
-    return this.convertStorageStruct(storage);
-  }
-
-  public convertStorageLayout (storageLayout: ContractABIStorageLayoutPre): ContractABIStorageLayout {
-    if ((storageLayout as ContractABIStorageStructPre)['struct.type']) {
-      return this.convertStorageStruct(storageLayout as ContractABIStorageStructPre);
-    } else {
-      return this.convertStorageRange(storageLayout as ContractABIRangePre);
+  private extractPrimitive (inkType: MtType): Pick<TypeDef, never> {
+    if (inkType.def.isPrimitive) {
+      return {
+        info: TypeDefInfo.Plain,
+        type: inkType.def.asPrimitive.type.toLowerCase()
+      };
+    } else if (inkType.path.length > 1) {
+      return {
+        info: TypeDefInfo.Plain,
+        type: inkType.path[inkType.path.length - 1].toString()
+      };
     }
-  }
 
-  public convertStorageStruct ({ 'struct.fields': structFields, 'struct.type': structType }: ContractABIStorageStructPre): ContractABIStorageStruct {
-    return {
-      'struct.fields': structFields.map(({ layout, name }) => ({
-        layout: this.convertStorageLayout(layout),
-        name: this._stringAt(name)
-      })),
-      'struct.type': this.typeDefAt(structType)
-    };
-  }
-
-  public convertStorageRange ({ 'range.elem_type': type, ...range }: ContractABIRangePre): ContractABIRange {
-    return {
-      ...range,
-      'range.elem_type': this.typeDefAt(type)
-    };
+    throw new Error('Invalid primitive type');
   }
 }

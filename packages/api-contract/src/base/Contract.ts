@@ -1,18 +1,21 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod, DecoratedRpc, ObsInnerType } from '@polkadot/api/types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-import { Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
-import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome } from '../types';
+import { AnyJson, Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
+import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
+import { assert, isFunction } from '@polkadot/util';
+
 import Abi from '../Abi';
 import { formatData } from '../util';
-import { BaseWithTxAndRpcCall } from './util';
+import Base from './Base';
 
 type ContractCallTypes = 'tx' | 'rpc';
 
@@ -30,63 +33,76 @@ export type ContractCallResult<CallType extends ContractCallTypes> = CallType ex
   ? Observable<ContractCallOutcome>
   : Observable<SubmittableResult>;
 
-export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
+export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly address: Address;
 
-  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
     this.address = this.registry.createType('Address', address);
   }
 
-  public call (as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
-  public call (as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
-  public call<CallType extends ContractCallTypes> (as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
-    const { def, fn } = this.getMessage(message);
+  public get hasRpcContractsCall (): boolean {
+    return isFunction(this.api.rx.rpc.contracts?.call);
+  }
+
+  protected get _rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
+    assert(this.hasRpcContractsCall, 'You need to connect to a node with the contracts.call RPC method.');
+
+    return this.api.rx.rpc.contracts.call;
+  }
+
+  public call (as: 'rpc', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
+  public call (as: 'tx', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
+  public call<CallType extends ContractCallTypes> (as: CallType, messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
+    assert(messageIndex < this.abi.messages.length, 'Attempted to call invalid contract message');
+
+    const message = this.abi.messages[messageIndex];
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      send: this.decorateMethod(
+      send: this._decorateMethod(
         as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>
             this._rpcContractsCall(
               this.registry.createType('ContractCallRequest', {
                 dest: this.address.toString(),
                 gasLimit,
-                inputData: fn(...params),
+                inputData: message(...params),
                 origin: account,
                 value
               })
             ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
-              this._createOutcome(result, this.registry.createType('AccountId', account), def, params)
+              this._createOutcome(result, account, message, params)
             ))
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
             this._apiContracts
-              .call(this.address, value, gasLimit, fn(...params))
+              .call(this.address, value, gasLimit, message(...params))
               .signAndSend(account)
       )
     };
   }
 
-  private _createOutcome (result: ContractExecResult, origin: AccountId, message: ContractABIMessage, params: CodecArg[]): ContractCallOutcome {
+  private _createOutcome (result: ContractExecResult, origin: IKeyringPair | string | AccountId | Address, message: AbiMessage, params: CodecArg[]): ContractCallOutcome {
     let output: Codec | null = null;
 
     if (result.isSuccess) {
       const { data } = result.asSuccess;
 
       output = message.returnType
-        ? formatData(this.registry, data, message.returnType)
+        ? formatData(this.registry, data, message.returnType.type)
         : this.registry.createType('Raw', data);
     }
 
     return {
       isSuccess: result.isSuccess,
       message,
-      origin,
+      origin: this.registry.createType('AccountId', origin),
       output,
       params,
       result,
-      time: Date.now()
+      time: Date.now(),
+      type: message.returnType?.type || null
     };
   }
 }
