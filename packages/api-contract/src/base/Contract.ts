@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import { assert, isFunction } from '@polkadot/util';
+import { assert, isFunction, isNumber } from '@polkadot/util';
 
 import Abi from '../Abi';
 import { formatData } from '../util';
@@ -52,12 +52,14 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.api.rx.rpc.contracts.call;
   }
 
-  public call (as: 'rpc', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
-  public call (as: 'tx', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
-  public call<CallType extends ContractCallTypes> (as: CallType, messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
-    assert(messageIndex < this.abi.messages.length, 'Attempted to call invalid contract message');
+  public call (as: 'rpc', messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
+  public call (as: 'tx', messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
+  public call<CallType extends ContractCallTypes> (as: CallType, messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
+    const message = isNumber(messageOrIndex)
+      ? this.abi.messages[messageOrIndex]
+      : messageOrIndex;
 
-    const message = this.abi.messages[messageIndex];
+    assert(message, 'Attempted to call invalid contract message');
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
