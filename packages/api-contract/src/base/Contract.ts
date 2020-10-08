@@ -4,7 +4,7 @@
 import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
-import { ApiObject, ContractCallOutcome, ContractMessage } from '../types';
+import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -72,7 +72,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     };
   }
 
-  private _createOutcome (result: ContractExecResult, origin: IKeyringPair | string | AccountId | Address, message: ContractMessage, params: CodecArg[]): ContractCallOutcome {
+  private _createOutcome (result: ContractExecResult, origin: IKeyringPair | string | AccountId | Address, message: AbiMessage, params: CodecArg[]): ContractCallOutcome {
     let output: Codec | null = null;
 
     if (result.isSuccess) {

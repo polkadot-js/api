@@ -31,17 +31,17 @@ export default class ContractRegistry {
     this.project.types.forEach((_, index) => this.setTypeDef(new U32(this.registry, index + 1)));
   }
 
-  public getContractType (id: MtLookupTypeId): MtType {
+  public getAbiType (id: MtLookupTypeId): MtType {
     const offset = getRegistryOffset(id);
     const type = this.project.types[offset];
 
-    assert(!isUndefined(type), `getContractType:: Unable to find ${id.toNumber()} in type values`);
+    assert(!isUndefined(type), `getAbiType:: Unable to find ${id.toNumber()} in type values`);
 
     return this.registry.createType('MtType', type);
   }
 
-  public getContractTypes (ids: MtLookupTypeId[]): MtType[] {
-    return ids.map((id): MtType => this.getContractType(id));
+  public getAbiTypes (ids: MtLookupTypeId[]): MtType[] {
+    return ids.map((id): MtType => this.getAbiType(id));
   }
 
   public hasTypeDefAt (id: MtLookupTypeId): boolean {
@@ -64,7 +64,7 @@ export default class ContractRegistry {
   }
 
   public setTypeDef (id: MtLookupTypeId): void {
-    this.typeDefs[getRegistryOffset(id)] = this.extractType(this.getContractType(id), id) as TypeDef;
+    this.typeDefs[getRegistryOffset(id)] = this.extractType(this.getAbiType(id), id) as TypeDef;
   }
 
   private extractType (inkType: MtType, id: MtLookupTypeId): Pick<TypeDef, never> {
@@ -107,7 +107,7 @@ export default class ContractRegistry {
   }
 
   private extractVariant ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Pick<TypeDef, never> {
-    const { params, path } = this.getContractType(id);
+    const { params, path } = this.getAbiType(id);
     const specialVariant = path[0].toString();
 
     if (specialVariant === 'Option') {

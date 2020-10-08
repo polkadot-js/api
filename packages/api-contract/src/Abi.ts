@@ -3,14 +3,14 @@
 
 import { AnyJson, CodecArg, Constructor, Registry } from '@polkadot/types/types';
 import { InkConstructorSpec, InkMessageSpec, InkTypeSpec } from '@polkadot/types/interfaces';
-import { ContractConstructor, ContractMessageBase, ContractMessage, ContractMessageParam, ContractType } from './types';
+import { AbiConstructor, AbiMessageBase, AbiMessage, AbiMessageParam, AbiType } from './types';
 
 import { Compact, createClass, encodeType } from '@polkadot/types';
 import { assert, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
 
-function createArgClass (registry: Registry, args: ContractMessageParam[], baseDef: Record<string, string>): Constructor {
+function createArgClass (registry: Registry, args: AbiMessageParam[], baseDef: Record<string, string>): Constructor {
   return createClass(
     registry,
     JSON.stringify(
@@ -24,9 +24,9 @@ function createArgClass (registry: Registry, args: ContractMessageParam[], baseD
 }
 
 export default class Abi extends ContractRegistry {
-  public readonly constructors: ContractConstructor[];
+  public readonly constructors: AbiConstructor[];
 
-  public readonly messages: ContractMessage[];
+  public readonly messages: AbiMessage[];
 
   constructor (registry: Registry, json: AnyJson) {
     super(registry, json);
@@ -34,7 +34,7 @@ export default class Abi extends ContractRegistry {
     [this.constructors, this.messages] = this._decodeProject();
   }
 
-  private _createContractType (spec: InkTypeSpec | null): ContractType | null {
+  private _createAbiType (spec: InkTypeSpec | null): AbiType | null {
     return spec
       ? {
         displayName: spec.displayName.toString() || undefined,
@@ -43,8 +43,8 @@ export default class Abi extends ContractRegistry {
       : null;
   }
 
-  private _createBase (identifier: string, spec: InkMessageSpec | InkConstructorSpec): ContractMessageBase {
-    const args = spec.args.map(({ name, type }): ContractMessageParam => {
+  private _createBase (identifier: string, spec: InkMessageSpec | InkConstructorSpec): AbiMessageBase {
+    const args = spec.args.map(({ name, type }): AbiMessageParam => {
       assert(isObject(type), `Invalid type at index ${type.toString()}`);
 
       return {
@@ -69,7 +69,7 @@ export default class Abi extends ContractRegistry {
       ).toU8a();
 
       return Compact.addLengthPrefix(u8a);
-    }) as ContractMessage;
+    }) as AbiMessage;
 
     fn.args = args;
     fn.identifier = identifier;
@@ -78,7 +78,7 @@ export default class Abi extends ContractRegistry {
     return fn;
   }
 
-  private _createConstructor (identifier: string, spec: InkConstructorSpec): ContractConstructor {
+  private _createConstructor (identifier: string, spec: InkConstructorSpec): AbiConstructor {
     const fn = this._createBase(identifier, spec);
 
     fn.isConstructor = true;
@@ -86,26 +86,26 @@ export default class Abi extends ContractRegistry {
     return fn;
   }
 
-  private _createMessage (identifier: string, spec: InkMessageSpec): ContractMessage {
-    const fn = this._createBase(identifier, spec) as ContractMessage;
+  private _createMessage (identifier: string, spec: InkMessageSpec): AbiMessage {
+    const fn = this._createBase(identifier, spec) as AbiMessage;
 
     fn.isConstructor = false;
     fn.isMutating = spec.mutates.isTrue;
     fn.isPayable = spec.payable.isTrue;
-    fn.returnType = this._createContractType(spec.returnType.unwrapOr(null));
+    fn.returnType = this._createAbiType(spec.returnType.unwrapOr(null));
 
     return fn;
   }
 
-  private _decodeProject (): [ContractConstructor[], ContractMessage[]] {
+  private _decodeProject (): [AbiConstructor[], AbiMessage[]] {
     const constructors = this.project.spec.constructors.map(
-      (constructor): ContractConstructor => {
+      (constructor): AbiConstructor => {
         return this._createConstructor(constructor.name.toString(), constructor);
       }
     );
 
     const messages = this.project.spec.messages.map(
-      (message): ContractMessage => {
+      (message): AbiMessage => {
         return this._createMessage(message.name.toString(), message);
       }
     );

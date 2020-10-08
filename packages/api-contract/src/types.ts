@@ -16,22 +16,22 @@ export interface ContractBase<ApiType extends ApiTypes> {
   readonly abi: Abi;
   readonly api: ApiObject<ApiType>;
 
-  getMessage: (name: string) => ContractMessage;
-  messages: ContractMessage[];
+  getMessage: (name: string) => AbiMessage;
+  messages: AbiMessage[];
 }
 
-export interface ContractType {
+export interface AbiType {
   displayName?: string;
   type: TypeDef;
 }
 
-export interface ContractMessageParam {
+export interface AbiMessageParam {
   name: string;
   type: TypeDef;
 }
 
-export interface ContractMessageBase {
-  args: ContractMessageParam[];
+export interface AbiMessageBase {
+  args: AbiMessageParam[];
   docs: string[];
   identifier: string;
   isConstructor?: boolean;
@@ -40,17 +40,13 @@ export interface ContractMessageBase {
   (...args: CodecArg[]): Uint8Array;
 }
 
-export type ContractConstructor = ContractMessageBase;
+export type AbiConstructor = AbiMessageBase;
 
-export interface ContractMessage extends ContractMessageBase {
+export interface AbiMessage extends AbiMessageBase {
   isMutating: boolean;
   isPayable: boolean;
-  returnType: ContractType | null;
+  returnType: AbiType | null;
 }
-
-export type ContractConstructors = ContractMessage[];
-
-export type ContractMessages = ContractMessage[];
 
 export interface InterfaceContractCalls {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -64,7 +60,7 @@ export interface InterfaceContract {
 
 export interface ContractCallOutcome {
   isSuccess: boolean;
-  message: ContractMessage;
+  message: AbiMessage;
   origin: AccountId;
   output: Codec | null;
   params: any[];
