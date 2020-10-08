@@ -76,4 +76,5 @@ export interface ContractCallOutcome {
   params: any[];
   isSuccess: boolean;
   message: InkMessage;
+  type: TypeDef | null;
 }

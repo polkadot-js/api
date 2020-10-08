@@ -58,7 +58,7 @@ describe('InkAbi', (): void => {
         'register',
         'set_address',
         'transfer',
-        'get_address',
+        'get_address'
       ]);
     });
 

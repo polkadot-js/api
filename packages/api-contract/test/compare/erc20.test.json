@@ -37,12 +37,7 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId"
       }
     ],
@@ -70,27 +65,17 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId",
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"[u8;32]\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"AccountId\"}}"
   },
   {
     "displayName": "AccountId",
     "namespace": "ink_env::types",
-    "info": 12,
-    "length": 32,
-    "sub": {
-      "info": 6,
-      "type": "u8"
-    },
+    "info": 6,
     "type": "AccountId"
   },
   {
@@ -158,27 +143,17 @@
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId"
           },
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId"
           }
         ],
-        "type": "([u8;32], [u8;32])"
+        "type": "(AccountId, AccountId)"
       }
     ],
     "info": 3,
@@ -208,31 +183,21 @@
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId"
           },
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId"
           }
         ],
-        "type": "([u8;32], [u8;32])",
+        "type": "(AccountId, AccountId)",
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"([u8;32], [u8;32])\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(AccountId, AccountId)\"}}"
   },
   {
     "info": 10,
@@ -240,27 +205,17 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId"
       },
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId"
       }
     ],
-    "type": "([u8;32], [u8;32])"
+    "type": "(AccountId, AccountId)"
   },
   {
     "info": 6,
@@ -272,12 +227,7 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId"
       }
     ],
@@ -285,12 +235,7 @@
     "sub": {
       "displayName": "AccountId",
       "namespace": "ink_env::types",
-      "info": 12,
-      "length": 32,
-      "sub": {
-        "info": 6,
-        "type": "u8"
-      },
+      "info": 6,
       "type": "AccountId"
     },
     "type": "Option<AccountId>"

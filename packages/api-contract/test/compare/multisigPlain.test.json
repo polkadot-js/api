@@ -40,16 +40,11 @@
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId"
           }
         ],
-        "type": "(u32, [u8;32])"
+        "type": "(u32, AccountId)"
       }
     ],
     "info": 3,
@@ -83,20 +78,15 @@
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId"
           }
         ],
-        "type": "(u32, [u8;32])",
+        "type": "(u32, AccountId)",
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(u32, [u8;32])\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(u32, AccountId)\"}}"
   },
   {
     "info": 10,
@@ -108,26 +98,16 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId"
       }
     ],
-    "type": "(u32, [u8;32])"
+    "type": "(u32, AccountId)"
   },
   {
     "displayName": "AccountId",
     "namespace": "ink_env::types",
-    "info": 12,
-    "length": 32,
-    "sub": {
-      "info": 6,
-      "type": "u8"
-    },
+    "info": 6,
     "type": "AccountId"
   },
   {
@@ -266,12 +246,7 @@
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId",
             "name": "callee"
           },
@@ -305,7 +280,7 @@
             "name": "gas_limit"
           }
         ],
-        "type": "{\"callee\":\"[u8;32]\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}"
+        "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}"
       }
     ],
     "info": 3,
@@ -337,12 +312,7 @@
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 12,
-            "length": 32,
-            "sub": {
-              "info": 6,
-              "type": "u8"
-            },
+            "info": 6,
             "type": "AccountId",
             "name": "callee"
           },
@@ -376,11 +346,11 @@
             "name": "gas_limit"
           }
         ],
-        "type": "{\"callee\":\"[u8;32]\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}",
+        "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}",
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"{\\\"callee\\\":\\\"[u8;32]\\\",\\\"selector\\\":\\\"[u8;4]\\\",\\\"input\\\":\\\"Vec<u8>\\\",\\\"transferred_value\\\":\\\"u128\\\",\\\"gas_limit\\\":\\\"u64\\\"}\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"{\\\"callee\\\":\\\"AccountId\\\",\\\"selector\\\":\\\"[u8;4]\\\",\\\"input\\\":\\\"Vec<u8>\\\",\\\"transferred_value\\\":\\\"u128\\\",\\\"gas_limit\\\":\\\"u64\\\"}\"}}"
   },
   {
     "displayName": "Transaction",
@@ -390,12 +360,7 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId",
         "name": "callee"
       },
@@ -429,7 +394,7 @@
         "name": "gas_limit"
       }
     ],
-    "type": "{\"callee\":\"[u8;32]\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}"
+    "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}"
   },
   {
     "info": 12,
@@ -463,12 +428,7 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId"
       }
     ],
@@ -496,29 +456,19 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 12,
-        "length": 32,
-        "sub": {
-          "info": 6,
-          "type": "u8"
-        },
+        "info": 6,
         "type": "AccountId",
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"[u8;32]\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"AccountId\"}}"
   },
   {
     "info": 11,
     "sub": {
       "displayName": "AccountId",
       "namespace": "ink_env::types",
-      "info": 12,
-      "length": 32,
-      "sub": {
-        "info": 6,
-        "type": "u8"
-      },
+      "info": 6,
       "type": "AccountId"
     },
     "type": "Vec<AccountId>"

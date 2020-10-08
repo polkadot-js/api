@@ -89,7 +89,8 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
       output,
       params,
       result,
-      time: Date.now()
+      time: Date.now(),
+      type: message.returnType?.type || null
     };
   }
 }

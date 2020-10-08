@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefComposite, MtTypeDefVariant, MtTypeDefPrimitive, MtTypeDefSlice, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
+import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefComposite, MtTypeDefVariant, MtTypeDefSlice, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
 import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
@@ -11,6 +11,15 @@ import { u32 as U32 } from '@polkadot/types/primitive';
 // convert the offset into project-specific, index-1
 export function getRegistryOffset (id: MtLookupTypeId): number {
   return id.toNumber() - 1;
+}
+
+function isPrimitiveInkType (inkType: MtType) {
+  const inkEnvTypes = inkType.path
+    .map((segment) => segment.toString())
+    .slice(0, inkType.path.length - 1)
+    .join('::');
+
+  return inkEnvTypes === 'ink_env::types';
 }
 
 export default class InkRegistry {
@@ -71,7 +80,9 @@ export default class InkRegistry {
     const { path } = inkType;
     let typeDef;
 
-    if (inkType.def.isComposite) {
+    if (isPrimitiveInkType(inkType) || inkType.def.isPrimitive) {
+      typeDef = this.resolvePrimitive(inkType);
+    } else if (inkType.def.isComposite) {
       typeDef = this.resolveComposite(inkType.def.asComposite);
     } else if (inkType.def.isVariant) {
       typeDef = this.resolveVariant(inkType.def.asVariant, id);
@@ -83,11 +94,8 @@ export default class InkRegistry {
       typeDef = this.resolveSlice(inkType.def.asSlice, id);
     } else if (inkType.def.isTuple) {
       typeDef = this.resolveTuple(inkType.def.asTuple);
-    } else if (inkType.def.isPrimitive) {
-      typeDef = this.resolvePrimitive(inkType.def.asPrimitive);
     } else {
       // console.error(inkType);
-
       throw new Error(`Invalid ink! type at index ${id.toString()}`);
     }
 
@@ -98,8 +106,6 @@ export default class InkRegistry {
       ...(path.length > 1 ? { namespace: path
         .map((segment) => segment.toString())
         .join('::') } : {}),
-      // name,
-      // namespace: inkType.path.slice(0, inkType.path.length - 1).join('::'),
       ...(inkType.params.length > 0 ? { params: this.typeDefsAt(inkType.params) } : {}),
       ...typeDef
     });
@@ -260,10 +266,21 @@ export default class InkRegistry {
     };
   }
 
-  private resolvePrimitive ({ type }: MtTypeDefPrimitive): Pick<TypeDef, never> {
-    return {
-      info: TypeDefInfo.Plain,
-      type: type.toLowerCase()
-    };
+  private resolvePrimitive (inkType: MtType): Pick<TypeDef, never> {
+    if (inkType.def.isPrimitive) {
+      return {
+        info: TypeDefInfo.Plain,
+        type: inkType.def.asPrimitive.type.toLowerCase()
+      };
+    }
+
+    if (inkType.path.length > 1) {
+      return {
+        info: TypeDefInfo.Plain,
+        type: inkType.path[inkType.path.length - 1].toString()
+      };
+    }
+
+    throw new Error('Invalid primitive type');
   }
 }
