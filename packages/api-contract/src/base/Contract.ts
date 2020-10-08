@@ -72,9 +72,9 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
                 origin: account,
                 value
               })
-            ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
-              this._createOutcome(result, account, message, params)
-            ))
+            ).pipe(
+              map((result: ContractExecResult) => this._createOutcome(result, account, message, params))
+            )
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
             this._apiContracts
               .call(this.address, value, gasLimit, message(...params))

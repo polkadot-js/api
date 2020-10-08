@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
+import { AccountId, Address, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject } from '../types';
 
@@ -15,6 +15,7 @@ import { assert } from '@polkadot/util';
 import Abi from '../Abi';
 import Base from './Base';
 import Contract from './Contract';
+import { applyOnEvent } from './util';
 
 // eslint-disable-next-line no-use-before-define
 type BlueprintCreateResultSubscription<ApiType extends ApiTypes> = Observable<BlueprintCreateResult<ApiType>>;
@@ -53,22 +54,14 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
           this._apiContracts
             .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
             .signAndSend(account)
-            .pipe(map(this._createResult))
+            .pipe(
+              map((result) =>
+                new BlueprintCreateResult(result, applyOnEvent(result, 'Instantiated', (record: EventRecord) =>
+                  new Contract<ApiType>(this.api, this.abi, this._decorateMethod, record.event.data[1] as Address)
+                ))
+              )
+            )
       )
     };
-  }
-
-  private _createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
-    let contract: Contract<ApiType> | undefined;
-
-    if (result.isInBlock || result.isFinalized) {
-      const record = result.findRecord('contract', 'Instantiated');
-
-      if (record) {
-        contract = new Contract<ApiType>(this.api, this.abi, this._decorateMethod, record.event.data[1] as Address);
-      }
-    }
-
-    return new BlueprintCreateResult(result, contract);
   }
 }

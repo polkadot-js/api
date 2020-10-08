@@ -23,6 +23,15 @@ function createArgClass (registry: Registry, args: AbiMessageParam[], baseDef: R
   );
 }
 
+function extendBase <T extends AbiMessageBase = AbiMessageBase> (fn: T, add: Partial<T> = {}): T {
+  return Object.entries(add).reduce((fn: T, [key, value]): T => {
+    // do some magic
+    fn[key as 'args'] = value as AbiMessageParam[];
+
+    return fn;
+  }, fn);
+}
+
 export default class Abi extends ContractRegistry {
   public readonly constructors: AbiConstructor[];
 
@@ -70,29 +79,18 @@ export default class Abi extends ContractRegistry {
     const fn = ((...params: CodecArg[]): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract message '${identifier}', found ${params.length}`);
 
-      const u8a = new Clazz(
-        this.registry,
-        args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
-          mapped[name] = params[index];
+      return Compact.addLengthPrefix(new Clazz(this.registry, args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
+        mapped[name] = params[index];
 
-          return mapped;
-        }, { ...baseStruct })
-      ).toU8a();
-
-      return Compact.addLengthPrefix(u8a);
+        return mapped;
+      }, { ...baseStruct })).toU8a());
     }) as T;
 
-    fn.args = args;
-    fn.identifier = identifier;
-    fn.docs = spec.docs.map((doc) => doc.toString());
-
-    Object.entries(add).reduce((fn: T, [key, value]): T => {
-      // do some magic
-      fn[key as 'args'] = value as AbiMessageParam[];
-
-      return fn;
-    }, fn);
-
-    return fn;
+    return extendBase<T>(fn, {
+      ...add,
+      args,
+      docs: spec.docs.map((doc) => doc.toString()),
+      identifier
+    });
   }
 }

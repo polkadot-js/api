@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
+import { AccountId, Address, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject } from '../types';
 
@@ -13,8 +13,9 @@ import { SubmittableResult } from '@polkadot/api';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from '../Abi';
-import Blueprint from './Blueprint';
 import Base from './Base';
+import Blueprint from './Blueprint';
+import { applyOnEvent } from './util';
 
 // eslint-disable-next-line no-use-before-define
 type CodePutCodeResultSubscription<ApiType extends ApiTypes> = Observable<CodePutCodeResult<ApiType>>;
@@ -51,22 +52,14 @@ export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
           this._apiContracts
             .putCode(maxGas, compactAddLength(this.code))
             .signAndSend(account)
-            .pipe(map(this._createResult))
+            .pipe(
+              map((result) =>
+                new CodePutCodeResult(result, applyOnEvent(result, 'CodeStored', (record: EventRecord) =>
+                  new Blueprint<ApiType>(this.api, this.abi, this._decorateMethod, record.event.data[0] as Hash)
+                ))
+              )
+            )
       )
     };
-  }
-
-  private _createResult = (result: ISubmittableResult): CodePutCodeResult<ApiType> => {
-    let blueprint: Blueprint<ApiType> | undefined;
-
-    if (result.isInBlock || result.isFinalized) {
-      const record = result.findRecord('contract', 'CodeStored');
-
-      if (record) {
-        blueprint = new Blueprint<ApiType>(this.api, this.abi, this._decorateMethod, record.event.data[0] as Hash);
-      }
-    }
-
-    return new CodePutCodeResult(result, blueprint);
   }
 }
