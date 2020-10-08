@@ -13,7 +13,7 @@ If you are an existing user, please be sure to track the [CHANGELOG](CHANGELOG.m
 
 ## tutorials
 
-Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/promise/) for guides on how to use the API to make queries and submit transactions.
+Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/docs/api/examples/promise/) for guides on how to use the API to make queries and submit transactions.
 
 ## overview
 
@@ -27,7 +27,6 @@ The API is split up into a number of internal packages -
 
 Type definitions for interfaces as exposed by Polkadot & Substrate clients -
 
-- [@polkadot/jsonrpc](packages/jsonrpc/) Definitions for JSONRPC endpoints
 - [@polkadot/types](packages/types/) Codecs for all Polkadot and Substrate primitives
 
 ## development

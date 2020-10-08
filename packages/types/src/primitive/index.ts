@@ -1,9 +1,6 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// NOTE When adding any types here, we need to update the documentation links as
-// well - <root>/docs/SUMMARY.md as well as ../README.md
-
 /**
  * @summary Type definitions that are used in the system
  */

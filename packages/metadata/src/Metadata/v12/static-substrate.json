@@ -2903,7 +2903,7 @@
                 " transaction in the block.",
                 "",
                 " # <weight>",
-                " See `crate::weight` module.",
+                " See [`submit_election_solution`].",
                 " # </weight>"
               ]
             }
@@ -3070,7 +3070,7 @@
             {
               "name": "MaxNominatorRewardedPerValidator",
               "type": "u32",
-              "value": "0x40000000",
+              "value": "0x00010000",
               "documentation": [
                 " The maximum number of nominators rewarded for each validator.",
                 "",
@@ -11256,6 +11256,8 @@
                 " Parameters:",
                 " - `proxy`: The account that the `caller` would like to make a proxy.",
                 " - `proxy_type`: The permissions allowed for this proxy account.",
+                " - `delay`: The announcement period required of the initial proxy. Will generally be",
+                " zero.",
                 "",
                 " # <weight>",
                 " Weight is a function of the number of proxies the user has (P).",

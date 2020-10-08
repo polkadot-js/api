@@ -9,8 +9,10 @@ import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex }
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
+const MAX_LENGTH = 128 * 1024;
+
 /** @internal */
-function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
+function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): string {
   if (isHex(value)) {
     return u8aToString(hexToU8a(value.toString()));
   } else if (value instanceof Uint8Array) {
@@ -27,12 +29,13 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
     const [offset, length] = Compact.decodeU8a(value);
     const total = offset + length.toNumber();
 
+    assert(length.lten(MAX_LENGTH), `Text length ${length.toString()} exceeds ${MAX_LENGTH}`);
     assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
     return u8aToString(value.subarray(offset, total));
   }
 
-  return value.toString();
+  return value ? value.toString() : '';
 }
 
 /**
@@ -50,7 +53,7 @@ export default class Text extends String implements Codec {
 
   #override: string | null = null;
 
-  constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
+  constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
     super(decodeText(value));
 
     this.registry = registry;

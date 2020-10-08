@@ -63,7 +63,7 @@ describe('Struct', (): void => {
     ).toEqual('{}');
   });
 
-  it('decodes reusing instanciated inputs', (): void => {
+  it('decodes reusing instantiated inputs', (): void => {
     const foo = new Text(registry, 'bar');
 
     expect(
@@ -97,6 +97,16 @@ describe('Struct', (): void => {
     }, input);
 
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
+  });
+
+  it('decodes from a snake_case input', (): void => {
+    const input = new Struct(registry, {
+      snakeCaseA: U32,
+      snakeCaseB: Text,
+      other: U32
+    }, { snake_case_a: 42, snake_case_b: 'fubar', other: 69 } as any);
+
+    expect(input.toString()).toEqual('{"snakeCaseA":42,"snakeCaseB":"fubar","other":69}');
   });
 
   it('throws when it cannot decode', (): void => {

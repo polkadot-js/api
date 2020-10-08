@@ -1,12 +1,20 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EventMetadataV12, EventMetadataLatest, FunctionMetadataV12, FunctionMetadataLatest, MetadataV12, MetadataLatest, ModuleMetadataLatest, StorageMetadataV12, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { EventMetadataV12, EventMetadataLatest, FunctionMetadataV12, FunctionMetadataLatest, MetadataV12, MetadataLatest, ModuleMetadataLatest, ModuleMetadataV12, StorageMetadataV12, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry, OverrideModuleType } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types-known';
 import { Type } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
+
+// Since we don't have insight into the origin specification, we can only define what we know about
+// in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
+const KNOWN_ORIGINS: Record<string, string> = {
+  Council: 'CollectiveOrigin',
+  System: 'SystemOrigin',
+  TechnicalCommittee: 'CollectiveOrigin'
+};
 
 // TODO Handle consts as well
 
@@ -81,12 +89,39 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
   });
 }
 
+// generate & register the OriginCaller type
+function registerOriginCaller (registry: Registry, modules: ModuleMetadataV12[]): void {
+  const isIndexed = modules.some(({ index }) => !index.eqn(255));
+
+  registry.register({
+    OriginCaller: {
+      _enum: modules
+        .map((mod, index): [string, number] => [
+          mod.name.toString(),
+          isIndexed ? mod.index.toNumber() : index
+        ])
+        .sort((a, b) => a[1] - b[1])
+        .reduce((result: Record<string, string>, [name, index]): Record<string, string> => {
+          for (let i = Object.keys(result).length; i < index; i++) {
+            result[`Empty${i}`] = 'Null';
+          }
+
+          result[name] = KNOWN_ORIGINS[name] || 'Null';
+
+          return result;
+        }, {})
+    }
+  });
+}
+
 /**
  * Convert the Metadata (which is an alias) to latest - effectively this _always_ get applied to the top-level &
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
  * @internal
  **/
 export default function toLatest (registry: Registry, { extrinsic, modules }: MetadataV12): MetadataLatest {
+  registerOriginCaller(registry, modules);
+
   return registry.createType('MetadataLatest', {
     extrinsic,
     modules: modules.map((mod): ModuleMetadataLatest => {

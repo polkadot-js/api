@@ -7,6 +7,7 @@ import { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, Gener
 import { Bytes, DoNotConstruct, Null, StorageKey, u16, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
+import { SystemOrigin } from '@polkadot/types/interfaces/system';
 
 /** @name AccountId */
 export interface AccountId extends GenericAccountId {}
@@ -162,6 +163,15 @@ export interface OpaqueCall extends Bytes {}
 
 /** @name Origin */
 export interface Origin extends DoNotConstruct {}
+
+/** @name OriginCaller */
+export interface OriginCaller extends Enum {
+  readonly isSystem: boolean;
+  readonly asSystem: SystemOrigin;
+}
+
+/** @name PalletsOrigin */
+export interface PalletsOrigin extends OriginCaller {}
 
 /** @name PalletVersion */
 export interface PalletVersion extends Struct {

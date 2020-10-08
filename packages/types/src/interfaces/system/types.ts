@@ -6,7 +6,7 @@ import { Compact, Enum, HashMap, Option, Result, Struct, U8aFixed, Vec } from '@
 import { GenericEvent } from '@polkadot/types/generic';
 import { Bytes, Text, bool, i32, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountData } from '@polkadot/types/interfaces/balances';
-import { BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
+import { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountInfo */
 export interface AccountInfo extends Struct {
@@ -248,11 +248,22 @@ export interface Phase extends Enum {
   readonly isInitialization: boolean;
 }
 
+/** @name RawOrigin */
+export interface RawOrigin extends Enum {
+  readonly isRoot: boolean;
+  readonly isSigned: boolean;
+  readonly asSigned: AccountId;
+  readonly isNone: boolean;
+}
+
 /** @name RefCount */
 export interface RefCount extends u32 {}
 
 /** @name RefCountTo259 */
 export interface RefCountTo259 extends u8 {}
+
+/** @name SystemOrigin */
+export interface SystemOrigin extends RawOrigin {}
 
 /** @name TransactionValidityError */
 export interface TransactionValidityError extends Enum {
