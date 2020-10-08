@@ -3,8 +3,8 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
-import { ApiObject } from '../types';
+import { IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
+import { ApiObject, ContractABIPre } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
-import InkAbi from '../InkAbi';
+import Abi from '../Abi';
 import Blueprint from './Blueprint';
 import { BaseWithTx } from './util';
 
@@ -37,7 +37,7 @@ class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
 export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
   public readonly code: Uint8Array;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
     super(api, abi, decorateMethod);
 
     this.code = u8aToU8a(wasm);

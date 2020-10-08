@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Hash } from '@polkadot/types/interfaces';
-import { AnyJson } from '@polkadot/types/types';
+import { ContractABIPre } from '../types';
 
 import { ApiPromise } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/promise';
 
-import InkAbi from '../InkAbi';
+import Abi from '../Abi';
 import Blueprint from '../base/Blueprint';
 
 export default class PromiseBlueprint extends Blueprint<'promise'> {
-  constructor (api: ApiPromise, abi: AnyJson | InkAbi, codeHash: string | Hash) {
+  constructor (api: ApiPromise, abi: ContractABIPre | Abi, codeHash: string | Hash) {
     super(api, abi, decorateMethod, codeHash);
   }
 }

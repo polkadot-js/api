@@ -1,8 +1,8 @@
 {
   "registry": {
     "strings": [
-      "Incrementer",
-      "incrementer",
+      "Flipper",
+      "flipper",
       "normal",
       "value",
       "Value",
@@ -13,15 +13,8 @@
       "sync_cell",
       "Key",
       "key",
-      "on_deploy",
-      "init_value",
-      "u32",
-      "inc",
-      "by",
-      "get",
-      "compare",
-      "with",
-      "bool"
+      "flip",
+      "get"
     ],
     "types": [
       {
@@ -64,7 +57,7 @@
         }
       },
       {
-        "id": "u32",
+        "id": "bool",
         "def": "builtin"
       },
       {
@@ -115,10 +108,6 @@
       {
         "id": "u8",
         "def": "builtin"
-      },
-      {
-        "id": "bool",
-        "def": "builtin"
       }
     ]
   },
@@ -133,7 +122,40 @@
             {
               "name": 8,
               "layout": {
-                "range.offset": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "range.offset": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
                 "range.len": 1,
                 "range.elem_type": 3
               }
@@ -145,85 +167,31 @@
   },
   "contract": {
     "name": 1,
-    "constructors": [
-      {
-        "name": 13,
-        "selector": "[\"0x00\",\"0x00\",\"0x00\",\"0x00\"]",
-        "args": [
-          {
-            "name": 14,
-            "type": {
-              "ty": 3,
-              "display_name": [
-                15
-              ]
-            }
-          }
-        ],
-        "docs": [
-          "Initializes the value to the initial value."
-        ]
-      }
-    ],
+    "deploy": {
+      "args": [],
+      "docs": [
+        "Initializes our state to `false` upon deploying our smart contract."
+      ]
+    },
     "messages": [
       {
-        "name": 16,
-        "selector": "[\"0x0F\",\"0x59\",\"0xD0\",\"0xE7\"]",
+        "name": 13,
+        "selector": 970692492,
         "mutates": true,
-        "args": [
-          {
-            "name": 17,
-            "type": {
-              "ty": 3,
-              "display_name": [
-                15
-              ]
-            }
-          }
-        ],
+        "args": [],
         "return_type": null,
         "docs": [
           "Flips the current state of our smart contract."
         ]
       },
       {
-        "name": 18,
-        "selector": "[\"0xFE\",\"0x4A\",\"0x44\",\"0x25\"]",
+        "name": 14,
+        "selector": 4266279973,
         "mutates": false,
         "args": [],
-        "return_type": {
-          "ty": 3,
-          "display_name": [
-            15
-          ]
-        },
+        "return_type": 3,
         "docs": [
           "Returns the current state."
-        ]
-      },
-      {
-        "name": 19,
-        "selector": "[\"0x15\",\"0xB0\",\"0xC5\",\"0x0C\"]",
-        "mutates": false,
-        "args": [
-          {
-            "name": 20,
-            "type": {
-              "ty": 3,
-              "display_name": [
-                15
-              ]
-            }
-          }
-        ],
-        "return_type": {
-          "ty": 8,
-          "display_name": [
-            21
-          ]
-        },
-        "docs": [
-          "Returns `true` if the internal value is greater than or equal to the provided value."
         ]
       }
     ],

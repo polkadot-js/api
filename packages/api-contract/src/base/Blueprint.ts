@@ -3,8 +3,8 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
-import { ApiObject } from '../types';
+import { IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
+import { ApiObject, ContractABIPre } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
 import { assert } from '@polkadot/util';
 
-import InkAbi from '../InkAbi';
+import Abi from '../Abi';
 import Contract from './Contract';
 import { BaseWithTx } from './util';
 
@@ -37,10 +37,10 @@ class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult 
 export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
   public readonly codeHash: Hash;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
     super(api, abi, decorateMethod);
 
-    this.codeHash = this.api.registry.createType('Hash', codeHash);
+    this.codeHash = this.registry.createType('Hash', codeHash);
   }
 
   public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate<ApiType> {

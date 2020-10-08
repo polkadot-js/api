@@ -2,29 +2,54 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod, DecoratedRpc, SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import { AnyJson, Registry } from '@polkadot/types/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
-import { ApiObject } from '../types';
+import { Registry } from '@polkadot/types/types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
 
-import { assert, isFunction } from '@polkadot/util';
-import InkAbi from '../InkAbi';
+import { assert, isFunction, stringCamelCase } from '@polkadot/util';
+import Abi from '../Abi';
 
-export abstract class Base<ApiType extends ApiTypes> {
-  public readonly abi: InkAbi;
+export abstract class Base<ApiType extends ApiTypes> implements ContractBase<ApiType> {
+  public readonly abi: Abi;
 
   public readonly api: ApiObject<ApiType>;
 
-  public readonly registry: Registry;
-
   public readonly decorateMethod: DecorateMethod<ApiType>;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>) {
-    this.abi = abi instanceof InkAbi
+  public readonly registry: Registry;
+
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
+    this.abi = abi instanceof Abi
       ? abi
-      : new InkAbi(api.registry, abi);
-    this.api = api;
+      : new Abi(api.registry, abi);
     this.registry = api.registry;
+    this.api = api;
     this.decorateMethod = decorateMethod;
+  }
+
+  public get messages (): ContractMessage[] {
+    return this.abi.abi.contract.messages.map(
+      (def: ContractABIMessage, index): ContractMessage => ({
+        def,
+        fn: this.abi.messages[def.name] || this.abi.messages[stringCamelCase(name)],
+        index
+      })
+    );
+  }
+
+  public getMessage (nameOrIndex?: string | number): ContractMessage {
+    const index = nameOrIndex
+      ? typeof nameOrIndex === 'number'
+        ? nameOrIndex
+        : this.abi.abi.contract.messages.findIndex((message): boolean => nameOrIndex === message.name || nameOrIndex === stringCamelCase(message.name))
+      : 0;
+    const def = this.abi.abi.contract.messages[index];
+
+    assert(!!def, `Attempted to access a contract message that does not exist: ${typeof nameOrIndex === 'number' ? `index ${nameOrIndex}` : (nameOrIndex || 'unknown')}`);
+
+    const fn = this.abi.messages[def.name] || this.abi.messages[stringCamelCase(def.name)];
+
+    return { def, fn, index };
   }
 }
 
@@ -33,7 +58,7 @@ export abstract class BaseWithTx<ApiType extends ApiTypes> extends Base<ApiType>
     return this.api.rx.tx.contracts;
   }
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     assert(this.api.rx.tx.contracts && this.api.rx.tx.contracts.putCode, 'You need to connect to a node with the contracts module, the metadata does not enable api.tx.contracts on this instance');
