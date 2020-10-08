@@ -37,7 +37,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
   constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
-    this.address = this.api.registry.createType('Address', address);
+    this.address = this.registry.createType('Address', address);
   }
 
   public call (as: 'rpc', messageIndex: number, value: BN | number, gasLimit: BN | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
@@ -53,7 +53,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
         as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> =>
             this._rpcContractsCall(
-              this.api.registry.createType('ContractCallRequest', {
+              this.registry.createType('ContractCallRequest', {
                 dest: this.address.toString(),
                 gasLimit,
                 inputData: message(...params),
@@ -61,7 +61,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
                 value
               })
             ).pipe(map((result: ContractExecResult): ContractCallOutcome =>
-              this._createOutcome(result, this.api.registry.createType('AccountId', account), message, params)
+              this._createOutcome(result, this.registry.createType('AccountId', account), message, params)
             ))
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
             this._apiContracts
@@ -78,8 +78,8 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
       const { data } = result.asSuccess;
 
       output = message.returnType
-        ? formatData(this.api.registry, data, message.returnType.type)
-        : this.api.registry.createType('Raw', data);
+        ? formatData(this.registry, data, message.returnType.type)
+        : this.registry.createType('Raw', data);
     }
 
     return {

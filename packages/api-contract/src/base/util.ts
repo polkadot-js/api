@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod, DecoratedRpc, SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import { AnyJson } from '@polkadot/types/types';
+import { AnyJson, Registry } from '@polkadot/types/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { ApiObject } from '../types';
 
@@ -14,6 +14,8 @@ export abstract class Base<ApiType extends ApiTypes> {
 
   public readonly api: ApiObject<ApiType>;
 
+  public readonly registry: Registry;
+
   public readonly decorateMethod: DecorateMethod<ApiType>;
 
   constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>) {
@@ -21,6 +23,7 @@ export abstract class Base<ApiType extends ApiTypes> {
       ? abi
       : new InkAbi(api.registry, abi);
     this.api = api;
+    this.registry = api.registry;
     this.decorateMethod = decorateMethod;
   }
 }

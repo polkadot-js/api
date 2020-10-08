@@ -4,7 +4,7 @@
 import { TypeRegistry } from '@polkadot/types';
 import { TestContracts } from './types';
 
-import { InkAbi } from '.';
+import InkAbi from './InkAbi';
 
 import * as testContracts from '../test/contracts';
 
