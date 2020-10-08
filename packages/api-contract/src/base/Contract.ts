@@ -52,14 +52,14 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.api.rx.rpc.contracts.call;
   }
 
-  public call (as: 'rpc', messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
-  public call (as: 'tx', messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
-  public call<CallType extends ContractCallTypes> (as: CallType, messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
-    const message = isNumber(messageOrIndex)
-      ? this.abi.messages[messageOrIndex]
-      : messageOrIndex;
+  public call (as: 'rpc', message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'rpc'>;
+  public call (as: 'tx', message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, 'tx'>;
+  public call<CallType extends ContractCallTypes> (as: CallType, message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractCall<ApiType, CallType> {
+    const messageFn = isNumber(message)
+      ? this.abi.messages[message]
+      : message;
 
-    assert(message, 'Attempted to call invalid contract message');
+    assert(messageFn, 'Attempted to call invalid contract message');
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -70,16 +70,16 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
               this.registry.createType('ContractCallRequest', {
                 dest: this.address.toString(),
                 gasLimit,
-                inputData: message(...params),
+                inputData: messageFn(...params),
                 origin: account,
                 value
               })
             ).pipe(
-              map((result: ContractExecResult) => this._createOutcome(result, account, message, params))
+              map((result: ContractExecResult) => this._createOutcome(result, account, messageFn, params))
             )
           : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> =>
             this._apiContracts
-              .call(this.address, value, gasLimit, message(...params))
+              .call(this.address, value, gasLimit, messageFn(...params))
               .signAndSend(account)
       )
     };
