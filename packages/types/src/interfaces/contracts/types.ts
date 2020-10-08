@@ -3,7 +3,7 @@
 
 import { Compact, Enum, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
 import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
-import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AliveContractInfo */
 export interface AliveContractInfo extends Struct {
@@ -83,21 +83,60 @@ export interface PrefabWasmModuleReserved extends Option<Null> {}
 /** @name Schedule */
 export interface Schedule extends Struct {
   readonly version: u32;
-  readonly putCodePerByteCost: Gas;
-  readonly growMemCost: Gas;
-  readonly regularOpCost: Gas;
-  readonly returnDataPerByteCost: Gas;
-  readonly eventDataPerByteCost: Gas;
-  readonly eventPerTopicCost: Gas;
-  readonly eventBaseCost: Gas;
-  readonly sandboxDataReadCost: Gas;
-  readonly sandboxDataWriteCost: Gas;
-  readonly transferCost: Gas;
+  readonly opCostGrowMem: Weight;
+  readonly opCostRegular: Weight;
+  readonly apiCostCaller: Weight;
+  readonly apiCostAddress: Weight;
+  readonly apiCostGasLeft: Weight;
+  readonly apiCostBalance: Weight;
+  readonly apiCostValueTransferred: Weight;
+  readonly apiCostMinimumBalance: Weight;
+  readonly apiCostTombstoneDeposit: Weight;
+  readonly apiCostRentAllowance: Weight;
+  readonly apiCostBlockNumber: Weight;
+  readonly apiCostNow: Weight;
+  readonly apiCostWeightToFee: Weight;
+  readonly apiCostGas: Weight;
+  readonly apiCostInput: Weight;
+  readonly apiCostInputPerByte: Weight;
+  readonly apiCostReturn: Weight;
+  readonly apiCostReturnPerByte: Weight;
+  readonly apiCostTerminate: Weight;
+  readonly apiCostRestoreTo: Weight;
+  readonly apiCostRestoreToPer_delta: Weight;
+  readonly apiCostRandom: Weight;
+  readonly apiCostDepositEvent: Weight;
+  readonly apiCostDepositEventPerTopic: Weight;
+  readonly apiCostDepositEventPerByte: Weight;
+  readonly apiCostSetRentAllowance: Weight;
+  readonly apiCostSetStorage: Weight;
+  readonly apiCostSetStoragePerByte: Weight;
+  readonly apiCostClearStorage: Weight;
+  readonly apiCostGetStorage: Weight;
+  readonly apiCostGetStoragePerByte: Weight;
+  readonly apiCostTransfer: Weight;
+  readonly apiCostCall: Weight;
+  readonly apiCostCallTransferSurcharge: Weight;
+  readonly apiCostCallPerInputByte: Weight;
+  readonly apiCostCallPerOutputByte: Weight;
+  readonly apiCostInstantiate: Weight;
+  readonly apiCostInstantiatePerInputByte: Weight;
+  readonly apiCostInstantiatePerOutputByte: Weight;
+  readonly apiCostHashSha2256: Weight;
+  readonly apiCostHashSha2256PerByte: Weight;
+  readonly apiCostHashKeccak256: Weight;
+  readonly apiCostHashKeccak256PerByte: Weight;
+  readonly apiCostHashBlake2256: Weight;
+  readonly apiCostHashBlake2256PerByte: Weight;
+  readonly apiCostHashBlake2128: Weight;
+  readonly apiCostHashBlake2128PerByte: Weight;
+  readonly enablePrintln: bool;
   readonly maxEventTopics: u32;
   readonly maxStackHeight: u32;
   readonly maxMemoryPages: u32;
-  readonly enablePrintln: bool;
+  readonly maxTableSize: u32;
   readonly maxSubjectLen: u32;
+  readonly maxCodeSize: u32;
 }
 
 /** @name ScheduleTo212 */
@@ -112,6 +151,26 @@ export interface ScheduleTo212 extends Struct {
   readonly eventBaseCost: Gas;
   readonly sandboxDataReadCost: Gas;
   readonly sandboxDataWriteCost: Gas;
+  readonly maxEventTopics: u32;
+  readonly maxStackHeight: u32;
+  readonly maxMemoryPages: u32;
+  readonly enablePrintln: bool;
+  readonly maxSubjectLen: u32;
+}
+
+/** @name ScheduleTo258 */
+export interface ScheduleTo258 extends Struct {
+  readonly version: u32;
+  readonly putCodePerByteCost: Gas;
+  readonly growMemCost: Gas;
+  readonly regularOpCost: Gas;
+  readonly returnDataPerByteCost: Gas;
+  readonly eventDataPerByteCost: Gas;
+  readonly eventPerTopicCost: Gas;
+  readonly eventBaseCost: Gas;
+  readonly sandboxDataReadCost: Gas;
+  readonly sandboxDataWriteCost: Gas;
+  readonly transferCost: Gas;
   readonly maxEventTopics: u32;
   readonly maxStackHeight: u32;
   readonly maxMemoryPages: u32;
