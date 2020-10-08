@@ -1,54 +1,54 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const layout = {
-  InkLayoutArray: {
-    cells_per_elem: 'u32',
-    layout: 'InkStorageLayout',
-    len: 'u32',
-    offset: 'InkLayoutKey'
-  },
-  InkLayoutCell: {
-    key: 'InkLayoutKey',
-    ty: 'MtLookupTypeId'
-  },
-  InkLayoutEnum: {
-    dispatch_key: 'InkLayoutKey',
-    variants: 'HashMap<u32, InkLayoutStruct>'
-  },
-  InkLayoutField: {
-    layout: 'InkStorageLayout',
-    name: 'Text'
-  },
-  InkLayoutHash: {
-    layout: 'InkStorageLayout',
-    offset: 'InkLayoutKey',
-    strategy: 'InkLayoutHashStrategy'
-  },
-  InkLayoutHashStrategy: {
-    hasher: 'Text',
-    postfix: 'Text',
-    prefix: 'InkLayoutKey'
-  },
-  InkLayoutKey: '[u8; 32]',
-  InkLayoutRange: {
-    elemType: 'Text',
-    len: 'u32',
-    offset: 'InkLayoutKey'
-  },
-  InkLayoutStruct: {
-    fields: 'Vec<InkLayoutField>'
-  },
-  InkStorageLayout: {
-    _enum: {
-      Array: 'InkLayoutArray',
-      Cell: 'InkLayoutCell',
-      Enum: 'InkLayoutEnum',
-      Hash: 'InkLayoutHash',
-      Struct: 'InkLayoutStruct'
-    }
-  }
-};
+// const layout = {
+//   InkLayoutArray: {
+//     cells_per_elem: 'u32',
+//     layout: 'InkStorageLayout',
+//     len: 'u32',
+//     offset: 'InkLayoutKey'
+//   },
+//   InkLayoutCell: {
+//     key: 'InkLayoutKey',
+//     ty: 'MtLookupTypeId'
+//   },
+//   InkLayoutEnum: {
+//     dispatch_key: 'InkLayoutKey',
+//     variants: 'HashMap<u32, InkLayoutStruct>'
+//   },
+//   InkLayoutField: {
+//     layout: 'InkStorageLayout',
+//     name: 'Text'
+//   },
+//   InkLayoutHash: {
+//     layout: 'InkStorageLayout',
+//     offset: 'InkLayoutKey',
+//     strategy: 'InkLayoutHashStrategy'
+//   },
+//   InkLayoutHashStrategy: {
+//     hasher: 'Text',
+//     postfix: 'Text',
+//     prefix: 'InkLayoutKey'
+//   },
+//   InkLayoutKey: '[u8; 32]',
+//   InkLayoutRange: {
+//     elemType: 'Text',
+//     len: 'u32',
+//     offset: 'InkLayoutKey'
+//   },
+//   InkLayoutStruct: {
+//     fields: 'Vec<InkLayoutField>'
+//   },
+//   InkStorageLayout: {
+//     _enum: {
+//       Array: 'InkLayoutArray',
+//       Cell: 'InkLayoutCell',
+//       Enum: 'InkLayoutEnum',
+//       Hash: 'InkLayoutHash',
+//       Struct: 'InkLayoutStruct'
+//     }
+//   }
+// };
 
 const spec = {
   InkConstructorSpec: {
@@ -148,7 +148,7 @@ const registry = {
 export default {
   rpc: {},
   types: {
-    ...layout,
+    // ...layout,
     ...registry,
     ...spec,
     InkContractContract: {
@@ -166,7 +166,7 @@ export default {
       metadata_version: 'Text',
       source: 'InkContractSource',
       spec: 'InkContractSpec',
-      storage: 'InkStorageLayout',
+      // storage: InkStorageLayout,
       types: 'Vec<MtType>'
     }
   }
