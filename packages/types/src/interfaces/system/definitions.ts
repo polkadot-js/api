@@ -279,6 +279,7 @@ export default {
     },
     RefCount: 'u32',
     RefCountTo259: 'u8',
+    SystemOrigin: 'RawOrigin',
     TransactionValidityError: {
       _enum: {
         Invalid: 'InvalidTransaction',

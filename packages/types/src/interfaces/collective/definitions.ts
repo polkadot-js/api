@@ -9,7 +9,7 @@ import { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    CollectiveRawOrigin: {
+    CollectiveOrigin: {
       _enum: {
         Members: '(MemberCount, MemberCount)',
         Member: 'AccountId'

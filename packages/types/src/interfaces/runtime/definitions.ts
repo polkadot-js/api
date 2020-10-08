@@ -86,8 +86,8 @@ export default {
     Origin: 'DoNotConstruct<Origin>',
     OriginCaller: {
       _enum: {
-        // this is dynamically built from the actual modules, based on indexes
-        System: 'RawOrigin'
+        // this should be dynamically built from the actual modules, based on index
+        System: 'SystemOrigin'
       }
     },
     PalletsOrigin: 'OriginCaller',
