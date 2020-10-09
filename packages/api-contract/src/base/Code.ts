@@ -38,7 +38,7 @@ class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
 export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: Uint8Array | string) {
     super(api, abi, decorateMethod);
 
     this.code = u8aToU8a(wasm);
@@ -48,7 +48,7 @@ export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this._decorateMethod(
-        (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType> =>
+        (account: IKeyringPair | string | AccountId): CodePutCodeResultSubscription<ApiType> =>
           this._apiContracts
             .putCode(maxGas, compactAddLength(this.code))
             .signAndSend(account)
