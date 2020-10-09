@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { BTreeMap, Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, Text, bool, u16, u32, u64, usize } from '@polkadot/types/primitive';
+import { Bytes, Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 
 /** @name InkConstructorSpec */
 export interface InkConstructorSpec extends Struct {
@@ -14,16 +14,21 @@ export interface InkConstructorSpec extends Struct {
 
 /** @name InkContractContract */
 export interface InkContractContract extends Struct {
-  readonly authors: Vec<Text>;
   readonly name: Text;
   readonly version: Text;
+  readonly authors: Vec<Text>;
+  readonly description: Option<Text>;
+  readonly documentation: Option<Text>;
+  readonly repository: Option<Text>;
+  readonly homepage: Option<Text>;
+  readonly license: Option<Text>;
 }
 
 /** @name InkContractSource */
 export interface InkContractSource extends Struct {
-  readonly compiler: Text;
   readonly hash: U8aFixed;
   readonly language: Text;
+  readonly compiler: Text;
 }
 
 /** @name InkContractSpec */
@@ -42,10 +47,10 @@ export interface InkCryptoHasher extends Enum {
 }
 
 /** @name InkDiscriminant */
-export interface InkDiscriminant extends usize {}
+export interface InkDiscriminant extends u32 {}
 
 /** @name InkDisplayName */
-export interface InkDisplayName extends InkPath {}
+export interface InkDisplayName extends MtPath {}
 
 /** @name InkEventParamSpec */
 export interface InkEventParamSpec extends Struct {
@@ -127,14 +132,11 @@ export interface InkMessageSpec extends Struct {
   readonly docs: Vec<Text>;
 }
 
-/** @name InkPath */
-export interface InkPath extends Vec<Text> {}
-
 /** @name InkProject */
 export interface InkProject extends Struct {
-  readonly contract: InkContractContract;
-  readonly metadata_version: Text;
+  readonly metadataVersion: Text;
   readonly source: InkContractSource;
+  readonly contract: InkContractContract;
   readonly spec: InkContractSpec;
   readonly storage: InkStorageLayout;
   readonly types: Vec<MtType>;
@@ -172,11 +174,14 @@ export interface MtField extends Struct {
 /** @name MtLookupTypeId */
 export interface MtLookupTypeId extends u32 {}
 
+/** @name MtPath */
+export interface MtPath extends Vec<Text> {}
+
 /** @name MtType */
 export interface MtType extends Struct {
   readonly def: MtTypeDef;
   readonly params: Vec<MtLookupTypeId>;
-  readonly path: Vec<Text>;
+  readonly path: MtPath;
 }
 
 /** @name MtTypeDef */
@@ -189,8 +194,6 @@ export interface MtTypeDef extends Enum {
   readonly asPrimitive: MtTypeDefPrimitive;
   readonly isSequence: boolean;
   readonly asSequence: MtTypeDefSequence;
-  readonly isSlice: boolean;
-  readonly asSlice: MtTypeDefSlice;
   readonly isTuple: boolean;
   readonly asTuple: MtTypeDefTuple;
   readonly isVariant: boolean;
@@ -227,11 +230,6 @@ export interface MtTypeDefPrimitive extends Enum {
 
 /** @name MtTypeDefSequence */
 export interface MtTypeDefSequence extends Struct {
-  readonly type: MtLookupTypeId;
-}
-
-/** @name MtTypeDefSlice */
-export interface MtTypeDefSlice extends Struct {
   readonly type: MtLookupTypeId;
 }
 
