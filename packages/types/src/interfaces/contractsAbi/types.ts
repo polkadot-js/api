@@ -179,25 +179,25 @@ export interface MtPath extends Vec<Text> {}
 
 /** @name MtType */
 export interface MtType extends Struct {
-  readonly def: MtTypeDef;
-  readonly params: Vec<MtLookupTypeId>;
   readonly path: MtPath;
+  readonly params: Vec<MtLookupTypeId>;
+  readonly def: MtTypeDef;
 }
 
 /** @name MtTypeDef */
 export interface MtTypeDef extends Enum {
-  readonly isArray: boolean;
-  readonly asArray: MtTypeDefArray;
   readonly isComposite: boolean;
   readonly asComposite: MtTypeDefComposite;
-  readonly isPrimitive: boolean;
-  readonly asPrimitive: MtTypeDefPrimitive;
-  readonly isSequence: boolean;
-  readonly asSequence: MtTypeDefSequence;
-  readonly isTuple: boolean;
-  readonly asTuple: MtTypeDefTuple;
   readonly isVariant: boolean;
   readonly asVariant: MtTypeDefVariant;
+  readonly isSequence: boolean;
+  readonly asSequence: MtTypeDefSequence;
+  readonly isArray: boolean;
+  readonly asArray: MtTypeDefArray;
+  readonly isTuple: boolean;
+  readonly asTuple: MtTypeDefTuple;
+  readonly isPrimitive: boolean;
+  readonly asPrimitive: MtTypeDefPrimitive;
 }
 
 /** @name MtTypeDefArray */
@@ -243,9 +243,9 @@ export interface MtTypeDefVariant extends Struct {
 
 /** @name MtVariant */
 export interface MtVariant extends Struct {
-  readonly discriminant: Option<u64>;
-  readonly fields: Vec<MtField>;
   readonly name: Text;
+  readonly fields: Vec<MtField>;
+  readonly discriminant: Option<u64>;
 }
 
 export type PHANTOM_CONTRACTSABI = 'contractsAbi';

@@ -103,18 +103,18 @@ const registry = {
   MtLookupTypeId: 'u32',
   MtPath: 'Vec<Text>',
   MtType: {
-    def: 'MtTypeDef',
+    path: 'MtPath',
     params: 'Vec<MtLookupTypeId>',
-    path: 'MtPath'
+    def: 'MtTypeDef'
   },
   MtTypeDef: {
     _enum: {
-      Array: 'MtTypeDefArray',
       Composite: 'MtTypeDefComposite',
-      Primitive: 'MtTypeDefPrimitive',
+      Variant: 'MtTypeDefVariant',
       Sequence: 'MtTypeDefSequence',
+      Array: 'MtTypeDefArray',
       Tuple: 'MtTypeDefTuple',
-      Variant: 'MtTypeDefVariant'
+      Primitive: 'MtTypeDefPrimitive'
     }
   },
   MtTypeDefArray: {
@@ -136,9 +136,9 @@ const registry = {
     variants: 'Vec<MtVariant>'
   },
   MtVariant: {
-    discriminant: 'Option<u64>',
+    name: 'Text',
     fields: 'Vec<MtField>',
-    name: 'Text'
+    discriminant: 'Option<u64>'
   }
 };
 
