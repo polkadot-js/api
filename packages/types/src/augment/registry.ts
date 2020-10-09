@@ -15,7 +15,7 @@ import { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claim
 import { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractExecResultSuccessTo255, ContractExecResultTo255, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import { InkConstructorSpec, InkContractContract, InkContractSource, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutCell, InkLayoutField, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtRegistry, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSequence, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
+import { InkConstructorSpec, InkContractContract, InkContractSource, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutCell, InkLayoutField, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtPath, MtRegistry, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSequence, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
@@ -548,6 +548,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<MtLookupTypeId>': Compact<MtLookupTypeId>;
     'Option<MtLookupTypeId>': Option<MtLookupTypeId>;
     'Vec<MtLookupTypeId>': Vec<MtLookupTypeId>;
+    MtPath: MtPath;
+    'Option<MtPath>': Option<MtPath>;
+    'Vec<MtPath>': Vec<MtPath>;
     MtRegistry: MtRegistry;
     'Option<MtRegistry>': Option<MtRegistry>;
     'Vec<MtRegistry>': Vec<MtRegistry>;

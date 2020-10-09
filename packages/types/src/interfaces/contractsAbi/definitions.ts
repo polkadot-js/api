@@ -74,7 +74,7 @@ const spec = {
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
     id: 'MtLookupTypeId',
-    displayName: 'Text'
+    displayName: 'MtPath'
   }
 };
 
@@ -84,6 +84,7 @@ const registry = {
     type: 'MtLookupTypeId'
   },
   MtLookupTypeId: 'u32',
+  MtPath: 'Vec<Text>',
   MtRegistry: {
     strings: 'Vec<Text>',
     types: 'Vec<MtType>'

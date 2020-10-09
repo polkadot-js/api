@@ -118,7 +118,7 @@ export interface InkStorageLayout extends Enum {
 /** @name InkTypeSpec */
 export interface InkTypeSpec extends Struct {
   readonly id: MtLookupTypeId;
-  readonly displayName: Text;
+  readonly displayName: MtPath;
 }
 
 /** @name MtField */
@@ -129,6 +129,9 @@ export interface MtField extends Struct {
 
 /** @name MtLookupTypeId */
 export interface MtLookupTypeId extends u32 {}
+
+/** @name MtPath */
+export interface MtPath extends Vec<Text> {}
 
 /** @name MtRegistry */
 export interface MtRegistry extends Struct {
