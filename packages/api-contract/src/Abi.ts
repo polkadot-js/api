@@ -58,7 +58,7 @@ export default class Abi extends ContractRegistry {
 
   private _createAbiType (spec: InkTypeSpec | null): TypeDef | null {
     return spec
-      ? this.typeDefAt(spec.type, { displayName: spec.displayName.map((s) => s.toString()).join('::') || undefined })
+      ? this.typeDefAt(spec.id, { displayName: spec.displayName.map((s) => s.toString()).join('::') || undefined })
       : null;
   }
 
@@ -69,7 +69,7 @@ export default class Abi extends ContractRegistry {
 
       return {
         name: stringCamelCase(name.toString()),
-        type: this.typeDefAt(type.type)
+        type: this.typeDefAt(type.id)
       };
     });
 

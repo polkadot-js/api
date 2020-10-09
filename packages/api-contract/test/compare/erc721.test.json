@@ -62,7 +62,7 @@
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"u32\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"u32\"}}"
   },
   {
     "displayName": "VacantEntry",
@@ -169,7 +169,7 @@
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"AccountId\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"AccountId\"}}"
   },
   {
     "displayName": "ValueEntry",
@@ -259,7 +259,7 @@
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(AccountId, AccountId)\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(AccountId, AccountId)\"}}"
   },
   {
     "info": 10,
