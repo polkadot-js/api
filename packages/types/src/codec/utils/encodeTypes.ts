@@ -106,7 +106,7 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
   return `(${
     sub
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      .map((type: TypeDef): string => encodeType(type))
+      .map((type: TypeDef): string => displayType(type))
       .join(', ')
   })`;
 }

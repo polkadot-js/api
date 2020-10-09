@@ -1,97 +1,98 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+/* eslint-disable sort-keys */
 
-// const layout = {
-//   InkLayoutArray: {
-//     cells_per_elem: 'u32',
-//     layout: 'InkStorageLayout',
-//     len: 'u32',
-//     offset: 'InkLayoutKey'
-//   },
-//   InkLayoutCell: {
-//     key: 'InkLayoutKey',
-//     ty: 'MtLookupTypeId'
-//   },
-//   InkLayoutEnum: {
-//     dispatch_key: 'InkLayoutKey',
-//     variants: 'HashMap<u32, InkLayoutStruct>'
-//   },
-//   InkLayoutField: {
-//     layout: 'InkStorageLayout',
-//     name: 'Text'
-//   },
-//   InkLayoutHash: {
-//     layout: 'InkStorageLayout',
-//     offset: 'InkLayoutKey',
-//     strategy: 'InkLayoutHashStrategy'
-//   },
-//   InkLayoutHashStrategy: {
-//     hasher: 'Text',
-//     postfix: 'Text',
-//     prefix: 'InkLayoutKey'
-//   },
-//   InkLayoutKey: '[u8; 32]',
-//   InkLayoutRange: {
-//     elemType: 'Text',
-//     len: 'u32',
-//     offset: 'InkLayoutKey'
-//   },
-//   InkLayoutStruct: {
-//     fields: 'Vec<InkLayoutField>'
-//   },
-//   InkStorageLayout: {
-//     _enum: {
-//       Array: 'InkLayoutArray',
-//       Cell: 'InkLayoutCell',
-//       Enum: 'InkLayoutEnum',
-//       Hash: 'InkLayoutHash',
-//       Struct: 'InkLayoutStruct'
-//     }
-//   }
-// };
+const layout = {
+  InkLayoutKey: '[u8; 32]',
+  InkStorageLayout: {
+    _enum: {
+      Cell: 'InkLayoutCell',
+      Hash: 'InkLayoutHash',
+      Array: 'InkLayoutArray',
+      Struct: 'InkLayoutStruct',
+      Enum: 'InkLayoutEnum'
+    }
+  },
+  InkLayoutCell: {
+    key: 'InkLayoutKey',
+    ty: 'MtLookupTypeId'
+  },
+  InkCryptoHasher: {
+    _enum: ['Blake2x256', 'Sha2x256', 'Keccak256']
+  },
+  InkLayoutHash: {
+    offset: 'InkLayoutKey',
+    strategy: 'InkLayoutHashingStrategy',
+    layout: 'InkStorageLayout'
+  },
+  InkLayoutHashingStrategy: {
+    hasher: 'InkCryptoHasher',
+    postfix: 'Vec<u8>',
+    prefix: 'Vec<u8>'
+  },
+  InkLayoutArray: {
+    offset: 'InkLayoutKey',
+    len: 'u32',
+    cellsPerElem: 'u64',
+    layout: 'InkStorageLayout'
+  },
+  InkLayoutStruct: {
+    fields: 'Vec<InkLayoutStructField>'
+  },
+  InkLayoutStructField: {
+    layout: 'InkStorageLayout',
+    name: 'Text'
+  },
+  InkDiscriminant: 'u32',
+  InkLayoutEnum: {
+    dispatchKey: 'InkLayoutKey',
+    variants: 'BTreeMap<InkDiscriminant, InkLayoutStruct>'
+  }
+};
 
 const spec = {
+  InkPath: 'Vec<Text>',
+  InkDisplayName: 'InkPath',
   InkConstructorSpec: {
-    args: 'Vec<InkMessageParamSpec>',
-    docs: 'Vec<Text>',
     name: 'Text',
-    selector: 'InkSelector'
+    selector: 'InkSelector',
+    args: 'Vec<InkMessageParamSpec>',
+    docs: 'Vec<Text>'
   },
   InkContractSpec: {
     constructors: 'Vec<InkConstructorSpec>',
-    docs: 'Vec<Text>',
-    events: 'Vec<InkEventSpec>',
     messages: 'Vec<InkMessageSpec>',
-    name: 'Text'
+    events: 'Vec<InkEventSpec>',
+    docs: 'Vec<Text>'
   },
   InkEventParamSpec: {
-    docs: 'Vec<Text>',
-    indexed: 'bool',
     name: 'Text',
-    type: 'InkTypeSpec'
+    indexed: 'bool',
+    type: 'InkTypeSpec',
+    docs: 'Vec<Text>'
   },
   InkEventSpec: {
+    name: 'Text',
     args: 'Vec<InkEventParamSpec>',
-    docs: 'Vec<Text>',
-    name: 'Text'
+    docs: 'Vec<Text>'
   },
   InkMessageParamSpec: {
     name: 'Text',
     type: 'InkTypeSpec'
   },
   InkMessageSpec: {
-    args: 'Vec<InkMessageParamSpec>',
-    docs: 'Vec<Text>',
-    mutates: 'bool',
     name: 'Text',
+    selector: 'InkSelector',
+    mutates: 'bool',
     payable: 'bool',
+    args: 'Vec<InkMessageParamSpec>',
     returnType: 'Option<InkTypeSpec>',
-    selector: 'InkSelector'
+    docs: 'Vec<Text>'
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
-    displayName: 'Text',
-    id: 'MtLookupTypeId'
+    type: 'MtLookupTypeId',
+    displayName: 'InkDisplayName'
   }
 };
 
@@ -148,7 +149,7 @@ const registry = {
 export default {
   rpc: {},
   types: {
-    // ...layout,
+    ...layout,
     ...registry,
     ...spec,
     InkContractContract: {
@@ -166,7 +167,7 @@ export default {
       metadata_version: 'Text',
       source: 'InkContractSource',
       spec: 'InkContractSpec',
-      // storage: InkStorageLayout,
+      storage: 'InkStorageLayout',
       types: 'Vec<MtType>'
     }
   }
