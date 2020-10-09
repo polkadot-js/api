@@ -44,8 +44,8 @@ export interface TypeDef {
   name?: string;
   namespace?: string;
   params?: TypeDef[];
-  type: string;
   sub?: TypeDef | TypeDef[];
+  type: string;
 }
 
 export type TypeIndex = number;

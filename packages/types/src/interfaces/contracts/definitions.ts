@@ -90,7 +90,7 @@ export default {
     },
     ContractExecResultSuccess: {
       flags: 'u32',
-      data: 'Vec<u8>',
+      data: 'Bytes',
       gasConsumed: 'u64'
     },
     ContractExecResult: {
