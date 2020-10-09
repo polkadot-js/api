@@ -4,7 +4,7 @@
 import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
 import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
-import { assert, isUndefined } from '@polkadot/util';
+import { assert, isObject, isUndefined } from '@polkadot/util';
 import { withTypeString } from '@polkadot/types';
 
 // convert the offset into project-specific, index-1
@@ -22,6 +22,8 @@ export default class ContractRegistry {
   public json: AnyJson;
 
   constructor (registry: Registry, json: AnyJson) {
+    assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
+
     this.registry = registry;
     this.json = json;
     this.project = registry.createType('InkProject', json);
@@ -40,7 +42,7 @@ export default class ContractRegistry {
   }
 
   public getAbiTypes (ids: MtLookupTypeId[]): MtType[] {
-    return ids.map((id): MtType => this.getAbiType(id));
+    return ids.map((id) => this.getAbiType(id));
   }
 
   public hasTypeDefAt (id: MtLookupTypeId): boolean {
