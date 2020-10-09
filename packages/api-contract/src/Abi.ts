@@ -5,7 +5,7 @@ import { AnyJson, CodecArg, Constructor, Registry, TypeDef } from '@polkadot/typ
 import { InkConstructorSpec, InkMessageSpec, InkTypeSpec } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiMessage, AbiMessageParam } from './types';
 
-import { Compact, createClass, encodeType } from '@polkadot/types';
+import { Compact, createClass, encodeTypeDef } from '@polkadot/types';
 import { assert, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
@@ -15,7 +15,7 @@ function createArgClass (registry: Registry, args: AbiMessageParam[], baseDef: R
     registry,
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = type.displayName || encodeType(type);
+        base[name] = type.displayName || encodeTypeDef(type);
 
         return base;
       }, baseDef)
