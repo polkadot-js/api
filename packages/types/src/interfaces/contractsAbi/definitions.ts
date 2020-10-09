@@ -3,22 +3,23 @@
 /* eslint-disable sort-keys */
 
 const layout = {
-  InkLayoutKey: '[u8; 32]',
-  InkStorageLayout: {
-    _enum: {
-      Cell: 'InkLayoutCell',
-      Hash: 'InkLayoutHash',
-      Array: 'InkLayoutArray',
-      Struct: 'InkLayoutStruct',
-      Enum: 'InkLayoutEnum'
-    }
+  InkCryptoHasher: {
+    _enum: ['Blake2x256', 'Sha2x256', 'Keccak256']
+  },
+  InkDiscriminant: 'u32',
+  InkLayoutArray: {
+    offset: 'InkLayoutKey',
+    len: 'u32',
+    cellsPerElem: 'u64',
+    layout: 'InkStorageLayout'
   },
   InkLayoutCell: {
     key: 'InkLayoutKey',
     ty: 'MtLookupTypeId'
   },
-  InkCryptoHasher: {
-    _enum: ['Blake2x256', 'Sha2x256', 'Keccak256']
+  InkLayoutEnum: {
+    dispatchKey: 'InkLayoutKey',
+    variants: 'BTreeMap<InkDiscriminant, InkLayoutStruct>'
   },
   InkLayoutHash: {
     offset: 'InkLayoutKey',
@@ -30,12 +31,7 @@ const layout = {
     postfix: 'Vec<u8>',
     prefix: 'Vec<u8>'
   },
-  InkLayoutArray: {
-    offset: 'InkLayoutKey',
-    len: 'u32',
-    cellsPerElem: 'u64',
-    layout: 'InkStorageLayout'
-  },
+  InkLayoutKey: '[u8; 32]',
   InkLayoutStruct: {
     fields: 'Vec<InkLayoutStructField>'
   },
@@ -43,16 +39,18 @@ const layout = {
     layout: 'InkStorageLayout',
     name: 'Text'
   },
-  InkDiscriminant: 'u32',
-  InkLayoutEnum: {
-    dispatchKey: 'InkLayoutKey',
-    variants: 'BTreeMap<InkDiscriminant, InkLayoutStruct>'
+  InkStorageLayout: {
+    _enum: {
+      Cell: 'InkLayoutCell',
+      Hash: 'InkLayoutHash',
+      Array: 'InkLayoutArray',
+      Struct: 'InkLayoutStruct',
+      Enum: 'InkLayoutEnum'
+    }
   }
 };
 
 const spec = {
-  InkPath: 'Vec<Text>',
-  InkDisplayName: 'InkPath',
   InkConstructorSpec: {
     name: 'Text',
     selector: 'InkSelector',
@@ -65,6 +63,7 @@ const spec = {
     events: 'Vec<InkEventSpec>',
     docs: 'Vec<Text>'
   },
+  InkDisplayName: 'MtPath',
   InkEventParamSpec: {
     name: 'Text',
     indexed: 'bool',
@@ -102,10 +101,11 @@ const registry = {
     type: 'MtLookupTypeId'
   },
   MtLookupTypeId: 'u32',
+  MtPath: 'Vec<Text>',
   MtType: {
     def: 'MtTypeDef',
     params: 'Vec<MtLookupTypeId>',
-    path: 'Vec<Text>'
+    path: 'MtPath'
   },
   MtTypeDef: {
     _enum: {
@@ -113,7 +113,6 @@ const registry = {
       Composite: 'MtTypeDefComposite',
       Primitive: 'MtTypeDefPrimitive',
       Sequence: 'MtTypeDefSequence',
-      Slice: 'MtTypeDefSlice',
       Tuple: 'MtTypeDefTuple',
       Variant: 'MtTypeDefVariant'
     }
@@ -130,9 +129,6 @@ const registry = {
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
   },
   MtTypeDefSequence: {
-    type: 'MtLookupTypeId'
-  },
-  MtTypeDefSlice: {
     type: 'MtLookupTypeId'
   },
   MtTypeDefTuple: 'Vec<MtLookupTypeId>',
@@ -153,19 +149,24 @@ export default {
     ...registry,
     ...spec,
     InkContractContract: {
-      authors: 'Vec<Text>',
       name: 'Text',
-      version: 'Text'
+      version: 'Text',
+      authors: 'Vec<Text>',
+      description: 'Option<Text>',
+      documentation: 'Option<Text>',
+      repository: 'Option<Text>',
+      homepage: 'Option<Text>',
+      license: 'Option<Text>'
     },
     InkContractSource: {
-      compiler: 'Text',
       hash: '[u8; 32]',
-      language: 'Text'
+      language: 'Text',
+      compiler: 'Text'
     },
     InkProject: {
-      contract: 'InkContractContract',
-      metadata_version: 'Text',
+      metadataVersion: 'Text',
       source: 'InkContractSource',
+      contract: 'InkContractContract',
       spec: 'InkContractSpec',
       storage: 'InkStorageLayout',
       types: 'Vec<MtType>'
