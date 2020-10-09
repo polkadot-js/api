@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, CodecArg, Constructor, Registry, TypeDef } from '@polkadot/types/types';
-import { InkConstructorSpec, InkMessageSpec, InkTypeSpec } from '@polkadot/types/interfaces';
+import { AnyJson, CodecArg, Constructor, Registry } from '@polkadot/types/types';
+import { InkConstructorSpec, InkMessageSpec } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiMessage, AbiMessageParam } from './types';
 
 import { Compact, createClass, encodeTypeDef } from '@polkadot/types';
@@ -46,20 +46,18 @@ export default class Abi extends ContractRegistry {
         isConstructor: true
       })
     );
-    this.messages = this.project.spec.messages.map((spec: InkMessageSpec, index): AbiMessage =>
-      this._createBase(spec, {
+    this.messages = this.project.spec.messages.map((spec: InkMessageSpec, index): AbiMessage => {
+      const typeSpec = spec.returnType.unwrapOr(null);
+
+      return this._createBase(spec, {
         index,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
-        returnType: this._createAbiType(spec.returnType.unwrapOr(null))
-      })
-    );
-  }
-
-  private _createAbiType (spec: InkTypeSpec | null): TypeDef | null {
-    return spec
-      ? this.typeDefAt(spec.id, { displayName: spec.displayName.map((s) => s.toString()).join('::') || undefined })
-      : null;
+        returnType: typeSpec
+          ? this.typeDefAt(typeSpec.id, { displayName: typeSpec.displayName.map((s) => s.toString()).join('::') || undefined })
+          : null
+      });
+    });
   }
 
   private _createBase (spec: InkMessageSpec | InkConstructorSpec, add: Partial<AbiMessage> = {}): AbiMessage {

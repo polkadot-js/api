@@ -41,16 +41,8 @@ export default class ContractRegistry {
     return this.registry.createType('MtType', type);
   }
 
-  public getAbiTypes (ids: MtLookupTypeId[]): MtType[] {
-    return ids.map((id) => this.getAbiType(id));
-  }
-
-  public hasTypeDefAt (id: MtLookupTypeId): boolean {
-    return !!this.typeDefs[getRegistryOffset(id)];
-  }
-
   public typeDefAt (id: MtLookupTypeId, extra: Pick<TypeDef, never> = {}): TypeDef {
-    if (!this.hasTypeDefAt(id)) {
+    if (!this.typeDefs[getRegistryOffset(id)]) {
       this.setTypeDef(id);
     }
 
@@ -58,10 +50,6 @@ export default class ContractRegistry {
       ...this.typeDefs[getRegistryOffset(id)],
       ...extra
     };
-  }
-
-  public typeDefsAt (ids: MtLookupTypeId[]): TypeDef[] {
-    return ids.map((id) => this.typeDefAt(id));
   }
 
   public setTypeDef (id: MtLookupTypeId): void {
@@ -100,7 +88,7 @@ export default class ContractRegistry {
         : {}
       ),
       ...(inkType.params.length > 0
-        ? { params: this.typeDefsAt(inkType.params) }
+        ? { params: inkType.params.map((id) => this.typeDefAt(id)) }
         : {}
       ),
       ...typeDef
