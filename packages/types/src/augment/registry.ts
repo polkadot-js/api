@@ -15,11 +15,7 @@ import { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claim
 import { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractExecResultSuccessTo255, ContractExecResultTo255, ContractInfo, ContractStorageKey, Gas, HostFnWeights, InstructionWeights, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-<<<<<<< HEAD
-import { InkConstructorSpec, InkContractContract, InkContractSource, InkContractSpec, InkCryptoHasher, InkDiscriminant, InkDisplayName, InkEventParamSpec, InkEventSpec, InkLayoutArray, InkLayoutCell, InkLayoutEnum, InkLayoutHash, InkLayoutHashingStrategy, InkLayoutKey, InkLayoutStruct, InkLayoutStructField, InkMessageParamSpec, InkMessageSpec, InkPath, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSequence, MtTypeDefSlice, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
-=======
 import { InkConstructorSpec, InkContractContract, InkContractSource, InkContractSpec, InkCryptoHasher, InkDiscriminant, InkDisplayName, InkEventParamSpec, InkEventSpec, InkLayoutArray, InkLayoutCell, InkLayoutEnum, InkLayoutHash, InkLayoutHashingStrategy, InkLayoutKey, InkLayoutStruct, InkLayoutStructField, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtField, MtLookupTypeId, MtPath, MtType, MtTypeDef, MtTypeDefArray, MtTypeDefComposite, MtTypeDefPrimitive, MtTypeDefSequence, MtTypeDefTuple, MtTypeDefVariant, MtVariant } from '@polkadot/types/interfaces/contractsAbi';
->>>>>>> master
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
@@ -533,20 +529,6 @@ declare module '@polkadot/types/types/registry' {
     TrieId: TrieId;
     'Option<TrieId>': Option<TrieId>;
     'Vec<TrieId>': Vec<TrieId>;
-<<<<<<< HEAD
-    InkLayoutKey: InkLayoutKey;
-    'Option<InkLayoutKey>': Option<InkLayoutKey>;
-    'Vec<InkLayoutKey>': Vec<InkLayoutKey>;
-    InkStorageLayout: InkStorageLayout;
-    'Option<InkStorageLayout>': Option<InkStorageLayout>;
-    'Vec<InkStorageLayout>': Vec<InkStorageLayout>;
-    InkLayoutCell: InkLayoutCell;
-    'Option<InkLayoutCell>': Option<InkLayoutCell>;
-    'Vec<InkLayoutCell>': Vec<InkLayoutCell>;
-    InkCryptoHasher: InkCryptoHasher;
-    'Option<InkCryptoHasher>': Option<InkCryptoHasher>;
-    'Vec<InkCryptoHasher>': Vec<InkCryptoHasher>;
-=======
     InkCryptoHasher: InkCryptoHasher;
     'Option<InkCryptoHasher>': Option<InkCryptoHasher>;
     'Vec<InkCryptoHasher>': Vec<InkCryptoHasher>;
@@ -563,41 +545,24 @@ declare module '@polkadot/types/types/registry' {
     InkLayoutEnum: InkLayoutEnum;
     'Option<InkLayoutEnum>': Option<InkLayoutEnum>;
     'Vec<InkLayoutEnum>': Vec<InkLayoutEnum>;
->>>>>>> master
     InkLayoutHash: InkLayoutHash;
     'Option<InkLayoutHash>': Option<InkLayoutHash>;
     'Vec<InkLayoutHash>': Vec<InkLayoutHash>;
     InkLayoutHashingStrategy: InkLayoutHashingStrategy;
     'Option<InkLayoutHashingStrategy>': Option<InkLayoutHashingStrategy>;
     'Vec<InkLayoutHashingStrategy>': Vec<InkLayoutHashingStrategy>;
-<<<<<<< HEAD
-    InkLayoutArray: InkLayoutArray;
-    'Option<InkLayoutArray>': Option<InkLayoutArray>;
-    'Vec<InkLayoutArray>': Vec<InkLayoutArray>;
-=======
     InkLayoutKey: InkLayoutKey;
     'Option<InkLayoutKey>': Option<InkLayoutKey>;
     'Vec<InkLayoutKey>': Vec<InkLayoutKey>;
->>>>>>> master
     InkLayoutStruct: InkLayoutStruct;
     'Option<InkLayoutStruct>': Option<InkLayoutStruct>;
     'Vec<InkLayoutStruct>': Vec<InkLayoutStruct>;
     InkLayoutStructField: InkLayoutStructField;
     'Option<InkLayoutStructField>': Option<InkLayoutStructField>;
     'Vec<InkLayoutStructField>': Vec<InkLayoutStructField>;
-<<<<<<< HEAD
-    InkDiscriminant: InkDiscriminant;
-    'Compact<InkDiscriminant>': Compact<InkDiscriminant>;
-    'Option<InkDiscriminant>': Option<InkDiscriminant>;
-    'Vec<InkDiscriminant>': Vec<InkDiscriminant>;
-    InkLayoutEnum: InkLayoutEnum;
-    'Option<InkLayoutEnum>': Option<InkLayoutEnum>;
-    'Vec<InkLayoutEnum>': Vec<InkLayoutEnum>;
-=======
     InkStorageLayout: InkStorageLayout;
     'Option<InkStorageLayout>': Option<InkStorageLayout>;
     'Vec<InkStorageLayout>': Vec<InkStorageLayout>;
->>>>>>> master
     MtField: MtField;
     'Option<MtField>': Option<MtField>;
     'Vec<MtField>': Vec<MtField>;
@@ -605,12 +570,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<MtLookupTypeId>': Compact<MtLookupTypeId>;
     'Option<MtLookupTypeId>': Option<MtLookupTypeId>;
     'Vec<MtLookupTypeId>': Vec<MtLookupTypeId>;
-<<<<<<< HEAD
-=======
     MtPath: MtPath;
     'Option<MtPath>': Option<MtPath>;
     'Vec<MtPath>': Vec<MtPath>;
->>>>>>> master
     MtType: MtType;
     'Option<MtType>': Option<MtType>;
     'Vec<MtType>': Vec<MtType>;
@@ -629,12 +591,6 @@ declare module '@polkadot/types/types/registry' {
     MtTypeDefSequence: MtTypeDefSequence;
     'Option<MtTypeDefSequence>': Option<MtTypeDefSequence>;
     'Vec<MtTypeDefSequence>': Vec<MtTypeDefSequence>;
-<<<<<<< HEAD
-    MtTypeDefSlice: MtTypeDefSlice;
-    'Option<MtTypeDefSlice>': Option<MtTypeDefSlice>;
-    'Vec<MtTypeDefSlice>': Vec<MtTypeDefSlice>;
-=======
->>>>>>> master
     MtTypeDefTuple: MtTypeDefTuple;
     'Option<MtTypeDefTuple>': Option<MtTypeDefTuple>;
     'Vec<MtTypeDefTuple>': Vec<MtTypeDefTuple>;
@@ -644,27 +600,15 @@ declare module '@polkadot/types/types/registry' {
     MtVariant: MtVariant;
     'Option<MtVariant>': Option<MtVariant>;
     'Vec<MtVariant>': Vec<MtVariant>;
-<<<<<<< HEAD
-    InkPath: InkPath;
-    'Option<InkPath>': Option<InkPath>;
-    'Vec<InkPath>': Vec<InkPath>;
-    InkDisplayName: InkDisplayName;
-    'Option<InkDisplayName>': Option<InkDisplayName>;
-    'Vec<InkDisplayName>': Vec<InkDisplayName>;
-=======
->>>>>>> master
     InkConstructorSpec: InkConstructorSpec;
     'Option<InkConstructorSpec>': Option<InkConstructorSpec>;
     'Vec<InkConstructorSpec>': Vec<InkConstructorSpec>;
     InkContractSpec: InkContractSpec;
     'Option<InkContractSpec>': Option<InkContractSpec>;
     'Vec<InkContractSpec>': Vec<InkContractSpec>;
-<<<<<<< HEAD
-=======
     InkDisplayName: InkDisplayName;
     'Option<InkDisplayName>': Option<InkDisplayName>;
     'Vec<InkDisplayName>': Vec<InkDisplayName>;
->>>>>>> master
     InkEventParamSpec: InkEventParamSpec;
     'Option<InkEventParamSpec>': Option<InkEventParamSpec>;
     'Vec<InkEventParamSpec>': Vec<InkEventParamSpec>;

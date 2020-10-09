@@ -2,11 +2,7 @@
 /* eslint-disable */
 
 import { BTreeMap, Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-<<<<<<< HEAD
-import { Bytes, Text, bool, u16, u32, u64, usize } from '@polkadot/types/primitive';
-=======
 import { Bytes, Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
->>>>>>> master
 
 /** @name InkConstructorSpec */
 export interface InkConstructorSpec extends Struct {
@@ -18,11 +14,6 @@ export interface InkConstructorSpec extends Struct {
 
 /** @name InkContractContract */
 export interface InkContractContract extends Struct {
-<<<<<<< HEAD
-  readonly authors: Vec<Text>;
-  readonly name: Text;
-  readonly version: Text;
-=======
   readonly name: Text;
   readonly version: Text;
   readonly authors: Vec<Text>;
@@ -31,20 +22,13 @@ export interface InkContractContract extends Struct {
   readonly repository: Option<Text>;
   readonly homepage: Option<Text>;
   readonly license: Option<Text>;
->>>>>>> master
 }
 
 /** @name InkContractSource */
 export interface InkContractSource extends Struct {
-<<<<<<< HEAD
-  readonly compiler: Text;
-  readonly hash: U8aFixed;
-  readonly language: Text;
-=======
   readonly hash: U8aFixed;
   readonly language: Text;
   readonly compiler: Text;
->>>>>>> master
 }
 
 /** @name InkContractSpec */
@@ -63,17 +47,10 @@ export interface InkCryptoHasher extends Enum {
 }
 
 /** @name InkDiscriminant */
-<<<<<<< HEAD
-export interface InkDiscriminant extends usize {}
-
-/** @name InkDisplayName */
-export interface InkDisplayName extends InkPath {}
-=======
 export interface InkDiscriminant extends u32 {}
 
 /** @name InkDisplayName */
 export interface InkDisplayName extends MtPath {}
->>>>>>> master
 
 /** @name InkEventParamSpec */
 export interface InkEventParamSpec extends Struct {
@@ -155,22 +132,11 @@ export interface InkMessageSpec extends Struct {
   readonly docs: Vec<Text>;
 }
 
-<<<<<<< HEAD
-/** @name InkPath */
-export interface InkPath extends Vec<Text> {}
-
-/** @name InkProject */
-export interface InkProject extends Struct {
-  readonly contract: InkContractContract;
-  readonly metadata_version: Text;
-  readonly source: InkContractSource;
-=======
 /** @name InkProject */
 export interface InkProject extends Struct {
   readonly metadataVersion: Text;
   readonly source: InkContractSource;
   readonly contract: InkContractContract;
->>>>>>> master
   readonly spec: InkContractSpec;
   readonly storage: InkStorageLayout;
   readonly types: Vec<MtType>;
@@ -208,42 +174,30 @@ export interface MtField extends Struct {
 /** @name MtLookupTypeId */
 export interface MtLookupTypeId extends u32 {}
 
-<<<<<<< HEAD
-=======
 /** @name MtPath */
 export interface MtPath extends Vec<Text> {}
 
->>>>>>> master
 /** @name MtType */
 export interface MtType extends Struct {
-  readonly def: MtTypeDef;
-  readonly params: Vec<MtLookupTypeId>;
-<<<<<<< HEAD
-  readonly path: Vec<Text>;
-=======
   readonly path: MtPath;
->>>>>>> master
+  readonly params: Vec<MtLookupTypeId>;
+  readonly def: MtTypeDef;
 }
 
 /** @name MtTypeDef */
 export interface MtTypeDef extends Enum {
-  readonly isArray: boolean;
-  readonly asArray: MtTypeDefArray;
   readonly isComposite: boolean;
   readonly asComposite: MtTypeDefComposite;
-  readonly isPrimitive: boolean;
-  readonly asPrimitive: MtTypeDefPrimitive;
-  readonly isSequence: boolean;
-  readonly asSequence: MtTypeDefSequence;
-<<<<<<< HEAD
-  readonly isSlice: boolean;
-  readonly asSlice: MtTypeDefSlice;
-=======
->>>>>>> master
-  readonly isTuple: boolean;
-  readonly asTuple: MtTypeDefTuple;
   readonly isVariant: boolean;
   readonly asVariant: MtTypeDefVariant;
+  readonly isSequence: boolean;
+  readonly asSequence: MtTypeDefSequence;
+  readonly isArray: boolean;
+  readonly asArray: MtTypeDefArray;
+  readonly isTuple: boolean;
+  readonly asTuple: MtTypeDefTuple;
+  readonly isPrimitive: boolean;
+  readonly asPrimitive: MtTypeDefPrimitive;
 }
 
 /** @name MtTypeDefArray */
@@ -279,14 +233,6 @@ export interface MtTypeDefSequence extends Struct {
   readonly type: MtLookupTypeId;
 }
 
-<<<<<<< HEAD
-/** @name MtTypeDefSlice */
-export interface MtTypeDefSlice extends Struct {
-  readonly type: MtLookupTypeId;
-}
-
-=======
->>>>>>> master
 /** @name MtTypeDefTuple */
 export interface MtTypeDefTuple extends Vec<MtLookupTypeId> {}
 
@@ -297,9 +243,9 @@ export interface MtTypeDefVariant extends Struct {
 
 /** @name MtVariant */
 export interface MtVariant extends Struct {
-  readonly discriminant: Option<u64>;
-  readonly fields: Vec<MtField>;
   readonly name: Text;
+  readonly fields: Vec<MtField>;
+  readonly discriminant: Option<u64>;
 }
 
 export type PHANTOM_CONTRACTSABI = 'contractsAbi';
