@@ -499,6 +499,12 @@ declare module '@polkadot/types/types/registry' {
     'Compact<Gas>': Compact<Gas>;
     'Option<Gas>': Option<Gas>;
     'Vec<Gas>': Vec<Gas>;
+    HostFnWeights: HostFnWeights;
+    'Option<HostFnWeights>': Option<HostFnWeights>;
+    'Vec<HostFnWeights>': Vec<HostFnWeights>;
+    InstructionWeights: InstructionWeights;
+    'Option<InstructionWeights>': Option<InstructionWeights>;
+    'Vec<InstructionWeights>': Vec<InstructionWeights>;
     PrefabWasmModule: PrefabWasmModule;
     'Option<PrefabWasmModule>': Option<PrefabWasmModule>;
     'Vec<PrefabWasmModule>': Vec<PrefabWasmModule>;
