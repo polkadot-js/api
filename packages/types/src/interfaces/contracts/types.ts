@@ -68,6 +68,61 @@ export interface ContractStorageKey extends U8aFixed {}
 /** @name Gas */
 export interface Gas extends u64 {}
 
+/** @name HostFnWeights */
+export interface HostFnWeights extends Struct {
+  readonly caller: Weight;
+  readonly address: Weight;
+  readonly gasLeft: Weight;
+  readonly balance: Weight;
+  readonly valueTransferred: Weight;
+  readonly minimumBalance: Weight;
+  readonly tombstoneDeposit: Weight;
+  readonly rentAllowance: Weight;
+  readonly blockNumber: Weight;
+  readonly now: Weight;
+  readonly weightToFee: Weight;
+  readonly gas: Weight;
+  readonly input: Weight;
+  readonly inputPerByte: Weight;
+  readonly return: Weight;
+  readonly returnPerByte: Weight;
+  readonly terminate: Weight;
+  readonly restoreTo: Weight;
+  readonly restoreToPerDelta: Weight;
+  readonly random: Weight;
+  readonly depositEvent: Weight;
+  readonly depositEventPerTopic: Weight;
+  readonly depositEventPerByte: Weight;
+  readonly setRentAllowance: Weight;
+  readonly setStorage: Weight;
+  readonly setStoragePerByte: Weight;
+  readonly clearStorage: Weight;
+  readonly getStorage: Weight;
+  readonly getStoragePerByte: Weight;
+  readonly transfer: Weight;
+  readonly call: Weight;
+  readonly callTransferSurcharge: Weight;
+  readonly callPerInputByte: Weight;
+  readonly callPerOutputByte: Weight;
+  readonly instantiate: Weight;
+  readonly instantiatePerInputByte: Weight;
+  readonly instantiatePerOutputByte: Weight;
+  readonly hashSha2256: Weight;
+  readonly hashSha2256PerByte: Weight;
+  readonly hashKeccak256: Weight;
+  readonly hashKeccak256PerByte: Weight;
+  readonly hashBlake2256: Weight;
+  readonly hashBlake2256PerByte: Weight;
+  readonly hashBlake2128: Weight;
+  readonly hashBlake2128PerByte: Weight;
+}
+
+/** @name InstructionWeights */
+export interface InstructionWeights extends Struct {
+  readonly growMem: Weight;
+  readonly regular: Weight;
+}
+
 /** @name PrefabWasmModule */
 export interface PrefabWasmModule extends Struct {
   readonly scheduleVersion: Compact<u32>;
@@ -83,53 +138,8 @@ export interface PrefabWasmModuleReserved extends Option<Null> {}
 /** @name Schedule */
 export interface Schedule extends Struct {
   readonly version: u32;
-  readonly opCostGrowMem: Weight;
-  readonly opCostRegular: Weight;
-  readonly apiCostCaller: Weight;
-  readonly apiCostAddress: Weight;
-  readonly apiCostGasLeft: Weight;
-  readonly apiCostBalance: Weight;
-  readonly apiCostValueTransferred: Weight;
-  readonly apiCostMinimumBalance: Weight;
-  readonly apiCostTombstoneDeposit: Weight;
-  readonly apiCostRentAllowance: Weight;
-  readonly apiCostBlockNumber: Weight;
-  readonly apiCostNow: Weight;
-  readonly apiCostWeightToFee: Weight;
-  readonly apiCostGas: Weight;
-  readonly apiCostInput: Weight;
-  readonly apiCostInputPerByte: Weight;
-  readonly apiCostReturn: Weight;
-  readonly apiCostReturnPerByte: Weight;
-  readonly apiCostTerminate: Weight;
-  readonly apiCostRestoreTo: Weight;
-  readonly apiCostRestoreToPer_delta: Weight;
-  readonly apiCostRandom: Weight;
-  readonly apiCostDepositEvent: Weight;
-  readonly apiCostDepositEventPerTopic: Weight;
-  readonly apiCostDepositEventPerByte: Weight;
-  readonly apiCostSetRentAllowance: Weight;
-  readonly apiCostSetStorage: Weight;
-  readonly apiCostSetStoragePerByte: Weight;
-  readonly apiCostClearStorage: Weight;
-  readonly apiCostGetStorage: Weight;
-  readonly apiCostGetStoragePerByte: Weight;
-  readonly apiCostTransfer: Weight;
-  readonly apiCostCall: Weight;
-  readonly apiCostCallTransferSurcharge: Weight;
-  readonly apiCostCallPerInputByte: Weight;
-  readonly apiCostCallPerOutputByte: Weight;
-  readonly apiCostInstantiate: Weight;
-  readonly apiCostInstantiatePerInputByte: Weight;
-  readonly apiCostInstantiatePerOutputByte: Weight;
-  readonly apiCostHashSha2256: Weight;
-  readonly apiCostHashSha2256PerByte: Weight;
-  readonly apiCostHashKeccak256: Weight;
-  readonly apiCostHashKeccak256PerByte: Weight;
-  readonly apiCostHashBlake2256: Weight;
-  readonly apiCostHashBlake2256PerByte: Weight;
-  readonly apiCostHashBlake2128: Weight;
-  readonly apiCostHashBlake2128PerByte: Weight;
+  readonly instructionWeights: InstructionWeights;
+  readonly hostFnWeights: HostFnWeights;
   readonly enablePrintln: bool;
   readonly maxEventTopics: u32;
   readonly maxStackHeight: u32;
