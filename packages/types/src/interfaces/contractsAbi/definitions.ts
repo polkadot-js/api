@@ -7,28 +7,49 @@ import { Definitions } from '../../types';
 /* eslint-disable sort-keys */
 
 const layout = {
+  InkCryptoHasher: {
+    _enum: ['Blake2x256', 'Sha2x256', 'Keccak256']
+  },
+  InkDiscriminant: 'u32',
+  InkLayoutArray: {
+    offset: 'InkLayoutKey',
+    len: 'u32',
+    cellsPerElem: 'u64',
+    layout: 'InkStorageLayout'
+  },
   InkLayoutCell: {
     key: 'InkLayoutKey',
     ty: 'MtLookupTypeId'
   },
-  InkLayoutField: {
-    name: 'Text',
+  InkLayoutEnum: {
+    dispatchKey: 'InkLayoutKey',
+    variants: 'BTreeMap<InkDiscriminant, InkLayoutStruct>'
+  },
+  InkLayoutHash: {
+    offset: 'InkLayoutKey',
+    strategy: 'InkLayoutHashingStrategy',
     layout: 'InkStorageLayout'
   },
-  InkLayoutKey: '[u8; 32]',
-  InkLayoutRange: {
-    offset: 'InkLayoutKey',
-    len: 'u32',
-    elemType: 'Text'
+  InkLayoutHashingStrategy: {
+    hasher: 'InkCryptoHasher',
+    postfix: 'Vec<u8>',
+    prefix: 'Vec<u8>'
   },
+  InkLayoutKey: '[u8; 32]',
   InkLayoutStruct: {
-    fields: 'Vec<InkLayoutField>'
+    fields: 'Vec<InkLayoutStructField>'
+  },
+  InkLayoutStructField: {
+    layout: 'InkStorageLayout',
+    name: 'Text'
   },
   InkStorageLayout: {
     _enum: {
       Cell: 'InkLayoutCell',
-      // todo: Hash, Array, Enum
-      Struct: 'InkLayoutStruct'
+      Hash: 'InkLayoutHash',
+      Array: 'InkLayoutArray',
+      Struct: 'InkLayoutStruct',
+      Enum: 'InkLayoutEnum'
     }
   }
 };
@@ -41,12 +62,12 @@ const spec = {
     docs: 'Vec<Text>'
   },
   InkContractSpec: {
-    name: 'Text',
     constructors: 'Vec<InkConstructorSpec>',
     messages: 'Vec<InkMessageSpec>',
     events: 'Vec<InkEventSpec>',
     docs: 'Vec<Text>'
   },
+  InkDisplayName: 'MtPath',
   InkEventParamSpec: {
     name: 'Text',
     indexed: 'bool',
@@ -73,8 +94,9 @@ const spec = {
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
+    // type in original, but since it is a lookup, changed here
     id: 'MtLookupTypeId',
-    displayName: 'MtPath'
+    displayName: 'InkDisplayName'
   }
 };
 
@@ -85,10 +107,6 @@ const registry = {
   },
   MtLookupTypeId: 'u32',
   MtPath: 'Vec<Text>',
-  MtRegistry: {
-    strings: 'Vec<Text>',
-    types: 'Vec<MtType>'
-  },
   MtType: {
     path: 'Vec<Text>',
     params: 'Vec<MtLookupTypeId>',
@@ -147,14 +165,19 @@ export default {
       spec: 'InkContractSpec'
     },
     InkProjectContract: {
-      authors: 'Vec<Text>',
       name: 'Text',
-      version: 'Text'
+      version: 'Text',
+      authors: 'Vec<Text>',
+      description: 'Option<Text>',
+      documentation: 'Option<Text>',
+      repository: 'Option<Text>',
+      homepage: 'Option<Text>',
+      license: 'Option<Text>'
     },
     InkProjectSource: {
-      compiler: 'Text',
-      hash: 'H256',
-      language: 'Text'
+      hash: '[u8; 32]',
+      language: 'Text',
+      compiler: 'Text'
     }
   }
 } as Definitions;

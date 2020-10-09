@@ -1,9 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
-import { H256 } from '@polkadot/types/interfaces/runtime';
+import { BTreeMap, Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Bytes, Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 
 /** @name InkConstructorSpec */
 export interface InkConstructorSpec extends Struct {
@@ -15,12 +14,24 @@ export interface InkConstructorSpec extends Struct {
 
 /** @name InkContractSpec */
 export interface InkContractSpec extends Struct {
-  readonly name: Text;
   readonly constructors: Vec<InkConstructorSpec>;
   readonly messages: Vec<InkMessageSpec>;
   readonly events: Vec<InkEventSpec>;
   readonly docs: Vec<Text>;
 }
+
+/** @name InkCryptoHasher */
+export interface InkCryptoHasher extends Enum {
+  readonly isBlake2X256: boolean;
+  readonly isSha2X256: boolean;
+  readonly isKeccak256: boolean;
+}
+
+/** @name InkDiscriminant */
+export interface InkDiscriminant extends u32 {}
+
+/** @name InkDisplayName */
+export interface InkDisplayName extends MtPath {}
 
 /** @name InkEventParamSpec */
 export interface InkEventParamSpec extends Struct {
@@ -37,31 +48,52 @@ export interface InkEventSpec extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name InkLayoutArray */
+export interface InkLayoutArray extends Struct {
+  readonly offset: InkLayoutKey;
+  readonly len: u32;
+  readonly cellsPerElem: u64;
+  readonly layout: InkStorageLayout;
+}
+
 /** @name InkLayoutCell */
 export interface InkLayoutCell extends Struct {
   readonly key: InkLayoutKey;
   readonly ty: MtLookupTypeId;
 }
 
-/** @name InkLayoutField */
-export interface InkLayoutField extends Struct {
-  readonly name: Text;
+/** @name InkLayoutEnum */
+export interface InkLayoutEnum extends Struct {
+  readonly dispatchKey: InkLayoutKey;
+  readonly variants: BTreeMap<InkDiscriminant, InkLayoutStruct>;
+}
+
+/** @name InkLayoutHash */
+export interface InkLayoutHash extends Struct {
+  readonly offset: InkLayoutKey;
+  readonly strategy: InkLayoutHashingStrategy;
   readonly layout: InkStorageLayout;
+}
+
+/** @name InkLayoutHashingStrategy */
+export interface InkLayoutHashingStrategy extends Struct {
+  readonly hasher: InkCryptoHasher;
+  readonly postfix: Bytes;
+  readonly prefix: Bytes;
 }
 
 /** @name InkLayoutKey */
 export interface InkLayoutKey extends U8aFixed {}
 
-/** @name InkLayoutRange */
-export interface InkLayoutRange extends Struct {
-  readonly offset: InkLayoutKey;
-  readonly len: u32;
-  readonly elemType: Text;
-}
-
 /** @name InkLayoutStruct */
 export interface InkLayoutStruct extends Struct {
-  readonly fields: Vec<InkLayoutField>;
+  readonly fields: Vec<InkLayoutStructField>;
+}
+
+/** @name InkLayoutStructField */
+export interface InkLayoutStructField extends Struct {
+  readonly layout: InkStorageLayout;
+  readonly name: Text;
 }
 
 /** @name InkMessageParamSpec */
@@ -92,16 +124,21 @@ export interface InkProject extends Struct {
 
 /** @name InkProjectContract */
 export interface InkProjectContract extends Struct {
-  readonly authors: Vec<Text>;
   readonly name: Text;
   readonly version: Text;
+  readonly authors: Vec<Text>;
+  readonly description: Option<Text>;
+  readonly documentation: Option<Text>;
+  readonly repository: Option<Text>;
+  readonly homepage: Option<Text>;
+  readonly license: Option<Text>;
 }
 
 /** @name InkProjectSource */
 export interface InkProjectSource extends Struct {
-  readonly compiler: Text;
-  readonly hash: H256;
+  readonly hash: U8aFixed;
   readonly language: Text;
+  readonly compiler: Text;
 }
 
 /** @name InkSelector */
@@ -111,14 +148,20 @@ export interface InkSelector extends U8aFixed {}
 export interface InkStorageLayout extends Enum {
   readonly isCell: boolean;
   readonly asCell: InkLayoutCell;
+  readonly isHash: boolean;
+  readonly asHash: InkLayoutHash;
+  readonly isArray: boolean;
+  readonly asArray: InkLayoutArray;
   readonly isStruct: boolean;
   readonly asStruct: InkLayoutStruct;
+  readonly isEnum: boolean;
+  readonly asEnum: InkLayoutEnum;
 }
 
 /** @name InkTypeSpec */
 export interface InkTypeSpec extends Struct {
   readonly id: MtLookupTypeId;
-  readonly displayName: MtPath;
+  readonly displayName: InkDisplayName;
 }
 
 /** @name MtField */
@@ -132,12 +175,6 @@ export interface MtLookupTypeId extends u32 {}
 
 /** @name MtPath */
 export interface MtPath extends Vec<Text> {}
-
-/** @name MtRegistry */
-export interface MtRegistry extends Struct {
-  readonly strings: Vec<Text>;
-  readonly types: Vec<MtType>;
-}
 
 /** @name MtType */
 export interface MtType extends Struct {
