@@ -135,26 +135,26 @@ export default {
     ...layout,
     ...registry,
     ...spec,
-    InkContractContract: {
-      authors: 'Vec<Text>',
-      name: 'Text',
-      version: 'Text'
-    },
-    InkContractSource: {
-      compiler: 'Text',
-      hash: 'H256',
-      language: 'Text'
-    },
     InkProject: {
       // added by ABI serialization
       metadataVersion: 'Text',
-      source: 'InkContractSource',
-      contract: 'InkContractContract',
+      source: 'InkProjectSource',
+      contract: 'InkProjectContract',
       // expanded scale registry: RegistryReadOnly
       types: 'Vec<MtType>',
       // renamed from layout (ignored for now, incomplete)
       // storage: 'InkStorageLayout',
       spec: 'InkContractSpec'
+    },
+    InkProjectContract: {
+      authors: 'Vec<Text>',
+      name: 'Text',
+      version: 'Text'
+    },
+    InkProjectSource: {
+      compiler: 'Text',
+      hash: 'H256',
+      language: 'Text'
     }
   }
 } as Definitions;
