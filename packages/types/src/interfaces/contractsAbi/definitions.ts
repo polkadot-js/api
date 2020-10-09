@@ -94,8 +94,7 @@ const spec = {
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
-    // type in original, but since it is a lookup, changed here
-    id: 'MtLookupTypeId',
+    type: 'MtLookupTypeId',
     displayName: 'InkDisplayName'
   }
 };
@@ -108,7 +107,7 @@ const registry = {
   MtLookupTypeId: 'u32',
   MtPath: 'Vec<Text>',
   MtType: {
-    path: 'Vec<Text>',
+    path: 'MtPath',
     params: 'Vec<MtLookupTypeId>',
     def: 'MtTypeDef'
   },
