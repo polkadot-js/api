@@ -148,15 +148,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
 };
 
-export function encodeTypeDef (typeDef: Pick<TypeDef, any>): string {
-  assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
-
-  if (SPECIAL_TYPES.includes(typeDef.displayName)) {
-    return typeDef.displayName as string;
-  } else if (typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)) {
-    return encodeWithParams(typeDef);
-  }
-
+function encodeType (typeDef: Pick<TypeDef, any>): string {
   const encoder = encoders[(typeDef as TypeDef).info];
 
   assert(encoder, `Cannot encode type: ${JSON.stringify(typeDef)}`);
@@ -164,9 +156,19 @@ export function encodeTypeDef (typeDef: Pick<TypeDef, any>): string {
   return encoder(typeDef as TypeDef);
 }
 
+export function encodeTypeDef (typeDef: Pick<TypeDef, any>): string {
+  assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
+
+  return typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
+    ? encodeWithParams(typeDef)
+    : encodeType(typeDef);
+}
+
 export function withTypeString (typeDef: Pick<TypeDef, any>): Pick<TypeDef, any> {
   return {
     ...typeDef,
-    type: encodeTypeDef(typeDef)
+    type: SPECIAL_TYPES.includes(typeDef.displayName)
+      ? typeDef.displayName as string
+      : encodeType(typeDef)
   };
 }

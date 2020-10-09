@@ -1,12 +1,12 @@
 {
   "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0xafe9cfb918e19fc701470017985ab0324017c66dbcfb13cb3ceca39e68cddd86",
+    "hash": "0x98f9fc872ae9db158c8f695018a1b3c5a2fb863f9bed7c83ec039f05ea67fc57",
     "language": "ink! 3.0.0",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
-    "name": "incrementer",
+    "name": "flipper",
     "version": "3.0.0",
     "authors": [
       "Parity Technologies <admin@parity.io>"
@@ -20,13 +20,15 @@
             "name": "init_value",
             "type": {
               "displayName": [
-                "i32"
+                "bool"
               ],
               "id": 1
             }
           }
         ],
-        "docs": [],
+        "docs": [
+          " Creates a new flipper smart contract initialized with the given value."
+        ],
         "name": [
           "new"
         ],
@@ -34,7 +36,9 @@
       },
       {
         "args": [],
-        "docs": [],
+        "docs": [
+          " Creates a new flipper smart contract initialized to `false`."
+        ],
         "name": [
           "default"
         ],
@@ -45,29 +49,23 @@
     "events": [],
     "messages": [
       {
-        "args": [
-          {
-            "name": "by",
-            "type": {
-              "displayName": [
-                "i32"
-              ],
-              "id": 1
-            }
-          }
+        "args": [],
+        "docs": [
+          " Flips the current value of the Flipper's bool."
         ],
-        "docs": [],
         "mutates": true,
         "name": [
-          "inc"
+          "flip"
         ],
         "payable": false,
         "returnType": null,
-        "selector": "0x2fb8d143"
+        "selector": "0xc096a5f3"
       },
       {
         "args": [],
-        "docs": [],
+        "docs": [
+          " Returns the current value of the Flipper's bool."
+        ],
         "mutates": false,
         "name": [
           "get"
@@ -75,7 +73,7 @@
         "payable": false,
         "returnType": {
           "displayName": [
-            "i32"
+            "bool"
           ],
           "id": 1
         },
@@ -101,7 +99,7 @@
   "types": [
     {
       "def": {
-        "primitive": "i32"
+        "primitive": "bool"
       }
     }
   ]

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
-import { ApiObject, ContractABIPre } from '../types';
+import { AccountId, Address, EventRecord, Hash } from '@polkadot/types/interfaces';
+import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
+import { ApiObject } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -13,8 +13,9 @@ import { SubmittableResult } from '@polkadot/api';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from '../Abi';
+import Base from './Base';
 import Blueprint from './Blueprint';
-import { BaseWithTx } from './util';
+import { applyOnEvent } from './util';
 
 // eslint-disable-next-line no-use-before-define
 type CodePutCodeResultSubscription<ApiType extends ApiTypes> = Observable<CodePutCodeResult<ApiType>>;
@@ -34,10 +35,10 @@ class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
+export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
-  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: Uint8Array | string) {
     super(api, abi, decorateMethod);
 
     this.code = u8aToU8a(wasm);
@@ -46,27 +47,19 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
   public createBlueprint = (maxGas: number | BN): CodePutCode<ApiType> => {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      signAndSend: this.decorateMethod(
-        (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType> =>
+      signAndSend: this._decorateMethod(
+        (account: IKeyringPair | string | AccountId): CodePutCodeResultSubscription<ApiType> =>
           this._apiContracts
             .putCode(maxGas, compactAddLength(this.code))
             .signAndSend(account)
-            .pipe(map(this._createResult))
+            .pipe(
+              map((result) =>
+                new CodePutCodeResult(result, applyOnEvent(result, 'CodeStored', (record: EventRecord) =>
+                  new Blueprint<ApiType>(this.api, this.abi, this._decorateMethod, record.event.data[0] as Hash)
+                ))
+              )
+            )
       )
     };
-  }
-
-  private _createResult = (result: ISubmittableResult): CodePutCodeResult<ApiType> => {
-    let blueprint: Blueprint<ApiType> | undefined;
-
-    if (result.isInBlock) {
-      const record = result.findRecord('contract', 'CodeStored');
-
-      if (record) {
-        blueprint = new Blueprint<ApiType>(this.api, this.abi, this.decorateMethod, record.event.data[0] as Hash);
-      }
-    }
-
-    return new CodePutCodeResult(result, blueprint);
   }
 }
