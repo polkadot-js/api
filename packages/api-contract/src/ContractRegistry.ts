@@ -4,7 +4,7 @@
 import { CodecArg, Constructor, Registry, TypeDef } from '@polkadot/types/types';
 import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMessage, ContractABIMessageBase, ContractABIMessagePre, ContractABI, ContractABIMessageCommon, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
 
-import { Compact, u32, createClass, encodeType } from '@polkadot/types';
+import { Compact, u32, createClass, encodeTypeDef } from '@polkadot/types';
 import { assert, hexToU8a, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase, isHex, hexToNumber } from '@polkadot/util';
 
 import MetaRegistry from './MetaRegistry';
@@ -43,7 +43,7 @@ function createArgClass (registry: Registry, args: ContractABIFnArg[], baseDef: 
     registry,
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = type.displayName || encodeType(type);
+        base[name] = type.displayName || encodeTypeDef(type);
 
         return base;
       }, baseDef)

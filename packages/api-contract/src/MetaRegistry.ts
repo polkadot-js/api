@@ -4,7 +4,7 @@
 import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariant, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdCustom, MetaTypeIdVec, MetaTypeIdVecFixed, MetaTypeInfo, Registry, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
-import { displayType, withTypeString } from '@polkadot/types';
+import { encodeTypeDef, withTypeString } from '@polkadot/types';
 
 const builtinMap: [(id: unknown | unknown[] | { 'array.type': unknown } | { 'slice.type': unknown }) => boolean, MetaTypeInfo][] = [
   [(id: any) => typeof id === 'string', MetaTypeInfo.BuiltinPlain],
@@ -238,7 +238,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
 
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
 
-    const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+    const type = encodeTypeDef(this.typeDefFromMetaTypeAt(vecTypeIndex));
 
     assert(type && type.length > 0, `MetaRegistry: Invalid builtin Vec type found at index ${typeIndex}`);
 
@@ -255,7 +255,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
 
-    const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+    const type = encodeTypeDef(this.typeDefFromMetaTypeAt(vecTypeIndex));
 
     assert(type && type.length > 0, `MetaRegistry: Invalid vector type found at index ${typeIndex}`);
 
