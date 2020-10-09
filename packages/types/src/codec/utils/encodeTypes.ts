@@ -151,12 +151,14 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
 export function encodeType (typeDef: Pick<TypeDef, any>): string {
   const encoder = encoders[(typeDef as TypeDef).info];
 
-  assert(encoder, `Cannot encode type: ${typeDef.toString()}`);
+  assert(encoder, `Cannot encode type: ${JSON.stringify(typeDef)}`);
 
   return encoder(typeDef as TypeDef);
 }
 
 export function displayType (typeDef: Pick<TypeDef, any>): string {
+  assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
+
   if (typeDef.displayName) {
     return encodeWithParams(typeDef);
   }

@@ -20,11 +20,6 @@ export interface ContractBase<ApiType extends ApiTypes> {
   messages: AbiMessage[];
 }
 
-export interface AbiType {
-  displayName?: string;
-  type: TypeDef;
-}
-
 export interface AbiMessageParam {
   name: string;
   type: TypeDef;
@@ -38,7 +33,7 @@ export interface AbiMessage {
   isConstructor?: boolean;
   isMutating?: boolean;
   isPayable?: boolean;
-  returnType?: AbiType | null;
+  returnType?: TypeDef | null;
   selector: string;
 
   (...args: CodecArg[]): Uint8Array;

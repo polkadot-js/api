@@ -97,7 +97,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
               const { data } = result.asSuccess;
 
               output = messageFn.returnType
-                ? formatData(this.registry, data, messageFn.returnType.type)
+                ? formatData(this.registry, data, messageFn.returnType)
                 : this.registry.createType('Raw', data);
             }
 
@@ -109,7 +109,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
               params,
               result,
               time: Date.now(),
-              type: messageFn.returnType?.type || null
+              type: messageFn.returnType || null
             };
           })
         )
