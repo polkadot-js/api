@@ -4,7 +4,7 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
-import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
@@ -13,11 +13,15 @@ type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+  let jsonObj: Record<string, any> | undefined;
+
   return Object.keys(Types).reduce((raw, key, index): T => {
     // The key in the JSON can be snake_case (or other cases), but in our
     // Types, result or any other maps, it's camelCase
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
+    const jsonKey = (jsonMap.get(key as any) && !value[key])
+      ? jsonMap.get(key as any)
+      : key;
 
     try {
       if (Array.isArray(value)) {
@@ -35,10 +39,27 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
           ? mapped
           : new Types[key](registry, mapped);
       } else if (isObject(value)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        let assign = value[jsonKey as string];
+
+        if (isUndefined(assign)) {
+          if (isUndefined(jsonObj)) {
+            jsonObj = Object.entries(value).reduce((all: Record<string, any>, [key, value]): Record<string, any> => {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              all[stringCamelCase(key)] = value;
+
+              return all;
+            }, {});
+          }
+
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          assign = jsonObj[jsonKey as string];
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[jsonKey as string] instanceof Types[key]
-          ? value[jsonKey as string]
-          : new Types[key](registry, value[jsonKey as string]);
+        (raw as any)[key] = assign instanceof Types[key]
+          ? assign
+          : new Types[key](registry, assign);
       } else {
         throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
       }
