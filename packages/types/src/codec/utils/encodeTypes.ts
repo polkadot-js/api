@@ -36,7 +36,7 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
         outer,
         params || sub,
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        (param: TypeDef) => displayType(param)
+        (param: TypeDef) => encodeTypeDef(param)
       );
     default:
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -55,7 +55,7 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
       return {
         ...result,
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        [type.name as string]: encodeType(type)
+        [type.name as string]: encodeTypeDef(type)
       };
     },
     {}
@@ -106,7 +106,7 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
   return `(${
     sub
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      .map((type: TypeDef): string => encodeType(type))
+      .map((type: TypeDef): string => encodeTypeDef(type))
       .join(', ')
   })`;
 }
@@ -148,38 +148,25 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
 };
 
-export function encodeType (typeDef: Pick<TypeDef, any>): string {
+export function encodeTypeDef (typeDef: Pick<TypeDef, any>): string {
+  assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
+
+  if (SPECIAL_TYPES.includes(typeDef.displayName)) {
+    return typeDef.displayName as string;
+  } else if (typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)) {
+    return encodeWithParams(typeDef);
+  }
+
   const encoder = encoders[(typeDef as TypeDef).info];
 
-  assert(encoder, `Cannot encode type: ${typeDef.toString()}`);
+  assert(encoder, `Cannot encode type: ${JSON.stringify(typeDef)}`);
 
   return encoder(typeDef as TypeDef);
 }
 
-export function displayType (typeDef: Pick<TypeDef, any>): string {
-  if (typeDef.displayName) {
-    return encodeWithParams(typeDef);
-  }
-
-  switch (typeDef.info) {
-    case TypeDefInfo.Struct:
-    case TypeDefInfo.Enum:
-      return encodeWithParams(typeDef);
-
-    default:
-      return encodeType(typeDef);
-  }
-}
-
 export function withTypeString (typeDef: Pick<TypeDef, any>): Pick<TypeDef, any> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const type = SPECIAL_TYPES.includes(typeDef.displayName)
-    ? typeDef.displayName
-    : encodeType(typeDef);
-
   return {
     ...typeDef,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    type
+    type: encodeTypeDef(typeDef)
   };
 }
