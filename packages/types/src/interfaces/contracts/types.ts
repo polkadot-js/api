@@ -9,6 +9,8 @@ import { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/i
 export interface AliveContractInfo extends Struct {
   readonly trieId: TrieId;
   readonly storageSize: u32;
+  readonly emptyPairCount: u32;
+  readonly totalPairCount: u32;
   readonly codeHash: CodeHash;
   readonly rentAllowance: Balance;
   readonly deductBlock: BlockNumber;
