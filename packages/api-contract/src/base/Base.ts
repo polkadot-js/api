@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod, SubmittableModuleExtrinsics } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AnyJson, Registry } from '@polkadot/types/types';
 import { ApiObject } from '../types';
 
@@ -26,9 +26,5 @@ export default abstract class Base<ApiType extends ApiTypes> {
     this._decorateMethod = decorateMethod;
 
     assert(this.api.rx.tx.contracts && this.api.rx.tx.contracts.putCode, 'You need to connect to a node with the contracts module, the metadata does not enable api.tx.contracts on this instance');
-  }
-
-  protected get _apiContracts (): SubmittableModuleExtrinsics<'rxjs'> {
-    return this.api.rx.tx.contracts;
   }
 }

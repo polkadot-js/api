@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod, SignerOptions } from '@polkadot/api/types';
 import { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject } from '../types';
@@ -21,7 +21,7 @@ import { applyOnEvent } from './util';
 type BlueprintCreateResultSubscription<ApiType extends ApiTypes> = Observable<BlueprintCreateResult<ApiType>>;
 
 export interface BlueprintCreate<ApiType extends ApiTypes> {
-  signAndSend (account: IKeyringPair | string | AccountId): BlueprintCreateResultSubscription<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId, options?: SignerOptions): BlueprintCreateResultSubscription<ApiType>;
 }
 
 class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult {
@@ -50,10 +50,10 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this._decorateMethod(
-        (account: IKeyringPair | string | AccountId): BlueprintCreateResultSubscription<ApiType> =>
-          this._apiContracts
+        (account: IKeyringPair | string | AccountId, options?: SignerOptions): BlueprintCreateResultSubscription<ApiType> =>
+          this.api.rx.tx.contracts
             .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
-            .signAndSend(account)
+            .signAndSend(account, options)
             .pipe(
               map((result) =>
                 new BlueprintCreateResult(result, applyOnEvent(result, 'Instantiated', (record: EventRecord) =>
