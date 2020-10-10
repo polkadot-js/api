@@ -86,7 +86,7 @@
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(u32, AccountId)\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(u32, AccountId)\"}}"
   },
   {
     "info": 10,
@@ -208,7 +208,7 @@
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"u32\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"u32\"}}"
   },
   {
     "displayName": "ValueEntry",
@@ -350,7 +350,7 @@
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"Transaction\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"{\\\"callee\\\":\\\"AccountId\\\",\\\"selector\\\":\\\"[u8;4]\\\",\\\"input\\\":\\\"Vec<u8>\\\",\\\"transferred_value\\\":\\\"u128\\\",\\\"gas_limit\\\":\\\"u64\\\"}\"}}"
   },
   {
     "displayName": "Transaction",
@@ -461,7 +461,7 @@
         "name": "Occupied"
       }
     ],
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"AccountId\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"AccountId\"}}"
   },
   {
     "info": 11,
@@ -499,7 +499,7 @@
         "type": "{\"_enum\":{\"Confirmed\":\"()\",\"ConfirmationsNeeded\":\"u32\"}}"
       }
     ],
-    "type": "(u32, ConfirmationStatus)"
+    "type": "(u32, {\"_enum\":{\"Confirmed\":\"()\",\"ConfirmationsNeeded\":\"u32\"}})"
   },
   {
     "displayName": "ConfirmationStatus",
