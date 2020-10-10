@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
+import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+
 import { AccountId, ContractExecResult } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
@@ -15,7 +17,6 @@ import { assert, isFunction, isNumber } from '@polkadot/util';
 import Abi from '../Abi';
 import { formatData } from '../util';
 import Base from './Base';
-import { SignerOptions } from '@polkadot/api/submittable/types';
 
 type ContractCallTypes = 'tx' | 'rpc';
 
@@ -24,10 +25,6 @@ type ContractCallResultSubscription<ApiType extends ApiTypes, CallType extends C
   ? Observable<ContractCallResult<CallType>>
   // eslint-disable-next-line no-use-before-define
   : Promise<ObsInnerType<ContractCallResult<CallType>>>;
-
-export interface ContractExec<ApiType extends ApiTypes> {
-  signAndSend (account: IKeyringPair | string | AccountId, options?: Partial<SignerOptions>): ContractCallResultSubscription<ApiType, 'tx'>;
-}
 
 export interface ContractRead<ApiType extends ApiTypes> {
   send (account: IKeyringPair | string | AccountId): ContractCallResultSubscription<ApiType, 'rpc'>;
@@ -60,17 +57,12 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return [fn(...params), fn];
   }
 
-  public exec = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractExec<ApiType> => {
+  public exec = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
     const [inputData] = this._createInput(message, params);
 
-    return {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      signAndSend: this._decorateMethod((account: IKeyringPair | string | AccountId, options?: Partial<SignerOptions>): ContractCallResult<'tx'> =>
-        this._apiContracts
-          .call(this.address, value, gasLimit, inputData)
-          .signAndSend(account, options)
-      )
-    };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore I give up
+    return this.api.tx.contracts.call(this.address, value, gasLimit, inputData);
   }
 
   public read = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> => {

@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod, SignerOptions } from '@polkadot/api/types';
 import { AccountId, Address, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject } from '../types';
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
@@ -21,7 +20,7 @@ import { applyOnEvent } from './util';
 type CodePutCodeResultSubscription<ApiType extends ApiTypes> = Observable<CodePutCodeResult<ApiType>>;
 
 export interface CodePutCode<ApiType extends ApiTypes> {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: SignerOptions): CodePutCodeResultSubscription<ApiType>;
 }
 
 class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
@@ -44,14 +43,14 @@ export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     this.code = u8aToU8a(wasm);
   }
 
-  public createBlueprint = (maxGas: number | BN): CodePutCode<ApiType> => {
+  public createBlueprint = (): CodePutCode<ApiType> => {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this._decorateMethod(
-        (account: IKeyringPair | string | AccountId): CodePutCodeResultSubscription<ApiType> =>
-          this._apiContracts
-            .putCode(maxGas, compactAddLength(this.code))
-            .signAndSend(account)
+        (account: IKeyringPair | string | AccountId, options?: SignerOptions): CodePutCodeResultSubscription<ApiType> =>
+          this.api.rx.tx.contracts
+            .putCode(compactAddLength(this.code))
+            .signAndSend(account, options)
             .pipe(
               map((result) =>
                 new CodePutCodeResult(result, applyOnEvent(result, 'CodeStored', (record: EventRecord) =>
