@@ -160,7 +160,7 @@ export interface InkStorageLayout extends Enum {
 
 /** @name InkTypeSpec */
 export interface InkTypeSpec extends Struct {
-  readonly id: MtLookupTypeId;
+  readonly type: MtLookupTypeId;
   readonly displayName: InkDisplayName;
 }
 

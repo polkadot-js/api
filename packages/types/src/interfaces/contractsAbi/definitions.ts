@@ -94,7 +94,7 @@ const spec = {
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
-    id: 'MtLookupTypeId',
+    type: 'MtLookupTypeId',
     displayName: 'InkDisplayName'
   }
 };
