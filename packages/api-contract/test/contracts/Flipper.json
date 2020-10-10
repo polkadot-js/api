@@ -1,1 +1,0 @@
-{"name":"Flipper","deploy":{"args":[]},"messages":[{"name":"flip","selector":970692492,"mutates":true,"args":[],"return_type":null},{"name":"get","selector":4266279973,"mutates":false,"args":[],"return_type":"bool"}]}

@@ -12,25 +12,6 @@ export interface InkConstructorSpec extends Struct {
   readonly docs: Vec<Text>;
 }
 
-/** @name InkContractContract */
-export interface InkContractContract extends Struct {
-  readonly name: Text;
-  readonly version: Text;
-  readonly authors: Vec<Text>;
-  readonly description: Option<Text>;
-  readonly documentation: Option<Text>;
-  readonly repository: Option<Text>;
-  readonly homepage: Option<Text>;
-  readonly license: Option<Text>;
-}
-
-/** @name InkContractSource */
-export interface InkContractSource extends Struct {
-  readonly hash: U8aFixed;
-  readonly language: Text;
-  readonly compiler: Text;
-}
-
 /** @name InkContractSpec */
 export interface InkContractSpec extends Struct {
   readonly constructors: Vec<InkConstructorSpec>;
@@ -135,11 +116,29 @@ export interface InkMessageSpec extends Struct {
 /** @name InkProject */
 export interface InkProject extends Struct {
   readonly metadataVersion: Text;
-  readonly source: InkContractSource;
-  readonly contract: InkContractContract;
-  readonly spec: InkContractSpec;
-  readonly storage: InkStorageLayout;
+  readonly source: InkProjectSource;
+  readonly contract: InkProjectContract;
   readonly types: Vec<MtType>;
+  readonly spec: InkContractSpec;
+}
+
+/** @name InkProjectContract */
+export interface InkProjectContract extends Struct {
+  readonly name: Text;
+  readonly version: Text;
+  readonly authors: Vec<Text>;
+  readonly description: Option<Text>;
+  readonly documentation: Option<Text>;
+  readonly repository: Option<Text>;
+  readonly homepage: Option<Text>;
+  readonly license: Option<Text>;
+}
+
+/** @name InkProjectSource */
+export interface InkProjectSource extends Struct {
+  readonly hash: U8aFixed;
+  readonly language: Text;
+  readonly compiler: Text;
 }
 
 /** @name InkSelector */
@@ -161,7 +160,7 @@ export interface InkStorageLayout extends Enum {
 
 /** @name InkTypeSpec */
 export interface InkTypeSpec extends Struct {
-  readonly type: MtLookupTypeId;
+  readonly id: MtLookupTypeId;
   readonly displayName: InkDisplayName;
 }
 

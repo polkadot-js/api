@@ -1,5 +1,9 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import { Definitions } from '../../types';
+
+// order important in structs... :)
 /* eslint-disable sort-keys */
 
 const layout = {
@@ -90,7 +94,7 @@ const spec = {
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
-    type: 'MtLookupTypeId',
+    id: 'MtLookupTypeId',
     displayName: 'InkDisplayName'
   }
 };
@@ -124,6 +128,9 @@ const registry = {
   MtTypeDefComposite: {
     fields: 'Vec<MtField>'
   },
+  MtTypeDefVariant: {
+    variants: 'Vec<MtVariant>'
+  },
   MtTypeDefPrimitive: {
     // this enum definition is mapped in api-contracts/inkTypes.ts
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
@@ -132,9 +139,6 @@ const registry = {
     type: 'MtLookupTypeId'
   },
   MtTypeDefTuple: 'Vec<MtLookupTypeId>',
-  MtTypeDefVariant: {
-    variants: 'Vec<MtVariant>'
-  },
   MtVariant: {
     name: 'Text',
     fields: 'Vec<MtField>',
@@ -148,7 +152,18 @@ export default {
     ...layout,
     ...registry,
     ...spec,
-    InkContractContract: {
+    InkProject: {
+      // added by ABI serialization
+      metadataVersion: 'Text',
+      source: 'InkProjectSource',
+      contract: 'InkProjectContract',
+      // expanded scale registry: RegistryReadOnly
+      types: 'Vec<MtType>',
+      // renamed from layout (ignored for now, incomplete)
+      // storage: 'InkStorageLayout',
+      spec: 'InkContractSpec'
+    },
+    InkProjectContract: {
       name: 'Text',
       version: 'Text',
       authors: 'Vec<Text>',
@@ -158,18 +173,10 @@ export default {
       homepage: 'Option<Text>',
       license: 'Option<Text>'
     },
-    InkContractSource: {
+    InkProjectSource: {
       hash: '[u8; 32]',
       language: 'Text',
       compiler: 'Text'
-    },
-    InkProject: {
-      metadataVersion: 'Text',
-      source: 'InkContractSource',
-      contract: 'InkContractContract',
-      spec: 'InkContractSpec',
-      storage: 'InkStorageLayout',
-      types: 'Vec<MtType>'
     }
   }
-};
+} as Definitions;
