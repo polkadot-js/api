@@ -58,9 +58,11 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   public exec = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
+    const [inputData] = this._createInput(message, params);
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore I give up
-    return this.api.tx.contracts.call(this.address, value, gasLimit, this._createInput(message, params));
+    return this.api.tx.contracts.call(this.address, value, gasLimit, inputData);
   }
 
   public read = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> => {
