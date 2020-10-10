@@ -148,13 +148,20 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
 };
 
-export function encodeTypeDef (typeDef: Pick<TypeDef, any>): string {
+export function encodeTypeDef (typeDef: Pick<TypeDef, any>, asRaw?: boolean): string {
   assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
 
-  if (SPECIAL_TYPES.includes(typeDef.displayName)) {
-    return typeDef.displayName as string;
-  } else if (typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)) {
-    return encodeWithParams(typeDef);
+  // console.log('encodeTypeDef');
+  // console.log(typeDef);
+
+  if (!asRaw) {
+    if (SPECIAL_TYPES.includes(typeDef.displayName)) {
+      // console.log('Special type, returning', typeDef.displayName)
+      return typeDef.displayName as string;
+    } else if (typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)) {
+      // console.log('Display name or enum/struct');
+      return encodeWithParams(typeDef);
+    }
   }
 
   const encoder = encoders[(typeDef as TypeDef).info];
