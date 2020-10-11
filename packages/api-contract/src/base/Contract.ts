@@ -5,7 +5,7 @@ import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 
 import { AccountId, ContractExecResult } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, CodecArg, IKeyringPair } from '@polkadot/types/types';
+import { AnyJson, CodecArg, IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
@@ -82,28 +82,12 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
             value
           })
         ).pipe(
-          map((result: ContractExecResult): ContractCallOutcome => {
-            let output: Codec | null = null;
-
-            if (result.isSuccess) {
-              const { data } = result.asSuccess;
-
-              output = messageFn.returnType
-                ? formatData(this.registry, data, messageFn.returnType)
-                : this.registry.createType('Raw', data);
-            }
-
-            return {
-              isSuccess: result.isSuccess,
-              message: messageFn,
-              origin: this.registry.createType('AccountId', account),
-              output,
-              params,
-              result,
-              time: Date.now(),
-              type: messageFn.returnType || null
-            };
-          })
+          map((result: ContractExecResult): ContractCallOutcome => ({
+            output: result.isSuccess && messageFn.returnType
+              ? formatData(this.registry, result.asSuccess.data, messageFn.returnType)
+              : null,
+            result
+          }))
         )
       )
     };
