@@ -54,7 +54,7 @@ export default class Abi extends ContractRegistry {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.typeDefAt(typeSpec.id, { displayName: typeSpec.displayName.map((s) => s.toString()).join('::') || undefined })
+          ? this.typeDefAt(typeSpec.type, { displayName: typeSpec.displayName.map((s) => s.toString()).join('::') || undefined })
           : null
       });
     });
@@ -67,7 +67,7 @@ export default class Abi extends ContractRegistry {
 
       return {
         name: stringCamelCase(name.toString()),
-        type: this.typeDefAt(type.id)
+        type: this.typeDefAt(type.type)
       };
     });
 
