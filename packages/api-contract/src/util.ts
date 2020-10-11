@@ -31,18 +31,16 @@ export function encodeMessage (registry: Registry, message: AbiMessage | AbiCons
   assert(params.length === message.args.length, `Expected ${message.args.length} arguments to contract message '${message.identifier}', found ${params.length}`);
 
   const Clazz = createClass(registry, JSON.stringify(
-    message.args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-      base[name] = type.displayName || encodeTypeDef(type);
+    message.args.reduce((r: Record<string, any>, { name, type }): Record<string, any> => {
+      r[name] = type.displayName || encodeTypeDef(type);
 
-      return base;
-    }, { __selector: 'u32' })
+      return r;
+    }, { __selector: 'InkSelector' })
   ));
 
-  return compactAddLength(
-    new Clazz(registry, message.args.reduce((mapped: Record<string, CodecArg>, { name }, index): Record<string, CodecArg> => {
-      mapped[name] = params[index];
+  return compactAddLength(new Clazz(registry, message.args.reduce((r: Record<string, CodecArg>, { name }, index): Record<string, CodecArg> => {
+    r[name] = params[index];
 
-      return mapped;
-    }, { __selector: registry.createType('u32', message.selector) })).toU8a()
-  );
+    return r;
+  }, { __selector: message.selector })).toU8a());
 }
