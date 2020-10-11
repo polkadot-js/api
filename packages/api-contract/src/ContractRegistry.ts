@@ -53,7 +53,14 @@ export default class ContractRegistry {
   }
 
   public setTypeDef (id: MtLookupTypeId): void {
-    this.typeDefs[getRegistryOffset(id)] = this.extractType(this.getAbiType(id), id) as TypeDef;
+    const typeDef = this.extractType(this.getAbiType(id), id) as TypeDef;
+
+    this.typeDefs[getRegistryOffset(id)] = typeDef;
+
+    // we have a displayName for non-primitives and non-results
+    if (typeDef.displayName) {
+      this.registry.register({ [typeDef.displayName]: typeDef.type });
+    }
   }
 
   private extractType (inkType: MtType, id: MtLookupTypeId): Pick<TypeDef, never> {

@@ -73,21 +73,11 @@ function encodeEnum (typeDef: Pick<TypeDef, any>): string {
 
   const sub = typeDef.sub as TypeDef[];
 
-  const isClikeEnum = sub.reduce(
-    (bool: boolean, { type }: TypeDef): boolean => bool && type === 'Null',
-    true
-  );
-
-  if (isClikeEnum) {
-    return `[${
-      sub
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        .map(({ name }: TypeDef): string => `"${name}"`)
-        .join(', ')
-    }]`;
-  }
-
-  return encodeSubTypes(sub, true);
+  // c-like enums have all Null entries
+  // TODO We need to take the disciminant into account and auto-add empty entries
+  return sub.every(({ type }) => type === 'Null')
+    ? `{ _enum: [${sub.map(({ name }, index) => `"${name || `Empty${index}`}"`).join(', ')}] }`
+    : encodeSubTypes(sub, true);
 }
 
 function encodeStruct (typeDef: Pick<TypeDef, any>): string {
@@ -103,12 +93,8 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
 
   const sub = typeDef.sub as TypeDef[];
 
-  return `(${
-    sub
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      .map((type: TypeDef): string => encodeTypeDef(type))
-      .join(', ')
-  })`;
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  return `(${sub.map((type: TypeDef) => encodeTypeDef(type)).join(', ')})`;
 }
 
 function encodeUInt ({ length }: Pick<TypeDef, any>, type: 'Int' | 'UInt'): string {
