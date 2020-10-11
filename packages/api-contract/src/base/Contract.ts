@@ -46,10 +46,6 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
-  public encode (messageOrIndex: AbiMessage | number, ...params: CodecArg[]): Uint8Array {
-    return encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params);
-  }
-
   public exec (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
     return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params)) as SubmittableExtrinsic<ApiType>;
   }

@@ -78,7 +78,7 @@ export default class Abi extends ContractRegistry {
       docs: spec.docs.map((doc) => doc.toString()),
       identifier,
       index,
-      selector: spec.selector.toString()
+      selector: spec.selector
     };
   }
 }
