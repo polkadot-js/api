@@ -12,9 +12,9 @@ import { SubmittableResult } from '@polkadot/api';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from '../Abi';
+import { applyOnEvent } from '../util';
 import Base from './Base';
 import Blueprint from './Blueprint';
-import { applyOnEvent } from './util';
 
 // eslint-disable-next-line no-use-before-define
 type CodePutCodeResultSubscription<ApiType extends ApiTypes> = Observable<CodePutCodeResult<ApiType>>;

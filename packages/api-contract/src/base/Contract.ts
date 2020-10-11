@@ -3,7 +3,6 @@
 
 import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-
 import { AccountId, ContractExecResult } from '@polkadot/types/interfaces';
 import { AnyJson, CodecArg, IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
@@ -12,10 +11,10 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import { assert, isFunction, isNumber } from '@polkadot/util';
+import { assert, isFunction } from '@polkadot/util';
 
 import Abi from '../Abi';
-import { formatData } from '../util';
+import { encodeMessage, formatData } from '../util';
 import Base from './Base';
 
 type ContractCallTypes = 'tx' | 'rpc';
@@ -47,44 +46,28 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
-  private _createInput (message: AbiMessage | number, params: CodecArg[]): [Uint8Array, AbiMessage] {
-    const fn = isNumber(message)
-      ? this.abi.messages[message]
-      : message;
-
-    assert(fn, 'Attempted to call an invalid contract message');
-
-    return [fn(...params), fn];
+  public exec (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
+    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params)) as SubmittableExtrinsic<ApiType>;
   }
 
-  public exec = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
-    const [inputData] = this._createInput(message, params);
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore I give up
-    return this.api.tx.contracts.call(this.address, value, gasLimit, inputData);
-  }
-
-  public read = (message: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> => {
+  public read (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {
     assert(this.hasRpcContractsCall, 'Your node does not support contract RPC read calls');
 
-    const [inputData, messageFn] = this._createInput(message, params);
+    const message = this.abi.findMessage(messageOrIndex);
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((account: IKeyringPair | string | AccountId): ContractCallResult<'rpc'> =>
-        this.api.rx.rpc.contracts.call(
-          this.registry.createType('ContractCallRequest', {
-            dest: this.address,
-            gasLimit,
-            inputData,
-            origin: account,
-            value
-          })
-        ).pipe(
+        this.api.rx.rpc.contracts.call({
+          dest: this.address,
+          gasLimit,
+          inputData: encodeMessage(this.registry, message, params),
+          origin: account,
+          value
+        }).pipe(
           map((result: ContractExecResult): ContractCallOutcome => ({
-            output: result.isSuccess && messageFn.returnType
-              ? formatData(this.registry, result.asSuccess.data, messageFn.returnType)
+            output: result.isSuccess && message.returnType
+              ? formatData(this.registry, result.asSuccess.data, message.returnType)
               : null,
             result
           }))

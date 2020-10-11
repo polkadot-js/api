@@ -1,36 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, CodecArg, Constructor, Registry } from '@polkadot/types/types';
+import { AnyJson } from '@polkadot/types/types';
 import { InkConstructorSpec, InkMessageSpec } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiMessage, AbiMessageParam } from './types';
 
-import { Compact, createClass, encodeTypeDef } from '@polkadot/types';
-import { assert, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, isNumber, isObject, stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
-
-function createArgClass (registry: Registry, args: AbiMessageParam[], baseDef: Record<string, string>): Constructor {
-  return createClass(
-    registry,
-    JSON.stringify(
-      args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = type.displayName || encodeTypeDef(type);
-
-        return base;
-      }, baseDef)
-    )
-  );
-}
-
-function extendBase (fn: AbiMessage, add: Partial<AbiMessage> = {}): AbiMessage {
-  return Object.entries(add).reduce((fn: AbiMessage, [key, value]): AbiMessage => {
-    // do some magic
-    fn[key as 'args'] = value as AbiMessageParam[];
-
-    return fn;
-  }, fn);
-}
 
 export default class Abi extends ContractRegistry {
   public readonly constructors: AbiConstructor[];
@@ -41,16 +18,14 @@ export default class Abi extends ContractRegistry {
     super(json);
 
     this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
-      this._createBase(spec, {
-        index,
+      this._createBase(spec, index, {
         isConstructor: true
       })
     );
     this.messages = this.project.spec.messages.map((spec: InkMessageSpec, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
 
-      return this._createBase(spec, {
-        index,
+      return this._createBase(spec, index, {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
@@ -60,7 +35,27 @@ export default class Abi extends ContractRegistry {
     });
   }
 
-  private _createBase (spec: InkMessageSpec | InkConstructorSpec, add: Partial<AbiMessage> = {}): AbiMessage {
+  public findConstructor (constructorOrIndex: AbiConstructor | number): AbiConstructor {
+    const message = isNumber(constructorOrIndex)
+      ? this.constructors[constructorOrIndex]
+      : constructorOrIndex;
+
+    assert(message, 'Attempted to call an invalid contract message');
+
+    return message;
+  }
+
+  public findMessage (messageOrIndex: AbiMessage | number): AbiMessage {
+    const message = isNumber(messageOrIndex)
+      ? this.messages[messageOrIndex]
+      : messageOrIndex;
+
+    assert(message, 'Attempted to call an invalid contract message');
+
+    return message;
+  }
+
+  private _createBase (spec: InkMessageSpec | InkConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage {
     const identifier = spec.name.toString();
     const args = spec.args.map((arg, index): AbiMessageParam => {
       try {
@@ -77,24 +72,13 @@ export default class Abi extends ContractRegistry {
       }
     });
 
-    const Clazz = createArgClass(this.registry, args, isUndefined(spec.selector) ? {} : { __selector: 'u32' });
-    const baseStruct: { [index: string]: any } = { __selector: this.registry.createType('u32', spec.selector) };
-
-    const fn = ((...params: CodecArg[]): Uint8Array => {
-      assert(params.length === args.length, `Expected ${args.length} arguments to contract message '${identifier}', found ${params.length}`);
-
-      return Compact.addLengthPrefix(new Clazz(this.registry, args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
-        mapped[name] = params[index];
-
-        return mapped;
-      }, { ...baseStruct })).toU8a());
-    }) as AbiMessage;
-
-    return extendBase(fn, {
+    return {
       ...add,
       args,
       docs: spec.docs.map((doc) => doc.toString()),
-      identifier
-    });
+      identifier,
+      index,
+      selector: spec.selector
+    };
   }
 }
