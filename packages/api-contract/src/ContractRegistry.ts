@@ -85,7 +85,8 @@ export default class ContractRegistry {
     }
 
     const displayName = path.pop()?.toString();
-    const created = withTypeString({
+
+    return withTypeString({
       ...(displayName
         ? { displayName }
         : {}
@@ -100,8 +101,6 @@ export default class ContractRegistry {
       ),
       ...typeDef
     });
-
-    return created;
   }
 
   private extractVariant ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Pick<TypeDef, never> {
