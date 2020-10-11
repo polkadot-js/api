@@ -50,11 +50,11 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params);
   }
 
-  public exec (messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
+  public exec (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
     return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params)) as SubmittableExtrinsic<ApiType>;
   }
 
-  public read (messageOrIndex: AbiMessage | number, value: BN | string | number, gasLimit: BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {
+  public read (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {
     assert(this.hasRpcContractsCall, 'Your node does not support contract RPC read calls');
 
     const message = this.abi.findMessage(messageOrIndex);

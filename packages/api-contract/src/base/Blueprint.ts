@@ -38,17 +38,17 @@ class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult 
 export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly codeHash: Hash;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash | Uint8Array) {
     super(api, abi, decorateMethod);
 
     this.codeHash = this.registry.createType('Hash', codeHash);
   }
 
-  public instantiate (constructorOrIndex: AbiConstructor | number, endowment: number | BN, gasLimit: number | BN, ...params: any[]): SubmittableExtrinsic<ApiType> {
+  public instantiate (constructorOrIndex: AbiConstructor | number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: any[]): SubmittableExtrinsic<ApiType> {
     return this.api.tx.contracts.instantiate(endowment, gasLimit, this.codeHash, encodeMessage(this.registry, this.abi.findConstructor(constructorOrIndex), params)) as SubmittableExtrinsic<ApiType>;
   }
 
-  public createContract (constructorOrIndex: AbiConstructor | number, endowment: number | BN, gasLimit: number | BN, ...params: any[]): BlueprintCreate<ApiType> {
+  public createContract (constructorOrIndex: AbiConstructor | number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: any[]): BlueprintCreate<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this._decorateMethod(
