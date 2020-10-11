@@ -4,7 +4,7 @@
 import { ApiTypes, DecorateMethod, SignerOptions } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
-import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
+import { AnyJson, CodecArg, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { AbiConstructor, ApiObject } from '../types';
 
 import BN from 'bn.js';
@@ -44,11 +44,11 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     this.codeHash = this.registry.createType('Hash', codeHash);
   }
 
-  public instantiate (constructorOrIndex: AbiConstructor | number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: any[]): SubmittableExtrinsic<ApiType> {
+  public instantiate (constructorOrIndex: AbiConstructor | number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
     return this.api.tx.contracts.instantiate(endowment, gasLimit, this.codeHash, encodeMessage(this.registry, this.abi.findConstructor(constructorOrIndex), params)) as SubmittableExtrinsic<ApiType>;
   }
 
-  public createContract (constructorOrIndex: AbiConstructor | number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: any[]): BlueprintCreate<ApiType> {
+  public createContract (constructorOrIndex: AbiConstructor | number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): BlueprintCreate<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       signAndSend: this._decorateMethod(
