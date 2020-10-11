@@ -10,11 +10,15 @@ export const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance']
 const identity = <T> (value: T): T => value;
 
 export function paramsNotation (outer: string, inner?: string | any[], transform: (_: any) => string = identity): string {
-  return `${outer}${
+  const result = `${outer}${
     inner
       ? `<${(Array.isArray(inner) ? inner : [inner]).map(transform).join(', ')}>`
       : ''
   }`;
+
+  return result === 'Vec<u8>'
+    ? 'Bytes'
+    : result;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

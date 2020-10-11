@@ -3,7 +3,7 @@
 
 import { ApiTypes } from '@polkadot/api/types';
 import { ContractExecResult } from '@polkadot/types/interfaces';
-import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
+import { Codec, TypeDef } from '@polkadot/types/types';
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 import Abi from './Abi';
@@ -35,8 +35,6 @@ export interface AbiMessage {
   isPayable?: boolean;
   returnType?: TypeDef | null;
   selector: string;
-
-  (...args: CodecArg[]): Uint8Array;
 }
 
 export type AbiConstructor = AbiMessage;
