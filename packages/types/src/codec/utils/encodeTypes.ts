@@ -156,10 +156,10 @@ function encodeType (typeDef: Pick<TypeDef, any>): string {
   return encoder(typeDef as TypeDef);
 }
 
-export function encodeTypeDef (typeDef: Pick<TypeDef, any>, asRaw?: boolean): string {
+export function encodeTypeDef (typeDef: Pick<TypeDef, any>): string {
   assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
 
-  return !asRaw && (typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info))
+  return typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
     ? encodeWithParams(typeDef)
     : encodeType(typeDef);
 }
