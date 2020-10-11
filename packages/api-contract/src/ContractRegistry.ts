@@ -59,8 +59,6 @@ export default class ContractRegistry {
 
     // we have a displayName for non-primitives and non-results
     if (typeDef.displayName) {
-      assert(!typeDef.type.startsWith('['), JSON.stringify(typeDef));
-
       this.registry.register({ [typeDef.displayName]: typeDef.type });
     }
   }
