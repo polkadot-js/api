@@ -37,8 +37,8 @@ export default class Abi extends ContractRegistry {
 
   public readonly messages: AbiMessage[];
 
-  constructor (registry: Registry, json: AnyJson) {
-    super(registry, json);
+  constructor (json: AnyJson) {
+    super(json);
 
     this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
       this._createBase(spec, {
@@ -62,13 +62,19 @@ export default class Abi extends ContractRegistry {
 
   private _createBase (spec: InkMessageSpec | InkConstructorSpec, add: Partial<AbiMessage> = {}): AbiMessage {
     const identifier = spec.name.toString();
-    const args = spec.args.map(({ name, type }): AbiMessageParam => {
-      assert(isObject(type), `Invalid type at index ${type.toString()}`);
+    const args = spec.args.map((arg, index): AbiMessageParam => {
+      try {
+        assert(isObject(arg.type), 'Invalid type definition found');
 
-      return {
-        name: stringCamelCase(name.toString()),
-        type: this.typeDefAt(type.type)
-      };
+        return {
+          name: stringCamelCase(arg.name.toString()),
+          type: this.typeDefAt(arg.type.type)
+        };
+      } catch (error) {
+        console.error(`Error expanding argument ${index} in ${JSON.stringify(spec)}`);
+
+        throw error;
+      }
     });
 
     const Clazz = createArgClass(this.registry, args, isUndefined(spec.selector) ? {} : { __selector: 'u32' });

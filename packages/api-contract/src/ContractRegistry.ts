@@ -5,7 +5,7 @@ import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefV
 import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isObject, isUndefined } from '@polkadot/util';
-import { withTypeString } from '@polkadot/types';
+import { TypeRegistry, withTypeString } from '@polkadot/types';
 
 // convert the offset into project-specific, index-1
 export function getRegistryOffset (id: MtLookupTypeId): number {
@@ -15,18 +15,18 @@ export function getRegistryOffset (id: MtLookupTypeId): number {
 export default class ContractRegistry {
   public typeDefs: TypeDef[] = [];
 
-  public registry: Registry;
+  public readonly registry: Registry;
 
   public project: InkProject;
 
   public json: AnyJson;
 
-  constructor (registry: Registry, json: AnyJson) {
+  constructor (json: AnyJson) {
     assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
-    this.registry = registry;
+    this.registry = new TypeRegistry();
     this.json = json;
-    this.project = registry.createType('InkProject', json);
+    this.project = this.registry.createType('InkProject', json);
 
     // Generate TypeDefs for each provided registry type
     this.project.types.forEach((_, index) => this.setTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
@@ -57,8 +57,9 @@ export default class ContractRegistry {
 
     this.typeDefs[getRegistryOffset(id)] = typeDef;
 
-    // we have a displayName for non-primitives and non-results
-    if (typeDef.displayName) {
+    // We have a displayName for non-primitives and non-results
+    // FIXME here we protect against "Option: 'Option<...something...>' definitions (same with result)
+    if (typeDef.displayName && typeDef.info !== TypeDefInfo.Plain && !typeDef.type.startsWith(typeDef.displayName)) {
       this.registry.register({ [typeDef.displayName]: typeDef.type });
     }
   }

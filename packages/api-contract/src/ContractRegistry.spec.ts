@@ -5,16 +5,14 @@
 import fs from 'fs';
 import path from 'path';
 
-import { TypeRegistry } from '@polkadot/types';
-
 import ContractRegistry from './ContractRegistry';
 
 import * as testContracts from '../test/contracts';
 
 const abis: Record<string, any> = { ...testContracts };
 
-function compare (name: string, registry: TypeRegistry): void {
-  const inkRegistry = new ContractRegistry(registry, abis[name]);
+function compare (name: string): void {
+  const inkRegistry = new ContractRegistry(abis[name]);
 
   try {
     const cmpPath = path.join(__dirname, `../test/compare/${name}.test.json`);
@@ -33,34 +31,32 @@ function compare (name: string, registry: TypeRegistry): void {
 
 describe('ContractRegistry', (): void => {
   describe('construction', (): void => {
-    const registry = new TypeRegistry();
-
     it('initializes from a contract ABI (flipper)', (): void => {
-      compare('flipper', registry);
+      compare('flipper');
     });
 
     it('initializes from a contract ABI (incrementer)', (): void => {
-      compare('incrementer', registry);
+      compare('incrementer');
     });
 
     it('initializes from a contract ABI (erc20)', (): void => {
-      compare('erc20', registry);
+      compare('erc20');
     });
 
     it('initializes from a contract ABI (dns)', (): void => {
-      compare('dns', registry);
+      compare('dns');
     });
 
     it('initializes from a contract ABI (erc721)', (): void => {
-      compare('erc721', registry);
+      compare('erc721');
     });
 
     it('initializes from a contract ABI (multisig_plain)', (): void => {
-      compare('multisigPlain', registry);
+      compare('multisigPlain');
     });
 
     it('stores base project as JSON', (): void => {
-      const inkRegistry = new ContractRegistry(registry, abis.dns);
+      const inkRegistry = new ContractRegistry(abis.dns);
 
       expect(inkRegistry.json).toEqual(abis.dns);
     });
