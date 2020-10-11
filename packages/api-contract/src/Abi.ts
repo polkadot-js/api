@@ -37,8 +37,8 @@ export default class Abi extends ContractRegistry {
 
   public readonly messages: AbiMessage[];
 
-  constructor (registry: Registry, json: AnyJson) {
-    super(registry, json);
+  constructor (json: AnyJson) {
+    super(json);
 
     this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
       this._createBase(spec, {

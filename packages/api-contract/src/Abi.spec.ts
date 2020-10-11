@@ -11,7 +11,7 @@ const abis: Record<string, any> = { ...testContracts };
 
 function compare (name: string, registry: TypeRegistry, messageIds: string[]): void {
   try {
-    const inkAbi = new Abi(registry, abis[name]);
+    const inkAbi = new Abi(abis[name]);
 
     expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
   } catch (error) {
