@@ -7,16 +7,14 @@ import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 export const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
-const identity = (value: string): string => value;
+const identity = <T> (value: T): T => value;
 
 export function paramsNotation (outer: string, inner?: string | any[], transform: (_: any) => string = identity): string {
-  let arrayStr = '';
-
-  if (inner) {
-    arrayStr = '<' + (Array.isArray(inner) ? inner : [inner]).map(transform).join(', ') + '>';
-  }
-
-  return `${outer}${arrayStr}`;
+  return `${outer}${
+    inner
+      ? `<${(Array.isArray(inner) ? inner : [inner]).map(transform).join(', ')}>`
+      : ''
+  }`;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -32,12 +30,9 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
     case TypeDefInfo.Option:
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
-      return paramsNotation(
-        outer,
-        params || sub,
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        (param: TypeDef) => encodeTypeDef(param)
-      );
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return paramsNotation(outer, params || sub, (param) => encodeTypeDef(param));
+
     default:
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return outer;
@@ -45,21 +40,15 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
 }
 
 function encodeDoNotConstruct ({ displayName }: TypeDef): string {
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  return `DoNotEncode<${displayName}>`;
+  return `DoNotEncode<${displayName || 'Unknown'}>`;
 }
 
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
-  const inner = sub.reduce(
-    (result: Record<string, string>, type: TypeDef): Record<string, string> => {
-      return {
-        ...result,
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        [type.name as string]: encodeTypeDef(type)
-      };
-    },
-    {}
-  );
+  const inner = sub.reduce((result: Record<string, string>, type): Record<string, string> => ({
+    ...result,
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    [type.name as string]: encodeTypeDef(type)
+  }), {});
 
   return JSON.stringify(
     asEnum
@@ -83,18 +72,14 @@ function encodeEnum (typeDef: Pick<TypeDef, any>): string {
 function encodeStruct (typeDef: Pick<TypeDef, any>): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Struct type');
 
-  const sub = typeDef.sub as TypeDef[];
-
-  return encodeSubTypes(sub);
+  return encodeSubTypes(typeDef.sub as TypeDef[]);
 }
 
 function encodeTuple (typeDef: Pick<TypeDef, any>): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
 
-  const sub = typeDef.sub as TypeDef[];
-
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return `(${sub.map((type: TypeDef) => encodeTypeDef(type)).join(', ')})`;
+  return `(${(typeDef.sub as TypeDef[]).map((type) => encodeTypeDef(type)).join(', ')})`;
 }
 
 function encodeUInt ({ length }: Pick<TypeDef, any>, type: 'Int' | 'UInt'): string {

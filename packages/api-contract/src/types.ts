@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes } from '@polkadot/api/types';
-import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
+import { ContractExecResult } from '@polkadot/types/interfaces';
 import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
@@ -46,18 +46,7 @@ export interface InterfaceContractCalls {
   [index: string]: Function;
 }
 
-export interface InterfaceContract {
-  readonly address: Address;
-  readonly calls: InterfaceContractCalls;
-}
-
 export interface ContractCallOutcome {
-  isSuccess: boolean;
-  message: AbiMessage;
-  origin: AccountId;
   output: Codec | null;
-  params: any[];
   result: ContractExecResult;
-  time: number;
-  type: TypeDef | null;
 }
