@@ -404,7 +404,7 @@
             "type": "Null"
           }
         ],
-        "type": "[\"NotOwner\", \"NotApproved\", \"TokenExists\", \"TokenNotFound\", \"CannotInsert\", \"CannotRemove\", \"CannotFetchValue\", \"NotAllowed\"]"
+        "type": "{ _enum: [\"NotOwner\", \"NotApproved\", \"TokenExists\", \"TokenNotFound\", \"CannotInsert\", \"CannotRemove\", \"CannotFetchValue\", \"NotAllowed\"] }"
       }
     ],
     "info": 7,
@@ -486,7 +486,7 @@
             "type": "Null"
           }
         ],
-        "type": "[\"NotOwner\", \"NotApproved\", \"TokenExists\", \"TokenNotFound\", \"CannotInsert\", \"CannotRemove\", \"CannotFetchValue\", \"NotAllowed\"]"
+        "type": "{ _enum: [\"NotOwner\", \"NotApproved\", \"TokenExists\", \"TokenNotFound\", \"CannotInsert\", \"CannotRemove\", \"CannotFetchValue\", \"NotAllowed\"] }"
       }
     ],
     "type": "Result<(), Error>"
@@ -566,6 +566,6 @@
         "type": "Null"
       }
     ],
-    "type": "[\"NotOwner\", \"NotApproved\", \"TokenExists\", \"TokenNotFound\", \"CannotInsert\", \"CannotRemove\", \"CannotFetchValue\", \"NotAllowed\"]"
+    "type": "{ _enum: [\"NotOwner\", \"NotApproved\", \"TokenExists\", \"TokenNotFound\", \"CannotInsert\", \"CannotRemove\", \"CannotFetchValue\", \"NotAllowed\"] }"
   }
 ]
