@@ -1,15 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '@polkadot/types';
-
 import Abi from './Abi';
 
 import * as testContracts from '../test/contracts';
 
 const abis: Record<string, any> = { ...testContracts };
 
-function compare (name: string, registry: TypeRegistry, messageIds: string[]): void {
+function compare (name: string, messageIds: string[]): void {
   try {
     const inkAbi = new Abi(abis[name]);
 
@@ -23,18 +21,16 @@ function compare (name: string, registry: TypeRegistry, messageIds: string[]): v
 
 describe('Abi', (): void => {
   describe('construction', (): void => {
-    const registry = new TypeRegistry();
-
     it('initializes from a contract ABI (flipper)', (): void => {
-      compare('flipper', registry, ['flip', 'get']);
+      compare('flipper', ['flip', 'get']);
     });
 
     it('initializes from a contract ABI (incrementer)', (): void => {
-      compare('incrementer', registry, ['inc', 'get']);
+      compare('incrementer', ['inc', 'get']);
     });
 
     it('initializes from a contract ABI (erc20)', (): void => {
-      compare('erc20', registry, [
+      compare('erc20', [
         'total_supply',
         'balance_of',
         'allowance',
@@ -45,7 +41,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (delegator)', (): void => {
-      compare('delegator', registry, [
+      compare('delegator', [
         'get',
         'change',
         'switch'
@@ -53,7 +49,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (dns)', (): void => {
-      compare('dns', registry, [
+      compare('dns', [
         'register',
         'set_address',
         'transfer',
@@ -62,7 +58,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (erc721)', (): void => {
-      compare('erc721', registry, [
+      compare('erc721', [
         'balance_of',
         'owner_of',
         'get_approved',
@@ -77,7 +73,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (multisig_plain)', (): void => {
-      compare('multisigPlain', registry, [
+      compare('multisigPlain', [
         'add_owner',
         'remove_owner',
         'replace_owner',
