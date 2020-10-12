@@ -12,6 +12,6 @@ import Contract from '../base/Contract';
 
 export default class PromiseContract extends Contract<'promise'> {
   constructor (api: ApiPromise, abi: AnyJson | Abi, address: string | AccountId) {
-    super(api, abi, decorateMethod, address);
+    super(api, abi, address, decorateMethod);
   }
 }

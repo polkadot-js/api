@@ -12,6 +12,6 @@ import Blueprint from '../base/Blueprint';
 
 export default class PromiseBlueprint extends Blueprint<'promise'> {
   constructor (api: ApiPromise, abi: AnyJson | Abi, codeHash: string | Hash) {
-    super(api, abi, decorateMethod, codeHash);
+    super(api, abi, codeHash, decorateMethod);
   }
 }

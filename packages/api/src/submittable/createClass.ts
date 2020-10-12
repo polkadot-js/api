@@ -22,6 +22,8 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
   decorateMethod: ApiBase<ApiType>['_decorateMethod'];
 }
 
+const identity = <T> (input: T): T => input;
+
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
@@ -29,10 +31,19 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
   return class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
 
+    #transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
+
     constructor (registry: Registry, extrinsic: Call | Extrinsic | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });
 
       this.#ignoreStatusCb = apiType === 'rxjs';
+    }
+
+    // adds a transform to the result, applied before result is returned
+    withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this {
+      this.#transformResult = transform;
+
+      return this;
     }
 
     // calculate the payment info for this transaction (if signed and submitted)
@@ -200,7 +211,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
     #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
-        return of(new SubmittableResult({ status }));
+        return of(this.#transformResult(new SubmittableResult({ status })));
       }
 
       const blockHash = status.isInBlock
@@ -209,10 +220,10 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
-          new SubmittableResult({
+          this.#transformResult(new SubmittableResult({
             events: filterEvents(hash, block, events, status),
             status
-          })
+          }))
         )
       );
     }

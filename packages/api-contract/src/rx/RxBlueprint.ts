@@ -12,6 +12,6 @@ import Blueprint from '../base/Blueprint';
 
 export default class RxBlueprint extends Blueprint<'rxjs'> {
   constructor (api: ApiRx, abi: AnyJson | Abi, codeHash: string | Hash) {
-    super(api, abi, decorateMethod, codeHash);
+    super(api, abi, codeHash, decorateMethod);
   }
 }

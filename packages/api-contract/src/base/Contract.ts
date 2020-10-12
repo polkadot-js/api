@@ -5,12 +5,13 @@ import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId, ContractExecResult } from '@polkadot/types/interfaces';
 import { AnyJson, CodecArg, IKeyringPair } from '@polkadot/types/types';
-import { ApiObject, AbiMessage, ContractCallOutcome } from '../types';
+import { AbiMessage, ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
+import ApiBase from '@polkadot/api/base';
 import { assert, isFunction } from '@polkadot/util';
 
 import Abi from '../Abi';
@@ -36,7 +37,7 @@ export type ContractCallResult<CallType extends ContractCallTypes> = CallType ex
 export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly address: AccountId;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId) {
+  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.address = this.registry.createType('AccountId', address);
@@ -47,7 +48,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   public exec (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
-    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params)) as SubmittableExtrinsic<ApiType>;
+    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params));
   }
 
   public read (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {

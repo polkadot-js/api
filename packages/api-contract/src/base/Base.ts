@@ -3,8 +3,8 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AnyJson, Registry } from '@polkadot/types/types';
-import { ApiObject } from '../types';
 
+import ApiBase from '@polkadot/api/base';
 import { assert } from '@polkadot/util';
 
 import Abi from '../Abi';
@@ -12,13 +12,13 @@ import Abi from '../Abi';
 export default abstract class Base<ApiType extends ApiTypes> {
   public readonly abi: Abi;
 
-  public readonly api: ApiObject<ApiType>;
+  public readonly api: ApiBase<ApiType>;
 
   public readonly registry: Registry;
 
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>) {
     this.abi = abi instanceof Abi
       ? abi
       : new Abi(abi);

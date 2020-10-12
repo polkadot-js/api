@@ -10,6 +10,6 @@ import Code from '../base/Code';
 
 export default class PromiseCode extends Code<'promise'> {
   constructor (api: ApiPromise, abi: AnyJson | Abi, wasm: string | Uint8Array) {
-    super(api, abi, decorateMethod, wasm);
+    super(api, abi, wasm, decorateMethod);
   }
 }
