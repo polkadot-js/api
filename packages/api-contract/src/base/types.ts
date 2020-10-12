@@ -5,7 +5,7 @@ import { SubmittableResult } from '@polkadot/api';
 import { ApiTypes, ObsInnerType } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId } from '@polkadot/types/interfaces';
-import { CodecArg, IKeyringPair } from '@polkadot/types/types';
+import { CodecArg } from '@polkadot/types/types';
 import { ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
@@ -18,7 +18,7 @@ type ContractCallResultSubscription<ApiType extends ApiTypes, CallType extends C
   : Promise<ObsInnerType<ContractCallResult<CallType>>>;
 
 export interface ContractRead<ApiType extends ApiTypes> {
-  send (account: IKeyringPair | string | AccountId): ContractCallResultSubscription<ApiType, 'rpc'>;
+  send (account: string | AccountId | Uint8Array): ContractCallResultSubscription<ApiType, 'rpc'>;
 }
 
 export type ContractCallResult<CallType extends ContractCallTypes> = CallType extends 'rpc'
@@ -34,5 +34,5 @@ export interface MapMessageExec<ApiType extends ApiTypes> {
 }
 
 export interface MapMessageRead<ApiType extends ApiTypes> {
-  [message: string]: (value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]) => ContractRead<ApiType>;
+  [message: string]: (origin: AccountId | string | Uint8Array, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]) => ContractCallResultSubscription<ApiType, 'rpc'>;
 }

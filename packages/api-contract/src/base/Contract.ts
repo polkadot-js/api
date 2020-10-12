@@ -38,8 +38,8 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       }
 
       if (isUndefined(this.query[messageName])) {
-        this.query[messageName] = (value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]) =>
-          this.#read(m, value, gasLimit, params);
+        this.query[messageName] = (origin: string | AccountId | Uint8Array, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]) =>
+          this.#read(m, value, gasLimit, params).send(origin);
       }
     });
   }
@@ -59,12 +59,12 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      send: this._decorateMethod((account: string | AccountId | Uint8Array): ContractCallResult<'rpc'> =>
+      send: this._decorateMethod((origin: string | AccountId | Uint8Array): ContractCallResult<'rpc'> =>
         this.api.rx.rpc.contracts.call({
           dest: this.address,
           gasLimit,
           inputData: encodeMessage(this.registry, message, params),
-          origin: account,
+          origin,
           value
         }).pipe(
           map((result: ContractExecResult): ContractCallOutcome => ({
