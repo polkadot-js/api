@@ -16,7 +16,7 @@ export function formatData (registry: Registry, data: Raw, { type }: TypeDef): C
 
 export function applyOnEvent <T> (result: SubmittableResult, type: 'CodeStored' | 'Instantiated', fn: (record: EventRecord) => T): T | undefined {
   if (result.isInBlock || result.isFinalized) {
-    const record = result.findRecord('contract', type);
+    const record = result.findRecord('contracts', type);
 
     if (record) {
       return fn(record);
