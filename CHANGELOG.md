@@ -1,11 +1,26 @@
 # CHANGELOG
 
-## 2.1.2-x
+## 2.2.1 Oct 13, 2020
+
+Upgrade priority: Low.
+
+- **Breaking change** `@polkadot/api-contract` now only supports ink! 3.0-rc1 and later formats. Users of ink! 2.1 are recommended to stay on an older version until upgraded.
+
+Contributed:
+
+- Add latest Ink! types (Thanks to https://github.com/ascjones & https://github.com/kwingram25)
+- Add base for new contract metadata parsing (Thanks to https://github.com/ascjones & https://github.com/kwingram25)
 
 Changes:
 
-- Allow `null` input on `Text` values
-- Move documentation to docs repo
+- Introduce `OriginCaller` type (& apply to scheduler types)
+- Adjust `ContractInfo` struct to cater for latest Substrate
+- Allow snake_case to be handled transparently in structs
+- Full new api-contract developer interfaces (Code, Blueprint, Contract)
+- Rework Abi & Abi Registry use & parse (on-top-of-contributed) for efficiency & non-global clobber
+- Allow `null` input on `Text` values in addition to existing `undefined`
+- Remove all documentation after move to https://github.com/polkadot-js/docs repo
+- Adjust type encoding from TypeDef, s/encodeType/encodeTypeDef/
 
 
 ## 2.1.1 Oct 5, 2020
