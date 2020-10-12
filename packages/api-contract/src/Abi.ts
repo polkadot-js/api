@@ -9,6 +9,18 @@ import { assert, isNumber, isObject, isString, stringCamelCase } from '@polkadot
 
 import ContractRegistry from './ContractRegistry';
 
+function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string | number): T {
+  const message = isNumber(messageOrId)
+    ? list[messageOrId]
+    : isString(messageOrId)
+      ? list.find(({ identifier }: T) => identifier === messageOrId.toString())
+      : messageOrId;
+
+  assert(message, `Attempted to call an invalid contract interface, ${JSON.stringify(messageOrId)}`);
+
+  return message;
+}
+
 export default class Abi extends ContractRegistry {
   public readonly constructors: AbiConstructor[];
 
@@ -44,27 +56,11 @@ export default class Abi extends ContractRegistry {
   }
 
   public findConstructor (constructorOrId: AbiConstructor | string | number): AbiConstructor {
-    const message = isNumber(constructorOrId)
-      ? this.constructors[constructorOrId]
-      : isString(constructorOrId)
-        ? this.constructors.find(({ identifier }) => identifier === constructorOrId.toString())
-        : constructorOrId;
-
-    assert(message, `Attempted to call an invalid contract message, ${JSON.stringify(constructorOrId)}`);
-
-    return message;
+    return findMessage(this.constructors, constructorOrId);
   }
 
   public findMessage (messageOrId: AbiMessage | string | number): AbiMessage {
-    const message = isNumber(messageOrId)
-      ? this.messages[messageOrId]
-      : isString(messageOrId)
-        ? this.messages.find(({ identifier }) => identifier === messageOrId.toString())
-        : messageOrId;
-
-    assert(message, `Attempted to call an invalid contract message, ${JSON.stringify(messageOrId)}`);
-
-    return message;
+    return findMessage(this.messages, messageOrId);
   }
 
   private _createBase (spec: InkMessageSpec | InkConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage {
