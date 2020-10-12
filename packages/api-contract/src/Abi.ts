@@ -5,7 +5,7 @@ import { AnyJson } from '@polkadot/types/types';
 import { InkConstructorSpec, InkMessageSpec } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiMessage, AbiMessageParam } from './types';
 
-import { assert, isNumber, isObject, stringCamelCase } from '@polkadot/util';
+import { assert, isNumber, isObject, isString, stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
 
@@ -35,22 +35,26 @@ export default class Abi extends ContractRegistry {
     });
   }
 
-  public findConstructor (constructorOrIndex: AbiConstructor | number): AbiConstructor {
-    const message = isNumber(constructorOrIndex)
-      ? this.constructors[constructorOrIndex]
-      : constructorOrIndex;
+  public findConstructor (constructorOrId: AbiConstructor | string | number): AbiConstructor {
+    const message = isNumber(constructorOrId)
+      ? this.constructors[constructorOrId]
+      : isString(constructorOrId)
+        ? this.constructors.find(({ identifier }) => identifier === constructorOrId.toString())
+        : constructorOrId;
 
-    assert(message, 'Attempted to call an invalid contract message');
+    assert(message, `Attempted to call an invalid contract message, ${JSON.stringify(constructorOrId)}`);
 
     return message;
   }
 
-  public findMessage (messageOrIndex: AbiMessage | number): AbiMessage {
-    const message = isNumber(messageOrIndex)
-      ? this.messages[messageOrIndex]
-      : messageOrIndex;
+  public findMessage (messageOrId: AbiMessage | string | number): AbiMessage {
+    const message = isNumber(messageOrId)
+      ? this.messages[messageOrId]
+      : isString(messageOrId)
+        ? this.messages.find(({ identifier }) => identifier === messageOrId.toString())
+        : messageOrId;
 
-    assert(message, 'Attempted to call an invalid contract message');
+    assert(message, `Attempted to call an invalid contract message, ${JSON.stringify(messageOrId)}`);
 
     return message;
   }
