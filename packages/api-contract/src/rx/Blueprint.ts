@@ -4,14 +4,14 @@
 import { Hash } from '@polkadot/types/interfaces';
 import { AnyJson } from '@polkadot/types/types';
 
-import { ApiPromise } from '@polkadot/api';
-import { decorateMethod } from '@polkadot/api/promise';
+import { ApiRx } from '@polkadot/api';
+import { decorateMethod } from '@polkadot/api/rx';
 
 import Abi from '../Abi';
-import Blueprint from '../base/Blueprint';
+import BaseBlueprint from '../base/Blueprint';
 
-export default class PromiseBlueprint extends Blueprint<'promise'> {
-  constructor (api: ApiPromise, abi: AnyJson | Abi, codeHash: string | Hash) {
+export default class Blueprint extends BaseBlueprint<'rxjs'> {
+  constructor (api: ApiRx, abi: AnyJson | Abi, codeHash: string | Hash) {
     super(api, abi, codeHash, decorateMethod);
   }
 }
