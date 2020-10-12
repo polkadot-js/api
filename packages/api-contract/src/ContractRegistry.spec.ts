@@ -54,11 +54,5 @@ describe('ContractRegistry', (): void => {
     it('initializes from a contract ABI (multisig_plain)', (): void => {
       compare('multisigPlain');
     });
-
-    it('stores base project as JSON', (): void => {
-      const inkRegistry = new ContractRegistry(abis.dns);
-
-      expect(inkRegistry.json).toEqual(abis.dns);
-    });
   });
 });

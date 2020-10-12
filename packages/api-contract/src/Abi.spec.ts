@@ -87,4 +87,8 @@ describe('Abi', (): void => {
       ]);
     });
   });
+
+  it('stores base project as JSON', (): void => {
+    expect(new Abi(abis.dns).json).toEqual(abis.dns);
+  });
 });
