@@ -47,18 +47,18 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
-  public exec (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
-    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrIndex), params));
+  public exec (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
+    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrId), params));
   }
 
-  public read (messageOrIndex: AbiMessage | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {
+  public read (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {
     assert(this.hasRpcContractsCall, 'Your node does not support contract RPC read calls');
 
-    const message = this.abi.findMessage(messageOrIndex);
+    const message = this.abi.findMessage(messageOrId);
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      send: this._decorateMethod((account: IKeyringPair | string | AccountId): ContractCallResult<'rpc'> =>
+      send: this._decorateMethod((account: string | AccountId | Uint8Array): ContractCallResult<'rpc'> =>
         this.api.rx.rpc.contracts.call({
           dest: this.address,
           gasLimit,

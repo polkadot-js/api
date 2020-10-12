@@ -9,7 +9,7 @@ import Abi from '../Abi';
 import Code from '../base/Code';
 
 export default class PromiseCode extends Code<'promise'> {
-  constructor (api: ApiPromise, abi: AnyJson | Abi, wasm: string | Uint8Array) {
+  constructor (api: ApiPromise, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer) {
     super(api, abi, wasm, decorateMethod);
   }
 }

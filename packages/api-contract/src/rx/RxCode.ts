@@ -10,7 +10,7 @@ import Abi from '../Abi';
 import Code from '../base/Code';
 
 export default class RxCode extends Code<'rxjs'> {
-  constructor (api: ApiRx, abi: AnyJson | Abi, wasm: string | Uint8Array) {
+  constructor (api: ApiRx, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer) {
     super(api, abi, wasm, decorateMethod);
   }
 }

@@ -4,7 +4,7 @@
 import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
 import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
-import { assert, isObject, isUndefined } from '@polkadot/util';
+import { assert, isUndefined } from '@polkadot/util';
 import { TypeRegistry, withTypeString } from '@polkadot/types';
 
 // convert the offset into project-specific, index-1
@@ -13,19 +13,14 @@ export function getRegistryOffset (id: MtLookupTypeId): number {
 }
 
 export default class ContractRegistry {
-  public typeDefs: TypeDef[] = [];
+  public readonly typeDefs: TypeDef[] = [];
 
   public readonly registry: Registry;
 
-  public project: InkProject;
+  public readonly project: InkProject;
 
-  public json: AnyJson;
-
-  constructor (json: AnyJson) {
-    assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
-
+  constructor (json: Record<string, AnyJson>) {
     this.registry = new TypeRegistry();
-    this.json = json;
     this.project = this.registry.createType('InkProject', json);
 
     // Generate TypeDefs for each provided registry type
