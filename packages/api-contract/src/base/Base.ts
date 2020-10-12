@@ -21,7 +21,7 @@ export default abstract class Base<ApiType extends ApiTypes> {
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>) {
     this.abi = abi instanceof Abi
       ? abi
-      : new Abi(abi);
+      : new Abi(abi, api.registry.getChainProperties());
     this.api = api;
     this.registry = this.abi.registry;
     this._decorateMethod = decorateMethod;
