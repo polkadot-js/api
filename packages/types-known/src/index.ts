@@ -51,10 +51,10 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
   return {
     ...filterVersions(typesSpec[_specName], _specVersion),
     ...filterVersions(typesChain[_chainName], _specVersion),
-    ...filterVersions(knownTypes.typesBundle?.spec?.[_specName]?.types, _specVersion),
-    ...filterVersions(knownTypes.typesBundle?.chain?.[_chainName]?.types, _specVersion),
     ...(knownTypes.typesSpec?.[_specName] || {}),
-    ...(knownTypes.typesChain?.[_chainName] || {})
+    ...(knownTypes.typesChain?.[_chainName] || {}),
+    ...filterVersions(knownTypes.typesBundle?.spec?.[_specName]?.types, _specVersion),
+    ...filterVersions(knownTypes.typesBundle?.chain?.[_chainName]?.types, _specVersion)
   };
 }
 
