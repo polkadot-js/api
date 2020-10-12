@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
+import { ChainProperties, InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
 import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
@@ -19,8 +19,13 @@ export default class ContractRegistry {
 
   public readonly project: InkProject;
 
-  constructor (json: Record<string, AnyJson>) {
+  constructor (json: Record<string, AnyJson>, chainProperties?: ChainProperties) {
     this.registry = new TypeRegistry();
+
+    if (chainProperties) {
+      this.registry.setChainProperties(chainProperties);
+    }
+
     this.project = this.registry.createType('InkProject', json);
 
     // Generate TypeDefs for each provided registry type
