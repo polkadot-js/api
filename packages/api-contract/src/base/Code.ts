@@ -28,7 +28,7 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
 export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
-  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.code = u8aToU8a(wasm);
