@@ -28,15 +28,16 @@ export default class Abi extends ContractRegistry {
 
   public readonly messages: AbiMessage[];
 
-  constructor (_json: AnyJson) {
-    const json = isString(_json)
-      ? JSON.parse(_json) as AnyJson
-      : _json;
+  constructor (abiJson: AnyJson) {
+    const json = isString(abiJson)
+      ? JSON.parse(abiJson) as AnyJson
+      : abiJson;
 
     assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
     super(json);
 
+    this.json = json;
     this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
       this._createBase(spec, index, {
         isConstructor: true
