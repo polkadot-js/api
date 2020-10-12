@@ -58,7 +58,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      send: this._decorateMethod((account: IKeyringPair | string | AccountId): ContractCallResult<'rpc'> =>
+      send: this._decorateMethod((account: string | AccountId | Uint8Array): ContractCallResult<'rpc'> =>
         this.api.rx.rpc.contracts.call({
           dest: this.address,
           gasLimit,
