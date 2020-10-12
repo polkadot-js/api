@@ -31,7 +31,7 @@ export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends Submit
 export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly codeHash: Hash;
 
-  public readonly tx: MapConstructorExec<ApiType> = {};
+  readonly #tx: MapConstructorExec<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
@@ -41,11 +41,15 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     this.abi.constructors.forEach((c): void => {
       const messageName = stringCamelCase(c.identifier);
 
-      if (isUndefined(this.tx[messageName])) {
-        this.tx[messageName] = (endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]) =>
+      if (isUndefined(this.#tx[messageName])) {
+        this.#tx[messageName] = (endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]) =>
           this.#deploy(c, endowment, gasLimit, params);
       }
     });
+  }
+
+  public get tx (): MapConstructorExec<ApiType> {
+    return this.#tx;
   }
 
   #deploy = (constructorOrId: AbiConstructor | string| number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
