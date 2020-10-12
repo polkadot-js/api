@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.2.2-x
+
+Changes:
+
+- Expose `.tx` & `.query` on `Contract` (messages) & `.tx` on `Blueprint` (constructors)
+
+
 ## 2.2.1 Oct 13, 2020
 
 Upgrade priority: Low.
