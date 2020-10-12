@@ -13,7 +13,7 @@ export function getRegistryOffset (id: MtLookupTypeId): number {
 }
 
 export default class ContractRegistry {
-  readonly #typeDefs: TypeDef[] = [];
+  public readonly typeDefs: TypeDef[] = [];
 
   public readonly registry: Registry;
 
@@ -46,12 +46,12 @@ export default class ContractRegistry {
   }
 
   public typeDefAt (id: MtLookupTypeId, extra: Pick<TypeDef, never> = {}): TypeDef {
-    if (!this.#typeDefs[getRegistryOffset(id)]) {
+    if (!this.typeDefs[getRegistryOffset(id)]) {
       this.setTypeDef(id);
     }
 
     return {
-      ...this.#typeDefs[getRegistryOffset(id)],
+      ...this.typeDefs[getRegistryOffset(id)],
       ...extra
     };
   }
@@ -59,7 +59,7 @@ export default class ContractRegistry {
   public setTypeDef (id: MtLookupTypeId): void {
     const typeDef = this.extractType(this.getAbiType(id), id) as TypeDef;
 
-    this.#typeDefs[getRegistryOffset(id)] = typeDef;
+    this.typeDefs[getRegistryOffset(id)] = typeDef;
 
     // We have a displayName for non-primitives and non-results
     // FIXME here we protect against "Option: 'Option<...something...>' definitions (same with result)
