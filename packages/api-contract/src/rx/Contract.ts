@@ -8,9 +8,9 @@ import { ApiRx } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/rx';
 
 import Abi from '../Abi';
-import Contract from '../base/Contract';
+import BaseContract from '../base/Contract';
 
-export default class RxContract extends Contract<'rxjs'> {
+export default class Contract extends BaseContract<'rxjs'> {
   constructor (api: ApiRx, abi: AnyJson | Abi, address: string | AccountId) {
     super(api, abi, address, decorateMethod);
   }

@@ -1,17 +1,16 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Hash } from '@polkadot/types/interfaces';
 import { AnyJson } from '@polkadot/types/types';
 
 import { ApiRx } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/rx';
 
 import Abi from '../Abi';
-import Blueprint from '../base/Blueprint';
+import BaseCode from '../base/Code';
 
-export default class RxBlueprint extends Blueprint<'rxjs'> {
-  constructor (api: ApiRx, abi: AnyJson | Abi, codeHash: string | Hash) {
-    super(api, abi, codeHash, decorateMethod);
+export default class Code extends BaseCode<'rxjs'> {
+  constructor (api: ApiRx, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer) {
+    super(api, abi, wasm, decorateMethod);
   }
 }
