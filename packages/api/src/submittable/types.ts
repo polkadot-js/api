@@ -43,7 +43,7 @@ export interface SignerOptions {
 export type AddressOrPair = IKeyringPair | string | AccountId | Address;
 
 export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmittableResult = ISubmittableResult> extends Extrinsic {
-  addResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this;
+  withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this;
 
   paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType>;
 

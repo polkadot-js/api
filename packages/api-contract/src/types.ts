@@ -5,16 +5,12 @@ import { ApiTypes } from '@polkadot/api/types';
 import { ContractExecResult, InkSelector } from '@polkadot/types/interfaces';
 import { Codec, TypeDef } from '@polkadot/types/types';
 
-import { ApiPromise, ApiRx } from '@polkadot/api';
+import ApiBase from '@polkadot/api/base';
 import Abi from './Abi';
-
-export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
-  ? ApiRx
-  : ApiPromise;
 
 export interface ContractBase<ApiType extends ApiTypes> {
   readonly abi: Abi;
-  readonly api: ApiObject<ApiType>;
+  readonly api: ApiBase<ApiType>;
 
   getMessage: (name: string) => AbiMessage;
   messages: AbiMessage[];

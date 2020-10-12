@@ -40,7 +40,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // adds a transform to the result, applied before result is returned
-    addResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this {
+    withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this {
       this.#transformResult = transform;
 
       return this;

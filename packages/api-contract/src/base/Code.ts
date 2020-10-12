@@ -5,9 +5,9 @@ import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
-import { ApiObject } from '../types';
 
 import { SubmittableResult } from '@polkadot/api';
+import ApiBase from '@polkadot/api/base';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from '../Abi';
@@ -28,7 +28,7 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
 export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.code = u8aToU8a(wasm);
@@ -37,10 +37,10 @@ export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public createBlueprint (): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
     return this.api.tx.contracts
       .putCode(compactAddLength(this.code))
-      .addResultTransform((result: ISubmittableResult) =>
+      .withResultTransform((result: ISubmittableResult) =>
         new CodeSubmittableResult(result, applyOnEvent(result, 'CodeStored', (record: EventRecord) =>
           new Blueprint<ApiType>(this.api, this.abi, record.event.data[0] as Hash, this._decorateMethod)
         ))
-      ) as SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>>;
+      );
   }
 }

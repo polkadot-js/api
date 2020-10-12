@@ -5,10 +5,11 @@ import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
-import { AbiConstructor, ApiObject } from '../types';
+import { AbiConstructor } from '../types';
 
 import BN from 'bn.js';
 import { SubmittableResult } from '@polkadot/api';
+import ApiBase from '@polkadot/api/base';
 
 import Abi from '../Abi';
 import { applyOnEvent, encodeMessage } from '../util';
@@ -28,7 +29,7 @@ export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends Submit
 export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly codeHash: Hash;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.codeHash = this.registry.createType('Hash', codeHash);
@@ -37,10 +38,10 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   public createContract (constructorOrIndex: AbiConstructor | number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> {
     return this.api.tx.contracts
       .instantiate(endowment, gasLimit, this.codeHash, encodeMessage(this.registry, this.abi.findConstructor(constructorOrIndex), params))
-      .addResultTransform((result: ISubmittableResult) =>
+      .withResultTransform((result: ISubmittableResult) =>
         new BlueprintSubmittableResult(result, applyOnEvent(result, 'Instantiated', (record: EventRecord) =>
           new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
         ))
-      ) as SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>>;
+      );
   }
 }
