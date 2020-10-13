@@ -488,7 +488,8 @@
           {
             "info": 10,
             "sub": [],
-            "name": "Confirmed"
+            "name": "Confirmed",
+            "type": "()"
           },
           {
             "info": 6,
@@ -509,7 +510,8 @@
       {
         "info": 10,
         "sub": [],
-        "name": "Confirmed"
+        "name": "Confirmed",
+        "type": "()"
       },
       {
         "info": 6,

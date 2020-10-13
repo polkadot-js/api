@@ -45,7 +45,7 @@ export default class ContractRegistry {
     let typeDef = this.typeDefs[offset];
 
     if (!typeDef) {
-      typeDef = this.extractType(this.getAbiType(id), id) as TypeDef;
+      typeDef = this.extractType(this.getAbiType(id), id);
 
       this.typeDefs[offset] = typeDef;
 
@@ -61,9 +61,9 @@ export default class ContractRegistry {
     return typeDef;
   }
 
-  private extractType (inkType: MtType, id: MtLookupTypeId): Pick<TypeDef, never> {
+  private extractType (inkType: MtType, id: MtLookupTypeId): TypeDef {
     const path = [...inkType.path];
-    let typeDef;
+    let typeDef: Omit<TypeDef, 'type'>;
 
     if (inkType.path.join('::').startsWith('ink_env::types::') || inkType.def.isPrimitive) {
       typeDef = this.extractPrimitive(inkType);
@@ -100,7 +100,7 @@ export default class ContractRegistry {
     });
   }
 
-  private extractVariant ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Pick<TypeDef, never> {
+  private extractVariant ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Omit<TypeDef, 'type'> {
     const { params, path } = this.getAbiType(id);
     const specialVariant = path[0].toString();
 
@@ -125,7 +125,7 @@ export default class ContractRegistry {
     };
   }
 
-  private extractVariantSub (variants: MtVariant[]): Pick<TypeDef, any>[] {
+  private extractVariantSub (variants: MtVariant[]): TypeDef[] {
     const isAllUnitVariants = variants.every(({ fields }) => fields.length === 0);
 
     if (isAllUnitVariants) {
@@ -141,13 +141,15 @@ export default class ContractRegistry {
       }));
     }
 
-    return variants.map(({ fields, name }) => ({
-      ...this.extractFields(fields),
-      name: name.toString()
-    }));
+    return variants.map(({ fields, name }) =>
+      withTypeString({
+        ...this.extractFields(fields),
+        name: name.toString()
+      })
+    );
   }
 
-  private extractFields (fields: MtField[]): Pick<TypeDef, any> {
+  private extractFields (fields: MtField[]): Omit<TypeDef, 'type'> {
     const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
       isAllNamed && name.isSome,
       isAllUnnamed && name.isNone
@@ -177,7 +179,7 @@ export default class ContractRegistry {
       : { info, sub };
   }
 
-  private extractArray ({ len: length, type }: MtTypeDefArray): Pick<TypeDef, never> {
+  private extractArray ({ len: length, type }: MtTypeDefArray): Omit<TypeDef, 'type'> {
     assert(!length || length.toNumber() <= 256, 'ContractRegistry: Only support for [Type; <length>], where length > 256');
 
     return {
@@ -187,7 +189,7 @@ export default class ContractRegistry {
     };
   }
 
-  private extractSequence ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Pick<TypeDef, never> {
+  private extractSequence ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Omit<TypeDef, 'type'> {
     assert(!!type, `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
 
     return {
@@ -196,7 +198,7 @@ export default class ContractRegistry {
     };
   }
 
-  private extractTuple (ids: MtTypeDefTuple): Pick<TypeDef, never> {
+  private extractTuple (ids: MtTypeDefTuple): Omit<TypeDef, 'type'> {
     return ids.length === 1
       ? this.typeDefAt(ids[0])
       : {
@@ -205,7 +207,7 @@ export default class ContractRegistry {
       };
   }
 
-  private extractPrimitive (inkType: MtType): Pick<TypeDef, never> {
+  private extractPrimitive (inkType: MtType): TypeDef {
     if (inkType.def.isPrimitive) {
       return {
         info: TypeDefInfo.Plain,
