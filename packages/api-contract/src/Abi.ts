@@ -50,7 +50,7 @@ export default class Abi extends ContractRegistry {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.typeDefAt(typeSpec.type, { displayName: typeSpec.displayName.map((s) => s.toString()).join('::') || undefined })
+          ? this.typeDefAt(typeSpec.type)
           : null
       });
     });
