@@ -29,39 +29,36 @@ export default class ContractRegistry {
     this.project = this.registry.createType('InkProject', json);
 
     // Generate TypeDefs for each provided registry type
-    this.project.types.forEach((_, index) => this.setTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
+    this.project.types.forEach((_, index) => this.typeDefAt(this.registry.createType('MtLookupTypeId', index + 1)));
   }
 
   public getAbiType (id: MtLookupTypeId): MtType {
-    const offset = getRegistryOffset(id);
-    const type = this.project.types[offset];
+    const type = this.project.types[getRegistryOffset(id)];
 
     assert(!isUndefined(type), `getAbiType:: Unable to find ${id.toNumber()} in type values`);
 
     return this.registry.createType('MtType', type);
   }
 
-  public typeDefAt (id: MtLookupTypeId, extra: Pick<TypeDef, never> = {}): TypeDef {
-    if (!this.typeDefs[getRegistryOffset(id)]) {
-      this.setTypeDef(id);
+  public typeDefAt (id: MtLookupTypeId): TypeDef {
+    const offset = getRegistryOffset(id);
+    let typeDef = this.typeDefs[offset];
+
+    if (!typeDef) {
+      typeDef = this.extractType(this.getAbiType(id), id) as TypeDef;
+
+      this.typeDefs[offset] = typeDef;
+
+      // Here we protect against the following cases
+      //   - No displayName present, these are generally known primitives
+      //   - displayName === type, these generate circular references
+      //   - displayName Option & type Option<...something...>
+      if (typeDef.displayName && !(typeDef.type === typeDef.displayName || typeDef.type.startsWith(`${typeDef.displayName}<`))) {
+        this.registry.register({ [typeDef.displayName]: typeDef.type });
+      }
     }
 
-    return {
-      ...this.typeDefs[getRegistryOffset(id)],
-      ...extra
-    };
-  }
-
-  public setTypeDef (id: MtLookupTypeId): void {
-    const typeDef = this.extractType(this.getAbiType(id), id) as TypeDef;
-
-    this.typeDefs[getRegistryOffset(id)] = typeDef;
-
-    // We have a displayName for non-primitives and non-results
-    // FIXME here we protect against "Option: 'Option<...something...>' definitions (same with result)
-    if (typeDef.displayName && typeDef.info !== TypeDefInfo.Plain && !typeDef.type.startsWith(typeDef.displayName)) {
-      this.registry.register({ [typeDef.displayName]: typeDef.type });
-    }
+    return typeDef;
   }
 
   private extractType (inkType: MtType, id: MtLookupTypeId): Pick<TypeDef, never> {

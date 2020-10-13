@@ -4,10 +4,10 @@
 
 Changes:
 
-- Expose `.tx` & `.query` on `Contract` (messages) & `.tx` on `Blueprint` (constructors)
+- Adjust api-contract to expose `Contract.{query, tx}.<message>` and `Blueprint.tx.<constructor>`
 
 
-## 2.2.1 Oct 13, 2020
+## 2.2.1 Oct 12, 2020
 
 Upgrade priority: Low.
 
@@ -21,10 +21,11 @@ Contributed:
 Changes:
 
 - Introduce `OriginCaller` type (& apply to scheduler types)
-- Adjust `ContractInfo` struct to cater for latest Substrate
+- Adjust `ContractInfo` type for latest Substrate (contracts)
+- Adjust `Schedule` type for latest Substrate (contracts)
 - Allow snake_case to be handled transparently in structs
 - Full new api-contract developer interfaces (Code, Blueprint, Contract)
-- Rework Abi & Abi Registry use & parse (on-top-of-contributed) for efficiency & non-global clobber
+- Rework Abi & Abi Registry use & parse (based on contributed) for efficiency & non-global clobber
 - Allow `null` input on `Text` values in addition to existing `undefined`
 - Remove all documentation after move to https://github.com/polkadot-js/docs repo
 - Adjust type encoding from TypeDef, s/encodeType/encodeTypeDef/
