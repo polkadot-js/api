@@ -3,7 +3,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { Balance, Header, Index } from '@polkadot/types/interfaces';
+import { AccountId, Balance, Header, Index } from '@polkadot/types/interfaces';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -70,6 +70,20 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   ]);
 
   console.log(multiRes);
+
+  // events destructing
+  api.query.system.events((records): void => {
+    records.forEach(({ event, phase }): void => {
+      if (phase.isApplyExtrinsic) {
+        // Dunno... this should work
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        const [accountId, value]: [AccountId, Balance] = event.data;
+
+        console.log(`${accountId} has ${value.toHuman()}`);
+      }
+    });
+  });
 
   // at queries
   const events = await api.query.system.events.at('0x12345');
