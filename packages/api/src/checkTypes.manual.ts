@@ -72,15 +72,15 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   console.log(multiRes);
 
   // events destructing
-  api.query.system.events((records): void => {
+  await api.query.system.events((records): void => {
     records.forEach(({ event, phase }): void => {
       if (phase.isApplyExtrinsic) {
         // Dunno... this should work
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const [accountId, value]: [AccountId, Balance] = event.data;
 
-        console.log(`${accountId} has ${value.toHuman()}`);
+        console.log(`${accountId.toString()} has ${value.toHuman()}`);
       }
     });
   });
