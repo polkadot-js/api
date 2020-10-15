@@ -1,16 +1,40 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
+import { DispatchError, DispatchInfo, ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
 import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 import { SubmittableResultValue } from './types';
 
+function extractError (events: EventRecord[] = []): DispatchError | undefined {
+  const exEvent = events.find(({ event: { method, section } }) => section === 'system' && method === 'ExtrinsicFailed');
+
+  return exEvent
+    ? exEvent.event.data[0] as DispatchError
+    : undefined;
+}
+
+function extractInfo (events: EventRecord[] = []): DispatchInfo | undefined {
+  const exEvent = events.find(({ event: { method, section } }) => section === 'system' && ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method));
+
+  return exEvent
+    ? exEvent.event.method === 'ExtrinsicSuccess'
+      ? exEvent.event.data[0] as DispatchInfo
+      : exEvent.event.data[1] as DispatchInfo
+    : undefined;
+}
+
 export default class SubmittableResult implements ISubmittableResult {
+  public readonly dispatchError?: DispatchError;
+
+  public readonly dispatchInfo?: DispatchInfo;
+
   public readonly events: EventRecord[];
 
   public readonly status: ExtrinsicStatus;
 
-  constructor ({ events, status }: SubmittableResultValue) {
+  constructor ({ dispatchError, dispatchInfo, events, status }: SubmittableResultValue) {
+    this.dispatchError = dispatchError || extractError(events);
+    this.dispatchInfo = dispatchInfo || extractInfo(events);
     this.events = events || [];
     this.status = status;
   }
