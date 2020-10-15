@@ -114,8 +114,7 @@ export class CallIndex extends U8aFixed {
 /**
  * @name Call
  * @description
- * Extrinsic function descriptor, as defined in
- * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
+ * Extrinsic function descriptor
  */
 export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
