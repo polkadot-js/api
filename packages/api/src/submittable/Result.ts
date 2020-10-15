@@ -5,22 +5,26 @@ import { DispatchError, DispatchInfo, ExtrinsicStatus, EventRecord } from '@polk
 import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 import { SubmittableResultValue } from './types';
 
-function extractError (events: EventRecord[] = []): DispatchError | undefined {
-  const exEvent = events.find(({ event: { method, section } }) => section === 'system' && method === 'ExtrinsicFailed');
+const recordIdentity = (record: EventRecord) => record;
 
-  return exEvent
-    ? exEvent.event.data[0] as DispatchError
-    : undefined;
+function filterAndApply <T> (events: EventRecord[], section: string, methods: string[], onFound: (record: EventRecord) => T): T[] {
+  return events
+    .filter(({ event }) => section === event.section && methods.includes(event.method))
+    .map((record) => onFound(record));
+}
+
+function extractError (events: EventRecord[] = []): DispatchError | undefined {
+  return filterAndApply(events, 'system', ['ExtrinsicFailed'], ({ event: { data } }) =>
+    data[0] as DispatchError
+  )[0];
 }
 
 function extractInfo (events: EventRecord[] = []): DispatchInfo | undefined {
-  const exEvent = events.find(({ event: { method, section } }) => section === 'system' && ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method));
-
-  return exEvent
-    ? exEvent.event.method === 'ExtrinsicSuccess'
-      ? exEvent.event.data[0] as DispatchInfo
-      : exEvent.event.data[1] as DispatchInfo
-    : undefined;
+  return filterAndApply(events, 'system', ['ExtrinsicFailed', 'ExtrinsicSuccess'], ({ event: { data, method } }) =>
+    method === 'ExtrinsicSuccess'
+      ? data[0] as DispatchInfo
+      : data[1] as DispatchInfo
+  )[0];
 }
 
 export default class SubmittableResult implements ISubmittableResult {
@@ -63,14 +67,14 @@ export default class SubmittableResult implements ISubmittableResult {
    * @description Filters EventRecords for the specified method & section (there could be multiple)
    */
   public filterRecords (section: string, method: string): EventRecord[] {
-    return this.events.filter(({ event }) => event.section === section && event.method === method);
+    return filterAndApply(this.events, section, [method], recordIdentity);
   }
 
   /**
    * @description Finds an EventRecord for the specified method & section
    */
   public findRecord (section: string, method: string): EventRecord | undefined {
-    return this.events.find(({ event }) => event.section === section && event.method === method);
+    return this.filterRecords(section, method)[0];
   }
 
   /**
