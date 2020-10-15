@@ -21,4 +21,10 @@ describe('normalizer', (): void => {
       normalizer('instance')(1234567890987654321n)
     ).toEqual('instance"1234567890987654321"');
   });
+
+  it('works when BigInt is in the data (nested)', (): void => {
+    expect(
+      normalizer('instance')({ a: 'bar', b: { foo: 1234567890987654321n }, c: 123 })
+    ).toEqual('instance{"a":"bar","b":{"foo":"1234567890987654321"},"c":123}');
+  });
 });
