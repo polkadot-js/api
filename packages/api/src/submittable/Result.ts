@@ -63,18 +63,14 @@ export default class SubmittableResult implements ISubmittableResult {
    * @description Filters EventRecords for the specified method & section (there could be multiple)
    */
   public filterRecords (section: string, method: string): EventRecord[] {
-    return this.events.filter(({ event }): boolean =>
-      event.section === section && event.method === method
-    );
+    return this.events.filter(({ event }) => event.section === section && event.method === method);
   }
 
   /**
    * @description Finds an EventRecord for the specified method & section
    */
   public findRecord (section: string, method: string): EventRecord | undefined {
-    return this.events.find(({ event }): boolean =>
-      event.section === section && event.method === method
-    );
+    return this.events.find(({ event }) => event.section === section && event.method === method);
   }
 
   /**
@@ -82,6 +78,8 @@ export default class SubmittableResult implements ISubmittableResult {
    */
   public toHuman (isExtended?: boolean): AnyJson {
     return {
+      dispatchError: this.dispatchError?.toHuman(),
+      dispatchInfo: this.dispatchInfo?.toHuman(),
       events: this.events.map((event) => event.toHuman(isExtended)),
       status: this.status.toHuman(isExtended)
     };
