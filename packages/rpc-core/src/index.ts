@@ -13,6 +13,7 @@ import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
+import normalizer from './normalizer';
 import { drr, refCountDelay } from './rxjs';
 
 interface StorageChangeSetJSON {
@@ -267,7 +268,7 @@ export default class Rpc implements RpcInterface {
 
     memoized = memoizee(this._createMethodWithRaw(creator), {
       length: false,
-      normalizer: (args) => this.#instanceId + JSON.stringify(args)
+      normalizer: normalizer(this.#instanceId)
     });
 
     return memoized;
@@ -355,8 +356,7 @@ export default class Rpc implements RpcInterface {
       // Normalize args so that different args that should be cached
       // together are cached together.
       // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      normalizer: (args) => this.#instanceId + JSON.stringify(args)
+      normalizer: normalizer(this.#instanceId)
     });
 
     return memoized;

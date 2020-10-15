@@ -4,6 +4,7 @@
 import createMemo from 'memoizee';
 import { Observable, Observer, TeardownLogic } from 'rxjs';
 import { drr } from '@polkadot/rpc-core/rxjs';
+import normalizer from '@polkadot/rpc-core/normalizer';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;
 
@@ -24,8 +25,7 @@ export function memo <T> (instanceId: string, inner: ObsFn<T>): ObsFn<T> {
       }).pipe(drr()),
     {
       // Normalize via JSON.stringify, allow e.g. AccountId -> ss58
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      normalizer: (args) => instanceId + JSON.stringify(args)
+      normalizer: normalizer(instanceId)
     }
   );
 
