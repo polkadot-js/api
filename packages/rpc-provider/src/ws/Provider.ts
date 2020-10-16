@@ -151,7 +151,10 @@ export default class WsProvider implements ProviderInterface {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
         : new WS(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers, undefined, {
-          fragmentOutgoingMessages: false
+          // default: true
+          fragmentOutgoingMessages: true,
+          // default: 16K
+          fragmentationThreshold: 256 * 1024
         });
 
       this.#websocket.onclose = this.#onSocketClose;
