@@ -103,7 +103,7 @@ export default class MetaRegistry extends TypeRegistry {
   }
 
   #extractArray = ({ len: length, type }: SiTypeDefArray): Omit<TypeDef, 'type'> => {
-    assert(!length || length.toNumber() <= 256, 'ContractRegistry: Only support for [Type; <length>], where length > 256');
+    assert(!length || length.toNumber() <= 256, 'MetaRegistry: Only support for [Type; <length>], where length > 256');
 
     return {
       info: TypeDefInfo.VecFixed,
