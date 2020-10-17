@@ -45,7 +45,7 @@ export default class Abi {
 
     this.registry.setMetaTypes(this.project.types);
 
-    this.project.types.forEach((_, index) => this.registry.getTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
+    this.project.types.forEach((_, index) => this.registry.getMetaTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
     this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
       this.#createBase(spec, index, {
         isConstructor: true
@@ -58,7 +58,7 @@ export default class Abi {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.registry.getTypeDef(typeSpec.type)
+          ? this.registry.getMetaTypeDef(typeSpec.type)
           : null
       });
     });
@@ -80,7 +80,7 @@ export default class Abi {
 
         return {
           name: stringCamelCase(arg.name.toString()),
-          type: this.registry.getTypeDef(arg.type.type)
+          type: this.registry.getMetaTypeDef(arg.type.type)
         };
       } catch (error) {
         console.error(`Error expanding argument ${index} in ${JSON.stringify(spec)}`);

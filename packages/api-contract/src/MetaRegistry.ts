@@ -17,7 +17,7 @@ const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
 };
 
 export default class MetaRegistry extends TypeRegistry {
-  public readonly typeDefs: TypeDef[] = [];
+  public readonly metaTypeDefs: TypeDef[] = [];
 
   #metaTypes: MtType[] = [];
 
@@ -29,22 +29,18 @@ export default class MetaRegistry extends TypeRegistry {
     }
   }
 
-  public get metaTypes (): MtType[] {
-    return this.#metaTypes;
-  }
-
   public setMetaTypes (metaTypes: MtType[]): void {
     this.#metaTypes = metaTypes;
   }
 
-  public getTypeDef (id: MtLookupTypeId): TypeDef {
+  public getMetaTypeDef (id: MtLookupTypeId): TypeDef {
     const offset = getRegistryOffset(id);
-    let typeDef = this.typeDefs[offset];
+    let typeDef = this.metaTypeDefs[offset];
 
     if (!typeDef) {
       typeDef = this.#extract(this.#getMetaType(id), id);
 
-      this.typeDefs[offset] = typeDef;
+      this.metaTypeDefs[offset] = typeDef;
 
       // Here we protect against the following cases
       //   - No displayName present, these are generally known primitives
@@ -59,7 +55,7 @@ export default class MetaRegistry extends TypeRegistry {
   }
 
   #getMetaType = (id: MtLookupTypeId): MtType => {
-    const type = this.metaTypes[getRegistryOffset(id)];
+    const type = this.#metaTypes[getRegistryOffset(id)];
 
     assert(!isUndefined(type), `getMetaType:: Unable to find ${id.toNumber()} in type values`);
 
@@ -98,7 +94,7 @@ export default class MetaRegistry extends TypeRegistry {
         : {}
       ),
       ...(type.params.length > 0
-        ? { params: type.params.map((id) => this.getTypeDef(id)) }
+        ? { params: type.params.map((id) => this.getMetaTypeDef(id)) }
         : {}
       ),
       ...typeDef
@@ -111,7 +107,7 @@ export default class MetaRegistry extends TypeRegistry {
     return {
       info: TypeDefInfo.VecFixed,
       length: length.toNumber(),
-      sub: this.getTypeDef(type)
+      sub: this.getMetaTypeDef(type)
     };
   }
 
@@ -135,7 +131,7 @@ export default class MetaRegistry extends TypeRegistry {
 
     const sub = fields.map(({ name, type }) => {
       return {
-        ...this.getTypeDef(type),
+        ...this.getMetaTypeDef(type),
         ...(name.isSome ? { name: name.unwrap().toString() } : {})
       };
     });
@@ -169,16 +165,16 @@ export default class MetaRegistry extends TypeRegistry {
 
     return {
       info: TypeDefInfo.Vec,
-      sub: this.getTypeDef(type)
+      sub: this.getMetaTypeDef(type)
     };
   }
 
   #extractTuple = (ids: MtTypeDefTuple): Omit<TypeDef, 'type'> => {
     return ids.length === 1
-      ? this.getTypeDef(ids[0])
+      ? this.getMetaTypeDef(ids[0])
       : {
         info: TypeDefInfo.Tuple,
-        sub: ids.map((id) => this.getTypeDef(id))
+        sub: ids.map((id) => this.getMetaTypeDef(id))
       };
   }
 
@@ -189,14 +185,14 @@ export default class MetaRegistry extends TypeRegistry {
     if (specialVariant === 'Option') {
       return {
         info: TypeDefInfo.Option,
-        sub: this.getTypeDef(params[0])
+        sub: this.getMetaTypeDef(params[0])
       };
     } else if (specialVariant === 'Result') {
       return {
         info: TypeDefInfo.Result,
         sub: params.map((param, index) => ({
           name: ['Ok', 'Error'][index],
-          ...this.getTypeDef(param)
+          ...this.getMetaTypeDef(param)
         }))
       };
     }

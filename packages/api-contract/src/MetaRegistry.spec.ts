@@ -19,13 +19,13 @@ function compareTypes (name: string): void {
     const cmpPath = path.join(__dirname, `../test/compare/${name}.test.json`);
 
     if (!fs.existsSync(cmpPath)) {
-      fs.writeFileSync(cmpPath, JSON.stringify(abi.registry.typeDefs, null, 2), { flag: 'w' });
+      fs.writeFileSync(cmpPath, JSON.stringify(abi.registry.metaTypeDefs, null, 2), { flag: 'w' });
     }
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    expect(abi.registry.typeDefs).toEqual(require(cmpPath));
+    expect(abi.registry.metaTypeDefs).toEqual(require(cmpPath));
   } catch (error) {
-    console.error(JSON.stringify(abi.registry.typeDefs));
+    console.error(JSON.stringify(abi.registry.metaTypeDefs));
 
     throw error;
   }
