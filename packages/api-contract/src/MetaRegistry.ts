@@ -24,7 +24,7 @@ export default abstract class MetaRegistry extends TypeRegistry {
   }
 
   public get metaTypes (): MtType[] {
-    throw new Error('MetaRegistry onject needs to implement metaTypes');
+    throw new Error('MetaRegistry needs to implement metaTypes');
   }
 
   #getMetaType = (id: MtLookupTypeId): MtType => {
