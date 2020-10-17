@@ -16,8 +16,10 @@ const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
   Str: 'Text'
 };
 
-export default abstract class MetaRegistry extends TypeRegistry {
+export default class MetaRegistry extends TypeRegistry {
   public readonly typeDefs: TypeDef[] = [];
+
+  #metaTypes: MtType[] = [];
 
   constructor (chainProperties?: ChainProperties) {
     super();
@@ -28,7 +30,11 @@ export default abstract class MetaRegistry extends TypeRegistry {
   }
 
   public get metaTypes (): MtType[] {
-    throw new Error('MetaRegistry needs to implement metaTypes');
+    return this.#metaTypes;
+  }
+
+  public setMetaTypes (metaTypes: MtType[]): void {
+    this.#metaTypes = metaTypes;
   }
 
   public getTypeDef (id: MtLookupTypeId): TypeDef {

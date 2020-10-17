@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AnyJson } from '@polkadot/types/types';
-import { ChainProperties, InkConstructorSpec, InkMessageSpec, InkProject, MtType } from '@polkadot/types/interfaces';
+import { ChainProperties, InkConstructorSpec, InkMessageSpec, InkProject } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiMessage, AbiMessageParam } from './types';
 
 import { assert, isNumber, isObject, isString, stringCamelCase } from '@polkadot/util';
@@ -21,7 +21,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return message;
 }
 
-export default class Abi extends MetaRegistry {
+export default class Abi {
   public readonly constructors: AbiConstructor[];
 
   public readonly json: AnyJson;
@@ -30,8 +30,10 @@ export default class Abi extends MetaRegistry {
 
   public readonly project: InkProject;
 
+  public readonly registry: MetaRegistry;
+
   constructor (abiJson: AnyJson, chainProperties?: ChainProperties) {
-    super(chainProperties);
+    this.registry = new MetaRegistry(chainProperties);
 
     const json = isString(abiJson)
       ? JSON.parse(abiJson) as AnyJson
@@ -40,9 +42,11 @@ export default class Abi extends MetaRegistry {
     assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
     this.json = json;
-    this.project = this.createType('InkProject', json);
+    this.project = this.registry.createType('InkProject', json);
 
-    this.metaTypes.forEach((_, index) => this.getTypeDef(this.createType('MtLookupTypeId', index + 1)));
+    this.registry.setMetaTypes(this.project.types);
+
+    this.project.types.forEach((_, index) => this.registry.getTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
     this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
       this.#createBase(spec, index, {
         isConstructor: true
@@ -55,14 +59,10 @@ export default class Abi extends MetaRegistry {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.getTypeDef(typeSpec.type)
+          ? this.registry.getTypeDef(typeSpec.type)
           : null
       });
     });
-  }
-
-  public get metaTypes (): MtType[] {
-    return this.project.types;
   }
 
   public findConstructor (constructorOrId: AbiConstructor | string | number): AbiConstructor {
@@ -81,7 +81,7 @@ export default class Abi extends MetaRegistry {
 
         return {
           name: stringCamelCase(arg.name.toString()),
-          type: this.getTypeDef(arg.type.type)
+          type: this.registry.getTypeDef(arg.type.type)
         };
       } catch (error) {
         console.error(`Error expanding argument ${index} in ${JSON.stringify(spec)}`);
