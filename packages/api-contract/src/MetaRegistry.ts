@@ -67,7 +67,10 @@ export default class MetaRegistry extends TypeRegistry {
     const path = [...type.path];
     let typeDef: Omit<TypeDef, 'type'>;
 
-    if (type.path.join('::').startsWith('ink_env::types::') || type.def.isPrimitive) {
+    // TODO solang?
+    if (type.path.join('::').startsWith('ink_env::types::')) {
+      typeDef = this.#extractPrimitivePath(type);
+    } else if (type.def.isPrimitive) {
       typeDef = this.#extractPrimitive(type);
     } else if (type.def.isComposite) {
       typeDef = this.#extractFields(type.def.asComposite.fields);
@@ -143,21 +146,19 @@ export default class MetaRegistry extends TypeRegistry {
   }
 
   #extractPrimitive = (type: SiType): TypeDef => {
-    if (type.def.isPrimitive) {
-      const typeStr = type.def.asPrimitive.type.toString();
+    const typeStr = type.def.asPrimitive.type.toString();
 
-      return {
-        info: TypeDefInfo.Plain,
-        type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
-      };
-    } else if (type.path.length > 1) {
-      return {
-        info: TypeDefInfo.Plain,
-        type: type.path[type.path.length - 1].toString()
-      };
-    }
+    return {
+      info: TypeDefInfo.Plain,
+      type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
+    };
+  }
 
-    throw new Error('Invalid primitive type');
+  #extractPrimitivePath = (type: SiType): TypeDef => {
+    return {
+      info: TypeDefInfo.Plain,
+      type: type.path[type.path.length - 1].toString()
+    };
   }
 
   #extractSequence = ({ type }: SiTypeDefSequence, id: SiLookupTypeId): Omit<TypeDef, 'type'> => {
