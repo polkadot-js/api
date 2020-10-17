@@ -2514,13 +2514,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vuepress/plugin-search@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "@vuepress/plugin-search@npm:1.7.1"
-  checksum: c3c5ebdf3b646882845b9d3d91477d6053ab21965959b5f78c4b516faa7f21f75eeb7256c20b7c5d0ed305f4197859a59709a507dddf8ba013225bf34c4fc958
-  languageName: node
-  linkType: hard
-
 "@webassemblyjs/ast@npm:1.9.0":
   version: 1.9.0
   resolution: "@webassemblyjs/ast@npm:1.9.0"
@@ -10377,7 +10370,6 @@ fsevents@^1.2.7:
     "@polkadot/ts": ^0.3.49
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.14
-    "@vuepress/plugin-search": ^1.7.1
     copyfiles: ^2.4.0
   languageName: unknown
   linkType: soft
