@@ -31,20 +31,12 @@ export default abstract class MetaRegistry extends TypeRegistry {
     throw new Error('MetaRegistry needs to implement metaTypes');
   }
 
-  #getMetaType = (id: MtLookupTypeId): MtType => {
-    const type = this.metaTypes[getRegistryOffset(id)];
-
-    assert(!isUndefined(type), `getMetaType:: Unable to find ${id.toNumber()} in type values`);
-
-    return this.createType('MtType', type);
-  }
-
   public getTypeDef (id: MtLookupTypeId): TypeDef {
     const offset = getRegistryOffset(id);
     let typeDef = this.typeDefs[offset];
 
     if (!typeDef) {
-      typeDef = this.#extractType(this.#getMetaType(id), id);
+      typeDef = this.#extract(this.#getMetaType(id), id);
 
       this.typeDefs[offset] = typeDef;
 
@@ -60,7 +52,15 @@ export default abstract class MetaRegistry extends TypeRegistry {
     return typeDef;
   }
 
-  #extractType = (type: MtType, id: MtLookupTypeId): TypeDef => {
+  #getMetaType = (id: MtLookupTypeId): MtType => {
+    const type = this.metaTypes[getRegistryOffset(id)];
+
+    assert(!isUndefined(type), `getMetaType:: Unable to find ${id.toNumber()} in type values`);
+
+    return this.createType('MtType', type);
+  }
+
+  #extract = (type: MtType, id: MtLookupTypeId): TypeDef => {
     const path = [...type.path];
     let typeDef: Omit<TypeDef, 'type'>;
 
@@ -97,6 +97,83 @@ export default abstract class MetaRegistry extends TypeRegistry {
       ),
       ...typeDef
     });
+  }
+
+  #extractArray = ({ len: length, type }: MtTypeDefArray): Omit<TypeDef, 'type'> => {
+    assert(!length || length.toNumber() <= 256, 'ContractRegistry: Only support for [Type; <length>], where length > 256');
+
+    return {
+      info: TypeDefInfo.VecFixed,
+      length: length.toNumber(),
+      sub: this.getTypeDef(type)
+    };
+  }
+
+  #extractFields = (fields: MtField[]): Omit<TypeDef, 'type'> => {
+    const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
+      isAllNamed && name.isSome,
+      isAllUnnamed && name.isNone
+    ]),
+    [true, true]);
+
+    let info;
+
+    // check for tuple first (no fields may be available)
+    if (isTuple) {
+      info = TypeDefInfo.Tuple;
+    } else if (isStruct) {
+      info = TypeDefInfo.Struct;
+    } else {
+      throw new Error('Invalid fields type detected, expected either Tuple or Struct');
+    }
+
+    const sub = fields.map(({ name, type }) => {
+      return {
+        ...this.getTypeDef(type),
+        ...(name.isSome ? { name: name.unwrap().toString() } : {})
+      };
+    });
+
+    return isTuple && sub.length === 1
+      ? sub[0]
+      : { info, sub };
+  }
+
+  #extractPrimitive = (type: MtType): TypeDef => {
+    if (type.def.isPrimitive) {
+      const typeStr = type.def.asPrimitive.type.toString();
+
+      return {
+        info: TypeDefInfo.Plain,
+        // FIXME This should not be as a blanket toLowerCase
+        type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
+      };
+    } else if (type.path.length > 1) {
+      return {
+        info: TypeDefInfo.Plain,
+        type: type.path[type.path.length - 1].toString()
+      };
+    }
+
+    throw new Error('Invalid primitive type');
+  }
+
+  #extractSequence = ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Omit<TypeDef, 'type'> => {
+    assert(!!type, `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
+
+    return {
+      info: TypeDefInfo.Vec,
+      sub: this.getTypeDef(type)
+    };
+  }
+
+  #extractTuple = (ids: MtTypeDefTuple): Omit<TypeDef, 'type'> => {
+    return ids.length === 1
+      ? this.getTypeDef(ids[0])
+      : {
+        info: TypeDefInfo.Tuple,
+        sub: ids.map((id) => this.getTypeDef(id))
+      };
   }
 
   #extractVariant = ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Omit<TypeDef, 'type'> => {
@@ -146,82 +223,5 @@ export default abstract class MetaRegistry extends TypeRegistry {
         name: name.toString()
       })
     );
-  }
-
-  #extractFields = (fields: MtField[]): Omit<TypeDef, 'type'> => {
-    const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
-      isAllNamed && name.isSome,
-      isAllUnnamed && name.isNone
-    ]),
-    [true, true]);
-
-    let info;
-
-    // check for tuple first (no fields may be available)
-    if (isTuple) {
-      info = TypeDefInfo.Tuple;
-    } else if (isStruct) {
-      info = TypeDefInfo.Struct;
-    } else {
-      throw new Error('Invalid fields type detected, expected either Tuple or Struct');
-    }
-
-    const sub = fields.map(({ name, type }) => {
-      return {
-        ...this.getTypeDef(type),
-        ...(name.isSome ? { name: name.unwrap().toString() } : {})
-      };
-    });
-
-    return isTuple && sub.length === 1
-      ? sub[0]
-      : { info, sub };
-  }
-
-  #extractArray = ({ len: length, type }: MtTypeDefArray): Omit<TypeDef, 'type'> => {
-    assert(!length || length.toNumber() <= 256, 'ContractRegistry: Only support for [Type; <length>], where length > 256');
-
-    return {
-      info: TypeDefInfo.VecFixed,
-      length: length.toNumber(),
-      sub: this.getTypeDef(type)
-    };
-  }
-
-  #extractSequence = ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Omit<TypeDef, 'type'> => {
-    assert(!!type, `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
-
-    return {
-      info: TypeDefInfo.Vec,
-      sub: this.getTypeDef(type)
-    };
-  }
-
-  #extractTuple = (ids: MtTypeDefTuple): Omit<TypeDef, 'type'> => {
-    return ids.length === 1
-      ? this.getTypeDef(ids[0])
-      : {
-        info: TypeDefInfo.Tuple,
-        sub: ids.map((id) => this.getTypeDef(id))
-      };
-  }
-
-  #extractPrimitive = (type: MtType): TypeDef => {
-    if (type.def.isPrimitive) {
-      const typeStr = type.def.asPrimitive.type.toString();
-
-      return {
-        info: TypeDefInfo.Plain,
-        // FIXME This should not be as a blanket toLowerCase
-        type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
-      };
-    } else if (type.path.length > 1) {
-      return {
-        info: TypeDefInfo.Plain,
-        type: type.path[type.path.length - 1].toString()
-      };
-    }
-
-    throw new Error('Invalid primitive type');
   }
 }
