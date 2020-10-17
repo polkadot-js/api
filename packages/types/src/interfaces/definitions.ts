@@ -44,7 +44,7 @@ export { default as purchase } from './purchase/definitions';
 
 // scale-info & contracts
 export { default as contractsAbi } from './contractsAbi/definitions';
-export { default as scaleinfo } from './scaleInfo/definitions';
+export { default as scaleInfo } from './scaleInfo/definitions';
 
 // other useful types
 export { default as ethereum } from './ethereum/definitions';
