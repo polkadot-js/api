@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes } from '@polkadot/api/types';
-import { ContractExecResult, InkSelector } from '@polkadot/types/interfaces';
+import { ContractExecResult, ContractSelector } from '@polkadot/types/interfaces';
 import { Codec, TypeDef } from '@polkadot/types/types';
 
 import ApiBase from '@polkadot/api/base';
@@ -30,7 +30,7 @@ export interface AbiMessage {
   isMutating?: boolean;
   isPayable?: boolean;
   returnType?: TypeDef | null;
-  selector: InkSelector;
+  selector: ContractSelector;
 }
 
 export type AbiConstructor = AbiMessage;

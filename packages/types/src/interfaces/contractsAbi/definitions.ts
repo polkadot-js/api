@@ -7,142 +7,95 @@ import { Definitions } from '../../types';
 /* eslint-disable sort-keys */
 
 const layout = {
-  InkCryptoHasher: {
+  ContractCryptoHasher: {
     _enum: ['Blake2x256', 'Sha2x256', 'Keccak256']
   },
-  InkDiscriminant: 'u32',
-  InkLayoutArray: {
-    offset: 'InkLayoutKey',
+  ContractDiscriminant: 'u32',
+  ContractLayoutArray: {
+    offset: 'ContractLayoutKey',
     len: 'u32',
     cellsPerElem: 'u64',
-    layout: 'InkStorageLayout'
+    layout: 'ContractStorageLayout'
   },
-  InkLayoutCell: {
-    key: 'InkLayoutKey',
-    ty: 'MtLookupTypeId'
+  ContractLayoutCell: {
+    key: 'ContractLayoutKey',
+    ty: 'SiLookupTypeId'
   },
-  InkLayoutEnum: {
-    dispatchKey: 'InkLayoutKey',
-    variants: 'BTreeMap<InkDiscriminant, InkLayoutStruct>'
+  ContractLayoutEnum: {
+    dispatchKey: 'ContractLayoutKey',
+    variants: 'BTreeMap<ContractDiscriminant, ContractLayoutStruct>'
   },
-  InkLayoutHash: {
-    offset: 'InkLayoutKey',
-    strategy: 'InkLayoutHashingStrategy',
-    layout: 'InkStorageLayout'
+  ContractLayoutHash: {
+    offset: 'ContractLayoutKey',
+    strategy: 'ContractLayoutHashingStrategy',
+    layout: 'ContractStorageLayout'
   },
-  InkLayoutHashingStrategy: {
-    hasher: 'InkCryptoHasher',
+  ContractLayoutHashingStrategy: {
+    hasher: 'ContractCryptoHasher',
     postfix: 'Vec<u8>',
     prefix: 'Vec<u8>'
   },
-  InkLayoutKey: '[u8; 32]',
-  InkLayoutStruct: {
-    fields: 'Vec<InkLayoutStructField>'
+  ContractLayoutKey: '[u8; 32]',
+  ContractLayoutStruct: {
+    fields: 'Vec<ContractLayoutStructField>'
   },
-  InkLayoutStructField: {
-    layout: 'InkStorageLayout',
+  ContractLayoutStructField: {
+    layout: 'ContractStorageLayout',
     name: 'Text'
   },
-  InkStorageLayout: {
+  ContractStorageLayout: {
     _enum: {
-      Cell: 'InkLayoutCell',
-      Hash: 'InkLayoutHash',
-      Array: 'InkLayoutArray',
-      Struct: 'InkLayoutStruct',
-      Enum: 'InkLayoutEnum'
+      Cell: 'ContractLayoutCell',
+      Hash: 'ContractLayoutHash',
+      Array: 'ContractLayoutArray',
+      Struct: 'ContractLayoutStruct',
+      Enum: 'ContractLayoutEnum'
     }
   }
 };
 
 const spec = {
-  InkConstructorSpec: {
+  ContractConstructorSpec: {
     name: 'Text',
-    selector: 'InkSelector',
-    args: 'Vec<InkMessageParamSpec>',
+    selector: 'ContractSelector',
+    args: 'Vec<ContractMessageParamSpec>',
     docs: 'Vec<Text>'
   },
-  InkContractSpec: {
-    constructors: 'Vec<InkConstructorSpec>',
-    messages: 'Vec<InkMessageSpec>',
-    events: 'Vec<InkEventSpec>',
+  ContractContractSpec: {
+    constructors: 'Vec<ContractConstructorSpec>',
+    messages: 'Vec<ContractMessageSpec>',
+    events: 'Vec<ContractEventSpec>',
     docs: 'Vec<Text>'
   },
-  InkDisplayName: 'MtPath',
-  InkEventParamSpec: {
+  ContractDisplayName: 'SiPath',
+  ContractEventParamSpec: {
     name: 'Text',
     indexed: 'bool',
-    type: 'InkTypeSpec',
+    type: 'ContractTypeSpec',
     docs: 'Vec<Text>'
   },
-  InkEventSpec: {
+  ContractEventSpec: {
     name: 'Text',
-    args: 'Vec<InkEventParamSpec>',
+    args: 'Vec<ContractEventParamSpec>',
     docs: 'Vec<Text>'
   },
-  InkMessageParamSpec: {
+  ContractMessageParamSpec: {
     name: 'Text',
-    type: 'InkTypeSpec'
+    type: 'ContractTypeSpec'
   },
-  InkMessageSpec: {
+  ContractMessageSpec: {
     name: 'Text',
-    selector: 'InkSelector',
+    selector: 'ContractSelector',
     mutates: 'bool',
     payable: 'bool',
-    args: 'Vec<InkMessageParamSpec>',
-    returnType: 'Option<InkTypeSpec>',
+    args: 'Vec<ContractMessageParamSpec>',
+    returnType: 'Option<ContractTypeSpec>',
     docs: 'Vec<Text>'
   },
-  InkSelector: '[u8; 4]',
-  InkTypeSpec: {
-    type: 'MtLookupTypeId',
-    displayName: 'InkDisplayName'
-  }
-};
-
-const registry = {
-  MtField: {
-    name: 'Option<Text>',
-    type: 'MtLookupTypeId'
-  },
-  MtLookupTypeId: 'u32',
-  MtPath: 'Vec<Text>',
-  MtType: {
-    path: 'MtPath',
-    params: 'Vec<MtLookupTypeId>',
-    def: 'MtTypeDef'
-  },
-  MtTypeDef: {
-    _enum: {
-      Composite: 'MtTypeDefComposite',
-      Variant: 'MtTypeDefVariant',
-      Sequence: 'MtTypeDefSequence',
-      Array: 'MtTypeDefArray',
-      Tuple: 'MtTypeDefTuple',
-      Primitive: 'MtTypeDefPrimitive'
-    }
-  },
-  MtTypeDefArray: {
-    len: 'u16',
-    type: 'MtLookupTypeId'
-  },
-  MtTypeDefComposite: {
-    fields: 'Vec<MtField>'
-  },
-  MtTypeDefVariant: {
-    variants: 'Vec<MtVariant>'
-  },
-  MtTypeDefPrimitive: {
-    // this enum definition is mapped in api-contracts/inkTypes.ts
-    _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
-  },
-  MtTypeDefSequence: {
-    type: 'MtLookupTypeId'
-  },
-  MtTypeDefTuple: 'Vec<MtLookupTypeId>',
-  MtVariant: {
-    name: 'Text',
-    fields: 'Vec<MtField>',
-    discriminant: 'Option<u64>'
+  ContractSelector: '[u8; 4]',
+  ContractTypeSpec: {
+    type: 'SiLookupTypeId',
+    displayName: 'ContractDisplayName'
   }
 };
 
@@ -150,20 +103,19 @@ export default {
   rpc: {},
   types: {
     ...layout,
-    ...registry,
     ...spec,
-    InkProject: {
+    ContractProject: {
       // added by ABI serialization
       metadataVersion: 'Text',
-      source: 'InkProjectSource',
-      contract: 'InkProjectContract',
+      source: 'ContractProjectSource',
+      contract: 'ContractProjectContract',
       // expanded scale registry: RegistryReadOnly
-      types: 'Vec<MtType>',
+      types: 'Vec<SiType>',
       // renamed from layout (ignored for now, incomplete)
-      // storage: 'InkStorageLayout',
-      spec: 'InkContractSpec'
+      // storage: 'ContractStorageLayout',
+      spec: 'ContractContractSpec'
     },
-    InkProjectContract: {
+    ContractProjectContract: {
       name: 'Text',
       version: 'Text',
       authors: 'Vec<Text>',
@@ -173,7 +125,7 @@ export default {
       homepage: 'Option<Text>',
       license: 'Option<Text>'
     },
-    InkProjectSource: {
+    ContractProjectSource: {
       hash: '[u8; 32]',
       language: 'Text',
       compiler: 'Text'
