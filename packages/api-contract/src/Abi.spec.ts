@@ -7,7 +7,7 @@ import * as testContracts from '../test/contracts';
 
 const abis: Record<string, any> = { ...testContracts };
 
-function compare (name: string, messageIds: string[]): void {
+function compareInterface (name: string, messageIds: string[]): void {
   try {
     const inkAbi = new Abi(abis[name]);
 
@@ -22,15 +22,15 @@ function compare (name: string, messageIds: string[]): void {
 describe('Abi', (): void => {
   describe('construction', (): void => {
     it('initializes from a contract ABI (flipper)', (): void => {
-      compare('flipper', ['flip', 'get']);
+      compareInterface('flipper', ['flip', 'get']);
     });
 
     it('initializes from a contract ABI (incrementer)', (): void => {
-      compare('incrementer', ['inc', 'get']);
+      compareInterface('incrementer', ['inc', 'get']);
     });
 
     it('initializes from a contract ABI (erc20)', (): void => {
-      compare('erc20', [
+      compareInterface('erc20', [
         'total_supply',
         'balance_of',
         'allowance',
@@ -41,7 +41,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (delegator)', (): void => {
-      compare('delegator', [
+      compareInterface('delegator', [
         'get',
         'change',
         'switch'
@@ -49,7 +49,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (dns)', (): void => {
-      compare('dns', [
+      compareInterface('dns', [
         'register',
         'set_address',
         'transfer',
@@ -58,7 +58,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (erc721)', (): void => {
-      compare('erc721', [
+      compareInterface('erc721', [
         'balance_of',
         'owner_of',
         'get_approved',
@@ -73,7 +73,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (multisig_plain)', (): void => {
-      compare('multisigPlain', [
+      compareInterface('multisigPlain', [
         'add_owner',
         'remove_owner',
         'replace_owner',
@@ -86,9 +86,5 @@ describe('Abi', (): void => {
         'eval_transaction'
       ]);
     });
-  });
-
-  it('stores base project as JSON', (): void => {
-    expect(new Abi(abis.dns).json).toEqual(abis.dns);
   });
 });
