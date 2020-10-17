@@ -138,7 +138,7 @@ describe('Abi', (): void => {
     });
   });
 
-  describe.only('user ABIs', (): void => {
+  describe('user ABIs', (): void => {
     it('initializes from a contract ABI (withString)', (): void => {
       compareTypes('withString');
     });
