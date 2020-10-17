@@ -148,7 +148,6 @@ export default class MetaRegistry extends TypeRegistry {
 
       return {
         info: TypeDefInfo.Plain,
-        // FIXME This should not be as a blanket toLowerCase
         type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
       };
     } else if (type.path.length > 1) {
