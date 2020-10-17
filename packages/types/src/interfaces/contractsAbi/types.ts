@@ -3,7 +3,7 @@
 
 import { BTreeMap, Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Text, bool, u32, u64 } from '@polkadot/types/primitive';
-import { SiLookupTypeId, SiPath, SiType } from '@polkadot/types/interfaces/scaleinfo';
+import { SiLookupTypeId, SiPath, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpec */
 export interface ContractConstructorSpec extends Struct {

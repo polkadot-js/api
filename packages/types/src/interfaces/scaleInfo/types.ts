@@ -87,4 +87,4 @@ export interface SiVariant extends Struct {
   readonly discriminant: Option<u64>;
 }
 
-export type PHANTOM_SCALEINFO = 'scaleinfo';
+export type PHANTOM_SCALEINFO = 'scaleInfo';
