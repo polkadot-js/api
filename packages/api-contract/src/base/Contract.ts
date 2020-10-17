@@ -29,7 +29,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.address = this.registry.createType('AccountId', address);
+    this.address = this.abi.createType('AccountId', address);
 
     this.abi.messages.forEach((m): void => {
       const messageName = stringCamelCase(m.identifier);
@@ -61,7 +61,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #exec = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
-    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrId), params));
+    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.abi, this.abi.findMessage(messageOrId), params));
   }
 
   #read = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): ContractRead<ApiType> => {
@@ -75,13 +75,13 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
         this.api.rx.rpc.contracts.call({
           dest: this.address,
           gasLimit,
-          inputData: encodeMessage(this.registry, message, params),
+          inputData: encodeMessage(this.abi, message, params),
           origin,
           value
         }).pipe(
           map((result: ContractExecResult): ContractCallOutcome => ({
             output: result.isSuccess && message.returnType
-              ? formatData(this.registry, result.asSuccess.data, message.returnType)
+              ? formatData(this.abi, result.asSuccess.data, message.returnType)
               : null,
             result
           }))

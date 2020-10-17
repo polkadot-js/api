@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AnyJson, Registry } from '@polkadot/types/types';
+import { AnyJson } from '@polkadot/types/types';
 
 import ApiBase from '@polkadot/api/base';
 import { assert } from '@polkadot/util';
@@ -14,8 +14,6 @@ export default abstract class Base<ApiType extends ApiTypes> {
 
   public readonly api: ApiBase<ApiType>;
 
-  public readonly registry: Registry;
-
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>) {
@@ -23,7 +21,6 @@ export default abstract class Base<ApiType extends ApiTypes> {
       ? abi
       : new Abi(abi, api.registry.getChainProperties());
     this.api = api;
-    this.registry = this.abi.registry;
     this._decorateMethod = decorateMethod;
 
     assert(this.api.rx.tx.contracts && this.api.rx.tx.contracts.putCode, 'You need to connect to a node with the contracts module, the metadata does not enable api.tx.contracts on this instance');

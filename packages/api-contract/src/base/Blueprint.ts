@@ -36,7 +36,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.codeHash = this.registry.createType('Hash', codeHash);
+    this.codeHash = this.abi.createType('Hash', codeHash);
 
     this.abi.constructors.forEach((c): void => {
       const messageName = stringCamelCase(c.identifier);
@@ -54,7 +54,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #deploy = (constructorOrId: AbiConstructor | string| number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     return this.api.tx.contracts
-      .instantiate(endowment, gasLimit, this.codeHash, encodeMessage(this.registry, this.abi.findConstructor(constructorOrId), params))
+      .instantiate(endowment, gasLimit, this.codeHash, encodeMessage(this.abi, this.abi.findConstructor(constructorOrId), params))
       .withResultTransform((result: ISubmittableResult) =>
         new BlueprintSubmittableResult(result, applyOnEvent(result, 'Instantiated', (record: EventRecord) =>
           new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
