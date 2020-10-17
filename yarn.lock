@@ -10407,9 +10407,6 @@ fsevents@^1.2.7:
     "@types/jest": ^26.0.14
     "@vuepress/plugin-search": ^1.6.0
     copyfiles: ^2.4.0
-    typedoc: ^0.19.2
-    typedoc-plugin-markdown: ^3.0.7
-    typedoc-plugin-no-inherit: ^1.2.0
   languageName: unknown
   linkType: soft
 
