@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ChainProperties, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { InterfaceTypes, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
 import { TypeRegistry, withTypeString } from '@polkadot/types';
@@ -11,6 +11,10 @@ import { TypeRegistry, withTypeString } from '@polkadot/types';
 export function getRegistryOffset (id: MtLookupTypeId): number {
   return id.toNumber() - 1;
 }
+
+const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
+  Str: 'Text'
+};
 
 export default abstract class MetaRegistry extends TypeRegistry {
   public readonly typeDefs: TypeDef[] = [];
@@ -56,22 +60,22 @@ export default abstract class MetaRegistry extends TypeRegistry {
     return typeDef;
   }
 
-  #extractType = (inkType: MtType, id: MtLookupTypeId): TypeDef => {
-    const path = [...inkType.path];
+  #extractType = (type: MtType, id: MtLookupTypeId): TypeDef => {
+    const path = [...type.path];
     let typeDef: Omit<TypeDef, 'type'>;
 
-    if (inkType.path.join('::').startsWith('ink_env::types::') || inkType.def.isPrimitive) {
-      typeDef = this.#extractPrimitive(inkType);
-    } else if (inkType.def.isComposite) {
-      typeDef = this.#extractFields(inkType.def.asComposite.fields);
-    } else if (inkType.def.isVariant) {
-      typeDef = this.#extractVariant(inkType.def.asVariant, id);
-    } else if (inkType.def.isArray) {
-      typeDef = this.#extractArray(inkType.def.asArray);
-    } else if (inkType.def.isSequence) {
-      typeDef = this.#extractSequence(inkType.def.asSequence, id);
-    } else if (inkType.def.isTuple) {
-      typeDef = this.#extractTuple(inkType.def.asTuple);
+    if (type.path.join('::').startsWith('ink_env::types::') || type.def.isPrimitive) {
+      typeDef = this.#extractPrimitive(type);
+    } else if (type.def.isComposite) {
+      typeDef = this.#extractFields(type.def.asComposite.fields);
+    } else if (type.def.isVariant) {
+      typeDef = this.#extractVariant(type.def.asVariant, id);
+    } else if (type.def.isArray) {
+      typeDef = this.#extractArray(type.def.asArray);
+    } else if (type.def.isSequence) {
+      typeDef = this.#extractSequence(type.def.asSequence, id);
+    } else if (type.def.isTuple) {
+      typeDef = this.#extractTuple(type.def.asTuple);
     } else {
       throw new Error(`Invalid ink! type at index ${id.toString()}`);
     }
@@ -87,8 +91,8 @@ export default abstract class MetaRegistry extends TypeRegistry {
         ? { namespace: path.map((segment) => segment.toString()).join('::') }
         : {}
       ),
-      ...(inkType.params.length > 0
-        ? { params: inkType.params.map((id) => this.getTypeDef(id)) }
+      ...(type.params.length > 0
+        ? { params: type.params.map((id) => this.getTypeDef(id)) }
         : {}
       ),
       ...typeDef
@@ -202,16 +206,19 @@ export default abstract class MetaRegistry extends TypeRegistry {
       };
   }
 
-  #extractPrimitive = (inkType: MtType): TypeDef => {
-    if (inkType.def.isPrimitive) {
+  #extractPrimitive = (type: MtType): TypeDef => {
+    if (type.def.isPrimitive) {
+      const typeStr = type.def.asPrimitive.type.toString();
+
       return {
         info: TypeDefInfo.Plain,
-        type: inkType.def.asPrimitive.type.toLowerCase()
+        // FIXME This should not be as a blanket toLowerCase
+        type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
       };
-    } else if (inkType.path.length > 1) {
+    } else if (type.path.length > 1) {
       return {
         info: TypeDefInfo.Plain,
-        type: inkType.path[inkType.path.length - 1].toString()
+        type: type.path[type.path.length - 1].toString()
       };
     }
 
