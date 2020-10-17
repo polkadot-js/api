@@ -33,8 +33,6 @@ export default class Abi {
   public readonly registry: MetaRegistry;
 
   constructor (abiJson: AnyJson, chainProperties?: ChainProperties) {
-    this.registry = new MetaRegistry(chainProperties);
-
     const json = isString(abiJson)
       ? JSON.parse(abiJson) as AnyJson
       : abiJson;
@@ -42,6 +40,7 @@ export default class Abi {
     assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
     this.json = json;
+    this.registry = new MetaRegistry(chainProperties);
     this.project = this.registry.createType('InkProject', json);
 
     this.registry.setMetaTypes(this.project.types);
