@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AnyJson } from '@polkadot/types/types';
-import { ChainProperties, InkConstructorSpec, InkMessageSpec, InkProject } from '@polkadot/types/interfaces';
+import { ChainProperties, ContractConstructorSpec, ContractMessageSpec, ContractProject } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiMessage, AbiMessageParam } from './types';
 
 import { assert, isNumber, isObject, isString, stringCamelCase } from '@polkadot/util';
@@ -28,7 +28,7 @@ export default class Abi {
 
   public readonly messages: AbiMessage[];
 
-  public readonly project: InkProject;
+  public readonly project: ContractProject;
 
   public readonly registry: MetaRegistry;
 
@@ -41,17 +41,17 @@ export default class Abi {
 
     this.json = json;
     this.registry = new MetaRegistry(chainProperties);
-    this.project = this.registry.createType('InkProject', json);
+    this.project = this.registry.createType('ContractProject', json);
 
     this.registry.setMetaTypes(this.project.types);
 
-    this.project.types.forEach((_, index) => this.registry.getMetaTypeDef(this.registry.createType('MtLookupTypeId', index + 1)));
-    this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>
+    this.project.types.forEach((_, index) => this.registry.getMetaTypeDef(this.registry.createType('SiLookupTypeId', index + 1)));
+    this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createBase(spec, index, {
         isConstructor: true
       })
     );
-    this.messages = this.project.spec.messages.map((spec: InkMessageSpec, index): AbiMessage => {
+    this.messages = this.project.spec.messages.map((spec: ContractMessageSpec, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
 
       return this.#createBase(spec, index, {
@@ -72,7 +72,7 @@ export default class Abi {
     return findMessage(this.messages, messageOrId);
   }
 
-  #createBase = (spec: InkMessageSpec | InkConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
+  #createBase = (spec: ContractMessageSpec | ContractConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const identifier = spec.name.toString();
     const args = spec.args.map((arg, index): AbiMessageParam => {
       try {

@@ -12,7 +12,6 @@ export { default as balances } from './balances/definitions';
 export { default as collective } from './collective/definitions';
 export { default as consensus } from './consensus/definitions';
 export { default as contracts } from './contracts/definitions';
-export { default as contractsAbi } from './contractsAbi/definitions';
 export { default as democracy } from './democracy/definitions';
 export { default as elections } from './elections/definitions';
 export { default as engine } from './engine/definitions';
@@ -42,6 +41,10 @@ export { default as claims } from './claims/definitions';
 export { default as parachains } from './parachains/definitions';
 export { default as poll } from './poll/definitions';
 export { default as purchase } from './purchase/definitions';
+
+// scale-info & contracts
+export { default as contractsAbi } from './contractsAbi/definitions';
+export { default as scaleInfo } from './scaleInfo/definitions';
 
 // other useful types
 export { default as ethereum } from './ethereum/definitions';

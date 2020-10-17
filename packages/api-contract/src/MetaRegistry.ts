@@ -1,25 +1,26 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ChainProperties, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
+import { ChainProperties, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefVariant, SiTypeDefSequence, SiTypeDefTuple, SiVariant } from '@polkadot/types/interfaces';
 import { InterfaceTypes, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
 import { TypeRegistry, withTypeString } from '@polkadot/types';
 
 // convert the offset into project-specific, index-1
-export function getRegistryOffset (id: MtLookupTypeId): number {
+export function getRegistryOffset (id: SiLookupTypeId): number {
   return id.toNumber() - 1;
 }
 
 const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
+  Char: 'u32', // Rust char is 4-bytes
   Str: 'Text'
 };
 
 export default class MetaRegistry extends TypeRegistry {
   public readonly metaTypeDefs: TypeDef[] = [];
 
-  #metaTypes: MtType[] = [];
+  #siTypes: SiType[] = [];
 
   constructor (chainProperties?: ChainProperties) {
     super();
@@ -29,11 +30,11 @@ export default class MetaRegistry extends TypeRegistry {
     }
   }
 
-  public setMetaTypes (metaTypes: MtType[]): void {
-    this.#metaTypes = metaTypes;
+  public setMetaTypes (metaTypes: SiType[]): void {
+    this.#siTypes = metaTypes;
   }
 
-  public getMetaTypeDef (id: MtLookupTypeId): TypeDef {
+  public getMetaTypeDef (id: SiLookupTypeId): TypeDef {
     const offset = getRegistryOffset(id);
     let typeDef = this.metaTypeDefs[offset];
 
@@ -54,19 +55,22 @@ export default class MetaRegistry extends TypeRegistry {
     return typeDef;
   }
 
-  #getMetaType = (id: MtLookupTypeId): MtType => {
-    const type = this.#metaTypes[getRegistryOffset(id)];
+  #getMetaType = (id: SiLookupTypeId): SiType => {
+    const type = this.#siTypes[getRegistryOffset(id)];
 
     assert(!isUndefined(type), `getMetaType:: Unable to find ${id.toNumber()} in type values`);
 
-    return this.createType('MtType', type);
+    return this.createType('SiType', type);
   }
 
-  #extract = (type: MtType, id: MtLookupTypeId): TypeDef => {
+  #extract = (type: SiType, id: SiLookupTypeId): TypeDef => {
     const path = [...type.path];
     let typeDef: Omit<TypeDef, 'type'>;
 
-    if (type.path.join('::').startsWith('ink_env::types::') || type.def.isPrimitive) {
+    // TODO solang?
+    if (type.path.join('::').startsWith('ink_env::types::')) {
+      typeDef = this.#extractPrimitivePath(type);
+    } else if (type.def.isPrimitive) {
       typeDef = this.#extractPrimitive(type);
     } else if (type.def.isComposite) {
       typeDef = this.#extractFields(type.def.asComposite.fields);
@@ -101,8 +105,8 @@ export default class MetaRegistry extends TypeRegistry {
     });
   }
 
-  #extractArray = ({ len: length, type }: MtTypeDefArray): Omit<TypeDef, 'type'> => {
-    assert(!length || length.toNumber() <= 256, 'ContractRegistry: Only support for [Type; <length>], where length > 256');
+  #extractArray = ({ len: length, type }: SiTypeDefArray): Omit<TypeDef, 'type'> => {
+    assert(!length || length.toNumber() <= 256, 'MetaRegistry: Only support for [Type; <length>], where length > 256');
 
     return {
       info: TypeDefInfo.VecFixed,
@@ -111,7 +115,7 @@ export default class MetaRegistry extends TypeRegistry {
     };
   }
 
-  #extractFields = (fields: MtField[]): Omit<TypeDef, 'type'> => {
+  #extractFields = (fields: SiField[]): Omit<TypeDef, 'type'> => {
     const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
       isAllNamed && name.isSome,
       isAllUnnamed && name.isNone
@@ -141,26 +145,23 @@ export default class MetaRegistry extends TypeRegistry {
       : { info, sub };
   }
 
-  #extractPrimitive = (type: MtType): TypeDef => {
-    if (type.def.isPrimitive) {
-      const typeStr = type.def.asPrimitive.type.toString();
+  #extractPrimitive = (type: SiType): TypeDef => {
+    const typeStr = type.def.asPrimitive.type.toString();
 
-      return {
-        info: TypeDefInfo.Plain,
-        // FIXME This should not be as a blanket toLowerCase
-        type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
-      };
-    } else if (type.path.length > 1) {
-      return {
-        info: TypeDefInfo.Plain,
-        type: type.path[type.path.length - 1].toString()
-      };
-    }
-
-    throw new Error('Invalid primitive type');
+    return {
+      info: TypeDefInfo.Plain,
+      type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
+    };
   }
 
-  #extractSequence = ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Omit<TypeDef, 'type'> => {
+  #extractPrimitivePath = (type: SiType): TypeDef => {
+    return {
+      info: TypeDefInfo.Plain,
+      type: type.path[type.path.length - 1].toString()
+    };
+  }
+
+  #extractSequence = ({ type }: SiTypeDefSequence, id: SiLookupTypeId): Omit<TypeDef, 'type'> => {
     assert(!!type, `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
 
     return {
@@ -169,7 +170,7 @@ export default class MetaRegistry extends TypeRegistry {
     };
   }
 
-  #extractTuple = (ids: MtTypeDefTuple): Omit<TypeDef, 'type'> => {
+  #extractTuple = (ids: SiTypeDefTuple): Omit<TypeDef, 'type'> => {
     return ids.length === 1
       ? this.getMetaTypeDef(ids[0])
       : {
@@ -178,7 +179,7 @@ export default class MetaRegistry extends TypeRegistry {
       };
   }
 
-  #extractVariant = ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Omit<TypeDef, 'type'> => {
+  #extractVariant = ({ variants }: SiTypeDefVariant, id: SiLookupTypeId): Omit<TypeDef, 'type'> => {
     const { params, path } = this.#getMetaType(id);
     const specialVariant = path[0].toString();
 
@@ -203,7 +204,7 @@ export default class MetaRegistry extends TypeRegistry {
     };
   }
 
-  #extractVariantSub = (variants: MtVariant[]): TypeDef[] => {
+  #extractVariantSub = (variants: SiVariant[]): TypeDef[] => {
     const isAllUnitVariants = variants.every(({ fields }) => fields.length === 0);
 
     if (isAllUnitVariants) {

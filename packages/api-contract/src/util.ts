@@ -35,7 +35,7 @@ export function encodeMessage (registry: Registry, message: AbiMessage | AbiCons
       r[name] = type.displayName || encodeTypeDef(type);
 
       return r;
-    }, { __selector: 'InkSelector' })
+    }, { __selector: 'ContractSelector' })
   ));
 
   return compactAddLength(new Clazz(registry, message.args.reduce((r: Record<string, CodecArg>, { name }, index): Record<string, CodecArg> => {
