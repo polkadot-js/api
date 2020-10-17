@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ChainProperties, InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
-import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { ChainProperties, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
 import { TypeRegistry, withTypeString } from '@polkadot/types';
@@ -12,40 +12,35 @@ export function getRegistryOffset (id: MtLookupTypeId): number {
   return id.toNumber() - 1;
 }
 
-export default class ContractRegistry {
+export default abstract class MetaRegistry extends TypeRegistry {
   public readonly typeDefs: TypeDef[] = [];
 
-  public readonly registry: Registry;
-
-  public readonly project: InkProject;
-
-  constructor (json: Record<string, AnyJson>, chainProperties?: ChainProperties) {
-    this.registry = new TypeRegistry();
+  constructor (chainProperties?: ChainProperties) {
+    super();
 
     if (chainProperties) {
-      this.registry.setChainProperties(chainProperties);
+      this.setChainProperties(chainProperties);
     }
-
-    this.project = this.registry.createType('InkProject', json);
-
-    // Generate TypeDefs for each provided registry type
-    this.project.types.forEach((_, index) => this.typeDefAt(this.registry.createType('MtLookupTypeId', index + 1)));
   }
 
-  public getAbiType (id: MtLookupTypeId): MtType {
-    const type = this.project.types[getRegistryOffset(id)];
-
-    assert(!isUndefined(type), `getAbiType:: Unable to find ${id.toNumber()} in type values`);
-
-    return this.registry.createType('MtType', type);
+  public get metaTypes (): MtType[] {
+    throw new Error('MetaRegistry onject needs to implement metaTypes');
   }
 
-  public typeDefAt (id: MtLookupTypeId): TypeDef {
+  #getMetaType = (id: MtLookupTypeId): MtType => {
+    const type = this.metaTypes[getRegistryOffset(id)];
+
+    assert(!isUndefined(type), `getMetaType:: Unable to find ${id.toNumber()} in type values`);
+
+    return this.createType('MtType', type);
+  }
+
+  public getTypeDef (id: MtLookupTypeId): TypeDef {
     const offset = getRegistryOffset(id);
     let typeDef = this.typeDefs[offset];
 
     if (!typeDef) {
-      typeDef = this.extractType(this.getAbiType(id), id);
+      typeDef = this.#extractType(this.#getMetaType(id), id);
 
       this.typeDefs[offset] = typeDef;
 
@@ -54,29 +49,29 @@ export default class ContractRegistry {
       //   - displayName === type, these generate circular references
       //   - displayName Option & type Option<...something...>
       if (typeDef.displayName && !(typeDef.type === typeDef.displayName || typeDef.type.startsWith(`${typeDef.displayName}<`))) {
-        this.registry.register({ [typeDef.displayName]: typeDef.type });
+        this.register({ [typeDef.displayName]: typeDef.type });
       }
     }
 
     return typeDef;
   }
 
-  private extractType (inkType: MtType, id: MtLookupTypeId): TypeDef {
+  #extractType = (inkType: MtType, id: MtLookupTypeId): TypeDef => {
     const path = [...inkType.path];
     let typeDef: Omit<TypeDef, 'type'>;
 
     if (inkType.path.join('::').startsWith('ink_env::types::') || inkType.def.isPrimitive) {
-      typeDef = this.extractPrimitive(inkType);
+      typeDef = this.#extractPrimitive(inkType);
     } else if (inkType.def.isComposite) {
-      typeDef = this.extractFields(inkType.def.asComposite.fields);
+      typeDef = this.#extractFields(inkType.def.asComposite.fields);
     } else if (inkType.def.isVariant) {
-      typeDef = this.extractVariant(inkType.def.asVariant, id);
+      typeDef = this.#extractVariant(inkType.def.asVariant, id);
     } else if (inkType.def.isArray) {
-      typeDef = this.extractArray(inkType.def.asArray);
+      typeDef = this.#extractArray(inkType.def.asArray);
     } else if (inkType.def.isSequence) {
-      typeDef = this.extractSequence(inkType.def.asSequence, id);
+      typeDef = this.#extractSequence(inkType.def.asSequence, id);
     } else if (inkType.def.isTuple) {
-      typeDef = this.extractTuple(inkType.def.asTuple);
+      typeDef = this.#extractTuple(inkType.def.asTuple);
     } else {
       throw new Error(`Invalid ink! type at index ${id.toString()}`);
     }
@@ -93,39 +88,39 @@ export default class ContractRegistry {
         : {}
       ),
       ...(inkType.params.length > 0
-        ? { params: inkType.params.map((id) => this.typeDefAt(id)) }
+        ? { params: inkType.params.map((id) => this.getTypeDef(id)) }
         : {}
       ),
       ...typeDef
     });
   }
 
-  private extractVariant ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Omit<TypeDef, 'type'> {
-    const { params, path } = this.getAbiType(id);
+  #extractVariant = ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Omit<TypeDef, 'type'> => {
+    const { params, path } = this.#getMetaType(id);
     const specialVariant = path[0].toString();
 
     if (specialVariant === 'Option') {
       return {
         info: TypeDefInfo.Option,
-        sub: this.typeDefAt(params[0])
+        sub: this.getTypeDef(params[0])
       };
     } else if (specialVariant === 'Result') {
       return {
         info: TypeDefInfo.Result,
         sub: params.map((param, index) => ({
           name: ['Ok', 'Error'][index],
-          ...this.typeDefAt(param)
+          ...this.getTypeDef(param)
         }))
       };
     }
 
     return {
       info: TypeDefInfo.Enum,
-      sub: this.extractVariantSub(variants)
+      sub: this.#extractVariantSub(variants)
     };
   }
 
-  private extractVariantSub (variants: MtVariant[]): TypeDef[] {
+  #extractVariantSub = (variants: MtVariant[]): TypeDef[] => {
     const isAllUnitVariants = variants.every(({ fields }) => fields.length === 0);
 
     if (isAllUnitVariants) {
@@ -143,13 +138,13 @@ export default class ContractRegistry {
 
     return variants.map(({ fields, name }) =>
       withTypeString({
-        ...this.extractFields(fields),
+        ...this.#extractFields(fields),
         name: name.toString()
       })
     );
   }
 
-  private extractFields (fields: MtField[]): Omit<TypeDef, 'type'> {
+  #extractFields = (fields: MtField[]): Omit<TypeDef, 'type'> => {
     const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
       isAllNamed && name.isSome,
       isAllUnnamed && name.isNone
@@ -169,7 +164,7 @@ export default class ContractRegistry {
 
     const sub = fields.map(({ name, type }) => {
       return {
-        ...this.typeDefAt(type),
+        ...this.getTypeDef(type),
         ...(name.isSome ? { name: name.unwrap().toString() } : {})
       };
     });
@@ -179,35 +174,35 @@ export default class ContractRegistry {
       : { info, sub };
   }
 
-  private extractArray ({ len: length, type }: MtTypeDefArray): Omit<TypeDef, 'type'> {
+  #extractArray = ({ len: length, type }: MtTypeDefArray): Omit<TypeDef, 'type'> => {
     assert(!length || length.toNumber() <= 256, 'ContractRegistry: Only support for [Type; <length>], where length > 256');
 
     return {
       info: TypeDefInfo.VecFixed,
       length: length.toNumber(),
-      sub: this.typeDefAt(type)
+      sub: this.getTypeDef(type)
     };
   }
 
-  private extractSequence ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Omit<TypeDef, 'type'> {
+  #extractSequence = ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Omit<TypeDef, 'type'> => {
     assert(!!type, `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
 
     return {
       info: TypeDefInfo.Vec,
-      sub: this.typeDefAt(type)
+      sub: this.getTypeDef(type)
     };
   }
 
-  private extractTuple (ids: MtTypeDefTuple): Omit<TypeDef, 'type'> {
+  #extractTuple = (ids: MtTypeDefTuple): Omit<TypeDef, 'type'> => {
     return ids.length === 1
-      ? this.typeDefAt(ids[0])
+      ? this.getTypeDef(ids[0])
       : {
         info: TypeDefInfo.Tuple,
-        sub: ids.map((id) => this.typeDefAt(id))
+        sub: ids.map((id) => this.getTypeDef(id))
       };
   }
 
-  private extractPrimitive (inkType: MtType): TypeDef {
+  #extractPrimitive = (inkType: MtType): TypeDef => {
     if (inkType.def.isPrimitive) {
       return {
         info: TypeDefInfo.Plain,

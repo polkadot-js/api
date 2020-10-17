@@ -1,13 +1,16 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import fs from 'fs';
+import path from 'path';
+
 import Abi from './Abi';
 
 import * as testContracts from '../test/contracts';
 
 const abis: Record<string, any> = { ...testContracts };
 
-function compare (name: string, messageIds: string[]): void {
+function compareInterface (name: string, messageIds: string[]): void {
   try {
     const inkAbi = new Abi(abis[name]);
 
@@ -19,18 +22,63 @@ function compare (name: string, messageIds: string[]): void {
   }
 }
 
+function compareTypes (name: string): void {
+  const inkRegistry = new Abi(abis[name]);
+
+  try {
+    const cmpPath = path.join(__dirname, `../test/compare/${name}.test.json`);
+
+    if (!fs.existsSync(cmpPath)) {
+      fs.writeFileSync(cmpPath, JSON.stringify(inkRegistry.typeDefs, null, 2), { flag: 'w' });
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    expect(inkRegistry.typeDefs).toEqual(require(cmpPath));
+  } catch (error) {
+    console.error(JSON.stringify(inkRegistry.typeDefs));
+
+    throw error;
+  }
+}
+
 describe('Abi', (): void => {
-  describe('construction', (): void => {
+  describe('types', (): void => {
     it('initializes from a contract ABI (flipper)', (): void => {
-      compare('flipper', ['flip', 'get']);
+      compareTypes('flipper');
     });
 
     it('initializes from a contract ABI (incrementer)', (): void => {
-      compare('incrementer', ['inc', 'get']);
+      compareTypes('incrementer');
     });
 
     it('initializes from a contract ABI (erc20)', (): void => {
-      compare('erc20', [
+      compareTypes('erc20');
+    });
+
+    it('initializes from a contract ABI (dns)', (): void => {
+      compareTypes('dns');
+    });
+
+    it('initializes from a contract ABI (erc721)', (): void => {
+      compareTypes('erc721');
+    });
+
+    it('initializes from a contract ABI (multisig_plain)', (): void => {
+      compareTypes('multisigPlain');
+    });
+  });
+
+  describe('construction', (): void => {
+    it('initializes from a contract ABI (flipper)', (): void => {
+      compareInterface('flipper', ['flip', 'get']);
+    });
+
+    it('initializes from a contract ABI (incrementer)', (): void => {
+      compareInterface('incrementer', ['inc', 'get']);
+    });
+
+    it('initializes from a contract ABI (erc20)', (): void => {
+      compareInterface('erc20', [
         'total_supply',
         'balance_of',
         'allowance',
@@ -41,7 +89,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (delegator)', (): void => {
-      compare('delegator', [
+      compareInterface('delegator', [
         'get',
         'change',
         'switch'
@@ -49,7 +97,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (dns)', (): void => {
-      compare('dns', [
+      compareInterface('dns', [
         'register',
         'set_address',
         'transfer',
@@ -58,7 +106,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (erc721)', (): void => {
-      compare('erc721', [
+      compareInterface('erc721', [
         'balance_of',
         'owner_of',
         'get_approved',
@@ -73,7 +121,7 @@ describe('Abi', (): void => {
     });
 
     it('initializes from a contract ABI (multisig_plain)', (): void => {
-      compare('multisigPlain', [
+      compareInterface('multisigPlain', [
         'add_owner',
         'remove_owner',
         'replace_owner',
