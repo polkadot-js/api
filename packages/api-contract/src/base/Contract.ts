@@ -11,7 +11,7 @@ import { ContractCallResult, ContractRead, MapMessageExec, MapMessageRead } from
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import ApiBase from '@polkadot/api/base';
-import { assert, isFunction, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, bnToBn, isFunction, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Abi from '../Abi';
 import { encodeMessage, formatData } from '../util';
@@ -60,8 +60,16 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
+  #getGas = (_gasLimit: BigInt | BN | string | number): BN => {
+    const gasLimit = bnToBn(_gasLimit);
+
+    return gasLimit.lten(0)
+      ? this.api.consts.system.maximumBlockWeight.muln(64).divn(100)
+      : gasLimit;
+  }
+
   #exec = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
-    return this.api.tx.contracts.call(this.address, value, gasLimit, encodeMessage(this.registry, this.abi.findMessage(messageOrId), params));
+    return this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), encodeMessage(this.registry, this.abi.findMessage(messageOrId), params));
   }
 
   #read = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): ContractRead<ApiType> => {
@@ -74,7 +82,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       send: this._decorateMethod((origin: string | AccountId | Uint8Array): ContractCallResult<'rpc'> =>
         this.api.rx.rpc.contracts.call({
           dest: this.address,
-          gasLimit,
+          gasLimit: this.#getGas(gasLimit),
           inputData: encodeMessage(this.registry, message, params),
           origin,
           value
