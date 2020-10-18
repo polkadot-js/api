@@ -1,10 +1,21 @@
 # CHANGELOG
 
-## 2.2.2-x
+## 2.3.1 Oct 19, 2020
+
+Upgrade priority: Low, but recommended for `api-contracts` users.
+
+Contributed:
+
+- Adjust frame size for Node.js WebSockets (Thanks to https://github.com/mnaamani)
+- Update warnings to reflect new docs URLs (Thanks to https://github.com/aphelionz)
 
 Changes:
 
+- Expose `dispatch{Error, Info}` on all `.tx` results (less boilerplate on info checks)
+- Add missing primitive types inside contracts type parsing
 - Adjust api-contract to expose `Contract.{query, tx}.<message>` and `Blueprint.tx.<constructor>`
+- Rework contracts registry to be generic to all scale-info definitions
+- Fix memoization where `BigInt` params are passed
 
 
 ## 2.2.1 Oct 12, 2020
