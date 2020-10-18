@@ -2,7 +2,7 @@
 
 ## 2.3.1 Oct 19, 2020
 
-Upgrade priority: Low, but recommended for `api-contracts` users.
+Upgrade priority: Low. Recommended for `api-contracts` developers and those using large messages via Node.js WS.
 
 Contributed:
 
@@ -15,6 +15,7 @@ Changes:
 - Add missing primitive types inside contracts type parsing
 - Adjust api-contract to expose `Contract.{query, tx}.<message>` and `Blueprint.tx.<constructor>`
 - Rework contracts registry to be generic to all scale-info definitions
+- Allow for auto-max weight on contract read/exec (useful in estimation)
 - Fix memoization where `BigInt` params are passed
 
 
