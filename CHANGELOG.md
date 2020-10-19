@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.3.2-x
+
+Changes:
+
+- Add `.keysAt` & `.entriesAt` to query maps at a specific blockHash
+
 ## 2.3.1 Oct 19, 2020
 
 Upgrade priority: Low. Recommended for `api-contracts` developers and those using large messages via Node.js WS.

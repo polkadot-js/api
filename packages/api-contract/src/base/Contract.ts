@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId, ContractExecResult } from '@polkadot/types/interfaces';
 import { AnyJson, CodecArg } from '@polkadot/types/types';
 import { AbiMessage, ContractCallOutcome } from '../types';
-import { ContractCallResult, ContractRead, MapMessageExec, MapMessageRead } from './types';
+import { ContractRead, MapMessageExec, MapMessageRead } from './types';
 
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
@@ -79,7 +79,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      send: this._decorateMethod((origin: string | AccountId | Uint8Array): ContractCallResult<'rpc'> =>
+      send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
         this.api.rx.rpc.contracts.call({
           dest: this.address,
           gasLimit: this.#getGas(gasLimit),
