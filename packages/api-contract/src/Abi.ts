@@ -13,7 +13,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   const message = isNumber(messageOrId)
     ? list[messageOrId]
     : isString(messageOrId)
-      ? list.find(({ identifier }: T) => identifier === messageOrId.toString())
+      ? list.find(({ identifier }) => [identifier, stringCamelCase(identifier)].includes(messageOrId.toString()))
       : messageOrId;
 
   assert(message, `Attempted to call an invalid contract interface, ${JSON.stringify(messageOrId)}`);

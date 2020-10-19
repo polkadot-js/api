@@ -5,6 +5,8 @@
 Changes:
 
 - Add `.keysAt` & `.entriesAt` to query maps at a specific blockHash
+- Contracts identifiers matches on both snake_case and camelCase (consistency)
+
 
 ## 2.3.1 Oct 19, 2020
 
