@@ -361,7 +361,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         memo(this.#instanceId, (doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, null, doubleMapArg)));
 
-      decorated.entries = decorateMethod(
+      decorated.entriesAt = decorateMethod(
         memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, hash, doubleMapArg)));
 
