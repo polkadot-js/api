@@ -359,7 +359,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
         memo(this.#instanceId, (doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-          this._retrieveMapEntries(creator, doubleMapArg)));
+          this._retrieveMapEntries(creator, null, doubleMapArg)));
+
+      decorated.entries = decorateMethod(
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntries(creator, hash, doubleMapArg)));
 
       decorated.entriesPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
@@ -367,7 +371,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
       decorated.keys = decorateMethod(
         memo(this.#instanceId, (doubleMapArg?: Arg): Observable<StorageKey[]> =>
-          this._retrieveMapKeys(creator, doubleMapArg)));
+          this._retrieveMapKeys(creator, null, doubleMapArg)));
+
+      decorated.keysAt = decorateMethod(
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<StorageKey[]> =>
+          this._retrieveMapKeys(creator, hash, doubleMapArg)));
 
       decorated.keysPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
@@ -416,15 +424,18 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ));
   }
 
-  private _retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
+  private _retrieveMapKeys ({ iterKey, meta }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(arg).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
+    const query = at
+      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey, at)
+      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey);
 
     return startSubject.pipe(
       switchMap((startKey) =>
-        this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey).pipe(
+        query(startKey).pipe(
           map((keys) => keys.map((key) => key.setMeta(meta)))
         )
       ),
@@ -448,21 +459,23 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private _retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    return this._retrieveMapKeys(entry, arg).pipe(
+  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<[StorageKey, Codec][]> {
+    const query = at
+      ? this._rpcCore.state.queryStorageAt
+        ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt<Codec[]>(keyset, at)
+        : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
+      // this is horrible, but need older support (which now doesn't work with at)
+      : (keyset: StorageKey[]) => this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
+
+    return this._retrieveMapKeys(entry, at, arg).pipe(
       switchMap((keys) =>
         combineLatest<[StorageKey[], ...Codec[][]]>([
           of(keys),
           ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
             .fill(0)
-            .map((_, index): Observable<Codec[]> => {
-              const keyset = keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS);
-
-              return this._rpcCore.state.queryStorageAt
-                ? this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
-                // this is horrible, but need older support
-                : this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
-            })
+            .map((_, index): Observable<Codec[]> =>
+              query(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
+            )
         ])
       ),
       map(([keys, ...valsArr]): [StorageKey, Codec][] =>
