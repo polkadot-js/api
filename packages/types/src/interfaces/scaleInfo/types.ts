@@ -60,11 +60,13 @@ export interface SiTypeDefPrimitive extends Enum {
   readonly isU32: boolean;
   readonly isU64: boolean;
   readonly isU128: boolean;
+  readonly isU256: boolean;
   readonly isI8: boolean;
   readonly isI16: boolean;
   readonly isI32: boolean;
   readonly isI64: boolean;
   readonly isI128: boolean;
+  readonly isI256: boolean;
 }
 
 /** @name SiTypeDefSequence */
