@@ -9,7 +9,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
-import { createImports, compareName, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { createImports, compareName, formatType, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const template = readTemplate('consts');
 const generateForMetaTemplate = Handlebars.compile(template);
@@ -34,12 +34,14 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
         const items = constants
           .sort(compareName)
           .map(({ documentation, name, type }) => {
-            setImports(allDefs, imports, [type.toString()]);
+            const returnType = formatType(allDefs, type.toString(), imports);
+
+            setImports(allDefs, imports, [returnType]);
 
             return {
               docs: documentation,
               name: stringCamelCase(name.toString()),
-              type: type.toString()
+              type: returnType
             };
           });
 
