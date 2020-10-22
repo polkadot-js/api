@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, Codec } from '@polkadot/types/types';
+import { AnyJson, Codec, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageSpec, ContractMessageParamSpec, ContractProject } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent } from './types';
 
@@ -58,13 +58,27 @@ export default class Abi {
     );
     this.messages = this.project.spec.messages.map((spec: ContractMessageSpec, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
+      let returnType: TypeDef | null = null;
+
+      if (typeSpec) {
+        returnType = this.registry.getMetaTypeDef(typeSpec.type);
+
+        // The horrible case where Option/Result shows up as single items
+        const displayName = typeSpec.displayName.length && typeSpec.displayName[typeSpec.displayName.length - 1].toString();
+
+        if (displayName && !returnType.type.startsWith(displayName)) {
+          if (['Balance'].includes(displayName) && returnType.info === TypeDefInfo.Plain) {
+            returnType.type = displayName;
+          } else if (!['Text'].includes(returnType.type)) {
+            returnType.displayName = displayName;
+          }
+        }
+      }
 
       return this.#createMessage(spec, index, {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
-        returnType: typeSpec
-          ? this.registry.getMetaTypeDef(typeSpec.type)
-          : null
+        returnType
       });
     });
   }

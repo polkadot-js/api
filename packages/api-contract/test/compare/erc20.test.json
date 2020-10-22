@@ -1,7 +1,7 @@
 [
   {
     "info": 6,
-    "type": "u128"
+    "type": "Balance"
   },
   {
     "displayName": "Header",
@@ -115,7 +115,7 @@
     "params": [
       {
         "info": 6,
-        "type": "u128"
+        "type": "Balance"
       }
     ],
     "info": 9,
