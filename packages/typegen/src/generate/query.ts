@@ -19,7 +19,7 @@ import { ModuleTypes } from '../util/imports';
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
-  const format = (type: string): string => formatType(allDefs, type, imports);
+  const format = (type: string) => formatType(allDefs, type, imports);
   const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
