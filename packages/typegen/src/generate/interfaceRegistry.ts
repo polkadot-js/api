@@ -28,12 +28,12 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions;
-
     const items: string[] = [];
 
+    // first we create imports for our known classes from the API
     Object
       .keys(primitiveClasses)
-      .filter((name): boolean => !!name.indexOf('Generic'))
+      .filter((name) => !name.includes('Generic'))
       .forEach((primitiveName) => {
         setImports(definitions, imports, [primitiveName]);
 
@@ -42,7 +42,14 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 
     const existingTypes: Record<string, boolean> = {};
 
-    Object.entries(definitions).forEach(([, { types }]) => {
+    // ensure we have everything registered since we will get the definition
+    // form the available types (so any unknown should show after this)
+    Object.values(definitions).forEach(({ types }) => {
+      registry.register(types as Record<string, string>);
+    });
+
+    // create imports for everything that we have available
+    Object.values(definitions).forEach(({ types }) => {
       setImports(definitions, imports, Object.keys(types));
 
       const uniqueTypes = Object.keys(types).filter((type) => !existingTypes[type]);
