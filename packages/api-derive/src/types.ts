@@ -7,6 +7,7 @@ import { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidK
 import { u32 } from '@polkadot/types';
 
 export * from './accounts/types';
+export * from './chain/types';
 export * from './council/types';
 export * from './democracy/types';
 export * from './elections/types';
