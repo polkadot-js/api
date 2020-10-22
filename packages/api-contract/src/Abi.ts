@@ -69,6 +69,9 @@ export default class Abi {
     });
   }
 
+  /**
+   * Warning: Unstable API, bound to change
+   */
   public decodeEvent (eventU8a: Uint8Array): DecodedEvent {
     const index = eventU8a[0];
     const event = this.#events[index];
