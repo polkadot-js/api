@@ -11,7 +11,7 @@ import { memo } from '../util';
 
 /**
  * @name subscribeNewHeads
- * @returns An array containing the block header and the block author
+ * @returns A header with the current header (including extracted author)
  * @description An observable of the current block header and it's author
  * @example
  * <BR>
