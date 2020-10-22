@@ -7,18 +7,6 @@ import * as testContracts from '../test/contracts';
 
 const abis: Record<string, any> = { ...testContracts };
 
-function compareInterface (name: string, messageIds: string[]): void {
-  try {
-    const inkAbi = new Abi(abis[name]);
-
-    expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
-  } catch (error) {
-    console.error(error);
-
-    throw error;
-  }
-}
-
 interface JSONAbi {
   spec: {
     messages: {
@@ -30,7 +18,17 @@ interface JSONAbi {
 describe('Abi', (): void => {
   Object.entries(abis).forEach(([abiName, abi]) => {
     it(`initializes from a contract ABI (${abiName})`, (): void => {
-      compareInterface(abiName, (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name));
+      const messageIds = (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
+
+      try {
+        const inkAbi = new Abi(abis[abiName]);
+
+        expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
+      } catch (error) {
+        console.error(error);
+
+        throw error;
+      }
     });
   });
 });
