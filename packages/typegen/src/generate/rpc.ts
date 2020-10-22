@@ -17,11 +17,10 @@ const generateRpcTypesTemplate = Handlebars.compile(template);
 /** @internal */
 export function generateRpcTypes (importDefinitions: { [importPath: string]: Record<string, Definitions> }, dest: string): void {
   writeFile(dest, (): string => {
+    const format = (type: string) => formatType(allDefs, type, imports);
     const registry = new TypeRegistry();
-
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions as Record<string, Definitions>;
-
     const allDefs = Object.entries(importDefinitions).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
@@ -73,7 +72,7 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
 
             setImports(allDefs, imports, [param.type, ...similarTypes]);
 
-            return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
+            return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.map(format).join(' | ')}`;
           });
 
           type = formatType(allDefs, def.type, imports);
