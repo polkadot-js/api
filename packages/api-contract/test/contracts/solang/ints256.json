@@ -1,0 +1,113 @@
+{
+  "contract": {
+    "authors": [
+      "Sean Young <sean@mess.org>"
+    ],
+    "description": "Test 256 bits types",
+    "name": "ints256",
+    "version": "0.0.1"
+  },
+  "metadataVersion": "0.1.0",
+  "source": {
+    "compiler": "solang 0.1.4",
+    "hash": "0xa85fb5c61a09d71dce84c15a8bd87e6f4eafac498a1aec3869e8cf7ea4389697",
+    "language": "Solidity 0.1.4"
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "docs": [
+          ""
+        ],
+        "name": "new",
+        "selector": "0x861731d5"
+      }
+    ],
+    "events": [],
+    "messages": [
+      {
+        "args": [
+          {
+            "name": "a",
+            "type": {
+              "display_name": [
+                "u256"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "name": "b",
+            "type": {
+              "display_name": [
+                "u256"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [
+          "Multiply two 256 bit values\n\n"
+        ],
+        "mutates": false,
+        "name": "multiply",
+        "payable": false,
+        "return_type": {
+          "display_name": [
+            "u256"
+          ],
+          "type": 1
+        },
+        "selector": "0x165c4a16"
+      },
+      {
+        "args": [
+          {
+            "name": "a",
+            "type": {
+              "display_name": [
+                "u256"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "name": "b",
+            "type": {
+              "display_name": [
+                "u256"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [
+          "Add two 256 bit values\n\n"
+        ],
+        "mutates": false,
+        "name": "add",
+        "payable": false,
+        "return_type": {
+          "display_name": [
+            "u256"
+          ],
+          "type": 1
+        },
+        "selector": "0x771602f7"
+      }
+    ]
+  },
+  "storage": {
+    "struct": {
+      "fields": []
+    }
+  },
+  "types": [
+    {
+      "def": {
+        "primitive": "u256"
+      }
+    }
+  ]
+}
