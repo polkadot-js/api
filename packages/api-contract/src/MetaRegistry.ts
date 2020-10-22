@@ -1,11 +1,16 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ChainProperties, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefVariant, SiTypeDefSequence, SiTypeDefTuple, SiVariant } from '@polkadot/types/interfaces';
+import { ContractDisplayName, ChainProperties, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefVariant, SiTypeDefSequence, SiTypeDefTuple, SiVariant } from '@polkadot/types/interfaces';
 import { InterfaceTypes, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
 import { TypeRegistry, withTypeString } from '@polkadot/types';
+
+interface PartialTypeSpec {
+  readonly type: SiLookupTypeId;
+  readonly displayName?: ContractDisplayName;
+}
 
 // convert the offset into project-specific, index-1
 export function getRegistryOffset (id: SiLookupTypeId): number {
@@ -32,14 +37,16 @@ export default class MetaRegistry extends TypeRegistry {
 
   public setMetaTypes (metaTypes: SiType[]): void {
     this.#siTypes = metaTypes;
+
+    console.error(JSON.stringify(this.#siTypes, null, 2));
   }
 
-  public getMetaTypeDef (id: SiLookupTypeId): TypeDef {
-    const offset = getRegistryOffset(id);
+  public getMetaTypeDef (typeSpec: PartialTypeSpec): TypeDef {
+    const offset = getRegistryOffset(typeSpec.type);
     let typeDef = this.metaTypeDefs[offset];
 
     if (!typeDef) {
-      typeDef = this.#extract(this.#getMetaType(id), id);
+      typeDef = this.#extract(this.#getMetaType(typeSpec.type), typeSpec.type);
 
       this.metaTypeDefs[offset] = typeDef;
 
@@ -47,7 +54,7 @@ export default class MetaRegistry extends TypeRegistry {
       //   - No displayName present, these are generally known primitives
       //   - displayName === type, these generate circular references
       //   - displayName Option & type Option<...something...>
-      if (typeDef.displayName && !(typeDef.type === typeDef.displayName || typeDef.type.startsWith(`${typeDef.displayName}<`))) {
+      if (typeDef.displayName && !this.hasType(typeDef.displayName) && !(typeDef.type === typeDef.displayName || typeDef.type.startsWith(`${typeDef.displayName}<`))) {
         this.register({ [typeDef.displayName]: typeDef.type });
       }
     }
@@ -98,7 +105,7 @@ export default class MetaRegistry extends TypeRegistry {
         : {}
       ),
       ...(type.params.length > 0
-        ? { params: type.params.map((id) => this.getMetaTypeDef(id)) }
+        ? { params: type.params.map((type) => this.getMetaTypeDef({ type })) }
         : {}
       ),
       ...typeDef
@@ -111,7 +118,7 @@ export default class MetaRegistry extends TypeRegistry {
     return {
       info: TypeDefInfo.VecFixed,
       length: length.toNumber(),
-      sub: this.getMetaTypeDef(type)
+      sub: this.getMetaTypeDef({ type })
     };
   }
 
@@ -135,7 +142,7 @@ export default class MetaRegistry extends TypeRegistry {
 
     const sub = fields.map(({ name, type }) => {
       return {
-        ...this.getMetaTypeDef(type),
+        ...this.getMetaTypeDef({ type }),
         ...(name.isSome ? { name: name.unwrap().toString() } : {})
       };
     });
@@ -166,16 +173,16 @@ export default class MetaRegistry extends TypeRegistry {
 
     return {
       info: TypeDefInfo.Vec,
-      sub: this.getMetaTypeDef(type)
+      sub: this.getMetaTypeDef({ type })
     };
   }
 
   #extractTuple = (ids: SiTypeDefTuple): Omit<TypeDef, 'type'> => {
     return ids.length === 1
-      ? this.getMetaTypeDef(ids[0])
+      ? this.getMetaTypeDef({ type: ids[0] })
       : {
         info: TypeDefInfo.Tuple,
-        sub: ids.map((id) => this.getMetaTypeDef(id))
+        sub: ids.map((type) => this.getMetaTypeDef({ type }))
       };
   }
 
@@ -186,14 +193,14 @@ export default class MetaRegistry extends TypeRegistry {
     if (specialVariant === 'Option') {
       return {
         info: TypeDefInfo.Option,
-        sub: this.getMetaTypeDef(params[0])
+        sub: this.getMetaTypeDef({ type: params[0] })
       };
     } else if (specialVariant === 'Result') {
       return {
         info: TypeDefInfo.Result,
-        sub: params.map((param, index) => ({
+        sub: params.map((type, index) => ({
           name: ['Ok', 'Error'][index],
-          ...this.getMetaTypeDef(param)
+          ...this.getMetaTypeDef({ type })
         }))
       };
     }
