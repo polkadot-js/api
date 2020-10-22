@@ -16,13 +16,25 @@ export interface ContractBase<ApiType extends ApiTypes> {
   messages: AbiMessage[];
 }
 
-export interface AbiMessageParam {
+export interface AbiParam {
   name: string;
   type: TypeDef;
 }
 
+export interface AbiEvent {
+  args: AbiParam[];
+  docs: string[];
+  identifier: string;
+  index: number;
+}
+
+export interface DecodedEvent {
+  args: Codec[];
+  event: AbiEvent;
+}
+
 export interface AbiMessage {
-  args: AbiMessageParam[];
+  args: AbiParam[];
   docs: string[];
   identifier: string;
   index: number;
