@@ -37,8 +37,6 @@ export default class MetaRegistry extends TypeRegistry {
 
   public setMetaTypes (metaTypes: SiType[]): void {
     this.#siTypes = metaTypes;
-
-    console.error(JSON.stringify(this.#siTypes, null, 2));
   }
 
   public getMetaTypeDef (typeSpec: PartialTypeSpec): TypeDef {
@@ -49,14 +47,28 @@ export default class MetaRegistry extends TypeRegistry {
       typeDef = this.#extract(this.#getMetaType(typeSpec.type), typeSpec.type);
 
       this.metaTypeDefs[offset] = typeDef;
+    }
 
-      // Here we protect against the following cases
-      //   - No displayName present, these are generally known primitives
-      //   - displayName === type, these generate circular references
-      //   - displayName Option & type Option<...something...>
-      if (typeDef.displayName && !this.hasType(typeDef.displayName) && !(typeDef.type === typeDef.displayName || typeDef.type.startsWith(`${typeDef.displayName}<`))) {
-        this.register({ [typeDef.displayName]: typeDef.type });
+    if (typeSpec.displayName && typeSpec.displayName.length) {
+      const displayName = typeSpec.displayName[typeSpec.displayName.length - 1].toString();
+
+      if (!typeDef.type.startsWith(displayName)) {
+        typeDef = {
+          ...typeDef,
+          displayName,
+          type: ['Balance'].includes(displayName)
+            ? 'Balance'
+            : typeDef.type
+        };
       }
+    }
+
+    // Here we protect against the following cases
+    //   - No displayName present, these are generally known primitives
+    //   - displayName === type, these generate circular references
+    //   - displayName Option & type Option<...something...>
+    if (typeDef.displayName && !this.hasType(typeDef.displayName) && !(typeDef.type === typeDef.displayName || typeDef.type.startsWith(`${typeDef.displayName}<`))) {
+      this.register({ [typeDef.displayName]: typeDef.type });
     }
 
     return typeDef;
