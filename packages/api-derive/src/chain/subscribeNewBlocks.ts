@@ -26,7 +26,7 @@ export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): ()
           api.rpc.chain.getBlock(header.hash)
         );
       }),
-      map(([blockHash, events, block]) => ({ block, blockHash, events }))
+      map(([blockHash, events, block]) => ({ block: block.block, blockHash, blockNumber: block.block.header.number.unwrap(), events, justification: block.justification }))
     )
   );
 }
