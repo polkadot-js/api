@@ -1,5 +1,3 @@
-
-
 /// @title Test 256 bits types
 /// @author Sean Young <sean@mess.org>
 contract ints256 {
