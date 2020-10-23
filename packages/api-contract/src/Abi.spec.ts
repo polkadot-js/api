@@ -18,9 +18,8 @@ interface JSONAbi {
 describe('Abi', (): void => {
   Object.entries(abis).forEach(([abiName, abi]) => {
     it(`initializes from a contract ABI (${abiName})`, (): void => {
-      const messageIds = (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
-
       try {
+        const messageIds = (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
         const inkAbi = new Abi(abis[abiName]);
 
         expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
