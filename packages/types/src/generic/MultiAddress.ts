@@ -23,16 +23,13 @@ export default class MultiAddress extends Enum {
 
   private static _decodeMultiAddress (value?: unknown): unknown {
     if (isString(value)) {
-      const u8a = decodeAddress(value.toString());
+      try {
+        const u8a = decodeAddress(value.toString());
 
-      return u8aConcat(
-        new Uint8Array(
-          u8a.length <= 8
-            ? 1
-            : 0
-        ),
-        u8a
-      );
+        return u8aConcat(new Uint8Array(u8a.length <= 8 ? 1 : 0), u8a);
+      } catch (error) {
+        // ignore, not a valid ss58 address
+      }
     }
 
     return value;
