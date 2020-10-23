@@ -48,13 +48,18 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
 
   (warnings[_specName] || []).forEach((warning) => console.warn(`*** ${warning}`));
 
+  // The order here is always, based on -
+  //   - spec then chain
+  //   - typesBundle takes higher precedence
+  //   - types is the final catch-all override
   return {
     ...filterVersions(typesSpec[_specName], _specVersion),
     ...filterVersions(typesChain[_chainName], _specVersion),
     ...filterVersions(knownTypes.typesBundle?.spec?.[_specName]?.types, _specVersion),
     ...filterVersions(knownTypes.typesBundle?.chain?.[_chainName]?.types, _specVersion),
     ...(knownTypes.typesSpec?.[_specName] || {}),
-    ...(knownTypes.typesChain?.[_chainName] || {})
+    ...(knownTypes.typesChain?.[_chainName] || {}),
+    ...(knownTypes.types || {})
   };
 }
 
@@ -78,10 +83,11 @@ export function getSpecAlias ({ knownTypes }: Registry, chainName: Text | string
   const _chainName = chainName.toString();
   const _specName = specName.toString();
 
+  // as per versions, first spec, then chain then finally non-versioned
   return {
-    ...(knownTypes.typesAlias || {}),
     ...(knownTypes.typesBundle?.spec?.[_specName]?.alias || {}),
-    ...(knownTypes.typesBundle?.chain?.[_chainName]?.alias || {})
+    ...(knownTypes.typesBundle?.chain?.[_chainName]?.alias || {}),
+    ...(knownTypes.typesAlias || {})
   };
 }
 
