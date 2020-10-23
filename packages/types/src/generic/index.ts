@@ -10,4 +10,5 @@ export { default as GenericCall } from './Call';
 export { default as GenericConsensusEngineId } from './ConsensusEngineId';
 export { default as GenericEvent } from './Event';
 export { default as GenericLookupSource } from './LookupSource';
+export { default as GenericMultiAddress } from './MultiAddress';
 export { default as GenericVote } from './Vote';

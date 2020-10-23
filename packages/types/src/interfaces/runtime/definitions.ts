@@ -81,6 +81,7 @@ export default {
     LookupSource: 'GenericLookupSource',
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
+    MultiAddress: 'GenericMultiAddress',
     Moment: 'u64',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
