@@ -98,11 +98,21 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     };
   }
 
+  #inputData = (messageOrId: AbiMessage | string | number, params: CodecArg[]): Uint8Array => {
+    const message = this.abi.findMessage(messageOrId);
+
+    return encodeMessage(this.registry, message, params);
+  }
+
   public exec (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
     return this.#exec(messageOrId, value, gasLimit, params);
   }
 
   public read (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {
     return this.#read(messageOrId, value, gasLimit, params);
+  }
+
+  public inputData (messageOrId: AbiMessage | string | number, ...params: CodecArg[]): Uint8Array {
+    return this.#inputData(messageOrId, params);
   }
 }
