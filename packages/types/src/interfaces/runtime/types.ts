@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Int, Struct, U8aFixed, UInt, Vec } from '@polkadot/types/codec';
-import { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource } from '@polkadot/types/generic';
+import { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource, GenericMultiAddress } from '@polkadot/types/generic';
 import { Bytes, DoNotConstruct, Null, StorageKey, u16, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
@@ -157,6 +157,9 @@ export interface ModuleId extends LockIdentifier {}
 
 /** @name Moment */
 export interface Moment extends u64 {}
+
+/** @name MultiAddress */
+export interface MultiAddress extends GenericMultiAddress {}
 
 /** @name OpaqueCall */
 export interface OpaqueCall extends Bytes {}
