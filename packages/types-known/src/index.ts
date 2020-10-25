@@ -12,7 +12,6 @@ import typesChain from './chain';
 import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
-import warnings from './warnings';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
@@ -45,8 +44,6 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
   const _chainName = chainName.toString();
   const _specName = specName.toString();
   const _specVersion = bnToBn(specVersion).toNumber();
-
-  (warnings[_specName] || []).forEach((warning) => console.warn(`*** ${warning}`));
 
   // The order here is always, based on -
   //   - spec then chain
