@@ -5,6 +5,7 @@ import { OverrideVersionedType } from '@polkadot/types/types';
 
 import centrifugeChain from './centrifuge-chain';
 import kusama from './kusama';
+import nodeTemplate from './node-template';
 import polkadot from './polkadot';
 import rococo from './rococo';
 import westend from './westend';
@@ -13,6 +14,7 @@ import westend from './westend';
 const typesSpec: Record<string, OverrideVersionedType[]> = {
   'centrifuge-chain': centrifugeChain,
   kusama,
+  'node-template': nodeTemplate,
   polkadot,
   rococo,
   westend
