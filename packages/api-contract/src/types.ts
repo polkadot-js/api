@@ -3,7 +3,7 @@
 
 import { ApiTypes } from '@polkadot/api/types';
 import { ContractExecResult, ContractSelector } from '@polkadot/types/interfaces';
-import { Codec, TypeDef } from '@polkadot/types/types';
+import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
 
 import ApiBase from '@polkadot/api/base';
 import Abi from './Abi';
@@ -24,18 +24,15 @@ export interface AbiParam {
 export interface AbiEvent {
   args: AbiParam[];
   docs: string[];
+  fromU8a: (data: Uint8Array) => DecodedEvent;
   identifier: string;
   index: number;
-}
-
-export interface DecodedEvent {
-  args: Codec[];
-  event: AbiEvent;
 }
 
 export interface AbiMessage {
   args: AbiParam[];
   docs: string[];
+  fromU8a: (data: Uint8Array) => DecodedMessage;
   identifier: string;
   index: number;
   isConstructor?: boolean;
@@ -43,6 +40,7 @@ export interface AbiMessage {
   isPayable?: boolean;
   returnType?: TypeDef | null;
   selector: ContractSelector;
+  toU8a: (params: CodecArg[]) => Uint8Array;
 }
 
 export type AbiConstructor = AbiMessage;
@@ -55,4 +53,14 @@ export interface InterfaceContractCalls {
 export interface ContractCallOutcome {
   output: Codec | null;
   result: ContractExecResult;
+}
+
+export interface DecodedEvent {
+  args: Codec[];
+  event: AbiEvent;
+}
+
+export interface DecodedMessage {
+  args: Codec[];
+  message: AbiMessage;
 }

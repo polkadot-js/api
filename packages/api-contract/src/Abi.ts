@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, Codec } from '@polkadot/types/types';
+import { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
 import { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageSpec, ContractMessageParamSpec, ContractProject } from '@polkadot/types/interfaces';
-import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent } from './types';
+import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
-import { assert, isNumber, isObject, isString, stringCamelCase } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isNumber, isObject, isString, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import MetaRegistry from './MetaRegistry';
 
@@ -74,24 +74,26 @@ export default class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
-  public decodeEvent (eventU8a: Uint8Array): DecodedEvent {
-    const index = eventU8a[0];
+  public decodeEvent (data: Uint8Array): DecodedEvent {
+    const index = data[0];
     const event = this.#events[index];
 
     assert(event, `Unable to find event with index ${index}`);
 
-    let offset = 1;
+    return event.fromU8a(data.subarray(1));
+  }
 
-    return {
-      args: event.args.map(({ type }): Codec => {
-        const value = this.registry.createType(type.type as 'Text', eventU8a.subarray(offset));
+  /**
+   * Warning: Unstable API, bound to change
+   */
+  public decodeMessage (data: Uint8Array): DecodedMessage {
+    const [, trimmed] = compactStripLength(data);
+    const selector = trimmed.subarray(0, 4);
+    const message = this.messages.find((m) => m.selector.eq(selector));
 
-        offset += value.encodedLength;
+    assert(message, `Unable to find message with selector ${u8aToHex(selector)}`);
 
-        return value;
-      }),
-      event
-    };
+    return message.fromU8a(trimmed.subarray(4));
   }
 
   public findConstructor (constructorOrId: AbiConstructor | string | number): AbiConstructor {
@@ -120,22 +122,63 @@ export default class Abi {
   }
 
   #createEvent = (spec: ContractEventSpec, index: number): AbiEvent => {
-    return {
-      args: this.#createArgs(spec.args, spec),
+    const args = this.#createArgs(spec.args, spec);
+    const event = {
+      args,
       docs: spec.docs.map((doc) => doc.toString()),
+      fromU8a: (data: Uint8Array): DecodedEvent => ({
+        args: this.#decodeArgs(args, data),
+        event
+      }),
       identifier: spec.name.toString(),
       index
     };
+
+    return event;
   }
 
   #createMessage = (spec: ContractMessageSpec | ContractConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
-    return {
+    const args = this.#createArgs(spec.args, spec);
+    const message = {
       ...add,
-      args: this.#createArgs(spec.args, spec),
+      args,
       docs: spec.docs.map((doc) => doc.toString()),
+      fromU8a: (data: Uint8Array): DecodedMessage => ({
+        args: this.#decodeArgs(args, data),
+        message
+      }),
       identifier: spec.name.toString(),
       index,
-      selector: spec.selector
+      selector: spec.selector,
+      toU8a: (params: CodecArg[]) =>
+        this.#encodeArgs(spec, args, params)
     };
+
+    return message;
+  }
+
+  #decodeArgs = (args: AbiParam[], data: Uint8Array): Codec[] => {
+    // for decoding we expect the input to be just the arg data, no selectors
+    // no length added (this allows use with events as well)
+    let offset = 0;
+
+    return args.map(({ type }): Codec => {
+      const value = this.registry.createType(type.type as 'Text', data.subarray(offset));
+
+      offset += value.encodedLength;
+
+      return value;
+    });
+  }
+
+  #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: CodecArg[]): Uint8Array => {
+    assert(data.length === args.length, `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
+
+    return compactAddLength(
+      u8aConcat(
+        this.registry.createType('ContractSelector', selector).toU8a(),
+        ...args.map(({ type }, index) => this.registry.createType(type.type as 'Text', data[index]).toU8a())
+      )
+    );
   }
 }

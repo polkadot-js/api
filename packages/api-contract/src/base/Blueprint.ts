@@ -14,7 +14,7 @@ import ApiBase from '@polkadot/api/base';
 import { isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Abi from '../Abi';
-import { applyOnEvent, encodeMessage } from '../util';
+import { applyOnEvent } from '../util';
 import Base from './Base';
 import Contract from './Contract';
 
@@ -54,7 +54,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #deploy = (constructorOrId: AbiConstructor | string| number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     return this.api.tx.contracts
-      .instantiate(endowment, gasLimit, this.codeHash, encodeMessage(this.registry, this.abi.findConstructor(constructorOrId), params))
+      .instantiate(endowment, gasLimit, this.codeHash, this.abi.findConstructor(constructorOrId).toU8a(params))
       .withResultTransform((result: ISubmittableResult) =>
         new BlueprintSubmittableResult(result, applyOnEvent(result, 'Instantiated', (record: EventRecord) =>
           new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
