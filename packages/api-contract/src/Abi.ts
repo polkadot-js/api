@@ -86,14 +86,15 @@ export default class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
+  public decodeConstructor (data: Uint8Array): DecodedMessage {
+    return this.#decodeMessage('message', this.constructors, data);
+  }
+
+  /**
+   * Warning: Unstable API, bound to change
+   */
   public decodeMessage (data: Uint8Array): DecodedMessage {
-    const [, trimmed] = compactStripLength(data);
-    const selector = trimmed.subarray(0, 4);
-    const message = this.messages.find((m) => m.selector.eq(selector));
-
-    assert(message, `Unable to find message with selector ${u8aToHex(selector)}`);
-
-    return message.fromU8a(trimmed.subarray(4));
+    return this.#decodeMessage('message', this.messages, data);
   }
 
   public findConstructor (constructorOrId: AbiConstructor | string | number): AbiConstructor {
@@ -169,6 +170,16 @@ export default class Abi {
 
       return value;
     });
+  }
+
+  #decodeMessage = (type: 'constructor' | 'message', list: AbiMessage[], data: Uint8Array): DecodedMessage => {
+    const [, trimmed] = compactStripLength(data);
+    const selector = trimmed.subarray(0, 4);
+    const message = list.find((m) => m.selector.eq(selector));
+
+    assert(message, `Unable to find ${type} with selector ${u8aToHex(selector)}`);
+
+    return message.fromU8a(trimmed.subarray(4));
   }
 
   #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: CodecArg[]): Uint8Array => {
