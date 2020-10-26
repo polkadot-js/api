@@ -3,7 +3,7 @@
 
 // from https://stackoverflow.com/questions/19304157/getting-the-reason-why-websockets-closed-with-close-code-1006
 
-const specificStatusCodeMappings: Record<number, string> = {
+const known: Record<number, string> = {
   1000: 'Normal Closure',
   1001: 'Going Away',
   1002: 'Protocol Error',
@@ -37,5 +37,5 @@ export function getWSErrorString (code: number): string {
     }
   }
 
-  return specificStatusCodeMappings[code] || '(Unknown)';
+  return known[code] || '(Unknown)';
 }
