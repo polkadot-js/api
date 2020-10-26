@@ -1764,9 +1764,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.59.6":
-  version: 0.59.6
-  resolution: "@polkadot/dev@npm:0.59.6"
+"@polkadot/dev@npm:^0.59.8":
+  version: 0.59.8
+  resolution: "@polkadot/dev@npm:0.59.8"
   dependencies:
     "@babel/cli": ^7.12.1
     "@babel/core": ^7.12.3
@@ -1854,7 +1854,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: bdd24c2327252ce6be1e44538ed4dadb94917780440291d6184c8073b38f2d6fead2b98a9ada9ff7bac32f4e8628467f391c8b3829bcc4fa2285b75b9b1e59cb
+  checksum: 45b4020becfc171dbe2029781551492d6942d0af1eb0106cc04fa313f00583b6850a93942b013a6f14a246fb36fd705591c6ba29a6083c5e4954bb5d53385587
   languageName: node
   linkType: hard
 
@@ -1917,8 +1917,8 @@ __metadata:
     "@polkadot/types": ^2.4.1
     "@polkadot/util": ^3.6.1
     "@polkadot/util-crypto": ^3.6.1
-    "@polkadot/x-fetch": ^0.3.4
-    "@polkadot/x-ws": ^0.3.4
+    "@polkadot/x-fetch": ^0.3.5
+    "@polkadot/x-ws": ^0.3.5
     bn.js: ^5.1.3
     eventemitter3: ^4.0.7
     mock-socket: ^9.0.3
@@ -1926,12 +1926,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.51":
-  version: 0.3.51
-  resolution: "@polkadot/ts@npm:0.3.51"
+"@polkadot/ts@npm:^0.3.53":
+  version: 0.3.53
+  resolution: "@polkadot/ts@npm:0.3.53"
   dependencies:
     "@types/chrome": ^0.0.125
-  checksum: 15d5eb2f2ffff8e612cd54fd8a9b46eba897224cbaab15a363afa0d801589d29b5e64d802c825cb68b20a8e2fef7b55717316d7aa7d8ac851579eefec15a5316
+  checksum: 9453f9e85668705567a482deddc7bbb160b2057c60b8ddf167a228aebd47bfbd8a1ff44ad5114a8f61c4626b199f98ce254a89c8e38699ef6a42820f6270a23b
   languageName: node
   linkType: hard
 
@@ -2037,43 +2037,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-fetch@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "@polkadot/x-fetch@npm:0.3.4"
+"@polkadot/x-fetch@npm:^0.3.5":
+  version: 0.3.5
+  resolution: "@polkadot/x-fetch@npm:0.3.5"
   dependencies:
     "@babel/runtime": ^7.12.1
     "@types/node-fetch": ^2.5.7
     node-fetch: ^2.6.1
-  checksum: e5dcf6708aa7c56e87ee8a3c598dbd6f28f357bfd87f83e84a0fa0f4e319381bd7a8cdfa5c78bc9f4358d1850748ce681ed7b9c5367807badd0acbc27d31a143
+  checksum: 538bfa601e9869c8ac8387d88a71332726b9efb5572617cd3fc8ef457f800995cf05f392c20b8ab568bf2a5bce7d5208e1710002ae462fcadc6f407d0c1666ac
   languageName: node
   linkType: hard
 
 "@polkadot/x-textdecoder@npm:^0.3.3":
-  version: 0.3.4
-  resolution: "@polkadot/x-textdecoder@npm:0.3.4"
+  version: 0.3.5
+  resolution: "@polkadot/x-textdecoder@npm:0.3.5"
   dependencies:
     "@babel/runtime": ^7.12.1
-  checksum: 0d7f89207b19a1d8a7ae71af843bbb1ad85b907dd09dd4e9c2c7961ecc2d0b31a4299cbc8039e342452f74f8f3fe055700ea045524b295b4b4636b88f83a1d22
+  checksum: 987ef91c8d09d35e24b09c6d193aaaf5fa4c8a88c895ae8599e957f6aa3e140da58e259b9a4346870215f045b9ff15e645e5c933a07e8f18519009d536f3a4e7
   languageName: node
   linkType: hard
 
 "@polkadot/x-textencoder@npm:^0.3.3":
-  version: 0.3.4
-  resolution: "@polkadot/x-textencoder@npm:0.3.4"
+  version: 0.3.5
+  resolution: "@polkadot/x-textencoder@npm:0.3.5"
   dependencies:
     "@babel/runtime": ^7.12.1
-  checksum: 3819e0376fb104b0cb283c21c43d4f52b803ff4fdc170b2021aad4799db6dbb5635506939a5155f136bc6f75bd8fe99f8597f6d0e2f104b080076435cf221422
+  checksum: dbe41a91b993e770cbf5abc9439ad10d2c2f40149f9dc3ebac9a76338f332ae0989284f3b8d53b8d890bdc7808df09fb5cb8671d2b3f906353c047a05664a7d4
   languageName: node
   linkType: hard
 
-"@polkadot/x-ws@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "@polkadot/x-ws@npm:0.3.4"
+"@polkadot/x-ws@npm:^0.3.5":
+  version: 0.3.5
+  resolution: "@polkadot/x-ws@npm:0.3.5"
   dependencies:
     "@babel/runtime": ^7.12.1
     "@types/websocket": ^1.0.1
     websocket: ^1.0.32
-  checksum: 31b18e89f39f7fa31a0bc27c16dbc9520d6a748c0c117f181b84dcbe8eb1bddced2932173df0d83b2c897e6ef2fd21e5336618e551f4256783f8e903094f4f41
+  checksum: 3b451920d3d933689a6d40c9d498c5cb1eac09fcfbf660216ab6afbb0278cb6efd3935c979b4c6c9e101ce03fc7914e00f94427280b40902ed027c52ec7f65d6
   languageName: node
   linkType: hard
 
@@ -10337,8 +10337,8 @@ fsevents@^1.2.7:
     "@babel/core": ^7.12.3
     "@babel/register": ^7.12.1
     "@babel/runtime": ^7.12.1
-    "@polkadot/dev": ^0.59.6
-    "@polkadot/ts": ^0.3.51
+    "@polkadot/dev": ^0.59.8
+    "@polkadot/ts": ^0.3.53
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.15
     copyfiles: ^2.4.0
