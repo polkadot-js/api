@@ -155,5 +155,5 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     }
   }
 
-  return possibleTypes;
+  return [...new Set(possibleTypes)];
 }
