@@ -1,16 +1,31 @@
 # CHANGELOG
 
-## 2.3.2-x
+## 2.4.1 Oct 26, 2020
+
+Upgrade priority: Low. No breaking changes, however it does move `api-contract` forward with additional features.
+
+Contributed:
+
+- Add support for both `{i,u}256` types on contracts (Thanks to https://github.com/seanyoung)
 
 Changes:
 
 - Add `.keysAt` & `.entriesAt` to query maps at a specific blockHash
-- Contracts identifiers matches on both snake_case and camelCase (consistency)
+- Adjust ordering of type injection, any `types: { ... }` definitions not have precedence
+- Correctly format Tuples in both RPC and const definitions as part of type generation
+- Add node-template to known types (tracking inside API), remove warnings for the spec
+- Add initial implementation for new Substrate `MultiAddress` type
+- Add `api.derive.chain.subscribeNewBlocks` for full block retrievals
+- Contracts identifiers to `.{exec, read}('name', ...)` now matches on both snake_case and camelCase (consistency)
+- Cleanup contracts serialization for messages to allow both to and from
+- Add deserialization of contract events against the ABI
+- Adjust contracts metadata parsing to be future-proof with type retrievals
+- Add tests for Solang into contracts, re-organize layout per type
 
 
 ## 2.3.1 Oct 19, 2020
 
-Upgrade priority: Low. Recommended for `api-contracts` developers and those using large messages via Node.js WS.
+Upgrade priority: Low. Recommended for `api-contract` developers and those using large messages via Node.js WS.
 
 Contributed:
 
