@@ -14,7 +14,7 @@ import ApiBase from '@polkadot/api/base';
 import { assert, bnToBn, isFunction, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Abi from '../Abi';
-import { encodeMessage, formatData } from '../util';
+import { formatData } from '../util';
 import Base from './Base';
 
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
@@ -69,7 +69,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #exec = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
-    return this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), encodeMessage(this.registry, this.abi.findMessage(messageOrId), params));
+    return this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params));
   }
 
   #read = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): ContractRead<ApiType> => {
@@ -83,7 +83,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
         this.api.rx.rpc.contracts.call({
           dest: this.address,
           gasLimit: this.#getGas(gasLimit),
-          inputData: encodeMessage(this.registry, message, params),
+          inputData: message.toU8a(params),
           origin,
           value
         }).pipe(
