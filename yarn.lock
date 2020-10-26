@@ -1717,25 +1717,25 @@ __metadata:
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
     "@babel/runtime": ^7.12.1
-    "@polkadot/api": ^2.3.2-17
-    "@polkadot/rpc-core": ^2.3.2-17
-    "@polkadot/types": ^2.3.2-17
+    "@polkadot/api": ^2.4.0
+    "@polkadot/rpc-core": ^2.4.0
+    "@polkadot/types": ^2.4.0
     "@polkadot/util": ^3.6.1
     bn.js: ^5.1.3
     rxjs: ^6.6.3
   languageName: unknown
   linkType: soft
 
-"@polkadot/api-derive@^2.3.2-17, @polkadot/api-derive@workspace:packages/api-derive":
+"@polkadot/api-derive@^2.4.0, @polkadot/api-derive@workspace:packages/api-derive":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
     "@babel/runtime": ^7.12.1
-    "@polkadot/api": ^2.3.2-17
+    "@polkadot/api": ^2.4.0
     "@polkadot/keyring": ^3.6.1
-    "@polkadot/rpc-core": ^2.3.2-17
-    "@polkadot/rpc-provider": ^2.3.2-17
-    "@polkadot/types": ^2.3.2-17
+    "@polkadot/rpc-core": ^2.4.0
+    "@polkadot/rpc-provider": ^2.4.0
+    "@polkadot/types": ^2.4.0
     "@polkadot/util": ^3.6.1
     "@polkadot/util-crypto": ^3.6.1
     bn.js: ^5.1.3
@@ -1744,18 +1744,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/api@^2.3.2-17, @polkadot/api@workspace:packages/api":
+"@polkadot/api@^2.4.0, @polkadot/api@workspace:packages/api":
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
     "@babel/runtime": ^7.12.1
-    "@polkadot/api-derive": ^2.3.2-17
+    "@polkadot/api-derive": ^2.4.0
     "@polkadot/keyring": ^3.6.1
-    "@polkadot/metadata": ^2.3.2-17
-    "@polkadot/rpc-core": ^2.3.2-17
-    "@polkadot/rpc-provider": ^2.3.2-17
-    "@polkadot/types": ^2.3.2-17
-    "@polkadot/types-known": ^2.3.2-17
+    "@polkadot/metadata": ^2.4.0
+    "@polkadot/rpc-core": ^2.4.0
+    "@polkadot/rpc-provider": ^2.4.0
+    "@polkadot/types": ^2.4.0
+    "@polkadot/types-known": ^2.4.0
     "@polkadot/util": ^3.6.1
     "@polkadot/util-crypto": ^3.6.1
     bn.js: ^5.1.3
@@ -1869,14 +1869,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/metadata@^2.3.2-17, @polkadot/metadata@workspace:packages/metadata":
+"@polkadot/metadata@^2.4.0, @polkadot/metadata@workspace:packages/metadata":
   version: 0.0.0-use.local
   resolution: "@polkadot/metadata@workspace:packages/metadata"
   dependencies:
     "@babel/runtime": ^7.12.1
     "@polkadot/keyring": ^3.6.1
-    "@polkadot/types": ^2.3.2-17
-    "@polkadot/types-known": ^2.3.2-17
+    "@polkadot/types": ^2.4.0
+    "@polkadot/types-known": ^2.4.0
     "@polkadot/util": ^3.6.1
     "@polkadot/util-crypto": ^3.6.1
     bn.js: ^5.1.3
@@ -1892,29 +1892,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@^2.3.2-17, @polkadot/rpc-core@workspace:packages/rpc-core":
+"@polkadot/rpc-core@^2.4.0, @polkadot/rpc-core@workspace:packages/rpc-core":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
     "@babel/runtime": ^7.12.1
     "@polkadot/keyring": ^3.6.1
-    "@polkadot/metadata": ^2.3.2-17
-    "@polkadot/rpc-provider": ^2.3.2-17
-    "@polkadot/types": ^2.3.2-17
+    "@polkadot/metadata": ^2.4.0
+    "@polkadot/rpc-provider": ^2.4.0
+    "@polkadot/types": ^2.4.0
     "@polkadot/util": ^3.6.1
     memoizee: ^0.4.14
     rxjs: ^6.6.3
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-provider@^2.3.2-17, @polkadot/rpc-provider@workspace:packages/rpc-provider":
+"@polkadot/rpc-provider@^2.4.0, @polkadot/rpc-provider@workspace:packages/rpc-provider":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
     "@babel/runtime": ^7.12.1
     "@polkadot/keyring": ^3.6.1
-    "@polkadot/metadata": ^2.3.2-17
-    "@polkadot/types": ^2.3.2-17
+    "@polkadot/metadata": ^2.4.0
+    "@polkadot/types": ^2.4.0
     "@polkadot/util": ^3.6.1
     "@polkadot/util-crypto": ^3.6.1
     "@polkadot/x-fetch": ^0.3.4
@@ -1942,10 +1942,10 @@ __metadata:
     "@babel/core": ^7.12.3
     "@babel/register": ^7.12.1
     "@babel/runtime": ^7.12.1
-    "@polkadot/api": ^2.3.2-17
-    "@polkadot/metadata": ^2.3.2-17
-    "@polkadot/rpc-provider": ^2.3.2-17
-    "@polkadot/types": ^2.3.2-17
+    "@polkadot/api": ^2.4.0
+    "@polkadot/metadata": ^2.4.0
+    "@polkadot/rpc-provider": ^2.4.0
+    "@polkadot/types": ^2.4.0
     "@polkadot/util": ^3.6.1
     "@types/websocket": ^1.0.1
     "@types/yargs": ^15.0.9
@@ -1961,25 +1961,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-known@^2.3.2-17, @polkadot/types-known@workspace:packages/types-known":
+"@polkadot/types-known@^2.4.0, @polkadot/types-known@workspace:packages/types-known":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
     "@babel/runtime": ^7.12.1
-    "@polkadot/types": ^2.3.2-17
+    "@polkadot/types": ^2.4.0
     "@polkadot/util": ^3.6.1
     "@types/bn.js": ^4.11.6
     bn.js: ^5.1.3
   languageName: unknown
   linkType: soft
 
-"@polkadot/types@^2.3.2-17, @polkadot/types@workspace:packages/types":
+"@polkadot/types@^2.4.0, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.12.1
     "@polkadot/keyring": ^3.6.1
-    "@polkadot/metadata": ^2.3.2-17
+    "@polkadot/metadata": ^2.4.0
     "@polkadot/util": ^3.6.1
     "@polkadot/util-crypto": ^3.6.1
     "@types/bn.js": ^4.11.6
@@ -2286,9 +2286,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 14.14.2
-  resolution: "@types/node@npm:14.14.2"
-  checksum: e6ad786008ec81e010525beb09067f31cc55a3a02120a7e383e21309c1422a0d4a56059c1da46716509e36dbd4d2c607790f3fd715275a09b9f3ffb2cf3b243e
+  version: 14.14.3
+  resolution: "@types/node@npm:14.14.3"
+  checksum: f77a69dfc0edb74007883f339636f7d79b891219389311ff6d756a966ca1025557c84c68643f738e897385d2e57e9124cc8261fcf080d378398ab60babaffd57
   languageName: node
   linkType: hard
 
@@ -3038,10 +3038,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ast-module-types@npm:^2.3.1, ast-module-types@npm:^2.3.2, ast-module-types@npm:^2.4.0, ast-module-types@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "ast-module-types@npm:2.6.0"
-  checksum: c67629212bf558829093d1b06538e51fdc95190ffd7a7db0eeeda4f52b6e3b6c9b2e75d9012dfc466d9baa21a4c2e3bfc6fdeddab0445d9628966653fcc46301
+"ast-module-types@npm:^2.3.2, ast-module-types@npm:^2.4.0, ast-module-types@npm:^2.6.0, ast-module-types@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "ast-module-types@npm:2.7.0"
+  checksum: 9f7d1071c0f43523c4ea62321fd6e10a2b5568a9465c390813910291def1ab76cc1c3cd5250d0b042de4bc766dccdbdad968bc1474bc717ce68e654c996e972e
   languageName: node
   linkType: hard
 
@@ -4522,16 +4522,16 @@ __metadata:
   linkType: hard
 
 "detective-amd@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "detective-amd@npm:3.0.0"
+  version: 3.0.1
+  resolution: "detective-amd@npm:3.0.1"
   dependencies:
-    ast-module-types: ^2.3.1
+    ast-module-types: ^2.7.0
     escodegen: ^1.8.0
     get-amd-module-type: ^3.0.0
     node-source-walk: ^4.0.0
   bin:
     detective-amd: bin/detective-amd.js
-  checksum: bb9d1ee828fe6fbc5879ce1db406bda1a3f1a6933d5f8d8942d3f8adc26ef94a94f09b734085206ab24a4bd18357f5c24e8ffb7d3dbfeb384f9c01a7293548ed
+  checksum: f60a00822a5e9b335f10cb50c451a87812cbc54640054b67a1981a7301866d9fdd5e19b642237b7b03a5d47e1f8fca518292258682fd01ee894639eda275487b
   languageName: node
   linkType: hard
 
@@ -9720,11 +9720,11 @@ fsevents@^1.2.7:
   linkType: hard
 
 "pupa@npm:^2.0.1":
-  version: 2.1.0
-  resolution: "pupa@npm:2.1.0"
+  version: 2.1.1
+  resolution: "pupa@npm:2.1.1"
   dependencies:
     escape-goat: ^2.0.0
-  checksum: 1b4374e7ada1f2e666915d942a98de94819dc018e8dba82aba83e98572954d32b616045e84e28825fcc8b7b485f354c92a8531109ecd62812d8f7f9cff7db227
+  checksum: b300d979e1bcc388b0aabe723e9bd7f6598f02a10e66b693b9dde6249f68ad95e93804a1511dbbafd172e404b837d60c49ebdd152e3e94909dc282ca4ba285e8
   languageName: node
   linkType: hard
 
@@ -11249,9 +11249,9 @@ fsevents@^1.2.7:
   linkType: hard
 
 "term-size@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "term-size@npm:2.2.0"
-  checksum: 02307492dfe602234355d55f23f4ce0125ad2dea428a63337e031bc97d2f7832b12c66eb64853f4dc30bdfc05377bc161da8659ecc30303a1ac616a619f284bb
+  version: 2.2.1
+  resolution: "term-size@npm:2.2.1"
+  checksum: a013f688f6fc1b6410be3b2f7a04c3a9169e97186949b0bc33cc7c1943b0c88d9a943f81e518d9227cb817803e7a18c702f2971eafd6d8659ce4a1df94094246
   languageName: node
   linkType: hard
 
@@ -11688,11 +11688,11 @@ fsevents@^1.2.7:
   linkType: hard
 
 "uglify-js@npm:^3.1.4":
-  version: 3.11.3
-  resolution: "uglify-js@npm:3.11.3"
+  version: 3.11.4
+  resolution: "uglify-js@npm:3.11.4"
   bin:
     uglifyjs: bin/uglifyjs
-  checksum: 893090b962e6f1026c818a5b442e0ff84838560c4d91ab56dea154d51e1a531dfb34ec775e44c603d3ea40a25fe5374e679bd042afaf790372c8fabf3aa84694
+  checksum: 654020b5bb2e53ef99b91603396dee47fc24930909a207590f04a93699c1df0f951e85c1c486aec44859b1ca255430681b46f13bd36f81e0113e57c370bf93d0
   languageName: node
   linkType: hard
 
@@ -12398,9 +12398,9 @@ fsevents@^1.2.7:
   linkType: hard
 
 "y18n@npm:^5.0.2":
-  version: 5.0.4
-  resolution: "y18n@npm:5.0.4"
-  checksum: 362a454e8ae75bcdae0ca46ee5cc24fd915238bb65a0e1fcf014ae1f11056e8ed1ac8fe4a72056c22f80ebe143fa8ccc86a24eb8bd8e71b5ab2cebd91d8fb9cd
+  version: 5.0.5
+  resolution: "y18n@npm:5.0.5"
+  checksum: a7d41b0cccca1c98ebab270a944df48eb3b5352d3be0affb8afc8369823f6aa97a5fbead2c5b35e59a5650cb786b2b37627b45be5ff31f02a80dd3b881aceb17
   languageName: node
   linkType: hard
 
