@@ -178,7 +178,7 @@ describe('TypeRegistry', (): void => {
     registry.setHasher();
 
     expect(
-      registry.hash(u8aToU8a('abc'))
+      registry.hash(u8aToU8a('abc')).toU8a()
     ).toEqual(
       new Uint8Array([189, 221, 129, 60, 99, 66, 57, 114, 49, 113, 239, 63, 238, 152, 87, 155, 148, 150, 78, 59, 177, 203, 62, 66, 114, 98, 200, 192, 104, 213, 35, 25])
     );
