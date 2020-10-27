@@ -51,8 +51,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<ApplyExtrinsicResult> =>
-          this.#mockSign(account, optionsOrHash).pipe(
-            switchMap((ex) => api.rpc.system.dryRun(ex.toHex()))
+          this.#observeSign(account, optionsOrHash).pipe(
+            switchMap(() => api.rpc.system.dryRun(this.toHex()))
           )
       )();
     }
@@ -68,10 +68,23 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
-        (): Observable<RuntimeDispatchInfo> =>
-          this.#mockSign(account, optionsOrHash).pipe(
-            switchMap((ex) => api.rpc.payment.queryInfo(ex.toHex()))
-          )
+        (): Observable<RuntimeDispatchInfo> => {
+          const [allOptions] = this.#makeSignAndSendOptions(optionsOrHash);
+          const address = isKeyringPair(account) ? account.address : account.toString();
+
+          return api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
+            first(),
+            switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
+              // setup our options (same way as in signAndSend)
+              const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
+              const signOptions = this.#makeSignOptions(eraOptions, {});
+
+              this.signFake(address, signOptions);
+
+              return api.rpc.payment.queryInfo(this.toHex());
+            })
+          );
+        }
       )();
     }
 
@@ -192,23 +205,6 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       }
 
       return [options, statusCb];
-    }
-
-    #mockSign = (account: AddressOrPair, options?: Partial<SignerOptions>): Observable<Extrinsic> => {
-      const [allOptions] = this.#makeSignAndSendOptions(options);
-      const address = isKeyringPair(account) ? account.address : account.toString();
-
-      return api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
-        first(),
-        map((signingInfo): Extrinsic => {
-          // setup our options (same way as in signAndSend)
-          const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
-          const signOptions = this.#makeSignOptions(eraOptions, {});
-
-          // add a fake signature to the extrinsic
-          return this.signFake(address, signOptions);
-        })
-      );
     }
 
     #observeSign = (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): Observable<number | undefined> => {
