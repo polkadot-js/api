@@ -66,13 +66,13 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         );
       }
 
+      const [allOptions] = this.#makeSignAndSendOptions(optionsOrHash);
+      const address = isKeyringPair(account) ? account.address : account.toString();
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
-        (): Observable<RuntimeDispatchInfo> => {
-          const [allOptions] = this.#makeSignAndSendOptions(optionsOrHash);
-          const address = isKeyringPair(account) ? account.address : account.toString();
-
-          return api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
+        (): Observable<RuntimeDispatchInfo> =>
+          api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
             first(),
             switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
               // setup our options (same way as in signAndSend)
@@ -83,8 +83,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
               return api.rpc.payment.queryInfo(this.toHex());
             })
-          );
-        }
+          )
       )();
     }
 
