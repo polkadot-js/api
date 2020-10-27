@@ -6,7 +6,6 @@ import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, 
 
 import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
@@ -215,7 +214,7 @@ export default class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

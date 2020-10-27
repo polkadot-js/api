@@ -39,7 +39,7 @@ export default class Block extends Struct {
    * @description Encodes a content [[Hash]] for the block
    */
   public get contentHash (): H256 {
-    return this.registry.createType('H256', this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

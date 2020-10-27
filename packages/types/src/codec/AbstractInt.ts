@@ -7,8 +7,6 @@ import { AnyNumber, Codec, Registry } from '../types';
 import BN from 'bn.js';
 import { BN_ZERO, assert, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
-import Raw from './Raw';
-
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
@@ -95,7 +93,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

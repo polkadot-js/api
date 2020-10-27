@@ -7,7 +7,6 @@ import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types'
 import { isHex, hexToU8a, isObject, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Compact from './Compact';
-import Raw from './Raw';
 import compareMap from './utils/compareMap';
 import decodeU8a from './utils/decodeU8a';
 import typeToConstructor from './utils/typeToConstructor';
@@ -126,7 +125,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Returns a hash of the value
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

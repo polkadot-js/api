@@ -7,7 +7,6 @@ import { Codec, Constructor, Registry } from '../types';
 import BN from 'bn.js';
 import { assert, bnToBn, bnToU8a, isBn, isU8a, isNumber, isString, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex, u8aToBn, u8aToU8a } from '@polkadot/util';
 
-import Raw from './Raw';
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number | BN>;
@@ -125,7 +124,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

@@ -6,8 +6,6 @@ import { AnyJson, Codec, Registry } from '../types';
 
 import { isUndefined } from '@polkadot/util';
 
-import Raw from './Raw';
-
 import { compareMap } from './utils';
 
 /** @internal */
@@ -59,7 +57,7 @@ export default class StructAny extends Map<string, any> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

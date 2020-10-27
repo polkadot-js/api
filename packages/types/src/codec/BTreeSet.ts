@@ -7,7 +7,6 @@ import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types'
 import { isHex, hexToU8a, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Compact from './Compact';
-import Raw from './Raw';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
 const l = logger('BTreeSet');
@@ -117,7 +116,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Returns a hash of the value
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

@@ -8,7 +8,6 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 
 import Null from '../primitive/Null';
 import { mapToTypeMap } from './utils';
-import Raw from './Raw';
 import Struct from './Struct';
 
 // export interface, this is used in Enum.with, so required as public by TS
@@ -190,7 +189,7 @@ export default class Enum implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

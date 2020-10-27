@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { ChainProperties, DispatchErrorModule } from '../interfaces/types';
+import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
@@ -304,8 +304,8 @@ export class TypeRegistry implements Registry {
     return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
-  public hash (data: Uint8Array): Uint8Array {
-    return this.#hasher(data);
+  public hash (data: Uint8Array): H256 {
+    return this.createType('H256', this.#hasher(data));
   }
 
   public register (type: Constructor | RegistryTypes): void;

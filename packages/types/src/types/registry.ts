@@ -3,6 +3,7 @@
 
 import type BN from 'bn.js';
 
+import { H256 } from '../interfaces/runtime';
 import { ChainProperties } from '../interfaces/system';
 import { u8 } from '../primitive';
 import { CallFunction } from './calls';
@@ -161,7 +162,7 @@ export interface Registry {
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
-  hash (data: Uint8Array): Uint8Array;
+  hash (data: Uint8Array): H256;
   init (): Registry;
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
