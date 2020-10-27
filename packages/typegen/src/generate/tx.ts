@@ -12,7 +12,7 @@ import { Text } from '@polkadot/types/primitive';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { createImports, compareName, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { createImports, compareName, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {
   new: 'updated'
@@ -48,12 +48,11 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
             const params = args
               .map(({ name, type }) => {
                 const typeStr = type.toString();
-                const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
-                const nameStr = mapName(name);
+                const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
-                setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(') && !type.startsWith('{')), typeStr]);
+                setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
-                return `${nameStr}: ${similarTypes.join(' | ')}`;
+                return `${mapName(name)}: ${similarTypes.join(' | ')}`;
               })
               .join(', ');
 

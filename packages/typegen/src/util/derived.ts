@@ -26,7 +26,7 @@ import { formatType } from './formatting';
 import { setImports, ModuleTypes, TypeImports } from './imports';
 
 function arrayToStrType (arr: string[]): string {
-  return `${arr.map((c): string => `'${c}'`).join(' | ')}`;
+  return `${arr.map((c) => `'${c}'`).join(' | ')}`;
 }
 
 const voteConvictions = arrayToStrType(AllConvictions);
@@ -75,7 +75,7 @@ export function getDerivedTypes (registry: Registry, definitions: Record<string,
 export function getSimilarTypes (registry: Registry, definitions: Record<string, ModuleTypes>, _type: string, imports: TypeImports): string[] {
   const typeParts = _type.split('::');
   const type = typeParts[typeParts.length - 1];
-  const possibleTypes = [type];
+  const possibleTypes = [formatType(definitions, type, imports)];
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);

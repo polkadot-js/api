@@ -99,10 +99,8 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 function _decodeTuple (value: TypeDef, _: string, subType: string, count: number): TypeDef {
   value.sub = subType.length === 0
     ? []
-    : typeSplit(subType).map((inner): TypeDef =>
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      getTypeDef(inner, {}, count)
-    );
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    : typeSplit(subType).map((inner) => getTypeDef(inner, {}, count));
 
   return value;
 }
@@ -140,13 +138,7 @@ function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDe
 }
 
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
-  if (type.substr(0, start.length) !== start) {
-    return false;
-  }
-
-  assert(type.endsWith(end), `Expected '${start}' closing with '${end}' on ${type}`);
-
-  return true;
+  return (type.substr(0, start.length) === start) && (type.substr(-1 * end.length) === end);
 }
 
 const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [
@@ -185,9 +177,7 @@ export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions
     return value;
   }
 
-  const nested = nestedExtraction.find((nested): boolean =>
-    hasWrapper(type, nested)
-  );
+  const nested = nestedExtraction.find((nested) => hasWrapper(type, nested));
 
   if (nested) {
     value.info = nested[2];
@@ -195,9 +185,7 @@ export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions
     return nested[3](value, type, extractSubType(type, nested), count);
   }
 
-  const wrapped = wrappedExtraction.find((wrapped): boolean =>
-    hasWrapper(type, wrapped)
-  );
+  const wrapped = wrappedExtraction.find((wrapped) => hasWrapper(type, wrapped));
 
   if (wrapped) {
     value.info = wrapped[2];

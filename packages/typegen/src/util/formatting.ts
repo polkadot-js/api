@@ -232,8 +232,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
-        ((typeDef.sub as TypeDef[])
-          .map((sub): string => formatType(definitions, sub.type, imports)))
+        ((typeDef.sub as TypeDef[]).map((sub) => formatType(definitions, sub.type, imports)))
       );
     }
 
