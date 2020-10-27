@@ -111,4 +111,8 @@ describe('Type', (): void => {
     expect(decoded.encodedLength).toEqual(original.length + 1); // extra byte for length
     expect(decoded.toString()).toEqual(expected);
   });
+
+  it('has the correct raw', (): void => {
+    expect(new Type(registry).toRawType()).toEqual('Type');
+  });
 });
