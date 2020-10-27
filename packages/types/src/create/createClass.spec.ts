@@ -32,6 +32,10 @@ describe('getTypeClass', (): void => {
 
     getTypeClass(registry, typeDef);
 
-    expect(spy).toHaveBeenCalledWith('Unable to resolve type ABC, it will fail on construction');
+    expect(spy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      'Unable to resolve type ABC, it will fail on construction'
+    );
   });
 });
