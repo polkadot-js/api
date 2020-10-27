@@ -3,10 +3,10 @@
 
 /* eslint-disable no-dupe-class-members */
 
-import { Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
+import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittableDryRunResult, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
 import { Observable, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -46,33 +46,38 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return this;
     }
 
+    // dry run an extrinsic
+    public dryRun (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittableDryRunResult<ApiType> {
+      if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return decorateMethod(
+          () => api.rpc.system.dryRun(this.toHex(), optionsOrHash)
+        );
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return decorateMethod(
+        (): Observable<ApplyExtrinsicResult> =>
+          this.#mockSign(account, optionsOrHash).pipe(
+            switchMap((ex) => api.rpc.system.dryRun(ex.toHex()))
+          )
+      )();
+    }
+
     // calculate the payment info for this transaction (if signed and submitted)
     public paymentInfo (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittablePaymentResult<ApiType> {
       if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
-          () => api.rpc.payment.queryInfo(this.toHex(), optionsOrHash)
+          (): Observable<RuntimeDispatchInfo> => api.rpc.payment.queryInfo(this.toHex(), optionsOrHash)
         );
       }
-
-      const [allOptions] = this.#makeSignAndSendOptions(optionsOrHash);
-      const address = isKeyringPair(account) ? account.address : account.toString();
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
-          api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
-            first(),
-            switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
-              // setup our options (same way as in signAndSend)
-              const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
-              const signOptions = this.#makeSignOptions(eraOptions, {});
-
-              // add a fake signature to the extrinsic
-              this.signFake(address, signOptions);
-
-              return api.rpc.payment.queryInfo(this.toHex());
-            })
+          this.#mockSign(account, optionsOrHash).pipe(
+            switchMap((ex) => api.rpc.payment.queryInfo(ex.toHex()))
           )
       )();
     }
@@ -187,6 +192,23 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       }
 
       return [options, statusCb];
+    }
+
+    #mockSign = (account: AddressOrPair, options?: Partial<SignerOptions>): Observable<Extrinsic> => {
+      const [allOptions] = this.#makeSignAndSendOptions(options);
+      const address = isKeyringPair(account) ? account.address : account.toString();
+
+      return api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
+        first(),
+        map((signingInfo): Extrinsic => {
+          // setup our options (same way as in signAndSend)
+          const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
+          const signOptions = this.#makeSignOptions(eraOptions, {});
+
+          // add a fake signature to the extrinsic
+          return this.signFake(address, signOptions);
+        })
+      );
     }
 
     #observeSign = (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): Observable<number | undefined> => {

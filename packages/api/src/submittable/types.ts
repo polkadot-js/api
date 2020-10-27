@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Address, DispatchError, DispatchInfo, Extrinsic, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import { AccountId, Address, ApplyExtrinsicResult, DispatchError, DispatchInfo, Extrinsic, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { AnyNumber, Callback, Codec, IExtrinsicEra, IKeyringPair, Signer, ISubmittableResult } from '@polkadot/types/types';
 import { ApiTypes } from '../types';
 
@@ -13,6 +13,11 @@ export interface SubmittableResultValue {
   events?: EventRecord[];
   status: ExtrinsicStatus;
 }
+
+export type SubmittableDryRunResult<ApiType extends ApiTypes> =
+  ApiType extends 'rxjs'
+    ? Observable<ApplyExtrinsicResult>
+    : Promise<ApplyExtrinsicResult>;
 
 export type SubmittablePaymentResult<ApiType extends ApiTypes> =
   ApiType extends 'rxjs'
