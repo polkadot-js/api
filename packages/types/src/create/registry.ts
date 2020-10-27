@@ -7,7 +7,7 @@ import { ChainProperties, DispatchErrorModule } from '../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
-import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from '../codec/Raw';
@@ -17,6 +17,8 @@ import DoNotConstruct from '../primitive/DoNotConstruct';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';
+
+const l = logger('registry');
 
 // create error mapping from metadata
 function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
@@ -67,7 +69,7 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
         try {
           Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(registry, typeDef));
         } catch (error) {
-          console.error(error);
+          l.error(error);
         }
 
         metadataEvents[u8aToHex(eventIndex)] = class extends EventData {
@@ -233,7 +235,7 @@ export class TypeRegistry implements Registry {
       if (definition) {
         BaseType = createClass(this, definition);
       } else if (withUnknown) {
-        console.warn(`Unable to resolve type ${name}, it will fail on construction`);
+        l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
         this.#unknownTypes.set(name, true);
         BaseType = DoNotConstruct.with(name);
@@ -383,7 +385,7 @@ export class TypeRegistry implements Registry {
     const unknown = findUnknownExtensions(this.#signedExtensions);
 
     if (unknown.length) {
-      console.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
+      l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
     }
   }
 }

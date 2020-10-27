@@ -388,7 +388,7 @@ export default class Rpc implements RpcInterface {
       try {
         return this._formatStorageData(registry, key, result);
       } catch (error) {
-        console.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
+        l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
 
         throw error;
       }
@@ -459,7 +459,7 @@ export default class Rpc implements RpcInterface {
       try {
         results.push(this._formatStorageSetEntry(registry, key, changes, withCache));
       } catch (error) {
-        console.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
+        l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
 
         throw error;
       }

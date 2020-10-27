@@ -4,11 +4,13 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, hexToU8a, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Compact from './Compact';
 import Raw from './Raw';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
+
+const l = logger('BTreeSet');
 
 /** @internal */
 function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
@@ -37,7 +39,7 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
     try {
       output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
     } catch (error) {
-      console.error('Failed to decode BTreeSet key or value:', (error as Error).message);
+      l.error('Failed to decode key or value:', (error as Error).message);
 
       throw error;
     }

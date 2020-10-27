@@ -4,13 +4,15 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import { isHex, hexToU8a, isObject, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, hexToU8a, isObject, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Compact from './Compact';
 import Raw from './Raw';
 import compareMap from './utils/compareMap';
 import decodeU8a from './utils/decodeU8a';
 import typeToConstructor from './utils/typeToConstructor';
+
+const l = logger('Map');
 
 /** @internal */
 function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
@@ -46,7 +48,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
           : new ValClass(registry, val)
       );
     } catch (error) {
-      console.error('Failed to decode Map key or value:', (error as Error).message);
+      l.error('Failed to decode key or value:', (error as Error).message);
 
       throw error;
     }

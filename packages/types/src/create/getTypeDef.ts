@@ -171,11 +171,7 @@ export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions
   const type = sanitize(_type);
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
 
-  if (++count === MAX_NESTED) {
-    console.warn('getTypeDef: Maximum nested limit reached');
-
-    return value;
-  }
+  assert(++count !== MAX_NESTED, 'getTypeDef: Maximum nested limit reached');
 
   const nested = nestedExtraction.find((nested) => hasWrapper(type, nested));
 

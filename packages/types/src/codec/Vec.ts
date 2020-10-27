@@ -3,13 +3,15 @@
 
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { u8aToU8a, assert } from '@polkadot/util';
+import { assert, logger, u8aToU8a } from '@polkadot/util';
 
 import Compact from './Compact';
 import { decodeU8a, typeToConstructor } from './utils';
 import AbstractArray from './AbstractArray';
 
 const MAX_LENGTH = 64 * 1024;
+
+const l = logger('Vec');
 
 /**
  * @name Vec
@@ -39,7 +41,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
             ? entry
             : new Type(registry, entry);
         } catch (error) {
-          console.error(`Unable to decode Vec on index ${index}`, (error as Error).message);
+          l.error(`Unable to decode on index ${index}`, (error as Error).message);
 
           throw error;
         }
