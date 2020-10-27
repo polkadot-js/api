@@ -8,7 +8,6 @@ import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Null from '../primitive/Null';
 import { typeToConstructor } from './utils';
-import Raw from './Raw';
 
 /** @internal */
 function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
@@ -81,7 +80,7 @@ export default class Option<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

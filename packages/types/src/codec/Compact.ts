@@ -10,7 +10,6 @@ import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import typeToConstructor from './utils/typeToConstructor';
 import { UIntBitLength } from './AbstractInt';
-import Raw from './Raw';
 
 export interface CompactEncodable extends Codec {
   bitLength (): number;
@@ -88,7 +87,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

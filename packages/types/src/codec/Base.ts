@@ -4,8 +4,6 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts, Codec, Registry } from '../types';
 
-import Raw from './Raw';
-
 /**
  * @name Base
  * @description A type extends the Base class, when it holds a value
@@ -31,7 +29,7 @@ export default abstract class Base<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

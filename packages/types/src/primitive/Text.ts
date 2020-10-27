@@ -70,7 +70,7 @@ export default class Text extends String implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return this.registry.createType('H256', this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
