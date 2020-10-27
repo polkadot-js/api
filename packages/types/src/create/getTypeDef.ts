@@ -138,7 +138,13 @@ function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDe
 }
 
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
-  return (type.substr(0, start.length) === start) && (type.substr(-1 * end.length) === end);
+  if (type.substr(0, start.length) !== start) {
+    return false;
+  }
+
+  assert(type.endsWith(end), `Expected '${start}' closing with '${end}' on ${type}`);
+
+  return true;
 }
 
 const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [

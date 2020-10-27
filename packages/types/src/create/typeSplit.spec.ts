@@ -37,12 +37,12 @@ describe('typeSplit', (): void => {
   it('checks for unclosed vec', (): void => {
     expect(
       (): string[] => typeSplit('Text, Vec<u64')
-    ).toThrow(/Invalid defintion/);
+    ).toThrow(/Invalid definition/);
   });
 
   it('checks for unclosed tuple', (): void => {
     expect(
       (): string[] => typeSplit('Text, (u64, u32')
-    ).toThrow(/Invalid defintion/);
+    ).toThrow(/Invalid definition/);
   });
 });
