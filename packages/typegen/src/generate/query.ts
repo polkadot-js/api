@@ -19,7 +19,6 @@ import { ModuleTypes } from '../util/imports';
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
-  const format = (type: string) => formatType(allDefs, type, imports);
   const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
@@ -36,7 +35,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     ]);
 
     return [
-      `arg: ${similarTypes.map(format).join(' | ')}`,
+      `arg: ${similarTypes.join(' | ')}`,
       formatType(allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
@@ -50,8 +49,8 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
       storageEntry.type.asDoubleMap.value.toString()
     ]);
 
-    const key1Types = similarTypes1.map(format).join(' | ');
-    const key2Types = similarTypes2.map(format).join(' | ');
+    const key1Types = similarTypes1.join(' | ');
+    const key2Types = similarTypes2.join(' | ');
 
     return [
       `key1: ${key1Types}, key2: ${key2Types}`,
