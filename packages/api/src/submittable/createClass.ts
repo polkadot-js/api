@@ -39,13 +39,6 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       this.#ignoreStatusCb = apiType === 'rxjs';
     }
 
-    // adds a transform to the result, applied before result is returned
-    withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this {
-      this.#transformResult = transform;
-
-      return this;
-    }
-
     // dry run an extrinsic
     public dryRun (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittableDryRunResult<ApiType> {
       if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
@@ -80,6 +73,24 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
             switchMap((ex) => api.rpc.payment.queryInfo(ex.toHex()))
           )
       )();
+    }
+
+    // send with an immediate Hash result
+    public send (): SubmittableResultResult<ApiType>;
+
+    // send with a status callback
+    public send (statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
+
+    // send implementation for both immediate Hash and statusCb variants
+    public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
+      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return decorateMethod(
+        isSubscription
+          ? this.#observeSubscribe
+          : this.#observeSend
+      )(statusCb);
     }
 
     /**
@@ -130,22 +141,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )(statusCb);
     }
 
-    // send with an immediate Hash result
-    public send (): SubmittableResultResult<ApiType>;
+    // adds a transform to the result, applied before result is returned
+    withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this {
+      this.#transformResult = transform;
 
-    // send with a status callback
-    public send (statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
-
-    // send implementation for both immediate Hash and statusCb variants
-    public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
-      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
-      return decorateMethod(
-        isSubscription
-          ? this.#observeSubscribe
-          : this.#observeSend
-      )(statusCb);
+      return this;
     }
 
     #makeEraOptions = (options: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions => {

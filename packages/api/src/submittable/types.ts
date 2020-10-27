@@ -50,24 +50,26 @@ export interface SignerOptions {
 export type AddressOrPair = IKeyringPair | string | AccountId | Address;
 
 export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmittableResult = ISubmittableResult> extends Extrinsic {
-  withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this;
+  dryRun (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableDryRunResult<ApiType>;
 
   paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType>;
 
-  send(): SubmittableResultResult<ApiType>;
+  send (): SubmittableResultResult<ApiType>;
 
-  send(statusCb: Callback<R>): SubmittableResultSubscription<ApiType, R>;
+  send (statusCb: Callback<R>): SubmittableResultSubscription<ApiType, R>;
 
   /**
    * @deprecated
    */
-  sign(account: IKeyringPair, _options?: Partial<SignerOptions>): this;
+  sign (account: IKeyringPair, _options?: Partial<SignerOptions>): this;
 
-  signAsync(account: AddressOrPair, _options?: Partial<SignerOptions>): SubmittableThis<ApiType, this>;
+  signAsync (account: AddressOrPair, _options?: Partial<SignerOptions>): SubmittableThis<ApiType, this>;
 
-  signAndSend(account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType, R>;
+  signAndSend (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType, R>;
 
-  signAndSend(account: AddressOrPair, statusCb: Callback<R>): SubmittableResultSubscription<ApiType>;
+  signAndSend (account: AddressOrPair, statusCb: Callback<R>): SubmittableResultSubscription<ApiType>;
 
-  signAndSend(account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<R>): SubmittableResultSubscription<ApiType, R>;
+  signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<R>): SubmittableResultSubscription<ApiType, R>;
+
+  withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this;
 }
