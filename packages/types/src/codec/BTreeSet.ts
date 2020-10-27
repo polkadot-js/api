@@ -10,7 +10,7 @@ import Compact from './Compact';
 import Raw from './Raw';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
-const l = logger('BtreeSet');
+const l = logger('BTreeSet');
 
 /** @internal */
 function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
