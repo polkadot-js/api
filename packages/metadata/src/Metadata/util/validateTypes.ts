@@ -3,8 +3,12 @@
 
 import { Registry } from '@polkadot/types/types';
 
+import { logger } from '@polkadot/util';
+
 import extractTypes from './extractTypes';
 import flattenUniq from './flattenUniq';
+
+const l = logger('metadata');
 
 /** @internal */
 export default function validateTypes (registry: Registry, types: string[], throwError: boolean): void {
@@ -16,7 +20,7 @@ export default function validateTypes (registry: Registry, types: string[], thro
     if (throwError) {
       throw new Error(message);
     } else {
-      console.warn(message);
+      l.warn(message);
     }
   }
 }

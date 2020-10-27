@@ -4,9 +4,11 @@
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { FromReg } from './types';
 
-import { isU8a, u8aToHex } from '@polkadot/util';
+import { isU8a, logger, u8aToHex } from '@polkadot/util';
 
 import { createClass } from './createClass';
+
+const l = logger('registry');
 
 function u8aHasValue (value: Uint8Array): boolean {
   return value.some((v): boolean => !!v);
@@ -35,7 +37,7 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 
   // if the hex doesn't match and the value for both is non-empty, complain... bitterly
   if (!isEqual && (u8aHasValue(value) || u8aHasValue(created.toU8a(true)))) {
-    console.warn(`${rawType}:: Input doesn't match output, received ${u8aToHex(value)}, created ${crHex}`);
+    l.warn(`${rawType}:: Input doesn't match output, received ${u8aToHex(value)}, created ${crHex}`);
   }
 }
 
