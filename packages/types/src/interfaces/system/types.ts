@@ -262,6 +262,13 @@ export interface RefCount extends u32 {}
 /** @name RefCountTo259 */
 export interface RefCountTo259 extends u8 {}
 
+/** @name SyncState */
+export interface SyncState extends Struct {
+  readonly startingBlock: BlockNumber;
+  readonly currentBlock: BlockNumber;
+  readonly highestBlock: Option<BlockNumber>;
+}
+
 /** @name SystemOrigin */
 export interface SystemOrigin extends RawOrigin {}
 

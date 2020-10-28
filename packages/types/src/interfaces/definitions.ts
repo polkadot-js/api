@@ -29,6 +29,7 @@ export { default as session } from './session/definitions';
 export { default as society } from './society/definitions';
 export { default as staking } from './staking/definitions';
 export { default as support } from './support/definitions';
+export { default as syncstate } from './syncstate/definitions';
 export { default as system } from './system/definitions';
 export { default as treasury } from './treasury/definitions';
 export { default as txpayment } from './txpayment/definitions';

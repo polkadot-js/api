@@ -110,6 +110,11 @@ export default {
       description: 'Returns the roles the node is running as',
       params: [],
       type: 'Vec<NodeRole>'
+    },
+    syncState: {
+      description: 'Returns the state of the syncing of the node',
+      params: [],
+      type: 'SyncState'
     }
   },
   types: {
@@ -279,6 +284,11 @@ export default {
     },
     RefCount: 'u32',
     RefCountTo259: 'u8',
+    SyncState: {
+      startingBlock: 'BlockNumber',
+      currentBlock: 'BlockNumber',
+      highestBlock: 'Option<BlockNumber>'
+    },
     SystemOrigin: 'RawOrigin',
     TransactionValidityError: {
       _enum: {
