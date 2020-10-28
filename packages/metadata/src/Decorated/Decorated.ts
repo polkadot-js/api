@@ -33,9 +33,11 @@ export default class Decorated {
     this.registry = registry;
     this.metadata = value;
 
+    const latest = this.metadata.asLatest;
+
     // decoration
-    this.tx = extrinsicsFromMeta(registry, this.metadata);
-    this.query = storageFromMeta(registry, this.metadata);
-    this.consts = constantsFromMeta(registry, this.metadata);
+    this.tx = extrinsicsFromMeta(registry, latest);
+    this.query = storageFromMeta(registry, latest);
+    this.consts = constantsFromMeta(registry, latest);
   }
 }
