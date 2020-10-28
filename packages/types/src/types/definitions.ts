@@ -22,6 +22,7 @@ export interface DefinitionRpcParam {
 export interface DefinitionRpc {
   alias?: string[];
   description: string;
+  endpoint?: string;
   params: DefinitionRpcParam[];
   type: DefinitionTypeType;
 }

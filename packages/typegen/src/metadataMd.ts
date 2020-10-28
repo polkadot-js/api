@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Codec } from '@polkadot/types/types';
+import { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
 import Metadata from '@polkadot/metadata/Metadata';
@@ -120,7 +120,7 @@ function addRpc (): string {
             .sort()
             .map((methodName) => {
               const method = section.rpc[methodName];
-              const args = method.params.map(({ isOptional, name, type }: any): string => {
+              const args = method.params.map(({ isOptional, name, type }: DefinitionRpcParam): string => {
                 // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
               }).join(', ');
@@ -128,7 +128,7 @@ function addRpc (): string {
 
               return {
                 interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
-                jsonrpc: '`' + `${sectionName}_${methodName}` + '`',
+                jsonrpc: '`' + (method.endpoint || `${sectionName}_${methodName}`) + '`',
                 name: `${methodName}(${args}): ${type}`,
                 ...(method.description && { summary: method.description })
               };

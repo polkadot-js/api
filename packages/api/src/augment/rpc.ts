@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
-import { HashMap, Option, Vec } from '@polkadot/types/codec';
+import { HashMap, Json, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -19,7 +19,7 @@ import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
-import { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo } from '@polkadot/types/interfaces/system';
+import { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
@@ -245,6 +245,12 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       subscribeStorage: AugmentedRpc<<T = Codec[]>(keys?: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[]) => Observable<T>>;
     };
+    syncstate: {
+      /**
+       * Returns the json-serialized chainspec running the node, with a sync state.
+       **/
+      genSyncSpec: AugmentedRpc<(raw: bool | boolean | Uint8Array) => Observable<Json>>;
+    };
     system: {
       /**
        * Retrieves the next accountIndex as available on the node
@@ -302,6 +308,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Remove a reserved peer
        **/
       removeReservedPeer: AugmentedRpc<(peerId: Text | string) => Observable<Text>>;
+      /**
+       * Returns the state of the syncing of the node
+       **/
+      syncState: AugmentedRpc<() => Observable<SyncState>>;
       /**
        * Retrieves the version of the node
        **/

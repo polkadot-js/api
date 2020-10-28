@@ -106,6 +106,8 @@ export default class Rpc implements RpcInterface {
 
   public readonly state!: RpcInterface['state'];
 
+  public readonly syncstate!: RpcInterface['syncstate'];
+
   public readonly system!: RpcInterface['system'];
 
   /**
@@ -186,13 +188,14 @@ export default class Rpc implements RpcInterface {
 
   private _createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, DefinitionRpc | DefinitionRpcSub>): RpcInterface[Section] {
     return Object
-      .keys(methods)
-      .filter((method) => !this.mapping.has(`${section}_${method}`))
-      .reduce((exposed, method): RpcInterface[Section] => {
+      .entries(methods)
+      .filter(([method, { endpoint }]) => !this.mapping.has(endpoint || `${section}_${method}`))
+      .reduce((exposed, [method, { endpoint }]): RpcInterface[Section] => {
         const def = methods[method];
         const isSubscription = !!(def as DefinitionRpcSub).pubsub;
+        const jsonrpc = endpoint || `${section}_${method}`;
 
-        this.mapping.set(`${section}_${method}`, { ...def, isSubscription, jsonrpc: `${section}_${method}`, method, section });
+        this.mapping.set(jsonrpc, { ...def, isSubscription, jsonrpc, method, section });
 
         // FIXME Remove any here
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
@@ -217,7 +220,7 @@ export default class Rpc implements RpcInterface {
   }
 
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
-    const rpcName = `${section}_${method}`;
+    const rpcName = def.endpoint || `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
     const cacheIndex = def.params.findIndex(({ isCached }) => isCached);
     let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
