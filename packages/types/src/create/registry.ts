@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes, TypeDef } from '../types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
