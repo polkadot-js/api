@@ -7,7 +7,7 @@ import getStorage from './storage';
 
 describe('storage', (): void => {
   const registry = new TypeRegistry();
-  const storage = getStorage(registry, 8);
+  const storage = getStorage(registry);
 
   it('should return well known keys', (): void => {
     expect(typeof storage.substrate).toBe('object');
