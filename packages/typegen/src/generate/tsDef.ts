@@ -188,7 +188,7 @@ function generateInterfaces (definitions: Record<string, ModuleTypes>, { types }
   };
 
   return Object.entries(types).map(([name, type]): [string, string] => {
-    const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), { name });
+    const def = getTypeDef(isString(type) ? type : JSON.stringify(type), { name });
 
     return [name, generators[def.info](definitions, def, imports)];
   });

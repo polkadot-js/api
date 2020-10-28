@@ -7,6 +7,7 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
 import { getTypeDef } from '@polkadot/types/create';
 import { paramsNotation } from '@polkadot/types/codec/utils';
+import { isString } from '@polkadot/util';
 
 import { setImports, ModuleTypes, TypeImports } from './imports';
 import { readTemplate } from './file';
@@ -180,14 +181,17 @@ function formatVec (inner: string): string {
  * Correctly format a given type
  */
 /** @internal */
-export function formatType (definitions: Record<string, ModuleTypes>, type: string | TypeDef, imports: TypeImports): string {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function formatType (definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports): string {
   let typeDef: TypeDef;
 
-  if (typeof type === 'string') {
+  if (isString(type)) {
+    const _type = type.toString();
+
     // If type is "unorthodox" (i.e. `{ something: any }` for an Enum input or `[a | b | c, d | e | f]` for a Tuple's similar types),
     // we return it as-is
-    if (/(^{.+:.+})|^\([^,]+\)|^\(.+\)\[\]|^\[.+\]/.exec(type) && !/\[\w+;\w+\]/.exec(type)) {
-      return type;
+    if (/(^{.+:.+})|^\([^,]+\)|^\(.+\)\[\]|^\[.+\]/.exec(_type) && !/\[\w+;\w+\]/.exec(_type)) {
+      return _type;
     }
 
     typeDef = getTypeDef(type);

@@ -18,7 +18,7 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): S
     }
 
     const { name } = moduleMetadata;
-    const section = stringCamelCase(name.toString());
+    const section = stringCamelCase(name);
     const unwrapped = moduleMetadata.storage.unwrap();
     const prefix = unwrapped.prefix.toString();
 

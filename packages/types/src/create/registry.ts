@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes, TypeDef } from '../types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
@@ -31,7 +31,7 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
     const sectionIndex = isIndexed
       ? section.index.toNumber()
       : _sectionIndex;
-    const sectionName = stringCamelCase(section.name.toString());
+    const sectionName = stringCamelCase(section.name);
 
     section.errors.forEach(({ documentation, name }, index): void => {
       const eventIndex = new Uint8Array([sectionIndex, index]);
@@ -58,13 +58,13 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
       const sectionIndex = isIndexed
         ? section.index.toNumber()
         : _sectionIndex;
-      const sectionName = stringCamelCase(section.name.toString());
+      const sectionName = stringCamelCase(section.name);
 
       section.events.unwrap().forEach((meta, methodIndex): void => {
         const methodName = meta.name.toString();
         const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-        const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
+        const typeDef = meta.args.map((arg) => getTypeDef(arg));
         let Types: Constructor<Codec>[] = [];
 
         try {

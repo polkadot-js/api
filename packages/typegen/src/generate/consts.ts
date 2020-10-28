@@ -40,14 +40,14 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
             return {
               docs: documentation,
-              name: stringCamelCase(name.toString()),
+              name: stringCamelCase(name),
               type: returnType
             };
           });
 
         return {
           items,
-          name: stringCamelCase(name.toString())
+          name: stringCamelCase(name)
         };
       });
 

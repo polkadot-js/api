@@ -148,13 +148,13 @@ function addConstants (metadata: MetadataLatest): string {
       .sort(sortByName)
       .filter((moduleMetadata) => !moduleMetadata.constants.isEmpty)
       .map((moduleMetadata) => {
-        const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+        const sectionName = stringLowerFirst(moduleMetadata.name);
 
         return {
           items: moduleMetadata.constants
             .sort(sortByName)
             .map((func) => {
-              const methodName = stringCamelCase(func.name.toString());
+              const methodName = stringCamelCase(func.name);
 
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
@@ -175,7 +175,7 @@ function addStorage (metadata: MetadataLatest): string {
     .sort(sortByName)
     .filter((moduleMetadata) => !moduleMetadata.storage.isNone)
     .map((moduleMetadata) => {
-      const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+      const sectionName = stringLowerFirst(moduleMetadata.name);
 
       return {
         items: moduleMetadata.storage.unwrap().items
@@ -186,7 +186,7 @@ function addStorage (metadata: MetadataLatest): string {
               : func.type.isDoubleMap
                 ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
                 : '';
-            const methodName = stringLowerFirst(func.name.toString());
+            const methodName = stringLowerFirst(func.name);
             const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
 
             return {
@@ -217,13 +217,13 @@ function addExtrinsics (metadata: MetadataLatest): string {
       .sort(sortByName)
       .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
       .map((meta) => {
-        const sectionName = stringCamelCase(meta.name.toString());
+        const sectionName = stringCamelCase(meta.name);
 
         return {
           items: meta.calls.unwrap()
             .sort(sortByName)
             .map((func) => {
-              const methodName = stringCamelCase(func.name.toString());
+              const methodName = stringCamelCase(func.name);
               const args = Call.filterOrigin(func).map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
 
               return {
@@ -258,7 +258,7 @@ function addEvents (metadata: MetadataLatest): string {
               ...(func.documentation.length && { summary: func.documentation })
             };
           }),
-        name: stringCamelCase(meta.name.toString())
+        name: stringCamelCase(meta.name)
       })),
     title: 'Events'
   });
@@ -278,7 +278,7 @@ function addErrors (metadata: MetadataLatest): string {
             name: error.name.toString(),
             ...(error.documentation.length && { summary: error.documentation })
           })),
-        name: stringLowerFirst(moduleMetadata.name.toString())
+        name: stringLowerFirst(moduleMetadata.name)
       })),
     title: 'Errors'
   });

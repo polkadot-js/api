@@ -27,7 +27,7 @@ export default function extractTypes (types: string[]): Extracted[] {
       case TypeDefInfo.HashMap:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
-        return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));
+        return extractTypes((decoded.sub as TypeDef[]).map(({ type }) => type));
 
       default:
         throw new Error(`Unhandled: Unable to create and validate type from ${type}`);

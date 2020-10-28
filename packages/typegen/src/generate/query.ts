@@ -91,14 +91,14 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               args,
               docs: storageEntry.documentation,
               entryType,
-              name: stringCamelCase(storageEntry.name.toString()),
+              name: stringCamelCase(storageEntry.name),
               returnType
             };
           });
 
         return {
           items,
-          name: stringCamelCase(name.toString())
+          name: stringCamelCase(name)
         };
       });
 

@@ -19,13 +19,13 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): C
     const { name } = moduleMetadata;
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
-    result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
+    result[stringCamelCase(name)] = moduleMetadata.constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
       // convert to the natural type as received
       const type = meta.type.toString();
       const codec: ConstantCodec = createTypeUnsafe(registry, type, [hexToU8a(meta.value.toHex())]);
 
       codec.meta = meta;
-      newModule[stringCamelCase(meta.name.toString())] = codec;
+      newModule[stringCamelCase(meta.name)] = codec;
 
       return newModule;
     }, {} as ModuleConstants);
