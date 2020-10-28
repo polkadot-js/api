@@ -15,7 +15,6 @@ import getHasher, { HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;
-  metaVersion: number;
   skipHashing?: boolean; // We don't hash the keys defined in ./substrate.ts
 }
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Calls, ModulesWithCalls, Registry, RegistryMetadata, RegistryMetadataModule } from '@polkadot/types/types';
+import { Calls, ModulesWithCalls, Registry, RegistryMetadataLatest, RegistryMetadataModule } from '@polkadot/types/types';
 
 import { stringCamelCase } from '@polkadot/util';
 
@@ -9,8 +9,7 @@ import extrinsics from '../';
 import createUnchecked from './createUnchecked';
 
 /** @internal */
-export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
-  const modules = metadata.asLatest.modules;
+export default function fromMetadata (registry: Registry, { modules }: RegistryMetadataLatest): ModulesWithCalls {
   const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   return modules
