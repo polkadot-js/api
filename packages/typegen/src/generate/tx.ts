@@ -19,7 +19,7 @@ const MAPPED_NAMES: Record<string, string> = {
 };
 
 function mapName (_name: Text): string {
-  const name = stringCamelCase(_name.toString());
+  const name = stringCamelCase(_name);
 
   return MAPPED_NAMES[name] || name;
 }
@@ -58,14 +58,14 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               docs: documentation,
-              name: stringCamelCase(name.toString()),
+              name: stringCamelCase(name),
               params
             };
           });
 
         return {
           items,
-          name: stringCamelCase(name.toString())
+          name: stringCamelCase(name)
         };
       });
 

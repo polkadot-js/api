@@ -166,7 +166,8 @@ function extractSubType (type: string, [start, end]: [string, string, TypeDefInf
   return type.substr(start.length, type.length - start.length - end.length);
 }
 
-export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function getTypeDef (_type: String | string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };

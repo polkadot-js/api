@@ -31,7 +31,7 @@ interface DecodedMethod extends DecodeMethodInput {
 function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-    const Type = getTypeClass(registry, getTypeDef(type.toString()));
+    const Type = getTypeClass(registry, getTypeDef(type));
 
     result[name.toString()] = Type;
 

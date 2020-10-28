@@ -10,7 +10,7 @@ import { assert, stringCamelCase } from '@polkadot/util';
 export default function createDescriptor (registry: Registry, section: string, sectionIndex: number, methodIndex: number, callMetadata: RegistryMetadataCall): CallFunction {
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;
-  const funcName = stringCamelCase(callMetadata.name.toString());
+  const funcName = stringCamelCase(callMetadata.name);
 
   const extrinsicFn = (...args: any[]): Call => {
     assert(

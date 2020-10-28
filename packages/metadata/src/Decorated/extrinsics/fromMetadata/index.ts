@@ -19,10 +19,10 @@ export default function fromMetadata (registry: Registry, metadata: RegistryMeta
       const sectionIndex = isIndexed
         ? index.toNumber()
         : _sectionIndex;
-      const section = stringCamelCase(name.toString());
+      const section = stringCamelCase(name);
 
       result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {
-        const method = stringCamelCase(callMetadata.name.toString());
+        const method = stringCamelCase(callMetadata.name);
 
         newModule[method] = createUnchecked(registry, section, sectionIndex, methodIndex, callMetadata);
 
