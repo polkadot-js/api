@@ -3,20 +3,34 @@
 
 import { OverrideVersionedType } from '@polkadot/types/types';
 
+// structs need to be in order
+/* eslint-disable sort-keys */
+
 const sharedTypes = {
   Address: 'AccountId',
   Keys: 'SessionKeys5',
-  LookupSource: 'AccountId',
-  RewardDestination: 'RewardDestinationTo257'
+  LookupSource: 'AccountId'
 };
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, undefined],
+    minmax: [0, 9],
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
-      RefCount: 'RefCountTo259'
+      RefCount: 'RefCountTo259',
+      RewardDestination: 'RewardDestinationTo257'
+    }
+  },
+  {
+    minmax: [10, undefined],
+    types: {
+      ...sharedTypes,
+      ParaGenesisArgs: {
+        genesisHead: 'Bytes',
+        validationCode: 'Bytes',
+        parachain: 'bool'
+      }
     }
   }
 ];
