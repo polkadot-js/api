@@ -10,6 +10,7 @@ import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMeta
 import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import Json from '../codec/Json';
 import Raw from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { EventData } from '../generic/Event';
@@ -127,7 +128,7 @@ export class TypeRegistry implements Registry {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
-    this.#knownDefaults = { Raw, ...baseTypes };
+    this.#knownDefaults = { Json, Raw, ...baseTypes };
     this.#knownDefinitions = definitions;
 
     this.init();

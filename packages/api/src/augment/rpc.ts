@@ -249,7 +249,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Returns the json-serialized chainspec running the node, with a sync state.
        **/
-      genSyncSpec: AugmentedRpc<() => Observable<Json>>;
+      genSyncSpec: AugmentedRpc<(raw: bool | boolean | Uint8Array) => Observable<Json>>;
     };
     system: {
       /**
