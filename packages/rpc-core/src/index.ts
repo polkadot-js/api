@@ -220,7 +220,7 @@ export default class Rpc implements RpcInterface {
   }
 
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
-    const rpcName = `${section}_${method}`;
+    const rpcName = def.endpoint || `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
     const cacheIndex = def.params.findIndex(({ isCached }) => isCached);
     let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
