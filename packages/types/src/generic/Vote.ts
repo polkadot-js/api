@@ -47,7 +47,7 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
   }
 
   const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
-  const conviction = registry.createType('Conviction', isUndefined(value.conviction) ? DEF_CONV : value.conviction);
+  const conviction = registry.createType('Conviction', value.conviction || DEF_CONV);
 
   return new Uint8Array([vote | conviction.index]);
 }

@@ -10,15 +10,11 @@ import Enum from '../codec/Enum';
 import Bytes from './Bytes';
 
 /** @internal */
-function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | null | Uint8Array, number | undefined] {
-  if (!value.length) {
-    return [undefined, undefined];
-  }
-
+function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {
   const indicator = value[0];
 
-  if (indicator === 0) {
-    return [null, 0];
+  if (!indicator) {
+    return [undefined, undefined];
   } else if (indicator >= 1 && indicator <= 33) {
     const length = indicator - 1;
     const data = value.subarray(1, length + 1);
@@ -36,10 +32,8 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | nul
 function decodeData (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string): [any, number | undefined] {
   if (!value) {
     return [undefined, undefined];
-  } else if (isString(value)) {
+  } else if (isU8a(value) || isString(value)) {
     return decodeDataU8a(registry, u8aToU8a(value));
-  } else if (isU8a(value)) {
-    return decodeDataU8a(registry, value);
   }
 
   // assume we have an Enum or an  object input, handle this via the normal Enum decoding

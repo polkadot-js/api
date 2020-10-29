@@ -22,10 +22,8 @@ const known: Record<number, string> = {
   1015: 'TLS Handshake'
 };
 
-export function getWSErrorString (code: number): string {
-  if (code >= 0 && code <= 999) {
-    return '(Unused)';
-  } else if (code >= 1016) {
+function getUnmapped (code: number): string | null {
+  if (code >= 1016) {
     if (code <= 1999) {
       return '(For WebSocket standard)';
     } else if (code <= 2999) {
@@ -37,5 +35,13 @@ export function getWSErrorString (code: number): string {
     }
   }
 
-  return known[code] || '(Unknown)';
+  return null;
+}
+
+export function getWSErrorString (code: number): string {
+  if (code >= 0 && code <= 999) {
+    return '(Unused)';
+  }
+
+  return getUnmapped(code) || known[code] || '(Unknown)';
 }
