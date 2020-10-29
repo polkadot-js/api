@@ -171,8 +171,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._rpcCore.provider.hasSubscriptions;
   }
 
-  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    const decoratedMeta = new DecoratedMeta(registry || this.#registry, metadata);
+  public injectMetadata (metadata: Metadata, fromEmpty?: boolean): void {
+    const decoratedMeta = new DecoratedMeta(metadata);
 
     if (fromEmpty || !this._extrinsics) {
       this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
