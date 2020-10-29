@@ -6,7 +6,7 @@ import { Constants } from '../types';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import rpcMetadata from '../../static';
-import rpcMetadataV10 from '../../Metadata/v10/static';
+import rpcMetadataV10 from '../../v10/static';
 import fromMetadata from './fromMetadata';
 
 function init (meta: string): [Constants, TypeRegistry] {
