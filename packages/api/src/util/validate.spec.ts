@@ -17,7 +17,7 @@ describe('extractStorageArgs', (): void => {
   beforeEach((): void => {
     const metadata = new Metadata(registry, metaStatic);
 
-    storage = storageFromMeta(registry, metadata);
+    storage = storageFromMeta(registry, metadata.asLatest);
   });
 
   it('validates no-arg plain', (): void => {

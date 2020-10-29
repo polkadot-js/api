@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegistryMetadataLatest, RegisteredTypes } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
@@ -22,8 +22,7 @@ import { getTypeDef } from './getTypeDef';
 const l = logger('registry');
 
 // create error mapping from metadata
-function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
-  const modules = metadata.asLatest.modules;
+function decorateErrors (_: Registry, { modules }: RegistryMetadataLatest, metadataErrors: Record<string, RegistryError>): void {
   const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   // decorate the errors
@@ -47,8 +46,7 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
 }
 
 // create event classes from metadata
-function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
-  const modules = metadata.asLatest.modules;
+function decorateEvents (registry: Registry, { modules }: RegistryMetadataLatest, metadataEvents: Record<string, Constructor<EventData>>): void {
   const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   // decorate the events
@@ -83,7 +81,7 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
 }
 
 // create extrinsic mapping from metadata
-function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, metadataCalls: Record<string, CallFunction>): void {
+function decorateExtrinsics (registry: Registry, metadata: RegistryMetadataLatest, metadataCalls: Record<string, CallFunction>): void {
   const extrinsics = extrinsicsFromMeta(registry, metadata);
 
   // decorate the extrinsics
@@ -365,15 +363,17 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: RegistryMetadata, signedExtensions?: string[]): void {
-    decorateExtrinsics(this, metadata, this.#metadataCalls);
-    decorateErrors(this, metadata, this.#metadataErrors);
-    decorateEvents(this, metadata, this.#metadataEvents);
+    const latest = metadata.asLatest;
+
+    decorateExtrinsics(this, latest, this.#metadataCalls);
+    decorateErrors(this, latest, this.#metadataErrors);
+    decorateEvents(this, latest, this.#metadataEvents);
 
     // setup the available extensions
     this.setSignedExtensions(
       signedExtensions || (
-        metadata.asLatest.extrinsic.version.gt(BN_ZERO)
-          ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
+        latest.extrinsic.version.gt(BN_ZERO)
+          ? latest.extrinsic.signedExtensions.map((key) => key.toString())
           : defaultExtensions
       )
     );

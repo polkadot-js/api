@@ -12,7 +12,7 @@ const metadata = new Metadata(registry, json);
 
 registry.setMetadata(metadata);
 
-const newExtrinsics = fromMetadata(registry, metadata);
+const newExtrinsics = fromMetadata(registry, metadata.asLatest);
 
 describe('fromMetadata', (): void => {
   it('should throw if an incorrect number of args is supplied', (): void => {

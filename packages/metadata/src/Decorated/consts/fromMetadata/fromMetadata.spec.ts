@@ -15,7 +15,7 @@ function init (meta: string): [Constants, TypeRegistry] {
 
   registry.setMetadata(metadata);
 
-  return [fromMetadata(registry, metadata), registry];
+  return [fromMetadata(registry, metadata.asLatest), registry];
 }
 
 describe('fromMetadata', (): void => {
