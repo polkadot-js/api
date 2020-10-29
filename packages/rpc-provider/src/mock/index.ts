@@ -174,7 +174,7 @@ export default class Mock implements ProviderInterface {
 
     this.registry.setMetadata(metadata);
 
-    const decorated = new Decorated(metadata);
+    const decorated = new Decorated(this.registry, metadata);
 
     // Do something every 1 seconds
     setInterval((): void => {

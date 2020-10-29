@@ -15,8 +15,8 @@ interface SubstrateMetadata {
 
 // Small helper function to factorize code on this page.
 /** @internal */
-function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry) => StorageEntry {
-  return (registry: Registry): StorageEntry =>
+function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry, metaVersion: number) => StorageEntry {
+  return (registry: Registry, metaVersion: number): StorageEntry =>
     createFunction(registry, {
       meta: {
         documentation: registry.createType('Vec<Text>', [documentation]),
@@ -27,7 +27,7 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
       method,
       prefix: 'Substrate',
       section: 'substrate'
-    }, { key, skipHashing: true });
+    }, { key, metaVersion, skipHashing: true });
 }
 
 export const code = createRuntimeFunction('code', ':code', {

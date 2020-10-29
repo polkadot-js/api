@@ -13,7 +13,7 @@ const metadata = new Metadata(registry, json);
 
 registry.setMetadata(metadata);
 
-const decorated = new Decorated(metadata);
+const decorated = new Decorated(registry, metadata);
 
 describe('Decorated', () => {
   it('should correctly get Alice\'s nonce storage key (u8a)', (): void => {

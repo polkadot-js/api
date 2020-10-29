@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constants } from '@polkadot/metadata/Decorated/types';
+import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
@@ -171,23 +171,23 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._rpcCore.provider.hasSubscriptions;
   }
 
-  public injectMetadata (metadata: Metadata, fromEmpty?: boolean): void {
-    const decoratedMeta = new DecoratedMeta(metadata);
+  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
+    const decoratedMeta = new DecoratedMeta(registry || this.#registry, metadata);
 
     if (fromEmpty || !this._extrinsics) {
-      this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
-      this._rx.tx = this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod);
+      this._extrinsics = this._decorateExtrinsics(decoratedMeta.tx, this._decorateMethod);
+      this._rx.tx = this._decorateExtrinsics(decoratedMeta.tx, this._rxDecorateMethod);
     } else {
-      augmentObject('tx', this._decorateExtrinsics(decoratedMeta, this._decorateMethod), this._extrinsics, false);
-      augmentObject(null, this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod), this._rx.tx, false);
+      augmentObject('tx', this._decorateExtrinsics(decoratedMeta.tx, this._decorateMethod), this._extrinsics, false);
+      augmentObject(null, this._decorateExtrinsics(decoratedMeta.tx, this._rxDecorateMethod), this._rx.tx, false);
     }
 
     // this API
-    augmentObject('query', this._decorateStorage(decoratedMeta, this._decorateMethod), this._query, fromEmpty);
+    augmentObject('query', this._decorateStorage(decoratedMeta.query, this._decorateMethod), this._query, fromEmpty);
     augmentObject('consts', decoratedMeta.consts, this._consts, fromEmpty);
 
     // rx
-    augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);
+    augmentObject(null, this._decorateStorage(decoratedMeta.query, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
 
@@ -296,10 +296,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             : [arg.creator] as any)));
   }
 
-  protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
+  protected _decorateExtrinsics<ApiType extends ApiTypes> (extrinsics: ModulesWithCalls, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
     const creator = createSubmittable(this._type, this._rx, decorateMethod);
 
-    return Object.entries(tx).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
+    return Object.entries(extrinsics).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): SubmittableModuleExtrinsics<ApiType> => {
         out[name] = this._decorateExtrinsicEntry(method, creator);
 
@@ -318,8 +318,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._decorateFunctionMeta(method as any, decorated as any) as unknown as SubmittableExtrinsicFunction<ApiType>;
   }
 
-  protected _decorateStorage<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
-    return Object.entries(query).reduce((out, [name, section]): QueryableStorage<ApiType> => {
+  protected _decorateStorage<ApiType extends ApiTypes> (storage: Storage, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
+    return Object.entries(storage).reduce((out, [name, section]): QueryableStorage<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorage<ApiType> => {
         out[name] = this._decorateStorageEntry(method, decorateMethod);
 

@@ -12,7 +12,7 @@ import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
-const decorated = new Decorated(metadata);
+const decorated = new Decorated(registry, metadata);
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
 registry.setMetadata(metadata);
