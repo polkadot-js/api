@@ -5,7 +5,7 @@ import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
-import metadataStatic from '../../Metadata/static';
+import metadataStatic from '../../static';
 import fromMetadata from './fromMetadata';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);
@@ -14,7 +14,7 @@ const metadata = new Metadata(registry, metadataStatic);
 
 registry.setMetadata(metadata);
 
-const extrinsics = fromMetadata(registry, metadata.asLatest);
+const extrinsics = fromMetadata(registry, metadata);
 
 describe('extrinsics', (): void => {
   it('encodes an actual transfer (actual data)', (): void => {

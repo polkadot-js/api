@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constants } from '@polkadot/metadata/Decorated/types';
+import { Constants, DecoratedMeta } from '@polkadot/metadata/decorate/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
@@ -13,7 +13,7 @@ import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
-import DecoratedMeta from '@polkadot/metadata/Decorated';
+import { expandMetadata } from '@polkadot/metadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/types';
@@ -171,8 +171,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._rpcCore.provider.hasSubscriptions;
   }
 
-  public injectMetadata (metadata: Metadata, fromEmpty?: boolean): void {
-    const decoratedMeta = new DecoratedMeta(metadata);
+  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
+    const decoratedMeta = expandMetadata(registry || this.#registry, metadata);
 
     if (fromEmpty || !this._extrinsics) {
       this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);

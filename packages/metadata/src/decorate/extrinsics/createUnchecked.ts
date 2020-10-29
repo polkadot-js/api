@@ -7,16 +7,12 @@ import { AnyJson, CallFunction, Registry, RegistryMetadataCall } from '@polkadot
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
-export default function createDescriptor (registry: Registry, section: string, sectionIndex: number, methodIndex: number, callMetadata: RegistryMetadataCall): CallFunction {
-  const callIndex = new Uint8Array([sectionIndex, methodIndex]);
+export default function createDescriptor (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: RegistryMetadataCall): CallFunction {
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name);
 
   const extrinsicFn = (...args: any[]): Call => {
-    assert(
-      expectedArgs.length.valueOf() === args.length,
-      `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`
-    );
+    assert(expectedArgs.length === args.length, `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
 
     return registry.createType('Call', {
       args,

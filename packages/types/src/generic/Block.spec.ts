@@ -4,8 +4,8 @@
 /* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import Metadata from '@polkadot/metadata/Metadata';
-import metadataStatic from '@polkadot/metadata/Metadata/static';
+import Metadata from '@polkadot/metadata';
+import metadataStatic from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
 import block00300 from '../json/SignedBlock.003.00.json';

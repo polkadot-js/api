@@ -204,7 +204,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
               this._rx.runtimeVersion = version;
 
               // update the default registry version
-              const thisRegistry = this.#registries.find(({ registry }) => registry === metadata.registry);
+              const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
 
               assert(thisRegistry, 'Initialization error, cannot find the default registry');
 
@@ -216,7 +216,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version);
-              this.injectMetadata(metadata, false);
+              this.injectMetadata(metadata, false, thisRegistry.registry);
 
               return true;
             })

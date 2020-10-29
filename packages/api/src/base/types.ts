@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constants } from '@polkadot/metadata/Decorated/types';
+import { Constants } from '@polkadot/metadata/decorate/types';
 import { Metadata } from '@polkadot/types';
 import { Registry } from '@polkadot/types/types';
 

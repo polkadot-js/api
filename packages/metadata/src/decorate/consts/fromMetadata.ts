@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { MetadataLatest } from '@polkadot/types/interfaces';
 import { Registry } from '@polkadot/types/types';
-import { Constants, ConstantCodec, ModuleConstants } from '../../types';
+import { Constants, ConstantCodec, ModuleConstants } from '../types';
 
 import { createTypeUnsafe } from '@polkadot/types/create';
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
+import Metadata from '../..';
+
 /** @internal */
-export default function fromMetadata (registry: Registry, { modules }: MetadataLatest): Constants {
-  return modules.reduce((result: Constants, moduleMetadata): Constants => {
+export default function fromMetadata (registry: Registry, metadata: Metadata): Constants {
+  return metadata.asLatest.modules.reduce((result: Constants, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;
     }

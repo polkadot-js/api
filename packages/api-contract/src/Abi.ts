@@ -5,9 +5,11 @@ import { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
 import { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageSpec, ContractMessageParamSpec, ContractProject } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
-import { assert, compactAddLength, compactStripLength, isNumber, isObject, isString, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import MetaRegistry from './MetaRegistry';
+
+const l = logger('Abi');
 
 function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string | number): T {
   const message = isNumber(messageOrId)
@@ -115,7 +117,7 @@ export default class Abi {
           type: this.registry.getMetaTypeDef(arg.type)
         };
       } catch (error) {
-        console.error(`Error expanding argument ${index} in ${JSON.stringify(spec)}`);
+        l.error(`Error expanding argument ${index} in ${JSON.stringify(spec)}`);
 
         throw error;
       }

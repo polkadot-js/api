@@ -5,8 +5,8 @@ import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
-import Metadata from '@polkadot/metadata/Metadata';
-import rpcdata from '@polkadot/metadata/Metadata/static';
+import Metadata from '@polkadot/metadata';
+import rpcdata from '@polkadot/metadata/static';
 import Call from '@polkadot/types/generic/Call';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
