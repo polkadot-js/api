@@ -92,16 +92,7 @@ function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteS
     state.votedTotal.iadd(counted);
 
     return state;
-  }, {
-    allAye: [],
-    allNay: [],
-    voteCount: 0,
-    voteCountAye: 0,
-    voteCountNay: 0,
-    votedAye: new BN(0),
-    votedNay: new BN(0),
-    votedTotal: new BN(0)
-  });
+  }, { allAye: [], allNay: [], voteCount: 0, voteCountAye: 0, voteCountNay: 0, votedAye: new BN(0), votedNay: new BN(0), votedTotal: new BN(0) });
 }
 
 function calcVotesCurrent (tally: Tally, votes: DeriveReferendumVote[]): DeriveReferendumVoteState {

@@ -70,7 +70,9 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   ]);
 
   console.log(multiRes);
+}
 
+async function queryExtra (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // events destructing
   await api.query.system.events((records): void => {
     records.forEach(({ event, phase }): void => {
@@ -141,8 +143,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // transfer, also allows for BigInt inputs here
   const transfer = api.tx.balances.transfer(keyring.bob.address, 123456789n);
 
-  console.log('transfer as Call', transfer as IMethod);
-  console.log('transfer as Extrinsic', transfer as IExtrinsic);
+  console.log('transfer casted', transfer as IMethod, transfer as IExtrinsic);
 
   // simple "return the hash" variant
   console.log('hash:', (await transfer.signAndSend(keyring.alice)).toHex());
@@ -158,9 +159,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // just with the callback
   await api.tx.balances
     .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, ({ status }: SubmittableResult): void => {
-      console.log('transfer status:', status.type);
-    });
+    .signAndSend(keyring.alice, ({ status }: SubmittableResult) => console.log(status.type));
 
   // with options and the callback
   const nonce2 = await api.query.system.accountNonce(keyring.alice.address);
@@ -176,9 +175,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const second = api.tx.democracy.second(123, 5);
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  second.signAndSend('123', (result): void => {
-    console.log(result);
-  });
+  await second.signAndSend('123', (result) => console.log(result));
 
   // it handles enum inputs correctly
   await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(keyring.alice);
@@ -193,6 +190,7 @@ async function main (): Promise<void> {
     consts(api),
     derive(api),
     query(api, keyring),
+    queryExtra(api, keyring),
     rpc(api),
     types(api),
     tx(api, keyring)
