@@ -3,7 +3,7 @@
 
 import { AnyNumber, Constructor, Registry } from '../types';
 
-import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
+import AbstractInt, { UIntBitLength } from './AbstractInt';
 
 /**
  * @name Int
@@ -16,8 +16,8 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
  * @noInheritDoc
  */
 export default class Int extends AbstractInt {
-  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(registry, true, value, bitLength, isHexJson);
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength?: UIntBitLength, isHexJson?: boolean) {
+    super(registry, value, bitLength, isHexJson, true);
   }
 
   public static with (bitLength: UIntBitLength, typeName?: string): Constructor<Int> {
