@@ -67,19 +67,21 @@ export class MortalEra extends Tuple {
 
   /** @internal */
   private static _decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
-    if (isHex(value)) {
-      return MortalEra._decodeMortalU8a(registry, hexToU8a(value));
-    } else if (Array.isArray(value)) {
-      return MortalEra._decodeMortalU8a(registry, new Uint8Array(value));
-    } else if (isU8a(value)) {
-      return MortalEra._decodeMortalU8a(registry, value);
-    } else if (isObject(value)) {
-      return MortalEra._decodeMortalObject(registry, value);
-    } else if (!value) {
-      return [new U64(registry), new U64(registry)];
-    }
+    const result = isHex(value)
+      ? MortalEra._decodeMortalU8a(registry, hexToU8a(value))
+      : Array.isArray(value)
+        ? MortalEra._decodeMortalU8a(registry, new Uint8Array(value))
+        : isU8a(value)
+          ? MortalEra._decodeMortalU8a(registry, value)
+          : isObject(value)
+            ? MortalEra._decodeMortalObject(registry, value)
+            : !value
+              ? [new U64(registry), new U64(registry)] as MortalEraValue
+              : undefined;
 
-    throw new Error('Invalid data passed to Mortal era');
+    assert(result, 'Invalid data passed to Mortal era');
+
+    return result;
   }
 
   /** @internal */
