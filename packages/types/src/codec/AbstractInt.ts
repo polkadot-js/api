@@ -39,7 +39,7 @@ function decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNeg
 }
 
 /** @internal */
-function decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
+function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
   // This function returns a string, which will be passed in the BN
   // constructor. It would be ideal to actually return a BN, but there's a
   // bug: https://github.com/indutny/bn.js/issues/206.
@@ -69,7 +69,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   readonly #isSigned: boolean;
 
   constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
-    super(decodeAbstracInt(value, bitLength, isSigned));
+    super(decodeAbstractInt(value, bitLength, isSigned));
 
     this.registry = registry;
     this.#bitLength = bitLength;
