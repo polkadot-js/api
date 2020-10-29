@@ -70,7 +70,7 @@ export default abstract class AbstractInt extends BN implements Codec {
 
   readonly #isSigned: boolean;
 
-  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = false, isSigned = false) {
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true, isSigned = false) {
     super(decodeAbstracInt(value, bitLength, isSigned));
 
     this.registry = registry;
