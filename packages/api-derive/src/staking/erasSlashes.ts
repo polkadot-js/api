@@ -72,7 +72,7 @@ export function _erasSlashes (instanceId: string, api: ApiInterfaceRx): (eras: E
 export function erasSlashes (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
   return memo(instanceId, (withActive = false): Observable<DeriveEraSlashes[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras): Observable<DeriveEraSlashes[]> => api.derive.staking._erasSlashes(eras, withActive))
+      switchMap((eras) => api.derive.staking._erasSlashes(eras, withActive))
     )
   );
 }
