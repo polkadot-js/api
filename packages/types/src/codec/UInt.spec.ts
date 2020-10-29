@@ -72,10 +72,10 @@ describe('UInt', (): void => {
     ).toEqual(123);
   });
 
-  it('converts to JSON representation based on flags/size', (): void => {
-    expect(new UInt(registry, '0x12345678', 64, true).toJSON()).toEqual('0x0000000012345678');
-    expect(new UInt(registry, '0x1234567890', 64, false).toJSON()).toEqual(0x1234567890);
-    expect(new UInt(registry, '0x1234567890abcdef', 64, false).toJSON()).toEqual('0x1234567890abcdef');
+  it('converts to JSON representation based on size', (): void => {
+    expect(new UInt(registry, '0x12345678', 64).toJSON()).toEqual(0x12345678);
+    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual(0x1234567890);
+    expect(new UInt(registry, '0x1234567890abcdef', 64).toJSON()).toEqual('0x1234567890abcdef');
   });
 
   describe('eq', (): void => {
