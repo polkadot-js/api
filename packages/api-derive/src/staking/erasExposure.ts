@@ -73,7 +73,7 @@ export function _erasExposure (instanceId: string, api: ApiInterfaceRx): (eras: 
 export function erasExposure (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
   return memo(instanceId, (withActive = false): Observable<DeriveEraExposure[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasExposure(eras, withActive))
+      switchMap((eras): Observable<DeriveEraExposure[]> => api.derive.staking._erasExposure(eras, withActive))
     )
   );
 }

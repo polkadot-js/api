@@ -55,9 +55,7 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
 export function ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveOwnExposure[]> {
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveOwnExposure[]> => {
     return api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) =>
-        api.derive.staking._ownExposures(accountId, eras, withActive)
-      )
+      switchMap((eras): Observable<DeriveOwnExposure[]> => api.derive.staking._ownExposures(accountId, eras, withActive))
     );
   });
 }
