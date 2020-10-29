@@ -64,7 +64,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
 export function erasPoints (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
   return memo(instanceId, (withActive = false): Observable<DeriveEraPoints[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasPoints(eras, withActive))
+      switchMap((eras): Observable<DeriveEraPoints[]> => api.derive.staking._erasPoints(eras, withActive))
     )
   );
 }

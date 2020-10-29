@@ -78,7 +78,7 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
 export function account (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
   return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
     api.derive.staking.accounts([accountId]).pipe(
-      map(([first]) => first)
+      map(([first]: DeriveStakingAccount[]) => first)
     )
   );
 }

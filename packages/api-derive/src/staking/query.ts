@@ -90,7 +90,7 @@ function retrieveControllers (api: ApiInterfaceRx, optControllerIds: Option<Acco
 export function query (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingQuery> {
   return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingQuery> =>
     api.derive.staking.queryMulti([accountId]).pipe(
-      map(([first]) => first)
+      map(([first]: DeriveStakingQuery[]) => first)
     )
   );
 }
