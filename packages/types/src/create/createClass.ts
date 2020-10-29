@@ -187,9 +187,7 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   const getFn = infoMapping[value.info];
 
-  if (!getFn) {
-    throw new Error(`Unable to construct class from ${JSON.stringify(value)}`);
-  }
+  assert(getFn, `Unable to construct class from ${JSON.stringify(value)}`);
 
   return getFn(registry, value) as Constructor<T>;
 }

@@ -4,7 +4,7 @@
 import { H256 } from '@polkadot/types/interfaces';
 import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Null from '../primitive/Null';
 import { typeToConstructor } from './utils';
@@ -188,9 +188,7 @@ export default class Option<T extends Codec> implements Codec {
    * @description Returns the value that the Option represents (if available), throws if null
    */
   public unwrap (): T {
-    if (this.isNone) {
-      throw new Error('Option: unwrapping a None value');
-    }
+    assert(this.isSome, 'Option: unwrapping a None value');
 
     return this.#raw;
   }

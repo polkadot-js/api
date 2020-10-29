@@ -16,7 +16,7 @@ import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
-import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
+import { assert, bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
@@ -119,9 +119,7 @@ export default class Mock implements ProviderInterface {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async send (method: string, params: any[]): Promise<unknown> {
-    if (!this.requests[method]) {
-      throw new Error(`provider.send: Invalid method '${method}'`);
-    }
+    assert(this.requests[method], `provider.send: Invalid method '${method}'`);
 
     return this.requests[method](this.db, params);
   }
@@ -130,21 +128,19 @@ export default class Mock implements ProviderInterface {
   public async subscribe (type: string, method: string, ...params: unknown[]): Promise<number> {
     l.debug((): any => ['subscribe', method, params]);
 
-    if (this.subscriptions[method]) {
-      const callback = params.pop() as MockStateSubscriptionCallback;
-      const id = ++this.subscriptionId;
+    assert(this.subscriptions[method], `provider.subscribe: Invalid method '${method}'`);
 
-      this.subscriptions[method].callbacks[id] = callback;
-      this.subscriptionMap[id] = method;
+    const callback = params.pop() as MockStateSubscriptionCallback;
+    const id = ++this.subscriptionId;
 
-      if (this.subscriptions[method].lastValue !== null) {
-        callback(null, this.subscriptions[method].lastValue);
-      }
+    this.subscriptions[method].callbacks[id] = callback;
+    this.subscriptionMap[id] = method;
 
-      return id;
+    if (this.subscriptions[method].lastValue !== null) {
+      callback(null, this.subscriptions[method].lastValue);
     }
 
-    throw new Error(`provider.subscribe: Invalid method '${method}'`);
+    return id;
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -153,9 +149,7 @@ export default class Mock implements ProviderInterface {
 
     l.debug((): any => ['unsubscribe', id, sub]);
 
-    if (!sub) {
-      throw new Error(`Unable to find subscription for ${id}`);
-    }
+    assert(sub, `Unable to find subscription for ${id}`);
 
     delete this.subscriptionMap[id];
     delete this.subscriptions[sub].callbacks[id];
@@ -236,7 +230,7 @@ export default class Mock implements ProviderInterface {
         try {
           cb(null, value.toJSON());
         } catch (error) {
-          console.error(`Error on '${method}' subscription`, error);
+          l.error(`Error on '${method}' subscription`, error);
         }
       });
   }

@@ -274,9 +274,7 @@ export class TypeRegistry implements Registry {
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
     const Type = this.get<T>(name);
 
-    if (isUndefined(Type)) {
-      throw new Error(msg || `type ${name} not found`);
-    }
+    assert(!isUndefined(Type), msg || `type ${name} not found`);
 
     return Type;
   }
