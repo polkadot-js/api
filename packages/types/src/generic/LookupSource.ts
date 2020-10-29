@@ -4,7 +4,7 @@
 import { Registry } from '../types';
 
 import BN from 'bn.js';
-import { isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
+import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import Base from '../codec/Base';
@@ -12,7 +12,7 @@ import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 
 // eslint-disable-next-line no-use-before-define
-type AnyAddress = BN | LookupSource | AccountId | AccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = BigInt | BN | LookupSource | AccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
@@ -55,17 +55,15 @@ export default class LookupSource extends Base<AccountId | AccountIndex> {
 
   /** @internal */
   private static _decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
-    if (value instanceof AccountId || value instanceof AccountIndex) {
-      return value;
-    } else if (value instanceof LookupSource) {
-      return value._raw;
-    } else if (isBn(value) || isNumber(value)) {
-      return registry.createType('AccountIndex', value);
-    } else if (Array.isArray(value) || isHex(value) || isU8a(value)) {
-      return decodeU8a(registry, u8aToU8a(value));
-    }
-
-    return decodeString(registry, value);
+    return value instanceof LookupSource
+      ? value._raw
+      : value instanceof AccountId || value instanceof AccountIndex
+        ? value
+        : isBn(value) || isNumber(value) || isBigInt(value)
+          ? registry.createType('AccountIndex', value)
+          : Array.isArray(value) || isHex(value) || isU8a(value)
+            ? decodeU8a(registry, u8aToU8a(value))
+            : decodeString(registry, value);
   }
 
   /**

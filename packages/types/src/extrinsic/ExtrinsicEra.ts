@@ -4,7 +4,7 @@
 import { AnyU8a, IExtrinsicEra, Registry } from '../types';
 
 import BN from 'bn.js';
-import { assert, bnToBn, formatNumber, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
+import { assert, bnToBn, formatNumber, hexToU8a, isHex, isU8a, isObject, u8aToBn, u8aToU8a } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
 import Tuple from '../codec/Tuple';
@@ -67,12 +67,8 @@ export class MortalEra extends Tuple {
 
   /** @internal */
   private static _decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
-    if (isHex(value)) {
-      return MortalEra._decodeMortalU8a(registry, hexToU8a(value));
-    } else if (Array.isArray(value)) {
-      return MortalEra._decodeMortalU8a(registry, new Uint8Array(value));
-    } else if (isU8a(value)) {
-      return MortalEra._decodeMortalU8a(registry, value);
+    if (isU8a(value) || isHex(value) || Array.isArray(value)) {
+      return MortalEra._decodeMortalU8a(registry, u8aToU8a(value));
     } else if (isObject(value)) {
       return MortalEra._decodeMortalObject(registry, value);
     } else if (!value) {

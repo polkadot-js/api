@@ -11,13 +11,13 @@ import Null from './Null';
  * An unknown type that fails on construction with the type info
  */
 export default class DoNotConstruct extends Null {
-  constructor (registry: Registry, typeName: string) {
+  constructor (registry: Registry, typeName = 'DoNotConstruct') {
     super(registry);
 
     throw new Error(`Cannot construct unknown type ${typeName}`);
   }
 
-  public static with (typeName = 'DoNotConstruct'): Constructor {
+  public static with (typeName?: string): Constructor {
     return class extends DoNotConstruct {
       constructor (registry: Registry) {
         super(registry, typeName);

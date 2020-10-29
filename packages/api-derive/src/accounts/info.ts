@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Balance, Registration } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Address, Balance, IdentityInfoAdditional, Registration } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveAccountInfo, DeriveAccountRegistration } from '../types';
 
@@ -12,6 +12,8 @@ import { Bytes, Data, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
 import { memo } from '../util';
+
+const UNDEF_HEX = { toHex: () => undefined };
 
 function dataAsString (data: Data): string | undefined {
   return data.isRaw
@@ -35,6 +37,19 @@ function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<s
   );
 }
 
+function extractOther (additional: IdentityInfoAdditional[]): Record<string, string> {
+  return additional.reduce((other: Record<string, string>, [_key, _value]): Record<string, string> => {
+    const key = dataAsString(_key);
+    const value = dataAsString(_value);
+
+    if (key && value) {
+      other[key] = value;
+    }
+
+    return other;
+  }, {});
+}
+
 function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
   if (!identityOfOpt?.isSome) {
     return { judgements: [] };
@@ -44,32 +59,15 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
   const topDisplay = dataAsString(info.display);
 
   return {
-    display: superOf
-      ? dataAsString(superOf[1]) || topDisplay
-      : topDisplay,
-    displayParent: superOf
-      ? topDisplay
-      : undefined,
+    display: (superOf && dataAsString(superOf[1])) || topDisplay,
+    displayParent: superOf && topDisplay,
     email: dataAsString(info.email),
     image: dataAsString(info.image),
     judgements,
     legal: dataAsString(info.legal),
-    other: info.additional.reduce((other: Record<string, string>, [_key, _value]): Record<string, string> => {
-      const key = dataAsString(_key);
-      const value = dataAsString(_value);
-
-      if (key && value) {
-        other[key] = value;
-      }
-
-      return other;
-    }, {}),
-    parent: superOf
-      ? superOf[0]
-      : undefined,
-    pgp: info.pgpFingerprint.isSome
-      ? info.pgpFingerprint.unwrap().toHex()
-      : undefined,
+    other: extractOther(info.additional),
+    parent: superOf && superOf[0],
+    pgp: info.pgpFingerprint.unwrapOr(UNDEF_HEX).toHex(),
     riot: dataAsString(info.riot),
     twitter: dataAsString(info.twitter),
     web: dataAsString(info.web)

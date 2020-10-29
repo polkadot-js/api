@@ -10,7 +10,7 @@ import Enum from '../codec/Enum';
 import Bytes from './Bytes';
 
 /** @internal */
-function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | undefined] {
+function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | null | Uint8Array, number | undefined] {
   if (!value.length) {
     return [undefined, undefined];
   }
