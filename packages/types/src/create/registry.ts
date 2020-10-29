@@ -7,7 +7,7 @@ import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types'
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
 
 import { extrinsicsFromMeta } from '@polkadot/metadata';
-import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { BN_ZERO, assert, assertReturn, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Json from '../codec/Json';
@@ -194,11 +194,8 @@ export class TypeRegistry implements Registry {
   // find a specific call
   public findMetaCall (callIndex: Uint8Array): CallFunction {
     const hexIndex = u8aToHex(callIndex);
-    const fn = this.#metadataCalls[hexIndex];
 
-    assert(!isUndefined(fn), `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex.toString()}]`);
-
-    return fn;
+    return assertReturn(this.#metadataCalls[hexIndex], `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex.toString()}]`);
   }
 
   // finds an error
@@ -208,20 +205,14 @@ export class TypeRegistry implements Registry {
         ? errorIndex
         : new Uint8Array([errorIndex.index.toNumber(), errorIndex.error.toNumber()])
     );
-    const error = this.#metadataErrors[hexIndex];
 
-    assert(!isUndefined(error), `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex.toString()}]`);
-
-    return error;
+    return assertReturn(this.#metadataErrors[hexIndex], `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex.toString()}]`);
   }
 
   public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
     const hexIndex = u8aToHex(eventIndex);
-    const Event = this.#metadataEvents[hexIndex];
 
-    assert(!isUndefined(Event), `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
-
-    return Event;
+    return assertReturn(this.#metadataEvents[hexIndex], `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
   }
 
   public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined {
@@ -272,11 +263,7 @@ export class TypeRegistry implements Registry {
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
-    const Type = this.get<T>(name);
-
-    assert(!isUndefined(Type), msg || `type ${name} not found`);
-
-    return Type;
+    return assertReturn(this.get<T>(name), msg || `type ${name} not found`);
   }
 
   public getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T> {

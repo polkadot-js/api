@@ -122,7 +122,7 @@ function tsSet (definitions: Record<string, ModuleTypes>, { name: setName, sub }
   setImports(definitions, imports, ['Set']);
 
   const types = (sub as TypeDef[]).map(({ name }): string => {
-    assert(!!name, 'Invalid TypeDef found, no name specified');
+    assert(name, 'Invalid TypeDef found, no name specified');
 
     return createGetter(definitions, `is${name}`, 'boolean', imports);
   });

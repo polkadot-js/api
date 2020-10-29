@@ -52,11 +52,6 @@ describe('Int', (): void => {
     ).toEqual(-123);
   });
 
-  it('converts to JSON depending on flags', (): void => {
-    expect(new Int(registry, 0x12, 16).toJSON()).toEqual('0x0012');
-    expect(new Int(registry, 0x12, 16, false).toJSON()).toEqual(0x12);
-  });
-
   describe('static with', (): void => {
     it('allows default toRawType', (): void => {
       expect(

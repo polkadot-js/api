@@ -39,7 +39,7 @@ function decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNeg
 }
 
 /** @internal */
-function decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
+function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
   // This function returns a string, which will be passed in the BN
   // constructor. It would be ideal to actually return a BN, but there's a
   // bug: https://github.com/indutny/bn.js/issues/206.
@@ -66,16 +66,13 @@ export default abstract class AbstractInt extends BN implements Codec {
 
   readonly #bitLength: UIntBitLength;
 
-  readonly #isHexJson: boolean;
-
   readonly #isSigned: boolean;
 
-  protected constructor (registry: Registry, isSigned: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(decodeAbstracInt(value, bitLength, isSigned));
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
+    super(decodeAbstractInt(value, bitLength, isSigned));
 
     this.registry = registry;
     this.#bitLength = bitLength;
-    this.#isHexJson = isHexJson;
     this.#isSigned = isSigned;
 
     assert(isSigned || this.gte(BN_ZERO), `${this.toRawType()}: Negative number passed to unsigned type`);
@@ -193,7 +190,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // FIXME this return type should by string | number, but BN's return type
     // is string.
     // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
-    return this.#isHexJson || (super.bitLength() > 52)
+    return super.bitLength() > 52
       ? this.toHex()
       : this.toNumber();
   }

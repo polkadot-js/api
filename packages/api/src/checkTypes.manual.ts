@@ -53,9 +53,8 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
-    [api.query.system.account, keyring.eve.address],
-    // older chains only
-    [api.query.system.accountNonce, keyring.bob.address]
+    [api.query.staking.validators],
+    [api.query.system.events]
   ], (values): void => {
     console.log('values', values);
 
@@ -66,7 +65,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const multiRes = await api.queryMulti([
     [api.query.system.account, keyring.eve.address],
     // older chains only
-    [api.query.system.accountNonce, keyring.bob.address]
+    [api.query.system.accountNonce, keyring.eve.address]
   ]);
 
   console.log(multiRes);

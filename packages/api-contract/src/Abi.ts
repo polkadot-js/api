@@ -5,7 +5,7 @@ import { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
 import { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageSpec, ContractMessageParamSpec, ContractProject } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
-import { assert, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import MetaRegistry from './MetaRegistry';
 
@@ -18,9 +18,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
       ? list.find(({ identifier }) => [identifier, stringCamelCase(identifier)].includes(messageOrId.toString()))
       : messageOrId;
 
-  assert(message, `Attempted to call an invalid contract interface, ${JSON.stringify(messageOrId)}`);
-
-  return message;
+  return assertReturn(message, `Attempted to call an invalid contract interface, ${JSON.stringify(messageOrId)}`);
 }
 
 export default class Abi {
