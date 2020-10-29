@@ -32,3 +32,5 @@ export default class Decorated {
     this.consts = constantsFromMeta(registry, value);
   }
 }
+
+export { constantsFromMeta, extrinsicsFromMeta, storageFromMeta };
