@@ -62,7 +62,9 @@ export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountI
 export function ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerSlashes[]> => {
     return api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras): Observable<DeriveStakerSlashes[]> => api.derive.staking._ownSlashes(accountId, eras, withActive))
+      switchMap((eras) =>
+        api.derive.staking._ownSlashes(accountId, eras, withActive)
+      )
     );
   });
 }

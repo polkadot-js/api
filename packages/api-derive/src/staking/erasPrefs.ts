@@ -61,7 +61,7 @@ export function _erasPrefs (instanceId: string, api: ApiInterfaceRx): (eras: Era
 export function erasPrefs (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPrefs[]> {
   return memo(instanceId, (withActive = false): Observable<DeriveEraPrefs[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras): Observable<DeriveEraPrefs[]> => api.derive.staking._erasPrefs(eras, withActive))
+      switchMap((eras) => api.derive.staking._erasPrefs(eras, withActive))
     )
   );
 }
