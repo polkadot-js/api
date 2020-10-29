@@ -22,7 +22,7 @@ const known: Record<number, string> = {
   1015: 'TLS Handshake'
 };
 
-function getUnmapped (code: number): string | null {
+function getUnmapped (code: number): string | void {
   if (code <= 1999) {
     return '(For WebSocket standard)';
   } else if (code <= 2999) {
@@ -32,8 +32,6 @@ function getUnmapped (code: number): string | null {
   } else if (code <= 4999) {
     return '(For applications)';
   }
-
-  return null;
 }
 
 export function getWSErrorString (code: number): string {
