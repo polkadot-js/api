@@ -23,16 +23,14 @@ const known: Record<number, string> = {
 };
 
 function getUnmapped (code: number): string | null {
-  if (code >= 1016) {
-    if (code <= 1999) {
-      return '(For WebSocket standard)';
-    } else if (code <= 2999) {
-      return '(For WebSocket extensions)';
-    } else if (code <= 3999) {
-      return '(For libraries and frameworks)';
-    } else if (code <= 4999) {
-      return '(For applications)';
-    }
+  if (code <= 1999) {
+    return '(For WebSocket standard)';
+  } else if (code <= 2999) {
+    return '(For WebSocket extensions)';
+  } else if (code <= 3999) {
+    return '(For libraries and frameworks)';
+  } else if (code <= 4999) {
+    return '(For applications)';
   }
 
   return null;
@@ -43,5 +41,5 @@ export function getWSErrorString (code: number): string {
     return '(Unused)';
   }
 
-  return getUnmapped(code) || known[code] || '(Unknown)';
+  return known[code] || getUnmapped(code) || '(Unknown)';
 }
