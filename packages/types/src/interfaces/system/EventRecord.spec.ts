@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import Metadata from '@polkadot/metadata/Metadata';
+import Metadata from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import { TypeRegistry } from '../../create';

@@ -4,7 +4,7 @@
 import { Storage } from '@polkadot/metadata/Decorated/types';
 
 import storageFromMeta from '@polkadot/metadata/Decorated/storage/fromMetadata';
-import Metadata from '@polkadot/metadata/Metadata';
+import Metadata from '@polkadot/metadata';
 import metaStatic from '@polkadot/metadata/Metadata/static';
 import { TypeRegistry } from '@polkadot/types';
 

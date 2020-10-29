@@ -4,7 +4,7 @@
 import Handlebars from 'handlebars';
 
 import staticData from '@polkadot/metadata/Metadata/static';
-import Metadata from '@polkadot/metadata/Metadata';
+import Metadata from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
