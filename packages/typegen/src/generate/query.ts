@@ -6,7 +6,7 @@ import Handlebars from 'handlebars';
 import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import staticData from '@polkadot/metadata/Metadata/static';
+import staticData from '@polkadot/metadata/static';
 import Metadata from '@polkadot/metadata';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';

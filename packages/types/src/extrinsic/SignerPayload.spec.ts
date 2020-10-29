@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import Metadata from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
 import SignerPayload from './SignerPayload';

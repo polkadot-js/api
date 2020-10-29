@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import Metadata from '@polkadot/metadata';
-import metadataStatic from '@polkadot/metadata/Metadata/static';
+import metadataStatic from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
 import Call from './Call';

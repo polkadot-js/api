@@ -3,7 +3,7 @@
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
-import json from '../../Metadata/static';
+import json from '../../static';
 import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata

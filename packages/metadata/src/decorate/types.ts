@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AugmentedConst, QueryableConsts, QueryableModuleConsts } from '@polkadot/api/types/consts';
-import { Codec } from '@polkadot/types/types';
+import { Codec, ModulesWithCalls } from '@polkadot/types/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 export interface ModuleStorage {
@@ -18,4 +18,10 @@ export type ModuleConstants = QueryableModuleConsts;
 export interface Storage {
   [key: string]: ModuleStorage;
   substrate: ModuleStorage;
+}
+
+export interface DecoratedMeta {
+  consts: Constants;
+  query: Storage;
+  tx: ModulesWithCalls
 }

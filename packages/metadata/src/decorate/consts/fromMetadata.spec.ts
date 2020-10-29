@@ -5,7 +5,7 @@ import { Constants } from '../types';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
-import rpcMetadata from '../../Metadata/static';
+import rpcMetadata from '../../static';
 import rpcMetadataV10 from '../../Metadata/v10/static';
 import fromMetadata from './fromMetadata';
 

@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { storageFromMeta } from '@polkadot/metadata/Decorated';
-import Metadata from '@polkadot/metadata';
-import rpcDataV11 from '@polkadot/metadata/Metadata/v11/static';
+import Metadata, { storageFromMeta } from '@polkadot/metadata';
+import rpcDataV11 from '@polkadot/metadata/v11/static';
 
 import { TypeRegistry } from '../create';
 import StorageKey from './StorageKey';

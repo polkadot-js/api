@@ -10,9 +10,8 @@ import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } fr
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
-import { storageFromMeta } from '@polkadot/metadata/Decorated';
-import Metadata from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+import Metadata, { storageFromMeta } from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/static';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';

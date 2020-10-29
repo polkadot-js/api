@@ -5,7 +5,7 @@ import { PropIndex } from '../interfaces/democracy';
 import { Codec, CodecTo } from '../types';
 
 import Metadata from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+import rpcMetadata from '@polkadot/metadata/static';
 
 import { createTypeUnsafe, TypeRegistry } from '../create';
 import AccountId from '../generic/AccountId';

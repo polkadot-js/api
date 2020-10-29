@@ -3,9 +3,8 @@
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { extrinsicsFromMeta } from '@polkadot/metadata/Decorated';
-import Metadata from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+import Metadata, { extrinsicsFromMeta } from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../../create';
 import Extrinsic from './Extrinsic';

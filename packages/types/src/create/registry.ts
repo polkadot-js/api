@@ -6,7 +6,7 @@
 import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
 
-import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
+import { extrinsicsFromMeta } from '@polkadot/metadata';
 import { BN_ZERO, assert, formatBalance, isFunction, isString, isU8a, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
