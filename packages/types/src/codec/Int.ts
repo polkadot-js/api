@@ -16,8 +16,8 @@ import AbstractInt, { UIntBitLength } from './AbstractInt';
  * @noInheritDoc
  */
 export default class Int extends AbstractInt {
-  constructor (registry: Registry, value: AnyNumber = 0, bitLength?: UIntBitLength, isHexJson?: boolean) {
-    super(registry, value, bitLength, isHexJson, true);
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength?: UIntBitLength) {
+    super(registry, value, bitLength, true);
   }
 
   public static with (bitLength: UIntBitLength, typeName?: string): Constructor<Int> {
