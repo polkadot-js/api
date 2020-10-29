@@ -6,7 +6,7 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { isU8a, assert } from '@polkadot/util';
+import { isU8a, assertReturn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { memo } from '../util';
@@ -23,11 +23,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
   const accountIndex = api.registry.createType('AccountIndex', decoded);
 
   return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
-    map((accountId) => {
-      assert(accountId, 'Unable to retrieve accountId');
-
-      return accountId;
-    })
+    map((accountId) => assertReturn(accountId, 'Unable to retrieve accountId'))
   );
 }
 
