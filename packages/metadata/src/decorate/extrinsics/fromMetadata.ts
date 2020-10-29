@@ -24,7 +24,7 @@ export default function fromMetadata (registry: Registry, metadata: RegistryMeta
       result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {
         const method = stringCamelCase(callMetadata.name);
 
-        newModule[method] = createUnchecked(registry, section, sectionIndex, methodIndex, callMetadata);
+        newModule[method] = createUnchecked(registry, section, new Uint8Array([sectionIndex, methodIndex]), callMetadata);
 
         return newModule;
       }, {});

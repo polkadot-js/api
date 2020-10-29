@@ -31,7 +31,7 @@ interface IterFn {
   meta: StorageEntryMetadataLatest;
 }
 
-type CreateArgType = boolean | string | number | null | BN | Uint8Array | Codec;
+type CreateArgType = boolean | string | number | null | BN | BigInt | Uint8Array | Codec;
 
 const EMPTY_U8A = new Uint8Array([]);
 const NULL_HASHER = (value: Uint8Array): Uint8Array => value;
@@ -107,7 +107,9 @@ function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType
 
 // attach the metadata to expand to a StorageFunction
 /** @internal */
-function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storageFn: StorageEntry): StorageEntry {
+function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (arg?: CreateArgType | [CreateArgType?, CreateArgType?]) => Uint8Array): StorageEntry {
+  const storageFn = _storageFn as StorageEntry;
+
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method);
   storageFn.prefix = prefix;
@@ -180,12 +182,11 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
-  const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
+  const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     type.isDoubleMap
       ? createKeyDoubleMap(registry, itemFn, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
-      : createKey(registry, itemFn, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
-
-  const storageFn = expandWithMeta(itemFn, _storageFn as StorageEntry);
+      : createKey(registry, itemFn, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher)
+  );
 
   if (type.isMap || type.isDoubleMap) {
     extendPrefixedMap(registry, itemFn, storageFn);

@@ -114,6 +114,24 @@ function registerOriginCaller (registry: Registry, modules: ModuleMetadataV12[])
   });
 }
 
+/** @internal */
+function createModule (registry: Registry, mod: ModuleMetadataV12, { calls, events, storage }: { calls: FunctionMetadataV12[] | null, events: EventMetadataV12[] | null, storage: StorageMetadataV12 | null }): ModuleMetadataLatest {
+  const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name));
+
+  return registry.createType('ModuleMetadataLatest', {
+    ...mod,
+    calls: calls
+      ? convertCalls(registry, calls, sectionTypes)
+      : null,
+    events: events
+      ? convertEvents(registry, events, sectionTypes)
+      : null,
+    storage: storage
+      ? convertStorage(registry, storage, sectionTypes)
+      : null
+  });
+}
+
 /**
  * Convert the Metadata (which is an alias) to latest - effectively this _always_ get applied to the top-level &
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
@@ -124,24 +142,10 @@ export default function toLatest (registry: Registry, { extrinsic, modules }: Me
 
   return registry.createType('MetadataLatest', {
     extrinsic,
-    modules: modules.map((mod): ModuleMetadataLatest => {
-      const calls = mod.calls.unwrapOr(null);
-      const events = mod.events.unwrapOr(null);
-      const storage = mod.storage.unwrapOr(null);
-      const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name));
-
-      return registry.createType('ModuleMetadataLatest', {
-        ...mod,
-        calls: calls
-          ? convertCalls(registry, calls, sectionTypes)
-          : null,
-        events: events
-          ? convertEvents(registry, events, sectionTypes)
-          : null,
-        storage: storage
-          ? convertStorage(registry, storage, sectionTypes)
-          : null
-      });
-    })
+    modules: modules.map((mod) => createModule(registry, mod, {
+      calls: mod.calls.unwrapOr(null),
+      events: mod.events.unwrapOr(null),
+      storage: mod.storage.unwrapOr(null)
+    }))
   });
 }
