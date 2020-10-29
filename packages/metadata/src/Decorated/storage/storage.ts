@@ -3,7 +3,7 @@
 
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { Registry } from '@polkadot/types/types';
-import { Storage } from '../../types';
+import { Storage } from '../types';
 
 import * as substrate from './substrate';
 

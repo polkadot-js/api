@@ -4,7 +4,7 @@
 import { TypeRegistry } from '@polkadot/types';
 
 import substrateData from './static';
-import Metadata from './Metadata';
+import Metadata from './';
 
 describe('Metadata', (): void => {
   it('allows creation from hex with JSON equivalence', (): void => {

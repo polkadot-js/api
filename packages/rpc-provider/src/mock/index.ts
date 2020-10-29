@@ -11,7 +11,7 @@ import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } fr
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
 import Decorated from '@polkadot/metadata/Decorated';
-import Metadata from '@polkadot/metadata/Metadata';
+import Metadata from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';

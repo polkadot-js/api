@@ -3,8 +3,8 @@
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
-import json from '../../../Metadata/static';
-import fromMetadata from '.';
+import json from '../../Metadata/static';
+import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
 const registry = new TypeRegistry();

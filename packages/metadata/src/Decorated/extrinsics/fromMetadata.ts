@@ -5,7 +5,7 @@ import { Calls, ModulesWithCalls, Registry, RegistryMetadata, RegistryMetadataMo
 
 import { stringCamelCase } from '@polkadot/util';
 
-import extrinsics from '../';
+import extrinsics from './';
 import createUnchecked from './createUnchecked';
 
 /** @internal */

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Registry } from '@polkadot/types/types';
-import { ModuleStorage, Storage } from '../../types';
+import { ModuleStorage, Storage } from '../types';
 
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
-import Metadata from '../../../Metadata';
+import Metadata from '../../Metadata';
 import createFunction from './createFunction';
 import getStorage from './storage';
 
 /** @internal */
 export default function fromMetadata (registry: Registry, metadata: Metadata): Storage {
-  return metadata.asLatest.modules.reduce((result, moduleMetadata): Storage => {
+  return metadata.asLatest.modules.reduce((result: Storage, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;
     }

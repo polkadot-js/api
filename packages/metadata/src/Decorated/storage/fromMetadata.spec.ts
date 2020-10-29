@@ -5,9 +5,9 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { TypeRegistry } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 
-import Metadata from '../../../Metadata';
-import rpcMetadata from '../../../Metadata/static';
-import Decorated from '../../Decorated';
+import Metadata from '../../';
+import rpcMetadata from '../../Metadata/static';
+import Decorated from '../';
 
 const keyring = testingPairs({ type: 'ed25519' });
 

@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constants } from '../../types';
+import { Constants } from '../types';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
-import rpcMetadata from '../../../Metadata/static';
-import rpcMetadataV10 from '../../../Metadata/v10/static';
-import fromMetadata from '../fromMetadata';
+import rpcMetadata from '../../Metadata/static';
+import rpcMetadataV10 from '../../Metadata/v10/static';
+import fromMetadata from './fromMetadata';
 
 function init (meta: string): [Constants, TypeRegistry] {
   const registry = new TypeRegistry();
@@ -28,7 +28,7 @@ describe('fromMetadata', (): void => {
   });
 
   // removed from session
-  it('correctly handles bytes', (): void => {
+  it('correctly handles bytes (V10)', (): void => {
     const [consts] = init(rpcMetadataV10);
 
     // 0x34 removes as the length prefix removed
