@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 2.4.2-x
+
+Contributed:
+
+- Dedup similar types on generation (Thanks to https://github.com/monitz87)
+
+Changes:
+
+- Add `.dryRun` on extrinsics (alongside `.paymentInfo` usage)
+- Add `system_syncState` and `syncstate_genSyncSpec` RPCs
+- Enhance error reporting, `Call` indicates explicit call as found
+- Adjust internal metadata decoration and use as exposed from `@types/metadata`
+- Expand Rococo known types to cater for v1 (specVersion 10)
+- `registry.hash` now returns an `H256` object (as opposed to raw Uint8Array)
+- Use utility logger in all relevant error messages (consistency in logging)
+- Correctly and transparently format type generation types (allowing for nested variants)
+
+
 ## 2.4.1 Oct 26, 2020
 
 Upgrade priority: Low. No breaking changes, however it does move `api-contract` forward with additional features.

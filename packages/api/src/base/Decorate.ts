@@ -428,7 +428,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ));
   }
 
-  private _retrieveMapKeys ({ iterKey, meta }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<StorageKey[]> {
+  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(arg).toHex();
@@ -440,7 +440,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return startSubject.pipe(
       switchMap((startKey) =>
         query(startKey).pipe(
-          map((keys) => keys.map((key) => key.setMeta(meta)))
+          map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
         )
       ),
       tap((keys): void => {
@@ -453,19 +453,19 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private _retrieveMapKeysPaged ({ iterKey, meta }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
+  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(opts.arg).toHex();
 
     return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
-      map((keys) => keys.map((key) => key.setMeta(meta)))
+      map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
     );
   }
 
   private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    const query = at
-      ? this._rpcCore.state.queryStorageAt
+    const query = this._rpcCore.state.queryStorageAt
+      ? at
         ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt<Codec[]>(keyset, at)
         : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
       // this is horrible, but need older support (which now doesn't work with at)

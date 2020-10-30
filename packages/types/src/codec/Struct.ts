@@ -60,10 +60,18 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
           ? assign
           : new Types[key](registry, assign);
       } else {
-        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+        throw new Error(`Cannot decode value ${JSON.stringify(value)}`);
       }
     } catch (error) {
-      throw new Error(`Struct: failed on '${jsonKey as string}':: ${(error as Error).message}`);
+      let type = Types[key].name;
+
+      try {
+        type = new Types[key](registry).toRawType();
+      } catch (error) {
+        // ignore
+      }
+
+      throw new Error(`Struct: failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
     }
 
     return raw;
