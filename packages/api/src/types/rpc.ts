@@ -10,10 +10,13 @@ import { Observable } from 'rxjs';
 import { ApiTypes, Push, PromiseResult, RxResult, UnsubscribePromise } from './base';
 
 export interface RpcRxResult<F extends AnyFunction> extends RxResult<F> {
+  json (...args: Parameters<F>): Observable<Record<string, any> & Codec>;
   raw (...args: Parameters<F>): Observable<Uint8Array & Codec>;
 }
 
 export interface RpcPromiseResult<F extends AnyFunction> extends PromiseResult<F> {
+  json (...args: Parameters<F>): Promise<Record<string, any> & Codec>;
+  json (...args: Push<Parameters<F>, Callback<Record<string, any> & Codec>>): UnsubscribePromise;
   raw (...args: Parameters<F>): Promise<Uint8Array & Codec>;
   raw (...args: Push<Parameters<F>, Callback<Uint8Array & Codec>>): UnsubscribePromise;
 }
