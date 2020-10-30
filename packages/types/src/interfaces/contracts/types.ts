@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { Compact, Enum, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
-import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, Null, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AliveContractInfo */
@@ -30,17 +30,41 @@ export interface ContractCallRequest extends Struct {
 }
 
 /** @name ContractExecResult */
-export interface ContractExecResult extends Enum {
-  readonly isSuccess: boolean;
-  readonly asSuccess: ContractExecResultSuccess;
-  readonly isError: boolean;
+export interface ContractExecResult extends Struct {
+  readonly gasConsumed: u64;
+  readonly debugMessage: Text;
+  readonly result: ContractExecResult;
 }
 
-/** @name ContractExecResultSuccess */
-export interface ContractExecResultSuccess extends Struct {
+/** @name ContractExecResultErr */
+export interface ContractExecResultErr extends Enum {
+  readonly isOther: boolean;
+  readonly asOther: Text;
+  readonly isCannotLookup: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isModule: boolean;
+  readonly asModule: ContractExecResultErrModule;
+}
+
+/** @name ContractExecResultErrModule */
+export interface ContractExecResultErrModule extends Struct {
+  readonly index: u8;
+  readonly error: u8;
+  readonly message: Option<Text>;
+}
+
+/** @name ContractExecResultOk */
+export interface ContractExecResultOk extends Struct {
   readonly flags: u32;
   readonly data: Bytes;
-  readonly gasConsumed: u64;
+}
+
+/** @name ContractExecResultResult */
+export interface ContractExecResultResult extends Enum {
+  readonly isOk: boolean;
+  readonly asOk: ContractExecResultOk;
+  readonly isErr: boolean;
+  readonly asErr: ContractExecResultErr;
 }
 
 /** @name ContractExecResultSuccessTo255 */
@@ -49,10 +73,24 @@ export interface ContractExecResultSuccessTo255 extends Struct {
   readonly data: Raw;
 }
 
+/** @name ContractExecResultSuccessTo260 */
+export interface ContractExecResultSuccessTo260 extends Struct {
+  readonly flags: u32;
+  readonly data: Bytes;
+  readonly gasConsumed: u64;
+}
+
 /** @name ContractExecResultTo255 */
 export interface ContractExecResultTo255 extends Enum {
   readonly isSuccess: boolean;
   readonly asSuccess: ContractExecResultSuccessTo255;
+  readonly isError: boolean;
+}
+
+/** @name ContractExecResultTo260 */
+export interface ContractExecResultTo260 extends Enum {
+  readonly isSuccess: boolean;
+  readonly asSuccess: ContractExecResultSuccessTo260;
   readonly isError: boolean;
 }
 

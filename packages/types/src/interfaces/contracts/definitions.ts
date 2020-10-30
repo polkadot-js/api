@@ -90,16 +90,44 @@ export default {
         Error: 'Null'
       }
     },
-    ContractExecResultSuccess: {
+    ContractExecResultSuccessTo260: {
       flags: 'u32',
       data: 'Bytes',
       gasConsumed: 'u64'
     },
-    ContractExecResult: {
+    ContractExecResultTo260: {
       _enum: {
-        Success: 'ContractExecResultSuccess',
+        Success: 'ContractExecResultSuccessTo260',
         Error: 'Null'
       }
+    },
+    ContractExecResultErrModule: {
+      index: 'u8',
+      error: 'u8',
+      message: 'Option<Text>'
+    },
+    ContractExecResultErr: {
+      _enum: {
+        Other: 'Text',
+        CannotLookup: 'Null',
+        BadOrigin: 'Null',
+        Module: 'ContractExecResultErrModule'
+      }
+    },
+    ContractExecResultOk: {
+      flags: 'u32',
+      data: 'Bytes'
+    },
+    ContractExecResultResult: {
+      _enum: {
+        Ok: 'ContractExecResultOk',
+        Err: 'ContractExecResultErr'
+      }
+    },
+    ContractExecResult: {
+      gasConsumed: 'u64',
+      debugMessage: 'Text',
+      result: 'ContractExecResult'
     },
     ContractInfo: {
       _enum: {
