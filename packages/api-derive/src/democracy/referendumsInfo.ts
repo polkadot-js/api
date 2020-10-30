@@ -40,31 +40,35 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
   );
 }
 
+function extractVotes (mapped: [AccountId, Voting][], referendumId: BN): DeriveReferendumVote[] {
+  return mapped
+    .filter(([, voting]) => voting.isDirect)
+    .map(([accountId, voting]): [AccountId, VotingDirectVote[]] => [
+      accountId,
+      voting.asDirect.votes.filter(([idx]) => idx.eq(referendumId))
+    ])
+    .filter(([, directVotes]) => !!directVotes.length)
+    .reduce((result: DeriveReferendumVote[], [accountId, votes]) =>
+      // FIXME We are ignoring split votes
+      votes.reduce((result: DeriveReferendumVote[], [, vote]): DeriveReferendumVote[] => {
+        if (vote.isStandard) {
+          result.push({
+            accountId,
+            isDelegating: false,
+            ...vote.asStandard
+          });
+        }
+
+        return result;
+      }, result), []
+    );
+}
+
 function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votingOf.entries<Voting>().pipe(
     map((allVoting): DeriveReferendumVote[] => {
       const mapped = allVoting.map(([key, voting]): [AccountId, Voting] => [key.args[0] as AccountId, voting]);
-      const votes = mapped
-        .filter(([, voting]) => voting.isDirect)
-        .map(([accountId, voting]): [AccountId, VotingDirectVote[]] => [
-          accountId,
-          voting.asDirect.votes.filter(([idx]) => idx.eq(referendumId))
-        ])
-        .filter(([, directVotes]) => !!directVotes.length)
-        .reduce((result: DeriveReferendumVote[], [accountId, votes]) =>
-          // FIXME We are ignoring split votes
-          votes.reduce((result: DeriveReferendumVote[], [, vote]): DeriveReferendumVote[] => {
-            if (vote.isStandard) {
-              result.push({
-                accountId,
-                isDelegating: false,
-                ...vote.asStandard
-              });
-            }
-
-            return result;
-          }, result), []
-        );
+      const votes = extractVotes(mapped, referendumId);
       const delegations = mapped
         .filter(([, voting]) => voting.isDelegating)
         .map(([accountId, voting]): [AccountId, VotingDelegating] => [accountId, voting.asDelegating]);

@@ -10,11 +10,13 @@ import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 import U8aFixed from '../codec/U8aFixed';
 import Bool from '../primitive/Bool';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type InputTypes = boolean | number | Boolean | Uint8Array | {
+interface VoteType {
   aye: boolean;
   conviction?: number | ArrayElementType<typeof AllConvictions>;
-};
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+type InputTypes = boolean | number | Boolean | Uint8Array | VoteType;
 
 // For votes, the topmost bit indicated aye/nay, the lower bits indicate the conviction
 const AYE_BITS = 0b10000000;
@@ -37,6 +39,14 @@ function decodeVoteU8a (value: Uint8Array): Uint8Array {
 }
 
 /** @internal */
+function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
+  const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
+  const conviction = registry.createType('Conviction', value.conviction || DEF_CONV);
+
+  return new Uint8Array([vote | conviction.index]);
+}
+
+/** @internal */
 function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
   if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
     return decodeVoteBool(new Bool(registry, value).isTrue);
@@ -46,10 +56,7 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
     return decodeVoteU8a(value);
   }
 
-  const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
-  const conviction = registry.createType('Conviction', value.conviction || DEF_CONV);
-
-  return new Uint8Array([vote | conviction.index]);
+  return decodeVoteType(registry, value);
 }
 
 /**

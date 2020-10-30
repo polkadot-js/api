@@ -9,7 +9,7 @@ export default class HashMap<K extends Codec = Codec, V extends Codec = Codec> e
   public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<CodecMap<K, V>> {
     return class extends HashMap<K, V> {
       constructor (registry: Registry, value?: Uint8Array | string | Map<any, any>) {
-        super(registry, 'HashMap', keyType, valType, value);
+        super(registry, keyType, valType, value);
       }
     };
   }

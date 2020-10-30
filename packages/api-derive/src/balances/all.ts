@@ -16,9 +16,16 @@ import { memo } from '../util';
 type ResultBalance = [VestingInfo | null, (BalanceLock | BalanceLockTo212)[]];
 type Result = [DeriveBalancesAccount, BlockNumber, ResultBalance];
 
+interface AllLocked {
+  allLocked: boolean,
+  lockedBalance: Balance,
+  lockedBreakdown: (BalanceLock | BalanceLockTo212)[],
+  vestingLocked: Balance
+}
+
 const VESTING_ID = '0x76657374696e6720';
 
-function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DeriveBalancesAll {
+function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (BalanceLock | BalanceLockTo212)[]): AllLocked {
   let lockedBalance = api.registry.createType('Balance');
   let lockedBreakdown: (BalanceLock | BalanceLockTo212)[] = [];
   let vestingLocked = api.registry.createType('Balance');
@@ -27,18 +34,22 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
     lockedBreakdown = (locks as BalanceLockTo212[]).filter(({ until }): boolean => !until || (bestNumber && until.gt(bestNumber)));
-
-    const notAll = lockedBreakdown.filter(({ amount }) => !amount.isMax());
-
     allLocked = lockedBreakdown.some(({ amount }) => amount.isMax());
     vestingLocked = api.registry.createType('Balance', lockedBreakdown.filter(({ id }) => id.eq(VESTING_ID)).reduce((result: BN, { amount }) => result.iadd(amount), new BN(0)));
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
+    const notAll = lockedBreakdown.filter(({ amount }) => !amount.isMax());
+
     if (notAll.length) {
       lockedBalance = api.registry.createType('Balance', bnMax(...notAll.map(({ amount }): Balance => amount)));
     }
   }
 
+  return { allLocked, lockedBalance, lockedBreakdown, vestingLocked };
+}
+
+function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DeriveBalancesAll {
+  const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
   // Calculate the vesting balances,
   //  - offset = balance locked at startingBlock
   //  - perBlock is the unlock amount

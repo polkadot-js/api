@@ -34,7 +34,7 @@ describe('CodecMap', (): void => {
   describe('decoding', (): void => {
     const testDecode = (type: string, input: any, output: string): void =>
       it(`can decode from ${type}`, (): void => {
-        const s = new CodecMap(registry, 'HashMap', Text, U32, input);
+        const s = new CodecMap(registry, Text, U32, input);
 
         expect(s.toString()).toBe(output);
       });
@@ -51,7 +51,7 @@ describe('CodecMap', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const s = new CodecMap(registry, 'BTreeMap', Text, U32, mockU32TextMap);
+        const s = new CodecMap(registry, Text, U32, mockU32TextMap, 'BTreeMap');
 
         expect(s[to]()).toEqual(expected);
       });
@@ -65,7 +65,7 @@ describe('CodecMap', (): void => {
   describe('encoding muple values', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const s = new CodecMap(registry, 'BTreeMap', Text, U32, mockU32U32Map);
+        const s = new CodecMap(registry, Text, U32, mockU32U32Map, 'BTreeMap');
 
         expect(s[to]()).toEqual(expected);
       });
