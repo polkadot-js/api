@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
+import { didUpdateToBool } from './util';
 
 type Result = [
   Active,
@@ -63,9 +64,7 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
 
   return {
     active: parseActive(id, active),
-    didUpdate: didUpdate.isSome
-      ? !!didUpdate.unwrap().some((paraId): boolean => paraId.eq(id))
-      : false,
+    didUpdate: didUpdateToBool(didUpdate, id),
     heads,
     id,
     info: { id, ...info.unwrap() } as DeriveParachainInfo,

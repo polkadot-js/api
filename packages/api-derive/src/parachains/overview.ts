@@ -10,6 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
+import { didUpdateToBool } from './util';
 
 type Result = [
   ParaId[],
@@ -22,9 +23,7 @@ type Result = [
 function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: Result): DeriveParachain[] {
   return ids.map((id, index): DeriveParachain => {
     return {
-      didUpdate: didUpdate.isSome
-        ? !!didUpdate.unwrap().some((paraId): boolean => paraId.eq(id))
-        : false,
+      didUpdate: didUpdateToBool(didUpdate, id),
       id,
       info: { id, ...infos[index].unwrapOr(null) } as DeriveParachainInfo,
       pendingSwapId: pendingSwaps[index].unwrapOr(null),
