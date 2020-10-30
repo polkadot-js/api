@@ -22,6 +22,8 @@ const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
   Str: 'Text'
 };
 
+const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+
 export default class MetaRegistry extends TypeRegistry {
   public readonly metaTypeDefs: TypeDef[] = [];
 
@@ -56,8 +58,8 @@ export default class MetaRegistry extends TypeRegistry {
         typeDef = {
           ...typeDef,
           displayName,
-          type: ['Balance'].includes(displayName)
-            ? 'Balance'
+          type: PRIMITIVE_ALWAYS.includes(displayName)
+            ? displayName
             : typeDef.type
         };
       }
@@ -84,10 +86,10 @@ export default class MetaRegistry extends TypeRegistry {
 
   #extract = (type: SiType, id: SiLookupTypeId): TypeDef => {
     const path = [...type.path];
+    const pathFinal = path.length ? path[path.length - 1].toString() : '';
     let typeDef: Omit<TypeDef, 'type'>;
 
-    // TODO solang?
-    if (type.path.join('::').startsWith('ink_env::types::')) {
+    if (type.path.join('::').startsWith('ink_env::types::') || PRIMITIVE_ALWAYS.includes(pathFinal)) {
       typeDef = this.#extractPrimitivePath(type);
     } else if (type.def.isPrimitive) {
       typeDef = this.#extractPrimitive(type);
