@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { BN_ZERO } from '@polkadot/util';
 
 import { deriveCache, memo } from '../util';
-import { cacheMulti, filterEras } from './util';
+import { filterEras } from './util';
 
 const CACHE_KEY = 'eraPoints';
 
@@ -51,7 +51,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
         map((points): DeriveEraPoints[] => {
           const query = mapPoints(remaining, points);
 
-          cacheMulti(CACHE_KEY, query, !withActive);
+          !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
 
           return eras.map((era): DeriveEraPoints =>
             cached.find((cached) => era.eq(cached.era)) ||
