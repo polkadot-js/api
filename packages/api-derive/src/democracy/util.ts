@@ -58,16 +58,20 @@ export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
-export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
+function calcPassingOther (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
   const sqrtVoters = bnSqrt(votedTotal);
 
   return sqrtVoters.isZero()
     ? false
-    : threshold.isSimplemajority
-      ? votedAye.gt(votedNay)
-      : threshold.isSupermajorityapproval
-        ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
-        : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
+    : threshold.isSupermajorityapproval
+      ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
+      : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
+}
+
+export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, state: ApproxState): boolean {
+  return threshold.isSimplemajority
+    ? state.votedAye.gt(state.votedNay)
+    : calcPassingOther(threshold, sqrtElectorate, state);
 }
 
 function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteState {

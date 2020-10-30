@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, ReferendumInfo, ReferendumInfoTo239, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
+import { AccountId, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, Vote, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DeriveDemocracyLock } from '../types';
 
@@ -9,27 +9,26 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
-import { isUndefined } from '@polkadot/util';
+import { BN_ZERO, isUndefined } from '@polkadot/util';
 
 import { memo } from '../util';
 
 const LOCKUPS = [0, 1, 2, 4, 8, 16, 32];
-const ZERO = new BN(0);
+
+function parseEnd (api: ApiInterfaceRx, vote: Vote, { approved, end }: ReferendumInfoFinished): [BN, BN] {
+  return [
+    end,
+    (approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)
+      ? end.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[vote.conviction.index]))
+      : BN_ZERO
+  ];
+}
 
 function parseLock (api: ApiInterfaceRx, [referendumId, accountVote]: VotingDirectVote, referendum: ReferendumInfo): DeriveDemocracyLock {
   const { balance, vote } = accountVote.asStandard;
-  let unlockAt = ZERO;
-  let referendumEnd = ZERO;
-
-  if (referendum.isFinished) {
-    const { approved, end } = referendum.asFinished;
-
-    referendumEnd = end;
-
-    if ((approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)) {
-      unlockAt = end.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[vote.conviction.index]));
-    }
-  }
+  const [referendumEnd, unlockAt] = referendum.isFinished
+    ? parseEnd(api, vote, referendum.asFinished)
+    : [BN_ZERO, BN_ZERO];
 
   return { balance, isDelegated: false, isFinished: referendum.isFinished, referendumEnd, referendumId, unlockAt, vote };
 }
