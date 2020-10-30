@@ -21,6 +21,8 @@ interface StorageChangeSetJSON {
   changes: [string, string | null][];
 }
 
+type OutputType = 'json' | 'raw' | 'scale';
+
 const l = logger('rpc-core');
 
 const EMPTY_META = {
@@ -211,10 +213,11 @@ export default class Rpc implements RpcInterface {
       }, {} as RpcInterface[Section]);
   }
 
-  private _createMethodWithRaw (creator: (isRaw: boolean) => (...values: any[]) => Observable<any>): RpcInterfaceMethod {
-    const call = creator(false) as Partial<RpcInterfaceMethod>;
+  private _createMethodWithRaw (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>): RpcInterfaceMethod {
+    const call = creator('scale') as Partial<RpcInterfaceMethod>;
 
-    call.raw = creator(true);
+    call.json = creator('json');
+    call.raw = creator('raw');
 
     return call as RpcInterfaceMethod;
   }
@@ -226,7 +229,7 @@ export default class Rpc implements RpcInterface {
     let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
-    const callWithRegistry = async (isRaw: boolean, values: any[]): Promise<Codec | Codec[]> => {
+    const callWithRegistry = async (outputAs: OutputType, values: any[]): Promise<Codec | Codec[]> => {
       const hash = hashIndex === -1
         ? undefined
         : values[hashIndex] as Uint8Array;
@@ -236,16 +239,16 @@ export default class Rpc implements RpcInterface {
       const params = this._formatInputs(registry, def, values);
       const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
 
-      return isRaw
-        ? registry.createType('Raw', data)
-        : this._formatOutput(registry, method, def, params, data);
+      return outputAs === 'scale'
+        ? this._formatOutput(registry, method, def, params, data)
+        : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', data);
     };
 
-    const creator = (isRaw: boolean) => (...values: any[]): Observable<any> => {
+    const creator = (outputAs: OutputType) => (...values: any[]): Observable<any> => {
       const isDelayed = (hashIndex !== -1 && !!values[hashIndex]) || (cacheIndex !== -1 && !!values[cacheIndex]);
 
       return new Observable((observer: Observer<any>): VoidCallback => {
-        callWithRegistry(isRaw, values)
+        callWithRegistry(outputAs, values)
           .then((value): void => {
             observer.next(value);
             observer.complete();
@@ -297,7 +300,7 @@ export default class Rpc implements RpcInterface {
     const subType = `${section}_${updateType}`;
     let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
 
-    const creator = (isRaw: boolean) => (...values: unknown[]): Observable<any> => {
+    const creator = (outputAs: OutputType) => (...values: unknown[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
@@ -322,9 +325,9 @@ export default class Rpc implements RpcInterface {
 
             try {
               observer.next(
-                isRaw
-                  ? registry.createType('Raw', result)
-                  : this._formatOutput(registry, method, def, params, result)
+                outputAs === 'scale'
+                  ? this._formatOutput(registry, method, def, params, result)
+                  : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', result)
               );
             } catch (error) {
               observer.error(error);

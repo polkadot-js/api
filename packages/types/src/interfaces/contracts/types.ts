@@ -33,7 +33,7 @@ export interface ContractCallRequest extends Struct {
 export interface ContractExecResult extends Struct {
   readonly gasConsumed: u64;
   readonly debugMessage: Text;
-  readonly result: ContractExecResult;
+  readonly result: ContractExecResultResult;
 }
 
 /** @name ContractExecResultErr */
