@@ -3,7 +3,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces';
-import { DeriveCollectiveProposals, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
+import { DeriveCollectiveProposal, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -15,7 +15,7 @@ interface Result {
   allIds: ProposalIndex[];
   allProposals: Option<TreasuryProposal>[];
   approvalIds: ProposalIndex[];
-  councilProposals: DeriveCollectiveProposals;
+  councilProposals: DeriveCollectiveProposal[];
   proposalCount: ProposalIndex;
 }
 
@@ -64,7 +64,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
     api.query.treasury.proposals.multi<Option<TreasuryProposal>>(allIds),
     api.derive.council.proposals()
   ]).pipe(
-    map(([allProposals, councilProposals]: [Option<TreasuryProposal>[], DeriveCollectiveProposals]): DeriveTreasuryProposals =>
+    map(([allProposals, councilProposals]: [Option<TreasuryProposal>[], DeriveCollectiveProposal[]]): DeriveTreasuryProposals =>
       parseResult(api, { allIds, allProposals, approvalIds, councilProposals, proposalCount })
     )
   );
