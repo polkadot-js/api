@@ -149,21 +149,19 @@ export default class StorageKey extends Bytes {
 
   private _outputType: string;
 
-  private readonly _method?: string;
+  private _method?: string;
 
-  private readonly _section?: string;
+  private _section?: string;
 
   constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);
 
-    this._method = override.method || method;
-    this._section = override.section || section;
     this._outputType = StorageKey.getType(value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
-    this.setMeta(StorageKey.getMeta(value as StorageKey));
+    this.setMeta(StorageKey.getMeta(value as StorageKey), override.section || section, override.method || method);
   }
 
   public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
@@ -235,8 +233,10 @@ export default class StorageKey extends Bytes {
   /**
    * @description Sets the meta for this key
    */
-  public setMeta (meta?: StorageEntryMetadataLatest): this {
+  public setMeta (meta?: StorageEntryMetadataLatest, section?: string, method?: string): this {
     this._meta = meta;
+    this._method = method || this._method;
+    this._section = section || this._section;
 
     if (meta) {
       this._outputType = unwrapStorageType(meta.type);

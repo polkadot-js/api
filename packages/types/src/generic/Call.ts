@@ -122,11 +122,25 @@ export default class Call extends Struct implements IMethod {
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
     const decoded = decodeCall(registry, value, meta);
 
-    super(registry, {
-      callIndex: CallIndex,
-      // eslint-disable-next-line sort-keys
-      args: Struct.with(decoded.argsDef)
-    }, decoded);
+    try {
+      super(registry, {
+        callIndex: CallIndex,
+        // eslint-disable-next-line sort-keys
+        args: Struct.with(decoded.argsDef)
+      }, decoded);
+    } catch (error) {
+      let method = 'unknown.unknown';
+
+      try {
+        const c = registry.findMetaCall(decoded.callIndex);
+
+        method = `${c.section}.${c.method}`;
+      } catch (error) {
+        // ignore
+      }
+
+      throw new Error(`Call: failed decoding ${method}:: ${(error as Error).message}`);
+    }
 
     this._meta = decoded.meta;
   }

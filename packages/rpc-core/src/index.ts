@@ -458,11 +458,11 @@ export default class Rpc implements RpcInterface {
     // one at a time, all based on the query types. Three values can be returned -
     //   - Codec - There is a valid value, non-empty
     //   - null - The storage key is empty
-    return keys.reduce((results: Codec[], key: StorageKey): Codec[] => {
+    return keys.reduce((results: Codec[], key: StorageKey, index: number): Codec[] => {
       try {
         results.push(this._formatStorageSetEntry(registry, key, changes, withCache));
       } catch (error) {
-        l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
+        l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${index + 1}/${keys.length}:`, (error as Error).message);
 
         throw error;
       }
