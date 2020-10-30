@@ -99,7 +99,7 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
 
   readonly #type: string;
 
-  constructor (registry: Registry, type: 'BTreeMap' | 'HashMap', keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | Map<any, any>) {
+  constructor (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
     super(decodeMap(registry, keyType, valType, rawValue));
 
     this.registry = registry;

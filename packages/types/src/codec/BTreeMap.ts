@@ -9,7 +9,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
   public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<CodecMap<K, V>> {
     return class extends BTreeMap<K, V> {
       constructor (registry: Registry, value?: Uint8Array | string | Map<any, any>) {
-        super(registry, 'BTreeMap', keyType, valType, value);
+        super(registry, keyType, valType, value, 'BTreeMap');
       }
     };
   }
