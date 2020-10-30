@@ -28,7 +28,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
+function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee' = 'council'): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> =>
     (isFunction(api.query[section]?.proposals) && hashes.length
       ? combineLatest<Result>([
@@ -43,7 +43,7 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: 'coun
   );
 }
 
-export function proposals (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DeriveCollectiveProposal[]> {
+export function proposals (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee' = 'council'): () => Observable<DeriveCollectiveProposal[]> {
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
@@ -55,7 +55,7 @@ export function proposals (instanceId: string, api: ApiInterfaceRx, section: 'co
   );
 }
 
-export function proposal (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+export function proposal (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee' = 'council'): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
