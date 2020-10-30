@@ -117,7 +117,7 @@ describe('Struct', (): void => {
           u32: U32
         })
       )(registry, 'ABC')
-    ).toThrowError(/Struct: cannot decode type/);
+    ).toThrowError(/cannot decode value/);
   });
 
   it('provides a clean toString()', (): void => {
