@@ -127,7 +127,7 @@ export default {
     ContractExecResult: {
       gasConsumed: 'u64',
       debugMessage: 'Text',
-      result: 'ContractExecResult'
+      result: 'ContractExecResultResult'
     },
     ContractInfo: {
       _enum: {
