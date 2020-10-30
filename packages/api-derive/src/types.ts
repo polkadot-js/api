@@ -60,8 +60,6 @@ export interface DeriveCollectiveProposal {
   votes: Votes | null;
 }
 
-export type DeriveCollectiveProposals = DeriveCollectiveProposal[];
-
 export interface DeriveFees {
   creationFee: Balance;
   existentialDeposit: Balance;

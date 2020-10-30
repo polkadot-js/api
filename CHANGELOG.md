@@ -15,6 +15,7 @@ Changes:
 - Expand Rococo known types to cater for v1 (specVersion 10)
 - `registry.hash` now returns an `H256` object (as opposed to raw Uint8Array)
 - Use utility logger in all relevant error messages (consistency in logging)
+- Add `derive.council.proposal(<hash>)` for retrieval of a single (expanded) proposal
 - Correctly and transparently format type generation types (allowing for nested variants)
 
 
