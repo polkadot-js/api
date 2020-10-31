@@ -100,14 +100,11 @@ export default class CodecSet extends Set<string> implements Codec {
           const name = stringUpperFirst(stringCamelCase(_key));
           const iskey = `is${name}`;
 
-          // do not clobber existing properties on the object
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (isUndefined((this as any)[iskey])) {
+          isUndefined(this[iskey as keyof this]) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
               get: (): boolean => this.strings.includes(_key)
             });
-          }
         });
       }
     };

@@ -46,9 +46,7 @@ export default class Combinator<T extends any[] = any[]> {
   }
 
   protected _allHasFired (): boolean {
-    if (!this.#allHasFired) {
-      this.#allHasFired = this.#fired.filter((hasFired): boolean => !hasFired).length === 0;
-    }
+    this.#allHasFired ||= this.#fired.filter((hasFired): boolean => !hasFired).length === 0;
 
     return this.#allHasFired;
   }
