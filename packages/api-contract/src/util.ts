@@ -7,16 +7,18 @@ import { Codec, Registry, TypeDef } from '@polkadot/types/types';
 
 import { Raw, createTypeUnsafe } from '@polkadot/types';
 
+type ContractEvents = 'CodeStored' | 'ContractExecution' | 'Instantiated';
+
 export function formatData (registry: Registry, data: Raw, { type }: TypeDef): Codec {
   return createTypeUnsafe(registry, type, [data], true);
 }
 
-export function applyOnEvent <T> (result: SubmittableResult, type: 'CodeStored' | 'Instantiated', fn: (record: EventRecord) => T): T | undefined {
+export function applyOnEvent <T> (result: SubmittableResult, type: ContractEvents, fn: (records: EventRecord[]) => T): T | undefined {
   if (result.isInBlock || result.isFinalized) {
-    const record = result.findRecord('contracts', type);
+    const records = result.filterRecords('contracts', type);
 
-    if (record) {
-      return fn(record);
+    if (records.length) {
+      return fn(records);
     }
   }
 
