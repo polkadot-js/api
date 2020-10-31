@@ -115,7 +115,8 @@ async function rpc (api: ApiPromise): Promise<void> {
     console.log('current balance:', balance.toString());
   });
 
-  // using raw
+  // using json & raw
+  await api.rpc.chain.getBlock.json('0x123456');
   await api.rpc.chain.getBlock.raw('0x123456');
 
   // using raw subs

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
+import { Compact, Json, Option, Raw, Vec } from '@polkadot/types/codec';
 import { BitVec, Bytes, Data, DoNotConstruct, Null, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -14,7 +14,7 @@ import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractExecResultSuccessTo255, ContractExecResultTo255, ContractInfo, ContractStorageKey, Gas, HostFnWeights, InstructionWeights, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
+import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, Gas, HostFnWeights, InstructionWeights, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
@@ -129,6 +129,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<usize>': Compact<usize>;
     'Option<usize>': Option<usize>;
     'Vec<usize>': Vec<usize>;
+    Json: Json;
+    'Option<Json>': Option<Json>;
+    'Vec<Json>': Vec<Json>;
     Raw: Raw;
     'Option<Raw>': Option<Raw>;
     'Vec<Raw>': Vec<Raw>;
@@ -487,9 +490,24 @@ declare module '@polkadot/types/types/registry' {
     ContractExecResultTo255: ContractExecResultTo255;
     'Option<ContractExecResultTo255>': Option<ContractExecResultTo255>;
     'Vec<ContractExecResultTo255>': Vec<ContractExecResultTo255>;
-    ContractExecResultSuccess: ContractExecResultSuccess;
-    'Option<ContractExecResultSuccess>': Option<ContractExecResultSuccess>;
-    'Vec<ContractExecResultSuccess>': Vec<ContractExecResultSuccess>;
+    ContractExecResultSuccessTo260: ContractExecResultSuccessTo260;
+    'Option<ContractExecResultSuccessTo260>': Option<ContractExecResultSuccessTo260>;
+    'Vec<ContractExecResultSuccessTo260>': Vec<ContractExecResultSuccessTo260>;
+    ContractExecResultTo260: ContractExecResultTo260;
+    'Option<ContractExecResultTo260>': Option<ContractExecResultTo260>;
+    'Vec<ContractExecResultTo260>': Vec<ContractExecResultTo260>;
+    ContractExecResultErrModule: ContractExecResultErrModule;
+    'Option<ContractExecResultErrModule>': Option<ContractExecResultErrModule>;
+    'Vec<ContractExecResultErrModule>': Vec<ContractExecResultErrModule>;
+    ContractExecResultErr: ContractExecResultErr;
+    'Option<ContractExecResultErr>': Option<ContractExecResultErr>;
+    'Vec<ContractExecResultErr>': Vec<ContractExecResultErr>;
+    ContractExecResultOk: ContractExecResultOk;
+    'Option<ContractExecResultOk>': Option<ContractExecResultOk>;
+    'Vec<ContractExecResultOk>': Vec<ContractExecResultOk>;
+    ContractExecResultResult: ContractExecResultResult;
+    'Option<ContractExecResultResult>': Option<ContractExecResultResult>;
+    'Vec<ContractExecResultResult>': Vec<ContractExecResultResult>;
     ContractExecResult: ContractExecResult;
     'Option<ContractExecResult>': Option<ContractExecResult>;
     'Vec<ContractExecResult>': Vec<ContractExecResult>;

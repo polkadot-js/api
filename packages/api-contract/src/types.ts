@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes } from '@polkadot/api/types';
-import { ContractExecResult, ContractSelector } from '@polkadot/types/interfaces';
+import { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
 import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
 
 import ApiBase from '@polkadot/api/base';
+import { Text, u64 } from '@polkadot/types';
+
 import Abi from './Abi';
 
 export interface ContractBase<ApiType extends ApiTypes> {
@@ -51,8 +53,10 @@ export interface InterfaceContractCalls {
 }
 
 export interface ContractCallOutcome {
+  debugMessage: Text;
+  gasConsumed: u64;
   output: Codec | null;
-  result: ContractExecResult;
+  result: ContractExecResultResult;
 }
 
 export interface DecodedEvent {
