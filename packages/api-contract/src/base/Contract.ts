@@ -22,9 +22,9 @@ const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is
 const l = logger('Contract');
 
 export class ContractSubmittableResult extends SubmittableResult {
-  public readonly contractEvents: DecodedEvent[];
+  public readonly contractEvents?: DecodedEvent[];
 
-  constructor (result: ISubmittableResult, contractEvents: DecodedEvent[] = []) {
+  constructor (result: ISubmittableResult, contractEvents?: DecodedEvent[]) {
     super(result);
 
     this.contractEvents = contractEvents;

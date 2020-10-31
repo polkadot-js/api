@@ -231,7 +231,7 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): AnyJson {
+  public toHuman (isExpanded?: boolean): Record<string, AnyJson> {
     let call: CallFunction | undefined;
 
     try {

@@ -267,14 +267,14 @@ export default class Struct<
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
-    return [...this.keys()].reduce((json, key): Record<keyof S, AnyJson> => {
+  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
+    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
       const value = this.get(key);
 
-      json[key] = value && value.toHuman(isExtended);
+      json[key as string] = value && value.toHuman(isExtended);
 
       return json;
-    }, {} as Record<keyof S, AnyJson>);
+    }, {});
   }
 
   /**
