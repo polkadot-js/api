@@ -152,8 +152,8 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
-    const json: AnyJson = {};
+  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
+    const json: Record<string, AnyJson> = {};
 
     this.forEach((v: V, k: K) => {
       json[k.toString()] = v.toHuman(isExtended);
@@ -165,8 +165,8 @@ export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJson {
-    const json: AnyJson = {};
+  public toJSON (): Record<string, AnyJson> {
+    const json: Record<string, AnyJson> = {};
 
     this.forEach((v: V, k: K) => {
       json[k.toString()] = v.toJSON();
