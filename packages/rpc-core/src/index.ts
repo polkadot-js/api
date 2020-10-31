@@ -215,7 +215,11 @@ export default class Rpc implements RpcInterface {
 
   private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>): RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> {
     const memoized = memoizee(creator('scale') as RpcInterfaceMethod, {
-      length: false,
+      // Dynamic length for argument	
+      length: false,	
+      // Normalize args so that different args that should be cached	
+      // together are cached together.	
+      // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
       normalizer: normalizer(this.#instanceId)
     });
 
