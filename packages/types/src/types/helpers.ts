@@ -5,7 +5,7 @@ import { Codec } from './codec';
 
 import BN from 'bn.js';
 
-export type AnyFunction = (...args: unknown[]) => unknown;
+export type AnyFunction = (...args: any[]) => any;
 
 export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
 
