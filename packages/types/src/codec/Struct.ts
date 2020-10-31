@@ -155,20 +155,23 @@ export default class Struct<
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as string, jsonMap);
 
-        (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
-          // do not clobber existing properties on the object
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (!isUndefined((this as any)[key])) {
-            return;
-          }
-
-          Object.defineProperty(this, key, {
-            enumerable: true,
-            get: (): Codec | undefined => this.get(key)
-          });
+        Object.keys(Types).forEach((key): void => {
+          isUndefined(this[key as keyof this]) &&
+            Object.defineProperty(this, key, {
+              enumerable: true,
+              get: (): Codec | undefined => this.get(key as keyof S)
+            });
         });
       }
     };
+  }
+
+  public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
+    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
+      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+
+      return result;
+    }, {});
   }
 
   /**
@@ -264,37 +267,27 @@ export default class Struct<
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
-    return [...this.keys()].reduce((json, key): Record<keyof S, AnyJson> => {
+  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
+    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
       const value = this.get(key);
 
-      json[key] = value && value.toHuman(isExtended);
+      json[key as string] = value && value.toHuman(isExtended);
 
       return json;
-    }, {} as Record<keyof S, AnyJson>);
+    }, {});
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJson {
-    // FIXME the return type string is only used by Extrinsic (extends Struct),
-    // but its toJSON is the hex value
-    return [...this.keys()].reduce((json, key): Record<keyof S, AnyJson> => {
+  public toJSON (): Record<string, AnyJson> {
+    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
       const jsonKey = this.#jsonMap.get(key) || key;
       const value = this.get(key);
 
-      json[jsonKey] = value && value.toJSON();
+      json[jsonKey as string] = value && value.toJSON();
 
       return json;
-    }, {} as Record<keyof S, AnyJson>);
-  }
-
-  public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
-      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
-
-      return result;
     }, {});
   }
 

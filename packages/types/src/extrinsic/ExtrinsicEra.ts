@@ -67,12 +67,12 @@ export class MortalEra extends Tuple {
 
   /** @internal */
   private static _decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
-    if (isU8a(value) || isHex(value) || Array.isArray(value)) {
+    if (!value) {
+      return [new U64(registry), new U64(registry)];
+    } else if (isU8a(value) || isHex(value) || Array.isArray(value)) {
       return MortalEra._decodeMortalU8a(registry, u8aToU8a(value));
     } else if (isObject(value)) {
       return MortalEra._decodeMortalObject(registry, value);
-    } else if (!value) {
-      return [new U64(registry), new U64(registry)];
     }
 
     throw new Error('Invalid data passed to Mortal era');

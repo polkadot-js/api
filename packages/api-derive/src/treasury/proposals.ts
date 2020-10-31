@@ -51,9 +51,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
   const count = proposalCount.toNumber();
 
   for (let index = 0; index < count; index++) {
-    const isApproval = approvalIds.some((id): boolean => id.eqn(index));
-
-    if (!isApproval) {
+    if (!approvalIds.some((id) => id.eqn(index))) {
       proposalIds.push(api.registry.createType('ProposalIndex', index));
     }
   }

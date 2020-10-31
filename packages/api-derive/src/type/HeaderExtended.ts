@@ -36,9 +36,9 @@ export default class HeaderExtended extends _Header {
   /**
    * @description Creates a human-friendly JSON representation
    */
-  public toHuman (isExtended?: boolean): AnyJson {
+  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
     return {
-      ...super.toHuman(isExtended) as { [index: string]: AnyJson },
+      ...super.toHuman(isExtended),
       author: this.author
         ? this.author.toHuman()
         : undefined
@@ -48,9 +48,9 @@ export default class HeaderExtended extends _Header {
   /**
    * @description Creates the JSON representation
    */
-  public toJSON (): AnyJson {
+  public toJSON (): Record<string, AnyJson> {
     return {
-      ...super.toJSON() as { [index: string]: AnyJson },
+      ...super.toJSON(),
       author: this.author
         ? this.author.toJSON()
         : undefined

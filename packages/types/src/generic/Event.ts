@@ -84,9 +84,7 @@ export default class Event extends Struct {
   /** @internal */
   public static decodeEvent (registry: Registry, value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<EventData>; value?: { index: Uint8Array; data: Uint8Array } } {
     if (!value.length) {
-      return {
-        DataType: Null
-      };
+      return { DataType: Null };
     }
 
     const index = value.subarray(0, 2);
@@ -145,9 +143,15 @@ export default class Event extends Struct {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toHuman (isExpanded?: boolean): AnyJson {
-    // FIXME May this human-friendly
-    return this.toJSON();
+  public toHuman (isExpanded?: boolean): Record<string, AnyJson> {
+    return {
+      method: this.method,
+      section: this.section,
+      ...(isExpanded
+        ? { documentation: this.meta.documentation.map((d) => d.toString()) }
+        : {}
+      ),
+      ...super.toHuman(isExpanded)
+    };
   }
 }

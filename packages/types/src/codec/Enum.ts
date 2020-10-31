@@ -152,27 +152,21 @@ export default class Enum implements Codec {
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
-          // do not clobber existing properties on the object
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (isUndefined((this as any)[iskey])) {
+          isUndefined(this[iskey as keyof this]) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
-              get: (): boolean => this.type === _key
+              get: () => this.type === _key
             });
-          }
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (isUndefined((this as any)[askey])) {
+          isUndefined(this[askey as keyof this]) &&
             Object.defineProperty(this, askey, {
               enumerable: true,
               get: (): Codec => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                assert((this as any)[iskey], `Cannot convert '${this.type}' via ${askey}`);
+                assert(this[iskey as keyof this], `Cannot convert '${this.type}' via ${askey}`);
 
                 return this.value;
               }
             });
-          }
         });
       }
     };

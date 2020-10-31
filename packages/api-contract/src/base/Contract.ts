@@ -11,7 +11,7 @@ import { ContractRead, MapMessageExec, MapMessageRead } from './types';
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import ApiBase from '@polkadot/api/base';
-import { assert, bnToBn, isFunction, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, bnToBn, isFunction, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Abi from '../Abi';
 import { formatData } from '../util';
@@ -20,9 +20,7 @@ import Base from './Base';
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
 // map from a JSON result to current-style ContractExecResult
-function mapExecResult (registry: Registry, json: AnyJson): ContractExecResult {
-  assert(isObject(json) && !Array.isArray(json), 'Invalid JSON result retrieved');
-
+function mapExecResult (registry: Registry, json: Record<string, AnyJson>): ContractExecResult {
   if (!Object.keys(json).some((key) => ['error', 'success'].includes(key))) {
     return registry.createType('ContractExecResult', json);
   }

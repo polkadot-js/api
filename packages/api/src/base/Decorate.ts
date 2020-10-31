@@ -290,12 +290,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
       this._rpcCore.state.subscribeStorage(
-        calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Arg[]] =>
-          // the input is a QueryableStorageEntry, convert to StorageEntry
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
-            : [arg.creator] as any)));
+            : [arg.creator])));
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {

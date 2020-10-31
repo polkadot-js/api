@@ -31,18 +31,12 @@ export default class StructAny extends Map<string, any> implements Codec {
 
     this.registry = registry;
 
-    // like we are doing with structs, add the keys as getters
     decoded.forEach(([key]): void => {
-      // do not clobber existing properties on the object
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (!isUndefined((this as any)[key])) {
-        return;
-      }
-
-      Object.defineProperty(this, key, {
-        enumerable: true,
-        get: (): Codec | undefined => this.get(key) as Codec
-      });
+      isUndefined(this[key as keyof this]) &&
+        Object.defineProperty(this, key, {
+          enumerable: true,
+          get: (): Codec | undefined => this.get(key) as Codec
+        });
     });
   }
 
@@ -84,14 +78,14 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (): AnyJson {
+  public toHuman (): Record<string, AnyJson> {
     return this.toJSON();
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJson {
+  public toJSON (): Record<string, AnyJson> {
     return [...this.entries()].reduce((json: Record<string, AnyJson>, [key, value]): Record<string, AnyJson> => {
       json[key] = value as AnyJson;
 

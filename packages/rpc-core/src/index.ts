@@ -167,11 +167,9 @@ export default class Rpc implements RpcInterface {
 
     // decorate the sections with base and user methods
     this.sections.forEach((sectionName): void => {
-      if (!(this as Record<string, unknown>)[sectionName as Section]) {
-        (this as Record<string, unknown>)[sectionName as Section] = {};
-      }
+      (this as Record<string, unknown>)[sectionName as Section] ||= {};
 
-      const section = (this as Record<string, unknown>)[sectionName as Section] as Record<string, any>;
+      const section = this[sectionName as Section] as Record<string, unknown>;
 
       Object
         .entries({
@@ -179,11 +177,7 @@ export default class Rpc implements RpcInterface {
           ...this._createInterface(sectionName, userRpc[sectionName] || {})
         })
         .forEach(([key, value]): void => {
-          // we don't want to clobber existing, i.e. when this is called again after chain is determined
-          if (!section[key]) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            section[key] = value;
-          }
+          section[key] ||= value;
         });
     });
   }
