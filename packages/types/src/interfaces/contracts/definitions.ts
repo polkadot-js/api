@@ -118,6 +118,12 @@ export default {
       flags: 'u32',
       data: 'Bytes'
     },
+    ContractExecResultCompat: {
+      _enum: {
+        Success: 'ContractExecResultOk',
+        Error: 'ContractExecResultErr'
+      }
+    },
     ContractExecResultResult: {
       _enum: {
         Ok: 'ContractExecResultOk',

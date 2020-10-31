@@ -20,12 +20,12 @@ import Base from './Base';
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
 // map from a JSON result to current-style ContractExecResult
-function mapResult (registry: Registry, result: Record<string, unknown>): ContractExecResult {
-  if (!result.success && !result.error) {
-    return registry.createType('ContractExecResult', result);
+function mapResultExec (registry: Registry, json: Record<string, unknown>): ContractExecResult {
+  if (!json.success && !json.error) {
+    return registry.createType('ContractExecResult', json);
   }
 
-  const from = registry.createType('ContractExecResultTo260', result);
+  const from = registry.createType('ContractExecResultTo260', json);
 
   if (from.isSuccess) {
     const s = from.asSuccess;
@@ -41,7 +41,23 @@ function mapResult (registry: Registry, result: Record<string, unknown>): Contra
 
   // in the old format error has no additional information,
   // map it as-is with an "unknown" error
-  return registry.createType('ContractExecResult', { err: { other: 'unknown' } });
+  return registry.createType('ContractExecResult', { err: { other: '' } });
+}
+
+function mapOutcome (registry: Registry, message: AbiMessage, json: Record<string, unknown>): ContractCallOutcome {
+  const { debugMessage, gasConsumed, result: execResult } = mapResultExec(registry, json);
+  const result = execResult.isOk
+    ? registry.createType('ContractExecResultCompat', { success: execResult.asOk })
+    : registry.createType('ContractExecResultCompat', { error: execResult.asErr });
+
+  return {
+    debugMessage,
+    gasConsumed,
+    output: result.isSuccess && message.returnType
+      ? formatData(registry, result.asSuccess.data, message.returnType)
+      : null,
+    result
+  };
 }
 
 export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
@@ -112,18 +128,9 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           origin,
           value
         }).pipe(
-          map((json: Record<string, unknown>): ContractCallOutcome => {
-            const { debugMessage, gasConsumed, result } = mapResult(this.registry, json);
-
-            return {
-              debugMessage,
-              gasConsumed,
-              output: result.isOk && message.returnType
-                ? formatData(this.registry, result.asOk.data, message.returnType)
-                : null,
-              result
-            };
-          })
+          map((json: Record<string, unknown>) =>
+            mapOutcome(this.registry, message, json)
+          )
         )
       )
     };
