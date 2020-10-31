@@ -45,7 +45,7 @@ function mapExecResult (registry: Registry, json: AnyJson): ContractExecResult {
 
   // in the old format error has no additional information,
   // map it as-is with an "unknown" error
-  return registry.createType('ContractExecResult', { result: { err: { other: '' } } });
+  return registry.createType('ContractExecResult', { result: { err: { other: 'unknown' } } });
 }
 
 export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
