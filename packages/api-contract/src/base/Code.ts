@@ -38,7 +38,7 @@ export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.api.tx.contracts
       .putCode(compactAddLength(this.code))
       .withResultTransform((result: ISubmittableResult) =>
-        new CodeSubmittableResult(result, applyOnEvent(result, 'CodeStored', (record: EventRecord) =>
+        new CodeSubmittableResult(result, applyOnEvent(result, 'CodeStored', ([record]: EventRecord[]) =>
           new Blueprint<ApiType>(this.api, this.abi, record.event.data[0] as Hash, this._decorateMethod)
         ))
       );

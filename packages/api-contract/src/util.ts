@@ -17,7 +17,7 @@ export function applyOnEvent <T> (result: SubmittableResult, type: ContractEvent
   if (result.isInBlock || result.isFinalized) {
     const records = result.filterRecords('contracts', type);
 
-    if (records && records.length) {
+    if (records.length) {
       return fn(records);
     }
   }
