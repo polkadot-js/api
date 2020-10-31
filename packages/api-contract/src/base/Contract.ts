@@ -11,7 +11,8 @@ import { ContractRead, MapMessageExec, MapMessageRead } from './types';
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import ApiBase from '@polkadot/api/base';
-import { assert, bnToBn, isFunction, isUndefined, stringCamelCase } from '@polkadot/util';
+import { Json } from '@polkadot/types';
+import { assert, bnToBn, isFunction, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Abi from '../Abi';
 import { formatData } from '../util';
@@ -20,7 +21,9 @@ import Base from './Base';
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
 // map from a JSON result to current-style ContractExecResult
-function mapResultExec (registry: Registry, json: Record<string, unknown>): ContractExecResult {
+function mapResultExec (registry: Registry, json: AnyJson): ContractExecResult {
+  assert(isObject(json) && !Array.isArray(json), 'Invalid JSON result retrieved');
+
   if (!json.success && !json.error) {
     return registry.createType('ContractExecResult', json);
   }
@@ -32,31 +35,33 @@ function mapResultExec (registry: Registry, json: Record<string, unknown>): Cont
 
     return registry.createType('ContractExecResult', {
       gasConsumed: s.gasConsumed,
-      ok: {
-        data: s.data,
-        flags: s.flags
+      result: {
+        ok: {
+          data: s.data,
+          flags: s.flags
+        }
       }
     });
   }
 
   // in the old format error has no additional information,
   // map it as-is with an "unknown" error
-  return registry.createType('ContractExecResult', { err: { other: '' } });
+  return registry.createType('ContractExecResult', { result: { err: { other: '' } } });
 }
 
-function mapOutcome (registry: Registry, message: AbiMessage, json: Record<string, unknown>): ContractCallOutcome {
-  const { debugMessage, gasConsumed, result: execResult } = mapResultExec(registry, json);
-  const result = execResult.isOk
-    ? registry.createType('ContractExecResultCompat', { success: execResult.asOk })
-    : registry.createType('ContractExecResultCompat', { error: execResult.asErr });
+function mapOutcome (registry: Registry, message: AbiMessage, json: Json): ContractCallOutcome {
+  const { debugMessage, gasConsumed, result: execResult } = mapResultExec(registry, json.toJSON());
 
   return {
     debugMessage,
     gasConsumed,
-    output: result.isSuccess && message.returnType
-      ? formatData(registry, result.asSuccess.data, message.returnType)
+    output: execResult.isOk && message.returnType
+      ? formatData(registry, execResult.asOk.data, message.returnType)
       : null,
-    result
+    result: registry.createType('ContractExecResultCompat', execResult.isOk
+      ? { success: execResult.asOk }
+      : { error: execResult.asErr }
+    )
   };
 }
 
@@ -128,9 +133,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           origin,
           value
         }).pipe(
-          map((json: Record<string, unknown>) =>
-            mapOutcome(this.registry, message, json)
-          )
+          map((json) => mapOutcome(this.registry, message, json))
         )
       )
     };
