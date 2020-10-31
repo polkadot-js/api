@@ -3,21 +3,33 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { AccountId, ContractExecResult } from '@polkadot/types/interfaces';
-import { AnyJson, CodecArg, Registry } from '@polkadot/types/types';
-import { AbiMessage, ContractCallOutcome } from '../types';
+import { AccountId, ContractExecResult, EventRecord } from '@polkadot/types/interfaces';
+import { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
+import { AbiMessage, ContractCallOutcome, DecodedEvent } from '../types';
 import { ContractRead, MapMessageExec, MapMessageRead } from './types';
 
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
+import { SubmittableResult } from '@polkadot/api';
 import ApiBase from '@polkadot/api/base';
-import { assert, bnToBn, isFunction, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
 
 import Abi from '../Abi';
-import { formatData } from '../util';
+import { applyOnEvent, formatData } from '../util';
 import Base from './Base';
 
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
+const l = logger('Contract');
+
+export class ContractSubmittableResult extends SubmittableResult {
+  public readonly contractEvents: DecodedEvent[];
+
+  constructor (result: ISubmittableResult, contractEvents: DecodedEvent[] = []) {
+    super(result);
+
+    this.contractEvents = contractEvents;
+  }
+}
 
 // map from a JSON result to current-style ContractExecResult
 function mapExecResult (registry: Registry, json: Record<string, AnyJson>): ContractExecResult {
@@ -96,7 +108,23 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #exec = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
-    return this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params));
+    return this.api.tx.contracts
+      .call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
+      .withResultTransform((result: ISubmittableResult) =>
+        new ContractSubmittableResult(result, applyOnEvent(result, 'ContractExecution', (records: EventRecord[]) =>
+          records
+            .map(({ event: { data: [, data] } }): DecodedEvent | null => {
+              try {
+                return this.abi.decodeEvent(data.toU8a());
+              } catch (error) {
+                l.error(`Unable to decode contract event: ${(error as Error).message}`);
+
+                return null;
+              }
+            })
+            .filter((decoded): decoded is DecodedEvent => !!decoded)
+        ))
+      );
   }
 
   #read = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): ContractRead<ApiType> => {

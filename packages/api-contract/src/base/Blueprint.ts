@@ -56,7 +56,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.api.tx.contracts
       .instantiate(endowment, gasLimit, this.codeHash, this.abi.findConstructor(constructorOrId).toU8a(params))
       .withResultTransform((result: ISubmittableResult) =>
-        new BlueprintSubmittableResult(result, applyOnEvent(result, 'Instantiated', (record: EventRecord) =>
+        new BlueprintSubmittableResult(result, applyOnEvent(result, 'Instantiated', ([record]: EventRecord[]) =>
           new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
         ))
       );
