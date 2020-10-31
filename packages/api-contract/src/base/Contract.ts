@@ -50,18 +50,15 @@ function mapResultExec (registry: Registry, json: AnyJson): ContractExecResult {
 }
 
 function mapOutcome (registry: Registry, message: AbiMessage, json: Json): ContractCallOutcome {
-  const { debugMessage, gasConsumed, result: execResult } = mapResultExec(registry, json.toJSON());
+  const { debugMessage, gasConsumed, result } = mapResultExec(registry, json.toJSON());
 
   return {
     debugMessage,
     gasConsumed,
-    output: execResult.isOk && message.returnType
-      ? formatData(registry, execResult.asOk.data, message.returnType)
+    output: result.isOk && message.returnType
+      ? formatData(registry, result.asOk.data, message.returnType)
       : null,
-    result: registry.createType('ContractExecResultCompat', execResult.isOk
-      ? { success: execResult.asOk }
-      : { error: execResult.asErr }
-    )
+    result
   };
 }
 

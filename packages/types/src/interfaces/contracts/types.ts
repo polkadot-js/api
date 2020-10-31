@@ -36,14 +36,6 @@ export interface ContractExecResult extends Struct {
   readonly result: ContractExecResultResult;
 }
 
-/** @name ContractExecResultCompat */
-export interface ContractExecResultCompat extends Enum {
-  readonly isSuccess: boolean;
-  readonly asSuccess: ContractExecResultOk;
-  readonly isError: boolean;
-  readonly asError: ContractExecResultErr;
-}
-
 /** @name ContractExecResultErr */
 export interface ContractExecResultErr extends Enum {
   readonly isOther: boolean;
