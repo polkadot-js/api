@@ -2,12 +2,17 @@
 
 ## 2.4.2-x
 
+Upgrade priority: Low. Recommended for `api-contract` developers.
+
+- **Breaking change** Substrate changed the `ContractExecResult` from `api.rpc.contracts.call`. The API does have pass-through support for both old and new variants via the `Contract` interface, however it means the structure has changed to accommodate the new Substrate structure. Refer to the [docs for the latest interface](https://polkadot.js.org/docs/api-contract/start/contract.read) (including `isSuccess/isError` -> `isOk/isErr`, and the availability of the `gasConsumed`)
+
 Contributed:
 
 - Dedup similar types on generation (Thanks to https://github.com/monitz87)
 
 Changes:
 
+- `Contract` execution will now return contract events decoded in the result
 - Add `.dryRun` on extrinsics (alongside `.paymentInfo` usage)
 - Add `system_syncState` and `syncstate_genSyncSpec` RPCs
 - Enhance error reporting, `Call` indicates explicit call as found
