@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.4.2-x
+## 2.5.1 Nov 2, 2020
 
 Upgrade priority: Low. Recommended for `api-contract` developers.
 
