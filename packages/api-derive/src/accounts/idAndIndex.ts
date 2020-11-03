@@ -19,7 +19,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
       ? address
       : decodeAddress((address || '').toString());
 
-    if (decoded.length === 32) {
+    if (decoded.length > 8) {
       const accountId = api.registry.createType('AccountId', decoded);
 
       return api.derive.accounts.idToIndex(accountId).pipe(

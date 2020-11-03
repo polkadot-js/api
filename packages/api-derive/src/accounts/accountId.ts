@@ -16,7 +16,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
     ? address
     : decodeAddress((address || '').toString());
 
-  if (decoded.length === 32) {
+  if (decoded.length > 8) {
     return of(api.registry.createType('AccountId', decoded));
   }
 
