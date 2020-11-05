@@ -6,18 +6,18 @@ import { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type Result = [(Hash | Uint8Array | string)[], Option<Proposal>[], Option<Votes>[]];
+type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
 function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
   return proposals
     .map((proposalOpt, index): DeriveCollectiveProposal | null =>
-      proposalOpt.isSome
+      proposalOpt && proposalOpt.isSome
         ? {
           hash: api.registry.createType('Hash', hashes[index]),
           proposal: proposalOpt.unwrap(),
@@ -33,7 +33,12 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: 'coun
     (isFunction(api.query[section]?.proposals) && hashes.length
       ? combineLatest<Result>([
         of(hashes),
-        api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
+        combineLatest(hashes.map((hash) =>
+          // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
+          // however we have had cases on Edgeware where the indices have moved around after an
+          // upgrade, which results in invalid on-chain data
+          api.query[section].proposalOf(hash).pipe(catchError(() => of(null)))
+        )),
         api.query[section].voting.multi<Option<Votes>>(hashes)
       ])
       : of([[], [], []] as Result)
