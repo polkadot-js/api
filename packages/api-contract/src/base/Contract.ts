@@ -18,6 +18,7 @@ import Abi from '../Abi';
 import { applyOnEvent, formatData } from '../util';
 import Base from './Base';
 
+// As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 const l = logger('Contract');
