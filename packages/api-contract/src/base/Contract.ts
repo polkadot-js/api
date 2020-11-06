@@ -18,6 +18,8 @@ import Abi from '../Abi';
 import { applyOnEvent, formatData } from '../util';
 import Base from './Base';
 
+// As per Rust, 5 * GAS_PER_SEC
+const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 const l = logger('Contract');
 
@@ -99,11 +101,13 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #getGas = (_gasLimit: BigInt | BN | string | number): BN => {
+  #getGas = (_gasLimit: BigInt | BN | string | number, isCall = false): BN => {
     const gasLimit = bnToBn(_gasLimit);
 
     return gasLimit.lten(0)
-      ? this.api.consts.system.maximumBlockWeight.muln(64).divn(100)
+      ? isCall
+        ? MAX_CALL_GAS
+        : this.api.consts.system.maximumBlockWeight.muln(64).divn(100)
       : gasLimit;
   }
 
@@ -137,7 +141,7 @@ export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
         this.api.rx.rpc.contracts.call.json({
           dest: this.address,
-          gasLimit: this.#getGas(gasLimit),
+          gasLimit: this.#getGas(gasLimit, true),
           inputData: message.toU8a(params),
           origin,
           value
