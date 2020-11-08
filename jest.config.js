@@ -5,8 +5,7 @@ const config = require('@polkadot/dev/config/jest');
 
 module.exports = Object.assign({}, config, {
   moduleNameMapper: {
-    '@polkadot/api-contract(.*)$': '<rootDir>/packages/api-contract/src/$1',
-    '@polkadot/api-derive(.*)$': '<rootDir>/packages/api-derive/src/$1',
+    '@polkadot/api-(contract|derive)(.*)$': '<rootDir>/packages/api-$1/src/$2',
     // eslint-disable-next-line sort-keys
     '@polkadot/api(.*)$': '<rootDir>/packages/api/src/$1',
     '@polkadot/metadata(.*)$': '<rootDir>/packages/metadata/src/$1',
@@ -25,8 +24,5 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/types/build',
     '<rootDir>/packages/types-known/build'
   ],
-  resolver: '@polkadot/dev/config/jest-resolver',
-  setupFilesAfterEnv: [
-    '@polkadot/dev/config/jest-crypto'
-  ]
+  resolver: '@polkadot/dev/config/jest-resolver'
 });
