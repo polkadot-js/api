@@ -4,7 +4,7 @@
 import { Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import WsProvider from './';
+import { WsProvider } from './';
 
 function sleepMs (ms = 0): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

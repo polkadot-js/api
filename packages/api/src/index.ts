@@ -8,9 +8,9 @@ import { detectPackage } from '@polkadot/util';
 detectPackage(require('./package.json'), typeof __dirname !== 'undefined' && __dirname);
 
 export { Keyring } from '@polkadot/keyring';
-export { default as WsProvider } from '@polkadot/rpc-provider/ws';
+export { WsProvider } from '@polkadot/rpc-provider/ws';
 
-export { default as ApiPromise } from './promise';
-export { default as ApiRx } from './rx';
+export { ApiPromise } from './promise';
+export { ApiRx } from './rx';
 
 export { SubmittableResult } from './submittable';

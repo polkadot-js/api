@@ -8,7 +8,7 @@ import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
 import ApiBase from '@polkadot/api/base';
 import { Text, u64 } from '@polkadot/types';
 
-import Abi from './Abi';
+import { Abi } from '.';
 
 export interface ContractBase<ApiType extends ApiTypes> {
   readonly abi: Abi;

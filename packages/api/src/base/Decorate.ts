@@ -11,7 +11,7 @@ import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, Dec
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
-import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
+import { ExactDerive, decorateDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import { expandMetadata } from '@polkadot/metadata';
 import RpcCore from '@polkadot/rpc-core';

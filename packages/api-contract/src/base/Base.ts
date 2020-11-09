@@ -7,9 +7,9 @@ import { AnyJson, Registry } from '@polkadot/types/types';
 import ApiBase from '@polkadot/api/base';
 import { assert } from '@polkadot/util';
 
-import Abi from '../Abi';
+import { Abi } from '../Abi';
 
-export default abstract class Base<ApiType extends ApiTypes> {
+export abstract class Base<ApiType extends ApiTypes> {
   public readonly abi: Abi;
 
   public readonly api: ApiBase<ApiType>;

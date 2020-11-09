@@ -10,7 +10,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
 import { SingleAccountSigner } from '../../test/util';
-import ApiPromise from './Api';
+import { ApiPromise } from '.';
 
 const TRANSFER_SIG = '0x7a10e5ed9a14284eca7bea53f81631981dddda5a3d2dee973b136475947264801465726e4829ae3994d9058df638d959d4e043c7f1924299546790dda1dea20a';
 

@@ -10,7 +10,7 @@ import Mock from '@polkadot/rpc-provider/mock/index';
 import { TypeRegistry } from '@polkadot/types';
 
 import { SingleAccountSigner } from '../../test/util';
-import ApiRx from './Api';
+import { ApiRx } from '.';
 
 describe('ApiRx', (): void => {
   const registry = new TypeRegistry();

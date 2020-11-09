@@ -6,7 +6,7 @@ import { Constructor } from '@polkadot/types/types';
 import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import WsProvider from './';
+import { WsProvider } from './';
 
 declare const global: Global;
 

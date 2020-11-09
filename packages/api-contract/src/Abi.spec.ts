@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Abi from './Abi';
+import { Abi } from '.';
 
 import * as testContracts from '../test/contracts';
 

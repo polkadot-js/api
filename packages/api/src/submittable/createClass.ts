@@ -14,7 +14,7 @@ import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/u
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
-import SubmittableResult from './Result';
+import { SubmittableResult } from './Result';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
@@ -24,7 +24,7 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 
 const identity = <T> (input: T): T => input;
 
-export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
+export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
 

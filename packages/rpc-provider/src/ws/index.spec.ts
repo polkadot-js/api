@@ -4,7 +4,7 @@
 import { Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import WsProvider from './';
+import { WsProvider } from './';
 
 let ws: WsProvider;
 let mock: Mock;

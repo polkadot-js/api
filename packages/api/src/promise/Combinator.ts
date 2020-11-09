@@ -12,7 +12,7 @@ export interface CombinatorFunction {
   (cb: Callback<any>): UnsubscribePromise;
 }
 
-export default class Combinator<T extends any[] = any[]> {
+export class Combinator<T extends any[] = any[]> {
   #allHasFired = false;
 
   #callback: CombinatorCallback<T>;

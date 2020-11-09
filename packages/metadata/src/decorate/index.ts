@@ -7,14 +7,14 @@ import { DecoratedMeta } from './types';
 import { assert } from '@polkadot/util';
 
 import Metadata from '..';
-import constantsFromMeta from './consts/fromMetadata';
-import extrinsicsFromMeta from './extrinsics/fromMetadata';
-import storageFromMeta from './storage/fromMetadata';
+import { constantsFromMeta } from './consts/fromMetadata';
+import { extrinsicsFromMeta } from './extrinsics/fromMetadata';
+import { storageFromMeta } from './storage/fromMetadata';
 
 /**
  * Expands the metadata by decoration int consts, query and tx sections
  */
-export default function expandMetadata (registry: Registry, value: Metadata): DecoratedMeta {
+export function expandMetadata (registry: Registry, value: Metadata): DecoratedMeta {
   assert(value instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
 
   return {

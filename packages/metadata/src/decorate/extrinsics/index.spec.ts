@@ -6,7 +6,7 @@ import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import metadataStatic from '../../static';
-import fromMetadata from './fromMetadata';
+import { extrinsicsFromMeta } from './fromMetadata';
 
 const keyring = createTestPairs({ type: 'ed25519' }, false);
 const registry = new TypeRegistry();
@@ -14,7 +14,7 @@ const metadata = new Metadata(registry, metadataStatic);
 
 registry.setMetadata(metadata);
 
-const extrinsics = fromMetadata(registry, metadata);
+const extrinsics = extrinsicsFromMeta(registry, metadata);
 
 describe('extrinsics', (): void => {
   it('encodes an actual transfer (actual data)', (): void => {
