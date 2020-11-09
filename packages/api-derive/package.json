@@ -3,6 +3,8 @@
   "version": "2.6.1",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "main": "index.js",
+  "module": "esnext/index.js",
+  "sideEffects": false,
   "keywords": [
     "Polkadot",
     "Promise",

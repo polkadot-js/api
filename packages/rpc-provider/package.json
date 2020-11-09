@@ -3,6 +3,8 @@
   "version": "2.6.1",
   "description": "Transport providers for the API",
   "main": "index.js",
+  "module": "esnext/index.js",
+  "sideEffects": false,
   "keywords": [
     "Polkadot",
     "JsonRPC"

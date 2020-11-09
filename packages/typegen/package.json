@@ -3,6 +3,8 @@
   "version": "2.6.1",
   "description": "Type generation scripts",
   "main": "index.js",
+  "module": "esnext/index.js",
+  "sideEffects": false,
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
     "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
