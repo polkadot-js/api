@@ -13,7 +13,7 @@ import EventEmitter from 'eventemitter3';
 import Metadata, { storageFromMeta } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import testKeyring from '@polkadot/keyring/testing';
+import { createTestKeyring } from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
 import { assert, bnToU8a, logger, u8aToHex } from '@polkadot/util';
@@ -31,7 +31,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
   )
 ) as string[];
 
-const keyring = testKeyring({ type: 'ed25519' });
+const keyring = createTestKeyring({ type: 'ed25519' });
 const l = logger('api-mock');
 
 /**

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import testingPairs from '@polkadot/keyring/testingPairs';
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import metadataStatic from '../../static';
 import fromMetadata from './fromMetadata';
 
-const keyring = testingPairs({ type: 'ed25519' }, false);
+const keyring = createTestPairs({ type: 'ed25519' }, false);
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, metadataStatic);
 

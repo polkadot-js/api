@@ -5,7 +5,7 @@ import { SubmittableExtrinsic } from '../submittable/types';
 
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import testingPairs from '@polkadot/keyring/testingPairs';
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import Mock from '@polkadot/rpc-provider/mock/index';
 import { TypeRegistry } from '@polkadot/types';
 
@@ -14,7 +14,7 @@ import ApiRx from './Api';
 
 describe('ApiRx', (): void => {
   const registry = new TypeRegistry();
-  const keyring = testingPairs({ type: 'ed25519' });
+  const keyring = createTestPairs({ type: 'ed25519' });
   let provider: Mock;
 
   beforeEach((): void => {
