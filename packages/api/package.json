@@ -39,13 +39,5 @@
     "bn.js": "^5.1.3",
     "eventemitter3": "^4.0.7",
     "rxjs": "^6.6.3"
-  },
-  "devDependencies": {
-    "@polkadot/keyring": "^4.0.1"
-  },
-  "peerDependencies": {
-    "@polkadot/keyring": "*",
-    "@polkadot/util": "*",
-    "@polkadot/util-crypto": "*"
   }
 }

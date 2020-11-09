@@ -40,9 +40,5 @@
     "@polkadot/metadata": "2.5.2-5",
     "mock-socket": "^9.0.3",
     "nock": "^13.0.4"
-  },
-  "peerDependencies": {
-    "@polkadot/util": "*",
-    "@polkadot/util-crypto": "*"
   }
 }

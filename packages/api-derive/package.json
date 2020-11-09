@@ -40,9 +40,5 @@
   "devDependencies": {
     "@polkadot/keyring": "^4.0.1",
     "@polkadot/rpc-provider": "2.5.2-5"
-  },
-  "peerDependencies": {
-    "@polkadot/util": "*",
-    "@polkadot/util-crypto": "*"
   }
 }

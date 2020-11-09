@@ -36,8 +36,5 @@
   },
   "devDependencies": {
     "@polkadot/keyring": "^4.0.1"
-  },
-  "peerDependencies": {
-    "@polkadot/util": "*"
   }
 }
