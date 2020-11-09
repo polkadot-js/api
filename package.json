@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts && (cd packages/typegen && copyfiles scripts/* build)",
+    "build:esnext": "polkadot-exec-tsc --build packages/*",
     "build:interfaces": "polkadot-types-internal-interfaces",
     "build:release": "polkadot-ci-ghact-build",
     "docs:metadata": "polkadot-types-internal-metadata",

@@ -3,12 +3,14 @@
   "exclude": [
     "build/**/*",
     "**/build/**/*",
-    "docs/examples/promise/90_typegen/*"
+    "docs/examples/promise/90_typegen/*",
+    "**/test/**/*",
+    "**/*.spec.ts"
   ],
   "compilerOptions": {
     "baseUrl": ".",
-    "paths":
-    {
+    "outDir": "build/esnext",
+    "paths": {
       "@polkadot/api": ["packages/api/src"],
       "@polkadot/api/*": ["packages/api/src/*"],
       "@polkadot/api-contract": ["packages/api-contract/src"],
