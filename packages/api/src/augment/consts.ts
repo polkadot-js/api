@@ -134,17 +134,6 @@ declare module '@polkadot/api/types/consts' {
       termDuration: BlockNumber & AugmentedConst<ApiType>;
       votingBond: BalanceOf & AugmentedConst<ApiType>;
     };
-    finalityTracker: {
-      [key: string]: Codec;
-      /**
-       * The delay after which point things become suspicious. Default is 1000.
-       **/
-      reportLatency: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The number of recent samples to keep from this chain. Default is 101.
-       **/
-      windowSize: BlockNumber & AugmentedConst<ApiType>;
-    };
     identity: {
       [key: string]: Codec;
       /**
