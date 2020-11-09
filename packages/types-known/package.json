@@ -33,8 +33,5 @@
   },
   "devDependencies": {
     "@types/bn.js": "^4.11.6"
-  },
-  "peerDependencies": {
-    "@polkadot/util": "*"
   }
 }

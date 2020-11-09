@@ -38,9 +38,5 @@
   "devDependencies": {
     "@polkadot/keyring": "^4.0.1",
     "@types/memoizee": "^0.4.4"
-  },
-  "peerDependencies": {
-    "@polkadot/util": "*",
-    "@polkadot/util-crypto": "*"
   }
 }
