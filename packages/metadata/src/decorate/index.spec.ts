@@ -4,7 +4,7 @@
 import { TypeRegistry } from '@polkadot/types/create';
 import { u8aToHex } from '@polkadot/util';
 
-import Metadata from '..';
+import { Metadata } from '..';
 import json from '../static';
 import { constantsFromMeta, extrinsicsFromMeta, storageFromMeta } from './';
 

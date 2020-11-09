@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import testingPairs from '@polkadot/keyring/testingPairs';
-import Metadata, { extrinsicsFromMeta } from '@polkadot/metadata';
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
+import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../../create';
@@ -11,7 +11,7 @@ import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
-const keyring = testingPairs({ type: 'ed25519' }, false);
+const keyring = createTestPairs({ type: 'ed25519' }, false);
 
 registry.setMetadata(metadata);
 

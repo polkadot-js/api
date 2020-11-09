@@ -4,7 +4,7 @@
 import { Codec } from '../../types';
 import { TypeRegistry } from '../../create';
 import U32 from '../../primitive/U32';
-import compareMap from './compareMap';
+import { compareMap } from '.';
 
 describe('compareMap', (): void => {
   const registry = new TypeRegistry();

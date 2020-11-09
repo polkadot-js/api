@@ -9,7 +9,7 @@ import extrinsics from './';
 import createUnchecked from './createUnchecked';
 
 /** @internal */
-export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
+export function extrinsicsFromMeta (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
   const modules = metadata.asLatest.modules;
   const isIndexed = modules.some(({ index }) => !index.eqn(255));
 

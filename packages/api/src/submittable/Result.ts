@@ -27,7 +27,7 @@ function extractInfo (events: EventRecord[] = []): DispatchInfo | undefined {
   )[0];
 }
 
-export default class SubmittableResult implements ISubmittableResult {
+export class SubmittableResult implements ISubmittableResult {
   public readonly dispatchError?: DispatchError;
 
   public readonly dispatchInfo?: DispatchInfo;

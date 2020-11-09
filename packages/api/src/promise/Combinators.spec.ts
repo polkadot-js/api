@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { UnsubscribePromise } from '../types';
-import Combinator from './Combinator';
+import { Combinator } from './Combinator';
 
 describe('Combinator', (): void => {
   let fns: ((value: any) => void)[] = [];

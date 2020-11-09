@@ -92,7 +92,7 @@ function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
 /** @internal */
-export default function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
+export function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
     ...injectFunctions(instanceId, api, derive),
     ...injectFunctions(instanceId, api, custom)

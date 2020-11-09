@@ -4,7 +4,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import Abi from './Abi';
+import { Abi } from '.';
 
 import * as testContracts from '../test/contracts';
 

@@ -4,7 +4,7 @@
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import json from '../../static';
-import fromMetadata from './fromMetadata';
+import { extrinsicsFromMeta } from './fromMetadata';
 
 // Use the pre-generated metadata
 const registry = new TypeRegistry();
@@ -12,7 +12,7 @@ const metadata = new Metadata(registry, json);
 
 registry.setMetadata(metadata);
 
-const newExtrinsics = fromMetadata(registry, metadata);
+const newExtrinsics = extrinsicsFromMeta(registry, metadata);
 
 describe('fromMetadata', (): void => {
   it('should throw if an incorrect number of args is supplied', (): void => {

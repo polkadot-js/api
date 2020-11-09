@@ -7,10 +7,10 @@ import { AnyJson } from '@polkadot/types/types';
 import { ApiRx } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/rx';
 
-import Abi from '../Abi';
-import BaseBlueprint from '../base/Blueprint';
+import { Abi } from '../Abi';
+import { Blueprint as BaseBlueprint } from '../base';
 
-export default class Blueprint extends BaseBlueprint<'rxjs'> {
+export class Blueprint extends BaseBlueprint<'rxjs'> {
   constructor (api: ApiRx, abi: AnyJson | Abi, codeHash: string | Hash) {
     super(api, abi, codeHash, decorateMethod);
   }

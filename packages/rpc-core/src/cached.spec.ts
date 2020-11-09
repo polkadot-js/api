@@ -1,19 +1,19 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import testingPairs from '@polkadot/keyring/testingPairs';
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import MockProvider from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types';
 
-import Rpc from '.';
+import { RpcCore } from '.';
 
 describe('Cached Observables', (): void => {
   const registry = new TypeRegistry();
-  let rpc: Rpc;
-  const keyring = testingPairs();
+  let rpc: RpcCore;
+  const keyring = createTestPairs();
 
   beforeEach((): void => {
-    rpc = new Rpc('123', registry, new MockProvider(registry));
+    rpc = new RpcCore('123', registry, new MockProvider(registry));
   });
 
   it('creates a single observable for subscriptions (multiple calls)', (): void => {

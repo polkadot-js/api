@@ -5,10 +5,10 @@ import { ApiPromise } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/promise';
 import { AnyJson } from '@polkadot/types/types';
 
-import Abi from '../Abi';
-import BaseCode from '../base/Code';
+import { Abi } from '../Abi';
+import { Code as BaseCode } from '../base';
 
-export default class Code extends BaseCode<'promise'> {
+export class Code extends BaseCode<'promise'> {
   constructor (api: ApiPromise, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer) {
     super(api, abi, wasm, decorateMethod);
   }

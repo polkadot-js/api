@@ -24,7 +24,7 @@ const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
 
 const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
-export default class MetaRegistry extends TypeRegistry {
+export class MetaRegistry extends TypeRegistry {
   public readonly metaTypeDefs: TypeDef[] = [];
 
   #siTypes: SiType[] = [];

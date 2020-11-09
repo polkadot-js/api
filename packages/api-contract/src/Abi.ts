@@ -7,7 +7,7 @@ import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMe
 
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import MetaRegistry from './MetaRegistry';
+import { MetaRegistry } from './MetaRegistry';
 
 const l = logger('Abi');
 
@@ -21,7 +21,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, `Attempted to call an invalid contract interface, ${JSON.stringify(messageOrId)}`);
 }
 
-export default class Abi {
+export class Abi {
   readonly #events: AbiEvent[];
 
   public readonly constructors: AbiConstructor[];

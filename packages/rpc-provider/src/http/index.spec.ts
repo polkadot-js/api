@@ -2,30 +2,30 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TEST_HTTP_URL } from '../../test/mockHttp';
-import Http from './';
+import { HttpProvider } from './';
 
 describe('Http', (): void => {
-  let http: Http;
+  let http: HttpProvider;
 
   beforeEach((): void => {
-    http = new Http(TEST_HTTP_URL);
+    http = new HttpProvider(TEST_HTTP_URL);
   });
 
   it('requires an http:// prefixed endpoint', (): void => {
     expect(
-      (): Http => new Http('ws://')
+      () => new HttpProvider('ws://')
     ).toThrow(/with 'http/);
   });
 
   it('allows https:// endpoints', (): void => {
     expect(
-      (): Http => new Http('https://')
+      () => new HttpProvider('https://')
     ).not.toThrow();
   });
 
   it('allows custom headers', (): void => {
     expect(
-      (): Http => new Http('https://', { foo: 'bar' })
+      () => new HttpProvider('https://', { foo: 'bar' })
     ).not.toThrow();
   });
 

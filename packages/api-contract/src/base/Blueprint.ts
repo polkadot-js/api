@@ -13,10 +13,10 @@ import { SubmittableResult } from '@polkadot/api';
 import ApiBase from '@polkadot/api/base';
 import { isUndefined, stringCamelCase } from '@polkadot/util';
 
-import Abi from '../Abi';
+import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
-import Base from './Base';
-import Contract from './Contract';
+import { Base } from './Base';
+import { Contract } from './Contract';
 
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
@@ -28,7 +28,7 @@ export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends Submit
   }
 }
 
-export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
+export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly codeHash: Hash;
 
   readonly #tx: MapConstructorExec<ApiType> = {};

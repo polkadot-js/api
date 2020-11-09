@@ -14,9 +14,9 @@ import { SubmittableResult } from '@polkadot/api';
 import ApiBase from '@polkadot/api/base';
 import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
 
-import Abi from '../Abi';
+import { Abi } from '../Abi';
 import { applyOnEvent, formatData } from '../util';
-import Base from './Base';
+import { Base } from './Base';
 
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
@@ -60,7 +60,7 @@ function mapExecResult (registry: Registry, json: Record<string, AnyJson>): Cont
   return registry.createType('ContractExecResult', { result: { err: { other: 'unknown' } } });
 }
 
-export default class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
+export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly address: AccountId;
 
   readonly #tx: MapMessageExec<ApiType> = {};

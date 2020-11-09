@@ -8,7 +8,7 @@ import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
-import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
+import { TestKeyringMap, createTestPairs } from '@polkadot/keyring/testingPairs';
 import { createTypeUnsafe, TypeRegistry } from '@polkadot/types';
 
 import { SubmittableResult } from './';
@@ -183,7 +183,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
 async function main (): Promise<void> {
   const api = await ApiPromise.create();
-  const keyring = testKeyring();
+  const keyring = createTestPairs();
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   Promise.all([

@@ -3,20 +3,20 @@
 
 import { ApiOptions, SubmittableExtrinsic } from '../types';
 
-import createPair from '@polkadot/keyring/pair';
-import testKeyring from '@polkadot/keyring/testing';
+import { createPair } from '@polkadot/keyring/pair';
+import { createTestKeyring } from '@polkadot/keyring/testing';
 import Mock from '@polkadot/rpc-provider/mock/index';
 import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
 import { SingleAccountSigner } from '../../test/util';
-import ApiPromise from './Api';
+import { ApiPromise } from '.';
 
 const TRANSFER_SIG = '0x7a10e5ed9a14284eca7bea53f81631981dddda5a3d2dee973b136475947264801465726e4829ae3994d9058df638d959d4e043c7f1924299546790dda1dea20a';
 
 describe('ApiPromise', (): void => {
   const registry = new TypeRegistry();
-  const keyring = testKeyring({ type: 'ed25519' });
+  const keyring = createTestKeyring({ type: 'ed25519' });
   const aliceEd = keyring.addPair(
     // eslint-disable-next-line @typescript-eslint/unbound-method
     createPair({ toSS58: keyring.encodeAddress, type: 'ed25519' }, {

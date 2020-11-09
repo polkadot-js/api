@@ -10,10 +10,10 @@ import { SubmittableResult } from '@polkadot/api';
 import ApiBase from '@polkadot/api/base';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
-import Abi from '../Abi';
+import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
-import Base from './Base';
-import Blueprint from './Blueprint';
+import { Base } from './Base';
+import { Blueprint } from './Blueprint';
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;
@@ -25,7 +25,7 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
   }
 }
 
-export default class Code<ApiType extends ApiTypes> extends Base<ApiType> {
+export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer, decorateMethod: DecorateMethod<ApiType>) {

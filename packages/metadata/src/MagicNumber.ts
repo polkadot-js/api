@@ -9,7 +9,7 @@ import U32 from '@polkadot/types/primitive/U32';
 
 export const MAGIC_NUMBER = 0x6174656d; // `meta`, reversed for Little Endian encoding
 
-export default class MagicNumber extends U32 {
+export class MagicNumber extends U32 {
   constructor (registry: Registry, value?: AnyNumber) {
     super(registry, value);
 

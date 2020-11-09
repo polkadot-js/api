@@ -10,7 +10,7 @@ import { Codec, Constructor, Registry } from '../../types';
  * @param u8a - The u8a to decode.
  * @param types - The array of Constructor to decode the U8a against.
  */
-export default function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }): Codec[] {
+export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }): Codec[] {
   const types = Array.isArray(_types)
     ? _types
     : Object.values(_types);

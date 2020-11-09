@@ -7,7 +7,7 @@ import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import rpcMetadata from '../../static';
 import rpcMetadataV10 from '../../v10/static';
-import fromMetadata from './fromMetadata';
+import { constantsFromMeta } from './fromMetadata';
 
 function init (meta: string): [Constants, TypeRegistry] {
   const registry = new TypeRegistry();
@@ -15,7 +15,7 @@ function init (meta: string): [Constants, TypeRegistry] {
 
   registry.setMetadata(metadata);
 
-  return [fromMetadata(registry, metadata), registry];
+  return [constantsFromMeta(registry, metadata), registry];
 }
 
 describe('fromMetadata', (): void => {

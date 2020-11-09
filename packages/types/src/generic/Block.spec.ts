@@ -4,7 +4,7 @@
 /* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import Metadata from '@polkadot/metadata';
+import { Metadata } from '@polkadot/metadata';
 import metadataStatic from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';

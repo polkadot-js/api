@@ -33,7 +33,7 @@ const l = logger('api-http');
  *
  * @see [[WsProvider]]
  */
-export default class HttpProvider implements ProviderInterface {
+export class HttpProvider implements ProviderInterface {
   readonly #coder: Coder;
 
   readonly #endpoint: string;

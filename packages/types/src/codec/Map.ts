@@ -7,9 +7,7 @@ import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types'
 import { isHex, hexToU8a, isObject, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Compact from './Compact';
-import compareMap from './utils/compareMap';
-import decodeU8a from './utils/decodeU8a';
-import typeToConstructor from './utils/typeToConstructor';
+import { compareMap, decodeU8a, typeToConstructor } from './utils';
 
 const l = logger('Map');
 

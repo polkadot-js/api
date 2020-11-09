@@ -7,10 +7,10 @@ import { Constants, ConstantCodec, ModuleConstants } from '../types';
 import { createTypeUnsafe } from '@polkadot/types/create';
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
-import Metadata from '../..';
+import { Metadata } from '../..';
 
 /** @internal */
-export default function fromMetadata (registry: Registry, metadata: Metadata): Constants {
+export function constantsFromMeta (registry: Registry, metadata: Metadata): Constants {
   return metadata.asLatest.modules.reduce((result: Constants, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;

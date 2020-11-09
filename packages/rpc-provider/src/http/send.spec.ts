@@ -4,14 +4,14 @@
 import { Mock } from './../mock/types';
 import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 
-import Http from './';
+import { HttpProvider } from './';
 
 describe('send', (): void => {
-  let http: Http;
+  let http: HttpProvider;
   let mock: Mock;
 
   beforeEach((): void => {
-    http = new Http(TEST_HTTP_URL);
+    http = new HttpProvider(TEST_HTTP_URL);
   });
 
   afterEach((): void => {
