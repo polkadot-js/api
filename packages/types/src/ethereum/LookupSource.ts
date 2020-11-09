@@ -9,15 +9,15 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import Base from '../codec/Base';
 import AccountIndex from '../generic/AccountIndex';
-import EthereumAccountId from './AccountId';
+import { GenericEthereumAccountId } from './AccountId';
 
 // eslint-disable-next-line no-use-before-define
-type AnyAddress = BigInt | BN | LookupSource | EthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = BigInt | BN | GenericEthereumLookupSource | GenericEthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: Registry, value: string): EthereumAccountId | AccountIndex {
+function decodeString (registry: Registry, value: string): GenericEthereumAccountId | AccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 20
@@ -26,7 +26,7 @@ function decodeString (registry: Registry, value: string): EthereumAccountId | A
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array): EthereumAccountId | AccountIndex {
+function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccountId | AccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 20) {
@@ -41,23 +41,23 @@ function decodeU8a (registry: Registry, value: Uint8Array): EthereumAccountId | 
 }
 
 /**
- * @name LookupSource
+ * @name GenericEthereumLookupSource
  * @description
  * A wrapper around an EthereumAccountId and/or AccountIndex that is encoded with a prefix.
  * Since we are dealing with underlying publicKeys (or shorter encoded addresses),
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export default class LookupSource extends Base<EthereumAccountId | AccountIndex> {
+export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | AccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
-    super(registry, LookupSource._decodeAddress(registry, value));
+    super(registry, GenericEthereumLookupSource._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static _decodeAddress (registry: Registry, value: AnyAddress): EthereumAccountId | AccountIndex {
-    return value instanceof LookupSource
+  private static _decodeAddress (registry: Registry, value: AnyAddress): GenericEthereumAccountId | AccountIndex {
+    return value instanceof GenericEthereumLookupSource
       ? value._raw
-      : value instanceof EthereumAccountId || value instanceof AccountIndex
+      : value instanceof GenericEthereumAccountId || value instanceof AccountIndex
         ? value
         : isBn(value) || isNumber(value) || isBigInt(value)
           ? registry.createType('AccountIndex', value)

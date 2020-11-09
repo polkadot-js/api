@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
-import typeToConstructor from './utils/typeToConstructor';
+import { typeToConstructor } from './utils';
 import { UIntBitLength } from './AbstractInt';
 
 export interface CompactEncodable extends Codec {
