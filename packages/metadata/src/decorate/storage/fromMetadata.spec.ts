@@ -5,7 +5,7 @@ import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { TypeRegistry } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 
-import Metadata from '../../';
+import { Metadata } from '../../';
 import rpcMetadata from '../../static';
 import { storageFromMeta } from '../';
 

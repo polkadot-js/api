@@ -1,10 +1,5 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Metadata from './Metadata';
-
+export { Metadata } from './Metadata';
 export { constantsFromMeta, expandMetadata, extrinsicsFromMeta, storageFromMeta } from './decorate';
-
-export default Metadata;
-
-export { Metadata };

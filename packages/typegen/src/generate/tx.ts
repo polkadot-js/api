@@ -6,7 +6,7 @@ import Handlebars from 'handlebars';
 import { Registry } from '@polkadot/types/types';
 
 import staticData from '@polkadot/metadata/static';
-import Metadata from '@polkadot/metadata';
+import { Metadata } from '@polkadot/metadata';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { TypeRegistry } from '@polkadot/types/create';

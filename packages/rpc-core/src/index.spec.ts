@@ -5,19 +5,19 @@ import MockProvider from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
-import Rpc from '.';
+import { RpcCore } from '.';
 
 describe('Api', (): void => {
   const registry = new TypeRegistry();
 
   it('requires a provider with a send method', (): void => {
     expect(
-      (): Rpc => new Rpc('234', registry, {} as any)
+      () => new RpcCore('234', registry, {} as any)
     ).toThrow(/Expected Provider/);
   });
 
   it('allows for the definition of user RPCs', (): void => {
-    const rpc = new Rpc('567', registry, new MockProvider(registry), {
+    const rpc = new RpcCore('567', registry, new MockProvider(registry), {
       testing: {
         foo: {
           description: 'foo',

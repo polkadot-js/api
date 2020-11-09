@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '@polkadot/types';
 
-import MagicNumber, { MAGIC_NUMBER } from './MagicNumber';
+import { MagicNumber, MAGIC_NUMBER } from './MagicNumber';
 
 describe('MagicNumber', (): void => {
   const registry = new TypeRegistry();

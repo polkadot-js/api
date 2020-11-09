@@ -5,11 +5,11 @@ import { DefinitionRpc } from '@polkadot/types/types';
 
 import { TypeRegistry } from '@polkadot/types';
 
-import Rpc from '.';
+import { RpcCore } from '.';
 
 describe('methodSend', (): void => {
   const registry = new TypeRegistry();
-  let rpc: Rpc;
+  let rpc: RpcCore;
   let methods: Record<string, DefinitionRpc>;
   let provider: any;
 
@@ -35,7 +35,7 @@ describe('methodSend', (): void => {
       })
     };
 
-    rpc = new Rpc('987', registry, provider);
+    rpc = new RpcCore('987', registry, provider);
   });
 
   it('checks for mismatched parameters', (done): void => {

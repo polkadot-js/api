@@ -5,7 +5,7 @@ import { Registry } from '@polkadot/types/types';
 
 import { isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
-import MetadataVersioned from './MetadataVersioned';
+import { MetadataVersioned } from './MetadataVersioned';
 
 // magic u32 preceding the version id
 const VERSION_IDX = 4;
@@ -49,7 +49,7 @@ function decodeMetadata (registry: Registry, _value?: Uint8Array | string): Meta
  * @description
  * The versioned runtime metadata as a decoded structure
  */
-export default class Metadata extends MetadataVersioned {
+export class Metadata extends MetadataVersioned {
   constructor (registry: Registry, value?: Uint8Array | string) {
     super(registry, decodeMetadata(registry, value));
   }

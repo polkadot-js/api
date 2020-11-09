@@ -67,7 +67,7 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
  * const rpc = new Rpc(provider);
  * ```
  */
-export default class Rpc implements RpcInterface {
+export class RpcCore implements RpcInterface {
   #instanceId: string;
 
   #registryDefault: Registry;

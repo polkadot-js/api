@@ -7,7 +7,7 @@ import { Constants, ConstantCodec, ModuleConstants } from '../types';
 import { createTypeUnsafe } from '@polkadot/types/create';
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
-import Metadata from '../..';
+import { Metadata } from '../..';
 
 /** @internal */
 export function constantsFromMeta (registry: Registry, metadata: Metadata): Constants {

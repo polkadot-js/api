@@ -7,7 +7,7 @@ import { Registry } from '@polkadot/types/types';
 import Struct from '@polkadot/types/codec/Struct';
 import { assert } from '@polkadot/util';
 
-import MagicNumber from './MagicNumber';
+import { MagicNumber } from './MagicNumber';
 import v9ToV10 from './v9/toV10';
 import v10ToV11 from './v10/toV11';
 import v11ToV12 from './v11/toV12';
@@ -23,7 +23,7 @@ type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12';
  * @description
  * The versioned runtime metadata as a decoded structure
  */
-export default class MetadataVersioned extends Struct {
+export class MetadataVersioned extends Struct {
   readonly #converted = new Map<number, MetaMapped>();
 
   constructor (registry: Registry, value?: unknown) {

@@ -6,7 +6,7 @@ import { DecoratedMeta } from './types';
 
 import { assert } from '@polkadot/util';
 
-import Metadata from '..';
+import { Metadata } from '..';
 import { constantsFromMeta } from './consts/fromMetadata';
 import { extrinsicsFromMeta } from './extrinsics/fromMetadata';
 import { storageFromMeta } from './storage/fromMetadata';
