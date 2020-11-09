@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Codec } from '@polkadot/types/types';
-import Vec from '@polkadot/types/codec/Vec';
+import { Vec } from '@polkadot/types/codec';
 
 export interface MetadataInterface<Modules extends Codec> extends Codec {
   modules: Vec<Modules>;

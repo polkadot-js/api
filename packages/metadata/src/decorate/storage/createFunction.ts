@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { StorageEntry } from '@polkadot/types/primitive/types';
 import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import { Compact, Raw } from '@polkadot/types/codec';
+import { Raw } from '@polkadot/types/codec';
 import { createTypeUnsafe } from '@polkadot/types/create';
-import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
+import { StorageKey } from '@polkadot/types';
+import { assert, compactAddLength, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import getHasher, { HasherFunction } from './getHasher';
@@ -75,7 +76,7 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, args: [Cr
   const val2 = createTypeUnsafe(registry, map.key2.toString(), [key2]).toU8a();
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
-  return Compact.addLengthPrefix(u8aConcat(
+  return compactAddLength(u8aConcat(
     createPrefixedKey(itemFn),
     hasher1(val1),
     hasher2(val2)
@@ -97,7 +98,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType
   }
 
   // StorageKey is a Bytes, so is length-prefixed
-  return Compact.addLengthPrefix(u8aConcat(
+  return compactAddLength(u8aConcat(
     createPrefixedKey(itemFn),
     param.length
       ? hasher(param)

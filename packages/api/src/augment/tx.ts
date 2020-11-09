@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { AnyNumber, ITuple } from '@polkadot/types/types';
 import { Compact, Option, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, bool, u16, u32, u64 } from '@polkadot/types/primitive';
+import { AnyNumber, ITuple } from '@polkadot/types/types';
 import { BabeEquivocationProof } from '@polkadot/types/interfaces/babe';
 import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';

@@ -3,7 +3,7 @@
 
 import { AugmentedConst, QueryableConsts, QueryableModuleConsts } from '@polkadot/api/types/consts';
 import { Codec, ModulesWithCalls } from '@polkadot/types/types';
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/types';
 
 export interface ModuleStorage {
   [key: string]: StorageEntry;

@@ -4,7 +4,7 @@
 import { TypeRegistry } from '@polkadot/types';
 
 import staticData from '../static';
-import { Metadata } from '..';
+import { Metadata } from '../Metadata';
 
 describe('toCallsOnly', (): void => {
   const registry = new TypeRegistry();

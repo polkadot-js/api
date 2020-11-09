@@ -20,6 +20,7 @@ describe('getSimilarTypes', (): void => {
       genericTypes: {},
       ignoredTypes: [],
       localTypes: {},
+      metadataTypes: {},
       primitiveTypes: {},
       typeToModule: {},
       typesTypes: {}

@@ -4,9 +4,8 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import { isHex, hexToU8a, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, hexToU8a, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a, compactFromU8a, compactToU8a } from '@polkadot/util';
 
-import Compact from './Compact';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
 const l = logger('BTreeSet');
@@ -14,7 +13,7 @@ const l = logger('BTreeSet');
 /** @internal */
 function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
   const output = new Set<V>();
-  const [offset, length] = Compact.decodeU8a(u8a);
+  const [offset, length] = compactFromU8a(u8a);
   const types = [];
 
   for (let i = 0; i < length.toNumber(); i++) {
@@ -103,7 +102,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    let len = Compact.encodeU8a(this.size).length;
+    let len = compactToU8a(this.size).length;
 
     this.forEach((v: V) => {
       len += v.encodedLength;
@@ -188,7 +187,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
     const encoded = new Array<Uint8Array>();
 
     if (!isBare) {
-      encoded.push(Compact.encodeU8a(this.size));
+      encoded.push(compactToU8a(this.size));
     }
 
     this.forEach((v: V) => {

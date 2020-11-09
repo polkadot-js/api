@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
+import { StorageEntry } from '@polkadot/types/primitive/types';
 import { Registry } from '@polkadot/types/types';
-
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import createFunction from './createFunction';
 

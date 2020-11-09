@@ -8,7 +8,7 @@ import type BN from 'bn.js';
 import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
-import { Metadata } from '@polkadot/types';
+import { Metadata } from '@polkadot/metadata';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
 

@@ -3,9 +3,8 @@
 
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { assert, logger, u8aToU8a } from '@polkadot/util';
+import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
-import Compact from './Compact';
 import { decodeU8a, typeToConstructor } from './utils';
 import AbstractArray from './AbstractArray';
 
@@ -49,7 +48,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
     }
 
     const u8a = u8aToU8a(value);
-    const [offset, length] = Compact.decodeU8a(u8a);
+    const [offset, length] = compactFromU8a(u8a);
 
     assert(length.lten(MAX_LENGTH), `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
 

@@ -4,7 +4,7 @@
 import { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import Struct from '@polkadot/types/codec/Struct';
+import { Struct } from '@polkadot/types/codec';
 import { assert } from '@polkadot/util';
 
 import { MagicNumber } from './MagicNumber';

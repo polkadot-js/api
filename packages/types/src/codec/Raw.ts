@@ -96,7 +96,7 @@ export default class Raw extends Uint8Array implements IU8a {
   }
 
   /**
-   * @description Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
+   * @description Create a new subarray from the actual buffer. (compat)
    * @param begin The position to start at
    * @param end The position to end at
    */

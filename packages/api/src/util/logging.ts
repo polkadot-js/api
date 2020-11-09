@@ -3,6 +3,4 @@
 
 import { logger } from '@polkadot/util';
 
-const l = logger('api/util');
-
-export default l;
+export const l = logger('api/util');

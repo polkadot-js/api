@@ -4,6 +4,7 @@
 import { Constants, DecoratedMeta } from '@polkadot/metadata/decorate/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { StorageEntry } from '@polkadot/types/primitive/types';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
@@ -16,9 +17,9 @@ import { memo } from '@polkadot/api-derive/util';
 import { Metadata, expandMetadata } from '@polkadot/metadata';
 import { RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/types';
+import { Option, Raw, StorageKey, Text, TypeRegistry, u64 } from '@polkadot/types';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
-import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';

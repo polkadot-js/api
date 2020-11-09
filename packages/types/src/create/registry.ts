@@ -6,7 +6,7 @@
 import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
 
-import { extrinsicsFromMeta } from '@polkadot/metadata';
+import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
 import { BN_ZERO, assert, assertReturn, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -128,7 +128,7 @@ export class TypeRegistry implements Registry {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
-    this.#knownDefaults = { Json, Raw, ...baseTypes };
+    this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
     this.#knownDefinitions = definitions;
 
     this.init();

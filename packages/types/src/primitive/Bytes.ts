@@ -3,9 +3,8 @@
 
 import { AnyU8a, Registry } from '../types';
 
-import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
 // Bytes are used for things like on-chain code, so it has a healthy limit
@@ -18,7 +17,7 @@ function decodeBytesU8a (value: Uint8Array): Uint8Array {
   }
 
   // handle all other Uint8Array inputs, these do have a length prefix
-  const [offset, length] = Compact.decodeU8a(value);
+  const [offset, length] = compactFromU8a(value);
   const total = offset + length.toNumber();
 
   assert(length.lten(MAX_LENGTH), `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
@@ -56,7 +55,7 @@ export default class Bytes extends Raw {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.length + Compact.encodeU8a(this.length).length;
+    return this.length + compactToU8a(this.length).length;
   }
 
   /**
@@ -73,6 +72,6 @@ export default class Bytes extends Raw {
   public toU8a (isBare?: boolean): Uint8Array {
     return isBare
       ? super.toU8a(isBare)
-      : Compact.addLengthPrefix(this);
+      : compactAddLength(this);
   }
 }

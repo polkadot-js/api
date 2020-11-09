@@ -4,9 +4,8 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, Codec, Registry } from '../types';
 
-import { u8aConcat, u8aToHex } from '@polkadot/util';
+import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Compact from './Compact';
 import { compareArray } from './utils';
 
 /**
@@ -31,7 +30,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   public get encodedLength (): number {
     return this.reduce((total, raw): number => {
       return total + raw.encodedLength;
-    }, Compact.encodeU8a(this.length).length);
+    }, compactToU8a(this.length).length);
   }
 
   /**
@@ -124,7 +123,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
     return isBare
       ? u8aConcat(...encoded)
       : u8aConcat(
-        Compact.encodeU8a(this.length),
+        compactToU8a(this.length),
         ...encoded
       );
   }

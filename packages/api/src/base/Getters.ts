@@ -5,7 +5,8 @@ import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx, ApiTypes, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
-import { Metadata, Text } from '@polkadot/types';
+import { Metadata } from '@polkadot/metadata';
+import { Text } from '@polkadot/types';
 import { assertReturn } from '@polkadot/util';
 
 import Init from './Init';

@@ -6,6 +6,6 @@ import { IKeyringPair } from '@polkadot/types/types';
 
 import { isFunction } from '@polkadot/util';
 
-export default function isKeyringPair (account: string | IKeyringPair | AccountId | Address): account is IKeyringPair {
+export function isKeyringPair (account: string | IKeyringPair | AccountId | Address): account is IKeyringPair {
   return isFunction((account as IKeyringPair).sign);
 }

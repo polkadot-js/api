@@ -6,7 +6,7 @@ import { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr2551
 import { Address, Balance, Call, Index } from '../interfaces/runtime';
 import { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../types';
 
-import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Base from '../codec/Base';
 import Compact from '../codec/Compact';
@@ -203,7 +203,7 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
       return Extrinsic._newFromValue(registry, new Uint8Array(), version);
     }
 
-    const [offset, length] = Compact.decodeU8a(value);
+    const [offset, length] = compactFromU8a(value);
     const total = offset + length.toNumber();
 
     assert(total <= value.length, `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
@@ -292,6 +292,6 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
 
     return isBare
       ? encoded
-      : Compact.addLengthPrefix(encoded);
+      : compactAddLength(encoded);
   }
 }
