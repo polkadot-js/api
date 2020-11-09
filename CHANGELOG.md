@@ -2,7 +2,7 @@
 
 ## 2.6.1 Nov 9, 2020
 
-Upgrade priority: Low. Should be done alongside and update of `@polkadot/util` to 4.0
+Upgrade priority: Low. Should be done alongside an update to `@polkadot/util` to 4.0
 
 Changes:
 
