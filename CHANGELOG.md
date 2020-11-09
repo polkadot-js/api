@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 2.6.1 Nov 9, 2020
+
+Upgrade priority: Low. Should be done alongside and update of `@polkadot/util` to 4.0
+
+Changes:
+
+- Adjust auto-gas to contract RPC call to 5 * 10 ^ 12 (align with Rust)
+- Adjust derive AccountId check to take Ethereum-compatible chains into account
+- Fallback for chains with invalid council proposal data in derives
+- Bump static v12 Metadata (tests) to latest Substrate version
+- Bump `@polkadot/{util,util-crypto}` to 4.0 (optimized WASM layers)
+
+
 ## 2.5.1 Nov 2, 2020
 
 Upgrade priority: Low. Recommended for `api-contract` developers.
