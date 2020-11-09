@@ -1,7 +1,7 @@
 // Copyright 2017-2019 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/types';
 import { Type } from '@polkadot/types';
 
 import { assert, isUndefined } from '@polkadot/util';

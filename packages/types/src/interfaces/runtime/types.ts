@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Int, Struct, U8aFixed, UInt, Vec } from '@polkadot/types/codec';
 import { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource, GenericMultiAddress } from '@polkadot/types/generic';
 import { Bytes, DoNotConstruct, Null, StorageKey, u16, u32, u64, u8 } from '@polkadot/types/primitive';
+import { ITuple } from '@polkadot/types/types';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
 import { SystemOrigin } from '@polkadot/types/interfaces/system';

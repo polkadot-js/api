@@ -20,8 +20,6 @@ interface This {
   }[]
 }
 
-const TYPES_NON_PRIMITIVE = ['Metadata'];
-
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
 Handlebars.registerPartial({
@@ -34,8 +32,8 @@ Handlebars.registerHelper({
     const { imports, types } = this as unknown as This;
     const defs = [
       {
-        file: '@polkadot/types/types',
-        types: Object.keys(imports.typesTypes)
+        file: '@polkadot/metadata',
+        types: Object.keys(imports.metadataTypes)
       },
       {
         file: '@polkadot/types/codec',
@@ -53,15 +51,11 @@ Handlebars.registerHelper({
       },
       {
         file: '@polkadot/types/primitive',
-        types: Object
-          .keys(imports.primitiveTypes)
-          .filter((name) => !TYPES_NON_PRIMITIVE.includes(name))
+        types: Object.keys(imports.primitiveTypes)
       },
       {
-        file: '@polkadot/types',
-        types: Object
-          .keys(imports.primitiveTypes)
-          .filter((name) => TYPES_NON_PRIMITIVE.includes(name))
+        file: '@polkadot/types/types',
+        types: Object.keys(imports.typesTypes)
       },
       ...types
     ];

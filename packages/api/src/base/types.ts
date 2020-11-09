@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Constants } from '@polkadot/metadata/decorate/types';
-import { Metadata } from '@polkadot/types';
+import { Metadata } from '@polkadot/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';

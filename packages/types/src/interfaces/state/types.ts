@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
 import { Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, StorageKey, Text, u32 } from '@polkadot/types/primitive';
+import { ITuple } from '@polkadot/types/types';
 import { Hash, StorageData } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApiId */

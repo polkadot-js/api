@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
 import { BTreeSet, Enum, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, u32, u64 } from '@polkadot/types/primitive';
+import { ITuple } from '@polkadot/types/types';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AuthoritySignature } from '@polkadot/types/interfaces/imOnline';
 import { BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';

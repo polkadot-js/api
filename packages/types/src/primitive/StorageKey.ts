@@ -3,22 +3,12 @@
 
 import { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import { AnyJson, AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
+import { StorageEntry } from './types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import { AllHashers } from '@polkadot/types/interfaces/metadata/definitions';
 import Bytes from './Bytes';
-
-export interface StorageEntry {
-  (arg?: any): Uint8Array;
-  iterKey?: (arg?: any) => Uint8Array & Codec;
-  keyPrefix: (arg?: any) => Uint8Array;
-  meta: StorageEntryMetadataLatest;
-  method: string;
-  prefix: string;
-  section: string;
-  toJSON: () => any;
-}
 
 interface Decoded {
   key?: Uint8Array | string;

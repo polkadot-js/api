@@ -5,8 +5,7 @@ import { H256 } from '@polkadot/types/interfaces';
 import { AnyJson, AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
 
 import BN from 'bn.js';
-import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
-import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
+import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
 import { typeToConstructor } from './utils';
 import { UIntBitLength } from './AbstractInt';
@@ -46,23 +45,6 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
     };
   }
 
-  /**
-   * Prepend a Uint8Array with its compact length.
-   *
-   * @param u8a - The Uint8Array to be prefixed
-   */
-  public static addLengthPrefix = compactAddLength;
-
-  public static decodeU8a = compactFromU8a;
-
-  public static encodeU8a = compactToU8a;
-
-  public static stripLengthPrefix (u8a: Uint8Array, bitLength: UIntBitLength = DEFAULT_BITLENGTH): Uint8Array {
-    const [, value] = compactStripLength(u8a, bitLength);
-
-    return value;
-  }
-
   /** @internal */
   public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
@@ -71,7 +53,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
       return new Type(registry, value);
     }
 
-    const [, _value] = Compact.decodeU8a(value, new Type(registry, 0).bitLength() as UIntBitLength);
+    const [, _value] = compactFromU8a(value, new Type(registry, 0).bitLength() as UIntBitLength);
 
     return new Type(registry, _value);
   }
@@ -177,7 +159,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return Compact.encodeU8a(this.#raw.toBn());
+    return compactToU8a(this.#raw.toBn());
   }
 
   /**

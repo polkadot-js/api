@@ -13,6 +13,7 @@ describe('formatType', (): void => {
         genericTypes: {},
         ignoredTypes: [],
         localTypes: {},
+        metadataTypes: {},
         primitiveTypes: {},
         typeToModule: {},
         typesTypes: {}

@@ -9,7 +9,8 @@ import { VersionedRegistry } from './types';
 import BN from 'bn.js';
 import { Observable, Subscription, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Metadata, Text, TypeRegistry } from '@polkadot/types';
+import { Metadata } from '@polkadot/metadata';
+import { Text, TypeRegistry } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
 import { getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
@@ -317,6 +318,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
       l.error(error);
+      l.error(_error);
 
       this.emit('error', error);
     }

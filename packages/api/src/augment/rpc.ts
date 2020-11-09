@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
+import { Metadata } from '@polkadot/metadata';
 import { HashMap, Json, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
-import { Metadata } from '@polkadot/types';
+import { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import { BlockHash } from '@polkadot/types/interfaces/chain';

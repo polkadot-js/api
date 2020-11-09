@@ -4,9 +4,8 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyU8a, Codec, Registry } from '../types';
 
-import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex, compactFromU8a, compactAddLength } from '@polkadot/util';
 
-import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
 const MAX_LENGTH = 128 * 1024;
@@ -26,7 +25,7 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
       return u8aToString(value);
     }
 
-    const [offset, length] = Compact.decodeU8a(value);
+    const [offset, length] = compactFromU8a(value);
     const total = offset + length.toNumber();
 
     assert(length.lten(MAX_LENGTH), `Text length ${length.toString()} exceeds ${MAX_LENGTH}`);
@@ -152,6 +151,6 @@ export default class Text extends String implements Codec {
 
     return isBare
       ? encoded
-      : Compact.addLengthPrefix(encoded);
+      : compactAddLength(encoded);
   }
 }
