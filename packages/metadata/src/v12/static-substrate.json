@@ -564,9 +564,7 @@
                 " bypassing `frame_system::Trait::BaseCallFilter`).",
                 "",
                 " # <weight>",
-                " - Base weight: 14.39 + .987 * c µs",
-                " - Plus the sum of the weights of the `calls`.",
-                " - Plus one additional event. (repeat read/write)",
+                " - Complexity: O(C) where C is the number of calls to be batched.",
                 " # </weight>",
                 "",
                 " This will return `Ok` in all circumstances. To determine the success of the batch, an",
@@ -602,6 +600,30 @@
                 " NOTE: Prior to version *12, this was called `as_limited_sub`.",
                 "",
                 " The dispatch origin for this call must be _Signed_."
+              ]
+            },
+            {
+              "name": "batch_all",
+              "args": [
+                {
+                  "name": "calls",
+                  "type": "Vec<Call>"
+                }
+              ],
+              "documentation": [
+                " Send a batch of dispatch calls and atomically execute them.",
+                " The whole transaction will rollback and fail if any of the calls failed.",
+                "",
+                " May be called from any origin.",
+                "",
+                " - `calls`: The calls to be dispatched from the same origin.",
+                "",
+                " If origin is root then call are dispatch without checking origin filter. (This includes",
+                " bypassing `frame_system::Trait::BaseCallFilter`).",
+                "",
+                " # <weight>",
+                " - Complexity: O(C) where C is the number of calls to be batched.",
+                " # </weight>"
               ]
             }
           ],
@@ -769,6 +791,19 @@
                 ]
               },
               {
+                "name": "AuthorVrfRandomness",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "MaybeRandomness"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Temporary value (cleared at block finalization) that includes the VRF output generated",
+                  " at this block. This field should always be populated during block processing unless",
+                  " secondary plain slots are enabled (which don't contain a VRF output)."
+                ]
+              },
+              {
                 "name": "Lateness",
                 "modifier": "Default",
                 "type": {
@@ -906,9 +941,9 @@
                 " The dispatch origin for this call must be `Inherent`.",
                 "",
                 " # <weight>",
-                " - `O(T)` where `T` complexity of `on_timestamp_set`",
+                " - `O(1)` (Note that implementations of `OnTimestampSet` must also be `O(1)`)",
                 " - 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in `on_finalize`)",
-                " - 1 event handler `on_timestamp_set` `O(T)`.",
+                " - 1 event handler `on_timestamp_set`. Must be `O(1)`.",
                 " # </weight>"
               ]
             }
@@ -6286,59 +6321,6 @@
           "index": 14
         },
         {
-          "name": "FinalityTracker",
-          "storage": null,
-          "calls": [
-            {
-              "name": "final_hint",
-              "args": [
-                {
-                  "name": "hint",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": [
-                " Hint that the author of this block thinks the best finalized",
-                " block is the given number."
-              ]
-            }
-          ],
-          "events": null,
-          "constants": [
-            {
-              "name": "WindowSize",
-              "type": "BlockNumber",
-              "value": "0x65000000",
-              "documentation": [
-                " The number of recent samples to keep from this chain. Default is 101."
-              ]
-            },
-            {
-              "name": "ReportLatency",
-              "type": "BlockNumber",
-              "value": "0xe8030000",
-              "documentation": [
-                " The delay after which point things become suspicious. Default is 1000."
-              ]
-            }
-          ],
-          "errors": [
-            {
-              "name": "AlreadyUpdated",
-              "documentation": [
-                " Final hint must be updated only once in the block"
-              ]
-            },
-            {
-              "name": "BadHint",
-              "documentation": [
-                " Finalized height above block number"
-              ]
-            }
-          ],
-          "index": 15
-        },
-        {
           "name": "Grandpa",
           "storage": {
             "prefix": "GrandpaFinality",
@@ -6559,7 +6541,7 @@
               ]
             }
           ],
-          "index": 16
+          "index": 15
         },
         {
           "name": "Treasury",
@@ -7506,7 +7488,7 @@
               ]
             }
           ],
-          "index": 17
+          "index": 16
         },
         {
           "name": "Contracts",
@@ -7519,7 +7501,7 @@
                 "type": {
                   "Plain": "Schedule"
                 },
-                "fallback": "0x0000000020a107000000000020a107000000000020a107000000000020a107000000000020a107000000000020a107000000000020a1070000000000e0f7050400000000e024370500000000e0f705040000000020a107000000000020a107000000000080f0fa020000000000e1f5050000000004000000000001001000000000400000002000000000000800",
+                "fallback": "0x0000000020a107000000000020a107000000000098b23c000000000054923c000000000098033c00000000009241860000000000ecc33b0000000000ba1d3c00000000000a373c0000000000f2398d0000000000ea843b000000000098c73b0000000000f0586600000000000e471e0000000000f89b7f0000000000090100000000000068a95700000000009802000000000000e8a90c2a00000000a84a8e24000000003058af090000000068269e00000000001a88e4000000000004e1ea07000000002d090000000000003090a800000000006e6c601000000000bf07000000000000de22950a000000002cbb2a0200000000830500000000000078dd710b000000003e56cd07000000007c0c7c0a00000000ee01000000000000c802000000000000b49b0f1e00000000d205000000000000cd02000000000000886b3400000000000810000000000000fa05370000000000b40c000000000000e8b7320000000000b9050000000000003444320000000000b80500000000000000040000000000010010000000004000002000000000000800",
                 "documentation": [
                   " Current cost schedule for contracts."
                 ]
@@ -7719,7 +7701,7 @@
               "documentation": [
                 " Contract has been evicted and is now in tombstone state.",
                 " \\[contract, tombstone\\]",
-                " ",
+                "",
                 " # Params",
                 "",
                 " - `contract`: `AccountId`: The account ID of the evicted contract.",
@@ -7737,7 +7719,7 @@
               "documentation": [
                 " Restoration for a contract has been successful.",
                 " \\[donor, dest, code_hash, rent_allowance\\]",
-                " ",
+                "",
                 " # Params",
                 "",
                 " - `donor`: `AccountId`: Account ID of the restoring contract",
@@ -7975,9 +7957,15 @@
               "documentation": [
                 " Contract trapped during execution."
               ]
+            },
+            {
+              "name": "ValueTooLarge",
+              "documentation": [
+                " The size defined in `T::MaxValueSize` was exceeded."
+              ]
             }
           ],
-          "index": 18
+          "index": 17
         },
         {
           "name": "Sudo",
@@ -8129,7 +8117,7 @@
               ]
             }
           ],
-          "index": 19
+          "index": 18
         },
         {
           "name": "ImOnline",
@@ -8269,7 +8257,7 @@
               ]
             }
           ],
-          "index": 20
+          "index": 19
         },
         {
           "name": "AuthorityDiscovery",
@@ -8278,7 +8266,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 21
+          "index": 20
         },
         {
           "name": "Offences",
@@ -8372,7 +8360,7 @@
           ],
           "constants": [],
           "errors": [],
-          "index": 22
+          "index": 21
         },
         {
           "name": "Historical",
@@ -8381,7 +8369,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 23
+          "index": 22
         },
         {
           "name": "RandomnessCollectiveFlip",
@@ -8407,7 +8395,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 24
+          "index": 23
         },
         {
           "name": "Identity",
@@ -9147,7 +9135,7 @@
               ]
             }
           ],
-          "index": 25
+          "index": 24
         },
         {
           "name": "Society",
@@ -10129,7 +10117,7 @@
               ]
             }
           ],
-          "index": 26
+          "index": 25
         },
         {
           "name": "Recovery",
@@ -10677,7 +10665,7 @@
               ]
             }
           ],
-          "index": 27
+          "index": 26
         },
         {
           "name": "Vesting",
@@ -10869,7 +10857,7 @@
               ]
             }
           ],
-          "index": 28
+          "index": 27
         },
         {
           "name": "Scheduler",
@@ -11143,9 +11131,9 @@
               ]
             },
             {
-              "name": "FailedToCancel",
+              "name": "NotFound",
               "documentation": [
-                " Failed to cancel a scheduled call"
+                " Cannot find the scheduled call."
               ]
             },
             {
@@ -11153,9 +11141,15 @@
               "documentation": [
                 " Given target block number is in the past."
               ]
+            },
+            {
+              "name": "RescheduleNoChange",
+              "documentation": [
+                " Reschedule failed because it does not change scheduled time."
+              ]
             }
           ],
-          "index": 29
+          "index": 28
         },
         {
           "name": "Proxy",
@@ -11667,7 +11661,7 @@
               ]
             }
           ],
-          "index": 30
+          "index": 29
         },
         {
           "name": "Multisig",
@@ -12093,7 +12087,7 @@
               ]
             }
           ],
-          "index": 31
+          "index": 30
         }
       ],
       "extrinsic": {
