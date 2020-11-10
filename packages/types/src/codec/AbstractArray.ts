@@ -15,7 +15,7 @@ import { compareArray } from './utils';
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
  */
-export default abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
+export abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
   public readonly registry: Registry;
 
   protected constructor (registry: Registry, ...values: T[]) {

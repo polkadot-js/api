@@ -9,7 +9,7 @@ import { TypeRegistry } from '../create';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import Enum from './Enum';
+import { Enum } from '.';
 
 describe('Enum', (): void => {
   const registry = new TypeRegistry();

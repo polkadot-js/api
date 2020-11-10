@@ -4,16 +4,16 @@
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, isU8a, u8aConcat, compactToU8a } from '@polkadot/util';
-import AbstractArray from './AbstractArray';
+import { AbstractArray } from './AbstractArray';
+import { Vec } from './Vec';
 import { typeToConstructor } from './utils';
-import Vec from './Vec';
 
 /**
  * @name VecFixed
  * @description
  * This manages codec arrays of a fixed length
  */
-export default class VecFixed<T extends Codec> extends AbstractArray<T> {
+export class VecFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {

@@ -8,7 +8,7 @@ import { AnyJson, BareOpts, Codec, Registry } from '../types';
  * @name Base
  * @description A type extends the Base class, when it holds a value
  */
-export default abstract class Base<T extends Codec> implements Codec {
+export abstract class Base<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
   protected readonly _raw: T;

@@ -5,14 +5,14 @@ import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert } from '@polkadot/util';
 
-import Enum from './Enum';
+import { Enum } from './Enum';
 
 /**
  * @name Result
  * @description
  * A Result maps to the Rust Result type, that can either wrap a success or error value
  */
-export default class Result<O extends Codec, E extends Codec> extends Enum {
+export class Result<O extends Codec, E extends Codec> extends Enum {
   constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceTypes, Error: Constructor<E> | keyof InterfaceTypes, value?: unknown) {
     // NOTE This is order-dependent, Ok (with index 0) needs to be first
     // eslint-disable-next-line sort-keys

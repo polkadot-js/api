@@ -47,7 +47,7 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
  * implements that - decodes, checks for optionality and wraps the required structure
  * with a value if/as required/found.
  */
-export default class Option<T extends Codec> implements Codec {
+export class Option<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
   readonly #Type: Constructor<T>;

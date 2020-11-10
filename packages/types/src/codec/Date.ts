@@ -21,7 +21,7 @@ const BITLENGTH: UIntBitLength = 64;
  * and has all the methods available that are applicable to any `Date`
  * @noInheritDoc
  */
-export default class CodecDate extends Date implements Codec {
+export class CodecDate extends Date implements Codec {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {

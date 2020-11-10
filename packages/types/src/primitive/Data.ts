@@ -6,7 +6,7 @@ import { Registry } from '../types';
 
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import Enum from '../codec/Enum';
+import { Enum } from '../codec/Enum';
 import Bytes from './Bytes';
 
 /** @internal */

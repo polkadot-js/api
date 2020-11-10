@@ -4,9 +4,8 @@
 import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
-import Moment from './Date';
 import U32 from '../primitive/U32';
-import Compact from './Compact';
+import { CodecDate, Compact } from '.';
 
 describe('Compact', (): void => {
   const registry = new TypeRegistry();
@@ -50,7 +49,7 @@ describe('Compact', (): void => {
 
     it('constructs properly via number as Moment', (): void => {
       expect(
-        new (Compact.with(Moment))(registry, 1537968546).toString().startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
+        new (Compact.with(CodecDate))(registry, 1537968546).toString().startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
       ).toBe(true);
     });
   });

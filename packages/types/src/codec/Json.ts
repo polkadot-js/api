@@ -21,7 +21,7 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * i.e. no hex decoding. Unlike a struct, this waps a JSON object with unknown keys
  * @noInheritDoc
  */
-export default class StructAny extends Map<string, any> implements Codec {
+export class Json extends Map<string, any> implements Codec {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {

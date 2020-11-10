@@ -6,7 +6,7 @@ import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
 import { decodeU8a, typeToConstructor } from './utils';
-import AbstractArray from './AbstractArray';
+import { AbstractArray } from './AbstractArray';
 
 const MAX_LENGTH = 64 * 1024;
 
@@ -19,7 +19,7 @@ const l = logger('Vec');
  * construction with the passed `Type` in the constructor. It is an extension to Array, providing
  * specific encoding/decoding on top of the base type.
  */
-export default class Vec<T extends Codec> extends AbstractArray<T> {
+export class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {

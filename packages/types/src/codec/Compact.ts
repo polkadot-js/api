@@ -24,7 +24,7 @@ export interface CompactEncodable extends Codec {
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export default class Compact<T extends CompactEncodable> implements ICompact<T> {
+export class Compact<T extends CompactEncodable> implements ICompact<T> {
   public readonly registry: Registry;
 
   readonly #Type: Constructor<T>;
