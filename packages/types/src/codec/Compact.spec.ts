@@ -5,7 +5,8 @@ import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
 import U32 from '../primitive/U32';
-import { CodecDate, Compact } from '.';
+import { CodecDate } from './Date';
+import { Compact } from '.';
 
 describe('Compact', (): void => {
   const registry = new TypeRegistry();

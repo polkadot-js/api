@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
-import { VecFixed } from '.';
+import { VecFixed } from './VecFixed';
 
 describe('VecFixed', (): void => {
   const registry = new TypeRegistry();

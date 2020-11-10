@@ -7,7 +7,7 @@ import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
 import U64 from '../primitive/U64';
-import { CodecDate } from '.';
+import { CodecDate } from './Date';
 
 describe('Date', (): void => {
   const registry = new TypeRegistry();
