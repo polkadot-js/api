@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Vec } from '@polkadot/types/codec';
+import { Vec, VecFixed } from '@polkadot/types/codec';
 import { bool } from '@polkadot/types/primitive';
 
 /** @name Approvals */

@@ -4,7 +4,7 @@
 import { Registry } from '../types';
 import { ExtrinsicPayloadOptions } from './types';
 
-import Struct from '../codec/Struct';
+import { Struct } from '../codec/Struct';
 
 /**
  * @name GenericExtrinsicPayloadUnknown

@@ -4,7 +4,6 @@
 import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-
 import { HashMap, Struct } from '.';
 
 const registry = new TypeRegistry();

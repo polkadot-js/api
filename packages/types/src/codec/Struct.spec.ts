@@ -3,12 +3,12 @@
 
 /* eslint-disable sort-keys */
 
+import { CodecTo } from '../types';
+
 import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import { CodecTo } from '../types';
-import Struct from './Struct';
-import Vec from './Vec';
+import { Struct, Vec } from '.';
 
 describe('Struct', (): void => {
   const registry = new TypeRegistry();

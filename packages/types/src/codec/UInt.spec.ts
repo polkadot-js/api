@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
-import UInt from './UInt';
+import { UInt } from '.';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { Option, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Option, U8aFixed, Vec, VecFixed } from '@polkadot/types/codec';
 import { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
 import { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';

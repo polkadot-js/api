@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Option, Set, Struct, Vec } from '@polkadot/types/codec';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Data, u32 } from '@polkadot/types/primitive';
 import { ITuple } from '@polkadot/types/types';
 import { AccountId, Balance, H160 } from '@polkadot/types/interfaces/runtime';

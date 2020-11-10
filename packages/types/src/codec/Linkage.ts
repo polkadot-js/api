@@ -3,10 +3,10 @@
 
 import { Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import Option from './Option';
-import Struct from './Struct';
-import Tuple from './Tuple';
-import Vec from './Vec';
+import { Option } from './Option';
+import { Struct } from './Struct';
+import { Tuple } from './Tuple';
+import { Vec } from './Vec';
 
 type TypeWithValues = [Constructor, any[]];
 

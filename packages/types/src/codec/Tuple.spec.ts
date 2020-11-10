@@ -12,7 +12,7 @@ import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import U128 from '../primitive/U128';
-import Tuple from './Tuple';
+import { Tuple } from '.';
 
 describe('Tuple', (): void => {
   const registry = new TypeRegistry();
