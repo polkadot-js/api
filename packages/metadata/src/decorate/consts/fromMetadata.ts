@@ -21,7 +21,7 @@ export function constantsFromMeta (registry: Registry, metadata: Metadata): Cons
     result[stringCamelCase(name)] = moduleMetadata.constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
       // convert to the natural type as received
       const type = meta.type.toString();
-      const codec = registry.createType(type as 'Raw', [hexToU8a(meta.value.toHex())]) as unknown as ConstantCodec;
+      const codec = registry.createType(type as 'Raw', hexToU8a(meta.value.toHex())) as unknown as ConstantCodec;
 
       codec.meta = meta;
       newModule[stringCamelCase(meta.name)] = codec;

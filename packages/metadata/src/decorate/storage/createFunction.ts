@@ -71,8 +71,8 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, args: [Cr
 
   const [key1, key2] = args;
   const map = type.asDoubleMap;
-  const val1 = registry.createType(map.key1.toString() as 'Raw', [key1]).toU8a();
-  const val2 = registry.createType(map.key2.toString() as 'Raw', [key2]).toU8a();
+  const val1 = registry.createType(map.key1.toString() as 'Raw', key1).toU8a();
+  const val2 = registry.createType(map.key2.toString() as 'Raw', key2).toU8a();
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(u8aConcat(
@@ -93,7 +93,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType
 
     assert(!isUndefined(arg) && !isNull(arg), `${name.toString()} is a Map and requires one argument`);
 
-    param = registry.createType(map.key.toString() as 'Raw', [arg]).toU8a();
+    param = registry.createType(map.key.toString() as 'Raw', arg).toU8a();
   }
 
   // StorageKey is a Bytes, so is length-prefixed
