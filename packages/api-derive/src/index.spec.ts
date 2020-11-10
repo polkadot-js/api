@@ -8,7 +8,7 @@
 import { Observable, from } from 'rxjs';
 import { ApiRx } from '@polkadot/api/rx';
 import MockProvider from '@polkadot/rpc-provider/mock';
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import { ExactDerive } from '.';
 

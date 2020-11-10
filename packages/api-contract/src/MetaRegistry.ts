@@ -5,7 +5,7 @@ import { ContractDisplayName, ChainProperties, SiField, SiLookupTypeId, SiType, 
 import { InterfaceTypes, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
-import { TypeRegistry, withTypeString } from '@polkadot/types';
+import { TypeRegistry, withTypeString } from '@polkadot/types/create';
 
 interface PartialTypeSpec {
   readonly type: SiLookupTypeId;

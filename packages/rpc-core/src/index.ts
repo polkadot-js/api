@@ -10,7 +10,8 @@ import memoizee from 'memoizee';
 import { Observable, Observer } from 'rxjs';
 import { publishReplay, refCount } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
+import { Option, StorageKey, Vec } from '@polkadot/types';
+import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import normalizer from './normalizer';

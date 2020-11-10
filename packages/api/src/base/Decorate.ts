@@ -17,8 +17,9 @@ import { memo } from '@polkadot/api-derive/util';
 import { Metadata, expandMetadata } from '@polkadot/metadata';
 import { RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Option, Raw, StorageKey, Text, TypeRegistry, u64 } from '@polkadot/types';
+import { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
+import { TypeRegistry } from '@polkadot/types/create';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 

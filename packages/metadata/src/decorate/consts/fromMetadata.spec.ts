@@ -3,7 +3,7 @@
 
 import { Constants } from '../types';
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import { Metadata } from '../../Metadata';
 import rpcMetadata from '../../static';

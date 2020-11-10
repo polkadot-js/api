@@ -7,8 +7,7 @@ import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { Raw } from '@polkadot/types/codec';
-import { createTypeUnsafe } from '@polkadot/types/create';
-import { StorageKey } from '@polkadot/types';
+import { StorageKey } from '@polkadot/types/primitive';
 import { assert, compactAddLength, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
@@ -72,8 +71,8 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, args: [Cr
 
   const [key1, key2] = args;
   const map = type.asDoubleMap;
-  const val1 = createTypeUnsafe(registry, map.key1.toString(), [key1]).toU8a();
-  const val2 = createTypeUnsafe(registry, map.key2.toString(), [key2]).toU8a();
+  const val1 = registry.createType(map.key1.toString() as 'Raw', [key1]).toU8a();
+  const val2 = registry.createType(map.key2.toString() as 'Raw', [key2]).toU8a();
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(u8aConcat(
@@ -94,7 +93,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType
 
     assert(!isUndefined(arg) && !isNull(arg), `${name.toString()} is a Map and requires one argument`);
 
-    param = createTypeUnsafe(registry, map.key.toString(), [arg]).toU8a();
+    param = registry.createType(map.key.toString() as 'Raw', [arg]).toU8a();
   }
 
   // StorageKey is a Bytes, so is length-prefixed
@@ -136,7 +135,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
     documentation,
-    fallback: registry.createType('Bytes', createTypeUnsafe(registry, outputType).toHex()),
+    fallback: registry.createType('Bytes', registry.createType(outputType as 'Raw').toHex()),
     modifier: registry.createType('StorageEntryModifierLatest', 1), // required
     name,
     type: registry.createType('StorageEntryTypeLatest', registry.createType('Type', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0)

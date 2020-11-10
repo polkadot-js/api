@@ -3,7 +3,7 @@
 
 import { DefinitionRpc } from '@polkadot/types/types';
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import { RpcCore } from '.';
 

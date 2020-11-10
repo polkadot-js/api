@@ -3,7 +3,7 @@
 
 import BN from 'bn.js';
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import { Metadata } from '../../Metadata';
 import metadataStatic from '../../static';

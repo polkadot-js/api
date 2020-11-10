@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import MockProvider from '@polkadot/rpc-provider/mock';
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 import { isFunction } from '@polkadot/util';
 
 import { RpcCore } from '.';

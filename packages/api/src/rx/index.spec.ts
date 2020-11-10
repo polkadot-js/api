@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import Mock from '@polkadot/rpc-provider/mock/index';
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import { SingleAccountSigner } from '../../test/util';
 import { ApiRx } from '.';
