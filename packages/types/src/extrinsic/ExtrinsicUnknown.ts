@@ -12,7 +12,7 @@ import { UNMASK_VERSION } from './constants';
  * @description
  * A default handler for extrinsics where the version is not known (default throw)
  */
-export default class ExtrinsicUnknown extends Struct {
+export class GenericExtrinsicUnknown extends Struct {
   constructor (registry: Registry, value?: unknown, { isSigned = false, version = 0 }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {});
 

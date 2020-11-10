@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
-import AccountIndex from './AccountIndex';
+import { GenericAccountIndex as AccountIndex } from '.';
 
 describe('AccountIndex', (): void => {
   const registry = new TypeRegistry();

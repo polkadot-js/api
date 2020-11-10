@@ -4,7 +4,7 @@
 import { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
 import { AnyNumber, AnyU8a, Registry } from '../types';
 
-import Extrinsic from '../extrinsic/Extrinsic';
+import { GenericExtrinsic } from '../extrinsic/Extrinsic';
 import { Struct } from '../codec/Struct';
 import { Vec } from '../codec/Vec';
 
@@ -22,11 +22,11 @@ export interface BlockValue {
 }
 
 /**
- * @name Block
+ * @name GenericBlock
  * @description
  * A block encoded with header and extrinsics
  */
-export default class Block extends Struct {
+export class GenericBlock extends Struct {
   constructor (registry: Registry, value?: BlockValue | Uint8Array) {
     super(registry, {
       header: 'Header',
@@ -45,8 +45,8 @@ export default class Block extends Struct {
   /**
    * @description The [[Extrinsic]] contained in the block
    */
-  public get extrinsics (): Vec<Extrinsic> {
-    return this.get('extrinsics') as Vec<Extrinsic>;
+  public get extrinsics (): Vec<GenericExtrinsic> {
+    return this.get('extrinsics') as Vec<GenericExtrinsic>;
   }
 
   /**

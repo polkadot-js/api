@@ -8,7 +8,7 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import { Enum } from '../codec/Enum';
 
-export default class MultiAddress extends Enum {
+export class GenericMultiAddress extends Enum {
   constructor (registry: Registry, value?: unknown) {
     super(registry, {
       Id: 'AccountId',
@@ -18,7 +18,7 @@ export default class MultiAddress extends Enum {
       Address32: 'H256',
       // eslint-disable-next-line sort-keys
       Address20: 'H160'
-    }, MultiAddress._decodeMultiAddress(value as string));
+    }, GenericMultiAddress._decodeMultiAddress(value as string));
   }
 
   private static _decodeMultiAddress (value?: unknown): unknown {

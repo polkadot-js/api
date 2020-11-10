@@ -7,7 +7,7 @@ import { Registry } from '@polkadot/types/types';
 /**
  * @internal
  **/
-export default function toV12 (registry: Registry, { extrinsic, modules }: MetadataV11): MetadataV12 {
+export function toV12 (registry: Registry, { extrinsic, modules }: MetadataV11): MetadataV12 {
   return registry.createType('MetadataLatest', {
     extrinsic,
     modules: modules.map((mod): ModuleMetadataV12 =>

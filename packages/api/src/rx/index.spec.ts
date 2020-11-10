@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '../submittable/types';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
-import Mock from '@polkadot/rpc-provider/mock/index';
+import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 
 import { SingleAccountSigner } from '../../test/util';
@@ -15,11 +15,11 @@ import { ApiRx } from '.';
 describe('ApiRx', (): void => {
   const registry = new TypeRegistry();
   const keyring = createTestPairs({ type: 'ed25519' });
-  let provider: Mock;
+  let provider: MockProvider;
 
   beforeEach((): void => {
     jest.setTimeout(3000000);
-    provider = new Mock(registry);
+    provider = new MockProvider(registry);
   });
 
   describe('decorator.signAsync', (): void => {

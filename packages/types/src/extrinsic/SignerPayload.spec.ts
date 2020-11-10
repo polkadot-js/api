@@ -5,7 +5,7 @@ import { Metadata } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
-import SignerPayload from './SignerPayload';
+import { GenericSignerPayload as SignerPayload } from '.';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

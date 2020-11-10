@@ -39,7 +39,7 @@ const l = logger('api-mock');
  * @return {ProviderInterface} The mock provider
  * @internal
  */
-export default class Mock implements ProviderInterface {
+export class MockProvider implements ProviderInterface {
   private db: MockStateDb = {};
 
   private emitter = new EventEmitter();
@@ -93,7 +93,7 @@ export default class Mock implements ProviderInterface {
     return true;
   }
 
-  public clone (): Mock {
+  public clone (): MockProvider {
     throw new Error('Unimplemented');
   }
 

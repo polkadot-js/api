@@ -8,7 +8,7 @@ import { getTypeDef } from '@polkadot/types/create';
 type Extracted = string | Extracted[];
 
 /** @internal */
-export default function extractTypes (types: string[]): Extracted[] {
+export function extractTypes (types: string[]): Extracted[] {
   return types.map((type): Extracted => {
     const decoded = getTypeDef(type);
 

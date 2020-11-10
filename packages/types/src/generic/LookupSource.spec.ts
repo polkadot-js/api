@@ -2,14 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import AccountId from './AccountId';
-import AccountIndex from './AccountIndex';
-import LookupSource from './LookupSource';
+import { GenericAccountId as AccountId, GenericAccountIndex as AccountIndex, GenericLookupSource as LookuoSource } from '.';
 
 describe('LookupSource', (): void => {
   const registry = new TypeRegistry();
 
-  const testDecode = (type: string, input: LookupSource | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
+  const testDecode = (type: string, input: LookuoSource | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
     it(`can decode from ${type}`, (): void => {
       const a = registry.createType('Address', input);
 

@@ -7,7 +7,7 @@ import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../../create';
-import Extrinsic from './Extrinsic';
+import { GenericExtrinsicV4 as Extrinsic } from '.';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

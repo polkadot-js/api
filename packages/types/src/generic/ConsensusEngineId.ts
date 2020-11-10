@@ -19,11 +19,11 @@ const CID_POW = 0x5f776f70; // 'pow_'
 export { CID_AURA, CID_BABE, CID_GRPA, CID_POW };
 
 /**
- * @name ConsensusEngineId
+ * @name GenericConsensusEngineId
  * @description
  * A 4-byte identifier (actually a [u8; 4]) identifying the engine, e.g. for Aura it would be [b'a', b'u', b'r', b'a']
  */
-export default class ConsensusEngineId extends U32 {
+export class GenericConsensusEngineId extends U32 {
   public static idToString (input: number | BN): string {
     return bnToBn(input)
       .toArray('le')
@@ -110,6 +110,6 @@ export default class ConsensusEngineId extends U32 {
    * @description Override the default toString to return a 4-byte string
    */
   public toString (): string {
-    return ConsensusEngineId.idToString(this as BN);
+    return GenericConsensusEngineId.idToString(this as BN);
   }
 }

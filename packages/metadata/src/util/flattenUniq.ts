@@ -4,7 +4,7 @@
 type Types = string | Types[];
 
 /** @internal */
-export default function flattenUniq (list: Types[]): string[] {
+export function flattenUniq (list: Types[]): string[] {
   const flat = list.reduce((result: string[], entry): string[] => {
     return result.concat(
       Array.isArray(entry)

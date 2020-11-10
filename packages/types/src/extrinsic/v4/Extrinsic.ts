@@ -22,18 +22,18 @@ export interface ExtrinsicValueV4 {
  * @description
  * The third generation of compact extrinsics
  */
-export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
+export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV4',
       // eslint-disable-next-line sort-keys
       method: 'Call'
-    }, ExtrinsicV4.decodeExtrinsic(registry, value, isSigned));
+    }, GenericExtrinsicV4.decodeExtrinsic(registry, value, isSigned));
   }
 
   /** @internal */
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
-    if (value instanceof ExtrinsicV4) {
+    if (value instanceof GenericExtrinsicV4) {
       return value;
     } else if (value instanceof registry.createClass('Call')) {
       return { method: value };
@@ -82,7 +82,7 @@ export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
   /**
    * @description Add an [[ExtrinsicSignatureV4]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): ExtrinsicV4 {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): GenericExtrinsicV4 {
     this.signature.addSignature(signer, signature, payload);
 
     return this;
@@ -91,7 +91,7 @@ export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV4 {
+  public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV4 {
     this.signature.sign(this.method, account, options);
 
     return this;
@@ -100,7 +100,7 @@ export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
   /**
    * @describe Adds a fake signature to the extrinsic
    */
-  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): ExtrinsicV4 {
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV4 {
     this.signature.signFake(this.method, signer, options);
 
     return this;

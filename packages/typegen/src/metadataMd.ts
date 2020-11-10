@@ -7,7 +7,7 @@ import { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 import fs from 'fs';
 import { Metadata } from '@polkadot/metadata';
 import rpcdata from '@polkadot/metadata/static';
-import Call from '@polkadot/types/generic/Call';
+import { GenericCall as Call } from '@polkadot/types/generic';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Vec } from '@polkadot/types/codec';
