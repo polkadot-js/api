@@ -3,39 +3,27 @@
   "version": "2.6.2-4",
   "description": "Helpers to extract information from runtime metadata",
   "main": "index.js",
-  "module": "index.mjs",
+  "module": "esm/index.js",
   "sideEffects": false,
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/polkadot-js/api.git"
-  },
+  "repository": "github:polkadot-js/api",
   "keywords": [
-    "Polkadot",
-    "Merkel Patricia Tree"
+    "Polkadot"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": [],
   "contributors": [],
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/polkadot-js/api/issues"
-  },
+  "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-metadata#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.1",
     "@polkadot/types": "2.6.2-4",
     "@polkadot/types-known": "2.6.2-4",
-    "@polkadot/util": "^4.0.2-8",
-    "@polkadot/util-crypto": "^4.0.2-8",
+    "@polkadot/util": "^4.0.2-11",
+    "@polkadot/util-crypto": "^4.0.2-11",
     "bn.js": "^5.1.3"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.0.2-8"
+    "@polkadot/keyring": "^4.0.2-11"
   }
 }
