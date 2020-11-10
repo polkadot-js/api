@@ -126,7 +126,7 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unk
  * it needs to decoded in the specific defined order.
  * @noInheritDoc
  */
-export default class Struct<
+export class Struct<
   // The actual Class structure, i.e. key -> Class
   S extends TypesDef = TypesDef,
   // input values, mapped by key can be anything (construction)

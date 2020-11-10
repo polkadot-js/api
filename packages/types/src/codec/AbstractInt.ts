@@ -61,7 +61,7 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
  */
 // TODO:
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
-export default abstract class AbstractInt extends BN implements Codec {
+export abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
 
   readonly #bitLength: UIntBitLength;

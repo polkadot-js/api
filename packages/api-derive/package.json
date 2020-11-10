@@ -3,7 +3,7 @@
   "version": "2.6.2-3",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "main": "index.js",
-  "module": "esnext/index.js",
+  "module": "index.mjs",
   "sideEffects": false,
   "keywords": [
     "Polkadot",
@@ -33,14 +33,14 @@
     "@polkadot/api": "2.6.2-3",
     "@polkadot/rpc-core": "2.6.2-3",
     "@polkadot/types": "2.6.2-3",
-    "@polkadot/util": "^4.0.2-7",
-    "@polkadot/util-crypto": "^4.0.2-7",
+    "@polkadot/util": "^4.0.2-8",
+    "@polkadot/util-crypto": "^4.0.2-8",
     "bn.js": "^5.1.3",
     "memoizee": "^0.4.14",
     "rxjs": "^6.6.3"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.0.2-7",
+    "@polkadot/keyring": "^4.0.2-8",
     "@polkadot/rpc-provider": "2.6.2-3"
   }
 }

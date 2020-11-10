@@ -78,7 +78,7 @@ function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constr
   throw new Error('BTreeSet: cannot decode type');
 }
 
-export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
+export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public readonly registry: Registry;
 
   readonly #ValClass: Constructor<V>;

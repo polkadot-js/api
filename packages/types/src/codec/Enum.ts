@@ -8,7 +8,7 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 
 import Null from '../primitive/Null';
 import { mapToTypeMap } from './utils';
-import Struct from './Struct';
+import { Struct } from './Struct';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -117,7 +117,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
-export default class Enum implements Codec {
+export class Enum implements Codec {
   public readonly registry: Registry;
 
   readonly #def: TypesDef;

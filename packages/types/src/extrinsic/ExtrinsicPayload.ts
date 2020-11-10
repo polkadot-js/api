@@ -7,9 +7,9 @@ import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes,
 
 import { u8aToHex } from '@polkadot/util';
 
-import Base from '../codec/Base';
-import Compact from '../codec/Compact';
-import Raw from '../codec/Raw';
+import { Base } from '../codec/Base';
+import { Compact } from '../codec/Compact';
+import { Raw } from '../codec/Raw';
 import u32 from '../primitive/U32';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';

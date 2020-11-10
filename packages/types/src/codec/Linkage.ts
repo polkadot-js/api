@@ -3,10 +3,10 @@
 
 import { Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import Option from './Option';
-import Struct from './Struct';
-import Tuple from './Tuple';
-import Vec from './Vec';
+import { Option } from './Option';
+import { Struct } from './Struct';
+import { Tuple } from './Tuple';
+import { Vec } from './Vec';
 
 type TypeWithValues = [Constructor, any[]];
 
@@ -16,7 +16,7 @@ const EMPTY = new Uint8Array();
  * @name Linkage
  * @description The wrapper for the result from a LinkedMap
  */
-export default class Linkage<T extends Codec> extends Struct {
+export class Linkage<T extends Codec> extends Struct {
   constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: unknown) {
     super(registry, {
       previous: Option.with(Type),

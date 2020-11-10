@@ -7,21 +7,9 @@ import { FromReg, TypeDef, TypeDefInfo } from './types';
 import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 import { UIntBitLength } from '../codec/AbstractInt';
-import BTreeMap from '../codec/BTreeMap';
-import BTreeSet from '../codec/BTreeSet';
-import Compact from '../codec/Compact';
-import Enum from '../codec/Enum';
-import HashMap from '../codec/HashMap';
-import Int from '../codec/Int';
-import Option from '../codec/Option';
-import Result from '../codec/Result';
-import CodecSet from '../codec/Set';
-import Struct from '../codec/Struct';
-import Tuple from '../codec/Tuple';
-import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
-import UInt from '../codec/UInt';
-import Vec from '../codec/Vec';
-import VecFixed from '../codec/VecFixed';
+import { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
+import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec } from '../codec';
+import { VecFixed } from '../codec/VecFixed';
 import DoNotConstruct from '../primitive/DoNotConstruct';
 
 import { getTypeDef } from './getTypeDef';

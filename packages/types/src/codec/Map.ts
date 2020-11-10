@@ -87,7 +87,7 @@ function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: 
   throw new Error('Map: cannot decode type');
 }
 
-export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
+export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
   public readonly registry: Registry;
 
   readonly #KeyClass: Constructor<K>;

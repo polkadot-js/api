@@ -5,7 +5,7 @@ import { AnyU8a, Constructor, Registry } from '../types';
 
 import { isString, u8aToU8a } from '@polkadot/util';
 
-import Raw from './Raw';
+import { Raw } from './Raw';
 
 // The 520 here is a weird one - it is explicitly for a [u8; 65] as found as a EcdsaSignature,
 // and 264 here is explicity for a [u8; 33] as found as EcdsaPublic key.
@@ -41,7 +41,7 @@ function decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
  * A U8a that manages a a sequence of bytes up to the specified bitLength. Not meant
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
-export default class U8aFixed extends Raw {
+export class U8aFixed extends Raw {
   constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
     super(registry, decodeU8aFixed(value, bitLength));
   }

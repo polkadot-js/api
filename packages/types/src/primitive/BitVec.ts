@@ -5,7 +5,7 @@ import { AnyU8a, Registry } from '../types';
 
 import { assert, compactFromU8a, compactToU8a, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
-import Raw from '../codec/Raw';
+import { Raw } from '../codec/Raw';
 
 /** @internal */
 function decodeBitVecU8a (value?: Uint8Array): Uint8Array {

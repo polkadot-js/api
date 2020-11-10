@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { CodecTo } from '../types';
+
 import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import { CodecTo } from '../types';
 
-import CodecMap from './Map';
+import { CodecMap } from '.';
 
 const registry = new TypeRegistry();
 const mockU32TextMap = new Map<Text, U32>();

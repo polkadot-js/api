@@ -3,7 +3,7 @@
   "version": "2.6.2-3",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
-  "module": "esnext/index.js",
+  "module": "index.mjs",
   "sideEffects": false,
   "keywords": [
     "Polkadot",
@@ -32,11 +32,11 @@
     "@polkadot/metadata": "2.6.2-3",
     "@polkadot/rpc-provider": "2.6.2-3",
     "@polkadot/types": "2.6.2-3",
-    "@polkadot/util": "^4.0.2-7",
+    "@polkadot/util": "^4.0.2-8",
     "memoizee": "^0.4.14",
     "rxjs": "^6.6.3"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.0.2-7"
+    "@polkadot/keyring": "^4.0.2-8"
   }
 }

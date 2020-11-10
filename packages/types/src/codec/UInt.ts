@@ -3,7 +3,7 @@
 
 import { AnyNumber, Constructor, Registry } from '../types';
 
-import AbstractInt, { UIntBitLength } from './AbstractInt';
+import { AbstractInt, UIntBitLength } from './AbstractInt';
 
 /**
  * @name UInt
@@ -15,7 +15,7 @@ import AbstractInt, { UIntBitLength } from './AbstractInt';
  * is available here.
  * @noInheritDoc
  */
-export default class UInt extends AbstractInt {
+export class UInt extends AbstractInt {
   public static with (bitLength: UIntBitLength, typeName?: string): Constructor<UInt> {
     return class extends UInt {
       constructor (registry: Registry, value?: AnyNumber) {

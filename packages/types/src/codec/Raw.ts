@@ -24,7 +24,7 @@ function decodeU8a (value?: any): Uint8Array {
  * actual lengths instead of used directly.
  * @noInheritDoc
  */
-export default class Raw extends Uint8Array implements IU8a {
+export class Raw extends Uint8Array implements IU8a {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyU8a) {

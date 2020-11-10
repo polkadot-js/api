@@ -6,7 +6,7 @@ import { Registry } from '../types';
 import { isString, u8aConcat } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import Enum from '../codec/Enum';
+import { Enum } from '../codec/Enum';
 
 export default class MultiAddress extends Enum {
   constructor (registry: Registry, value?: unknown) {

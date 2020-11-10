@@ -3,7 +3,7 @@
   "version": "2.6.2-3",
   "description": "Type generation scripts",
   "main": "index.js",
-  "module": "esnext/index.js",
+  "module": "index.mjs",
   "sideEffects": false,
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
@@ -42,7 +42,7 @@
     "@polkadot/metadata": "2.6.2-3",
     "@polkadot/rpc-provider": "2.6.2-3",
     "@polkadot/types": "2.6.2-3",
-    "@polkadot/util": "^4.0.2-7",
+    "@polkadot/util": "^4.0.2-8",
     "handlebars": "^4.7.6",
     "websocket": "^1.0.32",
     "yargs": "^16.1.0"

@@ -76,7 +76,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 // FIXME This is a prime candidate to extend the JavaScript built-in Set
-export default class CodecSet extends Set<string> implements Codec {
+export class CodecSet extends Set<string> implements Codec {
   public readonly registry: Registry;
 
   readonly #allowed: SetValues;
