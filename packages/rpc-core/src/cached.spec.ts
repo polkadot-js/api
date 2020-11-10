@@ -3,7 +3,7 @@
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import MockProvider from '@polkadot/rpc-provider/mock';
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import { RpcCore } from '.';
 

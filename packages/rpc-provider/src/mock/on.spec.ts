@@ -3,7 +3,7 @@
 
 import { ProviderInterfaceEmitted } from '../types';
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import Mock from './';
 

@@ -5,7 +5,8 @@ import { SubmittableResult } from '@polkadot/api';
 import { EventRecord } from '@polkadot/types/interfaces';
 import { Codec, Registry, TypeDef } from '@polkadot/types/types';
 
-import { Raw, createTypeUnsafe } from '@polkadot/types';
+import { Raw } from '@polkadot/types';
+import { createTypeUnsafe } from '@polkadot/types/create';
 
 type ContractEvents = 'CodeStored' | 'ContractExecution' | 'Instantiated';
 

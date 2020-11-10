@@ -27,6 +27,3 @@ export { default as Int } from './Int';
 export { default as Raw } from './Raw';
 export { default as UInt } from './UInt';
 export { default as U8aFixed } from './U8aFixed';
-
-// Type management helper functions
-export * from './utils/encodeTypes';

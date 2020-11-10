@@ -4,7 +4,8 @@
 import { FunctionMetadataLatest, MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { AnyJson, Registry } from '@polkadot/types/types';
 
-import { Option, Text, Vec, u8 } from '@polkadot/types';
+import { Option, Vec } from '@polkadot/types/codec';
+import { Text, u8 } from '@polkadot/types/primitive';
 
 interface ModuleMetadataTrimmed {
   calls: Option<Vec<FunctionMetadataLatest>>;

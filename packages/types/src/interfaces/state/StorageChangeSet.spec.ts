@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import json from '../../json/StorageChangeSet.001.json';
 

@@ -6,7 +6,7 @@ import { ApiOptions, SubmittableExtrinsic } from '../types';
 import { createPair } from '@polkadot/keyring/pair';
 import { createTestKeyring } from '@polkadot/keyring/testing';
 import Mock from '@polkadot/rpc-provider/mock/index';
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 import { hexToU8a } from '@polkadot/util';
 
 import { SingleAccountSigner } from '../../test/util';
