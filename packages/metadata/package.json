@@ -3,7 +3,6 @@
   "version": "2.6.2-5",
   "description": "Helpers to extract information from runtime metadata",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "repository": "github:polkadot-js/api",
   "keywords": [

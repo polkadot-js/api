@@ -3,7 +3,6 @@
   "version": "2.6.2-5",
   "description": "Transport providers for the API",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "keywords": [
     "Polkadot",

@@ -3,7 +3,6 @@
   "version": "2.6.2-5",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "keywords": [
     "Polkadot",

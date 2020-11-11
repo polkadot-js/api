@@ -3,7 +3,6 @@
   "version": "2.6.2-5",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "keywords": [
     "Polkadot",

@@ -3,7 +3,6 @@
   "version": "2.6.2-5",
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "keywords": [
     "Polkadot",

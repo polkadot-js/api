@@ -3,7 +3,6 @@
   "version": "2.6.2-5",
   "description": "Type generation scripts",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",

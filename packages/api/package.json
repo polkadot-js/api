@@ -3,7 +3,6 @@
   "version": "2.6.2-5",
   "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "keywords": [
     "Polkadot",
