@@ -4,7 +4,7 @@
 import { CodecTo } from '../types';
 import { TypeRegistry } from '../create';
 import { Raw } from '../codec/Raw';
-import Text from './Text';
+import { Text } from '.';
 
 describe('Text', (): void => {
   const registry = new TypeRegistry();

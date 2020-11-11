@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
-import U32 from '../primitive/U32';
+import { u32 as U32 } from '../primitive';
 import { CodecDate } from './Date';
 import { Compact } from '.';
 

@@ -4,7 +4,7 @@
 import { CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
-import Bool from './Bool';
+import { bool as Bool } from '.';
 
 describe('Bool', (): void => {
   const registry = new TypeRegistry();

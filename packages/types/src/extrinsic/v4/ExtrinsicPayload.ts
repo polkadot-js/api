@@ -7,8 +7,8 @@ import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
 import { Compact } from '../../codec/Compact';
 import { Struct } from '../../codec/Struct';
-import Bytes from '../../primitive/Bytes';
-import u32 from '../../primitive/U32';
+import { Bytes } from '../../primitive/Bytes';
+import { u32 } from '../../primitive/U32';
 import { sign } from '../util';
 
 /**

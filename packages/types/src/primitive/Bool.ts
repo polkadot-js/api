@@ -18,16 +18,16 @@ function decodeBool (value: any): boolean {
 }
 
 /**
- * @name Bool
+ * @name bool
  * @description
  * Representation for a boolean value in the system. It extends the base JS `Boolean` class
  * @noInheritDoc
  */
-export default class Bool extends Boolean implements Codec {
+export class bool extends Boolean implements Codec {
   public readonly registry: Registry;
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor (registry: Registry, value: Bool | Boolean | Uint8Array | boolean | number = false) {
+  constructor (registry: Registry, value: bool | Boolean | Uint8Array | boolean | number = false) {
     super(decodeBool(value));
 
     this.registry = registry;

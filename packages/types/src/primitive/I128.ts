@@ -4,8 +4,8 @@
 import { Int } from '../codec/Int';
 
 /**
- * @name I128
+ * @name i128
  * @description
  * A 128-bit signed integer
  */
-export default class I128 extends Int.with(128) {}
+export class i128 extends Int.with(128) {}

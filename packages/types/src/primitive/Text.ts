@@ -47,7 +47,7 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
  */
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
-export default class Text extends String implements Codec {
+export class Text extends String implements Codec {
   public readonly registry: Registry;
 
   #override: string | null = null;

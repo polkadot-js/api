@@ -10,11 +10,10 @@ import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
 import { BN_ZERO, assert, assertReturn, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { Json } from '../codec/Json';
-import { Raw } from '../codec/Raw';
+import { Json, Raw } from '../codec';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
-import { EventData } from '../generic/Event';
-import DoNotConstruct from '../primitive/DoNotConstruct';
+import { EventData } from '../generic';
+import { DoNotConstruct } from '../primitive';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';

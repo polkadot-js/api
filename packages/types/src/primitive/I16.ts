@@ -4,8 +4,8 @@
 import { Int } from '../codec/Int';
 
 /**
- * @name I16
+ * @name i16
  * @description
  * A 16-bit signed integer
  */
-export default class I16 extends Int.with(16) {}
+export class i16 extends Int.with(16) {}

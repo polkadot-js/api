@@ -1961,12 +1961,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.53":
-  version: 0.3.53
-  resolution: "@polkadot/ts@npm:0.3.53"
+"@polkadot/ts@npm:^0.3.54":
+  version: 0.3.54
+  resolution: "@polkadot/ts@npm:0.3.54"
   dependencies:
     "@types/chrome": ^0.0.125
-  checksum: 9453f9e85668705567a482deddc7bbb160b2057c60b8ddf167a228aebd47bfbd8a1ff44ad5114a8f61c4626b199f98ce254a89c8e38699ef6a42820f6270a23b
+  checksum: 79ea0d489735acd214d2f81f4d159ddedd557efd1f39b6e6753fef6f5ec1fd77f63e2b8ddc4ae4adcf78601565c7b425eb2281af9e0bd26d55e5c051bcc39dcb
   languageName: node
   linkType: hard
 
@@ -9407,7 +9407,7 @@ fsevents@^1.2.7:
     "@babel/register": ^7.12.1
     "@babel/runtime": ^7.12.1
     "@polkadot/dev": ^0.60.1
-    "@polkadot/ts": ^0.3.53
+    "@polkadot/ts": ^0.3.54
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.15
     copyfiles: ^2.4.0

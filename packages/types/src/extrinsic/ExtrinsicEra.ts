@@ -9,7 +9,7 @@ import { assert, bnToBn, formatNumber, hexToU8a, isHex, isU8a, isObject, u8aToBn
 import { Enum } from '../codec/Enum';
 import { Tuple } from '../codec/Tuple';
 import { Raw } from '../codec/Raw';
-import U64 from '../primitive/U64';
+import { u64 as U64 } from '../primitive/U64';
 import { IMMORTAL_ERA } from './constants';
 
 type MortalEraValue = [U64, U64];

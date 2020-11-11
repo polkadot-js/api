@@ -6,7 +6,7 @@ import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types'
 
 import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
-import Null from '../primitive/Null';
+import { Null } from '../primitive/Null';
 import { typeToConstructor } from './utils';
 
 /** @internal */

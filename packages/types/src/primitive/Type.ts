@@ -4,7 +4,7 @@
 import { Registry } from '../types';
 
 import sanitize from '../create/sanitize';
-import Text from './Text';
+import { Text } from '.';
 
 /**
  * @name Type
@@ -13,7 +13,7 @@ import Text from './Text';
  * on what string provides us, however we also adjust the types received from the runtime,
  * i.e. we remove the `T::` prefixes found in some types for consistency across implementation.
  */
-export default class Type extends Text {
+export class Type extends Text {
   constructor (registry: Registry, value: Text | Uint8Array | string = '') {
     super(registry, value);
 

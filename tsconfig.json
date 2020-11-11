@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/@polkadot/dev/config/tsconfig.json",
+  "extends": "@polkadot/dev/config/tsconfig.json",
   "exclude": [
     "build/**/*",
     "**/build/**/*",

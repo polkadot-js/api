@@ -4,8 +4,8 @@
 import { UInt } from '../codec/UInt';
 
 /**
- * @name U64
+ * @name u64
  * @description
  * A 64-bit unsigned integer
  */
-export default class U64 extends UInt.with(64) {}
+export class u64 extends UInt.with(64) {}

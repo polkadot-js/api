@@ -4,8 +4,7 @@
 import { stringToU8a, u8aConcat } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
-import Text from './Text';
-import Type from './Type';
+import { Text, Type } from '.';
 
 describe('Type', (): void => {
   const registry = new TypeRegistry();

@@ -5,7 +5,7 @@ import { Metadata, storageFromMeta } from '@polkadot/metadata';
 import rpcDataV11 from '@polkadot/metadata/v11/static';
 
 import { TypeRegistry } from '../create';
-import StorageKey from './StorageKey';
+import { StorageKey } from '.';
 
 describe('StorageKey', (): void => {
   const registry = new TypeRegistry();

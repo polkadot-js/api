@@ -3,7 +3,7 @@
 
 import { Codec } from '../../types';
 import { TypeRegistry } from '../../create';
-import U32 from '../../primitive/U32';
+import { u32 as U32 } from '../../primitive';
 import { compareMap } from '.';
 
 describe('compareMap', (): void => {

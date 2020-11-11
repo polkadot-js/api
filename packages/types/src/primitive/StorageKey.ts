@@ -8,7 +8,7 @@ import { StorageEntry } from './types';
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import { AllHashers } from '@polkadot/types/interfaces/metadata/definitions';
-import Bytes from './Bytes';
+import { Bytes } from './Bytes';
 
 interface Decoded {
   key?: Uint8Array | string;
@@ -130,7 +130,7 @@ function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: Stora
  * A representation of a storage key (typically hashed) in the system. It can be
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
-export default class StorageKey extends Bytes {
+export class StorageKey extends Bytes {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
   private _args: Codec[];
