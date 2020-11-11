@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../../create';
-import ExtrinsicSignature from './ExtrinsicSignature';
+import { GenericExtrinsicSignatureV4 as ExtrinsicSignature } from '.';
 
 describe('ExtrinsicSignatureV4', (): void => {
   const registry = new TypeRegistry();

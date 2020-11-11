@@ -43,11 +43,11 @@ const _Payload = Struct.with({
 }) as unknown as Constructor<SignerPayloadType>;
 
 /**
- * @name SignerPayload
+ * @name GenericSignerPayload
  * @description
  * A generic signer payload that can be used for serialization between API and signer
  */
-export default class SignerPayload extends _Payload implements ISignerPayload {
+export class GenericSignerPayload extends _Payload implements ISignerPayload {
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */

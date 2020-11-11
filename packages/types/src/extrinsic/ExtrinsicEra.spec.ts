@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import ExtrinsicEra from './ExtrinsicEra';
+import { GenericExtrinsicEra as ExtrinsicEra } from '.';
 
 describe('ExtrinsicEra', (): void => {
   const registry = new TypeRegistry();

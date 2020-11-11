@@ -8,16 +8,16 @@ import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, 
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { Base } from '../codec/Base';
-import AccountIndex from '../generic/AccountIndex';
+import { GenericAccountIndex } from '../generic/AccountIndex';
 import { GenericEthereumAccountId } from './AccountId';
 
 // eslint-disable-next-line no-use-before-define
-type AnyAddress = BigInt | BN | GenericEthereumLookupSource | GenericEthereumAccountId | AccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = BigInt | BN | GenericEthereumLookupSource | GenericEthereumAccountId | GenericAccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: Registry, value: string): GenericEthereumAccountId | AccountIndex {
+function decodeString (registry: Registry, value: string): GenericEthereumAccountId | GenericAccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 20
@@ -26,7 +26,7 @@ function decodeString (registry: Registry, value: string): GenericEthereumAccoun
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccountId | AccountIndex {
+function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccountId | GenericAccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 20) {
@@ -35,7 +35,7 @@ function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccou
     return registry.createType('EthereumAccountId', value.subarray(1));
   }
 
-  const [offset, length] = AccountIndex.readLength(value);
+  const [offset, length] = GenericAccountIndex.readLength(value);
 
   return registry.createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
 }
@@ -48,16 +48,16 @@ function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccou
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | AccountIndex> {
+export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | GenericAccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
     super(registry, GenericEthereumLookupSource._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static _decodeAddress (registry: Registry, value: AnyAddress): GenericEthereumAccountId | AccountIndex {
+  private static _decodeAddress (registry: Registry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
     return value instanceof GenericEthereumLookupSource
       ? value._raw
-      : value instanceof GenericEthereumAccountId || value instanceof AccountIndex
+      : value instanceof GenericEthereumAccountId || value instanceof GenericAccountIndex
         ? value
         : isBn(value) || isNumber(value) || isBigInt(value)
           ? registry.createType('AccountIndex', value)
@@ -84,8 +84,8 @@ export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId |
    * @description The length of the raw value, either AccountIndex or AccountId
    */
   protected get _rawLength (): number {
-    return this._raw instanceof AccountIndex
-      ? AccountIndex.calcLength(this._raw)
+    return this._raw instanceof GenericAccountIndex
+      ? GenericAccountIndex.calcLength(this._raw)
       : this._raw.encodedLength;
   }
 
@@ -113,8 +113,8 @@ export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId |
     return isBare
       ? encoded
       : u8aConcat(
-        this._raw instanceof AccountIndex
-          ? AccountIndex.writeLength(encoded)
+        this._raw instanceof GenericAccountIndex
+          ? GenericAccountIndex.writeLength(encoded)
           : ACCOUNT_ID_PREFIX,
         encoded
       );

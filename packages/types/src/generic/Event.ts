@@ -63,16 +63,16 @@ export class EventData extends Tuple {
 }
 
 /**
- * @name Event
+ * @name GenericEvent
  * @description
  * A representation of a system event. These are generated via the [[Metadata]] interfaces and
  * specific to a specific Substrate runtime
  */
-export default class Event extends Struct {
+export class GenericEvent extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
   constructor (registry: Registry, _value?: Uint8Array) {
-    const { DataType, value } = Event.decodeEvent(registry, _value);
+    const { DataType, value } = GenericEvent.decodeEvent(registry, _value);
 
     super(registry, {
       index: 'EventId',

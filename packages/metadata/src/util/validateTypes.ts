@@ -5,13 +5,13 @@ import { Registry } from '@polkadot/types/types';
 
 import { logger } from '@polkadot/util';
 
-import extractTypes from './extractTypes';
-import flattenUniq from './flattenUniq';
+import { extractTypes } from './extractTypes';
+import { flattenUniq } from './flattenUniq';
 
 const l = logger('metadata');
 
 /** @internal */
-export default function validateTypes (registry: Registry, types: string[], throwError: boolean): void {
+export function validateTypes (registry: Registry, types: string[], throwError: boolean): void {
   const missing = flattenUniq(extractTypes(types)).filter((type) => !registry.hasType(type));
 
   if (missing.length !== 0) {

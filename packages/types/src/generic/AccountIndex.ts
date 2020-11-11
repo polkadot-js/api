@@ -22,7 +22,7 @@ const MAX_4BYTE = new BN(1).shln(32);
 /** @internal */
 function decodeAccountIndex (value: AnyNumber): BN | BigInt | Uint8Array | number | string {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  if (value instanceof AccountIndex) {
+  if (value instanceof GenericAccountIndex) {
     // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
     // AccountIndex), which has the initial `toString()` implementation.
     return value.toBn();
@@ -34,12 +34,12 @@ function decodeAccountIndex (value: AnyNumber): BN | BigInt | Uint8Array | numbe
 }
 
 /**
- * @name AccountIndex
+ * @name GenericAccountIndex
  * @description
  * A wrapper around an AccountIndex, which is a shortened, variable-length encoding
  * for an Account. We extends from [[U32]] to provide the number-like properties.
  */
-export default class AccountIndex extends U32 {
+export class GenericAccountIndex extends U32 {
   constructor (registry: Registry, value: AnyNumber = new BN(0)) {
     super(registry, decodeAccountIndex(value));
   }
@@ -112,7 +112,7 @@ export default class AccountIndex extends U32 {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    const length = AccountIndex.calcLength(this);
+    const length = GenericAccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length), this.registry.chainSS58);
   }

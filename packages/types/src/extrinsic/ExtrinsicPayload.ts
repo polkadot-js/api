@@ -11,7 +11,7 @@ import { Base } from '../codec/Base';
 import { Compact } from '../codec/Compact';
 import { Raw } from '../codec/Raw';
 import u32 from '../primitive/U32';
-import ExtrinsicEra from './ExtrinsicEra';
+import { GenericExtrinsicEra } from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
 
 interface ExtrinsicPayloadOptions {
@@ -35,14 +35,14 @@ const VERSIONS: (keyof InterfaceTypes)[] = [
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
+export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   constructor (registry: Registry, value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
-    super(registry, ExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
+    super(registry, GenericExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
   /** @internal */
-  public static decodeExtrinsicPayload (registry: Registry, value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
-    if (value instanceof ExtrinsicPayload) {
+  public static decodeExtrinsicPayload (registry: Registry, value: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+    if (value instanceof GenericExtrinsicPayload) {
       return value._raw;
     }
 
@@ -59,7 +59,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description The [[ExtrinsicEra]]
    */
-  public get era (): ExtrinsicEra {
+  public get era (): GenericExtrinsicEra {
     return this._raw.era;
   }
 

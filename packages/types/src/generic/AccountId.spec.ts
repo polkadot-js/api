@@ -6,7 +6,7 @@
 import { TypeRegistry } from '../create';
 import { Raw } from '../codec/Raw';
 import jsonVec from '../json/AccountIdVec.001.json';
-import AccountId from './AccountId';
+import { GenericAccountId as AccountId } from '.';
 
 describe('AccountId', (): void => {
   const registry = new TypeRegistry();

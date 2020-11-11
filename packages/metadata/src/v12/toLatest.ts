@@ -137,7 +137,7 @@ function createModule (registry: Registry, mod: ModuleMetadataV12, { calls, even
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
  * @internal
  **/
-export default function toLatest (registry: Registry, { extrinsic, modules }: MetadataV12): MetadataLatest {
+export function toLatest (registry: Registry, { extrinsic, modules }: MetadataV12): MetadataLatest {
   registerOriginCaller(registry, modules);
 
   return registry.createType('MetadataLatest', {

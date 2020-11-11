@@ -13,7 +13,7 @@ import { U8aFixed } from '../codec/U8aFixed';
 interface DecodeMethodInput {
   args: unknown;
   // eslint-disable-next-line no-use-before-define
-  callIndex: CallIndex | Uint8Array;
+  callIndex: GenericCallIndex | Uint8Array;
 }
 
 interface DecodedMethod extends DecodeMethodInput {
@@ -30,7 +30,7 @@ interface DecodedMethod extends DecodeMethodInput {
  */
 function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
+  return GenericCall.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
     const Type = getTypeClass(registry, getTypeDef(type));
 
     result[name.toString()] = Type;
@@ -46,7 +46,7 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 
   // Get the correct lookupIndex
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const lookupIndex = callIndex instanceof CallIndex
+  const lookupIndex = callIndex instanceof GenericCallIndex
     ? callIndex.toU8a()
     : callIndex;
 
@@ -101,22 +101,22 @@ function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8A
 }
 
 /**
- * @name CallIndex
+ * @name GenericCallIndex
  * @description
  * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
  */
-export class CallIndex extends U8aFixed {
+export class GenericCallIndex extends U8aFixed {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, value, 16);
   }
 }
 
 /**
- * @name Call
+ * @name GenericCall
  * @description
  * Extrinsic function descriptor
  */
-export default class Call extends Struct implements IMethod {
+export class GenericCall extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
@@ -124,7 +124,7 @@ export default class Call extends Struct implements IMethod {
 
     try {
       super(registry, {
-        callIndex: CallIndex,
+        callIndex: GenericCallIndex,
         // eslint-disable-next-line sort-keys
         args: Struct.with(decoded.argsDef)
       }, decoded);
@@ -174,7 +174,7 @@ export default class Call extends Struct implements IMethod {
    * @description The encoded `[sectionIndex, methodIndex]` identifier
    */
   public get callIndex (): Uint8Array {
-    return (this.get('callIndex') as CallIndex).toU8a();
+    return (this.get('callIndex') as GenericCallIndex).toU8a();
   }
 
   /**

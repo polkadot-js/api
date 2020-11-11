@@ -3,14 +3,14 @@
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import Mock from './';
+import { MockProvider } from '.';
 
 describe('send', (): void => {
   const registry = new TypeRegistry();
-  let mock: Mock;
+  let mock: MockProvider;
 
   beforeEach((): void => {
-    mock = new Mock(registry);
+    mock = new MockProvider(registry);
   });
 
   it('fails on non-supported methods', (): Promise<any> => {

@@ -8,16 +8,16 @@ import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, 
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { Base } from '../codec/Base';
-import AccountId from './AccountId';
-import AccountIndex from './AccountIndex';
+import { GenericAccountId } from './AccountId';
+import { GenericAccountIndex } from './AccountIndex';
 
 // eslint-disable-next-line no-use-before-define
-type AnyAddress = BigInt | BN | LookupSource | AccountId | AccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = BigInt | BN | GenericLookupSource | GenericAccountId | GenericAccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: Registry, value: string): AccountId | AccountIndex {
+function decodeString (registry: Registry, value: string): GenericAccountId | GenericAccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 32
@@ -26,7 +26,7 @@ function decodeString (registry: Registry, value: string): AccountId | AccountIn
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountIndex {
+function decodeU8a (registry: Registry, value: Uint8Array): GenericAccountId | GenericAccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 32) {
@@ -35,7 +35,7 @@ function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountI
     return registry.createType('AccountId', value.subarray(1));
   }
 
-  const [offset, length] = AccountIndex.readLength(value);
+  const [offset, length] = GenericAccountIndex.readLength(value);
 
   return registry.createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
 }
@@ -48,16 +48,16 @@ function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountI
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export default class LookupSource extends Base<AccountId | AccountIndex> {
+export class GenericLookupSource extends Base<GenericAccountId | GenericAccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
-    super(registry, LookupSource._decodeAddress(registry, value));
+    super(registry, GenericLookupSource._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static _decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
-    return value instanceof LookupSource
+  private static _decodeAddress (registry: Registry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
+    return value instanceof GenericLookupSource
       ? value._raw
-      : value instanceof AccountId || value instanceof AccountIndex
+      : value instanceof GenericAccountId || value instanceof GenericAccountIndex
         ? value
         : isBn(value) || isNumber(value) || isBigInt(value)
           ? registry.createType('AccountIndex', value)
@@ -84,8 +84,8 @@ export default class LookupSource extends Base<AccountId | AccountIndex> {
    * @description The length of the raw value, either AccountIndex or AccountId
    */
   protected get _rawLength (): number {
-    return this._raw instanceof AccountIndex
-      ? AccountIndex.calcLength(this._raw)
+    return this._raw instanceof GenericAccountIndex
+      ? GenericAccountIndex.calcLength(this._raw)
       : this._raw.encodedLength;
   }
 
@@ -113,8 +113,8 @@ export default class LookupSource extends Base<AccountId | AccountIndex> {
     return isBare
       ? encoded
       : u8aConcat(
-        this._raw instanceof AccountIndex
-          ? AccountIndex.writeLength(encoded)
+        this._raw instanceof GenericAccountIndex
+          ? GenericAccountIndex.writeLength(encoded)
           : ACCOUNT_ID_PREFIX,
         encoded
       );

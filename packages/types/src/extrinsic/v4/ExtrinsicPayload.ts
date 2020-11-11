@@ -17,7 +17,7 @@ import { sign } from '../util';
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class ExtrinsicPayloadV4 extends Struct {
+export class GenericExtrinsicPayloadV4 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(registry, {
       method: 'Bytes',

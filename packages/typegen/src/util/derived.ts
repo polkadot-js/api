@@ -8,9 +8,8 @@ import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
 import { Compact, Enum, Option, Struct, UInt, Vec, Tuple } from '@polkadot/types/codec';
 import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
-import { GenericAccountId, GenericLookupSource } from '@polkadot/types/generic';
-import Vote from '@polkadot/types/generic/Vote';
-import Null from '@polkadot/types/primitive/Null';
+import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
+import { Null } from '@polkadot/types/primitive';
 import * as primitiveClasses from '@polkadot/types/primitive';
 import { isChildClass } from '@polkadot/util';
 
@@ -130,7 +129,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
   } else if (isChildClass(Option, Clazz)) {
     // TODO inspect container
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
-  } else if (isChildClass(Vote, Clazz)) {
+  } else if (isChildClass(GenericVote, Clazz)) {
     possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');

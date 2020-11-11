@@ -3,13 +3,13 @@
 
 import { ExtDef } from './types';
 
-import EmptyCheck from './emptyCheck';
+import { emptyCheck } from './emptyCheck';
 
 export default {
-  LimitParathreadCommits: EmptyCheck,
-  OnlyStakingAndClaims: EmptyCheck,
-  PrevalidateAttests: EmptyCheck,
-  RestrictFunctionality: EmptyCheck,
-  TransactionCallFilter: EmptyCheck,
-  ValidateDoubleVoteReports: EmptyCheck
+  LimitParathreadCommits: emptyCheck,
+  OnlyStakingAndClaims: emptyCheck,
+  PrevalidateAttests: emptyCheck,
+  RestrictFunctionality: emptyCheck,
+  TransactionCallFilter: emptyCheck,
+  ValidateDoubleVoteReports: emptyCheck
 } as ExtDef;

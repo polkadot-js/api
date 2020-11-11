@@ -11,28 +11,28 @@ import { u8aConcat } from '@polkadot/util';
 import { Compact } from '../../codec/Compact';
 import { Struct } from '../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
-import ExtrinsicPayloadV4 from './ExtrinsicPayload';
+import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 
 /**
  * @name GenericExtrinsicSignatureV4
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
-export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
-  constructor (registry: Registry, value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
+  constructor (registry: Registry, value: GenericExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super(registry, {
       signer: 'Address',
       // eslint-disable-next-line sort-keys
       signature: 'MultiSignature',
       ...registry.getSignedExtensionTypes()
-    }, ExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
+    }, GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
   }
 
   /** @internal */
-  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV4 | Uint8Array | undefined, isSigned = false): ExtrinsicSignatureV4 | Uint8Array {
+  public static decodeExtrinsicSignature (value: GenericExtrinsicSignatureV4 | Uint8Array | undefined, isSigned = false): GenericExtrinsicSignatureV4 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
-    } else if (value instanceof ExtrinsicSignatureV4) {
+    } else if (value instanceof GenericExtrinsicSignatureV4) {
       return value;
     }
 
@@ -99,7 +99,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
     return this.get('tip') as Compact<Balance>;
   }
 
-  protected _injectSignature (signer: Address, signature: MultiSignature, { era, nonce, tip }: ExtrinsicPayloadV4): IExtrinsicSignature {
+  protected _injectSignature (signer: Address, signature: MultiSignature, { era, nonce, tip }: GenericExtrinsicPayloadV4): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
@@ -116,15 +116,15 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
     return this._injectSignature(
       this.registry.createType('Address', signer),
       this.registry.createType('MultiSignature', signature),
-      new ExtrinsicPayloadV4(this.registry, payload)
+      new GenericExtrinsicPayloadV4(this.registry, payload)
     );
   }
 
   /**
    * @description Creates a payload from the supplied options
    */
-  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): ExtrinsicPayloadV4 {
-    return new ExtrinsicPayloadV4(this.registry, {
+  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): GenericExtrinsicPayloadV4 {
+    return new GenericExtrinsicPayloadV4(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,

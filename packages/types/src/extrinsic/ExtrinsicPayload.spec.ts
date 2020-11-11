@@ -4,7 +4,7 @@
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
-import ExtrinsicPayload from './ExtrinsicPayload';
+import { GenericExtrinsicPayload as ExtrinsicPayload } from '.';
 
 describe('ExtrinsicPayload', (): void => {
   const registry = new TypeRegistry();

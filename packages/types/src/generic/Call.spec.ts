@@ -5,7 +5,7 @@ import { Metadata } from '@polkadot/metadata';
 import metadataStatic from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
-import Call from './Call';
+import { GenericCall as Call } from '.';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, metadataStatic);

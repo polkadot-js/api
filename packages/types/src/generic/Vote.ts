@@ -60,11 +60,11 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
 }
 
 /**
- * @name Vote
+ * @name GenericVote
  * @description
  * A number of lock periods, plus a vote, one way or the other.
  */
-export default class Vote extends U8aFixed {
+export class GenericVote extends U8aFixed {
   private _aye: boolean;
 
   private _conviction: Conviction;

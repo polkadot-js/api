@@ -5,7 +5,7 @@ import { ApiOptions, SubmittableExtrinsic } from '../types';
 
 import { createPair } from '@polkadot/keyring/pair';
 import { createTestKeyring } from '@polkadot/keyring/testing';
-import Mock from '@polkadot/rpc-provider/mock/index';
+import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 import { hexToU8a } from '@polkadot/util';
 
@@ -24,7 +24,7 @@ describe('ApiPromise', (): void => {
       secretKey: hexToU8a('0xabf8e5bdbe30c65656c0a3cbd181ff8a56294a69dfedd27982aace4a7690911588dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee')
     })
   );
-  let provider: Mock;
+  let provider: MockProvider;
 
   async function createTransfer (): Promise<{ api: ApiPromise; transfer: SubmittableExtrinsic<'promise'> }> {
     provider.subscriptions.state_subscribeStorage.lastValue = {
@@ -45,7 +45,7 @@ describe('ApiPromise', (): void => {
 
   beforeEach((): void => {
     jest.setTimeout(3000000);
-    provider = new Mock(registry);
+    provider = new MockProvider(registry);
   });
 
   describe('initialization', (): void => {

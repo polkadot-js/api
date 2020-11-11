@@ -6,7 +6,7 @@ import { MetadataInterface } from '../types';
 
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
-import getUniqTypes from './getUniqTypes';
+import { getUniqTypes } from './getUniqTypes';
 import { Metadata } from '../Metadata';
 
 /** @internal */

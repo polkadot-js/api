@@ -3,7 +3,7 @@
 
 import { ExtDef } from './types';
 
-import EmptyCheck from './emptyCheck';
+import { emptyCheck } from './emptyCheck';
 
 const CheckMortality = {
   extra: {
@@ -21,7 +21,7 @@ export default {
       tip: 'Compact<Balance>'
     }
   },
-  CheckBlockGasLimit: EmptyCheck,
+  CheckBlockGasLimit: emptyCheck,
   CheckEra: CheckMortality,
   CheckGenesis: {
     extra: {
@@ -54,7 +54,7 @@ export default {
     },
     types: {}
   },
-  CheckWeight: EmptyCheck,
-  LockStakingStatus: EmptyCheck,
-  ValidateEquivocationReport: EmptyCheck
+  CheckWeight: emptyCheck,
+  LockStakingStatus: emptyCheck,
+  ValidateEquivocationReport: emptyCheck
 } as ExtDef;

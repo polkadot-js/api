@@ -6,8 +6,8 @@ import { Codec, Registry } from '@polkadot/types/types';
 import { Option, Vec } from '@polkadot/types/codec';
 import { Text, Type } from '@polkadot/types/primitive';
 
-import flattenUniq from './flattenUniq';
-import validateTypes from './validateTypes';
+import { flattenUniq } from './flattenUniq';
+import { validateTypes } from './validateTypes';
 
 type Arg = { type: Type } & Codec;
 
@@ -167,7 +167,7 @@ function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
 }
 
 /** @internal */
-export default function getUniqTypes (registry: Registry, meta: ExtractionMetadata, throwError: boolean): string[] {
+export function getUniqTypes (registry: Registry, meta: ExtractionMetadata, throwError: boolean): string[] {
   const types = flattenUniq([
     getCallNames(meta),
     getConstantNames(meta),
