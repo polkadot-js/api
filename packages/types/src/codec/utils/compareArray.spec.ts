@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../../create';
-import { u32 as U32 } from '../../primitive';
+import { U32 } from '../../primitive';
 import { compareArray } from '.';
 
 describe('compareArray', (): void => {

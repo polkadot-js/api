@@ -6,7 +6,7 @@ import { CodecTo } from '../types';
 import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
-import { u64 as U64 } from '../primitive';
+import { U64 } from '../primitive';
 import { CodecDate } from './Date';
 
 describe('Date', (): void => {

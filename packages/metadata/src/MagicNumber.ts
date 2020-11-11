@@ -5,7 +5,7 @@ import { AnyNumber, Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 
-import { u32 as U32 } from '@polkadot/types/primitive';
+import { U32 } from '@polkadot/types/primitive';
 
 export const MAGIC_NUMBER = 0x6174656d; // `meta`, reversed for Little Endian encoding
 

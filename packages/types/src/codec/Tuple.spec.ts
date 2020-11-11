@@ -9,7 +9,7 @@ import { Metadata } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
-import { Text, u32 as U32, u128 as U128 } from '../primitive';
+import { Text, U32, u128 as U128 } from '../primitive';
 import { Tuple } from '.';
 
 describe('Tuple', (): void => {

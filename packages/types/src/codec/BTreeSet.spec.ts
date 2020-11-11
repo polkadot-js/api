@@ -4,7 +4,7 @@
 import { CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
-import { Text, u32 as U32 } from '../primitive';
+import { Text, U32 } from '../primitive';
 
 import { BTreeSet, Struct } from '.';
 

@@ -9,7 +9,7 @@ import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
 import { Struct } from '../codec';
-import { DoNotConstruct, Text, u32 as U32 } from '../primitive';
+import { DoNotConstruct, Text, U32 } from '../primitive';
 import { TypeRegistry } from '.';
 
 describe('TypeRegistry', (): void => {

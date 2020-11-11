@@ -6,7 +6,7 @@ import { Registry } from '../types';
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
-import { Null, Text, u32 as U32 } from '../primitive';
+import { Null, Text, U32 } from '../primitive';
 import { Enum } from '.';
 
 describe('Enum', (): void => {

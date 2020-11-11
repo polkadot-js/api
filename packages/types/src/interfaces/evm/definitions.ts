@@ -10,8 +10,8 @@ export default {
   rpc: {},
   types: {
     Account: {
-      nonce: 'U256',
-      balance: 'U256'
+      nonce: 'u256',
+      balance: 'u256'
     },
     Log: {
       address: 'H160',
@@ -19,7 +19,7 @@ export default {
       data: 'Bytes'
     },
     Vicinity: {
-      gasPrice: 'U256',
+      gasPrice: 'u256',
       origin: 'H160'
     }
   }
