@@ -7,7 +7,7 @@ import { Registry } from '../types';
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Enum } from '../codec/Enum';
-import Bytes from './Bytes';
+import { Bytes } from './Bytes';
 
 /** @internal */
 function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {
@@ -45,7 +45,7 @@ function decodeData (registry: Registry, value?: Record<string, any> | Uint8Arra
  * @description
  * A [[Data]] container with node, raw or hashed data
  */
-export default class Data extends Enum {
+export class Data extends Enum {
   constructor (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string) {
     super(registry, {
       None: 'Null', // 0

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import DoNotConstruct from './DoNotConstruct';
+import { DoNotConstruct } from '.';
 
 describe('DoNotConstruct', (): void => {
   const registry = new TypeRegistry();

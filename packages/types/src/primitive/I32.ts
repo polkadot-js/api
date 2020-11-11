@@ -4,8 +4,8 @@
 import { Int } from '../codec/Int';
 
 /**
- * @name I32
+ * @name i32
  * @description
  * A 32-bit signed integer
  */
-export default class I32 extends Int.with(32) {}
+export class i32 extends Int.with(32) {}

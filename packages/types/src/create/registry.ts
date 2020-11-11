@@ -10,11 +10,10 @@ import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
 import { BN_ZERO, assert, assertReturn, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { Json } from '../codec/Json';
-import { Raw } from '../codec/Raw';
+import { Json, Raw } from '../codec';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
-import { EventData } from '../generic/Event';
-import DoNotConstruct from '../primitive/DoNotConstruct';
+import { GenericEventData } from '../generic';
+import { DoNotConstruct } from '../primitive';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';
@@ -47,7 +46,7 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
 }
 
 // create event classes from metadata
-function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
+function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
   const modules = metadata.asLatest.modules;
   const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
@@ -73,9 +72,9 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
           l.error(error);
         }
 
-        metadataEvents[u8aToHex(eventIndex)] = class extends EventData {
+        metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
-            super(registry, Types, value, typeDef, meta, sectionName, methodName);
+            super(registry, value, Types, typeDef, meta, sectionName, methodName);
           }
         };
       });
@@ -103,7 +102,7 @@ export class TypeRegistry implements Registry {
 
   readonly #metadataErrors: Record<string, RegistryError> = {};
 
-  readonly #metadataEvents: Record<string, Constructor<EventData>> = {};
+  readonly #metadataEvents: Record<string, Constructor<GenericEventData>> = {};
 
   #unknownTypes = new Map<string, boolean>();
 
@@ -209,7 +208,7 @@ export class TypeRegistry implements Registry {
     return assertReturn(this.#metadataErrors[hexIndex], `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex.toString()}]`);
   }
 
-  public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
+  public findMetaEvent (eventIndex: Uint8Array): Constructor<GenericEventData> {
     const hexIndex = u8aToHex(eventIndex);
 
     return assertReturn(this.#metadataEvents[hexIndex], `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);

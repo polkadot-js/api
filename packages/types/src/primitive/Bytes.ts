@@ -46,7 +46,7 @@ function decodeBytes (value?: AnyU8a): Uint8Array | undefined {
  * is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
  * as what is found in [[Text]] and [[Vec]])
  */
-export default class Bytes extends Raw {
+export class Bytes extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, decodeBytes(value));
   }

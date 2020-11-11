@@ -4,8 +4,8 @@
 import { Int } from '../codec/Int';
 
 /**
- * @name I64
+ * @name i64
  * @description
  * A 64-bit signed integer
  */
-export default class I64 extends Int.with(64) {}
+export class i64 extends Int.with(64) {}

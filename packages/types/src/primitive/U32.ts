@@ -4,8 +4,8 @@
 import { UInt } from '../codec/UInt';
 
 /**
- * @name U32
+ * @name u32
  * @description
  * A 32-bit unsigned integer
  */
-export default class U32 extends UInt.with(32) {}
+export class u32 extends UInt.with(32) {}

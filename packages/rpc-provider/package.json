@@ -3,7 +3,6 @@
   "version": "2.6.2-6",
   "description": "Transport providers for the API",
   "main": "index.js",
-  "module": "esm/index.js",
   "sideEffects": false,
   "keywords": [
     "Polkadot",
@@ -19,15 +18,15 @@
   "dependencies": {
     "@babel/runtime": "^7.12.1",
     "@polkadot/types": "2.6.2-6",
-    "@polkadot/util": "^4.0.2-11",
-    "@polkadot/util-crypto": "^4.0.2-11",
-    "@polkadot/x-fetch": "^4.0.2-11",
-    "@polkadot/x-ws": "^4.0.2-11",
+    "@polkadot/util": "^4.0.2-12",
+    "@polkadot/util-crypto": "^4.0.2-12",
+    "@polkadot/x-fetch": "^4.0.2-12",
+    "@polkadot/x-ws": "^4.0.2-12",
     "bn.js": "^5.1.3",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.0.2-11",
+    "@polkadot/keyring": "^4.0.2-12",
     "@polkadot/metadata": "2.6.2-6",
     "mock-socket": "^9.0.3",
     "nock": "^13.0.4"

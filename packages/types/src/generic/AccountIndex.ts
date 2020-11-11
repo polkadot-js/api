@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import { bnToBn, isBn, isBigInt, isNumber, isU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import U32 from '../primitive/U32';
+import { u32 } from '../primitive/U32';
 
 export const ENUMSET_SIZE = new BN(64);
 
@@ -39,7 +39,7 @@ function decodeAccountIndex (value: AnyNumber): BN | BigInt | Uint8Array | numbe
  * A wrapper around an AccountIndex, which is a shortened, variable-length encoding
  * for an Account. We extends from [[U32]] to provide the number-like properties.
  */
-export class GenericAccountIndex extends U32 {
+export class GenericAccountIndex extends u32 {
   constructor (registry: Registry, value: AnyNumber = new BN(0)) {
     super(registry, decodeAccountIndex(value));
   }

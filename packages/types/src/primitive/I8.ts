@@ -4,8 +4,8 @@
 import { Int } from '../codec/Int';
 
 /**
- * @name I8
+ * @name i8
  * @description
  * An 8-bit signed integer
  */
-export default class I8 extends Int.with(8) {}
+export class i8 extends Int.with(8) {}

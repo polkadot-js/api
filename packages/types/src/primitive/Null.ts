@@ -11,7 +11,7 @@ import { isNull } from '@polkadot/util';
  * @description
  * Implements a type that does not contain anything (apart from `null`)
  */
-export default class Null implements Codec {
+export class Null implements Codec {
   public readonly registry: Registry;
 
   constructor (registry: Registry) {

@@ -3,14 +3,14 @@
 
 import { Constructor, Registry } from '../types';
 
-import Null from './Null';
+import { Null } from './Null';
 
 /**
  * @name DoNotConstruct
  * @description
  * An unknown type that fails on construction with the type info
  */
-export default class DoNotConstruct extends Null {
+export class DoNotConstruct extends Null {
   constructor (registry: Registry, typeName = 'DoNotConstruct') {
     super(registry);
 

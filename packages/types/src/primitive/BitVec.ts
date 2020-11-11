@@ -37,7 +37,7 @@ function decodeBitVec (value?: AnyU8a): Uint8Array | undefined {
  * A BitVec that represents an array of bits. The bits are however stored encoded. The difference between this
  * and a normal Bytes would be that the length prefix indicates the number of bits encoded, not the bytes
  */
-export default class BitVec extends Raw {
+export class BitVec extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, decodeBitVec(value));
   }

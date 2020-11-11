@@ -4,8 +4,8 @@
 import { UInt } from '../codec/UInt';
 
 /**
- * @name U128
+ * @name u128
  * @description
  * A 128-bit unsigned integer
  */
-export default class U128 extends UInt.with(128) {}
+export class u128 extends UInt.with(128) {}

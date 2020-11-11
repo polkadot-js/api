@@ -6,7 +6,7 @@ import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types'
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Null from '../primitive/Null';
+import { Null } from '../primitive/Null';
 import { mapToTypeMap } from './utils';
 import { Struct } from './Struct';
 

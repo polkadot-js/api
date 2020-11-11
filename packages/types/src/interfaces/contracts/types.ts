@@ -159,8 +159,70 @@ export interface HostFnWeights extends Struct {
 
 /** @name InstructionWeights */
 export interface InstructionWeights extends Struct {
-  readonly growMem: Weight;
-  readonly regular: Weight;
+  readonly i64const: u32;
+  readonly i64load: u32;
+  readonly i64store: u32;
+  readonly select: u32;
+  readonly rIf: u32;
+  readonly br: u32;
+  readonly brIf: u32;
+  readonly brIable: u32;
+  readonly brIablePerEntry: u32;
+  readonly call: u32;
+  readonly callIndirect: u32;
+  readonly callIndirectPerParam: u32;
+  readonly localGet: u32;
+  readonly localSet: u32;
+  readonly local_tee: u32;
+  readonly globalGet: u32;
+  readonly globalSet: u32;
+  readonly memoryCurrent: u32;
+  readonly memoryGrow: u32;
+  readonly i64clz: u32;
+  readonly i64ctz: u32;
+  readonly i64popcnt: u32;
+  readonly i64eqz: u32;
+  readonly i64extendsi32: u32;
+  readonly i64extendui32: u32;
+  readonly i32wrapi64: u32;
+  readonly i64eq: u32;
+  readonly i64ne: u32;
+  readonly i64lts: u32;
+  readonly i64ltu: u32;
+  readonly i64gts: u32;
+  readonly i64gtu: u32;
+  readonly i64les: u32;
+  readonly i64leu: u32;
+  readonly i64ges: u32;
+  readonly i64geu: u32;
+  readonly i64add: u32;
+  readonly i64sub: u32;
+  readonly i64mul: u32;
+  readonly i64divs: u32;
+  readonly i64divu: u32;
+  readonly i64rems: u32;
+  readonly i64remu: u32;
+  readonly i64and: u32;
+  readonly i64or: u32;
+  readonly i64xor: u32;
+  readonly i64shl: u32;
+  readonly i64shrs: u32;
+  readonly i64shru: u32;
+  readonly i64rotl: u32;
+  readonly i64rotr: u32;
+}
+
+/** @name Limits */
+export interface Limits extends Struct {
+  readonly eventTopics: u32;
+  readonly stackHeight: u32;
+  readonly globals: u32;
+  readonly parameters: u32;
+  readonly memoryPages: u32;
+  readonly tableSize: u32;
+  readonly brTableSize: u32;
+  readonly subjectLen: u32;
+  readonly codeSize: u32;
 }
 
 /** @name PrefabWasmModule */
@@ -178,15 +240,10 @@ export interface PrefabWasmModuleReserved extends Option<Null> {}
 /** @name Schedule */
 export interface Schedule extends Struct {
   readonly version: u32;
+  readonly enablePrintln: bool;
+  readonly limits: Limits;
   readonly instructionWeights: InstructionWeights;
   readonly hostFnWeights: HostFnWeights;
-  readonly enablePrintln: bool;
-  readonly maxEventTopics: u32;
-  readonly maxStackHeight: u32;
-  readonly maxMemoryPages: u32;
-  readonly maxTableSize: u32;
-  readonly maxSubjectLen: u32;
-  readonly maxCodeSize: u32;
 }
 
 /** @name ScheduleTo212 */
