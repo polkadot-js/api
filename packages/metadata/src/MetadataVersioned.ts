@@ -8,10 +8,10 @@ import { Struct } from '@polkadot/types/codec';
 import { assert } from '@polkadot/util';
 
 import { MagicNumber } from './MagicNumber';
-import { toV10 as v9ToV10 } from './v9/toV10';
-import { toV11 as v10ToV11 } from './v10/toV11';
-import { toV12 as v11ToV12 } from './v11/toV12';
-import { toLatest as v12ToLatest } from './v12/toLatest';
+import { toV10 } from './v9/toV10';
+import { toV11 } from './v10/toV11';
+import { toV12 } from './v11/toV12';
+import { toLatest } from './v12/toLatest';
 import { getUniqTypes, toCallsOnly } from './util';
 
 type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12;
@@ -77,21 +77,21 @@ export class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a V10 object
    */
   public get asV10 (): MetadataV10 {
-    return this._getVersion(10, v9ToV10);
+    return this._getVersion(10, toV10);
   }
 
   /**
    * @description Returns the wrapped values as a V10 object
    */
   public get asV11 (): MetadataV11 {
-    return this._getVersion(11, v10ToV11);
+    return this._getVersion(11, toV11);
   }
 
   /**
    * @description Returns the wrapped values as a V10 object
    */
   public get asV12 (): MetadataV11 {
-    return this._getVersion(12, v11ToV12);
+    return this._getVersion(12, toV12);
   }
 
   /**
@@ -99,7 +99,7 @@ export class MetadataVersioned extends Struct {
    */
   public get asLatest (): MetadataLatest {
     // This is non-existent & latest - applied here to do the module-specific type conversions
-    return this._getVersion(13, v12ToLatest);
+    return this._getVersion(13, toLatest);
   }
 
   /**
