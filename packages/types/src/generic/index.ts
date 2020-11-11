@@ -8,7 +8,7 @@ export { GenericAccountIndex } from './AccountIndex';
 export { GenericBlock } from './Block';
 export { GenericCall } from './Call';
 export { GenericConsensusEngineId } from './ConsensusEngineId';
-export { GenericEvent, EventData } from './Event';
+export { GenericEvent, GenericEventData } from './Event';
 export { GenericLookupSource } from './LookupSource';
 export { GenericMultiAddress } from './MultiAddress';
 export { GenericVote } from './Vote';

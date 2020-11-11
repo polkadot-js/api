@@ -11,11 +11,11 @@ import { Tuple } from '../codec/Tuple';
 import { Null } from '../primitive/Null';
 
 /**
- * @name EventData
+ * @name GenericEventData
  * @description
  * Wrapper for the actual data that forms part of an [[Event]]
  */
-export class EventData extends Tuple {
+export class GenericEventData extends Tuple {
   readonly #meta: EventMetadataLatest;
 
   readonly #method: string;
@@ -24,7 +24,7 @@ export class EventData extends Tuple {
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: Registry, Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: RegistryMetadataEvent, section: string, method: string) {
+  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: RegistryMetadataEvent, section = '<unknown>', method = '<unknown>') {
     super(registry, Types, value);
 
     this.#meta = meta as EventMetadataLatest;
@@ -82,7 +82,7 @@ export class GenericEvent extends Struct {
   }
 
   /** @internal */
-  public static decodeEvent (registry: Registry, value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<EventData>; value?: { index: Uint8Array; data: Uint8Array } } {
+  public static decodeEvent (registry: Registry, value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<GenericEventData>; value?: { index: Uint8Array; data: Uint8Array } } {
     if (!value.length) {
       return { DataType: Null };
     }
@@ -101,8 +101,8 @@ export class GenericEvent extends Struct {
   /**
    * @description The wrapped [[EventData]]
    */
-  public get data (): EventData {
-    return this.get('data') as EventData;
+  public get data (): GenericEventData {
+    return this.get('data') as GenericEventData;
   }
 
   /**
