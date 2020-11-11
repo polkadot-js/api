@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types",
-  "version": "2.6.2-5",
+  "version": "2.6.2-6",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "module": "esm/index.js",
@@ -18,7 +18,7 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "@polkadot/metadata": "2.6.2-5",
+    "@polkadot/metadata": "2.6.2-6",
     "@polkadot/util": "^4.0.2-11",
     "@polkadot/util-crypto": "^4.0.2-11",
     "@types/bn.js": "^4.11.6",
