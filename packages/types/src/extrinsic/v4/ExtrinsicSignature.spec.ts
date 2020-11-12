@@ -79,7 +79,10 @@ describe('ExtrinsicSignatureV4', (): void => {
     const metadata = new Metadata(registry, metadataStatic);
 
     registry.setMetadata(metadata);
-    registry.register({ ExtrinsicSignature: 'AnySignature' });
+    registry.register({
+      Address: 'AccountId',
+      ExtrinsicSignature: 'AnySignature'
+    });
 
     expect(
       new ExtrinsicSignature(registry, undefined).signFake(
@@ -89,9 +92,10 @@ describe('ExtrinsicSignatureV4', (): void => {
       ).toHex()
     ).toEqual(
       '0x' +
-      'ff' +
+      // Address = AccountId
+      // 'ff' +
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
-      // This is a prefix-less signature
+      // This is a prefix-less signature, anySignture as opposed to Multi above
       // '01' +
       '4242424242424242424242424242424242424242424242424242424242424242' +
       '4242424242424242424242424242424242424242424242424242424242424242' +
