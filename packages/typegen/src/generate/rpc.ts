@@ -111,7 +111,7 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
   });
 }
 
-export default function generateDefaultRpcTypes (): void {
+export function generateDefaultRpc (): void {
   generateRpcTypes(
     { '@polkadot/types/interfaces': defaultDefinitions },
     'packages/api/src/augment/rpc.ts'

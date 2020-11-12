@@ -3,7 +3,7 @@
 
 import { Registry } from '../types';
 
-import sanitize from '../create/sanitize';
+import { sanitize } from '../create/sanitize';
 import { Text } from '.';
 
 /**

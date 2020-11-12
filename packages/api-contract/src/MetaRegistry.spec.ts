@@ -6,9 +6,7 @@ import path from 'path';
 
 import { Abi } from '.';
 
-import * as testContracts from '../test/contracts';
-
-const abis: Record<string, any> = { ...testContracts };
+import abis from '../test/contracts';
 
 describe('MetaRegistry', (): void => {
   Object.keys(abis).forEach((abiName) => {
@@ -33,6 +31,6 @@ describe('MetaRegistry', (): void => {
   });
 
   it('stores base project as JSON', (): void => {
-    expect(new Abi(abis.dns).json).toEqual(abis.dns);
+    expect(new Abi(abis.ink_dns).json).toEqual(abis.ink_dns);
   });
 });

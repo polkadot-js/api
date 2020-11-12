@@ -6,7 +6,7 @@
 let main;
 
 try {
-  main = require('../metadataMd').default;
+  main = require('../metadataMd').main;
 } catch (error) {
   require('@babel/register')({
     extensions: ['.js', '.ts'],
@@ -22,7 +22,7 @@ try {
     ]
   });
 
-  main = require('../src/metadataMd.ts').default;
+  main = require('../src/metadataMd.ts').main;
 }
 
 main();

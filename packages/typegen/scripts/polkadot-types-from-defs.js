@@ -6,7 +6,7 @@
 let main;
 
 try {
-  main = require('../fromDefs').default;
+  main = require('../fromDefs').main;
 } catch (error) {
   require('@babel/register')({
     extensions: ['.js', '.ts'],
@@ -23,7 +23,7 @@ try {
     ]
   });
 
-  main = require('../src/fromDefs.ts').default;
+  main = require('../src/fromDefs.ts').main;
 }
 
 main();

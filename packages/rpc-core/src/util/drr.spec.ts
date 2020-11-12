@@ -3,7 +3,7 @@
 
 import { of, timer } from 'rxjs';
 
-import { drr } from './drr';
+import { drr } from '.';
 
 describe('drr', (): void => {
   it('should not fire twice the same value', (done): void => {

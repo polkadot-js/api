@@ -6,7 +6,7 @@
 let main;
 
 try {
-  main = require('../interfacesTs').default;
+  main = require('../interfacesTs').main;
 } catch (error) {
   require('@babel/register')({
     extensions: ['.js', '.ts'],
@@ -22,7 +22,7 @@ try {
     ]
   });
 
-  main = require('../src/interfacesTs.ts').default;
+  main = require('../src/interfacesTs.ts').main;
 }
 
 main();

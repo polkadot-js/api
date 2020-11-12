@@ -14,8 +14,7 @@ import { Option, StorageKey, Vec } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
-import normalizer from './normalizer';
-import { drr, refCountDelay } from './rxjs';
+import { drr, normalizer, refCountDelay } from './util';
 
 interface StorageChangeSetJSON {
   block: string;

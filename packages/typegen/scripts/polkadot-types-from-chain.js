@@ -6,7 +6,7 @@
 let main;
 
 try {
-  main = require('../fromChain').default;
+  main = require('../fromChain').main;
 } catch (error) {
   require('@babel/register')({
     extensions: ['.js', '.ts'],
@@ -22,7 +22,7 @@ try {
     ]
   });
 
-  main = require('../src/fromChain').default;
+  main = require('../src/fromChain').main;
 }
 
 main();

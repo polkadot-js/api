@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import normalizer from './normalizer';
+import { normalizer } from '.';
 
 describe('normalizer', (): void => {
   it('works when BigInt is in the data (object)', (): void => {

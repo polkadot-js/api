@@ -5,7 +5,7 @@ import { TypeDef, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
-import sanitize from './sanitize';
+import { sanitize } from './sanitize';
 import { typeSplit } from './typeSplit';
 
 interface TypeDefOptions {
@@ -57,25 +57,31 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
 // decode a struct, set or enum
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeStruct (value: TypeDef, type: string, _: string, count: number): TypeDef {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const parsed: Record<string, any> = JSON.parse(type);
-  const keys = Object.keys(parsed);
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const parsed: Record<string, any> = JSON.parse(type);
+    const keys = Object.keys(parsed);
 
-  if (keys.length === 1 && keys[0] === '_enum') {
-    return _decodeEnum(value, parsed[keys[0]], count);
-  } else if (keys.length === 1 && keys[0] === '_set') {
-    return _decodeSet(value, parsed[keys[0]]);
+    if (keys.length === 1 && keys[0] === '_enum') {
+      return _decodeEnum(value, parsed[keys[0]], count);
+    } else if (keys.length === 1 && keys[0] === '_set') {
+      return _decodeSet(value, parsed[keys[0]]);
+    }
+
+    value.alias = parsed._alias
+      ? new Map(Object.entries(parsed._alias))
+      : undefined;
+    value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      getTypeDef(parsed[name], { name }, count)
+    );
+
+    return value;
+  } catch (error) {
+    console.error(value);
+    console.error(type);
+    throw error;
   }
-
-  value.alias = parsed._alias
-    ? new Map(Object.entries(parsed._alias))
-    : undefined;
-  value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(parsed[name], { name }, count)
-  );
-
-  return value;
 }
 
 // decode a fixed vector, e.g. [u8;32]

@@ -5,7 +5,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import getHasher from './getHasher';
+import { getHasher } from './getHasher';
 
 describe('getHasher', (): void => {
   const registry = new TypeRegistry();
