@@ -12,6 +12,7 @@ export default {
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
+    ExtrinsicSignature: 'MultiSignature',
     ExtrinsicV4: 'GenericExtrinsicV4',
     ExtrinsicPayloadV4: 'GenericExtrinsicPayloadV4',
     ExtrinsicSignatureV4: 'GenericExtrinsicSignatureV4',
@@ -23,6 +24,7 @@ export default {
     MortalEra: 'GenericMortalEra',
 
     // signatures & signer
+    AnySignature: 'H512',
     MultiSignature: {
       _enum: {
         Ed25519: 'Ed25519Signature',
