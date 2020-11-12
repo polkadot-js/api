@@ -4,7 +4,7 @@
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AnyJson, Registry } from '@polkadot/types/types';
 
-import ApiBase from '@polkadot/api/base';
+import { ApiBase } from '@polkadot/api/base';
 import { assert } from '@polkadot/util';
 
 import { Abi } from '../Abi';

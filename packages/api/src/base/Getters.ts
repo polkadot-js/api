@@ -9,7 +9,7 @@ import { Metadata } from '@polkadot/metadata';
 import { Text } from '@polkadot/types';
 import { assertReturn } from '@polkadot/util';
 
-import Init from './Init';
+import { Init } from './Init';
 
 interface PkgJson {
   name: string;
@@ -30,7 +30,7 @@ function assertResult<T> (value: T | undefined): T {
   return assertReturn(value, 'Api needs to be initialized before using, listen on \'ready\'');
 }
 
-export default abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
+export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
   /**
    * @description Contains the parameter types (constants) of all modules.
    *

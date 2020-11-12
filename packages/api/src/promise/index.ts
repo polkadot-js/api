@@ -8,7 +8,7 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { isFunction, assert } from '@polkadot/util';
 
-import ApiBase from '../base';
+import { ApiBase } from '../base';
 import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';
 
 interface Tracker<T> {

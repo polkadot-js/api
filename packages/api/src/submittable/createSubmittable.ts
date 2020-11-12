@@ -5,7 +5,7 @@ import { Call, Extrinsic } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx, ApiTypes } from '../types';
 import { SubmittableExtrinsic } from './types';
 
-import ApiBase from '../base';
+import { ApiBase } from '../base';
 import { createClass } from './createClass';
 
 type Creator<ApiType extends ApiTypes> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;

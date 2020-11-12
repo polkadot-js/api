@@ -174,7 +174,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 }
 
 /** @internal */
-export default function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
+export function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
   const [hasher, key2Hasher] = getHashers(itemFn);
 

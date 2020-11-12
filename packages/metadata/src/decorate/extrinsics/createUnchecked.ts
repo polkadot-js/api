@@ -7,7 +7,7 @@ import { AnyJson, CallFunction, Registry, RegistryMetadataCall } from '@polkadot
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
-export default function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: RegistryMetadataCall): CallFunction {
+export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: RegistryMetadataCall): CallFunction {
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name);
 

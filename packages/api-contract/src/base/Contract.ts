@@ -11,7 +11,7 @@ import { ContractRead, MapMessageExec, MapMessageRead } from './types';
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import ApiBase from '@polkadot/api/base';
+import { ApiBase } from '@polkadot/api/base';
 import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
 
 import { Abi } from '../Abi';

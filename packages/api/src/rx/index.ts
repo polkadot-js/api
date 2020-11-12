@@ -6,7 +6,7 @@ import { ApiOptions, DecorateFn } from '../types';
 
 import { from, Observable } from 'rxjs';
 
-import ApiBase from '../base';
+import { ApiBase } from '../base';
 
 export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method): Method {
   return method;

@@ -8,7 +8,7 @@ import { Storage } from '../types';
 import * as substrate from './substrate';
 
 /** @internal */
-export default function getStorage (registry: Registry, metaVersion: number): Storage {
+export function getStorage (registry: Registry, metaVersion: number): Storage {
   return {
     substrate: Object
       .entries(substrate)
