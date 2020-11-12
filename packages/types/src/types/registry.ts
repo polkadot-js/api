@@ -21,6 +21,7 @@ export interface ChainUpgradeVersion {
 
 export interface ChainUpgrades {
   genesisHash: Uint8Array;
+  network: string;
   versions: ChainUpgradeVersion[];
 }
 
