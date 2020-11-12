@@ -3,7 +3,7 @@
 
 import { isBigInt } from '@polkadot/util';
 
-export default function normalizer (instanceId: string): (value: unknown) => string {
+export function normalizer (instanceId: string): (value: unknown) => string {
   return (value: unknown) =>
     instanceId + JSON.stringify(value, (_, value: unknown) =>
       isBigInt(value)

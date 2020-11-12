@@ -30,6 +30,6 @@ const HASHERS: Record<keyof typeof AllHashers, HasherFunction> = {
 };
 
 /** @internal */
-export default function getHasher (hasher?: StorageHasher): HasherFunction {
+export function getHasher (hasher?: StorageHasher): HasherFunction {
   return HASHERS[hasher?.type as 'Identity'] || DEFAULT_FN;
 }

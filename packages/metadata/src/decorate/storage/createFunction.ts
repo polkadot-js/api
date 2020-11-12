@@ -11,7 +11,7 @@ import { StorageKey } from '@polkadot/types/primitive';
 import { assert, compactAddLength, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import getHasher, { HasherFunction } from './getHasher';
+import { HasherFunction, getHasher } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;

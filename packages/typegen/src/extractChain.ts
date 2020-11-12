@@ -24,7 +24,7 @@ async function run (ws: string): Promise<void> {
   api.runtimeMetadata.getUniqTypes(false);
 }
 
-export default function main (): void {
+export function main (): void {
   // retrieve and parse arguments - we do this globally, since this is a single command
   const { ws } = yargs
     .usage('Usage: [options]')

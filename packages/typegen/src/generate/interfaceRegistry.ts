@@ -79,7 +79,7 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 }
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
-export default function generateDefaultInterfaceTypes (): void {
+export function generateDefaultInterface (): void {
   generateInterfaceTypes(
     { '@polkadot/types/interfaces': defaultDefinitions },
     'packages/types/src/augment/registry.ts'

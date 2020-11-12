@@ -212,7 +212,7 @@ export function removeWrap (_check: string): Mapper {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export default function sanitize (value: String | string, options?: SanitizeOptions): string {
+export function sanitize (value: String | string, options?: SanitizeOptions): string {
   return mappings.reduce((result, fn): string => {
     return fn(result, options);
   }, value.toString()).trim();

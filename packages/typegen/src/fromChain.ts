@@ -6,9 +6,7 @@ import yargs from 'yargs';
 import { formatNumber } from '@polkadot/util';
 import WS from '@polkadot/x-ws';
 
-import generateConst from './generate/consts';
-import generateQuery from './generate/query';
-import generateTx from './generate/tx';
+import { generateDefaultConsts, generateDefaultQuery, generateDefaultTx } from './generate';
 import { HEADER, writeFile } from './util';
 
 function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
@@ -19,9 +17,9 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
     : {};
 
-  generateConst(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
-  generateQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
-  generateTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict);
 
   writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
     [
@@ -36,7 +34,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   process.exit(0);
 }
 
-export default function main (): void {
+export function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',

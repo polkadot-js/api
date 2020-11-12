@@ -299,7 +299,7 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
-export default function main (): void {
+export function main (): void {
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, rpcdata);
 

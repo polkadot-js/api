@@ -3,9 +3,7 @@
 
 import { Abi } from '.';
 
-import * as testContracts from '../test/contracts';
-
-const abis: Record<string, any> = { ...testContracts };
+import abis from '../test/contracts';
 
 interface JSONAbi {
   spec: {

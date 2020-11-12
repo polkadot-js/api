@@ -5,7 +5,7 @@ import { TypeDef, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
-import sanitize from './sanitize';
+import { sanitize } from './sanitize';
 import { typeSplit } from './typeSplit';
 
 interface TypeDefOptions {
