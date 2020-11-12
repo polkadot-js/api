@@ -27,7 +27,7 @@ import { createSubmittable } from '../submittable';
 import augmentObject from '../util/augmentObject';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
-import Events from './Events';
+import { Events } from './Events';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
@@ -44,7 +44,7 @@ const l = logger('api/init');
 
 let instanceCounter = 0;
 
-export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
+export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   readonly #instanceId: string;
 
   #registry: Registry;

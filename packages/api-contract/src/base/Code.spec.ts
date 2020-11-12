@@ -15,13 +15,13 @@ const wasmFlipper = fs.readFileSync(path.join(__dirname, '../../test/contracts/i
 describe('Code', (): void => {
   it('can construct with an individual ABI/WASM combo', (): void => {
     expect(
-      () => new Code(mockApi as any, abiFlipper, wasmFlipper, decorateMethod)
+      () => new Code(mockApi, abiFlipper, wasmFlipper, decorateMethod)
     ).not.toThrow();
   });
 
   it('can construct with an .contract ABI', (): void => {
     expect(
-      () => new Code(mockApi as any, contractFlipper, null, decorateMethod)
+      () => new Code(mockApi, contractFlipper, null, decorateMethod)
     ).not.toThrow();
   });
 });

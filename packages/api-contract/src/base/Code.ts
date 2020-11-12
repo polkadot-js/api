@@ -7,7 +7,7 @@ import { EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 
 import { SubmittableResult } from '@polkadot/api';
-import ApiBase from '@polkadot/api/base';
+import { ApiBase } from '@polkadot/api/base';
 import { assert, compactAddLength, isWasm, u8aToU8a } from '@polkadot/util';
 
 import { Abi } from '../Abi';
