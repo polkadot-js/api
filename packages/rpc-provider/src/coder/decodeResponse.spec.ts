@@ -13,37 +13,37 @@ describe('decodeResponse', (): void => {
 
   it('expects a non-empty input object', (): void => {
     expect(
-      (): any => coder.decodeResponse(undefined as unknown as JsonRpcResponse)
+      () => coder.decodeResponse(undefined as unknown as JsonRpcResponse)
     ).toThrow(/Empty response/);
   });
 
   it('expects a valid jsonrpc field', (): void => {
     expect(
-      (): any => coder.decodeResponse({} as JsonRpcResponse)
+      () => coder.decodeResponse({} as JsonRpcResponse)
     ).toThrow(/Invalid jsonrpc/);
   });
 
   it('expects a valid id field', (): void => {
     expect(
-      (): any => coder.decodeResponse({ jsonrpc: '2.0' } as JsonRpcResponse)
+      () => coder.decodeResponse({ jsonrpc: '2.0' } as JsonRpcResponse)
     ).toThrow(/Invalid id/);
   });
 
   it('expects a valid result field', (): void => {
     expect(
-      (): any => coder.decodeResponse({ id: 1, jsonrpc: '2.0' } as JsonRpcResponse)
+      () => coder.decodeResponse({ id: 1, jsonrpc: '2.0' } as JsonRpcResponse)
     ).toThrow(/No result/);
   });
 
   it('throws any error found', (): void => {
     expect(
-      (): any => coder.decodeResponse({ error: { code: 123, message: 'test error' }, id: 1, jsonrpc: '2.0' } as JsonRpcResponse)
+      () => coder.decodeResponse({ error: { code: 123, message: 'test error' }, id: 1, jsonrpc: '2.0' } as JsonRpcResponse)
     ).toThrow(/123: test error/);
   });
 
   it('throws any error found, with data', (): void => {
     expect(
-      (): any => coder.decodeResponse({ error: { code: 123, data: 'Error("Some random error description")', message: 'test error' }, id: 1, jsonrpc: '2.0' } as JsonRpcResponse)
+      () => coder.decodeResponse({ error: { code: 123, data: 'Error("Some random error description")', message: 'test error' }, id: 1, jsonrpc: '2.0' } as JsonRpcResponse)
     ).toThrow(/123: test error: Some random error description/);
   });
 
