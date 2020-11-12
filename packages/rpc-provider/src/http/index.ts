@@ -6,7 +6,7 @@ import { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted,
 import { assert, logger } from '@polkadot/util';
 import fetch from '@polkadot/x-fetch';
 
-import Coder from '../coder';
+import { RpcCoder } from '../coder';
 import defaults from '../defaults';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
@@ -34,7 +34,7 @@ const l = logger('api-http');
  * @see [[WsProvider]]
  */
 export class HttpProvider implements ProviderInterface {
-  readonly #coder: Coder;
+  readonly #coder: RpcCoder;
 
   readonly #endpoint: string;
 
@@ -46,7 +46,7 @@ export class HttpProvider implements ProviderInterface {
   constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
-    this.#coder = new Coder();
+    this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
     this.#headers = headers;
   }

@@ -10,7 +10,7 @@ import { MapConstructorExec } from './types';
 
 import BN from 'bn.js';
 import { SubmittableResult } from '@polkadot/api';
-import ApiBase from '@polkadot/api/base';
+import { ApiBase } from '@polkadot/api/base';
 import { isUndefined, stringCamelCase } from '@polkadot/util';
 
 import { Abi } from '../Abi';

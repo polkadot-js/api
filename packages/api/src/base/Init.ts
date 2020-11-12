@@ -17,14 +17,14 @@ import { getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-k
 import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import Decorate from './Decorate';
+import { Decorate } from './Decorate';
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
 const l = logger('api/init');
 
-export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
+export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #healthTimer: NodeJS.Timeout | null = null;
 
   #registries: VersionedRegistry[] = [];

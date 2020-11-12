@@ -22,7 +22,7 @@ function formatErrorData (data?: string | number): string {
 }
 
 /** @internal */
-export default class RpcCoder {
+export class RpcCoder {
   #id = 0;
 
   public decodeResponse (response: JsonRpcResponse): unknown {

@@ -5,7 +5,7 @@ import { ApiInterfaceEvents } from '../types';
 
 import EventEmitter from 'eventemitter3';
 
-export default class Events {
+export class Events {
   #eventemitter = new EventEmitter();
 
   protected emit (type: ApiInterfaceEvents, ...args: any[]): boolean {

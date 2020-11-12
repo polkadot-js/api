@@ -3,10 +3,10 @@
 
 import { Logger } from '@polkadot/util/types';
 
-import Coder from '../coder';
+import { RpcCoder } from '../coder';
 
 export interface HttpState {
-  coder: Coder;
+  coder: RpcCoder;
   endpoint: string;
   l: Logger;
 }

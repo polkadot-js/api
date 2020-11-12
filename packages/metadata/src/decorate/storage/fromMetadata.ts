@@ -7,8 +7,8 @@ import { ModuleStorage, Storage } from '../types';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../../Metadata';
-import createFunction from './createFunction';
-import getStorage from './storage';
+import { createFunction } from './createFunction';
+import { getStorage } from './storage';
 
 /** @internal */
 export function storageFromMeta (registry: Registry, metadata: Metadata): Storage {

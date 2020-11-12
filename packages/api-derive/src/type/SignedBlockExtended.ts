@@ -17,7 +17,7 @@ const _SignedBlock = Struct.with(runtimeTypes.types.SignedBlock as any) as Const
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class BlockExtended extends _SignedBlock {
+export class SignedBlockExtended extends _SignedBlock {
   readonly #author?: AccountId;
 
   constructor (registry: Registry, block?: SignedBlock, sessionValidators?: AccountId[]) {
