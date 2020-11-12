@@ -5,7 +5,7 @@ import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import { StorageEntry } from '@polkadot/types/primitive/types';
 import { Registry } from '@polkadot/types/types';
 
-import createFunction from './createFunction';
+import { createFunction } from './createFunction';
 
 interface SubstrateMetadata {
   documentation: string;

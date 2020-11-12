@@ -5,7 +5,7 @@ import { Text } from '@polkadot/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { u8aToHex } from '@polkadot/util';
 
-import createFunction from './createFunction';
+import { createFunction } from './createFunction';
 
 describe('createFunction', (): void => {
   const registry = new TypeRegistry();

@@ -9,7 +9,7 @@ import EventEmitter from 'eventemitter3';
 import { assert, isChildClass, isNull, isUndefined, logger } from '@polkadot/util';
 import WS from '@polkadot/x-ws';
 
-import Coder from '../coder';
+import { RpcCoder } from '../coder';
 import defaults from '../defaults';
 import { getWSErrorString } from './errors';
 
@@ -61,7 +61,7 @@ const l = logger('api-ws');
  * @see [[HttpProvider]]
  */
 export class WsProvider implements ProviderInterface {
-  readonly #coder: Coder;
+  readonly #coder: RpcCoder;
 
   readonly #endpoints: string[];
 
@@ -102,7 +102,7 @@ export class WsProvider implements ProviderInterface {
 
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
-    this.#coder = new Coder();
+    this.#coder = new RpcCoder();
     this.#endpointIndex = -1;
     this.#endpoints = endpoints;
     this.#headers = headers;

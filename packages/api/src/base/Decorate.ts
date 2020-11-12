@@ -24,7 +24,7 @@ import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
-import augmentObject from '../util/augmentObject';
+import { augmentObject } from '../util/augmentObject';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';

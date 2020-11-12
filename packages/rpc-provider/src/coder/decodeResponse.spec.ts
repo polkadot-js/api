@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { JsonRpcResponse } from '../types';
-import Coder from './';
+import { RpcCoder } from '.';
 
 describe('decodeResponse', (): void => {
-  let coder: Coder;
+  let coder: RpcCoder;
 
   beforeEach((): void => {
-    coder = new Coder();
+    coder = new RpcCoder();
   });
 
   it('expects a non-empty input object', (): void => {

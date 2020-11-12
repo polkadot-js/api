@@ -17,7 +17,7 @@ const _Header = Struct.with(runtimeTypes.types.Header as any) as Constructor<Hea
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends _Header {
+export class HeaderExtended extends _Header {
   readonly #author?: AccountId;
 
   constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
