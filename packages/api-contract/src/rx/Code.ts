@@ -10,7 +10,7 @@ import { Abi } from '../Abi';
 import { Code as BaseCode } from '../base';
 
 export class Code extends BaseCode<'rxjs'> {
-  constructor (api: ApiRx, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer) {
+  constructor (api: ApiRx, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer | null | undefined) {
     super(api, abi, wasm, decorateMethod);
   }
 }

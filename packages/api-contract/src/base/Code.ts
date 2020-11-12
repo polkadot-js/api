@@ -8,7 +8,7 @@ import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 
 import { SubmittableResult } from '@polkadot/api';
 import ApiBase from '@polkadot/api/base';
-import { compactAddLength, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, isWasm, u8aToU8a } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
@@ -28,10 +28,14 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
 export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
-  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.code = u8aToU8a(wasm);
+    this.code = isWasm(this.abi.project.source.wasm)
+      ? this.abi.project.source.wasm
+      : u8aToU8a(wasm);
+
+    assert(isWasm(this.code), 'No WASM code provided');
   }
 
   public createBlueprint (): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {

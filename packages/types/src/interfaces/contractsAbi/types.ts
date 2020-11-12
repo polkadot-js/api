@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { BTreeMap, Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { BTreeMap, Enum, Option, Raw, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { SiLookupTypeId, SiPath, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
@@ -140,6 +140,7 @@ export interface ContractProjectSource extends Struct {
   readonly hash: U8aFixed;
   readonly language: Text;
   readonly compiler: Text;
+  readonly wasm: Raw;
 }
 
 /** @name ContractSelector */
