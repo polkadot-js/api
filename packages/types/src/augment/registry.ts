@@ -21,7 +21,7 @@ import { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, Vote
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
 import { EthereumAccountId, EthereumLookupSource } from '@polkadot/types/interfaces/ethereum';
 import { Account, Log, Vicinity } from '@polkadot/types/interfaces/evm';
-import { EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
+import { AnySignature, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, EncodedFinalityProofs, GrandpaEquivocation, GrandpaEquivocationProof, GrandpaEquivocationValue, GrandpaPrevote, JustificationNotification, KeyOwnerProof, NextAuthority, PendingPause, PendingResume, Precommits, Prevotes, ReportedRoundStates, RoundState, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
@@ -715,6 +715,9 @@ declare module '@polkadot/types/types/registry' {
     ExtrinsicPayload: ExtrinsicPayload;
     'Option<ExtrinsicPayload>': Option<ExtrinsicPayload>;
     'Vec<ExtrinsicPayload>': Vec<ExtrinsicPayload>;
+    ExtrinsicSignature: ExtrinsicSignature;
+    'Option<ExtrinsicSignature>': Option<ExtrinsicSignature>;
+    'Vec<ExtrinsicSignature>': Vec<ExtrinsicSignature>;
     ExtrinsicV4: ExtrinsicV4;
     'Option<ExtrinsicV4>': Option<ExtrinsicV4>;
     'Vec<ExtrinsicV4>': Vec<ExtrinsicV4>;
@@ -736,6 +739,9 @@ declare module '@polkadot/types/types/registry' {
     MortalEra: MortalEra;
     'Option<MortalEra>': Option<MortalEra>;
     'Vec<MortalEra>': Vec<MortalEra>;
+    AnySignature: AnySignature;
+    'Option<AnySignature>': Option<AnySignature>;
+    'Vec<AnySignature>': Vec<AnySignature>;
     MultiSignature: MultiSignature;
     'Option<MultiSignature>': Option<MultiSignature>;
     'Vec<MultiSignature>': Vec<MultiSignature>;

@@ -5,6 +5,9 @@ import { Enum, U8aFixed } from '@polkadot/types/codec';
 import { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types/extrinsic';
 import { H512 } from '@polkadot/types/interfaces/runtime';
 
+/** @name AnySignature */
+export interface AnySignature extends H512 {}
+
 /** @name EcdsaSignature */
 export interface EcdsaSignature extends U8aFixed {}
 
@@ -25,6 +28,9 @@ export interface ExtrinsicPayloadUnknown extends GenericExtrinsicPayloadUnknown 
 
 /** @name ExtrinsicPayloadV4 */
 export interface ExtrinsicPayloadV4 extends GenericExtrinsicPayloadV4 {}
+
+/** @name ExtrinsicSignature */
+export interface ExtrinsicSignature extends MultiSignature {}
 
 /** @name ExtrinsicSignatureV4 */
 export interface ExtrinsicSignatureV4 extends GenericExtrinsicSignatureV4 {}
