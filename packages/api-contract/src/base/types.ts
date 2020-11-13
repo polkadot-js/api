@@ -11,9 +11,9 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 
 export interface BlueprintOptions {
-  endowment: BigInt | string | number | BN;
   gasLimit: BigInt | string | number | BN;
   salt?: Uint8Array | string;
+  value: BigInt | string | number | BN;
 }
 
 export interface ContractOptions {
@@ -23,7 +23,7 @@ export interface ContractOptions {
 
 export interface BlueprintDeploy<ApiType extends ApiTypes> {
   (options: BlueprintOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
-  (endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
+  (value: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
 }
 
 export interface ContractQuery<ApiType extends ApiTypes> {

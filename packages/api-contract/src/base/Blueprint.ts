@@ -34,7 +34,7 @@ function createTx <ApiType extends ApiTypes> (fn: (options: BlueprintOptions, pa
 
     const gasLimit = params.shift() as BN;
 
-    return fn({ endowment: options, gasLimit }, params);
+    return fn({ gasLimit, value: options }, params);
   };
 }
 
@@ -75,11 +75,11 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
    * @deprecated
    * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
    */
-  public createContract (constructorOrId: AbiConstructor | string| number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> {
-    return this.#deploy(constructorOrId, { endowment, gasLimit }, params);
+  public createContract (constructorOrId: AbiConstructor | string| number, value: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> {
+    return this.#deploy(constructorOrId, { gasLimit, value }, params);
   }
 
-  #deploy = (constructorOrId: AbiConstructor | string| number, { endowment, gasLimit, salt = randomAsU8a() }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
+  #deploy = (constructorOrId: AbiConstructor | string| number, { gasLimit, salt = randomAsU8a(), value }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     const encodedSalt = salt instanceof Bytes
       ? salt
       : compactAddLength(u8aToU8a(salt));
@@ -88,8 +88,8 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     const tx = withSalt
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore new style with salt included
-      ? this.api.tx.contracts.instantiate(endowment, gasLimit, this.codeHash, encoded, encodedSalt)
-      : this.api.tx.contracts.instantiate(endowment, gasLimit, this.codeHash, encoded);
+      ? this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded, encodedSalt)
+      : this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded);
 
     return tx.withResultTransform((result: ISubmittableResult) =>
       new BlueprintSubmittableResult(result, applyOnEvent(result, 'Instantiated', ([record]: EventRecord[]) =>

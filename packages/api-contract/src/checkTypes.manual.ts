@@ -13,8 +13,8 @@ async function checkBlueprint (api: ApiPromise, pairs: TestKeyringMap): Promise<
   const blueprint = new BlueprintPromise(api, abiIncrementer, '0x1234');
 
   // new style
-  await blueprint.tx.new({ endowment: 123, gasLimit: 456, salt: '0x1234' }, 42).signAndSend(pairs.bob);
-  await blueprint.tx.new({ endowment: 123, gasLimit: 456 }, 42).signAndSend(pairs.bob);
+  await blueprint.tx.new({ gasLimit: 456, salt: '0x1234', value: 123 }, 42).signAndSend(pairs.bob);
+  await blueprint.tx.new({ gasLimit: 456, value: 123 }, 42).signAndSend(pairs.bob);
 
   // old style
   await blueprint.tx.new(123, 456, 42).signAndSend(pairs.bob);

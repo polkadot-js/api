@@ -30,20 +30,11 @@ export enum TypeDefInfo {
   Null
 }
 
-export interface TypeDefExtEnumDiscriminant {
-  discriminant: number;
-}
-
-export interface TypeDefExtStructAlias {
-  [key: string]: string;
-}
-
 export interface TypeDef {
   alias?: Map<string, string>;
   info: TypeDefInfo;
   index?: number;
   displayName?: string;
-  ext?: TypeDefExtEnumDiscriminant; // add additional here as required
   length?: number;
   name?: string;
   namespace?: string;
@@ -51,7 +42,3 @@ export interface TypeDef {
   sub?: TypeDef | TypeDef[];
   type: string;
 }
-
-export type TypeIndex = number;
-
-export type StringIndex = number;
