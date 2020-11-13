@@ -5,7 +5,7 @@ import { ApiTypes } from '@polkadot/api/types';
 import { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
 import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
 
-import ApiBase from '@polkadot/api/base';
+import { ApiBase } from '@polkadot/api/base';
 import { Text, u64 } from '@polkadot/types';
 
 import { Abi } from '.';

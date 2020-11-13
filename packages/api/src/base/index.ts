@@ -6,7 +6,7 @@ import { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types';
 
 import { assert, isString, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import Getters from './Getters';
+import { Getters } from './Getters';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
@@ -16,7 +16,7 @@ interface SignerRawOptions {
   signer?: Signer;
 }
 
-export default abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType> {
+export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType> {
   /**
    * @description Create an instance of the class
    *

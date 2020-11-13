@@ -248,7 +248,7 @@ export function generateTsDef (importDefinitions: { [importPath: string]: Record
 }
 
 /** @internal */
-export default function generateTsDefDefault (): void {
+export function generateDefaultTsDef (): void {
   generateTsDef(
     { '@polkadot/types/interfaces': defaultDefinitions },
     'packages/types/src/interfaces',

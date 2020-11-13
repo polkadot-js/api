@@ -62,7 +62,7 @@ function encodeEnum (typeDef: TypeDef): string {
   // c-like enums have all Null entries
   // TODO We need to take the disciminant into account and auto-add empty entries
   return sub.every(({ type }) => type === 'Null')
-    ? JSON.stringify({ _enum: sub.map(({ name }, index) => name || `Empty${index}` ) })
+    ? JSON.stringify({ _enum: sub.map(({ name }, index) => name || `Empty${index}`) })
     : encodeSubTypes(sub, true);
 }
 

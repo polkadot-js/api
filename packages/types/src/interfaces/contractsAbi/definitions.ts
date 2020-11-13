@@ -128,7 +128,8 @@ export default {
     ContractProjectSource: {
       hash: '[u8; 32]',
       language: 'Text',
-      compiler: 'Text'
+      compiler: 'Text',
+      wasm: 'Raw'
     }
   }
 } as Definitions;

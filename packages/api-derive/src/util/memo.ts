@@ -3,8 +3,7 @@
 
 import createMemo from 'memoizee';
 import { Observable, Observer, TeardownLogic } from 'rxjs';
-import { drr } from '@polkadot/rpc-core/rxjs';
-import normalizer from '@polkadot/rpc-core/normalizer';
+import { drr, normalizer } from '@polkadot/rpc-core/util';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;
 

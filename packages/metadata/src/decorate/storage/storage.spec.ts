@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import getStorage from './storage';
+import { getStorage } from './storage';
 
 describe('storage', (): void => {
   const registry = new TypeRegistry();

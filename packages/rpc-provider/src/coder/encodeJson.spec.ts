@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Coder from './';
+import { RpcCoder } from '.';
 
 describe('encodeJson', (): void => {
-  let coder: Coder;
+  let coder: RpcCoder;
 
   beforeEach((): void => {
-    coder = new Coder();
+    coder = new RpcCoder();
   });
 
   it('encodes a valid JsonRPC JSON string', (): void => {

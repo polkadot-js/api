@@ -13,7 +13,7 @@ import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
-import ApiBase from '../base';
+import { ApiBase } from '../base';
 import { SubmittableResult } from './Result';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
