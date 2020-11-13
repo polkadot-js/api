@@ -38,6 +38,9 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     assert(isWasm(this.code), 'No WASM code provided');
   }
 
+  /**
+   * @description Deploy the code bundle, creating a Blueprint.
+   */
   public createBlueprint (): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
     return this.api.tx.contracts
       .putCode(compactAddLength(this.code))

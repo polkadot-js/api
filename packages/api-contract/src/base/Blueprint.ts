@@ -92,6 +92,10 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     );
   }
 
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
+   */
   public createContract (constructorOrId: AbiConstructor | string| number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> {
     return this.#deploy(constructorOrId, { endowment, gasLimit }, params);
   }
