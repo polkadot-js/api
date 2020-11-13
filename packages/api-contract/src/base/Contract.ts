@@ -6,13 +6,13 @@ import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId, ContractExecResult, EventRecord } from '@polkadot/types/interfaces';
 import { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
 import { AbiMessage, ContractCallOutcome, DecodedEvent } from '../types';
-import { ContractRead, MapMessageExec, MapMessageRead } from './types';
+import { ContractCallResult, ContractCallSend, ContractOptions, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
+import { assert, bnToBn, isBn, isBigInt, isFunction, isNumber, isString, isUndefined, logger, stringCamelCase } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent, formatData } from '../util';
@@ -22,6 +22,34 @@ import { Base } from './Base';
 const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 const l = logger('Contract');
+
+function isOptions (options: BigInt | string | number | BN | ContractOptions): options is ContractOptions {
+  return !(isBn(options) || isBigInt(options) || isNumber(options) || isString(options));
+}
+
+function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: CodecArg[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
+  return (origin: string | AccountId | Uint8Array, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): ContractCallResult<ApiType, ContractCallOutcome> => {
+    if (isOptions(options)) {
+      return fn(origin, options, params);
+    }
+
+    const gasLimit = params.shift() as BN;
+
+    return fn(origin, { gasLimit, value: options }, params);
+  };
+}
+
+function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, params: CodecArg[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
+  return (options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
+    if (isOptions(options)) {
+      return fn(options, params);
+    }
+
+    const gasLimit = params.shift() as BN;
+
+    return fn({ gasLimit, value: options }, params);
+  };
+}
 
 export class ContractSubmittableResult extends SubmittableResult {
   public readonly contractEvents?: DecodedEvent[];
@@ -63,9 +91,9 @@ function mapExecResult (registry: Registry, json: Record<string, AnyJson>): Cont
 export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly address: AccountId;
 
-  readonly #tx: MapMessageExec<ApiType> = {};
+  readonly #query: MapMessageQuery<ApiType> = {};
 
-  readonly #query: MapMessageRead<ApiType> = {};
+  readonly #tx: MapMessageTx<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
@@ -76,13 +104,15 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       const messageName = stringCamelCase(m.identifier);
 
       if (isUndefined(this.#tx[messageName])) {
-        this.#tx[messageName] = (value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]) =>
-          this.#exec(m, value, gasLimit, params);
+        this.#tx[messageName] = createTx((options: ContractOptions, params: CodecArg[]) =>
+          this.#exec(m, options, params)
+        );
       }
 
       if (isUndefined(this.#query[messageName])) {
-        this.#query[messageName] = (origin: string | AccountId | Uint8Array, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]) =>
-          this.#read(m, value, gasLimit, params).send(origin);
+        this.#query[messageName] = createQuery((origin: string | AccountId | Uint8Array, options, params: CodecArg[]) =>
+          this.#read(m, options, params).send(origin)
+        );
       }
     });
   }
@@ -91,13 +121,13 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
-  public get query (): MapMessageRead<ApiType> {
+  public get query (): MapMessageQuery<ApiType> {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
 
     return this.#query;
   }
 
-  public get tx (): MapMessageExec<ApiType> {
+  public get tx (): MapMessageTx<ApiType> {
     return this.#tx;
   }
 
@@ -111,7 +141,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       : gasLimit;
   }
 
-  #exec = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
+  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = 0, value = 0 }: ContractOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
       .call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
       .withResultTransform((result: ISubmittableResult) =>
@@ -131,7 +161,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       );
   }
 
-  #read = (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, params: CodecArg[]): ContractRead<ApiType> => {
+  #read = (messageOrId: AbiMessage | string | number, { gasLimit = 0, value = 0 }: ContractOptions, params: CodecArg[]): ContractCallSend<ApiType> => {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
 
     const message = this.abi.findMessage(messageOrId);
@@ -162,10 +192,10 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   public exec (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
-    return this.#exec(messageOrId, value, gasLimit, params);
+    return this.#exec(messageOrId, { gasLimit, value }, params);
   }
 
-  public read (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractRead<ApiType> {
-    return this.#read(messageOrId, value, gasLimit, params);
+  public read (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractCallSend<ApiType> {
+    return this.#read(messageOrId, { gasLimit, value }, params);
   }
 }

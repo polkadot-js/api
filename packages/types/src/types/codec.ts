@@ -75,7 +75,7 @@ export interface Codec {
 }
 
 // eslint-disable-next-line no-use-before-define
-export type CodecArg = Codec | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | { [index: string]: CodecArg };
+export type CodecArg = Codec | BigInt | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | { [index: string]: CodecArg };
 
 // We cannot inline this into CodecArg, TS throws up when building docs
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
