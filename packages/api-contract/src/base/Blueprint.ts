@@ -71,9 +71,17 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
+   */
+  public createContract (constructorOrId: AbiConstructor | string| number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> {
+    return this.#deploy(constructorOrId, { endowment, gasLimit }, params);
+  }
+
   #deploy = (constructorOrId: AbiConstructor | string| number, { endowment, gasLimit, salt = randomAsU8a() }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     const encodedSalt = salt instanceof Bytes
-      ? salt.toU8a()
+      ? salt
       : compactAddLength(u8aToU8a(salt));
     const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
     const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);
@@ -88,13 +96,5 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
         new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
       ))
     );
-  }
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
-   */
-  public createContract (constructorOrId: AbiConstructor | string| number, endowment: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> {
-    return this.#deploy(constructorOrId, { endowment, gasLimit }, params);
   }
 }

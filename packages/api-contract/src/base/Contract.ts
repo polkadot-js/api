@@ -127,6 +127,22 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
+   */
+  public exec (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
+    return this.#exec(messageOrId, { gasLimit, value }, params);
+  }
+
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
+   */
+  public read (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractCallSend<ApiType> {
+    return this.#read(messageOrId, { gasLimit, value }, params);
+  }
+
   #getGas = (_gasLimit: BigInt | BN | string | number, isCall = false): BN => {
     const gasLimit = bnToBn(_gasLimit);
 
@@ -185,21 +201,5 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
         }))
       )
     };
-  }
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public exec (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
-    return this.#exec(messageOrId, { gasLimit, value }, params);
-  }
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public read (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractCallSend<ApiType> {
-    return this.#read(messageOrId, { gasLimit, value }, params);
   }
 }
