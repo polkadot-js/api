@@ -62,9 +62,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       const messageName = stringCamelCase(c.identifier);
 
       if (isUndefined(this.#tx[messageName])) {
-        this.#tx[messageName] = createTx((options: BlueprintOptions, params: CodecArg[]) =>
-          this.#deploy(c, options, params)
-        );
+        this.#tx[messageName] = createTx((o, p) => this.#deploy(c, o, p));
       }
     });
   }

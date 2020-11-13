@@ -104,15 +104,11 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       const messageName = stringCamelCase(m.identifier);
 
       if (isUndefined(this.#tx[messageName])) {
-        this.#tx[messageName] = createTx((options: ContractOptions, params: CodecArg[]) =>
-          this.#exec(m, options, params)
-        );
+        this.#tx[messageName] = createTx((o, p) => this.#exec(m, o, p));
       }
 
       if (isUndefined(this.#query[messageName])) {
-        this.#query[messageName] = createQuery((origin: string | AccountId | Uint8Array, options, params: CodecArg[]) =>
-          this.#read(m, options, params).send(origin)
-        );
+        this.#query[messageName] = createQuery((f, o, p) => this.#read(m, o, p).send(f));
       }
     });
   }
