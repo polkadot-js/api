@@ -1,0 +1,528 @@
+{
+  "metadataVersion": "0.1.0",
+  "source": {
+    "hash": "0x1a37c380fe02fe3b670480dff1393b0401788955315d092e39fcc06047f1413c",
+    "language": "ink! 3.0.0-rc2",
+    "compiler": "rustc 1.49.0-nightly"
+  },
+  "contract": {
+    "name": "enum_example",
+    "version": "0.1.0",
+    "authors": [
+      "[your_name] <[your_email]>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "docs": [],
+        "name": [
+          "new"
+        ],
+        "selector": "0xd183512b"
+      }
+    ],
+    "docs": [],
+    "events": [],
+    "messages": [
+      {
+        "args": [
+          {
+            "name": "variant",
+            "type": {
+              "displayName": [
+                "Variant"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [],
+        "mutates": true,
+        "name": [
+          "set_variant"
+        ],
+        "payable": false,
+        "returnType": null,
+        "selector": "0x4fa6b9cf"
+      },
+      {
+        "args": [],
+        "docs": [],
+        "mutates": false,
+        "name": [
+          "get_variant"
+        ],
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "Variant"
+          ],
+          "type": 4
+        },
+        "selector": "0x1d5962d1"
+      }
+    ]
+  },
+  "storage": {
+    "struct": {
+      "fields": [
+        {
+          "layout": {
+            "enum": {
+              "dispatchKey": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "variants": {
+                "0": {
+                  "fields": []
+                },
+                "1": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "enum": {
+                          "dispatchKey": "0x0100000000000000000000000000000000000000000000000000000000000000",
+                          "variants": {
+                            "0": {
+                              "fields": []
+                            },
+                            "1": {
+                              "fields": []
+                            },
+                            "2": {
+                              "fields": []
+                            },
+                            "3": {
+                              "fields": []
+                            },
+                            "4": {
+                              "fields": []
+                            },
+                            "5": {
+                              "fields": []
+                            },
+                            "6": {
+                              "fields": []
+                            }
+                          }
+                        }
+                      },
+                      "name": null
+                    }
+                  ]
+                },
+                "2": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "enum": {
+                          "dispatchKey": "0x0100000000000000000000000000000000000000000000000000000000000000",
+                          "variants": {
+                            "0": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 1
+                                    }
+                                  },
+                                  "name": null
+                                }
+                              ]
+                            },
+                            "1": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 2
+                                    }
+                                  },
+                                  "name": null
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "name": null
+                    }
+                  ]
+                },
+                "3": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "enum": {
+                          "dispatchKey": "0x0100000000000000000000000000000000000000000000000000000000000000",
+                          "variants": {
+                            "0": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 1
+                                    }
+                                  },
+                                  "name": "value"
+                                }
+                              ]
+                            },
+                            "1": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 2
+                                    }
+                                  },
+                                  "name": "value"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "name": null
+                    }
+                  ]
+                },
+                "4": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "enum": {
+                          "dispatchKey": "0x0100000000000000000000000000000000000000000000000000000000000000",
+                          "variants": {
+                            "0": {
+                              "fields": []
+                            },
+                            "1": {
+                              "fields": []
+                            },
+                            "2": {
+                              "fields": []
+                            },
+                            "3": {
+                              "fields": []
+                            },
+                            "4": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 3
+                                    }
+                                  },
+                                  "name": "r"
+                                },
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0300000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 3
+                                    }
+                                  },
+                                  "name": "g"
+                                },
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0400000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 3
+                                    }
+                                  },
+                                  "name": "b"
+                                }
+                              ]
+                            },
+                            "5": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 3
+                                    }
+                                  },
+                                  "name": "r"
+                                },
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0300000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 3
+                                    }
+                                  },
+                                  "name": "g"
+                                },
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0400000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 3
+                                    }
+                                  },
+                                  "name": "b"
+                                },
+                                {
+                                  "layout": {
+                                    "cell": {
+                                      "key": "0x0500000000000000000000000000000000000000000000000000000000000000",
+                                      "ty": 3
+                                    }
+                                  },
+                                  "name": "a"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "name": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "name": "last"
+        }
+      ]
+    }
+  },
+  "types": [
+    {
+      "def": {
+        "primitive": "i32"
+      }
+    },
+    {
+      "def": {
+        "primitive": "u32"
+      }
+    },
+    {
+      "def": {
+        "primitive": "u8"
+      }
+    },
+    {
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "None"
+            },
+            {
+              "fields": [
+                {
+                  "type": 5
+                }
+              ],
+              "name": "Weekday"
+            },
+            {
+              "fields": [
+                {
+                  "type": 6
+                }
+              ],
+              "name": "TupleMaybeSigned"
+            },
+            {
+              "fields": [
+                {
+                  "type": 7
+                }
+              ],
+              "name": "NamedMaybeSigned"
+            },
+            {
+              "fields": [
+                {
+                  "type": 8
+                }
+              ],
+              "name": "Color"
+            }
+          ]
+        }
+      },
+      "path": [
+        "enum_example",
+        "enum_example",
+        "Variant"
+      ]
+    },
+    {
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "discriminant": 0,
+              "name": "Monday"
+            },
+            {
+              "discriminant": 1,
+              "name": "Tuesday"
+            },
+            {
+              "discriminant": 2,
+              "name": "Wednesday"
+            },
+            {
+              "discriminant": 3,
+              "name": "Thursday"
+            },
+            {
+              "discriminant": 4,
+              "name": "Friday"
+            },
+            {
+              "discriminant": 5,
+              "name": "Saturday"
+            },
+            {
+              "discriminant": 6,
+              "name": "Sunday"
+            }
+          ]
+        }
+      },
+      "path": [
+        "enum_example",
+        "enum_example",
+        "Weekday"
+      ]
+    },
+    {
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "fields": [
+                {
+                  "type": 1
+                }
+              ],
+              "name": "Signed"
+            },
+            {
+              "fields": [
+                {
+                  "type": 2
+                }
+              ],
+              "name": "Unsigned"
+            }
+          ]
+        }
+      },
+      "path": [
+        "enum_example",
+        "enum_example",
+        "TupleMaybeSigned"
+      ]
+    },
+    {
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "fields": [
+                {
+                  "name": "value",
+                  "type": 1
+                }
+              ],
+              "name": "Signed"
+            },
+            {
+              "fields": [
+                {
+                  "name": "value",
+                  "type": 2
+                }
+              ],
+              "name": "Unsigned"
+            }
+          ]
+        }
+      },
+      "path": [
+        "enum_example",
+        "enum_example",
+        "NamedMaybeSigned"
+      ]
+    },
+    {
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "Red"
+            },
+            {
+              "name": "Blue"
+            },
+            {
+              "name": "Green"
+            },
+            {
+              "name": "Yellow"
+            },
+            {
+              "fields": [
+                {
+                  "name": "r",
+                  "type": 3
+                },
+                {
+                  "name": "g",
+                  "type": 3
+                },
+                {
+                  "name": "b",
+                  "type": 3
+                }
+              ],
+              "name": "Rgb"
+            },
+            {
+              "fields": [
+                {
+                  "name": "r",
+                  "type": 3
+                },
+                {
+                  "name": "g",
+                  "type": 3
+                },
+                {
+                  "name": "b",
+                  "type": 3
+                },
+                {
+                  "name": "a",
+                  "type": 3
+                }
+              ],
+              "name": "Rgba"
+            }
+          ]
+        }
+      },
+      "path": [
+        "enum_example",
+        "enum_example",
+        "Color"
+      ]
+    }
+  ]
+}
