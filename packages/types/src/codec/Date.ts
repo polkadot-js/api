@@ -3,11 +3,10 @@
 
 import { H256 } from '../interfaces/runtime';
 import { AnyNumber, Codec, Registry } from '../types';
+import { UIntBitLength } from './types';
 
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
-
-import { UIntBitLength } from './AbstractInt';
 
 const BITLENGTH: UIntBitLength = 64;
 

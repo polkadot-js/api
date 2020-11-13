@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, Text, Type, bool, u8 } from '@polkadot/types/primitive';
+import type { Bytes, Enum, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
 
 /** @name DoubleMapTypeLatest */
 export interface DoubleMapTypeLatest extends DoubleMapTypeV12 {}

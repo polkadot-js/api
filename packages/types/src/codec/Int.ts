@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AnyNumber, Constructor, Registry } from '../types';
+import { UIntBitLength } from './types';
 
-import { AbstractInt, UIntBitLength } from './AbstractInt';
+import { AbstractInt } from './AbstractInt';
 
 /**
  * @name Int

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { StorageKey } from '@polkadot/types/primitive';
+import type { StorageKey } from '@polkadot/types';
 
 /** @name PrefixedStorageKey */
 export interface PrefixedStorageKey extends StorageKey {}

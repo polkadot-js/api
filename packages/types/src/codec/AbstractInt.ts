@@ -3,11 +3,10 @@
 
 import { H256 } from '../interfaces/runtime';
 import { AnyNumber, Codec, Registry } from '../types';
+import { UIntBitLength } from './types';
 
 import BN from 'bn.js';
 import { BN_ZERO, assert, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
-
-export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
 

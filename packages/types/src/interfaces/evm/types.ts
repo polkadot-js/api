@@ -1,9 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, u256 } from '@polkadot/types/primitive';
-import { H160, H256 } from '@polkadot/types/interfaces/runtime';
+import type { Bytes, Struct, Vec, u256 } from '@polkadot/types';
+import type { H160, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name Account */
 export interface Account extends Struct {

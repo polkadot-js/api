@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Set, Struct } from '@polkadot/types/codec';
-import { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Set, Struct } from '@polkadot/types';
+import type { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountData */
 export interface AccountData extends Struct {

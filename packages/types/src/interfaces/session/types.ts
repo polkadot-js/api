@@ -1,11 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, u32 } from '@polkadot/types/primitive';
-import { ITuple } from '@polkadot/types/types';
-import { AccountId, ValidatorId } from '@polkadot/types/interfaces/runtime';
-import { Exposure } from '@polkadot/types/interfaces/staking';
+import type { Bytes, Struct, Vec, u32 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import type { Exposure } from '@polkadot/types/interfaces/staking';
 
 /** @name FullIdentification */
 export interface FullIdentification extends Exposure {}

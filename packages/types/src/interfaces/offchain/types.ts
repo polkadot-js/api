@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum } from '@polkadot/types/codec';
+import type { Enum } from '@polkadot/types';
 
 /** @name StorageKind */
 export interface StorageKind extends Enum {

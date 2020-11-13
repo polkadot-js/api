@@ -1,25 +1,24 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { Metadata } from '@polkadot/metadata';
-import { HashMap, Json, Option, Vec } from '@polkadot/types/codec';
-import { Bytes, Null, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
-import { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
-import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
-import { EpochAuthorship } from '@polkadot/types/interfaces/babe';
-import { BlockHash } from '@polkadot/types/interfaces/chain';
-import { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
-import { AuthorityId } from '@polkadot/types/interfaces/consensus';
-import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
-import { CreatedBlock } from '@polkadot/types/interfaces/engine';
-import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
-import { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
-import { StorageKind } from '@polkadot/types/interfaces/offchain';
-import { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
-import { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
-import { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
+import type { Metadata } from '@polkadot/metadata';
+import type { Bytes, HashMap, Json, Null, Option, StorageKey, Text, Vec, bool, u32, u64 } from '@polkadot/types';
+import type { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
+import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
+import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
+import type { BlockHash } from '@polkadot/types/interfaces/chain';
+import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import type { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
+import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
+import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
+import type { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
+import type { StorageKind } from '@polkadot/types/interfaces/offchain';
+import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
+import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
+import type { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import type { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
+import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
