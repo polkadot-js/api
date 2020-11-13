@@ -5,21 +5,10 @@ import { ApiTypes, ObsInnerType } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { CodecArg } from '@polkadot/types/types';
-import { ContractCallOutcome } from '../types';
+import { AbiMessage, BlueprintOptions, ContractCallOutcome, ContractOptions } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
-
-export interface BlueprintOptions {
-  gasLimit: BigInt | string | number | BN;
-  salt?: Uint8Array | string;
-  value: BigInt | string | number | BN;
-}
-
-export interface ContractOptions {
-  gasLimit?: BigInt | BN | string | number;
-  value?: BigInt | BN | string | number;
-}
 
 export interface BlueprintDeploy<ApiType extends ApiTypes> {
   (options: BlueprintOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
@@ -34,6 +23,11 @@ export interface ContractQuery<ApiType extends ApiTypes> {
 export interface ContractTx<ApiType extends ApiTypes> {
   (options: ContractOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
   (value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
+}
+
+export interface ContractGeneric<O, T> {
+  (messageOrId: AbiMessage | string | number, options: O, ...params: CodecArg[]): T;
+  (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): T;
 }
 
 export type ContractCallResult<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'

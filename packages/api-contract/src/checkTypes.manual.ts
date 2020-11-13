@@ -30,6 +30,10 @@ async function checkContract (api: ApiPromise, pairs: TestKeyringMap): Promise<v
   // execute
   await contract.tx.inc({ gasLimit: 1234 }, 123).signAndSend(pairs.eve);
   await contract.tx.inc(123, 456, 69).signAndSend(pairs.eve);
+
+  // deprecated
+  await contract.read('get', {}).send(pairs.eve.address);
+  await contract.exec('inc', {}, 123).signAndSend(pairs.dave);
 }
 
 async function main (): Promise<void> {

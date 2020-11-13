@@ -5,17 +5,17 @@ import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId, ContractExecResult, EventRecord } from '@polkadot/types/interfaces';
 import { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
-import { AbiMessage, ContractCallOutcome, DecodedEvent } from '../types';
-import { ContractCallResult, ContractCallSend, ContractOptions, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
+import { ContractCallResult, ContractCallSend, ContractGeneric, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, bnToBn, isBn, isBigInt, isFunction, isNumber, isString, isUndefined, logger, stringCamelCase } from '@polkadot/util';
+import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
 
 import { Abi } from '../Abi';
-import { applyOnEvent, formatData } from '../util';
+import { applyOnEvent, extractOptions, formatData, isOptions } from '../util';
 import { Base } from './Base';
 
 // As per Rust, 5 * GAS_PER_SEC
@@ -23,32 +23,25 @@ const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 const l = logger('Contract');
 
-function isOptions (options: BigInt | string | number | BN | ContractOptions): options is ContractOptions {
-  return !(isBn(options) || isBigInt(options) || isNumber(options) || isString(options));
-}
-
 function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: CodecArg[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
-  return (origin: string | AccountId | Uint8Array, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): ContractCallResult<ApiType, ContractCallOutcome> => {
-    if (isOptions(options)) {
-      return fn(origin, options, params);
-    }
-
-    const gasLimit = params.shift() as BN;
-
-    return fn(origin, { gasLimit, value: options }, params);
-  };
+  return (origin: string | AccountId | Uint8Array, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): ContractCallResult<ApiType, ContractCallOutcome> =>
+    isOptions(options)
+      ? fn(origin, options, params)
+      : fn(origin, ...extractOptions(options, params));
 }
 
 function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, params: CodecArg[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
-  return (options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
-    if (isOptions(options)) {
-      return fn(options, params);
-    }
+  return (options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
+    isOptions(options)
+      ? fn(options, params)
+      : fn(...extractOptions(options, params));
+}
 
-    const gasLimit = params.shift() as BN;
-
-    return fn({ gasLimit, value: options }, params);
-  };
+function createWithId <T> (fn: (messageOrId: AbiMessage | string | number, options: ContractOptions, params: CodecArg[]) => T): ContractGeneric<ContractOptions, T> {
+  return (messageOrId: AbiMessage | string | number, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): T =>
+    isOptions(options)
+      ? fn(messageOrId, options, params)
+      : fn(messageOrId, ...extractOptions(options, params));
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
@@ -127,22 +120,6 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public exec (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): SubmittableExtrinsic<ApiType> {
-    return this.#exec(messageOrId, { gasLimit, value }, params);
-  }
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public read (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): ContractCallSend<ApiType> {
-    return this.#read(messageOrId, { gasLimit, value }, params);
-  }
-
   #getGas = (_gasLimit: BigInt | BN | string | number, isCall = false): BN => {
     const gasLimit = bnToBn(_gasLimit);
 
@@ -202,4 +179,16 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       )
     };
   }
+
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
+   */
+  public exec = createWithId(this.#exec);
+
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
+   */
+  public read = createWithId(this.#read);
 }

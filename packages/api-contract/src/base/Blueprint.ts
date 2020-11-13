@@ -5,37 +5,35 @@ import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
-import { AbiConstructor } from '../types';
-import { BlueprintDeploy, BlueprintOptions, MapConstructorExec } from './types';
+import { AbiConstructor, BlueprintOptions } from '../types';
+import { BlueprintDeploy, ContractGeneric, MapConstructorExec } from './types';
 
 import BN from 'bn.js';
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
 import { Bytes } from '@polkadot/types';
-import { isBn, isBigInt, isNumber, isString, isUndefined, stringCamelCase, compactAddLength, u8aToU8a } from '@polkadot/util';
+import { isUndefined, stringCamelCase, compactAddLength, u8aToU8a } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 import { Abi } from '../Abi';
-import { applyOnEvent } from '../util';
+import { applyOnEvent, extractOptions, isOptions } from '../util';
 import { Base } from './Base';
 import { Contract } from './Contract';
 
 const EMPTY_SALT = new Uint8Array();
 
-function isOptions (options: BigInt | string | number | BN | BlueprintOptions): options is BlueprintOptions {
-  return !(isBn(options) || isBigInt(options) || isNumber(options) || isString(options));
+function createTx <ApiType extends ApiTypes> (fn: (options: BlueprintOptions, params: CodecArg[]) => SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>>): BlueprintDeploy<ApiType> {
+  return (options: BigInt | string | number | BN | BlueprintOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> =>
+    isOptions(options)
+      ? fn(options, params)
+      : fn(...extractOptions(options, params));
 }
 
-function createTx <ApiType extends ApiTypes> (fn: (options: BlueprintOptions, params: CodecArg[]) => SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>>): BlueprintDeploy<ApiType> {
-  return (options: BigInt | string | number | BN | BlueprintOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    if (isOptions(options)) {
-      return fn(options, params);
-    }
-
-    const gasLimit = params.shift() as BN;
-
-    return fn({ gasLimit, value: options }, params);
-  };
+function createWithId <T> (fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]) => T): ContractGeneric<BlueprintOptions, T> {
+  return (constructorOrId: AbiConstructor | string | number, options: BigInt | string | number | BN | BlueprintOptions, ...params: CodecArg[]): T =>
+    isOptions(options)
+      ? fn(constructorOrId, options, params)
+      : fn(constructorOrId, ...extractOptions(options, params));
 }
 
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
@@ -71,15 +69,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
-   */
-  public createContract (constructorOrId: AbiConstructor | string| number, value: BigInt | string | number | BN, gasLimit: BigInt | string | number | BN, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> {
-    return this.#deploy(constructorOrId, { gasLimit, value }, params);
-  }
-
-  #deploy = (constructorOrId: AbiConstructor | string| number, { gasLimit, salt = randomAsU8a(), value }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
+  #deploy = (constructorOrId: AbiConstructor | string| number, { gasLimit = 0, salt = randomAsU8a(), value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     const encodedSalt = salt instanceof Bytes
       ? salt
       : compactAddLength(u8aToU8a(salt));
@@ -97,4 +87,10 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       ))
     );
   }
+
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
+   */
+  public createContract = createWithId(this.#deploy);
 }
