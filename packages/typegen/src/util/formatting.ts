@@ -11,13 +11,17 @@ import { isString } from '@polkadot/util';
 import { setImports, ModuleTypes, TypeImports } from './imports';
 import { readTemplate } from './file';
 
+interface ImportDef {
+  file: string;
+  types: string[];
+}
+
 interface This {
   imports: TypeImports;
-  types: {
-    file: string;
-    types: string[];
-  }[]
+  types: ImportDef[];
 }
+
+const NO_CODEC = ['Tuple', 'VecFixed'];
 
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
@@ -35,22 +39,13 @@ Handlebars.registerHelper({
         types: Object.keys(imports.metadataTypes)
       },
       {
-        file: '@polkadot/types/codec',
-        types: Object
-          .keys(imports.codecTypes)
-          .filter((name) => name !== 'Tuple')
-      },
-      {
-        file: '@polkadot/types/extrinsic',
-        types: Object.keys(imports.extrinsicTypes)
-      },
-      {
-        file: '@polkadot/types/generic',
-        types: Object.keys(imports.genericTypes)
-      },
-      {
-        file: '@polkadot/types/primitive',
-        types: Object.keys(imports.primitiveTypes)
+        file: '@polkadot/types',
+        types: [
+          ...Object.keys(imports.codecTypes).filter((name) => !NO_CODEC.includes(name)),
+          ...Object.keys(imports.extrinsicTypes),
+          ...Object.keys(imports.genericTypes),
+          ...Object.keys(imports.primitiveTypes)
+        ]
       },
       {
         file: '@polkadot/types/types',

@@ -3,6 +3,7 @@
 
 import type BN from 'bn.js';
 import { SignOptions } from '@polkadot/keyring/types';
+
 import { Hash } from '../interfaces/runtime';
 import { FunctionMetadataLatest } from '../interfaces/metadata';
 import { ArgsDef, Codec } from './codec';

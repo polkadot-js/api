@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Vec } from '@polkadot/types/codec';
-import { Bytes, Text } from '@polkadot/types/primitive';
+import { Bytes, Enum, Text, Vec } from '@polkadot/types';
 import { Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name ExtrinsicOrHash */

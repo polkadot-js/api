@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct } from '@polkadot/types/codec';
+import { Struct } from '@polkadot/types';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name VestingInfo */

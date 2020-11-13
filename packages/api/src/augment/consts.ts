@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { Vec } from '@polkadot/types/codec';
-import { u16, u32, u64 } from '@polkadot/types/primitive';
+import { Vec, u16, u32, u64 } from '@polkadot/types';
 import { Codec } from '@polkadot/types/types';
 import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';

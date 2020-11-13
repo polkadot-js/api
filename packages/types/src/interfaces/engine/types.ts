@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct } from '@polkadot/types/codec';
-import { bool } from '@polkadot/types/primitive';
+import { Struct, bool } from '@polkadot/types';
 import { BlockHash } from '@polkadot/types/interfaces/chain';
 
 /** @name CreatedBlock */

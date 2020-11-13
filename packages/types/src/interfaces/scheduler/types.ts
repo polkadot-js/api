@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Option, Struct } from '@polkadot/types/codec';
-import { Bytes, u32, u8 } from '@polkadot/types/primitive';
+import { Bytes, Option, Struct, u32, u8 } from '@polkadot/types';
 import { ITuple } from '@polkadot/types/types';
 import { BlockNumber, Call, PalletsOrigin } from '@polkadot/types/interfaces/runtime';
 

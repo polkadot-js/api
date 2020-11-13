@@ -1,9 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Compact, Enum, HashMap, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { GenericEvent } from '@polkadot/types/generic';
-import { Bytes, Text, bool, i32, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, Compact, Enum, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
 import { ITuple } from '@polkadot/types/types';
 import { AccountData } from '@polkadot/types/interfaces/balances';
 import { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';

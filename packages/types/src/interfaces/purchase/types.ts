@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Struct } from '@polkadot/types/codec';
-import { Bytes } from '@polkadot/types/primitive';
+import { Bytes, Enum, Struct } from '@polkadot/types';
 import { Balance, Permill } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountStatus */

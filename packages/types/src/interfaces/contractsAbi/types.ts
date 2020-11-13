@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { BTreeMap, Enum, Option, Raw, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, Text, bool, u32, u64 } from '@polkadot/types/primitive';
+import { BTreeMap, Bytes, Enum, Option, Raw, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
 import { SiLookupTypeId, SiPath, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpec */

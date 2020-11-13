@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Struct } from '@polkadot/types/codec';
+import { Enum, Struct } from '@polkadot/types';
 import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name ProxyAnnouncement */

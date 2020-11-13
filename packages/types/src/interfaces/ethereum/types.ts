@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { GenericEthereumAccountId, GenericEthereumLookupSource } from '@polkadot/types/generic';
+import { GenericEthereumAccountId, GenericEthereumLookupSource } from '@polkadot/types';
 
 /** @name EthereumAccountId */
 export interface EthereumAccountId extends GenericEthereumAccountId {}

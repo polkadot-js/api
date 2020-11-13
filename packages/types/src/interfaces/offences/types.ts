@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes } from '@polkadot/types/primitive';
+import { Bytes, Struct, U8aFixed, Vec } from '@polkadot/types';
 import { ITuple } from '@polkadot/types/types';
 import { AccountId, Hash, Perbill } from '@polkadot/types/interfaces/runtime';
 import { IdentificationTuple, SessionIndex } from '@polkadot/types/interfaces/session';

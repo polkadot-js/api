@@ -8,8 +8,7 @@ import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 import { UIntBitLength } from '../codec/AbstractInt';
 import { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
-import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec } from '../codec';
-import { VecFixed } from '../codec/VecFixed';
+import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
 import { DoNotConstruct } from '../primitive';
 
 import { getTypeDef } from './getTypeDef';

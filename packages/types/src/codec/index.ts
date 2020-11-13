@@ -27,4 +27,4 @@ export { UInt } from './UInt';
 export { U8aFixed } from './U8aFixed';
 export { Vec } from './Vec';
 // export { VecAny } from './VecAny';
-// export { VecFixed } from './VecFixed';
+export { VecFixed } from './VecFixed';

@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec } from '@polkadot/types/codec';
-import { u16 } from '@polkadot/types/primitive';
+import { Struct, Vec, u16 } from '@polkadot/types';
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name ActiveRecovery */

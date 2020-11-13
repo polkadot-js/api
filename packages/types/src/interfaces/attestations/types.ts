@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec } from '@polkadot/types/codec';
+import { Struct, Vec } from '@polkadot/types';
 import { CandidateReceipt, ParaId } from '@polkadot/types/interfaces/parachains';
 import { AccountId, BlockNumber, H256, Hash } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';

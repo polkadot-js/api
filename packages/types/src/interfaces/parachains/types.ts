@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
+import { BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, u32 } from '@polkadot/types';
 import { ITuple } from '@polkadot/types/types';
 import { Signature } from '@polkadot/types/interfaces/extrinsics';
 import { AccountId, Balance, BlockNumber, Hash, ValidatorId } from '@polkadot/types/interfaces/runtime';

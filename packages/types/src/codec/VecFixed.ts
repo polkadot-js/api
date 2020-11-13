@@ -4,6 +4,7 @@
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, isU8a, u8aConcat, compactToU8a } from '@polkadot/util';
+
 import { AbstractArray } from './AbstractArray';
 import { Vec } from './Vec';
 import { typeToConstructor } from './utils';
