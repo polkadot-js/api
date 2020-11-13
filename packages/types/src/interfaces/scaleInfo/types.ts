@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Option, Struct, Text, Vec, u16, u32, u64 } from '@polkadot/types';
+import type { Enum, Option, Struct, Text, Vec, u16, u32, u64 } from '@polkadot/types';
 
 /** @name SiField */
 export interface SiField extends Struct {

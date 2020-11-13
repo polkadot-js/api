@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Struct, Vec, u32 } from '@polkadot/types';
-import { ITuple } from '@polkadot/types/types';
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Struct, Vec, u32 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name CollectiveOrigin */
 export interface CollectiveOrigin extends Enum {

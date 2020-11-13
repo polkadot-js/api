@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec, u16 } from '@polkadot/types';
-import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { Struct, Vec, u16 } from '@polkadot/types';
+import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name ActiveRecovery */
 export interface ActiveRecovery extends Struct {

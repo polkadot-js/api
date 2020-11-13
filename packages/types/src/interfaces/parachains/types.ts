@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, u32 } from '@polkadot/types';
-import { ITuple } from '@polkadot/types/types';
-import { Signature } from '@polkadot/types/interfaces/extrinsics';
-import { AccountId, Balance, BlockNumber, Hash, ValidatorId } from '@polkadot/types/interfaces/runtime';
-import { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
+import type { BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, u32 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { AccountId, Balance, BlockNumber, Hash, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** @name AbridgedCandidateReceipt */
 export interface AbridgedCandidateReceipt extends Struct {

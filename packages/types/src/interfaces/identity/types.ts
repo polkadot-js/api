@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Data, Enum, Option, Set, Struct, Vec, u32 } from '@polkadot/types';
-import { ITuple } from '@polkadot/types/types';
-import { AccountId, Balance, H160 } from '@polkadot/types/interfaces/runtime';
+import type { Data, Enum, Option, Set, Struct, Vec, u32 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, Balance, H160 } from '@polkadot/types/interfaces/runtime';
 
 /** @name IdentityFields */
 export interface IdentityFields extends Set {

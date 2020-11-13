@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Struct, u32 } from '@polkadot/types';
-import { ITuple } from '@polkadot/types/types';
-import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Struct, u32 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name Bid */
 export interface Bid extends Struct {
