@@ -2,19 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { H256 } from '@polkadot/types/interfaces';
-import { AnyJson, AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
+import { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
+import { CompactEncodable, UIntBitLength } from './types';
 
 import BN from 'bn.js';
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
 import { typeToConstructor } from './utils';
-import { UIntBitLength } from './AbstractInt';
-
-export interface CompactEncodable extends Codec {
-  bitLength (): number;
-  toBn (): BN;
-  toNumber (): number;
-}
 
 /**
  * @name Compact

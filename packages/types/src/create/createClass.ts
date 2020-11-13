@@ -1,13 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { UIntBitLength, U8aBitLength } from '../codec/types';
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { FromReg, TypeDef, TypeDefInfo } from './types';
 
 import { assert, isNumber, isUndefined } from '@polkadot/util';
 
-import { UIntBitLength } from '../codec/AbstractInt';
-import { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
 import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
 import { DoNotConstruct } from '../primitive';
 
@@ -158,7 +157,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return (
       (sub as TypeDef).type === 'u8'
-        ? U8aFixed.with((length * 8) as U8aFixedBitLength, displayName)
+        ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
         : VecFixed.with((sub as TypeDef).type as keyof InterfaceTypes, length)
     );
   }
