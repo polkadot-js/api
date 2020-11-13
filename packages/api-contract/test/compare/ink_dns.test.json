@@ -169,7 +169,7 @@
             "type": "Null"
           }
         ],
-        "type": "{ \"_enum\": [\"NameAlreadyExists\", \"CallerIsNotOwner\"] }"
+        "type": "{\"_enum\":[\"NameAlreadyExists\",\"CallerIsNotOwner\"]}"
       }
     ],
     "info": 7,
@@ -203,7 +203,7 @@
             "type": "Null"
           }
         ],
-        "type": "{ \"_enum\": [\"NameAlreadyExists\", \"CallerIsNotOwner\"] }"
+        "type": "{\"_enum\":[\"NameAlreadyExists\",\"CallerIsNotOwner\"]}"
       }
     ],
     "type": "Result<(), Error>"
@@ -235,7 +235,7 @@
         "type": "Null"
       }
     ],
-    "type": "{ \"_enum\": [\"NameAlreadyExists\", \"CallerIsNotOwner\"] }"
+    "type": "{\"_enum\":[\"NameAlreadyExists\",\"CallerIsNotOwner\"]}"
   },
   {
     "displayName": "Option",
