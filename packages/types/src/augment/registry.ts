@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Compact, Json, Option, Raw, Vec } from '@polkadot/types/codec';
-import { BitVec, Bool, Bytes, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, Null, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
+import { Compact, Json, Null, Option, Raw, Vec } from '@polkadot/types/codec';
+import { BitVec, Bool, Bytes, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -106,9 +106,6 @@ declare module '@polkadot/types/types/registry' {
     I256: I256;
     'Option<I256>': Option<I256>;
     'Vec<I256>': Vec<I256>;
-    Null: Null;
-    'Option<Null>': Option<Null>;
-    'Vec<Null>': Vec<Null>;
     StorageKey: StorageKey;
     'Option<StorageKey>': Option<StorageKey>;
     'Vec<StorageKey>': Vec<StorageKey>;
@@ -177,6 +174,9 @@ declare module '@polkadot/types/types/registry' {
     Json: Json;
     'Option<Json>': Option<Json>;
     'Vec<Json>': Vec<Json>;
+    Null: Null;
+    'Option<Null>': Option<Null>;
+    'Vec<Null>': Vec<Null>;
     Raw: Raw;
     'Option<Raw>': Option<Raw>;
     'Vec<Raw>': Vec<Raw>;

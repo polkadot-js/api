@@ -4,7 +4,7 @@
 import { Registry } from '../types';
 import { ExtrinsicOptions } from './types';
 
-import { Struct } from '../codec/Struct';
+import { Struct } from '../codec';
 import { UNMASK_VERSION } from './constants';
 
 /**

@@ -6,11 +6,8 @@ import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw
 
 import { u8aToHex } from '@polkadot/util';
 
-import { Compact } from '../codec/Compact';
-import { Struct } from '../codec/Struct';
-import { Vec } from '../codec/Vec';
-import { Text } from '../primitive/Text';
-import { u8 } from '../primitive/U8';
+import { Compact, Struct, Vec } from '../codec';
+import { Text, u8 } from '../primitive';
 
 export interface SignerPayloadType extends Codec {
   address: Address;

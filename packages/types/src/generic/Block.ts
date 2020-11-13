@@ -5,8 +5,7 @@ import { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
 import { AnyNumber, AnyU8a, Registry } from '../types';
 
 import { GenericExtrinsic } from '../extrinsic/Extrinsic';
-import { Struct } from '../codec/Struct';
-import { Vec } from '../codec/Vec';
+import { Struct, Vec } from '../codec';
 
 export interface HeaderValue {
   digest?: Digest | { logs: DigestItem[] };

@@ -5,11 +5,10 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 import { Constructor, Registry } from '@polkadot/types/types';
 
 import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
-import { Compact, Enum, Option, Struct, UInt, Vec, Tuple } from '@polkadot/types/codec';
+import { Compact, Enum, Null, Option, Struct, UInt, Vec, Tuple } from '@polkadot/types/codec';
 import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
-import { Null } from '@polkadot/types/primitive';
 import * as primitiveClasses from '@polkadot/types/primitive';
 import { isChildClass } from '@polkadot/util';
 

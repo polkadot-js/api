@@ -6,7 +6,7 @@ import { AnyU8a, Codec, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex, compactFromU8a, compactAddLength } from '@polkadot/util';
 
-import { Raw } from '../codec/Raw';
+import { Raw } from '../codec';
 
 const MAX_LENGTH = 128 * 1024;
 

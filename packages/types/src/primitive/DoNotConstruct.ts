@@ -3,7 +3,7 @@
 
 import { Constructor, Registry } from '../types';
 
-import { Null } from './Null';
+import { Null } from '../codec';
 
 /**
  * @name DoNotConstruct

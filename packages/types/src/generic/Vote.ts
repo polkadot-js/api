@@ -7,8 +7,8 @@ import { Conviction } from '../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 
-import { U8aFixed } from '../codec/U8aFixed';
-import { bool as Bool } from '../primitive/Bool';
+import { U8aFixed } from '../codec';
+import { bool as Bool } from '../primitive';
 
 interface VoteType {
   aye: boolean;

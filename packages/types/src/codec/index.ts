@@ -7,6 +7,7 @@
 // others, so there _should_ not be need for direct use)
 
 // These are the base codec types, generally used for construction
+export { Base } from './Base';
 export { BTreeMap } from './BTreeMap';
 export { BTreeSet } from './BTreeSet';
 export { Compact } from './Compact';
@@ -17,6 +18,7 @@ export { Int } from './Int';
 export { Json } from './Json';
 export { Linkage } from './Linkage';
 export { CodecMap, CodecMap as Map } from './Map';
+export { Null } from './Null';
 export { Option } from './Option';
 export { Raw } from './Raw';
 export { Result } from './Result';

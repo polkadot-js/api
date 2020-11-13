@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import { bnToBn, isBn, isBigInt, isNumber, isU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import { u32 } from '../primitive/U32';
+import { u32 } from '../primitive';
 
 export const ENUMSET_SIZE = new BN(64);
 

@@ -6,9 +6,7 @@ import { EventMetadataLatest } from '../interfaces/metadata';
 import { EventId } from '../interfaces/system';
 import { AnyJson, Constructor, Registry, RegistryMetadataEvent } from '../types';
 
-import { Struct } from '../codec/Struct';
-import { Tuple } from '../codec/Tuple';
-import { Null } from '../primitive/Null';
+import { Null, Struct, Tuple } from '../codec';
 
 /**
  * @name GenericEventData

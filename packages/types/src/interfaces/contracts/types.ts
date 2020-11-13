@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Compact, Enum, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
-import { Bytes, Null, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Compact, Enum, Null, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
+import { Bytes, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AliveContractInfo */

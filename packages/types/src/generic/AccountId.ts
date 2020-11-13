@@ -6,7 +6,7 @@ import { AnyString, AnyU8a, Registry } from '../types';
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a, assert } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import { U8aFixed } from '../codec/U8aFixed';
+import { U8aFixed } from '../codec';
 
 /** @internal */
 function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {

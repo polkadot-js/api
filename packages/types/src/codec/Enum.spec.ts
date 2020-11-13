@@ -6,8 +6,8 @@ import { Registry } from '../types';
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
-import { Null, Text, U32 } from '../primitive';
-import { Enum } from '.';
+import { Text, U32 } from '../primitive';
+import { Enum, Null } from '.';
 
 describe('Enum', (): void => {
   const registry = new TypeRegistry();

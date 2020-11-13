@@ -7,8 +7,7 @@ import { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../create';
-import { Struct } from '../codec/Struct';
-import { U8aFixed } from '../codec/U8aFixed';
+import { Struct, U8aFixed } from '../codec';
 
 interface DecodeMethodInput {
   args: unknown;

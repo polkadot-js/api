@@ -8,7 +8,7 @@ import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
-import { Struct } from '../../codec/Struct';
+import { Struct } from '../../codec';
 
 export const EXTRINSIC_VERSION = 4;
 

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { TypeRegistry } from '../create';
-import { Raw } from '../codec/Raw';
+import { Raw } from '../codec';
 import jsonVec from '../json/AccountIdVec.001.json';
 import { GenericAccountId as AccountId } from '.';
 

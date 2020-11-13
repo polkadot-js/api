@@ -6,11 +6,8 @@ import { ExtrinsicEra } from '../../interfaces/extrinsics';
 import { Balance, Hash, Index } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
-import { Compact } from '../../codec/Compact';
-import { Enum } from '../../codec/Enum';
-import { Struct } from '../../codec/Struct';
-import { Bytes } from '../../primitive/Bytes';
-import { u32 } from '../../primitive/U32';
+import { Compact, Enum, Struct } from '../../codec';
+import { Bytes, u32 } from '../../primitive';
 import { sign } from '../util';
 
 /**

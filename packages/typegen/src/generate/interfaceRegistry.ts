@@ -3,7 +3,7 @@
 
 import Handlebars from 'handlebars';
 
-import { Json, Raw } from '@polkadot/types/codec';
+import { Json, Null, Raw } from '@polkadot/types/codec';
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
@@ -14,6 +14,7 @@ import { ModuleTypes } from '../util/imports';
 const primitiveClasses = {
   ...defaultPrimitives,
   Json,
+  Null,
   Raw
 };
 

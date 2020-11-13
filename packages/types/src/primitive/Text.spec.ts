@@ -3,7 +3,7 @@
 
 import { CodecTo } from '../types';
 import { TypeRegistry } from '../create';
-import { Raw } from '../codec/Raw';
+import { Raw } from '../codec';
 import { Text } from '.';
 
 describe('Text', (): void => {

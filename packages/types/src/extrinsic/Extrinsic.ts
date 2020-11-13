@@ -8,8 +8,7 @@ import { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKe
 
 import { assert, compactAddLength, compactFromU8a, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { Base } from '../codec/Base';
-import { Compact } from '../codec/Compact';
+import { Base, Compact } from '../codec';
 import { ExtrinsicValueV4 } from './v4/Extrinsic';
 import { GenericExtrinsicEra } from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';

@@ -6,8 +6,7 @@ import { AccountId } from '../interfaces/runtime';
 import BN from 'bn.js';
 import { bnToBn } from '@polkadot/util';
 
-import { Bytes } from '../primitive/Bytes';
-import { u32 } from '../primitive/U32';
+import { Bytes, u32 } from '../primitive';
 
 // there are all reversed since it is actually encoded as u32, LE,
 // this means that FRNK has the bytes as KNRF
