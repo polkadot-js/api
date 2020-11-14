@@ -5,6 +5,7 @@ import { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
 import { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageSpec, ContractMessageParamSpec, ContractProject } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
+import { Bytes } from '@polkadot/types';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { MetaRegistry } from './MetaRegistry';
@@ -76,7 +77,7 @@ export class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
-  public decodeEvent (data: Uint8Array): DecodedEvent {
+  public decodeEvent (data: Bytes | Uint8Array): DecodedEvent {
     const index = data[0];
     const event = this.#events[index];
 
