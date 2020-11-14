@@ -82,7 +82,22 @@ function mapExecResult (registry: Registry, json: Record<string, AnyJson>): Cont
 }
 
 export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
+  /**
+   * @description The on-chain address for this contract
+   */
   public readonly address: AccountId;
+
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
+   */
+  public readonly exec: ContractGeneric<ContractOptions, SubmittableExtrinsic<ApiType>>;
+
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
+   */
+  public readonly read: ContractGeneric<ContractOptions, ContractCallSend<ApiType>>;
 
   readonly #query: MapMessageQuery<ApiType> = {};
 
@@ -92,6 +107,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     super(api, abi, decorateMethod);
 
     this.address = this.registry.createType('AccountId', address);
+    this.exec = createWithId(this.#exec);
+    this.read = createWithId(this.#read);
 
     this.abi.messages.forEach((m): void => {
       const messageName = stringCamelCase(m.identifier);
@@ -179,16 +196,4 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       )
     };
   }
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public exec = createWithId(this.#exec);
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public read = createWithId(this.#read);
 }

@@ -47,7 +47,16 @@ export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends Submit
 }
 
 export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
+  /**
+   * @description The on-chain code hash for this blueprint
+   */
   public readonly codeHash: Hash;
+
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
+   */
+  public readonly createContract: ContractGeneric<BlueprintOptions, SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>>>;
 
   readonly #tx: MapConstructorExec<ApiType> = {};
 
@@ -55,6 +64,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     super(api, abi, decorateMethod);
 
     this.codeHash = this.registry.createType('Hash', codeHash);
+    this.createContract = createWithId(this.#deploy);
 
     this.abi.constructors.forEach((c): void => {
       const messageName = stringCamelCase(c.identifier);
@@ -87,10 +97,4 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       ))
     );
   }
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
-   */
-  public createContract = createWithId(this.#deploy);
 }
