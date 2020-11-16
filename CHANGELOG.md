@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 2.7.1 Nov 16, 2020
+
+Upgrade priority: Medium. Recommended for users of Polkadot/Kusama and api-contract users.
+
+Changes:
+
+- Allow for `ExtrinsicSignature` overrides (defaults to `MultiSignature`)
+- Update api-contract `Blueprint` to allow for optional salt (auto if not provided)
+- Support for ink! `.contract` files (in addition to ABI `.json`)
+- Fix contract event decoding with pass-through of raw `Bytes`
+- Fix support for enum encoding in api-contract
+- Support new contract `Schedule` type as per Substrate
+- Update Kusama/Polkadot known upgrade blocks
+- Adjust typegen generated `@polkadot/types` imports
+- Adjust internal `@polkadot/types` imports/exports (overall bundle sizes)
+
+
 ## 2.6.1 Nov 9, 2020
 
 Upgrade priority: Low. Should be done alongside an update to `@polkadot/util` to 4.0
@@ -7,7 +24,7 @@ Upgrade priority: Low. Should be done alongside an update to `@polkadot/util` to
 Changes:
 
 - Adjust auto-gas to contract RPC call to 5 * 10 ^ 12 (align with Rust)
-- Adjust derive AccountId check to take Ethereum-compatible chains into account
+- Adjust derive `AccountId` check to take Ethereum-compatible chains into account
 - Fallback for chains with invalid council proposal data in derives
 - Bump static v12 Metadata (tests) to latest Substrate version
 - Bump `@polkadot/{util,util-crypto}` to 4.0 (optimized WASM layers)
