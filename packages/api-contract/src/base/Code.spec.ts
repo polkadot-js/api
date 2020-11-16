@@ -7,8 +7,8 @@ import { decorateMethod } from '@polkadot/api/promise';
 
 import contractFlipper from '../../test/contracts/ink/flipper.contract.json';
 import abiFlipper from '../../test/contracts/ink/flipper.json';
-import { Code } from './Code';
 import { mockApi } from './mock';
+import { Code } from './Code';
 
 const wasmFlipper = fs.readFileSync(path.join(__dirname, '../../test/contracts/ink/flipper.wasm'));
 

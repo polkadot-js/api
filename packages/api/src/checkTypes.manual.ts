@@ -34,7 +34,7 @@ async function derive (api: ApiPromise): Promise<void> {
   console.log('fees', fees);
 }
 
-async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
+async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.bonded();
 
   console.log('intentions:', intentions);
@@ -47,7 +47,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const oldBal = await api.query.balances.totalIssuance.at('abcd');
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
   // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
-  const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
+  const multi = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
 
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
@@ -63,15 +63,15 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // check multi , Promise result
   const multiRes = await api.queryMulti([
-    [api.query.system.account, keyring.eve.address],
+    [api.query.system.account, pairs.eve.address],
     // older chains only
-    [api.query.system.accountNonce, keyring.eve.address]
+    [api.query.system.accountNonce, pairs.eve.address]
   ]);
 
   console.log(multiRes);
 }
 
-async function queryExtra (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
+async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // events destructing
   await api.query.system.events((records): void => {
     records.forEach(({ event, phase }): void => {
@@ -96,7 +96,7 @@ async function queryExtra (api: ApiPromise, keyring: TestKeyringMap): Promise<vo
   await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
 
   // check range
-  await api.query.balances.freeBalance.range<Balance>(['0x1234'], keyring.bob.address);
+  await api.query.balances.freeBalance.range<Balance>(['0x1234'], pairs.bob.address);
 
   // check range types
   const entries = await api.query.system.events.range(['0x12345', '0x7890']);
@@ -139,33 +139,33 @@ function types (api: ApiPromise): void {
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, api.createType('AccountData'));
 }
 
-async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
+async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // transfer, also allows for BigInt inputs here
-  const transfer = api.tx.balances.transfer(keyring.bob.address, 123456789n);
+  const transfer = api.tx.balances.transfer(pairs.bob.address, 123456789n);
 
   console.log('transfer casted', transfer as IMethod, transfer as IExtrinsic);
 
   // simple "return the hash" variant
-  console.log('hash:', (await transfer.signAndSend(keyring.alice)).toHex());
+  console.log('hash:', (await transfer.signAndSend(pairs.alice)).toHex());
 
   // passing options, but waiting for hash
-  const nonce = await api.query.system.accountNonce<Index>(keyring.alice.address);
+  const nonce = await api.query.system.accountNonce<Index>(pairs.alice.address);
 
   (await api.tx.balances
-    .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, { nonce })
+    .transfer(pairs.bob.address, 12345)
+    .signAndSend(pairs.alice, { nonce })
   ).toHex();
 
   // just with the callback
   await api.tx.balances
-    .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, ({ status }: SubmittableResult) => console.log(status.type));
+    .transfer(pairs.bob.address, 12345)
+    .signAndSend(pairs.alice, ({ status }: SubmittableResult) => console.log(status.type));
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce(keyring.alice.address);
+  const nonce2 = await api.query.system.accountNonce(pairs.alice.address);
   const unsub2 = await api.tx.balances
-    .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
+    .transfer(pairs.bob.address, 12345)
+    .signAndSend(pairs.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
       console.log('transfer status:', status.type);
 
       unsub2();
@@ -178,22 +178,22 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   await second.signAndSend('123', (result) => console.log(result));
 
   // it handles enum inputs correctly
-  await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(keyring.alice);
+  await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
 }
 
 async function main (): Promise<void> {
   const api = await ApiPromise.create();
-  const keyring = createTestPairs();
+  const pairs = createTestPairs();
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   Promise.all([
     consts(api),
     derive(api),
-    query(api, keyring),
-    queryExtra(api, keyring),
+    query(api, pairs),
+    queryExtra(api, pairs),
     rpc(api),
     types(api),
-    tx(api, keyring)
+    tx(api, pairs)
   ]);
 }
 
