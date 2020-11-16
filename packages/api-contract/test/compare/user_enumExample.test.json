@@ -84,7 +84,7 @@
             "type": "Null"
           }
         ],
-        "type": "{ \"_enum\": [\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"] }",
+        "type": "{\"_enum\":[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]}",
         "name": "Weekday"
       },
       {
@@ -286,7 +286,7 @@
         "type": "Null"
       }
     ],
-    "type": "{ \"_enum\": [\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"] }"
+    "type": "{\"_enum\":[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]}"
   },
   {
     "displayName": "TupleMaybeSigned",
