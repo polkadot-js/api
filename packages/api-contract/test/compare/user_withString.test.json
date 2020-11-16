@@ -33,15 +33,6 @@
   {
     "displayName": "Entry",
     "namespace": "ink_storage::collections::stash",
-    "params": [
-      {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
-        "info": 6,
-        "type": "AccountId"
-      }
-    ],
-    "info": 3,
     "sub": [
       {
         "displayName": "VacantEntry",
@@ -70,6 +61,7 @@
         "name": "Occupied"
       }
     ],
+    "info": 3,
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"AccountId\"}}"
   },
   {
@@ -112,13 +104,6 @@
   {
     "displayName": "ValueEntry",
     "namespace": "ink_storage::collections::hashmap",
-    "params": [
-      {
-        "info": 6,
-        "type": "u128"
-      }
-    ],
-    "info": 9,
     "sub": [
       {
         "info": 6,
@@ -131,32 +116,12 @@
         "name": "key_index"
       }
     ],
+    "info": 9,
     "type": "{\"value\":\"u128\",\"key_index\":\"u32\"}"
   },
   {
     "displayName": "Entry",
     "namespace": "ink_storage::collections::stash",
-    "params": [
-      {
-        "info": 10,
-        "sub": [
-          {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
-            "info": 6,
-            "type": "AccountId"
-          },
-          {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
-            "info": 6,
-            "type": "AccountId"
-          }
-        ],
-        "type": "(AccountId, AccountId)"
-      }
-    ],
-    "info": 3,
     "sub": [
       {
         "displayName": "VacantEntry",
@@ -197,6 +162,7 @@
         "name": "Occupied"
       }
     ],
+    "info": 3,
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(AccountId, AccountId)\"}}"
   },
   {
@@ -227,21 +193,13 @@
   },
   {
     "displayName": "Option",
-    "params": [
-      {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
-        "info": 6,
-        "type": "AccountId"
-      }
-    ],
-    "info": 5,
     "sub": {
       "displayName": "AccountId",
       "namespace": "ink_env::types",
       "info": 6,
       "type": "AccountId"
     },
+    "info": 5,
     "type": "Option<AccountId>"
   }
 ]
