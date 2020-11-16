@@ -17,9 +17,8 @@ export function paramsNotation <T> (outer: string, inner?: T | T[], transform: (
   }`;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 function encodeWithParams (typeDef: TypeDef, outer: string): string {
-  const { info, sub, type } = typeDef;
+  const { info, sub } = typeDef;
 
   switch (info) {
     case TypeDefInfo.BTreeMap:
@@ -30,12 +29,10 @@ function encodeWithParams (typeDef: TypeDef, outer: string): string {
     case TypeDefInfo.Option:
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       return paramsNotation(outer, sub, (param) => encodeTypeDef(param));
-
-    default:
-      return type;
   }
+
+  throw new Error(`Unable to encode ${JSON.stringify(typeDef)} with params`);
 }
 
 function encodeDoNotConstruct ({ displayName }: TypeDef): string {
@@ -49,7 +46,6 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
 
   const inner = sub.reduce((result: Record<string, string>, type): Record<string, string> => ({
     ...result,
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     [type.name as string]: encodeTypeDef(type)
   }), {});
 
@@ -81,7 +77,6 @@ function encodeStruct (typeDef: TypeDef): string {
 function encodeTuple (typeDef: TypeDef): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
 
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return `(${typeDef.sub.map((type) => encodeTypeDef(type)).join(', ')})`;
 }
 
