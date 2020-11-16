@@ -38,7 +38,6 @@ export interface TypeDef {
   length?: number;
   name?: string;
   namespace?: string;
-  params?: TypeDef[];
   sub?: TypeDef | TypeDef[];
   type: string;
 }

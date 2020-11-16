@@ -12,6 +12,7 @@ import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
+import { Bytes } from '@polkadot/types';
 import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
 
 import { Abi } from '../Abi';
@@ -155,7 +156,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           records
             .map(({ event: { data: [, data] } }): DecodedEvent | null => {
               try {
-                return this.abi.decodeEvent(data.toU8a());
+                return this.abi.decodeEvent(data as Bytes);
               } catch (error) {
                 l.error(`Unable to decode contract event: ${(error as Error).message}`);
 

@@ -7,6 +7,8 @@ import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 const stringIdentity = <T extends { toString: () => string }> (value: T): string => value.toString();
 
+const INFO_WRAP = ['BTreeMap', 'BTreeSet', 'Compact', 'HashMap', 'Option', 'Result', 'Vec'];
+
 export function paramsNotation <T> (outer: string, inner?: T | T[], transform: (_: T) => string = stringIdentity): string {
   return `${outer}${
     inner
@@ -15,9 +17,8 @@ export function paramsNotation <T> (outer: string, inner?: T | T[], transform: (
   }`;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-function encodeWithParams (typeDef: TypeDef, outer = typeDef.displayName || typeDef.type): string {
-  const { info, params, sub } = typeDef;
+function encodeWithParams (typeDef: TypeDef, outer: string): string {
+  const { info, sub } = typeDef;
 
   switch (info) {
     case TypeDefInfo.BTreeMap:
@@ -28,22 +29,23 @@ function encodeWithParams (typeDef: TypeDef, outer = typeDef.displayName || type
     case TypeDefInfo.Option:
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      return paramsNotation(outer, params || sub, (param) => encodeTypeDef(param));
-
-    default:
-      return outer;
+      return paramsNotation(outer, sub, (param) => encodeTypeDef(param));
   }
+
+  throw new Error(`Unable to encode ${JSON.stringify(typeDef)} with params`);
 }
 
 function encodeDoNotConstruct ({ displayName }: TypeDef): string {
-  return `DoNotEncode<${displayName || 'Unknown'}>`;
+  return `DoNotConstruct<${displayName || 'Unknown'}>`;
 }
 
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
+  const names = sub.map(({ name }) => name);
+
+  assert(names.every((n) => !!n), `Subtypes does not have consistent names, ${names.join(', ')}`);
+
   const inner = sub.reduce((result: Record<string, string>, type): Record<string, string> => ({
     ...result,
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     [type.name as string]: encodeTypeDef(type)
   }), {});
 
@@ -62,7 +64,7 @@ function encodeEnum (typeDef: TypeDef): string {
   // c-like enums have all Null entries
   // TODO We need to take the disciminant into account and auto-add empty entries
   return sub.every(({ type }) => type === 'Null')
-    ? `{ "_enum": [${sub.map(({ name }, index) => `"${name || `Empty${index}`}"`).join(', ')}] }`
+    ? JSON.stringify({ _enum: sub.map(({ name }, index) => `${name || `Empty${index}`}`) })
     : encodeSubTypes(sub, true);
 }
 
@@ -75,7 +77,6 @@ function encodeStruct (typeDef: TypeDef): string {
 function encodeTuple (typeDef: TypeDef): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
 
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return `(${typeDef.sub.map((type) => encodeTypeDef(type)).join(', ')})`;
 }
 
@@ -126,9 +127,14 @@ function encodeType (typeDef:TypeDef): string {
 export function encodeTypeDef (typeDef: TypeDef): string {
   assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
 
-  return typeDef.displayName || [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
-    ? encodeWithParams(typeDef)
-    : encodeType(typeDef);
+  // In the case of contracts we do have the unfortunate situation where the displayName would
+  // refer to "Option" when it is an option. For these, string it out, only using when actually
+  // not a top-level element to be used
+  if (typeDef.displayName && !INFO_WRAP.some((i) => typeDef.displayName === i)) {
+    return typeDef.displayName;
+  }
+
+  return encodeType(typeDef);
 }
 
 export function withTypeString (typeDef: Omit<TypeDef, 'type'>): TypeDef {
