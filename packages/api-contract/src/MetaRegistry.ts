@@ -119,7 +119,7 @@ export class MetaRegistry extends TypeRegistry {
         : {}
       ),
       ...(type.params.length > 0
-        ? { params: type.params.map((type) => this.getMetaTypeDef({ type })) }
+        ? { sub: type.params.map((type) => this.getMetaTypeDef({ type })) }
         : {}
       ),
       ...typeDef

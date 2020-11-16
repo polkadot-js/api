@@ -19,7 +19,7 @@ export function paramsNotation <T> (outer: string, inner?: T | T[], transform: (
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 function encodeWithParams (typeDef: TypeDef, outer: string): string {
-  const { info, params, sub, type } = typeDef;
+  const { info, sub, type } = typeDef;
 
   switch (info) {
     case TypeDefInfo.BTreeMap:
@@ -31,7 +31,7 @@ function encodeWithParams (typeDef: TypeDef, outer: string): string {
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      return paramsNotation(outer, params || sub, (param) => encodeTypeDef(param));
+      return paramsNotation(outer, sub, (param) => encodeTypeDef(param));
 
     default:
       return type;

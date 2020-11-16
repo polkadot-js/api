@@ -29,13 +29,6 @@
   {
     "displayName": "Entry",
     "namespace": "ink_storage::collections::stash",
-    "params": [
-      {
-        "info": 6,
-        "type": "u32"
-      }
-    ],
-    "info": 3,
     "sub": [
       {
         "displayName": "VacantEntry",
@@ -62,6 +55,7 @@
         "name": "Occupied"
       }
     ],
+    "info": 3,
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"u32\"}}"
   },
   {
@@ -85,15 +79,6 @@
   {
     "displayName": "ValueEntry",
     "namespace": "ink_storage::collections::hashmap",
-    "params": [
-      {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
-        "info": 6,
-        "type": "AccountId"
-      }
-    ],
-    "info": 9,
     "sub": [
       {
         "displayName": "AccountId",
@@ -108,6 +93,7 @@
         "name": "key_index"
       }
     ],
+    "info": 9,
     "type": "{\"value\":\"AccountId\",\"key_index\":\"u32\"}"
   },
   {
@@ -132,15 +118,6 @@
   {
     "displayName": "Entry",
     "namespace": "ink_storage::collections::stash",
-    "params": [
-      {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
-        "info": 6,
-        "type": "AccountId"
-      }
-    ],
-    "info": 3,
     "sub": [
       {
         "displayName": "VacantEntry",
@@ -169,18 +146,12 @@
         "name": "Occupied"
       }
     ],
+    "info": 3,
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"AccountId\"}}"
   },
   {
     "displayName": "ValueEntry",
     "namespace": "ink_storage::collections::hashmap",
-    "params": [
-      {
-        "info": 6,
-        "type": "u32"
-      }
-    ],
-    "info": 9,
     "sub": [
       {
         "info": 6,
@@ -193,32 +164,12 @@
         "name": "key_index"
       }
     ],
+    "info": 9,
     "type": "{\"value\":\"u32\",\"key_index\":\"u32\"}"
   },
   {
     "displayName": "Entry",
     "namespace": "ink_storage::collections::stash",
-    "params": [
-      {
-        "info": 10,
-        "sub": [
-          {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
-            "info": 6,
-            "type": "AccountId"
-          },
-          {
-            "displayName": "AccountId",
-            "namespace": "ink_env::types",
-            "info": 6,
-            "type": "AccountId"
-          }
-        ],
-        "type": "(AccountId, AccountId)"
-      }
-    ],
-    "info": 3,
     "sub": [
       {
         "displayName": "VacantEntry",
@@ -259,6 +210,7 @@
         "name": "Occupied"
       }
     ],
+    "info": 3,
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(AccountId, AccountId)\"}}"
   },
   {
@@ -282,13 +234,6 @@
   {
     "displayName": "ValueEntry",
     "namespace": "ink_storage::collections::hashmap",
-    "params": [
-      {
-        "info": 6,
-        "type": "bool"
-      }
-    ],
-    "info": 9,
     "sub": [
       {
         "info": 6,
@@ -301,6 +246,7 @@
         "name": "key_index"
       }
     ],
+    "info": 9,
     "type": "{\"value\":\"bool\",\"key_index\":\"u32\"}"
   },
   {
@@ -309,105 +255,17 @@
   },
   {
     "displayName": "Option",
-    "params": [
-      {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
-        "info": 6,
-        "type": "AccountId"
-      }
-    ],
-    "info": 5,
     "sub": {
       "displayName": "AccountId",
       "namespace": "ink_env::types",
       "info": 6,
       "type": "AccountId"
     },
+    "info": 5,
     "type": "Option<AccountId>"
   },
   {
     "displayName": "Result",
-    "params": [
-      {
-        "info": 10,
-        "sub": [],
-        "type": "()"
-      },
-      {
-        "displayName": "Error",
-        "namespace": "erc721::erc721",
-        "info": 3,
-        "sub": [
-          {
-            "ext": {
-              "discriminant": 0
-            },
-            "info": 6,
-            "name": "NotOwner",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 1
-            },
-            "info": 6,
-            "name": "NotApproved",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 2
-            },
-            "info": 6,
-            "name": "TokenExists",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 3
-            },
-            "info": 6,
-            "name": "TokenNotFound",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 4
-            },
-            "info": 6,
-            "name": "CannotInsert",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 5
-            },
-            "info": 6,
-            "name": "CannotRemove",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 6
-            },
-            "info": 6,
-            "name": "CannotFetchValue",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 7
-            },
-            "info": 6,
-            "name": "NotAllowed",
-            "type": "Null"
-          }
-        ],
-        "type": "{\"_enum\":[\"NotOwner\",\"NotApproved\",\"TokenExists\",\"TokenNotFound\",\"CannotInsert\",\"CannotRemove\",\"CannotFetchValue\",\"NotAllowed\"]}"
-      }
-    ],
-    "info": 7,
     "sub": [
       {
         "name": "Ok",
@@ -489,6 +347,7 @@
         "type": "{\"_enum\":[\"NotOwner\",\"NotApproved\",\"TokenExists\",\"TokenNotFound\",\"CannotInsert\",\"CannotRemove\",\"CannotFetchValue\",\"NotAllowed\"]}"
       }
     ],
+    "info": 7,
     "type": "Result<(), Error>"
   },
   {
