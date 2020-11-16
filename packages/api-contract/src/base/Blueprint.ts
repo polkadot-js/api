@@ -36,6 +36,14 @@ function createWithId <T> (fn: (constructorOrId: AbiConstructor | string | numbe
       : fn(constructorOrId, ...extractOptions(options, params));
 }
 
+function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()) {
+  return salt instanceof Bytes
+    ? salt
+    : salt && salt.length
+      ? compactAddLength(u8aToU8a(salt))
+      : EMPTY_SALT;
+}
+
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
 
@@ -79,10 +87,8 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #deploy = (constructorOrId: AbiConstructor | string| number, { gasLimit = 0, salt = randomAsU8a(), value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    const encodedSalt = salt instanceof Bytes
-      ? salt
-      : compactAddLength(u8aToU8a(salt));
+  #deploy = (constructorOrId: AbiConstructor | string| number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
+    const encodedSalt = encodeSalt(salt);
     const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
     const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);
     const tx = withSalt

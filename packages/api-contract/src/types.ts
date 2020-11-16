@@ -72,7 +72,7 @@ export interface DecodedMessage {
 
 export interface BlueprintOptions {
   gasLimit?: BigInt | string | number | BN;
-  salt?: Uint8Array | string;
+  salt?: Uint8Array | string | null;
   value?: BigInt | string | number | BN;
 }
 
