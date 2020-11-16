@@ -7,7 +7,7 @@ import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 const stringIdentity = <T extends { toString: () => string }> (value: T): string => value.toString();
 
-const INFO_WRAP = Object.keys(TypeDefInfo).filter((v) => Number.isNaN(parseInt(v, 10)));
+const INFO_WRAP = ['BTreeMap', 'BTreeSet', 'Compact', 'HashMap', 'Option', 'Result', 'Vec'];
 
 export function paramsNotation <T> (outer: string, inner?: T | T[], transform: (_: T) => string = stringIdentity): string {
   return `${outer}${
