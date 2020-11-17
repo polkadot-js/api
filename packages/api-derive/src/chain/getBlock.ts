@@ -17,12 +17,12 @@ import { memo } from '../util';
  * <BR>
  *
  * ```javascript
- * const { author, number } = await api.derive.chain.getHeader('0x123...456');
+ * const { author, block } = await api.derive.chain.getBlock('0x123...456');
  *
- * console.log(`block #${number} was authored by ${author}`);
+ * console.log(`block #${block.header.number} was authored by ${author}`);
  * ```
  */
-export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
+export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
   return memo(instanceId, (hash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getBlock(hash),
@@ -35,7 +35,7 @@ export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
-        // we supplied an invalid hash. (Due to defaults, storeage will have an
+        // we supplied an invalid hash. (Due to defaults, storage will have an
         // empty value, so only the RPC is affected). So return undefined
         of()
       )
