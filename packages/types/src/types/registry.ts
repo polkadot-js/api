@@ -92,6 +92,7 @@ export interface RegistryMetadataLatest {
 
 export interface RegistryMetadata {
   asLatest: RegistryMetadataLatest;
+  version: number;
 }
 
 export interface OverrideVersionedType {
