@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../types';
+import { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, Constructor, IMethod, Registry } from '../types';
 
-import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../create';
 import { Struct } from '../codec/Struct';
 import { U8aFixed } from '../codec/U8aFixed';
+
+const l = logger('type/Call');
 
 interface DecodeMethodInput {
   args: unknown;
@@ -39,6 +41,30 @@ function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef 
   }, {} as ArgsDef);
 }
 
+function extractMeta (registry: Registry, callIndex: Uint8Array, _meta?: FunctionMetadataLatest): FunctionMetadataLatest {
+  try {
+    return _meta || registry.findMetaCall(callIndex).meta;
+  } catch (error) {
+    l.error(`Returning invalid: ${(error as Error).message}`);
+
+    return registry.createType('FunctionMetadataLatest', {
+      args: [],
+      documentation: [`Unable to decode invalid ${u8aToHex(callIndex)}`],
+      name: 'unknown'
+    });
+  }
+}
+
+function extractArgs (registry: Registry, meta: FunctionMetadataLatest): Record<string, Constructor<Codec>> {
+  try {
+    return getArgsDef(registry, meta);
+  } catch (error) {
+    l.error(`Returning invalid arguments: ${(error as Error).message}`);
+
+    return {};
+  }
+}
+
 /** @internal */
 function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
   // we only pass args/methodsIndex out
@@ -51,11 +77,11 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
     : callIndex;
 
   // Find metadata with callIndex
-  const meta = _meta || registry.findMetaCall(lookupIndex).meta;
+  const meta = extractMeta(registry, lookupIndex, _meta);
 
   return {
     args,
-    argsDef: getArgsDef(registry, meta),
+    argsDef: extractArgs(registry, meta),
     callIndex,
     meta
   };
@@ -68,12 +94,11 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
 
   callIndex.set(value.subarray(0, 2), 0);
 
-  // Find metadata with callIndex
-  const meta = _meta || registry.findMetaCall(callIndex).meta;
+  const meta = extractMeta(registry, callIndex, _meta);
 
   return {
     args: value.subarray(2),
-    argsDef: getArgsDef(registry, meta),
+    argsDef: extractArgs(registry, meta),
     callIndex,
     meta
   };
@@ -122,36 +147,19 @@ export class GenericCall extends Struct implements IMethod {
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
     const decoded = decodeCall(registry, value, meta);
 
-    try {
-      super(registry, {
-        callIndex: GenericCallIndex,
-        // eslint-disable-next-line sort-keys
-        args: Struct.with(decoded.argsDef)
-      }, decoded);
-    } catch (error) {
-      let method = 'unknown.unknown';
-
-      try {
-        const c = registry.findMetaCall(decoded.callIndex);
-
-        method = `${c.section}.${c.method}`;
-      } catch (error) {
-        // ignore
-      }
-
-      throw new Error(`Call: failed decoding ${method}:: ${(error as Error).message}`);
-    }
+    super(registry, {
+      callIndex: GenericCallIndex,
+      // eslint-disable-next-line sort-keys
+      args: Struct.with(decoded.argsDef)
+    }, decoded);
 
     this._meta = decoded.meta;
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
   public static filterOrigin (meta?: FunctionMetadataLatest): FunctionArgumentMetadataLatest[] {
-    // FIXME should be `arg.type !== Origin`, but doesn't work...
     return meta
-      ? meta.args.filter(({ type }): boolean =>
-        type.toString() !== 'Origin'
-      )
+      ? meta.args.filter(({ type }) => type.toString() !== 'Origin')
       : [];
   }
 
@@ -247,8 +255,8 @@ export class GenericCall extends Struct implements IMethod {
       //   : arg.toHuman(isExpanded)
       // ),
       // callIndex: u8aToHex(this.callIndex),
-      method: call?.method,
-      section: call?.section,
+      method: call?.method || 'unknown',
+      section: call?.section || 'unknown',
       ...(isExpanded && call
         ? { documentation: call.meta.documentation.map((d) => d.toString()) }
         : {}

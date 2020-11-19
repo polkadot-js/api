@@ -4,9 +4,11 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
-import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
+
+const l = logger('type/Struct');
 
 type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
 
@@ -71,7 +73,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         // ignore
       }
 
-      throw new Error(`Struct: failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
+      throw new Error(`Failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
     }
 
     return raw;
@@ -95,25 +97,31 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
  * @internal
  */
 function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): T {
-  if (isHex(value)) {
-    return decodeStruct(registry, Types, hexToU8a(value as string), jsonMap);
-  } else if (isU8a(value)) {
-    const values = decodeU8a(registry, value, Object.values(Types));
+  try {
+    if (isHex(value)) {
+      return decodeStruct(registry, Types, hexToU8a(value as string), jsonMap);
+    } else if (isU8a(value)) {
+      const values = decodeU8a(registry, value, Object.values(Types));
 
-    // Transform array of values to {key: value} mapping
-    return Object.keys(Types).reduce((raw, key, index): T => {
-      // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      (raw as any)[key] = values[index];
+      // Transform array of values to {key: value} mapping
+      return Object.keys(Types).reduce((raw, key, index): T => {
+        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        (raw as any)[key] = values[index];
 
-      return raw;
-    }, {} as T);
-  } else if (!value) {
+        return raw;
+      }, {} as T);
+    } else if (!value) {
+      return {} as T;
+    }
+
+    // We assume from here that value is a JS object (Array, Map, Object)
+    return decodeStructFromObject(registry, Types, value, jsonMap);
+  } catch (error) {
+    l.error('Returning empty values:', (error as Error).message);
+
     return {} as T;
   }
-
-  // We assume from here that value is a JS object (Array, Map, Object)
-  return decodeStructFromObject(registry, Types, value, jsonMap);
 }
 
 /**

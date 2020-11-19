@@ -10,7 +10,7 @@ import { AbstractArray } from './AbstractArray';
 
 const MAX_LENGTH = 64 * 1024;
 
-const l = logger('Vec');
+const l = logger('type/Vec');
 
 /**
  * @name Vec

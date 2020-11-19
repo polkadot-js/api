@@ -8,7 +8,7 @@ import { isHex, hexToU8a, isObject, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a
 
 import { compareMap, decodeU8a, typeToConstructor } from './utils';
 
-const l = logger('Map');
+const l = logger('type/Map');
 
 /** @internal */
 function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {

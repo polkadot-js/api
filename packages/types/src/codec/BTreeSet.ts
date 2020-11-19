@@ -8,7 +8,7 @@ import { isHex, hexToU8a, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a, compactF
 
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
-const l = logger('BTreeSet');
+const l = logger('type/BTreeSet');
 
 /** @internal */
 function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {

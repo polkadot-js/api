@@ -22,6 +22,19 @@ describe('Call', (): void => {
     ).toEqual(new Uint8Array([6, 1, 0, 0, 0]));
   });
 
+  it('handles decoding correctly (invalid)', (): void => {
+    expect(
+      new Call(registry, {
+        args: [],
+        callIndex: [105, 66] // balances.setBalance
+      }).toHuman()
+    ).toEqual({
+      args: [],
+      method: 'unknown',
+      section: 'unknown'
+    });
+  });
+
   it('handles creation from a hex value properly', (): void => {
     expect(
       new Call(registry, '0x0601').toU8a()
