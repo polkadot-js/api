@@ -468,10 +468,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<[StorageKey, Codec][]> {
     const query = this._rpcCore.state.queryStorageAt
       ? at
-        ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt<Codec[]>(keyset, at)
-        : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt<Codec[]>(keyset)
+        ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
+        : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset)
       // this is horrible, but need older support (which now doesn't work with at)
-      : (keyset: StorageKey[]) => this._rpcCore.state.subscribeStorage<Codec[]>(keyset).pipe(take(1));
+      : (keyset: StorageKey[]) => this._rpcCore.state.subscribeStorage(keyset).pipe(take(1));
 
     return this._retrieveMapKeys(entry, at, arg).pipe(
       switchMap((keys) =>
