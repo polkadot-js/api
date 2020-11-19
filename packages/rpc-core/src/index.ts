@@ -382,13 +382,7 @@ export class RpcCore implements RpcInterface {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
-      try {
-        return this._formatStorageData(registry, key, result);
-      } catch (error) {
-        l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
-
-        throw error;
-      }
+      return this._formatStorageData(registry, key, result);
     } else if (rpc.type === 'StorageChangeSet') {
       const keys = params[0] as Vec<StorageKey>;
 
@@ -426,22 +420,32 @@ export class RpcCore implements RpcInterface {
         : u8aToU8a(value);
 
     if (meta.modifier.isOptional) {
-      return new Option(
-        registry,
-        createClass(registry, type),
-        isEmpty
-          ? null
-          : createTypeUnsafe(registry, type, [input], true)
-      );
+      let inner = null;
+
+      if (!isEmpty) {
+        try {
+          inner = createTypeUnsafe(registry, type, [input], true);
+        } catch (error) {
+          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
+        }
+      }
+
+      return new Option(registry, createClass(registry, type), inner);
     }
 
-    return createTypeUnsafe(registry, type, [
-      isEmpty
-        ? meta.fallback
-          ? hexToU8a(meta.fallback.toHex())
-          : undefined
-        : input
-    ], true);
+    try {
+      return createTypeUnsafe(registry, type, [
+        isEmpty
+          ? meta.fallback
+            ? hexToU8a(meta.fallback.toHex())
+            : undefined
+          : input
+      ], true);
+    } catch (error) {
+      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
+
+      return registry.createType('Raw', input);
+    }
   }
 
   private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
@@ -453,24 +457,18 @@ export class RpcCore implements RpcInterface {
     //   - Codec - There is a valid value, non-empty
     //   - null - The storage key is empty
     return keys.reduce((results: Codec[], key: StorageKey, index: number): Codec[] => {
-      try {
-        results.push(this._formatStorageSetEntry(registry, key, changes, withCache));
-      } catch (error) {
-        l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${index + 1}/${keys.length}:`, (error as Error).message);
-
-        throw error;
-      }
+      results.push(this._formatStorageSetEntry(registry, key, changes, withCache, index));
 
       return results;
     }, []);
   }
 
-  private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
+  private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {
     // Fallback to Raw (i.e. just the encoding) if we don't have a specific type
     const type = key.outputType || 'Raw';
     const hexKey = key.toHex();
     const meta = key.meta || EMPTY_META;
-    const found = changes.find(([key]): boolean => key === hexKey);
+    const found = changes.find(([key]) => key === hexKey);
 
     // if we don't find the value, this is our fallback
     //   - in the case of an array of values, fill the hole from the cache
@@ -490,21 +488,31 @@ export class RpcCore implements RpcInterface {
     this.#storageCache.set(hexKey, value);
 
     if (meta.modifier.isOptional) {
-      return new Option(
-        registry,
-        createClass(registry, type),
-        isEmpty
-          ? null
-          : createTypeUnsafe(registry, type, [input], true)
-      );
+      let inner = null;
+
+      if (!isEmpty) {
+        try {
+          inner = createTypeUnsafe(registry, type, [input], true);
+        } catch (error) {
+          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
+        }
+      }
+
+      return new Option(registry, createClass(registry, type), inner);
     }
 
-    return createTypeUnsafe(registry, type, [
-      isEmpty
-        ? meta.fallback
-          ? hexToU8a(meta.fallback.toHex())
-          : undefined
-        : input
-    ], true);
+    try {
+      return createTypeUnsafe(registry, type, [
+        isEmpty
+          ? meta.fallback
+            ? hexToU8a(meta.fallback.toHex())
+            : undefined
+          : input
+      ], true);
+    } catch (error) {
+      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
+
+      return registry.createType('Raw', input);
+    }
   }
 }
