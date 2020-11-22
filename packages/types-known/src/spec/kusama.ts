@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint-disable sort-keys */
+
 import { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
@@ -23,6 +25,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchError: 'DispatchErrorTo198',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
+      LookupSource: 'IndicesLookupSource',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
@@ -42,6 +45,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
+      LookupSource: 'IndicesLookupSource',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
@@ -62,6 +66,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
+      LookupSource: 'IndicesLookupSource',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
