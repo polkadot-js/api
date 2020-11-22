@@ -25,7 +25,9 @@ function decodeMultiU8a (registry: Registry, value?: unknown): unknown {
 }
 
 function decodeMultiAny (registry: Registry, value?: unknown): unknown {
-  if (value instanceof GenericAccountId) {
+  if (value instanceof GenericMultiAddress) {
+    return value;
+  } else if (value instanceof GenericAccountId) {
     return { Id: value };
   } else if (value instanceof GenericAccountIndex || isNumber(value) || isBn(value)) {
     return { Index: registry.createType('Compact<AccountIndex>', value) };
