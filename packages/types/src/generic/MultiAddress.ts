@@ -3,10 +3,40 @@
 
 import { Registry } from '../types';
 
-import { isString, u8aConcat } from '@polkadot/util';
+import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { Enum } from '../codec/Enum';
+import { GenericAccountId } from './AccountId';
+import { GenericAccountIndex } from './AccountIndex';
+
+function decodeMultiU8a (registry: Registry, value?: unknown): unknown {
+  if (isU8a(value) && value.length <= 32) {
+    if (value.length === 32) {
+      return { id: value };
+    } else if (value.length === 20) {
+      return { Address20: value };
+    } else {
+      return decodeMultiAny(registry, registry.createType('AccountIndex', value));
+    }
+  }
+
+  return value;
+}
+
+function decodeMultiAny (registry: Registry, value?: unknown): unknown {
+  if (value instanceof GenericMultiAddress) {
+    return value;
+  } else if (value instanceof GenericAccountId) {
+    return { Id: value };
+  } else if (value instanceof GenericAccountIndex || isNumber(value) || isBn(value)) {
+    return { Index: registry.createType('Compact<AccountIndex>', value) };
+  } else if (isString(value)) {
+    return decodeMultiU8a(registry, decodeAddress(value.toString()));
+  }
+
+  return decodeMultiU8a(registry, value);
+}
 
 export class GenericMultiAddress extends Enum {
   constructor (registry: Registry, value?: unknown) {
@@ -18,21 +48,7 @@ export class GenericMultiAddress extends Enum {
       Address32: 'H256',
       // eslint-disable-next-line sort-keys
       Address20: 'H160'
-    }, GenericMultiAddress._decodeMultiAddress(value as string));
-  }
-
-  private static _decodeMultiAddress (value?: unknown): unknown {
-    if (isString(value)) {
-      try {
-        const u8a = decodeAddress(value.toString());
-
-        return u8aConcat(new Uint8Array(u8a.length <= 8 ? 1 : 0), u8a);
-      } catch (error) {
-        // ignore, not a valid ss58 address
-      }
-    }
-
-    return value;
+    }, decodeMultiAny(registry, value));
   }
 
   /**
