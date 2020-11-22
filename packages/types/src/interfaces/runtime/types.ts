@@ -17,7 +17,7 @@ export interface AccountIdOf extends AccountId {}
 export interface AccountIndex extends GenericAccountIndex {}
 
 /** @name Address */
-export interface Address extends GenericAddress {}
+export interface Address extends LookupSource {}
 
 /** @name AssetId */
 export interface AssetId extends u32 {}
@@ -102,9 +102,6 @@ export interface FixedU128 extends UInt {}
 /** @name FixedU64 */
 export interface FixedU64 extends UInt {}
 
-/** @name GenericAddress */
-export interface GenericAddress extends LookupSource {}
-
 /** @name H160 */
 export interface H160 extends U8aFixed {}
 
@@ -132,6 +129,9 @@ export interface I32F32 extends Int {}
 /** @name Index */
 export interface Index extends u32 {}
 
+/** @name IndicesLookupSource */
+export interface IndicesLookupSource extends GenericLookupSource {}
+
 /** @name Justification */
 export interface Justification extends Bytes {}
 
@@ -145,7 +145,7 @@ export interface KeyValue extends ITuple<[StorageKey, StorageData]> {}
 export interface LockIdentifier extends U8aFixed {}
 
 /** @name LookupSource */
-export interface LookupSource extends GenericLookupSource {}
+export interface LookupSource extends IndicesLookupSource {}
 
 /** @name LookupTarget */
 export interface LookupTarget extends AccountId {}

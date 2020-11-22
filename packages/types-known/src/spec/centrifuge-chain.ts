@@ -1,10 +1,15 @@
 // Copyright 2017-2020 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint-disable sort-keys */
+
 import { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
+  // substrate
   Address: 'LookupSource',
+  LookupSource: 'IndicesLookupSource',
+
   AnchorData: {
     anchoredBlock: 'u64',
     docRoot: 'H256',
