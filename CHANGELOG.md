@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 2.8.1 Nov 23, 2020
+
+Upgrade priority: Low. Recommended if using Substrate master with new `MultiAddress`.
+
+Contributed:
+
+- Export `derive.chain.getBlock` (Thanks to https://github.com/lovesh)
+
+Changes:
+
+- Expand `MultiAddress` construction with multi type detection
+- Rename `GenericLookupSource` to `IndicesLookupSource` (internal use)
+- Cleanup list retrievals with `Raw` data results for undecodable entries
+- Export actual version via `RegistryMetadata`
+- Dedupe bn.js (one version shared between dependencies)
+
+
 ## 2.7.1 Nov 16, 2020
 
 Upgrade priority: Medium. Recommended for users of Polkadot/Kusama and api-contract users.
