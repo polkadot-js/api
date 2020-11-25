@@ -120,8 +120,9 @@ export interface DeriveStakingQuery extends DeriveStakingStash {
 }
 
 export interface DeriveStakingElected {
-  nextElected: AccountId[];
   info: DeriveStakingQuery[];
+  nextElected: AccountId[];
+  validators: AccountId[];
 }
 
 export interface DeriveStakingWaiting {

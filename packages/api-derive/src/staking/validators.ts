@@ -30,7 +30,6 @@ export function validators (instanceId: string, api: ApiInterfaceRx): () => Obse
   return memo(instanceId, (): Observable<DeriveStakingValidators> =>
     // Sadly the node-template is (for some obscure reason) not comprehensive, so while the derive works
     // in all actual real-world deployed chains, it does create some confusion for limited template chains
-    // NOTE: Not doing multi queries here, since we have validators as a single in the derived newHead
     combineLatest([
       api.query.session
         ? api.query.session.validators()
