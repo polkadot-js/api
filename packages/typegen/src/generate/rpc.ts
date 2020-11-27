@@ -3,7 +3,6 @@
 
 import Handlebars from 'handlebars';
 
-import { Metadata } from '@polkadot/metadata';
 import staticData from '@polkadot/metadata/static';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Definitions } from '@polkadot/types/types';
@@ -17,12 +16,12 @@ const template = readTemplate('rpc');
 const generateRpcTypesTemplate = Handlebars.compile(template);
 
 /** @internal */
-export function generateRpcTypes (registry: TypeRegistry, importDefinitions: { [importPath: string]: Record<string, Definitions> }, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
+export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
   writeFile(dest, (): string => {
     const allTypes: Record<string, Record<string, { types: Record<string, any> }>> = { '@polkadot/types/interfaces': importDefinitions, ...extraTypes };
     const imports = createImports(allTypes);
     const definitions = imports.definitions as Record<string, Definitions>;
-    const allDefs = Object.entries(importDefinitions).reduce((defs, [path, obj]) => {
+    const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
@@ -113,19 +112,13 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: { [
   });
 }
 
-// Call `generateRpcTypes()` with current static metadata
 export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', metadata = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
   const registry = new TypeRegistry();
-
   registerDefinitions(registry, extraTypes);
-
-  const metadata_ = new Metadata(registry, metadata);
-
-  registry.setMetadata(metadata_);
 
   generateRpcTypes(
     registry,
-    { '@polkadot/types/interfaces': defaultDefinitions },
+    defaultDefinitions,
     dest,
     extraTypes,
   );
