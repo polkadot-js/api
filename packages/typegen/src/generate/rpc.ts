@@ -3,8 +3,6 @@
 
 import Handlebars from 'handlebars';
 
-import { Metadata } from '@polkadot/metadata';
-import staticData from '@polkadot/metadata/static';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Definitions } from '@polkadot/types/types';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
@@ -113,12 +111,10 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
   });
 }
 
-export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', metadata = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
+export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);
-
-  registry.setMetadata(new Metadata(registry, metadata));
 
   generateRpcTypes(
     registry,
