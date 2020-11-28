@@ -71,6 +71,8 @@ export class WsProvider implements ProviderInterface {
 
   readonly #handlers: Record<string, WsStateAwaiting> = {};
 
+  readonly #isReadyPromise: Promise<WsProvider>;
+
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
 
   #autoConnectMs: number;
@@ -111,6 +113,12 @@ export class WsProvider implements ProviderInterface {
         // does not throw
       });
     }
+
+    this.#isReadyPromise = new Promise((resolve): void => {
+      this.#eventemitter.once('connected', (): void => {
+        resolve(this);
+      });
+    });
   }
 
   /**
@@ -126,6 +134,13 @@ export class WsProvider implements ProviderInterface {
    */
   public get isConnected (): boolean {
     return this.#isConnected;
+  }
+
+  /**
+   * @description Promise that resolves the first time we are connected and loaded
+   */
+  public get isReady (): Promise<WsProvider> {
+    return this.#isReadyPromise;
   }
 
   /**

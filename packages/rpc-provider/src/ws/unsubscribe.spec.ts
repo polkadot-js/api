@@ -17,10 +17,10 @@ function createMock (requests: any): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = 1000): WsProvider {
+function createWs (autoConnect = 1000): Promise<WsProvider> {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws;
+  return ws.isReady;
 }
 
 describe('subscribe', (): void => {
@@ -56,15 +56,15 @@ describe('subscribe', (): void => {
       }
     ]);
 
-    const ws = createWs();
-
-    return ws
-      .subscribe('test', 'subscribe_test', [], (cb): void => {
-        expect(cb).toEqual(expect.anything());
-      })
-      .then((id): Promise<boolean> => {
-        return ws.unsubscribe('test', 'subscribe_test', id);
-      });
+    return createWs().then((ws) =>
+      ws
+        .subscribe('test', 'subscribe_test', [], (cb): void => {
+          expect(cb).toEqual(expect.anything());
+        })
+        .then((id): Promise<boolean> => {
+          return ws.unsubscribe('test', 'subscribe_test', id);
+        })
+    );
   });
 
   it('fails when sub not found', (): Promise<void> => {
@@ -76,17 +76,17 @@ describe('subscribe', (): void => {
       }
     }]);
 
-    const ws = createWs();
-
-    return ws
-      .subscribe('test', 'subscribe_test', [], (cb): void => {
-        expect(cb).toEqual(expect.anything());
-      })
-      .then((): Promise<boolean> => {
-        return ws.unsubscribe('test', 'subscribe_test', 111);
-      })
-      .then((result): void => {
-        expect(result).toBe(false);
-      });
+    return createWs().then((ws) =>
+      ws
+        .subscribe('test', 'subscribe_test', [], (cb): void => {
+          expect(cb).toEqual(expect.anything());
+        })
+        .then((): Promise<boolean> => {
+          return ws.unsubscribe('test', 'subscribe_test', 111);
+        })
+        .then((result): void => {
+          expect(result).toBe(false);
+        })
+    );
   });
 });

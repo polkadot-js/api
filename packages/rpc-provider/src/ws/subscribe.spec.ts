@@ -17,10 +17,10 @@ function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = 1000): WsProvider {
+function createWs (autoConnect = 1000): Promise<WsProvider> {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws;
+  return ws.isReady;
 }
 
 describe('subscribe', (): void => {
@@ -47,12 +47,14 @@ describe('subscribe', (): void => {
       }
     }]);
 
-    return createWs()
-      .subscribe('type', 'test_sub', [], (cb): void => {
-        expect(cb).toEqual(expect.anything());
-      })
-      .then((id): void => {
-        expect(id).toEqual(1);
-      });
+    return createWs().then((ws) =>
+      ws
+        .subscribe('type', 'test_sub', [], (cb): void => {
+          expect(cb).toEqual(expect.anything());
+        })
+        .then((id): void => {
+          expect(id).toEqual(1);
+        })
+    );
   });
 });
