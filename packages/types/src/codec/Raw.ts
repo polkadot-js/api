@@ -101,7 +101,8 @@ export class Raw extends Uint8Array implements IU8a {
    * @param end The position to end at
    */
   public slice (start?: number, end?: number): Uint8Array {
-    return Uint8Array.from(this).slice(start, end);
+    // Like subarray below, we have to follow this approach since we are extending the TypeArray
+    return this.toU8a().slice(start, end);
   }
 
   /**
@@ -110,7 +111,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @param end The position to end at
    */
   public subarray (begin?: number, end?: number): Uint8Array {
-    return Uint8Array.from(this).subarray(begin, end);
+    return this.toU8a().subarray(begin, end);
   }
 
   /**
