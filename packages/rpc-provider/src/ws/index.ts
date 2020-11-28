@@ -71,8 +71,6 @@ export class WsProvider implements ProviderInterface {
 
   readonly #handlers: Record<string, WsStateAwaiting> = {};
 
-  readonly #queued: Record<string, string> = {};
-
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
 
   #autoConnectMs: number;
@@ -225,12 +223,14 @@ export class WsProvider implements ProviderInterface {
   /**
    * @summary Send JSON data using WebSockets to configured HTTP Endpoint or queue.
    * @param method The RPC methods to execute
-   * @param params Encoded paramaters as appliucable for the method
+   * @param params Encoded parameters as applicable for the method
    * @param subscription Subscription details (internally used)
    */
   public send (method: string, params: any[], subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
       try {
+        assert(this.isConnected && !isNull(this.#websocket), 'WebSocket is not connected');
+
         const json = this.#coder.encodeJson(method, params);
         const id = this.#coder.getId();
 
@@ -240,7 +240,7 @@ export class WsProvider implements ProviderInterface {
             : resolve(result);
         };
 
-        l.debug((): string[] => ['calling', method, json]);
+        l.debug(() => ['calling', method, json]);
 
         this.#handlers[id] = {
           callback,
@@ -249,11 +249,7 @@ export class WsProvider implements ProviderInterface {
           subscription
         };
 
-        if (this.isConnected && !isNull(this.#websocket)) {
-          this.#websocket.send(json);
-        } else {
-          this.#queued[id] = json;
-        }
+        this.#websocket.send(json);
       } catch (error) {
         reject(error);
       }
@@ -300,7 +296,7 @@ export class WsProvider implements ProviderInterface {
     // a slight complication in solving - since we cannot rely on the send id, but rather
     // need to find the actual subscription id to map it
     if (isUndefined(this.#subscriptions[subscription])) {
-      l.debug((): string => `Unable to find active subscription=${subscription}`);
+      l.debug(() => `Unable to find active subscription=${subscription}`);
 
       return false;
     }
@@ -334,15 +330,14 @@ export class WsProvider implements ProviderInterface {
   }
 
   #onSocketError = (error: Event): void => {
-    l.debug((): any => ['socket error', error]);
+    l.debug(() => ['socket error', error]);
     this.#emit('error', error);
   }
 
-  #onSocketMessage = (message: MessageEvent): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  #onSocketMessage = (message: MessageEvent<string>): void => {
     l.debug(() => ['received', message.data]);
 
-    const response = JSON.parse(message.data as string) as JsonRpcResponse;
+    const response = JSON.parse(message.data) as JsonRpcResponse;
 
     return isUndefined(response.method)
       ? this.#onSocketMessageResult(response)
@@ -353,7 +348,7 @@ export class WsProvider implements ProviderInterface {
     const handler = this.#handlers[response.id];
 
     if (!handler) {
-      l.debug((): string => `Unable to find handler for id=${response.id}`);
+      l.debug(() => `Unable to find handler for id=${response.id}`);
 
       return;
     }
@@ -396,7 +391,7 @@ export class WsProvider implements ProviderInterface {
       // store the JSON, we could have out-of-order subid coming in
       this.#waitingForId[subId] = response;
 
-      l.debug((): string => `Unable to find handler for subscription=${subId}`);
+      l.debug(() => `Unable to find handler for subscription=${subId}`);
 
       return;
     }
@@ -416,12 +411,11 @@ export class WsProvider implements ProviderInterface {
   #onSocketOpen = (): boolean => {
     assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
 
-    l.debug((): any[] => ['connected to', this.#endpoints[this.#endpointIndex]]);
+    l.debug(() => ['connected to', this.#endpoints[this.#endpointIndex]]);
 
     this.#isConnected = true;
 
     this.#emit('connected');
-    this.#sendQueue();
     this.#resubscribe();
 
     return true;
@@ -432,8 +426,7 @@ export class WsProvider implements ProviderInterface {
 
     this.#subscriptions = {};
 
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    Object.keys(subscriptions).forEach(async (id): Promise<void> => {
+    Promise.all(Object.keys(subscriptions).map(async (id): Promise<void> => {
       const { callback, method, params, type } = subscriptions[id];
 
       // only re-create subscriptions which are not in author (only area where
@@ -448,21 +441,6 @@ export class WsProvider implements ProviderInterface {
       } catch (error) {
         l.error(error);
       }
-    });
-  }
-
-  #sendQueue = (): void => {
-    Object.keys(this.#queued).forEach((id): void => {
-      try {
-        // we have done the websocket check in onSocketOpen, if an issue, will catch it
-        (this.#websocket as WebSocket).send(
-          this.#queued[id]
-        );
-
-        delete this.#queued[id];
-      } catch (error) {
-        l.error(error);
-      }
-    });
+    })).catch(l.error);
   }
 }
