@@ -96,11 +96,20 @@ export class Raw extends Uint8Array implements IU8a {
   }
 
   /**
+   * @description Create a new slice from the actual buffer. (compat)
+   * @param start The position to start at
+   * @param end The position to end at
+   */
+  public slice (start?: number, end?: number): Uint8Array {
+    return Uint8Array.from(this).slice(start, end);
+  }
+
+  /**
    * @description Create a new subarray from the actual buffer. (compat)
    * @param begin The position to start at
    * @param end The position to end at
    */
-  public subarray (begin: number, end?: number): Uint8Array {
+  public subarray (begin?: number, end?: number): Uint8Array {
     return Uint8Array.from(this).subarray(begin, end);
   }
 
