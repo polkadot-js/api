@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import { Definitions } from '../../types';
+import type { Definitions } from '../../types';
 
 const numberTypes = {
   Fixed64: 'Int<64, Fixed64>',

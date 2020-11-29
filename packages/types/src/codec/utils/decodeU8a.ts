@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, Constructor, Registry } from '../../types';
+import type { Codec, Constructor, Registry } from '../../types';
 
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the

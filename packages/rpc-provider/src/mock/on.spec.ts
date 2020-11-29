@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ProviderInterfaceEmitted } from '../types';
+import type { ProviderInterfaceEmitted } from '../types';
 
 import { TypeRegistry } from '@polkadot/types/create';
 

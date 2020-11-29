@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constructor, Registry } from '../types';
+import type { Constructor, Registry } from '../types';
 
 import { Null } from './Null';
 

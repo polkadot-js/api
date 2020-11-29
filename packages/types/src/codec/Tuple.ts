@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { isU8a, isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 

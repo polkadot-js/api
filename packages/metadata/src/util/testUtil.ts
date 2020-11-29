@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, Registry } from '@polkadot/types/types';
-import { MetadataInterface } from '../types';
+import type { Codec, Registry } from '@polkadot/types/types';
+import type { MetadataInterface } from '../types';
 
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 

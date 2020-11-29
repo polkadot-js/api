@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyNumber, Constructor, Registry } from '../types';
-import { UIntBitLength } from './types';
+import type { AnyNumber, Constructor, Registry } from '../types';
+import type { UIntBitLength } from './types';
 
 import { AbstractInt } from './AbstractInt';
 

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SignOptions } from '@polkadot/keyring/types';
-import { IKeyringPair, Registry } from '../types';
+import type { SignOptions } from '@polkadot/keyring/types';
+import type { IKeyringPair, Registry } from '../types';
 
 // a helper function for both types of payloads, Raw and metadata-known
 export function sign (registry: Registry, signerPair: IKeyringPair, u8a: Uint8Array, options?: SignOptions): Uint8Array {

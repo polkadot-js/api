@@ -3,7 +3,7 @@
 
 /* eslint-disable sort-keys */
 
-import { CodecTo } from '../types';
+import type { CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
 import { Text, U32 } from '../primitive';

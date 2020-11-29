@@ -4,6 +4,7 @@
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, EraIndex, StakingLedger, StakingLedgerTo240 } from '@polkadot/types/interfaces';
 import type { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
+import type { DeriveStakingQuery } from './types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
@@ -12,7 +13,6 @@ import { Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
-import { DeriveStakingQuery } from './types';
 
 type ErasResult = [{ unwrapOr: (value: BN) => BN }, DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import type { Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import { CodecMap } from './Map';
 

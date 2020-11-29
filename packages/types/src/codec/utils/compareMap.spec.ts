@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec } from '../../types';
+import type { Codec } from '../../types';
 import { TypeRegistry } from '../../create';
 import { U32 } from '../../primitive';
 import { compareMap } from '.';

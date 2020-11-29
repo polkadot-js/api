@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyU8a, IExtrinsicEra, Registry } from '../types';
+import type { AnyU8a, IExtrinsicEra, Registry } from '../types';
 
 import BN from 'bn.js';
 import { assert, bnToBn, formatNumber, hexToU8a, isHex, isU8a, isObject, u8aToBn, u8aToU8a } from '@polkadot/util';

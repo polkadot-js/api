@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyNumber } from '../types';
+import type { AnyNumber } from '../types';
 
 export interface ExtrinsicOptions {
   isSigned: boolean;

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Registry } from '../types';
-import { ExtrinsicPayloadOptions } from './types';
+import type { Registry } from '../types';
+import type { ExtrinsicPayloadOptions } from './types';
 
 import { Struct } from '../codec/Struct';
 

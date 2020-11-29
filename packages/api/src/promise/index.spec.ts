@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiOptions, SubmittableExtrinsic } from '../types';
+import type { ApiOptions, SubmittableExtrinsic } from '../types';
 
 import { createPair } from '@polkadot/keyring/pair';
 import { createTestKeyring } from '@polkadot/keyring/testing';

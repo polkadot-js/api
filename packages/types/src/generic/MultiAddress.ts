@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Registry } from '../types';
+import type { Registry } from '../types';
 
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
