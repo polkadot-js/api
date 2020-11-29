@@ -427,14 +427,14 @@ export class RpcCore implements RpcInterface {
     // one at a time, all based on the query types. Three values can be returned -
     //   - Codec - There is a valid value, non-empty
     //   - null - The storage key is empty
-    return keys.reduce((results: Codec[], key: StorageKey): Codec[] => {
-      results.push(this._formatStorageSetEntry(registry, key, changes, withCache));
+    return keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
+      results.push(this._formatStorageSetEntry(registry, key, changes, withCache, index));
 
       return results;
     }, []);
   }
 
-  private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
+  private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {
     const hexKey = key.toHex();
     const found = changes.find(([key]) => key === hexKey);
 
@@ -455,14 +455,17 @@ export class RpcCore implements RpcInterface {
     // will increase memory beyond what is allowed.
     this.#storageCache.set(hexKey, value);
 
-    return this._newType(registry, key, input, isEmpty);
+    return this._newType(registry, key, input, isEmpty, entryIndex);
   }
 
-  private _newType (registry: Registry, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean): Codec {
+  private _newType (registry: Registry, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean, entryIndex = -1): Codec {
     // single return value (via state.getStorage), decode the value based on the
     // outputType that we have specified. Fallback to Raw on nothing
     const type = key.outputType || 'Raw';
     const meta = key.meta || EMPTY_META;
+    const entryNum = entryIndex === -1
+      ? ''
+      : ` entry ${entryIndex}:`;
 
     if (meta.modifier.isOptional) {
       let inner = null;
@@ -471,7 +474,7 @@ export class RpcCore implements RpcInterface {
         try {
           inner = createTypeUnsafe(registry, type, [input], true);
         } catch (error) {
-          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
+          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}`, (error as Error).message);
         }
       }
 
@@ -487,7 +490,7 @@ export class RpcCore implements RpcInterface {
           : input
       ], true);
     } catch (error) {
-      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
+      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}`, (error as Error).message);
 
       return registry.createType('Raw', input);
     }
