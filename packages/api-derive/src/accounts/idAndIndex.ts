@@ -12,7 +12,7 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import { memo } from '../util';
 
-function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIndex | string | null | undefined): Observable<AccountIdAndIndex> {
+function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIndex | Uint8Array | string | null | undefined): Observable<AccountIdAndIndex> {
   try {
     // yes, this can fail, don't care too much, catch will catch it
     const decoded = isU8a(address)
@@ -39,7 +39,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
 
 /**
  * @name idAndIndex
- * @param {(Address | AccountId | AccountIndex | string | null)} address - An accounts address in various formats.
+ * @param {(Address | AccountId | AccountIndex | Uint8Array | string | null)} address - An accounts address in various formats.
  * @description  An array containing the [[AccountId]] and [[AccountIndex]] as optional values.
  * @example
  * <BR>
@@ -50,7 +50,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * });
  * ```
  */
-export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
-  return memo(instanceId, (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | Uint8Array | string | null) => Observable<AccountIdAndIndex> {
+  return memo(instanceId, (address?: Address | AccountId | AccountIndex | Uint8Array | string | null): Observable<AccountIdAndIndex> =>
     retrieve(api, address));
 }

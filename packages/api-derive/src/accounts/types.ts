@@ -35,3 +35,9 @@ export interface DeriveAccountInfo {
   identity: DeriveAccountRegistration;
   nickname?: string;
 }
+
+export interface DeriveHasIdentity {
+  hasIdentity: boolean;
+  hasParent: boolean;
+  parentId: string | null;
+}
