@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiTypes } from '@polkadot/api/types';
+import type { Text, u64 } from '@polkadot/types';
 import type { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
 import type { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { ApiBase } from '@polkadot/api/base';
-import { Text, u64 } from '@polkadot/types';
 
 import { Abi } from '.';
 

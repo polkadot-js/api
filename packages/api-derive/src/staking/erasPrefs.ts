@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { StorageKey } from '@polkadot/types';
 import type { EraIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { DeriveEraPrefs, DeriveEraValPrefs } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { StorageKey } from '@polkadot/types';
 
 import { deriveCache, memo } from '../util';
 

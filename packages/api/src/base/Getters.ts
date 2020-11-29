@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Metadata } from '@polkadot/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { ApiInterfaceRx, ApiTypes, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
-import { Metadata } from '@polkadot/metadata';
-import { Text } from '@polkadot/types';
 import { assertReturn } from '@polkadot/util';
 
 import { Init } from './Init';

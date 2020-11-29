@@ -3,6 +3,7 @@
 
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord } from '@polkadot/types/interfaces';
 import type { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
@@ -12,7 +13,6 @@ import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { Bytes } from '@polkadot/types';
 import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
 
 import { Abi } from '../Abi';

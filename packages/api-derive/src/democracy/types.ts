@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { Vec } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, Hash, Proposal, PropIndex, ReferendumInfoTo239, ReferendumStatus, Vote, ReferendumIndex, VoteThreshold } from '@polkadot/types/interfaces';
-
-import { Vec } from '@polkadot/types';
 
 export interface DeriveDemocracyLock {
   balance: Balance;

@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex, Moment, SessionIndex } from '@polkadot/types/interfaces';
 import type { DeriveSessionIndexes } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Option, u32 } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';

@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
@@ -8,7 +9,6 @@ import type { DeriveCouncilVote, DeriveCouncilVotes } from '../types';
 
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 

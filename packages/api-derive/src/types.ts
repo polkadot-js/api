@@ -3,8 +3,7 @@
 
 import type BN from 'bn.js';
 import type { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VouchingStatus } from '@polkadot/types/interfaces';
-
-import { u32 } from '@polkadot/types';
+import type { u32 } from '@polkadot/types';
 
 export * from './accounts/types';
 export * from './chain/types';

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
+import type { Option, StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { RpcInterface, RpcInterfaceMethod } from './types';
@@ -10,7 +11,6 @@ import memoizee from 'memoizee';
 import { Observable, Observer } from 'rxjs';
 import { publishReplay, refCount } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { Option, StorageKey, Vec } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 

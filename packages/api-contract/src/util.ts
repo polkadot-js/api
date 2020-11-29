@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
+import type { Raw } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { Codec, CodecArg, Registry, TypeDef } from '@polkadot/types/types';
 import type { BlueprintOptions, ContractOptions } from './types';
 
 import BN from 'bn.js';
-import { Raw } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/create';
 import { isBn, isBigInt, isNumber, isString } from '@polkadot/util';
 
