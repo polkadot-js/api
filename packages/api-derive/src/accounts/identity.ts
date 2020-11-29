@@ -107,12 +107,11 @@ export function hasIdentity (instanceId: string, api: ApiInterfaceRx): (accountI
     api.derive.accounts._identityBase(accountId).pipe(
       map(([identityOfOpt, superOfOpt]: [Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]): DeriveHasIdentity => {
         const parentId = superOfOpt && superOfOpt.isSome
-          ? superOfOpt.unwrap().toString()
+          ? superOfOpt.unwrap()[0].toString()
           : null;
-        const hasParent = !!parentId;
-        const hasIdentity = hasParent || !!(identityOfOpt && identityOfOpt.isSome);
+        const hasIdentity = !!parentId || !!(identityOfOpt && identityOfOpt.isSome);
 
-        return { hasIdentity, hasParent, parentId };
+        return { hasIdentity, parentId };
       })
     )
   );
