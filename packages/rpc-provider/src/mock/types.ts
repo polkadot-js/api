@@ -3,7 +3,7 @@
 
 import type { Constructor } from '@polkadot/types/types';
 
-import { Server } from 'mock-socket';
+import type { Server } from 'mock-socket';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export interface Global extends NodeJS.Global {

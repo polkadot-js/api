@@ -6,8 +6,7 @@ import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-
-import { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
+import type { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
 interface StorageEntryObservableMulti {
   <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;

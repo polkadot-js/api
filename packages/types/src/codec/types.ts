@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from '../types';
-
 import type BN from 'bn.js';
+import type { Codec } from '../types';
 
 export interface CompactEncodable extends Codec {
   bitLength (): number;

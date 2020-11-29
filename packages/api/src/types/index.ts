@@ -11,13 +11,12 @@ import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-
 import type { Metadata } from '@polkadot/metadata';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
-
-import { DeriveAllSections } from '../util/decorate';
-import { ApiBase } from '../base';
-import { QueryableConsts } from './consts';
-import { DecoratedRpc } from './rpc';
-import { QueryableStorage, QueryableStorageMulti } from './storage';
-import { SubmittableExtrinsics } from './submittable';
+import type { DeriveAllSections } from '../util/decorate';
+import type { ApiBase } from '../base';
+import type { QueryableConsts } from './consts';
+import type { DecoratedRpc } from './rpc';
+import type { QueryableStorage, QueryableStorageMulti } from './storage';
+import type { SubmittableExtrinsics } from './submittable';
 
 export { Signer, SignerResult } from '@polkadot/types/types';
 export { ApiBase } from '../base';
