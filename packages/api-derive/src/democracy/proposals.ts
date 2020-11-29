@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Balance, Hash, PropIndex } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
-import { DeriveProposalImage, DeriveProposal } from '../types';
+import type { AccountId, Balance, Hash, PropIndex } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
+import type { DeriveProposalImage, DeriveProposal } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '@polkadot/types/interfaces';
-import { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
-import { CompactEncodable, UIntBitLength } from './types';
+import type { H256 } from '../interfaces';
+import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
+import type { CompactEncodable, UIntBitLength } from './types';
 
 import BN from 'bn.js';
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';

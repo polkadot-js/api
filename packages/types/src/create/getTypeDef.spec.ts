@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeDefInfo } from './types';
-
 import { TypeRegistry, getTypeDef } from '.';
 
 describe('getTypeDef', (): void => {

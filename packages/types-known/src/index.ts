@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import { Hash } from '@polkadot/types/interfaces';
-import { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, Registry, RegistryTypes, OverrideModuleType, OverrideVersionedType } from '@polkadot/types/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, Registry, RegistryTypes, OverrideModuleType, OverrideVersionedType } from '@polkadot/types/types';
 
 import { Text } from '@polkadot/types';
 import { bnToBn, isUndefined } from '@polkadot/util';

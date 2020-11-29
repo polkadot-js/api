@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
-import { Hash } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
-import { RpcInterface, RpcInterfaceMethod } from './types';
+import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
 import { Observable, Observer } from 'rxjs';

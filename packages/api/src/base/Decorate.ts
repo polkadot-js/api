@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constants, DecoratedMeta } from '@polkadot/metadata/decorate/types';
-import { RpcInterface } from '@polkadot/rpc-core/types';
-import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { StorageEntry } from '@polkadot/types/primitive/types';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
-import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { Constants, DecoratedMeta } from '@polkadot/metadata/decorate/types';
+import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { StorageEntry } from '@polkadot/types/primitive/types';
+import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { SubmittableExtrinsic } from '../submittable/types';
+import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';

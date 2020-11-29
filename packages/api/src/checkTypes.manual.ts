@@ -3,8 +3,8 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { AccountId, Balance, Header, Index } from '@polkadot/types/interfaces';
-import { IExtrinsic, IMethod } from '@polkadot/types/types';
+import type { AccountId, Balance, Header, Index } from '@polkadot/types/interfaces';
+import type { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';

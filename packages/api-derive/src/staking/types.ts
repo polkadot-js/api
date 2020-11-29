@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import { AccountId, Balance, EraIndex, Exposure, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { DeriveSessionIndexes } from '../session/types';
+import type { AccountId, Balance, EraIndex, Exposure, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { DeriveSessionIndexes } from '../session/types';
 
 export type DeriveEraValPoints = Record<string, RewardPoint>;
 

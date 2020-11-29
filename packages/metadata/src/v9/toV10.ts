@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9, StorageHasherV10 } from '@polkadot/types/interfaces/metadata';
-import { Registry } from '@polkadot/types/types';
+import type { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9, StorageHasherV10 } from '@polkadot/types/interfaces/metadata';
+import type { Registry } from '@polkadot/types/types';
 
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462

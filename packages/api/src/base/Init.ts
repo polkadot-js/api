@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ChainProperties, SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
-import { Registry } from '@polkadot/types/types';
-import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
-import { VersionedRegistry } from './types';
+import type { ChainProperties, SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { Registry } from '@polkadot/types/types';
+import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import type { VersionedRegistry } from './types';
 
 import BN from 'bn.js';
 import { Observable, Subscription, of } from 'rxjs';

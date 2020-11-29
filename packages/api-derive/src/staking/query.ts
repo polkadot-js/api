@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, EraIndex, Exposure, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
-import { DeriveStakingQuery } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId, EraIndex, Exposure, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
+import type { DeriveStakingQuery } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

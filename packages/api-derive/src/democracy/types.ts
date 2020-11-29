@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Hash, Proposal, PropIndex, ReferendumInfoTo239, ReferendumStatus, Vote, ReferendumIndex, VoteThreshold } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, Hash, Proposal, PropIndex, ReferendumInfoTo239, ReferendumStatus, Vote, ReferendumIndex, VoteThreshold } from '@polkadot/types/interfaces';
 
 import { Vec } from '@polkadot/types';
 

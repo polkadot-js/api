@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
-import { DeriveCollectiveProposal } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
+import type { DeriveCollectiveProposal } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';

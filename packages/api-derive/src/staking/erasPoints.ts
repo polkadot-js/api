@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
-import { DeriveEraPoints, DeriveEraValPoints } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
+import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

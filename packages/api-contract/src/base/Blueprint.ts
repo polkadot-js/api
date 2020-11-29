@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
-import { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
-import { AbiConstructor, BlueprintOptions } from '../types';
-import { BlueprintDeploy, ContractGeneric, MapConstructorExec } from './types';
+import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
+import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
+import type { AbiConstructor, BlueprintOptions } from '../types';
+import type { BlueprintDeploy, ContractGeneric, MapConstructorExec } from './types';
 
 import BN from 'bn.js';
 import { SubmittableResult } from '@polkadot/api';

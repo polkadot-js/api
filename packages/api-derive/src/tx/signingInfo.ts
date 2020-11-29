@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Header, Index } from '@polkadot/types/interfaces';
-import { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
+import type { Header, Index } from '@polkadot/types/interfaces';
+import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

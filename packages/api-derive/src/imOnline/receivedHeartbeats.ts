@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId } from '@polkadot/types/interfaces';
-import { DeriveHeartbeats } from '../types';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { DeriveHeartbeats } from '../types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

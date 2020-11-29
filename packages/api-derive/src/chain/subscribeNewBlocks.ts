@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { EventRecord, Hash, SignedBlock } from '@polkadot/types/interfaces';
-import { FullNewBlock } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { EventRecord, Hash, SignedBlock } from '@polkadot/types/interfaces';
+import type { FullNewBlock } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

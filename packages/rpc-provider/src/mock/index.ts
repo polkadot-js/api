@@ -3,10 +3,10 @@
 
 /* eslint-disable camelcase */
 
-import { Header } from '@polkadot/types/interfaces';
-import { Codec, Registry } from '@polkadot/types/types';
-import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
-import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
+import type { Header } from '@polkadot/types/interfaces';
+import type { Codec, Registry } from '@polkadot/types/types';
+import type { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
+import type { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
