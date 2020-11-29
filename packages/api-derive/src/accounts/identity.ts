@@ -4,7 +4,7 @@
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, IdentityInfoAdditional, Registration } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
-import { DeriveAccountRegistration } from '../types';
+import { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -60,40 +60,60 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
   };
 }
 
+function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> {
+  if (identityOfOpt?.isSome) {
+    // this identity has something set
+    return of([identityOfOpt, undefined]);
+  } else if (superOfOpt?.isSome) {
+    const superOf = superOfOpt.unwrap();
+
+    // we have a super
+    return combineLatest([
+      api.query.identity.identityOf<Option<Registration>>(superOf[0]),
+      of(superOf)
+    ]);
+  }
+
+  // nothing of value returned
+  return of([undefined, undefined]);
+}
+
+export function _identityBase (instanceId: string, api: ApiInterfaceRx): (accountId?: AccountId | Uint8Array | string) => Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
+  return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> =>
+    accountId && api.query.identity?.identityOf
+      ? api.queryMulti<[Option<Registration>, Option<ITuple<[AccountId, Data]>>]>([
+        [api.query.identity.identityOf, accountId],
+        [api.query.identity.superOf, accountId]
+      ])
+      : of([undefined, undefined])
+  );
+}
+
 /**
  * @name identity
  * @description Returns identity info for an account
  */
 export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
   return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> =>
-    ((
-      accountId && api.query.identity?.identityOf
-        ? api.queryMulti([
-          [api.query.identity.identityOf, accountId],
-          [api.query.identity.superOf, accountId]
-        ])
-        : of([undefined, undefined])
-    ) as Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]>).pipe(
-      switchMap(([identityOfOpt, superOfOpt]): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> => {
-        if (identityOfOpt?.isSome) {
-          // this identity has something set
-          return of([identityOfOpt, undefined]);
-        } else if (superOfOpt?.isSome) {
-          const superOf = superOfOpt.unwrap();
+    api.derive.accounts._identityBase(accountId).pipe(
+      switchMap(([identityOfOpt, superOfOpt]) => getParent(api, identityOfOpt, superOfOpt)),
+      map(([identityOfOpt, superOf]) => extractIdentity(identityOfOpt, superOf))
+    )
+  );
+}
 
-          // we have a super
-          return combineLatest([
-            api.query.identity.identityOf<Option<Registration>>(superOf[0]),
-            of(superOf)
-          ]);
-        }
+export function hasIdentity (instanceId: string, api: ApiInterfaceRx): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveHasIdentity> {
+  return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveHasIdentity> =>
+    api.derive.accounts._identityBase(accountId).pipe(
+      map(([identityOfOpt, superOfOpt]: [Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]): DeriveHasIdentity => {
+        const parentId = superOfOpt && superOfOpt.isSome
+          ? superOfOpt.unwrap().toString()
+          : null;
+        const hasParent = !!parentId;
+        const hasIdentity = hasParent || !!(identityOfOpt && identityOfOpt.isSome);
 
-        // nothing of value returned
-        return of([undefined, undefined]);
-      }),
-      map(([identityOfOpt, superOf]): DeriveAccountRegistration =>
-        extractIdentity(identityOfOpt, superOf)
-      )
+        return { hasIdentity, hasParent, parentId };
+      })
     )
   );
 }
