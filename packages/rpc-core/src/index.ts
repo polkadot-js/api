@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
-import { Hash } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
-import { RpcInterface, RpcInterfaceMethod } from './types';
+import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
+import type { StorageKey, Vec } from '@polkadot/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
 import { Observable, Observer } from 'rxjs';
 import { publishReplay, refCount } from 'rxjs/operators';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { Option, StorageKey, Vec } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
@@ -42,6 +43,12 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
   ).join(', ');
 
   l.error(`${method}(${inputs}): ${type}:: ${error.message}`);
+}
+
+function isTreatAsHex (key: StorageKey): boolean {
+  // :code is problematic - it does not have the length attached, which is
+  // unlike all other storage entries where it is indeed properly encoded
+  return ['0x3a636f6465'].includes(key.toHex());
 }
 
 /**
@@ -372,12 +379,6 @@ export class RpcCore implements RpcInterface {
     );
   }
 
-  private _treatAsHex (key: StorageKey): boolean {
-    // :code is problematic - it does not have the length attached, which is
-    // unlike all other storage entries where it is indeed properly encoded
-    return ['0x3a636f6465'].includes(key.toHex());
-  }
-
   private _formatOutput (registry: Registry, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
@@ -405,19 +406,63 @@ export class RpcCore implements RpcInterface {
   }
 
   private _formatStorageData (registry: Registry, key: StorageKey, value: string | null): Codec {
-    // single return value (via state.getStorage), decode the value based on the
-    // outputType that we have specified. Fallback to Raw on nothing
-    const type = key.outputType || 'Raw';
-    const meta = key.meta || EMPTY_META;
     const isEmpty = isNull(value);
 
     // we convert to Uint8Array since it maps to the raw encoding, all
     // data will be correctly encoded (incl. numbers, excl. :code)
     const input = isEmpty
       ? null
-      : this._treatAsHex(key)
+      : isTreatAsHex(key)
         ? value
         : u8aToU8a(value);
+
+    return this._newType(registry, key, input, isEmpty);
+  }
+
+  private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
+    // For StorageChangeSet, the changes has the [key, value] mappings
+    const withCache = keys.length !== 1;
+
+    // multiple return values (via state.storage subscription), decode the values
+    // one at a time, all based on the query types. Three values can be returned -
+    //   - Codec - There is a valid value, non-empty
+    //   - null - The storage key is empty
+    return keys.reduce((results: Codec[], key: StorageKey): Codec[] => {
+      results.push(this._formatStorageSetEntry(registry, key, changes, withCache));
+
+      return results;
+    }, []);
+  }
+
+  private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
+    const hexKey = key.toHex();
+    const found = changes.find(([key]) => key === hexKey);
+
+    // if we don't find the value, this is our fallback
+    //   - in the case of an array of values, fill the hole from the cache
+    //   - if a single result value, don't fill - it is not an update hole
+    //   - fallback to an empty option in all cases
+    const value = isUndefined(found)
+      ? (witCache && this.#storageCache.get(hexKey)) || null
+      : found[1];
+    const isEmpty = isNull(value);
+    const input = isEmpty || isTreatAsHex(key)
+      ? value
+      : u8aToU8a(value);
+
+    // store the retrieved result - the only issue with this cache is that there is no
+    // clearing of it, so very long running processes (not just a couple of hours, longer)
+    // will increase memory beyond what is allowed.
+    this.#storageCache.set(hexKey, value);
+
+    return this._newType(registry, key, input, isEmpty);
+  }
+
+  private _newType (registry: Registry, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean): Codec {
+    // single return value (via state.getStorage), decode the value based on the
+    // outputType that we have specified. Fallback to Raw on nothing
+    const type = key.outputType || 'Raw';
+    const meta = key.meta || EMPTY_META;
 
     if (meta.modifier.isOptional) {
       let inner = null;
@@ -443,74 +488,6 @@ export class RpcCore implements RpcInterface {
       ], true);
     } catch (error) {
       l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
-
-      return registry.createType('Raw', input);
-    }
-  }
-
-  private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
-    // For StorageChangeSet, the changes has the [key, value] mappings
-    const withCache = keys.length !== 1;
-
-    // multiple return values (via state.storage subscription), decode the values
-    // one at a time, all based on the query types. Three values can be returned -
-    //   - Codec - There is a valid value, non-empty
-    //   - null - The storage key is empty
-    return keys.reduce((results: Codec[], key: StorageKey, index: number): Codec[] => {
-      results.push(this._formatStorageSetEntry(registry, key, changes, withCache, index));
-
-      return results;
-    }, []);
-  }
-
-  private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {
-    // Fallback to Raw (i.e. just the encoding) if we don't have a specific type
-    const type = key.outputType || 'Raw';
-    const hexKey = key.toHex();
-    const meta = key.meta || EMPTY_META;
-    const found = changes.find(([key]) => key === hexKey);
-
-    // if we don't find the value, this is our fallback
-    //   - in the case of an array of values, fill the hole from the cache
-    //   - if a single result value, don't fill - it is not an update hole
-    //   - fallback to an empty option in all cases
-    const value = isUndefined(found)
-      ? (witCache && this.#storageCache.get(hexKey)) || null
-      : found[1];
-    const isEmpty = isNull(value);
-    const input = isEmpty || this._treatAsHex(key)
-      ? value
-      : u8aToU8a(value);
-
-    // store the retrieved result - the only issue with this cache is that there is no
-    // clearing of it, so very long running processes (not just a couple of hours, longer)
-    // will increase memory beyond what is allowed.
-    this.#storageCache.set(hexKey, value);
-
-    if (meta.modifier.isOptional) {
-      let inner = null;
-
-      if (!isEmpty) {
-        try {
-          inner = createTypeUnsafe(registry, type, [input], true);
-        } catch (error) {
-          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
-        }
-      }
-
-      return new Option(registry, createClass(registry, type), inner);
-    }
-
-    try {
-      return createTypeUnsafe(registry, type, [
-        isEmpty
-          ? meta.fallback
-            ? hexToU8a(meta.fallback.toHex())
-            : undefined
-          : input
-      ], true);
-    } catch (error) {
-      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
 
       return registry.createType('Raw', input);
     }
