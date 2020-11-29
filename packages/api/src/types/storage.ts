@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-
-import { Observable } from 'rxjs';
 
 import { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 

@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Registry } from '@polkadot/types/types';
+
 import Handlebars from 'handlebars';
-
-import { Registry } from '@polkadot/types/types';
-
 import staticData from '@polkadot/metadata/static';
 import { Metadata } from '@polkadot/metadata';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';

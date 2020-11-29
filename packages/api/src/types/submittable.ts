@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyFunction, CallBase } from '@polkadot/types/types';
+import type { AnyFunction, CallBase } from '@polkadot/types/types';
 
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiTypes } from './base';

@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
