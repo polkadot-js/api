@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## 2.9.1 Nov 30, 2020
+
+Upgrade priority: Low. No major changes when on at least 2.8.2. Users encouraged to upgrade to at least that patch.
+
+- **Breaking change** The API will now not attempt to queue calls made while not connected and send on connection. Rather when making a call and the RPC node is not connected, an error will be thrown.
+
+Contributed:
+
+- Add typegen capability for custom RPCs (Thanks to https://github.com/holygits)
+
+Changes:
+
+- Remove rpc-core send queue, only allow sends while connected
+- Adjust staking derive for `electedInfo` to contain details of current validators
+- Extract identity-only derive from `accounts.info` for simpler reusability
+- Add types for Substrate master node (to allow for consistent swapping to `MultiAddress`)
+- Adjust `Bytes` with `.slice` to be consistent for `Uint8array` extensions (already released in 2.8.2 as a bugfix)
+
+
 ## 2.8.1 Nov 23, 2020
 
 Upgrade priority: Low. Recommended if using Substrate master with new `MultiAddress`.
