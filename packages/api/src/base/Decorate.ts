@@ -392,8 +392,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     if (this.hasSubscriptions) {
       // When using double map storage function, user need to pass double map key as an array
       decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
-        this._rpcCore.state.subscribeStorage(
-          args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
+        this._retrieveMulti(args.map((arg) => [creator, arg])));
     }
 
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -428,6 +427,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined)
         ])
       ));
+  }
+
+  // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE_VALS sizes
+  private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<Codec[]> {
+    return combineLatest(
+      ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
+        .fill(0)
+        .map((_, index): Observable<Codec[]> =>
+          this._rpcCore.state.subscribeStorage(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
+        )
+    ).pipe(
+      map((valsArr): Codec[] =>
+        valsArr.reduce((result: Codec[], vals) => result.concat(vals), [])
+      )
+    );
   }
 
   private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<StorageKey[]> {

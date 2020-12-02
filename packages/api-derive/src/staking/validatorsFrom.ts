@@ -27,7 +27,8 @@ export function validatorsFrom (instanceId: string, api: ApiInterfaceRx): (stash
 
               return validatorIds;
             }, validatorIds);
-          }, [])
+          }, []),
+          false
         )
       )
     )

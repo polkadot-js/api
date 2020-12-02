@@ -127,7 +127,7 @@ function filterRewards (api: ApiInterfaceRx, eras: EraIndex[], { migrateEra, rew
 
   return (
     isFunction(api.tx.staking.payoutStakers)
-      ? api.derive.staking.queryMulti(validators)
+      ? api.derive.staking.queryMulti(validators, false)
       : of([])
   ).pipe(
     map((queryValidators): DeriveStakerReward[] =>
@@ -150,7 +150,7 @@ function filterRewards (api: ApiInterfaceRx, eras: EraIndex[], { migrateEra, rew
         .filter(({ validators }) => Object.keys(validators).length !== 0)
         .map((reward) => ({
           ...reward,
-          nominators: reward.nominating.filter((n) => !!reward.validators[n.validatorId])
+          nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
         }))
     )
   );
