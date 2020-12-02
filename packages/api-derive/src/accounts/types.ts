@@ -37,6 +37,7 @@ export interface DeriveAccountInfo {
 }
 
 export interface DeriveHasIdentity {
+  display?: string;
   hasIdentity: boolean;
-  parentId: string | null;
+  parentId?: string;
 }
