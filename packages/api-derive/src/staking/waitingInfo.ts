@@ -20,7 +20,7 @@ export function waitingInfo (instanceId: string, api: ApiInterfaceRx): () => Obs
         const elected = nextElected.map((a) => a.toString());
         const waiting = stashes.filter((v) => !elected.includes(v.toString()));
 
-        return api.derive.staking.queryMulti(waiting, { withPrefs: true }).pipe(
+        return api.derive.staking.queryMulti(waiting, { withLedger: true, withPrefs: true }).pipe(
           map((info): DeriveStakingWaiting => ({
             info,
             waiting
