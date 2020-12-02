@@ -12,6 +12,13 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { memo } from '../util';
 
+const QUERY_OPTS = {
+  withDestination: true,
+  withLedger: true,
+  withNominations: true,
+  withPrefs: true
+};
+
 function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   return list.reduce((map: Record<string, BN>, { era, value }): Record<string, BN> => {
     const key = era.toString();
@@ -63,7 +70,7 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
       switchMap((sessionInfo) =>
         combineLatest([
           api.derive.staking.keysMulti(accountIds),
-          api.derive.staking.queryMulti(accountIds, true)
+          api.derive.staking.queryMulti(accountIds, QUERY_OPTS)
         ]).pipe(
           map(([keys, queries]) => queries.map((query, index) => parseResult(api, sessionInfo, keys[index], query)))
         )

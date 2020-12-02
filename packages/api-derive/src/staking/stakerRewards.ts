@@ -127,7 +127,7 @@ function filterRewards (api: ApiInterfaceRx, eras: EraIndex[], { migrateEra, rew
 
   return (
     isFunction(api.tx.staking.payoutStakers)
-      ? api.derive.staking.queryMulti(validators, false)
+      ? api.derive.staking.queryMulti(validators, { withLedger: true })
       : of([])
   ).pipe(
     map((queryValidators): DeriveStakerReward[] =>
@@ -172,7 +172,7 @@ export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (e
 export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerReward[]> {
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerReward[]> =>
     combineLatest([
-      api.derive.staking.query(accountId),
+      api.derive.staking.query(accountId, { withLedger: true }),
       api.derive.staking._stakerExposure(accountId, eras, withActive),
       api.derive.staking._stakerRewardsEras(eras, withActive)
     ]).pipe(

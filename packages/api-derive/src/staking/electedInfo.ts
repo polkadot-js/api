@@ -18,7 +18,7 @@ export function electedInfo (instanceId: string, api: ApiInterfaceRx): () => Obs
   return memo(instanceId, (): Observable<DeriveStakingElected> =>
     api.derive.staking.validators().pipe(
       switchMap(({ nextElected, validators }): Observable<DeriveStakingElected> =>
-        api.derive.staking.queryMulti(combineAccounts(nextElected, validators), false).pipe(
+        api.derive.staking.queryMulti(combineAccounts(nextElected, validators), { withExposure: true, withPrefs: true }).pipe(
           map((info): DeriveStakingElected => ({
             info,
             nextElected,
