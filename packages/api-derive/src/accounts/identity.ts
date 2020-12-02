@@ -10,7 +10,7 @@ import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
 
 import { combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { u8aToString } from '@polkadot/util';
+import { isHex, u8aToString } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -121,13 +121,21 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
             const superOfOpt = supers[index];
             const parentId = superOfOpt && superOfOpt.isSome
               ? superOfOpt.unwrap()[0].toString()
-              : null;
-            const hasIdentity = !!parentId || !!(identityOfOpt && identityOfOpt.isSome);
+              : undefined;
+            let display: string | undefined;
 
-            return { hasIdentity, parentId };
+            if (identityOfOpt && identityOfOpt.isSome) {
+              const value = dataAsString(identityOfOpt.unwrap().info.display);
+
+              if (value && !isHex(value)) {
+                display = value;
+              }
+            }
+
+            return { display, hasIdentity: !!(display || parentId), parentId };
           })
         )
       )
-      : of(accountIds.map(() => ({ hasIdentity: false, parentId: null })))
+      : of(accountIds.map(() => ({ hasIdentity: false })))
   );
 }
