@@ -93,7 +93,7 @@ function retrieveCurr (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: Er
 }
 
 function retrieveControllers (api: ApiInterfaceRx, list: [Option<StakingLedger>, Option<AccountId>][]): Observable<Option<StakingLedger>[]> {
-  const ids = list.filter(([l, b]) => !l.isSome && b.isSome).map(([, b]) => b.unwrap());
+  const ids = list.filter(([l, c]) => !l.isSome && c.isSome).map(([, c]) => c.unwrap());
 
   if (!ids.length) {
     return of(list.map(([l]) => l));
@@ -103,8 +103,8 @@ function retrieveControllers (api: ApiInterfaceRx, list: [Option<StakingLedger>,
     map((optLedgers): Option<StakingLedger>[] => {
       let offset = -1;
 
-      return list.map(([l, b]): Option<StakingLedger> =>
-        !l.isSome && b.isSome
+      return list.map(([l, c]): Option<StakingLedger> =>
+        !l.isSome && c.isSome
           ? optLedgers[++offset]
           : l
       );
@@ -136,7 +136,7 @@ export function queryMulti (instanceId: string, api: ApiInterfaceRx): (accountId
               : combineLatest(stashIds.map((stashId) => retrievePrev(api, stashId)))
           ).pipe(
             switchMap((results): Observable<DeriveStakingQuery[]> =>
-              retrieveControllers(api, results.map(([optLedger, optController]) => [optLedger, optController])).pipe(
+              retrieveControllers(api, results.map(([l, c]) => [l, c])).pipe(
                 map((stakingLedgerOpts) =>
                   stashIds.map((stashId, index) => parseDetails(stashId, results[index], stakingLedgerOpts[index]))
                 )
