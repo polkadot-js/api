@@ -42,6 +42,11 @@ export default {
       validatorIndices: 'BitVec'
     },
     AuctionIndex: 'u32',
+    BackedCandidate: {
+      candidate: 'CommittedCandidateReceipt',
+      validityVotes: 'Vec<ValidityAttestation>',
+      validatorIndices: 'BitVec'
+    },
     Bidder: {
       _enum: {
         New: 'NewBidder',
@@ -49,25 +54,39 @@ export default {
       }
     },
     CandidateCommitments: {
-      fees: 'Balance',
       upwardMessages: 'Vec<UpwardMessage>',
-      erasureRoot: 'Hash',
+      horizontalMessages: 'Vec<OutboundHrmpMessage>',
       newValidationCode: 'Option<ValidationCode>',
-      processedDownwardMessages: 'u32'
+      headData: 'HeadData',
+      processedDownwardMessages: 'u32',
+      hrmpWatermark: 'BlockNumber'
+    },
+    CandidateDescriptor: {
+      paraId: 'u32',
+      relayParent: 'Hash',
+      collatorId: 'Hash',
+      persistedValidationDataHash: 'Hash',
+      povHash: 'Hash',
+      erasureRoot: 'Hash',
+      signature: 'Signature'
+    },
+    CandidatePendingAvailablility: {
+      core: 'u32',
+      descriptor: 'CandidateDescriptor',
+      availabilityVotes: 'BitVec',
+      relayParentNumber: 'BlockNumber',
+      backedInNumber: 'BlockNumber'
     },
     CandidateReceipt: {
-      parachainIndex: 'ParaId',
-      relayParent: 'Hash',
-      head_data: 'HeadData',
-      collator: 'CollatorId',
-      signature: 'CollatorSignature',
-      povBlockHash: 'Hash',
-      globalValidation: 'GlobalValidationSchedule',
-      localValidation: 'LocalValidationData',
-      commitments: 'CandidateCommitments'
+      descriptor: 'CandidateDescriptor',
+      commitmentsHash: 'Hash'
     },
     CollatorId: '[u8; 32]',
     CollatorSignature: 'Signature',
+    CommittedCandidateReceipt: {
+      descriptor: 'CandidateDescriptor',
+      commitments: 'CandidateCommitments'
+    },
     DoubleVoteReport: {
       identity: 'ValidatorId',
       first: '(Statement, ValidatorSignature)',
@@ -87,6 +106,10 @@ export default {
       blockNumber: 'BlockNumber'
     },
     HeadData: 'Bytes',
+    HrmpChannelId: {
+      sender: 'u32',
+      receiver: 'u32'
+    },
     IncomingParachain: {
       _enum: {
         Unset: 'NewBidder',
@@ -114,6 +137,10 @@ export default {
       who: 'AccountId',
       sub: 'SubId'
     },
+    OutboundHrmpMessage: {
+      recipient: 'u32',
+      data: 'Bytes'
+    },
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain', 'Root']
     },
@@ -139,6 +166,12 @@ export default {
     Scheduling: {
       _enum: ['Always', 'Dynamic']
     },
+    SignedAvailabilityBitfield: {
+      payload: 'BitVec',
+      validatorIndex: 'u32',
+      signature: 'Signature'
+    },
+    SignedAvailabilityBitfields: 'Vec<SignedAvailabilityBitfield>',
     SigningContext: {
       sessionIndex: 'SessionIndex',
       parentHash: 'Hash'
@@ -155,10 +188,7 @@ export default {
       }
     },
     SubId: 'u32',
-    UpwardMessage: {
-      origin: 'ParachainDispatchOrigin',
-      data: 'Vec<u8>'
-    },
+    UpwardMessage: 'Bytes',
     ValidationFunctionParams: {
       maxCodeSize: 'u32',
       relayChainHeight: 'RelayChainBlockNumber',
