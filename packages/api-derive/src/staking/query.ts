@@ -22,11 +22,9 @@ interface QueryFlags {
   withPrefs?: boolean;
 }
 
-type MultiResult = [Option<AccountId>, Option<ITuple<[Nominations]> | Nominations>, RewardDestination, ITuple<[ValidatorPrefs]> | ValidatorPrefs, Exposure];
+type MultiResult = [Option<StakingLedger>, Option<AccountId>, Option<ITuple<[Nominations]> | Nominations>, RewardDestination, ITuple<[ValidatorPrefs]> | ValidatorPrefs, Exposure];
 
-type MultiResultCombo = [Option<AccountId>, Option<Nominations>, RewardDestination, ValidatorPrefs, Exposure];
-
-function parseDetails (stashId: AccountId, [controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]: MultiResult, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
+function parseDetails (stashId: AccountId, [, controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]: MultiResult, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
   const nominators = nominatorsOpt && nominatorsOpt.unwrapOr(null);
 
   return {
@@ -49,6 +47,7 @@ function parseDetails (stashId: AccountId, [controllerIdOpt, nominatorsOpt, rewa
 
 function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResult> {
   return api.queryMulti<MultiResult>([
+    [api.query.staking.ledger, stashId],
     [api.query.staking.bonded, stashId],
     [api.query.staking.nominators, stashId],
     [api.query.staking.payee, stashId],
@@ -57,14 +56,18 @@ function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<Mult
   ]);
 }
 
-function retrieveCurr (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withDestination, withExposure, withLedger, withNominations, withPrefs }: QueryFlags): Observable<MultiResultCombo[]> {
+function retrieveCurr (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withDestination, withExposure, withLedger, withNominations, withPrefs }: QueryFlags): Observable<MultiResult[]> {
   const emptyCont = api.registry.createType('Option<AccountId>');
+  const emptyLed = api.registry.createType('Option<StakingLedger>');
   const emptyNoms = api.registry.createType('Option<Nominations>');
   const emptyRewa = api.registry.createType('RewardDestination');
   const emptyExpo = api.registry.createType('Exposure');
   const emptyPrefs = api.registry.createType('ValidatorPrefs');
 
   return combineLatest([
+    withLedger
+      ? api.query.staking.ledger.multi<Option<StakingLedger>>(stashIds)
+      : of(stashIds.map(() => emptyLed)),
     withLedger
       ? api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
       : of(stashIds.map(() => emptyCont)),
@@ -81,30 +84,29 @@ function retrieveCurr (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: Er
       ? api.query.staking.erasStakers.multi<Exposure>(stashIds.map((stashId) => [activeEra, stashId]))
       : of(stashIds.map(() => emptyExpo))
   ]).pipe(
-    map(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): MultiResultCombo[] =>
-      controllerIdOpt.map((controllerIdOpt, index): MultiResultCombo =>
-        [controllerIdOpt, nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index]]
+    map(([controllerIdOpt, ledgersOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): MultiResult[] =>
+      controllerIdOpt.map((controllerIdOpt, index): MultiResult =>
+        [controllerIdOpt, ledgersOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index]]
       )
     )
   );
 }
 
-function retrieveControllers (api: ApiInterfaceRx, optControllerIds: Option<AccountId>[]): Observable<Option<StakingLedger>[]> {
-  const ids = optControllerIds.filter((opt) => opt.isSome).map((opt) => opt.unwrap());
-  const emptyLed = api.registry.createType('Option<StakingLedger>');
+function retrieveControllers (api: ApiInterfaceRx, list: [Option<StakingLedger>, Option<AccountId>][]): Observable<Option<StakingLedger>[]> {
+  const ids = list.filter(([l, b]) => !l.isSome && b.isSome).map(([, b]) => b.unwrap());
 
   if (!ids.length) {
-    return of(optControllerIds.map(() => emptyLed));
+    return of(list.map(([l]) => l));
   }
 
   return api.query.staking.ledger.multi<Option<StakingLedger>>(ids).pipe(
     map((optLedgers): Option<StakingLedger>[] => {
       let offset = -1;
 
-      return optControllerIds.map((opt): Option<StakingLedger> =>
-        opt.isSome
+      return list.map(([l, b]): Option<StakingLedger> =>
+        !l.isSome && b.isSome
           ? optLedgers[++offset]
-          : emptyLed
+          : l
       );
     })
   );
@@ -134,7 +136,7 @@ export function queryMulti (instanceId: string, api: ApiInterfaceRx): (accountId
               : combineLatest(stashIds.map((stashId) => retrievePrev(api, stashId)))
           ).pipe(
             switchMap((results): Observable<DeriveStakingQuery[]> =>
-              retrieveControllers(api, results.map(([optController]) => optController)).pipe(
+              retrieveControllers(api, results.map(([optLedger, optController]) => [optLedger, optController])).pipe(
                 map((stakingLedgerOpts) =>
                   stashIds.map((stashId, index) => parseDetails(stashId, results[index], stakingLedgerOpts[index]))
                 )
