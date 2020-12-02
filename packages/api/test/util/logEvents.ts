@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EventRecord } from '@polkadot/types/interfaces';
+import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { SubmittableResult } from '../../src';
 

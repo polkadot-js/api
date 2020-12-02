@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyNumber, Registry } from '@polkadot/types/types';
+import type { AnyNumber, Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 

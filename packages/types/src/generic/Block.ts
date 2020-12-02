@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
-import { AnyNumber, AnyU8a, Registry } from '../types';
+import type { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
+import type { AnyNumber, AnyU8a, Registry } from '../types';
 
 import { GenericExtrinsic } from '../extrinsic/Extrinsic';
 import { Struct } from '../codec/Struct';

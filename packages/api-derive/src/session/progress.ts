@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SessionIndex } from '@polkadot/types/interfaces';
-import { DeriveSessionInfo, DeriveSessionProgress } from '../types';
+import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Option, u64 } from '@polkadot/types';
+import type { SessionIndex } from '@polkadot/types/interfaces';
+import type { DeriveSessionInfo, DeriveSessionProgress } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, u64 } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';

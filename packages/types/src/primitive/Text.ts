@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyU8a, Codec, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyU8a, Codec, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex, compactFromU8a, compactAddLength } from '@polkadot/util';
 

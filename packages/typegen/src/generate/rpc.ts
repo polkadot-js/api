@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Handlebars from 'handlebars';
+import type { Definitions } from '@polkadot/types/types';
 
+import Handlebars from 'handlebars';
 import { TypeRegistry } from '@polkadot/types/create';
-import { Definitions } from '@polkadot/types/types';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 
 import { createImports, getSimilarTypes, formatType, readTemplate, registerDefinitions, setImports, writeFile } from '../util';

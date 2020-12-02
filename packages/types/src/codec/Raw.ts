@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, AnyU8a, IU8a, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
 import { assert, isAscii, isU8a, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 

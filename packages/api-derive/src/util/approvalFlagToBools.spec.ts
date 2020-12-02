@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApprovalFlag } from '@polkadot/types/interfaces';
+import type { ApprovalFlag } from '@polkadot/types/interfaces';
 
 import { TypeRegistry } from '@polkadot/types/create';
 

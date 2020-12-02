@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StorageEntryMetadataLatest } from '../interfaces/metadata';
-import { Codec } from '../types';
+import type { StorageEntryMetadataLatest } from '../interfaces/metadata';
+import type { Codec } from '../types';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;

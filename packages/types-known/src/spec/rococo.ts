@@ -3,7 +3,7 @@
 
 /* eslint-disable sort-keys */
 
-import { OverrideVersionedType } from '@polkadot/types/types';
+import type { OverrideVersionedType } from '@polkadot/types/types';
 
 // structs need to be in order
 /* eslint-disable sort-keys */

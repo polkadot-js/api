@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/rpc-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableResult } from '@polkadot/api';
-import { EventRecord } from '@polkadot/types/interfaces';
-import { Codec, CodecArg, Registry, TypeDef } from '@polkadot/types/types';
-import { BlueprintOptions, ContractOptions } from './types';
+import type { SubmittableResult } from '@polkadot/api';
+import type { Raw } from '@polkadot/types';
+import type { EventRecord } from '@polkadot/types/interfaces';
+import type { Codec, CodecArg, Registry, TypeDef } from '@polkadot/types/types';
+import type { BlueprintOptions, ContractOptions } from './types';
 
 import BN from 'bn.js';
-import { Raw } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/create';
 import { isBn, isBigInt, isNumber, isString } from '@polkadot/util';
 

@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BlockNumber } from '@polkadot/types/interfaces';
+import type { Observable } from 'rxjs';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 

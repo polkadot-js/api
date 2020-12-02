@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { UIntBitLength, U8aBitLength } from '../codec/types';
-import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg, TypeDef, TypeDefInfo } from './types';
+import type { UIntBitLength, U8aBitLength } from '../codec/types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { FromReg, TypeDef } from './types';
 
 import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
 import { DoNotConstruct } from '../primitive';
-
 import { getTypeDef } from './getTypeDef';
+import { TypeDefInfo } from './types';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define

@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
+import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
+import type { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
 
 import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
 import { BN_ZERO, assert, assertReturn, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';

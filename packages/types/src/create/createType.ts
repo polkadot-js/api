@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg } from './types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { FromReg } from './types';
 
 import { isU8a, logger, u8aToHex } from '@polkadot/util';
 

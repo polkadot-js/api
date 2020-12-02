@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Digest } from '@polkadot/types/interfaces';
+import type { AccountId, Digest } from '@polkadot/types/interfaces';
 
 export function extractAuthor (digest: Digest, sessionValidators: AccountId[] = []): AccountId | undefined {
   const [pitem] = digest.logs.filter(({ type }) => type === 'PreRuntime');

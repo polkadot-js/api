@@ -5,19 +5,18 @@
 import '@polkadot/api/augment';
 
 import type BN from 'bn.js';
-import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
-import { RpcInterface } from '@polkadot/rpc-core/types';
-import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
-import { Metadata } from '@polkadot/metadata';
-import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
-
-import { DeriveAllSections } from '../util/decorate';
-import { ApiBase } from '../base';
-import { QueryableConsts } from './consts';
-import { DecoratedRpc } from './rpc';
-import { QueryableStorage, QueryableStorageMulti } from './storage';
-import { SubmittableExtrinsics } from './submittable';
+import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
+import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
+import type { Metadata } from '@polkadot/metadata';
+import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { DefinitionRpc, DefinitionRpcSub, Signer, SignatureOptions, Registry, RegisteredTypes } from '@polkadot/types/types';
+import type { DeriveAllSections } from '../util/decorate';
+import type { ApiBase } from '../base';
+import type { QueryableConsts } from './consts';
+import type { DecoratedRpc } from './rpc';
+import type { QueryableStorage, QueryableStorageMulti } from './storage';
+import type { SubmittableExtrinsics } from './submittable';
 
 export { Signer, SignerResult } from '@polkadot/types/types';
 export { ApiBase } from '../base';

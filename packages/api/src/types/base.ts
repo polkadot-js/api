@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
+import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Call } from '@polkadot/types/interfaces';
-import { AnyJson, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
+import type { Call } from '@polkadot/types/interfaces';
+import type { AnyJson, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
 
 import { assert, stringCamelCase } from '@polkadot/util';
 

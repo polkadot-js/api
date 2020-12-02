@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyU8a, Constructor, Registry } from '../types';
-import { U8aBitLength } from './types';
+import type { AnyU8a, Constructor, Registry } from '../types';
+import type { U8aBitLength } from './types';
 
 import { isString, u8aToU8a } from '@polkadot/util';
 

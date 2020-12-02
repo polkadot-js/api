@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '../create/types';
-import { EventMetadataLatest } from '../interfaces/metadata';
-import { EventId } from '../interfaces/system';
-import { AnyJson, Constructor, Registry, RegistryMetadataEvent } from '../types';
+import type { TypeDef } from '../create/types';
+import type { EventMetadataLatest } from '../interfaces/metadata';
+import type { EventId } from '../interfaces/system';
+import type { AnyJson, Constructor, Registry, RegistryMetadataEvent } from '../types';
 
 import { Struct } from '../codec/Struct';
 import { Tuple } from '../codec/Tuple';

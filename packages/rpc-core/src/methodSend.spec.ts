@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DefinitionRpc } from '@polkadot/types/types';
+import type { DefinitionRpc } from '@polkadot/types/types';
 
 import { TypeRegistry } from '@polkadot/types/create';
 

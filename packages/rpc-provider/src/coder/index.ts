@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
+import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
 import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
 

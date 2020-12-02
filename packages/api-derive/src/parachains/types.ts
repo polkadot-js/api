@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CollatorId, ParaId, ParaInfo, Retriable, UpwardMessage } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
-
-import { Bytes, Option, u32, Vec } from '@polkadot/types';
+import type { CollatorId, ParaId, ParaInfo, Retriable, UpwardMessage } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
+import type { Bytes, Option, u32, Vec } from '@polkadot/types';
 
 export type ParaInfoResult = Option<ParaInfo>;
 export type PendingSwap = Option<ParaId>;

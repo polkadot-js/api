@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EventMetadataV12, EventMetadataLatest, FunctionMetadataV12, FunctionMetadataLatest, MetadataV12, MetadataLatest, ModuleMetadataLatest, ModuleMetadataV12, StorageMetadataV12, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Registry, OverrideModuleType } from '@polkadot/types/types';
+import type { EventMetadataV12, EventMetadataLatest, FunctionMetadataV12, FunctionMetadataLatest, MetadataV12, MetadataLatest, ModuleMetadataLatest, ModuleMetadataV12, StorageMetadataV12, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { Registry, OverrideModuleType } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types-known';
 import { Type } from '@polkadot/types/primitive';

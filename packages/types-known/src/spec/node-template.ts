@@ -3,7 +3,7 @@
 
 /* eslint-disable sort-keys */
 
-import { OverrideVersionedType } from '@polkadot/types/types';
+import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const versioned: OverrideVersionedType[] = [
   {

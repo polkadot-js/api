@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec } from './types';
+
 import { Metadata } from '@polkadot/metadata';
 import metadataStatic from '@polkadot/metadata/static';
 
 import { createTypeUnsafe, TypeRegistry } from './create';
-import { Codec } from './types';
 import * as exported from './index.types';
 import * as definitions from './interfaces/definitions';
 

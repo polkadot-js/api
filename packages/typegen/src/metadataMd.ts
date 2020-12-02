@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Codec, DefinitionRpcParam } from '@polkadot/types/types';
+import type { MetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
 import { Metadata } from '@polkadot/metadata';

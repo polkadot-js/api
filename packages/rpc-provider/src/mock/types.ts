@@ -1,8 +1,9 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Server } from 'mock-socket';
-import { Constructor } from '@polkadot/types/types';
+import type { Constructor } from '@polkadot/types/types';
+
+import type { Server } from 'mock-socket';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export interface Global extends NodeJS.Global {
