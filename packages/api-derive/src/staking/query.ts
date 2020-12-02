@@ -22,11 +22,11 @@ interface QueryFlags {
   withPrefs?: boolean;
 }
 
-type MultiResultPrev = [Option<AccountId>, Option<ITuple<[Nominations]>>, RewardDestination, ITuple<[ValidatorPrefs]> | ValidatorPrefs, Exposure];
+type MultiResult = [Option<AccountId>, Option<ITuple<[Nominations]> | Nominations>, RewardDestination, ITuple<[ValidatorPrefs]> | ValidatorPrefs, Exposure];
 
-type MultiResultCombo = [Option<AccountId>, Option<ITuple<[Nominations]> | Nominations>, RewardDestination, ITuple<[ValidatorPrefs]> | ValidatorPrefs, Exposure];
+type MultiResultCombo = [Option<AccountId>, Option<Nominations>, RewardDestination, ValidatorPrefs, Exposure];
 
-function parseDetails (stashId: AccountId, [controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]: MultiResultCombo, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
+function parseDetails (stashId: AccountId, [controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]: MultiResult, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
   const nominators = nominatorsOpt && nominatorsOpt.unwrapOr(null);
 
   return {
@@ -47,8 +47,8 @@ function parseDetails (stashId: AccountId, [controllerIdOpt, nominatorsOpt, rewa
   };
 }
 
-function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResultPrev> {
-  return api.queryMulti<MultiResultPrev>([
+function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResult> {
+  return api.queryMulti<MultiResult>([
     [api.query.staking.bonded, stashId],
     [api.query.staking.nominators, stashId],
     [api.query.staking.payee, stashId],
