@@ -28,6 +28,13 @@ export interface AttestedCandidate extends Struct {
 /** @name AuctionIndex */
 export interface AuctionIndex extends u32 {}
 
+/** @name BackedCandidate */
+export interface BackedCandidate extends Struct {
+  readonly candidate: CommittedCandidateReceipt;
+  readonly validityVotes: Vec<ValidityAttestation>;
+  readonly validatorIndices: BitVec;
+}
+
 /** @name Bidder */
 export interface Bidder extends Enum {
   readonly isNew: boolean;
@@ -38,24 +45,38 @@ export interface Bidder extends Enum {
 
 /** @name CandidateCommitments */
 export interface CandidateCommitments extends Struct {
-  readonly fees: Balance;
   readonly upwardMessages: Vec<UpwardMessage>;
-  readonly erasureRoot: Hash;
+  readonly horizontalMessages: Vec<OutboundHrmpMessage>;
   readonly newValidationCode: Option<ValidationCode>;
+  readonly headData: HeadData;
   readonly processedDownwardMessages: u32;
+  readonly hrmpWatermark: BlockNumber;
+}
+
+/** @name CandidateDescriptor */
+export interface CandidateDescriptor extends Struct {
+  readonly paraId: u32;
+  readonly relayParent: Hash;
+  readonly collatorId: Hash;
+  readonly persistedValidationDataHash: Hash;
+  readonly povHash: Hash;
+  readonly erasureRoot: Hash;
+  readonly signature: Signature;
+}
+
+/** @name CandidatePendingAvailablility */
+export interface CandidatePendingAvailablility extends Struct {
+  readonly core: u32;
+  readonly descriptor: CandidateDescriptor;
+  readonly availabilityVotes: BitVec;
+  readonly relayParentNumber: BlockNumber;
+  readonly backedInNumber: BlockNumber;
 }
 
 /** @name CandidateReceipt */
 export interface CandidateReceipt extends Struct {
-  readonly parachainIndex: ParaId;
-  readonly relayParent: Hash;
-  readonly head_data: HeadData;
-  readonly collator: CollatorId;
-  readonly signature: CollatorSignature;
-  readonly povBlockHash: Hash;
-  readonly globalValidation: GlobalValidationSchedule;
-  readonly localValidation: LocalValidationData;
-  readonly commitments: CandidateCommitments;
+  readonly descriptor: CandidateDescriptor;
+  readonly commitmentsHash: Hash;
 }
 
 /** @name CollatorId */
@@ -63,6 +84,12 @@ export interface CollatorId extends U8aFixed {}
 
 /** @name CollatorSignature */
 export interface CollatorSignature extends Signature {}
+
+/** @name CommittedCandidateReceipt */
+export interface CommittedCandidateReceipt extends Struct {
+  readonly descriptor: CandidateDescriptor;
+  readonly commitments: CandidateCommitments;
+}
 
 /** @name DoubleVoteReport */
 export interface DoubleVoteReport extends Struct {
@@ -90,6 +117,12 @@ export interface GlobalValidationSchedule extends Struct {
 
 /** @name HeadData */
 export interface HeadData extends Bytes {}
+
+/** @name HrmpChannelId */
+export interface HrmpChannelId extends Struct {
+  readonly sender: u32;
+  readonly receiver: u32;
+}
 
 /** @name IncomingParachain */
 export interface IncomingParachain extends Enum {
@@ -131,6 +164,12 @@ export interface LocalValidationData extends Struct {
 export interface NewBidder extends Struct {
   readonly who: AccountId;
   readonly sub: SubId;
+}
+
+/** @name OutboundHrmpMessage */
+export interface OutboundHrmpMessage extends Struct {
+  readonly recipient: u32;
+  readonly data: Bytes;
 }
 
 /** @name ParachainDispatchOrigin */
@@ -195,6 +234,16 @@ export interface Scheduling extends Enum {
   readonly isDynamic: boolean;
 }
 
+/** @name SignedAvailabilityBitfield */
+export interface SignedAvailabilityBitfield extends Struct {
+  readonly payload: BitVec;
+  readonly validatorIndex: u32;
+  readonly signature: Signature;
+}
+
+/** @name SignedAvailabilityBitfields */
+export interface SignedAvailabilityBitfields extends Vec<SignedAvailabilityBitfield> {}
+
 /** @name SigningContext */
 export interface SigningContext extends Struct {
   readonly sessionIndex: SessionIndex;
@@ -230,10 +279,7 @@ export interface Statement extends Enum {
 export interface SubId extends u32 {}
 
 /** @name UpwardMessage */
-export interface UpwardMessage extends Struct {
-  readonly origin: ParachainDispatchOrigin;
-  readonly data: Bytes;
-}
+export interface UpwardMessage extends Bytes {}
 
 /** @name ValidationCode */
 export interface ValidationCode extends Bytes {}
