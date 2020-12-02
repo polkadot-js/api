@@ -63,7 +63,7 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
       switchMap((sessionInfo) =>
         combineLatest([
           api.derive.staking.keysMulti(accountIds),
-          api.derive.staking.queryMulti(accountIds)
+          api.derive.staking.queryMulti(accountIds, true)
         ]).pipe(
           map(([keys, queries]) => queries.map((query, index) => parseResult(api, sessionInfo, keys[index], query)))
         )
