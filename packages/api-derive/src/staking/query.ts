@@ -84,9 +84,9 @@ function retrieveCurr (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: Er
       ? api.query.staking.erasStakers.multi<Exposure>(stashIds.map((stashId) => [activeEra, stashId]))
       : of(stashIds.map(() => emptyExpo))
   ]).pipe(
-    map(([controllerIdOpt, ledgersOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): MultiResult[] =>
+    map(([ledgersOpt, controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): MultiResult[] =>
       controllerIdOpt.map((controllerIdOpt, index): MultiResult =>
-        [controllerIdOpt, ledgersOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index]]
+        [ledgersOpt[index], controllerIdOpt, nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index]]
       )
     )
   );
