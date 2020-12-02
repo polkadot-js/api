@@ -22,5 +22,4 @@ export * from './stakerRewards';
 export * from './stakerSlashes';
 export * from './stashes';
 export * from './validators';
-export * from './validatorsFrom';
 export * from './waitingInfo';
