@@ -1,14 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces';
-import type { DeriveCollectiveProposal, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
-
+import type { Observable } from 'rxjs';
 import { combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import type { DeriveCollectiveProposal, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
 
 import { memo } from '../util';
 
@@ -73,17 +72,15 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
  * @description Retrieve all active and approved treasury proposals, along with their info
  */
 export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
-  let op1 = switchMap(([proposalCount, approvalIds]: [ProposalIndex, ProposalIndex[]]) =>
-    retrieveProposals(api, proposalCount, approvalIds)
-  );
-
   return memo(instanceId, (): Observable<DeriveTreasuryProposals> =>
     api.query.treasury
       ? combineLatest([
         api.query.treasury.proposalCount(),
         api.query.treasury.approvals()
       ]).pipe(
-        op1
+        switchMap(([proposalCount, approvalIds]: [ProposalIndex, ProposalIndex[]]) =>
+          retrieveProposals(api, proposalCount, approvalIds)
+        )
       )
       : of({
         approvals: [],

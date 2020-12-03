@@ -1,4 +1,4 @@
-// [object Object]
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
@@ -18,7 +18,8 @@ describe('with kusama', () => {
   it('gets derived bounties', async () => {
     const api = await createApi();
 
-    // console.log((await api.query.treasury.bounties.keys())[0].toString())
-    console.log(await api.derive.treasury.bounties());
+    const deriveBounties = await api.derive.treasury.bounties();
+
+    expect(deriveBounties.bounties[0].proposer.toString()).toEqual('GLVeryFRbg5hEKvQZcAnLvXZEXhiYaBjzSDwrXBXrfPF7wj');
   });
 });

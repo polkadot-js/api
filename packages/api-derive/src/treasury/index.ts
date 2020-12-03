@@ -2,4 +2,4 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export * from './proposals';
-export * from './bounties';
+export { bounties } from './bounties';
