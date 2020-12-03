@@ -37,7 +37,7 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
-const PAGE_SIZE_KEYS = 256;
+const PAGE_SIZE_KEYS = 384;
 const PAGE_SIZE_VALS = PAGE_SIZE_KEYS;
 
 const l = logger('api/init');
