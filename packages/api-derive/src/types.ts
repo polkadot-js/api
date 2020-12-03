@@ -127,3 +127,8 @@ export interface VoterPosition {
 }
 
 export type DeriveVoterPositions = Record<string, VoterPosition>;
+
+
+export interface DeriveBounties {
+  bounties: Bounty[]
+}

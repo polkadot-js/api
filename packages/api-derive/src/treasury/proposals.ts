@@ -73,15 +73,17 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
  * @description Retrieve all active and approved treasury proposals, along with their info
  */
 export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
+  let op1 = switchMap(([proposalCount, approvalIds]: [ProposalIndex, ProposalIndex[]]) =>
+    retrieveProposals(api, proposalCount, approvalIds)
+  );
+
   return memo(instanceId, (): Observable<DeriveTreasuryProposals> =>
     api.query.treasury
       ? combineLatest([
         api.query.treasury.proposalCount(),
         api.query.treasury.approvals()
       ]).pipe(
-        switchMap(([proposalCount, approvalIds]: [ProposalIndex, ProposalIndex[]]) =>
-          retrieveProposals(api, proposalCount, approvalIds)
-        )
+        op1
       )
       : of({
         approvals: [],
