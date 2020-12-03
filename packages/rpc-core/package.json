@@ -17,14 +17,16 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@polkadot/metadata": "2.9.2-6",
-    "@polkadot/rpc-provider": "2.9.2-6",
-    "@polkadot/types": "2.9.2-6",
     "@polkadot/util": "^4.2.1",
     "memoizee": "^0.4.14",
     "rxjs": "^6.6.3"
   },
   "devDependencies": {
     "@polkadot/keyring": "^4.2.1"
+  },
+  "peerDependencies": {
+    "@polkadot/metadata": "2.9.2-6",
+    "@polkadot/rpc-provider": "2.9.2-6",
+    "@polkadot/types": "2.9.2-6"
   }
 }

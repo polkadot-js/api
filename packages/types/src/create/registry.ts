@@ -354,13 +354,11 @@ export class TypeRegistry implements Registry {
     decorateEvents(this, metadata, this.#metadataEvents);
 
     // setup the available extensions
-    this.setSignedExtensions(
-      signedExtensions || (
-        metadata.asLatest.extrinsic.version.gt(BN_ZERO)
-          ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
-          : defaultExtensions
-      )
-    );
+    this.setSignedExtensions(signedExtensions || (
+      metadata.asLatest.extrinsic.version.gt(BN_ZERO)
+        ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
+        : defaultExtensions
+    ));
   }
 
   // sets the available signed extensions
