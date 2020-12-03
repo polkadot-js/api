@@ -37,7 +37,7 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
-const PAGE_SIZE_KEYS = 256;
+const PAGE_SIZE_KEYS = 384;
 const PAGE_SIZE_VALS = PAGE_SIZE_KEYS;
 
 const l = logger('api/init');
@@ -431,6 +431,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE_VALS sizes
   private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<Codec[]> {
+    if (!keys.length) {
+      return of([]);
+    }
+
     return combineLatest(
       ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
         .fill(0)
