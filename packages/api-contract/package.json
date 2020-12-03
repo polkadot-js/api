@@ -18,7 +18,9 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@polkadot/api": "2.9.2-6",
+    "@polkadot/metadata": "2.9.2-6",
     "@polkadot/types": "2.9.2-6",
+    "@polkadot/types-known": "2.9.2-6",
     "@polkadot/util": "^4.2.1",
     "bn.js": "^4.11.9",
     "rxjs": "^6.6.3"

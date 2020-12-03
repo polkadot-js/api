@@ -1718,7 +1718,9 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/api": 2.9.2-6
+    "@polkadot/metadata": 2.9.2-6
     "@polkadot/types": 2.9.2-6
+    "@polkadot/types-known": 2.9.2-6
     "@polkadot/util": ^4.2.1
     bn.js: ^4.11.9
     rxjs: ^6.6.3
@@ -1730,16 +1732,18 @@ __metadata:
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@polkadot/api": 2.9.2-6
     "@polkadot/keyring": ^4.2.1
-    "@polkadot/rpc-core": 2.9.2-6
     "@polkadot/rpc-provider": 2.9.2-6
-    "@polkadot/types": 2.9.2-6
     "@polkadot/util": ^4.2.1
     "@polkadot/util-crypto": ^4.2.1
     bn.js: ^4.11.9
     memoizee: ^0.4.14
     rxjs: ^6.6.3
+  peerDependencies:
+    "@polkadot/api": 2.9.2-6
+    "@polkadot/metadata": 2.9.2-6
+    "@polkadot/rpc-core": 2.9.2-6
+    "@polkadot/types": 2.9.2-6
   languageName: unknown
   linkType: soft
 
@@ -1875,11 +1879,13 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/keyring": ^4.2.1
-    "@polkadot/types": 2.9.2-6
-    "@polkadot/types-known": 2.9.2-6
     "@polkadot/util": ^4.2.1
     "@polkadot/util-crypto": ^4.2.1
     bn.js: ^4.11.9
+  peerDependencies:
+    "@polkadot/api": 2.9.2-6
+    "@polkadot/types": 2.9.2-6
+    "@polkadot/types-known": 2.9.2-6
   languageName: unknown
   linkType: soft
 
@@ -1898,12 +1904,13 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/keyring": ^4.2.1
-    "@polkadot/metadata": 2.9.2-6
-    "@polkadot/rpc-provider": 2.9.2-6
-    "@polkadot/types": 2.9.2-6
     "@polkadot/util": ^4.2.1
     memoizee: ^0.4.14
     rxjs: ^6.6.3
+  peerDependencies:
+    "@polkadot/metadata": 2.9.2-6
+    "@polkadot/rpc-provider": 2.9.2-6
+    "@polkadot/types": 2.9.2-6
   languageName: unknown
   linkType: soft
 
@@ -1913,7 +1920,6 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/keyring": ^4.2.1
-    "@polkadot/metadata": 2.9.2-6
     "@polkadot/types": 2.9.2-6
     "@polkadot/util": ^4.2.1
     "@polkadot/util-crypto": ^4.2.1
@@ -1923,6 +1929,9 @@ __metadata:
     eventemitter3: ^4.0.7
     mock-socket: ^9.0.3
     nock: ^13.0.5
+  peerDependencies:
+    "@polkadot/api": 2.9.2-6
+    "@polkadot/metadata": 2.9.2-6
   languageName: unknown
   linkType: soft
 
@@ -1946,6 +1955,7 @@ __metadata:
     "@polkadot/metadata": 2.9.2-6
     "@polkadot/rpc-provider": 2.9.2-6
     "@polkadot/types": 2.9.2-6
+    "@polkadot/types-known": 2.9.2-6
     "@polkadot/util": ^4.2.1
     "@types/websocket": ^1.0.1
     "@types/yargs": ^15.0.10
@@ -1966,10 +1976,11 @@ __metadata:
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@polkadot/types": 2.9.2-6
     "@polkadot/util": ^4.2.1
     "@types/bn.js": ^4.11.6
     bn.js: ^4.11.9
+  peerDependencies:
+    "@polkadot/types": 2.9.2-6
   languageName: unknown
   linkType: soft
 
@@ -1979,7 +1990,6 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/keyring": ^4.2.1
-    "@polkadot/metadata": 2.9.2-6
     "@polkadot/util": ^4.2.1
     "@polkadot/util-crypto": ^4.2.1
     "@types/bn.js": ^4.11.6
@@ -1987,6 +1997,8 @@ __metadata:
     bn.js: ^4.11.9
     memoizee: ^0.4.14
     rxjs: ^6.6.3
+  peerDependencies:
+    "@polkadot/metadata": 2.9.2-6
   languageName: unknown
   linkType: soft
 

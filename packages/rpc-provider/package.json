@@ -27,8 +27,11 @@
   },
   "devDependencies": {
     "@polkadot/keyring": "^4.2.1",
-    "@polkadot/metadata": "2.9.2-6",
     "mock-socket": "^9.0.3",
     "nock": "^13.0.5"
+  },
+  "peerDependencies": {
+    "@polkadot/api": "2.9.2-6",
+    "@polkadot/metadata": "2.9.2-6"
   }
 }
