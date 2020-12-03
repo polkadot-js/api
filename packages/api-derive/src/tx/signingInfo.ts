@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { isNumber, isUndefined } from '@polkadot/util';
 
-import { FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
+import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
 
 interface Result {
   header: Header | null;
@@ -63,10 +63,13 @@ export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address
     ]).pipe(
       map(([nonce, header]) => ({
         header,
-        mortalLength: MORTAL_PERIOD
-          .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
-          .iadd(MAX_FINALITY_LAG)
-          .toNumber(),
+        mortalLength: Math.min(
+          FALLBACK_MAX_HASH_COUNT,
+          MORTAL_PERIOD
+            .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
+            .iadd(MAX_FINALITY_LAG)
+            .toNumber()
+        ),
         nonce
       }))
     );
