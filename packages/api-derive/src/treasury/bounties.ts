@@ -21,20 +21,16 @@ function parseResult (value: Option<Bounty>[]): DeriveBounties {
   };
 }
 
-export function fetchBounties (inputs: FetchBountiesInputs): Observable<DeriveBounties> {
-  return inputs.count().pipe(
-    switchMap(() => inputs.keys()),
-    switchMap((keys: StorageKey[]) => inputs.bountiesQuery(extractIds(keys))),
+export function fetchBounties (api: ApiInterfaceRx): Observable<DeriveBounties> {
+  return api.query.treasury.bountyCount().pipe(
+    switchMap(() => api.query.treasury.bounties.keys()),
+    switchMap((keys: StorageKey[]) => api.query.treasury.bounties.multi<Option<Bounty>>(extractIds(keys))),
     map(parseResult));
 }
 
 export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveBounties> {
   return memo(instanceId, (): Observable<DeriveBounties> => {
-    return fetchBounties({
-      bountiesQuery: (keys: Codec[]) => api.query.treasury.bounties.multi<Option<Bounty>>(keys),
-      count: api.query.treasury.bountyCount,
-      keys: api.query.treasury.bounties.keys
-    });
+    return fetchBounties(api);
   });
 }
 

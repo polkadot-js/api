@@ -1,7 +1,8 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { fetchBounties, FetchBountiesInputs } from '@polkadot/api-derive/treasury/bounties';
+import { fetchBounties } from '@polkadot/api-derive/treasury/bounties';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Metadata } from '@polkadot/metadata';
 import metaStatic from '@polkadot/metadata/static';
 import { Option, StorageKey, TypeRegistry } from '@polkadot/types';
@@ -20,13 +21,20 @@ describe('bounties derive', () => {
 
     api.injectMetadata(metadata, true);
 
-    const inputs: FetchBountiesInputs = {
-      bountiesQuery: () => of([new Option<Bounty>(registry, 'Bounty', registry.createType('Bounty'))]),
-      count: () => of(registry.createType('BountyIndex', [2])),
-      keys: () => of([storageKey(api, 0), storageKey(api, 1)])
-    };
+    const mockApi = {
+      query: {
+        treasury: {
+          bounties: {
+            keys: () => of([storageKey(api, 0), storageKey(api, 1)]),
+            multi: () => of([new Option<Bounty>(registry, 'Bounty', registry.createType('Bounty'))])
+          },
+          bountyCount: () => of(registry.createType('BountyIndex', [2]))
+        }
+      },
+      registry
+    } as unknown as ApiInterfaceRx;
 
-    const bounties = await fetchBounties(inputs).toPromise();
+    const bounties = await fetchBounties(mockApi).toPromise();
 
     expect(bounties.bounties[0].proposer.toString()).toEqual('5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM');
   });
