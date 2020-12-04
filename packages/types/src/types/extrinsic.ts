@@ -128,13 +128,12 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @description signs an extrinsic payload
+   * @description Signs an extrinsic payload. This is generally used inside the same process where objects can be passed.
    */
   signExtrinsic?: (address: string, payload: ExtrinsicPayload) => Promise<SignerResult>;
 
   /**
-   * @deprecated Use signExtrinsic instead
-   * @description signs an extrinsic payload from a serialized form
+   * @description Signs an extrinsic payload from a serialized form. This is useful when not running inside the same process, i.e. extensions will generally implements this form.
    */
   signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
 
