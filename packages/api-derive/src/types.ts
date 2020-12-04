@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Bytes } from '@polkadot/types';
 import type BN from 'bn.js';
 import type { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Bounty, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VouchingStatus } from '@polkadot/types/interfaces';
 import type { u32 } from '@polkadot/types';
@@ -131,4 +132,5 @@ export type DeriveVoterPositions = Record<string, VoterPosition>;
 
 export interface DeriveBounties {
   bounties: Bounty[]
+  bountyDescriptions: Bytes[];
 }
