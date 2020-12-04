@@ -4,7 +4,7 @@
 import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { ExtrinsicPayload } from '@polkadot/types/interfaces';
-import type { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
+import type { SignerPayloadRaw } from '@polkadot/types/types';
 
 import { assert, hexToU8a, u8aToHex } from '@polkadot/util';
 
@@ -13,13 +13,10 @@ let id = 0;
 export class SingleAccountSigner implements Signer {
   readonly #keyringPair: KeyringPair;
 
-  readonly #registry: Registry;
-
   readonly #signDelay: number;
 
-  constructor (registry: Registry, keyringPair: KeyringPair, signDelay = 0) {
+  constructor (keyringPair: KeyringPair, signDelay = 0) {
     this.#keyringPair = keyringPair;
-    this.#registry = registry;
     this.#signDelay = signDelay;
   }
 
@@ -34,25 +31,6 @@ export class SingleAccountSigner implements Signer {
         });
       }, this.#signDelay);
     });
-  }
-
-  // @deprecated
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
-    return Promise.reject(new Error('signExtrinsic should be called'));
-
-    // assert(payload.address === this.#keyringPair.address, 'Signer does not have the keyringPair');
-
-    // return new Promise((resolve): void => {
-    //   setTimeout((): void => {
-    //     const signed = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.#keyringPair);
-
-    //     resolve({
-    //       id: ++id,
-    //       ...signed
-    //     });
-    //   }, this.#signDelay);
-    // });
   }
 
   public async signRaw ({ address, data }: SignerPayloadRaw): Promise<SignerResult> {
