@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ExtrinsicStatus } from '../interfaces/author';
-import { EcdsaSignature, Ed25519Signature, ExtrinsicPayload, Sr25519Signature } from '../interfaces/extrinsics';
+import { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
 import { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
 import { EventRecord } from '../interfaces/system';
 import { Codec } from './codec';
@@ -128,12 +128,6 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @description signs an extrinsic payload
-   */
-  signExtrinsic?: (address: string, payload: ExtrinsicPayload) => Promise<SignerResult>;
-
-  /**
-   * @deprecated Use signExtrinsic instead
    * @description signs an extrinsic payload from a serialized form
    */
   signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;

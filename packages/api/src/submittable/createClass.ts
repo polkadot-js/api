@@ -288,19 +288,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       });
       let result: SignerResult;
 
-      if (signer.signExtrinsic) {
-        const json = payload.toPayload();
-
-        result = await signer.signExtrinsic(
-          json.address,
-          this.registry.createType('ExtrinsicPayload', json, { version: json.version })
-        );
-      } else if (signer.signPayload) {
+      if (signer.signPayload) {
         result = await signer.signPayload(payload.toPayload());
       } else if (signer.signRaw) {
         result = await signer.signRaw(payload.toRaw());
       } else {
-        throw new Error('Invalid signer interface, it should implement one of sgnExtrinsic, signPayload or signRaw (or all)');
+        throw new Error('Invalid signer interface, it should implement either signPayload or signRaw (or both)');
       }
 
       // Here we explicitly call `toPayload()` again instead of working with an object
