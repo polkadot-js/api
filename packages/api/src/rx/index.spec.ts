@@ -24,7 +24,7 @@ describe('ApiRx', (): void => {
 
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', (): void => {
-      const signer = new SingleAccountSigner(registry, keyring.alice_session);
+      const signer = new SingleAccountSigner(keyring.alice_session);
 
       ApiRx.create({ provider, registry, signer }).pipe(
         switchMap((api: ApiRx): Observable<SubmittableExtrinsic<'rxjs'>> =>
@@ -41,7 +41,7 @@ describe('ApiRx', (): void => {
     });
 
     it('allows the second argument to signAsync to be omitted', () => {
-      const signer = new SingleAccountSigner(registry, keyring.alice_session);
+      const signer = new SingleAccountSigner(keyring.alice_session);
 
       ApiRx.create({ provider, registry, signer }).pipe(
         switchMap((api: ApiRx): Observable<SubmittableExtrinsic<'rxjs'>> =>
