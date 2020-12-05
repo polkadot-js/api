@@ -23,7 +23,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.12.8",
+    "@babel/core": "^7.12.9",
     "@babel/register": "^7.12.1",
     "@babel/runtime": "^7.12.5",
     "@polkadot/api": "2.9.2-10",
