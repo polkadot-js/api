@@ -10,7 +10,7 @@ export default {
   rpc: {},
   types: {
     AssetBalance: {
-      balance: 'TBalance',
+      balance: 'TAssetBalance',
       isFrozen: 'bool',
       isZombie: 'bool'
     },
@@ -19,14 +19,14 @@ export default {
       issuer: 'AccountId',
       admin: 'AccountId',
       freezer: 'AccountId',
-      supply: 'TBalance',
-      deposit: 'TDepositBalance',
+      supply: 'TAssetBalance',
+      deposit: 'TAssetDepositBalance',
       maxZombies: 'u32',
-      minBalance: 'TBalance',
+      minBalance: 'TAssetBalance',
       zombies: 'u32',
       accounts: 'u32'
     },
-    TBalance: 'Balance',
-    TDepositBalance: 'BalanceOf'
+    TAssetBalance: 'TAssetBalance',
+    TAssetDepositBalance: 'BalanceOf'
   }
 } as Definitions;
