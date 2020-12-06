@@ -26,7 +26,7 @@ export default {
       zombies: 'u32',
       accounts: 'u32'
     },
-    TAssetBalance: 'TAssetBalance',
+    TAssetBalance: 'Balance',
     TAssetDepositBalance: 'BalanceOf'
   }
 } as Definitions;
