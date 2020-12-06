@@ -115,6 +115,21 @@ export default {
       description: 'Returns the state of the syncing of the node',
       params: [],
       type: 'SyncState'
+    },
+    addLogFilter: {
+      description: 'Adds the supplied directives to the current log filter',
+      params: [
+        {
+          name: 'directives',
+          type: 'Text'
+        }
+      ],
+      type: 'Null'
+    },
+    resetLogFilter: {
+      description: 'Resets the log filter to Substrate defaults',
+      params: [],
+      type: 'Null'
     }
   },
   types: {
