@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 import type { BitVec, Bool, Bytes, Compact, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, Json, Null, Option, Raw, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, Vec, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types';
+import type { AssetBalance, AssetDetails, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -396,6 +397,20 @@ declare module '@polkadot/types/types/registry' {
     Consensus: Consensus;
     'Option<Consensus>': Option<Consensus>;
     'Vec<Consensus>': Vec<Consensus>;
+    AssetBalance: AssetBalance;
+    'Option<AssetBalance>': Option<AssetBalance>;
+    'Vec<AssetBalance>': Vec<AssetBalance>;
+    AssetDetails: AssetDetails;
+    'Option<AssetDetails>': Option<AssetDetails>;
+    'Vec<AssetDetails>': Vec<AssetDetails>;
+    TAssetBalance: TAssetBalance;
+    'Compact<TAssetBalance>': Compact<TAssetBalance>;
+    'Option<TAssetBalance>': Option<TAssetBalance>;
+    'Vec<TAssetBalance>': Vec<TAssetBalance>;
+    TAssetDepositBalance: TAssetDepositBalance;
+    'Compact<TAssetDepositBalance>': Compact<TAssetDepositBalance>;
+    'Option<TAssetDepositBalance>': Option<TAssetDepositBalance>;
+    'Vec<TAssetDepositBalance>': Vec<TAssetDepositBalance>;
     UncleEntryItem: UncleEntryItem;
     'Option<UncleEntryItem>': Option<UncleEntryItem>;
     'Vec<UncleEntryItem>': Vec<UncleEntryItem>;
