@@ -256,6 +256,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       accountNextIndex: AugmentedRpc<(accountId: AccountId | string | Uint8Array) => Observable<Index>>;
       /**
+       * Adds the supplied directives to the current log filter
+       **/
+      addLogFilter: AugmentedRpc<(directives: Text | string) => Observable<Null>>;
+      /**
        * Adds a reserved peer
        **/
       addReservedPeer: AugmentedRpc<(peer: Text | string) => Observable<Text>>;
@@ -307,6 +311,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Remove a reserved peer
        **/
       removeReservedPeer: AugmentedRpc<(peerId: Text | string) => Observable<Text>>;
+      /**
+       * Resets the log filter to Substrate defaults
+       **/
+      resetLogFilter: AugmentedRpc<() => Observable<Null>>;
       /**
        * Returns the state of the syncing of the node
        **/
