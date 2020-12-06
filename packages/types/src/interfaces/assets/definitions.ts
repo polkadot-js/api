@@ -10,22 +10,23 @@ export default {
   rpc: {},
   types: {
     AssetBalance: {
-      balance: 'Balance',
+      balance: 'TBalance',
       isFrozen: 'bool',
       isZombie: 'bool'
     },
-    AssetDepositBalance: 'Balance',
     AssetDetails: {
       owner: 'AccountId',
       issuer: 'AccountId',
       admin: 'AccountId',
       freezer: 'AccountId',
-      supply: 'Balance',
-      deposit: 'AssetDepositBalance',
+      supply: 'TBalance',
+      deposit: 'TDepositBalance',
       maxZombies: 'u32',
-      minBalance: 'Balance',
+      minBalance: 'TBalance',
       zombies: 'u32',
       accounts: 'u32'
-    }
+    },
+    TBalance: 'Balance',
+    TDepositBalance: 'BalanceOf'
   }
 } as Definitions;
