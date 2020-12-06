@@ -92,9 +92,9 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
     const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);
     const tx = withSalt
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore new style with salt included
       ? this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded, encodedSalt)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore old style with salt included
       : this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded);
 
     return tx.withResultTransform((result: ISubmittableResult) =>
