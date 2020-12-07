@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import { SignOptions } from '@polkadot/keyring/types';
+import type { SignOptions } from '@polkadot/keyring/types';
 
-import { Hash } from '../interfaces/runtime';
 import { FunctionMetadataLatest } from '../interfaces/metadata';
+import { Hash } from '../interfaces/runtime';
 import { ArgsDef, Codec } from './codec';
 
 export interface ICompact<T> extends Codec {

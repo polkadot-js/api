@@ -5,16 +5,17 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
+import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
 import type { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import type { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittableDryRunResult, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
+import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
 import { of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
+
 import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
 
-import { filterEvents, isKeyringPair } from '../util';
 import { ApiBase } from '../base';
+import { filterEvents, isKeyringPair } from '../util';
 import { SubmittableResult } from './Result';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {

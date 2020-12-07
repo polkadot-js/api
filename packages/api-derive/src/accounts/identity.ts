@@ -10,6 +10,7 @@ import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
 
 import { combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { isHex, u8aToString } from '@polkadot/util';
 
 import { memo } from '../util';

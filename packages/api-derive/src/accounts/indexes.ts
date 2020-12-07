@@ -9,6 +9,7 @@ import type { AccountIndexes } from '../types';
 
 import { of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
+
 import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
 import { isFunction } from '@polkadot/util';
 

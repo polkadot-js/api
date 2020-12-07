@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Vec, u32 } from '@polkadot/types';
+import type { u32, Vec } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveElectionsInfo } from './types';

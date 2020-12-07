@@ -1,17 +1,17 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FunctionMetadataLatest } from '../interfaces/metadata/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
+import type { FunctionMetadataLatest } from '../interfaces/metadata/types';
 import type { Address, Balance, Call, Index } from '../interfaces/runtime';
 import type { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../types';
+import type { GenericExtrinsicEra } from './ExtrinsicEra';
+import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
 import { assert, compactAddLength, compactFromU8a, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Base } from '../codec/Base';
 import { Compact } from '../codec/Compact';
-import { ExtrinsicValueV4 } from './v4/Extrinsic';
-import { GenericExtrinsicEra } from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
 interface CreateOptions {

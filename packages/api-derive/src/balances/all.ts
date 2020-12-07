@@ -10,6 +10,7 @@ import type { DeriveBalancesAccount, DeriveBalancesAll } from '../types';
 import BN from 'bn.js';
 import { combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { bnMax, isFunction } from '@polkadot/util';
 
 import { memo } from '../util';

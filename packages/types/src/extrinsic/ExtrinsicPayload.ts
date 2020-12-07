@@ -11,8 +11,8 @@ import { Base } from '../codec/Base';
 import { Compact } from '../codec/Compact';
 import { Raw } from '../codec/Raw';
 import { u32 } from '../primitive/U32';
-import { GenericExtrinsicEra } from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
+import { GenericExtrinsicEra } from './ExtrinsicEra';
 
 interface ExtrinsicPayloadOptions {
   version?: number;

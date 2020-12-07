@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types/types';
-import type { Constants, ConstantCodec, ModuleConstants } from '../types';
+import type { ConstantCodec, Constants, ModuleConstants } from '../types';
 
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 

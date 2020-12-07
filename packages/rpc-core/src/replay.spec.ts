@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 
 import { of } from 'rxjs';
+
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 

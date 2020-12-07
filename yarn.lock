@@ -1763,9 +1763,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.60.8":
-  version: 0.60.8
-  resolution: "@polkadot/dev@npm:0.60.8"
+"@polkadot/dev@npm:^0.60.11":
+  version: 0.60.11
+  resolution: "@polkadot/dev@npm:0.60.11"
   dependencies:
     "@babel/cli": ^7.12.8
     "@babel/core": ^7.12.9
@@ -1807,6 +1807,7 @@ __metadata:
     eslint-plugin-promise: ^4.2.1
     eslint-plugin-react: ^7.21.5
     eslint-plugin-react-hooks: ^4.2.0
+    eslint-plugin-simple-import-sort: ^7.0.0-beta.1
     eslint-plugin-sort-destructure-keys: ^1.3.5
     fs-extra: ^9.0.1
     gh-pages: ^3.1.0
@@ -1827,7 +1828,7 @@ __metadata:
     typedoc-plugin-markdown: ^3.0.11
     typedoc-plugin-no-inherit: ^1.2.0
     typescript: ^4.1.2
-    yargs: ^16.1.1
+    yargs: ^16.2.0
   bin:
     polkadot-ci-ghact-build: scripts/polkadot-ci-ghact-build.cjs
     polkadot-ci-ghact-docs: scripts/polkadot-ci-ghact-docs.cjs
@@ -1851,7 +1852,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.cjs
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: e9b4dd08aa90de176f719fdfa4b2b810e9219fb554b7c1137dc6ae28f6ea7aa608447ce0050c16a739a98bbae979f4fd09e41a77ad08c7ada04784dcbf61fcc0
+  checksum: d583afb3162f8e806d1226ae71cf2860a276fb9e3b2a89c91596d6fec4dd3638555cdfa7568a2f09371bb1a77db485a61d82354aa3867458d8dea60212a99664
   languageName: node
   linkType: hard
 
@@ -1948,10 +1949,10 @@ __metadata:
     "@polkadot/types": 2.10.1
     "@polkadot/util": ^4.2.1
     "@types/websocket": ^1.0.1
-    "@types/yargs": ^15.0.10
+    "@types/yargs": ^15.0.11
     handlebars: ^4.7.6
     websocket: ^1.0.32
-    yargs: ^16.1.1
+    yargs: ^16.2.0
   bin:
     polkadot-types-chain-info: ./scripts/polkadot-types-chain-info.js
     polkadot-types-from-chain: ./scripts/polkadot-types-from-chain.js
@@ -2350,7 +2351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^15.0.0, @types/yargs@npm:^15.0.10":
+"@types/yargs@npm:^15.0.0, @types/yargs@npm:^15.0.11":
   version: 15.0.11
   resolution: "@types/yargs@npm:15.0.11"
   dependencies:
@@ -4551,6 +4552,15 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7
   checksum: a7123f6feb287ad7e15d36b1c9fda8f78a0f0d39b9ee2d6479a5f0ad0effb8f60f639ef7449cecabb711095060e487f0950b69478b22768547b909c0de4f3afd
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-simple-import-sort@npm:^7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "eslint-plugin-simple-import-sort@npm:7.0.0-beta.1"
+  peerDependencies:
+    eslint: ">=5.0.0"
+  checksum: ca77161eed5babb78a55182478dcc3534ffb2f4bff543ba8746944000eb04191eb53b8c634e1b61e69ee175088e098f50290e75c9bea1db7e3d0843c4155d8e7
   languageName: node
   linkType: hard
 
@@ -9245,7 +9255,7 @@ fsevents@~2.1.2:
     "@babel/core": ^7.12.9
     "@babel/register": ^7.12.1
     "@babel/runtime": ^7.12.5
-    "@polkadot/dev": ^0.60.8
+    "@polkadot/dev": ^0.60.11
     "@polkadot/ts": ^0.3.57
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.16
@@ -11072,7 +11082,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"yargs@npm:^16.0.3, yargs@npm:^16.1.0, yargs@npm:^16.1.1":
+"yargs@npm:^16.0.3, yargs@npm:^16.1.0":
   version: 16.1.1
   resolution: "yargs@npm:16.1.1"
   dependencies:
@@ -11084,5 +11094,20 @@ fsevents@~2.1.2:
     y18n: ^5.0.5
     yargs-parser: ^20.2.2
   checksum: f88462770b6d65107b7295bdd68c38bc3cba9ab0362df476f44c5f6770ee2f39f48bca9813e8a9dc792a15f93e051a7e37346c0f66cf0ec35c63869963c43e0c
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "yargs@npm:16.2.0"
+  dependencies:
+    cliui: ^7.0.2
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    require-directory: ^2.1.1
+    string-width: ^4.2.0
+    y18n: ^5.0.5
+    yargs-parser: ^20.2.2
+  checksum: a79ce1f043021cd645de1ffebb6149541d382ba68f4a6b5eca5d2ad65af51893371bbd78e240dc3b6cf0cbb419511ba5bda715dec992e4266e6863ea49f14feb
   languageName: node
   linkType: hard

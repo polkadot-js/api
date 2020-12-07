@@ -6,7 +6,7 @@ import type { Json, Raw } from '@polkadot/types/codec';
 import type { AnyFunction, Callback } from '@polkadot/types/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ApiTypes, Push, PromiseResult, RxResult, UnsubscribePromise } from './base';
+import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base';
 
 export interface RpcRxResult<F extends AnyFunction> extends RxResult<F> {
   json (...args: Parameters<F>): Observable<Json>;

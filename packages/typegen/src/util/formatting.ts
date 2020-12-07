@@ -9,8 +9,8 @@ import { getTypeDef, paramsNotation } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import { isString } from '@polkadot/util';
 
-import { setImports, ModuleTypes, TypeImports } from './imports';
 import { readTemplate } from './file';
+import { ModuleTypes, setImports, TypeImports } from './imports';
 
 interface ImportDef {
   file: string;

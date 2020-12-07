@@ -11,9 +11,10 @@ import type { RpcInterface, RpcInterfaceMethod } from './types';
 import memoizee from 'memoizee';
 import { Observable } from 'rxjs';
 import { publishReplay, refCount } from 'rxjs/operators';
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+
 import { Option } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr, normalizer, refCountDelay } from './util';

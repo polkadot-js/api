@@ -6,7 +6,8 @@ import type { AnyNumber, Codec, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
 import BN from 'bn.js';
-import { BN_ZERO, assert, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+
+import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 

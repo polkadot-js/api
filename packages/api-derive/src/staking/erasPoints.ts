@@ -8,6 +8,7 @@ import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
 import { of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { BN_ZERO } from '@polkadot/util';
 
 import { deriveCache, memo } from '../util';

@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
+
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
-import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
+import { extrinsicsFromMeta, Metadata } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../../create';

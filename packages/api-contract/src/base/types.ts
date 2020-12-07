@@ -3,8 +3,8 @@
 
 import type BN from 'bn.js';
 import type { Observable } from 'rxjs';
-import type { ApiTypes, ObsInnerType } from '@polkadot/api/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { ApiTypes, ObsInnerType } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { CodecArg } from '@polkadot/types/types';
 import type { AbiMessage, BlueprintOptions, ContractCallOutcome, ContractOptions } from '../types';

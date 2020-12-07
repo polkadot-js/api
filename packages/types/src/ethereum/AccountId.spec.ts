@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { TypeRegistry } from '../create';
 import { Raw } from '../codec/Raw';
+import { TypeRegistry } from '../create';
 import { GenericEthereumAccountId as AccountId } from './AccountId';
 
 describe('EthereumAccountId', (): void => {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeDefInfo } from './types';
-import { TypeRegistry, getTypeDef } from '.';
+import { getTypeDef, TypeRegistry } from '.';
 
 describe('getTypeDef', (): void => {
   it('maps empty tuples to empty tuple', (): void => {

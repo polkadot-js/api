@@ -9,6 +9,7 @@ import type { DeriveHeartbeats } from '../types';
 
 import { combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { BN_ZERO } from '@polkadot/util';
 
 import { memo } from '../util';

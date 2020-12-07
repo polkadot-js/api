@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
 
 import { of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

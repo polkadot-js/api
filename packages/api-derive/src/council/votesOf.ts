@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveCouncilVote } from '../types';
 
 import { map } from 'rxjs/operators';
+
 import { memo } from '../util';
 
 export function votesOf (instanceId: string, api: ApiInterfaceRx): (accountId: string | Uint8Array | AccountId) => Observable<DeriveCouncilVote> {

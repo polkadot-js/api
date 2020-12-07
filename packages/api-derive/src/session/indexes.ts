@@ -9,6 +9,7 @@ import type { DeriveSessionIndexes } from '../types';
 
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';

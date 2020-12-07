@@ -5,6 +5,7 @@ import type { Observable } from 'rxjs';
 import type { SubmittableExtrinsic } from '../submittable/types';
 
 import { map, switchMap } from 'rxjs/operators';
+
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';

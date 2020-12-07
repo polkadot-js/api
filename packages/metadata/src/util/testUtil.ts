@@ -6,8 +6,8 @@ import type { MetadataInterface } from '../types';
 
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
-import { getUniqTypes } from './getUniqTypes';
 import { Metadata } from '../Metadata';
+import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
 export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>): void {

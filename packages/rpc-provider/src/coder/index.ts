@@ -3,7 +3,7 @@
 
 import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
-import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
+import { assert, isNumber, isString, isUndefined } from '@polkadot/util';
 
 function formatErrorData (data?: string | number): string {
   if (isUndefined(data)) {

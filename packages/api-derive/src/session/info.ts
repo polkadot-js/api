@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { u64 } from '@polkadot/types';
 import type { SessionIndex } from '@polkadot/types/interfaces';
-import type { DeriveSessionInfo, DeriveSessionIndexes } from '../types';
+import type { DeriveSessionIndexes, DeriveSessionInfo } from '../types';
 
 import { map } from 'rxjs/operators';
 

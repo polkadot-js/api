@@ -5,14 +5,15 @@ import type { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
+
 import { Metadata } from '@polkadot/metadata';
 import rpcdata from '@polkadot/metadata/static';
-import { GenericCall as Call } from '@polkadot/types/generic';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { TypeRegistry } from '@polkadot/types/create';
 import { Vec } from '@polkadot/types/codec';
+import { TypeRegistry } from '@polkadot/types/create';
+import { GenericCall as Call } from '@polkadot/types/generic';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 interface Page {

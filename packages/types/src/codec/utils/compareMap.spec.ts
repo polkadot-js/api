@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '../../types';
+
 import { TypeRegistry } from '../../create';
 import { U32 } from '../../primitive';
 import { compareMap } from '.';
