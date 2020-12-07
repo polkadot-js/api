@@ -29,7 +29,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
 
-  return class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
+  class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
 
     #transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
@@ -309,5 +309,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
         api.signer.update(updateId, status);
       }
     }
-  };
+  }
+
+  return Submittable;
 }

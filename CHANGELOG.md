@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 2.10.1 Dec 7, 2020
+
+Upgrade priority: Low. Recommended when following Substrate master and/or parachains development, contains the latest types for both.
+
+- **Breaking change** If using the `staking.query` derive, you now need to pass flags as to which values to retrieve
+
+Changes:
+
+- Ensure that maximum blocks are limited to 250 (don't overflow on very low blocktimes)
+- Apply current Polkadot master parachain types
+- Apply current Substrate master asset types
+- Add `system_{addLogFilter, resetLogFilter}` RPCs
+- Adjust tests for latest Substrate metadata
+- Adjust staking derives to be more performant (flags indicate which query values to retrieve)
+- Add account derive to cater for the availability of identities
+- Use `import type` in all cases
+
+
 ## 2.9.1 Nov 30, 2020
 
 Upgrade priority: Low. No major changes when on at least 2.8.2. Users encouraged to upgrade to at least that patch.
