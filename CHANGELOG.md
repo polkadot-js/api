@@ -8,7 +8,7 @@ Upgrade priority: Low. Recommended when following Substrate master and/or parach
 
 Changes:
 
-- Ensure that maximum blocks are limited to 250 (don't overflow on very low blocktimes)
+- Ensure that maximum era is limited to `consts.system.blockHashCount` (don't overflow on very low blocktimes)
 - Apply current Polkadot master parachain types
 - Apply current Substrate master asset types
 - Add `system_{addLogFilter, resetLogFilter}` RPCs
