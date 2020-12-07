@@ -47,8 +47,10 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   keys: (arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
   keysAt: (hash: Hash | Uint8Array | string, arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
   keysPaged: (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey[]>;
+  // @deprecated The underlying RPC this been marked unsafe and is generally not exposed
   range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
+  sizeAt: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
   multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }
 

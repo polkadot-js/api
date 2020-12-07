@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.11.0-x
+
+Changes:
+
+- Added `query.<section>.<method>.sizeAt(hash, [...params])` for all storage
+
+
 ## 2.10.1 Dec 7, 2020
 
 Upgrade priority: Low. Recommended when following Substrate master and/or parachains development, contains the latest types for both.
