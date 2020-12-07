@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { Text } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
-import type BN from 'bn.js';
 
 import { bnToBn, isUndefined } from '@polkadot/util';
 

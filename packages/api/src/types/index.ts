@@ -4,13 +4,13 @@
 // Augment the modules
 import '@polkadot/api/augment';
 
+import type BN from 'bn.js';
 import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import type { Metadata } from '@polkadot/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, SignatureOptions, Signer } from '@polkadot/types/types';
-import type BN from 'bn.js';
 import type { ApiBase } from '../base';
 import type { DeriveAllSections } from '../util/decorate';
 import type { QueryableConsts } from './consts';

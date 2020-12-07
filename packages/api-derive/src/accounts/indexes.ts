@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex } from '@polkadot/types/interfaces';
-import type { Observable } from 'rxjs';
 import type { AccountIndexes } from '../types';
 
 import { of } from 'rxjs';

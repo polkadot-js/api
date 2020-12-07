@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignOptions } from '@polkadot/keyring/types';
 import type BN from 'bn.js';
+import type { SignOptions } from '@polkadot/keyring/types';
 
 import { FunctionMetadataLatest } from '../interfaces/metadata';
 import { Hash } from '../interfaces/runtime';

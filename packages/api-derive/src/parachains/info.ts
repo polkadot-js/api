@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CollatorId, ParaId } from '@polkadot/types/interfaces';
 import type { Observable } from 'rxjs';
+import type { CollatorId, ParaId } from '@polkadot/types/interfaces';
 import type { DeriveParachainActive, DeriveParachainFull, DeriveParachainInfo } from '../types';
 import type { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQueue, RetryQueue, SelectedThreads } from './types';
 
