@@ -6,6 +6,7 @@
 
 import process from 'process';
 import yargs from 'yargs';
+
 import { ApiPromise, WsProvider } from '@polkadot/api/index';
 
 /** @internal */

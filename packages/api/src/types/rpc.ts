@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
 import type { Json, Raw } from '@polkadot/types/codec';
 import type { AnyFunction, Callback } from '@polkadot/types/types';
+import type { Observable } from 'rxjs';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ApiTypes, Push, PromiseResult, RxResult, UnsubscribePromise } from './base';
+import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base';
 
 export interface RpcRxResult<F extends AnyFunction> extends RxResult<F> {
   json (...args: Parameters<F>): Observable<Json>;

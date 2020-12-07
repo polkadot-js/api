@@ -5,8 +5,8 @@ import type { Calls, ModulesWithCalls, Registry, RegistryMetadata, RegistryMetad
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { createUnchecked } from './createUnchecked';
 import extrinsics from '.';
+import { createUnchecked } from './createUnchecked';
 
 /** @internal */
 export function extrinsicsFromMeta (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {

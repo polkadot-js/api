@@ -6,6 +6,7 @@ import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registr
 import type { CompactEncodable, UIntBitLength } from './types';
 
 import BN from 'bn.js';
+
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
 import { typeToConstructor } from './utils';

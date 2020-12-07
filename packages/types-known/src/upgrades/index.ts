@@ -5,6 +5,7 @@ import type { ChainUpgrades } from '@polkadot/types/types';
 import type { ChainUpgradesRaw } from './types';
 
 import BN from 'bn.js';
+
 import { assert, hexToU8a } from '@polkadot/util';
 
 import kusama from './kusama';

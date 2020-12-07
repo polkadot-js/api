@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ContractDisplayName, ChainProperties, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefVariant, SiTypeDefSequence, SiTypeDefTuple, SiVariant } from '@polkadot/types/interfaces';
+import type { ChainProperties, ContractDisplayName, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '@polkadot/types/interfaces';
 import type { InterfaceTypes, TypeDef } from '@polkadot/types/types';
 
-import { assert, isUndefined } from '@polkadot/util';
 import { TypeRegistry, withTypeString } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/types';
+import { assert, isUndefined } from '@polkadot/util';
 
 interface PartialTypeSpec {
   readonly type: SiLookupTypeId;

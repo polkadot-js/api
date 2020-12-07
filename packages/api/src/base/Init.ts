@@ -1,21 +1,22 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable, Subscription } from 'rxjs';
 import type { Text } from '@polkadot/types';
-import type { ChainProperties, SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { ChainProperties, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
+import type { Observable, Subscription } from 'rxjs';
 import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import type { VersionedRegistry } from './types';
 
 import BN from 'bn.js';
 import { of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
 import { getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { Decorate } from './Decorate';

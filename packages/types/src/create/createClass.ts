@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { UIntBitLength, U8aBitLength } from '../codec/types';
+import type { U8aBitLength, UIntBitLength } from '../codec/types';
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import type { FromReg, TypeDef } from './types';
 

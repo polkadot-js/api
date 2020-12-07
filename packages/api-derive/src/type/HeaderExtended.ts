@@ -4,8 +4,8 @@
 import type { AccountId, Header } from '@polkadot/types/interfaces';
 import type { AnyJson, Constructor, Registry } from '@polkadot/types/types';
 
-import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 import { Struct } from '@polkadot/types';
+import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 
 import { extractAuthor } from './util';
 

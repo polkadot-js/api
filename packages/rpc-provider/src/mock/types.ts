@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Constructor } from '@polkadot/types/types';
-
 import type { Server } from 'mock-socket';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

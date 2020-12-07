@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
+
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { TypeRegistry } from '@polkadot/types/create';
 

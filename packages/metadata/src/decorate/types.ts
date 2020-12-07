@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AugmentedConst, QueryableConsts, QueryableModuleConsts } from '@polkadot/api/types/consts';
-import type { Codec, ModulesWithCalls } from '@polkadot/types/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
+import type { Codec, ModulesWithCalls } from '@polkadot/types/types';
 
 export interface ModuleStorage {
   [key: string]: StorageEntry;

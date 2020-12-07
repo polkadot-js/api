@@ -8,11 +8,11 @@ import { Struct } from '@polkadot/types/codec';
 import { assert } from '@polkadot/util';
 
 import { MagicNumber } from './MagicNumber';
+import { getUniqTypes, toCallsOnly } from './util';
 import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
 import { toV12 } from './v11/toV12';
 import { toLatest } from './v12/toLatest';
-import { getUniqTypes, toCallsOnly } from './util';
 
 type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12;
 type MetaVersions = 9 | 10 | 11 | 12 | 13;

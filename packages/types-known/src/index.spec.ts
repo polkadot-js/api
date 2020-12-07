@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '@polkadot/types/create/registry';
+
 import { getModuleTypes } from './';
 
 const registry = new TypeRegistry();

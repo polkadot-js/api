@@ -4,19 +4,19 @@
 import type { TypeDef } from '@polkadot/types/create/types';
 import type { Constructor, Registry } from '@polkadot/types/types';
 
-import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
-import { Compact, Enum, Option, Struct, UInt, Vec, Tuple } from '@polkadot/types/codec';
+import { Compact, Enum, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types/codec';
 import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
-import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
-import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
+import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
+import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
+import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import { Null } from '@polkadot/types/primitive';
 import * as primitiveClasses from '@polkadot/types/primitive';
 import { isChildClass } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
-import { setImports, ModuleTypes, TypeImports } from './imports';
+import { ModuleTypes, setImports, TypeImports } from './imports';
 
 function arrayToStrType (arr: string[]): string {
   return `${arr.map((c) => `'${c}'`).join(' | ')}`;

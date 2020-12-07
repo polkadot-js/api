@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Mock } from './../mock/types';
-import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
+import type { Mock } from './../mock/types';
 
+import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 import { HttpProvider } from './';
 
 describe('send', (): void => {

@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId } from '../interfaces/runtime';
+import type { AccountId } from '../interfaces/runtime';
 
 import BN from 'bn.js';
+
 import { bnToBn } from '@polkadot/util';
 
 import { Bytes } from '../primitive/Bytes';

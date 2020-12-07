@@ -3,13 +3,13 @@
 
 import Handlebars from 'handlebars';
 
-import staticData from '@polkadot/metadata/static';
 import { Metadata } from '@polkadot/metadata';
+import staticData from '@polkadot/metadata/static';
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
-import { createImports, compareName, formatType, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const template = readTemplate('consts');
 const generateForMetaTemplate = Handlebars.compile(template);

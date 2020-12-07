@@ -3,9 +3,10 @@
 
 /* eslint-disable camelcase */
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import EventEmitter from 'eventemitter3';
+
 import { assert, isChildClass, isNull, isUndefined, logger } from '@polkadot/util';
 import WS from '@polkadot/x-ws';
 

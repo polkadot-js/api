@@ -8,6 +8,7 @@ import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, Derive
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { BN_ZERO } from '@polkadot/util';
 
 import { memo } from '../util';

@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { Observable } from 'rxjs';
 import type { DeriveBalancesAccount } from '../types';
 
 import { combineLatest, of } from 'rxjs';
+
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';

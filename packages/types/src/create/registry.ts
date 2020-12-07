@@ -4,10 +4,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import type { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
+import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryMetadata, RegistryTypes } from '../types';
 
-import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
-import { BN_ZERO, assert, assertReturn, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { extrinsicsFromMeta, Metadata } from '@polkadot/metadata';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Json, Raw } from '../codec';

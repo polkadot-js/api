@@ -3,9 +3,8 @@
 
 import type { Constructor } from '@polkadot/types/types';
 
-import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
-
+import { Global, Mock } from './../mock/types';
 import { WsProvider } from './';
 
 declare const global: Global;

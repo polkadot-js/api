@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { EventRecord, Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 

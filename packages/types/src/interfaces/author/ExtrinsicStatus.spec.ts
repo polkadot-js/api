@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { ExtrinsicStatus } from './types';
+import type { ExtrinsicStatus } from './types';
 
 import { TypeRegistry } from '../../create';
 import rpc from '../../json/ExtrinsicStatus.001.json';

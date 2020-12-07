@@ -5,6 +5,7 @@ import type { Observer, TeardownLogic } from 'rxjs';
 
 import createMemo from 'memoizee';
 import { Observable } from 'rxjs';
+
 import { drr, normalizer } from '@polkadot/rpc-core/util';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;

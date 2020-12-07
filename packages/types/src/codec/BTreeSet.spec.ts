@@ -5,7 +5,6 @@ import type { CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
 import { Text, U32 } from '../primitive';
-
 import { BTreeSet, Struct } from '.';
 
 const registry = new TypeRegistry();

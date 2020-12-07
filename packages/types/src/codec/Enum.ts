@@ -7,8 +7,8 @@ import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../t
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
-import { mapToTypeMap } from './utils';
 import { Struct } from './Struct';
+import { mapToTypeMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {

@@ -3,6 +3,7 @@
 
 import path from 'path';
 import yargs from 'yargs';
+
 import { formatNumber } from '@polkadot/util';
 import WS from '@polkadot/x-ws';
 

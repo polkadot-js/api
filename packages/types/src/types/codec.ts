@@ -1,11 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, BareOpts } from './helpers';
-import { Registry } from './registry';
-
-import BN from 'bn.js';
+import type BN from 'bn.js';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, BareOpts } from './helpers';
+import type { Registry } from './registry';
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 

@@ -8,8 +8,9 @@ import type { Codec, CodecArg, Registry, TypeDef } from '@polkadot/types/types';
 import type { BlueprintOptions, ContractOptions } from './types';
 
 import BN from 'bn.js';
+
 import { createTypeUnsafe } from '@polkadot/types/create';
-import { isBn, isBigInt, isNumber, isString } from '@polkadot/util';
+import { isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
 type ContractEvents = 'CodeStored' | 'ContractExecution' | 'Instantiated';
 

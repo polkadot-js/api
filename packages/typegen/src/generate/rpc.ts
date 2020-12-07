@@ -4,10 +4,11 @@
 import type { Definitions } from '@polkadot/types/types';
 
 import Handlebars from 'handlebars';
+
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 
-import { createImports, getSimilarTypes, formatType, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const StorageKeyTye = 'StorageKey | string | Uint8Array | any';
 
