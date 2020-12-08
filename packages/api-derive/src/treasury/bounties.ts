@@ -17,8 +17,15 @@ export type FetchBountiesInputs = {
 };
 
 function parseResult ([maybeBounties, maybeDescriptions]: [Option<Bounty>[], Option<Bytes>[]]): DeriveBounties {
-  const bounties: Bounty[] = maybeBounties.map((maybeBounty) => maybeBounty.unwrap());
-  const bountyDescriptions: Bytes[] = maybeDescriptions.map((maybeDescription) => maybeDescription.unwrapOrDefault());
+  const bounties: Bounty[] = [];
+  const bountyDescriptions: Bytes[] = [];
+
+  maybeBounties.forEach((bounty, index) => {
+    if (bounty.isSome) {
+      bounties.push(bounty.unwrap());
+      bountyDescriptions.push(maybeDescriptions[index].unwrapOrDefault());
+    }
+  });
 
   return {
     bounties,

@@ -1,62 +1,60 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise, WsProvider } from '@polkadot/api';
 import { fetchBounties } from '@polkadot/api-derive/treasury/bounties';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Metadata } from '@polkadot/metadata';
-import metaStatic from '@polkadot/metadata/static';
-import { Bytes, Option, StorageKey, TypeRegistry } from '@polkadot/types';
-import { Bounty } from '@polkadot/types/interfaces';
+import { Bytes, Option, StorageKey } from '@polkadot/types';
+import { Bounty, BountyIndex } from '@polkadot/types/interfaces';
+import { Codec, InterfaceTypes } from '@polkadot/types/types';
 import { of } from 'rxjs';
+import { BountyFactory } from '../../test/bountyFactory';
+import { BytesFactory } from '../../test/bytesFactory';
+import { createApiWithAugmentations } from '../../test/helpers';
 
-function storageKey (api: ApiPromise, index: number): StorageKey {
-  return new StorageKey(api.registry, api.query.treasury.bounties.key(api.registry.createType('BountyIndex', index)));
-}
+const DEFAULT_PROPOSER = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
 
 describe('bounties derive', () => {
+  let storageKey: (index: number) => StorageKey;
+  let defaultBounty: () => Bounty;
+  let emptyOption: <T extends Codec> (typeName: keyof InterfaceTypes) => Option<T>;
+  let optionOf: <T extends Codec> (value: T)=> Option<T>;
+  let bountyIndex: (index: number) => BountyIndex;
+  let bytes: (value: string) => Bytes;
+
+  beforeAll(() => {
+    const api = createApiWithAugmentations();
+
+    ({ bountyIndex, defaultBounty, emptyOption, optionOf, storageKey } = new BountyFactory(api));
+    ({ bytes } = new BytesFactory(api.registry));
+  });
+
   it('combines bounties with descriptions', async () => {
-    const registry = new TypeRegistry();
-    const metadata = new Metadata(registry, metaStatic);
-    const api = new ApiPromise({ provider: new WsProvider() });
-
-    api.injectMetadata(metadata, true);
-
-    const key0 = storageKey(api, 0);
-    const key1 = storageKey(api, 1);
-
-    function emptyBounty () {
-      return registry.createType('Bounty');
-    }
-
-    function optionOf (value: Bounty) {
-      return new Option<Bounty>(registry, 'Bounty', value);
-    }
-
     const mockApi = {
       query: {
         treasury: {
           bounties: {
-            keys: () => of([key0, key1]),
-            multi: () => of([optionOf(emptyBounty()), optionOf(emptyBounty())])
+            keys: () => of([storageKey(0), storageKey(1), storageKey(2)]),
+            multi: () => of([optionOf(defaultBounty()), emptyOption('Bounty'), optionOf(defaultBounty())])
           },
-          bountyCount: () => of(registry.createType('BountyIndex', [2])),
+          bountyCount: () => of(bountyIndex(3)),
           bountyDescriptions: {
             multi: () => of([
-              new Option<Bytes>(registry, 'Bytes', registry.createType('Bytes', 'make polkadot great again')),
-              new Option<Bytes>(registry, 'Bytes')
+              optionOf(bytes('make polkadot even better')),
+              optionOf(bytes('this will be totally ignored')),
+              emptyOption('Bytes')
             ])
           }
         }
-      },
-      registry
+      }
     } as unknown as ApiInterfaceRx;
 
     const bounties = await fetchBounties(mockApi).toPromise();
 
-    expect(bounties.bounties[0].proposer.toString()).toEqual('5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM');
-    expect(bounties.bountyDescriptions[0].toHuman()).toEqual('make polkadot great again');
-    expect(bounties.bounties[1].proposer.toString()).toEqual('5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM');
+    expect(bounties.bountyDescriptions).toHaveLength(2);
+    expect(bounties.bounties).toHaveLength(2);
+    expect(bounties.bounties[0].proposer.toString()).toEqual(DEFAULT_PROPOSER);
+    expect(bounties.bountyDescriptions[0].toHuman()).toEqual('make polkadot even better');
+    expect(bounties.bounties[1].proposer.toString()).toEqual(DEFAULT_PROPOSER);
     expect(bounties.bountyDescriptions[1].toHuman()).toEqual('');
   });
 });

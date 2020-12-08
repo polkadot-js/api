@@ -7,10 +7,7 @@ function createApi (): Promise<ApiPromise> {
   jest.setTimeout(30000);
   process.env.NODE_ENV = 'test';
 
-  // const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
-  const provider = new WsProvider('wss://cc3-5.kusama.network');
-  // const provider = new WsProvider('wss://westend-rpc.polkadot.io/');
-  // const provider = new WsProvider('ws://127.0.0.1:9944/');
+  const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
 
   return new ApiPromise({ provider }).isReady;
 }
