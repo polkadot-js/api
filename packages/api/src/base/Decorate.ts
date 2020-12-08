@@ -6,7 +6,7 @@ import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
@@ -211,7 +211,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // manner to cater for both old and new:
   //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
   //   - when non-zero, remove anything that is not in the array (we don't do this)
-  protected async _filterRpc (): Promise<void> {
+  protected async _filterRpc (additional: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): Promise<void> {
     let methods: string[];
 
     try {
@@ -220,6 +220,15 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     } catch (error) {
       // the method is not there, we adjust accordingly
       methods = [];
+    }
+
+    // add any specific user-base RPCs
+    if (Object.keys(additional).length !== 0) {
+      this._rpcCore.addUserInterfaces(additional);
+
+      // re-decorate, only adding any new additional interfaces
+      this._decorateRpc(this._rpcCore, this._decorateMethod, this._rpc);
+      this._decorateRpc(this._rpcCore, this._rxDecorateMethod, this._rx.rpc);
     }
 
     this._filterRpcMethods(methods);
@@ -267,26 +276,28 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       });
   }
 
-  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
+  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
     return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
-      // out and section here are horrors to get right from a typing perspective :(
-      (out as Record<string, unknown>)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-        //  skip subscriptions where we have a non-subscribe interface
-        if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
-          (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (section as Record<string, { json: unknown }>)[methodName].json = decorateMethod(method.json, { methodName }) as unknown;
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
-        }
+      if (!(out as Record<string, unknown>)[sectionName]) {
+        // out and section here are horrors to get right from a typing perspective :(
+        (out as Record<string, unknown>)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+          //  skip subscriptions where we have a non-subscribe interface
+          if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
+            (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            (section as Record<string, { json: unknown }>)[methodName].json = decorateMethod(method.json, { methodName }) as unknown;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
+          }
 
-        return section;
-      }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+          return section;
+        }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+      }
 
       return out;
-    }, {} as DecoratedRpc<ApiType, RpcInterface>);
+    }, input as DecoratedRpc<ApiType, RpcInterface>);
   }
 
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
