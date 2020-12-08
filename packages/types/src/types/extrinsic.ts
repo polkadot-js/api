@@ -10,8 +10,8 @@ import { AnyJson, AnyNumber, AnyU8a } from './helpers';
 import { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
 export interface ISubmittableResult {
-  readonly dispatchError: DispatchError;
-  readonly dispatchInfo: DispatchInfo;
+  readonly dispatchError?: DispatchError;
+  readonly dispatchInfo?: DispatchInfo;
   readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
