@@ -27,7 +27,7 @@ const keyTypes = {
   SessionKeys6: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
   SessionKeys7: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
   SessionKeys8: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
-  SessionKeys89: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)'
+  SessionKeys9: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)'
 };
 
 export default {
