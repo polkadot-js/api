@@ -1,15 +1,15 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { fetchBounties } from '@polkadot/api-derive/treasury/bounties';
+import { bounties } from '@polkadot/api-derive/treasury/bounties';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, StorageKey } from '@polkadot/types';
 import { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 import { Codec, InterfaceTypes } from '@polkadot/types/types';
 import { of } from 'rxjs';
-import { BountyFactory } from '../../test/bountyFactory';
-import { BytesFactory } from '../../test/bytesFactory';
-import { createApiWithAugmentations } from '../../test/helpers';
+import { BountyFactory } from '../bountyFactory';
+import { BytesFactory } from '../bytesFactory';
+import { createApiWithAugmentations } from '../helpers';
 
 const DEFAULT_PROPOSER = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
 
@@ -48,13 +48,13 @@ describe('bounties derive', () => {
       }
     } as unknown as ApiInterfaceRx;
 
-    const bounties = await fetchBounties(mockApi).toPromise();
+    const result = await bounties('', mockApi)().toPromise();
 
-    expect(bounties.bountyDescriptions).toHaveLength(2);
-    expect(bounties.bounties).toHaveLength(2);
-    expect(bounties.bounties[0].proposer.toString()).toEqual(DEFAULT_PROPOSER);
-    expect(bounties.bountyDescriptions[0].toHuman()).toEqual('make polkadot even better');
-    expect(bounties.bounties[1].proposer.toString()).toEqual(DEFAULT_PROPOSER);
-    expect(bounties.bountyDescriptions[1].toHuman()).toEqual('');
+    expect(result.bountyDescriptions).toHaveLength(2);
+    expect(result.bounties).toHaveLength(2);
+    expect(result.bounties[0].proposer.toString()).toEqual(DEFAULT_PROPOSER);
+    expect(result.bountyDescriptions[0].toHuman()).toEqual('make polkadot even better');
+    expect(result.bounties[1].proposer.toString()).toEqual(DEFAULT_PROPOSER);
+    expect(result.bountyDescriptions[1].toHuman()).toEqual('');
   });
 });
