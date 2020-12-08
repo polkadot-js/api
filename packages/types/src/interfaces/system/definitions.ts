@@ -139,6 +139,11 @@ export default {
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
+    BlockWeights: {
+      baseBlock: 'Weight',
+      maxBlock: 'Weight',
+      perClass: 'PerDispatchClass'
+    },
     ChainProperties: {
       ss58Format: 'Option<u8>',
       tokenDecimals: 'Option<u32>',
@@ -152,6 +157,7 @@ export default {
         Custom: 'Text'
       }
     },
+    ConsumedWeight: 'PerDispatchClass',
     DigestOf: 'Digest',
     DispatchClass: {
       _enum: ['Normal', 'Operational', 'Mandatory']
@@ -283,6 +289,11 @@ export default {
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
     },
+    PerDispatchClass: {
+      normal: 'WeightPerClass',
+      operational: 'WeightPerClass',
+      mandatory: 'WeightPerClass'
+    },
     Phase: {
       _enum: {
         ApplyExtrinsic: 'u32',
@@ -317,6 +328,12 @@ export default {
         NoUnsignedValidator: 'Null',
         Custom: 'u8'
       }
+    },
+    WeightPerClass: {
+      baseExtrinsic: 'Weight',
+      maxExtrinsic: 'Weight',
+      maxTotal: 'Option<Weight>',
+      reserved: 'Option<Weight>'
     }
   }
 } as Definitions;

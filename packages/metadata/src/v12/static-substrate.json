@@ -39,9 +39,9 @@
                 "name": "BlockWeight",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ExtrinsicsWeight"
+                  "Plain": "ConsumedWeight"
                 },
-                "fallback": "0x00000000000000000000000000000000",
+                "fallback": "0x000000000000000000000000000000000000000000000000",
                 "documentation": [
                   " The current weight for the block."
                 ]
@@ -463,14 +463,6 @@
               ]
             },
             {
-              "name": "MaximumBlockWeight",
-              "type": "Weight",
-              "value": "0x00204aa9d1010000",
-              "documentation": [
-                " The maximum weight of a block."
-              ]
-            },
-            {
               "name": "DbWeight",
               "type": "RuntimeDbWeight",
               "value": "0x40787d010000000000e1f50500000000",
@@ -479,27 +471,11 @@
               ]
             },
             {
-              "name": "BlockExecutionWeight",
-              "type": "Weight",
-              "value": "0x00f2052a01000000",
+              "name": "BlockWeights",
+              "type": "BlockWeights",
+              "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
               "documentation": [
-                " The base weight of executing a block, independent of the transactions in the block."
-              ]
-            },
-            {
-              "name": "ExtrinsicBaseWeight",
-              "type": "Weight",
-              "value": "0x4059730700000000",
-              "documentation": [
-                " The base weight of an Extrinsic in the block, independent of the of extrinsic being executed."
-              ]
-            },
-            {
-              "name": "MaximumBlockLength",
-              "type": "u32",
-              "value": "0x00005000",
-              "documentation": [
-                " The maximum length of a block (in bytes)."
+                " The weight configuration (limits & base values) for each class of extrinsics and block."
               ]
             }
           ],
