@@ -44,6 +44,9 @@ export interface ChainType extends Enum {
   readonly asCustom: Text;
 }
 
+/** @name ConsumedWeight */
+export interface ConsumedWeight extends PerDispatchClass {}
+
 /** @name DigestOf */
 export interface DigestOf extends Digest {}
 
