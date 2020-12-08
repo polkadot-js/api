@@ -1,12 +1,15 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { bounties } from '@polkadot/api-derive/treasury/bounties';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Option, StorageKey } from '@polkadot/types';
-import { Bounty, BountyIndex } from '@polkadot/types/interfaces';
-import { Codec, InterfaceTypes } from '@polkadot/types/types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Bytes, Option, StorageKey } from '@polkadot/types';
+import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
+import type { Codec, InterfaceTypes } from '@polkadot/types/types';
+
 import { of } from 'rxjs';
+
+import { bounties } from '@polkadot/api-derive/treasury/bounties';
+
 import { BountyFactory } from '../bountyFactory';
 import { BytesFactory } from '../bytesFactory';
 import { createApiWithAugmentations } from '../helpers';
