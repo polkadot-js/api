@@ -53,11 +53,10 @@ describe('bounties derive', () => {
 
     const result = await bounties('', mockApi)().toPromise();
 
-    expect(result.bountyDescriptions).toHaveLength(2);
-    expect(result.bounties).toHaveLength(2);
-    expect(result.bounties[0].proposer.toString()).toEqual(DEFAULT_PROPOSER);
-    expect(result.bountyDescriptions[0].toHuman()).toEqual('make polkadot even better');
-    expect(result.bounties[1].proposer.toString()).toEqual(DEFAULT_PROPOSER);
-    expect(result.bountyDescriptions[1].toHuman()).toEqual('');
+    expect(result).toHaveLength(2);
+    expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
+    expect(result[0].description).toEqual('make polkadot even better');
+    expect(result[1].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
+    expect(result[1].description).toEqual('');
   });
 });

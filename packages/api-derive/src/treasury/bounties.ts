@@ -14,20 +14,15 @@ import { map, switchMap } from 'rxjs/operators';
 import { memo } from '@polkadot/api-derive/util';
 
 function parseResult ([maybeBounties, maybeDescriptions]: [Option<Bounty>[], Option<Bytes>[]]): DeriveBounties {
-  const bounties: Bounty[] = [];
-  const bountyDescriptions: Bytes[] = [];
+  const bounties: DeriveBounties = [];
 
   maybeBounties.forEach((bounty, index) => {
     if (bounty.isSome) {
-      bounties.push(bounty.unwrap());
-      bountyDescriptions.push(maybeDescriptions[index].unwrapOrDefault());
+      bounties.push({ bounty: bounty.unwrap(), description: maybeDescriptions[index].unwrapOrDefault().toUtf8() });
     }
   });
 
-  return {
-    bounties,
-    bountyDescriptions
-  };
+  return bounties;
 }
 
 function extractIds (keys: StorageKey[]): Codec[] {
