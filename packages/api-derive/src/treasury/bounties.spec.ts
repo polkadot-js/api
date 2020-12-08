@@ -10,9 +10,9 @@ import { of } from 'rxjs';
 
 import { bounties } from '@polkadot/api-derive/treasury/bounties';
 
-import { BountyFactory } from '../bountyFactory';
-import { BytesFactory } from '../bytesFactory';
-import { createApiWithAugmentations } from '../helpers';
+import { BountyFactory } from '../../test/bountyFactory';
+import { BytesFactory } from '../../test/bytesFactory';
+import { createApiWithAugmentations } from '../../test/helpers';
 
 const DEFAULT_PROPOSER = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
 
