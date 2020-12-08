@@ -21,6 +21,13 @@ export interface ApplyExtrinsicResult extends Result<DispatchOutcome, Transactio
   readonly asOk: DispatchOutcome;
 }
 
+/** @name BlockWeights */
+export interface BlockWeights extends Struct {
+  readonly baseBlock: Weight;
+  readonly maxBlock: Weight;
+  readonly perClass: PerDispatchClass;
+}
+
 /** @name ChainProperties */
 export interface ChainProperties extends Struct {
   readonly ss58Format: Option<u8>;
@@ -238,6 +245,13 @@ export interface PeerPing extends Struct {
   readonly secs: u64;
 }
 
+/** @name PerDispatchClass */
+export interface PerDispatchClass extends Struct {
+  readonly normal: WeightPerClass;
+  readonly operational: WeightPerClass;
+  readonly mandatory: WeightPerClass;
+}
+
 /** @name Phase */
 export interface Phase extends Enum {
   readonly isApplyExtrinsic: boolean;
@@ -284,6 +298,14 @@ export interface UnknownTransaction extends Enum {
   readonly isNoUnsignedValidator: boolean;
   readonly isCustom: boolean;
   readonly asCustom: u8;
+}
+
+/** @name WeightPerClass */
+export interface WeightPerClass extends Struct {
+  readonly baseExtrinsic: Weight;
+  readonly maxExtrinsic: Weight;
+  readonly maxTotal: Option<Weight>;
+  readonly reserved: Option<Weight>;
 }
 
 export type PHANTOM_SYSTEM = 'system';

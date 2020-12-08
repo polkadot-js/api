@@ -4,12 +4,14 @@
 import { ExtrinsicStatus } from '../interfaces/author';
 import { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
 import { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
-import { EventRecord } from '../interfaces/system';
+import { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
 import { Codec } from './codec';
 import { AnyJson, AnyNumber, AnyU8a } from './helpers';
 import { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
 export interface ISubmittableResult {
+  readonly dispatchError: DispatchError;
+  readonly dispatchInfo: DispatchInfo;
   readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
