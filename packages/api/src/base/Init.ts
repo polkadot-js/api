@@ -15,7 +15,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { getSpecAlias, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, u8aEq, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -80,7 +80,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
 
-    // for bundled types, pull through the aliasses defined
+    // for bundled types, pull through the aliases defined
     if (registry.knownTypes.typesBundle) {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
@@ -246,7 +246,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
-    await this._filterRpc();
+    await this._filterRpc(getSpecRpc(this.registry, chain, runtimeVersion.specName));
 
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;

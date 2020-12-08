@@ -6,7 +6,7 @@ import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
@@ -211,7 +211,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // manner to cater for both old and new:
   //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
   //   - when non-zero, remove anything that is not in the array (we don't do this)
-  protected async _filterRpc (): Promise<void> {
+  protected async _filterRpc (additional: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): Promise<void> {
     let methods: string[];
 
     try {
@@ -222,6 +222,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       methods = [];
     }
 
+    this._rpcCore.addUserInterfaces(additional);
     this._filterRpcMethods(methods);
   }
 
