@@ -26,10 +26,10 @@
     "@babel/core": "^7.12.9",
     "@babel/register": "^7.12.1",
     "@babel/runtime": "^7.12.5",
-    "@polkadot/dev": "^0.60.13",
-    "@polkadot/ts": "^0.3.57",
+    "@polkadot/dev": "^0.60.16",
+    "@polkadot/ts": "^0.3.58",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^26.0.17",
+    "@types/jest": "^26.0.18",
     "copyfiles": "^2.4.1"
   },
   "version": "2.10.2-7"
