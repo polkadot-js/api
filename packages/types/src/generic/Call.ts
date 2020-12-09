@@ -8,7 +8,8 @@ import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Struct } from '../codec/Struct';
 import { U8aFixed } from '../codec/U8aFixed';
-import { getTypeClass, getTypeDef } from '../create';
+import { getTypeClass } from '../create/createClass';
+import { getTypeDef } from '../create/getTypeDef';
 
 interface DecodeMethodInput {
   args: unknown;
