@@ -14,7 +14,7 @@ import BN from 'bn.js';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap, toArray } from 'rxjs/operators';
 
-import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
+import { decorateDerive, DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import { expandMetadata, Metadata } from '@polkadot/metadata';
 import { RpcCore } from '@polkadot/rpc-core';
@@ -531,8 +531,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
+    const specName = this._runtimeVersion?.specName.toString();
+    const derives = { ...this._options.derives, ...(this._options.typesBundle?.spec?.[specName]?.derives as DeriveCustom) }; // use typesBundle
+
     // Pull in derive from api-derive
-    const derive = decorateDerive(this.#instanceId, this._rx, this._options.derives);
+    const derive = decorateDerive(this.#instanceId, this._rx, derives);
 
     return decorateSections<'rxjs', ExactDerive>(derive, decorateMethod);
   }
