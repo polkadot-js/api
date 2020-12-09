@@ -532,7 +532,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
     const specName = this._runtimeVersion?.specName.toString();
-    const derives = { ...this._options.derives, ...(this._options.typesBundle?.spec?.[specName]?.derives as DeriveCustom) }; // use typesBundle
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const derives = { ...this._options.derives, ...(this._options.typesBundle?.spec?.[specName ?? '']?.derives as DeriveCustom) }; // use typesBundle
 
     // Pull in derive from api-derive
     const derive = decorateDerive(this.#instanceId, this._rx, derives);
