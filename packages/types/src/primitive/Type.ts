@@ -4,7 +4,7 @@
 import type { Registry } from '../types';
 
 import { sanitize } from '../create/sanitize';
-import { Text } from '.';
+import { Text } from './Text';
 
 /**
  * @name Type
