@@ -3,7 +3,8 @@
 
 import type { TypeDef } from '@polkadot/types/types';
 
-import { getTypeDef } from '@polkadot/types/create';
+// we are attempting to avoid circular refs, hence the path import
+import { getTypeDef } from '@polkadot/types/create/getTypeDef';
 import { TypeDefInfo } from '@polkadot/types/types';
 
 type Extracted = string | Extracted[];
