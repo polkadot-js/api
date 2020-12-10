@@ -303,7 +303,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
-      this._rpcCore.state.subscribeStorage(
+      ((this.hasSubscriptions || !this._rpcCore.state.queryStorageAt)
+        ? this._rpcCore.state.subscribeStorage :
+        this._rpcCore.state.queryStorageAt)(
         calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
@@ -403,12 +405,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           this._retrieveMapKeysPaged(creator, opts)));
     }
 
-    // only support multi where subs are available
-    if (this.hasSubscriptions) {
-      // When using double map storage function, user need to pass double map key as an array
-      decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
-        this._retrieveMulti(args.map((arg) => [creator, arg])));
-    }
+    // When using double map storage function, user need to pass double map key as an array
+    decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
+      this._retrieveMulti(args.map((arg) => [creator, arg])));
 
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
@@ -454,7 +453,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
         .fill(0)
         .map((_, index): Observable<Codec[]> =>
-          this._rpcCore.state.subscribeStorage(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
+          ((this.hasSubscriptions || !this._rpcCore.state.queryStorageAt) ?
+              this._rpcCore.state.subscribeStorage :
+              this._rpcCore.state.queryStorageAt
+          )(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
         )
     ).pipe(
       map((valsArr): Codec[] =>
