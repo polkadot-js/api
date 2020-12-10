@@ -2,7 +2,7 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable @typescript-eslint/no-var-requires,sort-keys */
+/* eslint-disable sort-keys */
 
 let main;
 
