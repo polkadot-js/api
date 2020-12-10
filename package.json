@@ -3,6 +3,7 @@
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "Apache-2",
   "private": true,
+  "type": "commonjs",
   "workspaces": [
     "packages/*"
   ],
@@ -10,7 +11,8 @@
     "typescript": "^4.1.2"
   },
   "scripts": {
-    "build": "yarn build:interfaces && polkadot-dev-build-ts && (cd packages/typegen && copyfiles scripts/* build)",
+    "build": "yarn build:interfaces && polkadot-dev-build-ts",
+    "build:extra": "(cd packages/typegen && copyfiles scripts/* build)",
     "build:interfaces": "polkadot-types-internal-interfaces",
     "build:release": "polkadot-ci-ghact-build",
     "docs:metadata": "polkadot-types-internal-metadata",
@@ -26,7 +28,7 @@
     "@babel/core": "^7.12.9",
     "@babel/register": "^7.12.1",
     "@babel/runtime": "^7.12.5",
-    "@polkadot/dev": "^0.60.18",
+    "@polkadot/dev": "^0.60.21",
     "@polkadot/ts": "^0.3.58",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.18",

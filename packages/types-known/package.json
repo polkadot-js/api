@@ -4,10 +4,6 @@
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
   "sideEffects": false,
-  "keywords": [
-    "Polkadot",
-    "JsonRPC"
-  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
@@ -18,7 +14,7 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@polkadot/types": "2.10.2-9",
-    "@polkadot/util": "^4.2.2-9",
+    "@polkadot/util": "^4.2.2-10",
     "bn.js": "^4.11.9"
   },
   "devDependencies": {
