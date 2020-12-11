@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, Observable, Subscription, TeardownLogic } from 'rxjs';
+import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, Observable, Subscription, TeardownLogic } from '@polkadot/x-rxjs';
 
 /** @internal */
 export function refCountDelay <T> (delay = 1750): MonoTypeOperatorFunction<T> {

@@ -16,6 +16,8 @@ import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
+import * as baseTypes from '../index.types';
+import * as definitions from '../interfaces/definitions';
 import { DoNotConstruct } from '../primitive/DoNotConstruct';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
@@ -122,16 +124,8 @@ export class TypeRegistry implements Registry {
   #signedExtensions: string[] = defaultExtensions;
 
   constructor () {
-    // we only want to import these on creation, i.e. we want to avoid weird
-    // side-effects from circular references. (Since registry is injected
-    // into types, this can be a real concern now)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const baseTypes: RegistryTypes = require('../index.types');
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
-
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
-    this.#knownDefinitions = definitions;
+    this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();
   }

@@ -6,10 +6,10 @@ import type { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interf
 import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import BN from 'bn.js';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 
 import { BN_ZERO } from '@polkadot/util';
+import { combineLatest, Observable } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 

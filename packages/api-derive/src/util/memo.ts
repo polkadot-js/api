@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observer, TeardownLogic } from 'rxjs';
+import type { Observer, TeardownLogic } from '@polkadot/x-rxjs';
 
 import createMemo from 'memoizee';
-import { Observable } from 'rxjs';
 
 import { drr, normalizer } from '@polkadot/rpc-core/util';
+import { Observable } from '@polkadot/x-rxjs';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;
 

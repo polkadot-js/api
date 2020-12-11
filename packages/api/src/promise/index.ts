@@ -4,10 +4,9 @@
 import type { Callback, Codec } from '@polkadot/types/types';
 import type { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
 
-import { EMPTY, Observable, Subscription } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
 import { assert, isFunction } from '@polkadot/util';
+import { EMPTY, Observable, Subscription } from '@polkadot/x-rxjs';
+import { catchError, tap } from '@polkadot/x-rxjs/operators';
 
 import { ApiBase } from '../base';
 import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';

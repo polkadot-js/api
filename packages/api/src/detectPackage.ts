@@ -3,6 +3,6 @@
 
 import { detectPackage } from '@polkadot/util';
 
-// FIXME This really should be `import(...).then(...)`, but need to check rejections
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-detectPackage(require('./package.json'), typeof __dirname !== 'undefined' && __dirname);
+import packageJson from './package.json';
+
+detectPackage(packageJson, typeof __dirname !== 'undefined' && __dirname);

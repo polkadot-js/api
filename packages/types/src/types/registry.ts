@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { Observable } from 'rxjs';
+import type { Observable } from '@polkadot/x-rxjs';
 
 import { H256 } from '../interfaces/runtime';
 import { ChainProperties } from '../interfaces/system';
