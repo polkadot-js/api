@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Observable } from 'rxjs';
 import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]

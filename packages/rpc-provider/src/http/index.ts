@@ -4,7 +4,7 @@
 import type { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { assert, logger } from '@polkadot/util';
-import fetch from '@polkadot/x-fetch';
+import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder';
 import defaults from '../defaults';

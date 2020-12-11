@@ -1,11 +1,10 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
-
-import { catchError, distinctUntilChanged, publishReplay, refCount, tap } from 'rxjs/operators';
+import type { Observable } from '@polkadot/x-rxjs';
 
 import { logger } from '@polkadot/util';
+import { catchError, distinctUntilChanged, publishReplay, refCount, tap } from '@polkadot/x-rxjs/operators';
 
 import { refCountDelay } from './refCountDelay';
 

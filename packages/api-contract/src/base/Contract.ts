@@ -10,11 +10,11 @@ import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } f
 import type { ContractCallResult, ContractCallSend, ContractGeneric, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import BN from 'bn.js';
-import { map } from 'rxjs/operators';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
 import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, formatData, isOptions } from '../util';

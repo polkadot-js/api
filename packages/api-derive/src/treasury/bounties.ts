@@ -1,17 +1,16 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { DeriveBounties } from '@polkadot/api-derive/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-
-import { combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import type { Observable } from '@polkadot/x-rxjs';
 
 import { memo } from '@polkadot/api-derive/util';
+import { combineLatest } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 function parseResult ([maybeBounties, maybeDescriptions]: [Option<Bounty>[], Option<Bytes>[]]): DeriveBounties {
   const bounties: DeriveBounties = [];

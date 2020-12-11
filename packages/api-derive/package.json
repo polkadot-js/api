@@ -16,14 +16,14 @@
     "@polkadot/api": "2.10.2-12",
     "@polkadot/rpc-core": "2.10.2-12",
     "@polkadot/types": "2.10.2-12",
-    "@polkadot/util": "^4.2.2-12",
-    "@polkadot/util-crypto": "^4.2.2-12",
+    "@polkadot/util": "^4.2.2-14",
+    "@polkadot/util-crypto": "^4.2.2-14",
+    "@polkadot/x-rxjs": "2.10.2-12",
     "bn.js": "^4.11.9",
-    "memoizee": "^0.4.14",
-    "rxjs": "^6.6.3"
+    "memoizee": "^0.4.14"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.2.2-12",
+    "@polkadot/keyring": "^4.2.2-14",
     "@polkadot/rpc-provider": "2.10.2-12"
   }
 }

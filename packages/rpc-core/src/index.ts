@@ -1,21 +1,21 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observer } from 'rxjs';
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { Observer } from '@polkadot/x-rxjs';
 import type { RpcInterface, RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
-import { Observable } from 'rxjs';
-import { publishReplay, refCount } from 'rxjs/operators';
 
 import { Option } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
+import { Observable } from '@polkadot/x-rxjs';
+import { publishReplay, refCount } from '@polkadot/x-rxjs/operators';
 
 import { drr, normalizer, refCountDelay } from './util';
 
