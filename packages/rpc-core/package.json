@@ -16,11 +16,11 @@
     "@polkadot/metadata": "2.10.2-15",
     "@polkadot/rpc-provider": "2.10.2-15",
     "@polkadot/types": "2.10.2-15",
-    "@polkadot/util": "^4.2.2-16",
+    "@polkadot/util": "^4.2.2-19",
     "@polkadot/x-rxjs": "2.10.2-15",
     "memoizee": "^0.4.14"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.2.2-16"
+    "@polkadot/keyring": "^4.2.2-19"
   }
 }
