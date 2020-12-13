@@ -26,7 +26,7 @@
     "@polkadot/metadata": "2.10.2-17",
     "@polkadot/rpc-provider": "2.10.2-17",
     "@polkadot/types": "2.10.2-17",
-    "@polkadot/util": "^4.2.2-21",
+    "@polkadot/util": "^5.0.1",
     "handlebars": "^4.7.6",
     "websocket": "^1.0.33",
     "yargs": "^16.2.0"
