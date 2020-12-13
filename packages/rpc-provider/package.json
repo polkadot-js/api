@@ -14,15 +14,15 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@polkadot/types": "2.10.2-16",
-    "@polkadot/util": "^4.2.2-19",
-    "@polkadot/util-crypto": "^4.2.2-19",
-    "@polkadot/x-fetch": "^4.2.2-19",
-    "@polkadot/x-ws": "^4.2.2-19",
+    "@polkadot/util": "^4.2.2-21",
+    "@polkadot/util-crypto": "^4.2.2-21",
+    "@polkadot/x-fetch": "^4.2.2-21",
+    "@polkadot/x-ws": "^4.2.2-21",
     "bn.js": "^4.11.9",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.2.2-19",
+    "@polkadot/keyring": "^4.2.2-21",
     "@polkadot/metadata": "2.10.2-16",
     "mock-socket": "^9.0.3",
     "nock": "^13.0.5"
