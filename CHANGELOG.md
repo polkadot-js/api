@@ -1,9 +1,12 @@
 # CHANGELOG
 
-## 2.11.0-x
+## 3.0.1 Dec 13, 2020
+
+**Important** While this package contains no external interface changes, it doe now compile and ship both cjs and esm modules. This means that modern bundlers will have more information for tree-shaking available. Additionally when using Node with `.mjs` extensions, the esm version imports will be used on recent Node versions. Adding an export map, as here, may have some impacts so a major semver bump is advised. There may be (small) dragons hiding in the dark corners...
 
 Changes:
 
+- Build and expose both cjs and esm via exports map
 - Added `query.<section>.<method>.sizeAt(hash, [...params])` for all storage
 
 
