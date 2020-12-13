@@ -304,8 +304,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
       ((this.hasSubscriptions || !this._rpcCore.state.queryStorageAt)
-        ? this._rpcCore.state.subscribeStorage :
-        this._rpcCore.state.queryStorageAt)(
+        ? this._rpcCore.state.subscribeStorage
+        : this._rpcCore.state.queryStorageAt)(
         calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
@@ -453,9 +453,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
         .fill(0)
         .map((_, index): Observable<Codec[]> =>
-          ((this.hasSubscriptions || !this._rpcCore.state.queryStorageAt) ?
-              this._rpcCore.state.subscribeStorage :
-              this._rpcCore.state.queryStorageAt
+          ((this.hasSubscriptions || !this._rpcCore.state.queryStorageAt)
+            ? this._rpcCore.state.subscribeStorage
+            : this._rpcCore.state.queryStorageAt
           )(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
         )
     ).pipe(
