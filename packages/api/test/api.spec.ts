@@ -1,5 +1,6 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+/* eslint-disable */
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { HttpProvider } from '@polkadot/rpc-provider';
