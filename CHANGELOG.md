@@ -17,7 +17,8 @@ Changes:
 - Add new Substrate consumed Weight types
 - Expand `SessionKeys<n>` definitions (up to 9)
 - Cleanup circular `Type` <-> `Text` definitions
-- cleanup circular `Metadata` <-> `TypeRegistry` imports
+- Cleanup circular `Metadata` <-> `TypeRegistry` imports
+- Update `@polkadot/util` to 5.0.1
 
 
 ## 2.10.1 Dec 7, 2020
