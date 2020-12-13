@@ -5,19 +5,18 @@ import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { Memoized } from '@polkadot/util/types';
 import type { Observer } from '@polkadot/x-rxjs';
 import type { RpcInterface, RpcInterfaceMethod } from './types';
-
-import memoizee from 'memoizee';
 
 import { Option } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, u8aToU8a } from '@polkadot/util';
+import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToU8a } from '@polkadot/util';
 import { Observable } from '@polkadot/x-rxjs';
 import { publishReplay, refCount } from '@polkadot/x-rxjs/operators';
 
-import { drr, normalizer, refCountDelay } from './util';
+import { drr, refCountDelay } from './util';
 
 interface StorageChangeSetJSON {
   block: string;
@@ -210,14 +209,9 @@ export class RpcCore implements RpcInterface {
       }, {} as RpcInterface[Section]);
   }
 
-  private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>): RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> {
-    const memoized = memoizee(creator('scale') as RpcInterfaceMethod, {
-      // Dynamic length for argument
-      length: false,
-      // Normalize args so that different args that should be cached
-      // together are cached together.
-      // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
-      normalizer: normalizer(this.#instanceId)
+  private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>): Memoized<RpcInterfaceMethod> {
+    const memoized = memoize(creator('scale') as RpcInterfaceMethod, {
+      getInstanceId: () => this.#instanceId
     });
 
     memoized.json = creator('json');
@@ -230,7 +224,7 @@ export class RpcCore implements RpcInterface {
     const rpcName = def.endpoint || `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
     const cacheIndex = def.params.findIndex(({ isCached }) => isCached);
-    let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
+    let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
     const callWithRegistry = async (outputAs: OutputType, values: any[]): Promise<Codec | Codec[]> => {
@@ -266,7 +260,7 @@ export class RpcCore implements RpcInterface {
 
         return (): void => {
           // delete old results from cache
-          memoized?.delete(...values);
+          memoized?.unmemoize(...values);
         };
       }).pipe(
         publishReplay(1), // create a Replay(1)
@@ -299,7 +293,7 @@ export class RpcCore implements RpcInterface {
     const subName = `${section}_${subMethod}`;
     const unsubName = `${section}_${unsubMethod}`;
     const subType = `${section}_${updateType}`;
-    let memoized: null | RpcInterfaceMethod & memoizee.Memoized<RpcInterfaceMethod> = null;
+    let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
     const creator = (outputAs: OutputType) => (...values: unknown[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
@@ -343,7 +337,7 @@ export class RpcCore implements RpcInterface {
         // Teardown logic
         return (): void => {
           // Delete from cache, so old results don't hang around
-          memoized?.delete(...values);
+          memoized?.unmemoize(...values);
 
           // Unsubscribe from provider
           subscriptionPromise
