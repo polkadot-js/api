@@ -2,7 +2,9 @@
 
 ## 3.0.1 Dec 14, 2020
 
-**Important** While this package contains no external interface changes, it doe now compile and ship both cjs and esm modules. This means that modern bundlers will have more information for tree-shaking available. Additionally when using Node with `.mjs` extensions, the esm version imports will be used on recent Node versions. Adding an export map, as here, may have some impacts so a major semver bump is advised. There may be (small) dragons hiding in the dark corners...
+Upgrade priority: Low. Recommended for the next Kusama/Polkadot upgrades due to additional types and those following chains following Substrate master closely.
+
+**Important** While this package contains no external interface changes, it now compiles and ships both cjs and esm modules. This means that modern bundlers will have more information for tree-shaking available. Additionally when using Node with `.mjs` extensions, the esm version imports will be used on recent Node versions. Adding an export map, as here, may have some impacts so a major semver bump is advised. There may be (small) dragons hiding in the dark corners...
 
 Contributed:
 
