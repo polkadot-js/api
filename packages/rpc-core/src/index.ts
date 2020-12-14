@@ -46,6 +46,12 @@ function logErrorMessage (method: string, { params, type }: DefinitionRpc, error
   l.error(`${method}(${inputs}): ${type}:: ${error.message}`);
 }
 
+function isTreatAsHex (key: StorageKey): boolean {
+  // :code is problematic - it does not have the length attached, which is
+  // unlike all other storage entries where it is indeed properly encoded
+  return ['0x3a636f6465'].includes(key.toHex());
+}
+
 /**
  * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
@@ -369,12 +375,6 @@ export class RpcCore implements RpcInterface {
     );
   }
 
-  private _treatAsHex (key: StorageKey): boolean {
-    // :code is problematic - it does not have the length attached, which is
-    // unlike all other storage entries where it is indeed properly encoded
-    return ['0x3a636f6465'].includes(key.toHex());
-  }
-
   private _formatOutput (registry: Registry, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
@@ -402,47 +402,17 @@ export class RpcCore implements RpcInterface {
   }
 
   private _formatStorageData (registry: Registry, key: StorageKey, value: string | null): Codec {
-    // single return value (via state.getStorage), decode the value based on the
-    // outputType that we have specified. Fallback to Raw on nothing
-    const type = key.outputType || 'Raw';
-    const meta = key.meta || EMPTY_META;
     const isEmpty = isNull(value);
 
     // we convert to Uint8Array since it maps to the raw encoding, all
     // data will be correctly encoded (incl. numbers, excl. :code)
     const input = isEmpty
       ? null
-      : this._treatAsHex(key)
+      : isTreatAsHex(key)
         ? value
         : u8aToU8a(value);
 
-    if (meta.modifier.isOptional) {
-      let inner = null;
-
-      if (!isEmpty) {
-        try {
-          inner = createTypeUnsafe(registry, type, [input], true);
-        } catch (error) {
-          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
-        }
-      }
-
-      return new Option(registry, createClass(registry, type), inner);
-    }
-
-    try {
-      return createTypeUnsafe(registry, type, [
-        isEmpty
-          ? meta.fallback
-            ? hexToU8a(meta.fallback.toHex())
-            : undefined
-          : input
-      ], true);
-    } catch (error) {
-      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
-
-      return registry.createType('Raw', input);
-    }
+    return this._newType(registry, key, input, isEmpty);
   }
 
   private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
@@ -453,7 +423,7 @@ export class RpcCore implements RpcInterface {
     // one at a time, all based on the query types. Three values can be returned -
     //   - Codec - There is a valid value, non-empty
     //   - null - The storage key is empty
-    return keys.reduce((results: Codec[], key: StorageKey, index: number): Codec[] => {
+    return keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
       results.push(this._formatStorageSetEntry(registry, key, changes, withCache, index));
 
       return results;
@@ -461,10 +431,7 @@ export class RpcCore implements RpcInterface {
   }
 
   private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {
-    // Fallback to Raw (i.e. just the encoding) if we don't have a specific type
-    const type = key.outputType || 'Raw';
     const hexKey = key.toHex();
-    const meta = key.meta || EMPTY_META;
     const found = changes.find(([key]) => key === hexKey);
 
     // if we don't find the value, this is our fallback
@@ -475,7 +442,7 @@ export class RpcCore implements RpcInterface {
       ? (witCache && this.#storageCache.get(hexKey)) || null
       : found[1];
     const isEmpty = isNull(value);
-    const input = isEmpty || this._treatAsHex(key)
+    const input = isEmpty || isTreatAsHex(key)
       ? value
       : u8aToU8a(value);
 
@@ -484,6 +451,18 @@ export class RpcCore implements RpcInterface {
     // will increase memory beyond what is allowed.
     this.#storageCache.set(hexKey, value);
 
+    return this._newType(registry, key, input, isEmpty, entryIndex);
+  }
+
+  private _newType (registry: Registry, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean, entryIndex = -1): Codec {
+    // single return value (via state.getStorage), decode the value based on the
+    // outputType that we have specified. Fallback to Raw on nothing
+    const type = key.outputType || 'Raw';
+    const meta = key.meta || EMPTY_META;
+    const entryNum = entryIndex === -1
+      ? ''
+      : ` entry ${entryIndex}:`;
+
     if (meta.modifier.isOptional) {
       let inner = null;
 
@@ -491,7 +470,7 @@ export class RpcCore implements RpcInterface {
         try {
           inner = createTypeUnsafe(registry, type, [input], true);
         } catch (error) {
-          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
+          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}`, (error as Error).message);
         }
       }
 
@@ -507,7 +486,7 @@ export class RpcCore implements RpcInterface {
           : input
       ], true);
     } catch (error) {
-      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
+      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}`, (error as Error).message);
 
       return registry.createType('Raw', input);
     }
