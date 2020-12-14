@@ -65,8 +65,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
     // it provides false warning which is more hinderance than help
     return initType(registry, createClass<T, K>(registry, type), params); // , isPedantic);
   } catch (error) {
-    l.error(error);
-
     throw new Error(`createType(${type}):: ${(error as Error).message}`);
   }
 }
