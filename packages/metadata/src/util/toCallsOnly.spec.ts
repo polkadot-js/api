@@ -3,8 +3,8 @@
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import staticData from '../static';
 import { Metadata } from '../Metadata';
+import staticData from '../static';
 
 describe('toCallsOnly', (): void => {
   const registry = new TypeRegistry();

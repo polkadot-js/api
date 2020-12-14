@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
-import { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageSpec, ContractMessageParamSpec, ContractProject } from '@polkadot/types/interfaces';
-import { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
+import type { Bytes } from '@polkadot/types';
+import type { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProject } from '@polkadot/types/interfaces';
+import type { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
+import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
-import { Bytes } from '@polkadot/types';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { MetaRegistry } from './MetaRegistry';

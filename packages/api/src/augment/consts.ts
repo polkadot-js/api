@@ -3,10 +3,11 @@
 
 import type { Vec, u16, u32, u64 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
+import type { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
 import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
+import type { BlockWeights } from '@polkadot/types/interfaces/system';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/consts' {
@@ -315,29 +316,17 @@ declare module '@polkadot/api/types/consts' {
     system: {
       [key: string]: Codec;
       /**
-       * The base weight of executing a block, independent of the transactions in the block.
-       **/
-      blockExecutionWeight: Weight & AugmentedConst<ApiType>;
-      /**
        * The maximum number of blocks to allow in mortal eras.
        **/
       blockHashCount: BlockNumber & AugmentedConst<ApiType>;
       /**
+       * The weight configuration (limits & base values) for each class of extrinsics and block.
+       **/
+      blockWeights: BlockWeights & AugmentedConst<ApiType>;
+      /**
        * The weight of runtime database operations the runtime can invoke.
        **/
       dbWeight: RuntimeDbWeight & AugmentedConst<ApiType>;
-      /**
-       * The base weight of an Extrinsic in the block, independent of the of extrinsic being executed.
-       **/
-      extrinsicBaseWeight: Weight & AugmentedConst<ApiType>;
-      /**
-       * The maximum length of a block (in bytes).
-       **/
-      maximumBlockLength: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum weight of a block.
-       **/
-      maximumBlockWeight: Weight & AugmentedConst<ApiType>;
     };
     timestamp: {
       [key: string]: Codec;

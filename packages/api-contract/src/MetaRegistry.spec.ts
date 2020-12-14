@@ -4,9 +4,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Abi } from '.';
-
 import abis from '../test/contracts';
+import { Abi } from '.';
 
 describe('MetaRegistry', (): void => {
   Object.keys(abis).forEach((abiName) => {

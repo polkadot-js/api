@@ -3,17 +3,18 @@
 
 /* eslint-disable camelcase */
 
-import { Header } from '@polkadot/types/interfaces';
-import { Codec, Registry } from '@polkadot/types/types';
-import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
-import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
+import type { Header } from '@polkadot/types/interfaces';
+import type { Codec, Registry } from '@polkadot/types/types';
+import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types';
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
+
+import { createTestKeyring } from '@polkadot/keyring/testing';
 import { Metadata, storageFromMeta } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { createTestKeyring } from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
 import { assert, bnToU8a, logger, u8aToHex } from '@polkadot/util';

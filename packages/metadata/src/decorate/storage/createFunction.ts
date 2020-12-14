@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { StorageEntry } from '@polkadot/types/primitive/types';
-import { Codec, Registry } from '@polkadot/types/types';
+import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { StorageEntry } from '@polkadot/types/primitive/types';
+import type { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
+
 import { Raw } from '@polkadot/types/codec';
 import { StorageKey } from '@polkadot/types/primitive';
 import { assert, compactAddLength, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import { HasherFunction, getHasher } from './getHasher';
+import { getHasher, HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;

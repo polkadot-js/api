@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { EraIndex } from '@polkadot/types/interfaces';
-import { DeriveStakerExposure, DeriveEraValidatorExposure } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveEraValidatorExposure, DeriveStakerExposure } from '../types';
 
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 

@@ -1,15 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes } from '@polkadot/api/types';
-import { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
-import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
-
-import BN from 'bn.js';
-import { ApiBase } from '@polkadot/api/base';
-import { Text, u64 } from '@polkadot/types';
-
-import { Abi } from '.';
+import type BN from 'bn.js';
+import type { ApiBase } from '@polkadot/api/base';
+import type { ApiTypes } from '@polkadot/api/types';
+import type { Text, u64 } from '@polkadot/types';
+import type { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
+import type { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
+import type { Abi } from '.';
 
 export interface ContractBase<ApiType extends ApiTypes> {
   readonly abi: Abi;

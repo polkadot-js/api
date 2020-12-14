@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { DeriveStakingElected } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveStakingElected } from '../types';
 
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -18,7 +18,7 @@ export function electedInfo (instanceId: string, api: ApiInterfaceRx): () => Obs
   return memo(instanceId, (): Observable<DeriveStakingElected> =>
     api.derive.staking.validators().pipe(
       switchMap(({ nextElected, validators }): Observable<DeriveStakingElected> =>
-        api.derive.staking.queryMulti(combineAccounts(nextElected, validators)).pipe(
+        api.derive.staking.queryMulti(combineAccounts(nextElected, validators), { withExposure: true, withLedger: true, withPrefs: true }).pipe(
           map((info): DeriveStakingElected => ({
             info,
             nextElected,

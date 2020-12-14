@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { isU8a, isHex, hexToU8a, u8aConcat } from '@polkadot/util';
+import { hexToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
 
-import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
 import { AbstractArray } from './AbstractArray';
+import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
 
 type AnyTuple = AnyU8a | string | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];
 

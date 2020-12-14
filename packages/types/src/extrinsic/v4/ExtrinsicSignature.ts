@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import { Address, Balance, Call, Index } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
-import { ExtrinsicSignatureOptions } from '../types';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
+import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import type { ExtrinsicSignatureOptions } from '../types';
 
 import { u8aConcat } from '@polkadot/util';
 

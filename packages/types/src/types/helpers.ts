@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec } from './codec';
-
-import BN from 'bn.js';
+import type BN from 'bn.js';
+import type { Codec } from './codec';
 
 export type AnyFunction = (...args: any[]) => any;
 

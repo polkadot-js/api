@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { H256 } from '../interfaces';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
-import { mapToTypeMap } from './utils';
 import { Struct } from './Struct';
+import { mapToTypeMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {

@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Registry } from '../types';
+import type { Registry } from '../types';
 
 import { sanitize } from '../create/sanitize';
-import { Text } from '.';
+import { Text } from './Text';
 
 /**
  * @name Type

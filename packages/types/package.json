@@ -1,13 +1,9 @@
 {
   "name": "@polkadot/types",
-  "version": "2.8.3-5",
+  "version": "3.0.1",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "sideEffects": false,
-  "keywords": [
-    "Polkadot",
-    "JsonRPC"
-  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
@@ -17,16 +13,14 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@polkadot/metadata": "2.8.3-5",
-    "@polkadot/util": "^4.2.1",
-    "@polkadot/util-crypto": "^4.2.1",
+    "@polkadot/metadata": "3.0.1",
+    "@polkadot/util": "^5.0.1",
+    "@polkadot/util-crypto": "^5.0.1",
+    "@polkadot/x-rxjs": "3.0.1",
     "@types/bn.js": "^4.11.6",
-    "bn.js": "^4.11.9",
-    "memoizee": "^0.4.14",
-    "rxjs": "^6.6.3"
+    "bn.js": "^4.11.9"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.2.1",
-    "@types/memoizee": "^0.4.5"
+    "@polkadot/keyring": "^5.0.1"
   }
 }

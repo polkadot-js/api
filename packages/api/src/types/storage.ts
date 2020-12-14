@@ -1,14 +1,12 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Hash } from '@polkadot/types/interfaces';
-import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
-import { StorageEntry } from '@polkadot/types/primitive/types';
-
-import { Observable } from 'rxjs';
-import { StorageKey, u64 } from '@polkadot/types';
-
-import { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
+import type { StorageKey, u64 } from '@polkadot/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { StorageEntry } from '@polkadot/types/primitive/types';
+import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
 interface StorageEntryObservableMulti {
   <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
@@ -49,8 +47,10 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   keys: (arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
   keysAt: (hash: Hash | Uint8Array | string, arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
   keysPaged: (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey[]>;
+  // @deprecated The underlying RPC this been marked unsafe and is generally not exposed
   range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
+  sizeAt: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
   multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }
 

@@ -1,15 +1,17 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, Vote, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DeriveDemocracyLock } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Option } from '@polkadot/types';
+import type { AccountId, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, Vote, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveDemocracyLock } from '../types';
 
 import BN from 'bn.js';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Option } from '@polkadot/types';
+
 import { BN_ZERO, isUndefined } from '@polkadot/util';
+import { of } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 

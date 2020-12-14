@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SessionIndex } from '@polkadot/types/interfaces';
-import { DeriveSessionInfo, DeriveSessionIndexes } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { u64 } from '@polkadot/types';
+import type { SessionIndex } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveSessionIndexes, DeriveSessionInfo } from '../types';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { u64 } from '@polkadot/types';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 

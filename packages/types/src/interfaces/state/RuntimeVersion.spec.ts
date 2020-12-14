@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { RuntimeVersion } from './types';
+import type { RuntimeVersion } from './types';
 
 import { TypeRegistry } from '../../create';
 import rpc from '../../json/RuntimeVersion.002.json';

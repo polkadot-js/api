@@ -1,13 +1,9 @@
 {
   "name": "@polkadot/rpc-provider",
-  "version": "2.8.3-5",
+  "version": "3.0.1",
   "description": "Transport providers for the API",
   "main": "index.js",
   "sideEffects": false,
-  "keywords": [
-    "Polkadot",
-    "JsonRPC"
-  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
@@ -17,17 +13,17 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@polkadot/types": "2.8.3-5",
-    "@polkadot/util": "^4.2.1",
-    "@polkadot/util-crypto": "^4.2.1",
-    "@polkadot/x-fetch": "^4.2.1",
-    "@polkadot/x-ws": "^4.2.1",
+    "@polkadot/types": "3.0.1",
+    "@polkadot/util": "^5.0.1",
+    "@polkadot/util-crypto": "^5.0.1",
+    "@polkadot/x-fetch": "^5.0.1",
+    "@polkadot/x-ws": "^5.0.1",
     "bn.js": "^4.11.9",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^4.2.1",
-    "@polkadot/metadata": "2.8.3-5",
+    "@polkadot/keyring": "^5.0.1",
+    "@polkadot/metadata": "3.0.1",
     "mock-socket": "^9.0.3",
     "nock": "^13.0.5"
   }

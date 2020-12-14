@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { Observable } from '@polkadot/x-rxjs';
 
 import { H256 } from '../interfaces/runtime';
 import { ChainProperties } from '../interfaces/system';
@@ -101,9 +102,11 @@ export interface OverrideVersionedType {
 }
 
 export type OverrideModuleType = Record<string, string>;
+export type DeriveCustom = Record<string, Record<string, (instanceId: string, api: any) => (...args: any[]) => Observable<any>>>;
 
 export interface OverrideBundleDefinition {
   alias?: Record<string, OverrideModuleType>;
+  derives?: DeriveCustom;
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   types?: OverrideVersionedType[];
 }

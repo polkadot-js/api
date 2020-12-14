@@ -3,8 +3,9 @@
 
 import path from 'path';
 import yargs from 'yargs';
+
 import { formatNumber } from '@polkadot/util';
-import WS from '@polkadot/x-ws';
+import { WebSocket } from '@polkadot/x-ws';
 
 import { generateDefaultConsts, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
 import { HEADER, writeFile } from './util';
@@ -59,7 +60,7 @@ export function main (): void {
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
     try {
-      const websocket = new WS(endpoint);
+      const websocket = new WebSocket(endpoint);
 
       websocket.onclose = (event: { code: number; reason: string }): void => {
         console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);

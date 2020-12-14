@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '../submittable/types';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { SubmittableExtrinsic } from '../submittable/types';
 
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { SingleAccountSigner } from '../../test/util';
 import { ApiRx } from '.';

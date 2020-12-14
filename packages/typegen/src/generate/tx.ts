@@ -1,18 +1,18 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Registry } from '@polkadot/types/types';
+
 import Handlebars from 'handlebars';
 
-import { Registry } from '@polkadot/types/types';
-
-import staticData from '@polkadot/metadata/static';
 import { Metadata } from '@polkadot/metadata';
+import staticData from '@polkadot/metadata/static';
+import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
-import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { createImports, compareName, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { compareName, createImports, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {
   new: 'updated'

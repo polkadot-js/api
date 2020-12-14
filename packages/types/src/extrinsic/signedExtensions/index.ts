@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ExtDef, ExtInfo, ExtTypes } from './types';
+import type { ExtDef, ExtInfo, ExtTypes } from './types';
 
 import polkadotExtensions from './polkadot';
 import substrateExtensions from './substrate';

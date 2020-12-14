@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
+import type { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { assert, logger } from '@polkadot/util';
-import fetch from '@polkadot/x-fetch';
+import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder';
 import defaults from '../defaults';

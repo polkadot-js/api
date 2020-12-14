@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyNumber, Codec, Registry } from '../types';
-import { UIntBitLength } from './types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyNumber, Codec, Registry } from '../types';
+import type { UIntBitLength } from './types';
 
 import BN from 'bn.js';
+
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 const BITLENGTH: UIntBitLength = 64;

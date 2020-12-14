@@ -3,17 +3,22 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, RegisteredTypes } from '../types';
+import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
+import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryMetadata, RegistryTypes } from '../types';
 
-import { Metadata, extrinsicsFromMeta } from '@polkadot/metadata';
-import { BN_ZERO, assert, assertReturn, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
+// we are attempting to avoid circular refs, hence the Metadata path import
+import { extrinsicsFromMeta } from '@polkadot/metadata/decorate/extrinsics/fromMetadata';
+import { Metadata } from '@polkadot/metadata/Metadata';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { Json, Raw } from '../codec';
+import { Json } from '../codec/Json';
+import { Raw } from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
-import { GenericEventData } from '../generic';
-import { DoNotConstruct } from '../primitive';
+import { GenericEventData } from '../generic/Event';
+import * as baseTypes from '../index.types';
+import * as definitions from '../interfaces/definitions';
+import { DoNotConstruct } from '../primitive/DoNotConstruct';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';
@@ -119,16 +124,8 @@ export class TypeRegistry implements Registry {
   #signedExtensions: string[] = defaultExtensions;
 
   constructor () {
-    // we only want to import these on creation, i.e. we want to avoid weird
-    // side-effects from circular references. (Since registry is injected
-    // into types, this can be a real concern now)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const baseTypes: RegistryTypes = require('../index.types');
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
-
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
-    this.#knownDefinitions = definitions;
+    this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();
   }

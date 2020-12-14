@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { Codec, Constructor, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { Codec, Constructor, Registry } from '../types';
 
 import BN from 'bn.js';
-import { assert, bnToBn, bnToU8a, isBn, isU8a, isNumber, isString, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex, u8aToBn, u8aToU8a } from '@polkadot/util';
+
+import { assert, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareArray } from './utils';
 

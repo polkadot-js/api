@@ -5,6 +5,7 @@
 export { default as runtime } from './runtime/definitions';
 
 // substrate types
+export { default as assets } from './assets/definitions';
 export { default as authorship } from './authorship/definitions';
 export { default as aura } from './aura/definitions';
 export { default as babe } from './babe/definitions';

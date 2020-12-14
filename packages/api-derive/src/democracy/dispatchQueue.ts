@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BlockNumber, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
-import { DeriveDispatch, DeriveProposalImage } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Option, u64, Vec } from '@polkadot/types';
+import type { BlockNumber, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveDispatch, DeriveProposalImage } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, Vec, u64 } from '@polkadot/types';
 import { isFunction, stringToHex } from '@polkadot/util';
+import { combineLatest, of } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 

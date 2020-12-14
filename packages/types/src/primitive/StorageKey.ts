@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
-import { AnyJson, AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
-import { StorageEntry } from './types';
+import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
+import type { AnyJson, AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
+import type { StorageEntry } from './types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { AllHashers } from '@polkadot/types/interfaces/metadata/definitions';
+import { AllHashers } from '../interfaces/metadata/definitions';
 import { Bytes } from './Bytes';
 
 interface Decoded {

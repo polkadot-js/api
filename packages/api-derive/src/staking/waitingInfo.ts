@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DeriveStakingWaiting } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveStakingWaiting } from '../types';
 
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -19,7 +20,7 @@ export function waitingInfo (instanceId: string, api: ApiInterfaceRx): () => Obs
         const elected = nextElected.map((a) => a.toString());
         const waiting = stashes.filter((v) => !elected.includes(v.toString()));
 
-        return api.derive.staking.queryMulti(waiting).pipe(
+        return api.derive.staking.queryMulti(waiting, { withLedger: true, withPrefs: true }).pipe(
           map((info): DeriveStakingWaiting => ({
             info,
             waiting

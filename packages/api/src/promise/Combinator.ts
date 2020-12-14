@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Callback } from '@polkadot/types/types';
-import { UnsubscribePromise } from '../types';
+import type { Callback } from '@polkadot/types/types';
+import type { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 

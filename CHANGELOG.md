@@ -1,5 +1,65 @@
 # CHANGELOG
 
+## 3.0.1 Dec 14, 2020
+
+Upgrade priority: Low. Recommended for the next Kusama/Polkadot upgrades due to additional types and those following chains following Substrate master closely.
+
+**Important** While this package contains no external interface changes, it now compiles and ships both cjs and esm modules. This means that modern bundlers will have more information for tree-shaking available. Additionally when using Node with `.mjs` extensions, the esm version imports will be used on recent Node versions. Adding an export map, as here, may have some impacts so a major semver bump is advised. There may be (small) dragons hiding in the dark corners...
+
+Contributed:
+
+- Injection of derives via typesBundle (Thanks to https://github.com/pr0fedt)
+- Added derives for bounties (Thanks to https://github.com/krzysztof-jelski)
+
+Changes:
+
+- Build and expose both cjs and esm via exports map
+- Inject RPC definitions for typesBundle, allowing per-spec configuration
+- Added `query.<section>.<method>.sizeAt(hash, [...params])` for all storage
+- Add new Substrate consumed Weight types
+- Expand `SessionKeys<n>` definitions (up to 9)
+- Cleanup circular `Type` <-> `Text` definitions
+- Cleanup circular `Metadata` <-> `TypeRegistry` imports
+- Update `@polkadot/util` to 5.0.1
+
+
+## 2.10.1 Dec 7, 2020
+
+Upgrade priority: Low. Recommended when following Substrate master and/or parachains development, contains the latest types for both.
+
+- **Breaking change** If using the `staking.query` derive, you now need to pass flags as to which values to retrieve
+
+Changes:
+
+- Ensure that maximum era is limited to `consts.system.blockHashCount` (don't overflow on very low blocktimes)
+- Apply current Polkadot master parachain types
+- Apply current Substrate master asset types
+- Add `system_{addLogFilter, resetLogFilter}` RPCs
+- Adjust tests for latest Substrate metadata
+- Adjust staking derives to be more performant (flags indicate which query values to retrieve)
+- Add account derive to cater for the availability of identities
+- Use `import type` in all cases
+
+
+## 2.9.1 Nov 30, 2020
+
+Upgrade priority: Low. No major changes when on at least 2.8.2. Users encouraged to upgrade to at least that patch.
+
+- **Breaking change** The API will now not attempt to queue calls made while not connected and send on connection. Rather when making a call and the RPC node is not connected, an error will be thrown.
+
+Contributed:
+
+- Add typegen capability for custom RPCs (Thanks to https://github.com/holygits)
+
+Changes:
+
+- Remove rpc-core send queue, only allow sends while connected
+- Adjust staking derive for `electedInfo` to contain details of current validators
+- Extract identity-only derive from `accounts.info` for simpler reusability
+- Add types for Substrate master node (to allow for consistent swapping to `MultiAddress`)
+- Adjust `Bytes` with `.slice` to be consistent for `Uint8array` extensions (already released in 2.8.2 as a bugfix)
+
+
 ## 2.8.1 Nov 23, 2020
 
 Upgrade priority: Low. Recommended if using Substrate master with new `MultiAddress`.

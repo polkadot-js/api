@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
-import { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types';
+import type { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
+import type { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types';
 
 import { assert, isString, u8aToHex, u8aToU8a } from '@polkadot/util';
 

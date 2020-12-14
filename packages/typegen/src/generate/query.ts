@@ -1,19 +1,19 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { Registry } from '@polkadot/types/types';
+
 import Handlebars from 'handlebars';
 
-import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Registry } from '@polkadot/types/types';
-
-import staticData from '@polkadot/metadata/static';
 import { Metadata } from '@polkadot/metadata';
+import staticData from '@polkadot/metadata/static';
+import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { TypeImports, createImports, compareName, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, TypeImports, writeFile } from '../util';
 import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]

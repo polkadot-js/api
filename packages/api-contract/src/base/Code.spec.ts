@@ -3,12 +3,13 @@
 
 import fs from 'fs';
 import path from 'path';
+
 import { decorateMethod } from '@polkadot/api/promise';
 
 import contractFlipper from '../../test/contracts/ink/flipper.contract.json';
 import abiFlipper from '../../test/contracts/ink/flipper.json';
-import { mockApi } from './mock';
 import { Code } from './Code';
+import { mockApi } from './mock';
 
 const wasmFlipper = fs.readFileSync(path.join(__dirname, '../../test/contracts/ink/flipper.wasm'));
 

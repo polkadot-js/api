@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Callback, Codec } from '@polkadot/types/types';
-import { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
+import type { Callback, Codec } from '@polkadot/types/types';
+import type { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
 
-import { EMPTY, Observable, Subscription } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { isFunction, assert } from '@polkadot/util';
+import { assert, isFunction } from '@polkadot/util';
+import { EMPTY, Observable, Subscription } from '@polkadot/x-rxjs';
+import { catchError, tap } from '@polkadot/x-rxjs/operators';
 
 import { ApiBase } from '../base';
 import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';

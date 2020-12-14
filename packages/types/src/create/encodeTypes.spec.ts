@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDefInfo } from './types';
-
 import { encodeTypeDef } from './encodeTypes';
+import { TypeDefInfo } from './types';
 
 describe('encodeTypeDef', (): void => {
   it('correctly encodes a complex struct', (): void => {

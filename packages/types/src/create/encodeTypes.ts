@@ -1,9 +1,11 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from './types';
+import type { TypeDef } from './types';
 
 import { assert, isNumber, isUndefined } from '@polkadot/util';
+
+import { TypeDefInfo } from './types';
 
 const stringIdentity = <T extends { toString: () => string }> (value: T): string => value.toString();
 

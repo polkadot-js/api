@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import { Definitions } from '../../types';
+import type { Definitions } from '../../types';
 
 export default {
   rpc: {
@@ -115,6 +115,21 @@ export default {
       description: 'Returns the state of the syncing of the node',
       params: [],
       type: 'SyncState'
+    },
+    addLogFilter: {
+      description: 'Adds the supplied directives to the current log filter',
+      params: [
+        {
+          name: 'directives',
+          type: 'Text'
+        }
+      ],
+      type: 'Null'
+    },
+    resetLogFilter: {
+      description: 'Resets the log filter to Substrate defaults',
+      params: [],
+      type: 'Null'
     }
   },
   types: {
@@ -124,6 +139,11 @@ export default {
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
+    BlockWeights: {
+      baseBlock: 'Weight',
+      maxBlock: 'Weight',
+      perClass: 'PerDispatchClass'
+    },
     ChainProperties: {
       ss58Format: 'Option<u8>',
       tokenDecimals: 'Option<u32>',
@@ -137,6 +157,7 @@ export default {
         Custom: 'Text'
       }
     },
+    ConsumedWeight: 'PerDispatchClass',
     DigestOf: 'Digest',
     DispatchClass: {
       _enum: ['Normal', 'Operational', 'Mandatory']
@@ -268,6 +289,11 @@ export default {
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
     },
+    PerDispatchClass: {
+      normal: 'WeightPerClass',
+      operational: 'WeightPerClass',
+      mandatory: 'WeightPerClass'
+    },
     Phase: {
       _enum: {
         ApplyExtrinsic: 'u32',
@@ -302,6 +328,12 @@ export default {
         NoUnsignedValidator: 'Null',
         Custom: 'u8'
       }
+    },
+    WeightPerClass: {
+      baseExtrinsic: 'Weight',
+      maxExtrinsic: 'Weight',
+      maxTotal: 'Option<Weight>',
+      reserved: 'Option<Weight>'
     }
   }
 } as Definitions;

@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { isHex, hexToU8a, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a, compactFromU8a, compactToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, hexToU8a, isHex, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 

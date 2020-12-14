@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, Registry } from '@polkadot/types/types';
-import { MetadataInterface } from '../types';
+import type { Codec, Registry } from '@polkadot/types/types';
+import type { MetadataInterface } from '../types';
 
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
-import { getUniqTypes } from './getUniqTypes';
 import { Metadata } from '../Metadata';
+import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
 export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>): void {

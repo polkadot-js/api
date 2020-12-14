@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
-import { Address, Call } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
-import { ExtrinsicOptions } from '../types';
+import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
+import type { Address, Call } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import type { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 

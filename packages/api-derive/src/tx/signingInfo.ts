@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Header, Index } from '@polkadot/types/interfaces';
-import { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Header, Index } from '@polkadot/types/interfaces';
+import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
 import { isNumber, isUndefined } from '@polkadot/util';
+import { combineLatest, of } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-import { FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
+import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
 
 interface Result {
   header: Header | null;
@@ -62,10 +63,13 @@ export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address
     ]).pipe(
       map(([nonce, header]) => ({
         header,
-        mortalLength: MORTAL_PERIOD
-          .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
-          .iadd(MAX_FINALITY_LAG)
-          .toNumber(),
+        mortalLength: Math.min(
+          api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
+          MORTAL_PERIOD
+            .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
+            .iadd(MAX_FINALITY_LAG)
+            .toNumber()
+        ),
         nonce
       }))
     );

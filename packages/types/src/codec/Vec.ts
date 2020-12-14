@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
-import { decodeU8a, typeToConstructor } from './utils';
 import { AbstractArray } from './AbstractArray';
+import { decodeU8a, typeToConstructor } from './utils';
 
 const MAX_LENGTH = 64 * 1024;
 

@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, BalanceOf, Bid } from '@polkadot/types/interfaces';
-import { DeriveSociety } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Option, u32, Vec } from '@polkadot/types';
+import type { AccountId, BalanceOf, Bid } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveSociety } from '../types';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Option, Vec, u32 } from '@polkadot/types';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 

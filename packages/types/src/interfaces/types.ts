@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 export * from './runtime/types';
+export * from './assets/types';
 export * from './authorship/types';
 export * from './aura/types';
 export * from './babe/types';

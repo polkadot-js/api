@@ -1,18 +1,19 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
-import { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
-import { AbiConstructor, BlueprintOptions } from '../types';
-import { BlueprintDeploy, ContractGeneric, MapConstructorExec } from './types';
+import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
+import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
+import type { AbiConstructor, BlueprintOptions } from '../types';
+import type { BlueprintDeploy, ContractGeneric, MapConstructorExec } from './types';
 
 import BN from 'bn.js';
+
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
 import { Bytes } from '@polkadot/types';
-import { isUndefined, stringCamelCase, compactAddLength, u8aToU8a } from '@polkadot/util';
+import { compactAddLength, isUndefined, stringCamelCase, u8aToU8a } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 import { Abi } from '../Abi';
@@ -92,9 +93,9 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
     const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);
     const tx = withSalt
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore new style with salt included
       ? this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded, encodedSalt)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore old style with salt included
       : this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded);
 
     return tx.withResultTransform((result: ISubmittableResult) =>

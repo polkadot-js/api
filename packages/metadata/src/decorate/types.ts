@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AugmentedConst, QueryableConsts, QueryableModuleConsts } from '@polkadot/api/types/consts';
-import { Codec, ModulesWithCalls } from '@polkadot/types/types';
-import { StorageEntry } from '@polkadot/types/primitive/types';
+import type { AugmentedConst, QueryableConsts, QueryableModuleConsts } from '@polkadot/api/types/consts';
+import type { StorageEntry } from '@polkadot/types/primitive/types';
+import type { Codec, ModulesWithCalls } from '@polkadot/types/types';
 
 export interface ModuleStorage {
   [key: string]: StorageEntry;

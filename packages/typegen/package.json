@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/typegen",
-  "version": "2.8.3-5",
+  "version": "3.0.1",
   "description": "Type generation scripts",
   "main": "index.js",
   "sideEffects": false,
@@ -12,10 +12,6 @@
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.js"
   },
   "repository": "github:polkadot-js/api",
-  "keywords": [
-    "Polkadot",
-    "JsonRPC"
-  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
@@ -23,20 +19,20 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.12.8",
-    "@babel/register": "^7.12.1",
+    "@babel/core": "^7.12.10",
+    "@babel/register": "^7.12.10",
     "@babel/runtime": "^7.12.5",
-    "@polkadot/api": "2.8.3-5",
-    "@polkadot/metadata": "2.8.3-5",
-    "@polkadot/rpc-provider": "2.8.3-5",
-    "@polkadot/types": "2.8.3-5",
-    "@polkadot/util": "^4.2.1",
+    "@polkadot/api": "3.0.1",
+    "@polkadot/metadata": "3.0.1",
+    "@polkadot/rpc-provider": "3.0.1",
+    "@polkadot/types": "3.0.1",
+    "@polkadot/util": "^5.0.1",
     "handlebars": "^4.7.6",
-    "websocket": "^1.0.32",
-    "yargs": "^16.1.1"
+    "websocket": "^1.0.33",
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.1",
-    "@types/yargs": "^15.0.10"
+    "@types/yargs": "^15.0.11"
   }
 }

@@ -13,7 +13,7 @@ import type { GrandpaEquivocationProof, KeyOwnerProof } from '@polkadot/types/in
 import type { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import type { Heartbeat } from '@polkadot/types/interfaces/imOnline';
 import type { ProxyType } from '@polkadot/types/interfaces/proxy';
-import type { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, CallHashOf, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, OpaqueCall, Perbill, Percent, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, AccountIndex, Address, AssetId, Balance, BalanceOf, BlockNumber, Call, CallHashOf, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, OpaqueCall, Perbill, Percent, Weight } from '@polkadot/types/interfaces/runtime';
 import type { Period, Priority } from '@polkadot/types/interfaces/scheduler';
 import type { Keys } from '@polkadot/types/interfaces/session';
 import type { SocietyJudgement } from '@polkadot/types/interfaces/society';
@@ -26,6 +26,216 @@ import type { ApiTypes, SubmittableExtrinsic } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/submittable' {
   export interface AugmentedSubmittables<ApiType> {
+    assets: {
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Reduce the balance of `who` by as much as possible up to `amount` assets of `id`.
+       * 
+       * Origin must be Signed and the sender should be the Manager of the asset `id`.
+       * 
+       * Bails with `BalanceZero` if the `who` is already dead.
+       * 
+       * - `id`: The identifier of the asset to have some amount burned.
+       * - `who`: The account to be debited from.
+       * - `amount`: The maximum amount by which `who`'s balance should be reduced.
+       * 
+       * Emits `Burned` with the actual amount burned. If this takes the balance to below the
+       * minimum for the asset, then the amount burned is increased to take it to zero.
+       * 
+       * Weight: `O(1)`
+       * Modes: Post-existence of `who`; Pre & post Zombie-status of `who`.
+       **/
+      burn: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, amount: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Issue a new class of fungible assets from a public origin.
+       * 
+       * This new asset class has no assets initially.
+       * 
+       * The origin must be Signed and the sender must have sufficient funds free.
+       * 
+       * Funds of sender are reserved according to the formula:
+       * `AssetDepositBase + AssetDepositPerZombie * max_zombies`.
+       * 
+       * Parameters:
+       * - `id`: The identifier of the new asset. This must not be currently in use to identify
+       * an existing asset.
+       * - `owner`: The owner of this class of assets. The owner has full superuser permissions
+       * over this asset, but may later change and configure the permissions using `transfer_ownership`
+       * and `set_team`.
+       * - `max_zombies`: The total number of accounts which may hold assets in this class yet
+       * have no existential deposit.
+       * - `min_balance`: The minimum balance of this new asset that any single account must
+       * have. If an account's balance is reduced below this, then it collapses to zero.
+       * 
+       * Emits `Created` event when successful.
+       * 
+       * Weight: `O(1)`
+       **/
+      create: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, admin: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, maxZombies: u32 | AnyNumber | Uint8Array, minBalance: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Destroy a class of fungible assets owned by the sender.
+       * 
+       * The origin must be Signed and the sender must be the owner of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to be destroyed. This must identify an existing
+       * asset.
+       * 
+       * Emits `Destroyed` event when successful.
+       * 
+       * Weight: `O(z)` where `z` is the number of zombie accounts.
+       **/
+      destroy: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, zombiesWitness: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Issue a new class of fungible assets from a privileged origin.
+       * 
+       * This new asset class has no assets initially.
+       * 
+       * The origin must conform to `ForceOrigin`.
+       * 
+       * Unlike `create`, no funds are reserved.
+       * 
+       * - `id`: The identifier of the new asset. This must not be currently in use to identify
+       * an existing asset.
+       * - `owner`: The owner of this class of assets. The owner has full superuser permissions
+       * over this asset, but may later change and configure the permissions using `transfer_ownership`
+       * and `set_team`.
+       * - `max_zombies`: The total number of accounts which may hold assets in this class yet
+       * have no existential deposit.
+       * - `min_balance`: The minimum balance of this new asset that any single account must
+       * have. If an account's balance is reduced below this, then it collapses to zero.
+       * 
+       * Emits `ForceCreated` event when successful.
+       * 
+       * Weight: `O(1)`
+       **/
+      forceCreate: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, maxZombies: Compact<u32> | AnyNumber | Uint8Array, minBalance: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Destroy a class of fungible assets.
+       * 
+       * The origin must conform to `ForceOrigin`.
+       * 
+       * - `id`: The identifier of the asset to be destroyed. This must identify an existing
+       * asset.
+       * 
+       * Emits `Destroyed` event when successful.
+       * 
+       * Weight: `O(1)`
+       **/
+      forceDestroy: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, zombiesWitness: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Move some assets from one account to another.
+       * 
+       * Origin must be Signed and the sender should be the Admin of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to have some amount transferred.
+       * - `source`: The account to be debited.
+       * - `dest`: The account to be credited.
+       * - `amount`: The amount by which the `source`'s balance of assets should be reduced and
+       * `dest`'s balance increased. The amount actually transferred may be slightly greater in
+       * the case that the transfer would otherwise take the `source` balance above zero but
+       * below the minimum balance. Must be greater than zero.
+       * 
+       * Emits `Transferred` with the actual amount transferred. If this takes the source balance
+       * to below the minimum for the asset, then the amount transferred is increased to take it
+       * to zero.
+       * 
+       * Weight: `O(1)`
+       * Modes: Pre-existence of `dest`; Post-existence of `source`; Prior & post zombie-status
+       * of `source`; Account pre-existence of `dest`.
+       **/
+      forceTransfer: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, source: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, dest: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, amount: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Disallow further unprivileged transfers from an account.
+       * 
+       * Origin must be Signed and the sender should be the Freezer of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to be frozen.
+       * - `who`: The account to be frozen.
+       * 
+       * Emits `Frozen`.
+       * 
+       * Weight: `O(1)`
+       **/
+      freeze: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Mint assets of a particular class.
+       * 
+       * The origin must be Signed and the sender must be the Issuer of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to have some amount minted.
+       * - `beneficiary`: The account to be credited with the minted assets.
+       * - `amount`: The amount of the asset to be minted.
+       * 
+       * Emits `Destroyed` event when successful.
+       * 
+       * Weight: `O(1)`
+       * Modes: Pre-existing balance of `beneficiary`; Account pre-existence of `beneficiary`.
+       **/
+      mint: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, beneficiary: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, amount: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      setMaxZombies: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, maxZombies: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Change the Issuer, Admin and Freezer of an asset.
+       * 
+       * Origin must be Signed and the sender should be the Owner of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to be frozen.
+       * - `issuer`: The new Issuer of this asset.
+       * - `admin`: The new Admin of this asset.
+       * - `freezer`: The new Freezer of this asset.
+       * 
+       * Emits `TeamChanged`.
+       * 
+       * Weight: `O(1)`
+       **/
+      setTeam: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, issuer: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, admin: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, freezer: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Allow unprivileged transfers from an account again.
+       * 
+       * Origin must be Signed and the sender should be the Admin of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to be frozen.
+       * - `who`: The account to be unfrozen.
+       * 
+       * Emits `Thawed`.
+       * 
+       * Weight: `O(1)`
+       **/
+      thaw: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Move some assets from the sender account to another.
+       * 
+       * Origin must be Signed.
+       * 
+       * - `id`: The identifier of the asset to have some amount transferred.
+       * - `target`: The account to be credited.
+       * - `amount`: The amount by which the sender's balance of assets should be reduced and
+       * `target`'s balance increased. The amount actually transferred may be slightly greater in
+       * the case that the transfer would otherwise take the sender balance above zero but below
+       * the minimum balance. Must be greater than zero.
+       * 
+       * Emits `Transferred` with the actual amount transferred. If this takes the source balance
+       * to below the minimum for the asset, then the amount transferred is increased to take it
+       * to zero.
+       * 
+       * Weight: `O(1)`
+       * Modes: Pre-existence of `target`; Post-existence of sender; Prior & post zombie-status
+       * of sender; Account pre-existence of `target`.
+       **/
+      transfer: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, amount: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Change the Owner of an asset.
+       * 
+       * Origin must be Signed and the sender should be the Owner of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to be frozen.
+       * - `owner`: The new Owner of this asset.
+       * 
+       * Emits `OwnerChanged`.
+       * 
+       * Weight: `O(1)`
+       **/
+      transferOwnership: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+    };
     authorship: {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
@@ -152,18 +362,21 @@ declare module '@polkadot/api/types/submittable' {
        **/
       claimSurcharge: AugmentedSubmittable<(dest: AccountId | string | Uint8Array, auxSender: Option<AccountId> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
-       * Instantiates a new contract from the `codehash` generated by `put_code`, optionally transferring some balance.
+       * Instantiates a new contract from the `code_hash` generated by `put_code`,
+       * optionally transferring some balance.
+       * 
+       * The supplied `salt` is used for contract address deriviation. See `fn contract_address`.
        * 
        * Instantiation is executed as follows:
        * 
-       * - The destination address is computed based on the sender and hash of the code.
+       * - The destination address is computed based on the sender, code_hash and the salt.
        * - The smart-contract account is created at the computed address.
        * - The `ctor_code` is executed in the context of the newly-created account. Buffer returned
        * after the execution is saved as the `code` of the account. That code will be invoked
        * upon any call received by this account.
        * - The contract is initialized.
        **/
-      instantiate: AugmentedSubmittable<(endowment: Compact<BalanceOf> | AnyNumber | Uint8Array, gasLimit: Compact<Gas> | AnyNumber | Uint8Array, codeHash: CodeHash | string | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      instantiate: AugmentedSubmittable<(endowment: Compact<BalanceOf> | AnyNumber | Uint8Array, gasLimit: Compact<Gas> | AnyNumber | Uint8Array, codeHash: CodeHash | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Stores the given binary Wasm code into the chain's storage and returns its `codehash`.
        * You can instantiate contracts only with stored code.
@@ -3339,7 +3552,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `calls`: The calls to be dispatched from the same origin.
        * 
        * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Trait::BaseCallFilter`).
+       * bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.
@@ -3361,7 +3574,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `calls`: The calls to be dispatched from the same origin.
        * 
        * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Trait::BaseCallFilter`).
+       * bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.

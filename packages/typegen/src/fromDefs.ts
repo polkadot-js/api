@@ -3,6 +3,7 @@
 
 import path from 'path';
 import yargs from 'yargs';
+
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
 
 import { generateInterfaceTypes } from './generate/interfaceRegistry';

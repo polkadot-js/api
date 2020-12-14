@@ -1,19 +1,20 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { AccountId, ContractExecResult, EventRecord } from '@polkadot/types/interfaces';
-import { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
-import { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
-import { ContractCallResult, ContractCallSend, ContractGeneric, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import type { Bytes } from '@polkadot/types';
+import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
+import type { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
+import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
+import type { ContractCallResult, ContractCallSend, ContractGeneric, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import BN from 'bn.js';
-import { map } from 'rxjs/operators';
+
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { Bytes } from '@polkadot/types';
 import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, formatData, isOptions } from '../util';
@@ -144,7 +145,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return gasLimit.lten(0)
       ? isCall
         ? MAX_CALL_GAS
-        : this.api.consts.system.maximumBlockWeight.muln(64).divn(100)
+        : this.api.consts.system.blockWeights
+          ? this.api.consts.system.blockWeights.perClass.normal.maxExtrinsic.sub(this.api.consts.system.blockWeights.perClass.normal.baseExtrinsic)
+          : (this.api.consts.system.maximumBlockWeight as Weight).muln(64).divn(100)
       : gasLimit;
   }
 

@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SignOptions } from '@polkadot/keyring/types';
-import { ExtrinsicEra } from '../../interfaces/extrinsics';
-import { Balance, Hash, Index } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
+import type { SignOptions } from '@polkadot/keyring/types';
+import type { ExtrinsicEra } from '../../interfaces/extrinsics';
+import type { Balance, Hash, Index } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';

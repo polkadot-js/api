@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { PropIndex } from '../interfaces/democracy';
-import { Codec, CodecTo } from '../types';
+import type { PropIndex } from '../interfaces/democracy';
+import type { Codec, CodecTo } from '../types';
 
 import { Metadata } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';

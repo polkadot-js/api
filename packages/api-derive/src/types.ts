@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VouchingStatus } from '@polkadot/types/interfaces';
-
-import { u32 } from '@polkadot/types';
+import type { u32 } from '@polkadot/types';
+import type { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Bounty, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VouchingStatus } from '@polkadot/types/interfaces';
 
 export * from './accounts/types';
 export * from './chain/types';
@@ -128,3 +127,10 @@ export interface VoterPosition {
 }
 
 export type DeriveVoterPositions = Record<string, VoterPosition>;
+
+export interface DeriveBounty {
+  bounty: Bounty;
+  description: string;
+}
+
+export type DeriveBounties = DeriveBounty[];

@@ -3,9 +3,9 @@
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import substrateJson from './static-substrate.json';
-import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
+import substrateData from './static';
+import substrateJson from './static-substrate.json';
 
 describe('MetadataV10 (substrate)', (): void => {
   const registry = new TypeRegistry();
