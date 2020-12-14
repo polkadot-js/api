@@ -54,8 +54,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
     this._rx.rpc = this._decorateRpc(this._rpcCore, this._rxDecorateMethod);
-    this._queryMulti = this._decorateMulti(this._decorateMethod);
-    this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
+
+    if (this.supportMulti) {
+      this._queryMulti = this._decorateMulti(this._decorateMethod);
+      this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
+    }
+
     this._rx.signer = options.signer;
 
     this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));

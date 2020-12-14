@@ -174,6 +174,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions;
   }
 
+  /**
+   * @returns `true` if the API decorate multi-key queries
+   */
+  get supportMulti (): boolean {
+    return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
+  }
+
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
     const decoratedMeta = expandMetadata(registry || this.#registry, metadata);
 
@@ -300,10 +307,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }, input as DecoratedRpc<ApiType, RpcInterface>);
   }
 
+  // only be called if supportMulti is true
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
-      ((this.hasSubscriptions || !this._rpcCore.state.queryStorageAt)
+      (this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage
         : this._rpcCore.state.queryStorageAt)(
         calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
@@ -405,10 +413,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           this._retrieveMapKeysPaged(creator, opts)));
     }
 
-    // When using double map storage function, user need to pass double map key as an array
-    decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
-      this._retrieveMulti(args.map((arg) => [creator, arg])));
-
+    if (this.supportMulti) {
+      // When using double map storage function, user need to pass double map key as an array
+      decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
+        this._retrieveMulti(args.map((arg) => [creator, arg])));
+    }
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
     return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
