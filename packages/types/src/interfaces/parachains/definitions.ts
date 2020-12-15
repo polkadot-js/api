@@ -196,11 +196,11 @@ export default {
     },
     SubId: 'u32',
     TransientValidationData:{
-      max_code_size: 'u32',
-      max_head_data_size: 'u32',
+      maxCodeSize: 'u32',
+      maxHeadDataSize: 'u32',
       balance: 'Balance',
-      code_upgrade_allowed: 'Option<BlockNumber>',
-      dmq_length: 'u32',
+      codeUpgradeAllowed: 'Option<BlockNumber>',
+      dmqLength: 'u32',
     },
     UpwardMessage: 'Bytes',
     ValidationFunctionParams: {
