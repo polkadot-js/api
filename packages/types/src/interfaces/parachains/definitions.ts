@@ -156,11 +156,11 @@ export default {
       _enum: ['Always', 'Dynamic']
     },
     PersistedValidationData:{
-      parent_head: 'HeadData',
-      block_number: 'BlockNumber',
-      hrmp_mqc_heads: 'Vec<(u32, Hash)>',
-      dmq_mqc_head: 'Hash',
-      max_pov_size: 'u32',
+      parentHead: 'HeadData',
+      blockNumber: 'BlockNumber',
+      hrmpMqcHeads: 'Vec<(u32, Hash)>',
+      dmqMqcHead: 'Hash',
+      maxPovSize: 'u32',
     },
     RelayChainBlockNumber: 'BlockNumber',
     Remark: '[u8; 32]',
