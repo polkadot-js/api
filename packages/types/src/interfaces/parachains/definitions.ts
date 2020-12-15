@@ -158,7 +158,7 @@ export default {
     PersistedValidationData:{
       parent_head: 'HeadData',
       block_number: 'BlockNumber',
-      hrmp_mqc_heads: 'Vec<(Id, Hash)>',
+      hrmp_mqc_heads: 'Vec<(u32, Hash)>',
       dmq_mqc_head: 'Hash',
       max_pov_size: 'u32',
     },
