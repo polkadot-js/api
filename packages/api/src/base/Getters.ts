@@ -9,22 +9,13 @@ import type { ApiInterfaceRx, ApiTypes, DecoratedRpc, QueryableConsts, Queryable
 
 import { assertReturn } from '@polkadot/util';
 
+import { packageInfo } from '../detectPackage';
 import { Init } from './Init';
 
 interface PkgJson {
   name: string;
   version: string;
 }
-
-let pkgJson: PkgJson = { name: '@polkadot/api', version: '-' };
-
-import('../package.json')
-  .then((_pkgJson: unknown): void => {
-    pkgJson = _pkgJson as PkgJson;
-  })
-  .catch((): void => {
-    // ignore
-  });
 
 function assertResult<T> (value: T | undefined): T {
   return assertReturn(value, 'Api needs to be initialized before using, listen on \'ready\'');
@@ -95,7 +86,7 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
    * @description The library information name & version (from package.json)
    */
   public get libraryInfo (): string {
-    return `${pkgJson.name} v${pkgJson.version}`;
+    return `${(packageInfo as PkgJson).name} v${(packageInfo as PkgJson).version}`;
   }
 
   /**

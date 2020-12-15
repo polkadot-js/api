@@ -15,13 +15,11 @@ try {
       ['module-resolver', {
         alias: {
           '^@polkadot/api-derive(.*)': './packages/api-derive/src\\1',
-          '^@polkadot/api/package.json': './packages/api/package.json',
           '^@polkadot/api(.*)': './packages/api/src/\\1',
           '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
           '^@polkadot/rpc-core(.*)': './packages/rpc-core/src\\1',
           '^@polkadot/rpc-provider(.*)': './packages/rpc-provider/src\\1',
           '^@polkadot/types-known(.*)': './packages/types-known/src\\1',
-          '^@polkadot/types/package.json': './packages/types/package.json',
           '^@polkadot/types(.*)': './packages/types/src\\1'
         }
       }]
