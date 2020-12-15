@@ -463,7 +463,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
         .fill(0)
         .map((_, index): Observable<Codec[]> =>
-          ((this.hasSubscriptions || !this._rpcCore.state.queryStorageAt)
+          (this.hasSubscriptions
             ? this._rpcCore.state.subscribeStorage
             : this._rpcCore.state.queryStorageAt
           )(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
