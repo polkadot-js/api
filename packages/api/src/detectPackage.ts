@@ -3,6 +3,8 @@
 
 import { detectPackage } from '@polkadot/util';
 
-import packageJson from './package.json';
+import packageInfo from './package-info.json';
 
-detectPackage(packageJson, typeof __dirname !== 'undefined' && __dirname);
+detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname);
+
+export { packageInfo };
