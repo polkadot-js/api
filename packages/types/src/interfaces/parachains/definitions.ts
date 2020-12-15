@@ -155,12 +155,12 @@ export default {
     ParaScheduling: {
       _enum: ['Always', 'Dynamic']
     },
-    PersistedValidationData:{
+    PersistedValidationData: {
       parentHead: 'HeadData',
       blockNumber: 'BlockNumber',
       hrmpMqcHeads: 'Vec<(u32, Hash)>',
       dmqMqcHead: 'Hash',
-      maxPovSize: 'u32',
+      maxPovSize: 'u32'
     },
     RelayChainBlockNumber: 'BlockNumber',
     Remark: '[u8; 32]',
@@ -195,12 +195,12 @@ export default {
       }
     },
     SubId: 'u32',
-    TransientValidationData:{
+    TransientValidationData: {
       maxCodeSize: 'u32',
       maxHeadDataSize: 'u32',
       balance: 'Balance',
       codeUpgradeAllowed: 'Option<BlockNumber>',
-      dmqLength: 'u32',
+      dmqLength: 'u32'
     },
     UpwardMessage: 'Bytes',
     ValidationFunctionParams: {
@@ -209,9 +209,9 @@ export default {
       codeUpgradeAllowed: 'Option<RelayChainBlockNumber>'
     },
     ValidationCode: 'Bytes',
-    ValidationData:{
-      persisted:'PersistedValidationData',
-      transient:'TransientValidationData'
+    ValidationData: {
+      persisted: 'PersistedValidationData',
+      transient: 'TransientValidationData'
     },
     ValidatorSignature: 'Signature',
     ValidityAttestation: {
