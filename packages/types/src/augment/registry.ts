@@ -29,7 +29,7 @@ import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMu
 import type { DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMapTypeV12, DoubleMapTypeV9, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV9, MapTypeLatest, MapTypeV10, MapTypeV11, MapTypeV12, MapTypeV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV9, ModuleConstantMetadataLatest, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV9, ModuleMetadataLatest, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV9, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV9, StorageMetadataLatest, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
-import type { AbridgedCandidateReceipt, AttestedCandidate, AuctionIndex, BackedCandidate, Bidder, CandidateCommitments, CandidateDescriptor, CandidatePendingAvailablility, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, DoubleVoteReport, DownwardMessage, GlobalValidationSchedule, HeadData, HrmpChannelId, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, LocalValidationData, NewBidder, OutboundHrmpMessage, ParaId, ParaInfo, ParaPastCodeMeta, ParaScheduling, ParachainDispatchOrigin, ParachainProposal, RegisteredParachainInfo, RelayChainBlockNumber, Remark, Retriable, Scheduling, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, UpwardMessage, ValidationCode, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
+import type { AbridgedCandidateReceipt, AttestedCandidate, AuctionIndex, BackedCandidate, Bidder, CandidateCommitments, CandidateDescriptor, CandidatePendingAvailablility, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, DoubleVoteReport, DownwardMessage, GlobalValidationSchedule, HeadData, HrmpChannelId, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, LocalValidationData, NewBidder, OutboundHrmpMessage, ParaId, ParaInfo, ParaPastCodeMeta, ParaScheduling, ParachainDispatchOrigin, ParachainProposal, PersistedValidationData, RegisteredParachainInfo, RelayChainBlockNumber, Remark, Retriable, Scheduling, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { Approvals } from '@polkadot/types/interfaces/poll';
 import type { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
@@ -1472,6 +1472,9 @@ declare module '@polkadot/types/types/registry' {
     ParaScheduling: ParaScheduling;
     'Option<ParaScheduling>': Option<ParaScheduling>;
     'Vec<ParaScheduling>': Vec<ParaScheduling>;
+    PersistedValidationData: PersistedValidationData;
+    'Option<PersistedValidationData>': Option<PersistedValidationData>;
+    'Vec<PersistedValidationData>': Vec<PersistedValidationData>;
     RelayChainBlockNumber: RelayChainBlockNumber;
     'Compact<RelayChainBlockNumber>': Compact<RelayChainBlockNumber>;
     'Option<RelayChainBlockNumber>': Option<RelayChainBlockNumber>;
@@ -1504,6 +1507,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<SubId>': Compact<SubId>;
     'Option<SubId>': Option<SubId>;
     'Vec<SubId>': Vec<SubId>;
+    TransientValidationData: TransientValidationData;
+    'Option<TransientValidationData>': Option<TransientValidationData>;
+    'Vec<TransientValidationData>': Vec<TransientValidationData>;
     UpwardMessage: UpwardMessage;
     'Option<UpwardMessage>': Option<UpwardMessage>;
     'Vec<UpwardMessage>': Vec<UpwardMessage>;
@@ -1513,6 +1519,9 @@ declare module '@polkadot/types/types/registry' {
     ValidationCode: ValidationCode;
     'Option<ValidationCode>': Option<ValidationCode>;
     'Vec<ValidationCode>': Vec<ValidationCode>;
+    ValidationData: ValidationData;
+    'Option<ValidationData>': Option<ValidationData>;
+    'Vec<ValidationData>': Vec<ValidationData>;
     ValidatorSignature: ValidatorSignature;
     'Option<ValidatorSignature>': Option<ValidatorSignature>;
     'Vec<ValidatorSignature>': Vec<ValidatorSignature>;
