@@ -484,7 +484,7 @@ export class RpcCore implements RpcInterface {
             ? hexToU8a(meta.fallback.toHex())
             : undefined
           : input
-      ], { isPedantic: true, withoutLog: false });
+      ], { isPedantic: true });
     } catch (error) {
       l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}`, (error as Error).message);
 
