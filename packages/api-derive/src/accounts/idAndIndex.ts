@@ -7,10 +7,10 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import type { AccountIdAndIndex } from '../types';
 
 import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
 
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -25,17 +25,17 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
       const accountId = api.registry.createType('AccountId', decoded);
 
       return api.derive.accounts.idToIndex(accountId).pipe(
-        map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
+        rxop.map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
       );
     }
 
     const accountIndex = api.registry.createType('AccountIndex', decoded);
 
     return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
-      map((accountId): AccountIdAndIndex => [accountId, accountIndex])
+      rxop.map((accountId): AccountIdAndIndex => [accountId, accountIndex])
     );
   } catch (error) {
-    return of([undefined, undefined]);
+    return rxjs.of([undefined, undefined]);
   }
 }
 

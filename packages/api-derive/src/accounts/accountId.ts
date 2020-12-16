@@ -6,10 +6,10 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
 
 import { assertReturn, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -19,13 +19,13 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
     : decodeAddress((address || '').toString());
 
   if (decoded.length > 8) {
-    return of(api.registry.createType('AccountId', decoded));
+    return rxjs.of(api.registry.createType('AccountId', decoded));
   }
 
   const accountIndex = api.registry.createType('AccountIndex', decoded);
 
   return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
-    map((accountId) => assertReturn(accountId, 'Unable to retrieve accountId'))
+    rxop.map((accountId) => assertReturn(accountId, 'Unable to retrieve accountId'))
   );
 }
 

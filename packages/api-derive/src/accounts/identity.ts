@@ -9,9 +9,9 @@ import type { ITuple } from '@polkadot/types/types';
 import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
 
 import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
 
 import { isHex, u8aToString } from '@polkadot/util';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -65,19 +65,19 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
 function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> {
   if (identityOfOpt?.isSome) {
     // this identity has something set
-    return of([identityOfOpt, undefined]);
+    return rxjs.of([identityOfOpt, undefined]);
   } else if (superOfOpt?.isSome) {
     const superOf = superOfOpt.unwrap();
 
     // we have a super
-    return combineLatest([
+    return rxjs.combineLatest([
       api.query.identity.identityOf<Option<Registration>>(superOf[0]),
-      of(superOf)
+      rxjs.of(superOf)
     ]);
   }
 
   // nothing of value returned
-  return of([undefined, undefined]);
+  return rxjs.of([undefined, undefined]);
 }
 
 function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | string): Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
@@ -86,7 +86,7 @@ function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | stri
       [api.query.identity.identityOf, accountId],
       [api.query.identity.superOf, accountId]
     ])
-    : of([undefined, undefined]);
+    : rxjs.of([undefined, undefined]);
 }
 
 /**
@@ -96,8 +96,8 @@ function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | stri
 export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
   return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> =>
     getBase(api, accountId).pipe(
-      switchMap(([identityOfOpt, superOfOpt]) => getParent(api, identityOfOpt, superOfOpt)),
-      map(([identityOfOpt, superOf]) => extractIdentity(identityOfOpt, superOf))
+      rxop.switchMap(([identityOfOpt, superOfOpt]) => getParent(api, identityOfOpt, superOfOpt)),
+      rxop.map(([identityOfOpt, superOf]) => extractIdentity(identityOfOpt, superOf))
     )
   );
 }
@@ -105,7 +105,7 @@ export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?:
 export function hasIdentity (instanceId: string, api: ApiInterfaceRx): (accountId: AccountId | Uint8Array | string) => Observable<DeriveHasIdentity> {
   return memo(instanceId, (accountId: AccountId | Uint8Array | string): Observable<DeriveHasIdentity> =>
     api.derive.accounts.hasIdentityMulti([accountId]).pipe(
-      map(([first]) => first)
+      rxop.map(([first]) => first)
     )
   );
 }
@@ -113,11 +113,11 @@ export function hasIdentity (instanceId: string, api: ApiInterfaceRx): (accountI
 export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {
   return memo(instanceId, (accountIds: (AccountId | Uint8Array | string)[]): Observable<DeriveHasIdentity[]> =>
     api.query.identity?.identityOf
-      ? combineLatest([
+      ? rxjs.combineLatest([
         api.query.identity.identityOf.multi<Option<Registration>>(accountIds),
         api.query.identity.superOf.multi<Option<ITuple<[AccountId, Data]>>>(accountIds)
       ]).pipe(
-        map(([identities, supers]) =>
+        rxop.map(([identities, supers]) =>
           identities.map((identityOfOpt, index): DeriveHasIdentity => {
             const superOfOpt = supers[index];
             const parentId = superOfOpt && superOfOpt.isSome
@@ -137,6 +137,6 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
           })
         )
       )
-      : of(accountIds.map(() => ({ hasIdentity: false })))
+      : rxjs.of(accountIds.map(() => ({ hasIdentity: false })))
   );
 }

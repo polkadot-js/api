@@ -9,8 +9,7 @@ import type { ITuple } from '@polkadot/types/types';
 import type { DeriveAccountFlags } from '../types';
 
 import rxjs from 'rxjs';
-
-import { map } from '@polkadot/x-rxjs/operators';
+import rxop from 'rxjs/operators';
 
 import { memo } from '../util';
 
@@ -44,24 +43,24 @@ export function flags (instanceId: string, api: ApiInterfaceRx): (address?: Acco
   return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
     const councilSection = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
-    return combineLatest<FlagsIntermediate>([
+    return rxjs.combineLatest<FlagsIntermediate>([
       address && api.query[councilSection]?.members
         ? api.query[councilSection].members()
-        : of(undefined),
+        : rxjs.of(undefined),
       address && api.query.council?.members
         ? api.query.council.members()
-        : of([]),
+        : rxjs.of([]),
       address && api.query.technicalCommittee?.members
         ? api.query.technicalCommittee.members()
-        : of([]),
+        : rxjs.of([]),
       address && api.query.society?.members
         ? api.query.society.members()
-        : of([]),
+        : rxjs.of([]),
       address && api.query.sudo?.key
         ? api.query.sudo.key()
-        : of(undefined)
+        : rxjs.of(undefined)
     ]).pipe(
-      map((result) => parseFlags(address, result))
+      rxop.map((result) => parseFlags(address, result))
     );
   });
 }
