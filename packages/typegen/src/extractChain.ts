@@ -7,7 +7,7 @@
 import process from 'process';
 import yargs from 'yargs';
 
-import { ApiPromise, WsProvider } from '@polkadot/api/index';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 
 /** @internal */
 async function run (ws: string): Promise<void> {

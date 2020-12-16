@@ -209,6 +209,15 @@ export interface ParaScheduling extends Enum {
   readonly isDynamic: boolean;
 }
 
+/** @name PersistedValidationData */
+export interface PersistedValidationData extends Struct {
+  readonly parentHead: HeadData;
+  readonly blockNumber: BlockNumber;
+  readonly hrmpMqcHeads: Vec<ITuple<[u32, Hash]>>;
+  readonly dmqMqcHead: Hash;
+  readonly maxPovSize: u32;
+}
+
 /** @name RegisteredParachainInfo */
 export interface RegisteredParachainInfo extends Struct {
   readonly validators: Vec<ValidatorId>;
@@ -278,11 +287,26 @@ export interface Statement extends Enum {
 /** @name SubId */
 export interface SubId extends u32 {}
 
+/** @name TransientValidationData */
+export interface TransientValidationData extends Struct {
+  readonly maxCodeSize: u32;
+  readonly maxHeadDataSize: u32;
+  readonly balance: Balance;
+  readonly codeUpgradeAllowed: Option<BlockNumber>;
+  readonly dmqLength: u32;
+}
+
 /** @name UpwardMessage */
 export interface UpwardMessage extends Bytes {}
 
 /** @name ValidationCode */
 export interface ValidationCode extends Bytes {}
+
+/** @name ValidationData */
+export interface ValidationData extends Struct {
+  readonly persisted: PersistedValidationData;
+  readonly transient: TransientValidationData;
+}
 
 /** @name ValidationFunctionParams */
 export interface ValidationFunctionParams extends Struct {
