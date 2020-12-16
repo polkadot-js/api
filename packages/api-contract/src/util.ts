@@ -17,7 +17,7 @@ type ContractEvents = 'CodeStored' | 'ContractExecution' | 'Instantiated';
 type TOptions = BlueprintOptions | ContractOptions;
 
 export function formatData (registry: Registry, data: Raw, { type }: TypeDef): Codec {
-  return createTypeUnsafe(registry, type, [data], { isPedantic: true, withoutLog: false });
+  return createTypeUnsafe(registry, type, [data], { isPedantic: true });
 }
 
 export function applyOnEvent <T> (result: SubmittableResult, type: ContractEvents, fn: (records: EventRecord[]) => T): T | undefined {
