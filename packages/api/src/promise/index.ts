@@ -1,12 +1,14 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable, Subscription } from 'rxjs';
 import type { Callback, Codec } from '@polkadot/types/types';
 import type { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
 
+import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
+
 import { assert, isFunction } from '@polkadot/util';
-import { EMPTY, Observable, Subscription } from '@polkadot/x-rxjs';
-import { catchError, tap } from '@polkadot/x-rxjs/operators';
 
 import { ApiBase } from '../base';
 import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';
@@ -45,7 +47,7 @@ function promiseTracker<T> (resolve: (value: T) => void, reject: (value: Error) 
         reject(error);
       }
 
-      return EMPTY;
+      return rxjs.EMPTY;
     },
     resolve: (value: T): void => {
       if (!isCompleted) {
@@ -65,7 +67,7 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
 
     // encoding errors reject immediately, any result unsubscribes and resolves
     const subscription: Subscription = method(...actualArgs).pipe(
-      catchError((error) => tracker.reject(error))
+      rxop.catchError((error) => tracker.reject(error))
     ).subscribe((result): void => {
       tracker.resolve(result);
       setTimeout(() => subscription.unsubscribe(), 0);
@@ -81,8 +83,8 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
 
     // errors reject immediately, the first result resolves with an unsubscribe promise, all results via callback
     const subscription: Subscription = method(...actualArgs).pipe(
-      catchError((error) => tracker.reject(error)),
-      tap(() => tracker.resolve(() => subscription.unsubscribe()))
+      rxop.catchError((error) => tracker.reject(error)),
+      rxop.tap(() => tracker.resolve(() => subscription.unsubscribe()))
     ).subscribe((result): void => {
       // queue result (back of queue to clear current)
       setTimeout(() => resultCb(result) as void, 0);

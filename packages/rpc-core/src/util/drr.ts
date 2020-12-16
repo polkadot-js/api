@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Observable } from 'rxjs';
+
+import rxop from 'rxjs/operators';
 
 import { logger } from '@polkadot/util';
-import { catchError, distinctUntilChanged, publishReplay, refCount, tap } from '@polkadot/x-rxjs/operators';
 
 import { refCountDelay } from './refCountDelay';
 
@@ -37,12 +38,12 @@ const NOOP = (): void => undefined;
  */
 export const drr = ({ delay, skipChange = false, skipTimeout = false }: Options = {}): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
   source$.pipe(
-    catchError(ERR),
+    rxop.catchError(ERR),
     skipChange
-      ? tap(NOOP)
-      : distinctUntilChanged<T>(CMP),
-    publishReplay(1),
+      ? rxop.tap(NOOP)
+      : rxop.distinctUntilChanged<T>(CMP),
+    rxop.publishReplay(1),
     skipTimeout
-      ? refCount()
+      ? rxop.refCount()
       : refCountDelay(delay)
   );

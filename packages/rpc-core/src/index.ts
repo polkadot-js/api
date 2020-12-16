@@ -1,20 +1,21 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observer } from 'rxjs';
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
-import type { Observer } from '@polkadot/x-rxjs';
 import type { RpcInterface, RpcInterfaceMethod } from './types';
+
+import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
 
 import { Option } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToU8a } from '@polkadot/util';
-import { Observable } from '@polkadot/x-rxjs';
-import { publishReplay, refCount } from '@polkadot/x-rxjs/operators';
 
 import { drr, refCountDelay } from './util';
 
@@ -215,7 +216,7 @@ export class RpcCore implements RpcInterface {
       }, {} as RpcInterface[Section]);
   }
 
-  private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>): Memoized<RpcInterfaceMethod> {
+  private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => rxjs.Observable<any>): Memoized<RpcInterfaceMethod> {
     const memoized = memoize(creator('scale') as RpcInterfaceMethod, {
       getInstanceId: () => this.#instanceId
     });
@@ -248,10 +249,10 @@ export class RpcCore implements RpcInterface {
         : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', data);
     };
 
-    const creator = (outputAs: OutputType) => (...values: any[]): Observable<any> => {
+    const creator = (outputAs: OutputType) => (...values: any[]): rxjs.Observable<any> => {
       const isDelayed = (hashIndex !== -1 && !!values[hashIndex]) || (cacheIndex !== -1 && !!values[cacheIndex]);
 
-      return new Observable((observer: Observer<any>): VoidCallback => {
+      return new rxjs.Observable((observer: Observer<any>): VoidCallback => {
         callWithRegistry(outputAs, values)
           .then((value): void => {
             observer.next(value);
@@ -269,10 +270,10 @@ export class RpcCore implements RpcInterface {
           memoized?.unmemoize(...values);
         };
       }).pipe(
-        publishReplay(1), // create a Replay(1)
+        rxop.publishReplay(1), // create a Replay(1)
         isDelayed
           ? refCountDelay() // Unsubscribe after delay
-          : refCount()
+          : rxop.refCount()
       );
     };
 
@@ -301,8 +302,8 @@ export class RpcCore implements RpcInterface {
     const subType = `${section}_${updateType}`;
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
-    const creator = (outputAs: OutputType) => (...values: unknown[]): Observable<any> => {
-      return new Observable((observer: Observer<any>): VoidCallback => {
+    const creator = (outputAs: OutputType) => (...values: unknown[]): rxjs.Observable<any> => {
+      return new rxjs.Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
         const registry = this.#registryDefault;

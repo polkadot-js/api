@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex, BalanceOf } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
+
+import rxjs from 'rxjs';
 
 import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
 import { isFunction } from '@polkadot/util';
-import { of } from '@polkadot/x-rxjs';
 import { map, startWith } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';

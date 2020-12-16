@@ -6,10 +6,10 @@ import type { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interf
 import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import BN from 'bn.js';
+import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
 
 import { BN_ZERO } from '@polkadot/util';
-import { combineLatest, Observable } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -65,15 +65,15 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, keys:
 /**
  * @description From a list of stashes, fill in all the relevant staking details
  */
-export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
-  return memo(instanceId, (accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
+export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => rxjs.Observable<DeriveStakingAccount[]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[]): rxjs.Observable<DeriveStakingAccount[]> =>
     api.derive.session.info().pipe(
-      switchMap((sessionInfo) =>
-        combineLatest([
+      rxop.switchMap((sessionInfo) =>
+        rxjs.combineLatest([
           api.derive.staking.keysMulti(accountIds),
           api.derive.staking.queryMulti(accountIds, QUERY_OPTS)
         ]).pipe(
-          map(([keys, queries]) => queries.map((query, index) => parseResult(api, sessionInfo, keys[index], query)))
+          rxop.map(([keys, queries]) => queries.map((query, index) => parseResult(api, sessionInfo, keys[index], query)))
         )
       )
     )
@@ -83,10 +83,10 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export function account (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
-  return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
+export function account (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => rxjs.Observable<DeriveStakingAccount> {
+  return memo(instanceId, (accountId: Uint8Array | string): rxjs.Observable<DeriveStakingAccount> =>
     api.derive.staking.accounts([accountId]).pipe(
-      map(([first]) => first)
+      rxop.map(([first]) => first)
     )
   );
 }

@@ -11,6 +11,8 @@ import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
+import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
 
 import { decorateDerive, DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
@@ -21,8 +23,6 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
-import { BehaviorSubject, combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { map, switchMap, take, tap, toArray } from '@polkadot/x-rxjs/operators';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -63,7 +63,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _genesisHash?: Hash;
 
-  protected _isConnected: BehaviorSubject<boolean>;
+  protected _isConnected: rxjs.BehaviorSubject<boolean>;
 
   protected _isReady = false;
 
@@ -94,17 +94,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   /**
    * This is the one and only method concrete children classes need to implement.
    * It's a higher-order function, which takes one argument
-   * `method: Method extends (...args: any[]) => Observable<any>`
+   * `method: Method extends (...args: any[]) => rxjs.Observable<any>`
    * (and one optional `options`), and should return the user facing method.
    * For example:
    * - For ApiRx, `decorateMethod` should just be identity, because the input
-   * function is already an Observable
+   * function is already an rxjs.Observable
    * - For ApiPromise, `decorateMethod` should return a function that takes all
    * the parameters from `method`, adds an optional `callback` argument, and
    * returns a Promise.
    *
    * We could easily imagine other user-facing interfaces, which are simply
-   * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
+   * implemented by transforming the rxjs.Observable to Stream/Iterator/Kefir/Bacon
    * via `decorateMethod`.
    */
   protected _decorateMethod: DecorateMethod<ApiType>;
@@ -141,7 +141,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._options = options;
     this._type = type;
     this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc);
-    this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
+    this._isConnected = new rxjs.BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
     this._rx.registry = this.#registry;
   }
@@ -310,7 +310,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // only be called if supportMulti is true
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
+    return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): rxjs.Observable<Codec[]> =>
       (this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage
         : this._rpcCore.state.queryStorageAt)(
@@ -365,10 +365,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
+    decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): rxjs.Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
+    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): rxjs.Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
 
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
@@ -377,45 +377,45 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.keyPrefix = (key1?: Arg): string =>
       u8aToHex(creator.keyPrefix(key1));
 
-    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
+    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): rxjs.Observable<[Hash, Codec][]> =>
       this._decorateStorageRange(decorated, [arg1, arg2], range));
 
-    decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
+    decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): rxjs.Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
 
-    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, arg1?: Arg, arg2?: Arg): Observable<u64> =>
+    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, arg1?: Arg, arg2?: Arg): rxjs.Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2), hash));
 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
-        memo(this.#instanceId, (doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (doubleMapArg?: Arg): rxjs.Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, null, doubleMapArg)));
 
       decorated.entriesAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): rxjs.Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, hash, doubleMapArg)));
 
       decorated.entriesPaged = decorateMethod(
-        memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (opts: PaginationOptions): rxjs.Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntriesPaged(creator, opts)));
 
       decorated.keys = decorateMethod(
-        memo(this.#instanceId, (doubleMapArg?: Arg): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (doubleMapArg?: Arg): rxjs.Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, null, doubleMapArg)));
 
       decorated.keysAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): rxjs.Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, hash, doubleMapArg)));
 
       decorated.keysPaged = decorateMethod(
-        memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (opts: PaginationOptions): rxjs.Observable<StorageKey[]> =>
           this._retrieveMapKeysPaged(creator, opts)));
     }
 
     if (this.supportMulti) {
       // When using double map storage function, user need to pass double map key as an array
-      decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
+      decorated.multi = decorateMethod((args: (Arg | Arg[])[]): rxjs.Observable<Codec[]> =>
         this._retrieveMulti(args.map((arg) => [creator, arg])));
     }
 
@@ -428,10 +428,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // we make a subscription, alternatively we push this through a single-shot query
   private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((...args: unknown[]): Observable<Codec> => {
+    return decorateMethod((...args: unknown[]): rxjs.Observable<Codec> => {
       return this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(creator, args)]).pipe(
-          map(([data]) => data) // extract first/only result from list
+          rxop.map(([data]) => data) // extract first/only result from list
         )
         : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));
     }, {
@@ -440,12 +440,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     });
   }
 
-  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
+  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): rxjs.Observable<[Hash, Codec][]> {
     const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
-      .pipe(map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
+      .pipe(rxop.map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
         result.map(([blockHash, [value]]): [Hash, Codec] => [
           blockHash,
           this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined)
@@ -454,82 +454,82 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE_VALS sizes
-  private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<Codec[]> {
+  private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): rxjs.Observable<Codec[]> {
     if (!keys.length) {
-      return of([]);
+      return rxjs.of([]);
     }
 
-    return combineLatest(
+    return rxjs.combineLatest(
       ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
         .fill(0)
-        .map((_, index): Observable<Codec[]> =>
+        .map((_, index): rxjs.Observable<Codec[]> =>
           (this.hasSubscriptions
             ? this._rpcCore.state.subscribeStorage
             : this._rpcCore.state.queryStorageAt
           )(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
         )
     ).pipe(
-      map((valsArr): Codec[] =>
+      rxop.map((valsArr): Codec[] =>
         valsArr.reduce((result: Codec[], vals) => result.concat(vals), [])
       )
     );
   }
 
-  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<StorageKey[]> {
+  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): rxjs.Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(arg).toHex();
-    const startSubject = new BehaviorSubject<string>(headKey);
+    const startSubject = new rxjs.BehaviorSubject<string>(headKey);
     const query = at
       ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey, at)
       : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey);
 
     return startSubject.pipe(
-      switchMap((startKey) =>
+      rxop.switchMap((startKey) =>
         query(startKey).pipe(
-          map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
+          rxop.map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
         )
       ),
-      tap((keys): void => {
+      rxop.tap((keys): void => {
         keys.length === PAGE_SIZE_KEYS
           ? startSubject.next(keys[PAGE_SIZE_KEYS - 1].toHex())
           : startSubject.complete();
       }),
-      toArray(), // toArray since we want to startSubject to be completed
-      map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
+      rxop.toArray(), // toArray since we want to startSubject to be completed
+      rxop.map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
     );
   }
 
-  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
+  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): rxjs.Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(opts.arg).toHex();
 
     return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
-      map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
+      rxop.map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
     );
   }
 
-  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<[StorageKey, Codec][]> {
+  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): rxjs.Observable<[StorageKey, Codec][]> {
     const query = this._rpcCore.state.queryStorageAt
       ? at
         ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
         : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset)
       // this is horrible, but need older support (which now doesn't work with at)
-      : (keyset: StorageKey[]) => this._rpcCore.state.subscribeStorage(keyset).pipe(take(1));
+      : (keyset: StorageKey[]) => this._rpcCore.state.subscribeStorage(keyset).pipe(rxop.take(1));
 
     return this._retrieveMapKeys(entry, at, arg).pipe(
-      switchMap((keys) =>
-        combineLatest<[StorageKey[], ...Codec[][]]>([
-          of(keys),
+      rxop.switchMap((keys) =>
+        rxjs.combineLatest<[StorageKey[], ...Codec[][]]>([
+          rxjs.of(keys),
           ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
             .fill(0)
-            .map((_, index): Observable<Codec[]> =>
+            .map((_, index): rxjs.Observable<Codec[]> =>
               query(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
             )
         ])
       ),
-      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
+      rxop.map(([keys, ...valsArr]): [StorageKey, Codec][] =>
         valsArr
           .reduce((result: Codec[], vals) => result.concat(vals), [])
           .map((value, index) => [keys[index], value])
@@ -537,15 +537,15 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
+  private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): rxjs.Observable<[StorageKey, Codec][]> {
     return this._retrieveMapKeysPaged(entry, opts).pipe(
-      switchMap((keys) =>
-        combineLatest<[StorageKey[], ...Codec[][]]>([
-          of(keys),
+      rxop.switchMap((keys) =>
+        rxjs.combineLatest<[StorageKey[], ...Codec[][]]>([
+          rxjs.of(keys),
           this._rpcCore.state.queryStorageAt<Codec[]>(keys)
         ])
       ),
-      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
+      rxop.map(([keys, ...valsArr]): [StorageKey, Codec][] =>
         valsArr
           .reduce((result: Codec[], vals) => result.concat(vals), [])
           .map((value, index) => [keys[index], value])

@@ -6,8 +6,9 @@ import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 
+import rxjs from 'rxjs';
+
 import { bounties } from '@polkadot/api-derive/treasury/bounties';
-import { of } from '@polkadot/x-rxjs';
 
 import { BountyFactory } from '../../test/bountyFactory';
 import { BytesFactory } from '../../test/bytesFactory';

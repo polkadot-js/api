@@ -17,7 +17,7 @@
     "@polkadot/rpc-provider": "3.0.2-2",
     "@polkadot/types": "3.0.2-2",
     "@polkadot/util": "^5.0.1",
-    "@polkadot/x-rxjs": "3.0.2-2"
+    "rxjs": "^6.6.3"
   },
   "devDependencies": {
     "@polkadot/keyring": "^5.0.1"

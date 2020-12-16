@@ -3,15 +3,16 @@
 
 /* eslint-disable no-dupe-class-members */
 
+import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Callback, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
 import type { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
+import rxjs from 'rxjs';
+import rxop from 'rxjs/operators';
+
 import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
-import { of } from '@polkadot/x-rxjs';
-import { first, map, mapTo, mergeMap, switchMap, tap } from '@polkadot/x-rxjs/operators';
 
 import { ApiBase } from '../base';
 import { filterEvents, isKeyringPair } from '../util';
@@ -53,7 +54,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<ApplyExtrinsicResult> =>
           this.#observeSign(account, optionsOrHash).pipe(
-            switchMap(() => api.rpc.system.dryRun(this.toHex()))
+            rxop.switchMap(() => api.rpc.system.dryRun(this.toHex()))
           )
       )();
     }
@@ -74,8 +75,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
           api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
-            first(),
-            switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
+            rxop.first(),
+            rxop.switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
               // setup our options (same way as in signAndSend)
               const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
               const signOptions = this.#makeSignOptions(eraOptions, {});
@@ -123,7 +124,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
-          this.#observeSign(account, optionsOrNonce).pipe(mapTo(this))
+          this.#observeSign(account, optionsOrNonce).pipe(rxop.mapTo(this))
       )();
     }
 
@@ -143,14 +144,13 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
-        (): Observable<Codec> => (
-          this.#observeSign(account, options).pipe(
-            switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
-              isSubscription
-                ? this.#observeSubscribe(updateId)
-                : this.#observeSend(updateId)
-            )
-          ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
+        () => this.#observeSign(account, options).pipe(
+          rxop.switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
+            isSubscription
+              ? this.#observeSubscribe(updateId)
+              : this.#observeSend(updateId)
+          )
+        )
       )(statusCb);
     }
 
@@ -213,8 +213,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       let updateId: number | undefined;
 
       return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
-        first(),
-        mergeMap(async (signingInfo): Promise<void> => {
+        rxop.first(),
+        rxop.mergeMap(async (signingInfo): Promise<void> => {
           const eraOptions = this.#makeEraOptions(options, signingInfo);
 
           if (isKeyringPair(account)) {
@@ -223,13 +223,13 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
           }
         }),
-        mapTo(updateId)
+        rxop.mapTo(updateId)
       );
     }
 
     #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
-        return of(this.#transformResult(new SubmittableResult({ status })));
+        return rxjs.of(this.#transformResult(new SubmittableResult({ status })));
       }
 
       const blockHash = status.isInBlock
@@ -237,7 +237,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
         : status.asFinalized;
 
       return api.derive.tx.events(blockHash).pipe(
-        map(({ block, events }): ISubmittableResult =>
+        rxop.map(({ block, events }): ISubmittableResult =>
           this.#transformResult(new SubmittableResult({
             events: filterEvents(hash, block, events, status),
             status
@@ -248,7 +248,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
     #observeSend = (updateId = -1): Observable<Hash> => {
       return api.rpc.author.submitExtrinsic(this).pipe(
-        tap((hash): void => {
+        rxop.tap((hash): void => {
           this.#updateSigner(updateId, hash);
         })
       );
@@ -258,10 +258,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       const hash = this.hash;
 
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
-        switchMap((status): Observable<ISubmittableResult> =>
+        rxop.switchMap((status): Observable<ISubmittableResult> =>
           this.#observeStatus(hash, status)
         ),
-        tap((status): void => {
+        rxop.tap((status): void => {
           this.#updateSigner(updateId, status);
         })
       );

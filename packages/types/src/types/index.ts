@@ -13,4 +13,4 @@ export * from './helpers';
 export * from './interfaces';
 export * from './registry';
 
-export type { Observable } from '@polkadot/x-rxjs';
+export type { Observable } from 'rxjs';

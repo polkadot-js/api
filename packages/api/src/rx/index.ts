@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { Codec } from '@polkadot/types/types';
 import type { ApiOptions, DecorateFn } from '../types';
 
-import { from, Observable } from '@polkadot/x-rxjs';
+import rxjs from 'rxjs';
 
 import { ApiBase } from '../base';
 
@@ -48,7 +49,7 @@ export function decorateMethod <Method extends DecorateFn<Codec>> (method: Metho
  * <BR>
  *
  * ```javascript
- * import { combineLatest } from '@polkadot/x-rxjs';
+ * import rxjs from 'rxjs';
  * import { pairwise, switchMap } from '@polkadot/x-rxjs/operators';
  * import { ApiRx, WsProvider } from '@polkadot/api';
  *
@@ -162,7 +163,7 @@ export class ApiRx extends ApiBase<'rxjs'> {
   constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
-    this.#isReadyRx = from<Promise<ApiRx>>(
+    this.#isReadyRx = rxjs.from<Promise<ApiRx>>(
       // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
         super.on('ready', (): void => {

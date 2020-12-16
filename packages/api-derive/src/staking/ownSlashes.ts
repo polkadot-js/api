@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveStakerSlashes } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
+import rxjs from 'rxjs';
+
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { deriveCache, memo } from '../util';
@@ -23,7 +24,7 @@ export function _ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId:
       : deriveCache.get<DeriveStakerSlashes>(cacheKey);
 
     return cached
-      ? of(cached)
+      ? rxjs.of(cached)
       : api.queryMulti<[Option<BalanceOf>, Option<ITuple<[Perbill, BalanceOf]>>]>([
         [api.query.staking.nominatorSlashInEra, [era, accountId]],
         [api.query.staking.validatorSlashInEra, [era, accountId]]
@@ -53,7 +54,7 @@ export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: 
 export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerSlashes[]> =>
     eras.length
-      ? combineLatest(
+      ? rxjs.combineLatest(
         eras.map((era) => api.derive.staking._ownSlash(accountId, era, withActive))
       )
       : of([])
