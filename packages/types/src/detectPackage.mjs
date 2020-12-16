@@ -5,4 +5,6 @@ import { detectPackage } from '@polkadot/util';
 
 import packageInfo from './package-info.json';
 
-detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname);
+detectPackage(packageInfo, import.meta.url);
+
+export { packageInfo };
