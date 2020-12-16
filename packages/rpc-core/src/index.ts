@@ -421,7 +421,7 @@ export class RpcCore implements RpcInterface {
 
       if (!isEmpty) {
         try {
-          inner = createTypeUnsafe(registry, type, [input], true);
+          inner = createTypeUnsafe(registry, type, [input], { isPedantic: true, withoutLog: false });
         } catch (error) {
           l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
         }
@@ -437,7 +437,7 @@ export class RpcCore implements RpcInterface {
             ? hexToU8a(meta.fallback.toHex())
             : undefined
           : input
-      ], true);
+      ], { isPedantic: true, withoutLog: false });
     } catch (error) {
       l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:`, (error as Error).message);
 
@@ -489,7 +489,7 @@ export class RpcCore implements RpcInterface {
 
       if (!isEmpty) {
         try {
-          inner = createTypeUnsafe(registry, type, [input], true);
+          inner = createTypeUnsafe(registry, type, [input], { isPedantic: true, withoutLog: false });
         } catch (error) {
           l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
         }
@@ -505,7 +505,7 @@ export class RpcCore implements RpcInterface {
             ? hexToU8a(meta.fallback.toHex())
             : undefined
           : input
-      ], true);
+      ], { isPedantic: true, withoutLog: false });
     } catch (error) {
       l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}: entry ${entryIndex}:`, (error as Error).message);
 
