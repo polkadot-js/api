@@ -1736,9 +1736,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.61.5":
-  version: 0.61.5
-  resolution: "@polkadot/dev@npm:0.61.5"
+"@polkadot/dev@npm:^0.61.7":
+  version: 0.61.7
+  resolution: "@polkadot/dev@npm:0.61.7"
   dependencies:
     "@babel/cli": ^7.12.10
     "@babel/core": ^7.12.10
@@ -1825,7 +1825,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.cjs
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: f58b0190986d600ddbd46ce854eca164ee7bc71ec4c09614b01ce96ca8256a63871b6344f3d0819d778a15de6b787c730ded12a863c3172f74decc65adaa1f4d
+  checksum: 7be9f1bf2049f1ad6994667294a40eafbd707afea07e4e63dc6eca9e18542d874a7de696580a6ca0dc716143376a63ee7a156e0074b2e500833c08b96ab7d770
   languageName: node
   linkType: hard
 
@@ -1921,7 +1921,7 @@ __metadata:
     "@polkadot/types": 3.0.2-4
     "@polkadot/util": ^5.0.1
     "@types/websocket": ^1.0.1
-    "@types/yargs": ^15.0.11
+    "@types/yargs": ^15.0.12
     handlebars: ^4.7.6
     websocket: ^1.0.33
     yargs: ^16.2.0
@@ -2346,12 +2346,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^15.0.0, @types/yargs@npm:^15.0.11":
-  version: 15.0.11
-  resolution: "@types/yargs@npm:15.0.11"
+"@types/yargs@npm:^15.0.0, @types/yargs@npm:^15.0.12":
+  version: 15.0.12
+  resolution: "@types/yargs@npm:15.0.12"
   dependencies:
     "@types/yargs-parser": "*"
-  checksum: e26daf9b3a85085d2f2571dd6e23968c8ad7fee87bf0c0c979594b7d5a52ff3353cdf5389d40c61c5f21f271dca93123a4e260c6887c3c48355457c9413942b8
+  checksum: b67cf9e8f25865a6d6e72196fe7f47c6f328d2b7a54ed9fa0e60f9693abb332fec1a826f90310804f231bca28a2f71367956b3be2fdba2d4bf316f0394d84f4d
   languageName: node
   linkType: hard
 
@@ -9196,7 +9196,7 @@ fsevents@~2.1.2:
     "@babel/core": ^7.12.10
     "@babel/register": ^7.12.10
     "@babel/runtime": ^7.12.5
-    "@polkadot/dev": ^0.61.5
+    "@polkadot/dev": ^0.61.7
     "@polkadot/ts": ^0.3.58
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.19
