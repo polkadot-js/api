@@ -64,7 +64,7 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], { isPedantic, withoutLog }: UnsafeOptions = { }): T {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], { isPedantic, withoutLog }: UnsafeOptions = {}): T {
   try {
     // Circle back to isPedantic when it handles all cases 100% - as of now,
     // it provides false warning which is more hinderance than help
