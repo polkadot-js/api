@@ -3,6 +3,7 @@
   "version": "3.0.2-6",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
+  "module": "index.mjs",
   "sideEffects": false,
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
@@ -14,7 +15,7 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@polkadot/types": "3.0.2-6",
-    "@polkadot/util": "^5.0.1",
+    "@polkadot/util": "^5.0.2-5",
     "bn.js": "^4.11.9"
   },
   "devDependencies": {

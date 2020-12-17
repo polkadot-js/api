@@ -3,6 +3,7 @@
   "version": "3.0.2-6",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
+  "module": "index.mjs",
   "sideEffects": false,
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
@@ -16,10 +17,10 @@
     "@polkadot/metadata": "3.0.2-6",
     "@polkadot/rpc-provider": "3.0.2-6",
     "@polkadot/types": "3.0.2-6",
-    "@polkadot/util": "^5.0.1",
+    "@polkadot/util": "^5.0.2-5",
     "@polkadot/x-rxjs": "3.0.2-6"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^5.0.1"
+    "@polkadot/keyring": "^5.0.2-5"
   }
 }
