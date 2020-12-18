@@ -13,6 +13,7 @@ const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fi
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
+  alias(['VecDeque<'], 'Vec<', false),
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Remove all the trait prefixes
