@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## 3.1.1
+
+Upgrade priority: Low. Recommended for users of parachains.
+
+Contributed:
+
+- Additional parachain types (Thanks to https://github.com/joelamouche)
+- Support for multi queries with `HttpProvider` (Thanks to https://github.com/ianhe8x)
+- Configurable error logging with `createTypeUnsafe` (Thanks to https://github.com/dvdplm)
+
+Changes:
+
+- Adjust core type creation, removing storage duplication
+- Update parachain types to support Rococo v1
+- Mark `detectPackage` as known side-effect
+- Adjust x-rxjs wrapper to expose all methods, incl. Node.js esm fixes
+- Update `@polkadot/util` to 5.1.1
+
+
 ## 3.0.1 Dec 14, 2020
 
 Upgrade priority: Low. Recommended for the next Kusama/Polkadot upgrades due to additional types and those following chains following Substrate master closely.
