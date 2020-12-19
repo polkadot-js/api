@@ -15,6 +15,7 @@ Changes:
 - Adjust core type creation, removing storage duplication
 - Update parachain types to support Rococo v1
 - Mark `detectPackage` as known side-effect
+- Add `detectPackage` to `@polkadot/metadata` (a number of requests on this)
 - Adjust x-rxjs wrapper to expose all methods, incl. Node.js esm fixes
 - Update `@polkadot/util` to 5.1.1
 
