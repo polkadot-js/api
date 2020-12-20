@@ -32,7 +32,7 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
 
   return memo(instanceId, (): Observable<DeriveBounties> =>
     bountyBase.bountyCount<BountyIndex>().pipe(
-      switchMap(() => api.query.treasury.bounties.keys()),
+      switchMap(() => bountyBase.bounties.keys()),
       switchMap((keys): Observable<Result> => {
         const ids = keys.map(({ args: [id] }) => id);
 
