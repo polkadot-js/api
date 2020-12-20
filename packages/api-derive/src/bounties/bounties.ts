@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { DeriveBounties } from '@polkadot/api-derive/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
-import type { Bounty } from '@polkadot/types/interfaces';
+import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 
@@ -29,13 +29,18 @@ function extractIds (keys: StorageKey[]): Codec[] {
 }
 
 export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveBounties> {
-  return memo(instanceId, (): Observable<DeriveBounties> => api.query.treasury.bountyCount().pipe(
-    switchMap(() => api.query.treasury.bounties.keys()),
-    switchMap((keys: StorageKey[]) => {
-      return combineLatest([
-        api.query.treasury.bounties.multi<Option<Bounty>>(extractIds(keys)),
-        api.query.treasury.bountyDescriptions.multi<Option<Bytes>>(extractIds(keys))
-      ]
-      ).pipe(map(parseResult));
-    })));
+  const bountyBase = api.query.bounties
+    ? api.query.bounties
+    : api.query.treasury;
+
+  return memo(instanceId, (): Observable<DeriveBounties> =>
+    bountyBase.bountyCount<BountyIndex>().pipe(
+      switchMap(() => api.query.treasury.bounties.keys()),
+      switchMap((keys) => combineLatest([
+        bountyBase.bounties.multi<Option<Bounty>>(extractIds(keys)),
+        bountyBase.bountyDescriptions.multi<Option<Bytes>>(extractIds(keys))
+      ])),
+      map(parseResult)
+    )
+  );
 }
