@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.1.1
+## 3.1.1 Dec 20, 2020
 
 Upgrade priority: Low. Recommended for users of parachains.
 

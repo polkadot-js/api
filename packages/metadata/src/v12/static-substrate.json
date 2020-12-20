@@ -4939,6 +4939,8 @@
                 "",
                 " Requires the sender to be a member.",
                 "",
+                " Transaction fees will be waived if the member is voting on any particular proposal",
+                " for the first time and the call is successful. Subsequent vote changes will charge a fee.",
                 " # <weight>",
                 " ## Weight",
                 " - `O(M)` where `M` is members-count (code- and governance-bounded)",
@@ -4979,6 +4981,9 @@
                 "",
                 " If called after the end of the voting period abstentions are counted as rejections",
                 " unless there is a prime member set and the prime member cast an approval.",
+                "",
+                " If the close operation completes successfully with disapproval, the transaction fee will",
+                " be waived. Otherwise execution of the approved operation will be charged to the caller.",
                 "",
                 " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.",
                 " + `length_bound`: The upper bound for the length of the proposal in storage. Checked via",
@@ -5393,6 +5398,8 @@
                 "",
                 " Requires the sender to be a member.",
                 "",
+                " Transaction fees will be waived if the member is voting on any particular proposal",
+                " for the first time and the call is successful. Subsequent vote changes will charge a fee.",
                 " # <weight>",
                 " ## Weight",
                 " - `O(M)` where `M` is members-count (code- and governance-bounded)",
@@ -5433,6 +5440,9 @@
                 "",
                 " If called after the end of the voting period abstentions are counted as rejections",
                 " unless there is a prime member set and the prime member cast an approval.",
+                "",
+                " If the close operation completes successfully with disapproval, the transaction fee will",
+                " be waived. Otherwise execution of the approved operation will be charged to the caller.",
                 "",
                 " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.",
                 " + `length_bound`: The upper bound for the length of the proposal in storage. Checked via",
@@ -6581,95 +6591,6 @@
                 "documentation": [
                   " Proposal indices that have been approved but not yet awarded."
                 ]
-              },
-              {
-                "name": "Tips",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Twox64Concat",
-                    "key": "Hash",
-                    "value": "OpenTip",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Tips that are not yet completed. Keyed by the hash of `(reason, who)` from the value.",
-                  " This has the insecure enumerable hash function since the key itself is already",
-                  " guaranteed to be a secure hash."
-                ]
-              },
-              {
-                "name": "Reasons",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Identity",
-                    "key": "Hash",
-                    "value": "Bytes",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Simple preimage lookup from the reason's hash to the original data. Again, has an",
-                  " insecure enumerable hash since the key is guaranteed to be the result of a secure hash."
-                ]
-              },
-              {
-                "name": "BountyCount",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "BountyIndex"
-                },
-                "fallback": "0x00000000",
-                "documentation": [
-                  " Number of bounty proposals that have been made."
-                ]
-              },
-              {
-                "name": "Bounties",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Twox64Concat",
-                    "key": "BountyIndex",
-                    "value": "Bounty",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Bounties that have been made."
-                ]
-              },
-              {
-                "name": "BountyDescriptions",
-                "modifier": "Optional",
-                "type": {
-                  "Map": {
-                    "hasher": "Twox64Concat",
-                    "key": "BountyIndex",
-                    "value": "Bytes",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " The description of each bounty."
-                ]
-              },
-              {
-                "name": "BountyApprovals",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "Vec<BountyIndex>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Bounty indices that have been approved but not yet funded."
-                ]
               }
             ]
           },
@@ -6737,382 +6658,6 @@
                 " - DbReads: `Proposals`, `Approvals`",
                 " - DbWrite: `Approvals`",
                 " # </weight>"
-              ]
-            },
-            {
-              "name": "report_awesome",
-              "args": [
-                {
-                  "name": "reason",
-                  "type": "Bytes"
-                },
-                {
-                  "name": "who",
-                  "type": "AccountId"
-                }
-              ],
-              "documentation": [
-                " Report something `reason` that deserves a tip and claim any eventual the finder's fee.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
-                " `DataDepositPerByte` for each byte in `reason`.",
-                "",
-                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
-                "   a UTF-8-encoded URL.",
-                " - `who`: The account which should be credited for the tip.",
-                "",
-                " Emits `NewTip` if successful.",
-                "",
-                " # <weight>",
-                " - Complexity: `O(R)` where `R` length of `reason`.",
-                "   - encoding and hashing of 'reason'",
-                " - DbReads: `Reasons`, `Tips`",
-                " - DbWrites: `Reasons`, `Tips`",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "retract_tip",
-              "args": [
-                {
-                  "name": "hash",
-                  "type": "Hash"
-                }
-              ],
-              "documentation": [
-                " Retract a prior tip-report from `report_awesome`, and cancel the process of tipping.",
-                "",
-                " If successful, the original deposit will be unreserved.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the tip identified by `hash`",
-                " must have been reported by the signing account through `report_awesome` (and not",
-                " through `tip_new`).",
-                "",
-                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
-                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
-                "",
-                " Emits `TipRetracted` if successful.",
-                "",
-                " # <weight>",
-                " - Complexity: `O(1)`",
-                "   - Depends on the length of `T::Hash` which is fixed.",
-                " - DbReads: `Tips`, `origin account`",
-                " - DbWrites: `Reasons`, `Tips`, `origin account`",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "tip_new",
-              "args": [
-                {
-                  "name": "reason",
-                  "type": "Bytes"
-                },
-                {
-                  "name": "who",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "tip_value",
-                  "type": "Compact<BalanceOf>"
-                }
-              ],
-              "documentation": [
-                " Give a tip for something new; no finder's fee will be taken.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
-                " member of the `Tippers` set.",
-                "",
-                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
-                "   a UTF-8-encoded URL.",
-                " - `who`: The account which should be credited for the tip.",
-                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
-                "   value of active tippers will be given to the `who`.",
-                "",
-                " Emits `NewTip` if successful.",
-                "",
-                " # <weight>",
-                " - Complexity: `O(R + T)` where `R` length of `reason`, `T` is the number of tippers.",
-                "   - `O(T)`: decoding `Tipper` vec of length `T`",
-                "     `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "     The actual cost depends on the implementation of `T::Tippers`.",
-                "   - `O(R)`: hashing and encoding of reason of length `R`",
-                " - DbReads: `Tippers`, `Reasons`",
-                " - DbWrites: `Reasons`, `Tips`",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "tip",
-              "args": [
-                {
-                  "name": "hash",
-                  "type": "Hash"
-                },
-                {
-                  "name": "tip_value",
-                  "type": "Compact<BalanceOf>"
-                }
-              ],
-              "documentation": [
-                " Declare a tip value for an already-open tip.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
-                " member of the `Tippers` set.",
-                "",
-                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
-                "   as the hash of the tuple of the hash of the original tip `reason` and the beneficiary",
-                "   account ID.",
-                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
-                "   value of active tippers will be given to the `who`.",
-                "",
-                " Emits `TipClosing` if the threshold of tippers has been reached and the countdown period",
-                " has started.",
-                "",
-                " # <weight>",
-                " - Complexity: `O(T)` where `T` is the number of tippers.",
-                "   decoding `Tipper` vec of length `T`, insert tip and check closing,",
-                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "   The actual cost depends on the implementation of `T::Tippers`.",
-                "",
-                "   Actually weight could be lower as it depends on how many tips are in `OpenTip` but it",
-                "   is weighted as if almost full i.e of length `T-1`.",
-                " - DbReads: `Tippers`, `Tips`",
-                " - DbWrites: `Tips`",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "close_tip",
-              "args": [
-                {
-                  "name": "hash",
-                  "type": "Hash"
-                }
-              ],
-              "documentation": [
-                " Close and payout a tip.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " The tip identified by `hash` must have finished its countdown period.",
-                "",
-                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
-                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
-                "",
-                " # <weight>",
-                " - Complexity: `O(T)` where `T` is the number of tippers.",
-                "   decoding `Tipper` vec of length `T`.",
-                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "   The actual cost depends on the implementation of `T::Tippers`.",
-                " - DbReads: `Tips`, `Tippers`, `tip finder`",
-                " - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "propose_bounty",
-              "args": [
-                {
-                  "name": "value",
-                  "type": "Compact<BalanceOf>"
-                },
-                {
-                  "name": "description",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Propose a new bounty.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
-                " `DataDepositPerByte` for each byte in `reason`. It will be unreserved upon approval,",
-                " or slashed when rejected.",
-                "",
-                " - `curator`: The curator account whom will manage this bounty.",
-                " - `fee`: The curator fee.",
-                " - `value`: The total payment amount of this bounty, curator fee included.",
-                " - `description`: The description of this bounty."
-              ]
-            },
-            {
-              "name": "approve_bounty",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<ProposalIndex>"
-                }
-              ],
-              "documentation": [
-                " Approve a bounty proposal. At a later time, the bounty will be funded and become active",
-                " and the original deposit will be returned.",
-                "",
-                " May only be called from `T::ApproveOrigin`.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB change.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "propose_curator",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<ProposalIndex>"
-                },
-                {
-                  "name": "curator",
-                  "type": "LookupSource"
-                },
-                {
-                  "name": "fee",
-                  "type": "Compact<BalanceOf>"
-                }
-              ],
-              "documentation": [
-                " Assign a curator to a funded bounty.",
-                "",
-                " May only be called from `T::ApproveOrigin`.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB change.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "unassign_curator",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<ProposalIndex>"
-                }
-              ],
-              "documentation": [
-                " Unassign curator from a bounty.",
-                "",
-                " This function can only be called by the `RejectOrigin` a signed origin.",
-                "",
-                " If this function is called by the `RejectOrigin`, we assume that the curator is malicious",
-                " or inactive. As a result, we will slash the curator when possible.",
-                "",
-                " If the origin is the curator, we take this as a sign they are unable to do their job and",
-                " they willingly give up. We could slash them, but for now we allow them to recover their",
-                " deposit and exit without issue. (We may want to change this if it is abused.)",
-                "",
-                " Finally, the origin can be anyone if and only if the curator is \"inactive\". This allows",
-                " anyone in the community to call out that a curator is not doing their due diligence, and",
-                " we should pick a new curator. In this case the curator should also be slashed.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB change.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "accept_curator",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<ProposalIndex>"
-                }
-              ],
-              "documentation": [
-                " Accept the curator role for a bounty.",
-                " A deposit will be reserved from curator and refund upon successful payout.",
-                "",
-                " May only be called from the curator.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB change.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "award_bounty",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<ProposalIndex>"
-                },
-                {
-                  "name": "beneficiary",
-                  "type": "LookupSource"
-                }
-              ],
-              "documentation": [
-                " Award bounty to a beneficiary account. The beneficiary will be able to claim the funds after a delay.",
-                "",
-                " The dispatch origin for this call must be the curator of this bounty.",
-                "",
-                " - `bounty_id`: Bounty ID to award.",
-                " - `beneficiary`: The beneficiary account whom will receive the payout."
-              ]
-            },
-            {
-              "name": "claim_bounty",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<BountyIndex>"
-                }
-              ],
-              "documentation": [
-                " Claim the payout from an awarded bounty after payout delay.",
-                "",
-                " The dispatch origin for this call must be the beneficiary of this bounty.",
-                "",
-                " - `bounty_id`: Bounty ID to claim."
-              ]
-            },
-            {
-              "name": "close_bounty",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<BountyIndex>"
-                }
-              ],
-              "documentation": [
-                " Cancel a proposed or active bounty. All the funds will be sent to treasury and",
-                " the curator deposit will be unreserved if possible.",
-                "",
-                " Only `T::RejectOrigin` is able to cancel a bounty.",
-                "",
-                " - `bounty_id`: Bounty ID to cancel."
-              ]
-            },
-            {
-              "name": "extend_bounty_expiry",
-              "args": [
-                {
-                  "name": "bounty_id",
-                  "type": "Compact<BountyIndex>"
-                },
-                {
-                  "name": "_remark",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Extend the expiry time of an active bounty.",
-                "",
-                " The dispatch origin for this call must be the curator of this bounty.",
-                "",
-                " - `bounty_id`: Bounty ID to extend.",
-                " - `remark`: additional information."
               ]
             }
           ],
@@ -7183,111 +6728,6 @@
               "documentation": [
                 " Some funds have been deposited. \\[deposit\\]"
               ]
-            },
-            {
-              "name": "NewTip",
-              "args": [
-                "Hash"
-              ],
-              "documentation": [
-                " A new tip suggestion has been opened. \\[tip_hash\\]"
-              ]
-            },
-            {
-              "name": "TipClosing",
-              "args": [
-                "Hash"
-              ],
-              "documentation": [
-                " A tip suggestion has reached threshold and is closing. \\[tip_hash\\]"
-              ]
-            },
-            {
-              "name": "TipClosed",
-              "args": [
-                "Hash",
-                "AccountId",
-                "Balance"
-              ],
-              "documentation": [
-                " A tip suggestion has been closed. \\[tip_hash, who, payout\\]"
-              ]
-            },
-            {
-              "name": "TipRetracted",
-              "args": [
-                "Hash"
-              ],
-              "documentation": [
-                " A tip suggestion has been retracted. \\[tip_hash\\]"
-              ]
-            },
-            {
-              "name": "BountyProposed",
-              "args": [
-                "BountyIndex"
-              ],
-              "documentation": [
-                " New bounty proposal. \\[index\\]"
-              ]
-            },
-            {
-              "name": "BountyRejected",
-              "args": [
-                "BountyIndex",
-                "Balance"
-              ],
-              "documentation": [
-                " A bounty proposal was rejected; funds were slashed. [index, bond]"
-              ]
-            },
-            {
-              "name": "BountyBecameActive",
-              "args": [
-                "BountyIndex"
-              ],
-              "documentation": [
-                " A bounty proposal is funded and became active. \\[index\\]"
-              ]
-            },
-            {
-              "name": "BountyAwarded",
-              "args": [
-                "BountyIndex",
-                "AccountId"
-              ],
-              "documentation": [
-                " A bounty is awarded to a beneficiary. [index, beneficiary]"
-              ]
-            },
-            {
-              "name": "BountyClaimed",
-              "args": [
-                "BountyIndex",
-                "Balance",
-                "AccountId"
-              ],
-              "documentation": [
-                " A bounty is claimed by beneficiary. [index, payout, beneficiary]"
-              ]
-            },
-            {
-              "name": "BountyCanceled",
-              "args": [
-                "BountyIndex"
-              ],
-              "documentation": [
-                " A bounty is cancelled. \\[index\\]"
-              ]
-            },
-            {
-              "name": "BountyExtended",
-              "args": [
-                "BountyIndex"
-              ],
-              "documentation": [
-                " A bounty expiry is extended. \\[index\\]"
-              ]
             }
           ],
           "constants": [
@@ -7325,81 +6765,11 @@
               ]
             },
             {
-              "name": "TipCountdown",
-              "type": "BlockNumber",
-              "value": "0x80700000",
-              "documentation": [
-                " The period for which a tip remains open after is has achieved threshold tippers."
-              ]
-            },
-            {
-              "name": "TipFindersFee",
-              "type": "Percent",
-              "value": "0x14",
-              "documentation": [
-                " The amount of the final tip which goes to the original reporter of the tip."
-              ]
-            },
-            {
-              "name": "TipReportDepositBase",
-              "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
-              "documentation": [
-                " The amount held on deposit for placing a tip report."
-              ]
-            },
-            {
-              "name": "DataDepositPerByte",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The amount held on deposit per byte within the tip report reason or bounty description."
-              ]
-            },
-            {
               "name": "ModuleId",
               "type": "ModuleId",
               "value": "0x70792f7472737279",
               "documentation": [
                 " The treasury's module id, used for deriving its sovereign account ID."
-              ]
-            },
-            {
-              "name": "BountyDepositBase",
-              "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
-              "documentation": [
-                " The amount held on deposit for placing a bounty proposal."
-              ]
-            },
-            {
-              "name": "BountyDepositPayoutDelay",
-              "type": "BlockNumber",
-              "value": "0x80700000",
-              "documentation": [
-                " The delay period for which a bounty beneficiary need to wait before claim the payout."
-              ]
-            },
-            {
-              "name": "BountyCuratorDeposit",
-              "type": "Permill",
-              "value": "0x20a10700",
-              "documentation": [
-                " Percentage of the curator fee that will be reserved upfront as deposit for bounty curator."
-              ]
-            },
-            {
-              "name": "BountyValueMinimum",
-              "type": "BalanceOf",
-              "value": "0x00406352bfc601000000000000000000",
-              "documentation": []
-            },
-            {
-              "name": "MaximumReasonLength",
-              "type": "u32",
-              "value": "0x00400000",
-              "documentation": [
-                " Maximum acceptable reason length."
               ]
             }
           ],
@@ -7414,73 +6784,6 @@
               "name": "InvalidIndex",
               "documentation": [
                 " No proposal or bounty at that index."
-              ]
-            },
-            {
-              "name": "ReasonTooBig",
-              "documentation": [
-                " The reason given is just too big."
-              ]
-            },
-            {
-              "name": "AlreadyKnown",
-              "documentation": [
-                " The tip was already found/started."
-              ]
-            },
-            {
-              "name": "UnknownTip",
-              "documentation": [
-                " The tip hash is unknown."
-              ]
-            },
-            {
-              "name": "NotFinder",
-              "documentation": [
-                " The account attempting to retract the tip is not the finder of the tip."
-              ]
-            },
-            {
-              "name": "StillOpen",
-              "documentation": [
-                " The tip cannot be claimed/closed because there are not enough tippers yet."
-              ]
-            },
-            {
-              "name": "Premature",
-              "documentation": [
-                " The tip cannot be claimed/closed because it's still in the countdown period."
-              ]
-            },
-            {
-              "name": "UnexpectedStatus",
-              "documentation": [
-                " The bounty status is unexpected."
-              ]
-            },
-            {
-              "name": "RequireCurator",
-              "documentation": [
-                " Require bounty curator."
-              ]
-            },
-            {
-              "name": "InvalidValue",
-              "documentation": [
-                " Invalid bounty value."
-              ]
-            },
-            {
-              "name": "InvalidFee",
-              "documentation": [
-                " Invalid bounty fee."
-              ]
-            },
-            {
-              "name": "PendingPayout",
-              "documentation": [
-                " A bounty payout is pending.",
-                " To cancel the bounty, you must unassign and slash the curator."
               ]
             }
           ],
@@ -12101,6 +11404,797 @@
           "index": 30
         },
         {
+          "name": "Bounties",
+          "storage": {
+            "prefix": "Treasury",
+            "items": [
+              {
+                "name": "BountyCount",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "BountyIndex"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " Number of bounty proposals that have been made."
+                ]
+              },
+              {
+                "name": "Bounties",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "BountyIndex",
+                    "value": "Bounty",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Bounties that have been made."
+                ]
+              },
+              {
+                "name": "BountyDescriptions",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "BountyIndex",
+                    "value": "Bytes",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The description of each bounty."
+                ]
+              },
+              {
+                "name": "BountyApprovals",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<BountyIndex>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Bounty indices that have been approved but not yet funded."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "propose_bounty",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "description",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Propose a new bounty.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
+                " `DataDepositPerByte` for each byte in `reason`. It will be unreserved upon approval,",
+                " or slashed when rejected.",
+                "",
+                " - `curator`: The curator account whom will manage this bounty.",
+                " - `fee`: The curator fee.",
+                " - `value`: The total payment amount of this bounty, curator fee included.",
+                " - `description`: The description of this bounty."
+              ]
+            },
+            {
+              "name": "approve_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                }
+              ],
+              "documentation": [
+                " Approve a bounty proposal. At a later time, the bounty will be funded and become active",
+                " and the original deposit will be returned.",
+                "",
+                " May only be called from `T::ApproveOrigin`.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "propose_curator",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                },
+                {
+                  "name": "curator",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "fee",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Assign a curator to a funded bounty.",
+                "",
+                " May only be called from `T::ApproveOrigin`.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "unassign_curator",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                }
+              ],
+              "documentation": [
+                " Unassign curator from a bounty.",
+                "",
+                " This function can only be called by the `RejectOrigin` a signed origin.",
+                "",
+                " If this function is called by the `RejectOrigin`, we assume that the curator is malicious",
+                " or inactive. As a result, we will slash the curator when possible.",
+                "",
+                " If the origin is the curator, we take this as a sign they are unable to do their job and",
+                " they willingly give up. We could slash them, but for now we allow them to recover their",
+                " deposit and exit without issue. (We may want to change this if it is abused.)",
+                "",
+                " Finally, the origin can be anyone if and only if the curator is \"inactive\". This allows",
+                " anyone in the community to call out that a curator is not doing their due diligence, and",
+                " we should pick a new curator. In this case the curator should also be slashed.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "accept_curator",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                }
+              ],
+              "documentation": [
+                " Accept the curator role for a bounty.",
+                " A deposit will be reserved from curator and refund upon successful payout.",
+                "",
+                " May only be called from the curator.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "award_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                },
+                {
+                  "name": "beneficiary",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Award bounty to a beneficiary account. The beneficiary will be able to claim the funds after a delay.",
+                "",
+                " The dispatch origin for this call must be the curator of this bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to award.",
+                " - `beneficiary`: The beneficiary account whom will receive the payout.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "claim_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                }
+              ],
+              "documentation": [
+                " Claim the payout from an awarded bounty after payout delay.",
+                "",
+                " The dispatch origin for this call must be the beneficiary of this bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to claim.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "close_bounty",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                }
+              ],
+              "documentation": [
+                " Cancel a proposed or active bounty. All the funds will be sent to treasury and",
+                " the curator deposit will be unreserved if possible.",
+                "",
+                " Only `T::RejectOrigin` is able to cancel a bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to cancel.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "extend_bounty_expiry",
+              "args": [
+                {
+                  "name": "bounty_id",
+                  "type": "Compact<BountyIndex>"
+                },
+                {
+                  "name": "_remark",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Extend the expiry time of an active bounty.",
+                "",
+                " The dispatch origin for this call must be the curator of this bounty.",
+                "",
+                " - `bounty_id`: Bounty ID to extend.",
+                " - `remark`: additional information.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "BountyProposed",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " New bounty proposal. \\[index\\]"
+              ]
+            },
+            {
+              "name": "BountyRejected",
+              "args": [
+                "BountyIndex",
+                "Balance"
+              ],
+              "documentation": [
+                " A bounty proposal was rejected; funds were slashed. \\[index, bond\\]"
+              ]
+            },
+            {
+              "name": "BountyBecameActive",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " A bounty proposal is funded and became active. \\[index\\]"
+              ]
+            },
+            {
+              "name": "BountyAwarded",
+              "args": [
+                "BountyIndex",
+                "AccountId"
+              ],
+              "documentation": [
+                " A bounty is awarded to a beneficiary. \\[index, beneficiary\\]"
+              ]
+            },
+            {
+              "name": "BountyClaimed",
+              "args": [
+                "BountyIndex",
+                "Balance",
+                "AccountId"
+              ],
+              "documentation": [
+                " A bounty is claimed by beneficiary. \\[index, payout, beneficiary\\]"
+              ]
+            },
+            {
+              "name": "BountyCanceled",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " A bounty is cancelled. \\[index\\]"
+              ]
+            },
+            {
+              "name": "BountyExtended",
+              "args": [
+                "BountyIndex"
+              ],
+              "documentation": [
+                " A bounty expiry is extended. \\[index\\]"
+              ]
+            }
+          ],
+          "constants": [
+            {
+              "name": "DataDepositPerByte",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The amount held on deposit per byte within bounty description."
+              ]
+            },
+            {
+              "name": "BountyDepositBase",
+              "type": "BalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " The amount held on deposit for placing a bounty proposal."
+              ]
+            },
+            {
+              "name": "BountyDepositPayoutDelay",
+              "type": "BlockNumber",
+              "value": "0x80700000",
+              "documentation": [
+                " The delay period for which a bounty beneficiary need to wait before claim the payout."
+              ]
+            },
+            {
+              "name": "BountyCuratorDeposit",
+              "type": "Permill",
+              "value": "0x20a10700",
+              "documentation": [
+                " Percentage of the curator fee that will be reserved upfront as deposit for bounty curator."
+              ]
+            },
+            {
+              "name": "BountyValueMinimum",
+              "type": "BalanceOf",
+              "value": "0x00406352bfc601000000000000000000",
+              "documentation": [
+                " Minimum value for a bounty."
+              ]
+            },
+            {
+              "name": "MaximumReasonLength",
+              "type": "u32",
+              "value": "0x00400000",
+              "documentation": [
+                " Maximum acceptable reason length."
+              ]
+            }
+          ],
+          "errors": [
+            {
+              "name": "InsufficientProposersBalance",
+              "documentation": [
+                " Proposer's balance is too low."
+              ]
+            },
+            {
+              "name": "InvalidIndex",
+              "documentation": [
+                " No proposal or bounty at that index."
+              ]
+            },
+            {
+              "name": "ReasonTooBig",
+              "documentation": [
+                " The reason given is just too big."
+              ]
+            },
+            {
+              "name": "UnexpectedStatus",
+              "documentation": [
+                " The bounty status is unexpected."
+              ]
+            },
+            {
+              "name": "RequireCurator",
+              "documentation": [
+                " Require bounty curator."
+              ]
+            },
+            {
+              "name": "InvalidValue",
+              "documentation": [
+                " Invalid bounty value."
+              ]
+            },
+            {
+              "name": "InvalidFee",
+              "documentation": [
+                " Invalid bounty fee."
+              ]
+            },
+            {
+              "name": "PendingPayout",
+              "documentation": [
+                " A bounty payout is pending.",
+                " To cancel the bounty, you must unassign and slash the curator."
+              ]
+            },
+            {
+              "name": "Premature",
+              "documentation": [
+                " The bounties cannot be claimed/closed because it's still in the countdown period."
+              ]
+            }
+          ],
+          "index": 31
+        },
+        {
+          "name": "Tips",
+          "storage": {
+            "prefix": "Treasury",
+            "items": [
+              {
+                "name": "Tips",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "Hash",
+                    "value": "OpenTip",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " TipsMap that are not yet completed. Keyed by the hash of `(reason, who)` from the value.",
+                  " This has the insecure enumerable hash function since the key itself is already",
+                  " guaranteed to be a secure hash."
+                ]
+              },
+              {
+                "name": "Reasons",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Identity",
+                    "key": "Hash",
+                    "value": "Bytes",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Simple preimage lookup from the reason's hash to the original data. Again, has an",
+                  " insecure enumerable hash since the key is guaranteed to be the result of a secure hash."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "report_awesome",
+              "args": [
+                {
+                  "name": "reason",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Report something `reason` that deserves a tip and claim any eventual the finder's fee.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
+                " `DataDepositPerByte` for each byte in `reason`.",
+                "",
+                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
+                "   a UTF-8-encoded URL.",
+                " - `who`: The account which should be credited for the tip.",
+                "",
+                " Emits `NewTip` if successful.",
+                "",
+                " # <weight>",
+                " - Complexity: `O(R)` where `R` length of `reason`.",
+                "   - encoding and hashing of 'reason'",
+                " - DbReads: `Reasons`, `Tips`",
+                " - DbWrites: `Reasons`, `Tips`",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "retract_tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Retract a prior tip-report from `report_awesome`, and cancel the process of tipping.",
+                "",
+                " If successful, the original deposit will be unreserved.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the tip identified by `hash`",
+                " must have been reported by the signing account through `report_awesome` (and not",
+                " through `tip_new`).",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
+                "",
+                " Emits `TipRetracted` if successful.",
+                "",
+                " # <weight>",
+                " - Complexity: `O(1)`",
+                "   - Depends on the length of `T::Hash` which is fixed.",
+                " - DbReads: `Tips`, `origin account`",
+                " - DbWrites: `Reasons`, `Tips`, `origin account`",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "tip_new",
+              "args": [
+                {
+                  "name": "reason",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "tip_value",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Give a tip for something new; no finder's fee will be taken.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
+                " member of the `Tippers` set.",
+                "",
+                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
+                "   a UTF-8-encoded URL.",
+                " - `who`: The account which should be credited for the tip.",
+                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
+                "   value of active tippers will be given to the `who`.",
+                "",
+                " Emits `NewTip` if successful.",
+                "",
+                " # <weight>",
+                " - Complexity: `O(R + T)` where `R` length of `reason`, `T` is the number of tippers.",
+                "   - `O(T)`: decoding `Tipper` vec of length `T`",
+                "     `T` is charged as upper bound given by `ContainsLengthBound`.",
+                "     The actual cost depends on the implementation of `T::Tippers`.",
+                "   - `O(R)`: hashing and encoding of reason of length `R`",
+                " - DbReads: `Tippers`, `Reasons`",
+                " - DbWrites: `Reasons`, `Tips`",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                },
+                {
+                  "name": "tip_value",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Declare a tip value for an already-open tip.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
+                " member of the `Tippers` set.",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the hash of the original tip `reason` and the beneficiary",
+                "   account ID.",
+                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
+                "   value of active tippers will be given to the `who`.",
+                "",
+                " Emits `TipClosing` if the threshold of tippers has been reached and the countdown period",
+                " has started.",
+                "",
+                " # <weight>",
+                " - Complexity: `O(T)` where `T` is the number of tippers.",
+                "   decoding `Tipper` vec of length `T`, insert tip and check closing,",
+                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
+                "   The actual cost depends on the implementation of `T::Tippers`.",
+                "",
+                "   Actually weight could be lower as it depends on how many tips are in `OpenTip` but it",
+                "   is weighted as if almost full i.e of length `T-1`.",
+                " - DbReads: `Tippers`, `Tips`",
+                " - DbWrites: `Tips`",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "close_tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Close and payout a tip.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " The tip identified by `hash` must have finished its countdown period.",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
+                "",
+                " # <weight>",
+                " - Complexity: `O(T)` where `T` is the number of tippers.",
+                "   decoding `Tipper` vec of length `T`.",
+                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
+                "   The actual cost depends on the implementation of `T::Tippers`.",
+                " - DbReads: `Tips`, `Tippers`, `tip finder`",
+                " - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewTip",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A new tip suggestion has been opened. \\[tip_hash\\]"
+              ]
+            },
+            {
+              "name": "TipClosing",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A tip suggestion has reached threshold and is closing. \\[tip_hash\\]"
+              ]
+            },
+            {
+              "name": "TipClosed",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A tip suggestion has been closed. \\[tip_hash, who, payout\\]"
+              ]
+            },
+            {
+              "name": "TipRetracted",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A tip suggestion has been retracted. \\[tip_hash\\]"
+              ]
+            }
+          ],
+          "constants": [
+            {
+              "name": "TipCountdown",
+              "type": "BlockNumber",
+              "value": "0x80700000",
+              "documentation": [
+                " The period for which a tip remains open after is has achieved threshold tippers."
+              ]
+            },
+            {
+              "name": "TipFindersFee",
+              "type": "Percent",
+              "value": "0x14",
+              "documentation": [
+                " The amount of the final tip which goes to the original reporter of the tip."
+              ]
+            },
+            {
+              "name": "TipReportDepositBase",
+              "type": "BalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " The amount held on deposit for placing a tip report."
+              ]
+            },
+            {
+              "name": "DataDepositPerByte",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The amount held on deposit per byte within the tip report reason."
+              ]
+            },
+            {
+              "name": "MaximumReasonLength",
+              "type": "u32",
+              "value": "0x00400000",
+              "documentation": [
+                " Maximum acceptable reason length."
+              ]
+            }
+          ],
+          "errors": [
+            {
+              "name": "ReasonTooBig",
+              "documentation": [
+                " The reason given is just too big."
+              ]
+            },
+            {
+              "name": "AlreadyKnown",
+              "documentation": [
+                " The tip was already found/started."
+              ]
+            },
+            {
+              "name": "UnknownTip",
+              "documentation": [
+                " The tip hash is unknown."
+              ]
+            },
+            {
+              "name": "NotFinder",
+              "documentation": [
+                " The account attempting to retract the tip is not the finder of the tip."
+              ]
+            },
+            {
+              "name": "StillOpen",
+              "documentation": [
+                " The tip cannot be claimed/closed because there are not enough tippers yet."
+              ]
+            },
+            {
+              "name": "Premature",
+              "documentation": [
+                " The tip cannot be claimed/closed because it's still in the countdown period."
+              ]
+            }
+          ],
+          "index": 32
+        },
+        {
           "name": "Assets",
           "storage": {
             "prefix": "Assets",
@@ -12755,7 +12849,7 @@
               ]
             }
           ],
-          "index": 31
+          "index": 33
         },
         {
           "name": "Mmr",
@@ -12809,7 +12903,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 32
+          "index": 34
         }
       ],
       "extrinsic": {
