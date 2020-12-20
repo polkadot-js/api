@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.1.1
+## 3.1.1 Dec 20, 2020
 
 Upgrade priority: Low. Recommended for users of parachains.
 
@@ -14,9 +14,11 @@ Changes:
 
 - Adjust core type creation, removing storage duplication
 - Update parachain types to support Rococo v1
+- Adjust bounties derive to cater for new Substrate namespaces (& move to bounties)
 - Mark `detectPackage` as known side-effect
 - Add `detectPackage` to `@polkadot/metadata` (a number of requests on this)
 - Adjust x-rxjs wrapper to expose all methods, incl. Node.js esm fixes
+- Update to latest Substrate static metadata
 - Update `@polkadot/util` to 5.1.1
 
 

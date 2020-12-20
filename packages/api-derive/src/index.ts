@@ -7,6 +7,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 
 import * as accounts from './accounts';
 import * as balances from './balances';
+import * as bounties from './bounties';
 import * as chain from './chain';
 import * as contracts from './contracts';
 import * as council from './council';
@@ -23,7 +24,7 @@ import * as tx from './tx';
 
 export * from './type';
 
-export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury, tx };
+export const derive = { accounts, balances, bounties, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction

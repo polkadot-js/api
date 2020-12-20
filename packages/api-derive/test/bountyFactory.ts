@@ -15,11 +15,14 @@ export class BountyFactory {
     this.#registry = this.#api.registry;
   }
 
-  public storageKey = (index: number): StorageKey => new StorageKey(this.#registry, this.#api.query.treasury.bounties.key(this.bountyIndex(index)));
+  public storageKey = (index: number): StorageKey =>
+    new StorageKey(this.#registry, this.#api.query.bounties.bounties.key(this.bountyIndex(index)));
 
-  public bountyIndex = (index: number): BountyIndex => this.#registry.createType('BountyIndex', index);
+  public bountyIndex = (index: number): BountyIndex =>
+    this.#registry.createType('BountyIndex', index);
 
-  public defaultBounty = (): Bounty => this.#registry.createType('Bounty');
+  public defaultBounty = (): Bounty =>
+    this.#registry.createType('Bounty');
 
   public optionOf = <T extends Codec>(value: T): Option<T> => {
     const typeName = this.#registry.getClassName(value.constructor as Constructor<T>);
@@ -27,5 +30,6 @@ export class BountyFactory {
     return new Option<T>(this.#registry, typeName as keyof InterfaceTypes, value);
   };
 
-  public emptyOption = <T extends Codec>(typeName: keyof InterfaceTypes): Option<T> => new Option<T>(this.#registry, typeName);
+  public emptyOption = <T extends Codec>(typeName: keyof InterfaceTypes): Option<T> =>
+    new Option<T>(this.#registry, typeName);
 }

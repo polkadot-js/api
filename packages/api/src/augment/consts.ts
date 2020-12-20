@@ -35,6 +35,33 @@ declare module '@polkadot/api/types/consts' {
        **/
       existentialDeposit: Balance & AugmentedConst<ApiType>;
     };
+    bounties: {
+      [key: string]: Codec;
+      /**
+       * Percentage of the curator fee that will be reserved upfront as deposit for bounty curator.
+       **/
+      bountyCuratorDeposit: Permill & AugmentedConst<ApiType>;
+      /**
+       * The amount held on deposit for placing a bounty proposal.
+       **/
+      bountyDepositBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The delay period for which a bounty beneficiary need to wait before claim the payout.
+       **/
+      bountyDepositPayoutDelay: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Minimum value for a bounty.
+       **/
+      bountyValueMinimum: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The amount held on deposit per byte within bounty description.
+       **/
+      dataDepositPerByte: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Maximum acceptable reason length.
+       **/
+      maximumReasonLength: u32 & AugmentedConst<ApiType>;
+    };
     contracts: {
       [key: string]: Codec;
       /**
@@ -338,6 +365,29 @@ declare module '@polkadot/api/types/consts' {
        **/
       minimumPeriod: Moment & AugmentedConst<ApiType>;
     };
+    tips: {
+      [key: string]: Codec;
+      /**
+       * The amount held on deposit per byte within the tip report reason.
+       **/
+      dataDepositPerByte: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Maximum acceptable reason length.
+       **/
+      maximumReasonLength: u32 & AugmentedConst<ApiType>;
+      /**
+       * The period for which a tip remains open after is has achieved threshold tippers.
+       **/
+      tipCountdown: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * The amount of the final tip which goes to the original reporter of the tip.
+       **/
+      tipFindersFee: Percent & AugmentedConst<ApiType>;
+      /**
+       * The amount held on deposit for placing a tip report.
+       **/
+      tipReportDepositBase: BalanceOf & AugmentedConst<ApiType>;
+    };
     transactionPayment: {
       [key: string]: Codec;
       /**
@@ -352,30 +402,9 @@ declare module '@polkadot/api/types/consts' {
     treasury: {
       [key: string]: Codec;
       /**
-       * Percentage of the curator fee that will be reserved upfront as deposit for bounty curator.
-       **/
-      bountyCuratorDeposit: Permill & AugmentedConst<ApiType>;
-      /**
-       * The amount held on deposit for placing a bounty proposal.
-       **/
-      bountyDepositBase: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * The delay period for which a bounty beneficiary need to wait before claim the payout.
-       **/
-      bountyDepositPayoutDelay: BlockNumber & AugmentedConst<ApiType>;
-      bountyValueMinimum: BalanceOf & AugmentedConst<ApiType>;
-      /**
        * Percentage of spare funds (if any) that are burnt per spend period.
        **/
       burn: Permill & AugmentedConst<ApiType>;
-      /**
-       * The amount held on deposit per byte within the tip report reason or bounty description.
-       **/
-      dataDepositPerByte: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Maximum acceptable reason length.
-       **/
-      maximumReasonLength: u32 & AugmentedConst<ApiType>;
       /**
        * The treasury's module id, used for deriving its sovereign account ID.
        **/
@@ -393,18 +422,6 @@ declare module '@polkadot/api/types/consts' {
        * Period between successive spends.
        **/
       spendPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The period for which a tip remains open after is has achieved threshold tippers.
-       **/
-      tipCountdown: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The amount of the final tip which goes to the original reporter of the tip.
-       **/
-      tipFindersFee: Percent & AugmentedConst<ApiType>;
-      /**
-       * The amount held on deposit for placing a tip report.
-       **/
-      tipReportDepositBase: BalanceOf & AugmentedConst<ApiType>;
     };
     vesting: {
       [key: string]: Codec;

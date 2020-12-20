@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
@@ -6,12 +6,12 @@ import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 
-import { bounties } from '@polkadot/api-derive/treasury/bounties';
 import { of } from '@polkadot/x-rxjs';
 
 import { BountyFactory } from '../../test/bountyFactory';
 import { BytesFactory } from '../../test/bytesFactory';
 import { createApiWithAugmentations } from '../../test/helpers';
+import { bounties } from '.';
 
 const DEFAULT_PROPOSER = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
 
