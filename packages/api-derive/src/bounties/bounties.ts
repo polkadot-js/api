@@ -3,16 +3,17 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { DeriveBounties } from '@polkadot/api-derive/types';
-import type { Bytes, Option, StorageKey } from '@polkadot/types';
+import type { Bytes, Option } from '@polkadot/types';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
-import type { Codec } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 
 import { memo } from '@polkadot/api-derive/util';
 import { combineLatest } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-function parseResult ([maybeBounties, maybeDescriptions]: [Option<Bounty>[], Option<Bytes>[]]): DeriveBounties {
+type Result = [Option<Bounty>[], Option<Bytes>[]];
+
+function parseResult ([maybeBounties, maybeDescriptions]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
 
   maybeBounties.forEach((bounty, index) => {
@@ -24,10 +25,6 @@ function parseResult ([maybeBounties, maybeDescriptions]: [Option<Bounty>[], Opt
   return bounties;
 }
 
-function extractIds (keys: StorageKey[]): Codec[] {
-  return keys.map(({ args: [id] }: StorageKey) => id);
-}
-
 export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveBounties> {
   const bountyBase = api.query.bounties
     ? api.query.bounties
@@ -36,10 +33,14 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
   return memo(instanceId, (): Observable<DeriveBounties> =>
     bountyBase.bountyCount<BountyIndex>().pipe(
       switchMap(() => api.query.treasury.bounties.keys()),
-      switchMap((keys) => combineLatest([
-        bountyBase.bounties.multi<Option<Bounty>>(extractIds(keys)),
-        bountyBase.bountyDescriptions.multi<Option<Bytes>>(extractIds(keys))
-      ])),
+      switchMap((keys): Observable<Result> => {
+        const ids = keys.map(({ args: [id] }) => id);
+
+        return combineLatest([
+          bountyBase.bounties.multi<Option<Bounty>>(ids),
+          bountyBase.bountyDescriptions.multi<Option<Bytes>>(ids)
+        ]);
+      }),
       map(parseResult)
     )
   );
