@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BitVec, Bytes, Compact, Enum, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { BTreeMap, BitVec, Bytes, Compact, Enum, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId, Balance, BlockNumber, Hash, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
@@ -308,7 +308,7 @@ export interface HrmpChannel extends Struct {
   readonly recipientDeposit: Balance;
   readonly maxCapacity: u32;
   readonly maxTotalSize: u32;
-  readonly max_MessageSize: u32;
+  readonly maxMessageSize: u32;
   readonly msgCount: u32;
   readonly totalSize: u32;
   readonly mqcHead: Option<Hash>;
@@ -341,6 +341,9 @@ export interface InboundHrmpMessage extends Struct {
   readonly sentAt: BlockNumber;
   readonly data: Bytes;
 }
+
+/** @name InboundHrmpMessages */
+export interface InboundHrmpMessages extends Vec<InboundHrmpMessage> {}
 
 /** @name IncomingParachain */
 export interface IncomingParachain extends Enum {
@@ -410,6 +413,12 @@ export interface LocalValidationData extends Struct {
   readonly parentHead: HeadData;
   readonly balance: Balance;
   readonly codeUpgradeAllowed: Option<BlockNumber>;
+}
+
+/** @name MessageIngestionType */
+export interface MessageIngestionType extends Struct {
+  readonly downwardMessages: Vec<InboundDownwardMessage>;
+  readonly horizontalMessages: BTreeMap<ParaId, InboundHrmpMessages>;
 }
 
 /** @name MultiAsset */
@@ -557,7 +566,7 @@ export interface PersistedValidationData extends Struct {
 
 /** @name QueryHolding */
 export interface QueryHolding extends Struct {
-  readonly query_id: Compact<u64>;
+  readonly queryId: Compact<u64>;
   readonly dest: MultiLocation;
   readonly assets: Vec<MultiAsset>;
 }
