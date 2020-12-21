@@ -205,6 +205,7 @@ export default {
       sentAt: 'BlockNumber',
       data: 'Bytes'
     },
+    InboundHrmpMessages: 'Vec<InboundHrmpMessage>',
     IncomingParachain: {
       _enum: {
         Unset: 'NewBidder',
@@ -227,6 +228,10 @@ export default {
       parentHead: 'HeadData',
       balance: 'Balance',
       codeUpgradeAllowed: 'Option<BlockNumber>'
+    },
+    MessageIngestionType: {
+      downwardMessages: 'Vec<InboundDownwardMessage>',
+      horizontalMessages: 'BTreeMap<ParaId, InboundHrmpMessages>'
     },
     NewBidder: {
       who: 'AccountId',
