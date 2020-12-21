@@ -12,7 +12,7 @@ import { decorateExtrinsics } from './extrinsics';
 import { decorateStorage } from './storage';
 
 /**
- * Expands the metadata by decoration int consts, query and tx sections
+ * Expands the metadata by decoration into consts, query and tx sections
  */
 export function expandMetadata (registry: Registry, metadata: Metadata): DecoratedMeta {
   assert(metadata instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
