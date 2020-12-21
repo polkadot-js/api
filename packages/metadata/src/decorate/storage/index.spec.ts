@@ -18,7 +18,7 @@ describe('fromMetadata', (): void => {
 
     registry.setMetadata(metadata);
 
-    const query = decorateStorage(registry, metadata);
+    const query = decorateStorage(registry, metadata.asLatest, metadata.version);
 
     it('should throw if the storage function expects an argument', (): void => {
       expect(() => query.balances.account()).toThrowError(/requires one argument/);

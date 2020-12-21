@@ -1,18 +1,18 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { MetadataLatest } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { ModuleStorage, Storage } from '../types';
 
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
-import { Metadata } from '../../Metadata';
 import { createFunction } from './createFunction';
 import { getStorage } from './getStorage';
 
 /** @internal */
-export function decorateStorage (registry: Registry, metadata: Metadata): Storage {
-  return metadata.asLatest.modules.reduce((result: Storage, moduleMetadata): Storage => {
+export function decorateStorage (registry: Registry, { modules }: MetadataLatest, metaVersion: number): Storage {
+  return modules.reduce((result: Storage, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;
     }
@@ -31,11 +31,11 @@ export function decorateStorage (registry: Registry, metadata: Metadata): Storag
         method,
         prefix,
         section
-      }, { metaVersion: metadata.version });
+      }, { metaVersion });
 
       return newModule;
     }, {} as ModuleStorage);
 
     return result;
-  }, { ...getStorage(registry, metadata.version) });
+  }, { ...getStorage(registry, metaVersion) });
 }

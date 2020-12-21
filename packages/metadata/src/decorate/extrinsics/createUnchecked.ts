@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Call } from '@polkadot/types/interfaces';
-import type { AnyJson, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
+import type { Call, FunctionMetadataLatest } from '@polkadot/types/interfaces';
+import type { AnyJson, CallFunction, Registry } from '@polkadot/types/types';
 
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
-export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: RegistryMetadataCall): CallFunction {
+export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: FunctionMetadataLatest): CallFunction {
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name);
 

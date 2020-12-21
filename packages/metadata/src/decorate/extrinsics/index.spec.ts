@@ -16,7 +16,7 @@ const metadata = new Metadata(registry, metadataStatic);
 
 registry.setMetadata(metadata);
 
-const extrinsics = decorateExtrinsics(registry, metadata);
+const extrinsics = decorateExtrinsics(registry, metadata.asLatest);
 
 describe('extrinsics', (): void => {
   it('encodes an actual transfer (actual data)', (): void => {

@@ -14,13 +14,15 @@ import { decorateStorage } from './storage';
 /**
  * Expands the metadata by decoration int consts, query and tx sections
  */
-export function expandMetadata (registry: Registry, value: Metadata): DecoratedMeta {
-  assert(value instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
+export function expandMetadata (registry: Registry, metadata: Metadata): DecoratedMeta {
+  assert(metadata instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
+
+  const latest = metadata.asLatest;
 
   return {
-    consts: decorateConstants(registry, value),
-    query: decorateStorage(registry, value),
-    tx: decorateExtrinsics(registry, value)
+    consts: decorateConstants(registry, latest),
+    query: decorateStorage(registry, latest, metadata.version),
+    tx: decorateExtrinsics(registry, latest)
   };
 }
 

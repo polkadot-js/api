@@ -36,6 +36,9 @@ export interface DoubleMapTypeV9 extends Struct {
   readonly key2Hasher: StorageHasherV9;
 }
 
+/** @name ErrorMetadataLatest */
+export interface ErrorMetadataLatest extends ErrorMetadataV12 {}
+
 /** @name ErrorMetadataV10 */
 export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
 
