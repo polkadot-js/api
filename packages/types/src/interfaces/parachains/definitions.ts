@@ -180,7 +180,7 @@ export default {
       recipientDeposit: 'Balance',
       maxCapacity: 'u32',
       maxTotalSize: 'u32',
-      max_MessageSize: 'u32',
+      maxMessageSize: 'u32',
       msgCount: 'u32',
       totalSize: 'u32',
       mqcHead: 'Option<Hash>'
@@ -205,6 +205,7 @@ export default {
       sentAt: 'BlockNumber',
       data: 'Bytes'
     },
+    InboundHrmpMessages: 'Vec<InboundHrmpMessage>',
     IncomingParachain: {
       _enum: {
         Unset: 'NewBidder',
@@ -227,6 +228,10 @@ export default {
       parentHead: 'HeadData',
       balance: 'Balance',
       codeUpgradeAllowed: 'Option<BlockNumber>'
+    },
+    MessageIngestionType: {
+      downwardMessages: 'Vec<InboundDownwardMessage>',
+      horizontalMessages: 'BTreeMap<ParaId, InboundHrmpMessages>'
     },
     NewBidder: {
       who: 'AccountId',
@@ -389,21 +394,7 @@ export default {
       }
     },
     XcmError: {
-      _enum: [
-        'Undefined',
-        'Unimplemented',
-        'UnhandledXcmVersion',
-        'UnhandledXcmMessage',
-        'UnhandledEffect',
-        'EscalationOfPrivilege',
-        'UntrustedReserveLocation',
-        'UntrustedTeleportLocation',
-        'DestinationBufferOverflow',
-        'CannotReachDestination',
-        'MultiLocationFull',
-        'FailedToDecode',
-        'BadOrigin'
-      ]
+      _enum: ['Undefined', 'Unimplemented', 'UnhandledXcmVersion', 'UnhandledXcmMessage', 'UnhandledEffect', 'EscalationOfPrivilege', 'UntrustedReserveLocation', 'UntrustedTeleportLocation', 'DestinationBufferOverflow', 'CannotReachDestination', 'MultiLocationFull', 'FailedToDecode', 'BadOrigin']
     },
     XcmResult: {
       _enum: {
@@ -537,7 +528,7 @@ export default {
       effects: 'Vec<Order>'
     },
     QueryHolding: {
-      query_id: 'Compact<u64>',
+      queryId: 'Compact<u64>',
       dest: 'MultiLocation',
       assets: 'Vec<MultiAsset>'
     },
