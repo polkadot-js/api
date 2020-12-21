@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
-import { extrinsicsFromMeta, Metadata } from '@polkadot/metadata';
+import { decorateExtrinsics, Metadata } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../../create';
@@ -16,7 +16,7 @@ const keyring = createTestPairs({ type: 'ed25519' }, false);
 
 registry.setMetadata(metadata);
 
-const tx = extrinsicsFromMeta(registry, metadata);
+const tx = decorateExtrinsics(registry, metadata.asLatest);
 
 describe('ExtrinsicV4', (): void => {
   it.only('constructs a sane Uint8Array (default)', (): void => {

@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { Constants } from '../types';
 
 import { TypeRegistry } from '@polkadot/types/create';
@@ -8,7 +9,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { Metadata } from '../../Metadata';
 import rpcMetadata from '../../static';
 import rpcMetadataV10 from '../../v10/static';
-import { constantsFromMeta } from './fromMetadata';
+import { decorateConstants } from '..';
 
 function init (meta: string): [Constants, TypeRegistry] {
   const registry = new TypeRegistry();
@@ -16,7 +17,7 @@ function init (meta: string): [Constants, TypeRegistry] {
 
   registry.setMetadata(metadata);
 
-  return [constantsFromMeta(registry, metadata), registry];
+  return [decorateConstants(registry, metadata.asLatest), registry];
 }
 
 describe('fromMetadata', (): void => {
@@ -25,7 +26,7 @@ describe('fromMetadata', (): void => {
 
     expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
     // 3 second blocks, 28 days
-    expect(consts.democracy.cooloffPeriod.toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
+    expect((consts.democracy.cooloffPeriod as unknown as BlockNumber).toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
   });
 
   // removed from session

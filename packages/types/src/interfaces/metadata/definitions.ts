@@ -250,6 +250,7 @@ export default {
 
     // This always maps to the latest
     DoubleMapTypeLatest: 'DoubleMapTypeV12',
+    ErrorMetadataLatest: 'ErrorMetadataV12',
     EventMetadataLatest: 'EventMetadataV12',
     ExtrinsicMetadataLatest: 'ExtrinsicMetadataV12',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV12',

@@ -7,21 +7,23 @@ import type { DecoratedMeta } from './types';
 import { assert } from '@polkadot/util';
 
 import { Metadata } from '../Metadata';
-import { constantsFromMeta } from './consts/fromMetadata';
-import { extrinsicsFromMeta } from './extrinsics/fromMetadata';
-import { storageFromMeta } from './storage/fromMetadata';
+import { decorateConstants } from './constants';
+import { decorateExtrinsics } from './extrinsics';
+import { decorateStorage } from './storage';
 
 /**
- * Expands the metadata by decoration int consts, query and tx sections
+ * Expands the metadata by decoration into consts, query and tx sections
  */
-export function expandMetadata (registry: Registry, value: Metadata): DecoratedMeta {
-  assert(value instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
+export function expandMetadata (registry: Registry, metadata: Metadata): DecoratedMeta {
+  assert(metadata instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
+
+  const latest = metadata.asLatest;
 
   return {
-    consts: constantsFromMeta(registry, value),
-    query: storageFromMeta(registry, value),
-    tx: extrinsicsFromMeta(registry, value)
+    consts: decorateConstants(registry, latest),
+    query: decorateStorage(registry, latest, metadata.version),
+    tx: decorateExtrinsics(registry, latest)
   };
 }
 
-export { constantsFromMeta, extrinsicsFromMeta, storageFromMeta };
+export { decorateConstants, decorateExtrinsics, decorateStorage };

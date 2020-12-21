@@ -4,7 +4,7 @@
 import type { TypeDef } from '../create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { AnyJson, Constructor, Registry, RegistryMetadataEvent } from '../types';
+import type { AnyJson, Constructor, Registry } from '../types';
 
 import { Struct } from '../codec/Struct';
 import { Tuple } from '../codec/Tuple';
@@ -24,10 +24,10 @@ export class GenericEventData extends Tuple {
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: RegistryMetadataEvent, section = '<unknown>', method = '<unknown>') {
+  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
     super(registry, Types, value);
 
-    this.#meta = meta as EventMetadataLatest;
+    this.#meta = meta;
     this.#method = method;
     this.#section = section;
     this.#typeDef = typeDef;
