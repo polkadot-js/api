@@ -7,7 +7,7 @@ import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/t
 import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 // we are attempting to avoid circular refs, hence the Metadata path import
-import { decorateExtrinsics } from '@polkadot/metadata/decorate';
+import { decorateExtrinsics } from '@polkadot/metadata/decorate/extrinsics';
 import { Metadata } from '@polkadot/metadata/Metadata';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
