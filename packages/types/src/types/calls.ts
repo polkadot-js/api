@@ -15,7 +15,3 @@ export interface CallBase {
 export interface CallFunction extends CallBase {
   (...args: any[]): Call;
 }
-
-export type Calls = Record<string, CallFunction>;
-
-export type ModulesWithCalls = Record<string, Calls>;

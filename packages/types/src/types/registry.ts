@@ -8,9 +8,8 @@ import { H256 } from '../interfaces/runtime';
 import { ChainProperties } from '../interfaces/system';
 import { u8 } from '../primitive';
 import { CallFunction } from './calls';
-import { Codec, Constructor } from './codec';
+import { AnyJson, Codec, Constructor } from './codec';
 import { DefinitionRpc, DefinitionRpcSub } from './definitions';
-import { AnyJson } from './helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }

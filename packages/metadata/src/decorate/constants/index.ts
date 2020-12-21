@@ -9,7 +9,7 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 import { Metadata } from '../../Metadata';
 
 /** @internal */
-export function constantsFromMeta (registry: Registry, metadata: Metadata): Constants {
+export function decorateConstants (registry: Registry, metadata: Metadata): Constants {
   return metadata.asLatest.modules.reduce((result: Constants, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;

@@ -7,7 +7,7 @@ import { u8aToHex } from '@polkadot/util';
 
 import { Metadata } from '../../';
 import rpcMetadata from '../../static';
-import { storageFromMeta } from '../';
+import { decorateStorage } from '..';
 
 const keyring = createTestPairs({ type: 'ed25519' });
 
@@ -18,14 +18,14 @@ describe('fromMetadata', (): void => {
 
     registry.setMetadata(metadata);
 
-    const query = storageFromMeta(registry, metadata);
+    const query = decorateStorage(registry, metadata);
 
     it('should throw if the storage function expects an argument', (): void => {
-      expect((): any => query.balances.account()).toThrowError(/requires one argument/);
+      expect(() => query.balances.account()).toThrowError(/requires one argument/);
     });
 
     it('should return a value if the storage function does not expect an argument', (): void => {
-      expect((): any => query.timestamp.now()).not.toThrow();
+      expect(() => query.timestamp.now()).not.toThrow();
     });
 
     it('should return the correct length-prefixed storage key', (): void => {

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Metadata, storageFromMeta } from '@polkadot/metadata';
+import { decorateStorage, Metadata } from '@polkadot/metadata';
 import rpcDataV11 from '@polkadot/metadata/v11/static';
 
 import { TypeRegistry } from '../create';
@@ -15,7 +15,7 @@ describe('StorageKey', (): void => {
 
     registry.setMetadata(metadata);
 
-    const query = storageFromMeta(registry, metadata);
+    const query = decorateStorage(registry, metadata);
 
     it('should allow decoding of a DoubleMap key', (): void => {
       const key = new StorageKey(registry, '0x5f3e4907f716ac89b6347d15ececedca8bde0a0ea8864605e3b68ed9cb2da01b66ccada06515787c10000000e535263148daaf49be5ddb1579b72e84524fc29e78609e3caf42e85aa118ebfe0b0ad404b5bdd25f');

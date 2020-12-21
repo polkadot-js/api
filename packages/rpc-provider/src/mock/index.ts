@@ -12,7 +12,7 @@ import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
 
 import { createTestKeyring } from '@polkadot/keyring/testing';
-import { Metadata, storageFromMeta } from '@polkadot/metadata';
+import { decorateStorage, Metadata } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
@@ -168,7 +168,7 @@ export class MockProvider implements ProviderInterface {
 
     this.registry.setMetadata(metadata);
 
-    const query = storageFromMeta(this.registry, metadata);
+    const query = decorateStorage(this.registry, metadata);
 
     // Do something every 1 seconds
     setInterval((): void => {

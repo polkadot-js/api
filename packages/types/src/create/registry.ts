@@ -7,7 +7,7 @@ import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/t
 import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryMetadata, RegistryTypes } from '../types';
 
 // we are attempting to avoid circular refs, hence the Metadata path import
-import { extrinsicsFromMeta } from '@polkadot/metadata/decorate/extrinsics/fromMetadata';
+import { decorateExtrinsics } from '@polkadot/metadata/decorate';
 import { Metadata } from '@polkadot/metadata/Metadata';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -26,7 +26,7 @@ import { getTypeDef } from './getTypeDef';
 const l = logger('registry');
 
 // create error mapping from metadata
-function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
+function injectErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
   const modules = metadata.asLatest.modules;
   const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
@@ -51,7 +51,7 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
 }
 
 // create event classes from metadata
-function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
+function injectEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
   const modules = metadata.asLatest.modules;
   const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
@@ -87,8 +87,8 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
 }
 
 // create extrinsic mapping from metadata
-function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, metadataCalls: Record<string, CallFunction>): void {
-  const extrinsics = extrinsicsFromMeta(registry, metadata);
+function injectExtrinsics (registry: Registry, metadata: RegistryMetadata, metadataCalls: Record<string, CallFunction>): void {
+  const extrinsics = decorateExtrinsics(registry, metadata);
 
   // decorate the extrinsics
   Object.values(extrinsics).forEach((methods): void =>
@@ -346,9 +346,9 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: RegistryMetadata, signedExtensions?: string[]): void {
-    decorateExtrinsics(this, metadata, this.#metadataCalls);
-    decorateErrors(this, metadata, this.#metadataErrors);
-    decorateEvents(this, metadata, this.#metadataEvents);
+    injectExtrinsics(this, metadata, this.#metadataCalls);
+    injectErrors(this, metadata, this.#metadataErrors);
+    injectEvents(this, metadata, this.#metadataEvents);
 
     // setup the available extensions
     this.setSignedExtensions(

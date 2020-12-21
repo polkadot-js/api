@@ -4,4 +4,4 @@
 import './detectPackage';
 
 export { Metadata } from './Metadata';
-export { constantsFromMeta, expandMetadata, extrinsicsFromMeta, storageFromMeta } from './decorate';
+export { decorateConstants, decorateExtrinsics, decorateStorage, expandMetadata } from './decorate';

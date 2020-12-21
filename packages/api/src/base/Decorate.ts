@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Constants, DecoratedMeta } from '@polkadot/metadata/decorate/types';
+import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
@@ -84,7 +84,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _runtimeVersion?: RuntimeVersion;
 
   protected _rx: ApiInterfaceRx = {
-    consts: {} as Constants,
+    consts: {} as QueryableConsts<'rxjs'>,
     query: {} as QueryableStorage<'rxjs'>,
     tx: {} as SubmittableExtrinsics<'rxjs'>
   } as ApiInterfaceRx;

@@ -3,8 +3,28 @@
 
 import type BN from 'bn.js';
 import type { H256 } from '../interfaces/runtime';
-import type { AnyJson, BareOpts } from './helpers';
 import type { Registry } from './registry';
+
+export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
+
+export type AnyFunction = (...args: any[]) => any;
+
+export type AnyNumber = BN | BigInt | Uint8Array | number | string;
+
+export type AnyString = string | string;
+
+export type AnyU8a = Uint8Array | number[] | string;
+
+// helper to extract keys from an array
+export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType>
+  ? ElementType
+  : never;
+
+export type BareOpts = boolean | Record<string, boolean>;
+
+export type Callback<T, E = undefined> = E extends Codec
+  ? (result: T, extra: E) => void | Promise<void>
+  : (result: T) => void | Promise<void>;
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 

@@ -1,27 +1,28 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AugmentedConst, QueryableConsts, QueryableModuleConsts } from '@polkadot/api/types/consts';
+import type { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { Codec, ModulesWithCalls } from '@polkadot/types/types';
+import type { CallFunction, Codec } from '@polkadot/types/types';
 
-export interface ModuleStorage {
-  [key: string]: StorageEntry;
+export interface ConstantCodec extends Codec {
+  meta: ModuleConstantMetadataLatest;
 }
 
-export type Constants = QueryableConsts<'rxjs'>;
+export type ModuleConstants = Record<string, ConstantCodec>
 
-export type ConstantCodec = Codec & AugmentedConst<'rxjs'>;
+export type ModuleExtrinsics = Record<string, CallFunction>;
 
-export type ModuleConstants = QueryableModuleConsts;
+export type ModuleStorage = Record<string, StorageEntry>
 
-export interface Storage {
-  [key: string]: ModuleStorage;
-  substrate: ModuleStorage;
-}
+export type Constants = Record<string, ModuleConstants>;
+
+export type Extrinsics = Record<string, ModuleExtrinsics>
+
+export type Storage = Record<string, ModuleStorage>;
 
 export interface DecoratedMeta {
   consts: Constants;
   query: Storage;
-  tx: ModulesWithCalls
+  tx: Extrinsics
 }
