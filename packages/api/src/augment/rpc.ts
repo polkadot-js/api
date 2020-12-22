@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Metadata } from '@polkadot/metadata';
-import type { Bytes, HashMap, Json, Null, Option, StorageKey, Text, Vec, bool, u32, u64 } from '@polkadot/types';
+import type { Bytes, HashMap, Json, Null, Option, StorageKey, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types';
 import type { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
@@ -11,12 +11,13 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
+import type { EthCallRequest, EthFilter, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import type { AccountId, BlockNumber, H256, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import type { ReadProof, RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 
@@ -133,6 +134,156 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Instructs the manual-seal authorship task to finalize a block
        **/
       finalizeBlock: AugmentedRpc<(hash: BlockHash | string | Uint8Array, justification?: Justification | string | Uint8Array) => Observable<bool>>;
+    };
+    eth: {
+      /**
+       * Returns accounts list.
+       **/
+      accounts: AugmentedRpc<() => Observable<Vec<H160>>>;
+      /**
+       * Returns balance of the given account.
+       **/
+      blockNumber: AugmentedRpc<() => Observable<U256>>;
+      /**
+       * Call contract, returning the output data.
+       **/
+      call: AugmentedRpc<(request: EthCallRequest | { from?: any; to?: any; gasPrice?: any; gas?: any; value?: any; data?: any; nonce?: any } | string | Uint8Array, number?: BlockNumber | AnyNumber | Uint8Array) => Observable<Bytes>>;
+      /**
+       * Returns the chain ID used for transaction signing at the current best block. None is returned if not available.
+       **/
+      chainId: AugmentedRpc<() => Observable<U64>>;
+      /**
+       * Returns block author.
+       **/
+      coinbase: AugmentedRpc<() => Observable<H160>>;
+      /**
+       * Estimate gas needed for execution of given contract.
+       **/
+      estimateGas: AugmentedRpc<(request: EthCallRequest | { from?: any; to?: any; gasPrice?: any; gas?: any; value?: any; data?: any; nonce?: any } | string | Uint8Array, number?: BlockNumber | AnyNumber | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns current gas price.
+       **/
+      gasPrice: AugmentedRpc<() => Observable<U256>>;
+      /**
+       * Returns balance of the given account.
+       **/
+      getBalance: AugmentedRpc<(address: H160 | string | Uint8Array, number?: BlockNumber | AnyNumber | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns block with given hash.
+       **/
+      getBlockByHash: AugmentedRpc<(hash: H256 | string | Uint8Array, full: bool | boolean | Uint8Array) => Observable<Option<EthRichBlock>>>;
+      /**
+       * Returns block with given number.
+       **/
+      getBlockByNumber: AugmentedRpc<(block: BlockNumber | AnyNumber | Uint8Array, full: bool | boolean | Uint8Array) => Observable<Option<EthRichBlock>>>;
+      /**
+       * Returns the number of transactions in a block with given hash.
+       **/
+      getBlockTransactionCountByHash: AugmentedRpc<(hash: H256 | string | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns the number of transactions in a block with given block number.
+       **/
+      getBlockTransactionCountByNumber: AugmentedRpc<(block: BlockNumber | AnyNumber | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns the code at given address at given time (block number).
+       **/
+      getCode: AugmentedRpc<(address: H160 | string | Uint8Array, number?: BlockNumber | AnyNumber | Uint8Array) => Observable<Bytes>>;
+      /**
+       * Returns logs matching given filter object.
+       **/
+      getLogs: AugmentedRpc<(filter: EthFilter | { fromBlock?: any; toBlock?: any; blockHash?: any; address?: any; topics?: any } | string | Uint8Array) => Observable<Vec<EthLog>>>;
+      /**
+       * Returns content of the storage at given address.
+       **/
+      getStorageAt: AugmentedRpc<(address: H160 | string | Uint8Array, index: U256 | AnyNumber | Uint8Array, number?: BlockNumber | AnyNumber | Uint8Array) => Observable<H256>>;
+      /**
+       * Returns transaction at given block hash and index.
+       **/
+      getTransactionByBlockHashAndIndex: AugmentedRpc<(hash: H256 | string | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthTransaction>>;
+      /**
+       * Returns transaction by given block number and index.
+       **/
+      getTransactionByBlockNumberAndIndex: AugmentedRpc<(number: BlockNumber | AnyNumber | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthTransaction>>;
+      /**
+       * Get transaction by its hash.
+       **/
+      getTransactionByHash: AugmentedRpc<(hash: H256 | string | Uint8Array) => Observable<EthTransaction>>;
+      /**
+       * Returns the number of transactions sent from given address at given time (block number).
+       **/
+      getTransactionCount: AugmentedRpc<(hash: H256 | string | Uint8Array, number?: BlockNumber | AnyNumber | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns transaction receipt by transaction hash.
+       **/
+      getTransactionReceipt: AugmentedRpc<(hash: H256 | string | Uint8Array) => Observable<EthReceipt>>;
+      /**
+       * Returns an uncles at given block and index.
+       **/
+      getUncleByBlockHashAndIndex: AugmentedRpc<(hash: H256 | string | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthRichBlock>>;
+      /**
+       * Returns an uncles at given block and index.
+       **/
+      getUncleByBlockNumberAndIndex: AugmentedRpc<(number: BlockNumber | AnyNumber | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthRichBlock>>;
+      /**
+       * Returns the number of uncles in a block with given hash.
+       **/
+      getUncleCountByBlockHash: AugmentedRpc<(hash: H256 | string | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns the number of uncles in a block with given block number.
+       **/
+      getUncleCountByBlockNumber: AugmentedRpc<(number: BlockNumber | AnyNumber | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns the hash of the current block, the seedHash, and the boundary condition to be met.
+       **/
+      getWork: AugmentedRpc<() => Observable<EthWork>>;
+      /**
+       * Returns the number of hashes per second that the node is mining with.
+       **/
+      hashrate: AugmentedRpc<() => Observable<U256>>;
+      /**
+       * Returns true if client is actively listening for network connections. Otherwise false.
+       **/
+      listening: AugmentedRpc<() => Observable<bool>>;
+      /**
+       * Returns true if client is actively mining new blocks.
+       **/
+      mining: AugmentedRpc<() => Observable<bool>>;
+      /**
+       * Returns number of peers connected to node.
+       **/
+      peerCount: AugmentedRpc<() => Observable<Text>>;
+      /**
+       * Returns protocol version encoded as a string (quotes are necessary).
+       **/
+      protocolVersion: AugmentedRpc<() => Observable<u64>>;
+      /**
+       * Sends signed transaction, returning its hash.
+       **/
+      sendRawTransaction: AugmentedRpc<(bytes: Bytes | string | Uint8Array) => Observable<H256>>;
+      /**
+       * Sends transaction; will block waiting for signer to return the transaction hash
+       **/
+      sendTransaction: AugmentedRpc<(tx: EthTransactionRequest | { from?: any; to?: any; gasPrice?: any; gas?: any; value?: any; data?: any; nonce?: any } | string | Uint8Array) => Observable<H256>>;
+      /**
+       * Used for submitting mining hashrate.
+       **/
+      submitHashrate: AugmentedRpc<(index: U256 | AnyNumber | Uint8Array, hash: H256 | string | Uint8Array) => Observable<bool>>;
+      /**
+       * Used for submitting a proof-of-work solution.
+       **/
+      submitWork: AugmentedRpc<(nonce: H64 | string | Uint8Array, headerHash: H256 | string | Uint8Array, mixDigest: H256 | string | Uint8Array) => Observable<bool>>;
+      /**
+       * Subscribe to Eth subscription.
+       **/
+      subscribe: AugmentedRpc<(kind: EthSubKind | 'newHeads' | 'logs' | 'newPendingTransactions' | 'syncing' | number | Uint8Array, params?: EthSubParams | { None: any } | { Logs: any } | string | Uint8Array) => Observable<Null>>;
+      /**
+       * Returns an object with data about the sync status or false.
+       **/
+      syncing: AugmentedRpc<() => Observable<EthSyncStatus>>;
+      /**
+       * Returns protocol version.
+       **/
+      version: AugmentedRpc<() => Observable<Text>>;
     };
     grandpa: {
       /**

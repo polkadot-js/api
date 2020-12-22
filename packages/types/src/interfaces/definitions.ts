@@ -49,7 +49,7 @@ export { default as contractsAbi } from './contractsAbi/definitions';
 export { default as scaleInfo } from './scaleInfo/definitions';
 
 // other useful types
-export { default as ethereum } from './ethereum/definitions';
+export { default as eth } from './eth/definitions';
 
 // pull in metadata & rpc last, assuming that is uses info from above
 export { default as metadata } from './metadata/definitions';

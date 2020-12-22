@@ -186,11 +186,11 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): any {
+  public toJSON (onlyHex = false): any {
     // FIXME this return type should by string | number, but BN's return type
     // is string.
     // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
-    return super.bitLength() > 52
+    return onlyHex || (super.bitLength() > 52)
       ? this.toHex()
       : this.toNumber();
   }
