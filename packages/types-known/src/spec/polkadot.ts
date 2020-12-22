@@ -6,6 +6,7 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
+  AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',

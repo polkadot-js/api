@@ -39,7 +39,11 @@ export interface DefinitionRpcSub extends DefinitionRpc {
   pubsub: [string, string, string];
 }
 
+export type DefinitionsRpc = Record<string, DefinitionRpc | DefinitionRpcSub>;
+
+export type DefinitionsTypes = Record<string, DefinitionType>;
+
 export interface Definitions {
-  rpc: Record<string, DefinitionRpc | DefinitionRpcSub>;
-  types: Record<string, DefinitionType>;
+  rpc: DefinitionsRpc;
+  types: DefinitionsTypes;
 }

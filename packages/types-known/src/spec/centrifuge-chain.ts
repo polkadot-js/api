@@ -7,6 +7,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
   // substrate
+  AccountInfo: 'AccountInfoWithRefCount',
   Address: 'LookupSource',
   LookupSource: 'IndicesLookupSource',
 
