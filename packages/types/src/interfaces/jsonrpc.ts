@@ -10,13 +10,19 @@ const jsonrpc: Record<string, Record<string, DefinitionRpcExt>> = {};
 Object
   .keys(definitions)
   .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0)
-  .forEach((section): void => {
-    jsonrpc[section] = {};
+  .forEach((_section): void => {
+    jsonrpc[_section] = {};
 
     Object
-      .entries(definitions[section as 'babe'].rpc)
+      .entries(definitions[_section as 'babe'].rpc)
       .forEach(([method, def]): void => {
         const isSubscription = !!(def as DefinitionRpcSub).pubsub;
+        const section = def.aliasSection || _section;
+
+        // allow for section overrides
+        if (!jsonrpc[section]) {
+          jsonrpc[section] = {};
+        }
 
         jsonrpc[section][method] = ({ ...def, isSubscription, jsonrpc: `${section}_${method}`, method, section });
       });

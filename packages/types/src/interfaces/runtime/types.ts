@@ -102,14 +102,26 @@ export interface FixedU128 extends UInt {}
 /** @name FixedU64 */
 export interface FixedU64 extends UInt {}
 
+/** @name H1024 */
+export interface H1024 extends U8aFixed {}
+
+/** @name H128 */
+export interface H128 extends U8aFixed {}
+
 /** @name H160 */
 export interface H160 extends U8aFixed {}
+
+/** @name H2048 */
+export interface H2048 extends U8aFixed {}
 
 /** @name H256 */
 export interface H256 extends U8aFixed {}
 
 /** @name H512 */
 export interface H512 extends U8aFixed {}
+
+/** @name H64 */
+export interface H64 extends U8aFixed {}
 
 /** @name Hash */
 export interface Hash extends H256 {}

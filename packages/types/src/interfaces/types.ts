@@ -40,7 +40,7 @@ export * from './poll/types';
 export * from './purchase/types';
 export * from './contractsAbi/types';
 export * from './scaleInfo/types';
-export * from './ethereum/types';
+export * from './eth/types';
 export * from './metadata/types';
 export * from './rpc/types';
 export * from './author/types';
