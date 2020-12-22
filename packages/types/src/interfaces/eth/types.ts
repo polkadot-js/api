@@ -9,4 +9,4 @@ export interface EthereumAccountId extends GenericEthereumAccountId {}
 /** @name EthereumLookupSource */
 export interface EthereumLookupSource extends GenericEthereumLookupSource {}
 
-export type PHANTOM_ETHEREUM = 'ethereum';
+export type PHANTOM_ETH = 'eth';

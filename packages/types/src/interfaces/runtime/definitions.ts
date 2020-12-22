@@ -64,6 +64,8 @@ export default {
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
+    H1024: '[u8; 128; H1024]',
+    H2048: '[u8; 256; H2048]',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',
