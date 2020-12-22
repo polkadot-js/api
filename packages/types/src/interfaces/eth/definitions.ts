@@ -99,7 +99,7 @@ const rpc: DefinitionsRpc = {
   getLogs: {
     description: 'Returns logs matching given filter object.',
     params: [
-      { name: 'filter', type: 'Filter' }
+      { name: 'filter', type: 'EthFilter' }
     ],
     type: 'Vec<EthLog>'
   },
@@ -269,6 +269,34 @@ const types: DefinitionsTypes = {
   EthereumLookupSource: 'GenericEthereumLookupSource',
   EthAccountId: 'GenericEthereumAccountId',
   EthLookupSource: 'GenericEthereumLookupSource',
+  EthBlock: {
+    hash: 'Option<H256>',
+    parentHash: 'H256',
+    sha3Uncles: 'H256',
+    author: 'H160',
+    miner: 'H160',
+    stateRoot: 'H256',
+    transactionsRoot: 'H256',
+    receiptsRoot: 'H256',
+    number: 'Option<U256>',
+    gasUsed: 'U256',
+    gasLimit: 'U256',
+    extraData: 'Bytes',
+    logsBloom: 'H2048',
+    timestamp: 'U256',
+    difficulty: 'U256',
+    totalDifficulty: 'Option<U256>',
+    sealFields: 'Vec<Bytes>',
+    uncles: 'Vec<H256>',
+    transactions: 'EthBlockTransactions',
+    size: 'Option<U256>'
+  },
+  EthBlockTransactions: {
+    _enum: {
+      Hashes: 'Vec<H256>',
+      Full: 'Vec<EthTransaction>'
+    }
+  },
   EthCallRequest: {
     from: 'Option<H160>',
     to: 'Option<H160>',
@@ -277,6 +305,35 @@ const types: DefinitionsTypes = {
     value: 'Option<U256>',
     data: 'Option<Bytes>',
     nonce: 'Option<U256>'
+  },
+  EthFilter: {
+    fromBlock: 'Option<BlockNumber>',
+    toBlock: 'Option<BlockNumber>',
+    blockHash: 'Option<H256>',
+    address: 'Option<EthFilterAddress>',
+    topics: 'Option<EthFilterTopic>'
+  },
+  EthFilterAddress: {
+    _enum: {
+      Single: 'H160',
+      Multiple: 'Vec<H160>',
+      Null: 'Null'
+    }
+  },
+  EthFilterTopic: {
+    _enum: {
+      Single: 'EthFilterTopicInner',
+      Multiple: 'Vec<EthFilterTopicInner>',
+      Null: 'Null'
+    }
+  },
+  EthFilterTopicEntry: 'Option<H256>',
+  EthFilterTopicInner: {
+    _enum: {
+      Single: 'EthFilterTopicEntry',
+      Multiple: 'Vec<EthFilterTopicEntry>',
+      Null: 'Null'
+    }
   },
   EthHeader: {
     hash: 'Option<H256>',
@@ -332,7 +389,7 @@ const types: DefinitionsTypes = {
   EthSubParams: {
     _enum: {
       None: 'Null',
-      Logs: 'Filter'
+      Logs: 'EthFilter'
     }
   },
   EthSubResult: {
