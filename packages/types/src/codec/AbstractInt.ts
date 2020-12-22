@@ -7,7 +7,7 @@ import type { UIntBitLength } from './types';
 
 import BN from 'bn.js';
 
-import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn, u8aToHex } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -189,8 +189,21 @@ export abstract class AbstractInt extends BN implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (onlyHex = true): any {
+    if (onlyHex && this.isUnsigned) {
+      const u8a = bnToU8a(this, { isLe: false });
+      let index = 0;
+
+      while (index < u8a.length && !u8a[index]) {
+        index++;
+      }
+
+      return index === u8a.length
+        ? '0x00'
+        : u8aToHex(u8a.subarray(index));
+    }
+
     // FIXME this return type should by string | number, but BN hash string
-    return onlyHex || (super.bitLength() > MAX_NUMBER_BITS)
+    return super.bitLength() > MAX_NUMBER_BITS
       ? this.toHex()
       : this.toNumber();
   }

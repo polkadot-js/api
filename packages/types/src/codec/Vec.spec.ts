@@ -52,7 +52,7 @@ describe('Vec', (): void => {
   it('allows construction via JSON (string type)', (): void => {
     expect(
       new Vec(registry, 'u32', ['6', '7']).toJSON()
-    ).toEqual([6, 7]);
+    ).toEqual(['0x06', '0x07']);
   });
 
   it('exposes the type', (): void => {

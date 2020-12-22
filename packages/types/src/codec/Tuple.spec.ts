@@ -34,7 +34,7 @@ describe('Tuple', (): void => {
 
         expect(
           t.toJSON()
-        ).toEqual(['bazzing', 69]);
+        ).toEqual(['bazzing', '0x45']);
       });
 
     testDecode('array', ['bazzing', 69]);
@@ -65,9 +65,9 @@ describe('Tuple', (): void => {
       });
 
     testEncode('toHex', '0x1c62617a7a696e6745000000');
-    testEncode('toJSON', ['bazzing', 69]);
+    testEncode('toJSON', ['bazzing', '0x45']);
     testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
-    testEncode('toString', '["bazzing",69]');
+    testEncode('toString', '["bazzing","0x45"]');
   });
 
   it('creates from string types', (): void => {
@@ -77,7 +77,7 @@ describe('Tuple', (): void => {
         ['Text', 'u32', U32],
         ['foo', 69, 42]
       ).toString()
-    ).toEqual('["foo",69,42]');
+    ).toEqual('["foo","0x45","0x2a"]');
   });
 
   it('creates properly via actual hex string', (): void => {
@@ -108,11 +108,11 @@ describe('Tuple', (): void => {
   });
 
   it('exposes filter', (): void => {
-    expect(tuple.filter((v): boolean => v.toJSON() === 69)).toEqual([new U32(registry, 69)]);
+    expect(tuple.filter((v) => v.toJSON() === '0x45')).toEqual([new U32(registry, 69)]);
   });
 
   it('exposes map', (): void => {
-    expect(tuple.map((v): string => v.toString())).toEqual(['bazzing', '69']);
+    expect(tuple.map((v) => v.toString())).toEqual(['bazzing', '69']);
   });
 
   describe('utils', (): void => {

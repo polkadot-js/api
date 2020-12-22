@@ -16,8 +16,8 @@ mockU32Set.add(new U32(registry, 24));
 mockU32Set.add(new U32(registry, 30));
 mockU32Set.add(new U32(registry, 80));
 
-const mockU32SetString = '[2,24,30,80]';
-const mockU32SetObject = [2, 24, 30, 80];
+const mockU32SetString = '["0x02","0x18","0x1e","0x50"]';
+const mockU32SetObject = ['0x02', '0x18', '0x1e', '0x50'];
 const mockU32SetHexString = '0x1002000000180000001e00000050000000';
 const mockU32SetUint8Array = Uint8Array.from([16, 2, 0, 0, 0, 24, 0, 0, 0, 30, 0, 0, 0, 80, 0, 0, 0]);
 
@@ -76,7 +76,7 @@ describe('BTreeSet', (): void => {
     });
 
     s.set('value', new BTreeSet(registry, U32, mockU32Set));
-    expect(s.toString()).toBe('{"placeholder":0,"value":[2,24,30,80]}');
+    expect(s.toString()).toBe('{"placeholder":"0x00","value":["0x02","0x18","0x1e","0x50"]}');
   });
 
   it('throws when it cannot decode', (): void => {

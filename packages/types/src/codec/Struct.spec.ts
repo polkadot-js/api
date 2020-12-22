@@ -46,9 +46,9 @@ describe('Struct', (): void => {
       });
 
     testEncode('toHex', '0x1c62617a7a696e6745000000');
-    testEncode('toJSON', { foo: 'bazzing', bar: 69 });
+    testEncode('toJSON', { foo: 'bazzing', bar: '0x45' });
     testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
-    testEncode('toString', '{"foo":"bazzing","bar":69}');
+    testEncode('toString', '{"foo":"bazzing","bar":"0x45"}');
   });
 
   it('decodes null', (): void => {
@@ -95,7 +95,7 @@ describe('Struct', (): void => {
       bar: U32
     }, input);
 
-    expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
+    expect(s.toString()).toEqual('{"txt":"fubar","foo":"0x00","bar":"0x00"}');
   });
 
   it('decodes from a snake_case input', (): void => {
@@ -105,7 +105,7 @@ describe('Struct', (): void => {
       other: U32
     }, { snake_case_a: 42, snake_case_b: 'fubar', other: 69 } as any);
 
-    expect(input.toString()).toEqual('{"snakeCaseA":42,"snakeCaseB":"fubar","other":69}');
+    expect(input.toString()).toEqual('{"snakeCaseA":"0x2a","snakeCaseB":"fubar","other":"0x45"}');
   });
 
   it('throws when it cannot decode', (): void => {
@@ -127,7 +127,7 @@ describe('Struct', (): void => {
           u32: U32
         })
       )(registry, { txt: 'foo', u32: 0x123456 }).toString()
-    ).toEqual('{"txt":"foo","u32":1193046}');
+    ).toEqual('{"txt":"foo","u32":"0x123456"}');
   });
 
   it('provides a clean toString() (string types)', (): void => {
@@ -139,7 +139,7 @@ describe('Struct', (): void => {
           cls: U32
         })
       )(registry, { txt: 'foo', num: 0x123456, cls: 123 }).toString()
-    ).toEqual('{"txt":"foo","num":1193046,"cls":123}');
+    ).toEqual('{"txt":"foo","num":"0x123456","cls":"0x7b"}');
   });
 
   it('exposes the properties on the object', (): void => {
@@ -222,7 +222,7 @@ describe('Struct', (): void => {
       new Struct(registry, {
         blockNumber: registry.createClass('Option<BlockNumber>')
       }, { blockNumber: '0x0000000010abcdef' }).toString()
-    ).toEqual('{"blockNumber":279694831}');
+    ).toEqual('{"blockNumber":"0x10abcdef"}');
   });
 
   it('generates sane toRawType', (): void => {

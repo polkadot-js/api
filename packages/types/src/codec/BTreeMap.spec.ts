@@ -36,7 +36,7 @@ describe('BTreeMap', (): void => {
     });
 
     s.set('value', new (BTreeMap.with(Text, U32))(registry, mockU32TextMap));
-    expect(s.toString()).toBe('{"placeholder":0,"value":{"bazzing":69}}');
+    expect(s.toString()).toBe('{"placeholder":"0x00","value":{"bazzing":"0x45"}}');
   });
 
   it('throws when it cannot decode', (): void => {

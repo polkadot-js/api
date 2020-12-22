@@ -33,8 +33,8 @@ describe('createType', (): void => {
     }]);
 
     expect(struct.toJSON()).toEqual({
-      balance: 1234,
-      index: 16
+      balance: '0x04d2',
+      index: '0x10'
     });
     expect(struct.toRawType()).toEqual(raw);
   });
@@ -42,13 +42,13 @@ describe('createType', (): void => {
   it('allows creation of a BTreeMap', (): void => {
     expect(
       createTypeUnsafe(registry, 'BTreeMap<Text,u32>', ['0x041c62617a7a696e6745000000']).toString()
-    ).toEqual('{"bazzing":69}');
+    ).toEqual('{"bazzing":"0x45"}');
   });
 
   it('allows creation of a BTreeSet', (): void => {
     expect(
       createTypeUnsafe(registry, 'BTreeSet<u32>', ['0x1002000000180000001e00000050000000']).toString()
-    ).toEqual('[2,24,30,80]');
+    ).toEqual('["0x02","0x18","0x1e","0x50"]');
   });
 
   it('allows creation of a Enum (simple)', (): void => {
@@ -60,7 +60,7 @@ describe('createType', (): void => {
   it('allows creation of a Enum (parametrised)', (): void => {
     expect(
       createTypeUnsafe(registry, '{"_enum": {"A": null, "B": "u32", "C": null} }', [1]).toJSON()
-    ).toEqual({ B: 0 });
+    ).toEqual({ B: '0x00' });
   });
 
   it('allows creation of a Result', (): void => {
@@ -78,7 +78,7 @@ describe('createType', (): void => {
   it('allows creation of a Tuple', (): void => {
     expect(
       createTypeUnsafe(registry, '(Balance,u32)', [[1234, 5678]]).toJSON()
-    ).toEqual([1234, 5678]);
+    ).toEqual(['0x04d2', '0x162e']);
   });
 
   it('allows creation for a UInt<bitLength>', (): void => {

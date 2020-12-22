@@ -22,7 +22,7 @@ describe('Result', (): void => {
     expect(result.asOk.toU8a()).toEqual(new Uint8Array([1, 2, 3, 4]));
     expect(result.toHex()).toEqual('0x0001020304');
     expect(result.toJSON()).toEqual({
-      Ok: 0x04030201
+      Ok: '0x04030201'
     });
   });
 

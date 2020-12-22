@@ -30,7 +30,7 @@ describe('Enum', (): void => {
           { Text, U32 },
           new Uint8Array([1, 2 << 2, 49, 50])
         ).toString()
-      ).toEqual('{"U32":3289352}');
+      ).toEqual('{"U32":"0x323108"}');
     });
 
     it('decodes from a JSON input (lowercase)', (): void => {
@@ -145,7 +145,7 @@ describe('Enum', (): void => {
       const Test = Enum.with({ A, B, C });
 
       expect(new Test(registry).toJSON()).toEqual({ A: null });
-      expect(new Test(registry, 1234, 1).toJSON()).toEqual({ B: 1234 });
+      expect(new Test(registry, 1234, 1).toJSON()).toEqual({ B: '0x04d2' });
       expect(new Test(registry, 0x1234, 1).toU8a()).toEqual(new Uint8Array([1, 0x34, 0x12, 0x00, 0x00]));
       expect(new Test(registry, 0x1234, 1).toU8a(true)).toEqual(new Uint8Array([0x34, 0x12, 0x00, 0x00]));
     });

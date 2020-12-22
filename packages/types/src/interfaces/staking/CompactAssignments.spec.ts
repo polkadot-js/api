@@ -79,7 +79,7 @@ describe('CompactAssignmentSiCompact', (): void => {
     const compact = registry.createType('CompactAssignmentsTo257', bytes);
 
     expect(compact.toJSON()).toEqual({
-      votes1: [[2, [], 20], [4, [], 40]], // TODO: ideally we should not need these empty arrays here.
+      votes1: [['0x02', [], '0x14'], ['0x04', [], '0x28']], // TODO: ideally we should not need these empty arrays here.
       votes10: [],
       votes11: [],
       votes12: [],
@@ -87,7 +87,7 @@ describe('CompactAssignmentSiCompact', (): void => {
       votes14: [],
       votes15: [],
       votes16: [],
-      votes2: [[1, [[10, 52428]], 11], [5, [[50, 55704]], 51]], // TODO: also the middle element here should not be 2d array.
+      votes2: [['0x01', [['0x0a', '0xcccc']], '0x0b'], ['0x05', [['0x32', '0xd998']], '0x33']], // TODO: also the middle element here should not be 2d array.
       votes3: [],
       votes4: [],
       votes5: [],
@@ -151,7 +151,7 @@ describe('CompactAssignmentSiNormal', (): void => {
     const compact = registry.createType('CompactAssignments', bytes);
 
     expect(compact.toJSON()).toEqual({
-      votes1: [[2, 20], [4, 40]],
+      votes1: [['0x02', '0x14'], ['0x04', '0x28']],
       votes10: [],
       votes11: [],
       votes12: [],
@@ -159,7 +159,7 @@ describe('CompactAssignmentSiNormal', (): void => {
       votes14: [],
       votes15: [],
       votes16: [],
-      votes2: [[1, [10, 52428], 11], [5, [50, 55704], 51]],
+      votes2: [['0x01', ['0x0a', '0xcccc'], '0x0b'], ['0x05', ['0x32', '0xd998'], '0x33']],
       votes3: [],
       votes4: [],
       votes5: [],
