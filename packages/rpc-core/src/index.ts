@@ -106,6 +106,8 @@ export class RpcCore implements RpcInterface {
 
   public readonly engine!: RpcInterface['engine'];
 
+  public readonly eth!: RpcInterface['eth'];
+
   public readonly grandpa!: RpcInterface['grandpa'];
 
   public readonly offchain!: RpcInterface['offchain'];

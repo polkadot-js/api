@@ -203,7 +203,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Returns transaction by given block number and index.
        **/
-      getTransactionByBlockNumberAndIndex: AugmentedRpc<(number?: BlockNumber | AnyNumber | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthTransaction>>;
+      getTransactionByBlockNumberAndIndex: AugmentedRpc<(number: BlockNumber | AnyNumber | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthTransaction>>;
       /**
        * Get transaction by its hash.
        **/
@@ -223,7 +223,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Returns an uncles at given block and index.
        **/
-      getUncleByBlockNumberAndIndex: AugmentedRpc<(number?: BlockNumber | AnyNumber | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthRichBlock>>;
+      getUncleByBlockNumberAndIndex: AugmentedRpc<(number: BlockNumber | AnyNumber | Uint8Array, index: U256 | AnyNumber | Uint8Array) => Observable<EthRichBlock>>;
       /**
        * Returns the number of uncles in a block with given hash.
        **/

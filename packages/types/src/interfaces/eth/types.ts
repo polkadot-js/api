@@ -9,7 +9,7 @@ export interface EthAccountId extends GenericEthereumAccountId {}
 
 /** @name EthBlock */
 export interface EthBlock extends Struct {
-  readonly hash: Option<H256>;
+  readonly blockHash: Option<H256>;
   readonly parentHash: H256;
   readonly sha3Uncles: H256;
   readonly author: H160;
@@ -28,7 +28,7 @@ export interface EthBlock extends Struct {
   readonly sealFields: Vec<Bytes>;
   readonly uncles: Vec<H256>;
   readonly transactions: EthBlockTransactions;
-  readonly size: Option<U256>;
+  readonly blockSize: Option<U256>;
 }
 
 /** @name EthBlockTransactions */
@@ -97,7 +97,7 @@ export interface EthFilterTopicInner extends Enum {
 
 /** @name EthHeader */
 export interface EthHeader extends Struct {
-  readonly hash: Option<H256>;
+  readonly blockHash: Option<H256>;
   readonly parentHash: H256;
   readonly sha3Uncles: H256;
   readonly author: H160;
@@ -113,7 +113,7 @@ export interface EthHeader extends Struct {
   readonly timestamp: U256;
   readonly difficulty: U256;
   readonly sealFields: Vec<Bytes>;
-  readonly size: Option<U256>;
+  readonly blockSize: Option<U256>;
 }
 
 /** @name EthLog */

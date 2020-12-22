@@ -123,7 +123,7 @@ const rpc: DefinitionsRpc = {
   getTransactionByBlockNumberAndIndex: {
     description: 'Returns transaction by given block number and index.',
     params: [
-      { isOptional: true, name: 'number', type: 'BlockNumber' },
+      { name: 'number', type: 'BlockNumber' },
       { name: 'index', type: 'U256' }
     ],
     type: 'EthTransaction'
@@ -161,7 +161,7 @@ const rpc: DefinitionsRpc = {
   getUncleByBlockNumberAndIndex: {
     description: 'Returns an uncles at given block and index.',
     params: [
-      { isOptional: true, name: 'number', type: 'BlockNumber' },
+      { name: 'number', type: 'BlockNumber' },
       { name: 'index', type: 'U256' }
     ],
     type: 'EthRichBlock'
@@ -270,7 +270,11 @@ const types: DefinitionsTypes = {
   EthAccountId: 'GenericEthereumAccountId',
   EthLookupSource: 'GenericEthereumLookupSource',
   EthBlock: {
-    hash: 'Option<H256>',
+    _alias: {
+      blockHash: 'hash',
+      blockSize: 'size'
+    },
+    blockHash: 'Option<H256>',
     parentHash: 'H256',
     sha3Uncles: 'H256',
     author: 'H160',
@@ -289,7 +293,7 @@ const types: DefinitionsTypes = {
     sealFields: 'Vec<Bytes>',
     uncles: 'Vec<H256>',
     transactions: 'EthBlockTransactions',
-    size: 'Option<U256>'
+    blockSize: 'Option<U256>'
   },
   EthBlockTransactions: {
     _enum: {
@@ -336,7 +340,11 @@ const types: DefinitionsTypes = {
     }
   },
   EthHeader: {
-    hash: 'Option<H256>',
+    _alias: {
+      blockHash: 'hash',
+      blockSize: 'size'
+    },
+    blockHash: 'Option<H256>',
     parentHash: 'H256',
     sha3Uncles: 'H256',
     author: 'H160',
@@ -352,7 +360,7 @@ const types: DefinitionsTypes = {
     timestamp: 'U256',
     difficulty: 'U256',
     sealFields: 'Vec<Bytes>',
-    size: 'Option<U256>'
+    blockSize: 'Option<U256>'
   },
   EthLog: {
     address: 'H160',
