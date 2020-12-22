@@ -1,11 +1,19 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, GenericEthereumAccountId, GenericEthereumLookupSource, Option, Struct, U256, U64, Vec, bool, u64 } from '@polkadot/types';
+import type { Bytes, Enum, GenericEthereumAccountId, GenericEthereumLookupSource, Option, Struct, U256, U64, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
 import type { BlockNumber, H160, H2048, H256, H512 } from '@polkadot/types/interfaces/runtime';
 
-/** @name EthAccountId */
-export interface EthAccountId extends GenericEthereumAccountId {}
+/** @name EthAccount */
+export interface EthAccount extends Struct {
+  readonly address: H160;
+  readonly balance: U256;
+  readonly nonce: U256;
+  readonly codeHash: H256;
+  readonly storageHash: H256;
+  readonly accountProof: Vec<Bytes>;
+  readonly storageProof: Vec<EthStorageProof>;
+}
 
 /** @name EthBlock */
 export interface EthBlock extends Struct {
@@ -39,6 +47,9 @@ export interface EthBlockTransactions extends Enum {
   readonly asFull: Vec<EthTransaction>;
 }
 
+/** @name EthBloom */
+export interface EthBloom extends H2048 {}
+
 /** @name EthCallRequest */
 export interface EthCallRequest extends Struct {
   readonly from: Option<H160>;
@@ -55,6 +66,9 @@ export interface EthereumAccountId extends GenericEthereumAccountId {}
 
 /** @name EthereumLookupSource */
 export interface EthereumLookupSource extends GenericEthereumLookupSource {}
+
+/** @name EthereumSignature */
+export interface EthereumSignature extends U8aFixed {}
 
 /** @name EthFilter */
 export interface EthFilter extends Struct {
@@ -130,9 +144,6 @@ export interface EthLog extends Struct {
   readonly removed: bool;
 }
 
-/** @name EthLookupSource */
-export interface EthLookupSource extends GenericEthereumLookupSource {}
-
 /** @name EthReceipt */
 export interface EthReceipt extends Struct {
   readonly transactionHash: Option<H256>;
@@ -155,6 +166,13 @@ export interface EthRichBlock extends EthBlock {}
 
 /** @name EthRichHeader */
 export interface EthRichHeader extends EthHeader {}
+
+/** @name EthStorageProof */
+export interface EthStorageProof extends Struct {
+  readonly key: U256;
+  readonly value: U256;
+  readonly proof: Vec<Bytes>;
+}
 
 /** @name EthSubKind */
 export interface EthSubKind extends Enum {
@@ -229,6 +247,28 @@ export interface EthTransactionCondition extends Enum {
   readonly asBlock: u64;
   readonly isTime: boolean;
   readonly asTime: u64;
+}
+
+/** @name EthTransactionRequest */
+export interface EthTransactionRequest extends Struct {
+  readonly from: Option<H160>;
+  readonly to: Option<H160>;
+  readonly gasPrice: Option<U256>;
+  readonly gas: Option<U256>;
+  readonly value: Option<U256>;
+  readonly data: Option<Bytes>;
+  readonly nonce: Option<U256>;
+}
+
+/** @name EthTransactionStatus */
+export interface EthTransactionStatus extends Struct {
+  readonly transactionHash: H256;
+  readonly transactionIndex: u32;
+  readonly from: H160;
+  readonly to: Option<H160>;
+  readonly contractAddress: Option<H160>;
+  readonly logs: Vec<EthLog>;
+  readonly logsBloom: EthBloom;
 }
 
 /** @name EthWork */

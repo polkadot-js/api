@@ -14,6 +14,13 @@ const typesModules: Record<string, OverrideModuleType> = {
   contracts: {
     StorageKey: 'ContractStorageKey'
   },
+  ethereum: {
+    Block: 'EthBlock',
+    Header: 'EthHeader',
+    Receipt: 'EthReceipt',
+    Transaction: 'EthTransaction',
+    TransactionStatus: 'EthTransactionStatus'
+  },
   grandpa: {
     Equivocation: 'GrandpaEquivocation',
     EquivocationProof: 'GrandpaEquivocationProof'

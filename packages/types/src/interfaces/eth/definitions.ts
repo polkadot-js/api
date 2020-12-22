@@ -207,6 +207,13 @@ const rpc: DefinitionsRpc = {
     ],
     type: 'H256'
   },
+  sendTransaction: {
+    description: 'Sends transaction; will block waiting for signer to return the transaction hash',
+    params: [
+      { name: 'tx', type: 'EthTransactionRequest' }
+    ],
+    type: 'H256'
+  },
   submitHashrate: {
     description: 'Used for submitting mining hashrate.',
     params: [
@@ -267,8 +274,16 @@ const rpc: DefinitionsRpc = {
 const types: DefinitionsTypes = {
   EthereumAccountId: 'GenericEthereumAccountId',
   EthereumLookupSource: 'GenericEthereumLookupSource',
-  EthAccountId: 'GenericEthereumAccountId',
-  EthLookupSource: 'GenericEthereumLookupSource',
+  EthereumSignature: '[u8; 65]',
+  EthAccount: {
+    address: 'H160',
+    balance: 'U256',
+    nonce: 'U256',
+    codeHash: 'H256',
+    storageHash: 'H256',
+    accountProof: 'Vec<Bytes>',
+    storageProof: 'Vec<EthStorageProof>'
+  },
   EthBlock: {
     _alias: {
       blockHash: 'hash',
@@ -301,6 +316,7 @@ const types: DefinitionsTypes = {
       Full: 'Vec<EthTransaction>'
     }
   },
+  EthBloom: 'H2048',
   EthCallRequest: {
     from: 'Option<H160>',
     to: 'Option<H160>',
@@ -391,6 +407,11 @@ const types: DefinitionsTypes = {
   },
   EthRichBlock: 'EthBlock',
   EthRichHeader: 'EthHeader',
+  EthStorageProof: {
+    key: 'U256',
+    value: 'U256',
+    proof: 'Vec<Bytes>'
+  },
   EthSubKind: {
     _enum: ['newHeads', 'logs', 'newPendingTransactions', 'syncing']
   },
@@ -448,6 +469,24 @@ const types: DefinitionsTypes = {
       block: 'u64',
       time: 'u64'
     }
+  },
+  EthTransactionRequest: {
+    from: 'Option<H160>',
+    to: 'Option<H160>',
+    gasPrice: 'Option<U256>',
+    gas: 'Option<U256>',
+    value: 'Option<U256>',
+    data: 'Option<Bytes>',
+    nonce: 'Option<U256>'
+  },
+  EthTransactionStatus: {
+    transactionHash: 'H256',
+    transactionIndex: 'u32',
+    from: 'H160',
+    to: 'Option<H160>',
+    contractAddress: 'Option<H160>',
+    logs: 'Vec<EthLog>',
+    logsBloom: 'EthBloom'
   },
   EthWork: {
     pow_hash: 'H256',

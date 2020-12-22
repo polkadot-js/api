@@ -11,7 +11,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
-import type { EthCallRequest, EthFilter, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthWork } from '@polkadot/types/interfaces/eth';
+import type { EthCallRequest, EthFilter, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
@@ -260,6 +260,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Sends signed transaction, returning its hash.
        **/
       sendRawTransaction: AugmentedRpc<(bytes: Bytes | string | Uint8Array) => Observable<H256>>;
+      /**
+       * Sends transaction; will block waiting for signer to return the transaction hash
+       **/
+      sendTransaction: AugmentedRpc<(tx: EthTransactionRequest | { from?: any; to?: any; gasPrice?: any; gas?: any; value?: any; data?: any; nonce?: any } | string | Uint8Array) => Observable<H256>>;
       /**
        * Used for submitting mining hashrate.
        **/
