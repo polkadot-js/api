@@ -73,8 +73,8 @@ describe('UInt', (): void => {
   });
 
   it('converts to JSON representation based on size', (): void => {
-    expect(new UInt(registry, '0x12345678', 64).toJSON()).toEqual(0x12345678);
-    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual(0x1234567890);
+    expect(new UInt(registry, '0x12345678', 32).toJSON()).toEqual(0x12345678);
+    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual('0x0000001234567890');
     expect(new UInt(registry, '0x1234567890abcdef', 64).toJSON()).toEqual('0x1234567890abcdef');
   });
 
