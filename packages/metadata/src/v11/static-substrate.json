@@ -11670,7 +11670,7 @@
         }
       ],
       "extrinsic": {
-        "version": 4,
+        "version": "0x04",
         "signedExtensions": [
           "CheckSpecVersion",
           "CheckTxVersion",

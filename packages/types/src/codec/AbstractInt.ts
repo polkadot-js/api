@@ -12,7 +12,7 @@ import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber,
 export const DEFAULT_UINT_BITS = 64;
 
 // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
-const MAX_NUMBER_BITS = 8;
+const MAX_NUMBER_BITS = 52;
 const MUL_P = new BN(1_00_00);
 
 const FORMATTERS: [string, BN][] = [
@@ -188,7 +188,7 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (onlyHex = false): any {
+  public toJSON (onlyHex = true): any {
     // FIXME this return type should by string | number, but BN hash string
     return onlyHex || (super.bitLength() > MAX_NUMBER_BITS)
       ? this.toHex()

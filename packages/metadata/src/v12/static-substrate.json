@@ -515,7 +515,7 @@
               ]
             }
           ],
-          "index": 0
+          "index": "0x00"
         },
         {
           "name": "Utility",
@@ -625,7 +625,7 @@
           ],
           "constants": [],
           "errors": [],
-          "index": 1
+          "index": "0x01"
         },
         {
           "name": "Babe",
@@ -865,7 +865,7 @@
             }
           ],
           "errors": [],
-          "index": 2
+          "index": "0x02"
         },
         {
           "name": "Timestamp",
@@ -939,7 +939,7 @@
             }
           ],
           "errors": [],
-          "index": 3
+          "index": "0x03"
         },
         {
           "name": "Authorship",
@@ -1041,7 +1041,7 @@
               ]
             }
           ],
-          "index": 4
+          "index": "0x04"
         },
         {
           "name": "Indices",
@@ -1271,7 +1271,7 @@
             }
           ],
           "errors": [],
-          "index": 5
+          "index": "0x05"
         },
         {
           "name": "Balances",
@@ -1620,7 +1620,7 @@
               ]
             }
           ],
-          "index": 6
+          "index": "0x06"
         },
         {
           "name": "TransactionPayment",
@@ -1668,7 +1668,7 @@
             }
           ],
           "errors": [],
-          "index": 7
+          "index": "0x07"
         },
         {
           "name": "Staking",
@@ -3281,7 +3281,7 @@
               ]
             }
           ],
-          "index": 8
+          "index": "0x08"
         },
         {
           "name": "Session",
@@ -3469,7 +3469,7 @@
               ]
             }
           ],
-          "index": 9
+          "index": "0x09"
         },
         {
           "name": "Democracy",
@@ -4718,7 +4718,7 @@
               ]
             }
           ],
-          "index": 10
+          "index": "0x0a"
         },
         {
           "name": "Council",
@@ -5177,7 +5177,7 @@
               ]
             }
           ],
-          "index": 11
+          "index": "0x0b"
         },
         {
           "name": "TechnicalCommittee",
@@ -5636,7 +5636,7 @@
               ]
             }
           ],
-          "index": 12
+          "index": "0x0c"
         },
         {
           "name": "Elections",
@@ -6141,7 +6141,7 @@
               ]
             }
           ],
-          "index": 13
+          "index": "0x0d"
         },
         {
           "name": "TechnicalMembership",
@@ -6324,7 +6324,7 @@
           ],
           "constants": [],
           "errors": [],
-          "index": 14
+          "index": "0x0e"
         },
         {
           "name": "Grandpa",
@@ -6547,7 +6547,7 @@
               ]
             }
           ],
-          "index": 15
+          "index": "0x0f"
         },
         {
           "name": "Treasury",
@@ -6787,7 +6787,7 @@
               ]
             }
           ],
-          "index": 16
+          "index": "0x10"
         },
         {
           "name": "Contracts",
@@ -7279,7 +7279,7 @@
               ]
             }
           ],
-          "index": 17
+          "index": "0x11"
         },
         {
           "name": "Sudo",
@@ -7431,7 +7431,7 @@
               ]
             }
           ],
-          "index": 18
+          "index": "0x12"
         },
         {
           "name": "ImOnline",
@@ -7571,7 +7571,7 @@
               ]
             }
           ],
-          "index": 19
+          "index": "0x13"
         },
         {
           "name": "AuthorityDiscovery",
@@ -7580,7 +7580,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 20
+          "index": "0x14"
         },
         {
           "name": "Offences",
@@ -7674,7 +7674,7 @@
           ],
           "constants": [],
           "errors": [],
-          "index": 21
+          "index": "0x15"
         },
         {
           "name": "Historical",
@@ -7683,7 +7683,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 22
+          "index": "0x16"
         },
         {
           "name": "RandomnessCollectiveFlip",
@@ -7709,7 +7709,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 23
+          "index": "0x17"
         },
         {
           "name": "Identity",
@@ -8449,7 +8449,7 @@
               ]
             }
           ],
-          "index": 24
+          "index": "0x18"
         },
         {
           "name": "Society",
@@ -9431,7 +9431,7 @@
               ]
             }
           ],
-          "index": 25
+          "index": "0x19"
         },
         {
           "name": "Recovery",
@@ -9979,7 +9979,7 @@
               ]
             }
           ],
-          "index": 26
+          "index": "0x1a"
         },
         {
           "name": "Vesting",
@@ -10171,7 +10171,7 @@
               ]
             }
           ],
-          "index": 27
+          "index": "0x1b"
         },
         {
           "name": "Scheduler",
@@ -10463,7 +10463,7 @@
               ]
             }
           ],
-          "index": 28
+          "index": "0x1c"
         },
         {
           "name": "Proxy",
@@ -10975,7 +10975,7 @@
               ]
             }
           ],
-          "index": 29
+          "index": "0x1d"
         },
         {
           "name": "Multisig",
@@ -11401,7 +11401,7 @@
               ]
             }
           ],
-          "index": 30
+          "index": "0x1e"
         },
         {
           "name": "Bounties",
@@ -11853,7 +11853,7 @@
               ]
             }
           ],
-          "index": 31
+          "index": "0x1f"
         },
         {
           "name": "Tips",
@@ -12192,7 +12192,7 @@
               ]
             }
           ],
-          "index": 32
+          "index": "0x20"
         },
         {
           "name": "Assets",
@@ -12849,7 +12849,7 @@
               ]
             }
           ],
-          "index": 33
+          "index": "0x21"
         },
         {
           "name": "Mmr",
@@ -12903,11 +12903,11 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 34
+          "index": "0x22"
         }
       ],
       "extrinsic": {
-        "version": 4,
+        "version": "0x04",
         "signedExtensions": [
           "CheckSpecVersion",
           "CheckTxVersion",
