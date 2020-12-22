@@ -46,14 +46,8 @@ const types: DefinitionsTypes = {
     totalDifficulty: 'Option<U256>',
     sealFields: 'Vec<Bytes>',
     uncles: 'Vec<H256>',
-    transactions: 'EthBlockTransactions',
+    transactions: 'Vec<EthTransaction>',
     blockSize: 'Option<U256>'
-  },
-  EthBlockTransactions: {
-    _enum: {
-      Hashes: 'Vec<H256>',
-      Full: 'Vec<EthTransaction>'
-    }
   },
   EthBloom: 'H2048',
   EthCallRequest: {

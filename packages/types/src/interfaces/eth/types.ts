@@ -35,16 +35,8 @@ export interface EthBlock extends Struct {
   readonly totalDifficulty: Option<U256>;
   readonly sealFields: Vec<Bytes>;
   readonly uncles: Vec<H256>;
-  readonly transactions: EthBlockTransactions;
+  readonly transactions: Vec<EthTransaction>;
   readonly blockSize: Option<U256>;
-}
-
-/** @name EthBlockTransactions */
-export interface EthBlockTransactions extends Enum {
-  readonly isHashes: boolean;
-  readonly asHashes: Vec<H256>;
-  readonly isFull: boolean;
-  readonly asFull: Vec<EthTransaction>;
 }
 
 /** @name EthBloom */
