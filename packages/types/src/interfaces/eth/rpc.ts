@@ -1,14 +1,34 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// order important in structs... :)
-/* eslint-disable sort-keys */
-
 // As per frontier
 
 import type { DefinitionsRpc } from '../../types';
 
+// We use aliasSection here to override since these are in another namespace
+const netRpc: DefinitionsRpc = {
+  listening: {
+    aliasSection: 'net',
+    description: 'Returns true if client is actively listening for network connections. Otherwise false.',
+    params: [],
+    type: 'bool'
+  },
+  peerCount: {
+    aliasSection: 'net',
+    description: 'Returns number of peers connected to node.',
+    params: [],
+    type: 'String'
+  },
+  version: {
+    aliasSection: 'net',
+    description: 'Returns protocol version.',
+    params: [],
+    type: 'String'
+  }
+};
+
 export const rpc: DefinitionsRpc = {
+  ...netRpc,
   accounts: {
     description: 'Returns accounts list.',
     params: [],
@@ -248,25 +268,5 @@ export const rpc: DefinitionsRpc = {
     description: 'Returns an object with data about the sync status or false.',
     params: [],
     type: 'EthSyncStatus'
-  },
-
-  // for net_*
-  listening: {
-    aliasSection: 'net',
-    description: 'Returns true if client is actively listening for network connections. Otherwise false.',
-    params: [],
-    type: 'bool'
-  },
-  peerCount: {
-    aliasSection: 'net',
-    description: 'Returns number of peers connected to node.',
-    params: [],
-    type: 'String'
-  },
-  version: {
-    aliasSection: 'net',
-    description: 'Returns protocol version.',
-    params: [],
-    type: 'String'
   }
 };
