@@ -11,6 +11,8 @@ import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber,
 
 export const DEFAULT_UINT_BITS = 64;
 
+// Maximum allowed integer for JS is 2^53 - 1, set limit at 52
+const MAX_NUMBER_BITS = 8;
 const MUL_P = new BN(1_00_00);
 
 const FORMATTERS: [string, BN][] = [
@@ -186,11 +188,9 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): any {
-    // FIXME this return type should by string | number, but BN's return type
-    // is string.
-    // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
-    return super.bitLength() > 52
+  public toJSON (onlyHex = false): any {
+    // FIXME this return type should by string | number, but BN's return type is string.
+    return onlyHex || (super.bitLength() > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
   }
