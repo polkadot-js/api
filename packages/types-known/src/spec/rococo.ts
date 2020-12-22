@@ -9,6 +9,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 /* eslint-disable sort-keys */
 
 const sharedTypes = {
+  AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId'

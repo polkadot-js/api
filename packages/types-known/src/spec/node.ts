@@ -10,6 +10,7 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, 259],
     types: {
+      AccountInfo: 'AccountInfoWithRefCount',
       Address: 'LookupSource',
       LookupSource: 'IndicesLookupSource'
     }
@@ -17,6 +18,7 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [260, undefined],
     types: {
+      AccountInfo: 'AccountInfoWithRefCount',
       Address: 'MultiAddress',
       LookupSource: 'MultiAddress'
     }
