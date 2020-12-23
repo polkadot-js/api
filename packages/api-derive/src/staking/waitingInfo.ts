@@ -3,15 +3,17 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveStakingWaiting } from '../types';
+import type { DeriveStakingWaiting, StakingQueryFlags } from '../types';
 
 import { combineLatest } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-export function waitingInfo (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveStakingWaiting> {
-  return memo(instanceId, (): Observable<DeriveStakingWaiting> =>
+const DEFAULT_FLAGS = { withLedger: true, withPrefs: true };
+
+export function waitingInfo (instanceId: string, api: ApiInterfaceRx): (flags?: StakingQueryFlags) => Observable<DeriveStakingWaiting> {
+  return memo(instanceId, (flags: StakingQueryFlags = DEFAULT_FLAGS): Observable<DeriveStakingWaiting> =>
     combineLatest([
       api.derive.staking.validators(),
       api.derive.staking.stashes()
@@ -20,7 +22,7 @@ export function waitingInfo (instanceId: string, api: ApiInterfaceRx): () => Obs
         const elected = nextElected.map((a) => a.toString());
         const waiting = stashes.filter((v) => !elected.includes(v.toString()));
 
-        return api.derive.staking.queryMulti(waiting, { withLedger: true, withPrefs: true }).pipe(
+        return api.derive.staking.queryMulti(waiting, flags).pipe(
           map((info): DeriveStakingWaiting => ({
             info,
             waiting

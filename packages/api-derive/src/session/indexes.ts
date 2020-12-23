@@ -7,15 +7,10 @@ import type { ActiveEraInfo, EraIndex, Moment, SessionIndex } from '@polkadot/ty
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSessionIndexes } from '../types';
 
-import { isFunction } from '@polkadot/util';
 import { of } from '@polkadot/x-rxjs';
 import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
-
-function isEraOpt (era: Option<EraIndex> | EraIndex): era is Option<EraIndex> {
-  return isFunction((era as Option<EraIndex>).unwrapOrDefault);
-}
 
 // parse into Indexes
 function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]: [EraIndex, Option<Moment>, EraIndex, SessionIndex, u32]): DeriveSessionIndexes {
@@ -26,29 +21,6 @@ function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorC
     currentIndex,
     validatorCount
   };
-}
-
-// query for previous V2
-function queryNoActive (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
-  return api.queryMulti<[Option<EraIndex> | EraIndex, SessionIndex, u32]>([
-    api.query.staking.currentEra,
-    api.query.session.currentIndex,
-    api.query.staking.validatorCount
-  ]).pipe(
-    map(([currentEraOpt, currentIndex, validatorCount]): DeriveSessionIndexes => {
-      const currentEra = isEraOpt(currentEraOpt)
-        ? currentEraOpt.unwrapOrDefault()
-        : currentEraOpt;
-
-      return parse([
-        currentEra,
-        api.registry.createType('Option<Moment>'),
-        currentEra,
-        currentIndex,
-        validatorCount
-      ]);
-    })
-  );
 }
 
 // query based on latest
@@ -87,9 +59,7 @@ function empty (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
 export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
   return memo(instanceId, (): Observable<DeriveSessionIndexes> =>
     api.query.session && api.query.staking
-      ? isFunction(api.query.staking.activeEra)
-        ? query(api)
-        : queryNoActive(api)
+      ? query(api)
       : empty(api)
   );
 }
