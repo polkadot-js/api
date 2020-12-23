@@ -14,7 +14,7 @@ import { memo } from '../util';
 
 const MAX_QUERY_SIZE = 1024;
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId>, nominatorsOpt: Option<Nominations>, rewardDestination: RewardDestination, validatorPrefs: ValidatorPrefs, exposure: Exposure, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
+function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<Nominations>, rewardDestination: RewardDestination, validatorPrefs: ValidatorPrefs, exposure: Exposure, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
   return {
     accountId: stashId,
     controllerId: controllerIdOpt && controllerIdOpt.unwrapOr(null),
@@ -29,8 +29,10 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId>, n
   };
 }
 
-function retrieveControllers (api: ApiInterfaceRx, optIds: Option<AccountId>[]): Observable<Option<StakingLedger>[]> {
-  const ids = optIds.filter((opt) => opt.isSome).map((opt) => opt.unwrap());
+function retrieveControllers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[]): Observable<Option<StakingLedger>[]> {
+  const ids = optIds
+    .filter((opt): opt is Option<AccountId> => !!opt && opt.isSome)
+    .map((opt) => opt.unwrap());
   const emptyLed = api.registry.createType('Option<StakingLedger>');
 
   return (
@@ -42,7 +44,7 @@ function retrieveControllers (api: ApiInterfaceRx, optIds: Option<AccountId>[]):
       let offset = -1;
 
       return optIds.map((opt): Option<StakingLedger> =>
-        opt.isSome
+        opt && opt.isSome
           ? optLedgers[++offset]
           : emptyLed
       );
@@ -50,8 +52,7 @@ function retrieveControllers (api: ApiInterfaceRx, optIds: Option<AccountId>[]):
   );
 }
 
-function retrieve (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[Option<AccountId>[], Option<Nominations>[], RewardDestination[], ValidatorPrefs[], Exposure[]]> {
-  const emptyCont = api.registry.createType('Option<AccountId>');
+function retrieve (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<Nominations>[], RewardDestination[], ValidatorPrefs[], Exposure[]]> {
   const emptyNoms = api.registry.createType('Option<Nominations>');
   const emptyRewa = api.registry.createType('RewardDestination');
   const emptyExpo = api.registry.createType('Exposure');
@@ -60,7 +61,7 @@ function retrieve (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraInd
   return combineLatest([
     withLedger
       ? api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
-      : of(stashIds.map(() => emptyCont)),
+      : of(stashIds.map(() => null)),
     withNominations && api.query.staking.nominators
       ? api.query.staking.nominators.multi<Option<Nominations>>(stashIds)
       : of(stashIds.map(() => emptyNoms)),
