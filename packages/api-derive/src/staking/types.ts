@@ -146,6 +146,7 @@ export interface DeriveStakingOverview extends DeriveSessionIndexes {
 }
 
 export interface StakingQueryFlags {
+  withController?: boolean;
   withDestination?: boolean;
   withExposure?: boolean;
   withLedger?: boolean;

@@ -12,8 +12,6 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-const MAX_QUERY_SIZE = 1024;
-
 function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<Nominations>, rewardDestination: RewardDestination, validatorPrefs: ValidatorPrefs, exposure: Exposure, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
   return {
     accountId: stashId,
@@ -29,9 +27,9 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | 
   };
 }
 
-function retrieveControllers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[]): Observable<Option<StakingLedger>[]> {
+function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], { withLedger = false }: StakingQueryFlags): Observable<Option<StakingLedger>[]> {
   const ids = optIds
-    .filter((opt): opt is Option<AccountId> => !!opt && opt.isSome)
+    .filter((opt): opt is Option<AccountId> => withLedger && !!opt && opt.isSome)
     .map((opt) => opt.unwrap());
   const emptyLed = api.registry.createType('Option<StakingLedger>');
 
@@ -45,24 +43,24 @@ function retrieveControllers (api: ApiInterfaceRx, optIds: (Option<AccountId> | 
 
       return optIds.map((opt): Option<StakingLedger> =>
         opt && opt.isSome
-          ? optLedgers[++offset]
+          ? optLedgers[++offset] || emptyLed
           : emptyLed
       );
     })
   );
 }
 
-function retrieve (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<Nominations>[], RewardDestination[], ValidatorPrefs[], Exposure[]]> {
+function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<Nominations>[], RewardDestination[], ValidatorPrefs[], Exposure[]]> {
   const emptyNoms = api.registry.createType('Option<Nominations>');
   const emptyRewa = api.registry.createType('RewardDestination');
   const emptyExpo = api.registry.createType('Exposure');
   const emptyPrefs = api.registry.createType('ValidatorPrefs');
 
   return combineLatest([
-    withLedger
+    withController || withLedger
       ? api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
       : of(stashIds.map(() => null)),
-    withNominations && api.query.staking.nominators
+    withNominations
       ? api.query.staking.nominators.multi<Option<Nominations>>(stashIds)
       : of(stashIds.map(() => emptyNoms)),
     withDestination
@@ -78,9 +76,9 @@ function retrieve (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraInd
 }
 
 function getBatch (api: ApiInterfaceRx, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> {
-  return retrieve(api, stashIds, activeEra, flags).pipe(
+  return getStashInfo(api, stashIds, activeEra, flags).pipe(
     switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): Observable<DeriveStakingQuery[]> =>
-      retrieveControllers(api, controllerIdOpt).pipe(
+      getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
             parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index])
@@ -108,7 +106,7 @@ export function queryMulti (instanceId: string, api: ApiInterfaceRx): (accountId
     accountIds.length
       ? api.derive.session.indexes().pipe(
         switchMap(({ activeEra }): Observable<DeriveStakingQuery[]> => {
-          const stashIds = accountIds.map((accountId) => api.registry.createType('AccountId', accountId)).slice(0, MAX_QUERY_SIZE);
+          const stashIds = accountIds.map((accountId) => api.registry.createType('AccountId', accountId));
 
           return getBatch(api, activeEra, stashIds, flags);
         })

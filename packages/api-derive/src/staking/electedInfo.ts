@@ -11,7 +11,7 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-const DEFAULT_FLAGS = { withExposure: true, withLedger: true, withPrefs: true };
+const DEFAULT_FLAGS = { withController: true, withExposure: true, withPrefs: true };
 
 function combineAccounts (nextElected: AccountId[], validators: AccountId[]): AccountId[] {
   return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
