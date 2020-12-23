@@ -6,6 +6,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveStakingElected, StakingQueryFlags } from '../types';
 
+import { arrayFlatten } from '@polkadot/util';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
@@ -13,7 +14,7 @@ import { memo } from '../util';
 const DEFAULT_FLAGS = { withExposure: true, withLedger: true, withPrefs: true };
 
 function combineAccounts (nextElected: AccountId[], validators: AccountId[]): AccountId[] {
-  return [...nextElected].concat(...validators.filter((v) => !nextElected.find((n) => n.eq(v))));
+  return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
 }
 
 export function electedInfo (instanceId: string, api: ApiInterfaceRx): (flags?: StakingQueryFlags) => Observable<DeriveStakingElected> {

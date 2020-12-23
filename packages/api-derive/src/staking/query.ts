@@ -33,11 +33,11 @@ function retrieveControllers (api: ApiInterfaceRx, optIds: Option<AccountId>[]):
   const ids = optIds.filter((opt) => opt.isSome).map((opt) => opt.unwrap());
   const emptyLed = api.registry.createType('Option<StakingLedger>');
 
-  if (!ids.length) {
-    return of(optIds.map(() => emptyLed));
-  }
-
-  return api.query.staking.ledger.multi<Option<StakingLedger>>(ids).pipe(
+  return (
+    ids.length
+      ? api.query.staking.ledger.multi<Option<StakingLedger>>(ids)
+      : of([])
+  ).pipe(
     map((optLedgers): Option<StakingLedger>[] => {
       let offset = -1;
 
