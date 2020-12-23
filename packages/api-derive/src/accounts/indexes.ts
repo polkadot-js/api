@@ -2,46 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Vec } from '@polkadot/types';
-import type { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+import type { AccountIndex } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { AccountIndexes } from '../types';
 
-import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
-import { isFunction } from '@polkadot/util';
 import { of } from '@polkadot/x-rxjs';
-import { map, startWith, switchMap } from '@polkadot/x-rxjs/operators';
+import { map, startWith } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-const enumsetSize = ENUMSET_SIZE.toNumber();
-
 let indicesCache: AccountIndexes | null = null;
-
-function queryEnumSet (api: ApiInterfaceRx): Observable<AccountIndexes> {
-  return api.query.indices.nextEnumSet<AccountIndex>().pipe(
-    // use the nextEnumSet (which is a counter of the number of sets) to construct
-    // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
-    // specific index - each query can return up to ENUMSET_SIZE (64) records, each
-    // containing an AccountId
-    switchMap((next: AccountIndex): Observable<Vec<AccountId>[]> =>
-      api.query.indices.enumSet.multi<Vec<AccountId>>([...Array(next.toNumber() + 1).keys()])
-    ),
-    map((all: AccountId[][]): AccountIndexes =>
-      all.reduce((indexes: AccountIndexes, list, outerIndex): AccountIndexes => {
-        (list || []).forEach((accountId, innerIndex): void => {
-          // re-create the index based on position 0 is [0][0] and likewise
-          // 64 (0..63 in first) is [1][0] (the first index value in set 2)
-          const index = (outerIndex * enumsetSize) + innerIndex;
-
-          indexes[accountId.toString()] = api.registry.createType('AccountIndex', index);
-        });
-
-        return indexes;
-      }, {})
-    )
-  );
-}
 
 function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
   return api.query.indices.accounts.entries().pipe(
@@ -78,9 +48,7 @@ export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observa
       ? of(indicesCache)
       : (
         api.query.indices
-          ? isFunction(api.query.indices.accounts)
-            ? queryAccounts(api).pipe(startWith({}))
-            : queryEnumSet(api).pipe(startWith({}))
+          ? queryAccounts(api).pipe(startWith({}))
           : of({} as AccountIndexes)
       ).pipe(
         map((indices): AccountIndexes => {
