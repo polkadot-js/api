@@ -23,6 +23,7 @@ export { ApiBase } from '../base';
 export * from '../submittable/types';
 export * from './base';
 export * from './consts';
+export * from './events';
 export * from './rpc';
 export * from './storage';
 export * from './submittable';

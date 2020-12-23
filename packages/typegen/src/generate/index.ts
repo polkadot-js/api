@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export { generateDefaultConsts } from './consts';
+export { generateDefaultEvents } from './events';
 export { generateDefaultInterface } from './interfaceRegistry';
 export { generateDefaultQuery } from './query';
 export { generateDefaultRpc } from './rpc';
