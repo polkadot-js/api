@@ -144,3 +144,12 @@ export interface DeriveStakingOverview extends DeriveSessionIndexes {
   nextElected: AccountId[];
   validators: AccountId[];
 }
+
+export interface StakingQueryFlags {
+  withController?: boolean;
+  withDestination?: boolean;
+  withExposure?: boolean;
+  withLedger?: boolean;
+  withNominations?: boolean;
+  withPrefs?: boolean;
+}

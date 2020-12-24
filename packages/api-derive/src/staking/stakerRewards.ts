@@ -21,7 +21,6 @@ type ErasResult = [{ unwrapOr: (value: BN) => BN }, DeriveEraPoints[], DeriveEra
 const ZERO = new BN(0);
 const MIN_ONE = new BN(-1);
 const COMM_DIV = new BN(1_000_000_000);
-const MAX_ERAS = new BN(1_000_000_000);
 
 function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
@@ -126,11 +125,7 @@ function filterRewards (api: ApiInterfaceRx, eras: EraIndex[], { migrateEra, rew
   const validators = uniqValidators(rewards);
   const filter = filterEras(eras, stakingLedger);
 
-  return (
-    isFunction(api.tx.staking.payoutStakers)
-      ? api.derive.staking.queryMulti(validators, { withLedger: true })
-      : of([])
-  ).pipe(
+  return api.derive.staking.queryMulti(validators, { withLedger: true }).pipe(
     map((queryValidators): DeriveStakerReward[] =>
       rewards
         .filter(({ isEmpty }) => !isEmpty)
@@ -162,7 +157,7 @@ export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (e
     combineLatest([
       isFunction(api.query.staking.migrateEra)
         ? api.query.staking.migrateEra<Option<EraIndex>>()
-        : of({ unwrapOr: () => isFunction(api.tx.staking.payoutStakers) ? ZERO : MAX_ERAS }),
+        : of(api.registry.createType('Option<EraIndex>')),
       api.derive.staking._erasPoints(eras, withActive),
       api.derive.staking._erasPrefs(eras, withActive),
       api.derive.staking._erasRewards(eras, withActive)

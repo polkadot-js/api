@@ -12,7 +12,7 @@ import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcSe
 
 import BN from 'bn.js';
 
-import { decorateDerive, DeriveCustom, ExactDerive } from '@polkadot/api-derive';
+import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import { expandMetadata, Metadata } from '@polkadot/metadata';
 import { RpcCore } from '@polkadot/rpc-core';
@@ -20,9 +20,9 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { TypeRegistry } from '@polkadot/types/create';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 import { BehaviorSubject, combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { map, switchMap, take, tap, toArray } from '@polkadot/x-rxjs/operators';
+import { map, switchMap, tap, toArray } from '@polkadot/x-rxjs/operators';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -38,8 +38,8 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
-const PAGE_SIZE_KEYS = 384;
-const PAGE_SIZE_VALS = PAGE_SIZE_KEYS;
+// the max amount of keys/values that we will retrieve at once
+const PAGE_SIZE = 384;
 
 const l = logger('api/init');
 
@@ -453,25 +453,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       ));
   }
 
-  // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE_VALS sizes
+  // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE sizes
   private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<Codec[]> {
     if (!keys.length) {
       return of([]);
     }
 
     return combineLatest(
-      ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
-        .fill(0)
-        .map((_, index): Observable<Codec[]> =>
-          (this.hasSubscriptions
-            ? this._rpcCore.state.subscribeStorage
-            : this._rpcCore.state.queryStorageAt
-          )(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
-        )
-    ).pipe(
-      map((valsArr): Codec[] =>
-        valsArr.reduce((result: Codec[], vals) => result.concat(vals), [])
+      arrayChunk(keys, PAGE_SIZE).map((keys) =>
+        (this.hasSubscriptions
+          ? this._rpcCore.state.subscribeStorage
+          : this._rpcCore.state.queryStorageAt
+        )(keys)
       )
+    ).pipe(
+      map((valsArr): Codec[] => arrayFlatten(valsArr))
     );
   }
 
@@ -481,8 +477,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const headKey = iterKey(arg).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
     const query = at
-      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey, at)
-      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey);
+      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE, startKey, at)
+      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE, startKey);
 
     return startSubject.pipe(
       switchMap((startKey) =>
@@ -491,12 +487,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         )
       ),
       tap((keys): void => {
-        keys.length === PAGE_SIZE_KEYS
-          ? startSubject.next(keys[PAGE_SIZE_KEYS - 1].toHex())
+        keys.length === PAGE_SIZE
+          ? startSubject.next(keys[PAGE_SIZE - 1].toHex())
           : startSubject.complete();
       }),
       toArray(), // toArray since we want to startSubject to be completed
-      map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
+      map((keysArr: StorageKey[][]) => arrayFlatten(keysArr))
     );
   }
 
@@ -511,28 +507,19 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    const query = this._rpcCore.state.queryStorageAt
-      ? at
-        ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
-        : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset)
-      // this is horrible, but need older support (which now doesn't work with at)
-      : (keyset: StorageKey[]) => this._rpcCore.state.subscribeStorage(keyset).pipe(take(1));
+    const query = at
+      ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
+      : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
 
     return this._retrieveMapKeys(entry, at, arg).pipe(
       switchMap((keys) =>
-        combineLatest<[StorageKey[], ...Codec[][]]>([
-          of(keys),
-          ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
-            .fill(0)
-            .map((_, index): Observable<Codec[]> =>
-              query(keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS))
-            )
-        ])
-      ),
-      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
-        valsArr
-          .reduce((result: Codec[], vals) => result.concat(vals), [])
-          .map((value, index) => [keys[index], value])
+        combineLatest(
+          arrayChunk(keys, PAGE_SIZE).map((keys) => query(keys))
+        ).pipe(
+          map((valsArr) =>
+            arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
+          )
+        )
       )
     );
   }
@@ -540,24 +527,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
     return this._retrieveMapKeysPaged(entry, opts).pipe(
       switchMap((keys) =>
-        combineLatest<[StorageKey[], ...Codec[][]]>([
-          of(keys),
-          this._rpcCore.state.queryStorageAt<Codec[]>(keys)
-        ])
-      ),
-      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
-        valsArr
-          .reduce((result: Codec[], vals) => result.concat(vals), [])
-          .map((value, index) => [keys[index], value])
+        this._rpcCore.state.queryStorageAt(keys).pipe(
+          map((valsArr) =>
+            valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
+          )
+        )
       )
     );
   }
 
   protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
     const specName = this._runtimeVersion?.specName.toString();
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const derives = { ...this._options.derives, ...(this._options.typesBundle?.spec?.[specName ?? '']?.derives as DeriveCustom) }; // use typesBundle
+    const derives = {
+      ...this._options.derives,
+      ...(this._options.typesBundle?.spec?.[specName ?? '']?.derives || {})
+    };
 
     // Pull in derive from api-derive
     const derive = decorateDerive(this.#instanceId, this._rx, derives);

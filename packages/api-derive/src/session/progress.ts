@@ -7,7 +7,6 @@ import type { SessionIndex } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSessionInfo, DeriveSessionProgress } from '../types';
 
-import { isFunction } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
@@ -57,29 +56,13 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
   );
 }
 
-function queryBabeNoHistory (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
-  return combineLatest([
-    api.derive.session.info(),
-    api.queryMulti<ResultSlotsFlat>([
-      api.query.babe.currentSlot,
-      api.query.babe.epochIndex,
-      api.query.babe.genesisSlot,
-      api.query.staking.currentEraStartSessionIndex
-    ])
-  ]);
-}
-
 /**
  * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
 export function progress (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
   return memo(instanceId, (): Observable<DeriveSessionProgress> =>
     api.consts.babe
-      ? (
-        isFunction(api.query.staking.erasStartSessionIndex)
-          ? queryBabe(api) // 2.x with Babe
-          : queryBabeNoHistory(api)
-      ).pipe(
+      ? queryBabe(api).pipe(
         map(([info, slots]: [DeriveSessionInfo, ResultSlotsFlat]): DeriveSessionProgress =>
           createDerive(api, info, slots)
         )

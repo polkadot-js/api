@@ -10,8 +10,6 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import { u32 } from '../primitive/U32';
 
-export const ENUMSET_SIZE = new BN(64);
-
 const PREFIX_1BYTE = 0xef;
 const PREFIX_2BYTE = 0xfc;
 const PREFIX_4BYTE = 0xfd;

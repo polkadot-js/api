@@ -2,41 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { AccountId, EraPoints, EraRewardPoints, RewardPoint } from '@polkadot/types/interfaces';
+import type { EraRewardPoints } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 
-import { of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
-
-function retrievePointsPrev (api: ApiInterfaceRx, currentElected: AccountId[]): Observable<EraRewardPoints> {
-  return api.query.staking.currentEraPointsEarned<EraPoints>().pipe(
-    map(({ individual, total }): EraRewardPoints =>
-      api.registry.createType('EraRewardPoints', {
-        individual: new Map<AccountId, RewardPoint>(
-          individual
-            .map((points) => api.registry.createType('RewardPoint', points))
-            .map((points, index): [AccountId, RewardPoint] => [currentElected[index], points])
-        ),
-        total
-      })
-    )
-  );
-}
 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
 export function currentPoints (instanceId: string, api: ApiInterfaceRx): () => Observable<EraRewardPoints> {
   return memo(instanceId, (): Observable<EraRewardPoints> =>
-    api.derive.staking.overview().pipe(
-      switchMap(({ activeEra, nextElected }) =>
-        api.query.staking.erasRewardPoints
-          ? api.query.staking.erasRewardPoints<EraRewardPoints>(activeEra)
-          : api.query.staking.currentEraPointsEarned
-            ? retrievePointsPrev(api, nextElected)
-            : of(api.registry.createType('EraRewardPoints'))
+    api.derive.session.indexes().pipe(
+      switchMap(({ activeEra }) =>
+        api.query.staking.erasRewardPoints<EraRewardPoints>(activeEra)
       )
     ));
 }
