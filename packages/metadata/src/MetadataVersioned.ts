@@ -65,7 +65,7 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description Returns the wrapped metadata as a V1 object
+   * @description Returns the wrapped metadata as a V9 object
    */
   public get asV9 (): MetadataV9 {
     this._assertVersion(9);
@@ -81,16 +81,16 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description Returns the wrapped values as a V10 object
+   * @description Returns the wrapped values as a V11 object
    */
   public get asV11 (): MetadataV11 {
     return this._getVersion(11, toV11);
   }
 
   /**
-   * @description Returns the wrapped values as a V10 object
+   * @description Returns the wrapped values as a V12 object
    */
-  public get asV12 (): MetadataV11 {
+  public get asV12 (): MetadataV12 {
     return this._getVersion(12, toV12);
   }
 
