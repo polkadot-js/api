@@ -1,0 +1,27 @@
+{{> header }}
+
+{{{ imports }}}
+
+declare module '@polkadot/api/types/events' {
+  export interface AugmentedEvents<ApiType> {
+    {{#each modules}}
+    {{{name}}}: {
+      {{#unless @root.isStrict}}
+      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
+      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      {{/unless}}
+      {{~#each items}}
+      {{> docs}}
+      {{{isA}}}: AugmentedIsEvent<ApiType, [{{{type}}}]>;
+      {{/each}}
+    };
+    {{/each}}
+  }
+
+  export interface QueryableEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
+    {{#unless isStrict}}
+    [key: string]: QueryableModuleEvents<ApiType>;
+    {{/unless}}
+  }
+}
+{{> footer }}

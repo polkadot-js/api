@@ -12,7 +12,7 @@ import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
 
-import { compareName, createImports, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {
   new: 'updated'
@@ -57,7 +57,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               .join(', ');
 
             return {
+              args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
               docs: documentation,
+              // isA: stringCamelCase(`is_${name.toString()}`),
               name: stringCamelCase(name),
               params
             };
