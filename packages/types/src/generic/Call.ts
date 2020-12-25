@@ -230,6 +230,13 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   }
 
   /**
+   * @description Checks if the source matches this in type
+   */
+  public is (other: IMethod<AnyTuple>): other is IMethod<A> {
+    return other.callIndex[0] === this.callIndex[0] && other.callIndex[1] === this.callIndex[1];
+  }
+
+  /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExpanded?: boolean): Record<string, AnyJson> {

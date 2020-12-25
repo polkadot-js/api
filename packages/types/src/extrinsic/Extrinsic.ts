@@ -153,6 +153,13 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
   public get version (): number {
     return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
   }
+
+  /**
+   * @description Checks if the source matches this in type
+   */
+  public is (other: IMethod<AnyTuple>): other is IMethod<A> {
+    return this.method.is(other);
+  }
 }
 
 /**

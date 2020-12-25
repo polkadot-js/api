@@ -18,6 +18,7 @@ export interface IKeyringPair {
   address: string;
   addressRaw: Uint8Array;
   publicKey: Uint8Array;
+
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
@@ -29,6 +30,8 @@ export interface IMethod<A extends AnyTuple> extends Codec {
   readonly hash: Hash;
   readonly hasOrigin: boolean;
   readonly meta: FunctionMetadataLatest;
+
+  is: (tx: IMethod<AnyTuple>) => tx is IMethod<A>;
 }
 
 export interface IRuntimeVersion {
