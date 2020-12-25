@@ -1,19 +1,18 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyFunction, CallBase, Codec } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, CallBase, IExtrinsic } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiTypes } from './base';
-
-type Tuples = Codec[];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
 export interface AugmentedSubmittables<ApiType extends ApiTypes> { }
 
-export type AugmentedSubmittable<T extends AnyFunction> = T & CallBase;
+export type AugmentedSubmittable<T extends AnyFunction, A extends AnyTuple> = T & CallBase & AugmentedIsSubmittable<A>;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedIsSubmittable<ApiType extends ApiTypes, T extends Tuples> = (tx: SubmittableExtrinsic<ApiType>) => boolean;
+export interface AugmentedIsSubmittable<A extends AnyTuple> {
+  is: (tx: IExtrinsic<AnyTuple>) => tx is IExtrinsic<A>;
+}
 
 export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes> extends CallBase {
   (...params: any[]): SubmittableExtrinsic<ApiType>;

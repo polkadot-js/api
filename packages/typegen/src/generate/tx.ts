@@ -59,7 +59,6 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
             return {
               args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
               docs: documentation,
-              // isA: stringCamelCase(`is_${name.toString()}`),
               name: stringCamelCase(name),
               params
             };

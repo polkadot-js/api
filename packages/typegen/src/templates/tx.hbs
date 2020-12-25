@@ -7,14 +7,11 @@ declare module '@polkadot/api/types/submittable' {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      [key: string]: SubmittableExtrinsicFunction<ApiType>{{#if isA}} | AugmentedIsSubmittable<ApiType, [{{{args}}}]>{{/if}};
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
       {{/unless}}
       {{~#each items}}
       {{> docs}}
-      {{{name}}}: AugmentedSubmittable<({{{params}}}) => SubmittableExtrinsic<ApiType>>;
-      {{#if isA}}
-      {{{isA}}}: AugmentedIsSubmittable<ApiType, [{{{args}}}]>;
-      {{/if}}
+      {{{name}}}: AugmentedSubmittable<({{{params}}}) => SubmittableExtrinsic<ApiType>, [{{{args}}}]>;
       {{/each}}
     };
     {{/each}}

@@ -78,4 +78,11 @@ describe('decorateExtrinsics', (): void => {
       ])
     );
   });
+
+  it('has working .is', (): void => {
+    const tx = extrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', 2, 3);
+
+    expect(extrinsics.balances.setBalance.is(tx)).toBe(true);
+    expect(extrinsics.balances.transfer.is(tx)).toBe(false);
+  });
 });
