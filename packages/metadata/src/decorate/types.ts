@@ -10,12 +10,12 @@ export interface ConstantCodec extends Codec {
 }
 
 export interface IsError {
-  (dispatchError: DispatchError): boolean;
+  is: (dispatchError: DispatchError) => boolean;
   meta: ErrorMetadataLatest;
 }
 
 export interface IsEvent <T extends AnyTuple> {
-  (record: IEventRecord<AnyTuple>): record is IEventRecord<T>;
+  is: (record: IEventRecord<AnyTuple>) => record is IEventRecord<T>;
   meta: EventMetadataLatest;
 }
 

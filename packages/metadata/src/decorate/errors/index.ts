@@ -3,7 +3,7 @@
 
 import type { DispatchError, MetadataLatest } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
-import type { Errors, IsError, ModuleErrors } from '../types';
+import type { Errors, ModuleErrors } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
@@ -27,10 +27,11 @@ export function decorateErrors (_: Registry, { modules }: MetadataLatest, metaVe
     const sectionIndex = metaVersion === 12 ? index.toNumber() : _sectionIndex;
 
     result[stringCamelCase(name)] = errors.reduce((newModule: ModuleErrors, meta, errorIndex): ModuleErrors => {
-      const isA = ((dispatchError: DispatchError) => isError(dispatchError, sectionIndex, errorIndex)) as IsError;
-
-      isA.meta = meta;
-      newModule[stringCamelCase(`is_${meta.name.toString()}`)] = isA;
+      newModule[stringCamelCase(meta.name)] = {
+        is: (dispatchError: DispatchError): boolean =>
+          isError(dispatchError, sectionIndex, errorIndex),
+        meta
+      };
 
       return newModule;
     }, {} as ModuleErrors);
