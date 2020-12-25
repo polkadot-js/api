@@ -8,7 +8,7 @@ import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcSection, DecorateMethod, IsErrors, IsEvents, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 
@@ -56,6 +56,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _consts: QueryableConsts<ApiType> = {} as QueryableConsts<ApiType>;
 
   protected _derive?: ReturnType<Decorate<ApiType>['_decorateDerive']>;
+
+  protected _errors: IsErrors<ApiType> = {} as IsErrors<ApiType>;
+
+  protected _events: IsEvents<ApiType> = {} as IsEvents<ApiType>;
 
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
@@ -195,6 +199,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // this API
     augmentObject('query', this._decorateStorage(decoratedMeta, this._decorateMethod), this._query, fromEmpty);
     augmentObject('consts', decoratedMeta.consts, this._consts, fromEmpty);
+    augmentObject('errors', decoratedMeta.errors, this._errors, fromEmpty);
+    augmentObject('events', decoratedMeta.events, this._events, fromEmpty);
 
     // rx
     augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);

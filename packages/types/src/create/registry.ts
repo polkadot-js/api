@@ -88,7 +88,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
 
 // create extrinsic mapping from metadata
 function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls: Record<string, CallFunction>): void {
-  const extrinsics = decorateExtrinsics(registry, metadata.asLatest);
+  const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
   // decorate the extrinsics
   Object.values(extrinsics).forEach((methods): void =>

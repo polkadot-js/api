@@ -3,7 +3,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import type { AccountId, Balance, Header, Index } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, DispatchError, EventRecord, Header, Index } from '@polkadot/types/interfaces';
 import type { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -32,6 +32,39 @@ async function derive (api: ApiPromise): Promise<void> {
   const fees = await api.derive.balances.fees();
 
   console.log('fees', fees);
+}
+
+function errors (api: ApiPromise): void {
+  const someError = {} as DispatchError;
+
+  // existing
+  console.log(api.errors.vesting.isAmountLow(someError));
+
+  // non-existing error, existing module
+  console.log(api.errors.vesting.isSomething(someError));
+
+  // something random
+  console.log(api.errors.something.isRandom(someError));
+}
+
+function events (api: ApiPromise): void {
+  const eventRecord = {} as EventRecord;
+
+  // existing
+  if (api.events.balances.isTransfer(eventRecord)) {
+    // the types are correctly expanded
+    const [from, to, amount] = eventRecord.event.data;
+
+    console.log(from.toHuman(), to.toHuman(), amount.toBn());
+  }
+
+  // something random
+  if (api.events.something.isRandom(eventRecord)) {
+    // the types are just codec
+    const [a, b] = eventRecord.event.data;
+
+    console.log(a.toHuman(), b.toHuman());
+  }
 }
 
 async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
@@ -189,6 +222,8 @@ async function main (): Promise<void> {
   Promise.all([
     consts(api),
     derive(api),
+    errors(api),
+    events(api),
     query(api, pairs),
     queryExtra(api, pairs),
     rpc(api),

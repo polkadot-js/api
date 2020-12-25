@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Option, Vec, bool, u16, u32 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { AnyTuple, ITuple } from '@polkadot/types/types';
 import type { BalanceStatus } from '@polkadot/types/interfaces/balances';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -863,7 +863,7 @@ declare module '@polkadot/api/types/events' {
     };
   }
 
-  export interface QueryableEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
-    [key: string]: QueryableModuleEvents<ApiType>;
+  export interface IsEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
+    [key: string]: IsModuleEvents<ApiType>;
   }
 }

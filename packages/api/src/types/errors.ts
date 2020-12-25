@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchError } from '@polkadot/types/interfaces';
+import type { IsError } from '@polkadot/metadata/decorate/types';
 import type { ApiTypes } from './base';
 
 // In errors we don't need the ApiType, however add it for consistency
@@ -9,8 +9,9 @@ import type { ApiTypes } from './base';
 export interface AugmentedErrors<ApiType extends ApiTypes> { }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedIsError<ApiType extends ApiTypes> = (dispatchError: DispatchError) => boolean;
+export type AugmentedIsError<ApiType extends ApiTypes> = IsError;
 
-export interface QueryableModuleErrors<ApiType extends ApiTypes> {
-  [index: string]: AugmentedIsError<ApiType>;
+// TODO: Record<`is${Capitalize<string>}`, ...>
+export interface IsModuleErrors<ApiType extends ApiTypes> {
+  [key: string]: AugmentedIsError<ApiType>;
 }

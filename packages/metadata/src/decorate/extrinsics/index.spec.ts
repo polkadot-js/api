@@ -16,7 +16,7 @@ const metadata = new Metadata(registry, metadataStatic);
 
 registry.setMetadata(metadata);
 
-const extrinsics = decorateExtrinsics(registry, metadata.asLatest);
+const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
 describe('extrinsics', (): void => {
   it('encodes an actual transfer (actual data)', (): void => {
@@ -53,7 +53,7 @@ describe('extrinsics', (): void => {
   });
 });
 
-describe('fromMetadata', (): void => {
+describe('decorateExtrinsics', (): void => {
   it('should throw if an incorrect number of args is supplied', (): void => {
     expect(() => extrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
   });

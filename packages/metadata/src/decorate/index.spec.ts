@@ -27,7 +27,7 @@ describe('Decorated', () => {
   });
 
   it('should return properly-encoded transactions', (): void => {
-    const tx = decorateExtrinsics(registry, metadata.asLatest);
+    const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
     expect(
       registry.createType('Extrinsic', tx.timestamp.set([10101])).toU8a()

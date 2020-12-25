@@ -10,8 +10,6 @@ import type { ITuple } from './interfaces';
 export interface IEventRecord<T extends Codec[]> {
   phase: Phase;
   event: IEvent<T>;
-  method: string;
-  section: string;
   topics: Hash[];
 }
 

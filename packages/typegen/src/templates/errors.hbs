@@ -18,9 +18,9 @@ declare module '@polkadot/api/types/errors' {
     {{/each}}
   }
 
-  export interface QueryableErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
+  export interface IsErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
     {{#unless isStrict}}
-    [key: string]: QueryableModuleErrors<ApiType>;
+    [key: string]: IsModuleErrors<ApiType>;
     {{/unless}}
   }
 }

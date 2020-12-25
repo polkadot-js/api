@@ -18,9 +18,9 @@ declare module '@polkadot/api/types/events' {
     {{/each}}
   }
 
-  export interface QueryableEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
+  export interface IsEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
     {{#unless isStrict}}
-    [key: string]: QueryableModuleEvents<ApiType>;
+    [key: string]: IsModuleEvents<ApiType>;
     {{/unless}}
   }
 }

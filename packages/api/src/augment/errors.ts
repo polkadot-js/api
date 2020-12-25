@@ -1180,7 +1180,7 @@ declare module '@polkadot/api/types/errors' {
     };
   }
 
-  export interface QueryableErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
-    [key: string]: QueryableModuleErrors<ApiType>;
+  export interface IsErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
+    [key: string]: IsModuleErrors<ApiType>;
   }
 }

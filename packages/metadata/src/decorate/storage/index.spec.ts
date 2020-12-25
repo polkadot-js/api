@@ -11,7 +11,7 @@ import { decorateStorage } from '..';
 
 const keyring = createTestPairs({ type: 'ed25519' });
 
-describe('fromMetadata', (): void => {
+describe('decorateStorage', (): void => {
   describe('latest', (): void => {
     const registry = new TypeRegistry();
     const metadata = new Metadata(registry, rpcMetadata);
