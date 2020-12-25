@@ -5,7 +5,7 @@ import type BN from 'bn.js';
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { Hash } from '../interfaces/runtime';
-import type { ArgsDef, Codec } from './codec';
+import type { AnyTuple, ArgsDef, Codec } from './codec';
 
 export interface ICompact<T> extends Codec {
   toBigInt (): BigInt;
@@ -21,8 +21,8 @@ export interface IKeyringPair {
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
-export interface IMethod extends Codec {
-  readonly args: Codec[];
+export interface IMethod<A extends AnyTuple> extends Codec {
+  readonly args: A;
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;

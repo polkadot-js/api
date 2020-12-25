@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import type { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallFunction, IMethod, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -117,7 +117,7 @@ export class GenericCallIndex extends U8aFixed {
  * @description
  * Extrinsic function descriptor
  */
-export class GenericCall extends Struct implements IMethod {
+export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements IMethod<A> {
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
@@ -159,9 +159,9 @@ export class GenericCall extends Struct implements IMethod {
   /**
    * @description The arguments for the function call
    */
-  public get args (): Codec[] {
+  public get args (): A {
     // FIXME This should return a Struct instead of an Array
-    return [...(this.get('args') as Struct).values()];
+    return [...(this.get('args') as Struct).values()] as A;
   }
 
   /**

@@ -4,7 +4,7 @@
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import type { FunctionMetadataLatest } from '../interfaces/metadata/types';
 import type { Address, Balance, Call, Index } from '../interfaces/runtime';
-import type { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, IMethod, InterfaceTypes, Registry, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
@@ -34,11 +34,11 @@ const VERSIONS: (keyof InterfaceTypes)[] = [
 
 export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
-abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
+abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
-  public get args (): Codec[] {
+  public get args (): A {
     return this.method.args;
   }
 
@@ -108,8 +108,8 @@ abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   /**
    * @description The [[Call]] this extrinsic wraps
    */
-  public get method (): Call {
-    return (this._raw as ExtrinsicVx).method;
+  public get method (): IMethod<A> {
+    return (this._raw as ExtrinsicVx).method as unknown as IMethod<A>;
   }
 
   /**
@@ -167,7 +167,7 @@ abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export class GenericExtrinsic extends ExtrinsicBase implements IExtrinsic {
+export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
   constructor (registry: Registry, value: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
     super(registry, GenericExtrinsic._decodeExtrinsic(registry, value, version));
   }
@@ -216,7 +216,7 @@ export class GenericExtrinsic extends ExtrinsicBase implements IExtrinsic {
   /**
    * @description Injects an already-generated signature into the extrinsic
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): GenericExtrinsic {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).addSignature(signer, signature, payload);
 
     return this;
@@ -225,7 +225,7 @@ export class GenericExtrinsic extends ExtrinsicBase implements IExtrinsic {
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsic {
+  public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).sign(account, options);
 
     return this;
@@ -234,7 +234,7 @@ export class GenericExtrinsic extends ExtrinsicBase implements IExtrinsic {
   /**
    * @describe Adds a fake signature to the extrinsic
    */
-  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsic {
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).signFake(signer, options);
 
     return this;

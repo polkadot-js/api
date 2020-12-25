@@ -4,7 +4,7 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import type { AccountId, Balance, DispatchError, EventRecord, Header, Index } from '@polkadot/types/interfaces';
-import type { IExtrinsic, IMethod } from '@polkadot/types/types';
+import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
@@ -176,7 +176,7 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // transfer, also allows for BigInt inputs here
   const transfer = api.tx.balances.transfer(pairs.bob.address, 123456789n);
 
-  console.log('transfer casted', transfer as IMethod, transfer as IExtrinsic);
+  console.log('transfer casted', transfer as IMethod<AnyTuple>, transfer as IExtrinsic<AnyTuple>);
 
   // simple "return the hash" variant
   console.log('hash:', (await transfer.signAndSend(pairs.alice)).toHex());
