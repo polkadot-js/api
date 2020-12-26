@@ -3,6 +3,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import type { StorageKey } from '@polkadot/types';
 import type { AccountId, Balance, DispatchError, EventRecord, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
@@ -135,6 +136,16 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
   const entries = await api.query.system.events.range(['0x12345', '0x7890']);
 
   console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`).join(', ')}`);
+
+  // is
+  const key = {} as StorageKey;
+
+  if (api.query.balances.account.is(key)) {
+    const [accountId] = key.args;
+
+    // should be AccountId type
+    console.log(accountId.toHuman());
+  }
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
@@ -212,6 +223,14 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
 
   // it handles enum inputs correctly
   await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
+
+  // is
+  if (api.tx.balances.transfer.is(second)) {
+    const [recipientId, balance] = second.args;
+
+    // should be LookupSource & Balance types
+    console.log(recipientId.toHuman(), balance.toNumber());
+  }
 }
 
 async function main (): Promise<void> {

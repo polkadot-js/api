@@ -6,15 +6,16 @@ import type { Call } from '../interfaces/runtime';
 import type { AnyTuple } from './codec';
 import type { IMethod } from './interfaces';
 
-export interface CallBase {
-  callIndex: Uint8Array;
-  is: <A extends AnyTuple> (tx: IMethod<AnyTuple>) => tx is IMethod<A>;
-  meta: FunctionMetadataLatest;
-  method: string;
-  section: string;
+export interface CallBase<A extends AnyTuple> {
+  readonly callIndex: Uint8Array;
+  readonly meta: FunctionMetadataLatest;
+  readonly method: string;
+  readonly section: string;
+
+  is: (tx: IMethod<AnyTuple>) => tx is IMethod<A>;
   toJSON: () => any;
 }
 
-export interface CallFunction extends CallBase {
-  (...args: any[]): Call;
+export interface CallFunction<A extends AnyTuple = AnyTuple> extends CallBase<A> {
+  (...args: any[]): Call & IMethod<A>;
 }
