@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Option, Vec, bool, u16, u32 } from '@polkadot/types';
-import type { AnyTuple, ITuple } from '@polkadot/types/types';
+import type { ITuple } from '@polkadot/types/types';
 import type { BalanceStatus } from '@polkadot/types/interfaces/balances';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -24,7 +24,7 @@ import type { ApiTypes } from '@polkadot/api/types';
 declare module '@polkadot/api/types/events' {
   export interface AugmentedEvents<ApiType> {
     assets: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Some assets were destroyed. \[asset_id, owner, balance\]
        **/
@@ -75,7 +75,7 @@ declare module '@polkadot/api/types/events' {
       transferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, Balance]>;
     };
     balances: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A balance was set by root. \[who, free, reserved\]
        **/
@@ -113,7 +113,7 @@ declare module '@polkadot/api/types/events' {
       unreserved: AugmentedEvent<ApiType, [AccountId, Balance]>;
     };
     bounties: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A bounty is awarded to a beneficiary. \[index, beneficiary\]
        **/
@@ -144,7 +144,7 @@ declare module '@polkadot/api/types/events' {
       bountyRejected: AugmentedEvent<ApiType, [BountyIndex, Balance]>;
     };
     contracts: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Code with the specified hash has been stored.
        * \[code_hash\]
@@ -187,7 +187,7 @@ declare module '@polkadot/api/types/events' {
       scheduleUpdated: AugmentedEvent<ApiType, [u32]>;
     };
     council: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A motion was approved by the required threshold.
        * \[proposal_hash\]
@@ -227,7 +227,7 @@ declare module '@polkadot/api/types/events' {
       voted: AugmentedEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
     };
     democracy: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A proposal \[hash\] has been blacklisted permanently.
        **/
@@ -306,7 +306,7 @@ declare module '@polkadot/api/types/events' {
       vetoed: AugmentedEvent<ApiType, [AccountId, Hash, BlockNumber]>;
     };
     elections: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A candidate was slashed due to failing to obtain a seat as member or runner-up
        **/
@@ -347,7 +347,7 @@ declare module '@polkadot/api/types/events' {
       voterReported: AugmentedEvent<ApiType, [AccountId, AccountId, bool]>;
     };
     grandpa: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * New authority set has been applied. \[authority_set\]
        **/
@@ -362,7 +362,7 @@ declare module '@polkadot/api/types/events' {
       resumed: AugmentedEvent<ApiType, []>;
     };
     identity: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A name was cleared, and the given balance returned. \[who, deposit\]
        **/
@@ -407,7 +407,7 @@ declare module '@polkadot/api/types/events' {
       subIdentityRevoked: AugmentedEvent<ApiType, [AccountId, AccountId, Balance]>;
     };
     imOnline: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * At the end of the session, no offence was committed.
        **/
@@ -422,7 +422,7 @@ declare module '@polkadot/api/types/events' {
       someOffline: AugmentedEvent<ApiType, [Vec<IdentificationTuple>]>;
     };
     indices: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A account index was assigned. \[index, who\]
        **/
@@ -437,7 +437,7 @@ declare module '@polkadot/api/types/events' {
       indexFrozen: AugmentedEvent<ApiType, [AccountIndex, AccountId]>;
     };
     multisig: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A multisig operation has been approved by someone.
        * \[approving, timepoint, multisig, call_hash\]
@@ -457,7 +457,7 @@ declare module '@polkadot/api/types/events' {
       newMultisig: AugmentedEvent<ApiType, [AccountId, AccountId, CallHash]>;
     };
     offences: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * There is an offence reported of the given `kind` happened at the `session_index` and
        * (kind-specific) time slot. This event is not deposited for duplicate slashes. last
@@ -467,7 +467,7 @@ declare module '@polkadot/api/types/events' {
       offence: AugmentedEvent<ApiType, [Kind, OpaqueTimeSlot, bool]>;
     };
     proxy: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * An announcement was placed to make a call in the future. \[real, proxy, call_hash\]
        **/
@@ -483,7 +483,7 @@ declare module '@polkadot/api/types/events' {
       proxyExecuted: AugmentedEvent<ApiType, [DispatchResult]>;
     };
     recovery: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Lost account has been successfully recovered by rescuer account.
        * \[lost, rescuer\]
@@ -514,7 +514,7 @@ declare module '@polkadot/api/types/events' {
       recoveryVouched: AugmentedEvent<ApiType, [AccountId, AccountId, AccountId]>;
     };
     scheduler: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Canceled some task. \[when, index\]
        **/
@@ -529,7 +529,7 @@ declare module '@polkadot/api/types/events' {
       scheduled: AugmentedEvent<ApiType, [BlockNumber, u32]>;
     };
     session: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * New session has happened. Note that the argument is the \[session_index\], not the block
        * number as the type might suggest.
@@ -537,7 +537,7 @@ declare module '@polkadot/api/types/events' {
       newSession: AugmentedEvent<ApiType, [SessionIndex]>;
     };
     society: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A \[candidate\] was dropped (due to an excess of bids in the system).
        **/
@@ -607,7 +607,7 @@ declare module '@polkadot/api/types/events' {
       vouch: AugmentedEvent<ApiType, [AccountId, Balance, AccountId]>;
     };
     staking: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * An account has bonded this amount. \[stash, amount\]
        * 
@@ -654,7 +654,7 @@ declare module '@polkadot/api/types/events' {
       withdrawn: AugmentedEvent<ApiType, [AccountId, Balance]>;
     };
     sudo: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * The \[sudoer\] just switched identity; the old key is supplied.
        **/
@@ -669,7 +669,7 @@ declare module '@polkadot/api/types/events' {
       sudoAsDone: AugmentedEvent<ApiType, [DispatchResult]>;
     };
     system: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * `:code` was updated.
        **/
@@ -692,7 +692,7 @@ declare module '@polkadot/api/types/events' {
       newAccount: AugmentedEvent<ApiType, [AccountId]>;
     };
     technicalCommittee: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A motion was approved by the required threshold.
        * \[proposal_hash\]
@@ -732,7 +732,7 @@ declare module '@polkadot/api/types/events' {
       voted: AugmentedEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
     };
     technicalMembership: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Phantom member, never used.
        **/
@@ -759,7 +759,7 @@ declare module '@polkadot/api/types/events' {
       membersSwapped: AugmentedEvent<ApiType, []>;
     };
     tips: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A new tip suggestion has been opened. \[tip_hash\]
        **/
@@ -778,7 +778,7 @@ declare module '@polkadot/api/types/events' {
       tipRetracted: AugmentedEvent<ApiType, [Hash]>;
     };
     treasury: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Some funds have been allocated. \[proposal_index, award, beneficiary\]
        **/
@@ -810,7 +810,7 @@ declare module '@polkadot/api/types/events' {
       spending: AugmentedEvent<ApiType, [Balance]>;
     };
     utility: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Batch of dispatches completed fully with no error.
        **/
@@ -822,7 +822,7 @@ declare module '@polkadot/api/types/events' {
       batchInterrupted: AugmentedEvent<ApiType, [u32, DispatchError]>;
     };
     vesting: {
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       /**
        * An \[account\] has become fully vested. No further vesting can happen.
        **/

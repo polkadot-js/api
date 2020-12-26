@@ -23,11 +23,6 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
-    if (!isStrict) {
-      // we need AnyTuple
-      imports.typesTypes.AnyTuple = true;
-    }
-
     const modules = meta.asLatest.modules
       .sort(compareName)
       .filter((mod) => mod.events.isSome)

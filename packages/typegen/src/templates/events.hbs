@@ -7,7 +7,7 @@ declare module '@polkadot/api/types/events' {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType>;
       {{/unless}}
       {{~#each items}}
       {{> docs}}
