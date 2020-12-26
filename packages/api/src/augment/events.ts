@@ -24,141 +24,137 @@ import type { ApiTypes } from '@polkadot/api/types';
 declare module '@polkadot/api/types/events' {
   export interface AugmentedEvents<ApiType> {
     assets: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * Some assets were destroyed. \[asset_id, owner, balance\]
        **/
-      Burned: AugmentedIsEvent<ApiType, [AssetId, AccountId, Balance]>;
+      burned: AugmentedEvent<ApiType, [AssetId, AccountId, Balance]>;
       /**
        * Some asset class was created. \[asset_id, creator, owner\]
        **/
-      Created: AugmentedIsEvent<ApiType, [AssetId, AccountId, AccountId]>;
+      created: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId]>;
       /**
        * An asset class was destroyed.
        **/
-      Destroyed: AugmentedIsEvent<ApiType, [AssetId]>;
+      destroyed: AugmentedEvent<ApiType, [AssetId]>;
       /**
        * Some asset class was force-created. \[asset_id, owner\]
        **/
-      ForceCreated: AugmentedIsEvent<ApiType, [AssetId, AccountId]>;
+      forceCreated: AugmentedEvent<ApiType, [AssetId, AccountId]>;
       /**
        * Some assets was transferred by an admin. \[asset_id, from, to, amount\]
        **/
-      ForceTransferred: AugmentedIsEvent<ApiType, [AssetId, AccountId, AccountId, Balance]>;
+      forceTransferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, Balance]>;
       /**
        * Some account `who` was frozen. \[asset_id, who\]
        **/
-      Frozen: AugmentedIsEvent<ApiType, [AssetId, AccountId]>;
+      frozen: AugmentedEvent<ApiType, [AssetId, AccountId]>;
       /**
        * Some assets were issued. \[asset_id, owner, total_supply\]
        **/
-      Issued: AugmentedIsEvent<ApiType, [AssetId, AccountId, Balance]>;
+      issued: AugmentedEvent<ApiType, [AssetId, AccountId, Balance]>;
       /**
        * The maximum amount of zombies allowed has changed. \[asset_id, max_zombies\]
        **/
-      MaxZombiesChanged: AugmentedIsEvent<ApiType, [AssetId, u32]>;
+      maxZombiesChanged: AugmentedEvent<ApiType, [AssetId, u32]>;
       /**
        * The owner changed \[asset_id, owner\]
        **/
-      OwnerChanged: AugmentedIsEvent<ApiType, [AssetId, AccountId]>;
+      ownerChanged: AugmentedEvent<ApiType, [AssetId, AccountId]>;
       /**
        * The management team changed \[asset_id, issuer, admin, freezer\]
        **/
-      TeamChanged: AugmentedIsEvent<ApiType, [AssetId, AccountId, AccountId, AccountId]>;
+      teamChanged: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, AccountId]>;
       /**
        * Some account `who` was thawed. \[asset_id, who\]
        **/
-      Thawed: AugmentedIsEvent<ApiType, [AssetId, AccountId]>;
+      thawed: AugmentedEvent<ApiType, [AssetId, AccountId]>;
       /**
        * Some assets were transferred. \[asset_id, from, to, amount\]
        **/
-      Transferred: AugmentedIsEvent<ApiType, [AssetId, AccountId, AccountId, Balance]>;
+      transferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, Balance]>;
     };
     balances: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A balance was set by root. \[who, free, reserved\]
        **/
-      BalanceSet: AugmentedIsEvent<ApiType, [AccountId, Balance, Balance]>;
+      balanceSet: AugmentedEvent<ApiType, [AccountId, Balance, Balance]>;
       /**
        * Some amount was deposited (e.g. for transaction fees). \[who, deposit\]
        **/
-      Deposit: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      deposit: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * An account was removed whose balance was non-zero but below ExistentialDeposit,
        * resulting in an outright loss. \[account, balance\]
        **/
-      DustLost: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      dustLost: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * An account was created with some free balance. \[account, free_balance\]
        **/
-      Endowed: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      endowed: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * Some balance was reserved (moved from free to reserved). \[who, value\]
        **/
-      Reserved: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      reserved: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * Some balance was moved from the reserve of the first account to the second account.
        * Final argument indicates the destination balance type.
        * \[from, to, balance, destination_status\]
        **/
-      ReserveRepatriated: AugmentedIsEvent<ApiType, [AccountId, AccountId, Balance, BalanceStatus]>;
+      reserveRepatriated: AugmentedEvent<ApiType, [AccountId, AccountId, Balance, BalanceStatus]>;
       /**
        * Transfer succeeded. \[from, to, value\]
        **/
-      Transfer: AugmentedIsEvent<ApiType, [AccountId, AccountId, Balance]>;
+      transfer: AugmentedEvent<ApiType, [AccountId, AccountId, Balance]>;
       /**
        * Some balance was unreserved (moved from reserved to free). \[who, value\]
        **/
-      Unreserved: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      unreserved: AugmentedEvent<ApiType, [AccountId, Balance]>;
     };
     bounties: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A bounty is awarded to a beneficiary. \[index, beneficiary\]
        **/
-      BountyAwarded: AugmentedIsEvent<ApiType, [BountyIndex, AccountId]>;
+      bountyAwarded: AugmentedEvent<ApiType, [BountyIndex, AccountId]>;
       /**
        * A bounty proposal is funded and became active. \[index\]
        **/
-      BountyBecameActive: AugmentedIsEvent<ApiType, [BountyIndex]>;
+      bountyBecameActive: AugmentedEvent<ApiType, [BountyIndex]>;
       /**
        * A bounty is cancelled. \[index\]
        **/
-      BountyCanceled: AugmentedIsEvent<ApiType, [BountyIndex]>;
+      bountyCanceled: AugmentedEvent<ApiType, [BountyIndex]>;
       /**
        * A bounty is claimed by beneficiary. \[index, payout, beneficiary\]
        **/
-      BountyClaimed: AugmentedIsEvent<ApiType, [BountyIndex, Balance, AccountId]>;
+      bountyClaimed: AugmentedEvent<ApiType, [BountyIndex, Balance, AccountId]>;
       /**
        * A bounty expiry is extended. \[index\]
        **/
-      BountyExtended: AugmentedIsEvent<ApiType, [BountyIndex]>;
+      bountyExtended: AugmentedEvent<ApiType, [BountyIndex]>;
       /**
        * New bounty proposal. \[index\]
        **/
-      BountyProposed: AugmentedIsEvent<ApiType, [BountyIndex]>;
+      bountyProposed: AugmentedEvent<ApiType, [BountyIndex]>;
       /**
        * A bounty proposal was rejected; funds were slashed. \[index, bond\]
        **/
-      BountyRejected: AugmentedIsEvent<ApiType, [BountyIndex, Balance]>;
+      bountyRejected: AugmentedEvent<ApiType, [BountyIndex, Balance]>;
     };
     contracts: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * Code with the specified hash has been stored.
        * \[code_hash\]
        **/
-      CodeStored: AugmentedIsEvent<ApiType, [Hash]>;
+      codeStored: AugmentedEvent<ApiType, [Hash]>;
       /**
        * An event deposited upon execution of a contract from the account.
        * \[account, data\]
        **/
-      ContractExecution: AugmentedIsEvent<ApiType, [AccountId, Bytes]>;
+      contractExecution: AugmentedEvent<ApiType, [AccountId, Bytes]>;
       /**
        * Contract has been evicted and is now in tombstone state.
        * \[contract, tombstone\]
@@ -168,11 +164,11 @@ declare module '@polkadot/api/types/events' {
        * - `contract`: `AccountId`: The account ID of the evicted contract.
        * - `tombstone`: `bool`: True if the evicted contract left behind a tombstone.
        **/
-      Evicted: AugmentedIsEvent<ApiType, [AccountId, bool]>;
+      evicted: AugmentedEvent<ApiType, [AccountId, bool]>;
       /**
        * Contract deployed by address at the specified address. \[owner, contract\]
        **/
-      Instantiated: AugmentedIsEvent<ApiType, [AccountId, AccountId]>;
+      instantiated: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
        * Restoration for a contract has been successful.
        * \[donor, dest, code_hash, rent_allowance\]
@@ -184,686 +180,663 @@ declare module '@polkadot/api/types/events' {
        * - `code_hash`: `Hash`: Code hash of the restored contract
        * - `rent_allowance: `Balance`: Rent allowance of the restored contract
        **/
-      Restored: AugmentedIsEvent<ApiType, [AccountId, AccountId, Hash, Balance]>;
+      restored: AugmentedEvent<ApiType, [AccountId, AccountId, Hash, Balance]>;
       /**
        * Triggered when the current \[schedule\] is updated.
        **/
-      ScheduleUpdated: AugmentedIsEvent<ApiType, [u32]>;
+      scheduleUpdated: AugmentedEvent<ApiType, [u32]>;
     };
     council: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A motion was approved by the required threshold.
        * \[proposal_hash\]
        **/
-      Approved: AugmentedIsEvent<ApiType, [Hash]>;
+      approved: AugmentedEvent<ApiType, [Hash]>;
       /**
        * A proposal was closed because its threshold was reached or after its duration was up.
        * \[proposal_hash, yes, no\]
        **/
-      Closed: AugmentedIsEvent<ApiType, [Hash, MemberCount, MemberCount]>;
+      closed: AugmentedEvent<ApiType, [Hash, MemberCount, MemberCount]>;
       /**
        * A motion was not approved by the required threshold.
        * \[proposal_hash\]
        **/
-      Disapproved: AugmentedIsEvent<ApiType, [Hash]>;
+      disapproved: AugmentedEvent<ApiType, [Hash]>;
       /**
        * A motion was executed; result will be `Ok` if it returned without error.
        * \[proposal_hash, result\]
        **/
-      Executed: AugmentedIsEvent<ApiType, [Hash, DispatchResult]>;
+      executed: AugmentedEvent<ApiType, [Hash, DispatchResult]>;
       /**
        * A single member did some action; result will be `Ok` if it returned without error.
        * \[proposal_hash, result\]
        **/
-      MemberExecuted: AugmentedIsEvent<ApiType, [Hash, DispatchResult]>;
+      memberExecuted: AugmentedEvent<ApiType, [Hash, DispatchResult]>;
       /**
        * A motion (given hash) has been proposed (by given account) with a threshold (given
        * `MemberCount`).
        * \[account, proposal_index, proposal_hash, threshold\]
        **/
-      Proposed: AugmentedIsEvent<ApiType, [AccountId, ProposalIndex, Hash, MemberCount]>;
+      proposed: AugmentedEvent<ApiType, [AccountId, ProposalIndex, Hash, MemberCount]>;
       /**
        * A motion (given hash) has been voted on by given account, leaving
        * a tally (yes votes and no votes given respectively as `MemberCount`).
        * \[account, proposal_hash, voted, yes, no\]
        **/
-      Voted: AugmentedIsEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
+      voted: AugmentedEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
     };
     democracy: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A proposal \[hash\] has been blacklisted permanently.
        **/
-      Blacklisted: AugmentedIsEvent<ApiType, [Hash]>;
+      blacklisted: AugmentedEvent<ApiType, [Hash]>;
       /**
        * A referendum has been cancelled. \[ref_index\]
        **/
-      Cancelled: AugmentedIsEvent<ApiType, [ReferendumIndex]>;
+      cancelled: AugmentedEvent<ApiType, [ReferendumIndex]>;
       /**
        * An account has delegated their vote to another account. \[who, target\]
        **/
-      Delegated: AugmentedIsEvent<ApiType, [AccountId, AccountId]>;
+      delegated: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
        * A proposal has been enacted. \[ref_index, is_ok\]
        **/
-      Executed: AugmentedIsEvent<ApiType, [ReferendumIndex, bool]>;
+      executed: AugmentedEvent<ApiType, [ReferendumIndex, bool]>;
       /**
        * An external proposal has been tabled.
        **/
-      ExternalTabled: AugmentedIsEvent<ApiType, []>;
+      externalTabled: AugmentedEvent<ApiType, []>;
       /**
        * A proposal has been rejected by referendum. \[ref_index\]
        **/
-      NotPassed: AugmentedIsEvent<ApiType, [ReferendumIndex]>;
+      notPassed: AugmentedEvent<ApiType, [ReferendumIndex]>;
       /**
        * A proposal has been approved by referendum. \[ref_index\]
        **/
-      Passed: AugmentedIsEvent<ApiType, [ReferendumIndex]>;
+      passed: AugmentedEvent<ApiType, [ReferendumIndex]>;
       /**
        * A proposal could not be executed because its preimage was invalid.
        * \[proposal_hash, ref_index\]
        **/
-      PreimageInvalid: AugmentedIsEvent<ApiType, [Hash, ReferendumIndex]>;
+      preimageInvalid: AugmentedEvent<ApiType, [Hash, ReferendumIndex]>;
       /**
        * A proposal could not be executed because its preimage was missing.
        * \[proposal_hash, ref_index\]
        **/
-      PreimageMissing: AugmentedIsEvent<ApiType, [Hash, ReferendumIndex]>;
+      preimageMissing: AugmentedEvent<ApiType, [Hash, ReferendumIndex]>;
       /**
        * A proposal's preimage was noted, and the deposit taken. \[proposal_hash, who, deposit\]
        **/
-      PreimageNoted: AugmentedIsEvent<ApiType, [Hash, AccountId, Balance]>;
+      preimageNoted: AugmentedEvent<ApiType, [Hash, AccountId, Balance]>;
       /**
        * A registered preimage was removed and the deposit collected by the reaper.
        * \[proposal_hash, provider, deposit, reaper\]
        **/
-      PreimageReaped: AugmentedIsEvent<ApiType, [Hash, AccountId, Balance, AccountId]>;
+      preimageReaped: AugmentedEvent<ApiType, [Hash, AccountId, Balance, AccountId]>;
       /**
        * A proposal preimage was removed and used (the deposit was returned).
        * \[proposal_hash, provider, deposit\]
        **/
-      PreimageUsed: AugmentedIsEvent<ApiType, [Hash, AccountId, Balance]>;
+      preimageUsed: AugmentedEvent<ApiType, [Hash, AccountId, Balance]>;
       /**
        * A motion has been proposed by a public account. \[proposal_index, deposit\]
        **/
-      Proposed: AugmentedIsEvent<ApiType, [PropIndex, Balance]>;
+      proposed: AugmentedEvent<ApiType, [PropIndex, Balance]>;
       /**
        * A referendum has begun. \[ref_index, threshold\]
        **/
-      Started: AugmentedIsEvent<ApiType, [ReferendumIndex, VoteThreshold]>;
+      started: AugmentedEvent<ApiType, [ReferendumIndex, VoteThreshold]>;
       /**
        * A public proposal has been tabled for referendum vote. \[proposal_index, deposit, depositors\]
        **/
-      Tabled: AugmentedIsEvent<ApiType, [PropIndex, Balance, Vec<AccountId>]>;
+      tabled: AugmentedEvent<ApiType, [PropIndex, Balance, Vec<AccountId>]>;
       /**
        * An \[account\] has cancelled a previous delegation operation.
        **/
-      Undelegated: AugmentedIsEvent<ApiType, [AccountId]>;
+      undelegated: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * An \[account\] has been unlocked successfully.
        **/
-      Unlocked: AugmentedIsEvent<ApiType, [AccountId]>;
+      unlocked: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * An external proposal has been vetoed. \[who, proposal_hash, until\]
        **/
-      Vetoed: AugmentedIsEvent<ApiType, [AccountId, Hash, BlockNumber]>;
+      vetoed: AugmentedEvent<ApiType, [AccountId, Hash, BlockNumber]>;
     };
     elections: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A candidate was slashed due to failing to obtain a seat as member or runner-up
        **/
-      CandidateSlashed: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      candidateSlashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * Internal error happened while trying to perform election.
        **/
-      ElectionError: AugmentedIsEvent<ApiType, []>;
+      electionError: AugmentedEvent<ApiType, []>;
       /**
        * No (or not enough) candidates existed for this round. This is different from
        * `NewTerm(\[\])`. See the description of `NewTerm`.
        **/
-      EmptyTerm: AugmentedIsEvent<ApiType, []>;
+      emptyTerm: AugmentedEvent<ApiType, []>;
       /**
        * A \[member\] has been removed. This should always be followed by either `NewTerm` or
        * `EmptyTerm`.
        **/
-      MemberKicked: AugmentedIsEvent<ApiType, [AccountId]>;
+      memberKicked: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A \[member\] has renounced their candidacy.
        **/
-      MemberRenounced: AugmentedIsEvent<ApiType, [AccountId]>;
+      memberRenounced: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A new term with \[new_members\]. This indicates that enough candidates existed to run the
        * election, not that enough have has been elected. The inner value must be examined for
        * this purpose. A `NewTerm(\[\])` indicates that some candidates got their bond slashed and
        * none were elected, whilst `EmptyTerm` means that no candidates existed to begin with.
        **/
-      NewTerm: AugmentedIsEvent<ApiType, [Vec<ITuple<[AccountId, Balance]>>]>;
+      newTerm: AugmentedEvent<ApiType, [Vec<ITuple<[AccountId, Balance]>>]>;
       /**
        * A seat holder (member or runner-up) was slashed due to failing to retaining their position.
        **/
-      SeatHolderSlashed: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      seatHolderSlashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * A voter was reported with the the report being successful or not.
        * \[voter, reporter, success\]
        **/
-      VoterReported: AugmentedIsEvent<ApiType, [AccountId, AccountId, bool]>;
+      voterReported: AugmentedEvent<ApiType, [AccountId, AccountId, bool]>;
     };
     grandpa: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * New authority set has been applied. \[authority_set\]
        **/
-      NewAuthorities: AugmentedIsEvent<ApiType, [AuthorityList]>;
+      newAuthorities: AugmentedEvent<ApiType, [AuthorityList]>;
       /**
        * Current authority set has been paused.
        **/
-      Paused: AugmentedIsEvent<ApiType, []>;
+      paused: AugmentedEvent<ApiType, []>;
       /**
        * Current authority set has been resumed.
        **/
-      Resumed: AugmentedIsEvent<ApiType, []>;
+      resumed: AugmentedEvent<ApiType, []>;
     };
     identity: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A name was cleared, and the given balance returned. \[who, deposit\]
        **/
-      IdentityCleared: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      identityCleared: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * A name was removed and the given balance slashed. \[who, deposit\]
        **/
-      IdentityKilled: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      identityKilled: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * A name was set or reset (which will remove all judgements). \[who\]
        **/
-      IdentitySet: AugmentedIsEvent<ApiType, [AccountId]>;
+      identitySet: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A judgement was given by a registrar. \[target, registrar_index\]
        **/
-      JudgementGiven: AugmentedIsEvent<ApiType, [AccountId, RegistrarIndex]>;
+      judgementGiven: AugmentedEvent<ApiType, [AccountId, RegistrarIndex]>;
       /**
        * A judgement was asked from a registrar. \[who, registrar_index\]
        **/
-      JudgementRequested: AugmentedIsEvent<ApiType, [AccountId, RegistrarIndex]>;
+      judgementRequested: AugmentedEvent<ApiType, [AccountId, RegistrarIndex]>;
       /**
        * A judgement request was retracted. \[who, registrar_index\]
        **/
-      JudgementUnrequested: AugmentedIsEvent<ApiType, [AccountId, RegistrarIndex]>;
+      judgementUnrequested: AugmentedEvent<ApiType, [AccountId, RegistrarIndex]>;
       /**
        * A registrar was added. \[registrar_index\]
        **/
-      RegistrarAdded: AugmentedIsEvent<ApiType, [RegistrarIndex]>;
+      registrarAdded: AugmentedEvent<ApiType, [RegistrarIndex]>;
       /**
        * A sub-identity was added to an identity and the deposit paid. \[sub, main, deposit\]
        **/
-      SubIdentityAdded: AugmentedIsEvent<ApiType, [AccountId, AccountId, Balance]>;
+      subIdentityAdded: AugmentedEvent<ApiType, [AccountId, AccountId, Balance]>;
       /**
        * A sub-identity was removed from an identity and the deposit freed.
        * \[sub, main, deposit\]
        **/
-      SubIdentityRemoved: AugmentedIsEvent<ApiType, [AccountId, AccountId, Balance]>;
+      subIdentityRemoved: AugmentedEvent<ApiType, [AccountId, AccountId, Balance]>;
       /**
        * A sub-identity was cleared, and the given deposit repatriated from the
        * main identity account to the sub-identity account. \[sub, main, deposit\]
        **/
-      SubIdentityRevoked: AugmentedIsEvent<ApiType, [AccountId, AccountId, Balance]>;
+      subIdentityRevoked: AugmentedEvent<ApiType, [AccountId, AccountId, Balance]>;
     };
     imOnline: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * At the end of the session, no offence was committed.
        **/
-      AllGood: AugmentedIsEvent<ApiType, []>;
+      allGood: AugmentedEvent<ApiType, []>;
       /**
        * A new heartbeat was received from `AuthorityId` \[authority_id\]
        **/
-      HeartbeatReceived: AugmentedIsEvent<ApiType, [AuthorityId]>;
+      heartbeatReceived: AugmentedEvent<ApiType, [AuthorityId]>;
       /**
        * At the end of the session, at least one validator was found to be \[offline\].
        **/
-      SomeOffline: AugmentedIsEvent<ApiType, [Vec<IdentificationTuple>]>;
+      someOffline: AugmentedEvent<ApiType, [Vec<IdentificationTuple>]>;
     };
     indices: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A account index was assigned. \[index, who\]
        **/
-      IndexAssigned: AugmentedIsEvent<ApiType, [AccountId, AccountIndex]>;
+      indexAssigned: AugmentedEvent<ApiType, [AccountId, AccountIndex]>;
       /**
        * A account index has been freed up (unassigned). \[index\]
        **/
-      IndexFreed: AugmentedIsEvent<ApiType, [AccountIndex]>;
+      indexFreed: AugmentedEvent<ApiType, [AccountIndex]>;
       /**
        * A account index has been frozen to its current account ID. \[index, who\]
        **/
-      IndexFrozen: AugmentedIsEvent<ApiType, [AccountIndex, AccountId]>;
+      indexFrozen: AugmentedEvent<ApiType, [AccountIndex, AccountId]>;
     };
     multisig: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A multisig operation has been approved by someone.
        * \[approving, timepoint, multisig, call_hash\]
        **/
-      MultisigApproval: AugmentedIsEvent<ApiType, [AccountId, Timepoint, AccountId, CallHash]>;
+      multisigApproval: AugmentedEvent<ApiType, [AccountId, Timepoint, AccountId, CallHash]>;
       /**
        * A multisig operation has been cancelled. \[cancelling, timepoint, multisig, call_hash\]
        **/
-      MultisigCancelled: AugmentedIsEvent<ApiType, [AccountId, Timepoint, AccountId, CallHash]>;
+      multisigCancelled: AugmentedEvent<ApiType, [AccountId, Timepoint, AccountId, CallHash]>;
       /**
        * A multisig operation has been executed. \[approving, timepoint, multisig, call_hash\]
        **/
-      MultisigExecuted: AugmentedIsEvent<ApiType, [AccountId, Timepoint, AccountId, CallHash, DispatchResult]>;
+      multisigExecuted: AugmentedEvent<ApiType, [AccountId, Timepoint, AccountId, CallHash, DispatchResult]>;
       /**
        * A new multisig operation has begun. \[approving, multisig, call_hash\]
        **/
-      NewMultisig: AugmentedIsEvent<ApiType, [AccountId, AccountId, CallHash]>;
+      newMultisig: AugmentedEvent<ApiType, [AccountId, AccountId, CallHash]>;
     };
     offences: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * There is an offence reported of the given `kind` happened at the `session_index` and
        * (kind-specific) time slot. This event is not deposited for duplicate slashes. last
        * element indicates of the offence was applied (true) or queued (false)
        * \[kind, timeslot, applied\].
        **/
-      Offence: AugmentedIsEvent<ApiType, [Kind, OpaqueTimeSlot, bool]>;
+      offence: AugmentedEvent<ApiType, [Kind, OpaqueTimeSlot, bool]>;
     };
     proxy: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * An announcement was placed to make a call in the future. \[real, proxy, call_hash\]
        **/
-      Announced: AugmentedIsEvent<ApiType, [AccountId, AccountId, Hash]>;
+      announced: AugmentedEvent<ApiType, [AccountId, AccountId, Hash]>;
       /**
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type. \[anonymous, who, proxy_type, disambiguation_index\]
        **/
-      AnonymousCreated: AugmentedIsEvent<ApiType, [AccountId, AccountId, ProxyType, u16]>;
+      anonymousCreated: AugmentedEvent<ApiType, [AccountId, AccountId, ProxyType, u16]>;
       /**
        * A proxy was executed correctly, with the given \[result\].
        **/
-      ProxyExecuted: AugmentedIsEvent<ApiType, [DispatchResult]>;
+      proxyExecuted: AugmentedEvent<ApiType, [DispatchResult]>;
     };
     recovery: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * Lost account has been successfully recovered by rescuer account.
        * \[lost, rescuer\]
        **/
-      AccountRecovered: AugmentedIsEvent<ApiType, [AccountId, AccountId]>;
+      accountRecovered: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
        * A recovery process for lost account by rescuer account has been closed.
        * \[lost, rescuer\]
        **/
-      RecoveryClosed: AugmentedIsEvent<ApiType, [AccountId, AccountId]>;
+      recoveryClosed: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
        * A recovery process has been set up for an \[account\].
        **/
-      RecoveryCreated: AugmentedIsEvent<ApiType, [AccountId]>;
+      recoveryCreated: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A recovery process has been initiated for lost account by rescuer account.
        * \[lost, rescuer\]
        **/
-      RecoveryInitiated: AugmentedIsEvent<ApiType, [AccountId, AccountId]>;
+      recoveryInitiated: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
        * A recovery process has been removed for an \[account\].
        **/
-      RecoveryRemoved: AugmentedIsEvent<ApiType, [AccountId]>;
+      recoveryRemoved: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A recovery process for lost account by rescuer account has been vouched for by sender.
        * \[lost, rescuer, sender\]
        **/
-      RecoveryVouched: AugmentedIsEvent<ApiType, [AccountId, AccountId, AccountId]>;
+      recoveryVouched: AugmentedEvent<ApiType, [AccountId, AccountId, AccountId]>;
     };
     scheduler: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * Canceled some task. \[when, index\]
        **/
-      Canceled: AugmentedIsEvent<ApiType, [BlockNumber, u32]>;
+      canceled: AugmentedEvent<ApiType, [BlockNumber, u32]>;
       /**
        * Dispatched some task. \[task, id, result\]
        **/
-      Dispatched: AugmentedIsEvent<ApiType, [TaskAddress, Option<Bytes>, DispatchResult]>;
+      dispatched: AugmentedEvent<ApiType, [TaskAddress, Option<Bytes>, DispatchResult]>;
       /**
        * Scheduled some task. \[when, index\]
        **/
-      Scheduled: AugmentedIsEvent<ApiType, [BlockNumber, u32]>;
+      scheduled: AugmentedEvent<ApiType, [BlockNumber, u32]>;
     };
     session: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * New session has happened. Note that the argument is the \[session_index\], not the block
        * number as the type might suggest.
        **/
-      NewSession: AugmentedIsEvent<ApiType, [SessionIndex]>;
+      newSession: AugmentedEvent<ApiType, [SessionIndex]>;
     };
     society: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A \[candidate\] was dropped (due to an excess of bids in the system).
        **/
-      AutoUnbid: AugmentedIsEvent<ApiType, [AccountId]>;
+      autoUnbid: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A membership bid just happened. The given account is the candidate's ID and their offer
        * is the second. \[candidate_id, offer\]
        **/
-      Bid: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      bid: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * A \[candidate\] has been suspended
        **/
-      CandidateSuspended: AugmentedIsEvent<ApiType, [AccountId]>;
+      candidateSuspended: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A \[member\] has been challenged
        **/
-      Challenged: AugmentedIsEvent<ApiType, [AccountId]>;
+      challenged: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A vote has been placed for a defending member \[voter, vote\]
        **/
-      DefenderVote: AugmentedIsEvent<ApiType, [AccountId, bool]>;
+      defenderVote: AugmentedEvent<ApiType, [AccountId, bool]>;
       /**
        * Some funds were deposited into the society account. \[value\]
        **/
-      Deposit: AugmentedIsEvent<ApiType, [Balance]>;
+      deposit: AugmentedEvent<ApiType, [Balance]>;
       /**
        * The society is founded by the given identity. \[founder\]
        **/
-      Founded: AugmentedIsEvent<ApiType, [AccountId]>;
+      founded: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A group of candidates have been inducted. The batch's primary is the first value, the
        * batch in full is the second. \[primary, candidates\]
        **/
-      Inducted: AugmentedIsEvent<ApiType, [AccountId, Vec<AccountId>]>;
+      inducted: AugmentedEvent<ApiType, [AccountId, Vec<AccountId>]>;
       /**
        * A \[member\] has been suspended
        **/
-      MemberSuspended: AugmentedIsEvent<ApiType, [AccountId]>;
+      memberSuspended: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A new \[max\] member count has been set
        **/
-      NewMaxMembers: AugmentedIsEvent<ApiType, [u32]>;
+      newMaxMembers: AugmentedEvent<ApiType, [u32]>;
       /**
        * A suspended member has been judged. \[who, judged\]
        **/
-      SuspendedMemberJudgement: AugmentedIsEvent<ApiType, [AccountId, bool]>;
+      suspendedMemberJudgement: AugmentedEvent<ApiType, [AccountId, bool]>;
       /**
        * A \[candidate\] was dropped (by their request).
        **/
-      Unbid: AugmentedIsEvent<ApiType, [AccountId]>;
+      unbid: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * Society is unfounded. \[founder\]
        **/
-      Unfounded: AugmentedIsEvent<ApiType, [AccountId]>;
+      unfounded: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A \[candidate\] was dropped (by request of who vouched for them).
        **/
-      Unvouch: AugmentedIsEvent<ApiType, [AccountId]>;
+      unvouch: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A vote has been placed \[candidate, voter, vote\]
        **/
-      Vote: AugmentedIsEvent<ApiType, [AccountId, AccountId, bool]>;
+      vote: AugmentedEvent<ApiType, [AccountId, AccountId, bool]>;
       /**
        * A membership bid just happened by vouching. The given account is the candidate's ID and
        * their offer is the second. The vouching party is the third. \[candidate_id, offer, vouching\]
        **/
-      Vouch: AugmentedIsEvent<ApiType, [AccountId, Balance, AccountId]>;
+      vouch: AugmentedEvent<ApiType, [AccountId, Balance, AccountId]>;
     };
     staking: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * An account has bonded this amount. \[stash, amount\]
        * 
        * NOTE: This event is only emitted when funds are bonded via a dispatchable. Notably,
        * it will not be emitted for staking rewards when they are added to stake.
        **/
-      Bonded: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      bonded: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * The era payout has been set; the first balance is the validator-payout; the second is
        * the remainder from the maximum amount of reward.
        * \[era_index, validator_payout, remainder\]
        **/
-      EraPayout: AugmentedIsEvent<ApiType, [EraIndex, Balance, Balance]>;
+      eraPayout: AugmentedEvent<ApiType, [EraIndex, Balance, Balance]>;
       /**
        * An old slashing report from a prior era was discarded because it could
        * not be processed. \[session_index\]
        **/
-      OldSlashingReportDiscarded: AugmentedIsEvent<ApiType, [SessionIndex]>;
+      oldSlashingReportDiscarded: AugmentedEvent<ApiType, [SessionIndex]>;
       /**
        * The staker has been rewarded by this amount. \[stash, amount\]
        **/
-      Reward: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      reward: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * One validator (and its nominators) has been slashed by the given amount.
        * \[validator, amount\]
        **/
-      Slash: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      slash: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * A new solution for the upcoming election has been stored. \[compute\]
        **/
-      SolutionStored: AugmentedIsEvent<ApiType, [ElectionCompute]>;
+      solutionStored: AugmentedEvent<ApiType, [ElectionCompute]>;
       /**
        * A new set of stakers was elected with the given \[compute\].
        **/
-      StakingElection: AugmentedIsEvent<ApiType, [ElectionCompute]>;
+      stakingElection: AugmentedEvent<ApiType, [ElectionCompute]>;
       /**
        * An account has unbonded this amount. \[stash, amount\]
        **/
-      Unbonded: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      unbonded: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * An account has called `withdraw_unbonded` and removed unbonding chunks worth `Balance`
        * from the unlocking queue. \[stash, amount\]
        **/
-      Withdrawn: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      withdrawn: AugmentedEvent<ApiType, [AccountId, Balance]>;
     };
     sudo: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * The \[sudoer\] just switched identity; the old key is supplied.
        **/
-      KeyChanged: AugmentedIsEvent<ApiType, [AccountId]>;
+      keyChanged: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A sudo just took place. \[result\]
        **/
-      Sudid: AugmentedIsEvent<ApiType, [DispatchResult]>;
+      sudid: AugmentedEvent<ApiType, [DispatchResult]>;
       /**
        * A sudo just took place. \[result\]
        **/
-      SudoAsDone: AugmentedIsEvent<ApiType, [DispatchResult]>;
+      sudoAsDone: AugmentedEvent<ApiType, [DispatchResult]>;
     };
     system: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * `:code` was updated.
        **/
-      CodeUpdated: AugmentedIsEvent<ApiType, []>;
+      codeUpdated: AugmentedEvent<ApiType, []>;
       /**
        * An extrinsic failed. \[error, info\]
        **/
-      ExtrinsicFailed: AugmentedIsEvent<ApiType, [DispatchError, DispatchInfo]>;
+      extrinsicFailed: AugmentedEvent<ApiType, [DispatchError, DispatchInfo]>;
       /**
        * An extrinsic completed successfully. \[info\]
        **/
-      ExtrinsicSuccess: AugmentedIsEvent<ApiType, [DispatchInfo]>;
+      extrinsicSuccess: AugmentedEvent<ApiType, [DispatchInfo]>;
       /**
        * An \[account\] was reaped.
        **/
-      KilledAccount: AugmentedIsEvent<ApiType, [AccountId]>;
+      killedAccount: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * A new \[account\] was created.
        **/
-      NewAccount: AugmentedIsEvent<ApiType, [AccountId]>;
+      newAccount: AugmentedEvent<ApiType, [AccountId]>;
     };
     technicalCommittee: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A motion was approved by the required threshold.
        * \[proposal_hash\]
        **/
-      Approved: AugmentedIsEvent<ApiType, [Hash]>;
+      approved: AugmentedEvent<ApiType, [Hash]>;
       /**
        * A proposal was closed because its threshold was reached or after its duration was up.
        * \[proposal_hash, yes, no\]
        **/
-      Closed: AugmentedIsEvent<ApiType, [Hash, MemberCount, MemberCount]>;
+      closed: AugmentedEvent<ApiType, [Hash, MemberCount, MemberCount]>;
       /**
        * A motion was not approved by the required threshold.
        * \[proposal_hash\]
        **/
-      Disapproved: AugmentedIsEvent<ApiType, [Hash]>;
+      disapproved: AugmentedEvent<ApiType, [Hash]>;
       /**
        * A motion was executed; result will be `Ok` if it returned without error.
        * \[proposal_hash, result\]
        **/
-      Executed: AugmentedIsEvent<ApiType, [Hash, DispatchResult]>;
+      executed: AugmentedEvent<ApiType, [Hash, DispatchResult]>;
       /**
        * A single member did some action; result will be `Ok` if it returned without error.
        * \[proposal_hash, result\]
        **/
-      MemberExecuted: AugmentedIsEvent<ApiType, [Hash, DispatchResult]>;
+      memberExecuted: AugmentedEvent<ApiType, [Hash, DispatchResult]>;
       /**
        * A motion (given hash) has been proposed (by given account) with a threshold (given
        * `MemberCount`).
        * \[account, proposal_index, proposal_hash, threshold\]
        **/
-      Proposed: AugmentedIsEvent<ApiType, [AccountId, ProposalIndex, Hash, MemberCount]>;
+      proposed: AugmentedEvent<ApiType, [AccountId, ProposalIndex, Hash, MemberCount]>;
       /**
        * A motion (given hash) has been voted on by given account, leaving
        * a tally (yes votes and no votes given respectively as `MemberCount`).
        * \[account, proposal_hash, voted, yes, no\]
        **/
-      Voted: AugmentedIsEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
+      voted: AugmentedEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
     };
     technicalMembership: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * Phantom member, never used.
        **/
-      Dummy: AugmentedIsEvent<ApiType, [PhantomData]>;
+      dummy: AugmentedEvent<ApiType, [PhantomData]>;
       /**
        * One of the members' keys changed.
        **/
-      KeyChanged: AugmentedIsEvent<ApiType, []>;
+      keyChanged: AugmentedEvent<ApiType, []>;
       /**
        * The given member was added; see the transaction for who.
        **/
-      MemberAdded: AugmentedIsEvent<ApiType, []>;
+      memberAdded: AugmentedEvent<ApiType, []>;
       /**
        * The given member was removed; see the transaction for who.
        **/
-      MemberRemoved: AugmentedIsEvent<ApiType, []>;
+      memberRemoved: AugmentedEvent<ApiType, []>;
       /**
        * The membership was reset; see the transaction for who the new set is.
        **/
-      MembersReset: AugmentedIsEvent<ApiType, []>;
+      membersReset: AugmentedEvent<ApiType, []>;
       /**
        * Two members were swapped; see the transaction for who.
        **/
-      MembersSwapped: AugmentedIsEvent<ApiType, []>;
+      membersSwapped: AugmentedEvent<ApiType, []>;
     };
     tips: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * A new tip suggestion has been opened. \[tip_hash\]
        **/
-      NewTip: AugmentedIsEvent<ApiType, [Hash]>;
+      newTip: AugmentedEvent<ApiType, [Hash]>;
       /**
        * A tip suggestion has been closed. \[tip_hash, who, payout\]
        **/
-      TipClosed: AugmentedIsEvent<ApiType, [Hash, AccountId, Balance]>;
+      tipClosed: AugmentedEvent<ApiType, [Hash, AccountId, Balance]>;
       /**
        * A tip suggestion has reached threshold and is closing. \[tip_hash\]
        **/
-      TipClosing: AugmentedIsEvent<ApiType, [Hash]>;
+      tipClosing: AugmentedEvent<ApiType, [Hash]>;
       /**
        * A tip suggestion has been retracted. \[tip_hash\]
        **/
-      TipRetracted: AugmentedIsEvent<ApiType, [Hash]>;
+      tipRetracted: AugmentedEvent<ApiType, [Hash]>;
     };
     treasury: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * Some funds have been allocated. \[proposal_index, award, beneficiary\]
        **/
-      Awarded: AugmentedIsEvent<ApiType, [ProposalIndex, Balance, AccountId]>;
+      awarded: AugmentedEvent<ApiType, [ProposalIndex, Balance, AccountId]>;
       /**
        * Some of our funds have been burnt. \[burn\]
        **/
-      Burnt: AugmentedIsEvent<ApiType, [Balance]>;
+      burnt: AugmentedEvent<ApiType, [Balance]>;
       /**
        * Some funds have been deposited. \[deposit\]
        **/
-      Deposit: AugmentedIsEvent<ApiType, [Balance]>;
+      deposit: AugmentedEvent<ApiType, [Balance]>;
       /**
        * New proposal. \[proposal_index\]
        **/
-      Proposed: AugmentedIsEvent<ApiType, [ProposalIndex]>;
+      proposed: AugmentedEvent<ApiType, [ProposalIndex]>;
       /**
        * A proposal was rejected; funds were slashed. \[proposal_index, slashed\]
        **/
-      Rejected: AugmentedIsEvent<ApiType, [ProposalIndex, Balance]>;
+      rejected: AugmentedEvent<ApiType, [ProposalIndex, Balance]>;
       /**
        * Spending has finished; this is the amount that rolls over until next spend.
        * \[budget_remaining\]
        **/
-      Rollover: AugmentedIsEvent<ApiType, [Balance]>;
+      rollover: AugmentedEvent<ApiType, [Balance]>;
       /**
        * We have ended a spend period and will now allocate funds. \[budget_remaining\]
        **/
-      Spending: AugmentedIsEvent<ApiType, [Balance]>;
+      spending: AugmentedEvent<ApiType, [Balance]>;
     };
     utility: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * Batch of dispatches completed fully with no error.
        **/
-      BatchCompleted: AugmentedIsEvent<ApiType, []>;
+      batchCompleted: AugmentedEvent<ApiType, []>;
       /**
        * Batch of dispatches did not complete fully. Index of first failing dispatch given, as
        * well as the error. \[index, error\]
        **/
-      BatchInterrupted: AugmentedIsEvent<ApiType, [u32, DispatchError]>;
+      batchInterrupted: AugmentedEvent<ApiType, [u32, DispatchError]>;
     };
     vesting: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+      [key: string]: AugmentedEvent<ApiType, AnyTuple>;
       /**
        * An \[account\] has become fully vested. No further vesting can happen.
        **/
-      VestingCompleted: AugmentedIsEvent<ApiType, [AccountId]>;
+      vestingCompleted: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * The amount vested has been updated. This could indicate more funds are available. The
        * balance given is the amount which is left unvested (and thus locked).
        * \[account, unvested\]
        **/
-      VestingUpdated: AugmentedIsEvent<ApiType, [AccountId, Balance]>;
+      vestingUpdated: AugmentedEvent<ApiType, [AccountId, Balance]>;
     };
   }
 
-  export interface IsEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
-    [key: string]: IsModuleEvents<ApiType>;
+  export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
+    [key: string]: ModuleEvents<ApiType>;
   }
 }

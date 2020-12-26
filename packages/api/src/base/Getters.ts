@@ -5,7 +5,7 @@ import type { Metadata } from '@polkadot/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import type { ApiInterfaceRx, ApiTypes, DecoratedRpc, IsErrors, IsEvents, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
+import type { ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
 import { assertReturn } from '@polkadot/util';
 
@@ -57,14 +57,14 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
   /**
    * @description Errors from metadata
    */
-  public get errors (): IsErrors<ApiType> {
+  public get errors (): DecoratedErrors<ApiType> {
     return assertResult(this._errors);
   }
 
   /**
    * @description Events from metadata
    */
-  public get events (): IsEvents<ApiType> {
+  public get events (): DecoratedEvents<ApiType> {
     return assertResult(this._events);
   }
 

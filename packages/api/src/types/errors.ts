@@ -9,9 +9,8 @@ import type { ApiTypes } from './base';
 export interface AugmentedErrors<ApiType extends ApiTypes> { }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedIsError<ApiType extends ApiTypes> = IsError;
+export type AugmentedError<ApiType extends ApiTypes> = IsError;
 
-// TODO: Record<`is${Capitalize<string>}`, ...>
-export interface IsModuleErrors<ApiType extends ApiTypes> {
-  [key: string]: AugmentedIsError<ApiType>;
+export interface ModuleErrors<ApiType extends ApiTypes> {
+  [key: string]: AugmentedError<ApiType>;
 }

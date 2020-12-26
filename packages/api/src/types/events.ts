@@ -10,9 +10,8 @@ import type { ApiTypes } from './base';
 export interface AugmentedEvents<ApiType extends ApiTypes> { }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedIsEvent<ApiType extends ApiTypes, T extends AnyTuple> = IsEvent<T>;
+export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple> = IsEvent<T>;
 
-// TODO: Record<`is${Capitalize<string>}`, ...>
-export interface IsModuleEvents<ApiType extends ApiTypes> {
-  [key: string]: AugmentedIsEvent<ApiType, AnyTuple>;
+export interface ModuleEvents<ApiType extends ApiTypes> {
+  [key: string]: AugmentedEvent<ApiType, AnyTuple>;
 }

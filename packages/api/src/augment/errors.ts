@@ -6,1181 +6,1157 @@ import type { ApiTypes } from '@polkadot/api/types';
 declare module '@polkadot/api/types/errors' {
   export interface AugmentedErrors<ApiType> {
     assets: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Transfer amount should be non-zero.
        **/
-      AmountZero: AugmentedIsError<ApiType>;
+      amountZero: AugmentedError<ApiType>;
       /**
        * Invalid witness data given.
        **/
-      BadWitness: AugmentedIsError<ApiType>;
+      badWitness: AugmentedError<ApiType>;
       /**
        * Account balance must be greater than or equal to the transfer amount.
        **/
-      BalanceLow: AugmentedIsError<ApiType>;
+      balanceLow: AugmentedError<ApiType>;
       /**
        * Balance should be non-zero.
        **/
-      BalanceZero: AugmentedIsError<ApiType>;
+      balanceZero: AugmentedError<ApiType>;
       /**
        * The origin account is frozen.
        **/
-      Frozen: AugmentedIsError<ApiType>;
+      frozen: AugmentedError<ApiType>;
       /**
        * The asset ID is already taken.
        **/
-      InUse: AugmentedIsError<ApiType>;
+      inUse: AugmentedError<ApiType>;
       /**
        * Minimum balance should be non-zero.
        **/
-      MinBalanceZero: AugmentedIsError<ApiType>;
+      minBalanceZero: AugmentedError<ApiType>;
       /**
        * The signing account has no permission to do the operation.
        **/
-      NoPermission: AugmentedIsError<ApiType>;
+      noPermission: AugmentedError<ApiType>;
       /**
        * A mint operation lead to an overflow.
        **/
-      Overflow: AugmentedIsError<ApiType>;
+      overflow: AugmentedError<ApiType>;
       /**
        * Attempt to destroy an asset class when non-zombie, reference-bearing accounts exist.
        **/
-      RefsLeft: AugmentedIsError<ApiType>;
+      refsLeft: AugmentedError<ApiType>;
       /**
        * Too many zombie accounts in use.
        **/
-      TooManyZombies: AugmentedIsError<ApiType>;
+      tooManyZombies: AugmentedError<ApiType>;
       /**
        * The given asset ID is unknown.
        **/
-      Unknown: AugmentedIsError<ApiType>;
+      unknown: AugmentedError<ApiType>;
     };
     authorship: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * The uncle is genesis.
        **/
-      GenesisUncle: AugmentedIsError<ApiType>;
+      genesisUncle: AugmentedError<ApiType>;
       /**
        * The uncle parent not in the chain.
        **/
-      InvalidUncleParent: AugmentedIsError<ApiType>;
+      invalidUncleParent: AugmentedError<ApiType>;
       /**
        * The uncle isn't recent enough to be included.
        **/
-      OldUncle: AugmentedIsError<ApiType>;
+      oldUncle: AugmentedError<ApiType>;
       /**
        * The uncle is too high in chain.
        **/
-      TooHighUncle: AugmentedIsError<ApiType>;
+      tooHighUncle: AugmentedError<ApiType>;
       /**
        * Too many uncles.
        **/
-      TooManyUncles: AugmentedIsError<ApiType>;
+      tooManyUncles: AugmentedError<ApiType>;
       /**
        * The uncle is already included.
        **/
-      UncleAlreadyIncluded: AugmentedIsError<ApiType>;
+      uncleAlreadyIncluded: AugmentedError<ApiType>;
       /**
        * Uncles already set in the block.
        **/
-      UnclesAlreadySet: AugmentedIsError<ApiType>;
+      unclesAlreadySet: AugmentedError<ApiType>;
     };
     balances: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Beneficiary account must pre-exist
        **/
-      DeadAccount: AugmentedIsError<ApiType>;
+      deadAccount: AugmentedError<ApiType>;
       /**
        * Value too low to create account due to existential deposit
        **/
-      ExistentialDeposit: AugmentedIsError<ApiType>;
+      existentialDeposit: AugmentedError<ApiType>;
       /**
        * A vesting schedule already exists for this account
        **/
-      ExistingVestingSchedule: AugmentedIsError<ApiType>;
+      existingVestingSchedule: AugmentedError<ApiType>;
       /**
        * Balance too low to send value
        **/
-      InsufficientBalance: AugmentedIsError<ApiType>;
+      insufficientBalance: AugmentedError<ApiType>;
       /**
        * Transfer/payment would kill account
        **/
-      KeepAlive: AugmentedIsError<ApiType>;
+      keepAlive: AugmentedError<ApiType>;
       /**
        * Account liquidity restrictions prevent withdrawal
        **/
-      LiquidityRestrictions: AugmentedIsError<ApiType>;
+      liquidityRestrictions: AugmentedError<ApiType>;
       /**
        * Got an overflow after adding
        **/
-      Overflow: AugmentedIsError<ApiType>;
+      overflow: AugmentedError<ApiType>;
       /**
        * Vesting balance too high to send value
        **/
-      VestingBalance: AugmentedIsError<ApiType>;
+      vestingBalance: AugmentedError<ApiType>;
     };
     bounties: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
-      InsufficientProposersBalance: AugmentedIsError<ApiType>;
+      insufficientProposersBalance: AugmentedError<ApiType>;
       /**
        * Invalid bounty fee.
        **/
-      InvalidFee: AugmentedIsError<ApiType>;
+      invalidFee: AugmentedError<ApiType>;
       /**
        * No proposal or bounty at that index.
        **/
-      InvalidIndex: AugmentedIsError<ApiType>;
+      invalidIndex: AugmentedError<ApiType>;
       /**
        * Invalid bounty value.
        **/
-      InvalidValue: AugmentedIsError<ApiType>;
+      invalidValue: AugmentedError<ApiType>;
       /**
        * A bounty payout is pending.
        * To cancel the bounty, you must unassign and slash the curator.
        **/
-      PendingPayout: AugmentedIsError<ApiType>;
+      pendingPayout: AugmentedError<ApiType>;
       /**
        * The bounties cannot be claimed/closed because it's still in the countdown period.
        **/
-      Premature: AugmentedIsError<ApiType>;
+      premature: AugmentedError<ApiType>;
       /**
        * The reason given is just too big.
        **/
-      ReasonTooBig: AugmentedIsError<ApiType>;
+      reasonTooBig: AugmentedError<ApiType>;
       /**
        * Require bounty curator.
        **/
-      RequireCurator: AugmentedIsError<ApiType>;
+      requireCurator: AugmentedError<ApiType>;
       /**
        * The bounty status is unexpected.
        **/
-      UnexpectedStatus: AugmentedIsError<ApiType>;
+      unexpectedStatus: AugmentedError<ApiType>;
     };
     contracts: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Performing the requested transfer would have brought the contract below
        * the subsistence threshold. No transfer is allowed to do this in order to allow
        * for a tombstone to be created. Use `seal_terminate` to remove a contract without
        * leaving a tombstone behind.
        **/
-      BelowSubsistenceThreshold: AugmentedIsError<ApiType>;
+      belowSubsistenceThreshold: AugmentedError<ApiType>;
       /**
        * No code could be found at the supplied code hash.
        **/
-      CodeNotFound: AugmentedIsError<ApiType>;
+      codeNotFound: AugmentedError<ApiType>;
       /**
        * The code supplied to `put_code` exceeds the limit specified in the current schedule.
        **/
-      CodeTooLarge: AugmentedIsError<ApiType>;
+      codeTooLarge: AugmentedError<ApiType>;
       /**
        * Contract trapped during execution.
        **/
-      ContractTrapped: AugmentedIsError<ApiType>;
+      contractTrapped: AugmentedError<ApiType>;
       /**
        * Input passed to a contract API function failed to decode as expected type.
        **/
-      DecodingFailed: AugmentedIsError<ApiType>;
+      decodingFailed: AugmentedError<ApiType>;
       /**
        * An origin TrieId written in the current block.
        **/
-      InvalidContractOrigin: AugmentedIsError<ApiType>;
+      invalidContractOrigin: AugmentedError<ApiType>;
       /**
        * Cannot restore to nonexisting or alive contract.
        **/
-      InvalidDestinationContract: AugmentedIsError<ApiType>;
+      invalidDestinationContract: AugmentedError<ApiType>;
       /**
        * A new schedule must have a greater version than the current one.
        **/
-      InvalidScheduleVersion: AugmentedIsError<ApiType>;
+      invalidScheduleVersion: AugmentedError<ApiType>;
       /**
        * Cannot restore from nonexisting or tombstone contract.
        **/
-      InvalidSourceContract: AugmentedIsError<ApiType>;
+      invalidSourceContract: AugmentedError<ApiType>;
       /**
        * An origin must be signed or inherent and auxiliary sender only provided on inherent.
        **/
-      InvalidSurchargeClaim: AugmentedIsError<ApiType>;
+      invalidSurchargeClaim: AugmentedError<ApiType>;
       /**
        * Tombstones don't match.
        **/
-      InvalidTombstone: AugmentedIsError<ApiType>;
+      invalidTombstone: AugmentedError<ApiType>;
       /**
        * Performing a call was denied because the calling depth reached the limit
        * of what is specified in the schedule.
        **/
-      MaxCallDepthReached: AugmentedIsError<ApiType>;
+      maxCallDepthReached: AugmentedError<ApiType>;
       /**
        * The newly created contract is below the subsistence threshold after executing
        * its contructor. No contracts are allowed to exist below that threshold.
        **/
-      NewContractNotFunded: AugmentedIsError<ApiType>;
+      newContractNotFunded: AugmentedError<ApiType>;
       /**
        * The contract that was called is either no contract at all (a plain account)
        * or is a tombstone.
        **/
-      NotCallable: AugmentedIsError<ApiType>;
+      notCallable: AugmentedError<ApiType>;
       /**
        * A buffer outside of sandbox memory was passed to a contract API function.
        **/
-      OutOfBounds: AugmentedIsError<ApiType>;
+      outOfBounds: AugmentedError<ApiType>;
       /**
        * The executed contract exhausted its gas limit.
        **/
-      OutOfGas: AugmentedIsError<ApiType>;
+      outOfGas: AugmentedError<ApiType>;
       /**
        * The output buffer supplied to a contract API call was too small.
        **/
-      OutputBufferTooSmall: AugmentedIsError<ApiType>;
+      outputBufferTooSmall: AugmentedError<ApiType>;
       /**
        * The action performed is not allowed while the contract performing it is already
        * on the call stack. Those actions are contract self destruction and restoration
        * of a tombstone.
        **/
-      ReentranceDenied: AugmentedIsError<ApiType>;
+      reentranceDenied: AugmentedError<ApiType>;
       /**
        * Performing the requested transfer failed for a reason originating in the
        * chosen currency implementation of the runtime. Most probably the balance is
        * too low or locks are placed on it.
        **/
-      TransferFailed: AugmentedIsError<ApiType>;
+      transferFailed: AugmentedError<ApiType>;
       /**
        * The size defined in `T::MaxValueSize` was exceeded.
        **/
-      ValueTooLarge: AugmentedIsError<ApiType>;
+      valueTooLarge: AugmentedError<ApiType>;
     };
     council: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Members are already initialized!
        **/
-      AlreadyInitialized: AugmentedIsError<ApiType>;
+      alreadyInitialized: AugmentedError<ApiType>;
       /**
        * Duplicate proposals not allowed
        **/
-      DuplicateProposal: AugmentedIsError<ApiType>;
+      duplicateProposal: AugmentedError<ApiType>;
       /**
        * Duplicate vote ignored
        **/
-      DuplicateVote: AugmentedIsError<ApiType>;
+      duplicateVote: AugmentedError<ApiType>;
       /**
        * Account is not a member
        **/
-      NotMember: AugmentedIsError<ApiType>;
+      notMember: AugmentedError<ApiType>;
       /**
        * Proposal must exist
        **/
-      ProposalMissing: AugmentedIsError<ApiType>;
+      proposalMissing: AugmentedError<ApiType>;
       /**
        * The close call was made too early, before the end of the voting.
        **/
-      TooEarly: AugmentedIsError<ApiType>;
+      tooEarly: AugmentedError<ApiType>;
       /**
        * There can only be a maximum of `MaxProposals` active proposals.
        **/
-      TooManyProposals: AugmentedIsError<ApiType>;
+      tooManyProposals: AugmentedError<ApiType>;
       /**
        * Mismatched index
        **/
-      WrongIndex: AugmentedIsError<ApiType>;
+      wrongIndex: AugmentedError<ApiType>;
       /**
        * The given length bound for the proposal was too low.
        **/
-      WrongProposalLength: AugmentedIsError<ApiType>;
+      wrongProposalLength: AugmentedError<ApiType>;
       /**
        * The given weight bound for the proposal was too low.
        **/
-      WrongProposalWeight: AugmentedIsError<ApiType>;
+      wrongProposalWeight: AugmentedError<ApiType>;
     };
     democracy: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Cannot cancel the same proposal twice
        **/
-      AlreadyCanceled: AugmentedIsError<ApiType>;
+      alreadyCanceled: AugmentedError<ApiType>;
       /**
        * The account is already delegating.
        **/
-      AlreadyDelegating: AugmentedIsError<ApiType>;
+      alreadyDelegating: AugmentedError<ApiType>;
       /**
        * Identity may not veto a proposal twice
        **/
-      AlreadyVetoed: AugmentedIsError<ApiType>;
+      alreadyVetoed: AugmentedError<ApiType>;
       /**
        * Unknown index
        **/
-      BadIndex: AugmentedIsError<ApiType>;
+      badIndex: AugmentedError<ApiType>;
       /**
        * Preimage already noted
        **/
-      DuplicatePreimage: AugmentedIsError<ApiType>;
+      duplicatePreimage: AugmentedError<ApiType>;
       /**
        * Proposal already made
        **/
-      DuplicateProposal: AugmentedIsError<ApiType>;
+      duplicateProposal: AugmentedError<ApiType>;
       /**
        * Imminent
        **/
-      Imminent: AugmentedIsError<ApiType>;
+      imminent: AugmentedError<ApiType>;
       /**
        * The instant referendum origin is currently disallowed.
        **/
-      InstantNotAllowed: AugmentedIsError<ApiType>;
+      instantNotAllowed: AugmentedError<ApiType>;
       /**
        * Too high a balance was provided that the account cannot afford.
        **/
-      InsufficientFunds: AugmentedIsError<ApiType>;
+      insufficientFunds: AugmentedError<ApiType>;
       /**
        * Invalid hash
        **/
-      InvalidHash: AugmentedIsError<ApiType>;
+      invalidHash: AugmentedError<ApiType>;
       /**
        * The provided witness data is wrong.
        **/
-      InvalidWitness: AugmentedIsError<ApiType>;
+      invalidWitness: AugmentedError<ApiType>;
       /**
        * Maximum number of votes reached.
        **/
-      MaxVotesReached: AugmentedIsError<ApiType>;
+      maxVotesReached: AugmentedError<ApiType>;
       /**
        * No proposals waiting
        **/
-      NoneWaiting: AugmentedIsError<ApiType>;
+      noneWaiting: AugmentedError<ApiType>;
       /**
        * Delegation to oneself makes no sense.
        **/
-      Nonsense: AugmentedIsError<ApiType>;
+      nonsense: AugmentedError<ApiType>;
       /**
        * The actor has no permission to conduct the action.
        **/
-      NoPermission: AugmentedIsError<ApiType>;
+      noPermission: AugmentedError<ApiType>;
       /**
        * No external proposal
        **/
-      NoProposal: AugmentedIsError<ApiType>;
+      noProposal: AugmentedError<ApiType>;
       /**
        * Not delegated
        **/
-      NotDelegated: AugmentedIsError<ApiType>;
+      notDelegated: AugmentedError<ApiType>;
       /**
        * The account is not currently delegating.
        **/
-      NotDelegating: AugmentedIsError<ApiType>;
+      notDelegating: AugmentedError<ApiType>;
       /**
        * The lock on the account to be unlocked has not yet expired.
        **/
-      NotExpired: AugmentedIsError<ApiType>;
+      notExpired: AugmentedError<ApiType>;
       /**
        * Not imminent
        **/
-      NotImminent: AugmentedIsError<ApiType>;
+      notImminent: AugmentedError<ApiType>;
       /**
        * The target account does not have a lock.
        **/
-      NotLocked: AugmentedIsError<ApiType>;
+      notLocked: AugmentedError<ApiType>;
       /**
        * Next external proposal not simple majority
        **/
-      NotSimpleMajority: AugmentedIsError<ApiType>;
+      notSimpleMajority: AugmentedError<ApiType>;
       /**
        * The given account did not vote on the referendum.
        **/
-      NotVoter: AugmentedIsError<ApiType>;
+      notVoter: AugmentedError<ApiType>;
       /**
        * An unexpected integer overflow occurred.
        **/
-      Overflow: AugmentedIsError<ApiType>;
+      overflow: AugmentedError<ApiType>;
       /**
        * Invalid preimage
        **/
-      PreimageInvalid: AugmentedIsError<ApiType>;
+      preimageInvalid: AugmentedError<ApiType>;
       /**
        * Preimage not found
        **/
-      PreimageMissing: AugmentedIsError<ApiType>;
+      preimageMissing: AugmentedError<ApiType>;
       /**
        * Proposal still blacklisted
        **/
-      ProposalBlacklisted: AugmentedIsError<ApiType>;
+      proposalBlacklisted: AugmentedError<ApiType>;
       /**
        * Proposal does not exist
        **/
-      ProposalMissing: AugmentedIsError<ApiType>;
+      proposalMissing: AugmentedError<ApiType>;
       /**
        * Vote given for invalid referendum
        **/
-      ReferendumInvalid: AugmentedIsError<ApiType>;
+      referendumInvalid: AugmentedError<ApiType>;
       /**
        * Too early
        **/
-      TooEarly: AugmentedIsError<ApiType>;
+      tooEarly: AugmentedError<ApiType>;
       /**
        * Maximum number of proposals reached.
        **/
-      TooManyProposals: AugmentedIsError<ApiType>;
+      tooManyProposals: AugmentedError<ApiType>;
       /**
        * An unexpected integer underflow occurred.
        **/
-      Underflow: AugmentedIsError<ApiType>;
+      underflow: AugmentedError<ApiType>;
       /**
        * Value too low
        **/
-      ValueLow: AugmentedIsError<ApiType>;
+      valueLow: AugmentedError<ApiType>;
       /**
        * The account currently has votes attached to it and the operation cannot succeed until
        * these are removed, either through `unvote` or `reap_vote`.
        **/
-      VotesExist: AugmentedIsError<ApiType>;
+      votesExist: AugmentedError<ApiType>;
       /**
        * Invalid upper bound.
        **/
-      WrongUpperBound: AugmentedIsError<ApiType>;
+      wrongUpperBound: AugmentedError<ApiType>;
     };
     elections: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Duplicated candidate submission.
        **/
-      DuplicatedCandidate: AugmentedIsError<ApiType>;
+      duplicatedCandidate: AugmentedError<ApiType>;
       /**
        * Candidate does not have enough funds.
        **/
-      InsufficientCandidateFunds: AugmentedIsError<ApiType>;
+      insufficientCandidateFunds: AugmentedError<ApiType>;
       /**
        * The provided count of number of candidates is incorrect.
        **/
-      InvalidCandidateCount: AugmentedIsError<ApiType>;
+      invalidCandidateCount: AugmentedError<ApiType>;
       /**
        * The renouncing origin presented a wrong `Renouncing` parameter.
        **/
-      InvalidRenouncing: AugmentedIsError<ApiType>;
+      invalidRenouncing: AugmentedError<ApiType>;
       /**
        * Prediction regarding replacement after member removal is wrong.
        **/
-      InvalidReplacement: AugmentedIsError<ApiType>;
+      invalidReplacement: AugmentedError<ApiType>;
       /**
        * The provided count of number of votes is incorrect.
        **/
-      InvalidVoteCount: AugmentedIsError<ApiType>;
+      invalidVoteCount: AugmentedError<ApiType>;
       /**
        * Cannot vote with stake less than minimum balance.
        **/
-      LowBalance: AugmentedIsError<ApiType>;
+      lowBalance: AugmentedError<ApiType>;
       /**
        * Cannot vote more than maximum allowed.
        **/
-      MaximumVotesExceeded: AugmentedIsError<ApiType>;
+      maximumVotesExceeded: AugmentedError<ApiType>;
       /**
        * Member cannot re-submit candidacy.
        **/
-      MemberSubmit: AugmentedIsError<ApiType>;
+      memberSubmit: AugmentedError<ApiType>;
       /**
        * Must be a voter.
        **/
-      MustBeVoter: AugmentedIsError<ApiType>;
+      mustBeVoter: AugmentedError<ApiType>;
       /**
        * Not a member.
        **/
-      NotMember: AugmentedIsError<ApiType>;
+      notMember: AugmentedError<ApiType>;
       /**
        * Must vote for at least one candidate.
        **/
-      NoVotes: AugmentedIsError<ApiType>;
+      noVotes: AugmentedError<ApiType>;
       /**
        * Cannot report self.
        **/
-      ReportSelf: AugmentedIsError<ApiType>;
+      reportSelf: AugmentedError<ApiType>;
       /**
        * Runner cannot re-submit candidacy.
        **/
-      RunnerSubmit: AugmentedIsError<ApiType>;
+      runnerSubmit: AugmentedError<ApiType>;
       /**
        * Cannot vote more than candidates.
        **/
-      TooManyVotes: AugmentedIsError<ApiType>;
+      tooManyVotes: AugmentedError<ApiType>;
       /**
        * Voter can not pay voting bond.
        **/
-      UnableToPayBond: AugmentedIsError<ApiType>;
+      unableToPayBond: AugmentedError<ApiType>;
       /**
        * Cannot vote when no candidates or members exist.
        **/
-      UnableToVote: AugmentedIsError<ApiType>;
+      unableToVote: AugmentedError<ApiType>;
     };
     grandpa: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Attempt to signal GRANDPA change with one already pending.
        **/
-      ChangePending: AugmentedIsError<ApiType>;
+      changePending: AugmentedError<ApiType>;
       /**
        * A given equivocation report is valid but already previously reported.
        **/
-      DuplicateOffenceReport: AugmentedIsError<ApiType>;
+      duplicateOffenceReport: AugmentedError<ApiType>;
       /**
        * An equivocation proof provided as part of an equivocation report is invalid.
        **/
-      InvalidEquivocationProof: AugmentedIsError<ApiType>;
+      invalidEquivocationProof: AugmentedError<ApiType>;
       /**
        * A key ownership proof provided as part of an equivocation report is invalid.
        **/
-      InvalidKeyOwnershipProof: AugmentedIsError<ApiType>;
+      invalidKeyOwnershipProof: AugmentedError<ApiType>;
       /**
        * Attempt to signal GRANDPA pause when the authority set isn't live
        * (either paused or already pending pause).
        **/
-      PauseFailed: AugmentedIsError<ApiType>;
+      pauseFailed: AugmentedError<ApiType>;
       /**
        * Attempt to signal GRANDPA resume when the authority set isn't paused
        * (either live or already pending resume).
        **/
-      ResumeFailed: AugmentedIsError<ApiType>;
+      resumeFailed: AugmentedError<ApiType>;
       /**
        * Cannot signal forced change so soon after last.
        **/
-      TooSoon: AugmentedIsError<ApiType>;
+      tooSoon: AugmentedError<ApiType>;
     };
     identity: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Account ID is already named.
        **/
-      AlreadyClaimed: AugmentedIsError<ApiType>;
+      alreadyClaimed: AugmentedError<ApiType>;
       /**
        * Empty index.
        **/
-      EmptyIndex: AugmentedIsError<ApiType>;
+      emptyIndex: AugmentedError<ApiType>;
       /**
        * Fee is changed.
        **/
-      FeeChanged: AugmentedIsError<ApiType>;
+      feeChanged: AugmentedError<ApiType>;
       /**
        * The index is invalid.
        **/
-      InvalidIndex: AugmentedIsError<ApiType>;
+      invalidIndex: AugmentedError<ApiType>;
       /**
        * Invalid judgement.
        **/
-      InvalidJudgement: AugmentedIsError<ApiType>;
+      invalidJudgement: AugmentedError<ApiType>;
       /**
        * The target is invalid.
        **/
-      InvalidTarget: AugmentedIsError<ApiType>;
+      invalidTarget: AugmentedError<ApiType>;
       /**
        * Judgement given.
        **/
-      JudgementGiven: AugmentedIsError<ApiType>;
+      judgementGiven: AugmentedError<ApiType>;
       /**
        * No identity found.
        **/
-      NoIdentity: AugmentedIsError<ApiType>;
+      noIdentity: AugmentedError<ApiType>;
       /**
        * Account isn't found.
        **/
-      NotFound: AugmentedIsError<ApiType>;
+      notFound: AugmentedError<ApiType>;
       /**
        * Account isn't named.
        **/
-      NotNamed: AugmentedIsError<ApiType>;
+      notNamed: AugmentedError<ApiType>;
       /**
        * Sub-account isn't owned by sender.
        **/
-      NotOwned: AugmentedIsError<ApiType>;
+      notOwned: AugmentedError<ApiType>;
       /**
        * Sender is not a sub-account.
        **/
-      NotSub: AugmentedIsError<ApiType>;
+      notSub: AugmentedError<ApiType>;
       /**
        * Sticky judgement.
        **/
-      StickyJudgement: AugmentedIsError<ApiType>;
+      stickyJudgement: AugmentedError<ApiType>;
       /**
        * Too many additional fields.
        **/
-      TooManyFields: AugmentedIsError<ApiType>;
+      tooManyFields: AugmentedError<ApiType>;
       /**
        * Maximum amount of registrars reached. Cannot add any more.
        **/
-      TooManyRegistrars: AugmentedIsError<ApiType>;
+      tooManyRegistrars: AugmentedError<ApiType>;
       /**
        * Too many subs-accounts.
        **/
-      TooManySubAccounts: AugmentedIsError<ApiType>;
+      tooManySubAccounts: AugmentedError<ApiType>;
     };
     imOnline: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Duplicated heartbeat.
        **/
-      DuplicatedHeartbeat: AugmentedIsError<ApiType>;
+      duplicatedHeartbeat: AugmentedError<ApiType>;
       /**
        * Non existent public key.
        **/
-      InvalidKey: AugmentedIsError<ApiType>;
+      invalidKey: AugmentedError<ApiType>;
     };
     multisig: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Call is already approved by this signatory.
        **/
-      AlreadyApproved: AugmentedIsError<ApiType>;
+      alreadyApproved: AugmentedError<ApiType>;
       /**
        * The data to be stored is already stored.
        **/
-      AlreadyStored: AugmentedIsError<ApiType>;
+      alreadyStored: AugmentedError<ApiType>;
       /**
        * Threshold must be 2 or greater.
        **/
-      MinimumThreshold: AugmentedIsError<ApiType>;
+      minimumThreshold: AugmentedError<ApiType>;
       /**
        * Call doesn't need any (more) approvals.
        **/
-      NoApprovalsNeeded: AugmentedIsError<ApiType>;
+      noApprovalsNeeded: AugmentedError<ApiType>;
       /**
        * Multisig operation not found when attempting to cancel.
        **/
-      NotFound: AugmentedIsError<ApiType>;
+      notFound: AugmentedError<ApiType>;
       /**
        * No timepoint was given, yet the multisig operation is already underway.
        **/
-      NoTimepoint: AugmentedIsError<ApiType>;
+      noTimepoint: AugmentedError<ApiType>;
       /**
        * Only the account that originally created the multisig is able to cancel it.
        **/
-      NotOwner: AugmentedIsError<ApiType>;
+      notOwner: AugmentedError<ApiType>;
       /**
        * The sender was contained in the other signatories; it shouldn't be.
        **/
-      SenderInSignatories: AugmentedIsError<ApiType>;
+      senderInSignatories: AugmentedError<ApiType>;
       /**
        * The signatories were provided out of order; they should be ordered.
        **/
-      SignatoriesOutOfOrder: AugmentedIsError<ApiType>;
+      signatoriesOutOfOrder: AugmentedError<ApiType>;
       /**
        * There are too few signatories in the list.
        **/
-      TooFewSignatories: AugmentedIsError<ApiType>;
+      tooFewSignatories: AugmentedError<ApiType>;
       /**
        * There are too many signatories in the list.
        **/
-      TooManySignatories: AugmentedIsError<ApiType>;
+      tooManySignatories: AugmentedError<ApiType>;
       /**
        * A timepoint was given, yet no multisig operation is underway.
        **/
-      UnexpectedTimepoint: AugmentedIsError<ApiType>;
+      unexpectedTimepoint: AugmentedError<ApiType>;
       /**
        * The maximum weight information provided was too low.
        **/
-      WeightTooLow: AugmentedIsError<ApiType>;
+      weightTooLow: AugmentedError<ApiType>;
       /**
        * A different timepoint was given to the multisig operation that is underway.
        **/
-      WrongTimepoint: AugmentedIsError<ApiType>;
+      wrongTimepoint: AugmentedError<ApiType>;
     };
     proxy: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Account is already a proxy.
        **/
-      Duplicate: AugmentedIsError<ApiType>;
+      duplicate: AugmentedError<ApiType>;
       /**
        * Call may not be made by proxy because it may escalate its privileges.
        **/
-      NoPermission: AugmentedIsError<ApiType>;
+      noPermission: AugmentedError<ApiType>;
       /**
        * Proxy registration not found.
        **/
-      NotFound: AugmentedIsError<ApiType>;
+      notFound: AugmentedError<ApiType>;
       /**
        * Sender is not a proxy of the account to be proxied.
        **/
-      NotProxy: AugmentedIsError<ApiType>;
+      notProxy: AugmentedError<ApiType>;
       /**
        * There are too many proxies registered or too many announcements pending.
        **/
-      TooMany: AugmentedIsError<ApiType>;
+      tooMany: AugmentedError<ApiType>;
       /**
        * Announcement, if made at all, was made too recently.
        **/
-      Unannounced: AugmentedIsError<ApiType>;
+      unannounced: AugmentedError<ApiType>;
       /**
        * A call which is incompatible with the proxy type's filter was attempted.
        **/
-      Unproxyable: AugmentedIsError<ApiType>;
+      unproxyable: AugmentedError<ApiType>;
     };
     recovery: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * This account is already set up for recovery
        **/
-      AlreadyProxy: AugmentedIsError<ApiType>;
+      alreadyProxy: AugmentedError<ApiType>;
       /**
        * This account is already set up for recovery
        **/
-      AlreadyRecoverable: AugmentedIsError<ApiType>;
+      alreadyRecoverable: AugmentedError<ApiType>;
       /**
        * A recovery process has already started for this account
        **/
-      AlreadyStarted: AugmentedIsError<ApiType>;
+      alreadyStarted: AugmentedError<ApiType>;
       /**
        * This user has already vouched for this recovery
        **/
-      AlreadyVouched: AugmentedIsError<ApiType>;
+      alreadyVouched: AugmentedError<ApiType>;
       /**
        * The friend must wait until the delay period to vouch for this recovery
        **/
-      DelayPeriod: AugmentedIsError<ApiType>;
+      delayPeriod: AugmentedError<ApiType>;
       /**
        * Friends list must be less than max friends
        **/
-      MaxFriends: AugmentedIsError<ApiType>;
+      maxFriends: AugmentedError<ApiType>;
       /**
        * User is not allowed to make a call on behalf of this account
        **/
-      NotAllowed: AugmentedIsError<ApiType>;
+      notAllowed: AugmentedError<ApiType>;
       /**
        * Friends list must be greater than zero and threshold
        **/
-      NotEnoughFriends: AugmentedIsError<ApiType>;
+      notEnoughFriends: AugmentedError<ApiType>;
       /**
        * This account is not a friend who can vouch
        **/
-      NotFriend: AugmentedIsError<ApiType>;
+      notFriend: AugmentedError<ApiType>;
       /**
        * This account is not set up for recovery
        **/
-      NotRecoverable: AugmentedIsError<ApiType>;
+      notRecoverable: AugmentedError<ApiType>;
       /**
        * Friends list must be sorted and free of duplicates
        **/
-      NotSorted: AugmentedIsError<ApiType>;
+      notSorted: AugmentedError<ApiType>;
       /**
        * A recovery process has not started for this rescuer
        **/
-      NotStarted: AugmentedIsError<ApiType>;
+      notStarted: AugmentedError<ApiType>;
       /**
        * There was an overflow in a calculation
        **/
-      Overflow: AugmentedIsError<ApiType>;
+      overflow: AugmentedError<ApiType>;
       /**
        * There are still active recovery attempts that need to be closed
        **/
-      StillActive: AugmentedIsError<ApiType>;
+      stillActive: AugmentedError<ApiType>;
       /**
        * The threshold for recovering this account has not been met
        **/
-      Threshold: AugmentedIsError<ApiType>;
+      threshold: AugmentedError<ApiType>;
       /**
        * Threshold must be greater than zero
        **/
-      ZeroThreshold: AugmentedIsError<ApiType>;
+      zeroThreshold: AugmentedError<ApiType>;
     };
     scheduler: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Failed to schedule a call
        **/
-      FailedToSchedule: AugmentedIsError<ApiType>;
+      failedToSchedule: AugmentedError<ApiType>;
       /**
        * Cannot find the scheduled call.
        **/
-      NotFound: AugmentedIsError<ApiType>;
+      notFound: AugmentedError<ApiType>;
       /**
        * Reschedule failed because it does not change scheduled time.
        **/
-      RescheduleNoChange: AugmentedIsError<ApiType>;
+      rescheduleNoChange: AugmentedError<ApiType>;
       /**
        * Given target block number is in the past.
        **/
-      TargetBlockNumberInPast: AugmentedIsError<ApiType>;
+      targetBlockNumberInPast: AugmentedError<ApiType>;
     };
     session: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Registered duplicate key.
        **/
-      DuplicatedKey: AugmentedIsError<ApiType>;
+      duplicatedKey: AugmentedError<ApiType>;
       /**
        * Invalid ownership proof.
        **/
-      InvalidProof: AugmentedIsError<ApiType>;
+      invalidProof: AugmentedError<ApiType>;
       /**
        * No associated validator ID for account.
        **/
-      NoAssociatedValidatorId: AugmentedIsError<ApiType>;
+      noAssociatedValidatorId: AugmentedError<ApiType>;
       /**
        * No keys are associated with this account.
        **/
-      NoKeys: AugmentedIsError<ApiType>;
+      noKeys: AugmentedError<ApiType>;
     };
     society: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * User has already made a bid.
        **/
-      AlreadyBid: AugmentedIsError<ApiType>;
+      alreadyBid: AugmentedError<ApiType>;
       /**
        * User is already a candidate.
        **/
-      AlreadyCandidate: AugmentedIsError<ApiType>;
+      alreadyCandidate: AugmentedError<ApiType>;
       /**
        * Society already founded.
        **/
-      AlreadyFounded: AugmentedIsError<ApiType>;
+      alreadyFounded: AugmentedError<ApiType>;
       /**
        * User is already a member.
        **/
-      AlreadyMember: AugmentedIsError<ApiType>;
+      alreadyMember: AugmentedError<ApiType>;
       /**
        * Member is already vouching or banned from vouching again.
        **/
-      AlreadyVouching: AugmentedIsError<ApiType>;
+      alreadyVouching: AugmentedError<ApiType>;
       /**
        * An incorrect position was provided.
        **/
-      BadPosition: AugmentedIsError<ApiType>;
+      badPosition: AugmentedError<ApiType>;
       /**
        * Cannot remove the founder.
        **/
-      Founder: AugmentedIsError<ApiType>;
+      founder: AugmentedError<ApiType>;
       /**
        * Cannot remove the head of the chain.
        **/
-      Head: AugmentedIsError<ApiType>;
+      head: AugmentedError<ApiType>;
       /**
        * Not enough in pot to accept candidate.
        **/
-      InsufficientPot: AugmentedIsError<ApiType>;
+      insufficientPot: AugmentedError<ApiType>;
       /**
        * Too many members in the society.
        **/
-      MaxMembers: AugmentedIsError<ApiType>;
+      maxMembers: AugmentedError<ApiType>;
       /**
        * Nothing to payout.
        **/
-      NoPayout: AugmentedIsError<ApiType>;
+      noPayout: AugmentedError<ApiType>;
       /**
        * User is not a candidate.
        **/
-      NotCandidate: AugmentedIsError<ApiType>;
+      notCandidate: AugmentedError<ApiType>;
       /**
        * The caller is not the founder.
        **/
-      NotFounder: AugmentedIsError<ApiType>;
+      notFounder: AugmentedError<ApiType>;
       /**
        * The caller is not the head.
        **/
-      NotHead: AugmentedIsError<ApiType>;
+      notHead: AugmentedError<ApiType>;
       /**
        * User is not a member.
        **/
-      NotMember: AugmentedIsError<ApiType>;
+      notMember: AugmentedError<ApiType>;
       /**
        * User is not suspended.
        **/
-      NotSuspended: AugmentedIsError<ApiType>;
+      notSuspended: AugmentedError<ApiType>;
       /**
        * Member is not vouching.
        **/
-      NotVouching: AugmentedIsError<ApiType>;
+      notVouching: AugmentedError<ApiType>;
       /**
        * User is suspended.
        **/
-      Suspended: AugmentedIsError<ApiType>;
+      suspended: AugmentedError<ApiType>;
     };
     staking: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Stash is already bonded.
        **/
-      AlreadyBonded: AugmentedIsError<ApiType>;
+      alreadyBonded: AugmentedError<ApiType>;
       /**
        * Rewards for this era have already been claimed for this validator.
        **/
-      AlreadyClaimed: AugmentedIsError<ApiType>;
+      alreadyClaimed: AugmentedError<ApiType>;
       /**
        * Controller is already paired.
        **/
-      AlreadyPaired: AugmentedIsError<ApiType>;
+      alreadyPaired: AugmentedError<ApiType>;
       /**
        * The call is not allowed at the given time due to restrictions of election period.
        **/
-      CallNotAllowed: AugmentedIsError<ApiType>;
+      callNotAllowed: AugmentedError<ApiType>;
       /**
        * Duplicate index.
        **/
-      DuplicateIndex: AugmentedIsError<ApiType>;
+      duplicateIndex: AugmentedError<ApiType>;
       /**
        * Targets cannot be empty.
        **/
-      EmptyTargets: AugmentedIsError<ApiType>;
+      emptyTargets: AugmentedError<ApiType>;
       /**
        * Attempting to target a stash that still has funds.
        **/
-      FundedTarget: AugmentedIsError<ApiType>;
+      fundedTarget: AugmentedError<ApiType>;
       /**
        * Incorrect previous history depth input provided.
        **/
-      IncorrectHistoryDepth: AugmentedIsError<ApiType>;
+      incorrectHistoryDepth: AugmentedError<ApiType>;
       /**
        * Incorrect number of slashing spans provided.
        **/
-      IncorrectSlashingSpans: AugmentedIsError<ApiType>;
+      incorrectSlashingSpans: AugmentedError<ApiType>;
       /**
        * Can not bond with value less than minimum balance.
        **/
-      InsufficientValue: AugmentedIsError<ApiType>;
+      insufficientValue: AugmentedError<ApiType>;
       /**
        * Invalid era to reward.
        **/
-      InvalidEraToReward: AugmentedIsError<ApiType>;
+      invalidEraToReward: AugmentedError<ApiType>;
       /**
        * Invalid number of nominations.
        **/
-      InvalidNumberOfNominations: AugmentedIsError<ApiType>;
+      invalidNumberOfNominations: AugmentedError<ApiType>;
       /**
        * Slash record index out of bounds.
        **/
-      InvalidSlashIndex: AugmentedIsError<ApiType>;
+      invalidSlashIndex: AugmentedError<ApiType>;
       /**
        * Can not schedule more unlock chunks.
        **/
-      NoMoreChunks: AugmentedIsError<ApiType>;
+      noMoreChunks: AugmentedError<ApiType>;
       /**
        * Not a controller account.
        **/
-      NotController: AugmentedIsError<ApiType>;
+      notController: AugmentedError<ApiType>;
       /**
        * Items are not sorted and unique.
        **/
-      NotSortedAndUnique: AugmentedIsError<ApiType>;
+      notSortedAndUnique: AugmentedError<ApiType>;
       /**
        * Not a stash account.
        **/
-      NotStash: AugmentedIsError<ApiType>;
+      notStash: AugmentedError<ApiType>;
       /**
        * Can not rebond without unlocking chunks.
        **/
-      NoUnlockChunk: AugmentedIsError<ApiType>;
+      noUnlockChunk: AugmentedError<ApiType>;
       /**
        * Error while building the assignment type from the compact. This can happen if an index
        * is invalid, or if the weights _overflow_.
        **/
-      OffchainElectionBogusCompact: AugmentedIsError<ApiType>;
+      offchainElectionBogusCompact: AugmentedError<ApiType>;
       /**
        * The submitted result has unknown edges that are not among the presented winners.
        **/
-      OffchainElectionBogusEdge: AugmentedIsError<ApiType>;
+      offchainElectionBogusEdge: AugmentedError<ApiType>;
       /**
        * The election size is invalid.
        **/
-      OffchainElectionBogusElectionSize: AugmentedIsError<ApiType>;
+      offchainElectionBogusElectionSize: AugmentedError<ApiType>;
       /**
        * One of the submitted nominators has an edge to which they have not voted on chain.
        **/
-      OffchainElectionBogusNomination: AugmentedIsError<ApiType>;
+      offchainElectionBogusNomination: AugmentedError<ApiType>;
       /**
        * One of the submitted nominators is not an active nominator on chain.
        **/
-      OffchainElectionBogusNominator: AugmentedIsError<ApiType>;
+      offchainElectionBogusNominator: AugmentedError<ApiType>;
       /**
        * The claimed score does not match with the one computed from the data.
        **/
-      OffchainElectionBogusScore: AugmentedIsError<ApiType>;
+      offchainElectionBogusScore: AugmentedError<ApiType>;
       /**
        * A self vote must only be originated from a validator to ONLY themselves.
        **/
-      OffchainElectionBogusSelfVote: AugmentedIsError<ApiType>;
+      offchainElectionBogusSelfVote: AugmentedError<ApiType>;
       /**
        * One of the submitted winners is not an active candidate on chain (index is out of range
        * in snapshot).
        **/
-      OffchainElectionBogusWinner: AugmentedIsError<ApiType>;
+      offchainElectionBogusWinner: AugmentedError<ApiType>;
       /**
        * Incorrect number of winners were presented.
        **/
-      OffchainElectionBogusWinnerCount: AugmentedIsError<ApiType>;
+      offchainElectionBogusWinnerCount: AugmentedError<ApiType>;
       /**
        * The submitted result is received out of the open window.
        **/
-      OffchainElectionEarlySubmission: AugmentedIsError<ApiType>;
+      offchainElectionEarlySubmission: AugmentedError<ApiType>;
       /**
        * One of the submitted nominators has an edge which is submitted before the last non-zero
        * slash of the target.
        **/
-      OffchainElectionSlashedNomination: AugmentedIsError<ApiType>;
+      offchainElectionSlashedNomination: AugmentedError<ApiType>;
       /**
        * The submitted result is not as good as the one stored on chain.
        **/
-      OffchainElectionWeakSubmission: AugmentedIsError<ApiType>;
+      offchainElectionWeakSubmission: AugmentedError<ApiType>;
       /**
        * The snapshot data of the current window is missing.
        **/
-      SnapshotUnavailable: AugmentedIsError<ApiType>;
+      snapshotUnavailable: AugmentedError<ApiType>;
     };
     sudo: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Sender must be the Sudo account
        **/
-      RequireSudo: AugmentedIsError<ApiType>;
+      requireSudo: AugmentedError<ApiType>;
     };
     system: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Failed to extract the runtime version from the new runtime.
        * 
        * Either calling `Core_version` or decoding `RuntimeVersion` failed.
        **/
-      FailedToExtractRuntimeVersion: AugmentedIsError<ApiType>;
+      failedToExtractRuntimeVersion: AugmentedError<ApiType>;
       /**
        * The name of specification does not match between the current runtime
        * and the new runtime.
        **/
-      InvalidSpecName: AugmentedIsError<ApiType>;
+      invalidSpecName: AugmentedError<ApiType>;
       /**
        * Suicide called when the account has non-default composite data.
        **/
-      NonDefaultComposite: AugmentedIsError<ApiType>;
+      nonDefaultComposite: AugmentedError<ApiType>;
       /**
        * There is a non-zero reference count preventing the account from being purged.
        **/
-      NonZeroRefCount: AugmentedIsError<ApiType>;
+      nonZeroRefCount: AugmentedError<ApiType>;
       /**
        * The specification version is not allowed to decrease between the current runtime
        * and the new runtime.
        **/
-      SpecVersionNeedsToIncrease: AugmentedIsError<ApiType>;
+      specVersionNeedsToIncrease: AugmentedError<ApiType>;
     };
     technicalCommittee: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Members are already initialized!
        **/
-      AlreadyInitialized: AugmentedIsError<ApiType>;
+      alreadyInitialized: AugmentedError<ApiType>;
       /**
        * Duplicate proposals not allowed
        **/
-      DuplicateProposal: AugmentedIsError<ApiType>;
+      duplicateProposal: AugmentedError<ApiType>;
       /**
        * Duplicate vote ignored
        **/
-      DuplicateVote: AugmentedIsError<ApiType>;
+      duplicateVote: AugmentedError<ApiType>;
       /**
        * Account is not a member
        **/
-      NotMember: AugmentedIsError<ApiType>;
+      notMember: AugmentedError<ApiType>;
       /**
        * Proposal must exist
        **/
-      ProposalMissing: AugmentedIsError<ApiType>;
+      proposalMissing: AugmentedError<ApiType>;
       /**
        * The close call was made too early, before the end of the voting.
        **/
-      TooEarly: AugmentedIsError<ApiType>;
+      tooEarly: AugmentedError<ApiType>;
       /**
        * There can only be a maximum of `MaxProposals` active proposals.
        **/
-      TooManyProposals: AugmentedIsError<ApiType>;
+      tooManyProposals: AugmentedError<ApiType>;
       /**
        * Mismatched index
        **/
-      WrongIndex: AugmentedIsError<ApiType>;
+      wrongIndex: AugmentedError<ApiType>;
       /**
        * The given length bound for the proposal was too low.
        **/
-      WrongProposalLength: AugmentedIsError<ApiType>;
+      wrongProposalLength: AugmentedError<ApiType>;
       /**
        * The given weight bound for the proposal was too low.
        **/
-      WrongProposalWeight: AugmentedIsError<ApiType>;
+      wrongProposalWeight: AugmentedError<ApiType>;
     };
     tips: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * The tip was already found/started.
        **/
-      AlreadyKnown: AugmentedIsError<ApiType>;
+      alreadyKnown: AugmentedError<ApiType>;
       /**
        * The account attempting to retract the tip is not the finder of the tip.
        **/
-      NotFinder: AugmentedIsError<ApiType>;
+      notFinder: AugmentedError<ApiType>;
       /**
        * The tip cannot be claimed/closed because it's still in the countdown period.
        **/
-      Premature: AugmentedIsError<ApiType>;
+      premature: AugmentedError<ApiType>;
       /**
        * The reason given is just too big.
        **/
-      ReasonTooBig: AugmentedIsError<ApiType>;
+      reasonTooBig: AugmentedError<ApiType>;
       /**
        * The tip cannot be claimed/closed because there are not enough tippers yet.
        **/
-      StillOpen: AugmentedIsError<ApiType>;
+      stillOpen: AugmentedError<ApiType>;
       /**
        * The tip hash is unknown.
        **/
-      UnknownTip: AugmentedIsError<ApiType>;
+      unknownTip: AugmentedError<ApiType>;
     };
     treasury: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
-      InsufficientProposersBalance: AugmentedIsError<ApiType>;
+      insufficientProposersBalance: AugmentedError<ApiType>;
       /**
        * No proposal or bounty at that index.
        **/
-      InvalidIndex: AugmentedIsError<ApiType>;
+      invalidIndex: AugmentedError<ApiType>;
     };
     vesting: {
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       /**
        * Amount being transferred is too low to create a vesting schedule.
        **/
-      AmountLow: AugmentedIsError<ApiType>;
+      amountLow: AugmentedError<ApiType>;
       /**
        * An existing vesting schedule already exists for this account that cannot be clobbered.
        **/
-      ExistingVestingSchedule: AugmentedIsError<ApiType>;
+      existingVestingSchedule: AugmentedError<ApiType>;
       /**
        * The account given is not vesting.
        **/
-      NotVesting: AugmentedIsError<ApiType>;
+      notVesting: AugmentedError<ApiType>;
     };
   }
 
-  export interface IsErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
-    [key: string]: IsModuleErrors<ApiType>;
+  export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
+    [key: string]: ModuleErrors<ApiType>;
   }
 }

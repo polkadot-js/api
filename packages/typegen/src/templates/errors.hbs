@@ -7,20 +7,19 @@ declare module '@polkadot/api/types/errors' {
     {{#each modules}}
     {{{name}}}: {
       {{#unless @root.isStrict}}
-      // TODO This would be great as template literal [key as `is${Capitalize<string>}`]
-      [key: string]: AugmentedIsError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
       {{/unless}}
       {{~#each items}}
       {{> docs}}
-      {{{isA}}}: AugmentedIsError<ApiType>;
+      {{{name}}}: AugmentedError<ApiType>;
       {{/each}}
     };
     {{/each}}
   }
 
-  export interface IsErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
+  export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
     {{#unless isStrict}}
-    [key: string]: IsModuleErrors<ApiType>;
+    [key: string]: ModuleErrors<ApiType>;
     {{/unless}}
   }
 }

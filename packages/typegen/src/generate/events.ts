@@ -43,7 +43,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
             return {
               docs: documentation,
-              isA: name.toString(),
+              name: stringCamelCase(name.toString()),
               type: type.join(', ')
             };
           });

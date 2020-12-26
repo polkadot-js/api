@@ -27,7 +27,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
           .sort(compareName)
           .map(({ documentation, name }) => ({
             docs: documentation,
-            isA: name.toString()
+            name: stringCamelCase(name.toString())
           }));
 
         return {

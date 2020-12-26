@@ -8,7 +8,7 @@ import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, InterfaceTypes, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcSection, DecorateMethod, IsErrors, IsEvents, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 
@@ -57,9 +57,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _derive?: ReturnType<Decorate<ApiType>['_decorateDerive']>;
 
-  protected _errors: IsErrors<ApiType> = {} as IsErrors<ApiType>;
+  protected _errors: DecoratedErrors<ApiType> = {} as DecoratedErrors<ApiType>;
 
-  protected _events: IsEvents<ApiType> = {} as IsEvents<ApiType>;
+  protected _events: DecoratedEvents<ApiType> = {} as DecoratedEvents<ApiType>;
 
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
