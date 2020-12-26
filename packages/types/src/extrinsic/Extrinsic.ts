@@ -78,13 +78,6 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
   }
 
   /**
-   * @description `true` is method has `Origin` argument (compatibility with [Call])
-   */
-  public get hasOrigin (): boolean {
-    return this.method.hasOrigin;
-  }
-
-  /**
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {

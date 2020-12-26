@@ -28,7 +28,6 @@ export interface IMethod<A extends AnyTuple> extends Codec {
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
   readonly hash: Hash;
-  readonly hasOrigin: boolean;
   readonly meta: FunctionMetadataLatest;
 
   is: (tx: IMethod<AnyTuple>) => tx is IMethod<A>;

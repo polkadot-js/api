@@ -27,29 +27,4 @@ describe('Call', (): void => {
       new Call(registry, '0x0601').toU8a()
     ).toEqual(new Uint8Array([6, 1, 0, 0, 0])); // balances.setBalance
   });
-
-  describe('hasOrigin', (): void => {
-    const test = {
-      args: [],
-      callIndex: [2, 2] // timestamp
-    };
-
-    it('is false with no arguments', (): void => {
-      expect(
-        new Call(registry, test, { args: [] } as any).hasOrigin
-      ).toEqual(false);
-    });
-
-    it('is false with first argument as non-Origin', (): void => {
-      expect(
-        new Call(registry, test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
-      ).toEqual(false);
-    });
-
-    it('is false with first argument as non-Origin', (): void => {
-      expect(
-        new Call(registry, test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
-      ).toEqual(true);
-    });
-  });
 });

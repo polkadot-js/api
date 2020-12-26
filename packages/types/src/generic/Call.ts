@@ -186,15 +186,6 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   }
 
   /**
-   * @description `true` if the `Origin` type is on the method (extrinsic method)
-   */
-  public get hasOrigin (): boolean {
-    const firstArg = this.meta.args[0];
-
-    return !!firstArg && firstArg.type.toString() === 'Origin';
-  }
-
-  /**
    * @description The [[FunctionMetadata]]
    */
   public get meta (): FunctionMetadataLatest {
