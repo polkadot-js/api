@@ -26,28 +26,23 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
     const modules = meta.asLatest.modules
       .sort(compareName)
       .filter((mod) => mod.events.isSome)
-      .map((mod) => ({ ...mod, events: mod.events.unwrap() }))
-      .filter((mod) => mod.events.length > 0)
-      .map(({ events, name }) => {
-        const items = events
+      .map(({ events, name }) => ({
+        items: events
+          .unwrap()
           .sort(compareName)
           .map(({ args, documentation, name }) => {
-            const type = args.map((type) => formatType(allDefs, type.toString(), imports));
+            const types = args.map((type) => formatType(allDefs, type.toString(), imports));
 
-            setImports(allDefs, imports, type);
+            setImports(allDefs, imports, types);
 
             return {
               docs: documentation,
               name: stringCamelCase(name.toString()),
-              type: type.join(', ')
+              type: types.join(', ')
             };
-          });
-
-        return {
-          items,
-          name: stringCamelCase(name)
-        };
-      });
+          }),
+        name: stringCamelCase(name)
+      }));
 
     const types = [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({

@@ -20,21 +20,16 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
 
     const modules = meta.asLatest.modules
       .sort(compareName)
-      .map((mod) => ({ ...mod, errors: mod.errors }))
       .filter((mod) => mod.errors.length > 0)
-      .map(({ errors, name }) => {
-        const items = errors
+      .map(({ errors, name }) => ({
+        items: errors
           .sort(compareName)
           .map(({ documentation, name }) => ({
             docs: documentation,
             name: stringCamelCase(name.toString())
-          }));
-
-        return {
-          items,
-          name: stringCamelCase(name)
-        };
-      });
+          })),
+        name: stringCamelCase(name)
+      }));
 
     const types = [
       {
