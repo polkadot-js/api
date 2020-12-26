@@ -4,7 +4,7 @@
 import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, Callback, Codec, CodecArg, IStorageKey } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
@@ -28,20 +28,21 @@ export interface StorageEntryPromiseOverloads {
 // This is the most generic typings we can have for a storage entry function
 type GenericStorageEntryFunction = (arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>
 
-export type QueryableStorageEntry<ApiType extends ApiTypes> =
+export type QueryableStorageEntry<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> =
   ApiType extends 'rxjs'
     // eslint-disable-next-line no-use-before-define
-    ? AugmentedQuery<'rxjs', GenericStorageEntryFunction>
+    ? AugmentedQuery<'rxjs', GenericStorageEntryFunction, A>
     // eslint-disable-next-line no-use-before-define
-    : AugmentedQuery<'promise', GenericStorageEntryFunction> & StorageEntryPromiseOverloads;
+    : AugmentedQuery<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloads;
 
-export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction> {
+export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple> {
   at: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
   creator: StorageEntry;
   entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey, T][]>;
   entriesAt: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(hash: Hash | Uint8Array | string, arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey, T][]>;
   entriesPaged: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey, T][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
+  is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
   key: (...args: Parameters<F>) => string;
   keyPrefix: () => string;
   keys: (arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
@@ -55,7 +56,7 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
 }
 
 export interface QueryableModuleStorage<ApiType extends ApiTypes> {
-  [index: string]: QueryableStorageEntry<ApiType>;
+  [index: string]: QueryableStorageEntry<ApiType, AnyTuple>;
 }
 
 export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
@@ -79,10 +80,10 @@ export type QueryableStorageMulti<ApiType extends ApiTypes> =
 // eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
 export interface AugmentedQueries<ApiType extends ApiTypes> { }
 
-export interface StorageEntryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction> extends StorageEntryBase<ApiType, F> {
+export interface StorageEntryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple> extends StorageEntryBase<ApiType, F, A> {
   keyPrefix: (key1?: Parameters<F>[0]) => string;
 }
 
-export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F>
+export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F, A>;
 
-export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction> = MethodResult<ApiType, F> & StorageEntryDoubleMap<ApiType, F>
+export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple> = MethodResult<ApiType, F> & StorageEntryDoubleMap<ApiType, F, A>;

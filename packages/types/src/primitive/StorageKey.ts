@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
-import type { AnyJson, AnyU8a, Codec, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, Codec, InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
@@ -85,7 +85,7 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
   throw new Error(`Unable to convert input ${value as string} to StorageKey`);
 }
 
-function decodeHashers (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): Codec[] {
+function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
 
@@ -99,13 +99,13 @@ function decodeHashers (registry: Registry, value: Uint8Array, hashers: [Storage
     result.push(decoded);
 
     return result;
-  }, []);
+  }, []) as A;
 }
 
 /** @internal */
-function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): Codec[] {
+function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
   if (!meta || !(meta.type.isDoubleMap || meta.type.isMap)) {
-    return [];
+    return [] as unknown as A;
   }
 
   if (meta.type.isMap) {
@@ -130,10 +130,10 @@ function decodeArgsFromMeta (registry: Registry, value: Uint8Array, meta?: Stora
  * A representation of a storage key (typically hashed) in the system. It can be
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
-export class StorageKey extends Bytes {
+export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements IStorageKey<A> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
-  private _args: Codec[];
+  private _args: A;
 
   private _meta?: StorageEntryMetadataLatest;
 
@@ -188,7 +188,7 @@ export class StorageKey extends Bytes {
   /**
    * @description Return the decoded arguments (applicable to map/doublemap with decodable values)
    */
-  public get args (): Codec[] {
+  public get args (): A {
     return this._args;
   }
 
@@ -218,6 +218,10 @@ export class StorageKey extends Bytes {
    */
   public get section (): string | undefined {
     return this._section;
+  }
+
+  public is (key: IStorageKey<AnyTuple>): key is IStorageKey<A> {
+    return key.section === this.section && key.method === this.method;
   }
 
   /**
