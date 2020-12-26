@@ -84,6 +84,6 @@ export interface StorageEntryDoubleMap<ApiType extends ApiTypes, F extends AnyFu
   keyPrefix: (key1?: Parameters<F>[0]) => string;
 }
 
-export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F, A>;
+export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F, A>;
 
-export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple> = MethodResult<ApiType, F> & StorageEntryDoubleMap<ApiType, F, A>;
+export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F> & StorageEntryDoubleMap<ApiType, F, A>;
