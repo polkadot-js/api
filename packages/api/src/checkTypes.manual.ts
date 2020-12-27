@@ -39,20 +39,20 @@ function errors (api: ApiPromise): void {
   const someError = {} as DispatchError;
 
   // existing
-  console.log(api.errors.vesting.amountLow.is(someError));
+  console.log(api.errors.vesting.AmountLow.is(someError));
 
   // non-existing error, existing module
-  console.log(api.errors.vesting.something.is(someError));
+  console.log(api.errors.vesting.Something.is(someError));
 
   // something random
-  console.log(api.errors.something.random.is(someError));
+  console.log(api.errors.something.Random.is(someError));
 }
 
 function events (api: ApiPromise): void {
   const eventRecord = {} as EventRecord;
 
   // existing
-  if (api.events.balances.transfer.is(eventRecord)) {
+  if (api.events.balances.Transfer.is(eventRecord)) {
     // the types are correctly expanded
     const [from, to, amount] = eventRecord.event.data;
 
@@ -60,7 +60,7 @@ function events (api: ApiPromise): void {
   }
 
   // something random
-  if (api.events.something.random.is(eventRecord)) {
+  if (api.events.something.Random.is(eventRecord)) {
     // the types are just codec
     const [a, b] = eventRecord.event.data;
 

@@ -21,7 +21,8 @@ export function decorateEvents (_: Registry, { modules }: MetadataLatest, metaVe
     const sectionIndex = metaVersion === 12 ? index.toNumber() : _sectionIndex;
 
     result[stringCamelCase(name)] = events.unwrap().reduce((newModule: ModuleEvents, meta, eventIndex): ModuleEvents => {
-      newModule[stringCamelCase(meta.name)] = {
+      // we don't camelCase the event name
+      newModule[meta.name.toString()] = {
         is: <T extends AnyTuple> (eventRecord: IEventRecord<AnyTuple>): eventRecord is IEventRecord<T> =>
           isEvent(eventRecord, sectionIndex, eventIndex),
         meta

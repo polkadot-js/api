@@ -22,7 +22,7 @@ export interface IKeyringPair {
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
-export interface IMethod<A extends AnyTuple> extends Codec {
+export interface IMethod<A extends AnyTuple = AnyTuple> extends Codec {
   readonly args: A;
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;

@@ -10,157 +10,157 @@ declare module '@polkadot/api/types/errors' {
       /**
        * Transfer amount should be non-zero.
        **/
-      amountZero: AugmentedError<ApiType>;
+      AmountZero: AugmentedError<ApiType>;
       /**
        * Invalid witness data given.
        **/
-      badWitness: AugmentedError<ApiType>;
+      BadWitness: AugmentedError<ApiType>;
       /**
        * Account balance must be greater than or equal to the transfer amount.
        **/
-      balanceLow: AugmentedError<ApiType>;
+      BalanceLow: AugmentedError<ApiType>;
       /**
        * Balance should be non-zero.
        **/
-      balanceZero: AugmentedError<ApiType>;
+      BalanceZero: AugmentedError<ApiType>;
       /**
        * The origin account is frozen.
        **/
-      frozen: AugmentedError<ApiType>;
+      Frozen: AugmentedError<ApiType>;
       /**
        * The asset ID is already taken.
        **/
-      inUse: AugmentedError<ApiType>;
+      InUse: AugmentedError<ApiType>;
       /**
        * Minimum balance should be non-zero.
        **/
-      minBalanceZero: AugmentedError<ApiType>;
+      MinBalanceZero: AugmentedError<ApiType>;
       /**
        * The signing account has no permission to do the operation.
        **/
-      noPermission: AugmentedError<ApiType>;
+      NoPermission: AugmentedError<ApiType>;
       /**
        * A mint operation lead to an overflow.
        **/
-      overflow: AugmentedError<ApiType>;
+      Overflow: AugmentedError<ApiType>;
       /**
        * Attempt to destroy an asset class when non-zombie, reference-bearing accounts exist.
        **/
-      refsLeft: AugmentedError<ApiType>;
+      RefsLeft: AugmentedError<ApiType>;
       /**
        * Too many zombie accounts in use.
        **/
-      tooManyZombies: AugmentedError<ApiType>;
+      TooManyZombies: AugmentedError<ApiType>;
       /**
        * The given asset ID is unknown.
        **/
-      unknown: AugmentedError<ApiType>;
+      Unknown: AugmentedError<ApiType>;
     };
     authorship: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * The uncle is genesis.
        **/
-      genesisUncle: AugmentedError<ApiType>;
+      GenesisUncle: AugmentedError<ApiType>;
       /**
        * The uncle parent not in the chain.
        **/
-      invalidUncleParent: AugmentedError<ApiType>;
+      InvalidUncleParent: AugmentedError<ApiType>;
       /**
        * The uncle isn't recent enough to be included.
        **/
-      oldUncle: AugmentedError<ApiType>;
+      OldUncle: AugmentedError<ApiType>;
       /**
        * The uncle is too high in chain.
        **/
-      tooHighUncle: AugmentedError<ApiType>;
+      TooHighUncle: AugmentedError<ApiType>;
       /**
        * Too many uncles.
        **/
-      tooManyUncles: AugmentedError<ApiType>;
+      TooManyUncles: AugmentedError<ApiType>;
       /**
        * The uncle is already included.
        **/
-      uncleAlreadyIncluded: AugmentedError<ApiType>;
+      UncleAlreadyIncluded: AugmentedError<ApiType>;
       /**
        * Uncles already set in the block.
        **/
-      unclesAlreadySet: AugmentedError<ApiType>;
+      UnclesAlreadySet: AugmentedError<ApiType>;
     };
     balances: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Beneficiary account must pre-exist
        **/
-      deadAccount: AugmentedError<ApiType>;
+      DeadAccount: AugmentedError<ApiType>;
       /**
        * Value too low to create account due to existential deposit
        **/
-      existentialDeposit: AugmentedError<ApiType>;
+      ExistentialDeposit: AugmentedError<ApiType>;
       /**
        * A vesting schedule already exists for this account
        **/
-      existingVestingSchedule: AugmentedError<ApiType>;
+      ExistingVestingSchedule: AugmentedError<ApiType>;
       /**
        * Balance too low to send value
        **/
-      insufficientBalance: AugmentedError<ApiType>;
+      InsufficientBalance: AugmentedError<ApiType>;
       /**
        * Transfer/payment would kill account
        **/
-      keepAlive: AugmentedError<ApiType>;
+      KeepAlive: AugmentedError<ApiType>;
       /**
        * Account liquidity restrictions prevent withdrawal
        **/
-      liquidityRestrictions: AugmentedError<ApiType>;
+      LiquidityRestrictions: AugmentedError<ApiType>;
       /**
        * Got an overflow after adding
        **/
-      overflow: AugmentedError<ApiType>;
+      Overflow: AugmentedError<ApiType>;
       /**
        * Vesting balance too high to send value
        **/
-      vestingBalance: AugmentedError<ApiType>;
+      VestingBalance: AugmentedError<ApiType>;
     };
     bounties: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
-      insufficientProposersBalance: AugmentedError<ApiType>;
+      InsufficientProposersBalance: AugmentedError<ApiType>;
       /**
        * Invalid bounty fee.
        **/
-      invalidFee: AugmentedError<ApiType>;
+      InvalidFee: AugmentedError<ApiType>;
       /**
        * No proposal or bounty at that index.
        **/
-      invalidIndex: AugmentedError<ApiType>;
+      InvalidIndex: AugmentedError<ApiType>;
       /**
        * Invalid bounty value.
        **/
-      invalidValue: AugmentedError<ApiType>;
+      InvalidValue: AugmentedError<ApiType>;
       /**
        * A bounty payout is pending.
        * To cancel the bounty, you must unassign and slash the curator.
        **/
-      pendingPayout: AugmentedError<ApiType>;
+      PendingPayout: AugmentedError<ApiType>;
       /**
        * The bounties cannot be claimed/closed because it's still in the countdown period.
        **/
-      premature: AugmentedError<ApiType>;
+      Premature: AugmentedError<ApiType>;
       /**
        * The reason given is just too big.
        **/
-      reasonTooBig: AugmentedError<ApiType>;
+      ReasonTooBig: AugmentedError<ApiType>;
       /**
        * Require bounty curator.
        **/
-      requireCurator: AugmentedError<ApiType>;
+      RequireCurator: AugmentedError<ApiType>;
       /**
        * The bounty status is unexpected.
        **/
-      unexpectedStatus: AugmentedError<ApiType>;
+      UnexpectedStatus: AugmentedError<ApiType>;
     };
     contracts: {
       [key: string]: AugmentedError<ApiType>;
@@ -170,866 +170,866 @@ declare module '@polkadot/api/types/errors' {
        * for a tombstone to be created. Use `seal_terminate` to remove a contract without
        * leaving a tombstone behind.
        **/
-      belowSubsistenceThreshold: AugmentedError<ApiType>;
+      BelowSubsistenceThreshold: AugmentedError<ApiType>;
       /**
        * No code could be found at the supplied code hash.
        **/
-      codeNotFound: AugmentedError<ApiType>;
+      CodeNotFound: AugmentedError<ApiType>;
       /**
        * The code supplied to `put_code` exceeds the limit specified in the current schedule.
        **/
-      codeTooLarge: AugmentedError<ApiType>;
+      CodeTooLarge: AugmentedError<ApiType>;
       /**
        * Contract trapped during execution.
        **/
-      contractTrapped: AugmentedError<ApiType>;
+      ContractTrapped: AugmentedError<ApiType>;
       /**
        * Input passed to a contract API function failed to decode as expected type.
        **/
-      decodingFailed: AugmentedError<ApiType>;
+      DecodingFailed: AugmentedError<ApiType>;
       /**
        * An origin TrieId written in the current block.
        **/
-      invalidContractOrigin: AugmentedError<ApiType>;
+      InvalidContractOrigin: AugmentedError<ApiType>;
       /**
        * Cannot restore to nonexisting or alive contract.
        **/
-      invalidDestinationContract: AugmentedError<ApiType>;
+      InvalidDestinationContract: AugmentedError<ApiType>;
       /**
        * A new schedule must have a greater version than the current one.
        **/
-      invalidScheduleVersion: AugmentedError<ApiType>;
+      InvalidScheduleVersion: AugmentedError<ApiType>;
       /**
        * Cannot restore from nonexisting or tombstone contract.
        **/
-      invalidSourceContract: AugmentedError<ApiType>;
+      InvalidSourceContract: AugmentedError<ApiType>;
       /**
        * An origin must be signed or inherent and auxiliary sender only provided on inherent.
        **/
-      invalidSurchargeClaim: AugmentedError<ApiType>;
+      InvalidSurchargeClaim: AugmentedError<ApiType>;
       /**
        * Tombstones don't match.
        **/
-      invalidTombstone: AugmentedError<ApiType>;
+      InvalidTombstone: AugmentedError<ApiType>;
       /**
        * Performing a call was denied because the calling depth reached the limit
        * of what is specified in the schedule.
        **/
-      maxCallDepthReached: AugmentedError<ApiType>;
+      MaxCallDepthReached: AugmentedError<ApiType>;
       /**
        * The newly created contract is below the subsistence threshold after executing
        * its contructor. No contracts are allowed to exist below that threshold.
        **/
-      newContractNotFunded: AugmentedError<ApiType>;
+      NewContractNotFunded: AugmentedError<ApiType>;
       /**
        * The contract that was called is either no contract at all (a plain account)
        * or is a tombstone.
        **/
-      notCallable: AugmentedError<ApiType>;
+      NotCallable: AugmentedError<ApiType>;
       /**
        * A buffer outside of sandbox memory was passed to a contract API function.
        **/
-      outOfBounds: AugmentedError<ApiType>;
+      OutOfBounds: AugmentedError<ApiType>;
       /**
        * The executed contract exhausted its gas limit.
        **/
-      outOfGas: AugmentedError<ApiType>;
+      OutOfGas: AugmentedError<ApiType>;
       /**
        * The output buffer supplied to a contract API call was too small.
        **/
-      outputBufferTooSmall: AugmentedError<ApiType>;
+      OutputBufferTooSmall: AugmentedError<ApiType>;
       /**
        * The action performed is not allowed while the contract performing it is already
        * on the call stack. Those actions are contract self destruction and restoration
        * of a tombstone.
        **/
-      reentranceDenied: AugmentedError<ApiType>;
+      ReentranceDenied: AugmentedError<ApiType>;
       /**
        * Performing the requested transfer failed for a reason originating in the
        * chosen currency implementation of the runtime. Most probably the balance is
        * too low or locks are placed on it.
        **/
-      transferFailed: AugmentedError<ApiType>;
+      TransferFailed: AugmentedError<ApiType>;
       /**
        * The size defined in `T::MaxValueSize` was exceeded.
        **/
-      valueTooLarge: AugmentedError<ApiType>;
+      ValueTooLarge: AugmentedError<ApiType>;
     };
     council: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Members are already initialized!
        **/
-      alreadyInitialized: AugmentedError<ApiType>;
+      AlreadyInitialized: AugmentedError<ApiType>;
       /**
        * Duplicate proposals not allowed
        **/
-      duplicateProposal: AugmentedError<ApiType>;
+      DuplicateProposal: AugmentedError<ApiType>;
       /**
        * Duplicate vote ignored
        **/
-      duplicateVote: AugmentedError<ApiType>;
+      DuplicateVote: AugmentedError<ApiType>;
       /**
        * Account is not a member
        **/
-      notMember: AugmentedError<ApiType>;
+      NotMember: AugmentedError<ApiType>;
       /**
        * Proposal must exist
        **/
-      proposalMissing: AugmentedError<ApiType>;
+      ProposalMissing: AugmentedError<ApiType>;
       /**
        * The close call was made too early, before the end of the voting.
        **/
-      tooEarly: AugmentedError<ApiType>;
+      TooEarly: AugmentedError<ApiType>;
       /**
        * There can only be a maximum of `MaxProposals` active proposals.
        **/
-      tooManyProposals: AugmentedError<ApiType>;
+      TooManyProposals: AugmentedError<ApiType>;
       /**
        * Mismatched index
        **/
-      wrongIndex: AugmentedError<ApiType>;
+      WrongIndex: AugmentedError<ApiType>;
       /**
        * The given length bound for the proposal was too low.
        **/
-      wrongProposalLength: AugmentedError<ApiType>;
+      WrongProposalLength: AugmentedError<ApiType>;
       /**
        * The given weight bound for the proposal was too low.
        **/
-      wrongProposalWeight: AugmentedError<ApiType>;
+      WrongProposalWeight: AugmentedError<ApiType>;
     };
     democracy: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Cannot cancel the same proposal twice
        **/
-      alreadyCanceled: AugmentedError<ApiType>;
+      AlreadyCanceled: AugmentedError<ApiType>;
       /**
        * The account is already delegating.
        **/
-      alreadyDelegating: AugmentedError<ApiType>;
+      AlreadyDelegating: AugmentedError<ApiType>;
       /**
        * Identity may not veto a proposal twice
        **/
-      alreadyVetoed: AugmentedError<ApiType>;
+      AlreadyVetoed: AugmentedError<ApiType>;
       /**
        * Unknown index
        **/
-      badIndex: AugmentedError<ApiType>;
+      BadIndex: AugmentedError<ApiType>;
       /**
        * Preimage already noted
        **/
-      duplicatePreimage: AugmentedError<ApiType>;
+      DuplicatePreimage: AugmentedError<ApiType>;
       /**
        * Proposal already made
        **/
-      duplicateProposal: AugmentedError<ApiType>;
+      DuplicateProposal: AugmentedError<ApiType>;
       /**
        * Imminent
        **/
-      imminent: AugmentedError<ApiType>;
+      Imminent: AugmentedError<ApiType>;
       /**
        * The instant referendum origin is currently disallowed.
        **/
-      instantNotAllowed: AugmentedError<ApiType>;
+      InstantNotAllowed: AugmentedError<ApiType>;
       /**
        * Too high a balance was provided that the account cannot afford.
        **/
-      insufficientFunds: AugmentedError<ApiType>;
+      InsufficientFunds: AugmentedError<ApiType>;
       /**
        * Invalid hash
        **/
-      invalidHash: AugmentedError<ApiType>;
+      InvalidHash: AugmentedError<ApiType>;
       /**
        * The provided witness data is wrong.
        **/
-      invalidWitness: AugmentedError<ApiType>;
+      InvalidWitness: AugmentedError<ApiType>;
       /**
        * Maximum number of votes reached.
        **/
-      maxVotesReached: AugmentedError<ApiType>;
+      MaxVotesReached: AugmentedError<ApiType>;
       /**
        * No proposals waiting
        **/
-      noneWaiting: AugmentedError<ApiType>;
+      NoneWaiting: AugmentedError<ApiType>;
       /**
        * Delegation to oneself makes no sense.
        **/
-      nonsense: AugmentedError<ApiType>;
+      Nonsense: AugmentedError<ApiType>;
       /**
        * The actor has no permission to conduct the action.
        **/
-      noPermission: AugmentedError<ApiType>;
+      NoPermission: AugmentedError<ApiType>;
       /**
        * No external proposal
        **/
-      noProposal: AugmentedError<ApiType>;
+      NoProposal: AugmentedError<ApiType>;
       /**
        * Not delegated
        **/
-      notDelegated: AugmentedError<ApiType>;
+      NotDelegated: AugmentedError<ApiType>;
       /**
        * The account is not currently delegating.
        **/
-      notDelegating: AugmentedError<ApiType>;
+      NotDelegating: AugmentedError<ApiType>;
       /**
        * The lock on the account to be unlocked has not yet expired.
        **/
-      notExpired: AugmentedError<ApiType>;
+      NotExpired: AugmentedError<ApiType>;
       /**
        * Not imminent
        **/
-      notImminent: AugmentedError<ApiType>;
+      NotImminent: AugmentedError<ApiType>;
       /**
        * The target account does not have a lock.
        **/
-      notLocked: AugmentedError<ApiType>;
+      NotLocked: AugmentedError<ApiType>;
       /**
        * Next external proposal not simple majority
        **/
-      notSimpleMajority: AugmentedError<ApiType>;
+      NotSimpleMajority: AugmentedError<ApiType>;
       /**
        * The given account did not vote on the referendum.
        **/
-      notVoter: AugmentedError<ApiType>;
+      NotVoter: AugmentedError<ApiType>;
       /**
        * An unexpected integer overflow occurred.
        **/
-      overflow: AugmentedError<ApiType>;
+      Overflow: AugmentedError<ApiType>;
       /**
        * Invalid preimage
        **/
-      preimageInvalid: AugmentedError<ApiType>;
+      PreimageInvalid: AugmentedError<ApiType>;
       /**
        * Preimage not found
        **/
-      preimageMissing: AugmentedError<ApiType>;
+      PreimageMissing: AugmentedError<ApiType>;
       /**
        * Proposal still blacklisted
        **/
-      proposalBlacklisted: AugmentedError<ApiType>;
+      ProposalBlacklisted: AugmentedError<ApiType>;
       /**
        * Proposal does not exist
        **/
-      proposalMissing: AugmentedError<ApiType>;
+      ProposalMissing: AugmentedError<ApiType>;
       /**
        * Vote given for invalid referendum
        **/
-      referendumInvalid: AugmentedError<ApiType>;
+      ReferendumInvalid: AugmentedError<ApiType>;
       /**
        * Too early
        **/
-      tooEarly: AugmentedError<ApiType>;
+      TooEarly: AugmentedError<ApiType>;
       /**
        * Maximum number of proposals reached.
        **/
-      tooManyProposals: AugmentedError<ApiType>;
+      TooManyProposals: AugmentedError<ApiType>;
       /**
        * An unexpected integer underflow occurred.
        **/
-      underflow: AugmentedError<ApiType>;
+      Underflow: AugmentedError<ApiType>;
       /**
        * Value too low
        **/
-      valueLow: AugmentedError<ApiType>;
+      ValueLow: AugmentedError<ApiType>;
       /**
        * The account currently has votes attached to it and the operation cannot succeed until
        * these are removed, either through `unvote` or `reap_vote`.
        **/
-      votesExist: AugmentedError<ApiType>;
+      VotesExist: AugmentedError<ApiType>;
       /**
        * Invalid upper bound.
        **/
-      wrongUpperBound: AugmentedError<ApiType>;
+      WrongUpperBound: AugmentedError<ApiType>;
     };
     elections: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Duplicated candidate submission.
        **/
-      duplicatedCandidate: AugmentedError<ApiType>;
+      DuplicatedCandidate: AugmentedError<ApiType>;
       /**
        * Candidate does not have enough funds.
        **/
-      insufficientCandidateFunds: AugmentedError<ApiType>;
+      InsufficientCandidateFunds: AugmentedError<ApiType>;
       /**
        * The provided count of number of candidates is incorrect.
        **/
-      invalidCandidateCount: AugmentedError<ApiType>;
+      InvalidCandidateCount: AugmentedError<ApiType>;
       /**
        * The renouncing origin presented a wrong `Renouncing` parameter.
        **/
-      invalidRenouncing: AugmentedError<ApiType>;
+      InvalidRenouncing: AugmentedError<ApiType>;
       /**
        * Prediction regarding replacement after member removal is wrong.
        **/
-      invalidReplacement: AugmentedError<ApiType>;
+      InvalidReplacement: AugmentedError<ApiType>;
       /**
        * The provided count of number of votes is incorrect.
        **/
-      invalidVoteCount: AugmentedError<ApiType>;
+      InvalidVoteCount: AugmentedError<ApiType>;
       /**
        * Cannot vote with stake less than minimum balance.
        **/
-      lowBalance: AugmentedError<ApiType>;
+      LowBalance: AugmentedError<ApiType>;
       /**
        * Cannot vote more than maximum allowed.
        **/
-      maximumVotesExceeded: AugmentedError<ApiType>;
+      MaximumVotesExceeded: AugmentedError<ApiType>;
       /**
        * Member cannot re-submit candidacy.
        **/
-      memberSubmit: AugmentedError<ApiType>;
+      MemberSubmit: AugmentedError<ApiType>;
       /**
        * Must be a voter.
        **/
-      mustBeVoter: AugmentedError<ApiType>;
+      MustBeVoter: AugmentedError<ApiType>;
       /**
        * Not a member.
        **/
-      notMember: AugmentedError<ApiType>;
+      NotMember: AugmentedError<ApiType>;
       /**
        * Must vote for at least one candidate.
        **/
-      noVotes: AugmentedError<ApiType>;
+      NoVotes: AugmentedError<ApiType>;
       /**
        * Cannot report self.
        **/
-      reportSelf: AugmentedError<ApiType>;
+      ReportSelf: AugmentedError<ApiType>;
       /**
        * Runner cannot re-submit candidacy.
        **/
-      runnerSubmit: AugmentedError<ApiType>;
+      RunnerSubmit: AugmentedError<ApiType>;
       /**
        * Cannot vote more than candidates.
        **/
-      tooManyVotes: AugmentedError<ApiType>;
+      TooManyVotes: AugmentedError<ApiType>;
       /**
        * Voter can not pay voting bond.
        **/
-      unableToPayBond: AugmentedError<ApiType>;
+      UnableToPayBond: AugmentedError<ApiType>;
       /**
        * Cannot vote when no candidates or members exist.
        **/
-      unableToVote: AugmentedError<ApiType>;
+      UnableToVote: AugmentedError<ApiType>;
     };
     grandpa: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Attempt to signal GRANDPA change with one already pending.
        **/
-      changePending: AugmentedError<ApiType>;
+      ChangePending: AugmentedError<ApiType>;
       /**
        * A given equivocation report is valid but already previously reported.
        **/
-      duplicateOffenceReport: AugmentedError<ApiType>;
+      DuplicateOffenceReport: AugmentedError<ApiType>;
       /**
        * An equivocation proof provided as part of an equivocation report is invalid.
        **/
-      invalidEquivocationProof: AugmentedError<ApiType>;
+      InvalidEquivocationProof: AugmentedError<ApiType>;
       /**
        * A key ownership proof provided as part of an equivocation report is invalid.
        **/
-      invalidKeyOwnershipProof: AugmentedError<ApiType>;
+      InvalidKeyOwnershipProof: AugmentedError<ApiType>;
       /**
        * Attempt to signal GRANDPA pause when the authority set isn't live
        * (either paused or already pending pause).
        **/
-      pauseFailed: AugmentedError<ApiType>;
+      PauseFailed: AugmentedError<ApiType>;
       /**
        * Attempt to signal GRANDPA resume when the authority set isn't paused
        * (either live or already pending resume).
        **/
-      resumeFailed: AugmentedError<ApiType>;
+      ResumeFailed: AugmentedError<ApiType>;
       /**
        * Cannot signal forced change so soon after last.
        **/
-      tooSoon: AugmentedError<ApiType>;
+      TooSoon: AugmentedError<ApiType>;
     };
     identity: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Account ID is already named.
        **/
-      alreadyClaimed: AugmentedError<ApiType>;
+      AlreadyClaimed: AugmentedError<ApiType>;
       /**
        * Empty index.
        **/
-      emptyIndex: AugmentedError<ApiType>;
+      EmptyIndex: AugmentedError<ApiType>;
       /**
        * Fee is changed.
        **/
-      feeChanged: AugmentedError<ApiType>;
+      FeeChanged: AugmentedError<ApiType>;
       /**
        * The index is invalid.
        **/
-      invalidIndex: AugmentedError<ApiType>;
+      InvalidIndex: AugmentedError<ApiType>;
       /**
        * Invalid judgement.
        **/
-      invalidJudgement: AugmentedError<ApiType>;
+      InvalidJudgement: AugmentedError<ApiType>;
       /**
        * The target is invalid.
        **/
-      invalidTarget: AugmentedError<ApiType>;
+      InvalidTarget: AugmentedError<ApiType>;
       /**
        * Judgement given.
        **/
-      judgementGiven: AugmentedError<ApiType>;
+      JudgementGiven: AugmentedError<ApiType>;
       /**
        * No identity found.
        **/
-      noIdentity: AugmentedError<ApiType>;
+      NoIdentity: AugmentedError<ApiType>;
       /**
        * Account isn't found.
        **/
-      notFound: AugmentedError<ApiType>;
+      NotFound: AugmentedError<ApiType>;
       /**
        * Account isn't named.
        **/
-      notNamed: AugmentedError<ApiType>;
+      NotNamed: AugmentedError<ApiType>;
       /**
        * Sub-account isn't owned by sender.
        **/
-      notOwned: AugmentedError<ApiType>;
+      NotOwned: AugmentedError<ApiType>;
       /**
        * Sender is not a sub-account.
        **/
-      notSub: AugmentedError<ApiType>;
+      NotSub: AugmentedError<ApiType>;
       /**
        * Sticky judgement.
        **/
-      stickyJudgement: AugmentedError<ApiType>;
+      StickyJudgement: AugmentedError<ApiType>;
       /**
        * Too many additional fields.
        **/
-      tooManyFields: AugmentedError<ApiType>;
+      TooManyFields: AugmentedError<ApiType>;
       /**
        * Maximum amount of registrars reached. Cannot add any more.
        **/
-      tooManyRegistrars: AugmentedError<ApiType>;
+      TooManyRegistrars: AugmentedError<ApiType>;
       /**
        * Too many subs-accounts.
        **/
-      tooManySubAccounts: AugmentedError<ApiType>;
+      TooManySubAccounts: AugmentedError<ApiType>;
     };
     imOnline: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Duplicated heartbeat.
        **/
-      duplicatedHeartbeat: AugmentedError<ApiType>;
+      DuplicatedHeartbeat: AugmentedError<ApiType>;
       /**
        * Non existent public key.
        **/
-      invalidKey: AugmentedError<ApiType>;
+      InvalidKey: AugmentedError<ApiType>;
     };
     multisig: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Call is already approved by this signatory.
        **/
-      alreadyApproved: AugmentedError<ApiType>;
+      AlreadyApproved: AugmentedError<ApiType>;
       /**
        * The data to be stored is already stored.
        **/
-      alreadyStored: AugmentedError<ApiType>;
+      AlreadyStored: AugmentedError<ApiType>;
       /**
        * Threshold must be 2 or greater.
        **/
-      minimumThreshold: AugmentedError<ApiType>;
+      MinimumThreshold: AugmentedError<ApiType>;
       /**
        * Call doesn't need any (more) approvals.
        **/
-      noApprovalsNeeded: AugmentedError<ApiType>;
+      NoApprovalsNeeded: AugmentedError<ApiType>;
       /**
        * Multisig operation not found when attempting to cancel.
        **/
-      notFound: AugmentedError<ApiType>;
+      NotFound: AugmentedError<ApiType>;
       /**
        * No timepoint was given, yet the multisig operation is already underway.
        **/
-      noTimepoint: AugmentedError<ApiType>;
+      NoTimepoint: AugmentedError<ApiType>;
       /**
        * Only the account that originally created the multisig is able to cancel it.
        **/
-      notOwner: AugmentedError<ApiType>;
+      NotOwner: AugmentedError<ApiType>;
       /**
        * The sender was contained in the other signatories; it shouldn't be.
        **/
-      senderInSignatories: AugmentedError<ApiType>;
+      SenderInSignatories: AugmentedError<ApiType>;
       /**
        * The signatories were provided out of order; they should be ordered.
        **/
-      signatoriesOutOfOrder: AugmentedError<ApiType>;
+      SignatoriesOutOfOrder: AugmentedError<ApiType>;
       /**
        * There are too few signatories in the list.
        **/
-      tooFewSignatories: AugmentedError<ApiType>;
+      TooFewSignatories: AugmentedError<ApiType>;
       /**
        * There are too many signatories in the list.
        **/
-      tooManySignatories: AugmentedError<ApiType>;
+      TooManySignatories: AugmentedError<ApiType>;
       /**
        * A timepoint was given, yet no multisig operation is underway.
        **/
-      unexpectedTimepoint: AugmentedError<ApiType>;
+      UnexpectedTimepoint: AugmentedError<ApiType>;
       /**
        * The maximum weight information provided was too low.
        **/
-      weightTooLow: AugmentedError<ApiType>;
+      WeightTooLow: AugmentedError<ApiType>;
       /**
        * A different timepoint was given to the multisig operation that is underway.
        **/
-      wrongTimepoint: AugmentedError<ApiType>;
+      WrongTimepoint: AugmentedError<ApiType>;
     };
     proxy: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Account is already a proxy.
        **/
-      duplicate: AugmentedError<ApiType>;
+      Duplicate: AugmentedError<ApiType>;
       /**
        * Call may not be made by proxy because it may escalate its privileges.
        **/
-      noPermission: AugmentedError<ApiType>;
+      NoPermission: AugmentedError<ApiType>;
       /**
        * Proxy registration not found.
        **/
-      notFound: AugmentedError<ApiType>;
+      NotFound: AugmentedError<ApiType>;
       /**
        * Sender is not a proxy of the account to be proxied.
        **/
-      notProxy: AugmentedError<ApiType>;
+      NotProxy: AugmentedError<ApiType>;
       /**
        * There are too many proxies registered or too many announcements pending.
        **/
-      tooMany: AugmentedError<ApiType>;
+      TooMany: AugmentedError<ApiType>;
       /**
        * Announcement, if made at all, was made too recently.
        **/
-      unannounced: AugmentedError<ApiType>;
+      Unannounced: AugmentedError<ApiType>;
       /**
        * A call which is incompatible with the proxy type's filter was attempted.
        **/
-      unproxyable: AugmentedError<ApiType>;
+      Unproxyable: AugmentedError<ApiType>;
     };
     recovery: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * This account is already set up for recovery
        **/
-      alreadyProxy: AugmentedError<ApiType>;
+      AlreadyProxy: AugmentedError<ApiType>;
       /**
        * This account is already set up for recovery
        **/
-      alreadyRecoverable: AugmentedError<ApiType>;
+      AlreadyRecoverable: AugmentedError<ApiType>;
       /**
        * A recovery process has already started for this account
        **/
-      alreadyStarted: AugmentedError<ApiType>;
+      AlreadyStarted: AugmentedError<ApiType>;
       /**
        * This user has already vouched for this recovery
        **/
-      alreadyVouched: AugmentedError<ApiType>;
+      AlreadyVouched: AugmentedError<ApiType>;
       /**
        * The friend must wait until the delay period to vouch for this recovery
        **/
-      delayPeriod: AugmentedError<ApiType>;
+      DelayPeriod: AugmentedError<ApiType>;
       /**
        * Friends list must be less than max friends
        **/
-      maxFriends: AugmentedError<ApiType>;
+      MaxFriends: AugmentedError<ApiType>;
       /**
        * User is not allowed to make a call on behalf of this account
        **/
-      notAllowed: AugmentedError<ApiType>;
+      NotAllowed: AugmentedError<ApiType>;
       /**
        * Friends list must be greater than zero and threshold
        **/
-      notEnoughFriends: AugmentedError<ApiType>;
+      NotEnoughFriends: AugmentedError<ApiType>;
       /**
        * This account is not a friend who can vouch
        **/
-      notFriend: AugmentedError<ApiType>;
+      NotFriend: AugmentedError<ApiType>;
       /**
        * This account is not set up for recovery
        **/
-      notRecoverable: AugmentedError<ApiType>;
+      NotRecoverable: AugmentedError<ApiType>;
       /**
        * Friends list must be sorted and free of duplicates
        **/
-      notSorted: AugmentedError<ApiType>;
+      NotSorted: AugmentedError<ApiType>;
       /**
        * A recovery process has not started for this rescuer
        **/
-      notStarted: AugmentedError<ApiType>;
+      NotStarted: AugmentedError<ApiType>;
       /**
        * There was an overflow in a calculation
        **/
-      overflow: AugmentedError<ApiType>;
+      Overflow: AugmentedError<ApiType>;
       /**
        * There are still active recovery attempts that need to be closed
        **/
-      stillActive: AugmentedError<ApiType>;
+      StillActive: AugmentedError<ApiType>;
       /**
        * The threshold for recovering this account has not been met
        **/
-      threshold: AugmentedError<ApiType>;
+      Threshold: AugmentedError<ApiType>;
       /**
        * Threshold must be greater than zero
        **/
-      zeroThreshold: AugmentedError<ApiType>;
+      ZeroThreshold: AugmentedError<ApiType>;
     };
     scheduler: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Failed to schedule a call
        **/
-      failedToSchedule: AugmentedError<ApiType>;
+      FailedToSchedule: AugmentedError<ApiType>;
       /**
        * Cannot find the scheduled call.
        **/
-      notFound: AugmentedError<ApiType>;
+      NotFound: AugmentedError<ApiType>;
       /**
        * Reschedule failed because it does not change scheduled time.
        **/
-      rescheduleNoChange: AugmentedError<ApiType>;
+      RescheduleNoChange: AugmentedError<ApiType>;
       /**
        * Given target block number is in the past.
        **/
-      targetBlockNumberInPast: AugmentedError<ApiType>;
+      TargetBlockNumberInPast: AugmentedError<ApiType>;
     };
     session: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Registered duplicate key.
        **/
-      duplicatedKey: AugmentedError<ApiType>;
+      DuplicatedKey: AugmentedError<ApiType>;
       /**
        * Invalid ownership proof.
        **/
-      invalidProof: AugmentedError<ApiType>;
+      InvalidProof: AugmentedError<ApiType>;
       /**
        * No associated validator ID for account.
        **/
-      noAssociatedValidatorId: AugmentedError<ApiType>;
+      NoAssociatedValidatorId: AugmentedError<ApiType>;
       /**
        * No keys are associated with this account.
        **/
-      noKeys: AugmentedError<ApiType>;
+      NoKeys: AugmentedError<ApiType>;
     };
     society: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * User has already made a bid.
        **/
-      alreadyBid: AugmentedError<ApiType>;
+      AlreadyBid: AugmentedError<ApiType>;
       /**
        * User is already a candidate.
        **/
-      alreadyCandidate: AugmentedError<ApiType>;
+      AlreadyCandidate: AugmentedError<ApiType>;
       /**
        * Society already founded.
        **/
-      alreadyFounded: AugmentedError<ApiType>;
+      AlreadyFounded: AugmentedError<ApiType>;
       /**
        * User is already a member.
        **/
-      alreadyMember: AugmentedError<ApiType>;
+      AlreadyMember: AugmentedError<ApiType>;
       /**
        * Member is already vouching or banned from vouching again.
        **/
-      alreadyVouching: AugmentedError<ApiType>;
+      AlreadyVouching: AugmentedError<ApiType>;
       /**
        * An incorrect position was provided.
        **/
-      badPosition: AugmentedError<ApiType>;
+      BadPosition: AugmentedError<ApiType>;
       /**
        * Cannot remove the founder.
        **/
-      founder: AugmentedError<ApiType>;
+      Founder: AugmentedError<ApiType>;
       /**
        * Cannot remove the head of the chain.
        **/
-      head: AugmentedError<ApiType>;
+      Head: AugmentedError<ApiType>;
       /**
        * Not enough in pot to accept candidate.
        **/
-      insufficientPot: AugmentedError<ApiType>;
+      InsufficientPot: AugmentedError<ApiType>;
       /**
        * Too many members in the society.
        **/
-      maxMembers: AugmentedError<ApiType>;
+      MaxMembers: AugmentedError<ApiType>;
       /**
        * Nothing to payout.
        **/
-      noPayout: AugmentedError<ApiType>;
+      NoPayout: AugmentedError<ApiType>;
       /**
        * User is not a candidate.
        **/
-      notCandidate: AugmentedError<ApiType>;
+      NotCandidate: AugmentedError<ApiType>;
       /**
        * The caller is not the founder.
        **/
-      notFounder: AugmentedError<ApiType>;
+      NotFounder: AugmentedError<ApiType>;
       /**
        * The caller is not the head.
        **/
-      notHead: AugmentedError<ApiType>;
+      NotHead: AugmentedError<ApiType>;
       /**
        * User is not a member.
        **/
-      notMember: AugmentedError<ApiType>;
+      NotMember: AugmentedError<ApiType>;
       /**
        * User is not suspended.
        **/
-      notSuspended: AugmentedError<ApiType>;
+      NotSuspended: AugmentedError<ApiType>;
       /**
        * Member is not vouching.
        **/
-      notVouching: AugmentedError<ApiType>;
+      NotVouching: AugmentedError<ApiType>;
       /**
        * User is suspended.
        **/
-      suspended: AugmentedError<ApiType>;
+      Suspended: AugmentedError<ApiType>;
     };
     staking: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Stash is already bonded.
        **/
-      alreadyBonded: AugmentedError<ApiType>;
+      AlreadyBonded: AugmentedError<ApiType>;
       /**
        * Rewards for this era have already been claimed for this validator.
        **/
-      alreadyClaimed: AugmentedError<ApiType>;
+      AlreadyClaimed: AugmentedError<ApiType>;
       /**
        * Controller is already paired.
        **/
-      alreadyPaired: AugmentedError<ApiType>;
+      AlreadyPaired: AugmentedError<ApiType>;
       /**
        * The call is not allowed at the given time due to restrictions of election period.
        **/
-      callNotAllowed: AugmentedError<ApiType>;
+      CallNotAllowed: AugmentedError<ApiType>;
       /**
        * Duplicate index.
        **/
-      duplicateIndex: AugmentedError<ApiType>;
+      DuplicateIndex: AugmentedError<ApiType>;
       /**
        * Targets cannot be empty.
        **/
-      emptyTargets: AugmentedError<ApiType>;
+      EmptyTargets: AugmentedError<ApiType>;
       /**
        * Attempting to target a stash that still has funds.
        **/
-      fundedTarget: AugmentedError<ApiType>;
+      FundedTarget: AugmentedError<ApiType>;
       /**
        * Incorrect previous history depth input provided.
        **/
-      incorrectHistoryDepth: AugmentedError<ApiType>;
+      IncorrectHistoryDepth: AugmentedError<ApiType>;
       /**
        * Incorrect number of slashing spans provided.
        **/
-      incorrectSlashingSpans: AugmentedError<ApiType>;
+      IncorrectSlashingSpans: AugmentedError<ApiType>;
       /**
        * Can not bond with value less than minimum balance.
        **/
-      insufficientValue: AugmentedError<ApiType>;
+      InsufficientValue: AugmentedError<ApiType>;
       /**
        * Invalid era to reward.
        **/
-      invalidEraToReward: AugmentedError<ApiType>;
+      InvalidEraToReward: AugmentedError<ApiType>;
       /**
        * Invalid number of nominations.
        **/
-      invalidNumberOfNominations: AugmentedError<ApiType>;
+      InvalidNumberOfNominations: AugmentedError<ApiType>;
       /**
        * Slash record index out of bounds.
        **/
-      invalidSlashIndex: AugmentedError<ApiType>;
+      InvalidSlashIndex: AugmentedError<ApiType>;
       /**
        * Can not schedule more unlock chunks.
        **/
-      noMoreChunks: AugmentedError<ApiType>;
+      NoMoreChunks: AugmentedError<ApiType>;
       /**
        * Not a controller account.
        **/
-      notController: AugmentedError<ApiType>;
+      NotController: AugmentedError<ApiType>;
       /**
        * Items are not sorted and unique.
        **/
-      notSortedAndUnique: AugmentedError<ApiType>;
+      NotSortedAndUnique: AugmentedError<ApiType>;
       /**
        * Not a stash account.
        **/
-      notStash: AugmentedError<ApiType>;
+      NotStash: AugmentedError<ApiType>;
       /**
        * Can not rebond without unlocking chunks.
        **/
-      noUnlockChunk: AugmentedError<ApiType>;
+      NoUnlockChunk: AugmentedError<ApiType>;
       /**
        * Error while building the assignment type from the compact. This can happen if an index
        * is invalid, or if the weights _overflow_.
        **/
-      offchainElectionBogusCompact: AugmentedError<ApiType>;
+      OffchainElectionBogusCompact: AugmentedError<ApiType>;
       /**
        * The submitted result has unknown edges that are not among the presented winners.
        **/
-      offchainElectionBogusEdge: AugmentedError<ApiType>;
+      OffchainElectionBogusEdge: AugmentedError<ApiType>;
       /**
        * The election size is invalid.
        **/
-      offchainElectionBogusElectionSize: AugmentedError<ApiType>;
+      OffchainElectionBogusElectionSize: AugmentedError<ApiType>;
       /**
        * One of the submitted nominators has an edge to which they have not voted on chain.
        **/
-      offchainElectionBogusNomination: AugmentedError<ApiType>;
+      OffchainElectionBogusNomination: AugmentedError<ApiType>;
       /**
        * One of the submitted nominators is not an active nominator on chain.
        **/
-      offchainElectionBogusNominator: AugmentedError<ApiType>;
+      OffchainElectionBogusNominator: AugmentedError<ApiType>;
       /**
        * The claimed score does not match with the one computed from the data.
        **/
-      offchainElectionBogusScore: AugmentedError<ApiType>;
+      OffchainElectionBogusScore: AugmentedError<ApiType>;
       /**
        * A self vote must only be originated from a validator to ONLY themselves.
        **/
-      offchainElectionBogusSelfVote: AugmentedError<ApiType>;
+      OffchainElectionBogusSelfVote: AugmentedError<ApiType>;
       /**
        * One of the submitted winners is not an active candidate on chain (index is out of range
        * in snapshot).
        **/
-      offchainElectionBogusWinner: AugmentedError<ApiType>;
+      OffchainElectionBogusWinner: AugmentedError<ApiType>;
       /**
        * Incorrect number of winners were presented.
        **/
-      offchainElectionBogusWinnerCount: AugmentedError<ApiType>;
+      OffchainElectionBogusWinnerCount: AugmentedError<ApiType>;
       /**
        * The submitted result is received out of the open window.
        **/
-      offchainElectionEarlySubmission: AugmentedError<ApiType>;
+      OffchainElectionEarlySubmission: AugmentedError<ApiType>;
       /**
        * One of the submitted nominators has an edge which is submitted before the last non-zero
        * slash of the target.
        **/
-      offchainElectionSlashedNomination: AugmentedError<ApiType>;
+      OffchainElectionSlashedNomination: AugmentedError<ApiType>;
       /**
        * The submitted result is not as good as the one stored on chain.
        **/
-      offchainElectionWeakSubmission: AugmentedError<ApiType>;
+      OffchainElectionWeakSubmission: AugmentedError<ApiType>;
       /**
        * The snapshot data of the current window is missing.
        **/
-      snapshotUnavailable: AugmentedError<ApiType>;
+      SnapshotUnavailable: AugmentedError<ApiType>;
     };
     sudo: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Sender must be the Sudo account
        **/
-      requireSudo: AugmentedError<ApiType>;
+      RequireSudo: AugmentedError<ApiType>;
     };
     system: {
       [key: string]: AugmentedError<ApiType>;
@@ -1038,121 +1038,121 @@ declare module '@polkadot/api/types/errors' {
        * 
        * Either calling `Core_version` or decoding `RuntimeVersion` failed.
        **/
-      failedToExtractRuntimeVersion: AugmentedError<ApiType>;
+      FailedToExtractRuntimeVersion: AugmentedError<ApiType>;
       /**
        * The name of specification does not match between the current runtime
        * and the new runtime.
        **/
-      invalidSpecName: AugmentedError<ApiType>;
+      InvalidSpecName: AugmentedError<ApiType>;
       /**
        * Suicide called when the account has non-default composite data.
        **/
-      nonDefaultComposite: AugmentedError<ApiType>;
+      NonDefaultComposite: AugmentedError<ApiType>;
       /**
        * There is a non-zero reference count preventing the account from being purged.
        **/
-      nonZeroRefCount: AugmentedError<ApiType>;
+      NonZeroRefCount: AugmentedError<ApiType>;
       /**
        * The specification version is not allowed to decrease between the current runtime
        * and the new runtime.
        **/
-      specVersionNeedsToIncrease: AugmentedError<ApiType>;
+      SpecVersionNeedsToIncrease: AugmentedError<ApiType>;
     };
     technicalCommittee: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Members are already initialized!
        **/
-      alreadyInitialized: AugmentedError<ApiType>;
+      AlreadyInitialized: AugmentedError<ApiType>;
       /**
        * Duplicate proposals not allowed
        **/
-      duplicateProposal: AugmentedError<ApiType>;
+      DuplicateProposal: AugmentedError<ApiType>;
       /**
        * Duplicate vote ignored
        **/
-      duplicateVote: AugmentedError<ApiType>;
+      DuplicateVote: AugmentedError<ApiType>;
       /**
        * Account is not a member
        **/
-      notMember: AugmentedError<ApiType>;
+      NotMember: AugmentedError<ApiType>;
       /**
        * Proposal must exist
        **/
-      proposalMissing: AugmentedError<ApiType>;
+      ProposalMissing: AugmentedError<ApiType>;
       /**
        * The close call was made too early, before the end of the voting.
        **/
-      tooEarly: AugmentedError<ApiType>;
+      TooEarly: AugmentedError<ApiType>;
       /**
        * There can only be a maximum of `MaxProposals` active proposals.
        **/
-      tooManyProposals: AugmentedError<ApiType>;
+      TooManyProposals: AugmentedError<ApiType>;
       /**
        * Mismatched index
        **/
-      wrongIndex: AugmentedError<ApiType>;
+      WrongIndex: AugmentedError<ApiType>;
       /**
        * The given length bound for the proposal was too low.
        **/
-      wrongProposalLength: AugmentedError<ApiType>;
+      WrongProposalLength: AugmentedError<ApiType>;
       /**
        * The given weight bound for the proposal was too low.
        **/
-      wrongProposalWeight: AugmentedError<ApiType>;
+      WrongProposalWeight: AugmentedError<ApiType>;
     };
     tips: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * The tip was already found/started.
        **/
-      alreadyKnown: AugmentedError<ApiType>;
+      AlreadyKnown: AugmentedError<ApiType>;
       /**
        * The account attempting to retract the tip is not the finder of the tip.
        **/
-      notFinder: AugmentedError<ApiType>;
+      NotFinder: AugmentedError<ApiType>;
       /**
        * The tip cannot be claimed/closed because it's still in the countdown period.
        **/
-      premature: AugmentedError<ApiType>;
+      Premature: AugmentedError<ApiType>;
       /**
        * The reason given is just too big.
        **/
-      reasonTooBig: AugmentedError<ApiType>;
+      ReasonTooBig: AugmentedError<ApiType>;
       /**
        * The tip cannot be claimed/closed because there are not enough tippers yet.
        **/
-      stillOpen: AugmentedError<ApiType>;
+      StillOpen: AugmentedError<ApiType>;
       /**
        * The tip hash is unknown.
        **/
-      unknownTip: AugmentedError<ApiType>;
+      UnknownTip: AugmentedError<ApiType>;
     };
     treasury: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
-      insufficientProposersBalance: AugmentedError<ApiType>;
+      InsufficientProposersBalance: AugmentedError<ApiType>;
       /**
        * No proposal or bounty at that index.
        **/
-      invalidIndex: AugmentedError<ApiType>;
+      InvalidIndex: AugmentedError<ApiType>;
     };
     vesting: {
       [key: string]: AugmentedError<ApiType>;
       /**
        * Amount being transferred is too low to create a vesting schedule.
        **/
-      amountLow: AugmentedError<ApiType>;
+      AmountLow: AugmentedError<ApiType>;
       /**
        * An existing vesting schedule already exists for this account that cannot be clobbered.
        **/
-      existingVestingSchedule: AugmentedError<ApiType>;
+      ExistingVestingSchedule: AugmentedError<ApiType>;
       /**
        * The account given is not vesting.
        **/
-      notVesting: AugmentedError<ApiType>;
+      NotVesting: AugmentedError<ApiType>;
     };
   }
 
