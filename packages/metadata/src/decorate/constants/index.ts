@@ -18,10 +18,10 @@ export function decorateConstants (registry: Registry, { modules }: MetadataLate
     result[stringCamelCase(name)] = constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
       // convert to the natural type as received
       const type = meta.type.toString();
-      const codec = registry.createType(type as 'Raw', hexToU8a(meta.value.toHex())) as unknown as ConstantCodec;
+      const codec = registry.createType(type as 'Raw', hexToU8a(meta.value.toHex())) as unknown;
 
-      codec.meta = meta;
-      newModule[stringCamelCase(meta.name)] = codec;
+      (codec as Record<string, unknown>).meta = meta;
+      newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;
 
       return newModule;
     }, {} as ModuleConstants);
