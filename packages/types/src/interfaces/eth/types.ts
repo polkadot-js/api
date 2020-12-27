@@ -265,8 +265,8 @@ export interface EthTransactionStatus extends Struct {
 
 /** @name EthWork */
 export interface EthWork extends Struct {
-  readonly pow_hash: H256;
-  readonly seed_hash: H256;
+  readonly powHash: H256;
+  readonly seedHash: H256;
   readonly target: H256;
   readonly number: Option<u64>;
 }
