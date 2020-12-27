@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 3.2.1
+
+Upgrade priority: Low. Recommended for users of parachains.
+
+Contributed:
+
+- Adjust metadata `.asV12` type signature (Thanks to https://github.com/yjhmelody)
+
+Changes:
+
+- Add `api.{errors, events, query, tx}.<section>.<name>.is(...)`
+- Remove support for staking pre Substrate 2.0
+- Add all frontier types & RPCs
+- Support `AccountInfo` with new provider/consumer refCount structure
+- Additional Cumulus parachain types
+- Consistently format number JSON based on bitLength
+- Cleanup metadata -> api dependencies
+- Update `@polkadot/util` to 5.2.1
+
+
 ## 3.1.1 Dec 20, 2020
 
 Upgrade priority: Low. Recommended for users of parachains.
