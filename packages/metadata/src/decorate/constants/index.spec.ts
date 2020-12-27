@@ -20,7 +20,7 @@ function init (meta: string): [Constants, TypeRegistry] {
   return [decorateConstants(registry, metadata.asLatest), registry];
 }
 
-describe('fromMetadata', (): void => {
+describe('decorateConstants', (): void => {
   it('should return constants with the correct type and value', (): void => {
     const [consts, registry] = init(rpcMetadata);
 

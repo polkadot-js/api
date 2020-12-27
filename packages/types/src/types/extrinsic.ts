@@ -5,7 +5,7 @@ import type { ExtrinsicStatus } from '../interfaces/author';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
 import type { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
-import type { AnyJson, AnyNumber, AnyU8a, Codec } from './codec';
+import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from './codec';
 import type { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
 export interface ISubmittableResult {
@@ -173,7 +173,7 @@ export interface ExtrinsicPayloadValue {
   blockHash: AnyU8a;
   era: AnyU8a | IExtrinsicEra;
   genesisHash: AnyU8a;
-  method: AnyU8a | IMethod;
+  method: AnyU8a | IMethod<AnyTuple>;
   nonce: AnyNumber;
   specVersion: AnyNumber;
   tip: AnyNumber;
@@ -198,9 +198,9 @@ export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Code
   readonly version: number;
 }
 
-export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
+export interface IExtrinsic<A extends AnyTuple = AnyTuple> extends IExtrinsicSignable<IExtrinsic<A>>, ExtrinsicSignatureBase, IMethod<A> {
   readonly length: number;
-  readonly method: Call;
+  readonly method: IMethod<A>;
   readonly type: number;
   readonly version: number;
 }

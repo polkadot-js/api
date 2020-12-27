@@ -13,6 +13,8 @@ export type AnyNumber = BN | BigInt | Uint8Array | number | string;
 
 export type AnyString = string | string;
 
+export type AnyTuple = Codec[];
+
 export type AnyU8a = Uint8Array | number[] | string;
 
 // helper to extract keys from an array

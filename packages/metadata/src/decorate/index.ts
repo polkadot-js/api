@@ -8,6 +8,8 @@ import { assert } from '@polkadot/util';
 
 import { Metadata } from '../Metadata';
 import { decorateConstants } from './constants';
+import { decorateErrors } from './errors';
+import { decorateEvents } from './events';
 import { decorateExtrinsics } from './extrinsics';
 import { decorateStorage } from './storage';
 
@@ -21,8 +23,10 @@ export function expandMetadata (registry: Registry, metadata: Metadata): Decorat
 
   return {
     consts: decorateConstants(registry, latest),
+    errors: decorateErrors(registry, latest, metadata.version),
+    events: decorateEvents(registry, latest, metadata.version),
     query: decorateStorage(registry, latest, metadata.version),
-    tx: decorateExtrinsics(registry, latest)
+    tx: decorateExtrinsics(registry, latest, metadata.version)
   };
 }
 

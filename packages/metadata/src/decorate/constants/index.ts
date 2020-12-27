@@ -9,21 +9,19 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
 export function decorateConstants (registry: Registry, { modules }: MetadataLatest): Constants {
-  return modules.reduce((result: Constants, moduleMetadata): Constants => {
-    if (moduleMetadata.constants.isEmpty) {
+  return modules.reduce((result: Constants, { constants, name }): Constants => {
+    if (constants.isEmpty) {
       return result;
     }
 
-    const { name } = moduleMetadata;
-
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
-    result[stringCamelCase(name)] = moduleMetadata.constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
+    result[stringCamelCase(name)] = constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
       // convert to the natural type as received
       const type = meta.type.toString();
-      const codec = registry.createType(type as 'Raw', hexToU8a(meta.value.toHex())) as unknown as ConstantCodec;
+      const codec = registry.createType(type as 'Raw', hexToU8a(meta.value.toHex())) as unknown;
 
-      codec.meta = meta;
-      newModule[stringCamelCase(meta.name)] = codec;
+      (codec as Record<string, unknown>).meta = meta;
+      newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;
 
       return newModule;
     }, {} as ModuleConstants);

@@ -4,7 +4,7 @@
 import type { TypeDef } from '../create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { AnyJson, Constructor, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IEvent, IEventData, Registry } from '../types';
 
 import { Struct } from '../codec/Struct';
 import { Tuple } from '../codec/Tuple';
@@ -15,7 +15,7 @@ import { Null } from '../primitive/Null';
  * @description
  * Wrapper for the actual data that forms part of an [[Event]]
  */
-export class GenericEventData extends Tuple {
+export class GenericEventData extends Tuple implements IEventData {
   readonly #meta: EventMetadataLatest;
 
   readonly #method: string;
@@ -68,7 +68,7 @@ export class GenericEventData extends Tuple {
  * A representation of a system event. These are generated via the [[Metadata]] interfaces and
  * specific to a specific Substrate runtime
  */
-export class GenericEvent extends Struct {
+export class GenericEvent extends Struct implements IEvent<Codec[]> {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
   constructor (registry: Registry, _value?: Uint8Array) {

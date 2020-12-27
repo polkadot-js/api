@@ -11,7 +11,7 @@ declare module '@polkadot/api/types/storage' {
       {{/unless}}
       {{~#each items}}
       {{> docs}}
-      {{{name}}}: {{{entryType}}}<ApiType, ({{{args}}}) => Observable<{{{returnType}}}>>{{#unless @root.isStrict}} & QueryableStorageEntry<ApiType>{{/unless}};
+      {{{name}}}: {{{entryType}}}<ApiType, ({{{params}}}) => Observable<{{{returnType}}}>, [{{{args}}}]>{{#unless @root.isStrict}} & QueryableStorageEntry<ApiType, [{{{args}}}]>{{/unless}};
       {{/each}}
     };
     {{/each}}

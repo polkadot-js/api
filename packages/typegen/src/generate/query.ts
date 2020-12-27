@@ -18,13 +18,13 @@ import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
+function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string, string] {
   const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', formatType(allDefs, outputType, imports)];
+    return ['', '', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
     const similarTypes = getSimilarTypes(registry, allDefs, storageEntry.type.asMap.key.toString(), imports);
@@ -35,6 +35,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     ]);
 
     return [
+      formatType(allDefs, storageEntry.type.asMap.key.toString(), imports),
       `arg: ${similarTypes.join(' | ')}`,
       formatType(allDefs, outputType, imports)
     ];
@@ -53,6 +54,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     const key2Types = similarTypes2.join(' | ');
 
     return [
+      [formatType(allDefs, storageEntry.type.asDoubleMap.key1.toString(), imports), formatType(allDefs, storageEntry.type.asDoubleMap.key2.toString(), imports)].join(', '),
       `key1: ${key1Types}, key2: ${key2Types}`,
       formatType(allDefs, outputType, imports)
     ];
@@ -80,7 +82,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         const items = storage.unwrap().items
           .sort(compareName)
           .map((storageEntry) => {
-            const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+            const [args, params, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
             let entryType = 'AugmentedQuery';
 
             if (storageEntry.type.isDoubleMap) {
@@ -92,6 +94,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               docs: storageEntry.documentation,
               entryType,
               name: stringCamelCase(storageEntry.name),
+              params,
               returnType
             };
           });

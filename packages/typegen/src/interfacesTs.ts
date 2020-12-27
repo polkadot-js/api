@@ -1,12 +1,14 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { generateDefaultConsts, generateDefaultInterface, generateDefaultQuery, generateDefaultRpc, generateDefaultTsDef, generateDefaultTx } from './generate';
+import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultInterface, generateDefaultQuery, generateDefaultRpc, generateDefaultTsDef, generateDefaultTx } from './generate';
 
 export function main (): void {
   generateDefaultInterface();
 
   generateDefaultConsts();
+  generateDefaultErrors();
+  generateDefaultEvents();
   generateDefaultQuery();
   generateDefaultTx();
   generateDefaultRpc();

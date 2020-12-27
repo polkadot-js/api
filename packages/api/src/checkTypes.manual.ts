@@ -3,8 +3,9 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import type { AccountId, Balance, Header, Index } from '@polkadot/types/interfaces';
-import type { IExtrinsic, IMethod } from '@polkadot/types/types';
+import type { StorageKey } from '@polkadot/types';
+import type { AccountId, Balance, DispatchError, EventRecord, Header, Index } from '@polkadot/types/interfaces';
+import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
@@ -32,6 +33,39 @@ async function derive (api: ApiPromise): Promise<void> {
   const fees = await api.derive.balances.fees();
 
   console.log('fees', fees);
+}
+
+function errors (api: ApiPromise): void {
+  const someError = {} as DispatchError;
+
+  // existing
+  console.log(api.errors.vesting.AmountLow.is(someError));
+
+  // non-existing error, existing module
+  console.log(api.errors.vesting.Something.is(someError));
+
+  // something random
+  console.log(api.errors.something.Random.is(someError));
+}
+
+function events (api: ApiPromise): void {
+  const eventRecord = {} as EventRecord;
+
+  // existing
+  if (api.events.balances.Transfer.is(eventRecord)) {
+    // the types are correctly expanded
+    const [from, to, amount] = eventRecord.event.data;
+
+    console.log(from.toHuman(), to.toHuman(), amount.toBn());
+  }
+
+  // something random
+  if (api.events.something.Random.is(eventRecord)) {
+    // the types are just codec
+    const [a, b] = eventRecord.event.data;
+
+    console.log(a.toHuman(), b.toHuman());
+  }
 }
 
 async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
@@ -102,6 +136,16 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
   const entries = await api.query.system.events.range(['0x12345', '0x7890']);
 
   console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`).join(', ')}`);
+
+  // is
+  const key = {} as StorageKey;
+
+  if (api.query.balances.account.is(key)) {
+    const [accountId] = key.args;
+
+    // should be AccountId type
+    console.log(accountId.toHuman());
+  }
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
@@ -143,7 +187,7 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // transfer, also allows for BigInt inputs here
   const transfer = api.tx.balances.transfer(pairs.bob.address, 123456789n);
 
-  console.log('transfer casted', transfer as IMethod, transfer as IExtrinsic);
+  console.log('transfer casted', transfer as IMethod<AnyTuple>, transfer as IExtrinsic<AnyTuple>);
 
   // simple "return the hash" variant
   console.log('hash:', (await transfer.signAndSend(pairs.alice)).toHex());
@@ -179,6 +223,14 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
 
   // it handles enum inputs correctly
   await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
+
+  // is
+  if (api.tx.balances.transfer.is(second)) {
+    const [recipientId, balance] = second.args;
+
+    // should be LookupSource & Balance types
+    console.log(recipientId.toHuman(), balance.toNumber());
+  }
 }
 
 async function main (): Promise<void> {
@@ -189,6 +241,8 @@ async function main (): Promise<void> {
   Promise.all([
     consts(api),
     derive(api),
+    errors(api),
+    events(api),
     query(api, pairs),
     queryExtra(api, pairs),
     rpc(api),

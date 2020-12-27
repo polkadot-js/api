@@ -10,13 +10,11 @@ import { stringCamelCase } from '@polkadot/util';
 import { createUnchecked } from './createUnchecked';
 
 /** @internal */
-export function decorateExtrinsics (registry: Registry, { modules }: MetadataLatest): Extrinsics {
-  const isIndexed = modules.some(({ index }) => !index.eqn(255));
-
+export function decorateExtrinsics (registry: Registry, { modules }: MetadataLatest, metaVersion: number): Extrinsics {
   return modules
     .filter(({ calls }) => calls.isSome)
     .reduce((result: Extrinsics, { calls, index, name }, _sectionIndex): Extrinsics => {
-      const sectionIndex = isIndexed
+      const sectionIndex = metaVersion === 12
         ? index.toNumber()
         : _sectionIndex;
       const section = stringCamelCase(name);

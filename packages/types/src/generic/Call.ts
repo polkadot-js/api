@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import type { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallFunction, IMethod, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -117,7 +117,7 @@ export class GenericCallIndex extends U8aFixed {
  * @description
  * Extrinsic function descriptor
  */
-export class GenericCall extends Struct implements IMethod {
+export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements IMethod<A> {
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
@@ -159,9 +159,9 @@ export class GenericCall extends Struct implements IMethod {
   /**
    * @description The arguments for the function call
    */
-  public get args (): Codec[] {
+  public get args (): A {
     // FIXME This should return a Struct instead of an Array
-    return [...(this.get('args') as Struct).values()];
+    return [...(this.get('args') as Struct).values()] as A;
   }
 
   /**
@@ -183,15 +183,6 @@ export class GenericCall extends Struct implements IMethod {
    */
   public get data (): Uint8Array {
     return (this.get('args') as Struct).toU8a();
-  }
-
-  /**
-   * @description `true` if the `Origin` type is on the method (extrinsic method)
-   */
-  public get hasOrigin (): boolean {
-    const firstArg = this.meta.args[0];
-
-    return !!firstArg && firstArg.type.toString() === 'Origin';
   }
 
   /**
@@ -227,6 +218,13 @@ export class GenericCall extends Struct implements IMethod {
    */
   public get section (): string {
     return this.sectionName;
+  }
+
+  /**
+   * @description Checks if the source matches this in type
+   */
+  public is (other: IMethod<AnyTuple>): other is IMethod<A> {
+    return other.callIndex[0] === this.callIndex[0] && other.callIndex[1] === this.callIndex[1];
   }
 
   /**
