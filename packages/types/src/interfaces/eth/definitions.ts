@@ -222,8 +222,8 @@ const types: DefinitionsTypes = {
     logsBloom: 'EthBloom'
   },
   EthWork: {
-    pow_hash: 'H256',
-    seed_hash: 'H256',
+    powHash: 'H256',
+    seedHash: 'H256',
     target: 'H256',
     number: 'Option<u64>'
   }

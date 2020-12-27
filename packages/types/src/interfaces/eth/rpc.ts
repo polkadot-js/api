@@ -123,6 +123,15 @@ export const rpc: DefinitionsRpc = {
     ],
     type: 'Vec<EthLog>'
   },
+  getProof: {
+    description: 'Returns proof for account and storage.',
+    params: [
+      { name: 'address', type: 'H160' },
+      { name: 'storageKeys', type: 'Vec<H256>' },
+      { name: 'number', type: 'BlockNumber' }
+    ],
+    type: 'EthAccount'
+  },
   getStorageAt: {
     description: 'Returns content of the storage at given address.',
     params: [
