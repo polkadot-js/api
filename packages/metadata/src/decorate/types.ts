@@ -6,17 +6,19 @@ import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyTuple, CallFunction, Codec, IEventRecord } from '@polkadot/types/types';
 
 export interface ConstantCodec extends Codec {
-  meta: ModuleConstantMetadataLatest;
+  readonly meta: ModuleConstantMetadataLatest;
 }
 
 export interface IsError {
+  readonly meta: ErrorMetadataLatest;
+
   is: (dispatchError: DispatchError) => boolean;
-  meta: ErrorMetadataLatest;
 }
 
 export interface IsEvent <T extends AnyTuple> {
+  readonly meta: EventMetadataLatest;
+
   is: (record: IEventRecord<AnyTuple>) => record is IEventRecord<T>;
-  meta: EventMetadataLatest;
 }
 
 export type ModuleConstants = Record<string, ConstantCodec>;
@@ -40,9 +42,9 @@ export type Extrinsics = Record<string, ModuleExtrinsics>
 export type Storage = Record<string, ModuleStorage>;
 
 export interface DecoratedMeta {
-  consts: Constants;
-  errors: Errors;
-  events: Events;
-  query: Storage;
-  tx: Extrinsics
+  readonly consts: Constants;
+  readonly errors: Errors;
+  readonly events: Events;
+  readonly query: Storage;
+  readonly tx: Extrinsics
 }
