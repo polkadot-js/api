@@ -112,8 +112,8 @@ function addRpc (): string {
     description: DESC_RPC,
     sections: sections
       .sort()
-      .map((sectionName) => {
-        const section = definitions[sectionName as 'babe'];
+      .map((_sectionName) => {
+        const section = definitions[_sectionName as 'babe'];
 
         return {
           // description: section.description,
@@ -121,6 +121,7 @@ function addRpc (): string {
             .sort()
             .map((methodName) => {
               const method = section.rpc[methodName];
+              const sectionName = method.aliasSection || _sectionName;
               const args = method.params.map(({ isOptional, name, type }: DefinitionRpcParam): string => {
                 // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
@@ -134,7 +135,7 @@ function addRpc (): string {
                 ...(method.description && { summary: method.description })
               };
             }),
-          name: sectionName
+          name: _sectionName
         };
       }),
     title: 'JSON-RPC'
