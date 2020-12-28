@@ -23,9 +23,9 @@ interface Result {
 function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
   const approvals: DeriveTreasuryProposal[] = [];
   const proposals: DeriveTreasuryProposal[] = [];
-  const councilTreasury = councilProposals.filter(({ proposal: { method, section } }) =>
-    section === 'treasury' &&
-    ['approveProposal', 'rejectProposal'].includes(method)
+  const councilTreasury = councilProposals.filter(({ proposal }) =>
+    api.tx.treasury.approveProposal.is(proposal) ||
+    api.tx.treasury.rejectProposal.is(proposal)
   );
 
   allIds.forEach((id, index): void => {
