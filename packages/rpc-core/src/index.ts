@@ -110,6 +110,8 @@ export class RpcCore implements RpcInterface {
 
   public readonly grandpa!: RpcInterface['grandpa'];
 
+  public readonly net!: RpcInterface['net'];
+
   public readonly offchain!: RpcInterface['offchain'];
 
   public readonly payment!: RpcInterface['payment'];
@@ -121,6 +123,8 @@ export class RpcCore implements RpcInterface {
   public readonly syncstate!: RpcInterface['syncstate'];
 
   public readonly system!: RpcInterface['system'];
+
+  public readonly web3!: RpcInterface['web3'];
 
   /**
    * @constructor

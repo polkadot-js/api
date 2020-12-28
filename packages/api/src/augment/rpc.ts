@@ -153,10 +153,6 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       chainId: AugmentedRpc<() => Observable<U64>>;
       /**
-       * Returns current client version.
-       **/
-      clientVersion: AugmentedRpc<() => Observable<Text>>;
-      /**
        * Returns block author.
        **/
       coinbase: AugmentedRpc<() => Observable<H160>>;
@@ -249,17 +245,9 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       hashrate: AugmentedRpc<() => Observable<U256>>;
       /**
-       * Returns true if client is actively listening for network connections. Otherwise false.
-       **/
-      listening: AugmentedRpc<() => Observable<bool>>;
-      /**
        * Returns true if client is actively mining new blocks.
        **/
       mining: AugmentedRpc<() => Observable<bool>>;
-      /**
-       * Returns number of peers connected to node.
-       **/
-      peerCount: AugmentedRpc<() => Observable<Text>>;
       /**
        * Returns protocol version encoded as a string (quotes are necessary).
        **/
@@ -272,10 +260,6 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Sends transaction; will block waiting for signer to return the transaction hash
        **/
       sendTransaction: AugmentedRpc<(tx: EthTransactionRequest | { from?: any; to?: any; gasPrice?: any; gas?: any; value?: any; data?: any; nonce?: any } | string | Uint8Array) => Observable<H256>>;
-      /**
-       * Returns sha3 of the given data
-       **/
-      sha3: AugmentedRpc<(_: Bytes | string | Uint8Array) => Observable<H256>>;
       /**
        * Used for submitting mining hashrate.
        **/
@@ -292,10 +276,6 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns an object with data about the sync status or false.
        **/
       syncing: AugmentedRpc<() => Observable<EthSyncStatus>>;
-      /**
-       * Returns protocol version.
-       **/
-      version: AugmentedRpc<() => Observable<Text>>;
     };
     grandpa: {
       /**
@@ -310,6 +290,20 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Subscribes to grandpa justifications
        **/
       subscribeJustifications: AugmentedRpc<() => Observable<JustificationNotification>>;
+    };
+    net: {
+      /**
+       * Returns true if client is actively listening for network connections. Otherwise false.
+       **/
+      listening: AugmentedRpc<() => Observable<bool>>;
+      /**
+       * Returns number of peers connected to node.
+       **/
+      peerCount: AugmentedRpc<() => Observable<Text>>;
+      /**
+       * Returns protocol version.
+       **/
+      version: AugmentedRpc<() => Observable<Text>>;
     };
     offchain: {
       /**
@@ -486,6 +480,16 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the version of the node
        **/
       version: AugmentedRpc<() => Observable<Text>>;
+    };
+    web3: {
+      /**
+       * Returns current client version.
+       **/
+      clientVersion: AugmentedRpc<() => Observable<Text>>;
+      /**
+       * Returns sha3 of the given data
+       **/
+      sha3: AugmentedRpc<(data: Bytes | string | Uint8Array) => Observable<H256>>;
     };
   }
 }

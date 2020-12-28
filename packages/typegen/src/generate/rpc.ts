@@ -10,6 +10,19 @@ import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 
 import { createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
+interface ItemDef {
+  args: string;
+  docs: string[];
+  generic: string | undefined;
+  name: string;
+  type: string | undefined;
+}
+
+interface ModuleDef {
+  items: ItemDef[];
+  name: string;
+}
+
 const StorageKeyTye = 'StorageKey | string | Uint8Array | any';
 
 const template = readTemplate('rpc');
@@ -30,6 +43,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
       .filter((key) => Object.keys(definitions[key].rpc || {}).length !== 0)
       .sort();
 
+    const additional: Record<string, ModuleDef> = {};
     const modules = rpcKeys.map((sectionFullName) => {
       const rpc = definitions[sectionFullName].rpc;
       const section = sectionFullName.split('/').pop();
@@ -79,20 +93,35 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
           generic = '';
         }
 
-        return {
+        const item = {
           args: args.join(', '),
           docs: [def.description],
           generic,
           name: methodName,
           type
         };
-      });
+
+        if (def.aliasSection) {
+          if (!additional[def.aliasSection]) {
+            additional[def.aliasSection] = {
+              items: [],
+              name: def.aliasSection
+            };
+          }
+
+          additional[def.aliasSection].items.push(item);
+
+          return null;
+        }
+
+        return item;
+      }).filter((item): item is ItemDef => !!item);
 
       return {
         items: allMethods,
-        name: section
+        name: section || 'unknown'
       };
-    });
+    }).concat(...Object.values(additional)).sort((a, b) => a.name.localeCompare(b.name));
 
     imports.typesTypes.Observable = true;
 
