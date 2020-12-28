@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallFunction, IMethod, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -117,7 +117,7 @@ export class GenericCallIndex extends U8aFixed {
  * @description
  * Extrinsic function descriptor
  */
-export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements IMethod<A> {
+export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements CallBase<A> {
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
