@@ -195,29 +195,15 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   /**
    * @description Returns the name of the method
    */
-  public get methodName (): string {
-    return this.registry.findMetaCall(this.callIndex).method;
-  }
-
-  /**
-   * @description Returns the name of the method
-   */
   public get method (): string {
-    return this.methodName;
-  }
-
-  /**
-   * @description Returns the module containing the method
-   */
-  public get sectionName (): string {
-    return this.registry.findMetaCall(this.callIndex).section;
+    return this.registry.findMetaCall(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get section (): string {
-    return this.sectionName;
+    return this.registry.findMetaCall(this.callIndex).section;
   }
 
   /**
