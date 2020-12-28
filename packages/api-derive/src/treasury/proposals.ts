@@ -20,20 +20,20 @@ interface Result {
   proposalCount: ProposalIndex;
 }
 
-function parseResult (_api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
+function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
   const approvals: DeriveTreasuryProposal[] = [];
   const proposals: DeriveTreasuryProposal[] = [];
-  const councilTreasury = councilProposals.filter(({ proposal: { methodName, sectionName } }): boolean =>
-    sectionName === 'treasury' &&
-    ['approveProposal', 'rejectProposal'].includes(methodName)
+  const councilTreasury = councilProposals.filter(({ proposal: { method, section } }) =>
+    section === 'treasury' &&
+    ['approveProposal', 'rejectProposal'].includes(method)
   );
 
   allIds.forEach((id, index): void => {
     if (allProposals[index].isSome) {
       const council = councilTreasury
-        .filter(({ proposal }): boolean => id.eq(proposal.args[0]))
-        .sort((a, b): number => a.proposal.methodName.localeCompare(b.proposal.methodName));
-      const isApproval = approvalIds.some((approvalId): boolean => approvalId.eq(id));
+        .filter(({ proposal }) => id.eq(proposal.args[0]))
+        .sort((a, b) => a.proposal.method.localeCompare(b.proposal.method));
+      const isApproval = approvalIds.some((approvalId) => approvalId.eq(id));
       const derived = { council, id, proposal: allProposals[index].unwrap() };
 
       if (isApproval) {
