@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchError, ErrorMetadataLatest, EventMetadataLatest, ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
+import type { DispatchErrorModule, ErrorMetadataLatest, EventMetadataLatest, ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyTuple, CallFunction, Codec, IEventRecord } from '@polkadot/types/types';
+import type { AnyTuple, CallFunction, Codec, IEvent } from '@polkadot/types/types';
 
 export interface ConstantCodec extends Codec {
   readonly meta: ModuleConstantMetadataLatest;
@@ -12,13 +12,13 @@ export interface ConstantCodec extends Codec {
 export interface IsError {
   readonly meta: ErrorMetadataLatest;
 
-  is: (dispatchError: DispatchError) => boolean;
+  is: (moduleError: DispatchErrorModule) => boolean;
 }
 
 export interface IsEvent <T extends AnyTuple> {
   readonly meta: EventMetadataLatest;
 
-  is: (record: IEventRecord<AnyTuple>) => record is IEventRecord<T>;
+  is: (event: IEvent<AnyTuple>) => event is IEvent<T>;
 }
 
 export type ModuleConstants = Record<string, ConstantCodec>;

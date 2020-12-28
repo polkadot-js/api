@@ -1,19 +1,13 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchError, MetadataLatest } from '@polkadot/types/interfaces';
+import type { DispatchErrorModule, MetadataLatest } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Errors, ModuleErrors } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-function isError (dispatchError: DispatchError, sectionIndex: number, errorIndex: number): boolean {
-  if (!dispatchError.isModule) {
-    return false;
-  }
-
-  const { error, index } = dispatchError.asModule;
-
+function isError ({ error, index }: DispatchErrorModule, sectionIndex: number, errorIndex: number): boolean {
   return index.eq(sectionIndex) && error.eq(errorIndex);
 }
 
@@ -29,8 +23,8 @@ export function decorateErrors (_: Registry, { modules }: MetadataLatest, metaVe
     result[stringCamelCase(name)] = errors.reduce((newModule: ModuleErrors, meta, errorIndex): ModuleErrors => {
       // we don't camelCase the error name
       newModule[meta.name.toString()] = {
-        is: (dispatchError: DispatchError): boolean =>
-          isError(dispatchError, sectionIndex, errorIndex),
+        is: (moduleError: DispatchErrorModule): boolean =>
+          isError(moduleError, sectionIndex, errorIndex),
         meta
       };
 

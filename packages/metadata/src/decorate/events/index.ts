@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { MetadataLatest } from '@polkadot/types/interfaces';
-import type { AnyTuple, IEventRecord, Registry } from '@polkadot/types/types';
+import type { AnyTuple, IEvent, Registry } from '@polkadot/types/types';
 import type { Events, ModuleEvents } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-function isEvent <T extends AnyTuple> (eventRecord: IEventRecord<AnyTuple>, sectionIndex: number, eventIndex: number): eventRecord is IEventRecord<T> {
-  return eventRecord.event.index[0] === sectionIndex && eventRecord.event.index[0] === eventIndex;
+function isEvent <T extends AnyTuple> (event: IEvent<AnyTuple>, sectionIndex: number, eventIndex: number): event is IEvent<T> {
+  return event.index[0] === sectionIndex && event.index[0] === eventIndex;
 }
 
 /** @internal */
@@ -23,7 +23,7 @@ export function decorateEvents (_: Registry, { modules }: MetadataLatest, metaVe
     result[stringCamelCase(name)] = events.unwrap().reduce((newModule: ModuleEvents, meta, eventIndex): ModuleEvents => {
       // we don't camelCase the event name
       newModule[meta.name.toString()] = {
-        is: <T extends AnyTuple> (eventRecord: IEventRecord<AnyTuple>): eventRecord is IEventRecord<T> =>
+        is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
           isEvent(eventRecord, sectionIndex, eventIndex),
         meta
       };
