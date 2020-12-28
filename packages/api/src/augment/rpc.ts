@@ -479,5 +479,15 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       version: AugmentedRpc<() => Observable<Text>>;
     };
+    web3: {
+      /**
+       * Returns current client version.
+       **/
+      clientVersion: AugmentedRpc<() => Observable<string>>;
+      /**
+       * Returns sha3 of the given data
+       **/
+      sha3: AugmentedRpc<(_:Bytes) => Observable<H256>>;
+    };
   }
 }
