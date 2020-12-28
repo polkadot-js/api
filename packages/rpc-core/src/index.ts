@@ -122,8 +122,6 @@ export class RpcCore implements RpcInterface {
 
   public readonly system!: RpcInterface['system'];
 
-  public readonly web3!: RpcInterface['web3'];
-
   /**
    * @constructor
    * Default constructor for the Api Object

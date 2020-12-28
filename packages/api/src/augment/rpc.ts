@@ -153,6 +153,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       chainId: AugmentedRpc<() => Observable<U64>>;
       /**
+       * Returns current client version.
+       **/
+      clientVersion: AugmentedRpc<() => Observable<Text>>;
+      /**
        * Returns block author.
        **/
       coinbase: AugmentedRpc<() => Observable<H160>>;
@@ -268,6 +272,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Sends transaction; will block waiting for signer to return the transaction hash
        **/
       sendTransaction: AugmentedRpc<(tx: EthTransactionRequest | { from?: any; to?: any; gasPrice?: any; gas?: any; value?: any; data?: any; nonce?: any } | string | Uint8Array) => Observable<H256>>;
+      /**
+       * Returns sha3 of the given data
+       **/
+      sha3: AugmentedRpc<(_: Bytes | string | Uint8Array) => Observable<H256>>;
       /**
        * Used for submitting mining hashrate.
        **/
@@ -478,16 +486,6 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the version of the node
        **/
       version: AugmentedRpc<() => Observable<Text>>;
-    };
-    web3: {
-      /**
-       * Returns current client version.
-       **/
-      clientVersion: AugmentedRpc<() => Observable<string>>;
-      /**
-       * Returns sha3 of the given data
-       **/
-      sha3: AugmentedRpc<(_:Bytes) => Observable<H256>>;
     };
   }
 }
