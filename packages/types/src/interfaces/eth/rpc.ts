@@ -26,9 +26,24 @@ const netRpc: DefinitionsRpc = {
     type: 'String'
   }
 };
+const web3Rpc: DefinitionsRpc = {
+  clientVersion: {
+    aliasSection: 'web3',
+    description: 'Returns current client version.',
+    params: [],
+    type: 'String'
+  },
+  sha3: {
+    aliasSection: 'web3',
+    description: 'Returns sha3 of the given data',
+    params: [{ name: 'data', type: 'Bytes' }],
+    type: 'H256'
+  }
+};
 
 export const rpc: DefinitionsRpc = {
   ...netRpc,
+  ...web3Rpc,
   accounts: {
     description: 'Returns accounts list.',
     params: [],
