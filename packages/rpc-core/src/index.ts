@@ -110,6 +110,8 @@ export class RpcCore implements RpcInterface {
 
   public readonly grandpa!: RpcInterface['grandpa'];
 
+  public readonly net!: RpcInterface['net'];
+
   public readonly offchain!: RpcInterface['offchain'];
 
   public readonly payment!: RpcInterface['payment'];
