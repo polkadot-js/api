@@ -36,7 +36,7 @@ const web3Rpc: DefinitionsRpc = {
   sha3: {
     aliasSection: 'web3',
     description: 'Returns sha3 of the given data',
-    params: [{ name: '_', type: 'Bytes' }],
+    params: [{ name: 'data', type: 'Bytes' }],
     type: 'H256'
   }
 };
