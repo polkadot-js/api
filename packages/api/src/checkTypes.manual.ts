@@ -4,7 +4,7 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import type { StorageKey } from '@polkadot/types';
-import type { AccountId, Balance, DispatchError, EventRecord, Header, Index } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -36,7 +36,7 @@ async function derive (api: ApiPromise): Promise<void> {
 }
 
 function errors (api: ApiPromise): void {
-  const someError = {} as DispatchError;
+  const someError = {} as DispatchErrorModule;
 
   // existing
   console.log(api.errors.vesting.AmountLow.is(someError));
@@ -49,20 +49,20 @@ function errors (api: ApiPromise): void {
 }
 
 function events (api: ApiPromise): void {
-  const eventRecord = {} as EventRecord;
+  const event = {} as Event;
 
   // existing
-  if (api.events.balances.Transfer.is(eventRecord)) {
+  if (api.events.balances.Transfer.is(event)) {
     // the types are correctly expanded
-    const [from, to, amount] = eventRecord.event.data;
+    const [from, to, amount] = event.data;
 
     console.log(from.toHuman(), to.toHuman(), amount.toBn());
   }
 
   // something random
-  if (api.events.something.Random.is(eventRecord)) {
+  if (api.events.something.Random.is(event)) {
     // the types are just codec
-    const [a, b] = eventRecord.event.data;
+    const [a, b] = event.data;
 
     console.log(a.toHuman(), b.toHuman());
   }
