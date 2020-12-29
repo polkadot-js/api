@@ -6,7 +6,6 @@ import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 
-import { ApiPromise } from '@polkadot/api';
 import { of } from '@polkadot/x-rxjs';
 
 import { BountyFactory } from '../../test/bountyFactory';
@@ -23,10 +22,9 @@ describe('bounties derive', () => {
   let optionOf: <T extends Codec> (value: T)=> Option<T>;
   let bountyIndex: (index: number) => BountyIndex;
   let bytes: (value: string) => Bytes;
-  let api: ApiPromise;
 
   beforeAll(() => {
-    api = createApiWithAugmentations();
+    const api = createApiWithAugmentations();
 
     ({ bountyIndex, defaultBounty, emptyOption, optionOf, storageKey } = new BountyFactory(api));
     ({ bytes } = new BytesFactory(api.registry));
@@ -53,8 +51,7 @@ describe('bounties derive', () => {
             ])
           }
         }
-      },
-      registry: api.registry
+      }
     } as unknown as ApiInterfaceRx;
 
     const result = await bounties('', mockApi)().toPromise();

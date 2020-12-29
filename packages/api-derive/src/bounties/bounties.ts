@@ -7,11 +7,10 @@ import type { Bytes, Option } from '@polkadot/types';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 
 import { memo } from '@polkadot/api-derive/util';
-import { Codec } from '@polkadot/types/types';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-type Result = [Option<Bounty>[], Option<Bytes>[], Codec[]];
+type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[]];
 
 function parseResult (api: ApiInterfaceRx, [maybeBounties, maybeDescriptions, ids]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
@@ -21,7 +20,7 @@ function parseResult (api: ApiInterfaceRx, [maybeBounties, maybeDescriptions, id
       bounties.push({
         bounty: bounty.unwrap(),
         description: maybeDescriptions[index].unwrapOrDefault().toUtf8(),
-        index: api.registry.createType('BountyIndex', ids[index])
+        index: ids[index]
       });
     }
   });
@@ -38,7 +37,7 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
     bountyBase.bountyCount<BountyIndex>().pipe(
       switchMap(() => bountyBase.bounties.keys()),
       switchMap((keys): Observable<Result> => {
-        const ids = keys.map(({ args: [id] }) => id);
+        const ids = keys.map(({ args: [id] }) => id as BountyIndex);
 
         return combineLatest([
           bountyBase.bounties.multi<Option<Bounty>>(ids),
