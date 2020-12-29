@@ -18,7 +18,7 @@ export function decorateErrors (_: Registry, { modules }: MetadataLatest, metaVe
       return result;
     }
 
-    const sectionIndex = metaVersion === 12 ? index.toNumber() : _sectionIndex;
+    const sectionIndex = metaVersion >= 12 ? index.toNumber() : _sectionIndex;
 
     result[stringCamelCase(name)] = errors.reduce((newModule: ModuleErrors, meta, errorIndex): ModuleErrors => {
       // we don't camelCase the error name

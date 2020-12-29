@@ -90,15 +90,13 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
 }
 
 // generate & register the OriginCaller type
-function registerOriginCaller (registry: Registry, modules: ModuleMetadataV12[]): void {
-  const isIndexed = modules.some(({ index }) => !index.eqn(255));
-
+function registerOriginCaller (registry: Registry, modules: ModuleMetadataV12[], metaVersion: number): void {
   registry.register({
     OriginCaller: {
       _enum: modules
         .map((mod, index): [string, number] => [
           mod.name.toString(),
-          isIndexed ? mod.index.toNumber() : index
+          metaVersion >= 12 ? mod.index.toNumber() : index
         ])
         .sort((a, b) => a[1] - b[1])
         .reduce((result: Record<string, string>, [name, index]): Record<string, string> => {
@@ -137,8 +135,8 @@ function createModule (registry: Registry, mod: ModuleMetadataV12, { calls, even
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
  * @internal
  **/
-export function toLatest (registry: Registry, { extrinsic, modules }: MetadataV12): MetadataLatest {
-  registerOriginCaller(registry, modules);
+export function toLatest (registry: Registry, { extrinsic, modules }: MetadataV12, metaVersion: number): MetadataLatest {
+  registerOriginCaller(registry, modules, metaVersion);
 
   return registry.createType('MetadataLatest', {
     extrinsic,

@@ -39,7 +39,7 @@ export class MetadataVersioned extends Struct {
     return this.version === version;
   }
 
-  private _getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (registry: Registry, input: F) => T): T {
+  private _getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T {
     const asCurr = `asV${version}` as MetaAsX;
     const asPrev = `asV${version - 1}` as MetaAsX;
 
@@ -48,7 +48,7 @@ export class MetadataVersioned extends Struct {
     }
 
     if (!this.#converted.has(version)) {
-      this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F));
+      this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F, this.version));
     }
 
     return this.#converted.get(version) as T;

@@ -28,13 +28,10 @@ const l = logger('registry');
 // create error mapping from metadata
 function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<string, RegistryError>): void {
   const modules = metadata.asLatest.modules;
-  const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   // decorate the errors
   modules.forEach((section, _sectionIndex): void => {
-    const sectionIndex = isIndexed
-      ? section.index.toNumber()
-      : _sectionIndex;
+    const sectionIndex = metadata.version >= 12 ? section.index.toNumber() : _sectionIndex;
     const sectionName = stringCamelCase(section.name);
 
     section.errors.forEach(({ documentation, name }, index): void => {
@@ -53,15 +50,12 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
 // create event classes from metadata
 function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
   const modules = metadata.asLatest.modules;
-  const isIndexed = modules.some(({ index }) => !index.eqn(255));
 
   // decorate the events
   modules
-    .filter(({ events }): boolean => events.isSome)
+    .filter(({ events }) => events.isSome)
     .forEach((section, _sectionIndex): void => {
-      const sectionIndex = isIndexed
-        ? section.index.toNumber()
-        : _sectionIndex;
+      const sectionIndex = metadata.version >= 12 ? section.index.toNumber() : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
       section.events.unwrap().forEach((meta, methodIndex): void => {
@@ -72,7 +66,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         let Types: Constructor<Codec>[] = [];
 
         try {
-          Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(registry, typeDef));
+          Types = typeDef.map((typeDef) => getTypeClass(registry, typeDef));
         } catch (error) {
           l.error(error);
         }
