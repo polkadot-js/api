@@ -130,16 +130,10 @@ function createModule (registry: Registry, mod: ModuleMetadataV12, { calls, cons
 
   return registry.createType('ModuleMetadataLatest', {
     ...mod,
-    calls: calls
-      ? convertCalls(registry, calls, sectionTypes)
-      : null,
+    calls: calls && convertCalls(registry, calls, sectionTypes),
     constants: convertConstants(registry, constants, sectionTypes),
-    events: events
-      ? convertEvents(registry, events, sectionTypes)
-      : null,
-    storage: storage
-      ? convertStorage(registry, storage, sectionTypes)
-      : null
+    events: events && convertEvents(registry, events, sectionTypes),
+    storage: storage && convertStorage(registry, storage, sectionTypes)
   });
 }
 
