@@ -21,6 +21,11 @@ const typesModules: Record<string, OverrideModuleType> = {
     Transaction: 'EthTransaction',
     TransactionStatus: 'EthTransactionStatus'
   },
+  evm: {
+    Account: 'EvmAccount',
+    Log: 'EvmLog',
+    Vicinity: 'EvmVicinity'
+  },
   grandpa: {
     Equivocation: 'GrandpaEquivocation',
     EquivocationProof: 'GrandpaEquivocationProof'
