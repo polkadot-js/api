@@ -16,8 +16,6 @@ const KNOWN_ORIGINS: Record<string, string> = {
   TechnicalCommittee: 'CollectiveOrigin'
 };
 
-// TODO Handle consts as well
-
 /**
  * Find and apply the correct type override
  * @internal
