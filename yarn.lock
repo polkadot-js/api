@@ -396,19 +396,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-decorators@npm:^7.12.12":
-  version: 7.12.12
-  resolution: "@babel/plugin-proposal-decorators@npm:7.12.12"
-  dependencies:
-    "@babel/helper-create-class-features-plugin": ^7.12.1
-    "@babel/helper-plugin-utils": ^7.10.4
-    "@babel/plugin-syntax-decorators": ^7.12.1
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: a9f7713fd85eabd90b6fd53f758948579fb008f530ea4c1702b8f235d812647244397315108f19a6f417260437668f2e727157b03df1bc63f38970a30441a844
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-proposal-dynamic-import@npm:^7.12.1":
   version: 7.12.1
   resolution: "@babel/plugin-proposal-dynamic-import@npm:7.12.1"
@@ -519,18 +506,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-pipeline-operator@npm:^7.12.1":
-  version: 7.12.1
-  resolution: "@babel/plugin-proposal-pipeline-operator@npm:7.12.1"
-  dependencies:
-    "@babel/helper-plugin-utils": ^7.10.4
-    "@babel/plugin-syntax-pipeline-operator": ^7.12.1
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 9e01fe65013b67d6d9502c223587aee773b025b226df43f82da6a4f27c05f9b44ced98fe6121aef687f812fb2bfc818b5d6fb7d304d5771647ec158953ba3f44
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-proposal-private-methods@npm:^7.12.1":
   version: 7.12.1
   resolution: "@babel/plugin-proposal-private-methods@npm:7.12.1"
@@ -585,17 +560,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: b5e354a0cd18f67f29e59cdaa80f9e50839ed9d3d8e1fca2964431fa474d08c3ca4cd1f61d0bcb577e8451c541e45e0e702e6feca5483ecd4e265ef5a0b70d42
-  languageName: node
-  linkType: hard
-
-"@babel/plugin-syntax-decorators@npm:^7.12.1":
-  version: 7.12.1
-  resolution: "@babel/plugin-syntax-decorators@npm:7.12.1"
-  dependencies:
-    "@babel/helper-plugin-utils": ^7.10.4
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: c64b9eedfd5af1f106a98978e386b51e04bb4849821cb889feef397df13f5fddf4ee7dec3d0d1319a606eeb8368622ca4bc4bf428c1c353920a0a1fddb16d440
   languageName: node
   linkType: hard
 
@@ -717,17 +681,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 2a50685d023bc609b01a3fd7ed3af03bc36c575da8d02199ed51cb24e8e068f26a128a20486cd502abe9e1d4c02e0264b8a58f1a5143e1291ca3508a948ada97
-  languageName: node
-  linkType: hard
-
-"@babel/plugin-syntax-pipeline-operator@npm:^7.12.1":
-  version: 7.12.1
-  resolution: "@babel/plugin-syntax-pipeline-operator@npm:7.12.1"
-  dependencies:
-    "@babel/helper-plugin-utils": ^7.10.4
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 60494246bf6cc5104de4383d824dc331421caf61de5b7cd9dfcda164972204af0e00363be5830456ed3c01acb2c498adee2cb8c2a5b4d895c6c3e33b23c0f94a
   languageName: node
   linkType: hard
 
@@ -1736,19 +1689,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.61.16":
-  version: 0.61.16
-  resolution: "@polkadot/dev@npm:0.61.16"
+"@polkadot/dev@npm:^0.61.17":
+  version: 0.61.17
+  resolution: "@polkadot/dev@npm:0.61.17"
   dependencies:
     "@babel/cli": ^7.12.10
     "@babel/core": ^7.12.10
     "@babel/plugin-proposal-class-properties": ^7.12.1
-    "@babel/plugin-proposal-decorators": ^7.12.12
     "@babel/plugin-proposal-nullish-coalescing-operator": ^7.12.1
     "@babel/plugin-proposal-numeric-separator": ^7.12.7
     "@babel/plugin-proposal-object-rest-spread": ^7.12.1
     "@babel/plugin-proposal-optional-chaining": ^7.12.7
-    "@babel/plugin-proposal-pipeline-operator": ^7.12.1
     "@babel/plugin-proposal-private-methods": ^7.12.1
     "@babel/plugin-syntax-bigint": ^7.8.3
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
@@ -1798,7 +1749,7 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.2.1
     rimraf: ^3.0.2
-    typedoc: ^0.19.2
+    typedoc: ^0.20.0-beta.32
     typedoc-plugin-markdown: ^3.1.1
     typedoc-plugin-no-inherit: ^1.2.0
     typescript: ^4.1.3
@@ -1825,7 +1776,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.cjs
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: 1b153e41db24c11bdc7bd288457e6935e24195d7e47a695817756e9268e1e3c3225b27d94cf028a1344a2d1103337ef8a9190187f9a7f3e1bb01b3878b16c271
+  checksum: ca4b98cb51c826c8653ab94f64e229bed7fbb53fe8fe3bf99f833250813449c18cd20414693f3fb39a43b19fdfaab4bb2ac3e09efdfa133eb0be60e9667e87f8
   languageName: node
   linkType: hard
 
@@ -3529,6 +3480,13 @@ __metadata:
   version: 1.2.1
   resolution: "colorette@npm:1.2.1"
   checksum: 1cc21ad4b84777a424794f78b6bb6a44b614ae17dcea91762199339f8047598e6d981249eeef7ea588c99eaf062be8fcdcd4866c112998922ed854db6dde96f9
+  languageName: node
+  linkType: hard
+
+"colors@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "colors@npm:1.4.0"
+  checksum: a0f266ac041a9774d92cc9624a984707678d2eeec125d54e8d8231075ce36c24c5352fb5d0f90c6ee420d0f63e354417cec716386ad341309334aad18e32b933
   languageName: node
   linkType: hard
 
@@ -5713,13 +5671,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^10.2.0":
-  version: 10.4.1
-  resolution: "highlight.js@npm:10.4.1"
-  checksum: 067a8cc822a4bfe3ae9cab8b827a64e059052b27606fcc91f06304b2518e0b8c6ff8875b19f2989ff329f1f07f5989dd52aee67eae005d63c77591ca08e419ec
-  languageName: node
-  linkType: hard
-
 "hmac-drbg@npm:^1.0.0":
   version: 1.0.1
   resolution: "hmac-drbg@npm:1.0.1"
@@ -7025,7 +6976,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"json5@npm:^2.1.2":
+"json5@npm:^2.1.0, json5@npm:^2.1.2":
   version: 2.1.3
   resolution: "json5@npm:2.1.3"
   dependencies:
@@ -7324,6 +7275,15 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"lru-cache@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "lru-cache@npm:5.1.1"
+  dependencies:
+    yallist: ^3.0.2
+  checksum: ffd9a280fa3400e731265db502270c2a65432f3fbfac23d480c72f675ec16dbbeddd57d4baf7aca70ab7af49949fad1bcaaf5a5e6e1cfed7316de71bb5dddf1c
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^6.0.0":
   version: 6.0.0
   resolution: "lru-cache@npm:6.0.0"
@@ -7416,7 +7376,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"marked@npm:^1.1.1":
+"marked@npm:^1.2.5":
   version: 1.2.7
   resolution: "marked@npm:1.2.7"
   bin:
@@ -8052,6 +8012,15 @@ fsevents@~2.1.2:
   dependencies:
     mimic-fn: ^2.1.0
   checksum: e425f6caeb20cf2598ffece94be5663932e34d074f1631b682b13d5f01cc1e0712a7dc711eff1706bb5a5aaab8a52e37bd5edcf560334e3222219d7e8b09c21c
+  languageName: node
+  linkType: hard
+
+"onigasm@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "onigasm@npm:2.2.5"
+  dependencies:
+    lru-cache: ^5.1.1
+  checksum: 9db74810f55bc0b9718991d36ea445e2095f09743f22d5e76bc37a31e34b9b5204b1224ea2fb30253e810fe57222bf86274d5b38073b1c14534fee4c6da300b4
   languageName: node
   linkType: hard
 
@@ -9195,7 +9164,7 @@ fsevents@~2.1.2:
     "@babel/core": ^7.12.10
     "@babel/register": ^7.12.10
     "@babel/runtime": ^7.12.5
-    "@polkadot/dev": ^0.61.16
+    "@polkadot/dev": ^0.61.17
     "@polkadot/ts": ^0.3.58
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.19
@@ -9436,6 +9405,37 @@ fsevents@~2.1.2:
   version: 0.1.1
   resolution: "shellwords@npm:0.1.1"
   checksum: 3559ff550917ece921d252edf42eb54827540e9676e537137ace236df8f9b78e48c542ae0b3f8876fea0faf5826c97629d5b8cb9ac7dee287260e9804fb8132c
+  languageName: node
+  linkType: hard
+
+"shiki-languages@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "shiki-languages@npm:0.2.7"
+  dependencies:
+    vscode-textmate: ^5.2.0
+  checksum: 46e91b7cd8c2e2ebffc72243fc813acff1dd7124ff3b78b356bb1bea7b764fbe34fb1865651529f0b27948829c2901cea3672cd38052560f6e0b779a284cae31
+  languageName: node
+  linkType: hard
+
+"shiki-themes@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "shiki-themes@npm:0.2.7"
+  dependencies:
+    json5: ^2.1.0
+    vscode-textmate: ^5.2.0
+  checksum: 5e79726b928f99d8723600662d02b7f3549a06603ee6b7e90a6084c4a0d1c3244b6b96d9d036933f362c8c20737e1a27875433a0b2b4a32f020cc87e78ed7fc8
+  languageName: node
+  linkType: hard
+
+"shiki@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "shiki@npm:0.2.7"
+  dependencies:
+    onigasm: ^2.2.5
+    shiki-languages: ^0.2.7
+    shiki-themes: ^0.2.7
+    vscode-textmate: ^5.2.0
+  checksum: 4075bd1b7ca12c2ee44ab14691388651d7af69172259bd6af083d0841a6460572c0ef1b635fc15633972f4737dd476f4e71e7bbe32dec91100b2260346c8f3eb
   languageName: node
   linkType: hard
 
@@ -10340,10 +10340,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"typedoc-default-themes@npm:^0.11.4":
-  version: 0.11.4
-  resolution: "typedoc-default-themes@npm:0.11.4"
-  checksum: 1993030e242ae9cd8b25ec706d7fefccd14b6f8de8f766b55b9bfa1b7044e244eccec9e6ed2382f85a6cea23e547bf398125bcd6f359fa0647212802c0830f4f
+"typedoc-default-themes@npm:0.12.0":
+  version: 0.12.0
+  resolution: "typedoc-default-themes@npm:0.12.0"
+  checksum: 112a092fe01a9fde6255cd0992c952cb28056efb6c1fb13426131be21cbbda283a9f27d294fdc10f51fa8ab5b0b47a1da74d908e24e7ad0d814939a6eb629a86
   languageName: node
   linkType: hard
 
@@ -10367,26 +10367,26 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.19.2":
-  version: 0.19.2
-  resolution: "typedoc@npm:0.19.2"
+"typedoc@npm:^0.20.0-beta.32":
+  version: 0.20.1
+  resolution: "typedoc@npm:0.20.1"
   dependencies:
+    colors: ^1.4.0
     fs-extra: ^9.0.1
     handlebars: ^4.7.6
-    highlight.js: ^10.2.0
     lodash: ^4.17.20
     lunr: ^2.3.9
-    marked: ^1.1.1
+    marked: ^1.2.5
     minimatch: ^3.0.0
     progress: ^2.0.3
-    semver: ^7.3.2
     shelljs: ^0.8.4
-    typedoc-default-themes: ^0.11.4
+    shiki: ^0.2.7
+    typedoc-default-themes: 0.12.0
   peerDependencies:
-    typescript: 3.9.x || 4.0.x
+    typescript: 3.9.x || 4.0.x || 4.1.x
   bin:
     typedoc: bin/typedoc
-  checksum: fc33909c4d66a390fd6dfe7ef88a979d799413403af3f3dea4e320ea5cee07f06d5fda57b9b0872fad0b17a540ebe5e1a8829618c731d9dd7837ddfef8e9f2bf
+  checksum: 65e3a75e82b9c1f35d85855d1bf01f52bdc2a0058693d51259330c626726b488d34488c314f90f43ddd94e4ae8978104b1499761fd1ca1ddd8194267fecbe51f
   languageName: node
   linkType: hard
 
@@ -10665,6 +10665,13 @@ fsevents@~2.1.2:
     core-util-is: 1.0.2
     extsprintf: ^1.2.0
   checksum: 38ea80312cb42e5e8b4ac562d108d675b2354a79f8f125d363671f692657461b9181fd26f4fc9acdca433f8afee099cb78058806e1303e6b15b8fb022affba94
+  languageName: node
+  linkType: hard
+
+"vscode-textmate@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "vscode-textmate@npm:5.2.0"
+  checksum: 67ec1fed58690b6d21fb75462694ebfeefe93d9a4091dfbea9db4e1b718d172ac2e60e3944a0dd88c53ff50e7604dfcccde19d8a4d25616c0b2df330052df2b9
   languageName: node
   linkType: hard
 
@@ -10966,6 +10973,13 @@ fsevents@~2.1.2:
   version: 2.1.2
   resolution: "yallist@npm:2.1.2"
   checksum: f83e3d18eeba68a0276be2ab09260be3f2a300307e84b1565c620ef71f03f106c3df9bec4c3a91e5fa621a038f8826c19b3786804d3795dd4f999e5b6be66ea3
+  languageName: node
+  linkType: hard
+
+"yallist@npm:^3.0.2":
+  version: 3.1.1
+  resolution: "yallist@npm:3.1.1"
+  checksum: f352c93b92f601bb0399210bca37272e669c961e9bd886bac545380598765cbfdfb4f166e7b6c57ca4ec8a5af4ab3fa0fd78a47f9a7d655a3d580ff0fc9e7d79
   languageName: node
   linkType: hard
 

@@ -14,9 +14,7 @@ export function decorateExtrinsics (registry: Registry, { modules }: MetadataLat
   return modules
     .filter(({ calls }) => calls.isSome)
     .reduce((result: Extrinsics, { calls, index, name }, _sectionIndex): Extrinsics => {
-      const sectionIndex = metaVersion === 12
-        ? index.toNumber()
-        : _sectionIndex;
+      const sectionIndex = metaVersion >= 12 ? index.toNumber() : _sectionIndex;
       const section = stringCamelCase(name);
 
       result[section] = calls.unwrap().reduce((newModule: ModuleExtrinsics, callMetadata, methodIndex): ModuleExtrinsics => {

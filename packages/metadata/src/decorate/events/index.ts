@@ -13,24 +13,22 @@ function isEvent <T extends AnyTuple> (event: IEvent<AnyTuple>, sectionIndex: nu
 
 /** @internal */
 export function decorateEvents (_: Registry, { modules }: MetadataLatest, metaVersion: number): Events {
-  return modules.reduce((result: Events, { events, index, name }, _sectionIndex): Events => {
-    if (!events.isSome) {
+  return modules
+    .filter(({ events }) => events.isSome)
+    .reduce((result: Events, { events, index, name }, _sectionIndex): Events => {
+      const sectionIndex = metaVersion >= 12 ? index.toNumber() : _sectionIndex;
+
+      result[stringCamelCase(name)] = events.unwrap().reduce((newModule: ModuleEvents, meta, eventIndex): ModuleEvents => {
+        // we don't camelCase the event name
+        newModule[meta.name.toString()] = {
+          is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
+            isEvent(eventRecord, sectionIndex, eventIndex),
+          meta
+        };
+
+        return newModule;
+      }, {} as ModuleEvents);
+
       return result;
-    }
-
-    const sectionIndex = metaVersion === 12 ? index.toNumber() : _sectionIndex;
-
-    result[stringCamelCase(name)] = events.unwrap().reduce((newModule: ModuleEvents, meta, eventIndex): ModuleEvents => {
-      // we don't camelCase the event name
-      newModule[meta.name.toString()] = {
-        is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
-          isEvent(eventRecord, sectionIndex, eventIndex),
-        meta
-      };
-
-      return newModule;
-    }, {} as ModuleEvents);
-
-    return result;
-  }, {} as Events);
+    }, {} as Events);
 }
