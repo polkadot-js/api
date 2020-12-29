@@ -145,9 +145,10 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return gasLimit.lten(0)
       ? isCall
         ? MAX_CALL_GAS
-        : this.api.consts.system.blockWeights
-          ? this.api.consts.system.blockWeights.perClass.normal.maxExtrinsic.sub(this.api.consts.system.blockWeights.perClass.normal.baseExtrinsic)
-          : (this.api.consts.system.maximumBlockWeight as Weight).muln(64).divn(100)
+        : (this.api.consts.system.blockWeights
+          ? this.api.consts.system.blockWeights.maxBlock
+          : this.api.consts.system.maximumBlockWeight as Weight
+        ).muln(64).divn(100)
       : gasLimit;
   }
 
