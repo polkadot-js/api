@@ -9,9 +9,18 @@ import type { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    Account: {
+    EvmAccount: {
       nonce: 'u256',
       balance: 'u256'
+    },
+    EvmLog: {
+      address: 'H160',
+      topics: 'Vec<H256>',
+      data: 'Bytes'
+    },
+    EvmVicinity: {
+      gasPrice: 'u256',
+      origin: 'H160'
     },
     ExitError: {
       _enum: {
@@ -52,15 +61,6 @@ export default {
     },
     ExitSucceed: {
       _enum: ['Stopped', 'Returned', 'Suicided']
-    },
-    Log: {
-      address: 'H160',
-      topics: 'Vec<H256>',
-      data: 'Bytes'
-    },
-    Vicinity: {
-      gasPrice: 'u256',
-      origin: 'H160'
     }
   }
 } as Definitions;
