@@ -17,7 +17,7 @@ describe('Registration', (): void => {
         '039911039922039944039955039933000003996600'
       ).toJSON()
     ).toEqual({
-      deposit: '0x0000000000000000000009184e72a000',
+      deposit: 10000000000000, // '0x0000000000000000000009184e72a000',
       info: {
         additional: [],
         display: { Raw: '0x9911' },

@@ -13,7 +13,7 @@ export const DEFAULT_UINT_BITS = 64;
 
 // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
 // In this case however, we always print any >32 as hex
-const MAX_NUMBER_BITS = 32;
+const MAX_NUMBER_BITS = 52;
 const MUL_P = new BN(1_00_00);
 
 const FORMATTERS: [string, BN][] = [
@@ -191,8 +191,10 @@ export abstract class AbstractInt extends BN implements Codec {
    */
   public toJSON (onlyHex = false): any {
     // FIXME this return type should by string | number, however BN returns string
-    // Here if we want to have the actual used bits, it is super.bitLength()
-    return onlyHex || (this.#bitLength > MAX_NUMBER_BITS)
+    // Options here are
+    //   - super.bitLength() - the actual used bits
+    //   - this.#bitLength - the type bits (this should be used, however contracts RPC is problematic)
+    return onlyHex || (super.bitLength() > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
   }

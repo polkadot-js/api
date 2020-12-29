@@ -33,7 +33,7 @@ describe('createType', (): void => {
     }]);
 
     expect(struct.toJSON()).toEqual({
-      balance: '0x000000000000000000000000000004d2',
+      balance: 1234, // '0x000000000000000000000000000004d2',
       index: 16
     });
     expect(struct.toRawType()).toEqual(raw);
@@ -78,7 +78,10 @@ describe('createType', (): void => {
   it('allows creation of a Tuple', (): void => {
     expect(
       createTypeUnsafe(registry, '(Balance,u32)', [[1234, 5678]]).toJSON()
-    ).toEqual(['0x000000000000000000000000000004d2', 5678]);
+    ).toEqual([
+      1234, // '0x000000000000000000000000000004d2',
+      5678
+    ]);
   });
 
   it('allows creation for a UInt<bitLength>', (): void => {
