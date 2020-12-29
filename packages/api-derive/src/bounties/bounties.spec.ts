@@ -30,12 +30,16 @@ describe('bounties derive', () => {
     ({ bytes } = new BytesFactory(api.registry));
   });
 
+  it('creates storage key', function () {
+    expect(storageKey(194).args[0].eq(194)).toBe(true);
+  });
+
   it('combines bounties with descriptions', async () => {
     const mockApi = {
       query: {
         treasury: {
           bounties: {
-            keys: () => of([storageKey(0), storageKey(1), storageKey(2)]),
+            keys: () => of([storageKey(0), storageKey(2), storageKey(3)]),
             multi: () => of([optionOf(defaultBounty()), emptyOption('Bounty'), optionOf(defaultBounty())])
           },
           bountyCount: () => of(bountyIndex(3)),
@@ -55,7 +59,9 @@ describe('bounties derive', () => {
     expect(result).toHaveLength(2);
     expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
     expect(result[0].description).toEqual('make polkadot even better');
+    expect(result[0].index.eq(0)).toBe(true);
     expect(result[1].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
     expect(result[1].description).toEqual('');
+    expect(result[1].index.eq(3)).toBe(true);
   });
 });
