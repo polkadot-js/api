@@ -6,6 +6,7 @@ import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 
+import { ApiPromise } from '@polkadot/api';
 import { of } from '@polkadot/x-rxjs';
 
 import { BountyFactory } from '../../test/bountyFactory';
@@ -22,12 +23,17 @@ describe('bounties derive', () => {
   let optionOf: <T extends Codec> (value: T)=> Option<T>;
   let bountyIndex: (index: number) => BountyIndex;
   let bytes: (value: string) => Bytes;
+  let api: ApiPromise;
 
   beforeAll(() => {
-    const api = createApiWithAugmentations();
+    api = createApiWithAugmentations();
 
     ({ bountyIndex, defaultBounty, emptyOption, optionOf, storageKey } = new BountyFactory(api));
     ({ bytes } = new BytesFactory(api.registry));
+  });
+
+  it('creates storage key', function () {
+    expect(storageKey(194).args[0].eq(194)).toBe(true);
   });
 
   it('combines bounties with descriptions', async () => {
@@ -35,7 +41,7 @@ describe('bounties derive', () => {
       query: {
         treasury: {
           bounties: {
-            keys: () => of([storageKey(0), storageKey(1), storageKey(2)]),
+            keys: () => of([storageKey(0), storageKey(2), storageKey(3)]),
             multi: () => of([optionOf(defaultBounty()), emptyOption('Bounty'), optionOf(defaultBounty())])
           },
           bountyCount: () => of(bountyIndex(3)),
@@ -47,7 +53,8 @@ describe('bounties derive', () => {
             ])
           }
         }
-      }
+      },
+      registry: api.registry
     } as unknown as ApiInterfaceRx;
 
     const result = await bounties('', mockApi)().toPromise();
@@ -55,7 +62,9 @@ describe('bounties derive', () => {
     expect(result).toHaveLength(2);
     expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
     expect(result[0].description).toEqual('make polkadot even better');
+    expect(result[0].index.eq(0)).toBe(true);
     expect(result[1].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
     expect(result[1].description).toEqual('');
+    expect(result[1].index.eq(3)).toBe(true);
   });
 });

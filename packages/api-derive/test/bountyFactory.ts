@@ -15,8 +15,11 @@ export class BountyFactory {
     this.#registry = this.#api.registry;
   }
 
-  public storageKey = (index: number): StorageKey =>
-    new StorageKey(this.#registry, this.#api.query.bounties.bounties.key(this.bountyIndex(index)));
+  public storageKey = (index: number): StorageKey => {
+    const key = new StorageKey(this.#registry, this.#api.query.bounties.bounties.key(this.bountyIndex(index)));
+
+    return key.setMeta(this.#api.query.bounties.bounties.creator.meta);
+  };
 
   public bountyIndex = (index: number): BountyIndex =>
     this.#registry.createType('BountyIndex', index);
