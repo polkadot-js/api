@@ -1,9 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Enum, Struct } from '@polkadot/types/codec';
-import { Bytes } from '@polkadot/types/primitive';
-import { Balance, Permill } from '@polkadot/types/interfaces/runtime';
+import type { Bytes, Enum, Struct } from '@polkadot/types';
+import type { Balance, Permill } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountStatus */
 export interface AccountStatus extends Struct {

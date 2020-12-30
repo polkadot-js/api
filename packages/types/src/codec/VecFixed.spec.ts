@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import Text from '../primitive/Text';
-import VecFixed from './VecFixed';
+import { Text } from '../primitive';
+import { VecFixed } from '.';
 
 describe('VecFixed', (): void => {
   const registry = new TypeRegistry();

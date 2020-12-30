@@ -1,11 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
-import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { u32, u64 } from '@polkadot/types/primitive';
-import { AuthorityId } from '@polkadot/types/interfaces/consensus';
-import { Hash, Header } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import type { Hash, Header } from '@polkadot/types/interfaces/runtime';
 
 /** @name AllowedSlots */
 export interface AllowedSlots extends Enum {
@@ -35,6 +34,7 @@ export interface BabeWeight extends u64 {}
 export interface EpochAuthorship extends Struct {
   readonly primary: Vec<u64>;
   readonly secondary: Vec<u64>;
+  readonly secondary_vrf: Vec<u64>;
 }
 
 /** @name MaybeRandomness */

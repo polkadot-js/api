@@ -1,25 +1,30 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '@polkadot/types';
-
-import incrementerAbi from '../test/contracts/incrementer.json';
+import abis from '../test/contracts';
 import { Abi } from '.';
 
+interface JSONAbi {
+  spec: {
+    messages: {
+      name: string[] | string
+    }[]
+  }
+}
+
 describe('Abi', (): void => {
-  const registry = new TypeRegistry();
+  Object.entries(abis).forEach(([abiName, abi]) => {
+    it(`initializes from a contract ABI (${abiName})`, (): void => {
+      try {
+        const messageIds = (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
+        const inkAbi = new Abi(abis[abiName]);
 
-  describe('incrementer', (): void => {
-    let abi: Abi;
+        expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
+      } catch (error) {
+        console.error(error);
 
-    beforeEach((): void => {
-      abi = new Abi(registry, incrementerAbi);
-    });
-
-    it('has the attached methods', (): void => {
-      expect(Object.values(abi.abi.contract.messages).map(({ name }): string => name)).toEqual(
-        ['inc', 'get', 'compare']
-      );
+        throw error;
+      }
     });
   });
 });

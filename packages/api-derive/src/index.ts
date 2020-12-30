@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AnyFunction } from '@polkadot/types/types';
-
-import { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AnyFunction } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
 
 import * as accounts from './accounts';
 import * as balances from './balances';
+import * as bounties from './bounties';
 import * as chain from './chain';
 import * as contracts from './contracts';
 import * as council from './council';
@@ -24,7 +24,7 @@ import * as tx from './tx';
 
 export * from './type';
 
-export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury, tx };
+export const derive = { accounts, balances, bounties, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
@@ -92,7 +92,7 @@ function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
 /** @internal */
-export default function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
+export function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
     ...injectFunctions(instanceId, api, derive),
     ...injectFunctions(instanceId, api, custom)

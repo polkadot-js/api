@@ -3,13 +3,13 @@
 
 import Handlebars from 'handlebars';
 
-import staticData from '@polkadot/metadata/Metadata/static';
-import Metadata from '@polkadot/metadata/Metadata';
+import { Metadata } from '@polkadot/metadata/Metadata';
+import staticData from '@polkadot/metadata/static';
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
-import { createImports, compareName, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const template = readTemplate('consts');
 const generateForMetaTemplate = Handlebars.compile(template);
@@ -34,18 +34,20 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
         const items = constants
           .sort(compareName)
           .map(({ documentation, name, type }) => {
-            setImports(allDefs, imports, [type.toString()]);
+            const returnType = formatType(allDefs, type.toString(), imports);
+
+            setImports(allDefs, imports, [returnType]);
 
             return {
               docs: documentation,
-              name: stringCamelCase(name.toString()),
-              type: type.toString()
+              name: stringCamelCase(name),
+              type: returnType
             };
           });
 
         return {
           items,
-          name: stringCamelCase(name.toString())
+          name: stringCamelCase(name)
         };
       });
 
@@ -72,7 +74,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateConsts (dest = 'packages/api/src/augment/consts.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
+export function generateDefaultConsts (dest = 'packages/api/src/augment/consts.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);

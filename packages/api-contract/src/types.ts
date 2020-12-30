@@ -1,212 +1,80 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Codec, CodecArg } from '@polkadot/types/types';
-import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/create/types';
-
-import { ApiPromise, ApiRx } from '@polkadot/api';
-
-// I give up, too hard to untangle atm... and is basically deprecated
-/* eslint-disable no-use-before-define */
-
-export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
-  ? ApiRx
-  : ApiPromise;
+import type BN from 'bn.js';
+import type { ApiBase } from '@polkadot/api/base';
+import type { ApiTypes } from '@polkadot/api/types';
+import type { Text, u64 } from '@polkadot/types';
+import type { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
+import type { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
+import type { Abi } from '.';
 
 export interface ContractBase<ApiType extends ApiTypes> {
-  readonly abi: InterfaceAbi;
-  readonly api: ApiObject<ApiType>;
-  readonly decorateMethod: DecorateMethod<ApiType>;
-  getMessage: (name: string) => ContractMessage;
-  messages: ContractMessage[];
+  readonly abi: Abi;
+  readonly api: ApiBase<ApiType>;
+
+  getMessage: (name: string) => AbiMessage;
+  messages: AbiMessage[];
 }
 
-export interface ContractABITypePre {
-  ty: TypeIndex;
-  // eslint-disable-next-line camelcase
-  display_name: StringIndex[];
-}
-
-export interface ContractABIArgBasePre {
-  name: StringIndex;
-  type: ContractABITypePre;
-}
-
-export interface ContractABIArgBase {
+export interface AbiParam {
   name: string;
   type: TypeDef;
 }
 
-export type ContractABIMessageArgPre = ContractABIArgBasePre;
-
-export type ContractABIMessageArg = ContractABIArgBase;
-
-export interface ContractABIMessageBase {
-  args: ContractABIMessageArg[];
-}
-
-export interface ContractABIMessageBasePre {
-  args: ContractABIMessageArgPre[];
-}
-
-export interface ContractABIMessageCommon {
-  docs?: ContractABIDocs;
-  mutates?: boolean;
-  selector: string | number;
-}
-
-export interface ContractABIMessagePre extends ContractABIMessageCommon, ContractABIMessageBasePre {
-  name: StringIndex;
-  // eslint-disable-next-line camelcase
-  return_type: ContractABITypePre | null;
-}
-
-export interface ContractABIMessage extends ContractABIMessageCommon {
-  args: ContractABIMessageArg[];
-  name: string;
-  returnType: TypeDef | null;
-}
-
-export interface ContractABIContractCommon {
-  docs?: ContractABIDocs;
-}
-
-export interface ContractABIContractPre extends ContractABIContractCommon {
-  constructors: ContractABIMessagePre[];
-  messages: ContractABIMessagePre[];
-  name: StringIndex;
-  events?: ContractABIEventPre[];
-  docs?: ContractABIDocs;
-}
-
-export interface ContractABIContract extends ContractABIContractCommon {
-  constructors: ContractABIMessage[];
-  messages: ContractABIMessage[];
-  name: string;
-  events?: ContractABIEvent[];
-  docs?: ContractABIDocs;
-}
-
-export interface ContractABIPre extends MetaRegistryJson {
-  storage: ContractABIStoragePre;
-  contract: ContractABIContractPre;
-}
-
-export interface ContractABI {
-  storage: ContractABIStorage;
-  contract: ContractABIContract;
-}
-
-export interface ContractABIFnArg {
-  name: string;
-  type: TypeDef;
-}
-
-export interface ContractABIMeta {
-  args: ContractABIFnArg[];
-  isConstant: boolean;
-  type: TypeDef | null;
-}
-
-export interface ContractABIFn extends ContractABIMeta {
-  (...args: CodecArg[]): Uint8Array;
-}
-
-export interface ContractABIEventArgBase {
-  indexed: boolean;
-}
-
-export interface ContractABIEventArgPre extends ContractABIArgBasePre, ContractABIEventArgBase {}
-
-export interface ContractABIEventArg extends ContractABIArgBase, ContractABIEventArgBase {}
-
-export type ContractABIDocs = string[];
-
-export interface ContractABIEventPre {
-  args: ContractABIEventArgPre[];
-}
-
-export interface ContractABIEvent {
-  args: ContractABIEventArg[];
-}
-
-export interface ContractABIRangeBase {
-  // can be number[] (old) or hex (new)
-  'range.offset': number[] | string;
-  'range.len': number;
-}
-
-export interface ContractABIRangePre extends ContractABIRangeBase {
-  'range.elem_type': TypeIndex;
-}
-
-export interface ContractABIRange extends ContractABIRangeBase {
-  'range.elem_type': TypeDef;
-}
-
-export type ContractABIStorageLayoutPre = ContractABIStorageStructPre | ContractABIRangePre;
-
-export type ContractABIStorageLayout = ContractABIStorageStruct | ContractABIRange;
-
-export interface ContractABIStorageStructFieldPre {
-  name: StringIndex;
-  layout: ContractABIStorageLayoutPre;
-}
-
-export interface ContractABIStorageStructField {
-  name: string;
-  layout: ContractABIStorageLayout;
-}
-
-export interface ContractABIStorageStructPre {
-  'struct.type': TypeIndex;
-  'struct.fields': ContractABIStorageStructFieldPre[];
-}
-
-export interface ContractABIStorageStruct {
-  'struct.type': TypeDef;
-  'struct.fields': ContractABIStorageStructField[];
-}
-
-export type ContractABIStoragePre = ContractABIStorageStructPre;
-
-export type ContractABIStorage = ContractABIStorageStruct;
-
-export interface ContractMessage {
+export interface AbiEvent {
+  args: AbiParam[];
+  docs: string[];
+  fromU8a: (data: Uint8Array) => DecodedEvent;
+  identifier: string;
   index: number;
-  fn: ContractABIFn;
-  def: ContractABIMessage;
 }
 
-export type AbiConstructors = ContractABIFn[];
-
-export type AbiMessages = Record<string, ContractABIFn>;
-
-export interface InterfaceAbi {
-  readonly abi: ContractABI;
-  readonly constructors: AbiConstructors;
-  readonly messages: AbiMessages;
+export interface AbiMessage {
+  args: AbiParam[];
+  docs: string[];
+  fromU8a: (data: Uint8Array) => DecodedMessage;
+  identifier: string;
+  index: number;
+  isConstructor?: boolean;
+  isMutating?: boolean;
+  isPayable?: boolean;
+  returnType?: TypeDef | null;
+  selector: ContractSelector;
+  toU8a: (params: CodecArg[], additional?: Uint8Array) => Uint8Array;
 }
+
+export type AbiConstructor = AbiMessage;
 
 export interface InterfaceContractCalls {
   // eslint-disable-next-line @typescript-eslint/ban-types
   [index: string]: Function;
 }
 
-export interface InterfaceContract {
-  readonly address: Address;
-  readonly calls: InterfaceContractCalls;
+export interface ContractCallOutcome {
+  debugMessage: Text;
+  gasConsumed: u64;
+  output: Codec | null;
+  result: ContractExecResultResult;
 }
 
-export interface ContractCallOutcome {
-  time: number;
-  result: ContractExecResult;
-  origin: AccountId;
-  output: Codec | null;
-  params: any[];
-  isSuccess: boolean;
-  message: ContractABIMessage;
+export interface DecodedEvent {
+  args: Codec[];
+  event: AbiEvent;
+}
+
+export interface DecodedMessage {
+  args: Codec[];
+  message: AbiMessage;
+}
+
+export interface BlueprintOptions {
+  gasLimit?: BigInt | string | number | BN;
+  salt?: Uint8Array | string | null;
+  value?: BigInt | string | number | BN;
+}
+
+export interface ContractOptions {
+  gasLimit?: BigInt | BN | string | number;
+  value?: BigInt | BN | string | number;
 }

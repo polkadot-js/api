@@ -1,25 +1,28 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TypeDef } from '@polkadot/types/create/types';
+
 import Handlebars from 'handlebars';
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
+import { getTypeDef, paramsNotation } from '@polkadot/types/create';
+import { TypeDefInfo } from '@polkadot/types/create/types';
+import { isString } from '@polkadot/util';
 
-import { getTypeDef } from '@polkadot/types/create';
-import { paramsNotation } from '@polkadot/types/codec/utils';
-
-import { setImports, ModuleTypes, TypeImports } from './imports';
 import { readTemplate } from './file';
+import { ModuleTypes, setImports, TypeImports } from './imports';
+
+interface ImportDef {
+  file: string;
+  types: string[];
+}
 
 interface This {
   imports: TypeImports;
-  types: {
-    file: string;
-    types: string[];
-  }[]
+  types: ImportDef[];
 }
 
-const TYPES_NON_PRIMITIVE = ['Metadata'];
+const NO_CODEC = ['Tuple', 'VecFixed'];
 
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
@@ -33,41 +36,28 @@ Handlebars.registerHelper({
     const { imports, types } = this as unknown as This;
     const defs = [
       {
-        file: '@polkadot/types/types',
-        types: Object.keys(imports.typesTypes)
-      },
-      {
-        file: '@polkadot/types/codec',
-        types: Object
-          .keys(imports.codecTypes)
-          .filter((name) => name !== 'Tuple')
-      },
-      {
-        file: '@polkadot/types/extrinsic',
-        types: Object.keys(imports.extrinsicTypes)
-      },
-      {
-        file: '@polkadot/types/generic',
-        types: Object.keys(imports.genericTypes)
-      },
-      {
-        file: '@polkadot/types/primitive',
-        types: Object
-          .keys(imports.primitiveTypes)
-          .filter((name) => !TYPES_NON_PRIMITIVE.includes(name))
+        file: '@polkadot/metadata',
+        types: Object.keys(imports.metadataTypes)
       },
       {
         file: '@polkadot/types',
-        types: Object
-          .keys(imports.primitiveTypes)
-          .filter((name) => TYPES_NON_PRIMITIVE.includes(name))
+        types: [
+          ...Object.keys(imports.codecTypes).filter((name) => !NO_CODEC.includes(name)),
+          ...Object.keys(imports.extrinsicTypes),
+          ...Object.keys(imports.genericTypes),
+          ...Object.keys(imports.primitiveTypes)
+        ]
+      },
+      {
+        file: '@polkadot/types/types',
+        types: Object.keys(imports.typesTypes)
       },
       ...types
     ];
 
     return defs.reduce((result, { file, types }): string => {
       return types.length
-        ? `${result}import { ${types.sort().join(', ')} } from '${file}';\n`
+        ? `${result}import type { ${types.sort().join(', ')} } from '${file}';\n`
         : result;
     }, '');
   },
@@ -180,14 +170,17 @@ function formatVec (inner: string): string {
  * Correctly format a given type
  */
 /** @internal */
-export function formatType (definitions: Record<string, ModuleTypes>, type: string | TypeDef, imports: TypeImports): string {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function formatType (definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports): string {
   let typeDef: TypeDef;
 
-  if (typeof type === 'string') {
+  if (isString(type)) {
+    const _type = type.toString();
+
     // If type is "unorthodox" (i.e. `{ something: any }` for an Enum input or `[a | b | c, d | e | f]` for a Tuple's similar types),
     // we return it as-is
-    if (/(^{.+:.+})|^\([^,]+\)|^\(.+\)\[\]|^\[.+\]/.exec(type) && !/\[\w+;\w+\]/.exec(type)) {
-      return type;
+    if (/(^{.+:.+})|^\([^,]+\)|^\(.+\)\[\]|^\[.+\]/.exec(_type) && !/\[\w+;\w+\]/.exec(_type)) {
+      return _type;
     }
 
     typeDef = getTypeDef(type);
@@ -232,8 +225,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
-        ((typeDef.sub as TypeDef[])
-          .map((sub): string => formatType(definitions, sub.type, imports)))
+        ((typeDef.sub as TypeDef[]).map((sub) => formatType(definitions, sub.type, imports)))
       );
     }
 

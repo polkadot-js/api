@@ -1,30 +1,16 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg, TypeDef, TypeDefInfo } from './types';
+import type { U8aBitLength, UIntBitLength } from '../codec/types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { FromReg, TypeDef } from './types';
 
 import { assert, isNumber, isUndefined } from '@polkadot/util';
 
-import { UIntBitLength } from '../codec/AbstractInt';
-import BTreeMap from '../codec/BTreeMap';
-import BTreeSet from '../codec/BTreeSet';
-import Compact from '../codec/Compact';
-import Enum from '../codec/Enum';
-import HashMap from '../codec/HashMap';
-import Int from '../codec/Int';
-import Option from '../codec/Option';
-import Result from '../codec/Result';
-import CodecSet from '../codec/Set';
-import Struct from '../codec/Struct';
-import Tuple from '../codec/Tuple';
-import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
-import UInt from '../codec/UInt';
-import Vec from '../codec/Vec';
-import VecFixed from '../codec/VecFixed';
-import DoNotConstruct from '../primitive/DoNotConstruct';
-
+import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
+import { DoNotConstruct } from '../primitive';
 import { getTypeDef } from './getTypeDef';
+import { TypeDefInfo } from './types';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -171,7 +157,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return (
       (sub as TypeDef).type === 'u8'
-        ? U8aFixed.with((length * 8) as U8aFixedBitLength, displayName)
+        ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
         : VecFixed.with((sub as TypeDef).type as keyof InterfaceTypes, length)
     );
   }
@@ -187,9 +173,7 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   const getFn = infoMapping[value.info];
 
-  if (!getFn) {
-    throw new Error(`Unable to construct class from ${JSON.stringify(value)}`);
-  }
+  assert(getFn, `Unable to construct class from ${JSON.stringify(value)}`);
 
   return getFn(registry, value) as Constructor<T>;
 }

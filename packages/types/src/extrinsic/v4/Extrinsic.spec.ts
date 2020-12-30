@@ -2,20 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import testingPairs from '@polkadot/keyring/testingPairs';
-import Decorated from '@polkadot/metadata/Decorated';
-import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
+import { decorateExtrinsics, Metadata } from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../../create';
-import Extrinsic from './Extrinsic';
+import { GenericExtrinsicV4 as Extrinsic } from '.';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
-const decorated = new Decorated(registry, metadata);
-const keyring = testingPairs({ type: 'ed25519' }, false);
+const keyring = createTestPairs({ type: 'ed25519' }, false);
 
 registry.setMetadata(metadata);
+
+const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
 describe('ExtrinsicV4', (): void => {
   it.only('constructs a sane Uint8Array (default)', (): void => {
@@ -31,7 +32,7 @@ describe('ExtrinsicV4', (): void => {
     expect(
       new Extrinsic(
         registry,
-        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969n)
+        tx.balances.transfer(keyring.bob.publicKey, 6969n)
       ).toHex()
     ).toEqual(
       '0x' +
@@ -46,7 +47,7 @@ describe('ExtrinsicV4', (): void => {
     expect(
       new Extrinsic(
         registry,
-        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969n)
+        tx.balances.transfer(keyring.bob.publicKey, 6969n)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',

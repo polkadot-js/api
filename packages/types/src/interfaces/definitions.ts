@@ -5,6 +5,7 @@
 export { default as runtime } from './runtime/definitions';
 
 // substrate types
+export { default as assets } from './assets/definitions';
 export { default as authorship } from './authorship/definitions';
 export { default as aura } from './aura/definitions';
 export { default as babe } from './babe/definitions';
@@ -29,6 +30,7 @@ export { default as session } from './session/definitions';
 export { default as society } from './society/definitions';
 export { default as staking } from './staking/definitions';
 export { default as support } from './support/definitions';
+export { default as syncstate } from './syncstate/definitions';
 export { default as system } from './system/definitions';
 export { default as treasury } from './treasury/definitions';
 export { default as txpayment } from './txpayment/definitions';
@@ -42,8 +44,12 @@ export { default as parachains } from './parachains/definitions';
 export { default as poll } from './poll/definitions';
 export { default as purchase } from './purchase/definitions';
 
+// scale-info & contracts
+export { default as contractsAbi } from './contractsAbi/definitions';
+export { default as scaleInfo } from './scaleInfo/definitions';
+
 // other useful types
-export { default as ethereum } from './ethereum/definitions';
+export { default as eth } from './eth/definitions';
 
 // pull in metadata & rpc last, assuming that is uses info from above
 export { default as metadata } from './metadata/definitions';

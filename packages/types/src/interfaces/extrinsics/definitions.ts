@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import { Definitions } from '../../types';
+import type { Definitions } from '../../types';
 
 export default {
   rpc: {},
@@ -12,15 +12,7 @@ export default {
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
-    ExtrinsicV1: 'GenericExtrinsicV1',
-    ExtrinsicPayloadV1: 'GenericExtrinsicPayloadV1',
-    ExtrinsicSignatureV1: 'GenericExtrinsicSignatureV1',
-    ExtrinsicV2: 'GenericExtrinsicV2',
-    ExtrinsicPayloadV2: 'GenericExtrinsicPayloadV2',
-    ExtrinsicSignatureV2: 'GenericExtrinsicSignatureV2',
-    ExtrinsicV3: 'GenericExtrinsicV3',
-    ExtrinsicPayloadV3: 'GenericExtrinsicPayloadV3',
-    ExtrinsicSignatureV3: 'GenericExtrinsicSignatureV3',
+    ExtrinsicSignature: 'MultiSignature',
     ExtrinsicV4: 'GenericExtrinsicV4',
     ExtrinsicPayloadV4: 'GenericExtrinsicPayloadV4',
     ExtrinsicSignatureV4: 'GenericExtrinsicSignatureV4',
@@ -32,6 +24,7 @@ export default {
     MortalEra: 'GenericMortalEra',
 
     // signatures & signer
+    AnySignature: 'H512',
     MultiSignature: {
       _enum: {
         Ed25519: 'Ed25519Signature',

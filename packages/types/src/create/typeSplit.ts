@@ -42,7 +42,7 @@ export function typeSplit (type: string): string[] {
     }
   }
 
-  assert(isNotNested(cDepth, fDepth, sDepth, tDepth), `Invalid defintion (missing terminators) found in ${type}`);
+  assert(isNotNested(cDepth, fDepth, sDepth, tDepth), `Invalid definition (missing terminators) found in ${type}`);
 
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());

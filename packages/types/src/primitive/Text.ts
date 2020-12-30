@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyU8a, Codec, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyU8a, Codec, Registry } from '../types';
 
-import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
-import Compact from '../codec/Compact';
-import Raw from '../codec/Raw';
+import { Raw } from '../codec/Raw';
+
+const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
-function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
+function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): string {
   if (isHex(value)) {
     return u8aToString(hexToU8a(value.toString()));
   } else if (value instanceof Uint8Array) {
@@ -24,15 +25,16 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
       return u8aToString(value);
     }
 
-    const [offset, length] = Compact.decodeU8a(value);
+    const [offset, length] = compactFromU8a(value);
     const total = offset + length.toNumber();
 
+    assert(length.lten(MAX_LENGTH), `Text length ${length.toString()} exceeds ${MAX_LENGTH}`);
     assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
     return u8aToString(value.subarray(offset, total));
   }
 
-  return value.toString();
+  return value ? value.toString() : '';
 }
 
 /**
@@ -45,12 +47,12 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
  */
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
-export default class Text extends String implements Codec {
+export class Text extends String implements Codec {
   public readonly registry: Registry;
 
   #override: string | null = null;
 
-  constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
+  constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
     super(decodeText(value));
 
     this.registry = registry;
@@ -67,7 +69,7 @@ export default class Text extends String implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return this.registry.createType('H256', this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -149,6 +151,6 @@ export default class Text extends String implements Codec {
 
     return isBare
       ? encoded
-      : Compact.addLengthPrefix(encoded);
+      : compactAddLength(encoded);
   }
 }

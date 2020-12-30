@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Mock } from './../mock/types';
-import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+import type { Mock } from './../mock/types';
 
-import WsProvider from './';
+import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+import { WsProvider } from './';
 
 function sleepMs (ms = 0): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

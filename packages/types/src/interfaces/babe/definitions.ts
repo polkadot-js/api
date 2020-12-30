@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import { Definitions } from '../../types';
+import type { Definitions } from '../../types';
 
 export default {
   rpc: {
@@ -31,7 +31,8 @@ export default {
     MaybeVrf: 'Option<VrfData>',
     EpochAuthorship: {
       primary: 'Vec<u64>',
-      secondary: 'Vec<u64>'
+      secondary: 'Vec<u64>',
+      secondary_vrf: 'Vec<u64>'
     },
     NextConfigDescriptor: {
       _enum: {

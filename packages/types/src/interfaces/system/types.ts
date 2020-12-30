@@ -1,15 +1,24 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
-import { Compact, Enum, HashMap, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { GenericEvent } from '@polkadot/types/generic';
-import { Bytes, Text, bool, i32, u32, u64, u8 } from '@polkadot/types/primitive';
-import { AccountData } from '@polkadot/types/interfaces/balances';
-import { BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
+import type { Bytes, Compact, Enum, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AccountData } from '@polkadot/types/interfaces/balances';
+import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountInfo */
-export interface AccountInfo extends Struct {
+export interface AccountInfo extends AccountInfoWithRefCount {}
+
+/** @name AccountInfoWithProviders */
+export interface AccountInfoWithProviders extends Struct {
+  readonly nonce: Index;
+  readonly consumers: RefCount;
+  readonly providers: RefCount;
+  readonly data: AccountData;
+}
+
+/** @name AccountInfoWithRefCount */
+export interface AccountInfoWithRefCount extends Struct {
   readonly nonce: Index;
   readonly refcount: RefCount;
   readonly data: AccountData;
@@ -21,6 +30,13 @@ export interface ApplyExtrinsicResult extends Result<DispatchOutcome, Transactio
   readonly asError: TransactionValidityError;
   readonly isOk: boolean;
   readonly asOk: DispatchOutcome;
+}
+
+/** @name BlockWeights */
+export interface BlockWeights extends Struct {
+  readonly baseBlock: Weight;
+  readonly maxBlock: Weight;
+  readonly perClass: PerDispatchClass;
 }
 
 /** @name ChainProperties */
@@ -38,6 +54,9 @@ export interface ChainType extends Enum {
   readonly isCustom: boolean;
   readonly asCustom: Text;
 }
+
+/** @name ConsumedWeight */
+export interface ConsumedWeight extends PerDispatchClass {}
 
 /** @name DigestOf */
 export interface DigestOf extends Digest {}
@@ -131,12 +150,6 @@ export interface EventRecord extends Struct {
   readonly phase: Phase;
   readonly event: Event;
   readonly topics: Vec<Hash>;
-}
-
-/** @name EventRecordTo76 */
-export interface EventRecordTo76 extends Struct {
-  readonly phase: Phase;
-  readonly event: Event;
 }
 
 /** @name Health */
@@ -246,6 +259,13 @@ export interface PeerPing extends Struct {
   readonly secs: u64;
 }
 
+/** @name PerDispatchClass */
+export interface PerDispatchClass extends Struct {
+  readonly normal: WeightPerClass;
+  readonly operational: WeightPerClass;
+  readonly mandatory: WeightPerClass;
+}
+
 /** @name Phase */
 export interface Phase extends Enum {
   readonly isApplyExtrinsic: boolean;
@@ -254,8 +274,29 @@ export interface Phase extends Enum {
   readonly isInitialization: boolean;
 }
 
+/** @name RawOrigin */
+export interface RawOrigin extends Enum {
+  readonly isRoot: boolean;
+  readonly isSigned: boolean;
+  readonly asSigned: AccountId;
+  readonly isNone: boolean;
+}
+
 /** @name RefCount */
-export interface RefCount extends u8 {}
+export interface RefCount extends u32 {}
+
+/** @name RefCountTo259 */
+export interface RefCountTo259 extends u8 {}
+
+/** @name SyncState */
+export interface SyncState extends Struct {
+  readonly startingBlock: BlockNumber;
+  readonly currentBlock: BlockNumber;
+  readonly highestBlock: Option<BlockNumber>;
+}
+
+/** @name SystemOrigin */
+export interface SystemOrigin extends RawOrigin {}
 
 /** @name TransactionValidityError */
 export interface TransactionValidityError extends Enum {
@@ -271,6 +312,14 @@ export interface UnknownTransaction extends Enum {
   readonly isNoUnsignedValidator: boolean;
   readonly isCustom: boolean;
   readonly asCustom: u8;
+}
+
+/** @name WeightPerClass */
+export interface WeightPerClass extends Struct {
+  readonly baseExtrinsic: Weight;
+  readonly maxExtrinsic: Weight;
+  readonly maxTotal: Option<Weight>;
+  readonly reserved: Option<Weight>;
 }
 
 export type PHANTOM_SYSTEM = 'system';

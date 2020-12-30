@@ -1,21 +1,21 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '../create/types';
-import { EventMetadataLatest } from '../interfaces/metadata';
-import { EventId } from '../interfaces/system';
-import { AnyJson, Constructor, Registry, RegistryMetadataEvent } from '../types';
+import type { TypeDef } from '../create/types';
+import type { EventMetadataLatest } from '../interfaces/metadata';
+import type { EventId } from '../interfaces/system';
+import type { AnyJson, Codec, Constructor, IEvent, IEventData, Registry } from '../types';
 
-import Struct from '../codec/Struct';
-import Tuple from '../codec/Tuple';
-import Null from '../primitive/Null';
+import { Struct } from '../codec/Struct';
+import { Tuple } from '../codec/Tuple';
+import { Null } from '../primitive/Null';
 
 /**
- * @name EventData
+ * @name GenericEventData
  * @description
  * Wrapper for the actual data that forms part of an [[Event]]
  */
-export class EventData extends Tuple {
+export class GenericEventData extends Tuple implements IEventData {
   readonly #meta: EventMetadataLatest;
 
   readonly #method: string;
@@ -24,10 +24,10 @@ export class EventData extends Tuple {
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: Registry, Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: RegistryMetadataEvent, section: string, method: string) {
+  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
     super(registry, Types, value);
 
-    this.#meta = meta as EventMetadataLatest;
+    this.#meta = meta;
     this.#method = method;
     this.#section = section;
     this.#typeDef = typeDef;
@@ -63,16 +63,16 @@ export class EventData extends Tuple {
 }
 
 /**
- * @name Event
+ * @name GenericEvent
  * @description
  * A representation of a system event. These are generated via the [[Metadata]] interfaces and
  * specific to a specific Substrate runtime
  */
-export default class Event extends Struct {
+export class GenericEvent extends Struct implements IEvent<Codec[]> {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
   constructor (registry: Registry, _value?: Uint8Array) {
-    const { DataType, value } = Event.decodeEvent(registry, _value);
+    const { DataType, value } = GenericEvent.decodeEvent(registry, _value);
 
     super(registry, {
       index: 'EventId',
@@ -82,11 +82,9 @@ export default class Event extends Struct {
   }
 
   /** @internal */
-  public static decodeEvent (registry: Registry, value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<EventData>; value?: { index: Uint8Array; data: Uint8Array } } {
+  public static decodeEvent (registry: Registry, value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<GenericEventData>; value?: { index: Uint8Array; data: Uint8Array } } {
     if (!value.length) {
-      return {
-        DataType: Null
-      };
+      return { DataType: Null };
     }
 
     const index = value.subarray(0, 2);
@@ -103,8 +101,8 @@ export default class Event extends Struct {
   /**
    * @description The wrapped [[EventData]]
    */
-  public get data (): EventData {
-    return this.get('data') as EventData;
+  public get data (): GenericEventData {
+    return this.get('data') as GenericEventData;
   }
 
   /**
@@ -145,9 +143,15 @@ export default class Event extends Struct {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toHuman (isExpanded?: boolean): AnyJson {
-    // FIXME May this human-friendly
-    return this.toJSON();
+  public toHuman (isExpanded?: boolean): Record<string, AnyJson> {
+    return {
+      method: this.method,
+      section: this.section,
+      ...(isExpanded
+        ? { documentation: this.meta.documentation.map((d) => d.toString()) }
+        : {}
+      ),
+      ...super.toHuman(isExpanded)
+    };
   }
 }

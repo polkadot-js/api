@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import { Definitions } from '../../types';
+import type { Definitions } from '../../types';
 
 export default {
   rpc: {},
@@ -14,6 +14,13 @@ export default {
     SchedulePeriod: 'Period',
     SchedulePriority: 'Priority',
     Scheduled: {
+      maybeId: 'Option<Bytes>',
+      priority: 'SchedulePriority',
+      call: 'Call',
+      maybePeriodic: 'Option<SchedulePeriod>',
+      origin: 'PalletsOrigin'
+    },
+    ScheduledTo254: {
       maybeId: 'Option<Bytes>',
       priority: 'SchedulePriority',
       call: 'Call',

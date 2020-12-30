@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Signer, SignerResult } from '@polkadot/api/types';
-import { KeyringPair } from '@polkadot/keyring/types';
-import { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
+import type { Signer, SignerResult } from '@polkadot/api/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
+import type { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 
-import { hexToU8a, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, u8aToHex } from '@polkadot/util';
 
 let id = 0;
 
@@ -23,9 +23,7 @@ export class SingleAccountSigner implements Signer {
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
-    if (payload.address !== this.#keyringPair.address) {
-      throw new Error('does not have the keyringPair');
-    }
+    assert(payload.address === this.#keyringPair.address, 'Signer does not have the keyringPair');
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
@@ -40,9 +38,7 @@ export class SingleAccountSigner implements Signer {
   }
 
   public async signRaw ({ address, data }: SignerPayloadRaw): Promise<SignerResult> {
-    if (address !== this.#keyringPair.address) {
-      throw new Error('does not have the keyringPair');
-    }
+    assert(address === this.#keyringPair.address, 'Signer does not have the keyringPair');
 
     return new Promise((resolve): void => {
       setTimeout((): void => {

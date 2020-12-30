@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import Int from './Int';
+import { Int } from '.';
 
 describe('Int', (): void => {
   const registry = new TypeRegistry();
@@ -50,11 +50,6 @@ describe('Int', (): void => {
     expect(
       new Int(registry, a).toNumber()
     ).toEqual(-123);
-  });
-
-  it('converts to JSON depending on flags', (): void => {
-    expect(new Int(registry, 0x12, 16).toJSON()).toEqual('0x0012');
-    expect(new Int(registry, 0x12, 16, false).toJSON()).toEqual(0x12);
   });
 
   describe('static with', (): void => {

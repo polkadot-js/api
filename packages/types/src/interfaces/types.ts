@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 export * from './runtime/types';
+export * from './assets/types';
 export * from './authorship/types';
 export * from './aura/types';
 export * from './babe/types';
@@ -26,6 +27,7 @@ export * from './session/types';
 export * from './society/types';
 export * from './staking/types';
 export * from './support/types';
+export * from './syncstate/types';
 export * from './system/types';
 export * from './treasury/types';
 export * from './txpayment/types';
@@ -36,7 +38,9 @@ export * from './claims/types';
 export * from './parachains/types';
 export * from './poll/types';
 export * from './purchase/types';
-export * from './ethereum/types';
+export * from './contractsAbi/types';
+export * from './scaleInfo/types';
+export * from './eth/types';
 export * from './metadata/types';
 export * from './rpc/types';
 export * from './author/types';

@@ -1,17 +1,16 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { PropIndex } from '../interfaces/democracy';
-import { Codec, CodecTo } from '../types';
+import type { PropIndex } from '../interfaces/democracy';
+import type { Codec, CodecTo } from '../types';
 
-import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+import { Metadata } from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/static';
 
 import { createTypeUnsafe, TypeRegistry } from '../create';
-import AccountId from '../generic/AccountId';
-import Text from '../primitive/Text';
-import Vec from './Vec';
-import Tuple from './Tuple';
+import { GenericAccountId as AccountId } from '../generic';
+import { Text } from '../primitive';
+import { Tuple, Vec } from '.';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

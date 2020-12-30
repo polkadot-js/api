@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { Codec, Constructor, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { Codec, Constructor, Registry } from '../types';
 
 import BN from 'bn.js';
-import { assert, bnToBn, bnToU8a, isBn, isU8a, isNumber, isString, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex, u8aToBn, u8aToU8a } from '@polkadot/util';
 
-import Raw from './Raw';
+import { assert, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
+
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number | BN>;
@@ -77,7 +77,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 // FIXME This is a prime candidate to extend the JavaScript built-in Set
-export default class CodecSet extends Set<string> implements Codec {
+export class CodecSet extends Set<string> implements Codec {
   public readonly registry: Registry;
 
   readonly #allowed: SetValues;
@@ -101,14 +101,11 @@ export default class CodecSet extends Set<string> implements Codec {
           const name = stringUpperFirst(stringCamelCase(_key));
           const iskey = `is${name}`;
 
-          // do not clobber existing properties on the object
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (isUndefined((this as any)[iskey])) {
+          isUndefined(this[iskey as keyof this]) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
               get: (): boolean => this.strings.includes(_key)
             });
-          }
         });
       }
     };
@@ -125,7 +122,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

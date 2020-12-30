@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyString, AnyU8a, Registry } from '../types';
+import type { AnyString, AnyU8a, Registry } from '../types';
 
-import { hexToU8a, isHex, isString, isU8a, u8aToU8a, assert } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import U8aFixed from '../codec/U8aFixed';
+import { U8aFixed } from '../codec/U8aFixed';
 
 /** @internal */
 function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
@@ -24,13 +24,13 @@ function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
 }
 
 /**
- * @name AccountId
+ * @name GenericAccountId
  * @description
  * A wrapper around an AccountId/PublicKey representation. Since we are dealing with
  * underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
  * just a Uint8Array wrapper with a fixed length.
  */
-export default class AccountId extends U8aFixed {
+export class GenericAccountId extends U8aFixed {
   constructor (registry: Registry, value?: AnyU8a) {
     const decoded = decodeAccountId(value);
 
@@ -69,7 +69,7 @@ export default class AccountId extends U8aFixed {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return AccountId.encode(this, this.registry.chainSS58);
+    return GenericAccountId.encode(this, this.registry.chainSS58);
   }
 
   /**

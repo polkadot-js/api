@@ -1,8 +1,10 @@
 {
   "name": "@polkadot/typegen",
-  "version": "1.35.0-beta.1",
+  "version": "3.2.4-5",
   "description": "Type generation scripts",
   "main": "index.js",
+  "module": "index.mjs",
+  "sideEffects": false,
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
     "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
@@ -10,43 +12,28 @@
     "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.js",
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.js"
   },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/polkadot-js/api.git"
-  },
-  "keywords": [
-    "Polkadot",
-    "JsonRPC"
-  ],
+  "repository": "github:polkadot-js/api",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": [],
   "contributors": [],
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/polkadot-js/api/issues"
-  },
+  "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/register": "^7.11.5",
-    "@babel/runtime": "^7.11.2",
-    "@polkadot/api": "1.35.0-beta.1",
-    "@polkadot/metadata": "1.35.0-beta.1",
-    "@polkadot/rpc-provider": "1.35.0-beta.1",
-    "@polkadot/types": "1.35.0-beta.1",
-    "@polkadot/util": "^3.4.1",
+    "@babel/core": "^7.12.10",
+    "@babel/register": "^7.12.10",
+    "@babel/runtime": "^7.12.5",
+    "@polkadot/api": "3.2.4-5",
+    "@polkadot/metadata": "3.2.4-5",
+    "@polkadot/rpc-provider": "3.2.4-5",
+    "@polkadot/types": "3.2.4-5",
+    "@polkadot/util": "^5.2.2",
     "handlebars": "^4.7.6",
-    "websocket": "^1.0.32",
-    "yargs": "^16.0.3"
+    "websocket": "^1.0.33",
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.1",
-    "@types/yargs": "^15.0.5"
+    "@types/yargs": "^15.0.12"
   }
 }

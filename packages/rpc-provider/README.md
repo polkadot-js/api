@@ -16,10 +16,10 @@ Installation -
 yarn add @polkadot/rpc-provider
 ```
 
-WebSocket Initialisation -
+WebSocket Initialization -
 
 ```javascript
-import WsProvider from '@polkadot/rpc-provider/ws';
+import { WsProvider } from '@polkadot/rpc-provider/ws';
 
 // this is the actual default endpoint
 const provider = new WsProvider('ws://127.0.0.1:9944');
@@ -28,7 +28,7 @@ const version = await provider.send('client_version', []);
 console.log('client version', version);
 ```
 
-HTTP Initialisation -
+HTTP Initialization -
 
 ```javascript
 import { HttpProvider } from '@polkadot/rpc-provider';
@@ -39,7 +39,3 @@ const version = await provider.send('chain_getBlockHash', []);
 
 console.log('latest block Hash', hash);
 ```
-
-## Classes
-
-[Classes](SUMMARY.md)

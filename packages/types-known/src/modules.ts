@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { OverrideModuleType } from '@polkadot/types/types';
+import type { OverrideModuleType } from '@polkadot/types/types';
 
 // type overrides for modules (where duplication between modules exist)
 const typesModules: Record<string, OverrideModuleType> = {
@@ -11,12 +11,20 @@ const typesModules: Record<string, OverrideModuleType> = {
   balances: {
     Status: 'BalanceStatus'
   },
-  contract: { // old metadata & naming
-    // v2 & v3
-    AccountInfo: 'ContractAccountInfo'
-  },
   contracts: {
     StorageKey: 'ContractStorageKey'
+  },
+  ethereum: {
+    Block: 'EthBlock',
+    Header: 'EthHeader',
+    Receipt: 'EthReceipt',
+    Transaction: 'EthTransaction',
+    TransactionStatus: 'EthTransactionStatus'
+  },
+  evm: {
+    Account: 'EvmAccount',
+    Log: 'EvmLog',
+    Vicinity: 'EvmVicinity'
   },
   grandpa: {
     Equivocation: 'GrandpaEquivocation',

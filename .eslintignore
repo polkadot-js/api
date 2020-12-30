@@ -1,5 +1,0 @@
-.eslintrc.js
-**/build/*
-**/coverage/*
-**/node_modules/*
-docs/examples/promise/90_typegen/*

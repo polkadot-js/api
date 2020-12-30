@@ -1,47 +1,32 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DeriveCouncilVote, DeriveCouncilVotes } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Vec } from '@polkadot/types';
+import type { AccountId, Balance } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveCouncilVote, DeriveCouncilVotes } from '../types';
 
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Vec } from '@polkadot/types';
+import { combineLatest } from '@polkadot/x-rxjs';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
 function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
-  const elections = (api.query.electionsPhragmen || api.query.elections);
-
-  return elections.stakeOf.creator.meta.type.asMap.linked.isTrue
-    ? elections.stakeOf<ITuple<[Vec<AccountId>, Vec<Balance>]>>().pipe(
-      map(([voters, stake]) =>
-        voters.map((voter, index): [AccountId, Balance] => [voter, stake[index]])
-      )
+  return (api.query.electionsPhragmen || api.query.elections).stakeOf.entries<Balance>().pipe(
+    map((entries) =>
+      entries.map(([key, stake]) => [key.args[0] as AccountId, stake])
     )
-    : elections.stakeOf.entries<Balance>().pipe(
-      map((entries) =>
-        entries.map(([key, stake]) => [key.args[0] as AccountId, stake])
-      )
-    );
+  );
 }
 
 function retrieveVoteOf (api: ApiInterfaceRx): Observable<[AccountId, AccountId[]][]> {
-  const elections = (api.query.electionsPhragmen || api.query.elections);
-
-  return elections.votesOf.creator.meta.type.asMap.linked.isTrue
-    ? elections.votesOf<ITuple<[Vec<AccountId>, Vec<Vec<AccountId>>]>>().pipe(
-      map(([voters, votes]) =>
-        voters.map((voter, index) => [voter, votes[index]])
-      )
+  return (api.query.electionsPhragmen || api.query.elections).votesOf.entries<Vec<AccountId>>().pipe(
+    map((entries) =>
+      entries.map(([key, votes]) => [key.args[0] as AccountId, votes])
     )
-    : elections.votesOf.entries<Vec<AccountId>>().pipe(
-      map((entries) =>
-        entries.map(([key, votes]) => [key.args[0] as AccountId, votes])
-      )
-    );
+  );
 }
 
 function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {

@@ -1,23 +1,26 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
-import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+  let jsonObj: Record<string, any> | undefined;
+
   return Object.keys(Types).reduce((raw, key, index): T => {
     // The key in the JSON can be snake_case (or other cases), but in our
     // Types, result or any other maps, it's camelCase
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
+    const jsonKey = (jsonMap.get(key as any) && !value[key])
+      ? jsonMap.get(key as any)
+      : key;
 
     try {
       if (Array.isArray(value)) {
@@ -35,15 +38,40 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
           ? mapped
           : new Types[key](registry, mapped);
       } else if (isObject(value)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        let assign = value[jsonKey as string];
+
+        if (isUndefined(assign)) {
+          if (isUndefined(jsonObj)) {
+            jsonObj = Object.entries(value).reduce((all: Record<string, any>, [key, value]): Record<string, any> => {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              all[stringCamelCase(key)] = value;
+
+              return all;
+            }, {});
+          }
+
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          assign = jsonObj[jsonKey as string];
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[jsonKey as string] instanceof Types[key]
-          ? value[jsonKey as string]
-          : new Types[key](registry, value[jsonKey as string]);
+        (raw as any)[key] = assign instanceof Types[key]
+          ? assign
+          : new Types[key](registry, assign);
       } else {
-        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+        throw new Error(`Cannot decode value ${JSON.stringify(value)}`);
       }
     } catch (error) {
-      throw new Error(`Struct: failed on '${jsonKey as string}':: ${(error as Error).message}`);
+      let type = Types[key].name;
+
+      try {
+        type = new Types[key](registry).toRawType();
+      } catch (error) {
+        // ignore
+      }
+
+      throw new Error(`Struct: failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
     }
 
     return raw;
@@ -98,7 +126,7 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unk
  * it needs to decoded in the specific defined order.
  * @noInheritDoc
  */
-export default class Struct<
+export class Struct<
   // The actual Class structure, i.e. key -> Class
   S extends TypesDef = TypesDef,
   // input values, mapped by key can be anything (construction)
@@ -127,20 +155,23 @@ export default class Struct<
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as string, jsonMap);
 
-        (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
-          // do not clobber existing properties on the object
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (!isUndefined((this as any)[key])) {
-            return;
-          }
-
-          Object.defineProperty(this, key, {
-            enumerable: true,
-            get: (): Codec | undefined => this.get(key)
-          });
+        Object.keys(Types).forEach((key): void => {
+          isUndefined(this[key as keyof this]) &&
+            Object.defineProperty(this, key, {
+              enumerable: true,
+              get: (): Codec | undefined => this.get(key as keyof S)
+            });
         });
       }
     };
+  }
+
+  public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
+    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
+      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+
+      return result;
+    }, {});
   }
 
   /**
@@ -194,7 +225,7 @@ export default class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -236,37 +267,27 @@ export default class Struct<
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
-    return [...this.keys()].reduce((json, key): Record<keyof S, AnyJson> => {
+  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
+    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
       const value = this.get(key);
 
-      json[key] = value && value.toHuman(isExtended);
+      json[key as string] = value && value.toHuman(isExtended);
 
       return json;
-    }, {} as Record<keyof S, AnyJson>);
+    }, {});
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJson {
-    // FIXME the return type string is only used by Extrinsic (extends Struct),
-    // but its toJSON is the hex value
-    return [...this.keys()].reduce((json, key): Record<keyof S, AnyJson> => {
+  public toJSON (): Record<string, AnyJson> {
+    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
       const jsonKey = this.#jsonMap.get(key) || key;
       const value = this.get(key);
 
-      json[jsonKey] = value && value.toJSON();
+      json[jsonKey as string] = value && value.toJSON();
 
       return json;
-    }, {} as Record<keyof S, AnyJson>);
-  }
-
-  public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
-      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
-
-      return result;
     }, {});
   }
 

@@ -3,16 +3,14 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Codec, Constructor } from '../types';
+import type { Codec, Constructor } from '../types';
 
 import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
-import Struct from '../codec/Struct';
-import DoNotConstruct from '../primitive/DoNotConstruct';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
-import { TypeRegistry } from './registry';
+import { Struct } from '../codec';
+import { DoNotConstruct, Text, U32 } from '../primitive';
+import { TypeRegistry } from '.';
 
 describe('TypeRegistry', (): void => {
   const registry = new TypeRegistry();
@@ -162,7 +160,7 @@ describe('TypeRegistry', (): void => {
 
   it('hashes via blake2 by default', (): void => {
     expect(
-      registry.hash(u8aToU8a('abc'))
+      registry.hash(u8aToU8a('abc')).toU8a()
     ).toEqual(
       new Uint8Array([189, 221, 129, 60, 99, 66, 57, 114, 49, 113, 239, 63, 238, 152, 87, 155, 148, 150, 78, 59, 177, 203, 62, 66, 114, 98, 200, 192, 104, 213, 35, 25])
     );
@@ -172,15 +170,13 @@ describe('TypeRegistry', (): void => {
     registry.setHasher(keccakAsU8a);
 
     expect(
-      registry.hash(u8aToU8a('test value'))
-    ).toEqual(
-      u8aToU8a('0x2d07364b5c231c56ce63d49430e085ea3033c750688ba532b24029124c26ca5e')
-    );
+      registry.hash(u8aToU8a('test value')).toHex()
+    ).toEqual('0x2d07364b5c231c56ce63d49430e085ea3033c750688ba532b24029124c26ca5e');
 
     registry.setHasher();
 
     expect(
-      registry.hash(u8aToU8a('abc'))
+      registry.hash(u8aToU8a('abc')).toU8a()
     ).toEqual(
       new Uint8Array([189, 221, 129, 60, 99, 66, 57, 114, 49, 113, 239, 63, 238, 152, 87, 155, 148, 150, 78, 59, 177, 203, 62, 66, 114, 98, 200, 192, 104, 213, 35, 25])
     );

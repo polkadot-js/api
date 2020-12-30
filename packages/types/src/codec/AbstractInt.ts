@@ -1,21 +1,27 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyNumber, Codec, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyNumber, Codec, Registry } from '../types';
+import type { UIntBitLength } from './types';
 
 import BN from 'bn.js';
-import { BN_ZERO, assert, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
-import Raw from './Raw';
-
-export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
+import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
-const PER_B = new BN(1_000_000_000);
-const PER_M = new BN(1_000_000);
+// Maximum allowed integer for JS is 2^53 - 1, set limit at 52
+// In this case however, we always print any >32 as hex
+const MAX_NUMBER_BITS = 52;
 const MUL_P = new BN(1_00_00);
+
+const FORMATTERS: [string, BN][] = [
+  ['Perquintill', new BN(1_000_000_000_000)],
+  ['Perbill', new BN(1_000_000_000)],
+  ['Permill', new BN(1_000_000)],
+  ['Percent', new BN(100)]
+];
 
 function toPercentage (value: BN, divisor: BN): string {
   return `${(value.mul(MUL_P).div(divisor).toNumber() / 100).toFixed(2)}%`;
@@ -36,7 +42,7 @@ function decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNeg
 }
 
 /** @internal */
-function decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
+function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
   // This function returns a string, which will be passed in the BN
   // constructor. It would be ideal to actually return a BN, but there's a
   // bug: https://github.com/indutny/bn.js/issues/206.
@@ -58,21 +64,18 @@ function decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegativ
  */
 // TODO:
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
-export default abstract class AbstractInt extends BN implements Codec {
+export abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
 
   readonly #bitLength: UIntBitLength;
 
-  readonly #isHexJson: boolean;
-
   readonly #isSigned: boolean;
 
-  protected constructor (registry: Registry, isSigned: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(decodeAbstracInt(value, bitLength, isSigned));
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
+    super(decodeAbstractInt(value, bitLength, isSigned));
 
     this.registry = registry;
     this.#bitLength = bitLength;
-    this.#isHexJson = isHexJson;
     this.#isSigned = isSigned;
 
     assert(isSigned || this.gte(BN_ZERO), `${this.toRawType()}: Negative number passed to unsigned type`);
@@ -90,7 +93,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -168,26 +171,30 @@ export default abstract class AbstractInt extends BN implements Codec {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toHuman (isExpanded?: boolean): string {
-    // FIXME we need proper expansion here
-    return this instanceof this.registry.createClass('Balance')
-      ? this.isMax()
+    const rawType = this.toRawType();
+
+    if (rawType === 'Balance') {
+      return this.isMax()
         ? 'everything'
-        : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
-      : this instanceof this.registry.createClass('Perbill')
-        ? toPercentage(this, PER_B)
-        : this instanceof this.registry.createClass('Permill')
-          ? toPercentage(this, PER_M)
-          : formatNumber(this);
+        : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken });
+    }
+
+    const [, divisor] = FORMATTERS.find(([type]) => type === rawType) || [];
+
+    return divisor
+      ? toPercentage(this, divisor)
+      : formatNumber(this);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): any {
-    // FIXME this return type should by string | number, but BN's return type
-    // is string.
-    // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
-    return this.#isHexJson || (super.bitLength() > 52)
+  public toJSON (onlyHex = false): any {
+    // FIXME this return type should by string | number, however BN returns string
+    // Options here are
+    //   - super.bitLength() - the actual used bits
+    //   - this.#bitLength - the type bits (this should be used, however contracts RPC is problematic)
+    return onlyHex || (super.bitLength() > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
   }

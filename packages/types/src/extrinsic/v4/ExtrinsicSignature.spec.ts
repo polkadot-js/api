@@ -1,13 +1,35 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
+import { Metadata } from '@polkadot/metadata';
+import metadataStatic from '@polkadot/metadata/static';
+import { BN_ZERO } from '@polkadot/util';
+
 import { TypeRegistry } from '../../create';
-import ExtrinsicSignature from './ExtrinsicSignature';
+import { GenericExtrinsicSignatureV4 as ExtrinsicSignature } from '.';
+
+const signOptions = {
+  blockHash: '0x1234567890123456789012345678901234567890123456789012345678901234',
+  genesisHash: '0x1234567890123456789012345678901234567890123456789012345678901234',
+  nonce: '0x69',
+  runtimeVersion: {
+    apis: [],
+    authoringVersion: BN_ZERO,
+    implName: String('test'),
+    implVersion: BN_ZERO,
+    specName: String('test'),
+    specVersion: BN_ZERO,
+    transactionVersion: BN_ZERO
+  }
+};
 
 describe('ExtrinsicSignatureV4', (): void => {
-  const registry = new TypeRegistry();
+  const pairs = createTestPairs({ type: 'ed25519' });
 
-  it('encodes to a sane Uint8Array', (): void => {
+  it('encodes to a sane Uint8Array (default)', (): void => {
+    const registry = new TypeRegistry();
+
     const u8a = new Uint8Array([
       // signer as an AccountIndex
       0x09,
@@ -27,5 +49,57 @@ describe('ExtrinsicSignatureV4', (): void => {
     expect(
       new ExtrinsicSignature(registry, u8a, { isSigned: true }).toU8a()
     ).toEqual(u8a);
+  });
+
+  it('fake signs default', (): void => {
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, metadataStatic);
+
+    registry.setMetadata(metadata);
+
+    expect(
+      new ExtrinsicSignature(registry, undefined).signFake(
+        registry.createType('Call'),
+        pairs.alice.address,
+        signOptions
+      ).toHex()
+    ).toEqual(
+      '0x' +
+      'ff' +
+      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
+      '01' +
+      '4242424242424242424242424242424242424242424242424242424242424242' +
+      '4242424242424242424242424242424242424242424242424242424242424242' +
+      '00a50100'
+    );
+  });
+
+  it('fake signs default', (): void => {
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, metadataStatic);
+
+    registry.setMetadata(metadata);
+    registry.register({
+      Address: 'AccountId',
+      ExtrinsicSignature: 'AnySignature'
+    });
+
+    expect(
+      new ExtrinsicSignature(registry, undefined).signFake(
+        registry.createType('Call'),
+        pairs.alice.address,
+        signOptions
+      ).toHex()
+    ).toEqual(
+      '0x' +
+      // Address = AccountId
+      // 'ff' +
+      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
+      // This is a prefix-less signature, anySignture as opposed to Multi above
+      // '01' +
+      '4242424242424242424242424242424242424242424242424242424242424242' +
+      '4242424242424242424242424242424242424242424242424242424242424242' +
+      '00a50100'
+    );
   });
 });

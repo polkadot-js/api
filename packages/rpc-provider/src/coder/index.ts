@@ -1,26 +1,28 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
+import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
-import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
+import { assert, isNumber, isString, isUndefined } from '@polkadot/util';
 
 function formatErrorData (data?: string | number): string {
   if (isUndefined(data)) {
     return '';
   }
 
-  const formatted = isString(data)
-    ? data.replace('Error("', '').replace('")', '')
-    : JSON.stringify(data);
+  const formatted = `: ${isString(data)
+    ? data.replace(/Error\("/g, '').replace(/\("/g, '(').replace(/"\)/g, ')').replace(/\(/g, ', ').replace(/\)/g, '')
+    : JSON.stringify(data)}`;
 
   // We need some sort of cut-off here since these can be very large and
   // very nested, pick a number and trim the result display to it
-  return `: ${formatted.substr(0, 100)}`;
+  return formatted.length <= 256
+    ? formatted
+    : `${formatted.substr(0, 255)}…`;
 }
 
 /** @internal */
-export default class RpcCoder {
+export class RpcCoder {
   #id = 0;
 
   public decodeResponse (response: JsonRpcResponse): unknown {

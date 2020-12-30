@@ -3,21 +3,21 @@
 
 /* eslint-disable camelcase */
 
-import { Header } from '@polkadot/types/interfaces';
-import { Codec, Registry } from '@polkadot/types/types';
-import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
-import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
+import type { Header } from '@polkadot/types/interfaces';
+import type { Codec, Registry } from '@polkadot/types/types';
+import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types';
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
-import Decorated from '@polkadot/metadata/Decorated';
-import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+
+import { createTestKeyring } from '@polkadot/keyring/testing';
+import { decorateStorage, Metadata } from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/static';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import testKeyring from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
-import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
+import { assert, bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
@@ -32,7 +32,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
   )
 ) as string[];
 
-const keyring = testKeyring({ type: 'ed25519' });
+const keyring = createTestKeyring({ type: 'ed25519' });
 const l = logger('api-mock');
 
 /**
@@ -40,7 +40,7 @@ const l = logger('api-mock');
  * @return {ProviderInterface} The mock provider
  * @internal
  */
-export default class Mock implements ProviderInterface {
+export class MockProvider implements ProviderInterface {
   private db: MockStateDb = {};
 
   private emitter = new EventEmitter();
@@ -94,7 +94,7 @@ export default class Mock implements ProviderInterface {
     return true;
   }
 
-  public clone (): Mock {
+  public clone (): MockProvider {
     throw new Error('Unimplemented');
   }
 
@@ -120,9 +120,7 @@ export default class Mock implements ProviderInterface {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async send (method: string, params: any[]): Promise<unknown> {
-    if (!this.requests[method]) {
-      throw new Error(`provider.send: Invalid method '${method}'`);
-    }
+    assert(this.requests[method], `provider.send: Invalid method '${method}'`);
 
     return this.requests[method](this.db, params);
   }
@@ -131,21 +129,19 @@ export default class Mock implements ProviderInterface {
   public async subscribe (type: string, method: string, ...params: unknown[]): Promise<number> {
     l.debug((): any => ['subscribe', method, params]);
 
-    if (this.subscriptions[method]) {
-      const callback = params.pop() as MockStateSubscriptionCallback;
-      const id = ++this.subscriptionId;
+    assert(this.subscriptions[method], `provider.subscribe: Invalid method '${method}'`);
 
-      this.subscriptions[method].callbacks[id] = callback;
-      this.subscriptionMap[id] = method;
+    const callback = params.pop() as MockStateSubscriptionCallback;
+    const id = ++this.subscriptionId;
 
-      if (this.subscriptions[method].lastValue !== null) {
-        callback(null, this.subscriptions[method].lastValue);
-      }
+    this.subscriptions[method].callbacks[id] = callback;
+    this.subscriptionMap[id] = method;
 
-      return id;
+    if (this.subscriptions[method].lastValue !== null) {
+      callback(null, this.subscriptions[method].lastValue);
     }
 
-    throw new Error(`provider.subscribe: Invalid method '${method}'`);
+    return id;
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -154,9 +150,7 @@ export default class Mock implements ProviderInterface {
 
     l.debug((): any => ['unsubscribe', id, sub]);
 
-    if (!sub) {
-      throw new Error(`Unable to find subscription for ${id}`);
-    }
+    assert(sub, `Unable to find subscription for ${id}`);
 
     delete this.subscriptionMap[id];
     delete this.subscriptions[sub].callbacks[id];
@@ -174,7 +168,7 @@ export default class Mock implements ProviderInterface {
 
     this.registry.setMetadata(metadata);
 
-    const decorated = new Decorated(this.registry, metadata);
+    const query = decorateStorage(this.registry, metadata.asLatest, metadata.version);
 
     // Do something every 1 seconds
     setInterval((): void => {
@@ -187,11 +181,11 @@ export default class Mock implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(decorated.query.system.account(publicKey), newHead.number.toBn().addn(index));
+        this.setStateBn(query.system.account(publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
-      this.setStateBn(decorated.query.timestamp.now(), Math.floor(Date.now() / 1000));
+      this.setStateBn(query.timestamp.now(), Math.floor(Date.now() / 1000));
       this.updateSubs('chain_subscribeNewHead', newHead);
 
       // We emit connected/disconnected at intervals
@@ -237,7 +231,7 @@ export default class Mock implements ProviderInterface {
         try {
           cb(null, value.toJSON());
         } catch (error) {
-          console.error(`Error on '${method}' subscription`, error);
+          l.error(`Error on '${method}' subscription`, error);
         }
       });
   }

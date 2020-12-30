@@ -1,12 +1,19 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg } from './types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { FromReg } from './types';
 
-import { isU8a, u8aToHex } from '@polkadot/util';
+import { isU8a, logger, u8aToHex } from '@polkadot/util';
 
 import { createClass } from './createClass';
+
+interface UnsafeOptions {
+  isPedantic?: boolean;
+  withoutLog?: boolean;
+}
+
+const l = logger('registry');
 
 function u8aHasValue (value: Uint8Array): boolean {
   return value.some((v): boolean => !!v);
@@ -35,7 +42,7 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 
   // if the hex doesn't match and the value for both is non-empty, complain... bitterly
   if (!isEqual && (u8aHasValue(value) || u8aHasValue(created.toU8a(true)))) {
-    console.warn(`${rawType}:: Input doesn't match output, received ${u8aToHex(value)}, created ${crHex}`);
+    l.warn(`${rawType}:: Input doesn't match output, received ${u8aToHex(value)}, created ${crHex}`);
   }
 }
 
@@ -56,13 +63,14 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], isPedantic?: boolean): T {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], { withoutLog }: UnsafeOptions = {}): T {
   try {
     // Circle back to isPedantic when it handles all cases 100% - as of now,
     // it provides false warning which is more hinderance than help
     return initType(registry, createClass<T, K>(registry, type), params); // , isPedantic);
   } catch (error) {
+    !withoutLog && l.error(error);
+
     throw new Error(`createType(${type}):: ${(error as Error).message}`);
   }
 }

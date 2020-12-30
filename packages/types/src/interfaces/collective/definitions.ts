@@ -4,11 +4,17 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import { Definitions } from '../../types';
+import type { Definitions } from '../../types';
 
 export default {
   rpc: {},
   types: {
+    CollectiveOrigin: {
+      _enum: {
+        Members: '(MemberCount, MemberCount)',
+        Member: 'AccountId'
+      }
+    },
     MemberCount: 'u32',
     ProposalIndex: 'u32',
     VotesTo230: {

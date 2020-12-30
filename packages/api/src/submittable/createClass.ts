@@ -3,18 +3,19 @@
 
 /* eslint-disable no-dupe-class-members */
 
-import { Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
+import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
+import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
-import { Observable, of } from 'rxjs';
-import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
+import { of } from '@polkadot/x-rxjs';
+import { first, map, mapTo, mergeMap, switchMap, tap } from '@polkadot/x-rxjs/operators';
 
+import { ApiBase } from '../base';
 import { filterEvents, isKeyringPair } from '../util';
-import ApiBase from '../base';
-import SubmittableResult from './Result';
+import { SubmittableResult } from './Result';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
@@ -22,12 +23,16 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
   decorateMethod: ApiBase<ApiType>['_decorateMethod'];
 }
 
-export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
+const identity = <T> (input: T): T => input;
+
+export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
 
-  return class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
+  class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
+
+    #transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
 
     constructor (registry: Registry, extrinsic: Call | Extrinsic | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });
@@ -35,12 +40,30 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       this.#ignoreStatusCb = apiType === 'rxjs';
     }
 
+    // dry run an extrinsic
+    public dryRun (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittableDryRunResult<ApiType> {
+      if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return decorateMethod(
+          () => api.rpc.system.dryRun(this.toHex(), optionsOrHash)
+        );
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return decorateMethod(
+        (): Observable<ApplyExtrinsicResult> =>
+          this.#observeSign(account, optionsOrHash).pipe(
+            switchMap(() => api.rpc.system.dryRun(this.toHex()))
+          )
+      )();
+    }
+
     // calculate the payment info for this transaction (if signed and submitted)
     public paymentInfo (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittablePaymentResult<ApiType> {
       if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
-          () => api.rpc.payment.queryInfo(this.toHex(), optionsOrHash)
+          (): Observable<RuntimeDispatchInfo> => api.rpc.payment.queryInfo(this.toHex(), optionsOrHash)
         );
       }
 
@@ -57,13 +80,30 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
               const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
               const signOptions = this.#makeSignOptions(eraOptions, {});
 
-              // add a fake signature to the extrinsic
               this.signFake(address, signOptions);
 
               return api.rpc.payment.queryInfo(this.toHex());
             })
           )
       )();
+    }
+
+    // send with an immediate Hash result
+    public send (): SubmittableResultResult<ApiType>;
+
+    // send with a status callback
+    public send (statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
+
+    // send implementation for both immediate Hash and statusCb variants
+    public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
+      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return decorateMethod(
+        isSubscription
+          ? this.#observeSubscribe
+          : this.#observeSend
+      )(statusCb);
     }
 
     /**
@@ -114,22 +154,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )(statusCb);
     }
 
-    // send with an immediate Hash result
-    public send (): SubmittableResultResult<ApiType>;
+    // adds a transform to the result, applied before result is returned
+    withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this {
+      this.#transformResult = transform;
 
-    // send with a status callback
-    public send (statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
-
-    // send implementation for both immediate Hash and statusCb variants
-    public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
-      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
-      return decorateMethod(
-        isSubscription
-          ? this.#observeSubscribe
-          : this.#observeSend
-      )(statusCb);
+      return this;
     }
 
     #makeEraOptions = (options: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions => {
@@ -200,7 +229,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
     #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
-        return of(new SubmittableResult({ status }));
+        return of(this.#transformResult(new SubmittableResult({ status })));
       }
 
       const blockHash = status.isInBlock
@@ -209,10 +238,10 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
-          new SubmittableResult({
+          this.#transformResult(new SubmittableResult({
             events: filterEvents(hash, block, events, status),
             status
-          })
+          }))
         )
       );
     }
@@ -280,5 +309,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         api.signer.update(updateId, status);
       }
     }
-  };
+  }
+
+  return Submittable;
 }

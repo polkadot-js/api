@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Callback } from '@polkadot/types/types';
-import { UnsubscribePromise } from '../types';
+import type { Callback } from '@polkadot/types/types';
+import type { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
@@ -12,7 +12,7 @@ export interface CombinatorFunction {
   (cb: Callback<any>): UnsubscribePromise;
 }
 
-export default class Combinator<T extends any[] = any[]> {
+export class Combinator<T extends any[] = any[]> {
   #allHasFired = false;
 
   #callback: CombinatorCallback<T>;
@@ -46,9 +46,7 @@ export default class Combinator<T extends any[] = any[]> {
   }
 
   protected _allHasFired (): boolean {
-    if (!this.#allHasFired) {
-      this.#allHasFired = this.#fired.filter((hasFired): boolean => !hasFired).length === 0;
-    }
+    this.#allHasFired ||= this.#fired.filter((hasFired): boolean => !hasFired).length === 0;
 
     return this.#allHasFired;
   }

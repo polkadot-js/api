@@ -1,9 +1,17 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Struct, Vec, u32 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+
+/** @name CollectiveOrigin */
+export interface CollectiveOrigin extends Enum {
+  readonly isMembers: boolean;
+  readonly asMembers: ITuple<[MemberCount, MemberCount]>;
+  readonly isMember: boolean;
+  readonly asMember: AccountId;
+}
 
 /** @name MemberCount */
 export interface MemberCount extends u32 {}

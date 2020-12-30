@@ -1,10 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
-import { Option, Struct } from '@polkadot/types/codec';
-import { Bytes, u32, u8 } from '@polkadot/types/primitive';
-import { BlockNumber, Call } from '@polkadot/types/interfaces/runtime';
+import type { Bytes, Option, Struct, u32, u8 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { BlockNumber, Call, PalletsOrigin } from '@polkadot/types/interfaces/runtime';
 
 /** @name Period */
 export interface Period extends ITuple<[BlockNumber, u32]> {}
@@ -14,6 +13,15 @@ export interface Priority extends u8 {}
 
 /** @name Scheduled */
 export interface Scheduled extends Struct {
+  readonly maybeId: Option<Bytes>;
+  readonly priority: SchedulePriority;
+  readonly call: Call;
+  readonly maybePeriodic: Option<SchedulePeriod>;
+  readonly origin: PalletsOrigin;
+}
+
+/** @name ScheduledTo254 */
+export interface ScheduledTo254 extends Struct {
   readonly maybeId: Option<Bytes>;
   readonly priority: SchedulePriority;
   readonly call: Call;

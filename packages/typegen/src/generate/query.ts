@@ -1,34 +1,33 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { Registry } from '@polkadot/types/types';
+
 import Handlebars from 'handlebars';
 
-import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Registry } from '@polkadot/types/types';
-
-import staticData from '@polkadot/metadata/Metadata/static';
-import Metadata from '@polkadot/metadata/Metadata';
+import { Metadata } from '@polkadot/metadata/Metadata';
+import staticData from '@polkadot/metadata/static';
+import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { TypeImports, createImports, compareName, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, TypeImports, writeFile } from '../util';
 import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
-  const format = (type: string): string => formatType(allDefs, type, imports);
+function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string, string] {
   const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', formatType(allDefs, outputType, imports)];
+    return ['', '', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(allDefs, registry, storageEntry.type.asMap.key.toString(), imports);
+    const similarTypes = getSimilarTypes(registry, allDefs, storageEntry.type.asMap.key.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes,
@@ -36,13 +35,14 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     ]);
 
     return [
-      `arg: ${similarTypes.map(format).join(' | ')}`,
+      formatType(allDefs, storageEntry.type.asMap.key.toString(), imports),
+      `arg: ${similarTypes.join(' | ')}`,
       formatType(allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similar types of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key2.toString(), imports);
+    const similarTypes1 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key1.toString(), imports);
+    const similarTypes2 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key2.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes1,
@@ -50,10 +50,11 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
       storageEntry.type.asDoubleMap.value.toString()
     ]);
 
-    const key1Types = similarTypes1.map(format).join(' | ');
-    const key2Types = similarTypes2.map(format).join(' | ');
+    const key1Types = similarTypes1.join(' | ');
+    const key2Types = similarTypes2.join(' | ');
 
     return [
+      [formatType(allDefs, storageEntry.type.asDoubleMap.key1.toString(), imports), formatType(allDefs, storageEntry.type.asDoubleMap.key2.toString(), imports)].join(', '),
       `key1: ${key1Types}, key2: ${key2Types}`,
       formatType(allDefs, outputType, imports)
     ];
@@ -81,7 +82,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         const items = storage.unwrap().items
           .sort(compareName)
           .map((storageEntry) => {
-            const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+            const [args, params, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
             let entryType = 'AugmentedQuery';
 
             if (storageEntry.type.isDoubleMap) {
@@ -92,14 +93,15 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               args,
               docs: storageEntry.documentation,
               entryType,
-              name: stringCamelCase(storageEntry.name.toString()),
+              name: stringCamelCase(storageEntry.name),
+              params,
               returnType
             };
           });
 
         return {
           items,
-          name: stringCamelCase(name.toString())
+          name: stringCamelCase(name)
         };
       });
 
@@ -128,7 +130,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateQuery (dest = 'packages/api/src/augment/query.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
+export function generateDefaultQuery (dest = 'packages/api/src/augment/query.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);

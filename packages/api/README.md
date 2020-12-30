@@ -7,13 +7,13 @@ The API wrappers provide a standard interface for use -
 - A static `.create(<optional ApiOptions>)` that returns an API instance when connected, decorated and ready-to use. ApiOptions can include an optional WsProvider and optional custom type definitions `{ provider: <Optional WsProvider>, types: <Optional RegistryTypes> }`.
 - The above is just a wrapper for `new Api(<optional ApiOptions>) `, exposing the `isReady` getter
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
-  - [RPC (node interface)](../substrate/rpc.md)
+  - [RPC (node interface)](https://polkadot.js.org/docs/substrate/rpc.html)
 - `api.query.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
-  - [Storage chain state (runtime node interface)](../substrate/storage.md)
+  - [Storage chain state (runtime node interface)](https://polkadot.js.org/docs/substrate/storage.html)
 - `api.tx.<section>.<method>` provides the ability to create a transaction, like chain state, this list is populated from a runtime query
-  - [Extrinsics (runtime node interface)](../substrate/extrinsics.md)
+  - [Extrinsics (runtime node interface)](https://polkadot.js.org/docs/substrate/extrinsics.html)
 - `api.consts.<section>.<constant>` provides access to the module constants (parameter types).
-  - [Constants (runtime node interface)](../substrate/constants.md)
+  - [Constants (runtime node interface)](https://polkadot.js.org/docs/substrate/constants.html)
 
 ## API Selection
 
@@ -98,6 +98,3 @@ Some of the users of the API (let us know if you are missing from the list), inc
 - [PolkaStats.io](https://polkastats.io), [PolkaStats frontend GitHub repository](https://github.com/Colm3na/polkastats-v2) and [PolkaStats backend GitHub repository](https://github.com/Colm3na/polkastats-backend-v2) Polkadot network statistics (currently Kusama and Alexander). Shows network information and staking details from validators and intentions.
 - [Polkadot API Server (GitHub)](https://github.com/SimplyVC/polkadot_api_server) A lightweight server for querying Polkadot nodes from any language, built primarily as a backend for [PANIC for Polkadot (GitHub)](https://github.com/SimplyVC/panic_polkadot/), a validator monitoring and alerting tool.
 - [Identity Registrar #1 from Chevdor on Westend, Kusama and Polkadot](https://www.chevdor.com/tags/registrar/)
-## Classes
-
-[Classes](SUMMARY.md)

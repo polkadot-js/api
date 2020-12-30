@@ -1,24 +1,20 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { Registry } from '../types';
 
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import Enum from '../codec/Enum';
-import Bytes from './Bytes';
+import { Enum } from '../codec/Enum';
+import { Bytes } from './Bytes';
 
 /** @internal */
-function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | undefined] {
-  if (!value.length) {
-    return [undefined, undefined];
-  }
-
+function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {
   const indicator = value[0];
 
-  if (indicator === 0) {
-    return [null, 0];
+  if (!indicator) {
+    return [undefined, undefined];
   } else if (indicator >= 1 && indicator <= 33) {
     const length = indicator - 1;
     const data = value.subarray(1, length + 1);
@@ -36,10 +32,8 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | u
 function decodeData (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string): [any, number | undefined] {
   if (!value) {
     return [undefined, undefined];
-  } else if (isString(value)) {
+  } else if (isU8a(value) || isString(value)) {
     return decodeDataU8a(registry, u8aToU8a(value));
-  } else if (isU8a(value)) {
-    return decodeDataU8a(registry, value);
   }
 
   // assume we have an Enum or an  object input, handle this via the normal Enum decoding
@@ -51,7 +45,7 @@ function decodeData (registry: Registry, value?: Record<string, any> | Uint8Arra
  * @description
  * A [[Data]] container with node, raw or hashed data
  */
-export default class Data extends Enum {
+export class Data extends Enum {
   constructor (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string) {
     super(registry, {
       None: 'Null', // 0

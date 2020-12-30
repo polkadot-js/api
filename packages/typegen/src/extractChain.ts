@@ -6,7 +6,8 @@
 
 import process from 'process';
 import yargs from 'yargs';
-import { ApiPromise, WsProvider } from '@polkadot/api/index';
+
+import { ApiPromise, WsProvider } from '@polkadot/api';
 
 /** @internal */
 async function run (ws: string): Promise<void> {
@@ -24,7 +25,7 @@ async function run (ws: string): Promise<void> {
   api.runtimeMetadata.getUniqTypes(false);
 }
 
-export default function main (): void {
+export function main (): void {
   // retrieve and parse arguments - we do this globally, since this is a single command
   const { ws } = yargs
     .usage('Usage: [options]')

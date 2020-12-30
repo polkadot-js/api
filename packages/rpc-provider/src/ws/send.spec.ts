@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constructor } from '@polkadot/types/types';
+import type { Constructor } from '@polkadot/types/types';
 
-import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
-
-import WsProvider from './';
+import { Global, Mock } from './../mock/types';
+import { WsProvider } from './';
 
 declare const global: Global;
 
@@ -17,10 +16,10 @@ function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = 1000): WsProvider {
+function createWs (autoConnect = 1000): Promise<WsProvider> {
   provider = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return provider;
+  return provider.isReady;
 }
 
 describe('send', (): void => {
@@ -47,11 +46,13 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs()
-      .send('test_encoding', [{ error: 'send error' }])
-      .catch((error): void => {
-        expect((error as Error).message).toEqual('send error');
-      });
+    return createWs().then((ws) =>
+      ws
+        .send('test_encoding', [{ error: 'send error' }])
+        .catch((error): void => {
+          expect((error as Error).message).toEqual('send error');
+        })
+    );
   });
 
   it('passes the body through correctly', (): Promise<void> => {
@@ -63,14 +64,16 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs()
-      .send('test_body', ['param'])
-      .then((): void => {
-        expect(
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (mock.body as any).test_body
-        ).toEqual('{"id":1,"jsonrpc":"2.0","method":"test_body","params":["param"]}');
-      });
+    return createWs().then((ws) =>
+      ws
+        .send('test_body', ['param'])
+        .then((): void => {
+          expect(
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            (mock.body as any).test_body
+          ).toEqual('{"id":1,"jsonrpc":"2.0","method":"test_body","params":["param"]}');
+        })
+    );
   });
 
   it('throws error when !response.ok', (): Promise<any> => {
@@ -82,11 +85,13 @@ describe('send', (): void => {
       id: 1
     }]);
 
-    return createWs()
-      .send('test_error', [])
-      .catch((error): void => {
-        expect((error as Error).message).toMatch(/666: error/);
-      });
+    return createWs().then((ws) =>
+      ws
+        .send('test_error', [])
+        .catch((error): void => {
+          expect((error as Error).message).toMatch(/666: error/);
+        })
+    );
   });
 
   it('adds subscriptions', (): Promise<void> => {
@@ -98,10 +103,12 @@ describe('send', (): void => {
       }
     }]);
 
-    return createWs()
-      .send('test_sub', [])
-      .then((id): void => {
-        expect(id).toEqual(1);
-      });
+    return createWs().then((ws) =>
+      ws
+        .send('test_sub', [])
+        .then((id): void => {
+          expect(id).toEqual(1);
+        })
+    );
   });
 });

@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId } from '../interfaces/runtime';
+import type { AccountId } from '../interfaces/runtime';
 
 import BN from 'bn.js';
+
 import { bnToBn } from '@polkadot/util';
 
-import Bytes from '../primitive/Bytes';
-import U32 from '../primitive/U32';
+import { Bytes } from '../primitive/Bytes';
+import { u32 } from '../primitive/U32';
 
 // there are all reversed since it is actually encoded as u32, LE,
 // this means that FRNK has the bytes as KNRF
@@ -19,11 +20,11 @@ const CID_POW = 0x5f776f70; // 'pow_'
 export { CID_AURA, CID_BABE, CID_GRPA, CID_POW };
 
 /**
- * @name ConsensusEngineId
+ * @name GenericConsensusEngineId
  * @description
  * A 4-byte identifier (actually a [u8; 4]) identifying the engine, e.g. for Aura it would be [b'a', b'u', b'r', b'a']
  */
-export default class ConsensusEngineId extends U32 {
+export class GenericConsensusEngineId extends u32 {
   public static idToString (input: number | BN): string {
     return bnToBn(input)
       .toArray('le')
@@ -79,7 +80,7 @@ export default class ConsensusEngineId extends U32 {
     const digest = this.registry.createType('RawBabePreDigestCompat', bytes.toU8a(true));
 
     return sessionValidators[
-      (digest.value as U32).toNumber()
+      (digest.value as u32).toNumber()
     ];
   }
 
@@ -110,6 +111,6 @@ export default class ConsensusEngineId extends U32 {
    * @description Override the default toString to return a 4-byte string
    */
   public toString (): string {
-    return ConsensusEngineId.idToString(this as BN);
+    return GenericConsensusEngineId.idToString(this as BN);
   }
 }

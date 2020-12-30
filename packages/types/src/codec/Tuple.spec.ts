@@ -1,18 +1,16 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { VoteThreshold } from '../interfaces/elections';
-import { BlockNumber } from '../interfaces/runtime';
-import { CodecTo } from '../types';
+import type { VoteThreshold } from '../interfaces/elections';
+import type { BlockNumber } from '../interfaces/runtime';
+import type { CodecTo } from '../types';
 
-import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+import { Metadata } from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
-import U128 from '../primitive/U128';
-import Tuple from './Tuple';
+import { Text, U32, u128 as U128 } from '../primitive';
+import { Tuple } from '.';
 
 describe('Tuple', (): void => {
   const registry = new TypeRegistry();

@@ -1,0 +1,299 @@
+{
+  "contract": {
+    "authors": [
+      "unknown"
+    ],
+    "name": "AssetTransfer",
+    "version": "0.0.1"
+  },
+  "metadataVersion": "0.1.0",
+  "source": {
+    "compiler": "solang 0.1.4",
+    "hash": "0x7d163f445bec3d33e90d0f60bda40acd42f2760dbc1b731616af70a6001e05c7",
+    "language": "Solidity 0.1.4"
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "docs": [
+          ""
+        ],
+        "name": "new",
+        "selector": "0x861731d5"
+      }
+    ],
+    "events": [
+      {
+        "args": [
+          {
+            "indexed": false,
+            "name": "_newUser",
+            "type": {
+              "display_name": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "name": "successfulRegistration"
+      },
+      {
+        "args": [
+          {
+            "indexed": false,
+            "name": "sender",
+            "type": {
+              "display_name": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "indexed": false,
+            "name": "_hexAsset",
+            "type": {
+              "display_name": [
+                "String"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "name": "addedAsset"
+      },
+      {
+        "args": [
+          {
+            "indexed": false,
+            "name": "sender",
+            "type": {
+              "display_name": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "indexed": false,
+            "name": "receiver",
+            "type": {
+              "display_name": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "indexed": false,
+            "name": "hexOfAsset",
+            "type": {
+              "display_name": [
+                "String"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "name": "assetSent"
+      }
+    ],
+    "messages": [
+      {
+        "args": [
+          {
+            "name": "_user",
+            "type": {
+              "display_name": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "mutates": false,
+        "name": "viewBalance",
+        "payable": false,
+        "return_type": {
+          "display_name": [
+            "u256"
+          ],
+          "type": 1
+        },
+        "selector": "0xc1a13d1a"
+      },
+      {
+        "args": [
+          {
+            "name": "_assetHex",
+            "type": {
+              "display_name": [
+                "String"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "mutates": false,
+        "name": "findOwner",
+        "payable": false,
+        "return_type": {
+          "display_name": [
+            "AccountId"
+          ],
+          "type": 4
+        },
+        "selector": "0x63560a8e"
+      },
+      {
+        "args": [
+          {
+            "name": "_hexAsset",
+            "type": {
+              "display_name": [
+                "String"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "mutates": true,
+        "name": "addAsset",
+        "payable": false,
+        "return_type": null,
+        "selector": "0xa7c6b52e"
+      },
+      {
+        "args": [],
+        "docs": [
+          ""
+        ],
+        "mutates": true,
+        "name": "receiveAsset",
+        "payable": false,
+        "return_type": {
+          "display_name": [
+            "String"
+          ],
+          "type": 5
+        },
+        "selector": "0xb2f3b5bc"
+      },
+      {
+        "args": [
+          {
+            "name": "_assetHex",
+            "type": {
+              "display_name": [
+                "String"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "name": "_receiver",
+            "type": {
+              "display_name": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "mutates": true,
+        "name": "sendAsset",
+        "payable": false,
+        "return_type": null,
+        "selector": "0xd6e5288f"
+      },
+      {
+        "args": [
+          {
+            "name": "_newUser",
+            "type": {
+              "display_name": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [
+          ""
+        ],
+        "mutates": true,
+        "name": "register",
+        "payable": false,
+        "return_type": null,
+        "selector": "0x4420e486"
+      }
+    ]
+  },
+  "storage": {
+    "struct": {
+      "fields": []
+    }
+  },
+  "types": [
+    {
+      "def": {
+        "primitive": "u256"
+      }
+    },
+    {
+      "def": {
+        "primitive": "u8"
+      }
+    },
+    {
+      "def": {
+        "array": {
+          "len": 32,
+          "type": 2
+        }
+      }
+    },
+    {
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "type": 3
+            }
+          ]
+        }
+      },
+      "path": [
+        "AccountId"
+      ]
+    },
+    {
+      "def": {
+        "primitive": "str"
+      }
+    }
+  ]
+}

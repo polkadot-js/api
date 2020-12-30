@@ -3,7 +3,7 @@
 
 // from https://stackoverflow.com/questions/19304157/getting-the-reason-why-websockets-closed-with-close-code-1006
 
-const specificStatusCodeMappings: Record<number, string> = {
+const known: Record<number, string> = {
   1000: 'Normal Closure',
   1001: 'Going Away',
   1002: 'Protocol Error',
@@ -22,20 +22,22 @@ const specificStatusCodeMappings: Record<number, string> = {
   1015: 'TLS Handshake'
 };
 
+function getUnmapped (code: number): string | void {
+  if (code <= 1999) {
+    return '(For WebSocket standard)';
+  } else if (code <= 2999) {
+    return '(For WebSocket extensions)';
+  } else if (code <= 3999) {
+    return '(For libraries and frameworks)';
+  } else if (code <= 4999) {
+    return '(For applications)';
+  }
+}
+
 export function getWSErrorString (code: number): string {
   if (code >= 0 && code <= 999) {
     return '(Unused)';
-  } else if (code >= 1016) {
-    if (code <= 1999) {
-      return '(For WebSocket standard)';
-    } else if (code <= 2999) {
-      return '(For WebSocket extensions)';
-    } else if (code <= 3999) {
-      return '(For libraries and frameworks)';
-    } else if (code <= 4999) {
-      return '(For applications)';
-    }
   }
 
-  return specificStatusCodeMappings[code] || '(Unknown)';
+  return known[code] || getUnmapped(code) || '(Unknown)';
 }

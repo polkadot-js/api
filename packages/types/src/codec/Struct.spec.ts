@@ -3,12 +3,11 @@
 
 /* eslint-disable sort-keys */
 
+import type { CodecTo } from '../types';
+
 import { TypeRegistry } from '../create';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
-import { CodecTo } from '../types';
-import Struct from './Struct';
-import Vec from './Vec';
+import { Text, U32 } from '../primitive';
+import { Struct, Vec } from '.';
 
 describe('Struct', (): void => {
   const registry = new TypeRegistry();
@@ -63,7 +62,7 @@ describe('Struct', (): void => {
     ).toEqual('{}');
   });
 
-  it('decodes reusing instanciated inputs', (): void => {
+  it('decodes reusing instantiated inputs', (): void => {
     const foo = new Text(registry, 'bar');
 
     expect(
@@ -99,6 +98,16 @@ describe('Struct', (): void => {
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
   });
 
+  it('decodes from a snake_case input', (): void => {
+    const input = new Struct(registry, {
+      snakeCaseA: U32,
+      snakeCaseB: Text,
+      other: U32
+    }, { snake_case_a: 42, snake_case_b: 'fubar', other: 69 } as any);
+
+    expect(input.toString()).toEqual('{"snakeCaseA":42,"snakeCaseB":"fubar","other":69}');
+  });
+
   it('throws when it cannot decode', (): void => {
     expect(
       (): Struct<any> => new (
@@ -107,7 +116,7 @@ describe('Struct', (): void => {
           u32: U32
         })
       )(registry, 'ABC')
-    ).toThrowError(/Struct: cannot decode type/);
+    ).toThrowError(/Cannot decode value/);
   });
 
   it('provides a clean toString()', (): void => {

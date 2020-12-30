@@ -1,14 +1,13 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { H256 } from '../interfaces';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
-import Null from '../primitive/Null';
+import { Null } from '../primitive/Null';
 import { typeToConstructor } from './utils';
-import Raw from './Raw';
 
 /** @internal */
 function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
@@ -48,7 +47,7 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
  * implements that - decodes, checks for optionality and wraps the required structure
  * with a value if/as required/found.
  */
-export default class Option<T extends Codec> implements Codec {
+export class Option<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
   readonly #Type: Constructor<T>;
@@ -81,7 +80,7 @@ export default class Option<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -189,9 +188,7 @@ export default class Option<T extends Codec> implements Codec {
    * @description Returns the value that the Option represents (if available), throws if null
    */
   public unwrap (): T {
-    if (this.isNone) {
-      throw new Error('Option: unwrapping a None value');
-    }
+    assert(this.isSome, 'Option: unwrapping a None value');
 
     return this.#raw;
   }

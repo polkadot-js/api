@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import Data from './Data';
+import { Data } from '.';
 
 const registry = new TypeRegistry();
 

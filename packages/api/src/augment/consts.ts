@@ -1,14 +1,14 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import { Codec } from '@polkadot/types/types';
-import { Vec } from '@polkadot/types/codec';
-import { u16, u32, u64 } from '@polkadot/types/primitive';
-import { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
-import { SessionIndex } from '@polkadot/types/interfaces/session';
-import { EraIndex } from '@polkadot/types/interfaces/staking';
-import { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
-import { ApiTypes } from '@polkadot/api/types';
+import type { Vec, u16, u32, u64 } from '@polkadot/types';
+import type { Codec } from '@polkadot/types/types';
+import type { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight } from '@polkadot/types/interfaces/runtime';
+import type { SessionIndex } from '@polkadot/types/interfaces/session';
+import type { EraIndex } from '@polkadot/types/interfaces/staking';
+import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
+import type { BlockWeights } from '@polkadot/types/interfaces/system';
+import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
@@ -34,6 +34,33 @@ declare module '@polkadot/api/types/consts' {
        * The minimum amount required to keep an account open.
        **/
       existentialDeposit: Balance & AugmentedConst<ApiType>;
+    };
+    bounties: {
+      [key: string]: Codec;
+      /**
+       * Percentage of the curator fee that will be reserved upfront as deposit for bounty curator.
+       **/
+      bountyCuratorDeposit: Permill & AugmentedConst<ApiType>;
+      /**
+       * The amount held on deposit for placing a bounty proposal.
+       **/
+      bountyDepositBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The delay period for which a bounty beneficiary need to wait before claim the payout.
+       **/
+      bountyDepositPayoutDelay: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Minimum value for a bounty.
+       **/
+      bountyValueMinimum: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The amount held on deposit per byte within bounty description.
+       **/
+      dataDepositPerByte: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Maximum acceptable reason length.
+       **/
+      maximumReasonLength: u32 & AugmentedConst<ApiType>;
     };
     contracts: {
       [key: string]: Codec;
@@ -133,17 +160,6 @@ declare module '@polkadot/api/types/consts' {
       moduleId: LockIdentifier & AugmentedConst<ApiType>;
       termDuration: BlockNumber & AugmentedConst<ApiType>;
       votingBond: BalanceOf & AugmentedConst<ApiType>;
-    };
-    finalityTracker: {
-      [key: string]: Codec;
-      /**
-       * The delay after which point things become suspicious. Default is 1000.
-       **/
-      reportLatency: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The number of recent samples to keep from this chain. Default is 101.
-       **/
-      windowSize: BlockNumber & AugmentedConst<ApiType>;
     };
     identity: {
       [key: string]: Codec;
@@ -327,29 +343,17 @@ declare module '@polkadot/api/types/consts' {
     system: {
       [key: string]: Codec;
       /**
-       * The base weight of executing a block, independent of the transactions in the block.
-       **/
-      blockExecutionWeight: Weight & AugmentedConst<ApiType>;
-      /**
        * The maximum number of blocks to allow in mortal eras.
        **/
       blockHashCount: BlockNumber & AugmentedConst<ApiType>;
       /**
+       * The weight configuration (limits & base values) for each class of extrinsics and block.
+       **/
+      blockWeights: BlockWeights & AugmentedConst<ApiType>;
+      /**
        * The weight of runtime database operations the runtime can invoke.
        **/
       dbWeight: RuntimeDbWeight & AugmentedConst<ApiType>;
-      /**
-       * The base weight of an Extrinsic in the block, independent of the of extrinsic being executed.
-       **/
-      extrinsicBaseWeight: Weight & AugmentedConst<ApiType>;
-      /**
-       * The maximum length of a block (in bytes).
-       **/
-      maximumBlockLength: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum weight of a block.
-       **/
-      maximumBlockWeight: Weight & AugmentedConst<ApiType>;
     };
     timestamp: {
       [key: string]: Codec;
@@ -360,6 +364,29 @@ declare module '@polkadot/api/types/consts' {
        * period on default settings.
        **/
       minimumPeriod: Moment & AugmentedConst<ApiType>;
+    };
+    tips: {
+      [key: string]: Codec;
+      /**
+       * The amount held on deposit per byte within the tip report reason.
+       **/
+      dataDepositPerByte: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Maximum acceptable reason length.
+       **/
+      maximumReasonLength: u32 & AugmentedConst<ApiType>;
+      /**
+       * The period for which a tip remains open after is has achieved threshold tippers.
+       **/
+      tipCountdown: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * The amount of the final tip which goes to the original reporter of the tip.
+       **/
+      tipFindersFee: Percent & AugmentedConst<ApiType>;
+      /**
+       * The amount held on deposit for placing a tip report.
+       **/
+      tipReportDepositBase: BalanceOf & AugmentedConst<ApiType>;
     };
     transactionPayment: {
       [key: string]: Codec;
@@ -395,22 +422,6 @@ declare module '@polkadot/api/types/consts' {
        * Period between successive spends.
        **/
       spendPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The period for which a tip remains open after is has achieved threshold tippers.
-       **/
-      tipCountdown: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The amount of the final tip which goes to the original reporter of the tip.
-       **/
-      tipFindersFee: Percent & AugmentedConst<ApiType>;
-      /**
-       * The amount held on deposit for placing a tip report.
-       **/
-      tipReportDepositBase: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * The amount held on deposit per byte within the tip report reason.
-       **/
-      tipReportDepositPerByte: BalanceOf & AugmentedConst<ApiType>;
     };
     vesting: {
       [key: string]: Codec;

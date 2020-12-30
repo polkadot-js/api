@@ -1,44 +1,29 @@
 {
   "name": "@polkadot/api-derive",
-  "version": "1.35.0-beta.1",
+  "version": "3.2.4-5",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "main": "index.js",
-  "keywords": [
-    "Polkadot",
-    "Promise",
-    "RxJs"
-  ],
+  "module": "index.mjs",
+  "sideEffects": false,
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": [],
   "contributors": [],
   "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/polkadot-js/api.git"
-  },
-  "bugs": {
-    "url": "https://github.com/polkadot-js/api/issues"
-  },
+  "repository": "github:polkadot-js/api",
+  "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-derive#readme",
   "dependencies": {
-    "@babel/runtime": "^7.11.2",
-    "@polkadot/api": "1.35.0-beta.1",
-    "@polkadot/rpc-core": "1.35.0-beta.1",
-    "@polkadot/rpc-provider": "1.35.0-beta.1",
-    "@polkadot/types": "1.35.0-beta.1",
-    "@polkadot/util": "^3.4.1",
-    "@polkadot/util-crypto": "^3.4.1",
-    "bn.js": "^5.1.3",
-    "memoizee": "^0.4.14",
-    "rxjs": "^6.6.3"
+    "@babel/runtime": "^7.12.5",
+    "@polkadot/api": "3.2.4-5",
+    "@polkadot/rpc-core": "3.2.4-5",
+    "@polkadot/types": "3.2.4-5",
+    "@polkadot/util": "^5.2.2",
+    "@polkadot/util-crypto": "^5.2.2",
+    "@polkadot/x-rxjs": "3.2.4-5",
+    "bn.js": "^4.11.9"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^3.4.1"
+    "@polkadot/keyring": "^5.2.2",
+    "@polkadot/rpc-provider": "3.2.4-5"
   }
 }

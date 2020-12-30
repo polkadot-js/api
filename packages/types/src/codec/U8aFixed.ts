@@ -1,20 +1,15 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyU8a, Constructor, Registry } from '../types';
+import type { AnyU8a, Constructor, Registry } from '../types';
+import type { U8aBitLength } from './types';
 
 import { isString, u8aToU8a } from '@polkadot/util';
 
-import Raw from './Raw';
-
-// The 520 here is a weird one - it is explicitly for a [u8; 65] as found as a EcdsaSignature,
-// and 264 here is explicity for a [u8; 33] as found as EcdsaPublic key.
-// Likewise 160 is for [u8; 20], which is also a H160, i.e. an Ethereum address. Both these are
-// as a result of the Polkadot claims module. (Technically we don't need the 520 in here)
-export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 264 | 512 | 520 | 1024 | 2048;
+import { Raw } from './Raw';
 
 /** @internal */
-function decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
+function decodeU8aFixed (value: AnyU8a, bitLength: U8aBitLength): AnyU8a {
   if (Array.isArray(value) || isString(value)) {
     return decodeU8aFixed(u8aToU8a(value), bitLength);
   }
@@ -41,12 +36,12 @@ function decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
  * A U8a that manages a a sequence of bytes up to the specified bitLength. Not meant
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
-export default class U8aFixed extends Raw {
-  constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
+export class U8aFixed extends Raw {
+  constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: U8aBitLength = 256) {
     super(registry, decodeU8aFixed(value, bitLength));
   }
 
-  public static with (bitLength: BitLength, typeName?: string): Constructor<U8aFixed> {
+  public static with (bitLength: U8aBitLength, typeName?: string): Constructor<U8aFixed> {
     return class extends U8aFixed {
       constructor (registry: Registry, value?: AnyU8a) {
         super(registry, value, bitLength);

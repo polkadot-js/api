@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyU8a, Registry } from '../types';
+import type { AnyU8a, Registry } from '../types';
 
-import { assert, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { assert, compactFromU8a, compactToU8a, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
-import Compact from '../codec/Compact';
-import Raw from '../codec/Raw';
+import { Raw } from '../codec/Raw';
 
 /** @internal */
 function decodeBitVecU8a (value?: Uint8Array): Uint8Array {
@@ -15,7 +14,7 @@ function decodeBitVecU8a (value?: Uint8Array): Uint8Array {
   }
 
   // handle all other Uint8Array inputs, these do have a length prefix which is the number of bits encoded
-  const [offset, length] = Compact.decodeU8a(value);
+  const [offset, length] = compactFromU8a(value);
   const total = offset + Math.ceil(length.toNumber() / 8);
 
   assert(total <= value.length, `BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
@@ -38,7 +37,7 @@ function decodeBitVec (value?: AnyU8a): Uint8Array | undefined {
  * A BitVec that represents an array of bits. The bits are however stored encoded. The difference between this
  * and a normal Bytes would be that the length prefix indicates the number of bits encoded, not the bytes
  */
-export default class BitVec extends Raw {
+export class BitVec extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, decodeBitVec(value));
   }
@@ -47,7 +46,7 @@ export default class BitVec extends Raw {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.length + Compact.encodeU8a(this.bitLength()).length;
+    return this.length + compactToU8a(this.bitLength()).length;
   }
 
   /**
@@ -66,6 +65,6 @@ export default class BitVec extends Raw {
 
     return isBare
       ? bitVec
-      : u8aConcat(Compact.encodeU8a(this.bitLength()), bitVec);
+      : u8aConcat(compactToU8a(this.bitLength()), bitVec);
   }
 }

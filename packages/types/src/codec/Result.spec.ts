@@ -3,9 +3,9 @@
 
 import { hexToString } from '@polkadot/util';
 
-import { u32, Text } from '../primitive';
 import { TypeRegistry } from '../create';
-import Result from './Result';
+import { Text, u32 } from '../primitive';
+import { Result } from '.';
 
 describe('Result', (): void => {
   const registry = new TypeRegistry();

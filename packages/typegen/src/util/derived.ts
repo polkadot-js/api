@@ -1,41 +1,34 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
-import { Constructor, Registry } from '@polkadot/types/types';
+import type { TypeDef } from '@polkadot/types/create/types';
+import type { Constructor, Registry } from '@polkadot/types/types';
 
+import { Compact, Enum, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types/codec';
+import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
 import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
-import AbstractInt from '@polkadot/types/codec/AbstractInt';
-import Compact from '@polkadot/types/codec/Compact';
-import Enum from '@polkadot/types/codec/Enum';
-import Option from '@polkadot/types/codec/Option';
-import Struct from '@polkadot/types/codec/Struct';
-import UInt from '@polkadot/types/codec/UInt';
-import Vec from '@polkadot/types/codec/Vec';
-import Tuple from '@polkadot/types/codec/Tuple';
+import { TypeDefInfo } from '@polkadot/types/create/types';
+import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
-import GenericAccountId from '@polkadot/types/generic/AccountId';
-import GenericLookupSource from '@polkadot/types/generic/LookupSource';
-import Vote from '@polkadot/types/generic/Vote';
-import Null from '@polkadot/types/primitive/Null';
+import { Null } from '@polkadot/types/primitive';
 import * as primitiveClasses from '@polkadot/types/primitive';
 import { isChildClass } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
-import { setImports, ModuleTypes, TypeImports } from './imports';
+import { ModuleTypes, setImports, TypeImports } from './imports';
 
 function arrayToStrType (arr: string[]): string {
-  return `${arr.map((c): string => `'${c}'`).join(' | ')}`;
+  return `${arr.map((c) => `'${c}'`).join(' | ')}`;
 }
 
 const voteConvictions = arrayToStrType(AllConvictions);
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */
-export function getDerivedTypes (definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
+export function getDerivedTypes (registry: Registry, definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName]);
+  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName] || ClassOfUnsafe(registry, type));
   const def = getTypeDef(type);
 
   setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
@@ -72,10 +65,10 @@ export function getDerivedTypes (definitions: Record<string, ModuleTypes>, type:
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
 /** @internal */
-export function getSimilarTypes (definitions: Record<string, ModuleTypes>, registry: Registry, _type: string, imports: TypeImports): string[] {
+export function getSimilarTypes (registry: Registry, definitions: Record<string, ModuleTypes>, _type: string, imports: TypeImports): string[] {
   const typeParts = _type.split('::');
   const type = typeParts[typeParts.length - 1];
-  const possibleTypes = [type];
+  const possibleTypes = [formatType(definitions, type, imports)];
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);
@@ -97,10 +90,10 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
     // this could be that we define a Vec type and refer to it by name
     if (subDef) {
       if (subDef.info === TypeDefInfo.Plain) {
-        possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
+        possibleTypes.push(`(${getSimilarTypes(registry, definitions, subDef.type, imports).join(' | ')})[]`);
       } else if (subDef.info === TypeDefInfo.Tuple) {
         const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
-          getSimilarTypes(definitions, registry, type, imports).join(' | ')
+          getSimilarTypes(registry, definitions, type, imports).join(' | ')
         );
 
         possibleTypes.push(`([${subs.join(', ')}])[]`);
@@ -137,7 +130,7 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
   } else if (isChildClass(Option, Clazz)) {
     // TODO inspect container
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
-  } else if (isChildClass(Vote, Clazz)) {
+  } else if (isChildClass(GenericVote, Clazz)) {
     possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
@@ -149,11 +142,11 @@ export function getSimilarTypes (definitions: Record<string, ModuleTypes>, regis
 
     // this could be that we define a Tuple type and refer to it by name
     if (Array.isArray(subDef)) {
-      const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
+      const subs = subDef.map(({ type }) => getSimilarTypes(registry, definitions, type, imports).join(' | '));
 
       possibleTypes.push(`[${subs.join(', ')}]`);
     }
   }
 
-  return possibleTypes;
+  return [...new Set(possibleTypes)];
 }

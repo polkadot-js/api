@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeDefInfo } from '../types';
-
 import { createClass, getTypeClass, TypeRegistry } from '.';
 
 describe('createClass', (): void => {
@@ -32,6 +31,10 @@ describe('getTypeClass', (): void => {
 
     getTypeClass(registry, typeDef);
 
-    expect(spy).toHaveBeenCalledWith('Unable to resolve type ABC, it will fail on construction');
+    expect(spy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      'Unable to resolve type ABC, it will fail on construction'
+    );
   });
 });

@@ -3,12 +3,11 @@
 
 import path from 'path';
 import yargs from 'yargs';
-import { formatNumber } from '@polkadot/util';
-import WS from '@polkadot/x-ws';
 
-import generateConst from './generate/consts';
-import generateQuery from './generate/query';
-import generateTx from './generate/tx';
+import { formatNumber } from '@polkadot/util';
+import { WebSocket } from '@polkadot/x-ws';
+
+import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
 import { HEADER, writeFile } from './util';
 
 function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
@@ -19,16 +18,19 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
     : {};
 
-  generateConst(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
-  generateQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
-  generateTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, isStrict);
+  generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultRpc(path.join(process.cwd(), output, 'augment-api-rpc.ts'), extraTypes);
+  generateDefaultTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict);
 
   writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
     [
       HEADER('chain'),
       ...[
         '@polkadot/api/augment/rpc',
-        ...['consts', 'query', 'tx'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
+        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
   );
@@ -36,7 +38,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   process.exit(0);
 }
 
-export default function main (): void {
+export function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
@@ -60,7 +62,7 @@ export default function main (): void {
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
     try {
-      const websocket = new WS(endpoint);
+      const websocket = new WebSocket(endpoint);
 
       websocket.onclose = (event: { code: number; reason: string }): void => {
         console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);

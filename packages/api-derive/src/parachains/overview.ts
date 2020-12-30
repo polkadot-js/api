@@ -1,15 +1,17 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ParaId } from '@polkadot/types/interfaces';
-import { DeriveParachain, DeriveParachainInfo } from '../types';
-import { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { ParaId } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveParachain, DeriveParachainInfo } from '../types';
+import type { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
+import { combineLatest, of } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
+import { didUpdateToBool } from './util';
 
 type Result = [
   ParaId[],
@@ -20,17 +22,13 @@ type Result = [
 ];
 
 function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: Result): DeriveParachain[] {
-  return ids.map((id, index): DeriveParachain => {
-    return {
-      didUpdate: didUpdate.isSome
-        ? !!didUpdate.unwrap().some((paraId): boolean => paraId.eq(id))
-        : false,
-      id,
-      info: { id, ...infos[index].unwrapOr(null) } as DeriveParachainInfo,
-      pendingSwapId: pendingSwaps[index].unwrapOr(null),
-      relayDispatchQueueSize: relayDispatchQueueSizes[index][0].toNumber()
-    };
-  });
+  return ids.map((id, index): DeriveParachain => ({
+    didUpdate: didUpdateToBool(didUpdate, id),
+    id,
+    info: { id, ...infos[index].unwrapOr(null) } as DeriveParachainInfo,
+    pendingSwapId: pendingSwaps[index].unwrapOr(null),
+    relayDispatchQueueSize: relayDispatchQueueSizes[index][0].toNumber()
+  }));
 }
 
 export function overview (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveParachain[]> {
@@ -46,9 +44,7 @@ export function overview (instanceId: string, api: ApiInterfaceRx): () => Observ
             api.query.parachains.relayDispatchQueueSize.multi<RelayDispatchQueueSize>(paraIds)
           ])
         ),
-        map((result: Result): DeriveParachain[] =>
-          parse(result)
-        )
+        map(parse)
       )
       : of([] as DeriveParachain[])
   );

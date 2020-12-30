@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ChainUpgradesRaw } from './types';
+import type { ChainUpgradesRaw } from './types';
 
 const upgrades: ChainUpgradesRaw = {
   genesisHash: '0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe',
@@ -13,7 +13,7 @@ const upgrades: ChainUpgradesRaw = {
     [1472960, 1052], [1475648, 1053], [1491596, 1054], [1574408, 1055], [2064961, 1058],
     [2201991, 1062], [2671528, 2005], [2704202, 2007], [2728002, 2008], [2832534, 2011],
     [2962294, 2012], [3240000, 2013], [3274408, 2015], [3323565, 2019], [3534175, 2022],
-    [3860281, 2023]
+    [3860281, 2023], [4143129, 2024], [4401242, 2025], [4841367, 2026]
   ]
 };
 

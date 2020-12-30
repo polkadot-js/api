@@ -1,11 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, u32 } from '@polkadot/types/primitive';
-import { Signature } from '@polkadot/types/interfaces/extrinsics';
-import { BlockNumber } from '@polkadot/types/interfaces/runtime';
-import { SessionIndex } from '@polkadot/types/interfaces/session';
+import type { Bytes, Struct, Vec, u32 } from '@polkadot/types';
+import type { Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** @name AuthIndex */
 export interface AuthIndex extends u32 {}

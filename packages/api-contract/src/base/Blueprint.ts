@@ -1,29 +1,51 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
-import { ApiObject, ContractABIPre } from '../types';
+import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
+import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
+import type { AbiConstructor, BlueprintOptions } from '../types';
+import type { BlueprintDeploy, ContractGeneric, MapConstructorExec } from './types';
 
 import BN from 'bn.js';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import { SubmittableResult } from '@polkadot/api';
-import { assert } from '@polkadot/util';
+import { ApiBase } from '@polkadot/api/base';
+import { Bytes } from '@polkadot/types';
+import { compactAddLength, isUndefined, stringCamelCase, u8aToU8a } from '@polkadot/util';
+import { randomAsU8a } from '@polkadot/util-crypto';
 
-import Abi from '../Abi';
-import Contract from './Contract';
-import { BaseWithTx } from './util';
+import { Abi } from '../Abi';
+import { applyOnEvent, extractOptions, isOptions } from '../util';
+import { Base } from './Base';
+import { Contract } from './Contract';
 
-// eslint-disable-next-line no-use-before-define
-type BlueprintCreateResultSubscription<ApiType extends ApiTypes> = Observable<BlueprintCreateResult<ApiType>>;
+const EMPTY_SALT = new Uint8Array();
 
-export interface BlueprintCreate<ApiType extends ApiTypes> {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType>;
+function createTx <ApiType extends ApiTypes> (fn: (options: BlueprintOptions, params: CodecArg[]) => SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>>): BlueprintDeploy<ApiType> {
+  return (options: BigInt | string | number | BN | BlueprintOptions, ...params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> =>
+    isOptions(options)
+      ? fn(options, params)
+      : fn(...extractOptions(options, params));
 }
 
-class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult {
+function createWithId <T> (fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]) => T): ContractGeneric<BlueprintOptions, T> {
+  return (constructorOrId: AbiConstructor | string | number, options: BigInt | string | number | BN | BlueprintOptions, ...params: CodecArg[]): T =>
+    isOptions(options)
+      ? fn(constructorOrId, options, params)
+      : fn(constructorOrId, ...extractOptions(options, params));
+}
+
+function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()) {
+  return salt instanceof Bytes
+    ? salt
+    : salt && salt.length
+      ? compactAddLength(u8aToU8a(salt))
+      : EMPTY_SALT;
+}
+
+export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
 
   constructor (result: ISubmittableResult, contract?: Contract<ApiType>) {
@@ -33,43 +55,53 @@ class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult 
   }
 }
 
-// NOTE Experimental, POC, bound to change
-export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
+export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
+  /**
+   * @description The on-chain code hash for this blueprint
+   */
   public readonly codeHash: Hash;
 
-  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
+  /**
+   * @deprecated
+   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
+   */
+  public readonly createContract: ContractGeneric<BlueprintOptions, SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>>>;
+
+  readonly #tx: MapConstructorExec<ApiType> = {};
+
+  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.codeHash = this.registry.createType('Hash', codeHash);
-  }
+    this.createContract = createWithId(this.#deploy);
 
-  public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate<ApiType> {
-    assert(!!this.abi.constructors[constructorIndex], `Specified constructor index ${constructorIndex} does not exist`);
+    this.abi.constructors.forEach((c): void => {
+      const messageName = stringCamelCase(c.identifier);
 
-    return {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      signAndSend: this.decorateMethod(
-        (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType> => {
-          return this._apiContracts
-            .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
-            .signAndSend(account)
-            .pipe(map(this._createResult));
-        }
-      )
-    };
-  }
-
-  private _createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
-    let contract: Contract<ApiType> | undefined;
-
-    if (result.isInBlock) {
-      const record = result.findRecord('contract', 'Instantiated');
-
-      if (record) {
-        contract = new Contract<ApiType>(this.api, this.abi, this.decorateMethod, record.event.data[1] as Address);
+      if (isUndefined(this.#tx[messageName])) {
+        this.#tx[messageName] = createTx((o, p) => this.#deploy(c, o, p));
       }
-    }
+    });
+  }
 
-    return new BlueprintCreateResult(result, contract);
+  public get tx (): MapConstructorExec<ApiType> {
+    return this.#tx;
+  }
+
+  #deploy = (constructorOrId: AbiConstructor | string| number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
+    const encodedSalt = encodeSalt(salt);
+    const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
+    const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);
+    const tx = withSalt
+      ? this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded, encodedSalt)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore old style with salt included
+      : this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded);
+
+    return tx.withResultTransform((result: ISubmittableResult) =>
+      new BlueprintSubmittableResult(result, applyOnEvent(result, 'Instantiated', ([record]: EventRecord[]) =>
+        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
+      ))
+    );
   }
 }

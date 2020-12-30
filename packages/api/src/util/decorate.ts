@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyFunction } from '@polkadot/types/types';
-import { ApiTypes, DecorateMethod, MethodResult } from '../types';
+import type { AnyFunction } from '@polkadot/types/types';
+import type { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
 // Most generic typings for `api.derive.*.*`
 type AnyDerive = Record<string, Record<string, AnyFunction>>;

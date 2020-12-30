@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EventRecord, ExtrinsicStatus, H256, SignedBlock } from '@polkadot/types/interfaces';
+import type { EventRecord, ExtrinsicStatus, H256, SignedBlock } from '@polkadot/types/interfaces';
 
-import l from './logging';
+import { l } from './logging';
 
-export default function filterEvents (extHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): EventRecord[] | undefined {
+export function filterEvents (extHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): EventRecord[] | undefined {
   // extrinsics to hashes
   const myHash = extHash.toHex();
   const allHashes = extrinsics.map((ext): string => ext.hash.toHex());

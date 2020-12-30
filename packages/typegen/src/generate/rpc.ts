@@ -1,13 +1,27 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Definitions } from '@polkadot/types/types';
+
 import Handlebars from 'handlebars';
 
 import { TypeRegistry } from '@polkadot/types/create';
-import { Definitions } from '@polkadot/types/types';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 
-import { createImports, getSimilarTypes, formatType, readTemplate, setImports, writeFile } from '../util';
+import { createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+
+interface ItemDef {
+  args: string;
+  docs: string[];
+  generic: string | undefined;
+  name: string;
+  type: string | undefined;
+}
+
+interface ModuleDef {
+  items: ItemDef[];
+  name: string;
+}
 
 const StorageKeyTye = 'StorageKey | string | Uint8Array | any';
 
@@ -15,14 +29,12 @@ const template = readTemplate('rpc');
 const generateRpcTypesTemplate = Handlebars.compile(template);
 
 /** @internal */
-export function generateRpcTypes (importDefinitions: { [importPath: string]: Record<string, Definitions> }, dest: string): void {
+export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
   writeFile(dest, (): string => {
-    const registry = new TypeRegistry();
-
-    const imports = createImports(importDefinitions);
+    const allTypes: Record<string, Record<string, { types: Record<string, any> }>> = { '@polkadot/types/interfaces': importDefinitions, ...extraTypes };
+    const imports = createImports(allTypes);
     const definitions = imports.definitions as Record<string, Definitions>;
-
-    const allDefs = Object.entries(importDefinitions).reduce((defs, [path, obj]) => {
+    const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
@@ -31,6 +43,7 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
       .filter((key) => Object.keys(definitions[key].rpc || {}).length !== 0)
       .sort();
 
+    const additional: Record<string, ModuleDef> = {};
     const modules = rpcKeys.map((sectionFullName) => {
       const rpc = definitions[sectionFullName].rpc;
       const section = sectionFullName.split('/').pop();
@@ -69,7 +82,7 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
           setImports(allDefs, imports, [def.type]);
 
           args = def.params.map((param) => {
-            const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
+            const similarTypes = getSimilarTypes(registry, definitions, param.type, imports);
 
             setImports(allDefs, imports, [param.type, ...similarTypes]);
 
@@ -80,20 +93,35 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
           generic = '';
         }
 
-        return {
+        const item = {
           args: args.join(', '),
           docs: [def.description],
           generic,
           name: methodName,
           type
         };
-      });
+
+        if (def.aliasSection) {
+          if (!additional[def.aliasSection]) {
+            additional[def.aliasSection] = {
+              items: [],
+              name: def.aliasSection
+            };
+          }
+
+          additional[def.aliasSection].items.push(item);
+
+          return null;
+        }
+
+        return item;
+      }).filter((item): item is ItemDef => !!item);
 
       return {
         items: allMethods,
-        name: section
+        name: section || 'unknown'
       };
-    });
+    }).concat(...Object.values(additional)).sort((a, b) => a.name.localeCompare(b.name));
 
     imports.typesTypes.Observable = true;
 
@@ -113,9 +141,15 @@ export function generateRpcTypes (importDefinitions: { [importPath: string]: Rec
   });
 }
 
-export default function generateDefaultRpcTypes (): void {
+export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
+  const registry = new TypeRegistry();
+
+  registerDefinitions(registry, extraTypes);
+
   generateRpcTypes(
-    { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/api/src/augment/rpc.ts'
+    registry,
+    defaultDefinitions,
+    dest,
+    extraTypes
   );
 }

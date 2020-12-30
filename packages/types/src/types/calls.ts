@@ -1,21 +1,17 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { FunctionMetadataLatest } from '../interfaces/metadata';
-import { Call } from '../interfaces/runtime';
+import type { Call } from '../interfaces/runtime';
+import type { AnyTuple } from './codec';
+import type { IMethod } from './interfaces';
 
-export interface CallBase {
-  callIndex: Uint8Array;
-  meta: FunctionMetadataLatest;
-  method: string;
-  section: string;
+export interface CallBase<A extends AnyTuple> extends IMethod<A> {
+  readonly method: string;
+  readonly section: string;
+
   toJSON: () => any;
 }
 
-export interface CallFunction extends CallBase {
-  (...args: any[]): Call;
+export interface CallFunction<A extends AnyTuple = AnyTuple> extends CallBase<A> {
+  (...args: any[]): Call & IMethod<A>;
 }
-
-export type Calls = Record<string, CallFunction>;
-
-export type ModulesWithCalls = Record<string, Calls>;

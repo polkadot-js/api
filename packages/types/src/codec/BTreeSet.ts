@@ -1,19 +1,19 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, hexToU8a, isHex, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import Compact from './Compact';
-import Raw from './Raw';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
+
+const l = logger('BTreeSet');
 
 /** @internal */
 function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
   const output = new Set<V>();
-  const [offset, length] = Compact.decodeU8a(u8a);
+  const [offset, length] = compactFromU8a(u8a);
   const types = [];
 
   for (let i = 0; i < length.toNumber(); i++) {
@@ -37,7 +37,7 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
     try {
       output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
     } catch (error) {
-      console.error('Failed to decode BTreeSet key or value:', (error as Error).message);
+      l.error('Failed to decode key or value:', (error as Error).message);
 
       throw error;
     }
@@ -78,7 +78,7 @@ function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constr
   throw new Error('BTreeSet: cannot decode type');
 }
 
-export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
+export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public readonly registry: Registry;
 
   readonly #ValClass: Constructor<V>;
@@ -102,7 +102,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    let len = Compact.encodeU8a(this.size).length;
+    let len = compactToU8a(this.size).length;
 
     this.forEach((v: V) => {
       len += v.encodedLength;
@@ -115,7 +115,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Returns a hash of the value
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -187,7 +187,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
     const encoded = new Array<Uint8Array>();
 
     if (!isBare) {
-      encoded.push(Compact.encodeU8a(this.size));
+      encoded.push(compactToU8a(this.size));
     }
 
     this.forEach((v: V) => {

@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyU8a, IExtrinsicEra, Registry } from '../types';
+import type { AnyU8a, IExtrinsicEra, Registry } from '../types';
 
 import BN from 'bn.js';
-import { assert, bnToBn, formatNumber, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
 
-import Enum from '../codec/Enum';
-import Tuple from '../codec/Tuple';
-import Raw from '../codec/Raw';
-import U64 from '../primitive/U64';
+import { assert, bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
+
+import { Enum } from '../codec/Enum';
+import { Raw } from '../codec/Raw';
+import { Tuple } from '../codec/Tuple';
+import { u64 as U64 } from '../primitive/U64';
 import { IMMORTAL_ERA } from './constants';
 
 type MortalEraValue = [U64, U64];
@@ -67,16 +68,12 @@ export class MortalEra extends Tuple {
 
   /** @internal */
   private static _decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
-    if (isHex(value)) {
-      return MortalEra._decodeMortalU8a(registry, hexToU8a(value));
-    } else if (Array.isArray(value)) {
-      return MortalEra._decodeMortalU8a(registry, new Uint8Array(value));
-    } else if (isU8a(value)) {
-      return MortalEra._decodeMortalU8a(registry, value);
+    if (!value) {
+      return [new U64(registry), new U64(registry)];
+    } else if (isU8a(value) || isHex(value) || Array.isArray(value)) {
+      return MortalEra._decodeMortalU8a(registry, u8aToU8a(value));
     } else if (isObject(value)) {
       return MortalEra._decodeMortalObject(registry, value);
-    } else if (!value) {
-      return [new U64(registry), new U64(registry)];
     }
 
     throw new Error('Invalid data passed to Mortal era');
@@ -201,21 +198,21 @@ export class MortalEra extends Tuple {
  * @description
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
-export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
+export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
   constructor (registry: Registry, value?: unknown) {
     super(registry, {
       ImmortalEra,
       MortalEra
-    }, ExtrinsicEra._decodeExtrinsicEra(value as string));
+    }, GenericExtrinsicEra._decodeExtrinsicEra(value as string));
   }
 
   /** @internal */
   // eslint-disable-next-line @typescript-eslint/ban-types
   private static _decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (value instanceof ExtrinsicEra) {
-      return ExtrinsicEra._decodeExtrinsicEra(value.toU8a());
+    if (value instanceof GenericExtrinsicEra) {
+      return GenericExtrinsicEra._decodeExtrinsicEra(value.toU8a());
     } else if (isHex(value)) {
-      return ExtrinsicEra._decodeExtrinsicEra(hexToU8a(value));
+      return GenericExtrinsicEra._decodeExtrinsicEra(hexToU8a(value));
     } else if (!value || isU8a(value)) {
       return (!value?.length || value[0] === 0)
         ? new Uint8Array([0])

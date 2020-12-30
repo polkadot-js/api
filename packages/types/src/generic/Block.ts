@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
-import { AnyNumber, AnyU8a, Registry } from '../types';
+import type { Vec } from '../codec/Vec';
+import type { GenericExtrinsic } from '../extrinsic/Extrinsic';
+import type { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
+import type { AnyNumber, AnyU8a, Registry } from '../types';
 
-import Extrinsic from '../extrinsic/Extrinsic';
-import Struct from '../codec/Struct';
-import Vec from '../codec/Vec';
+import { Struct } from '../codec/Struct';
 
 export interface HeaderValue {
   digest?: Digest | { logs: DigestItem[] };
@@ -22,11 +22,11 @@ export interface BlockValue {
 }
 
 /**
- * @name Block
+ * @name GenericBlock
  * @description
  * A block encoded with header and extrinsics
  */
-export default class Block extends Struct {
+export class GenericBlock extends Struct {
   constructor (registry: Registry, value?: BlockValue | Uint8Array) {
     super(registry, {
       header: 'Header',
@@ -39,14 +39,14 @@ export default class Block extends Struct {
    * @description Encodes a content [[Hash]] for the block
    */
   public get contentHash (): H256 {
-    return this.registry.createType('H256', this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description The [[Extrinsic]] contained in the block
    */
-  public get extrinsics (): Vec<Extrinsic> {
-    return this.get('extrinsics') as Vec<Extrinsic>;
+  public get extrinsics (): Vec<GenericExtrinsic> {
+    return this.get('extrinsics') as Vec<GenericExtrinsic>;
   }
 
   /**

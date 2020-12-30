@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constructor } from '@polkadot/types/types';
+import type { Constructor } from '@polkadot/types/types';
 
-import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
-
-import WsProvider from './';
+import { Global, Mock } from './../mock/types';
+import { WsProvider } from './';
 
 declare const global: Global;
 
@@ -17,10 +16,10 @@ function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect = 1000): WsProvider {
+function createWs (autoConnect = 1000): Promise<WsProvider> {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws;
+  return ws.isReady;
 }
 
 describe('subscribe', (): void => {
@@ -47,12 +46,14 @@ describe('subscribe', (): void => {
       }
     }]);
 
-    return createWs()
-      .subscribe('type', 'test_sub', [], (cb): void => {
-        expect(cb).toEqual(expect.anything());
-      })
-      .then((id): void => {
-        expect(id).toEqual(1);
-      });
+    return createWs().then((ws) =>
+      ws
+        .subscribe('type', 'test_sub', [], (cb): void => {
+          expect(cb).toEqual(expect.anything());
+        })
+        .then((id): void => {
+          expect(id).toEqual(1);
+        })
+    );
   });
 });

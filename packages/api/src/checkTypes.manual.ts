@@ -3,13 +3,14 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { Balance, Header, Index } from '@polkadot/types/interfaces';
-import { IExtrinsic, IMethod } from '@polkadot/types/types';
+import type { StorageKey } from '@polkadot/types';
+import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
+import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
-import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
-import { createTypeUnsafe, TypeRegistry } from '@polkadot/types';
+import { createTestPairs, TestKeyringMap } from '@polkadot/keyring/testingPairs';
+import { createTypeUnsafe, TypeRegistry } from '@polkadot/types/create';
 
 import { SubmittableResult } from './';
 
@@ -34,7 +35,40 @@ async function derive (api: ApiPromise): Promise<void> {
   console.log('fees', fees);
 }
 
-async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
+function errors (api: ApiPromise): void {
+  const someError = {} as DispatchErrorModule;
+
+  // existing
+  console.log(api.errors.vesting.AmountLow.is(someError));
+
+  // non-existing error, existing module
+  console.log(api.errors.vesting.Something.is(someError));
+
+  // something random
+  console.log(api.errors.something.Random.is(someError));
+}
+
+function events (api: ApiPromise): void {
+  const event = {} as Event;
+
+  // existing
+  if (api.events.balances.Transfer.is(event)) {
+    // the types are correctly expanded
+    const [from, to, amount] = event.data;
+
+    console.log(from.toHuman(), to.toHuman(), amount.toBn());
+  }
+
+  // something random
+  if (api.events.something.Random.is(event)) {
+    // the types are just codec
+    const [a, b] = event.data;
+
+    console.log(a.toHuman(), b.toHuman());
+  }
+}
+
+async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.bonded();
 
   console.log('intentions:', intentions);
@@ -47,15 +81,14 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const oldBal = await api.query.balances.totalIssuance.at('abcd');
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
   // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
-  const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
+  const multi = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
 
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
-    [api.query.system.account, keyring.eve.address],
-    // older chains only
-    [api.query.system.accountNonce, keyring.bob.address]
+    [api.query.staking.validators],
+    [api.query.system.events]
   ], (values): void => {
     console.log('values', values);
 
@@ -64,12 +97,28 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // check multi , Promise result
   const multiRes = await api.queryMulti([
-    [api.query.system.account, keyring.eve.address],
+    [api.query.system.account, pairs.eve.address],
     // older chains only
-    [api.query.system.accountNonce, keyring.bob.address]
+    [api.query.system.accountNonce, pairs.eve.address]
   ]);
 
   console.log(multiRes);
+}
+
+async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
+  // events destructing
+  await api.query.system.events((records): void => {
+    records.forEach(({ event, phase }): void => {
+      if (phase.isApplyExtrinsic) {
+        // Dunno... this should work
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const [accountId, value]: [AccountId, Balance] = event.data;
+
+        console.log(`${accountId.toString()} has ${value.toHuman()}`);
+      }
+    });
+  });
 
   // at queries
   const events = await api.query.system.events.at('0x12345');
@@ -81,12 +130,22 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
 
   // check range
-  await api.query.balances.freeBalance.range<Balance>(['0x1234'], keyring.bob.address);
+  await api.query.balances.freeBalance.range<Balance>(['0x1234'], pairs.bob.address);
 
   // check range types
   const entries = await api.query.system.events.range(['0x12345', '0x7890']);
 
   console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`).join(', ')}`);
+
+  // is
+  const key = {} as StorageKey;
+
+  if (api.query.balances.account.is(key)) {
+    const [accountId] = key.args;
+
+    // should be AccountId type
+    console.log(accountId.toHuman());
+  }
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
@@ -100,7 +159,8 @@ async function rpc (api: ApiPromise): Promise<void> {
     console.log('current balance:', balance.toString());
   });
 
-  // using raw
+  // using json & raw
+  await api.rpc.chain.getBlock.json('0x123456');
   await api.rpc.chain.getBlock.raw('0x123456');
 
   // using raw subs
@@ -123,36 +183,33 @@ function types (api: ApiPromise): void {
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, api.createType('AccountData'));
 }
 
-async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
+async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // transfer, also allows for BigInt inputs here
-  const transfer = api.tx.balances.transfer(keyring.bob.address, 123456789n);
+  const transfer = api.tx.balances.transfer(pairs.bob.address, 123456789n);
 
-  console.log('transfer as Call', transfer as IMethod);
-  console.log('transfer as Extrinsic', transfer as IExtrinsic);
+  console.log('transfer casted', transfer as IMethod<AnyTuple>, transfer as IExtrinsic<AnyTuple>);
 
   // simple "return the hash" variant
-  console.log('hash:', (await transfer.signAndSend(keyring.alice)).toHex());
+  console.log('hash:', (await transfer.signAndSend(pairs.alice)).toHex());
 
   // passing options, but waiting for hash
-  const nonce = await api.query.system.accountNonce<Index>(keyring.alice.address);
+  const nonce = await api.query.system.accountNonce<Index>(pairs.alice.address);
 
   (await api.tx.balances
-    .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, { nonce })
+    .transfer(pairs.bob.address, 12345)
+    .signAndSend(pairs.alice, { nonce })
   ).toHex();
 
   // just with the callback
   await api.tx.balances
-    .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, ({ status }: SubmittableResult): void => {
-      console.log('transfer status:', status.type);
-    });
+    .transfer(pairs.bob.address, 12345)
+    .signAndSend(pairs.alice, ({ status }: SubmittableResult) => console.log(status.type));
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce(keyring.alice.address);
+  const nonce2 = await api.query.system.accountNonce(pairs.alice.address);
   const unsub2 = await api.tx.balances
-    .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
+    .transfer(pairs.bob.address, 12345)
+    .signAndSend(pairs.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
       console.log('transfer status:', status.type);
 
       unsub2();
@@ -162,26 +219,35 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const second = api.tx.democracy.second(123, 5);
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  second.signAndSend('123', (result): void => {
-    console.log(result);
-  });
+  await second.signAndSend('123', (result) => console.log(result));
 
   // it handles enum inputs correctly
-  await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(keyring.alice);
+  await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
+
+  // is
+  if (api.tx.balances.transfer.is(second)) {
+    const [recipientId, balance] = second.args;
+
+    // should be LookupSource & Balance types
+    console.log(recipientId.toHuman(), balance.toNumber());
+  }
 }
 
 async function main (): Promise<void> {
   const api = await ApiPromise.create();
-  const keyring = testKeyring();
+  const pairs = createTestPairs();
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   Promise.all([
     consts(api),
     derive(api),
-    query(api, keyring),
+    errors(api),
+    events(api),
+    query(api, pairs),
+    queryExtra(api, pairs),
     rpc(api),
     types(api),
-    tx(api, keyring)
+    tx(api, pairs)
   ]);
 }
 

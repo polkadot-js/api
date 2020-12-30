@@ -3,9 +3,9 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import { Raw } from '../codec/Raw';
 import { TypeRegistry } from '../create';
-import Raw from '../codec/Raw';
-import AccountId from './AccountId';
+import { GenericEthereumAccountId as AccountId } from './AccountId';
 
 describe('EthereumAccountId', (): void => {
   const registry = new TypeRegistry();

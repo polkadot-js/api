@@ -1,18 +1,19 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
-import { Codec } from '@polkadot/types/types';
+import type { MetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
-import Metadata from '@polkadot/metadata/Metadata';
-import rpcdata from '@polkadot/metadata/Metadata/static';
-import Call from '@polkadot/types/generic/Call';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { TypeRegistry } from '@polkadot/types/create';
+
+import { Metadata } from '@polkadot/metadata';
+import rpcdata from '@polkadot/metadata/static';
 import { Vec } from '@polkadot/types/codec';
+import { TypeRegistry } from '@polkadot/types/create';
+import { GenericCall as Call } from '@polkadot/types/generic';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 interface Page {
@@ -46,18 +47,18 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
         ? `${md}\n\n` // empty line
         : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n')
           ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
-          : `${md}${docLine // line continuing the preceding line
-            .replace(/^# <weight>$/g, '\\# \\<weight>\n\n')
-            .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
-            .replace(/^#{1,3} /, '#### ')} `
-    , '');
+          : `${md}${docLine.replace(/^#{1,3} /, '#### ')} `
+    , '')
+    .replace(/#### <weight>/g, '<weight>')
+    .replace(/<weight>(.|\n)*?<\/weight>/g, '')
+    .replace(/#### Weight:/g, 'Weight:');
 
   // prefix each line with indentation
   return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
 function renderPage (page: Page): string {
-  let md = `## ${page.title}\n\n`;
+  let md = `---\ntitle: ${page.title}\n---\n\n`;
 
   if (page.description) {
     md += `${page.description}\n\n`;
@@ -111,8 +112,8 @@ function addRpc (): string {
     description: DESC_RPC,
     sections: sections
       .sort()
-      .map((sectionName) => {
-        const section = definitions[sectionName as 'babe'];
+      .map((_sectionName) => {
+        const section = definitions[_sectionName as 'babe'];
 
         return {
           // description: section.description,
@@ -120,7 +121,8 @@ function addRpc (): string {
             .sort()
             .map((methodName) => {
               const method = section.rpc[methodName];
-              const args = method.params.map(({ isOptional, name, type }: any): string => {
+              const sectionName = method.aliasSection || _sectionName;
+              const args = method.params.map(({ isOptional, name, type }: DefinitionRpcParam): string => {
                 // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 return name + (isOptional ? '?' : '') + ': `' + type + '`';
               }).join(', ');
@@ -128,12 +130,12 @@ function addRpc (): string {
 
               return {
                 interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
-                jsonrpc: '`' + `${sectionName}_${methodName}` + '`',
+                jsonrpc: '`' + (method.endpoint || `${sectionName}_${methodName}`) + '`',
                 name: `${methodName}(${args}): ${type}`,
                 ...(method.description && { summary: method.description })
               };
             }),
-          name: sectionName
+          name: _sectionName
         };
       }),
     title: 'JSON-RPC'
@@ -148,13 +150,13 @@ function addConstants (metadata: MetadataLatest): string {
       .sort(sortByName)
       .filter((moduleMetadata) => !moduleMetadata.constants.isEmpty)
       .map((moduleMetadata) => {
-        const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+        const sectionName = stringLowerFirst(moduleMetadata.name);
 
         return {
           items: moduleMetadata.constants
             .sort(sortByName)
             .map((func) => {
-              const methodName = stringCamelCase(func.name.toString());
+              const methodName = stringCamelCase(func.name);
 
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
@@ -175,7 +177,7 @@ function addStorage (metadata: MetadataLatest): string {
     .sort(sortByName)
     .filter((moduleMetadata) => !moduleMetadata.storage.isNone)
     .map((moduleMetadata) => {
-      const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+      const sectionName = stringLowerFirst(moduleMetadata.name);
 
       return {
         items: moduleMetadata.storage.unwrap().items
@@ -186,7 +188,7 @@ function addStorage (metadata: MetadataLatest): string {
               : func.type.isDoubleMap
                 ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
                 : '';
-            const methodName = stringLowerFirst(func.name.toString());
+            const methodName = stringLowerFirst(func.name);
             const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
 
             return {
@@ -217,13 +219,13 @@ function addExtrinsics (metadata: MetadataLatest): string {
       .sort(sortByName)
       .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
       .map((meta) => {
-        const sectionName = stringCamelCase(meta.name.toString());
+        const sectionName = stringCamelCase(meta.name);
 
         return {
           items: meta.calls.unwrap()
             .sort(sortByName)
             .map((func) => {
-              const methodName = stringCamelCase(func.name.toString());
+              const methodName = stringCamelCase(func.name);
               const args = Call.filterOrigin(func).map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
 
               return {
@@ -258,7 +260,7 @@ function addEvents (metadata: MetadataLatest): string {
               ...(func.documentation.length && { summary: func.documentation })
             };
           }),
-        name: stringCamelCase(meta.name.toString())
+        name: stringCamelCase(meta.name)
       })),
     title: 'Events'
   });
@@ -278,7 +280,7 @@ function addErrors (metadata: MetadataLatest): string {
             name: error.name.toString(),
             ...(error.documentation.length && { summary: error.documentation })
           })),
-        name: stringLowerFirst(moduleMetadata.name.toString())
+        name: stringLowerFirst(moduleMetadata.name)
       })),
     title: 'Errors'
   });
@@ -299,7 +301,7 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
-export default function main (): void {
+export function main (): void {
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, rpcdata);
 

@@ -1,15 +1,13 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Registry } from '../types';
+import type { Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
-import Null from '../primitive/Null';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
-import Enum from './Enum';
+import { Null, Text, U32 } from '../primitive';
+import { Enum } from '.';
 
 describe('Enum', (): void => {
   const registry = new TypeRegistry();
@@ -331,57 +329,69 @@ describe('Enum', (): void => {
     });
   });
 
-  describe('outputs', (): void => {
-    describe('toRawType', (): void => {
-      it('has a sane output for basic enums', (): void => {
-        expect(
-          new Enum(registry, ['foo', 'bar']).toRawType()
-        ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
-      });
-
-      it('has a sane output for typed enums', (): void => {
-        expect(
-          // eslint-disable-next-line sort-keys
-          new Enum(registry, { foo: Text, bar: U32 }).toRawType()
-        // eslint-disable-next-line sort-keys
-        ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
-      });
+  describe('toRawType', (): void => {
+    it('has a sane output for basic enums', (): void => {
+      expect(
+        new Enum(registry, ['foo', 'bar']).toRawType()
+      ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
     });
 
-    describe('toHex', (): void => {
-      it('has a proper hex representation & length', (): void => {
-        const Test = Enum.with({
-          A: Text,
-          B: U32
-        });
-        const test = new Test(registry, 123, 1);
+    it('has a sane output for typed enums', (): void => {
+      expect(
+        // eslint-disable-next-line sort-keys
+        new Enum(registry, { foo: Text, bar: U32 }).toRawType()
+      // eslint-disable-next-line sort-keys
+      ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
+    });
 
-        expect(test.toHex()).toEqual('0x017b000000');
-        expect(test.encodedLength).toEqual(1 + 4);
+    it('re-creates via rawType (c-like)', (): void => {
+      const type = new Enum(registry, ['foo', 'bar']).toRawType() as 'Raw';
+
+      expect(registry.createType(type, 1).toString()).toEqual('bar');
+    });
+
+    it('re-creates via rawType (types)', (): void => {
+      const type = new Enum(registry, { A: Text, B: U32, C: U32 }).toRawType() as 'Raw';
+      const value = registry.createType(type, { B: 123 }) as unknown as { isB: true, asB: U32 };
+
+      expect(value.isB).toEqual(true);
+      expect(value.asB.toNumber()).toEqual(123);
+    });
+  });
+
+  describe('toHex', (): void => {
+    it('has a proper hex representation & length', (): void => {
+      const Test = Enum.with({
+        A: Text,
+        B: U32
       });
+      const test = new Test(registry, 123, 1);
 
-      it('encodes a single entry correctly', (): void => {
-        const Test = Enum.with({ A: 'u32' });
-        const test = new Test(registry, 0x44332211, 0);
+      expect(test.toHex()).toEqual('0x017b000000');
+      expect(test.encodedLength).toEqual(1 + 4);
+    });
 
-        expect(test.toHex()).toEqual(
-          '0x' +
-          '00' + // index
-          '11223344' // u32 LE encoded
-        );
-      });
+    it('encodes a single entry correctly', (): void => {
+      const Test = Enum.with({ A: 'u32' });
+      const test = new Test(registry, 0x44332211, 0);
 
-      it('encodes a single entry correctly (with embedded encoding)', (): void => {
-        const Test = Enum.with({ A: 'Address' });
-        const test = new Test(registry, registry.createType('AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
+      expect(test.toHex()).toEqual(
+        '0x' +
+        '00' + // index
+        '11223344' // u32 LE encoded
+      );
+    });
 
-        expect(test.toHex()).toEqual(
-          '0x' +
-          '00' + // index
-          'ff' + // Address indicating an embedded AccountId
-          '0001020304050607080910111213141516171819202122232425262728293031' // AccountId
-        );
-      });
+    it('encodes a single entry correctly (with embedded encoding)', (): void => {
+      const Test = Enum.with({ A: 'Address' });
+      const test = new Test(registry, registry.createType('AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
+
+      expect(test.toHex()).toEqual(
+        '0x' +
+        '00' + // index
+        'ff' + // Address indicating an embedded AccountId
+        '0001020304050607080910111213141516171819202122232425262728293031' // AccountId
+      );
     });
   });
 });

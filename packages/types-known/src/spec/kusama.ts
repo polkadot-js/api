@@ -1,9 +1,12 @@
 // Copyright 2017-2020 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { OverrideVersionedType } from '@polkadot/types/types';
+/* eslint-disable sort-keys */
+
+import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
+  AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
@@ -12,12 +15,18 @@ const sharedTypes = {
   }
 };
 
+const indicesTypes = {
+  AccountInfo: 'AccountInfoWithRefCount',
+  Address: 'LookupSource',
+  LookupSource: 'IndicesLookupSource'
+};
+
 const versioned: OverrideVersionedType[] = [
   {
     // 1020 is first CC3
     minmax: [1019, 1031],
     types: {
-      Address: 'LookupSource',
+      ...indicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchError: 'DispatchErrorTo198',
@@ -25,6 +34,7 @@ const versioned: OverrideVersionedType[] = [
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
@@ -36,13 +46,14 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [1032, 1042],
     types: {
-      Address: 'LookupSource',
+      ...indicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
@@ -55,13 +66,14 @@ const versioned: OverrideVersionedType[] = [
     // actual at 1045 (1043-1044 is dev)
     minmax: [1043, 1045],
     types: {
-      Address: 'LookupSource',
+      ...indicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo223',
@@ -78,6 +90,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
       RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
@@ -92,6 +105,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
@@ -104,6 +118,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
@@ -113,6 +128,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
@@ -121,11 +137,19 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
+      RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
     }
   },
   {
-    minmax: [2023, undefined],
+    minmax: [2023, 2024],
+    types: {
+      ...sharedTypes,
+      RefCount: 'RefCountTo259'
+    }
+  },
+  {
+    minmax: [2025, undefined],
     types: {
       ...sharedTypes
     }

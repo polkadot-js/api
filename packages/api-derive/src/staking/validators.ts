@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { DeriveStakingValidators } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveStakingValidators } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest, of } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -30,7 +31,6 @@ export function validators (instanceId: string, api: ApiInterfaceRx): () => Obse
   return memo(instanceId, (): Observable<DeriveStakingValidators> =>
     // Sadly the node-template is (for some obscure reason) not comprehensive, so while the derive works
     // in all actual real-world deployed chains, it does create some confusion for limited template chains
-    // NOTE: Not doing multi queries here, since we have validators as a single in the derived newHead
     combineLatest([
       api.query.session
         ? api.query.session.validators()

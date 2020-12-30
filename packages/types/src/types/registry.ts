@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-
-import { ChainProperties } from '../interfaces/system';
-import { u8 } from '../primitive';
-import { CallFunction } from './calls';
-import { Codec, Constructor } from './codec';
-import { DefinitionRpc, DefinitionRpcSub } from './definitions';
-import { AnyJson } from './helpers';
+import type { Metadata } from '@polkadot/metadata';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { H256 } from '../interfaces/runtime';
+import type { ChainProperties } from '../interfaces/system';
+import type { CallFunction } from './calls';
+import type { Codec, Constructor } from './codec';
+import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }
@@ -20,31 +20,11 @@ export interface ChainUpgradeVersion {
 
 export interface ChainUpgrades {
   genesisHash: Uint8Array;
+  network: string;
   versions: ChainUpgradeVersion[];
 }
 
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
-
-export interface RegistryMetadataText extends String, Codec {
-  setOverride (override: string): void;
-}
-
-export interface RegistryMetadataCallArg {
-  name: RegistryMetadataText;
-  type: RegistryMetadataText;
-}
-
-export interface RegistryMetadataCall {
-  args: RegistryMetadataCallArg[];
-  name: RegistryMetadataText;
-
-  toJSON (): AnyJson;
-}
-
-export interface RegistryMetadataCalls {
-  isSome: boolean;
-  unwrap (): RegistryMetadataCall[];
-}
 
 export interface RegistryError {
   documentation: string[];
@@ -53,54 +33,17 @@ export interface RegistryError {
   section: string;
 }
 
-export interface RegistryMetadataError {
-  name: RegistryMetadataText;
-  documentation: RegistryMetadataText[];
-}
-
-export type RegistryMetadataErrors = RegistryMetadataError[];
-
-export interface RegistryMetadataEvent {
-  args: any[];
-  name: RegistryMetadataText;
-}
-
-export interface RegistryMetadataEvents {
-  isSome: boolean;
-  unwrap (): RegistryMetadataEvent[];
-}
-
-export interface RegistryMetadataExtrinsic {
-  version: BN;
-  signedExtensions: RegistryMetadataText[];
-}
-
-export interface RegistryMetadataModule {
-  calls: RegistryMetadataCalls;
-  errors: RegistryMetadataErrors;
-  events: RegistryMetadataEvents;
-  index: u8;
-  name: RegistryMetadataText;
-}
-
-export interface RegistryMetadataLatest {
-  modules: RegistryMetadataModule[];
-  extrinsic: RegistryMetadataExtrinsic;
-}
-
-export interface RegistryMetadata {
-  asLatest: RegistryMetadataLatest;
-}
-
 export interface OverrideVersionedType {
   minmax: [number?, number?]; // min (v >= min) and max (v <= max)
   types: RegistryTypes;
 }
 
 export type OverrideModuleType = Record<string, string>;
+export type DeriveCustom = Record<string, Record<string, (instanceId: string, api: any) => (...args: any[]) => Observable<any>>>;
 
 export interface OverrideBundleDefinition {
   alias?: Record<string, OverrideModuleType>;
+  derives?: DeriveCustom;
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   types?: OverrideVersionedType[];
 }
@@ -161,13 +104,13 @@ export interface Registry {
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
-  hash (data: Uint8Array): Uint8Array;
+  hash (data: Uint8Array): H256;
   init (): Registry;
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
   setHasher (hasher?: (data: Uint8Array) => Uint8Array): void;
-  setMetadata (metadata: RegistryMetadata, signedExtensions?: string[]): void;
+  setMetadata (metadata: Metadata, signedExtensions?: string[]): void;
   setSignedExtensions (signedExtensions?: string[]): void;
 }

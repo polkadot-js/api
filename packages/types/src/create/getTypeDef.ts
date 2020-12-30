@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from './types';
+import type { TypeDef } from './types';
 
 import { assert } from '@polkadot/util';
 
-import sanitize from './sanitize';
+import { sanitize } from './sanitize';
+import { TypeDefInfo } from './types';
 import { typeSplit } from './typeSplit';
 
 interface TypeDefOptions {
@@ -99,10 +100,8 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 function _decodeTuple (value: TypeDef, _: string, subType: string, count: number): TypeDef {
   value.sub = subType.length === 0
     ? []
-    : typeSplit(subType).map((inner): TypeDef =>
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      getTypeDef(inner, {}, count)
-    );
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    : typeSplit(subType).map((inner) => getTypeDef(inner, {}, count));
 
   return value;
 }
@@ -140,13 +139,7 @@ function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDe
 }
 
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
-  if (type.substr(0, start.length) !== start) {
-    return false;
-  }
-
-  assert(type.endsWith(end), `Expected '${start}' closing with '${end}' on ${type}`);
-
-  return true;
+  return (type.substr(0, start.length) === start) && (type.substr(-1 * end.length) === end);
 }
 
 const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [
@@ -174,20 +167,15 @@ function extractSubType (type: string, [start, end]: [string, string, TypeDefInf
   return type.substr(start.length, type.length - start.length - end.length);
 }
 
-export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function getTypeDef (_type: String | string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
 
-  if (++count === MAX_NESTED) {
-    console.warn('getTypeDef: Maximum nested limit reached');
+  assert(++count !== MAX_NESTED, 'getTypeDef: Maximum nested limit reached');
 
-    return value;
-  }
-
-  const nested = nestedExtraction.find((nested): boolean =>
-    hasWrapper(type, nested)
-  );
+  const nested = nestedExtraction.find((nested) => hasWrapper(type, nested));
 
   if (nested) {
     value.info = nested[2];
@@ -195,9 +183,7 @@ export function getTypeDef (_type: string, { displayName, name }: TypeDefOptions
     return nested[3](value, type, extractSubType(type, nested), count);
   }
 
-  const wrapped = wrappedExtraction.find((wrapped): boolean =>
-    hasWrapper(type, wrapped)
-  );
+  const wrapped = wrappedExtraction.find((wrapped) => hasWrapper(type, wrapped));
 
   if (wrapped) {
     value.info = wrapped[2];

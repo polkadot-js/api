@@ -1,15 +1,17 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Balance, EraIndex } from '@polkadot/types/interfaces';
-import { DeriveEraRewards } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Option } from '@polkadot/types';
+import type { Balance, EraIndex } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveEraRewards } from '../types';
 
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Option } from '@polkadot/types';
+import { of } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { deriveCache, memo } from '../util';
+import { filterEras } from './util';
 
 const CACHE_KEY = 'eraRewards';
 
@@ -31,7 +33,7 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
       : eras
         .map((era) => deriveCache.get<DeriveEraRewards>(`${CACHE_KEY}-${era.toString()}`))
         .filter((value): value is DeriveEraRewards => !!value);
-    const remaining = eras.filter((era) => !cached.some((cached) => era.eq(cached.era)));
+    const remaining = filterEras(eras, cached);
 
     if (!remaining.length) {
       return of(cached);

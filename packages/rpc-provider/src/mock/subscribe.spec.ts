@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
-import Mock from './';
+import { MockProvider } from './';
 
 describe('subscribe', (): void => {
   const registry = new TypeRegistry();
-  let mock: Mock;
+  let mock: MockProvider;
 
   beforeEach((): void => {
-    mock = new Mock(registry);
+    mock = new MockProvider(registry);
   });
 
   it('fails on unknown methods', (): Promise<number | void> => {

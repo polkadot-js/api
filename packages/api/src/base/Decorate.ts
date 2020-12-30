@@ -1,32 +1,34 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface } from '@polkadot/rpc-core/types';
-import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
-import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
+import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
+import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { StorageEntry } from '@polkadot/types/primitive/types';
+import type { AnyFunction, AnyTuple, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, IMethod, InterfaceTypes, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { SubmittableExtrinsic } from '../submittable/types';
+import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, tap, toArray } from 'rxjs/operators';
-import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
+
+import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
-import DecoratedMeta from '@polkadot/metadata/Decorated';
-import RpcCore from '@polkadot/rpc-core';
+import { expandMetadata, Metadata } from '@polkadot/metadata';
+import { RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, Option, Raw, Text, TypeRegistry, u64 } from '@polkadot/types';
-import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
+import { TypeRegistry } from '@polkadot/types/create';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
-import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import { arrayChunk, arrayFlatten, assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { BehaviorSubject, combineLatest, Observable, of } from '@polkadot/x-rxjs';
+import { map, switchMap, tap, toArray } from '@polkadot/x-rxjs/operators';
 
 import { createSubmittable } from '../submittable';
-import augmentObject from '../util/augmentObject';
+import { augmentObject } from '../util/augmentObject';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
-import Events from './Events';
+import { Events } from './Events';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
@@ -36,16 +38,14 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
-type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
-
-const PAGE_SIZE_KEYS = 256;
-const PAGE_SIZE_VALS = PAGE_SIZE_KEYS;
+// the max amount of keys/values that we will retrieve at once
+const PAGE_SIZE = 384;
 
 const l = logger('api/init');
 
 let instanceCounter = 0;
 
-export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
+export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   readonly #instanceId: string;
 
   #registry: Registry;
@@ -56,6 +56,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   protected _consts: QueryableConsts<ApiType> = {} as QueryableConsts<ApiType>;
 
   protected _derive?: ReturnType<Decorate<ApiType>['_decorateDerive']>;
+
+  protected _errors: DecoratedErrors<ApiType> = {} as DecoratedErrors<ApiType>;
+
+  protected _events: DecoratedEvents<ApiType> = {} as DecoratedEvents<ApiType>;
 
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
@@ -84,7 +88,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   protected _runtimeVersion?: RuntimeVersion;
 
   protected _rx: ApiInterfaceRx = {
-    consts: {} as Constants,
+    consts: {} as QueryableConsts<'rxjs'>,
     query: {} as QueryableStorage<'rxjs'>,
     tx: {} as SubmittableExtrinsics<'rxjs'>
   } as ApiInterfaceRx;
@@ -174,23 +178,32 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._rpcCore.provider.hasSubscriptions;
   }
 
+  /**
+   * @returns `true` if the API decorate multi-key queries
+   */
+  get supportMulti (): boolean {
+    return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
+  }
+
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    const decoratedMeta = new DecoratedMeta(registry || this.#registry, metadata);
+    const decoratedMeta = expandMetadata(registry || this.#registry, metadata);
 
     if (fromEmpty || !this._extrinsics) {
-      this._extrinsics = this._decorateExtrinsics(decoratedMeta.tx, this._decorateMethod);
-      this._rx.tx = this._decorateExtrinsics(decoratedMeta.tx, this._rxDecorateMethod);
+      this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
+      this._rx.tx = this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod);
     } else {
-      augmentObject('tx', this._decorateExtrinsics(decoratedMeta.tx, this._decorateMethod), this._extrinsics, false);
-      augmentObject(null, this._decorateExtrinsics(decoratedMeta.tx, this._rxDecorateMethod), this._rx.tx, false);
+      augmentObject('tx', this._decorateExtrinsics(decoratedMeta, this._decorateMethod), this._extrinsics, false);
+      augmentObject(null, this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod), this._rx.tx, false);
     }
 
     // this API
-    augmentObject('query', this._decorateStorage(decoratedMeta.query, this._decorateMethod), this._query, fromEmpty);
+    augmentObject('query', this._decorateStorage(decoratedMeta, this._decorateMethod), this._query, fromEmpty);
     augmentObject('consts', decoratedMeta.consts, this._consts, fromEmpty);
+    augmentObject('errors', decoratedMeta.errors, this._errors, fromEmpty);
+    augmentObject('events', decoratedMeta.events, this._events, fromEmpty);
 
     // rx
-    augmentObject(null, this._decorateStorage(decoratedMeta.query, this._rxDecorateMethod), this._rx.query, fromEmpty);
+    augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
 
@@ -211,7 +224,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   // manner to cater for both old and new:
   //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
   //   - when non-zero, remove anything that is not in the array (we don't do this)
-  protected async _filterRpc (): Promise<void> {
+  protected async _filterRpc (additional: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): Promise<void> {
     let methods: string[];
 
     try {
@@ -222,13 +235,22 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       methods = [];
     }
 
+    // add any specific user-base RPCs
+    if (Object.keys(additional).length !== 0) {
+      this._rpcCore.addUserInterfaces(additional);
+
+      // re-decorate, only adding any new additional interfaces
+      this._decorateRpc(this._rpcCore, this._decorateMethod, this._rpc);
+      this._decorateRpc(this._rpcCore, this._rxDecorateMethod, this._rx.rpc);
+    }
+
     this._filterRpcMethods(methods);
   }
 
   protected _filterRpcMethods (exposed: string[]): void {
     const hasResults = exposed.length !== 0;
     const allKnown = [...this._rpcCore.mapping.entries()];
-    const allKeys = allKnown.reduce((allKeys: string[], [, { alias, method, pubsub, section }]): string[] => {
+    const allKeys = allKnown.reduce((allKeys: string[], [, { alias, endpoint, method, pubsub, section }]): string[] => {
       allKeys.push(`${section}_${method}`);
 
       if (pubsub) {
@@ -238,6 +260,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
       if (alias) {
         allKeys.push(...alias);
+      }
+
+      if (endpoint) {
+        allKeys.push(endpoint);
       }
 
       return allKeys;
@@ -263,42 +289,47 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       });
   }
 
-  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
+  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
     return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
-      // out and section here are horrors to get right from a typing perspective :(
-      (out as Record<string, unknown>)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-        //  skip subscriptions where we have a non-subscribe interface
-        if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
-          (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
-        }
+      if (!(out as Record<string, unknown>)[sectionName]) {
+        // out and section here are horrors to get right from a typing perspective :(
+        (out as Record<string, unknown>)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+          //  skip subscriptions where we have a non-subscribe interface
+          if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
+            (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            (section as Record<string, { json: unknown }>)[methodName].json = decorateMethod(method.json, { methodName }) as unknown;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
+          }
 
-        return section;
-      }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+          return section;
+        }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+      }
 
       return out;
-    }, {} as DecoratedRpc<ApiType, RpcInterface>);
+    }, input as DecoratedRpc<ApiType, RpcInterface>);
   }
 
+  // only be called if supportMulti is true
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
-      this._rpcCore.state.subscribeStorage(
-        calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Arg[]] =>
-          // the input is a QueryableStorageEntry, convert to StorageEntry
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      (this.hasSubscriptions
+        ? this._rpcCore.state.subscribeStorage
+        : this._rpcCore.state.queryStorageAt)(
+        calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
-            : [arg.creator] as any)));
+            : [arg.creator])));
   }
 
-  protected _decorateExtrinsics<ApiType extends ApiTypes> (extrinsics: ModulesWithCalls, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
+  protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
     const creator = createSubmittable(this._type, this._rx, decorateMethod);
 
-    return Object.entries(extrinsics).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
+    return Object.entries(tx).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): SubmittableModuleExtrinsics<ApiType> => {
         out[name] = this._decorateExtrinsicEntry(method, creator);
 
@@ -313,12 +344,16 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
       creator(method(...params));
 
+    // pass through the `.is`
+    decorated.is = (other: IMethod<AnyTuple>) =>
+      method.is(other);
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._decorateFunctionMeta(method as any, decorated as any) as unknown as SubmittableExtrinsicFunction<ApiType>;
   }
 
-  protected _decorateStorage<ApiType extends ApiTypes> (storage: Storage, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
-    return Object.entries(storage).reduce((out, [name, section]): QueryableStorage<ApiType> => {
+  protected _decorateStorage<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
+    return Object.entries(query).reduce((out, [name, section]): QueryableStorage<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorage<ApiType> => {
         out[name] = this._decorateStorageEntry(method, decorateMethod);
 
@@ -336,10 +371,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
-      ? this._decorateStorageLinked(creator, decorateMethod)
-      : this._decorateStorageCall(creator, decorateMethod);
+    const decorated = this._decorateStorageCall(creator, decorateMethod);
 
     decorated.creator = creator;
 
@@ -348,6 +380,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
+
+    decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
+      key.section === creator.section && key.method === creator.method;
 
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
@@ -361,11 +396,18 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
 
+    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, arg1?: Arg, arg2?: Arg): Observable<u64> =>
+      this._rpcCore.state.getStorageSize(getArgs(arg1, arg2), hash));
+
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
         memo(this.#instanceId, (doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-          this._retrieveMapEntries(creator, doubleMapArg)));
+          this._retrieveMapEntries(creator, null, doubleMapArg)));
+
+      decorated.entriesAt = decorateMethod(
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntries(creator, hash, doubleMapArg)));
 
       decorated.entriesPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
@@ -373,19 +415,21 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
       decorated.keys = decorateMethod(
         memo(this.#instanceId, (doubleMapArg?: Arg): Observable<StorageKey[]> =>
-          this._retrieveMapKeys(creator, doubleMapArg)));
+          this._retrieveMapKeys(creator, null, doubleMapArg)));
+
+      decorated.keysAt = decorateMethod(
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<StorageKey[]> =>
+          this._retrieveMapKeys(creator, hash, doubleMapArg)));
 
       decorated.keysPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
           this._retrieveMapKeysPaged(creator, opts)));
     }
 
-    // only support multi where subs are available
-    if (this.hasSubscriptions) {
+    if (this.supportMulti) {
       // When using double map storage function, user need to pass double map key as an array
       decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
-        this._rpcCore.state.subscribeStorage(
-          args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
+        this._retrieveMulti(args.map((arg) => [creator, arg])));
     }
 
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -422,135 +466,73 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       ));
   }
 
-  // This is deprecated/removed on substrate - we still have some live chains, eg. Edgeware needing it, so it
-  // has not been dropped yet. Slated for removal in API 2.0
-  private _decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    const result = new Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null>();
-    let subject: BehaviorSubject<LinkageResult>;
-    let head: Codec | null = null;
-    const iterKey = creator.iterKey;
+  // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE sizes
+  private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<Codec[]> {
+    if (!keys.length) {
+      return of([]);
+    }
 
-    assert(iterKey, 'iterKey field is missing');
-
-    // retrieve a value based on the key, iterating if it has a next entry. Since
-    // entries can be re-linked in the middle of a list, we subscribe here to make
-    // sure we catch any updates, no matter the list position
-    const getNext = (key: Codec): Observable<LinkageResult> =>
-      this._rpcCore.state.getStorage<LinkageData | Option<LinkageData>>([creator, key]).pipe(
-        switchMap((_data: LinkageData | Option<LinkageData>): Observable<LinkageResult> => {
-          const data = creator.meta.modifier.isOptional
-            ? (_data as Option<LinkageData>).unwrapOr(null)
-            : _data as LinkageData;
-
-          result.set(key, data);
-
-          // iterate from this key to the linkages, constructing entries for all
-          // those found and available
-          if (data && data[1].next.isSome) {
-            return getNext(data[1].next.unwrap());
-          }
-
-          const [keys, vals]: [Codec[], Codec[]] = [[], []];
-          let nextKey = head;
-
-          // loop through the results collected, starting at the head an re-creating
-          // the list. Our map may have old entries, based on the linking these will
-          // not be returned in the final result
-          while (nextKey) {
-            const entry = result.get(nextKey);
-
-            if (!entry) {
-              break;
-            }
-
-            const [item, linkage] = entry;
-
-            keys.push(nextKey);
-            vals.push(item);
-
-            nextKey = linkage.next?.unwrapOr(null);
-          }
-
-          const nextResult = vals.length
-            ? new LinkageResult(this.#registry, [keys[0].constructor as any, keys], [vals[0].constructor as any, vals])
-            : new LinkageResult(this.#registry, [Null, []], [Null, []]);
-
-          // we set our result into a subject so we have a single observable for
-          // which the value changes over time. Initially create, follow-up next
-          if (subject) {
-            subject.next(nextResult);
-          } else {
-            subject = new BehaviorSubject(nextResult);
-          }
-
-          return subject;
-        }));
-
-    // this handles the case where the head changes effectively, i.e. a new entry
-    // appears at the top of the list, the new getNext gets kicked off
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((...args: unknown[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
-      args.length
-        ? this._rpcCore.state
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
-          .pipe(map(([data]) => data))
-        : this._rpcCore.state
-          .subscribeStorage<[LinkageResult]>([iterKey()])
-          .pipe(switchMap(([key]) => getNext(head = key)))
+    return combineLatest(
+      arrayChunk(keys, PAGE_SIZE).map((keys) =>
+        (this.hasSubscriptions
+          ? this._rpcCore.state.subscribeStorage
+          : this._rpcCore.state.queryStorageAt
+        )(keys)
+      )
+    ).pipe(
+      map((valsArr): Codec[] => arrayFlatten(valsArr))
     );
   }
 
-  private _retrieveMapKeys ({ iterKey, meta }: StorageEntry, arg?: Arg): Observable<StorageKey[]> {
+  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(arg).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
+    const query = at
+      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE, startKey, at)
+      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE, startKey);
 
     return startSubject.pipe(
       switchMap((startKey) =>
-        this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_KEYS, startKey).pipe(
-          map((keys) => keys.map((key) => key.setMeta(meta)))
+        query(startKey).pipe(
+          map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
         )
       ),
       tap((keys): void => {
-        keys.length === PAGE_SIZE_KEYS
-          ? startSubject.next(keys[PAGE_SIZE_KEYS - 1].toHex())
+        keys.length === PAGE_SIZE
+          ? startSubject.next(keys[PAGE_SIZE - 1].toHex())
           : startSubject.complete();
       }),
       toArray(), // toArray since we want to startSubject to be completed
-      map((keysArr: StorageKey[][]) => keysArr.reduce((result: StorageKey[], keys) => result.concat(keys), []))
+      map((keysArr: StorageKey[][]) => arrayFlatten(keysArr))
     );
   }
 
-  private _retrieveMapKeysPaged ({ iterKey, meta }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
+  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(opts.arg).toHex();
 
     return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
-      map((keys) => keys.map((key) => key.setMeta(meta)))
+      map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
     );
   }
 
-  private _retrieveMapEntries (entry: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
-    return this._retrieveMapKeys(entry, arg).pipe(
+  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<[StorageKey, Codec][]> {
+    const query = at
+      ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
+      : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
+
+    return this._retrieveMapKeys(entry, at, arg).pipe(
       switchMap((keys) =>
-        combineLatest<[StorageKey[], ...Codec[][]]>([
-          of(keys),
-          ...Array(Math.ceil(keys.length / PAGE_SIZE_VALS))
-            .fill(0)
-            .map((_, index): Observable<Codec[]> =>
-              this._rpcCore.state.queryStorageAt<Codec[]>(
-                keys.slice(index * PAGE_SIZE_VALS, (index * PAGE_SIZE_VALS) + PAGE_SIZE_VALS)
-              )
-            )
-        ])
-      ),
-      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
-        valsArr
-          .reduce((result: Codec[], vals) => result.concat(vals), [])
-          .map((value, index) => [keys[index], value])
+        combineLatest(
+          arrayChunk(keys, PAGE_SIZE).map((keys) => query(keys))
+        ).pipe(
+          map((valsArr) =>
+            arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
+          )
+        )
       )
     );
   }
@@ -558,22 +540,24 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
     return this._retrieveMapKeysPaged(entry, opts).pipe(
       switchMap((keys) =>
-        combineLatest<[StorageKey[], ...Codec[][]]>([
-          of(keys),
-          this._rpcCore.state.queryStorageAt<Codec[]>(keys)
-        ])
-      ),
-      map(([keys, ...valsArr]): [StorageKey, Codec][] =>
-        valsArr
-          .reduce((result: Codec[], vals) => result.concat(vals), [])
-          .map((value, index) => [keys[index], value])
+        this._rpcCore.state.queryStorageAt(keys).pipe(
+          map((valsArr) =>
+            valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
+          )
+        )
       )
     );
   }
 
   protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
+    const specName = this._runtimeVersion?.specName.toString();
+    const derives = {
+      ...this._options.derives,
+      ...(this._options.typesBundle?.spec?.[specName ?? '']?.derives || {})
+    };
+
     // Pull in derive from api-derive
-    const derive = decorateDerive(this.#instanceId, this._rx, this._options.derives);
+    const derive = decorateDerive(this.#instanceId, this._rx, derives);
 
     return decorateSections<'rxjs', ExactDerive>(derive, decorateMethod);
   }

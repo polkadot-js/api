@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import U8aFixed from './U8aFixed';
+import { U8aFixed } from '.';
 
 describe('U8aFixed', (): void => {
   const registry = new TypeRegistry();

@@ -1,10 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Compact, Enum, Struct } from '@polkadot/types/codec';
-import { GenericVote } from '@polkadot/types/generic';
-import { u32 } from '@polkadot/types/primitive';
-import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
+import type { Compact, Enum, GenericVote, Struct, u32 } from '@polkadot/types';
+import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApprovalFlag */
 export interface ApprovalFlag extends u32 {}

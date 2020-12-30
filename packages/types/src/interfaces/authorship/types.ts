@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { ITuple } from '@polkadot/types/types';
-import { Enum, Option } from '@polkadot/types/codec';
-import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Option } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name UncleEntryItem */
 export interface UncleEntryItem extends Enum {

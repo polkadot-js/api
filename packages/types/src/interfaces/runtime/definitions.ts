@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import { Definitions } from '../../types';
+import type { Definitions } from '../../types';
 
 const numberTypes = {
   Fixed64: 'Int<64, Fixed64>',
@@ -15,11 +15,11 @@ const numberTypes = {
   FixedU128: 'UInt<128, FixedU128>',
   I32F32: 'Int<64, I32F32>',
   U32F32: 'UInt<64, U32F32>',
-  PerU16: 'u16',
-  Perbill: 'u32',
-  Percent: 'u8',
-  Permill: 'u32',
-  Perquintill: 'u64'
+  PerU16: 'UInt<16, PerU16>',
+  Perbill: 'UInt<32, Perbill>',
+  Percent: 'UInt<8, Percent>',
+  Permill: 'UInt<32, Permill>',
+  Perquintill: 'UInt<64, Perquintill>'
 };
 
 export default {
@@ -29,9 +29,9 @@ export default {
     AccountId: 'GenericAccountId',
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
-    Address: 'GenericAddress',
+    Address: 'LookupSource',
     AssetId: 'u32',
-    Balance: 'u128',
+    Balance: 'UInt<128, Balance>',
     BalanceOf: 'Balance',
     Block: 'GenericBlock',
     BlockNumber: 'u32',
@@ -61,10 +61,13 @@ export default {
       normal: 'Weight',
       operational: 'Weight'
     },
-    GenericAddress: 'LookupSource',
+    H64: '[u8; 8; H64]',
+    H128: '[u8; 16; H64]',
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
+    H1024: '[u8; 128; H1024]',
+    H2048: '[u8; 256; H2048]',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',
@@ -73,17 +76,31 @@ export default {
       extrinsicsRoot: 'Hash',
       digest: 'Digest'
     },
+    IndicesLookupSource: 'GenericLookupSource',
     Index: 'u32',
     Justification: 'Bytes',
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
-    LookupSource: 'GenericLookupSource',
+    LookupSource: 'IndicesLookupSource',
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
+    MultiAddress: 'GenericMultiAddress',
     Moment: 'u64',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
+    OriginCaller: {
+      _enum: {
+        // this should be dynamically built from the actual modules, based on index
+        System: 'SystemOrigin'
+      }
+    },
+    PalletsOrigin: 'OriginCaller',
+    PalletVersion: {
+      major: 'u16',
+      minor: 'u8',
+      patch: 'u8'
+    },
     Pays: {
       _enum: ['Yes', 'No']
     },

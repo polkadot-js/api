@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyNumber, Constructor, Registry } from '../types';
+import type { AnyNumber, Constructor, Registry } from '../types';
+import type { UIntBitLength } from './types';
 
-import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
+import { AbstractInt } from './AbstractInt';
 
 /**
  * @name UInt
@@ -15,11 +16,7 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
  * is available here.
  * @noInheritDoc
  */
-export default class UInt extends AbstractInt {
-  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = false) {
-    super(registry, false, value, bitLength, isHexJson);
-  }
-
+export class UInt extends AbstractInt {
   public static with (bitLength: UIntBitLength, typeName?: string): Constructor<UInt> {
     return class extends UInt {
       constructor (registry: Registry, value?: AnyNumber) {

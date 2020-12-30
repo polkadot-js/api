@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct } from '@polkadot/types/codec';
-import { u64 } from '@polkadot/types/primitive';
+import type { Struct, u64 } from '@polkadot/types';
 
 /** @name RawAuraPreDigest */
 export interface RawAuraPreDigest extends Struct {

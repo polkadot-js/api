@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../../create';
-import U32 from '../../primitive/U32';
-import compareArray from './compareArray';
+import { U32 } from '../../primitive';
+import { compareArray } from '.';
 
 describe('compareArray', (): void => {
   const registry = new TypeRegistry();

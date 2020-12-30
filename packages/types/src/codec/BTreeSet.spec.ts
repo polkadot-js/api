@@ -1,13 +1,11 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../create';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
-import Struct from './Struct';
-import { CodecTo } from '../types';
+import type { CodecTo } from '../types';
 
-import BTreeSet from './BTreeSet';
+import { TypeRegistry } from '../create';
+import { Text, U32 } from '../primitive';
+import { BTreeSet, Struct } from '.';
 
 const registry = new TypeRegistry();
 

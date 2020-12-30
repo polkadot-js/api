@@ -1,25 +1,25 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Registry } from '@polkadot/types/types';
+
 import Handlebars from 'handlebars';
 
-import { Registry } from '@polkadot/types/types';
-
-import staticData from '@polkadot/metadata/Metadata/static';
-import Metadata from '@polkadot/metadata/Metadata';
+import { Metadata } from '@polkadot/metadata/Metadata';
+import staticData from '@polkadot/metadata/static';
+import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
-import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { createImports, compareName, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {
   new: 'updated'
 };
 
 function mapName (_name: Text): string {
-  const name = stringCamelCase(_name.toString());
+  const name = stringCamelCase(_name);
 
   return MAPPED_NAMES[name] || name;
 }
@@ -48,25 +48,25 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
             const params = args
               .map(({ name, type }) => {
                 const typeStr = type.toString();
-                const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
-                const nameStr = mapName(name);
+                const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
-                setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(') && !type.startsWith('{')), typeStr]);
+                setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
-                return `${nameStr}: ${similarTypes.join(' | ')}`;
+                return `${mapName(name)}: ${similarTypes.join(' | ')}`;
               })
               .join(', ');
 
             return {
+              args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
               docs: documentation,
-              name: stringCamelCase(name.toString()),
+              name: stringCamelCase(name),
               params
             };
           });
 
         return {
           items,
-          name: stringCamelCase(name.toString())
+          name: stringCamelCase(name)
         };
       });
 
@@ -93,7 +93,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateTx (dest = 'packages/api/src/augment/tx.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
+export function generateDefaultTx (dest = 'packages/api/src/augment/tx.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);

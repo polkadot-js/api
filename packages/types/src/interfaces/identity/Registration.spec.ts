@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry, createType } from '../../create';
+import { createType, TypeRegistry } from '../../create';
 
 const registry = new TypeRegistry();
 
@@ -17,7 +17,7 @@ describe('Registration', (): void => {
         '039911039922039944039955039933000003996600'
       ).toJSON()
     ).toEqual({
-      deposit: 10000000000000,
+      deposit: 10000000000000, // '0x0000000000000000000009184e72a000',
       info: {
         additional: [],
         display: { Raw: '0x9911' },

@@ -1,22 +1,15 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '@polkadot/types/interfaces';
-import { AnyJson, AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
+import type { H256 } from '../interfaces';
+import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
+import type { CompactEncodable, UIntBitLength } from './types';
 
 import BN from 'bn.js';
-import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
-import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
-import typeToConstructor from './utils/typeToConstructor';
-import { UIntBitLength } from './AbstractInt';
-import Raw from './Raw';
+import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
-export interface CompactEncodable extends Codec {
-  bitLength (): number;
-  toBn (): BN;
-  toNumber (): number;
-}
+import { typeToConstructor } from './utils';
 
 /**
  * @name Compact
@@ -26,7 +19,7 @@ export interface CompactEncodable extends Codec {
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export default class Compact<T extends CompactEncodable> implements ICompact<T> {
+export class Compact<T extends CompactEncodable> implements ICompact<T> {
   public readonly registry: Registry;
 
   readonly #Type: Constructor<T>;
@@ -47,23 +40,6 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
     };
   }
 
-  /**
-   * Prepend a Uint8Array with its compact length.
-   *
-   * @param u8a - The Uint8Array to be prefixed
-   */
-  public static addLengthPrefix = compactAddLength;
-
-  public static decodeU8a = compactFromU8a;
-
-  public static encodeU8a = compactToU8a;
-
-  public static stripLengthPrefix (u8a: Uint8Array, bitLength: UIntBitLength = DEFAULT_BITLENGTH): Uint8Array {
-    const [, value] = compactStripLength(u8a, bitLength);
-
-    return value;
-  }
-
   /** @internal */
   public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
@@ -72,7 +48,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
       return new Type(registry, value);
     }
 
-    const [, _value] = Compact.decodeU8a(value, new Type(registry, 0).bitLength() as UIntBitLength);
+    const [, _value] = compactFromU8a(value, new Type(registry, 0).bitLength() as UIntBitLength);
 
     return new Type(registry, _value);
   }
@@ -88,7 +64,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -178,7 +154,7 @@ export default class Compact<T extends CompactEncodable> implements ICompact<T> 
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return Compact.encodeU8a(this.#raw.toBn());
+    return compactToU8a(this.#raw.toBn());
   }
 
   /**

@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDefInfo } from '@polkadot/types/create/types';
-
 import * as codecClasses from '@polkadot/types/codec';
 import { getTypeDef } from '@polkadot/types/create';
+import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as extrinsicClasses from '@polkadot/types/extrinsic';
 import * as genericClasses from '@polkadot/types/generic';
 import * as primitiveClasses from '@polkadot/types/primitive';
@@ -28,6 +27,7 @@ export interface TypeImports {
   ignoredTypes: string[]; // No need to import these types
   localTypes: TypeExistMap; // `import {} from '../something'`
   primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
+  metadataTypes: TypeExist; // `import {} from '@polkadot/metadata`
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
   definitions: Record<string, ModuleTypes>; // all definitions
   typeToModule: Record<string, string>;
@@ -37,20 +37,22 @@ export interface TypeImports {
 // imports in the output file, dep-duped and sorted
 /** @internal */
 export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeImports, types: string[]): void {
-  const { codecTypes, extrinsicTypes, genericTypes, ignoredTypes, localTypes, primitiveTypes, typesTypes } = imports;
+  const { codecTypes, extrinsicTypes, genericTypes, ignoredTypes, localTypes, metadataTypes, primitiveTypes, typesTypes } = imports;
 
   types.forEach((type): void => {
     if (ignoredTypes.includes(type)) {
       // do nothing
     } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'ITuple'].includes(type)) {
       typesTypes[type] = true;
+    } else if (type === 'Metadata') {
+      metadataTypes[type] = true;
     } else if ((codecClasses as Record<string, unknown>)[type]) {
       codecTypes[type] = true;
     } else if ((extrinsicClasses as Record<string, unknown>)[type]) {
       extrinsicTypes[type] = true;
     } else if ((genericClasses as Record<string, unknown>)[type]) {
       genericTypes[type] = true;
-    } else if ((primitiveClasses as Record<string, unknown>)[type] || type === 'Metadata') {
+    } else if ((primitiveClasses as Record<string, unknown>)[type]) {
       primitiveTypes[type] = true;
     } else if (type.includes('<') || type.includes('(') || (type.includes('[') && !type.includes('|'))) {
       // If the type is a bit special (tuple, fixed u8, nested type...), then we
@@ -62,7 +64,7 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
 
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
-        typeDef.sub.forEach((subType): void => setImports(allDefs, imports, [subType.type]));
+        typeDef.sub.forEach((subType) => setImports(allDefs, imports, [subType.type]));
       } else if (typeDef.sub && (typeDef.info !== TypeDefInfo.VecFixed || typeDef.sub.type !== 'u8')) {
         // typeDef.sub is a TypeDef in this case
         setImports(allDefs, imports, [typeDef.sub.type]);
@@ -118,6 +120,7 @@ export function createImports (importDefinitions: Record<string, Record<string, 
 
       return local;
     }, {}),
+    metadataTypes: {},
     primitiveTypes: {},
     typeToModule,
     typesTypes: {}

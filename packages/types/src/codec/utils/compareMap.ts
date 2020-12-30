@@ -26,7 +26,7 @@ function compareMapArray (a: Map<any, any>, b: [any, any][]): boolean {
 
 // NOTE These are used internally and when comparing objects, expects that
 // when the second is an Map<string, Codec> that the first has to be as well
-export default function compareMap (a: Map<any, any>, b?: unknown): boolean {
+export function compareMap (a: Map<any, any>, b?: unknown): boolean {
   if (Array.isArray(b)) {
     return compareMapArray(a, b);
   } else if (b instanceof Map) {

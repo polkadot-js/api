@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadata from '@polkadot/metadata/Metadata/static';
+import { Metadata } from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/static';
 
 import { TypeRegistry } from '../create';
-import SignerPayload from './SignerPayload';
+import { GenericSignerPayload as SignerPayload } from '.';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
@@ -25,7 +25,7 @@ describe('SignerPayload', (): void => {
     specVersion: '0x00000006',
     tip: '0x00000000000000000000000000005678',
     transactionVersion: '0x00000007',
-    version: 3
+    version: 4
   };
 
   it('creates a valid JSON output', (): void => {
@@ -40,7 +40,7 @@ describe('SignerPayload', (): void => {
         nonce: 0x1234,
         signedExtensions: ['CheckNonce'],
         tip: 0x5678,
-        version: 3
+        version: 4
       }).toPayload()
     ).toEqual({
       address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
@@ -54,7 +54,7 @@ describe('SignerPayload', (): void => {
       specVersion: '0x00000000',
       tip: '0x00000000000000000000000000005678',
       transactionVersion: '0x00000000',
-      version: 3
+      version: 4
     });
   });
 

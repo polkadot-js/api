@@ -1,13 +1,11 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, Codec, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, Codec, Registry } from '../types';
 
-import { u8aConcat, u8aToHex } from '@polkadot/util';
+import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Compact from './Compact';
-import Raw from './Raw';
 import { compareArray } from './utils';
 
 /**
@@ -17,7 +15,7 @@ import { compareArray } from './utils';
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
  */
-export default abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
+export abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
   public readonly registry: Registry;
 
   protected constructor (registry: Registry, ...values: T[]) {
@@ -32,14 +30,14 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   public get encodedLength (): number {
     return this.reduce((total, raw): number => {
       return total + raw.encodedLength;
-    }, Compact.encodeU8a(this.length).length);
+    }, compactToU8a(this.length).length);
   }
 
   /**
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -125,7 +123,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
     return isBare
       ? u8aConcat(...encoded)
       : u8aConcat(
-        Compact.encodeU8a(this.length),
+        compactToU8a(this.length),
         ...encoded
       );
   }

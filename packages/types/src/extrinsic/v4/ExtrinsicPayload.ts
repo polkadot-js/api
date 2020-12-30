@@ -1,14 +1,16 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ExtrinsicEra } from '../../interfaces/extrinsics';
-import { Balance, Hash, Index } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
+import type { SignOptions } from '@polkadot/keyring/types';
+import type { ExtrinsicEra } from '../../interfaces/extrinsics';
+import type { Balance, Hash, Index } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
-import Compact from '../../codec/Compact';
-import Struct from '../../codec/Struct';
-import Bytes from '../../primitive/Bytes';
-import u32 from '../../primitive/U32';
+import { Compact } from '../../codec/Compact';
+import { Enum } from '../../codec/Enum';
+import { Struct } from '../../codec/Struct';
+import { Bytes } from '../../primitive/Bytes';
+import { u32 } from '../../primitive/U32';
 import { sign } from '../util';
 
 /**
@@ -17,13 +19,21 @@ import { sign } from '../util';
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class ExtrinsicPayloadV4 extends Struct {
+export class GenericExtrinsicPayloadV4 extends Struct {
+  #signOptions: SignOptions;
+
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(registry, {
       method: 'Bytes',
       ...registry.getSignedExtensionTypes(),
       ...registry.getSignedExtensionExtra()
     }, value);
+
+    // Do detection for the type of extrinsic, in the case of MultiSignature this is an
+    // enum, in the case of AnySignature, this is a Hash only (may be 64 or 65 bytes)
+    this.#signOptions = {
+      withType: registry.createType('ExtrinsicSignature') instanceof Enum
+    };
   }
 
   /**
@@ -90,6 +100,6 @@ export default class ExtrinsicPayloadV4 extends Struct {
     // to have the length prefix included. This means that the data-as-signed is un-decodable,
     // but is also doesn't need the extra information, only the pure data (and is not decoded)
     // ... The same applies to V1..V3, if we have a V5, carry move this comment to latest
-    return sign(this.registry, signerPair, this.toU8a({ method: true }), { withType: true });
+    return sign(this.registry, signerPair, this.toU8a({ method: true }), this.#signOptions);
   }
 }

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '../interfaces/runtime';
-import { AnyJson, AnyU8a, IU8a, Registry } from '../types';
+import type { H256 } from '../interfaces/runtime';
+import type { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
 import { assert, isAscii, isU8a, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
@@ -24,7 +24,7 @@ function decodeU8a (value?: any): Uint8Array {
  * actual lengths instead of used directly.
  * @noInheritDoc
  */
-export default class Raw extends Uint8Array implements IU8a {
+export class Raw extends Uint8Array implements IU8a {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyU8a) {
@@ -44,7 +44,7 @@ export default class Raw extends Uint8Array implements IU8a {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -96,11 +96,22 @@ export default class Raw extends Uint8Array implements IU8a {
   }
 
   /**
-   * @description Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
+   * @description Create a new slice from the actual buffer. (compat)
+   * @param start The position to start at
+   * @param end The position to end at
+   */
+  public slice (start?: number, end?: number): Uint8Array {
+    // Like subarray below, we have to follow this approach since we are extending the TypeArray.
+    // This happens especially when it comes to further extensions, the length may be an override
+    return Uint8Array.from(this).slice(start, end);
+  }
+
+  /**
+   * @description Create a new subarray from the actual buffer. (compat)
    * @param begin The position to start at
    * @param end The position to end at
    */
-  public subarray (begin: number, end?: number): Uint8Array {
+  public subarray (begin?: number, end?: number): Uint8Array {
     return Uint8Array.from(this).subarray(begin, end);
   }
 

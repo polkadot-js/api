@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
 
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { isU8a, assert } from '@polkadot/util';
+import { assertReturn, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
+import { of } from '@polkadot/x-rxjs';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -16,18 +17,14 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
     ? address
     : decodeAddress((address || '').toString());
 
-  if (decoded.length === 32) {
+  if (decoded.length > 8) {
     return of(api.registry.createType('AccountId', decoded));
   }
 
   const accountIndex = api.registry.createType('AccountIndex', decoded);
 
   return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
-    map((accountId) => {
-      assert(accountId, 'Unable to retrieve accountId');
-
-      return accountId;
-    })
+    map((accountId) => assertReturn(accountId, 'Unable to retrieve accountId'))
   );
 }
 

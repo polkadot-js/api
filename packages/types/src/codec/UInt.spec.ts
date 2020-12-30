@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
-import UInt from './UInt';
+import { UInt } from '.';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
@@ -72,10 +72,10 @@ describe('UInt', (): void => {
     ).toEqual(123);
   });
 
-  it('converts to JSON representation based on flags/size', (): void => {
-    expect(new UInt(registry, '0x12345678', 64, true).toJSON()).toEqual('0x0000000012345678');
-    expect(new UInt(registry, '0x1234567890', 64, false).toJSON()).toEqual(0x1234567890);
-    expect(new UInt(registry, '0x1234567890abcdef', 64, false).toJSON()).toEqual('0x1234567890abcdef');
+  it('converts to JSON representation based on size', (): void => {
+    expect(new UInt(registry, '0x12345678', 32).toJSON()).toEqual(0x12345678);
+    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual(78187493520); // '0x0000001234567890');
+    expect(new UInt(registry, '0x1234567890abcdef', 64).toJSON()).toEqual('0x1234567890abcdef');
   });
 
   describe('eq', (): void => {
@@ -118,6 +118,13 @@ describe('UInt', (): void => {
       expect(
         new (UInt.with(64, 'SomethingElse'))(registry).toRawType()
       ).toEqual('SomethingElse');
+    });
+
+    it('has proper toHuman() for PerMill/PerBill/Percent/Balance', (): void => {
+      expect(registry.createType('Perbill', 12_340_000).toHuman()).toEqual('1.23%');
+      expect(registry.createType('Percent', 12).toHuman()).toEqual('12.00%');
+      expect(registry.createType('Permill', 16_900).toHuman()).toEqual('1.69%');
+      expect(registry.createType('Balance', '123456789012345').toHuman()).toEqual('123.4567 Unit');
     });
   });
 });

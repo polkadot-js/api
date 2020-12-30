@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
-import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
+import type { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import Compact from '../codec/Compact';
-import Struct from '../codec/Struct';
-import Vec from '../codec/Vec';
-import Text from '../primitive/Text';
-import u8 from '../primitive/U8';
+import { Compact } from '../codec/Compact';
+import { Struct } from '../codec/Struct';
+import { Vec } from '../codec/Vec';
+import { Text } from '../primitive/Text';
+import { u8 } from '../primitive/U8';
 
 export interface SignerPayloadType extends Codec {
   address: Address;
@@ -43,11 +43,11 @@ const _Payload = Struct.with({
 }) as unknown as Constructor<SignerPayloadType>;
 
 /**
- * @name SignerPayload
+ * @name GenericSignerPayload
  * @description
  * A generic signer payload that can be used for serialization between API and signer
  */
-export default class SignerPayload extends _Payload implements ISignerPayload {
+export class GenericSignerPayload extends _Payload implements ISignerPayload {
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */

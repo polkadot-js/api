@@ -1,28 +1,32 @@
 // Copyright 2017-2020 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ChainProperties, SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
-import { Registry } from '@polkadot/types/types';
-import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
-import { VersionedRegistry } from './types';
+import type { Text } from '@polkadot/types';
+import type { ChainProperties, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import type { Registry } from '@polkadot/types/types';
+import type { Observable, Subscription } from '@polkadot/x-rxjs';
+import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import type { VersionedRegistry } from './types';
 
 import BN from 'bn.js';
-import { Observable, Subscription, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Metadata, Text, TypeRegistry } from '@polkadot/types';
-import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getMetadataTypes, getSpecAlias, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { BN_ZERO, assert, logger, u8aEq, u8aToU8a } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import Decorate from './Decorate';
+import { Metadata } from '@polkadot/metadata';
+import { TypeRegistry } from '@polkadot/types/create';
+import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
+import { getSpecAlias, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { assert, BN_ZERO, logger, u8aEq, u8aToU8a } from '@polkadot/util';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { of } from '@polkadot/x-rxjs';
+import { map, switchMap } from '@polkadot/x-rxjs/operators';
+
+import { Decorate } from './Decorate';
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
 const l = logger('api/init');
 
-export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
+export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #healthTimer: NodeJS.Timeout | null = null;
 
   #registries: VersionedRegistry[] = [];
@@ -50,8 +54,12 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
     this._rx.rpc = this._decorateRpc(this._rpcCore, this._rxDecorateMethod);
-    this._queryMulti = this._decorateMulti(this._decorateMethod);
-    this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
+
+    if (this.supportMulti) {
+      this._queryMulti = this._decorateMulti(this._decorateMethod);
+      this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
+    }
+
     this._rx.signer = options.signer;
 
     this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));
@@ -76,7 +84,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
 
-    // for bundled types, pull through the aliasses defined
+    // for bundled types, pull through the aliases defined
     if (registry.knownTypes.typesBundle) {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
@@ -242,7 +250,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
-    await this._filterRpc();
+    await this._filterRpc(getSpecRpc(this.registry, chain, runtimeVersion.specName));
 
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
@@ -264,9 +272,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   }
 
   private async _initFromMeta (metadata: Metadata): Promise<boolean> {
-    // inject types based on metadata, if applicable
-    this.registerTypes(getMetadataTypes(this.registry, metadata.version));
-
     const metaExtrinsic = metadata.asLatest.extrinsic;
 
     // only inject if we are not a clone (global init)
@@ -320,6 +325,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
       l.error(error);
+      l.error(_error);
 
       this.emit('error', error);
     }

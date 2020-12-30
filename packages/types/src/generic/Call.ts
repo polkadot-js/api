@@ -1,19 +1,20 @@
 // Copyright 2017-2020 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import { AnyJson, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../types';
+import type { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { getTypeDef, getTypeClass } from '../create';
-import Struct from '../codec/Struct';
-import U8aFixed from '../codec/U8aFixed';
+import { Struct } from '../codec/Struct';
+import { U8aFixed } from '../codec/U8aFixed';
+import { getTypeClass } from '../create/createClass';
+import { getTypeDef } from '../create/getTypeDef';
 
 interface DecodeMethodInput {
   args: unknown;
   // eslint-disable-next-line no-use-before-define
-  callIndex: CallIndex | Uint8Array;
+  callIndex: GenericCallIndex | Uint8Array;
 }
 
 interface DecodedMethod extends DecodeMethodInput {
@@ -30,8 +31,8 @@ interface DecodedMethod extends DecodeMethodInput {
  */
 function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-    const Type = getTypeClass(registry, getTypeDef(type.toString()));
+  return GenericCall.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
+    const Type = getTypeClass(registry, getTypeDef(type));
 
     result[name.toString()] = Type;
 
@@ -46,7 +47,7 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 
   // Get the correct lookupIndex
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const lookupIndex = callIndex instanceof CallIndex
+  const lookupIndex = callIndex instanceof GenericCallIndex
     ? callIndex.toU8a()
     : callIndex;
 
@@ -101,33 +102,46 @@ function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8A
 }
 
 /**
- * @name CallIndex
+ * @name GenericCallIndex
  * @description
  * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
  */
-export class CallIndex extends U8aFixed {
+export class GenericCallIndex extends U8aFixed {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, value, 16);
   }
 }
 
 /**
- * @name Call
+ * @name GenericCall
  * @description
- * Extrinsic function descriptor, as defined in
- * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
+ * Extrinsic function descriptor
  */
-export default class Call extends Struct implements IMethod {
+export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements CallBase<A> {
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
     const decoded = decodeCall(registry, value, meta);
 
-    super(registry, {
-      callIndex: CallIndex,
-      // eslint-disable-next-line sort-keys
-      args: Struct.with(decoded.argsDef)
-    }, decoded);
+    try {
+      super(registry, {
+        callIndex: GenericCallIndex,
+        // eslint-disable-next-line sort-keys
+        args: Struct.with(decoded.argsDef)
+      }, decoded);
+    } catch (error) {
+      let method = 'unknown.unknown';
+
+      try {
+        const c = registry.findMetaCall(decoded.callIndex);
+
+        method = `${c.section}.${c.method}`;
+      } catch (error) {
+        // ignore
+      }
+
+      throw new Error(`Call: failed decoding ${method}:: ${(error as Error).message}`);
+    }
 
     this._meta = decoded.meta;
   }
@@ -145,9 +159,9 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description The arguments for the function call
    */
-  public get args (): Codec[] {
+  public get args (): A {
     // FIXME This should return a Struct instead of an Array
-    return [...(this.get('args') as Struct).values()];
+    return [...(this.get('args') as Struct).values()] as A;
   }
 
   /**
@@ -161,7 +175,7 @@ export default class Call extends Struct implements IMethod {
    * @description The encoded `[sectionIndex, methodIndex]` identifier
    */
   public get callIndex (): Uint8Array {
-    return (this.get('callIndex') as CallIndex).toU8a();
+    return (this.get('callIndex') as GenericCallIndex).toU8a();
   }
 
   /**
@@ -169,15 +183,6 @@ export default class Call extends Struct implements IMethod {
    */
   public get data (): Uint8Array {
     return (this.get('args') as Struct).toU8a();
-  }
-
-  /**
-   * @description `true` if the `Origin` type is on the method (extrinsic method)
-   */
-  public get hasOrigin (): boolean {
-    const firstArg = this.meta.args[0];
-
-    return !!firstArg && firstArg.type.toString() === 'Origin';
   }
 
   /**
@@ -190,35 +195,28 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description Returns the name of the method
    */
-  public get methodName (): string {
-    return this.registry.findMetaCall(this.callIndex).method;
-  }
-
-  /**
-   * @description Returns the name of the method
-   */
   public get method (): string {
-    return this.methodName;
-  }
-
-  /**
-   * @description Returns the module containing the method
-   */
-  public get sectionName (): string {
-    return this.registry.findMetaCall(this.callIndex).section;
+    return this.registry.findMetaCall(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get section (): string {
-    return this.sectionName;
+    return this.registry.findMetaCall(this.callIndex).section;
+  }
+
+  /**
+   * @description Checks if the source matches this in type
+   */
+  public is (other: IMethod<AnyTuple>): other is IMethod<A> {
+    return other.callIndex[0] === this.callIndex[0] && other.callIndex[1] === this.callIndex[1];
   }
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): AnyJson {
+  public toHuman (isExpanded?: boolean): Record<string, AnyJson> {
     let call: CallFunction | undefined;
 
     try {

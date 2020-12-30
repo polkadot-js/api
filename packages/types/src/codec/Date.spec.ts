@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CodecTo } from '../types';
+import type { CodecTo } from '../types';
 
 import BN from 'bn.js';
 
 import { TypeRegistry } from '../create';
-import U64 from '../primitive/U64';
-import CodecDate from './Date';
+import { U64 } from '../primitive';
+import { CodecDate } from './Date';
 
 describe('Date', (): void => {
   const registry = new TypeRegistry();

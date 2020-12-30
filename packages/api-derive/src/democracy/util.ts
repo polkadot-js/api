@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
-import { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Bytes, Option } from '@polkadot/types';
+import type { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
+import type { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import BN from 'bn.js';
-import { Bytes, Option } from '@polkadot/types';
+
 import { bnSqrt } from '@polkadot/util';
 
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
@@ -58,16 +59,20 @@ export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
-export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
+function calcPassingOther (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
   const sqrtVoters = bnSqrt(votedTotal);
 
   return sqrtVoters.isZero()
     ? false
-    : threshold.isSimplemajority
-      ? votedAye.gt(votedNay)
-      : threshold.isSupermajorityapproval
-        ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
-        : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
+    : threshold.isSupermajorityapproval
+      ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
+      : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
+}
+
+export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, state: ApproxState): boolean {
+  return threshold.isSimplemajority
+    ? state.votedAye.gt(state.votedNay)
+    : calcPassingOther(threshold, sqrtElectorate, state);
 }
 
 function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteState {
@@ -92,16 +97,7 @@ function calcVotesPrev (votesFor: DeriveReferendumVote[]): DeriveReferendumVoteS
     state.votedTotal.iadd(counted);
 
     return state;
-  }, {
-    allAye: [],
-    allNay: [],
-    voteCount: 0,
-    voteCountAye: 0,
-    voteCountNay: 0,
-    votedAye: new BN(0),
-    votedNay: new BN(0),
-    votedTotal: new BN(0)
-  });
+  }, { allAye: [], allNay: [], voteCount: 0, voteCountAye: 0, voteCountNay: 0, votedAye: new BN(0), votedNay: new BN(0), votedTotal: new BN(0) });
 }
 
 function calcVotesCurrent (tally: Tally, votes: DeriveReferendumVote[]): DeriveReferendumVoteState {

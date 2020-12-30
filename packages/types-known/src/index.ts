@@ -2,18 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import { Hash } from '@polkadot/types/interfaces';
-import { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, Registry, RegistryTypes, OverrideModuleType, OverrideVersionedType } from '@polkadot/types/types';
+import type { Text } from '@polkadot/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 
-import { Text } from '@polkadot/types';
 import { bnToBn, isUndefined } from '@polkadot/util';
 
 import typesChain from './chain';
-import typesMeta from './metadata';
 import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
-import warnings from './warnings';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
@@ -27,13 +25,6 @@ function filterVersions (versions: OverrideVersionedType[] = [], specVersion: nu
       ...result,
       ...types
     }), {});
-}
-
-/**
- * @description Based on the metadata version, return the registry types
- */
-export function getMetadataTypes (_registry: Registry, specVersion: number): RegistryTypes {
-  return filterVersions(typesMeta, specVersion);
 }
 
 /**
@@ -54,15 +45,18 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
   const _specName = specName.toString();
   const _specVersion = bnToBn(specVersion).toNumber();
 
-  (warnings[_specName] || []).forEach((warning) => console.warn(`*** ${warning}`));
-
+  // The order here is always, based on -
+  //   - spec then chain
+  //   - typesBundle takes higher precedence
+  //   - types is the final catch-all override
   return {
     ...filterVersions(typesSpec[_specName], _specVersion),
     ...filterVersions(typesChain[_chainName], _specVersion),
     ...filterVersions(knownTypes.typesBundle?.spec?.[_specName]?.types, _specVersion),
     ...filterVersions(knownTypes.typesBundle?.chain?.[_chainName]?.types, _specVersion),
     ...(knownTypes.typesSpec?.[_specName] || {}),
-    ...(knownTypes.typesChain?.[_chainName] || {})
+    ...(knownTypes.typesChain?.[_chainName] || {}),
+    ...(knownTypes.types || {})
   };
 }
 
@@ -86,10 +80,11 @@ export function getSpecAlias ({ knownTypes }: Registry, chainName: Text | string
   const _chainName = chainName.toString();
   const _specName = specName.toString();
 
+  // as per versions, first spec, then chain then finally non-versioned
   return {
-    ...(knownTypes.typesAlias || {}),
     ...(knownTypes.typesBundle?.spec?.[_specName]?.alias || {}),
-    ...(knownTypes.typesBundle?.chain?.[_chainName]?.alias || {})
+    ...(knownTypes.typesBundle?.chain?.[_chainName]?.alias || {}),
+    ...(knownTypes.typesAlias || {})
   };
 }
 

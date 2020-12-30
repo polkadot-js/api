@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../create';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
-import { CodecTo } from '../types';
+import type { CodecTo } from '../types';
 
-import CodecMap from './Map';
+import { TypeRegistry } from '../create';
+import { Text, U32 } from '../primitive';
+import { CodecMap } from '.';
 
 const registry = new TypeRegistry();
 const mockU32TextMap = new Map<Text, U32>();
@@ -34,7 +33,7 @@ describe('CodecMap', (): void => {
   describe('decoding', (): void => {
     const testDecode = (type: string, input: any, output: string): void =>
       it(`can decode from ${type}`, (): void => {
-        const s = new CodecMap(registry, 'HashMap', Text, U32, input);
+        const s = new CodecMap(registry, Text, U32, input);
 
         expect(s.toString()).toBe(output);
       });
@@ -51,7 +50,7 @@ describe('CodecMap', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const s = new CodecMap(registry, 'BTreeMap', Text, U32, mockU32TextMap);
+        const s = new CodecMap(registry, Text, U32, mockU32TextMap, 'BTreeMap');
 
         expect(s[to]()).toEqual(expected);
       });
@@ -65,7 +64,7 @@ describe('CodecMap', (): void => {
   describe('encoding muple values', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const s = new CodecMap(registry, 'BTreeMap', Text, U32, mockU32U32Map);
+        const s = new CodecMap(registry, Text, U32, mockU32U32Map, 'BTreeMap');
 
         expect(s[to]()).toEqual(expected);
       });

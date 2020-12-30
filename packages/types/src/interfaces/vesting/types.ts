@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import { Struct } from '@polkadot/types/codec';
-import { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { Struct } from '@polkadot/types';
+import type { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name VestingInfo */
 export interface VestingInfo extends Struct {

@@ -1,18 +1,18 @@
 // Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ProviderInterfaceEmitted } from '../types';
+import type { ProviderInterfaceEmitted } from '../types';
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
-import Mock from './';
+import { MockProvider } from '.';
 
 describe('on', (): void => {
   const registry = new TypeRegistry();
-  let mock: Mock;
+  let mock: MockProvider;
 
   beforeEach((): void => {
-    mock = new Mock(registry);
+    mock = new MockProvider(registry);
   });
 
   it('it emits both connected and disconnected events', (done): void => {

@@ -3,12 +3,13 @@
 
 import path from 'path';
 import yargs from 'yargs';
+
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
 
 import { generateInterfaceTypes } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
 
-export default function main (): void {
+export function main (): void {
   const { input, package: pkg } = yargs.strict().options({
     input: {
       description: 'The directory to use for the user definitions',

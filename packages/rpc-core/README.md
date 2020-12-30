@@ -10,11 +10,11 @@ Installation -
 yarn add @polkadot/rpc-core
 ```
 
-Initialisation -
+Initialization -
 
 ```js
 import Rpc from '@polkadot/rpc-core';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import { WsProvider } from '@polkadot/rpc-provider/ws';
 
 const provider = new WsProvider('http://127.0.0.1:9944');
 const rpc = new Rpc(provider);
@@ -70,7 +70,3 @@ rpc
     }
   );
 ```
-
-## Classes
-
-[Classes](SUMMARY.md)

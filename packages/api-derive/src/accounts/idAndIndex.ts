@@ -1,25 +1,26 @@
 // Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { AccountIdAndIndex } from '../types';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
+import type { AccountIdAndIndex } from '../types';
 
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
+import { of } from '@polkadot/x-rxjs';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIndex | string | null | undefined): Observable<AccountIdAndIndex> {
+function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIndex | Uint8Array | string | null | undefined): Observable<AccountIdAndIndex> {
   try {
     // yes, this can fail, don't care too much, catch will catch it
     const decoded = isU8a(address)
       ? address
       : decodeAddress((address || '').toString());
 
-    if (decoded.length === 32) {
+    if (decoded.length > 8) {
       const accountId = api.registry.createType('AccountId', decoded);
 
       return api.derive.accounts.idToIndex(accountId).pipe(
@@ -39,7 +40,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
 
 /**
  * @name idAndIndex
- * @param {(Address | AccountId | AccountIndex | string | null)} address - An accounts address in various formats.
+ * @param {(Address | AccountId | AccountIndex | Uint8Array | string | null)} address - An accounts address in various formats.
  * @description  An array containing the [[AccountId]] and [[AccountIndex]] as optional values.
  * @example
  * <BR>
@@ -50,7 +51,7 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * });
  * ```
  */
-export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
-  return memo(instanceId, (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | Uint8Array | string | null) => Observable<AccountIdAndIndex> {
+  return memo(instanceId, (address?: Address | AccountId | AccountIndex | Uint8Array | string | null): Observable<AccountIdAndIndex> =>
     retrieve(api, address));
 }

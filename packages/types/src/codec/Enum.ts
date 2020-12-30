@@ -1,15 +1,14 @@
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { H256 } from '@polkadot/types/interfaces';
-import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { H256 } from '../interfaces';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Null from '../primitive/Null';
+import { Null } from '../primitive/Null';
+import { Struct } from './Struct';
 import { mapToTypeMap } from './utils';
-import Raw from './Raw';
-import Struct from './Struct';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -64,7 +63,11 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
 
   assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
-  return createFromValue(registry, def, index, value);
+  try {
+    return createFromValue(registry, def, index, value);
+  } catch (error) {
+    throw new Error(`Enum(${key}):: ${(error as Error).message}`);
+  }
 }
 
 function decodeFromString (registry: Registry, def: TypesDef, value: string): Decoded {
@@ -114,7 +117,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
-export default class Enum implements Codec {
+export class Enum implements Codec {
   public readonly registry: Registry;
 
   readonly #def: TypesDef;
@@ -149,27 +152,21 @@ export default class Enum implements Codec {
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
-          // do not clobber existing properties on the object
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (isUndefined((this as any)[iskey])) {
+          isUndefined(this[iskey as keyof this]) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
-              get: (): boolean => this.type === _key
+              get: () => this.type === _key
             });
-          }
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (isUndefined((this as any)[askey])) {
+          isUndefined(this[askey as keyof this]) &&
             Object.defineProperty(this, askey, {
               enumerable: true,
               get: (): Codec => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                assert((this as any)[iskey], `Cannot convert '${this.type}' via ${askey}`);
+                assert(this[iskey as keyof this], `Cannot convert '${this.type}' via ${askey}`);
 
                 return this.value;
               }
             });
-          }
         });
       }
     };
@@ -186,7 +183,7 @@ export default class Enum implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return new Raw(this.registry, this.registry.hash(this.toU8a()));
+    return this.registry.hash(this.toU8a());
   }
 
   /**

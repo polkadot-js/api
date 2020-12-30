@@ -13,6 +13,7 @@ const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fi
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
+  alias(['VecDeque<'], 'Vec<', false),
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Remove all the trait prefixes
@@ -211,8 +212,9 @@ export function removeWrap (_check: string): Mapper {
   };
 }
 
-export default function sanitize (value: string, options?: SanitizeOptions): string {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function sanitize (value: String | string, options?: SanitizeOptions): string {
   return mappings.reduce((result, fn): string => {
     return fn(result, options);
-  }, value).trim();
+  }, value.toString()).trim();
 }

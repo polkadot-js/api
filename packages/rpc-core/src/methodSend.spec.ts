@@ -1,15 +1,15 @@
 // Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DefinitionRpc } from '@polkadot/types/types';
+import type { DefinitionRpc } from '@polkadot/types/types';
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
 
-import Rpc from '.';
+import { RpcCore } from '.';
 
 describe('methodSend', (): void => {
   const registry = new TypeRegistry();
-  let rpc: Rpc;
+  let rpc: RpcCore;
   let methods: Record<string, DefinitionRpc>;
   let provider: any;
 
@@ -35,7 +35,7 @@ describe('methodSend', (): void => {
       })
     };
 
-    rpc = new Rpc('987', registry, provider);
+    rpc = new RpcCore('987', registry, provider);
   });
 
   it('checks for mismatched parameters', (done): void => {
