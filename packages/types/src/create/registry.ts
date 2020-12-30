@@ -7,7 +7,7 @@ import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/t
 import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 // we are attempting to avoid circular refs, hence the Metadata path import
-import { decorateExtrinsics } from '@polkadot/metadata/decorate/extrinsics';
+import { decorateConstants, decorateExtrinsics } from '@polkadot/metadata/decorate';
 import { Metadata } from '@polkadot/metadata/Metadata';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -90,6 +90,22 @@ function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls
       metadataCalls[u8aToHex(method.callIndex)] = method;
     })
   );
+}
+
+// extract additional properties from the metadata
+function extractProperties (registry: Registry, metadata: Metadata): ChainProperties | undefined {
+  const original = registry.getChainProperties();
+  const constants = decorateConstants(registry, metadata.asLatest);
+  const ss58Format = constants.system.sS58Prefix;
+
+  if (!ss58Format) {
+    return original;
+  }
+
+  return registry.createType('ChainProperties', {
+    ...(original || {}),
+    ss58Format
+  });
 }
 
 export class TypeRegistry implements Registry {
@@ -351,6 +367,11 @@ export class TypeRegistry implements Registry {
           ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
           : defaultExtensions
       )
+    );
+
+    // setup the chain properties with format overrides
+    this.setChainProperties(
+      extractProperties(this, metadata)
     );
   }
 
