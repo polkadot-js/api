@@ -60,6 +60,7 @@ export class MockProvider implements ProviderInterface {
     chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).hash,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getHeader: () => this.registry.createType('Header', rpcHeader.result).toJSON(),
+    rpc_methods: (): string[] => [],
     state_getKeys: (): string[] => [],
     state_getKeysPaged: (): string[] => [],
     state_getMetadata: (): string => rpcMetadata,
