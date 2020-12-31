@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
-import type { ChainProperties, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
 import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -143,40 +143,29 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   protected async _loadMeta (): Promise<boolean> {
-    const genesisHash = await this._rpcCore.chain.getBlockHash(0).toPromise();
-
     // on re-connection to the same chain, we don't want to re-do everything from chain again
-    if (this._isReady && !this._options.source && genesisHash.eq(this._genesisHash)) {
+    if (this._isReady && this._genesisHash) {
       return true;
     }
-
-    if (this._genesisHash) {
-      l.warn('Connection to new genesis detected, re-initializing');
-    }
-
-    this._genesisHash = genesisHash;
 
     if (this.#updateSub) {
       this.#updateSub.unsubscribe();
     }
 
-    const { metadata = {} } = this._options;
-
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
-    this._runtimeMetadata = this._options.source?._isReady
+    [this._genesisHash, this._runtimeMetadata] = this._options.source?._isReady
       ? await this._metaFromSource(this._options.source)
-      : await this._metaFromChain(metadata);
+      : await this._metaFromChain(this._options.metadata);
 
     return this._initFromMeta(this._runtimeMetadata);
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  private async _metaFromSource (source: ApiBase<any>): Promise<Metadata> {
+  private async _metaFromSource (source: ApiBase<any>): Promise<[Hash, Metadata]> {
     this._extrinsicType = source.extrinsicVersion;
     this._runtimeChain = source.runtimeChain;
     this._runtimeVersion = source.runtimeVersion;
-    this._genesisHash = source.genesisHash;
 
     const methods: string[] = [];
 
@@ -190,7 +179,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._filterRpcMethods(methods);
 
-    return source.runtimeMetadata;
+    return [source.genesisHash, source.runtimeMetadata];
   }
 
   // subscribe to metadata updates, inject the types on changes
@@ -233,13 +222,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     ).subscribe();
   }
 
-  private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const [runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
+  private async _metaFromChain (optMetadata?: Record<string, string>): Promise<[Hash, Metadata]> {
+    const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
+      this._rpcCore.chain.getBlockHash(0).toPromise(),
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
       this._rpcCore.system.properties().toPromise(),
       this._rpcCore.rpc.methods().toPromise(),
-      Object.keys(optMetadata).length !== 0
+      optMetadata
         ? Promise.resolve(null)
         : this._rpcCore.state.getMetadata().toPromise()
     ]);
@@ -250,9 +240,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.runtimeVersion = runtimeVersion;
 
     // retrieve metadata, either from chain  or as pass-in via options
-    const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
+    const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
     const metadata = chainMetadata || (
-      metadataKey in optMetadata
+      optMetadata && optMetadata[metadataKey]
         ? new Metadata(this.registry, optMetadata[metadataKey])
         : await this._rpcCore.state.getMetadata().toPromise()
     );
@@ -270,7 +260,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // get unique types & validate
     metadata.getUniqTypes(false);
 
-    return metadata;
+    return [genesisHash, metadata];
   }
 
   private async _initFromMeta (metadata: Metadata): Promise<boolean> {
@@ -319,9 +309,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
 
       this.#healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch((): void => {
-          // ignore
-        });
+        this._rpcCore.system.health().toPromise().catch(() => null);
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
