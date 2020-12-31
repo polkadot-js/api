@@ -144,11 +144,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   protected async _loadMeta (): Promise<boolean> {
     // on re-connection to the same chain, we don't want to re-do everything from chain again
-    if (this._isReady && this._genesisHash) {
+    if (this._isReady) {
       return true;
-    }
-
-    if (this.#updateSub) {
+    } else if (this.#updateSub) {
       this.#updateSub.unsubscribe();
     }
 
