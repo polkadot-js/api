@@ -234,10 +234,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const [runtimeVersion, chain, chainProps, chainMetadata] = await Promise.all([
+    const [runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
       this._rpcCore.system.properties().toPromise(),
+      this._rpcCore.rpc.methods().toPromise(),
       Object.keys(optMetadata).length !== 0
         ? Promise.resolve(null)
         : this._rpcCore.state.getMetadata().toPromise()
@@ -256,12 +257,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await this._rpcCore.state.getMetadata().toPromise()
     );
 
-    // initializes the registry
+    // initializes the registry & RPC
     this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
+    this._filterRpc(rpcMethods, getSpecRpc(this.registry, chain, runtimeVersion.specName));
     this._subscribeUpdates();
-
-    // filter the RPC methods (this does an rpc-methods call)
-    await this._filterRpc(getSpecRpc(this.registry, chain, runtimeVersion.specName));
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
