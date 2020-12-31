@@ -79,7 +79,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Decorates a registry based on the runtime version
    */
-  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, chainProps?: ChainProperties): Registry {
+  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): Registry {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
@@ -88,6 +88,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (registry.knownTypes.typesBundle) {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
+
+    registry.setMetadata(metadata);
 
     return registry;
   }
@@ -131,11 +133,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // nothing has been found, construct new
-    const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version);
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
+    const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version, metadata);
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
-    registry.setMetadata(metadata);
     this.#registries.push(result);
 
     return result;
@@ -219,11 +220,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // setup the data as per the current versions
               thisRegistry.metadata = metadata;
               thisRegistry.metadataConsts = null;
-              thisRegistry.registry.setMetadata(metadata);
               thisRegistry.specVersion = version.specVersion;
 
               // clear the registry types to ensure that we override correctly
-              this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version);
+              this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
 
               return true;
@@ -234,10 +234,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const [runtimeVersion, chain, chainProps] = await Promise.all([
+    const [runtimeVersion, chain, chainProps, chainMetadata] = await Promise.all([
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
-      this._rpcCore.system.properties().toPromise()
+      this._rpcCore.system.properties().toPromise(),
+      Object.keys(optMetadata).length !== 0
+        ? Promise.resolve(null)
+        : this._rpcCore.state.getMetadata().toPromise()
     ]);
 
     // set our chain version & genesisHash as returned
@@ -245,20 +248,20 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
 
+    // retrieve metadata, either from chain  or as pass-in via options
+    const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
+    const metadata = chainMetadata || (
+      metadataKey in optMetadata
+        ? new Metadata(this.registry, optMetadata[metadataKey])
+        : await this._rpcCore.state.getMetadata().toPromise()
+    );
+
     // initializes the registry
-    this._initRegistry(this.registry, chain, runtimeVersion, chainProps);
+    this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
     this._subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
     await this._filterRpc(getSpecRpc(this.registry, chain, runtimeVersion.specName));
-
-    // retrieve metadata, either from chain  or as pass-in via options
-    const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
-    const metadata = metadataKey in optMetadata
-      ? new Metadata(this.registry, optMetadata[metadataKey])
-      : await this._rpcCore.state.getMetadata().toPromise();
-
-    this.registry.setMetadata(metadata);
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
