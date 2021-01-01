@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Vec, u16, u32, u64 } from '@polkadot/types';
+import type { Vec, u16, u32, u64, u8 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
@@ -354,6 +354,14 @@ declare module '@polkadot/api/types/consts' {
        * The weight of runtime database operations the runtime can invoke.
        **/
       dbWeight: RuntimeDbWeight & AugmentedConst<ApiType>;
+      /**
+       * The designated SS85 prefix of this chain.
+       * 
+       * This replaces the "ss58Format" property declared in the chain spec. Reason is
+       * that the runtime should know about the prefix in order to make use of it as
+       * an identifier of the chain.
+       **/
+      ss58Prefix: u8 & AugmentedConst<ApiType>;
     };
     timestamp: {
       [key: string]: Codec;

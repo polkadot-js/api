@@ -188,6 +188,14 @@ declare module '@polkadot/api/types/errors' {
        **/
       DecodingFailed: AugmentedError<ApiType>;
       /**
+       * The topics passed to `seal_deposit_events` contains at least one duplicate.
+       **/
+      DuplicateTopics: AugmentedError<ApiType>;
+      /**
+       * `seal_input` was called twice from the same contract execution context.
+       **/
+      InputAlreadyRead: AugmentedError<ApiType>;
+      /**
        * An origin TrieId written in the current block.
        **/
       InvalidContractOrigin: AugmentedError<ApiType>;
@@ -239,11 +247,19 @@ declare module '@polkadot/api/types/errors' {
        **/
       OutputBufferTooSmall: AugmentedError<ApiType>;
       /**
+       * The subject passed to `seal_random` exceeds the limit.
+       **/
+      RandomSubjectTooLong: AugmentedError<ApiType>;
+      /**
        * The action performed is not allowed while the contract performing it is already
        * on the call stack. Those actions are contract self destruction and restoration
        * of a tombstone.
        **/
       ReentranceDenied: AugmentedError<ApiType>;
+      /**
+       * The amount of topics passed to `seal_deposit_events` exceeds the limit.
+       **/
+      TooManyTopics: AugmentedError<ApiType>;
       /**
        * Performing the requested transfer failed for a reason originating in the
        * chosen currency implementation of the runtime. Most probably the balance is
@@ -693,6 +709,10 @@ declare module '@polkadot/api/types/errors' {
        * Call may not be made by proxy because it may escalate its privileges.
        **/
       NoPermission: AugmentedError<ApiType>;
+      /**
+       * Cannot add self as proxy.
+       **/
+      NoSelfProxy: AugmentedError<ApiType>;
       /**
        * Proxy registration not found.
        **/
