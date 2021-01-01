@@ -776,6 +776,10 @@ declare module '@polkadot/api/types/events' {
        * A tip suggestion has been retracted. \[tip_hash\]
        **/
       TipRetracted: AugmentedEvent<ApiType, [Hash]>;
+      /**
+       * A tip suggestion has been slashed. \[tip_hash, finder, deposit\]
+       **/
+      TipSlashed: AugmentedEvent<ApiType, [Hash, AccountId, Balance]>;
     };
     treasury: {
       [key: string]: AugmentedEvent<ApiType>;
