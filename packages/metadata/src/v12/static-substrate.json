@@ -112,17 +112,6 @@
                 ]
               },
               {
-                "name": "ExtrinsicsRoot",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "Hash"
-                },
-                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
-                  " Extrinsics root of the current block, also part of the block header."
-                ]
-              },
-              {
                 "name": "Digest",
                 "modifier": "Default",
                 "type": {
@@ -476,6 +465,18 @@
               "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
               "documentation": [
                 " The weight configuration (limits & base values) for each class of extrinsics and block."
+              ]
+            },
+            {
+              "name": "SS58Prefix",
+              "type": "u8",
+              "value": "0x2a",
+              "documentation": [
+                " The designated SS85 prefix of this chain.",
+                "",
+                " This replaces the \"ss58Format\" property declared in the chain spec. Reason is",
+                " that the runtime should know about the prefix in order to make use of it as",
+                " an identifier of the chain."
               ]
             }
           ],
@@ -1831,8 +1832,8 @@
                 "documentation": [
                   " The active era information, it holds index and start.",
                   "",
-                  " The active era is the era currently rewarded.",
-                  " Validator set of this era must be equal to `SessionInterface::validators`."
+                  " The active era is the era being currently rewarded. Validator set of this era must be",
+                  " equal to [`SessionInterface::validators`]."
                 ]
               },
               {
@@ -1848,7 +1849,10 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The session index at which the era start for the last `HISTORY_DEPTH` eras."
+                  " The session index at which the era start for the last `HISTORY_DEPTH` eras.",
+                  "",
+                  " Note: This tracks the starting session (i.e. session index when era start being active)",
+                  " for the eras in `[CurrentEra - HISTORY_DEPTH, CurrentEra]`."
                 ]
               },
               {
@@ -7277,6 +7281,30 @@
                 " on the call stack. Those actions are contract self destruction and restoration",
                 " of a tombstone."
               ]
+            },
+            {
+              "name": "InputAlreadyRead",
+              "documentation": [
+                " `seal_input` was called twice from the same contract execution context."
+              ]
+            },
+            {
+              "name": "RandomSubjectTooLong",
+              "documentation": [
+                " The subject passed to `seal_random` exceeds the limit."
+              ]
+            },
+            {
+              "name": "TooManyTopics",
+              "documentation": [
+                " The amount of topics passed to `seal_deposit_events` exceeds the limit."
+              ]
+            },
+            {
+              "name": "DuplicateTopics",
+              "documentation": [
+                " The topics passed to `seal_deposit_events` contains at least one duplicate."
+              ]
             }
           ],
           "index": 17
@@ -10973,6 +11001,12 @@
               "documentation": [
                 " Announcement, if made at all, was made too recently."
               ]
+            },
+            {
+              "name": "NoSelfProxy",
+              "documentation": [
+                " Cannot add self as proxy."
+              ]
             }
           ],
           "index": 29
@@ -12070,6 +12104,29 @@
                 " - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "slash_tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Remove and slash an already-open tip.",
+                "",
+                " May only be called from `T::RejectOrigin`.",
+                "",
+                " As a result, the finder is slashed and the deposits are lost.",
+                "",
+                " Emits `TipSlashed` if successful.",
+                "",
+                " # <weight>",
+                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
+                "   The actual cost depends on the implementation of `T::Tippers`.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -12109,6 +12166,17 @@
               ],
               "documentation": [
                 " A tip suggestion has been retracted. \\[tip_hash\\]"
+              ]
+            },
+            {
+              "name": "TipSlashed",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A tip suggestion has been slashed. \\[tip_hash, finder, deposit\\]"
               ]
             }
           ],

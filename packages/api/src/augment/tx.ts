@@ -3457,6 +3457,21 @@ declare module '@polkadot/api/types/submittable' {
        **/
       retractTip: AugmentedSubmittable<(hash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash]>;
       /**
+       * Remove and slash an already-open tip.
+       * 
+       * May only be called from `T::RejectOrigin`.
+       * 
+       * As a result, the finder is slashed and the deposits are lost.
+       * 
+       * Emits `TipSlashed` if successful.
+       * 
+       * # <weight>
+       * `T` is charged as upper bound given by `ContainsLengthBound`.
+       * The actual cost depends on the implementation of `T::Tippers`.
+       * # </weight>
+       **/
+      slashTip: AugmentedSubmittable<(hash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash]>;
+      /**
        * Declare a tip value for an already-open tip.
        * 
        * The dispatch origin for this call must be _Signed_ and the signing account must be a
