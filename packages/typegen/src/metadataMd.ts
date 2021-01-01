@@ -75,14 +75,20 @@ function renderPage (page: Page): string {
 
   // contents
   page.sections.forEach((section) => {
-    md += `\n___\n\n\n## ${section.name}${section.link ? `(#${section.link})` : ''}\n`;
+    md += '\n___\n\n\n';
+    md += section.link
+      ? `<h2 id="#${section.link}">${section.name}</h2>\n`
+      : `## ${section.name}\n`;
 
     if (section.description) {
       md += `\n_${section.description}_\n`;
     }
 
     section.items.forEach((item) => {
-      md += ` \n### ${item.name}${item.link ? `(#${item.link})` : ''}`;
+      md += ' \n';
+      md += item.link
+        ? `<h3 id="#${item.link}">${item.name}</h3>`
+        : `### ${item.name}`;
 
       Object.keys(item).filter((key) => !['link', 'name'].includes(key)).forEach((bullet) => {
         md += `\n- **${bullet}**: ${
@@ -143,7 +149,7 @@ function addRpc (): string {
             container.items.push({
               interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
               jsonrpc: '`' + jsonrpc + '`',
-              link: jsonrpc,
+              // link: jsonrpc,
               name: `${methodName}(${args}): ${type}`,
               ...(method.description && { summary: method.description })
             });
