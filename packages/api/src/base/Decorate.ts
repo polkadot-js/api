@@ -4,7 +4,7 @@
 import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
-import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { Call, Hash, RpcMethods, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, IMethod, InterfaceTypes, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
@@ -224,16 +224,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // manner to cater for both old and new:
   //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
   //   - when non-zero, remove anything that is not in the array (we don't do this)
-  protected async _filterRpc (additional: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): Promise<void> {
-    let methods: string[];
-
-    try {
-      // we ignore the version (adjust as versions change, for now only "1")
-      methods = (await this._rpcCore.rpc.methods().toPromise()).methods.map((t) => t.toString());
-    } catch (error) {
-      // the method is not there, we adjust accordingly
-      methods = [];
-    }
+  protected _filterRpc (rpcMethods: RpcMethods, additional: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
+    const methods = rpcMethods.methods.map((t) => t.toString());
 
     // add any specific user-base RPCs
     if (Object.keys(additional).length !== 0) {
