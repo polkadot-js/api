@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
-import type { ChainProperties, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
 import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -79,7 +79,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Decorates a registry based on the runtime version
    */
-  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, chainProps?: ChainProperties): Registry {
+  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): Registry {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
@@ -88,6 +88,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (registry.knownTypes.typesBundle) {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
+
+    registry.setMetadata(metadata);
 
     return registry;
   }
@@ -131,51 +133,37 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // nothing has been found, construct new
-    const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version);
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
+    const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version, metadata);
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
-    registry.setMetadata(metadata);
     this.#registries.push(result);
 
     return result;
   }
 
   protected async _loadMeta (): Promise<boolean> {
-    const genesisHash = await this._rpcCore.chain.getBlockHash(0).toPromise();
-
     // on re-connection to the same chain, we don't want to re-do everything from chain again
-    if (this._isReady && !this._options.source && genesisHash.eq(this._genesisHash)) {
+    if (this._isReady) {
       return true;
-    }
-
-    if (this._genesisHash) {
-      l.warn('Connection to new genesis detected, re-initializing');
-    }
-
-    this._genesisHash = genesisHash;
-
-    if (this.#updateSub) {
+    } else if (this.#updateSub) {
       this.#updateSub.unsubscribe();
     }
 
-    const { metadata = {} } = this._options;
-
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
-    this._runtimeMetadata = this._options.source?._isReady
+    [this._genesisHash, this._runtimeMetadata] = this._options.source?._isReady
       ? await this._metaFromSource(this._options.source)
-      : await this._metaFromChain(metadata);
+      : await this._metaFromChain(this._options.metadata);
 
     return this._initFromMeta(this._runtimeMetadata);
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  private async _metaFromSource (source: ApiBase<any>): Promise<Metadata> {
+  private async _metaFromSource (source: ApiBase<any>): Promise<[Hash, Metadata]> {
     this._extrinsicType = source.extrinsicVersion;
     this._runtimeChain = source.runtimeChain;
     this._runtimeVersion = source.runtimeVersion;
-    this._genesisHash = source.genesisHash;
 
     const methods: string[] = [];
 
@@ -189,7 +177,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._filterRpcMethods(methods);
 
-    return source.runtimeMetadata;
+    return [source.genesisHash, source.runtimeMetadata];
   }
 
   // subscribe to metadata updates, inject the types on changes
@@ -219,11 +207,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // setup the data as per the current versions
               thisRegistry.metadata = metadata;
               thisRegistry.metadataConsts = null;
-              thisRegistry.registry.setMetadata(metadata);
               thisRegistry.specVersion = version.specVersion;
 
               // clear the registry types to ensure that we override correctly
-              this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version);
+              this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
 
               return true;
@@ -233,11 +220,16 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     ).subscribe();
   }
 
-  private async _metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const [runtimeVersion, chain, chainProps] = await Promise.all([
+  private async _metaFromChain (optMetadata?: Record<string, string>): Promise<[Hash, Metadata]> {
+    const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
+      this._rpcCore.chain.getBlockHash(0).toPromise(),
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
-      this._rpcCore.system.properties().toPromise()
+      this._rpcCore.system.properties().toPromise(),
+      this._rpcCore.rpc.methods().toPromise(),
+      optMetadata
+        ? Promise.resolve(null)
+        : this._rpcCore.state.getMetadata().toPromise()
     ]);
 
     // set our chain version & genesisHash as returned
@@ -245,20 +237,18 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._runtimeVersion = runtimeVersion;
     this._rx.runtimeVersion = runtimeVersion;
 
-    // initializes the registry
-    this._initRegistry(this.registry, chain, runtimeVersion, chainProps);
-    this._subscribeUpdates();
-
-    // filter the RPC methods (this does an rpc-methods call)
-    await this._filterRpc(getSpecRpc(this.registry, chain, runtimeVersion.specName));
-
     // retrieve metadata, either from chain  or as pass-in via options
-    const metadataKey = `${this._genesisHash?.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
-    const metadata = metadataKey in optMetadata
-      ? new Metadata(this.registry, optMetadata[metadataKey])
-      : await this._rpcCore.state.getMetadata().toPromise();
+    const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
+    const metadata = chainMetadata || (
+      optMetadata && optMetadata[metadataKey]
+        ? new Metadata(this.registry, optMetadata[metadataKey])
+        : await this._rpcCore.state.getMetadata().toPromise()
+    );
 
-    this.registry.setMetadata(metadata);
+    // initializes the registry & RPC
+    this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
+    this._filterRpc(rpcMethods, getSpecRpc(this.registry, chain, runtimeVersion.specName));
+    this._subscribeUpdates();
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
@@ -268,7 +258,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // get unique types & validate
     metadata.getUniqTypes(false);
 
-    return metadata;
+    return [genesisHash, metadata];
   }
 
   private async _initFromMeta (metadata: Metadata): Promise<boolean> {
@@ -317,9 +307,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
 
       this.#healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch((): void => {
-          // ignore
-        });
+        this._rpcCore.system.health().toPromise().catch(() => null);
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
