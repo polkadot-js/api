@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/x-rxjs authors & contributors
+// Copyright 2017-2021 @polkadot/x-rxjs authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // This is not great, but while having esm files, rxjs doesn't quite play nicely with
