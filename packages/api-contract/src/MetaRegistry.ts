@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/api-contract authors & contributors
+// Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainProperties, ContractDisplayName, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '@polkadot/types/interfaces';
