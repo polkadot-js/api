@@ -10,9 +10,11 @@ import { memo } from '@polkadot/api-derive/util';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
+import { filterBountiesProposals } from './helpers/filterBountyProposals';
+
 type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
 
-function parseResult (api: ApiInterfaceRx, [maybeBounties, maybeDescriptions, ids, bountyProposals]: Result): DeriveBounties {
+function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
 
   maybeBounties.forEach((bounty, index) => {
@@ -45,17 +47,15 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
       ),
       switchMap(([keys, proposals]): Observable<Result> => {
         const ids = keys.map(({ args: [id] }) => id as BountyIndex);
-        const bountyTxBase = api.tx.bounties ? api.tx.bounties : api.tx.treasury;
-        const bountyProposalCalls = [bountyTxBase.approveBounty, bountyTxBase.closeBounty, bountyTxBase.proposeCurator, bountyTxBase.unassignCurator];
 
         return combineLatest([
           bountyBase.bounties.multi<Option<Bounty>>(ids),
           bountyBase.bountyDescriptions.multi<Option<Bytes>>(ids),
           of(ids),
-          of(proposals.filter((proposal) => bountyProposalCalls.find((bountyCall) => bountyCall.is(proposal.proposal))))
+          of(filterBountiesProposals(api, proposals))
         ]);
       }),
-      map(([maybeBounties, maybeDescriptions, ids, proposals]) => parseResult(api, [maybeBounties, maybeDescriptions, ids, proposals]))
+      map((parseResult))
     )
   );
 }
