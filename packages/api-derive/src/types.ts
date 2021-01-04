@@ -132,6 +132,7 @@ export interface DeriveBounty {
   bounty: Bounty;
   description: string;
   index: BountyIndex;
+  proposals: DeriveCollectiveProposal[];
 }
 
 export type DeriveBounties = DeriveBounty[];

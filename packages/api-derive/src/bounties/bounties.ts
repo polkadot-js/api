@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { DeriveBounties } from '@polkadot/api-derive/types';
+import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Bytes, Option } from '@polkadot/types';
-import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
+import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
 
 import { memo } from '@polkadot/api-derive/util';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[]];
+type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
 
-function parseResult (api: ApiInterfaceRx, [maybeBounties, maybeDescriptions, ids]: Result): DeriveBounties {
+function parseResult (api: ApiInterfaceRx, [maybeBounties, maybeDescriptions, ids, bountyProposals]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
 
   maybeBounties.forEach((bounty, index) => {
@@ -20,7 +20,8 @@ function parseResult (api: ApiInterfaceRx, [maybeBounties, maybeDescriptions, id
       bounties.push({
         bounty: bounty.unwrap(),
         description: maybeDescriptions[index].unwrapOrDefault().toUtf8(),
-        index: ids[index]
+        index: ids[index],
+        proposals: bountyProposals.filter((bountyProposal) => (ids[index]).eq(bountyProposal.proposal.args[0]))
       });
     }
   });
@@ -29,23 +30,32 @@ function parseResult (api: ApiInterfaceRx, [maybeBounties, maybeDescriptions, id
 }
 
 export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveBounties> {
-  const bountyBase = api.query.bounties
-    ? api.query.bounties
-    : api.query.treasury;
+  const bountyBase = api.query.bounties ? api.query.bounties : api.query.treasury;
 
   return memo(instanceId, (): Observable<DeriveBounties> =>
-    bountyBase.bountyCount<BountyIndex>().pipe(
-      switchMap(() => bountyBase.bounties.keys()),
-      switchMap((keys): Observable<Result> => {
+    combineLatest([
+      bountyBase.bountyCount<BountyIndex>(),
+      api.query.council.proposalCount<ProposalIndex>()
+    ]).pipe(
+      switchMap(() =>
+        combineLatest([
+          bountyBase.bounties.keys(),
+          api.derive.council.proposals()
+        ])
+      ),
+      switchMap(([keys, proposals]): Observable<Result> => {
         const ids = keys.map(({ args: [id] }) => id as BountyIndex);
+        const bountyTxBase = api.tx.bounties ? api.tx.bounties : api.tx.treasury;
+        const bountyProposalCalls = [bountyTxBase.approveBounty, bountyTxBase.closeBounty, bountyTxBase.proposeCurator, bountyTxBase.unassignCurator];
 
         return combineLatest([
           bountyBase.bounties.multi<Option<Bounty>>(ids),
           bountyBase.bountyDescriptions.multi<Option<Bytes>>(ids),
-          of(ids)
+          of(ids),
+          of(proposals.filter((proposal) => bountyProposalCalls.find((bountyCall) => bountyCall.is(proposal.proposal))))
         ]);
       }),
-      map(([maybeBounties, maybeDescriptions, ids]) => parseResult(api, [maybeBounties, maybeDescriptions, ids]))
+      map(([maybeBounties, maybeDescriptions, ids, proposals]) => parseResult(api, [maybeBounties, maybeDescriptions, ids, proposals]))
     )
   );
 }
