@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 3.3.1 Jan 4, 2021
+
+Upgrade priority: Low. Recommended for users of frontier evm module with additional types.
+
+Contributed:
+
+- Expand bounty derives (Thanks to https://github.com/ekowalsk)
+- Adjust known-types (Thanks to https://github.com/mikiquantum)
+
+Changes:
+
+- Parallelize the API-init RPC calls for faster overall startup
+- Add `ExitReason` types for the frontier evm module
+- Adjust checks for indexed/non-indexed module checks (metadata decoration)
+- Apply module aliases on constants (aligning with events, extrinsics)
+- Allow for use of `system.ss58Prefix` as exposed (current Substrate master)
+- Correct use of api-contract `blockWeights.maxBlock` in estimation
+- Build metadata docs & interfaces with section aliases
+- Update to latest Substrate master metadata in tests
+
+
 ## 3.2.1 Dec 27, 2020
 
 Upgrade priority: Low. Recommended for users of parachains.
