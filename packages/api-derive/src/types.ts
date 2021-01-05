@@ -6,7 +6,6 @@ import type { u32 } from '@polkadot/types';
 import type { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Bounty, BountyIndex, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VouchingStatus } from '@polkadot/types/interfaces';
 
 export * from './accounts/types';
-export * from './chain/types';
 export * from './council/types';
 export * from './democracy/types';
 export * from './elections/types';

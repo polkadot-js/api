@@ -2,32 +2,32 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { EventRecord, Hash, SignedBlock } from '@polkadot/types/interfaces';
+import type { AccountId, EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
-import type { FullNewBlock } from '../types';
 
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
+import { SignedBlockExtended } from '../type';
 import { memo } from '../util';
 
 /**
  * @name subscribeNewBlocks
  * @returns The latest block & events for that block
  */
-export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): () => Observable<FullNewBlock> {
-  return memo(instanceId, (): Observable<FullNewBlock> =>
+export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): () => Observable<SignedBlockExtended> {
+  return memo(instanceId, (): Observable<SignedBlockExtended> =>
     api.derive.chain.subscribeNewHeads().pipe(
-      switchMap((header): Observable<[Hash, EventRecord[], SignedBlock]> => {
+      switchMap((header): Observable<[SignedBlock, EventRecord[], AccountId[] | undefined]> => {
         const blockHash = header.hash;
 
         return combineLatest(
-          of(blockHash),
+          api.rpc.chain.getBlock(blockHash),
           api.query.system.events.at(blockHash),
-          api.rpc.chain.getBlock(header.hash)
+          of(header.validators)
         );
       }),
-      map(([blockHash, events, block]) => ({ block: block.block, blockHash, blockNumber: block.block.header.number.unwrap(), events, justification: block.justification }))
+      map(([block, events, validators]) => new SignedBlockExtended(api.registry, block, events, validators))
     )
   );
 }
