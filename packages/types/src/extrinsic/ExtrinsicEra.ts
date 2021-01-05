@@ -218,8 +218,9 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
         ? new Uint8Array([0])
         : new Uint8Array([1, value[0], value[1]]);
     } else if (isObject(value)) {
-      const mortal = Object.entries(value as MortalEnumDef).find(([k]) => k.toLowerCase() === 'mortalera');
-      const immortal = Object.entries(value as MortalEnumDef).find(([k]) => k.toLowerCase() === 'immortalera');
+      const entries = Object.entries(value as MortalEnumDef).map(([k, v]): [string, any] => [k.toLowerCase(), v]);
+      const mortal = entries.find(([k]) => k.toLowerCase() === 'mortalera');
+      const immortal = entries.find(([k]) => k.toLowerCase() === 'immortalera');
 
       // this is to de-serialize from JSON
       return mortal
