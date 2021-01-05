@@ -2,6 +2,8 @@
 
 ## 3.4.0-x
 
+- **Breaking change** The `derive.chain.{getBlock, subscribeNewBlocks}` now return `SignedBlockExtended`, all with the actual extrinsics and events mapped. Users of the latter interface may need some updates since the result structure may be different.
+
 Changes:
 
 - `derive.chain.getBlock()` now maps events to extrinsics via `.extrinsics` getter
