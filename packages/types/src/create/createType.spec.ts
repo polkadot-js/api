@@ -60,13 +60,13 @@ describe('createType', (): void => {
   it('allows creation of a Enum (parametrised)', (): void => {
     expect(
       createTypeUnsafe(registry, '{"_enum": {"A": null, "B": "u32", "C": null} }', [1]).toJSON()
-    ).toEqual({ B: 0 });
+    ).toEqual({ b: 0 });
   });
 
   it('allows creation of a Result', (): void => {
     expect(
       createTypeUnsafe(registry, 'Result<u32,Text>', ['0x011064656667']).toJSON()
-    ).toEqual({ Error: 'defg' });
+    ).toEqual({ error: 'defg' });
   });
 
   it('allows creation of a Set', (): void => {

@@ -7,6 +7,7 @@
 Changes:
 
 - `derive.chain.getBlock()` now maps events to extrinsics via `.extrinsics` getter
+- Enum `.toSON()` now encodes all keys as `camelCase` (aligning with the output from Substrate)
 
 
 ## 3.3.1 Jan 4, 2021

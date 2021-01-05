@@ -25,7 +25,7 @@ interface Decoded {
 function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
   if (!Array.isArray(_def)) {
     const def = mapToTypeMap(registry, _def);
-    const isBasic = !Object.values(def).some((type): boolean => type !== Null);
+    const isBasic = !Object.values(def).some((type) => type !== Null);
 
     return {
       def,
@@ -50,14 +50,16 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
 
   return {
     index,
-    value: value instanceof Clazz ? value : new Clazz(registry, value)
+    value: value instanceof Clazz
+      ? value
+      : new Clazz(registry, value)
   };
 }
 
 function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: any): Decoded {
-  // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
+  // JSON comes in the form of { "<type (camelCase)>": "<value for type>" }, here we
   // additionally force to lower to ensure forward compat
-  const keys = Object.keys(def).map((k): string => k.toLowerCase());
+  const keys = Object.keys(def).map((k) => k.toLowerCase());
   const keyLower = key.toLowerCase();
   const index = keys.indexOf(keyLower);
 
@@ -137,7 +139,7 @@ export class Enum implements Codec {
     this.registry = registry;
     this.#def = defInfo.def;
     this.#isBasic = defInfo.isBasic;
-    this.#indexes = Object.keys(defInfo.def).map((_, index): number => index);
+    this.#indexes = Object.keys(defInfo.def).map((_, index) => index);
     this.#index = this.#indexes.indexOf(decoded.index) || 0;
     this.#raw = decoded.value;
   }
@@ -294,7 +296,7 @@ export class Enum implements Codec {
   public toJSON (): AnyJson {
     return this.#isBasic
       ? this.type
-      : { [this.type]: this.#raw.toJSON() };
+      : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
   }
 
   /**

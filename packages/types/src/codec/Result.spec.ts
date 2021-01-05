@@ -22,7 +22,7 @@ describe('Result', (): void => {
     expect(result.asOk.toU8a()).toEqual(new Uint8Array([1, 2, 3, 4]));
     expect(result.toHex()).toEqual('0x0001020304');
     expect(result.toJSON()).toEqual({
-      Ok: 0x04030201
+      ok: 0x04030201
     });
   });
 
@@ -33,7 +33,7 @@ describe('Result', (): void => {
     expect(result.asError.toU8a()).toEqual(new Uint8Array([4 << 2, 100, 101, 102, 103]));
     expect(result.toHex()).toEqual('0x011064656667');
     expect(result.toJSON()).toEqual({
-      Error: hexToString('0x64656667')
+      error: hexToString('0x64656667')
     });
   });
 
