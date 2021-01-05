@@ -520,6 +520,13 @@ export interface ParachainProposal extends Struct {
   readonly balance: Balance;
 }
 
+/** @name ParaGenesisArgs */
+export interface ParaGenesisArgs extends Struct {
+  readonly genesisHead: Bytes;
+  readonly validationCode: Bytes;
+  readonly parachain: bool;
+}
+
 /** @name ParaId */
 export interface ParaId extends u32 {}
 
