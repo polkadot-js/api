@@ -27,7 +27,9 @@ export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): ()
           of(header.validators)
         );
       }),
-      map(([block, events, validators]) => new SignedBlockExtended(api.registry, block, events, validators))
+      map(([block, events, validators]) =>
+        new SignedBlockExtended(api.registry, block, events, validators)
+      )
     )
   );
 }
