@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, SignedBlock } from '@polkadot/types/interfaces';
-import type { AnyJson, Constructor, Registry } from '@polkadot/types/types';
+import type { AccountId, DispatchError, DispatchInfo, Event, EventRecord, Extrinsic, SignedBlock } from '@polkadot/types/interfaces';
+import type { Constructor, Registry } from '@polkadot/types/types';
 
 import { Struct } from '@polkadot/types';
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
@@ -12,6 +12,36 @@ import { extractAuthor } from './util';
 // We can ignore the properties, added via Struct.with
 const _SignedBlock = Struct.with(runtimeTypes.types.SignedBlock as any) as Constructor<SignedBlock>;
 
+interface TxWithEvent {
+  dispatchError?: DispatchError;
+  dispatchInfo?: DispatchInfo;
+  events: Event[];
+  extrinsic: Extrinsic;
+}
+
+function mapExtrinsics (extrinsics: Extrinsic[], records: EventRecord[]): TxWithEvent[] {
+  return extrinsics.map((extrinsic, index): TxWithEvent => {
+    let dispatchError: DispatchError | undefined;
+    let dispatchInfo: DispatchInfo | undefined;
+
+    const events = records
+      .filter(({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index))
+      .map(({ event }) => {
+        if (event.section === 'system') {
+          if (event.method === 'ExtrinsicSuccess') {
+            dispatchInfo = event.data[0] as DispatchInfo;
+          } else if (event.method === 'ExtrinsicFailed') {
+            dispatchError = event.data[0] as DispatchError;
+          }
+        }
+
+        return event;
+      });
+
+    return { dispatchError, dispatchInfo, events, extrinsic };
+  });
+}
+
 /**
  * @name SignedBlockExtended
  * @description
@@ -19,11 +49,15 @@ const _SignedBlock = Struct.with(runtimeTypes.types.SignedBlock as any) as Const
  */
 export class SignedBlockExtended extends _SignedBlock {
   readonly #author?: AccountId;
+  readonly #events: EventRecord[];
+  readonly #extrinsics: TxWithEvent[];
 
-  constructor (registry: Registry, block?: SignedBlock, sessionValidators?: AccountId[]) {
+  constructor (registry: Registry, block?: SignedBlock, events?: EventRecord[], sessionValidators?: AccountId[]) {
     super(registry, block);
 
     this.#author = extractAuthor(this.block.header.digest, sessionValidators);
+    this.#events = events || ([] as EventRecord[]);
+    this.#extrinsics = mapExtrinsics(this.block.extrinsics, this.#events);
   }
 
   /**
@@ -34,26 +68,16 @@ export class SignedBlockExtended extends _SignedBlock {
   }
 
   /**
-   * @description Creates a human-friendly JSON representation
+   * @description Convenience method, returns the events associated with the block
    */
-  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
-    return {
-      ...super.toHuman(isExtended),
-      author: this.author
-        ? this.author.toHuman()
-        : undefined
-    };
+  public get events (): EventRecord[] {
+    return this.#events;
   }
 
   /**
-   * @description Creates the JSON representation
+   * @description Returns the extrinsics and their events, mapped
    */
-  public toJSON (): Record<string, AnyJson> {
-    return {
-      ...super.toJSON(),
-      author: this.author
-        ? this.author.toJSON()
-        : undefined
-    };
+  public get extrinsics (): TxWithEvent[] {
+    return this.#extrinsics;
   }
 }

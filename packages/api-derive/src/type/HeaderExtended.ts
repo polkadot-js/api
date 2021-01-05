@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Header } from '@polkadot/types/interfaces';
-import type { AnyJson, Constructor, Registry } from '@polkadot/types/types';
+import type { Constructor, Registry } from '@polkadot/types/types';
 
 import { Struct } from '@polkadot/types';
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
@@ -19,11 +19,13 @@ const _Header = Struct.with(runtimeTypes.types.Header as any) as Constructor<Hea
  */
 export class HeaderExtended extends _Header {
   readonly #author?: AccountId;
+  readonly #validators?: AccountId[];
 
-  constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
+  constructor (registry: Registry, header?: Header, validators?: AccountId[]) {
     super(registry, header);
 
-    this.#author = extractAuthor(this.digest, sessionValidators);
+    this.#author = extractAuthor(this.digest, validators);
+    this.#validators = validators;
   }
 
   /**
@@ -34,26 +36,9 @@ export class HeaderExtended extends _Header {
   }
 
   /**
-   * @description Creates a human-friendly JSON representation
+   * @description Convenience method, returns the validators for the block
    */
-  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
-    return {
-      ...super.toHuman(isExtended),
-      author: this.author
-        ? this.author.toHuman()
-        : undefined
-    };
-  }
-
-  /**
-   * @description Creates the JSON representation
-   */
-  public toJSON (): Record<string, AnyJson> {
-    return {
-      ...super.toJSON(),
-      author: this.author
-        ? this.author.toJSON()
-        : undefined
-    };
+  public get validators (): AccountId[] | undefined {
+    return this.#validators;
   }
 }

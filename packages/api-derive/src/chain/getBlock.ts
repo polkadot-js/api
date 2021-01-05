@@ -27,12 +27,13 @@ export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8
   return memo(instanceId, (hash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getBlock(hash),
+      api.query.system.events.at(hash),
       api.query.session
         ? api.query.session.validators.at(hash)
         : of([])
     ]).pipe(
-      map(([signedBlock, validators]): SignedBlockExtended =>
-        new SignedBlockExtended(api.registry, signedBlock, validators)
+      map(([signedBlock, events, validators]): SignedBlockExtended =>
+        new SignedBlockExtended(api.registry, signedBlock, events, validators)
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
