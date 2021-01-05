@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.4.0-x
+
+Changes:
+
+- `derive.chain.getBlock()` now maps events to extrinsics via `.extrinsics` getter
+
+
 ## 3.3.1 Jan 4, 2021
 
 Upgrade priority: Low. Recommended for users of frontier evm module with additional types.
