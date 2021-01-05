@@ -28,12 +28,7 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [10, undefined],
     types: {
-      ...sharedTypes,
-      ParaGenesisArgs: {
-        genesisHead: 'Bytes',
-        validationCode: 'Bytes',
-        parachain: 'bool'
-      }
+      ...sharedTypes
     }
   }
 ];

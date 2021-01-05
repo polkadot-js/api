@@ -244,6 +244,11 @@ export default {
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain', 'Root']
     },
+    ParaGenesisArgs: {
+      genesisHead: 'Bytes',
+      validationCode: 'Bytes',
+      parachain: 'bool'
+    },
     ParaId: 'u32',
     ParaInfo: {
       scheduling: 'Scheduling'
