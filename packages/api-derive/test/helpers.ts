@@ -10,7 +10,9 @@ export function createApiWithAugmentations (): ApiPromise {
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, metaStatic);
 
-  const api = new ApiPromise({ provider: new WsProvider('ws://', false) });
+  registry.setMetadata(metadata);
+
+  const api = new ApiPromise({ provider: new WsProvider('ws://', false), registry });
 
   api.injectMetadata(metadata, true);
 

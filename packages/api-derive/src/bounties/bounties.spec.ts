@@ -1,16 +1,20 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { ApiInterfaceRx, SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
-import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
+import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 
+import { ApiPromise } from '@polkadot/api';
+import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import { Proposal } from '@polkadot/types/interfaces';
 import { of } from '@polkadot/x-rxjs';
 
 import { BountyFactory } from '../../test/bountyFactory';
 import { BytesFactory } from '../../test/bytesFactory';
 import { createApiWithAugmentations } from '../../test/helpers';
+import { ProposalFactory } from '../../test/proposalFactory';
 import { bounties } from '.';
 
 const DEFAULT_PROPOSER = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
@@ -21,22 +25,62 @@ describe('bounties derive', () => {
   let emptyOption: <T extends Codec> (typeName: keyof InterfaceTypes) => Option<T>;
   let optionOf: <T extends Codec> (value: T)=> Option<T>;
   let bountyIndex: (index: number) => BountyIndex;
+  let proposalIndex: (index: number) => ProposalIndex;
   let bytes: (value: string) => Bytes;
+  let api: ApiPromise;
+  let createProposal: (method: SubmittableExtrinsic<'promise'>) => Proposal;
+  let defaultMockApi: ApiInterfaceRx;
 
   beforeAll(() => {
-    const api = createApiWithAugmentations();
+    api = createApiWithAugmentations();
 
     ({ bountyIndex, defaultBounty, emptyOption, optionOf, storageKey } = new BountyFactory(api));
     ({ bytes } = new BytesFactory(api.registry));
+    ({ createProposal, proposalIndex } = new ProposalFactory(api));
+  });
+
+  beforeEach(() => {
+    defaultMockApi = {
+      derive: {
+        council: {
+          proposals: () => of([] as DeriveCollectiveProposal[])
+        }
+      },
+      query: {
+        council: {
+          proposalCount: () => of(proposalIndex(2))
+        },
+        treasury: {
+          bounties: {
+            keys: () => of([storageKey(0), storageKey(1)]),
+            multi: () => of([optionOf(defaultBounty()), optionOf(defaultBounty())])
+          },
+          bountyCount: () => of(bountyIndex(2)),
+          bountyDescriptions: {
+            multi: () => of([
+              optionOf(bytes('make polkadot even better')),
+              optionOf(bytes('this will be totally ignored'))
+            ])
+          }
+        }
+      },
+      tx: api.tx
+    } as unknown as ApiInterfaceRx;
   });
 
   it('creates storage key', function () {
     expect(storageKey(194).args[0].eq(194)).toBe(true);
   });
 
+  it('creates proposal', function () {
+    expect(createProposal(api.tx.balances.transfer('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))).toBeTruthy();
+  });
+
   it('combines bounties with descriptions', async () => {
     const mockApi = {
+      ...defaultMockApi,
       query: {
+        ...defaultMockApi.query,
         treasury: {
           bounties: {
             keys: () => of([storageKey(0), storageKey(2), storageKey(3)]),
@@ -63,5 +107,33 @@ describe('bounties derive', () => {
     expect(result[1].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
     expect(result[1].description).toEqual('');
     expect(result[1].index.eq(3)).toBe(true);
+  });
+
+  it('returns motions', async () => {
+    const result = await bounties('', defaultMockApi)().toPromise();
+
+    expect(result).toHaveLength(2);
+    expect(result[0].proposals).toHaveLength(0);
+    expect(result[1].proposals).toHaveLength(0);
+  });
+
+  it('combines bounties with motions', async () => {
+    const mockApi = {
+      ...defaultMockApi,
+      derive: {
+        council: {
+          proposals: () => of([
+            { proposal: createProposal(api.tx.bounties.approveBounty(1)) },
+            { proposal: createProposal(api.tx.treasury.approveProposal(1)) }] as DeriveCollectiveProposal[])
+        }
+      }
+    } as unknown as ApiInterfaceRx;
+
+    const result = await bounties('', mockApi)().toPromise();
+
+    expect(result).toHaveLength(2);
+    expect(result[0].proposals).toHaveLength(0);
+    expect(result[1].proposals).toHaveLength(1);
+    expect(result[1].proposals[0].proposal.method).toEqual('approveBounty');
   });
 });
