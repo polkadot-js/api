@@ -52,7 +52,7 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
 
   const keys = (sub as TypeDef[]).map(({ info, name = '', type }): string => {
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
-    const isComplexType = [TypeDefInfo.Tuple, TypeDefInfo.VecFixed].includes(info);
+    const isComplexType = [TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `as${getter}`, isComplexType ? formatType(definitions, type, imports) : type, imports);
