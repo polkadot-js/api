@@ -8,7 +8,7 @@ import type { Events, ModuleEvents } from '../types';
 import { stringCamelCase } from '@polkadot/util';
 
 function isEvent <T extends AnyTuple> (event: IEvent<AnyTuple>, sectionIndex: number, eventIndex: number): event is IEvent<T> {
-  return event.index[0] === sectionIndex && event.index[0] === eventIndex;
+  return event.index[0] === sectionIndex && event.index[1] === eventIndex;
 }
 
 /** @internal */
