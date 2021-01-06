@@ -519,9 +519,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._retrieveMapKeys(entry, at, arg).pipe(
       switchMap((keys) =>
         keys.length
-          ? combineLatest(
-            arrayChunk(keys, PAGE_SIZE).map((keys) => query(keys))
-          ).pipe(
+          ? combineLatest(arrayChunk(keys, PAGE_SIZE).map(query)).pipe(
             map((valsArr) =>
               arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
             )
