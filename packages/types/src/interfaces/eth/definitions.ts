@@ -176,26 +176,46 @@ const types: DefinitionsTypes = {
     }
   },
   EthTransaction: {
-    blockHash: 'Option<H256>',
-    blockNumber: 'Option<U256>',
-    chainId: 'Option<u64>',
-    condition: 'Option<EthTransactionCondition>',
-    creates: 'Option<H160>',
-    from: 'H160',
-    gas: 'U256',
-    gasPrice: 'U256',
-    hash: 'H256',
-    input: 'Bytes',
     nonce: 'U256',
-    publicKey: 'Option<H512>',
-    r: 'U256',
-    raw: 'Bytes',
-    s: 'U256',
-    standardV: 'U256',
-    to: 'Option<H160>',
-    transactionIndex: 'Option<U256>',
-    v: 'U256',
-    value: 'U256'
+    gasPrice: 'U256',
+    gasLimit: 'U256',
+    action: 'EthTransactionAction',
+    value: 'U256',
+    input: 'Bytes',
+    // TransactionSignature (embedded)
+    v: 'u64',
+    r: 'H256',
+    s: 'H256'
+  },
+  // as per the RPC definition
+  // TODO: Check these, re-add
+  // EthTransaction: {
+  //   // hash in Rust
+  //   transactionHash: 'H256',
+  //   nonce: 'U256',
+  //   blockHash: 'Option<H256>',
+  //   blockNumber: 'Option<U256>',
+  //   transactionIndex: 'Option<U256>',
+  //   from: 'H160',
+  //   to: 'Option<H160>',
+  //   value: 'U256',
+  //   gasPrice: 'U256',
+  //   gas: 'U256',
+  //   input: 'Bytes',
+  //   creates: 'Option<H160>',
+  //   raw: 'Bytes',
+  //   publicKey: 'Option<H512>',
+  //   chainId: 'Option<U64>',
+  //   standardV: 'U256',
+  //   v: 'U256',
+  //   r: 'U256',
+  //   s: 'U256'
+  // },
+  EthTransactionAction: {
+    _enum: {
+      Call: 'H160',
+      Create: 'Null'
+    }
   },
   EthTransactionCondition: {
     _enum: {
