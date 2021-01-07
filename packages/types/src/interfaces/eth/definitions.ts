@@ -176,26 +176,26 @@ const types: DefinitionsTypes = {
     }
   },
   EthTransaction: {
+    // hash in Rust
+    transactionHash: 'H256',
+    nonce: 'U256',
     blockHash: 'Option<H256>',
     blockNumber: 'Option<U256>',
-    chainId: 'Option<u64>',
-    condition: 'Option<EthTransactionCondition>',
-    creates: 'Option<H160>',
-    from: 'H160',
-    gas: 'U256',
-    gasPrice: 'U256',
-    hash: 'H256',
-    input: 'Bytes',
-    nonce: 'U256',
-    publicKey: 'Option<H512>',
-    r: 'U256',
-    raw: 'Bytes',
-    s: 'U256',
-    standardV: 'U256',
-    to: 'Option<H160>',
     transactionIndex: 'Option<U256>',
+    from: 'H160',
+    to: 'Option<H160>',
+    value: 'U256',
+    gasPrice: 'U256',
+    gas: 'U256',
+    input: 'Bytes',
+    creates: 'Option<H160>',
+    raw: 'Bytes',
+    publicKey: 'Option<H512>',
+    chainId: 'Option<U64>',
+    standardV: 'U256',
     v: 'U256',
-    value: 'U256'
+    r: 'U256',
+    s: 'U256'
   },
   EthTransactionCondition: {
     _enum: {
