@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, GenericEthereumAccountId, GenericEthereumLookupSource, Option, Struct, U256, U64, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { BlockNumber, H160, H2048, H256, H512 } from '@polkadot/types/interfaces/runtime';
+import type { BlockNumber, H160, H2048, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name EthAccount */
 export interface EthAccount extends Struct {
@@ -211,26 +211,22 @@ export interface EthSyncStatus extends Enum {
 
 /** @name EthTransaction */
 export interface EthTransaction extends Struct {
-  readonly blockHash: Option<H256>;
-  readonly blockNumber: Option<U256>;
-  readonly chainId: Option<u64>;
-  readonly condition: Option<EthTransactionCondition>;
-  readonly creates: Option<H160>;
-  readonly from: H160;
-  readonly gas: U256;
-  readonly gasPrice: U256;
-  readonly hash: H256;
-  readonly input: Bytes;
   readonly nonce: U256;
-  readonly publicKey: Option<H512>;
-  readonly r: U256;
-  readonly raw: Bytes;
-  readonly s: U256;
-  readonly standardV: U256;
-  readonly to: Option<H160>;
-  readonly transactionIndex: Option<U256>;
-  readonly v: U256;
+  readonly gasPrice: U256;
+  readonly gasLimit: U256;
+  readonly action: EthTransactionAction;
   readonly value: U256;
+  readonly input: Bytes;
+  readonly v: u64;
+  readonly r: H256;
+  readonly s: H256;
+}
+
+/** @name EthTransactionAction */
+export interface EthTransactionAction extends Enum {
+  readonly isCall: boolean;
+  readonly asCall: H160;
+  readonly isCreate: boolean;
 }
 
 /** @name EthTransactionCondition */
