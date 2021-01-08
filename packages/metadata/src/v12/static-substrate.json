@@ -12320,7 +12320,7 @@
                 },
                 {
                   "name": "min_balance",
-                  "type": "Balance"
+                  "type": "TAssetBalance"
                 }
               ],
               "documentation": [
@@ -12366,7 +12366,7 @@
                 },
                 {
                   "name": "min_balance",
-                  "type": "Compact<Balance>"
+                  "type": "Compact<TAssetBalance>"
                 }
               ],
               "documentation": [
@@ -12456,7 +12456,7 @@
                 },
                 {
                   "name": "amount",
-                  "type": "Compact<Balance>"
+                  "type": "Compact<TAssetBalance>"
                 }
               ],
               "documentation": [
@@ -12487,7 +12487,7 @@
                 },
                 {
                   "name": "amount",
-                  "type": "Compact<Balance>"
+                  "type": "Compact<TAssetBalance>"
                 }
               ],
               "documentation": [
@@ -12521,7 +12521,7 @@
                 },
                 {
                   "name": "amount",
-                  "type": "Compact<Balance>"
+                  "type": "Compact<TAssetBalance>"
                 }
               ],
               "documentation": [
@@ -12562,7 +12562,7 @@
                 },
                 {
                   "name": "amount",
-                  "type": "Compact<Balance>"
+                  "type": "Compact<TAssetBalance>"
                 }
               ],
               "documentation": [
@@ -12729,7 +12729,7 @@
               "args": [
                 "AssetId",
                 "AccountId",
-                "Balance"
+                "TAssetBalance"
               ],
               "documentation": [
                 " Some assets were issued. \\[asset_id, owner, total_supply\\]"
@@ -12741,7 +12741,7 @@
                 "AssetId",
                 "AccountId",
                 "AccountId",
-                "Balance"
+                "TAssetBalance"
               ],
               "documentation": [
                 " Some assets were transferred. \\[asset_id, from, to, amount\\]"
@@ -12752,7 +12752,7 @@
               "args": [
                 "AssetId",
                 "AccountId",
-                "Balance"
+                "TAssetBalance"
               ],
               "documentation": [
                 " Some assets were destroyed. \\[asset_id, owner, balance\\]"
@@ -12786,7 +12786,7 @@
                 "AssetId",
                 "AccountId",
                 "AccountId",
-                "Balance"
+                "TAssetBalance"
               ],
               "documentation": [
                 " Some assets was transferred by an admin. \\[asset_id, from, to, amount\\]"
