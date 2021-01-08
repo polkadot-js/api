@@ -3,6 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
 import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
@@ -133,6 +134,8 @@ export class TypeRegistry implements Registry {
   #knownTypes: RegisteredTypes = {};
 
   #signedExtensions: string[] = defaultExtensions;
+
+  #userExtensions?: Record<string, ExtDef>;
 
   constructor () {
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
@@ -278,11 +281,11 @@ export class TypeRegistry implements Registry {
   }
 
   public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
-    return expandExtensionTypes(this.#signedExtensions, 'extra');
+    return expandExtensionTypes(this.#signedExtensions, 'payload', this.#userExtensions);
   }
 
   public getSignedExtensionTypes (): Record<string, keyof InterfaceTypes> {
-    return expandExtensionTypes(this.#signedExtensions, 'types');
+    return expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
   }
 
   public hasClass (name: string): boolean {
@@ -356,7 +359,7 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the metadata
-  public setMetadata (metadata: Metadata, signedExtensions?: string[]): void {
+  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: Record<string, ExtDef>): void {
     injectExtrinsics(this, metadata, this.#metadataCalls);
     injectErrors(this, metadata, this.#metadataErrors);
     injectEvents(this, metadata, this.#metadataEvents);
@@ -367,7 +370,8 @@ export class TypeRegistry implements Registry {
         metadata.asLatest.extrinsic.version.gt(BN_ZERO)
           ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
           : defaultExtensions
-      )
+      ),
+      userExtensions
     );
 
     // setup the chain properties with format overrides
@@ -377,10 +381,11 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[] = defaultExtensions): void {
+  setSignedExtensions (signedExtensions: string[] = defaultExtensions, userExtensions?: Record<string, ExtDef>): void {
     this.#signedExtensions = signedExtensions;
+    this.#userExtensions = userExtensions;
 
-    const unknown = findUnknownExtensions(this.#signedExtensions);
+    const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
 
     if (unknown.length) {
       l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);

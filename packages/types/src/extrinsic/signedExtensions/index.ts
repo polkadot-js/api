@@ -26,16 +26,16 @@ const defaultExtensions: Array<keyof typeof allExtensions> = [
   'CheckBlockGasLimit'
 ];
 
-function findUnknownExtensions (extensions: string[]): string[] {
-  const names = Object.keys(allExtensions);
+function findUnknownExtensions (extensions: string[], userExtensions: Record<string, ExtDef> = {}): string[] {
+  const names = [...Object.keys(allExtensions), ...Object.keys(userExtensions)];
 
-  return extensions.filter((key): boolean => !names.includes(key));
+  return extensions.filter((key) => !names.includes(key));
 }
 
-function expandExtensionTypes (extensions: string[], type: keyof ExtInfo): ExtTypes {
+function expandExtensionTypes (extensions: string[], type: keyof ExtInfo, userExtensions: Record<string, ExtDef> = {}): ExtTypes {
   return extensions
-    .map((key): ExtInfo => allExtensions[key])
-    .filter((info): boolean => !!info)
+    .map((key) => allExtensions[key] || userExtensions[key])
+    .filter((info): info is ExtInfo => !!info)
     .reduce((result, info): ExtTypes => ({ ...result, ...info[type] }), {});
 }
 

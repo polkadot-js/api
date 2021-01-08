@@ -6,53 +6,53 @@ import type { ExtDef } from './types';
 import { emptyCheck } from './emptyCheck';
 
 const CheckMortality = {
-  extra: {
-    blockHash: 'Hash'
-  },
-  types: {
+  extrinsic: {
     era: 'ExtrinsicEra'
+  },
+  payload: {
+    blockHash: 'Hash'
   }
 };
 
 export default {
   ChargeTransactionPayment: {
-    extra: {},
-    types: {
+    extrinsic: {
       tip: 'Compact<Balance>'
-    }
+    },
+    payload: {}
   },
   CheckBlockGasLimit: emptyCheck,
   CheckEra: CheckMortality,
   CheckGenesis: {
-    extra: {
+    extrinsic: {},
+    payload: {
       genesisHash: 'Hash'
-    },
-    types: {}
+    }
   },
   CheckMortality,
   CheckNonce: {
-    extra: {},
-    types: {
+    extrinsic: {
       nonce: 'Compact<Index>'
-    }
+    },
+    payload: {}
   },
   CheckSpecVersion: {
-    extra: {
+    extrinsic: {},
+    payload: {
       specVersion: 'u32'
-    },
-    types: {}
+    }
   },
   CheckTxVersion: {
-    extra: {
+    extrinsic: {},
+    payload: {
       transactionVersion: 'u32'
-    },
-    types: {}
+    }
   },
   CheckVersion: {
-    extra: {
+    extrinsic: {},
+    payload: {
       specVersion: 'u32'
-    },
-    types: {}
+    }
   },
   CheckWeight: emptyCheck,
   LockStakingStatus: emptyCheck,

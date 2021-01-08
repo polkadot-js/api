@@ -2,6 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export const emptyCheck = {
-  extra: {},
-  types: {}
+  extrinsic: {},
+  payload: {}
 };

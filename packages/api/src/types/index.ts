@@ -9,6 +9,7 @@ import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import type { Metadata } from '@polkadot/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
+import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { ApiBase } from '../base';
@@ -56,6 +57,10 @@ export interface ApiOptions extends RegisteredTypes {
    * @description User-defined RPC methods
    */
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  /**
+   * @description Any chain-specific signed extensions that are now well-known
+   */
+  signedExtensions?: Record<string, ExtDef>;
   /**
    * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
