@@ -104,6 +104,12 @@ export interface ContractInfo extends Enum {
 /** @name ContractStorageKey */
 export interface ContractStorageKey extends U8aFixed {}
 
+/** @name DeletedContract */
+export interface DeletedContract extends Struct {
+  readonly pairCount: u32;
+  readonly trieId: TrieId;
+}
+
 /** @name Gas */
 export interface Gas extends u64 {}
 
