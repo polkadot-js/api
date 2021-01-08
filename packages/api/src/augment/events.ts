@@ -3,6 +3,7 @@
 
 import type { Bytes, Option, Vec, bool, u16, u32 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
+import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BalanceStatus } from '@polkadot/types/interfaces/balances';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -28,7 +29,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * Some assets were destroyed. \[asset_id, owner, balance\]
        **/
-      Burned: AugmentedEvent<ApiType, [AssetId, AccountId, Balance]>;
+      Burned: AugmentedEvent<ApiType, [AssetId, AccountId, TAssetBalance]>;
       /**
        * Some asset class was created. \[asset_id, creator, owner\]
        **/
@@ -44,7 +45,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * Some assets was transferred by an admin. \[asset_id, from, to, amount\]
        **/
-      ForceTransferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, Balance]>;
+      ForceTransferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, TAssetBalance]>;
       /**
        * Some account `who` was frozen. \[asset_id, who\]
        **/
@@ -52,7 +53,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * Some assets were issued. \[asset_id, owner, total_supply\]
        **/
-      Issued: AugmentedEvent<ApiType, [AssetId, AccountId, Balance]>;
+      Issued: AugmentedEvent<ApiType, [AssetId, AccountId, TAssetBalance]>;
       /**
        * The maximum amount of zombies allowed has changed. \[asset_id, max_zombies\]
        **/
@@ -72,7 +73,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * Some assets were transferred. \[asset_id, from, to, amount\]
        **/
-      Transferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, Balance]>;
+      Transferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, TAssetBalance]>;
     };
     balances: {
       [key: string]: AugmentedEvent<ApiType>;
