@@ -136,6 +136,10 @@ export default {
       }
     },
     ContractStorageKey: '[u8; 32]',
+    DeletedContract: {
+      pairCount: 'u32',
+      trieId: 'TrieId'
+    },
     Gas: 'u64',
     HostFnWeights: {
       caller: 'Weight',
