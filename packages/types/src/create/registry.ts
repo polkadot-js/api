@@ -40,6 +40,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
       metadataErrors[u8aToHex(eventIndex)] = {
         documentation: documentation.map((d): string => d.toString()),
         index,
+        method: name.toString(),
         name: name.toString(),
         section: sectionName
       };

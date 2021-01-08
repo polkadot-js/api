@@ -29,6 +29,8 @@ export type RegistryTypes = Record<string, Constructor | string | Record<string,
 export interface RegistryError {
   documentation: string[];
   index: number;
+  // compat
+  method: string;
   name: string;
   section: string;
 }
