@@ -4,6 +4,7 @@
 import type BN from 'bn.js';
 import type { Metadata } from '@polkadot/metadata';
 import type { Observable } from '@polkadot/x-rxjs';
+import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { H256 } from '../interfaces/runtime';
 import type { ChainProperties } from '../interfaces/system';
 import type { CallFunction } from './calls';
@@ -113,6 +114,6 @@ export interface Registry {
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
   setHasher (hasher?: (data: Uint8Array) => Uint8Array): void;
-  setMetadata (metadata: Metadata, signedExtensions?: string[]): void;
-  setSignedExtensions (signedExtensions?: string[]): void;
+  setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: Record<string, ExtDef>): void;
+  setSignedExtensions (signedExtensions?: string[], userExtensions?: Record<string, ExtDef>): void;
 }
