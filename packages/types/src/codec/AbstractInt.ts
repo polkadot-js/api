@@ -78,8 +78,11 @@ export abstract class AbstractInt extends BN implements Codec {
     this.#bitLength = bitLength;
     this.#isSigned = isSigned;
 
-    assert(isSigned || this.gte(BN_ZERO), `${this.toRawType()}: Negative number passed to unsigned type`);
-    assert(super.bitLength() <= bitLength, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${bitLength}`);
+    const isPositive = this.gte(BN_ZERO);
+    const maxBits = bitLength - (isSigned && isPositive ? 1 : 0);
+
+    assert(isSigned || isPositive, `${this.toRawType()}: Negative number passed to unsigned type`);
+    assert(super.bitLength() <= maxBits, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
   }
 
   /**
