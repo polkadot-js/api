@@ -38,8 +38,9 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
       const eventIndex = new Uint8Array([sectionIndex, index]);
 
       metadataErrors[u8aToHex(eventIndex)] = {
-        documentation: documentation.map((d): string => d.toString()),
+        documentation: documentation.map((d) => d.toString()),
         index,
+        method: name.toString(),
         name: name.toString(),
         section: sectionName
       };

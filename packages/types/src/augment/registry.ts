@@ -14,7 +14,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, Gas, HostFnWeights, InstructionWeights, Limits, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
+import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, InstructionWeights, Limits, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import type { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
@@ -588,6 +588,9 @@ declare module '@polkadot/types/types/registry' {
     ContractStorageKey: ContractStorageKey;
     'Option<ContractStorageKey>': Option<ContractStorageKey>;
     'Vec<ContractStorageKey>': Vec<ContractStorageKey>;
+    DeletedContract: DeletedContract;
+    'Option<DeletedContract>': Option<DeletedContract>;
+    'Vec<DeletedContract>': Vec<DeletedContract>;
     Gas: Gas;
     'Compact<Gas>': Compact<Gas>;
     'Option<Gas>': Option<Gas>;
