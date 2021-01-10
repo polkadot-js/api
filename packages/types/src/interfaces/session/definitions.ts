@@ -24,10 +24,10 @@ const keyTypes = {
   SessionKeys4: '(AccountId, AccountId, AccountId, AccountId)',
   // CC3
   SessionKeys5: '(AccountId, AccountId, AccountId, AccountId, AccountId)',
-  SessionKeys6: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
-  SessionKeys7: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
-  SessionKeys8: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
-  SessionKeys9: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)'
+  SessionKeys6: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
+  SessionKeys7: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
+  SessionKeys8: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
+  SessionKeys9: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)'
 };
 
 export default {
