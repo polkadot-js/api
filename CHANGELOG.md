@@ -1,12 +1,29 @@
 # CHANGELOG
 
-## 3.4.0-x
+## 3.4.1 Jan 11, 2020
 
-- **Breaking change** The `derive.chain.{getBlock, subscribeNewBlocks}` now return `SignedBlockExtended`, all with the actual extrinsics and events mapped. Users of the latter interface may need some updates since the result structure may be different.
+Upgrade priority: Low. Fixes for parachain types, `.entries()` (with no values) and `event.is(...)` checks, users of these interfaces will have benefit.
+
+- **Breaking change** The `derive.chain.{getBlock, subscribeNewBlocks}` now return `SignedBlockExtended`, all with the actual extrinsics and events mapped. Users of the latter interface should take note.
+
+Contributed:
+
+- Fix `SessionKeys{6-9}` definitions (Thanks to https://github.com/icodezjb)
+- Support `Vec<(a, b)>` in enums (Thanks to https://github.com/monitz87)
+- Add motions to bounty derive (Thanks to https://github.com/ekowalsk)
 
 Changes:
 
 - `derive.chain.getBlock()` now maps events to extrinsics via `.extrinsics` getter
+- Ensure dispatchInfo is extracted on failed extrinsics (`getBlock` derive)
+- Allow specification of additional signed extrinsic via API options
+- Add missing parachain types, `ParaGenesisArgs`
+- Correct `EthTransaction` type (as per the correct cargo crate)
+- Update with latest contract types for Substrate master
+- Update alias mapping for asset palette (including Substrate starting defaults)
+- Allow `.entries()` call where 0 keys are present
+- Fix `.is` on events not checking the correct index
+- Construction of `i*` types ow correctly checks for max positive/negative
 
 
 ## 3.3.1 Jan 4, 2021
