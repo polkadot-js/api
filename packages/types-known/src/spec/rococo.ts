@@ -11,8 +11,8 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 const sharedTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
-  Keys: 'SessionKeys5',
-  LookupSource: 'AccountId'
+  LookupSource: 'AccountId',
+  Keys: 'SessionKeys6'
 };
 
 const versioned: OverrideVersionedType[] = [
@@ -22,11 +22,19 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RewardDestination: 'RewardDestinationTo257',
+      Keys: 'SessionKeys5'
     }
   },
   {
-    minmax: [10, undefined],
+    minmax: [10, 12],
+    types: {
+      ...sharedTypes,
+      Keys: 'SessionKeys5'
+    }
+  },
+  {
+    minmax: [13, undefined],
     types: {
       ...sharedTypes
     }
