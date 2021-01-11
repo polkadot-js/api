@@ -86,7 +86,7 @@ export default {
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
     MultiAddress: 'GenericMultiAddress',
-    Moment: 'u64',
+    Moment: 'UInt<64, Moment>',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
     OriginCaller: {
@@ -120,6 +120,7 @@ export default {
     StorageData: 'Bytes',
     TransactionPriority: 'u64',
     ValidatorId: 'AccountId',
+    ValidatorIdOf: 'ValidatorId',
     Weight: 'u64',
     WeightMultiplier: 'Fixed64',
 
