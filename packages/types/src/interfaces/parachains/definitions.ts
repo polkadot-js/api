@@ -244,6 +244,14 @@ export default {
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain', 'Root']
     },
+    ParachainProposal: {
+      proposer: 'AccountId',
+      validationCode: 'ValidationCode',
+      genesisHead: 'HeadData',
+      validators: 'Vec<ValidatorId>',
+      name: 'Bytes',
+      balance: 'Balance'
+    },
     ParaGenesisArgs: {
       genesisHead: 'Bytes',
       validationCode: 'Bytes',
@@ -275,6 +283,10 @@ export default {
       hrmpMqcHeads: 'Vec<(u32, Hash)>',
       dmqMqcHead: 'Hash',
       maxPovSize: 'u32'
+    },
+    RegisteredParachainInfo: {
+      validators: 'Vec<ValidatorId>',
+      proposer: 'AccountId'
     },
     RelayChainBlockNumber: 'BlockNumber',
     QueuedParathread: {
