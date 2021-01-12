@@ -19,6 +19,29 @@ export interface AbridgedCandidateReceipt extends Struct {
   readonly commitments: CandidateCommitments;
 }
 
+/** @name AbridgedHostConfiguration */
+export interface AbridgedHostConfiguration extends Struct {
+  readonly maxCodeSize: u32;
+  readonly maxHeadDataSize: u32;
+  readonly maxUpwardQueueCount: u32;
+  readonly maxUpwardQueueSize: u32;
+  readonly maxUpwardMessageSize: u32;
+  readonly maxUpwardMessageNumPerCandidate: u32;
+  readonly hrmpMaxMessageNumPerCandidate: u32;
+  readonly validationUpgradeFrequency: BlockNumber;
+  readonly validationUpgradeDelay: BlockNumber;
+}
+
+/** @name AbridgedHrmpChannel */
+export interface AbridgedHrmpChannel extends Struct {
+  readonly maxCapacity: u32;
+  readonly maxTotalSize: u32;
+  readonly maxMessageSize: u32;
+  readonly msgCount: u32;
+  readonly totalSize: u32;
+  readonly mqcHead: Option<Hash>;
+}
+
 /** @name AbstractFungible */
 export interface AbstractFungible extends Struct {
   readonly id: Bytes;
@@ -264,6 +287,46 @@ export interface HeadData extends Bytes {}
 
 /** @name HostConfiguration */
 export interface HostConfiguration extends Struct {
+  readonly maxCodeSize: u32;
+  readonly maxHeadDataSize: u32;
+  readonly maxUpwardQueueCount: u32;
+  readonly maxUpwardQueueSize: u32;
+  readonly maxUpwardMessageSize: u32;
+  readonly maxUpwardMessageNumPerCandidate: u32;
+  readonly hrmpMaxMessageNumPerCandidate: u32;
+  readonly validationUpgradeFrequency: BlockNumber;
+  readonly validationUpgradeDelay: BlockNumber;
+  readonly maxPovSize: u32;
+  readonly maxDownwardMessageSize: u32;
+  readonly preferredDispatchableUpwardMessagesStepWeight: Weight;
+  readonly hrmpMaxParachainOutboundChannels: u32;
+  readonly hrmpMaxParathreadOutboundChannels: u32;
+  readonly hrmpOpenRequestTtl: u32;
+  readonly hrmpSenderDeposit: Balance;
+  readonly hrmpRecipientDeposit: Balance;
+  readonly hrmpChannelMaxCapacity: u32;
+  readonly hrmpChannelMaxTotalSize: u32;
+  readonly hrmpMaxParachainInboundChannels: u32;
+  readonly hrmpMaxParathreadInboundChannels: u32;
+  readonly hrmpChannelMaxMessageSize: u32;
+  readonly acceptancePeriod: BlockNumber;
+  readonly parathreadCores: u32;
+  readonly parathreadRetries: u32;
+  readonly groupRotationFrequency: BlockNumber;
+  readonly chainAvailabilityPeriod: BlockNumber;
+  readonly threadAvailabilityPeriod: BlockNumber;
+  readonly schedulingLookahead: u32;
+  readonly maxValidatorsPerCore: Option<u32>;
+  readonly disputePeriod: SessionIndex;
+  readonly noShowSlots: u32;
+  readonly nDelayTranches: u32;
+  readonly zerothDelayTrancheWidth: u32;
+  readonly neededApprovals: u32;
+  readonly relayVrfModuloSamples: u32;
+}
+
+/** @name HostConfigurationTo13 */
+export interface HostConfigurationTo13 extends Struct {
   readonly validationUpgradeFrequency: BlockNumber;
   readonly validationUpgradeDelay: BlockNumber;
   readonly acceptancePeriod: BlockNumber;
