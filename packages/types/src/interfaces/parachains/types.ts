@@ -367,6 +367,24 @@ export interface HostConfigurationTo13 extends Struct {
 
 /** @name HrmpChannel */
 export interface HrmpChannel extends Struct {
+  readonly maxCapacity: u32;
+  readonly maxTotalSize: u32;
+  readonly maxMessageSize: u32;
+  readonly msgCount: u32;
+  readonly totalSize: u32;
+  readonly mqcHead: Option<Hash>;
+  readonly senderDeposit: Balance;
+  readonly recipientDeposit: Balance;
+}
+
+/** @name HrmpChannelId */
+export interface HrmpChannelId extends Struct {
+  readonly sender: u32;
+  readonly receiver: u32;
+}
+
+/** @name HrmpChannelTo13 */
+export interface HrmpChannelTo13 extends Struct {
   readonly senderDeposit: Balance;
   readonly recipientDeposit: Balance;
   readonly maxCapacity: u32;
@@ -375,12 +393,6 @@ export interface HrmpChannel extends Struct {
   readonly msgCount: u32;
   readonly totalSize: u32;
   readonly mqcHead: Option<Hash>;
-}
-
-/** @name HrmpChannelId */
-export interface HrmpChannelId extends Struct {
-  readonly sender: u32;
-  readonly receiver: u32;
 }
 
 /** @name HrmpOpenChannelRequest */
