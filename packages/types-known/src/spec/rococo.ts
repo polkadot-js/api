@@ -37,7 +37,8 @@ const versioned: OverrideVersionedType[] = [
     minmax: [13, 13],
     types: {
       ...sharedTypes,
-      HostConfig: 'HostConfigurationTo13'
+      HostConfig: 'HostConfigurationTo13',
+      HrmpChannel: 'HrmpChannelTo13'
     }
   },
   {

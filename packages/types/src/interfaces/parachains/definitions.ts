@@ -8,6 +8,7 @@ import type { Definitions } from '../../types';
 
 const SLOT_RANGE_COUNT = 10;
 
+// proposeParachain
 const proposeTypes = {
   ParachainProposal: {
     proposer: 'AccountId',
@@ -23,10 +24,47 @@ const proposeTypes = {
   }
 };
 
+// hrmp
+const hrmpTypes = {
+  HrmpChannelTo13: {
+    senderDeposit: 'Balance',
+    recipientDeposit: 'Balance',
+    maxCapacity: 'u32',
+    maxTotalSize: 'u32',
+    maxMessageSize: 'u32',
+    msgCount: 'u32',
+    totalSize: 'u32',
+    mqcHead: 'Option<Hash>'
+  },
+  HrmpChannel: {
+    maxCapacity: 'u32',
+    maxTotalSize: 'u32',
+    maxMessageSize: 'u32',
+    msgCount: 'u32',
+    totalSize: 'u32',
+    mqcHead: 'Option<Hash>',
+    senderDeposit: 'Balance',
+    recipientDeposit: 'Balance'
+  },
+  HrmpChannelId: {
+    sender: 'u32',
+    receiver: 'u32'
+  },
+  HrmpOpenChannelRequest: {
+    confirmed: 'bool',
+    age: 'SessionIndex',
+    senderDeposit: 'Balance',
+    maxMessageSize: 'u32',
+    maxCapacity: 'u32',
+    maxTotalSize: 'u32'
+  }
+};
+
 export default {
   rpc: {},
   types: {
     ...proposeTypes,
+    ...hrmpTypes,
     AbridgedCandidateReceipt: {
       parachainIndex: 'ParaId',
       relayParent: 'Hash',
@@ -231,28 +269,6 @@ export default {
       hrmpMaxParachainOutboundChannels: 'u32',
       hrmpMaxParathreadOutboundChannels: 'u32',
       hrmpMaxMessageNumPerCandidate: 'u32'
-    },
-    HrmpChannel: {
-      senderDeposit: 'Balance',
-      recipientDeposit: 'Balance',
-      maxCapacity: 'u32',
-      maxTotalSize: 'u32',
-      maxMessageSize: 'u32',
-      msgCount: 'u32',
-      totalSize: 'u32',
-      mqcHead: 'Option<Hash>'
-    },
-    HrmpChannelId: {
-      sender: 'u32',
-      receiver: 'u32'
-    },
-    HrmpOpenChannelRequest: {
-      confirmed: 'bool',
-      age: 'SessionIndex',
-      senderDeposit: 'Balance',
-      maxMessageSize: 'u32',
-      maxCapacity: 'u32',
-      maxTotalSize: 'u32'
     },
     InboundDownwardMessage: {
       pubSentAt: 'BlockNumber',
