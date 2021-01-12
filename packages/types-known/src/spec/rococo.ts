@@ -34,7 +34,14 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [13, undefined],
+    minmax: [13, 13],
+    types: {
+      ...sharedTypes,
+      HostConfig: 'HostConfigurationTo13'
+    }
+  },
+  {
+    minmax: [14, undefined],
     types: {
       ...sharedTypes
     }
