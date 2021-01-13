@@ -12,6 +12,7 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
+type ResultSlotsNoSession = [u64, u64, u64];
 type ResultSlots = [u64, u64, u64, Option<SessionIndex>];
 type ResultSlotsFlat = [u64, u64, u64, SessionIndex];
 
@@ -39,19 +40,25 @@ function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
 
 function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return api.derive.session.info().pipe(
-    switchMap((info): Observable<[DeriveSessionInfo, ResultSlots]> =>
+    switchMap((info): Observable<[DeriveSessionInfo, ResultSlots | ResultSlotsNoSession]> =>
       combineLatest([
         of(info),
-        api.queryMulti<ResultSlots>([
-          api.query.babe.currentSlot,
-          api.query.babe.epochIndex,
-          api.query.babe.genesisSlot,
-          [api.query.staking.erasStartSessionIndex, info.activeEra]
-        ])
+        api.query.staking
+          ? api.queryMulti<ResultSlots>([
+            api.query.babe.currentSlot,
+            api.query.babe.epochIndex,
+            api.query.babe.genesisSlot,
+            [api.query.staking.erasStartSessionIndex, info.activeEra]
+          ])
+          : api.queryMulti<ResultSlotsNoSession>([
+            api.query.babe.currentSlot,
+            api.query.babe.epochIndex,
+            api.query.babe.genesisSlot
+          ])
       ])
     ),
     map(([info, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionInfo, ResultSlotsFlat] => [
-      info, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(api.registry.createType('SessionIndex', 1))]
+      info, [currentSlot, epochIndex, genesisSlot, optStartIndex && optStartIndex.isSome ? optStartIndex.unwrap() : api.registry.createType('SessionIndex', 1)]
     ])
   );
 }
