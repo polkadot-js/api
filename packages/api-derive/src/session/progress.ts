@@ -40,7 +40,7 @@ function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
 
 function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return api.derive.session.info().pipe(
-    switchMap((info): Observable<[DeriveSessionInfo, ResultSlots]> =>
+    switchMap((info): Observable<[DeriveSessionInfo, ResultSlots | ResultSlotsNoSession]> =>
       combineLatest([
         of(info),
         api.query.staking
@@ -54,13 +54,11 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
             api.query.babe.currentSlot,
             api.query.babe.epochIndex,
             api.query.babe.genesisSlot
-          ]).pipe(map(([currentSlot, epochIndex, genesisSlot]): ResultSlots =>
-            [currentSlot, epochIndex, genesisSlot, api.registry.createType('Option<SessionIndex>')]
-          ))
+          ])
       ])
     ),
     map(([info, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionInfo, ResultSlotsFlat] => [
-      info, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(api.registry.createType('SessionIndex', 1))]
+      info, [currentSlot, epochIndex, genesisSlot, optStartIndex && optStartIndex.isSome ? optStartIndex.unwrap() : api.registry.createType('SessionIndex', 1)]
     ])
   );
 }
