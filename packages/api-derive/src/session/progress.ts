@@ -12,6 +12,7 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
+type ResultSlotsNoSession = [u64, u64, u64];
 type ResultSlots = [u64, u64, u64, Option<SessionIndex>];
 type ResultSlotsFlat = [u64, u64, u64, SessionIndex];
 
@@ -42,12 +43,20 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
     switchMap((info): Observable<[DeriveSessionInfo, ResultSlots]> =>
       combineLatest([
         of(info),
-        api.queryMulti<ResultSlots>([
-          api.query.babe.currentSlot,
-          api.query.babe.epochIndex,
-          api.query.babe.genesisSlot,
-          [api.query.staking.erasStartSessionIndex, info.activeEra]
-        ])
+        api.query.staking
+          ? api.queryMulti<ResultSlots>([
+            api.query.babe.currentSlot,
+            api.query.babe.epochIndex,
+            api.query.babe.genesisSlot,
+            [api.query.staking.erasStartSessionIndex, info.activeEra]
+          ])
+          : api.queryMulti<ResultSlotsNoSession>([
+            api.query.babe.currentSlot,
+            api.query.babe.epochIndex,
+            api.query.babe.genesisSlot
+          ]).pipe(map(([currentSlot, epochIndex, genesisSlot]): ResultSlots =>
+            [currentSlot, epochIndex, genesisSlot, api.registry.createType('Option<SessionIndex>')]
+          ))
       ])
     ),
     map(([info, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionInfo, ResultSlotsFlat] => [
