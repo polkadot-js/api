@@ -43,6 +43,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
     switchMap((info): Observable<[DeriveSessionInfo, ResultSlots | ResultSlotsNoSession]> =>
       combineLatest([
         of(info),
+        // we may have no staking, but have babe (permissioned)
         api.query.staking
           ? api.queryMulti<ResultSlots>([
             api.query.babe.currentSlot,

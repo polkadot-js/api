@@ -50,7 +50,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
         [
           true,
           api.consts.babe.epochDuration,
-          // we may have babe without staking (only epoch)
+          // we may have babe without staking (permissioned)
           api.consts.staking
             ? api.consts.staking.sessionsPerEra
             : api.registry.createType('SessionIndex')
