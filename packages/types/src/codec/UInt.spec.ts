@@ -48,7 +48,7 @@ describe('UInt', (): void => {
   it('has a working toBigInt', (): void => {
     expect(
       new UInt(registry, 4567).toBigInt() + BigInt(1)
-    ).toEqual(BigInt(468));
+    ).toEqual(BigInt(4568));
   });
 
   it('converts to Little Endian from the provided value', (): void => {
