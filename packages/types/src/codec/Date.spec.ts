@@ -59,6 +59,12 @@ describe('Date', (): void => {
         new CodecDate(registry, 3).toHex(true)
       ).toEqual('0x0300000000000000');
     });
+
+    it('encodes correctly to BigInt', (): void => {
+      expect(
+        new CodecDate(registry, 41).toBigInt() + 1n
+      ).toEqual(42n);
+    });
   });
 
   describe('utils', (): void => {

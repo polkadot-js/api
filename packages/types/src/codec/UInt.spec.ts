@@ -45,6 +45,12 @@ describe('UInt', (): void => {
     ).toEqual(4567);
   });
 
+  it('has a working toBigInt', (): void => {
+    expect(
+      new UInt(registry, 4567).toBigInt() + BigInt(1)
+    ).toEqual(BigInt(468));
+  });
+
   it('converts to Little Endian from the provided value', (): void => {
     expect(
       new UInt(registry, 1234567).toU8a()
