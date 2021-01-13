@@ -73,7 +73,9 @@ describe('Compact', (): void => {
     });
 
     it('has a valid toBigInt interface', (): void => {
-      expect(new (Compact.with('u128'))(registry, 12345678987654321n).toBigInt() === 12345678987654321n).toBe(true);
+      expect(
+        (new (Compact.with('u128'))(registry, 12345678987654321n).toBigInt() + 1n) === 12345678987654322n
+      ).toBe(true);
     });
   });
 });
