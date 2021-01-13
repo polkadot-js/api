@@ -641,6 +641,7 @@ export interface ParathreadEntry extends Struct {
 export interface PersistedValidationData extends Struct {
   readonly parentHead: HeadData;
   readonly blockNumber: BlockNumber;
+  readonly relayStorageRoot: Hash;
   readonly hrmpMqcHeads: Vec<ITuple<[u32, Hash]>>;
   readonly dmqMqcHead: Hash;
   readonly maxPovSize: u32;
@@ -791,6 +792,12 @@ export interface ValidationCode extends Bytes {}
 export interface ValidationData extends Struct {
   readonly persisted: PersistedValidationData;
   readonly transient: TransientValidationData;
+}
+
+/** @name ValidationDataType */
+export interface ValidationDataType extends Struct {
+  readonly validationData: ValidationData;
+  readonly relayChainState: Vec<Bytes>;
 }
 
 /** @name ValidationFunctionParams */
