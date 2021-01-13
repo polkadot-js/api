@@ -83,7 +83,7 @@ export class CodecDate extends Date implements Codec {
   /**
    * @description Returns a BigInt representation of the number
    */
-  public toBigInt (): BigInt {
+  public toBigInt (): bigint {
     return BigInt(this.toNumber());
   }
 

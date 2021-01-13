@@ -8,7 +8,7 @@ import type { Hash } from '../interfaces/runtime';
 import type { AnyTuple, ArgsDef, Codec } from './codec';
 
 export interface ICompact<T> extends Codec {
-  toBigInt (): BigInt;
+  toBigInt (): bigint;
   toBn (): BN;
   toNumber (): number;
   unwrap (): T;
