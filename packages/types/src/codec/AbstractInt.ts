@@ -146,7 +146,7 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns a BigInt representation of the number
    */
-  public toBigInt (): BigInt {
+  public toBigInt (): bigint {
     return BigInt(this.toString());
   }
 
