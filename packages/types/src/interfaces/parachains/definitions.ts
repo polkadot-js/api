@@ -345,6 +345,7 @@ export default {
     PersistedValidationData: {
       parentHead: 'HeadData',
       blockNumber: 'BlockNumber',
+      relayStorageRoot: 'Hash',
       hrmpMqcHeads: 'Vec<(u32, Hash)>',
       dmqMqcHead: 'Hash',
       maxPovSize: 'u32'
@@ -415,6 +416,10 @@ export default {
     ValidationData: {
       persisted: 'PersistedValidationData',
       transient: 'TransientValidationData'
+    },
+    ValidationDataType: {
+      validationData: 'ValidationData',
+      relayChainState: 'Vec<Bytes>'
     },
     ValidatorGroup: 'Vec<ValidatorIndex>',
     ValidatorSignature: 'Signature',
