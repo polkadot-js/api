@@ -4,7 +4,7 @@
 import type { BTreeMap, BitVec, Bytes, Compact, Enum, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
-import type { AccountId, Balance, BlockNumber, Hash, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
 import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 
@@ -325,46 +325,6 @@ export interface HostConfiguration extends Struct {
   readonly relayVrfModuloSamples: u32;
 }
 
-/** @name HostConfigurationTo13 */
-export interface HostConfigurationTo13 extends Struct {
-  readonly validationUpgradeFrequency: BlockNumber;
-  readonly validationUpgradeDelay: BlockNumber;
-  readonly acceptancePeriod: BlockNumber;
-  readonly maxCodeSize: u32;
-  readonly maxHeadDataSize: u32;
-  readonly maxPovSize: u32;
-  readonly parathreadCores: u32;
-  readonly parathreadRetries: u32;
-  readonly groupRotationFrequency: BlockNumber;
-  readonly chainAvailabilityPeriod: BlockNumber;
-  readonly threadAvailabilityPeriod: BlockNumber;
-  readonly schedulingLookahead: u32;
-  readonly maxValidatorsPerCore: Option<u32>;
-  readonly disputePeriod: SessionIndex;
-  readonly noShowSlots: u32;
-  readonly nDelayTranches: u32;
-  readonly zerothDelayTrancheWidth: u32;
-  readonly neededApprovals: u32;
-  readonly relayVrfModuloSamples: u32;
-  readonly maxUpwardQueueCount: u32;
-  readonly maxUpwardQueueSize: u32;
-  readonly maxDownwardMessageSize: u32;
-  readonly preferredDispatchableUpwardMessagesStepWeight: Weight;
-  readonly maxUpwardMessageSize: u32;
-  readonly maxUpwardMessageNumPerCandidate: u32;
-  readonly hrmpOpenRequestTtl: u32;
-  readonly hrmpSenderDeposit: Balance;
-  readonly hrmpRecipientDeposit: Balance;
-  readonly hrmpChannelMaxCapacity: u32;
-  readonly hrmpChannelMaxTotalSize: u32;
-  readonly hrmpMaxParachainInboundChannels: u32;
-  readonly hrmpMaxParathreadInboundChannels: u32;
-  readonly hrmpChannelMaxMessageSize: u32;
-  readonly hrmpMaxParachainOutboundChannels: u32;
-  readonly hrmpMaxParathreadOutboundChannels: u32;
-  readonly hrmpMaxMessageNumPerCandidate: u32;
-}
-
 /** @name HrmpChannel */
 export interface HrmpChannel extends Struct {
   readonly maxCapacity: u32;
@@ -381,18 +341,6 @@ export interface HrmpChannel extends Struct {
 export interface HrmpChannelId extends Struct {
   readonly sender: u32;
   readonly receiver: u32;
-}
-
-/** @name HrmpChannelTo13 */
-export interface HrmpChannelTo13 extends Struct {
-  readonly senderDeposit: Balance;
-  readonly recipientDeposit: Balance;
-  readonly maxCapacity: u32;
-  readonly maxTotalSize: u32;
-  readonly maxMessageSize: u32;
-  readonly msgCount: u32;
-  readonly totalSize: u32;
-  readonly mqcHead: Option<Hash>;
 }
 
 /** @name HrmpOpenChannelRequest */
@@ -481,7 +429,7 @@ export interface Junction extends Enum {
 export interface LeasePeriod extends BlockNumber {}
 
 /** @name LeasePeriodOf */
-export interface LeasePeriodOf extends LeasePeriod {}
+export interface LeasePeriodOf extends BlockNumber {}
 
 /** @name LocalValidationData */
 export interface LocalValidationData extends Struct {
@@ -547,6 +495,9 @@ export interface NewBidder extends Struct {
   readonly who: AccountId;
   readonly sub: SubId;
 }
+
+/** @name NewBidderOption */
+export interface NewBidderOption extends Option<NewBidder> {}
 
 /** @name Order */
 export interface Order extends Enum {
@@ -839,6 +790,12 @@ export interface VersionedXcm extends Enum {
   readonly isV0: boolean;
   readonly asV0: Xcm;
 }
+
+/** @name WinnersData */
+export interface WinnersData extends Vec<WinnersDataTuple> {}
+
+/** @name WinnersDataTuple */
+export interface WinnersDataTuple extends ITuple<[NewBidderOption, ParaId, BalanceOf, SlotRange]> {}
 
 /** @name WinningData */
 export interface WinningData extends Vec<WinningDataEntry> {}

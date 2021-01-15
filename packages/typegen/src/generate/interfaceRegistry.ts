@@ -72,7 +72,7 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
     return generateInterfaceTypesTemplate({
       headerType: 'defs',
       imports,
-      items,
+      items: items.sort((a, b) => a.localeCompare(b)),
       types
     });
   });
