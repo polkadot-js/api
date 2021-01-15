@@ -69,7 +69,7 @@ function extractVotes (mapped: [AccountId, Voting][], referendumId: BN): DeriveR
 function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votingOf.entries<Voting>().pipe(
     map((allVoting): DeriveReferendumVote[] => {
-      const mapped = allVoting.map(([key, voting]): [AccountId, Voting] => [key.args[0] as AccountId, voting]);
+      const mapped = allVoting.map(([key, voting]): [AccountId, Voting] => [key.args[0], voting]);
       const votes = extractVotes(mapped, referendumId);
       const delegations = mapped
         .filter(([, voting]) => voting.isDelegating)
