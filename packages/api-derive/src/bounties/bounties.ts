@@ -37,9 +37,7 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
   return memo(instanceId, (): Observable<DeriveBounties> =>
     combineLatest([
       bountyBase.bountyCount<BountyIndex>(),
-      api.query.council
-        ? api.query.council.proposalCount<ProposalIndex>()
-        : of(0)
+      api.query.council ? api.query.council.proposalCount<ProposalIndex>() : of(0)
     ]).pipe(
       switchMap(() =>
         combineLatest([
