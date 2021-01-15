@@ -22,6 +22,7 @@ export { default as genericAsset } from './genericAsset/definitions';
 export { default as grandpa } from './grandpa/definitions';
 export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
+export { default as lottery } from './lottery/definitions';
 export { default as offences } from './offences/definitions';
 export { default as proxy } from './proxy/definitions';
 export { default as recovery } from './recovery/definitions';
