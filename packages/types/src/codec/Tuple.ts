@@ -3,7 +3,7 @@
 
 import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { hexToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
+import { isHex, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
@@ -20,10 +20,8 @@ type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
 
 /** @internal */
 function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTuple): Codec[] {
-  if (isU8a(value)) {
-    return decodeU8a(registry, value, _Types);
-  } else if (isHex(value)) {
-    return decodeTuple(registry, _Types, hexToU8a(value));
+  if (isU8a(value) || isHex(value)) {
+    return decodeU8a(registry, u8aToU8a(value), _Types);
   }
 
   const Types: Constructor[] = Array.isArray(_Types)
