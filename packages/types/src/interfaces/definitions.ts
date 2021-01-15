@@ -41,6 +41,7 @@ export { default as vesting } from './vesting/definitions';
 // polkadot-specific types
 export { default as attestations } from './attestations/definitions';
 export { default as claims } from './claims/definitions';
+export { default as crowdloan } from './crowdloan/definitions';
 export { default as parachains } from './parachains/definitions';
 export { default as poll } from './poll/definitions';
 export { default as purchase } from './purchase/definitions';
