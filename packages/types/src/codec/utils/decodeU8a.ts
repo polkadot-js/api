@@ -18,8 +18,7 @@ export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Construc
   let offset = 0;
 
   for (let i = 0; i < types.length; i++) {
-    const Type = types[i];
-    const value = new Type(registry, u8a.subarray(offset));
+    const value = new types[i](registry, u8a.subarray(offset));
 
     result.push(value);
     offset += value.encodedLength;
