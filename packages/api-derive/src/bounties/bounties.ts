@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Bytes, Option } from '@polkadot/types';
+import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
 
 import { memo } from '@polkadot/api-derive/util';
@@ -46,7 +46,7 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
         ])
       ),
       switchMap(([keys, proposals]): Observable<Result> => {
-        const ids = keys.map(({ args: [id] }) => id as BountyIndex);
+        const ids = (keys as StorageKey<[BountyIndex]>[]).map(({ args: [id] }) => id);
 
         return combineLatest([
           bountyBase.bounties.multi<Option<Bounty>>(ids),

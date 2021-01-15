@@ -18,7 +18,7 @@ export function nextElected (instanceId: string, api: ApiInterfaceRx): () => Obs
         // only populate for next era in the last session, so track both here - entries are not
         // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
         switchMap(({ currentEra }) => api.query.staking.erasStakers.keys(currentEra)),
-        map((keys) => keys.map((key) => key.args[1] as AccountId))
+        map((keys) => keys.map((key) => key.args[1]))
       )
       : api.query.staking.currentElected<AccountId[]>()
   );

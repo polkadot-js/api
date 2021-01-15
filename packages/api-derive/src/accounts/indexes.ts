@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { AccountIndex } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { AccountIndexes } from '../types';
 
@@ -18,7 +17,7 @@ function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
     map((entries): AccountIndexes =>
       entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {
         if (idOpt.isSome) {
-          indexes[idOpt.unwrap()[0].toString()] = key.args[0] as AccountIndex;
+          indexes[idOpt.unwrap()[0].toString()] = key.args[0];
         }
 
         return indexes;
