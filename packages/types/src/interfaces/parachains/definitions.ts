@@ -6,7 +6,8 @@
 
 import type { Definitions } from '../../types';
 
-const SLOT_RANGE_COUNT = 10;
+import hrmpTypes from './hrmp';
+import slotTypes from './slots';
 
 // proposeParachain
 const proposeTypes = {
@@ -24,47 +25,12 @@ const proposeTypes = {
   }
 };
 
-// hrmp
-const hrmpTypes = {
-  HrmpChannelTo13: {
-    senderDeposit: 'Balance',
-    recipientDeposit: 'Balance',
-    maxCapacity: 'u32',
-    maxTotalSize: 'u32',
-    maxMessageSize: 'u32',
-    msgCount: 'u32',
-    totalSize: 'u32',
-    mqcHead: 'Option<Hash>'
-  },
-  HrmpChannel: {
-    maxCapacity: 'u32',
-    maxTotalSize: 'u32',
-    maxMessageSize: 'u32',
-    msgCount: 'u32',
-    totalSize: 'u32',
-    mqcHead: 'Option<Hash>',
-    senderDeposit: 'Balance',
-    recipientDeposit: 'Balance'
-  },
-  HrmpChannelId: {
-    sender: 'u32',
-    receiver: 'u32'
-  },
-  HrmpOpenChannelRequest: {
-    confirmed: 'bool',
-    age: 'SessionIndex',
-    senderDeposit: 'Balance',
-    maxMessageSize: 'u32',
-    maxCapacity: 'u32',
-    maxTotalSize: 'u32'
-  }
-};
-
 export default {
   rpc: {},
   types: {
     ...proposeTypes,
     ...hrmpTypes,
+    ...slotTypes,
     AbridgedCandidateReceipt: {
       parachainIndex: 'ParaId',
       relayParent: 'Hash',
@@ -106,7 +72,6 @@ export default {
       validatorIndices: 'BitVec'
     },
     AuthorityDiscoveryId: 'AccountId',
-    AuctionIndex: 'u32',
     AvailabilityBitfield: 'BitVec',
     AvailabilityBitfieldRecord: {
       bitfield: 'AvailabilityBitfield',
@@ -116,12 +81,6 @@ export default {
       candidate: 'CommittedCandidateReceipt',
       validityVotes: 'Vec<ValidityAttestation>',
       validatorIndices: 'BitVec'
-    },
-    Bidder: {
-      _enum: {
-        New: 'NewBidder',
-        Existing: 'ParaId'
-      }
     },
     BufferedSessionChange: {
       applyAt: 'BlockNumber',
@@ -232,44 +191,6 @@ export default {
       neededApprovals: 'u32',
       relayVrfModuloSamples: 'u32'
     },
-    HostConfigurationTo13: {
-      validationUpgradeFrequency: 'BlockNumber',
-      validationUpgradeDelay: 'BlockNumber',
-      acceptancePeriod: 'BlockNumber',
-      maxCodeSize: 'u32',
-      maxHeadDataSize: 'u32',
-      maxPovSize: 'u32',
-      parathreadCores: 'u32',
-      parathreadRetries: 'u32',
-      groupRotationFrequency: 'BlockNumber',
-      chainAvailabilityPeriod: 'BlockNumber',
-      threadAvailabilityPeriod: 'BlockNumber',
-      schedulingLookahead: 'u32',
-      maxValidatorsPerCore: 'Option<u32>',
-      disputePeriod: 'SessionIndex',
-      noShowSlots: 'u32',
-      nDelayTranches: 'u32',
-      zerothDelayTrancheWidth: 'u32',
-      neededApprovals: 'u32',
-      relayVrfModuloSamples: 'u32',
-      maxUpwardQueueCount: 'u32',
-      maxUpwardQueueSize: 'u32',
-      maxDownwardMessageSize: 'u32',
-      preferredDispatchableUpwardMessagesStepWeight: 'Weight',
-      maxUpwardMessageSize: 'u32',
-      maxUpwardMessageNumPerCandidate: 'u32',
-      hrmpOpenRequestTtl: 'u32',
-      hrmpSenderDeposit: 'Balance',
-      hrmpRecipientDeposit: 'Balance',
-      hrmpChannelMaxCapacity: 'u32',
-      hrmpChannelMaxTotalSize: 'u32',
-      hrmpMaxParachainInboundChannels: 'u32',
-      hrmpMaxParathreadInboundChannels: 'u32',
-      hrmpChannelMaxMessageSize: 'u32',
-      hrmpMaxParachainOutboundChannels: 'u32',
-      hrmpMaxParathreadOutboundChannels: 'u32',
-      hrmpMaxMessageNumPerCandidate: 'u32'
-    },
     InboundDownwardMessage: {
       pubSentAt: 'BlockNumber',
       pubMsg: 'DownwardMessage'
@@ -279,24 +200,6 @@ export default {
       data: 'Bytes'
     },
     InboundHrmpMessages: 'Vec<InboundHrmpMessage>',
-    IncomingParachain: {
-      _enum: {
-        Unset: 'NewBidder',
-        Fixed: 'IncomingParachainFixed',
-        Deploy: 'IncomingParachainDeploy'
-      }
-    },
-    IncomingParachainFixed: {
-      codeHash: 'Hash',
-      codeSize: 'u32',
-      initialHeadData: 'HeadData'
-    },
-    IncomingParachainDeploy: {
-      code: 'ValidationCode',
-      initialHeadData: 'HeadData'
-    },
-    LeasePeriod: 'BlockNumber',
-    LeasePeriodOf: 'LeasePeriod',
     LocalValidationData: {
       parentHead: 'HeadData',
       balance: 'Balance',
@@ -305,10 +208,6 @@ export default {
     MessageIngestionType: {
       downwardMessages: 'Vec<InboundDownwardMessage>',
       horizontalMessages: 'BTreeMap<ParaId, InboundHrmpMessages>'
-    },
-    NewBidder: {
-      who: 'AccountId',
-      sub: 'SubId'
     },
     OutboundHrmpMessage: {
       recipient: 'u32',
@@ -387,9 +286,6 @@ export default {
       sessionIndex: 'SessionIndex',
       parentHash: 'Hash'
     },
-    SlotRange: {
-      _enum: ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'OneOne', 'OneTwo', 'OneThree', 'TwoTwo', 'TwoThree', 'ThreeThree']
-    },
     Statement: {
       _enum: {
         Never: 'Null', // starts at 1
@@ -398,7 +294,6 @@ export default {
         Invalid: 'Hash'
       }
     },
-    SubId: 'u32',
     TransientValidationData: {
       maxCodeSize: 'u32',
       maxHeadDataSize: 'u32',
@@ -435,8 +330,6 @@ export default {
         V0: 'Xcm'
       }
     },
-    WinningData: `[WinningDataEntry; ${SLOT_RANGE_COUNT}]`,
-    WinningDataEntry: 'Option<Bidder>',
     WithdrawAsset: {
       assets: 'Vec<MultiAsset>',
       effects: 'Vec<Order>'
