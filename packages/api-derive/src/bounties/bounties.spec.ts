@@ -59,7 +59,7 @@ describe('bounties derive', () => {
           bountyDescriptions: {
             multi: () => of([
               optionOf(bytes('make polkadot even better')),
-              optionOf(bytes('this will be totally ignored'))
+              optionOf(bytes('some other bounty'))
             ])
           }
         }
@@ -114,6 +114,28 @@ describe('bounties derive', () => {
 
     expect(result).toHaveLength(2);
     expect(result[0].proposals).toHaveLength(0);
+    expect(result[1].proposals).toHaveLength(0);
+  });
+
+  it('when no council, returns bounties without motions', async () => {
+    const mockApi = {
+      ...defaultMockApi,
+      query: {
+        ...defaultMockApi.query,
+        council: null
+      }
+    } as unknown as ApiInterfaceRx;
+
+    const result = await bounties('', mockApi)().toPromise();
+
+    expect(result).toHaveLength(2);
+    expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
+    expect(result[0].description).toEqual('make polkadot even better');
+    expect(result[0].index.eq(0)).toBe(true);
+    expect(result[0].proposals).toHaveLength(0);
+    expect(result[1].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
+    expect(result[1].description).toEqual('some other bounty');
+    expect(result[1].index.eq(1)).toBe(true);
     expect(result[1].proposals).toHaveLength(0);
   });
 
