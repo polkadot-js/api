@@ -4,9 +4,8 @@
 import type { BTreeMap, BitVec, Bytes, Compact, Enum, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
-import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 
 /** @name AbridgedCandidateReceipt */
 export interface AbridgedCandidateReceipt extends Struct {
@@ -172,11 +171,11 @@ export interface CandidateCommitments extends Struct {
 export interface CandidateDescriptor extends Struct {
   readonly paraId: ParaId;
   readonly relayParent: Hash;
-  readonly collatorId: Hash;
+  readonly collatorId: CollatorId;
   readonly persistedValidationDataHash: Hash;
   readonly povHash: Hash;
   readonly erasureRoot: Hash;
-  readonly signature: Signature;
+  readonly signature: CollatorSignature;
 }
 
 /** @name CandidateHash */
@@ -200,7 +199,7 @@ export interface CandidateReceipt extends Struct {
 }
 
 /** @name CollatorId */
-export interface CollatorId extends U8aFixed {}
+export interface CollatorId extends H256 {}
 
 /** @name CollatorSignature */
 export interface CollatorSignature extends Signature {}
@@ -659,7 +658,7 @@ export interface SessionInfo extends Struct {
   readonly validators: Vec<ValidatorId>;
   readonly discoveryKeys: Vec<AuthorityDiscoveryId>;
   readonly assignmentKeys: Vec<AssignmentId>;
-  readonly validatorGroups: Vec<ValidatorGroup>;
+  readonly validatorGroups: Vec<SessionInfoValidatorGroup>;
   readonly nCores: u32;
   readonly zerothDelayTrancheWidth: u32;
   readonly relayVrfModuloSamples: u32;
@@ -668,11 +667,14 @@ export interface SessionInfo extends Struct {
   readonly neededApprovals: u32;
 }
 
+/** @name SessionInfoValidatorGroup */
+export interface SessionInfoValidatorGroup extends Vec<u32> {}
+
 /** @name SignedAvailabilityBitfield */
 export interface SignedAvailabilityBitfield extends Struct {
   readonly payload: BitVec;
   readonly validatorIndex: u32;
-  readonly signature: Signature;
+  readonly signature: ValidatorSignature;
 }
 
 /** @name SignedAvailabilityBitfields */
@@ -757,9 +759,6 @@ export interface ValidationFunctionParams extends Struct {
   readonly relayChainHeight: RelayChainBlockNumber;
   readonly codeUpgradeAllowed: Option<RelayChainBlockNumber>;
 }
-
-/** @name ValidatorGroup */
-export interface ValidatorGroup extends Vec<ValidatorIndex> {}
 
 /** @name ValidatorSignature */
 export interface ValidatorSignature extends Signature {}
