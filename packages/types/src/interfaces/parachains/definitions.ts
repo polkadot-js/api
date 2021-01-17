@@ -99,11 +99,11 @@ export default {
     CandidateDescriptor: {
       paraId: 'ParaId',
       relayParent: 'Hash',
-      collatorId: 'Hash',
+      collatorId: 'CollatorId',
       persistedValidationDataHash: 'Hash',
       povHash: 'Hash',
       erasureRoot: 'Hash',
-      signature: 'Signature'
+      signature: 'CollatorSignature'
     },
     CandidateHash: 'Hash',
     CandidatePendingAvailability: {
@@ -119,7 +119,7 @@ export default {
       descriptor: 'CandidateDescriptor',
       commitmentsHash: 'Hash'
     },
-    CollatorId: '[u8; 32]',
+    CollatorId: 'H256',
     CollatorSignature: 'Signature',
     CommittedCandidateReceipt: {
       descriptor: 'CandidateDescriptor',
@@ -268,7 +268,7 @@ export default {
       validators: 'Vec<ValidatorId>',
       discoveryKeys: 'Vec<AuthorityDiscoveryId>',
       assignmentKeys: 'Vec<AssignmentId>',
-      validatorGroups: 'Vec<ValidatorGroup>',
+      validatorGroups: 'Vec<SessionInfoValidatorGroup>',
       nCores: 'u32',
       zerothDelayTrancheWidth: 'u32',
       relayVrfModuloSamples: 'u32',
@@ -276,10 +276,11 @@ export default {
       noShowSlots: 'u32',
       neededApprovals: 'u32'
     },
+    SessionInfoValidatorGroup: 'Vec<u32>', // ValidatorIndex (u16 in staking)
     SignedAvailabilityBitfield: {
       payload: 'BitVec',
-      validatorIndex: 'u32',
-      signature: 'Signature'
+      validatorIndex: 'u32', // ValidatorIndex for inclusion
+      signature: 'ValidatorSignature'
     },
     SignedAvailabilityBitfields: 'Vec<SignedAvailabilityBitfield>',
     SigningContext: {
@@ -316,7 +317,6 @@ export default {
       validationData: 'ValidationData',
       relayChainState: 'Vec<Bytes>'
     },
-    ValidatorGroup: 'Vec<ValidatorIndex>',
     ValidatorSignature: 'Signature',
     ValidityAttestation: {
       _enum: {

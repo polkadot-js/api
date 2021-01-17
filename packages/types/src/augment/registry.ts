@@ -31,7 +31,7 @@ import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lotter
 import type { DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMapTypeV12, DoubleMapTypeV9, ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV9, MapTypeLatest, MapTypeV10, MapTypeV11, MapTypeV12, MapTypeV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV9, ModuleConstantMetadataLatest, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV9, ModuleMetadataLatest, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV9, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV9, StorageMetadataLatest, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
-import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MultiAsset, MultiLocation, NetworkId, NewBidder, NewBidderOption, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaPastCodeMeta, ParaScheduling, ParachainDispatchOrigin, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, SessionInfo, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorGroup, ValidatorSignature, ValidityAttestation, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
+import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MultiAsset, MultiLocation, NetworkId, NewBidder, NewBidderOption, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaPastCodeMeta, ParaScheduling, ParachainDispatchOrigin, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { Approvals } from '@polkadot/types/interfaces/poll';
 import type { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
@@ -678,6 +678,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<SeedOf>': Option<SeedOf>;
     'Option<SessionIndex>': Option<SessionIndex>;
     'Option<SessionInfo>': Option<SessionInfo>;
+    'Option<SessionInfoValidatorGroup>': Option<SessionInfoValidatorGroup>;
     'Option<SessionKeys1>': Option<SessionKeys1>;
     'Option<SessionKeys2>': Option<SessionKeys2>;
     'Option<SessionKeys3>': Option<SessionKeys3>;
@@ -798,7 +799,6 @@ declare module '@polkadot/types/types/registry' {
     'Option<ValidationDataType>': Option<ValidationDataType>;
     'Option<ValidationFunctionParams>': Option<ValidationFunctionParams>;
     'Option<ValidatorCount>': Option<ValidatorCount>;
-    'Option<ValidatorGroup>': Option<ValidatorGroup>;
     'Option<ValidatorId>': Option<ValidatorId>;
     'Option<ValidatorIdOf>': Option<ValidatorIdOf>;
     'Option<ValidatorIndex>': Option<ValidatorIndex>;
@@ -1384,6 +1384,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<SeedOf>': Vec<SeedOf>;
     'Vec<SessionIndex>': Vec<SessionIndex>;
     'Vec<SessionInfo>': Vec<SessionInfo>;
+    'Vec<SessionInfoValidatorGroup>': Vec<SessionInfoValidatorGroup>;
     'Vec<SessionKeys1>': Vec<SessionKeys1>;
     'Vec<SessionKeys2>': Vec<SessionKeys2>;
     'Vec<SessionKeys3>': Vec<SessionKeys3>;
@@ -1504,7 +1505,6 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ValidationDataType>': Vec<ValidationDataType>;
     'Vec<ValidationFunctionParams>': Vec<ValidationFunctionParams>;
     'Vec<ValidatorCount>': Vec<ValidatorCount>;
-    'Vec<ValidatorGroup>': Vec<ValidatorGroup>;
     'Vec<ValidatorId>': Vec<ValidatorId>;
     'Vec<ValidatorIdOf>': Vec<ValidatorIdOf>;
     'Vec<ValidatorIndex>': Vec<ValidatorIndex>;
@@ -2090,6 +2090,7 @@ declare module '@polkadot/types/types/registry' {
     SeedOf: SeedOf;
     SessionIndex: SessionIndex;
     SessionInfo: SessionInfo;
+    SessionInfoValidatorGroup: SessionInfoValidatorGroup;
     SessionKeys1: SessionKeys1;
     SessionKeys2: SessionKeys2;
     SessionKeys3: SessionKeys3;
@@ -2210,7 +2211,6 @@ declare module '@polkadot/types/types/registry' {
     ValidationDataType: ValidationDataType;
     ValidationFunctionParams: ValidationFunctionParams;
     ValidatorCount: ValidatorCount;
-    ValidatorGroup: ValidatorGroup;
     ValidatorId: ValidatorId;
     ValidatorIdOf: ValidatorIdOf;
     ValidatorIndex: ValidatorIndex;
