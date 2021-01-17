@@ -11,6 +11,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 const sharedTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
+  FullIdentification: '()', // No staking, only session (as per config)
   LookupSource: 'AccountId',
   Keys: 'SessionKeys6'
 };
