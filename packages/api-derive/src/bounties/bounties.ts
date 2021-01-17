@@ -42,7 +42,7 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
       switchMap(() =>
         combineLatest([
           bountyBase.bounties.keys(),
-          api.derive.council.proposals()
+          api.derive.council ? api.derive.council.proposals() : of([])
         ])
       ),
       switchMap(([keys, proposals]): Observable<Result> => {
