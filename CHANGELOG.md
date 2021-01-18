@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 3.5.1 Jan 18, 2020
+
+Upgrade priority: Low. Recommended for parachain developers.
+
+- **Important** The default for Substrate on the Address types are `MultiAddress`. It is recommended that chains add explicit definitions for `Address` and `LookupSource` in their types, instead of relying on the API-defaults. A future update will swap the API defaults to align with Substrate.
+- **Important** Like the above changes in Substrate, the `AccountInfo` structure has also changed. It is recommended that chain developers explicitly add `AccountInfo: 'AccountInfoWithRefCount'` for the version with `refCount` on and `AccountInfoWithProviders` for the latest Substrate version. As per the above, the API defaults will be changed to align with Substrate.
+
+Contributed:
+
+- Apply correct TypeScript type for `toBigInt()` (Thanks to https://github.com/ianhe8x)
+- Expand type definitions for storage key tuples (Thanks to https://github.com/monitz87)
+- Adjust bounty derive to cater for non-council chains (Thanks to https://github.com/ekowalsk)
+
+Changes:
+
+- Remove recursion in vector/struct U8a stream decoding
+- Availability of staking made optional in session length calcs (era does require it)
+- Updates to parachain types, ensuring it has coverage for all the latest
+- Update all Rococo types to the latest (session keys, session reports, parachain indexes)
+- Update known upgrade checkpoints fo WestEnd
+- Add types of the lottery module in Substrate
+- Add and extend types for the crowdloan module in Polkadot
+- Adjust node-template to default to `MultiAddress` on specVersion >= 100
+
+
 ## 3.4.1 Jan 11, 2020
 
 Upgrade priority: Low. Fixes for parachain types, `.entries()` (with no values) and `event.is(...)` checks, users of these interfaces will have benefit.
