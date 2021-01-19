@@ -20,6 +20,7 @@ import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { Decorate } from './Decorate';
+import { detectedCapabilities } from './util';
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
@@ -180,6 +181,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
+  private _detectCapabilities (registry?: Registry): void {
+    detectedCapabilities(l, this._rx)
+      .toPromise()
+      .then((types) => (registry || this.registry).register(types as Record<string, string>))
+      .catch(l.error);
+  }
+
   // subscribe to metadata updates, inject the types on changes
   private _subscribeUpdates (): void {
     if (this.#updateSub || !this.hasSubscriptions) {
@@ -212,6 +220,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
+              this._detectCapabilities(thisRegistry.registry);
 
               return true;
             })
@@ -279,7 +288,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
 
+    // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
+    this._detectCapabilities();
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);

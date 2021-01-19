@@ -4,8 +4,10 @@
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { bool } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Logger } from '@polkadot/util/types';
 
+import { u8aToHex } from '@polkadot/util';
+import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, take } from '@polkadot/x-rxjs/operators';
 
 // the order and types needs to map with the all array setup below
@@ -16,7 +18,7 @@ interface DetectedTypes {
   ValidatorPrefs: 'ValidatorPrefsWithBlocked';
 }
 
-function mapCapabilities ([systemRefcount32, systemRefcountDual, stakingVersion]: Extracted): Partial<DetectedTypes> {
+function mapCapabilities (l: Logger, [systemRefcount32, systemRefcountDual, stakingVersion]: Extracted, blockHash?: Uint8Array | undefined): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
@@ -31,13 +33,15 @@ function mapCapabilities ([systemRefcount32, systemRefcountDual, stakingVersion]
     types.ValidatorPrefs = 'ValidatorPrefsWithBlocked';
   }
 
+  Object.keys(types).length && l.log(`Chain capabilities detected (${blockHash ? u8aToHex(blockHash) : 'best block'})`, types);
+
   return types;
 }
 
 /**
  * @description Query the chain for the specific capabilities
  */
-export function detectedCapabilities (api: ApiInterfaceRx): Observable<Partial<DetectedTypes>> {
+export function detectedCapabilities (l: Logger, api: ApiInterfaceRx, blockHash?: Uint8Array | undefined): Observable<Partial<DetectedTypes>> {
   const all = [
     api.query.system?.upgradedToU32RefCount,
     api.query.system?.upgradedToDualRefCount,
@@ -46,12 +50,20 @@ export function detectedCapabilities (api: ApiInterfaceRx): Observable<Partial<D
   const included = all.map((c) => !!c);
   const filtered = all.filter((_, index) => included[index]);
 
-  return api.queryMulti(filtered).pipe(
+  return (
+    filtered.length
+      ? blockHash
+        ? combineLatest(filtered.map((c) => c.at(blockHash)))
+        : api.queryMulti(filtered)
+      : of([])
+  ).pipe(
     map((results): Partial<DetectedTypes> => {
       let offset = -1;
 
       return mapCapabilities(
-        included.map((isIncluded) => isIncluded ? results[++offset] : null) as Extracted
+        l,
+        included.map((isIncluded) => isIncluded ? results[++offset] : null) as Extracted,
+        blockHash
       );
     }),
     take(1)
