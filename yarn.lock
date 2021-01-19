@@ -1982,14 +1982,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-rxjs@3.5.2-1, @polkadot/x-rxjs@workspace:packages/x-rxjs":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/x-rxjs@workspace:packages/x-rxjs"
+"@polkadot/x-rxjs@npm:3.5.2-1":
+  version: 3.5.2-1
+  resolution: "@polkadot/x-rxjs@npm:3.5.2-1"
   dependencies:
     "@babel/runtime": ^7.12.5
     rxjs: ^6.6.3
-  languageName: unknown
-  linkType: soft
+  checksum: 4944e559b5a8fc70154da3d2c5fc157c795bc82cae7ba4b91e5e6408001519a57d1fbef53846962171d2e9d4dabc184d021612def75b6c27393ec4b3d5669853
+  languageName: node
+  linkType: hard
 
 "@polkadot/x-textdecoder@npm:5.3.1":
   version: 5.3.1
