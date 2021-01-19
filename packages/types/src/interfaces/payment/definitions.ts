@@ -6,26 +6,43 @@
 
 import type { Definitions } from '../../types';
 
+const QUERY_PARAMS = [
+  {
+    name: 'extrinsic',
+    type: 'Bytes'
+  },
+  {
+    name: 'at',
+    type: 'BlockHash',
+    isHistoric: true,
+    isOptional: true
+  }
+];
+
 export default {
   rpc: {
     queryInfo: {
       description: 'Retrieves the fee information for an encoded extrinsic',
-      params: [
-        {
-          name: 'extrinsic',
-          type: 'Bytes'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHistoric: true,
-          isOptional: true
-        }
-      ],
+      params: QUERY_PARAMS,
       type: 'RuntimeDispatchInfo'
+    },
+    queryFeeDetails: {
+      description: 'Query the detailed fee of a given encoded extrinsic',
+      params: QUERY_PARAMS,
+      type: 'FeeDetails'
     }
   },
   types: {
+    FeeDetails: {
+      inclusionFee: 'Option<InclusionFee>'
+      // skipped in serde
+      // tip: 'Balance'
+    },
+    InclusionFee: {
+      baseFee: 'Balance',
+      lenFee: 'Balance',
+      adjustedWeightFee: 'Balance'
+    },
     RuntimeDispatchInfo: {
       weight: 'Weight',
       class: 'DispatchClass',
