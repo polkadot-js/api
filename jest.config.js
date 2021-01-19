@@ -25,8 +25,7 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/rpc-provider/build',
     '<rootDir>/packages/typegen/build',
     '<rootDir>/packages/types/build',
-    '<rootDir>/packages/types-known/build',
-    '<rootDir>/packages/x-rxjs/build'
+    '<rootDir>/packages/types-known/build'
   ],
   resolver: '@polkadot/dev/config/jest-resolver.cjs'
 });

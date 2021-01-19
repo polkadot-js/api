@@ -27,9 +27,7 @@
       "@polkadot/types/package-info.json": ["packages/types/package.json"],
       "@polkadot/types/*": ["packages/types/src/*"],
       "@polkadot/types-known": ["packages/types-known/src"],
-      "@polkadot/types-known/*": ["packages/types-known/src/*"],
-      "@polkadot/x-rxjs": ["packages/x-rxjs/src"],
-      "@polkadot/x-rxjs/*": ["packages/x-rxjs/src/*"],
+      "@polkadot/types-known/*": ["packages/types-known/src/*"]
     },
     "skipLibCheck": true,
     "typeRoots": [
