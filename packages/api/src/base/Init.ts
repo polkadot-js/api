@@ -138,6 +138,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version, metadata);
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
+    this._detectCapabilities(registry, blockHash);
     this.#registries.push(result);
 
     return result;
@@ -181,10 +182,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private _detectCapabilities (registry?: Registry): void {
-    detectedCapabilities(l, this._rx)
+  private _detectCapabilities (registry?: Registry, blockHash?: string | Uint8Array): void {
+    detectedCapabilities(this._rx, blockHash)
       .toPromise()
-      .then((types) => (registry || this.registry).register(types as Record<string, string>))
+      .then((types): void => {
+        if (Object.keys(types).length) {
+          (registry || this.registry).register(types as Record<string, string>);
+        }
+      })
       .catch(l.error);
   }
 

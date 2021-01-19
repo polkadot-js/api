@@ -4,9 +4,7 @@
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { bool } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
-import type { Logger } from '@polkadot/util/types';
 
-import { u8aToHex } from '@polkadot/util';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, take } from '@polkadot/x-rxjs/operators';
 
@@ -18,7 +16,7 @@ interface DetectedTypes {
   ValidatorPrefs: 'ValidatorPrefsWithBlocked';
 }
 
-function mapCapabilities (l: Logger, [systemRefcount32, systemRefcountDual, stakingVersion]: Extracted, blockHash?: Uint8Array | undefined): Partial<DetectedTypes> {
+function mapCapabilities ([systemRefcount32, systemRefcountDual, stakingVersion]: Extracted): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
@@ -33,15 +31,13 @@ function mapCapabilities (l: Logger, [systemRefcount32, systemRefcountDual, stak
     types.ValidatorPrefs = 'ValidatorPrefsWithBlocked';
   }
 
-  Object.keys(types).length && l.log(`Chain capabilities detected (${blockHash ? u8aToHex(blockHash) : 'best block'}): ${JSON.stringify(types)}`);
-
   return types;
 }
 
 /**
  * @description Query the chain for the specific capabilities
  */
-export function detectedCapabilities (l: Logger, api: ApiInterfaceRx, blockHash?: Uint8Array | undefined): Observable<Partial<DetectedTypes>> {
+export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Array | string | undefined): Observable<Partial<DetectedTypes>> {
   const all = [
     api.query.system?.upgradedToU32RefCount,
     api.query.system?.upgradedToDualRefCount,
@@ -61,9 +57,7 @@ export function detectedCapabilities (l: Logger, api: ApiInterfaceRx, blockHash?
       let offset = -1;
 
       return mapCapabilities(
-        l,
-        included.map((isIncluded) => isIncluded ? results[++offset] : null) as Extracted,
-        blockHash
+        included.map((isIncluded) => isIncluded ? results[++offset] : null) as Extracted
       );
     }),
     take(1)
