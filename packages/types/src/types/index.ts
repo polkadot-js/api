@@ -12,5 +12,4 @@ export * from './events';
 export * from './extrinsic';
 export * from './interfaces';
 export * from './registry';
-
-export type { Observable } from '@polkadot/x-rxjs';
+export * from './upgrades';
