@@ -36,14 +36,23 @@ const typesModules: Record<string, OverrideModuleType> = {
   identity: {
     Judgement: 'IdentityJudgement'
   },
+  inclusion: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
   parachains: {
     Id: 'ParaId'
+  },
+  parasScheduler: {
+    ValidatorIndex: 'ParaValidatorIndex'
   },
   proposeParachain: {
     Proposal: 'ParachainProposal'
   },
   proxy: {
     Announcement: 'ProxyAnnouncement'
+  },
+  scheduler: {
+    ValidatorIndex: 'ParaValidatorIndex'
   },
   society: {
     Judgement: 'SocietyJudgement',

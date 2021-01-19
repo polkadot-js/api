@@ -587,6 +587,9 @@ export interface ParathreadEntry extends Struct {
   readonly retries: u32;
 }
 
+/** @name ParaValidatorIndex */
+export interface ParaValidatorIndex extends u32 {}
+
 /** @name PersistedValidationData */
 export interface PersistedValidationData extends Struct {
   readonly parentHead: HeadData;
@@ -668,12 +671,12 @@ export interface SessionInfo extends Struct {
 }
 
 /** @name SessionInfoValidatorGroup */
-export interface SessionInfoValidatorGroup extends Vec<u32> {}
+export interface SessionInfoValidatorGroup extends Vec<ParaValidatorIndex> {}
 
 /** @name SignedAvailabilityBitfield */
 export interface SignedAvailabilityBitfield extends Struct {
   readonly payload: BitVec;
-  readonly validatorIndex: u32;
+  readonly validatorIndex: ParaValidatorIndex;
   readonly signature: ValidatorSignature;
 }
 
