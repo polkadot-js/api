@@ -14,12 +14,13 @@ import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
 import { getSpecAlias, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, logger, u8aEq, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { Decorate } from './Decorate';
+import { detectedCapabilities } from './util';
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
@@ -135,6 +136,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // nothing has been found, construct new
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
     const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version, metadata);
+
+    // For now, since this is new we ignore the capability lookups (this could be useful once proven)
+    // this._detectCapabilities(registry, blockHash);
+
+    // add our new registry
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
@@ -180,6 +186,19 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
+  private _detectCapabilities (registry?: Registry, blockHash?: string | Uint8Array): void {
+    detectedCapabilities(this._rx, blockHash)
+      .toPromise()
+      .then((types): void => {
+        if (Object.keys(types).length) {
+          (registry || this.registry).register(types as Record<string, string>);
+
+          l.log(`Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${JSON.stringify(types)}`);
+        }
+      })
+      .catch(l.error);
+  }
+
   // subscribe to metadata updates, inject the types on changes
   private _subscribeUpdates (): void {
     if (this.#updateSub || !this.hasSubscriptions) {
@@ -212,6 +231,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
+              this._detectCapabilities(thisRegistry.registry);
 
               return true;
             })
@@ -279,7 +299,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
 
+    // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
+    this._detectCapabilities();
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);

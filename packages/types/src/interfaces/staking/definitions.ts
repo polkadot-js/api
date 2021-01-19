@@ -190,10 +190,11 @@ export default {
     },
     ValidatorIndex: 'u16',
     ValidatorIndexCompact: 'Compact<ValidatorIndex>',
-    ValidatorPrefs: {
+    ValidatorPrefs: 'ValidatorPrefsWithCommission',
+    ValidatorPrefsWithCommission: {
       commission: 'Compact<Perbill>'
     },
-    ValidatorPrefsBlocked: {
+    ValidatorPrefsWithBlocked: {
       commission: 'Compact<Perbill>',
       blocked: 'bool'
     },
