@@ -14,7 +14,7 @@ import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
 import { getSpecAlias, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, logger, u8aEq, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
@@ -136,9 +136,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // nothing has been found, construct new
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
     const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version, metadata);
+
+    // For now, since this is new we ignore the capability lookups (this could be useful once proven)
+    // this._detectCapabilities(registry, blockHash);
+
+    // add our new registry
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
-    this._detectCapabilities(registry, blockHash);
     this.#registries.push(result);
 
     return result;
@@ -188,6 +192,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       .then((types): void => {
         if (Object.keys(types).length) {
           (registry || this.registry).register(types as Record<string, string>);
+          l.log(`Chain capabilities detected (${blockHash ? u8aToHex(u8aToU8a(blockHash)) : 'best block'}): ${JSON.stringify(types)}`);
         }
       })
       .catch(l.error);
