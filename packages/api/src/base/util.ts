@@ -4,6 +4,7 @@
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { bool } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
+import type { InterfaceTypes } from '@polkadot/types/types';
 
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, take } from '@polkadot/x-rxjs/operators';
@@ -11,7 +12,11 @@ import { map, take } from '@polkadot/x-rxjs/operators';
 // the order and types needs to map with the all array setup below
 type Extracted = [bool | null, bool | null, Releases | null];
 
-interface DetectedTypes {
+type DetectedKeys = keyof Pick<InterfaceTypes, 'AccountInfo' | 'ValidatorPrefs'>;
+
+type DetectedValues = keyof InterfaceTypes;
+
+interface DetectedTypes extends Record<DetectedKeys, DetectedValues> {
   AccountInfo: 'AccountInfoWithRefCount' | 'AccountInfoWithProviders',
   ValidatorPrefs: 'ValidatorPrefsWithBlocked' | 'ValidatorPrefsWithCommission';
 }
