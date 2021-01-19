@@ -13,7 +13,7 @@ type Extracted = [bool | null, bool | null, Releases | null];
 
 interface DetectedTypes {
   AccountInfo: 'AccountInfoWithRefCount' | 'AccountInfoWithProviders',
-  ValidatorPrefs: 'ValidatorPrefsWithBlocked';
+  ValidatorPrefs: 'ValidatorPrefsWithBlocked' | 'ValidatorPrefsWithCommission';
 }
 
 function mapCapabilities ([systemRefcount32, systemRefcountDual, stakingVersion]: Extracted): Partial<DetectedTypes> {
@@ -27,8 +27,12 @@ function mapCapabilities ([systemRefcount32, systemRefcountDual, stakingVersion]
   }
 
   // ValidatorPrefs
-  if (stakingVersion && stakingVersion.index >= 4) { // v1 = index 0, V5 = index 4
-    types.ValidatorPrefs = 'ValidatorPrefsWithBlocked';
+  if (stakingVersion) {
+    if (stakingVersion.index >= 4) { // v1 = index 0, V5 = index 4
+      types.ValidatorPrefs = 'ValidatorPrefsWithBlocked';
+    } else {
+      types.ValidatorPrefs = 'ValidatorPrefsWithCommission';
+    }
   }
 
   return types;

@@ -262,15 +262,7 @@ export interface ValidatorIndex extends u16 {}
 export interface ValidatorIndexCompact extends Compact<ValidatorIndex> {}
 
 /** @name ValidatorPrefs */
-export interface ValidatorPrefs extends Struct {
-  readonly commission: Compact<Perbill>;
-}
-
-/** @name ValidatorPrefsBlocked */
-export interface ValidatorPrefsBlocked extends Struct {
-  readonly commission: Compact<Perbill>;
-  readonly blocked: bool;
-}
+export interface ValidatorPrefs extends ValidatorPrefsWithCommission {}
 
 /** @name ValidatorPrefsTo145 */
 export interface ValidatorPrefsTo145 extends Struct {
@@ -281,6 +273,17 @@ export interface ValidatorPrefsTo145 extends Struct {
 /** @name ValidatorPrefsTo196 */
 export interface ValidatorPrefsTo196 extends Struct {
   readonly validatorPayment: Compact<Balance>;
+}
+
+/** @name ValidatorPrefsWithBlocked */
+export interface ValidatorPrefsWithBlocked extends Struct {
+  readonly commission: Compact<Perbill>;
+  readonly blocked: bool;
+}
+
+/** @name ValidatorPrefsWithCommission */
+export interface ValidatorPrefsWithCommission extends Struct {
+  readonly commission: Compact<Perbill>;
 }
 
 export type PHANTOM_STAKING = 'staking';
