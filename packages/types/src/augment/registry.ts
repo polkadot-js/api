@@ -43,7 +43,7 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray
 import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, ScheduledTo254, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys7, SessionKeys8, SessionKeys9, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RewardDestination, RewardDestinationTo257, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RewardDestination, RewardDestinationTo257, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsBlocked, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { AccountInfo, AccountInfoWithProviders, AccountInfoWithRefCount, ApplyExtrinsicResult, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
@@ -804,6 +804,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ValidatorIndex>': Option<ValidatorIndex>;
     'Option<ValidatorIndexCompact>': Option<ValidatorIndexCompact>;
     'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
+    'Option<ValidatorPrefsBlocked>': Option<ValidatorPrefsBlocked>;
     'Option<ValidatorPrefsTo145>': Option<ValidatorPrefsTo145>;
     'Option<ValidatorPrefsTo196>': Option<ValidatorPrefsTo196>;
     'Option<ValidatorSignature>': Option<ValidatorSignature>;
@@ -1510,6 +1511,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ValidatorIndex>': Vec<ValidatorIndex>;
     'Vec<ValidatorIndexCompact>': Vec<ValidatorIndexCompact>;
     'Vec<ValidatorPrefs>': Vec<ValidatorPrefs>;
+    'Vec<ValidatorPrefsBlocked>': Vec<ValidatorPrefsBlocked>;
     'Vec<ValidatorPrefsTo145>': Vec<ValidatorPrefsTo145>;
     'Vec<ValidatorPrefsTo196>': Vec<ValidatorPrefsTo196>;
     'Vec<ValidatorSignature>': Vec<ValidatorSignature>;
@@ -2216,6 +2218,7 @@ declare module '@polkadot/types/types/registry' {
     ValidatorIndex: ValidatorIndex;
     ValidatorIndexCompact: ValidatorIndexCompact;
     ValidatorPrefs: ValidatorPrefs;
+    ValidatorPrefsBlocked: ValidatorPrefsBlocked;
     ValidatorPrefsTo145: ValidatorPrefsTo145;
     ValidatorPrefsTo196: ValidatorPrefsTo196;
     ValidatorSignature: ValidatorSignature;

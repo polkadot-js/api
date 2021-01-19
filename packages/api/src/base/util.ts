@@ -33,7 +33,7 @@ function mapCapabilities (l: Logger, [systemRefcount32, systemRefcountDual, stak
     types.ValidatorPrefs = 'ValidatorPrefsWithBlocked';
   }
 
-  Object.keys(types).length && l.log(`Chain capabilities detected (${blockHash ? u8aToHex(blockHash) : 'best block'})`, types);
+  Object.keys(types).length && l.log(`Chain capabilities detected (${blockHash ? u8aToHex(blockHash) : 'best block'}): ${JSON.stringify(types)}`);
 
   return types;
 }
