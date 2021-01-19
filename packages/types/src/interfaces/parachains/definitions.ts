@@ -241,6 +241,7 @@ export default {
       claim: 'ParathreadClaim',
       retries: 'u32'
     },
+    ParaValidatorIndex: 'u32',
     PersistedValidationData: {
       parentHead: 'HeadData',
       blockNumber: 'BlockNumber',
@@ -276,10 +277,10 @@ export default {
       noShowSlots: 'u32',
       neededApprovals: 'u32'
     },
-    SessionInfoValidatorGroup: 'Vec<u32>', // ValidatorIndex (u16 in staking)
+    SessionInfoValidatorGroup: 'Vec<ParaValidatorIndex>',
     SignedAvailabilityBitfield: {
       payload: 'BitVec',
-      validatorIndex: 'u32', // ValidatorIndex for inclusion
+      validatorIndex: 'ParaValidatorIndex',
       signature: 'ValidatorSignature'
     },
     SignedAvailabilityBitfields: 'Vec<SignedAvailabilityBitfield>',
