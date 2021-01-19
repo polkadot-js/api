@@ -266,6 +266,12 @@ export interface ValidatorPrefs extends Struct {
   readonly commission: Compact<Perbill>;
 }
 
+/** @name ValidatorPrefsBlocked */
+export interface ValidatorPrefsBlocked extends Struct {
+  readonly commission: Compact<Perbill>;
+  readonly blocked: bool;
+}
+
 /** @name ValidatorPrefsTo145 */
 export interface ValidatorPrefsTo145 extends Struct {
   readonly unstakeThreshold: Compact<u32>;
