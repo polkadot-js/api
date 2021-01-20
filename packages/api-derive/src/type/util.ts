@@ -18,7 +18,7 @@ export function extractAuthor (digest: Digest, sessionValidators: AccountId[] = 
       }
     });
   } else {
-    // Aura and Babe use PreRunti;e digest now
+    // Aura and Babe use PreRuntime digest now
     const [pitem] = digest.logs.filter(({ type }) => type === 'PreRuntime');
 
     if (pitem) {
