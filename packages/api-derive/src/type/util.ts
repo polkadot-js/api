@@ -4,23 +4,29 @@
 import type { AccountId, Digest } from '@polkadot/types/interfaces';
 
 export function extractAuthor (digest: Digest, sessionValidators: AccountId[] = []): AccountId | undefined {
-  const [pitem] = digest.logs.filter(({ type }) => type === 'PreRuntime');
+  let author;
+  const citems = digest.logs.filter(({ type }) => type === 'Consensus');
 
-  // extract from the substrate 2.0 PreRuntime digest
-  if (pitem) {
-    const [engine, data] = pitem.asPreRuntime;
+  if (citems.length > 0) {
+    citems.forEach((citem) => {
+      // extract author from the consensus (substrate 1.0, digest)
+      const [, data] = citem.asConsensus;
 
-    return engine.extractAuthor(data, sessionValidators);
+      if (data.length === 20) {
+        // This is used by Moonbeam with an h160 address for the author
+        author = data.toString();
+      }
+    });
   } else {
-    const [citem] = digest.logs.filter(({ type }) => type === 'Consensus');
+    // Aura and Babe use PreRunti;e digest now
+    const [pitem] = digest.logs.filter(({ type }) => type === 'PreRuntime');
 
-    // extract author from the consensus (substrate 1.0, digest)
-    if (citem) {
-      const [engine, data] = citem.asConsensus;
+    if (pitem) {
+      const [engine, data] = pitem.asPreRuntime;
 
-      return engine.extractAuthor(data, sessionValidators);
+      author = engine.extractAuthor(data, sessionValidators);
     }
   }
 
-  return undefined;
+  return author;
 }
