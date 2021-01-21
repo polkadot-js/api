@@ -76,7 +76,7 @@ const phragmen = {
   SeatHolder: {
     who: 'AccountId',
     stake: 'Balance',
-    deposit: 'Balance',
+    deposit: 'Balance'
   },
   Voter: {
     votes: 'Vec<AccountId>',
