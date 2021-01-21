@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ExtraTypes } from './types';
+
 import Handlebars from 'handlebars';
 
 import { Metadata } from '@polkadot/metadata/Metadata';
@@ -50,7 +52,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultErrors (dest = 'packages/api/src/augment/errors.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
+export function generateDefaultErrors (dest = 'packages/api/src/augment/errors.ts', data = staticData, extraTypes: ExtraTypes = {}, isStrict = false): void {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);
