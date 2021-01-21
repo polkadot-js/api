@@ -146,6 +146,9 @@ export default {
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
+    BlockLength: {
+      max: 'PerDispatchClassU32'
+    },
     BlockWeights: {
       baseBlock: 'Weight',
       maxBlock: 'Weight',
@@ -300,6 +303,11 @@ export default {
       normal: 'WeightPerClass',
       operational: 'WeightPerClass',
       mandatory: 'WeightPerClass'
+    },
+    PerDispatchClassU32: {
+      normal: 'u32',
+      operational: 'u32',
+      mandatory: 'u32'
     },
     Phase: {
       _enum: {

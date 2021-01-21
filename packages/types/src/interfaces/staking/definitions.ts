@@ -14,71 +14,85 @@ const deprecated = {
   }
 };
 
+const phragmen = {
+  CompactAssignments: {
+    votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
+    votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
+    votes3: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 2], ValidatorIndexCompact)>',
+    votes4: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 3], ValidatorIndexCompact)>',
+    votes5: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 4], ValidatorIndexCompact)>',
+    votes6: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 5], ValidatorIndexCompact)>',
+    votes7: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 6], ValidatorIndexCompact)>',
+    votes8: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 7], ValidatorIndexCompact)>',
+    votes9: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 8], ValidatorIndexCompact)>',
+    votes10: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 9], ValidatorIndexCompact)>',
+    votes11: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 10], ValidatorIndexCompact)>',
+    votes12: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 11], ValidatorIndexCompact)>',
+    votes13: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 12], ValidatorIndexCompact)>',
+    votes14: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 13], ValidatorIndexCompact)>',
+    votes15: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 14], ValidatorIndexCompact)>',
+    votes16: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 15], ValidatorIndexCompact)>'
+  },
+  CompactAssignmentsTo257: {
+    votes1: 'Vec<(NominatorIndex, [CompactScore; 0], ValidatorIndex)>',
+    votes2: 'Vec<(NominatorIndex, [CompactScore; 1], ValidatorIndex)>',
+    votes3: 'Vec<(NominatorIndex, [CompactScore; 2], ValidatorIndex)>',
+    votes4: 'Vec<(NominatorIndex, [CompactScore; 3], ValidatorIndex)>',
+    votes5: 'Vec<(NominatorIndex, [CompactScore; 4], ValidatorIndex)>',
+    votes6: 'Vec<(NominatorIndex, [CompactScore; 5], ValidatorIndex)>',
+    votes7: 'Vec<(NominatorIndex, [CompactScore; 6], ValidatorIndex)>',
+    votes8: 'Vec<(NominatorIndex, [CompactScore; 7], ValidatorIndex)>',
+    votes9: 'Vec<(NominatorIndex, [CompactScore; 8], ValidatorIndex)>',
+    votes10: 'Vec<(NominatorIndex, [CompactScore; 9], ValidatorIndex)>',
+    votes11: 'Vec<(NominatorIndex, [CompactScore; 10], ValidatorIndex)>',
+    votes12: 'Vec<(NominatorIndex, [CompactScore; 11], ValidatorIndex)>',
+    votes13: 'Vec<(NominatorIndex, [CompactScore; 12], ValidatorIndex)>',
+    votes14: 'Vec<(NominatorIndex, [CompactScore; 13], ValidatorIndex)>',
+    votes15: 'Vec<(NominatorIndex, [CompactScore; 14], ValidatorIndex)>',
+    votes16: 'Vec<(NominatorIndex, [CompactScore; 15], ValidatorIndex)>'
+  },
+  CompactScore: '(ValidatorIndex, OffchainAccuracy)',
+  CompactScoreCompact: '(ValidatorIndexCompact, OffchainAccuracyCompact)',
+  ElectionCompute: {
+    _enum: ['OnChain', 'Signed', 'Authority']
+  },
+  ElectionResult: {
+    compute: 'ElectionCompute',
+    slotStake: 'Balance',
+    electedStashes: 'Vec<AccountId>',
+    exposures: 'Vec<(AccountId, Exposure)>'
+  },
+  ElectionScore: '[u128; 3]',
+  ElectionSize: {
+    validators: 'Compact<ValidatorIndex>',
+    nominators: 'Compact<NominatorIndex>'
+  },
+  ElectionStatus: {
+    _enum: {
+      Close: 'Null',
+      Open: 'BlockNumber'
+    }
+  },
+  SeatHolder: {
+    who: 'AccountId',
+    stake: 'Balance',
+    deposit: 'Balance'
+  },
+  Voter: {
+    votes: 'Vec<AccountId>',
+    stake: 'Balance',
+    deposit: 'Balance'
+  }
+};
+
 export default {
   rpc: {},
   types: {
     ...deprecated,
+    ...phragmen,
     ActiveEraInfo: {
       index: 'EraIndex',
       start: 'Option<Moment>'
-    },
-    CompactAssignments: {
-      votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
-      votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
-      votes3: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 2], ValidatorIndexCompact)>',
-      votes4: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 3], ValidatorIndexCompact)>',
-      votes5: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 4], ValidatorIndexCompact)>',
-      votes6: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 5], ValidatorIndexCompact)>',
-      votes7: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 6], ValidatorIndexCompact)>',
-      votes8: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 7], ValidatorIndexCompact)>',
-      votes9: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 8], ValidatorIndexCompact)>',
-      votes10: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 9], ValidatorIndexCompact)>',
-      votes11: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 10], ValidatorIndexCompact)>',
-      votes12: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 11], ValidatorIndexCompact)>',
-      votes13: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 12], ValidatorIndexCompact)>',
-      votes14: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 13], ValidatorIndexCompact)>',
-      votes15: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 14], ValidatorIndexCompact)>',
-      votes16: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 15], ValidatorIndexCompact)>'
-    },
-    CompactAssignmentsTo257: {
-      votes1: 'Vec<(NominatorIndex, [CompactScore; 0], ValidatorIndex)>',
-      votes2: 'Vec<(NominatorIndex, [CompactScore; 1], ValidatorIndex)>',
-      votes3: 'Vec<(NominatorIndex, [CompactScore; 2], ValidatorIndex)>',
-      votes4: 'Vec<(NominatorIndex, [CompactScore; 3], ValidatorIndex)>',
-      votes5: 'Vec<(NominatorIndex, [CompactScore; 4], ValidatorIndex)>',
-      votes6: 'Vec<(NominatorIndex, [CompactScore; 5], ValidatorIndex)>',
-      votes7: 'Vec<(NominatorIndex, [CompactScore; 6], ValidatorIndex)>',
-      votes8: 'Vec<(NominatorIndex, [CompactScore; 7], ValidatorIndex)>',
-      votes9: 'Vec<(NominatorIndex, [CompactScore; 8], ValidatorIndex)>',
-      votes10: 'Vec<(NominatorIndex, [CompactScore; 9], ValidatorIndex)>',
-      votes11: 'Vec<(NominatorIndex, [CompactScore; 10], ValidatorIndex)>',
-      votes12: 'Vec<(NominatorIndex, [CompactScore; 11], ValidatorIndex)>',
-      votes13: 'Vec<(NominatorIndex, [CompactScore; 12], ValidatorIndex)>',
-      votes14: 'Vec<(NominatorIndex, [CompactScore; 13], ValidatorIndex)>',
-      votes15: 'Vec<(NominatorIndex, [CompactScore; 14], ValidatorIndex)>',
-      votes16: 'Vec<(NominatorIndex, [CompactScore; 15], ValidatorIndex)>'
-    },
-    CompactScore: '(ValidatorIndex, OffchainAccuracy)',
-    CompactScoreCompact: '(ValidatorIndexCompact, OffchainAccuracyCompact)',
-    ElectionCompute: {
-      _enum: ['OnChain', 'Signed', 'Authority']
-    },
-    ElectionResult: {
-      compute: 'ElectionCompute',
-      slotStake: 'Balance',
-      electedStashes: 'Vec<AccountId>',
-      exposures: 'Vec<(AccountId, Exposure)>'
-    },
-    ElectionScore: '[u128; 3]',
-    ElectionSize: {
-      validators: 'Compact<ValidatorIndex>',
-      nominators: 'Compact<NominatorIndex>'
-    },
-    ElectionStatus: {
-      _enum: {
-        Close: 'Null',
-        Open: 'BlockNumber'
-      }
     },
     EraIndex: 'u32',
     EraRewardPoints: {
