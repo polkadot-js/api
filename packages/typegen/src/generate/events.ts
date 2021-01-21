@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ExtraTypes } from './types';
+
 import Handlebars from 'handlebars';
 
 import { Metadata } from '@polkadot/metadata/Metadata';
@@ -15,7 +17,7 @@ const template = readTemplate('events');
 const generateForMetaTemplate = Handlebars.compile(template);
 
 /** @internal */
-function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>>, isStrict: boolean): void {
+function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
     const allTypes: Record<string, Record<string, { types: Record<string, unknown> }>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
     const imports = createImports(allTypes);
@@ -67,7 +69,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultEvents (dest = 'packages/api/src/augment/events.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
+export function generateDefaultEvents (dest = 'packages/api/src/augment/events.ts', data = staticData, extraTypes: ExtraTypes = {}, isStrict = false): void {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);

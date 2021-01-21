@@ -19,7 +19,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     : {};
 
   generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, isStrict);
+  generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
   generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict);
   generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
   generateDefaultRpc(path.join(process.cwd(), output, 'augment-api-rpc.ts'), extraTypes);
