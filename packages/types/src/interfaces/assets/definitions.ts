@@ -26,6 +26,12 @@ export default {
       zombies: 'u32',
       accounts: 'u32'
     },
+    AssetMetadata: {
+      deposit: 'TAssetDepositBalance',
+      name: 'Vec<u8>',
+      symbol: 'Vec<u8>',
+      decimals: 'u8'
+    },
     TAssetBalance: 'u64',
     TAssetDepositBalance: 'BalanceOf'
   }

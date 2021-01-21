@@ -19,7 +19,7 @@
                     "linked": false
                   }
                 },
-                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
                   " The full account information for a particular account ID."
                 ]
@@ -189,6 +189,18 @@
                 "fallback": "0x00",
                 "documentation": [
                   " True if we have upgraded so that `type RefCount` is `u32`. False (default) if not."
+                ]
+              },
+              {
+                "name": "UpgradedToDualRefCount",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "bool"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " True if we have upgraded so that AccountInfo contains two types of `RefCount`. False",
+                  " (default) if not."
                 ]
               },
               {
@@ -378,22 +390,6 @@
                 " - Writes: Number of subkeys + 1",
                 " # </weight>"
               ]
-            },
-            {
-              "name": "suicide",
-              "args": [],
-              "documentation": [
-                " Kill the sending account, assuming there are no references outstanding and the composite",
-                " data is equal to its default value.",
-                "",
-                " # <weight>",
-                " - `O(1)`",
-                " - 1 storage read and deletion.",
-                " --------------------",
-                " Base Weight: 8.626 µs",
-                " No DB Read or Write operations because caller is already in overlay",
-                " # </weight>"
-              ]
             }
           ],
           "events": [
@@ -444,11 +440,27 @@
           ],
           "constants": [
             {
+              "name": "BlockWeights",
+              "type": "BlockWeights",
+              "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
+              "documentation": [
+                " Block & extrinsics weights: base values and limits."
+              ]
+            },
+            {
+              "name": "BlockLength",
+              "type": "BlockLength",
+              "value": "0x00003c000000500000005000",
+              "documentation": [
+                " The maximum length of a block (in bytes)."
+              ]
+            },
+            {
               "name": "BlockHashCount",
               "type": "BlockNumber",
               "value": "0x60090000",
               "documentation": [
-                " The maximum number of blocks to allow in mortal eras."
+                " Maximum number of block number to block hash mappings to keep (oldest pruned first)."
               ]
             },
             {
@@ -460,11 +472,11 @@
               ]
             },
             {
-              "name": "BlockWeights",
-              "type": "BlockWeights",
-              "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
+              "name": "Version",
+              "type": "RuntimeVersion",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000050100000000000030df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a801000000ab3c0572291feb8b0100000002000000",
               "documentation": [
-                " The weight configuration (limits & base values) for each class of extrinsics and block."
+                " Get the chain's current version."
               ]
             },
             {
@@ -721,6 +733,17 @@
                 ]
               },
               {
+                "name": "NextAuthorities",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<(AuthorityId,BabeAuthorityWeight)>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Next epoch authorities."
+                ]
+              },
+              {
                 "name": "SegmentIndex",
                 "modifier": "Default",
                 "type": {
@@ -849,7 +872,10 @@
               "value": "0xc800000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
-                " epochs, i.e. we start a new session once the new epoch begins."
+                " epochs, i.e. we start a new session once the new epoch begins.",
+                " NOTE: Currently it is not possible to change the epoch duration",
+                " after the chain has started. Attempting to do so will brick block",
+                " production."
               ]
             },
             {
@@ -1787,7 +1813,7 @@
                     "linked": false
                   }
                 },
-                "fallback": "0x00",
+                "fallback": "0x0000",
                 "documentation": [
                   " The map from (wannabe) validator stash key to the preferences of that validator."
                 ]
@@ -1916,7 +1942,7 @@
                     "key2Hasher": "Twox64Concat"
                   }
                 },
-                "fallback": "0x00",
+                "fallback": "0x0000",
                 "documentation": [
                   " Similar to `ErasStakers`, this holds the preferences of validators.",
                   "",
@@ -2200,12 +2226,12 @@
                 "type": {
                   "Plain": "Releases"
                 },
-                "fallback": "0x03",
+                "fallback": "0x04",
                 "documentation": [
                   " True if network has been upgraded to this version.",
                   " Storage version of the pallet.",
                   "",
-                  " This is set to v3.0.0 for new networks."
+                  " This is set to v5.0.0 for new networks."
                 ]
               }
             ]
@@ -2793,9 +2819,9 @@
                 }
               ],
               "documentation": [
-                " Remove all data structure concerning a staker/stash once its balance is zero.",
+                " Remove all data structure concerning a staker/stash once its balance is at the minimum.",
                 " This is essentially equivalent to `withdraw_unbonded` except it can be called by anyone",
-                " and the target `stash` must have no funds left.",
+                " and the target `stash` must have no funds left beyond the ED.",
                 "",
                 " This can be called from any origin.",
                 "",
@@ -2921,6 +2947,30 @@
                 " See [`submit_election_solution`].",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "kick",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "Vec<LookupSource>"
+                }
+              ],
+              "documentation": [
+                " Remove the given nominations from the calling validator.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                " And, it can be only called when [`EraElectionStatus`] is `Closed`. The controller",
+                " account should represent a validator.",
+                "",
+                " - `who`: A list of nominator stash accounts who are nominating this validator which",
+                "   should no longer be nominating this validator.",
+                "",
+                " Note: Making this call only makes sense if you first set the validator preferences to",
+                " block any further nominations."
+              ]
             }
           ],
           "events": [
@@ -3018,6 +3068,16 @@
               "documentation": [
                 " An account has called `withdraw_unbonded` and removed unbonding chunks worth `Balance`",
                 " from the unlocking queue. \\[stash, amount\\]"
+              ]
+            },
+            {
+              "name": "Kicked",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " A nominator has been kicked from a validator. \\[nominator, stash\\]"
               ]
             }
           ],
@@ -3283,6 +3343,24 @@
               "documentation": [
                 " Incorrect number of slashing spans provided."
               ]
+            },
+            {
+              "name": "BadState",
+              "documentation": [
+                " Internal state has become somehow corrupted and the operation cannot continue."
+              ]
+            },
+            {
+              "name": "TooManyTargets",
+              "documentation": [
+                " Too many nomination targets supplied."
+              ]
+            },
+            {
+              "name": "BadTarget",
+              "documentation": [
+                " A nomination target was supplied that was blocked or otherwise not a validator."
+              ]
             }
           ],
           "index": 8
@@ -3470,6 +3548,12 @@
               "name": "NoKeys",
               "documentation": [
                 " No keys are associated with this account."
+              ]
+            },
+            {
+              "name": "NoAccount",
+              "documentation": [
+                " Key setting account is not live, so it's impossible to associate keys."
               ]
             }
           ],
@@ -5651,22 +5735,43 @@
                 "name": "Members",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<(AccountId,BalanceOf)>"
+                  "Plain": "Vec<SeatHolder>"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The current elected membership. Sorted based on account id."
+                  " The current elected members.",
+                  "",
+                  " Invariant: Always sorted based on account id."
                 ]
               },
               {
                 "name": "RunnersUp",
                 "modifier": "Default",
                 "type": {
+                  "Plain": "Vec<SeatHolder>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The current reserved runners-up.",
+                  "",
+                  " Invariant: Always sorted based on rank (worse to best). Upon removal of a member, the",
+                  " last (i.e. _best_) runner-up will be replaced."
+                ]
+              },
+              {
+                "name": "Candidates",
+                "modifier": "Default",
+                "type": {
                   "Plain": "Vec<(AccountId,BalanceOf)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The current runners_up. Sorted based on low to high merit (worse to best)."
+                  " The present candidate list. A current member or runner-up can never enter this vector",
+                  " and is always implicitly assumed to be a candidate.",
+                  "",
+                  " Second element is the deposit.",
+                  "",
+                  " Invariant: Always sorted based on account id."
                 ]
               },
               {
@@ -5687,27 +5792,15 @@
                   "Map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
-                    "value": "(BalanceOf,Vec<AccountId>)",
+                    "value": "Voter",
                     "linked": false
                   }
                 },
-                "fallback": "0x0000000000000000000000000000000000",
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
                   " Votes and locked stake of a particular voter.",
                   "",
-                  " TWOX-NOTE: SAFE as `AccountId` is a crypto hash"
-                ]
-              },
-              {
-                "name": "Candidates",
-                "modifier": "Default",
-                "type": {
-                  "Plain": "Vec<AccountId>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " The present candidate list. Sorted based on account-id. A current member or runner-up",
-                  " can never enter this vector and is always implicitly assumed to be a candidate."
+                  " TWOX-NOTE: SAFE as `AccountId` is a crypto hash."
                 ]
               }
             ]
@@ -5729,28 +5822,25 @@
                 " Vote for a set of candidates for the upcoming round of election. This can be called to",
                 " set the initial votes, or update already existing votes.",
                 "",
-                " Upon initial voting, `value` units of `who`'s balance is locked and a bond amount is",
-                " reserved.",
+                " Upon initial voting, `value` units of `who`'s balance is locked and a deposit amount is",
+                " reserved. The deposit is based on the number of votes and can be updated over time.",
                 "",
                 " The `votes` should:",
                 "   - not be empty.",
                 "   - be less than the number of possible candidates. Note that all current members and",
                 "     runners-up are also automatically candidates for the next round.",
                 "",
-                " It is the responsibility of the caller to not place all of their balance into the lock",
-                " and keep some for further transactions.",
+                " If `value` is more than `who`'s total balance, then the maximum of the two is used.",
+                "",
+                " The dispatch origin of this call must be signed.",
+                "",
+                " ### Warning",
+                "",
+                " It is the responsibility of the caller to **NOT** place all of their balance into the",
+                " lock and keep some for further operations.",
                 "",
                 " # <weight>",
-                " Base weight: 47.93 µs",
-                " State reads:",
-                " \t- Candidates.len() + Members.len() + RunnersUp.len()",
-                " \t- Voting (is_voter)",
-                " \t- Lock",
-                " \t- [AccountBalance(who) (unreserve + total_balance)]",
-                " State writes:",
-                " \t- Voting",
-                " \t- Lock",
-                " \t- [AccountBalance(who) (unreserve -- only when creating a new voter)]",
+                " We assume the maximum weight among all 3 cases: vote_equal, vote_more and vote_less.",
                 " # </weight>"
               ]
             },
@@ -5758,57 +5848,11 @@
               "name": "remove_voter",
               "args": [],
               "documentation": [
-                " Remove `origin` as a voter. This removes the lock and returns the bond.",
+                " Remove `origin` as a voter.",
                 "",
-                " # <weight>",
-                " Base weight: 36.8 µs",
-                " All state access is from do_remove_voter.",
-                " State reads:",
-                " \t- Voting",
-                " \t- [AccountData(who)]",
-                " State writes:",
-                " \t- Voting",
-                " \t- Locks",
-                " \t- [AccountData(who)]",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "report_defunct_voter",
-              "args": [
-                {
-                  "name": "defunct",
-                  "type": "DefunctVoter"
-                }
-              ],
-              "documentation": [
-                " Report `target` for being an defunct voter. In case of a valid report, the reporter is",
-                " rewarded by the bond amount of `target`. Otherwise, the reporter itself is removed and",
-                " their bond is slashed.",
+                " This removes the lock and returns the deposit.",
                 "",
-                " A defunct voter is defined to be:",
-                "   - a voter whose current submitted votes are all invalid. i.e. all of them are no",
-                "     longer a candidate nor an active member or a runner-up.",
-                "",
-                "",
-                " The origin must provide the number of current candidates and votes of the reported target",
-                " for the purpose of accurate weight calculation.",
-                "",
-                " # <weight>",
-                " No Base weight based on min square analysis.",
-                " Complexity of candidate_count: 1.755 µs",
-                " Complexity of vote_count: 18.51 µs",
-                " State reads:",
-                "  \t- Voting(reporter)",
-                "  \t- Candidate.len()",
-                "  \t- Voting(Target)",
-                "  \t- Candidates, Members, RunnersUp (is_defunct_voter)",
-                " State writes:",
-                " \t- Lock(reporter || target)",
-                " \t- [AccountBalance(reporter)] + AccountBalance(target)",
-                " \t- Voting(reporter || target)",
-                " Note: the db access is worse with respect to db, which is when the report is correct.",
-                " # </weight>"
+                " The dispatch origin of this call must be signed and be a voter."
               ]
             },
             {
@@ -5820,25 +5864,20 @@
                 }
               ],
               "documentation": [
-                " Submit oneself for candidacy.",
+                " Submit oneself for candidacy. A fixed amount of deposit is recorded.",
                 "",
-                " A candidate will either:",
-                "   - Lose at the end of the term and forfeit their deposit.",
-                "   - Win and become a member. Members will eventually get their stash back.",
-                "   - Become a runner-up. Runners-ups are reserved members in case one gets forcefully",
-                "     removed.",
+                " All candidates are wiped at the end of the term. They either become a member/runner-up,",
+                " or leave the system while their deposit is slashed.",
+                "",
+                " The dispatch origin of this call must be signed.",
+                "",
+                " ### Warning",
+                "",
+                " Even if a candidate ends up being a member, they must call [`Call::renounce_candidacy`]",
+                " to get their deposit back. Losing the spot in an election will always lead to a slash.",
                 "",
                 " # <weight>",
-                " Base weight = 33.33 µs",
-                " Complexity of candidate_count: 0.375 µs",
-                " State reads:",
-                " \t- Candidates",
-                " \t- Members",
-                " \t- RunnersUp",
-                " \t- [AccountBalance(who)]",
-                " State writes:",
-                " \t- [AccountBalance(who)]",
-                " \t- Candidates",
+                " The number of current candidates must be provided as witness data.",
                 " # </weight>"
               ]
             },
@@ -5853,40 +5892,21 @@
               "documentation": [
                 " Renounce one's intention to be a candidate for the next election round. 3 potential",
                 " outcomes exist:",
-                " - `origin` is a candidate and not elected in any set. In this case, the bond is",
+                "",
+                " - `origin` is a candidate and not elected in any set. In this case, the deposit is",
                 "   unreserved, returned and origin is removed as a candidate.",
-                " - `origin` is a current runner-up. In this case, the bond is unreserved, returned and",
+                " - `origin` is a current runner-up. In this case, the deposit is unreserved, returned and",
                 "   origin is removed as a runner-up.",
-                " - `origin` is a current member. In this case, the bond is unreserved and origin is",
+                " - `origin` is a current member. In this case, the deposit is unreserved and origin is",
                 "   removed as a member, consequently not being a candidate for the next round anymore.",
-                "   Similar to [`remove_voter`], if replacement runners exists, they are immediately used.",
-                " <weight>",
-                " If a candidate is renouncing:",
-                " \tBase weight: 17.28 µs",
-                " \tComplexity of candidate_count: 0.235 µs",
-                " \tState reads:",
-                " \t\t- Candidates",
-                " \t\t- [AccountBalance(who) (unreserve)]",
-                " \tState writes:",
-                " \t\t- Candidates",
-                " \t\t- [AccountBalance(who) (unreserve)]",
-                " If member is renouncing:",
-                " \tBase weight: 46.25 µs",
-                " \tState reads:",
-                " \t\t- Members, RunnersUp (remove_and_replace_member),",
-                " \t\t- [AccountData(who) (unreserve)]",
-                " \tState writes:",
-                " \t\t- Members, RunnersUp (remove_and_replace_member),",
-                " \t\t- [AccountData(who) (unreserve)]",
-                " If runner is renouncing:",
-                " \tBase weight: 46.25 µs",
-                " \tState reads:",
-                " \t\t- RunnersUp (remove_and_replace_member),",
-                " \t\t- [AccountData(who) (unreserve)]",
-                " \tState writes:",
-                " \t\t- RunnersUp (remove_and_replace_member),",
-                " \t\t- [AccountData(who) (unreserve)]",
-                " </weight>"
+                "   Similar to [`remove_members`], if replacement runners exists, they are immediately used.",
+                "   If the prime is renouncing, then no prime will exist until the next round.",
+                "",
+                " The dispatch origin of this call must be signed, and have one of the above roles.",
+                "",
+                " # <weight>",
+                " The type of renouncing must be provided as witness data.",
+                " # </weight>"
               ]
             },
             {
@@ -5908,17 +5928,38 @@
                 " If a runner-up is available, then the best runner-up will be removed and replaces the",
                 " outgoing member. Otherwise, a new phragmen election is started.",
                 "",
+                " The dispatch origin of this call must be root.",
+                "",
                 " Note that this does not affect the designated block number of the next election.",
                 "",
                 " # <weight>",
-                " If we have a replacement:",
-                " \t- Base weight: 50.93 µs",
-                " \t- State reads:",
-                " \t\t- RunnersUp.len()",
-                " \t\t- Members, RunnersUp (remove_and_replace_member)",
-                " \t- State writes:",
-                " \t\t- Members, RunnersUp (remove_and_replace_member)",
-                " Else, since this is a root call and will go into phragmen, we assume full block for now.",
+                " If we have a replacement, we use a small weight. Else, since this is a root call and",
+                " will go into phragmen, we assume full block for now.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "clean_defunct_voters",
+              "args": [
+                {
+                  "name": "_num_voters",
+                  "type": "u32"
+                },
+                {
+                  "name": "_num_defunct",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " Clean all voters who are defunct (i.e. they do not serve any purpose at all). The",
+                " deposit of the removed voters are returned.",
+                "",
+                " This is an root function to be used only for cleaning the state.",
+                "",
+                " The dispatch origin of this call must be root.",
+                "",
+                " # <weight>",
+                " The total number of voters and those that are defunct must be provided as witness data.",
                 " # </weight>"
               ]
             }
@@ -5962,13 +6003,25 @@
               ]
             },
             {
+              "name": "Renounced",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " Someone has renounced their candidacy."
+              ]
+            },
+            {
               "name": "CandidateSlashed",
               "args": [
                 "AccountId",
                 "Balance"
               ],
               "documentation": [
-                " A candidate was slashed due to failing to obtain a seat as member or runner-up"
+                " A \\[candidate\\] was slashed by \\[amount\\] due to failing to obtain a seat as member or",
+                " runner-up.",
+                "",
+                " Note that old members and runners-up are also candidates."
               ]
             },
             {
@@ -5978,28 +6031,7 @@
                 "Balance"
               ],
               "documentation": [
-                " A seat holder (member or runner-up) was slashed due to failing to retaining their position."
-              ]
-            },
-            {
-              "name": "MemberRenounced",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " A \\[member\\] has renounced their candidacy."
-              ]
-            },
-            {
-              "name": "VoterReported",
-              "args": [
-                "AccountId",
-                "AccountId",
-                "bool"
-              ],
-              "documentation": [
-                " A voter was reported with the the report being successful or not.",
-                " \\[voter, reporter, success\\]"
+                " A \\[seat holder\\] was slashed by \\[amount\\] by being forcefully removed from the set."
               ]
             }
           ],
@@ -6011,9 +6043,15 @@
               "documentation": []
             },
             {
-              "name": "VotingBond",
+              "name": "VotingBondBase",
               "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x00f0436de36a01000000000000000000",
+              "documentation": []
+            },
+            {
+              "name": "VotingBondFactor",
+              "type": "BalanceOf",
+              "value": "0x0000cc7b9fae00000000000000000000",
               "documentation": []
             },
             {
@@ -6103,7 +6141,7 @@
               ]
             },
             {
-              "name": "RunnerSubmit",
+              "name": "RunnerUpSubmit",
               "documentation": [
                 " Runner cannot re-submit candidacy."
               ]
@@ -6121,7 +6159,7 @@
               ]
             },
             {
-              "name": "InvalidCandidateCount",
+              "name": "InvalidWitnessData",
               "documentation": [
                 " The provided count of number of candidates is incorrect."
               ]
@@ -6804,7 +6842,7 @@
                 "type": {
                   "Plain": "Schedule"
                 },
-                "fallback": "0x00000000000400000000020000000100008000000010000000001000000001000020000000000008002a0600001d620200846b03008b180000671d0000610a00001d180000cc2a00005c000000a17001003e020300f307000046070000e807000001080000f4190000db280000a908000013249208f8080000d0080000060b000007090000ad080000520800009c0800006f0a0000e7090000020a0000f30900002b0a0000f8090000d10900001b0a0000390a0000270a0000560f0000dc070000260a000036200000381c0000ec1f0000d51c0000780a0000bc0a00005f0a0000e40900003e0a0000330a0000470a0000270a00006cf1380000000000a0f938000000000040ff3800000000008ca77b00000000001a6c3800000000008876380000000000b481380000000000d4f981000000000028543800000000008a4c380000000000c87d5f00000000008a9f1c0000000000c8e57400000000000b01000000000000983c530000000000a90200000000000050de382a0000000038476124000000006467b209000000002418910000000000b2dfd100000000001a6fe7070000000039090000000000004e86990000000000dad35a1000000000cd07000000000000eaaf830a00000000a01f2a0200000000ae0500000000000008f7270b000000003675e30700000000f4753c09000000000102000000000000d20200000000000008efb81d000000000802000000000000e602000000000000b90a000000000000c25731000000000026100000000000007a8e330000000000d80c00000000000040c22f0000000000d305000000000000067f2f0000000000d705000000000000",
+                "fallback": "0x000000000004000000000200000001000080000000100000000010000000010000200000000000080019060000016302005498030053100000941c0000a40d0000f11800005e2a00007000000044790100dcf102007907000080060000690700001a06000013190000f92800007f0700007d9ea70811080000a3070000770a00003308000023080000a5070000a3070000050a00003c0a000077090000b50900008f090000240a00007f09000041090000f9090000ec090000120a0000b70900003f0900003b200000cc1c000017200000471d0000e3090000c409000087090000080a00002e0a0000310a00003e0a0000380a00009c33260000000000a8fa2500000000005620250000000000848b4f00000000000e4a250000000000003f2500000000001066250000000000c0905400000000008c4e2500000000006c4b250000000000b49d490000000000466b12000000000090786500000000000f01000000000000b01b4300000000000003000000000000989e591f00000000c07d7c220000000040eca60900000000a4b55a0000000000701683000000000022b8c80700000000aa0900000000000076e85f0000000000bab5971100000000cf02000000000000f81bbb0800000000dedb070200000000dc050000000000007271d10900000000f49adb08000000007e070e08000000004a02000000000000260300000000000008f83e1b0000000051020000000000003103000000000000d70a000000000000d49522000000000068100000000000007c09250000000000240d000000000000b6e22000000000001f0600000000000006a22000000000001c06000000000000",
                 "documentation": [
                   " Current cost schedule for contracts."
                 ]
@@ -6868,6 +6906,20 @@
                   " The code associated with a given account.",
                   "",
                   " TWOX-NOTE: SAFE since `AccountId` is a secure hash."
+                ]
+              },
+              {
+                "name": "DeletionQueue",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<DeletedContract>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Evicted contracts that await child trie deletion.",
+                  "",
+                  " Child trie deletion is a heavy operation depending on the amount of storage items",
+                  " stored in said trie. Therefore this operation is performed lazily in `on_initialize`."
                 ]
               }
             ]
@@ -6983,11 +7035,15 @@
                 }
               ],
               "documentation": [
-                " Allows block producers to claim a small reward for evicting a contract. If a block producer",
-                " fails to do so, a regular users will be allowed to claim the reward.",
+                " Allows block producers to claim a small reward for evicting a contract. If a block",
+                " producer fails to do so, a regular users will be allowed to claim the reward.",
                 "",
-                " If contract is not evicted as a result of this call, no actions are taken and",
-                " the sender is not eligible for the reward."
+                " In case of a successful eviction no fees are charged from the sender. However, the",
+                " reward is capped by the total amount of rent that was payed by the contract while",
+                " it was alive.",
+                "",
+                " If contract is not evicted as a result of this call, [`Error::ContractNotEvictable`]",
+                " is returned and the sender is not eligible for the reward."
               ]
             }
           ],
@@ -7084,44 +7140,59 @@
             {
               "name": "TombstoneDeposit",
               "type": "BalanceOf",
-              "value": "0x00a0acb9030000000000000000000000",
+              "value": "0x00f0e8857a9c02000000000000000000",
               "documentation": [
                 " The minimum amount required to generate a tombstone."
               ]
             },
             {
-              "name": "StorageSizeOffset",
-              "type": "u32",
-              "value": "0x08000000",
+              "name": "DepositPerContract",
+              "type": "BalanceOf",
+              "value": "0x00f0e8857a9c02000000000000000000",
               "documentation": [
-                " A size offset for an contract. A just created account with untouched storage will have that",
-                " much of storage from the perspective of the state rent.",
+                " The balance every contract needs to deposit to stay alive indefinitely.",
                 "",
-                " This is a simple way to ensure that contracts with empty storage eventually get deleted",
-                " by making them pay rent. This creates an incentive to remove them early in order to save",
-                " rent."
+                " This is different from the [`Self::TombstoneDeposit`] because this only needs to be",
+                " deposited while the contract is alive. Costs for additional storage are added to",
+                " this base cost.",
+                "",
+                " This is a simple way to ensure that contracts with empty storage eventually get deleted by",
+                " making them pay rent. This creates an incentive to remove them early in order to save rent."
               ]
             },
             {
-              "name": "RentByteFee",
+              "name": "DepositPerStorageByte",
               "type": "BalanceOf",
-              "value": "0x00286bee000000000000000000000000",
+              "value": "0x0060defb740500000000000000000000",
               "documentation": [
-                " Price of a byte of storage per one block interval. Should be greater than 0."
-              ]
-            },
-            {
-              "name": "RentDepositOffset",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The amount of funds a contract should deposit in order to offset",
-                " the cost of one byte.",
+                " The balance a contract needs to deposit per storage byte to stay alive indefinitely.",
                 "",
                 " Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,",
                 " then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.",
                 " But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,",
                 " then it would pay 500 BU/day."
+              ]
+            },
+            {
+              "name": "DepositPerStorageItem",
+              "type": "BalanceOf",
+              "value": "0x00f0ab75a40d00000000000000000000",
+              "documentation": [
+                " The balance a contract needs to deposit per storage item to stay alive indefinitely.",
+                "",
+                " It works the same as [`Self::DepositPerStorageByte`] but for storage items."
+              ]
+            },
+            {
+              "name": "RentFraction",
+              "type": "Perbill",
+              "value": "0x85040000",
+              "documentation": [
+                " The fraction of the deposit that should be used as rent per block.",
+                "",
+                " When a contract hasn't enough balance deposited to stay alive indefinitely it needs",
+                " to pay per block for the storage it consumes that is not covered by the deposit.",
+                " This determines how high this rent payment is per block as a fraction of the deposit."
               ]
             },
             {
@@ -7148,6 +7219,22 @@
               "value": "0x00400000",
               "documentation": [
                 " The maximum size of a storage value in bytes. A reasonable default is 16 KiB."
+              ]
+            },
+            {
+              "name": "DeletionQueueDepth",
+              "type": "u32",
+              "value": "0x11010000",
+              "documentation": [
+                " The maximum number of tries that can be queued for deletion."
+              ]
+            },
+            {
+              "name": "DeletionWeightLimit",
+              "type": "Weight",
+              "value": "0x00d0ed902e000000",
+              "documentation": [
+                " The maximum amount of weight that can be consumed per block for lazy trie removal."
               ]
             }
           ],
@@ -7304,6 +7391,42 @@
               "name": "DuplicateTopics",
               "documentation": [
                 " The topics passed to `seal_deposit_events` contains at least one duplicate."
+              ]
+            },
+            {
+              "name": "NoChainExtension",
+              "documentation": [
+                " The chain does not provide a chain extension. Calling the chain extension results",
+                " in this error. Note that this usually  shouldn't happen as deploying such contracts",
+                " is rejected."
+              ]
+            },
+            {
+              "name": "DeletionQueueFull",
+              "documentation": [
+                " Removal of a contract failed because the deletion queue is full.",
+                "",
+                " This can happen when either calling [`Module::claim_surcharge`] or `seal_terminate`.",
+                " The queue is filled by deleting contracts and emptied by a fixed amount each block.",
+                " Trying again during another block is the only way to resolve this issue."
+              ]
+            },
+            {
+              "name": "ContractNotEvictable",
+              "documentation": [
+                " A contract could not be evicted because it has enough balance to pay rent.",
+                "",
+                " This can be returned from [`Module::claim_surcharge`] because the target",
+                " contract has enough balance to pay for its rent."
+              ]
+            },
+            {
+              "name": "StorageExhausted",
+              "documentation": [
+                " A storage modification exhausted the 32bit type that holds the storage size.",
+                "",
+                " This can either happen when the accumulated storage in bytes is too large or",
+                " when number of storage items is too large."
               ]
             }
           ],
@@ -10005,6 +10128,12 @@
               "documentation": [
                 " This account is already set up for recovery"
               ]
+            },
+            {
+              "name": "BadState",
+              "documentation": [
+                " Some internal state is broken."
+              ]
             }
           ],
           "index": 26
@@ -11806,6 +11935,14 @@
               ]
             },
             {
+              "name": "BountyUpdatePeriod",
+              "type": "BlockNumber",
+              "value": "0x00270600",
+              "documentation": [
+                " Bounty duration in blocks."
+              ]
+            },
+            {
               "name": "BountyCuratorDeposit",
               "type": "Permill",
               "value": "0x20a10700",
@@ -12299,6 +12436,22 @@
                 "documentation": [
                   " The number of units of assets held by any given account."
                 ]
+              },
+              {
+                "name": "Metadata",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_128Concat",
+                    "key": "AssetId",
+                    "value": "AssetMetadata",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00000000000000000000000000000000000000",
+                "documentation": [
+                  " Metadata of an asset."
+                ]
               }
             ]
           },
@@ -12638,6 +12791,46 @@
               ]
             },
             {
+              "name": "freeze_asset",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                }
+              ],
+              "documentation": [
+                " Disallow further unprivileged transfers for the asset class.",
+                "",
+                " Origin must be Signed and the sender should be the Freezer of the asset `id`.",
+                "",
+                " - `id`: The identifier of the asset to be frozen.",
+                "",
+                " Emits `Frozen`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "thaw_asset",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                }
+              ],
+              "documentation": [
+                " Allow unprivileged transfers for the asset again.",
+                "",
+                " Origin must be Signed and the sender should be the Admin of the asset `id`.",
+                "",
+                " - `id`: The identifier of the asset to be frozen.",
+                "",
+                " Emits `Thawed`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
               "name": "transfer_ownership",
               "args": [
                 {
@@ -12709,7 +12902,65 @@
                   "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the maximum number of zombie accounts for an asset.",
+                "",
+                " Origin must be Signed and the sender should be the Owner of the asset `id`.",
+                "",
+                " Funds of sender are reserved according to the formula:",
+                " `AssetDepositBase + AssetDepositPerZombie * max_zombies` taking into account",
+                " any already reserved funds.",
+                "",
+                " - `id`: The identifier of the asset to update zombie count.",
+                " - `max_zombies`: The new number of zombies allowed for this asset.",
+                "",
+                " Emits `MaxZombiesChanged`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "set_metadata",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "name",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "symbol",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "decimals",
+                  "type": "u8"
+                }
+              ],
+              "documentation": [
+                " Set the metadata for an asset.",
+                "",
+                " NOTE: There is no `unset_metadata` call. Simply pass an empty name, symbol,",
+                " and 0 decimals to this function to remove the metadata of an asset and",
+                " return your deposit.",
+                "",
+                " Origin must be Signed and the sender should be the Owner of the asset `id`.",
+                "",
+                " Funds of sender are reserved according to the formula:",
+                " `MetadataDepositBase + MetadataDepositPerByte * (name.len + symbol.len)` taking into",
+                " account any already reserved funds.",
+                "",
+                " - `id`: The identifier of the asset to update.",
+                " - `name`: The user friendly name of this asset. Limited in length by `StringLimit`.",
+                " - `symbol`: The exchange symbol for this asset. Limited in length by `StringLimit`.",
+                " - `decimals`: The number of decimals this asset uses to represent one unit.",
+                "",
+                " Emits `MaxZombiesChanged`.",
+                "",
+                " Weight: `O(1)`"
+              ]
             }
           ],
           "events": [
@@ -12813,6 +13064,24 @@
               ]
             },
             {
+              "name": "AssetFrozen",
+              "args": [
+                "AssetId"
+              ],
+              "documentation": [
+                " Some asset `asset_id` was frozen. \\[asset_id\\]"
+              ]
+            },
+            {
+              "name": "AssetThawed",
+              "args": [
+                "AssetId"
+              ],
+              "documentation": [
+                " Some asset `asset_id` was thawed. \\[asset_id\\]"
+              ]
+            },
+            {
               "name": "Destroyed",
               "args": [
                 "AssetId"
@@ -12839,6 +13108,18 @@
               ],
               "documentation": [
                 " The maximum amount of zombies allowed has changed. \\[asset_id, max_zombies\\]"
+              ]
+            },
+            {
+              "name": "MetadataSet",
+              "args": [
+                "AssetId",
+                "Bytes",
+                "Bytes",
+                "u8"
+              ],
+              "documentation": [
+                " New metadata has been set for an asset. \\[asset_id, name, symbol, decimals\\]"
               ]
             }
           ],
@@ -12915,6 +13196,18 @@
               "documentation": [
                 " A mint operation lead to an overflow."
               ]
+            },
+            {
+              "name": "BadState",
+              "documentation": [
+                " Some internal state is broken."
+              ]
+            },
+            {
+              "name": "BadMetadata",
+              "documentation": [
+                " Invalid metadata given."
+              ]
             }
           ],
           "index": 33
@@ -12972,6 +13265,228 @@
           "constants": [],
           "errors": [],
           "index": 34
+        },
+        {
+          "name": "Lottery",
+          "storage": {
+            "prefix": "Lottery",
+            "items": [
+              {
+                "name": "LotteryIndex",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": []
+              },
+              {
+                "name": "Lottery",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "LotteryConfig"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The configuration for the current lottery."
+                ]
+              },
+              {
+                "name": "Participants",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "AccountId",
+                    "value": "(u32,Vec<CallIndex>)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x0000000000",
+                "documentation": [
+                  " Users who have purchased a ticket. (Lottery Index, Tickets Purchased)"
+                ]
+              },
+              {
+                "name": "TicketsCount",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " Total number of tickets sold."
+                ]
+              },
+              {
+                "name": "Tickets",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "u32",
+                    "value": "AccountId",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Each ticket's owner.",
+                  "",
+                  " May have residual storage from previous lotteries. Use `TicketsCount` to see which ones",
+                  " are actually valid ticket mappings."
+                ]
+              },
+              {
+                "name": "CallIndices",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<CallIndex>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The calls stored in this pallet to be used in an active lottery if configured",
+                  " by `Config::ValidateCall`."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "buy_ticket",
+              "args": [
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Buy a ticket to enter the lottery.",
+                "",
+                " This extrinsic acts as a passthrough function for `call`. In all",
+                " situations where `call` alone would succeed, this extrinsic should",
+                " succeed.",
+                "",
+                " If `call` is successful, then we will attempt to purchase a ticket,",
+                " which may fail silently. To detect success of a ticket purchase, you",
+                " should listen for the `TicketBought` event.",
+                "",
+                " This extrinsic must be called by a signed origin."
+              ]
+            },
+            {
+              "name": "set_calls",
+              "args": [
+                {
+                  "name": "calls",
+                  "type": "Vec<Call>"
+                }
+              ],
+              "documentation": [
+                " Set calls in storage which can be used to purchase a lottery ticket.",
+                "",
+                " This function only matters if you use the `ValidateCall` implementation",
+                " provided by this pallet, which uses storage to determine the valid calls.",
+                "",
+                " This extrinsic must be called by the Manager origin."
+              ]
+            },
+            {
+              "name": "start_lottery",
+              "args": [
+                {
+                  "name": "price",
+                  "type": "BalanceOf"
+                },
+                {
+                  "name": "length",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "delay",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "repeat",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Start a lottery using the provided configuration.",
+                "",
+                " This extrinsic must be called by the `ManagerOrigin`.",
+                "",
+                " Parameters:",
+                "",
+                " * `price`: The cost of a single ticket.",
+                " * `length`: How long the lottery should run for starting at the current block.",
+                " * `delay`: How long after the lottery end we should wait before picking a winner.",
+                " * `repeat`: If the lottery should repeat when completed."
+              ]
+            },
+            {
+              "name": "stop_repeat",
+              "args": [],
+              "documentation": [
+                " If a lottery is repeating, you can use this to stop the repeat.",
+                " The lottery will continue to run to completion.",
+                "",
+                " This extrinsic must be called by the `ManagerOrigin`."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "LotteryStarted",
+              "args": [],
+              "documentation": [
+                " A lottery has been started!"
+              ]
+            },
+            {
+              "name": "CallsUpdated",
+              "args": [],
+              "documentation": [
+                " A new set of calls have been set!"
+              ]
+            },
+            {
+              "name": "Winner",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A winner has been chosen!"
+              ]
+            },
+            {
+              "name": "TicketBought",
+              "args": [
+                "AccountId",
+                "CallIndex"
+              ],
+              "documentation": [
+                " A ticket has been bought!"
+              ]
+            }
+          ],
+          "constants": [
+            {
+              "name": "ModuleId",
+              "type": "ModuleId",
+              "value": "0x70792f6c6f74746f",
+              "documentation": []
+            },
+            {
+              "name": "MaxCalls",
+              "type": "u32",
+              "value": "0x0a000000",
+              "documentation": []
+            }
+          ],
+          "errors": [],
+          "index": 35
         }
       ],
       "extrinsic": {
