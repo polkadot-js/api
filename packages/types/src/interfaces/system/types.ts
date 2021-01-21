@@ -32,6 +32,11 @@ export interface ApplyExtrinsicResult extends Result<DispatchOutcome, Transactio
   readonly asOk: DispatchOutcome;
 }
 
+/** @name BlockLength */
+export interface BlockLength extends Struct {
+  readonly max: PerDispatchClassU32;
+}
+
 /** @name BlockWeights */
 export interface BlockWeights extends Struct {
   readonly baseBlock: Weight;
@@ -264,6 +269,13 @@ export interface PerDispatchClass extends Struct {
   readonly normal: WeightPerClass;
   readonly operational: WeightPerClass;
   readonly mandatory: WeightPerClass;
+}
+
+/** @name PerDispatchClassU32 */
+export interface PerDispatchClassU32 extends Struct {
+  readonly normal: u32;
+  readonly operational: u32;
+  readonly mandatory: u32;
 }
 
 /** @name Phase */

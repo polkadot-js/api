@@ -12,6 +12,14 @@ declare module '@polkadot/api/types/errors' {
        **/
       AmountZero: AugmentedError<ApiType>;
       /**
+       * Invalid metadata given.
+       **/
+      BadMetadata: AugmentedError<ApiType>;
+      /**
+       * Some internal state is broken.
+       **/
+      BadState: AugmentedError<ApiType>;
+      /**
        * Invalid witness data given.
        **/
       BadWitness: AugmentedError<ApiType>;
@@ -180,6 +188,13 @@ declare module '@polkadot/api/types/errors' {
        **/
       CodeTooLarge: AugmentedError<ApiType>;
       /**
+       * A contract could not be evicted because it has enough balance to pay rent.
+       * 
+       * This can be returned from [`Module::claim_surcharge`] because the target
+       * contract has enough balance to pay for its rent.
+       **/
+      ContractNotEvictable: AugmentedError<ApiType>;
+      /**
        * Contract trapped during execution.
        **/
       ContractTrapped: AugmentedError<ApiType>;
@@ -187,6 +202,14 @@ declare module '@polkadot/api/types/errors' {
        * Input passed to a contract API function failed to decode as expected type.
        **/
       DecodingFailed: AugmentedError<ApiType>;
+      /**
+       * Removal of a contract failed because the deletion queue is full.
+       * 
+       * This can happen when either calling [`Module::claim_surcharge`] or `seal_terminate`.
+       * The queue is filled by deleting contracts and emptied by a fixed amount each block.
+       * Trying again during another block is the only way to resolve this issue.
+       **/
+      DeletionQueueFull: AugmentedError<ApiType>;
       /**
        * The topics passed to `seal_deposit_events` contains at least one duplicate.
        **/
@@ -230,6 +253,12 @@ declare module '@polkadot/api/types/errors' {
        **/
       NewContractNotFunded: AugmentedError<ApiType>;
       /**
+       * The chain does not provide a chain extension. Calling the chain extension results
+       * in this error. Note that this usually  shouldn't happen as deploying such contracts
+       * is rejected.
+       **/
+      NoChainExtension: AugmentedError<ApiType>;
+      /**
        * The contract that was called is either no contract at all (a plain account)
        * or is a tombstone.
        **/
@@ -256,6 +285,13 @@ declare module '@polkadot/api/types/errors' {
        * of a tombstone.
        **/
       ReentranceDenied: AugmentedError<ApiType>;
+      /**
+       * A storage modification exhausted the 32bit type that holds the storage size.
+       * 
+       * This can either happen when the accumulated storage in bytes is too large or
+       * when number of storage items is too large.
+       **/
+      StorageExhausted: AugmentedError<ApiType>;
       /**
        * The amount of topics passed to `seal_deposit_events` exceeds the limit.
        **/
@@ -469,10 +505,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       InsufficientCandidateFunds: AugmentedError<ApiType>;
       /**
-       * The provided count of number of candidates is incorrect.
-       **/
-      InvalidCandidateCount: AugmentedError<ApiType>;
-      /**
        * The renouncing origin presented a wrong `Renouncing` parameter.
        **/
       InvalidRenouncing: AugmentedError<ApiType>;
@@ -484,6 +516,10 @@ declare module '@polkadot/api/types/errors' {
        * The provided count of number of votes is incorrect.
        **/
       InvalidVoteCount: AugmentedError<ApiType>;
+      /**
+       * The provided count of number of candidates is incorrect.
+       **/
+      InvalidWitnessData: AugmentedError<ApiType>;
       /**
        * Cannot vote with stake less than minimum balance.
        **/
@@ -515,7 +551,7 @@ declare module '@polkadot/api/types/errors' {
       /**
        * Runner cannot re-submit candidacy.
        **/
-      RunnerSubmit: AugmentedError<ApiType>;
+      RunnerUpSubmit: AugmentedError<ApiType>;
       /**
        * Cannot vote more than candidates.
        **/
@@ -753,6 +789,10 @@ declare module '@polkadot/api/types/errors' {
        **/
       AlreadyVouched: AugmentedError<ApiType>;
       /**
+       * Some internal state is broken.
+       **/
+      BadState: AugmentedError<ApiType>;
+      /**
        * The friend must wait until the delay period to vouch for this recovery
        **/
       DelayPeriod: AugmentedError<ApiType>;
@@ -830,6 +870,10 @@ declare module '@polkadot/api/types/errors' {
        * Invalid ownership proof.
        **/
       InvalidProof: AugmentedError<ApiType>;
+      /**
+       * Key setting account is not live, so it's impossible to associate keys.
+       **/
+      NoAccount: AugmentedError<ApiType>;
       /**
        * No associated validator ID for account.
        **/
@@ -928,6 +972,14 @@ declare module '@polkadot/api/types/errors' {
        * Controller is already paired.
        **/
       AlreadyPaired: AugmentedError<ApiType>;
+      /**
+       * Internal state has become somehow corrupted and the operation cannot continue.
+       **/
+      BadState: AugmentedError<ApiType>;
+      /**
+       * A nomination target was supplied that was blocked or otherwise not a validator.
+       **/
+      BadTarget: AugmentedError<ApiType>;
       /**
        * The call is not allowed at the given time due to restrictions of election period.
        **/
@@ -1043,6 +1095,10 @@ declare module '@polkadot/api/types/errors' {
        * The snapshot data of the current window is missing.
        **/
       SnapshotUnavailable: AugmentedError<ApiType>;
+      /**
+       * Too many nomination targets supplied.
+       **/
+      TooManyTargets: AugmentedError<ApiType>;
     };
     sudo: {
       [key: string]: AugmentedError<ApiType>;

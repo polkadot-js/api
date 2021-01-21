@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { BitVec, Bool, Bytes, Compact, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, Json, Null, Option, Raw, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, Vec, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types';
-import type { AssetBalance, AssetDetails, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
+import type { AssetBalance, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -43,10 +43,10 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray
 import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, ScheduledTo254, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys7, SessionKeys8, SessionKeys9, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RewardDestination, RewardDestinationTo257, RewardPoint, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RewardDestination, RewardDestinationTo257, RewardPoint, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, Voter } from '@polkadot/types/interfaces/staking';
 import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
-import type { AccountInfo, AccountInfoWithProviders, AccountInfoWithRefCount, ApplyExtrinsicResult, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
+import type { AccountInfo, AccountInfoWithProviders, AccountInfoWithRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClass, PerDispatchClassU32, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
@@ -169,6 +169,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<AssetDetails>': Option<AssetDetails>;
     'Option<AssetId>': Option<AssetId>;
     'Option<AssetInstance>': Option<AssetInstance>;
+    'Option<AssetMetadata>': Option<AssetMetadata>;
     'Option<AssetOptions>': Option<AssetOptions>;
     'Option<AssignmentId>': Option<AssignmentId>;
     'Option<AssignmentKind>': Option<AssignmentKind>;
@@ -201,6 +202,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Block>': Option<Block>;
     'Option<BlockAttestations>': Option<BlockAttestations>;
     'Option<BlockHash>': Option<BlockHash>;
+    'Option<BlockLength>': Option<BlockLength>;
     'Option<BlockNumber>': Option<BlockNumber>;
     'Option<BlockWeights>': Option<BlockWeights>;
     'Option<bool>': Option<bool>;
@@ -589,6 +591,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Perbill>': Option<Perbill>;
     'Option<Percent>': Option<Percent>;
     'Option<PerDispatchClass>': Option<PerDispatchClass>;
+    'Option<PerDispatchClassU32>': Option<PerDispatchClassU32>;
     'Option<Period>': Option<Period>;
     'Option<Permill>': Option<Permill>;
     'Option<PermissionLatest>': Option<PermissionLatest>;
@@ -679,6 +682,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Scheduling>': Option<Scheduling>;
     'Option<Seal>': Option<Seal>;
     'Option<SealV0>': Option<SealV0>;
+    'Option<SeatHolder>': Option<SeatHolder>;
     'Option<SeedOf>': Option<SeedOf>;
     'Option<SessionIndex>': Option<SessionIndex>;
     'Option<SessionInfo>': Option<SessionInfo>;
@@ -821,6 +825,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<VestingSchedule>': Option<VestingSchedule>;
     'Option<Vote>': Option<Vote>;
     'Option<VoteIndex>': Option<VoteIndex>;
+    'Option<Voter>': Option<Voter>;
     'Option<VoterInfo>': Option<VoterInfo>;
     'Option<Votes>': Option<Votes>;
     'Option<VotesTo230>': Option<VotesTo230>;
@@ -880,6 +885,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<AssetDetails>': Vec<AssetDetails>;
     'Vec<AssetId>': Vec<AssetId>;
     'Vec<AssetInstance>': Vec<AssetInstance>;
+    'Vec<AssetMetadata>': Vec<AssetMetadata>;
     'Vec<AssetOptions>': Vec<AssetOptions>;
     'Vec<AssignmentId>': Vec<AssignmentId>;
     'Vec<AssignmentKind>': Vec<AssignmentKind>;
@@ -912,6 +918,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Block>': Vec<Block>;
     'Vec<BlockAttestations>': Vec<BlockAttestations>;
     'Vec<BlockHash>': Vec<BlockHash>;
+    'Vec<BlockLength>': Vec<BlockLength>;
     'Vec<BlockNumber>': Vec<BlockNumber>;
     'Vec<BlockWeights>': Vec<BlockWeights>;
     'Vec<bool>': Vec<bool>;
@@ -1300,6 +1307,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Perbill>': Vec<Perbill>;
     'Vec<Percent>': Vec<Percent>;
     'Vec<PerDispatchClass>': Vec<PerDispatchClass>;
+    'Vec<PerDispatchClassU32>': Vec<PerDispatchClassU32>;
     'Vec<Period>': Vec<Period>;
     'Vec<Permill>': Vec<Permill>;
     'Vec<PermissionLatest>': Vec<PermissionLatest>;
@@ -1390,6 +1398,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Scheduling>': Vec<Scheduling>;
     'Vec<Seal>': Vec<Seal>;
     'Vec<SealV0>': Vec<SealV0>;
+    'Vec<SeatHolder>': Vec<SeatHolder>;
     'Vec<SeedOf>': Vec<SeedOf>;
     'Vec<SessionIndex>': Vec<SessionIndex>;
     'Vec<SessionInfo>': Vec<SessionInfo>;
@@ -1532,6 +1541,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<VestingSchedule>': Vec<VestingSchedule>;
     'Vec<Vote>': Vec<Vote>;
     'Vec<VoteIndex>': Vec<VoteIndex>;
+    'Vec<Voter>': Vec<Voter>;
     'Vec<VoterInfo>': Vec<VoterInfo>;
     'Vec<Votes>': Vec<Votes>;
     'Vec<VotesTo230>': Vec<VotesTo230>;
@@ -1591,6 +1601,7 @@ declare module '@polkadot/types/types/registry' {
     AssetDetails: AssetDetails;
     AssetId: AssetId;
     AssetInstance: AssetInstance;
+    AssetMetadata: AssetMetadata;
     AssetOptions: AssetOptions;
     AssignmentId: AssignmentId;
     AssignmentKind: AssignmentKind;
@@ -1623,6 +1634,7 @@ declare module '@polkadot/types/types/registry' {
     Block: Block;
     BlockAttestations: BlockAttestations;
     BlockHash: BlockHash;
+    BlockLength: BlockLength;
     BlockNumber: BlockNumber;
     BlockWeights: BlockWeights;
     bool: bool;
@@ -2011,6 +2023,7 @@ declare module '@polkadot/types/types/registry' {
     Perbill: Perbill;
     Percent: Percent;
     PerDispatchClass: PerDispatchClass;
+    PerDispatchClassU32: PerDispatchClassU32;
     Period: Period;
     Permill: Permill;
     PermissionLatest: PermissionLatest;
@@ -2101,6 +2114,7 @@ declare module '@polkadot/types/types/registry' {
     Scheduling: Scheduling;
     Seal: Seal;
     SealV0: SealV0;
+    SeatHolder: SeatHolder;
     SeedOf: SeedOf;
     SessionIndex: SessionIndex;
     SessionInfo: SessionInfo;
@@ -2243,6 +2257,7 @@ declare module '@polkadot/types/types/registry' {
     VestingSchedule: VestingSchedule;
     Vote: Vote;
     VoteIndex: VoteIndex;
+    Voter: Voter;
     VoterInfo: VoterInfo;
     Votes: Votes;
     VotesTo230: VotesTo230;

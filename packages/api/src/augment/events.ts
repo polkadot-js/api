@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, Vec, bool, u16, u32 } from '@polkadot/types';
+import type { Bytes, Option, Vec, bool, u16, u32, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BalanceStatus } from '@polkadot/types/interfaces/balances';
@@ -11,6 +11,7 @@ import type { PropIndex, ReferendumIndex } from '@polkadot/types/interfaces/demo
 import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
 import type { AuthorityList } from '@polkadot/types/interfaces/grandpa';
 import type { RegistrarIndex } from '@polkadot/types/interfaces/identity';
+import type { CallIndex } from '@polkadot/types/interfaces/lottery';
 import type { Kind, OpaqueTimeSlot } from '@polkadot/types/interfaces/offences';
 import type { ProxyType } from '@polkadot/types/interfaces/proxy';
 import type { AccountId, AccountIndex, AssetId, Balance, BlockNumber, CallHash, Hash, PhantomData } from '@polkadot/types/interfaces/runtime';
@@ -26,6 +27,14 @@ declare module '@polkadot/api/types/events' {
   export interface AugmentedEvents<ApiType> {
     assets: {
       [key: string]: AugmentedEvent<ApiType>;
+      /**
+       * Some asset `asset_id` was frozen. \[asset_id\]
+       **/
+      AssetFrozen: AugmentedEvent<ApiType, [AssetId]>;
+      /**
+       * Some asset `asset_id` was thawed. \[asset_id\]
+       **/
+      AssetThawed: AugmentedEvent<ApiType, [AssetId]>;
       /**
        * Some assets were destroyed. \[asset_id, owner, balance\]
        **/
@@ -58,6 +67,10 @@ declare module '@polkadot/api/types/events' {
        * The maximum amount of zombies allowed has changed. \[asset_id, max_zombies\]
        **/
       MaxZombiesChanged: AugmentedEvent<ApiType, [AssetId, u32]>;
+      /**
+       * New metadata has been set for an asset. \[asset_id, name, symbol, decimals\]
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [AssetId, Bytes, Bytes, u8]>;
       /**
        * The owner changed \[asset_id, owner\]
        **/
@@ -309,7 +322,10 @@ declare module '@polkadot/api/types/events' {
     elections: {
       [key: string]: AugmentedEvent<ApiType>;
       /**
-       * A candidate was slashed due to failing to obtain a seat as member or runner-up
+       * A \[candidate\] was slashed by \[amount\] due to failing to obtain a seat as member or
+       * runner-up.
+       * 
+       * Note that old members and runners-up are also candidates.
        **/
       CandidateSlashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
@@ -327,10 +343,6 @@ declare module '@polkadot/api/types/events' {
        **/
       MemberKicked: AugmentedEvent<ApiType, [AccountId]>;
       /**
-       * A \[member\] has renounced their candidacy.
-       **/
-      MemberRenounced: AugmentedEvent<ApiType, [AccountId]>;
-      /**
        * A new term with \[new_members\]. This indicates that enough candidates existed to run the
        * election, not that enough have has been elected. The inner value must be examined for
        * this purpose. A `NewTerm(\[\])` indicates that some candidates got their bond slashed and
@@ -338,14 +350,13 @@ declare module '@polkadot/api/types/events' {
        **/
       NewTerm: AugmentedEvent<ApiType, [Vec<ITuple<[AccountId, Balance]>>]>;
       /**
-       * A seat holder (member or runner-up) was slashed due to failing to retaining their position.
+       * Someone has renounced their candidacy.
+       **/
+      Renounced: AugmentedEvent<ApiType, [AccountId]>;
+      /**
+       * A \[seat holder\] was slashed by \[amount\] by being forcefully removed from the set.
        **/
       SeatHolderSlashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
-      /**
-       * A voter was reported with the the report being successful or not.
-       * \[voter, reporter, success\]
-       **/
-      VoterReported: AugmentedEvent<ApiType, [AccountId, AccountId, bool]>;
     };
     grandpa: {
       [key: string]: AugmentedEvent<ApiType>;
@@ -436,6 +447,25 @@ declare module '@polkadot/api/types/events' {
        * A account index has been frozen to its current account ID. \[index, who\]
        **/
       IndexFrozen: AugmentedEvent<ApiType, [AccountIndex, AccountId]>;
+    };
+    lottery: {
+      [key: string]: AugmentedEvent<ApiType>;
+      /**
+       * A new set of calls have been set!
+       **/
+      CallsUpdated: AugmentedEvent<ApiType, []>;
+      /**
+       * A lottery has been started!
+       **/
+      LotteryStarted: AugmentedEvent<ApiType, []>;
+      /**
+       * A ticket has been bought!
+       **/
+      TicketBought: AugmentedEvent<ApiType, [AccountId, CallIndex]>;
+      /**
+       * A winner has been chosen!
+       **/
+      Winner: AugmentedEvent<ApiType, [AccountId, Balance]>;
     };
     multisig: {
       [key: string]: AugmentedEvent<ApiType>;
@@ -622,6 +652,10 @@ declare module '@polkadot/api/types/events' {
        * \[era_index, validator_payout, remainder\]
        **/
       EraPayout: AugmentedEvent<ApiType, [EraIndex, Balance, Balance]>;
+      /**
+       * A nominator has been kicked from a validator. \[nominator, stash\]
+       **/
+      Kicked: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
        * An old slashing report from a prior era was discarded because it could
        * not be processed. \[session_index\]
