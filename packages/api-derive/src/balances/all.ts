@@ -67,6 +67,7 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
   return {
     accountId,
     accountNonce,
+    additional: [],
     availableBalance,
     freeBalance,
     frozenFee,
@@ -113,11 +114,14 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
         [api.query.balances.locks, accountId],
         [api.query.vesting.vesting, accountId]
       ])
-      : api.query.balances.locks(accountId).pipe(
-        map((locks): [Vec<BalanceLock>, Option<VestingInfo>] =>
-          [locks, api.registry.createType('Option<VestingInfo>')]
+      // TODO We need to check module instances here as well, not only the balances module
+      : isFunction(api.query.balances.locks)
+        ? api.query.balances.locks(accountId).pipe(
+          map((locks): [Vec<BalanceLock>, Option<VestingInfo>] =>
+            [locks, api.registry.createType('Option<VestingInfo>')]
+          )
         )
-      )
+        : of([api.registry.createType('Vec<BalanceLock>'), api.registry.createType('Option<VestingInfo>')] as [Vec<BalanceLock>, Option<VestingInfo>])
   ).pipe(
     map(([locks, optVesting]): ResultBalance =>
       [optVesting.unwrapOr(null), locks]

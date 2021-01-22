@@ -297,7 +297,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
-    this._rx.runtimeVersion = this._runtimeVersion;
+    this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
 
     // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
