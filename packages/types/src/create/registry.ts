@@ -161,9 +161,15 @@ export class TypeRegistry implements Registry {
   }
 
   public get chainDecimals (): number {
-    return this.#chainProperties?.tokenDecimals.isSome
-      ? this.#chainProperties.tokenDecimals.unwrap().toNumber()
-      : 12;
+    if (this.#chainProperties?.tokenDecimals.isSome) {
+      const allDecimals = this.#chainProperties.tokenDecimals.unwrap();
+
+      if (allDecimals.length) {
+        return allDecimals[0].toNumber();
+      }
+    }
+
+    return 12;
   }
 
   public get chainSS58 (): number | undefined {
@@ -173,9 +179,15 @@ export class TypeRegistry implements Registry {
   }
 
   public get chainToken (): string {
-    return this.#chainProperties?.tokenSymbol.isSome
-      ? this.#chainProperties.tokenSymbol.unwrap().toString()
-      : formatBalance.getDefaults().unit;
+    if (this.#chainProperties?.tokenSymbol.isSome) {
+      const allTokens = this.#chainProperties.tokenSymbol.unwrap();
+
+      if (allTokens.length) {
+        return allTokens[0].toString();
+      }
+    }
+
+    return formatBalance.getDefaults().unit;
   }
 
   public get knownTypes (): RegisteredTypes {

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
+import type { Bytes, Compact, Enum, GenericChainProperties, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { AccountData } from '@polkadot/types/interfaces/balances';
 import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
@@ -45,11 +45,7 @@ export interface BlockWeights extends Struct {
 }
 
 /** @name ChainProperties */
-export interface ChainProperties extends Struct {
-  readonly ss58Format: Option<u8>;
-  readonly tokenDecimals: Option<u32>;
-  readonly tokenSymbol: Option<Text>;
-}
+export interface ChainProperties extends GenericChainProperties {}
 
 /** @name ChainType */
 export interface ChainType extends Enum {

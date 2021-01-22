@@ -154,11 +154,7 @@ export default {
       maxBlock: 'Weight',
       perClass: 'PerDispatchClass'
     },
-    ChainProperties: {
-      ss58Format: 'Option<u8>',
-      tokenDecimals: 'Option<u32>',
-      tokenSymbol: 'Option<Text>'
-    },
+    ChainProperties: 'GenericChainProperties',
     ChainType: {
       _enum: {
         Development: 'Null',
