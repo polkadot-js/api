@@ -47,6 +47,7 @@ export type DeriveCustom = Record<string, Record<string, (instanceId: string, ap
 export interface OverrideBundleDefinition {
   alias?: Record<string, OverrideModuleType>;
   derives?: DeriveCustom;
+  instances?: Record<string, string[]>;
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   types?: OverrideVersionedType[];
 }
@@ -98,7 +99,8 @@ export interface Registry {
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;
-  getDefinition (name: string): string | undefined;
+  getDefinition (typeName: string): string | undefined;
+  getModuleInstances (specName: string, moduleName: string): string[] | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
   getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
   setKnownTypes (types: RegisteredTypes): void;

@@ -9,7 +9,7 @@ import type { DeriveBalancesAccount, DeriveBalancesAll } from '../types';
 
 import BN from 'bn.js';
 
-import { bnMax, isFunction } from '@polkadot/util';
+import { bnMax } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
@@ -67,6 +67,7 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
   return {
     accountId,
     accountNonce,
+    additional: [],
     availableBalance,
     freeBalance,
     frozenFee,
@@ -113,11 +114,14 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
         [api.query.balances.locks, accountId],
         [api.query.vesting.vesting, accountId]
       ])
-      : api.query.balances.locks(accountId).pipe(
-        map((locks): [Vec<BalanceLock>, Option<VestingInfo>] =>
-          [locks, api.registry.createType('Option<VestingInfo>')]
+      // TODO We need to check module instances here as well, not only the balances module
+      : api.query.balances?.locks
+        ? api.query.balances.locks(accountId).pipe(
+          map((locks): [Vec<BalanceLock>, Option<VestingInfo>] =>
+            [locks, api.registry.createType('Option<VestingInfo>')]
+          )
         )
-      )
+        : of([api.registry.createType('Vec<BalanceLock>'), api.registry.createType('Option<VestingInfo>')] as [Vec<BalanceLock>, Option<VestingInfo>])
   ).pipe(
     map(([locks, optVesting]): ResultBalance =>
       [optVesting.unwrapOr(null), locks]
@@ -148,7 +152,7 @@ export function all (instanceId: string, api: ApiInterfaceRx): (address: Account
           ? combineLatest([
             of(account),
             api.derive.chain.bestNumber(),
-            isFunction(api.query.system.account) || isFunction(api.query.balances.account)
+            api.query.system?.account || api.query.balances?.account
               ? queryCurrent(api, account.accountId)
               : queryOld(api, account.accountId)
           ])

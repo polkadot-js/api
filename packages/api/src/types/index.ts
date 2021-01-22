@@ -81,7 +81,7 @@ export interface ApiInterfaceRx {
   hasSubscriptions: boolean;
   registry: Registry;
   runtimeMetadata: Metadata;
-  runtimeVersion?: RuntimeVersion;
+  runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs', RpcInterface>;

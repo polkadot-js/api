@@ -13,14 +13,18 @@ export * from './parachains/types';
 export * from './session/types';
 export * from './staking/types';
 
-export interface DeriveBalancesAccount {
-  accountId: AccountId;
-  accountNonce: Index;
+export interface DeriveBalancesAccountData {
   freeBalance: Balance;
   frozenFee: Balance;
   frozenMisc: Balance;
   reservedBalance: Balance;
   votingBalance: Balance;
+}
+
+export interface DeriveBalancesAccount extends DeriveBalancesAccountData {
+  accountId: AccountId;
+  accountNonce: Index;
+  additional: DeriveBalancesAccountData[];
 }
 
 export interface DeriveBalancesAll extends DeriveBalancesAccount {
