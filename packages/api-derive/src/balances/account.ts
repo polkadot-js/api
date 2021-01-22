@@ -55,15 +55,17 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
 }
 
 function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
-  return api.queryMulti<[Index, ...(AccountData[])]>([
-    [api.query.system.accountNonce, accountId],
-    ...modules.map((m): QueryableStorageMultiArg<'rxjs'> => [api.query[m].account, accountId])
-  ]).pipe(
-    map(([accountNonce, ...balances]): Result => [
-      accountNonce,
-      balances.map(({ feeFrozen, free, miscFrozen, reserved }) => [free, reserved, feeFrozen, miscFrozen])
-    ])
-  );
+  const balances = modules.map((m): QueryableStorageMultiArg<'rxjs'> => [api.query[m].account, accountId]);
+  const extract = (balances: AccountData[]) =>
+    balances.map(({ feeFrozen, free, miscFrozen, reserved }): BalanceResult => [free, reserved, feeFrozen, miscFrozen]);
+
+  return isFunction(api.query.system.account)
+    ? api.queryMulti<[AccountInfo, ...(AccountData[])]>([[api.query.system.account, accountId], ...balances]).pipe(
+      map(([{ nonce }, ...balances]): Result => [nonce, extract(balances)])
+    )
+    : api.queryMulti<[Index, ...(AccountData[])]>([[api.query.system.accountNonce, accountId], ...balances]).pipe(
+      map(([nonce, ...balances]): Result => [nonce, extract(balances)])
+    );
 }
 
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
