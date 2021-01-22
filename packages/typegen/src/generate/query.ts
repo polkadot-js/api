@@ -1,20 +1,18 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Metadata } from '@polkadot/metadata/Metadata';
 import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import type { Registry } from '@polkadot/types/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import { Metadata } from '@polkadot/metadata/Metadata';
-import staticData from '@polkadot/metadata/static';
-import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { stringCamelCase } from '@polkadot/util';
 
-import { compareName, createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, TypeImports, writeFile } from '../util';
+import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, TypeImports, writeFile } from '../util';
 import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]
@@ -131,14 +129,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultQuery (dest = 'packages/api/src/augment/query.ts', data = staticData, extraTypes: ExtraTypes = {}, isStrict = false): void {
-  const registry = new TypeRegistry();
-
-  registerDefinitions(registry, extraTypes);
-
-  const metadata = new Metadata(registry, data);
-
-  registry.setMetadata(metadata);
+export function generateDefaultQuery (dest = 'packages/api/src/augment/query.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false): void {
+  const { metadata, registry } = initMeta(data, extraTypes);
 
   return generateForMeta(registry, metadata, dest, extraTypes, isStrict);
 }

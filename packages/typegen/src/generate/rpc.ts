@@ -1,15 +1,15 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TypeRegistry } from '@polkadot/types/create';
 import type { Definitions } from '@polkadot/types/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 
-import { createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
 
 interface ItemDef {
   args: string;
@@ -143,9 +143,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 }
 
 export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', extraTypes: ExtraTypes = {}): void {
-  const registry = new TypeRegistry();
-
-  registerDefinitions(registry, extraTypes);
+  const { registry } = initMeta(undefined, extraTypes);
 
   generateRpcTypes(
     registry,

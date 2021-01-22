@@ -1,16 +1,14 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Metadata } from '@polkadot/metadata/Metadata';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import { Metadata } from '@polkadot/metadata/Metadata';
-import staticData from '@polkadot/metadata/static';
-import { TypeRegistry } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
-import { compareName, createImports, readTemplate, registerDefinitions, writeFile } from '../util';
+import { compareName, createImports, initMeta, readTemplate, writeFile } from '../util';
 
 const template = readTemplate('errors');
 const generateForMetaTemplate = Handlebars.compile(template);
@@ -52,14 +50,8 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultErrors (dest = 'packages/api/src/augment/errors.ts', data = staticData, extraTypes: ExtraTypes = {}, isStrict = false): void {
-  const registry = new TypeRegistry();
-
-  registerDefinitions(registry, extraTypes);
-
-  const metadata = new Metadata(registry, data);
-
-  registry.setMetadata(metadata);
+export function generateDefaultErrors (dest = 'packages/api/src/augment/errors.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false): void {
+  const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, isStrict);
 }
