@@ -50,7 +50,7 @@ function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (Balan
   return { allLocked, lockedBalance, lockedBreakdown, vestingLocked };
 }
 
-function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DeriveBalancesAll {
+function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, additional, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DeriveBalancesAll {
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
   // Calculate the vesting balances,
   //  - offset = balance locked at startingBlock
@@ -67,7 +67,7 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
   return {
     accountId,
     accountNonce,
-    additional: [],
+    additional,
     availableBalance,
     freeBalance,
     frozenFee,
