@@ -9,7 +9,6 @@ import { Json } from '../codec/Json';
 import { Option } from '../codec/Option';
 import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
-import { u8 } from '../primitive/U8';
 import { u32 } from '../primitive/U32';
 
 function createType (registry: Registry, type: string, value: unknown, asArray = true): Codec {
@@ -34,7 +33,7 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
       : Object.entries(value || {})
   ).reduce((all: Record<string, unknown>, [key, value]) => {
     all[key] = key === 'ss58Format'
-      ? createType(registry, 'Option<u8>', value, false)
+      ? createType(registry, 'Option<u32>', value, false)
       : key === 'tokenDecimals'
         ? createType(registry, 'Option<Vec<u32>>' as 'Vec<u32>', value)
         : key === 'tokenSymbol'
@@ -68,8 +67,8 @@ export class GenericChainProperties extends Json {
   /**
    * @description The chain ss58Format
    */
-  public get ss58Format (): Option<u8> {
-    return this.get('ss58Format') as Option<u8>;
+  public get ss58Format (): Option<u32> {
+    return this.get('ss58Format') as Option<u32>;
   }
 
   /**
