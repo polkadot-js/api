@@ -12,15 +12,11 @@ describe('ChainProperties', (): void => {
     ).toEqual(['ss58Format', 'tokenDecimals', 'tokenSymbol']);
   });
 
-  it('decodes from an actual object', (): void => {
-    const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', {
-      ss58Format: 2,
-      tokenDecimals: 15,
-      tokenSymbol: 'KSM'
-    });
+  it('decodes from an actual JSON', (): void => {
+    const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', JSON.parse('{"ss58Format":2,"tokenDecimals":12,"tokenSymbol":"KSM"}'));
 
     expect(ss58Format.unwrap().eq(2)).toBe(true);
-    expect(tokenDecimals.unwrap().eq([15])).toBe(true);
+    expect(tokenDecimals.unwrap().eq([12])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
   });
 

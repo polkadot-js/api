@@ -11,10 +11,10 @@ import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
 import { u32 } from '../primitive/U32';
 
-function createValue (registry: Registry, type: string, value: unknown, asArray = true): Codec {
+function createValue (registry: Registry, type: string, value: unknown, asArray = true): Option<Codec> {
   // We detect codec here as well - when found, generally this is constructed from itself
-  if (isFunction((value as Codec).toHuman) && (isFunction((value as Option<Codec>).unwrapOrDefault) || (!asArray || Array.isArray(value)))) {
-    return value as Codec;
+  if (isFunction((value as Option<Codec>).unwrapOrDefault)) {
+    return value as Option<Codec>;
   }
 
   return registry.createType(
