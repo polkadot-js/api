@@ -56,4 +56,32 @@ describe('ChainProperties', (): void => {
     expect(tokenDecimals.unwrap().eq([15])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
   });
+
+  it('has a sane toHuman', (): void => {
+    expect(
+      registry.createType('ChainProperties', {
+        ss58Format: 42,
+        tokenDecimals: registry.createType('u32', 9),
+        tokenSymbol: ['Unit', 'Aux1']
+      }).toHuman()
+    ).toEqual({
+      ss58Format: '42',
+      tokenDecimals: ['9'],
+      tokenSymbol: ['Unit', 'Aux1']
+    });
+  });
+
+  it('has a sane toHuman', (): void => {
+    expect(
+      registry.createType('ChainProperties', {
+        ss58Format: 2,
+        tokenDecimals: [registry.createType('u32', 12), 8],
+        tokenSymbol: ['KSM', 'BTC']
+      }).toHuman()
+    ).toEqual({
+      ss58Format: '2',
+      tokenDecimals: ['12', '8'],
+      tokenSymbol: ['KSM', 'BTC']
+    });
+  });
 });

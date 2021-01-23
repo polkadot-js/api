@@ -13,7 +13,7 @@ import { u32 } from '../primitive/U32';
 
 function createValue (registry: Registry, type: string, value: unknown, asArray = true): Codec {
   // We detect codec here as well - when found, generally this is constructed from itself
-  if (isFunction((value as Codec).toHuman)) {
+  if (isFunction((value as Codec).toHuman) && (isFunction((value as Option<Codec>).unwrapOrDefault) || (!asArray || Array.isArray(value)))) {
     return value as Codec;
   }
 
@@ -23,7 +23,7 @@ function createValue (registry: Registry, type: string, value: unknown, asArray 
       ? isNull(value)
         ? null
         : Array.isArray(value)
-          ? value.map((v) => (v as number).toString())
+          ? value
           : [value]
       : value
   );
