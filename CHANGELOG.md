@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 3.6.x
+
+Upgrade priority: Medium if not already on at least 3.3.1. The next upgrade of Kusama requires it.
+
+- **Breaking change** To support chains with multiple tokens, such as bridges, the `ChainProperties` type now returns an array of tokens and decimals (instead of singular values) in the `token{Decimals, Symbol}` getters. Additionally, this means that the `registry` interfaces has been changes, to `registry.chainDecimals: number[]` and `registry.chainTokens: string[]`. Where used the `[0]` index will return the first value if only interested in a single, for a straight conversion.
+
+Changes:
+
+- Cater for multiple tokens and decimals in the chain the chain `system.properties` (as per the chain specification)
+- Add a `instances: { [key]: [module1, module2] }` definition in teh bundle types, allowing for multiple instances (e.g. Balances)
+- Adjust the `api-derive` for balances to retrieve values via `instances` as well as across multiple modules
+
+
 ## 3.5.1 Jan 18, 2020
 
 Upgrade priority: Low. Recommended for parachain developers.
