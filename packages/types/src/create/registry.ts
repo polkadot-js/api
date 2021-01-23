@@ -280,8 +280,12 @@ export class TypeRegistry implements Registry {
       : undefined;
   }
 
-  public getDefinition (name: string): string | undefined {
-    return this.#definitions.get(name);
+  public getDefinition (typeName: string): string | undefined {
+    return this.#definitions.get(typeName);
+  }
+
+  public getModuleInstances (specName: string, moduleName: string): string[] | undefined {
+    return this.#knownTypes?.typesBundle?.spec?.[specName]?.instances?.[moduleName];
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
