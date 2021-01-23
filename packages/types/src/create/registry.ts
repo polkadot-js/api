@@ -160,16 +160,16 @@ export class TypeRegistry implements Registry {
     return this;
   }
 
-  public get chainDecimals (): number {
+  public get chainDecimals (): number[] {
     if (this.#chainProperties?.tokenDecimals.isSome) {
       const allDecimals = this.#chainProperties.tokenDecimals.unwrap();
 
       if (allDecimals.length) {
-        return allDecimals[0].toNumber();
+        return allDecimals.map((b) => b.toNumber());
       }
     }
 
-    return 12;
+    return [12];
   }
 
   public get chainSS58 (): number | undefined {
@@ -178,16 +178,16 @@ export class TypeRegistry implements Registry {
       : undefined;
   }
 
-  public get chainToken (): string {
+  public get chainToken (): string[] {
     if (this.#chainProperties?.tokenSymbol.isSome) {
       const allTokens = this.#chainProperties.tokenSymbol.unwrap();
 
       if (allTokens.length) {
-        return allTokens[0].toString();
+        return allTokens.map((s) => s.toString());
       }
     }
 
-    return formatBalance.getDefaults().unit;
+    return [formatBalance.getDefaults().unit];
   }
 
   public get knownTypes (): RegisteredTypes {

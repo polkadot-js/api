@@ -81,9 +81,9 @@ export interface RegisteredTypes {
 }
 
 export interface Registry {
-  readonly chainDecimals: number;
+  readonly chainDecimals: number[];
   readonly chainSS58: number | undefined;
-  readonly chainToken: string;
+  readonly chainToken: string[];
   readonly knownTypes: RegisteredTypes;
   readonly signedExtensions: string[];
 
