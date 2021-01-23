@@ -3,7 +3,7 @@
 
 import type { Codec, Registry } from '../types';
 
-import { isFunction, isNull, isUndefined } from '@polkadot/util';
+import { isFunction, isNull } from '@polkadot/util';
 
 import { Json } from '../codec/Json';
 import { Option } from '../codec/Option';
@@ -40,8 +40,8 @@ function decodeValue (registry: Registry, key: string, value: unknown): unknown 
 }
 
 function decode (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
-  // allow decoding from a map as well (ourselves)
-  const mapped = (
+  return (
+    // allow decoding from a map as well (ourselves)
     value && isFunction((value as Map<string, unknown>).entries)
       ? [...(value as Map<string, unknown>).entries()]
       : Object.entries(value || {})
@@ -49,22 +49,11 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
     all[key] = decodeValue(registry, key, value);
 
     return all;
-  }, {});
-
-  // fill in the defaults
-  if (isUndefined(mapped.ss58Format)) {
-    mapped.ss58Format = registry.createType('Option<u8>');
-  }
-
-  if (isUndefined(mapped.tokenDecimals)) {
-    mapped.tokenDecimals = registry.createType('Option<Vec<u8>>' as 'Vec<u8>');
-  }
-
-  if (isUndefined(mapped.tokenSymbol)) {
-    mapped.tokenSymbol = registry.createType('Option<Vec<Text>>' as 'Vec<Text>');
-  }
-
-  return mapped;
+  }, {
+    ss58Format: registry.createType('Option<u8>'),
+    tokenDecimals: registry.createType('Option<Vec<u8>>' as 'Vec<u8>'),
+    tokenSymbol: registry.createType('Option<Vec<Text>>' as 'Vec<Text>')
+  });
 }
 
 export class GenericChainProperties extends Json {
