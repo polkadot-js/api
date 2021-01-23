@@ -27,16 +27,19 @@ export interface DeriveBalancesAccount extends DeriveBalancesAccountData {
   additional: DeriveBalancesAccountData[];
 }
 
-export interface DeriveBalancesAll extends DeriveBalancesAccount {
-  isVesting: boolean;
+export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData {
+  availableBalance: Balance;
   lockedBalance: Balance;
   lockedBreakdown: (BalanceLock | BalanceLockTo212)[];
-  availableBalance: Balance;
-  votingBalance: Balance;
+  vestingLocked: Balance;
+}
+
+export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData {
+  additional: DeriveBalancesAllAccountData[];
+  isVesting: boolean;
   vestedBalance: Balance;
   vestedClaimable: Balance;
   vestingEndBlock: BlockNumber;
-  vestingLocked: Balance;
   vestingPerBlock: Balance;
   vestingTotal: Balance;
 }
