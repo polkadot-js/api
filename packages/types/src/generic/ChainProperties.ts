@@ -9,7 +9,7 @@ import { Json } from '../codec/Json';
 import { Option } from '../codec/Option';
 import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
-import { u8 } from '../primitive/U8';
+import { u32 } from '../primitive/U32';
 
 function createValue (registry: Registry, type: string, value: unknown, asArray = true): Codec {
   // We detect codec here as well - when found, generally this is constructed from itself
@@ -18,12 +18,12 @@ function createValue (registry: Registry, type: string, value: unknown, asArray 
   }
 
   return registry.createType(
-    type as 'Option<u8>',
+    type as 'Option<u32>',
     asArray
       ? isNull(value)
         ? null
         : Array.isArray(value)
-          ? value
+          ? value.map((v) => (v as number).toString())
           : [value]
       : value
   );
@@ -31,9 +31,9 @@ function createValue (registry: Registry, type: string, value: unknown, asArray 
 
 function decodeValue (registry: Registry, key: string, value: unknown): unknown {
   return key === 'ss58Format'
-    ? createValue(registry, 'Option<u8>', value, false)
+    ? createValue(registry, 'Option<u32>', value, false)
     : key === 'tokenDecimals'
-      ? createValue(registry, 'Option<Vec<u8>>' as 'Vec<u8>', value)
+      ? createValue(registry, 'Option<Vec<u32>>' as 'Vec<u32>', value)
       : key === 'tokenSymbol'
         ? createValue(registry, 'Option<Vec<Text>>' as 'Vec<Text>', value)
         : value;
@@ -50,8 +50,8 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 
     return all;
   }, {
-    ss58Format: registry.createType('Option<u8>'),
-    tokenDecimals: registry.createType('Option<Vec<u8>>' as 'Vec<u8>'),
+    ss58Format: registry.createType('Option<u32>'),
+    tokenDecimals: registry.createType('Option<Vec<u32>>' as 'Vec<u32>'),
     tokenSymbol: registry.createType('Option<Vec<Text>>' as 'Vec<Text>')
   });
 }
@@ -64,15 +64,15 @@ export class GenericChainProperties extends Json {
   /**
    * @description The chain ss58Format
    */
-  public get ss58Format (): Option<u8> {
-    return this.get('ss58Format') as Option<u8>;
+  public get ss58Format (): Option<u32> {
+    return this.get('ss58Format') as Option<u32>;
   }
 
   /**
    * @description The decimals for each of the tokens
    */
-  public get tokenDecimals (): Option<Vec<u8>> {
-    return this.get('tokenDecimals') as Option<Vec<u8>>;
+  public get tokenDecimals (): Option<Vec<u32>> {
+    return this.get('tokenDecimals') as Option<Vec<u32>>;
   }
 
   /**
