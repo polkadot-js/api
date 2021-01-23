@@ -11,34 +11,42 @@ import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
 import { u8 } from '../primitive/U8';
 
-function createType (registry: Registry, type: string, value: unknown, asArray = true): Codec {
+function createValue (registry: Registry, type: string, value: unknown, asArray = true): Codec {
   // We detect codec here as well - when found, generally this is constructed from itself
-  return isFunction((value as Codec).toHuman)
-    ? value as Codec
-    : registry.createType(type as 'Option<u8>', asArray
+  if (isFunction((value as Codec).toHuman)) {
+    return value as Codec;
+  }
+
+  return registry.createType(
+    type as 'Option<u8>',
+    asArray
       ? isNull(value)
         ? null
         : Array.isArray(value)
           ? value
           : [value]
       : value
-    );
+  );
+}
+
+function decodeValue (registry: Registry, key: string, value: unknown): unknown {
+  return key === 'ss58Format'
+    ? createValue(registry, 'Option<u8>', value, false)
+    : key === 'tokenDecimals'
+      ? createValue(registry, 'Option<Vec<u8>>' as 'Vec<u8>', value)
+      : key === 'tokenSymbol'
+        ? createValue(registry, 'Option<Vec<Text>>' as 'Vec<Text>', value)
+        : value;
 }
 
 function decode (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
   // allow decoding from a map as well (ourselves)
   const mapped = (
-    value && (value as Map<string, unknown>).entries
+    value && isFunction((value as Map<string, unknown>).entries)
       ? [...(value as Map<string, unknown>).entries()]
       : Object.entries(value || {})
   ).reduce((all: Record<string, unknown>, [key, value]) => {
-    all[key] = key === 'ss58Format'
-      ? createType(registry, 'Option<u8>', value, false)
-      : key === 'tokenDecimals'
-        ? createType(registry, 'Option<Vec<u8>>' as 'Vec<u8>', value)
-        : key === 'tokenSymbol'
-          ? createType(registry, 'Option<Vec<Text>>' as 'Vec<Text>', value)
-          : value;
+    all[key] = decodeValue(registry, key, value);
 
     return all;
   }, {});
