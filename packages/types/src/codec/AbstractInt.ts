@@ -181,7 +181,7 @@ export abstract class AbstractInt extends BN implements Codec {
         ? 'everything'
         // FIXME In the case of multiples we need some way of detecting which instance this belongs
         // to. as it stands we will always format (incorrectly) against the first token defined
-        : formatBalance(this, { decimals: this.registry.chainDecimals[0], withSi: true, withUnit: this.registry.chainToken[0] });
+        : formatBalance(this, { decimals: this.registry.chainDecimals[0], withSi: true, withUnit: this.registry.chainTokens[0] });
     }
 
     const [, divisor] = FORMATTERS.find(([type]) => type === rawType) || [];

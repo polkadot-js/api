@@ -178,7 +178,7 @@ export class TypeRegistry implements Registry {
       : undefined;
   }
 
-  public get chainToken (): string[] {
+  public get chainTokens (): string[] {
     if (this.#chainProperties?.tokenSymbol.isSome) {
       const allTokens = this.#chainProperties.tokenSymbol.unwrap();
 
