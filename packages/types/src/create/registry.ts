@@ -104,10 +104,9 @@ function extractProperties (registry: Registry, metadata: Metadata): ChainProper
     return original;
   }
 
-  return registry.createType('ChainProperties', {
-    ...(original || {}),
-    ss58Format
-  });
+  const { tokenDecimals, tokenSymbol } = original || {};
+
+  return registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
 }
 
 export class TypeRegistry implements Registry {
