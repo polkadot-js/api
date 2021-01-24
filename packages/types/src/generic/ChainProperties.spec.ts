@@ -22,12 +22,11 @@ describe('ChainProperties', (): void => {
 
   it('decodes from an actual object (multiple tokens)', (): void => {
     const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', {
-      ss58Format: 27,
       tokenDecimals: [10, 12],
       tokenSymbol: ['pDOT', 'pKSM']
     });
 
-    expect(ss58Format.unwrap().eq(27)).toBe(true);
+    expect(ss58Format.isNone).toBe(true);
     expect(tokenDecimals.unwrap().eq([10, 12])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['pDOT', 'pKSM'])).toBe(true);
   });

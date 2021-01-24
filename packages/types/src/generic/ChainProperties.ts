@@ -3,7 +3,7 @@
 
 import type { Codec, Registry } from '../types';
 
-import { isFunction, isNull } from '@polkadot/util';
+import { isFunction, isNull, isUndefined } from '@polkadot/util';
 
 import { Json } from '../codec/Json';
 import { Option } from '../codec/Option';
@@ -13,14 +13,14 @@ import { u32 } from '../primitive/U32';
 
 function createValue (registry: Registry, type: string, value: unknown, asArray = true): Option<Codec> {
   // We detect codec here as well - when found, generally this is constructed from itself
-  if (isFunction((value as Option<Codec>).unwrapOrDefault)) {
+  if (value && isFunction((value as Option<Codec>).unwrapOrDefault)) {
     return value as Option<Codec>;
   }
 
   return registry.createType(
     type as 'Option<u32>',
     asArray
-      ? isNull(value)
+      ? isNull(value) || isUndefined(value)
         ? null
         : Array.isArray(value)
           ? value
