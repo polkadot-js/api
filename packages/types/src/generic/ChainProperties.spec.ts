@@ -22,6 +22,7 @@ describe('ChainProperties', (): void => {
 
   it('decodes from an actual object (multiple tokens)', (): void => {
     const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', {
+      ss58Format: undefined,
       tokenDecimals: [10, 12],
       tokenSymbol: ['pDOT', 'pKSM']
     });
