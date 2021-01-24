@@ -8,6 +8,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 import EventEmitter from 'eventemitter3';
 
 import { assert, isChildClass, isNull, isUndefined, logger } from '@polkadot/util';
+import { xglobal } from '@polkadot/x-global';
 import { WebSocket } from '@polkadot/x-ws';
 
 import { RpcCoder } from '../coder';
@@ -160,7 +161,7 @@ export class WsProvider implements ProviderInterface {
   public async connect (): Promise<void> {
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
-      this.#websocket = typeof global.WebSocket !== 'undefined' && isChildClass(global.WebSocket, WebSocket)
+      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket, WebSocket)
         ? new WebSocket(this.#endpoints[this.#endpointIndex])
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
