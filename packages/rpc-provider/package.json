@@ -3,7 +3,6 @@
   "version": "3.5.2-15",
   "description": "Transport providers for the API",
   "main": "index.js",
-  "module": "index.mjs",
   "sideEffects": false,
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
@@ -15,15 +14,15 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@polkadot/types": "3.5.2-15",
-    "@polkadot/util": "^5.4.1",
-    "@polkadot/util-crypto": "^5.4.1",
-    "@polkadot/x-fetch": "^5.4.1",
-    "@polkadot/x-ws": "^5.4.1",
+    "@polkadot/util": "^5.4.2",
+    "@polkadot/util-crypto": "^5.4.2",
+    "@polkadot/x-fetch": "^5.4.2",
+    "@polkadot/x-ws": "^5.4.2",
     "bn.js": "^4.11.9",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^5.4.1",
+    "@polkadot/keyring": "^5.4.2",
     "@polkadot/metadata": "3.5.2-15",
     "mock-socket": "^9.0.3",
     "nock": "^13.0.6"

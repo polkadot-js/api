@@ -3,7 +3,6 @@
   "version": "3.5.2-15",
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "main": "index.js",
-  "module": "index.mjs",
   "sideEffects": false,
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
@@ -16,8 +15,8 @@
     "@babel/runtime": "^7.12.5",
     "@polkadot/api": "3.5.2-15",
     "@polkadot/types": "3.5.2-15",
-    "@polkadot/util": "^5.4.1",
-    "@polkadot/x-rxjs": "5.4.1",
+    "@polkadot/util": "^5.4.2",
+    "@polkadot/x-rxjs": "^5.4.2",
     "bn.js": "^4.11.9"
   }
 }
