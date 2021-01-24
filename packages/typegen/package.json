@@ -3,7 +3,6 @@
   "version": "3.5.2-15",
   "description": "Type generation scripts",
   "main": "index.js",
-  "module": "index.mjs",
   "sideEffects": false,
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
@@ -27,7 +26,7 @@
     "@polkadot/metadata": "3.5.2-15",
     "@polkadot/rpc-provider": "3.5.2-15",
     "@polkadot/types": "3.5.2-15",
-    "@polkadot/util": "^5.4.1",
+    "@polkadot/util": "^5.4.2",
     "handlebars": "^4.7.6",
     "websocket": "^1.0.33",
     "yargs": "^16.2.0"
