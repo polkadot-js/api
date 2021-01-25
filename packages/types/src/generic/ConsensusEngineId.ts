@@ -88,6 +88,10 @@ export class GenericConsensusEngineId extends u32 {
     return this.registry.createType('AccountId', bytes);
   }
 
+  private _getH160Author (bytes: Bytes): AccountId {
+    return this.registry.createType('AccountId', bytes);
+  }
+
   /**
    * @description From the input bytes, decode into an author
    */
@@ -102,6 +106,11 @@ export class GenericConsensusEngineId extends u32 {
 
     if (this.isPow) {
       return this._getPowAuthor(bytes);
+    }
+
+    // Moonbeam is neither Aura nor Babe nor Pow and uses h160 addresses
+    if (bytes.length === 20) {
+      return this._getH160Author(bytes);
     }
 
     return undefined;
