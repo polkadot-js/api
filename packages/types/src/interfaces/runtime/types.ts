@@ -258,6 +258,11 @@ export interface SignedBlock extends Struct {
 /** @name StorageData */
 export interface StorageData extends Bytes {}
 
+/** @name StorageProof */
+export interface StorageProof extends Struct {
+  readonly trieNodes: Vec<Bytes>;
+}
+
 /** @name TransactionPriority */
 export interface TransactionPriority extends u64 {}
 

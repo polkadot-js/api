@@ -38,7 +38,7 @@ import type { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/ty
 import type { AccountStatus, AccountValidity } from '@polkadot/types/interfaces/purchase';
 import type { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import type { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H512, H64, Hash, Header, I32F32, Index, IndicesLookupSource, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, OpaqueCall, Origin, OriginCaller, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, TransactionPriority, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H512, H64, Hash, Header, I32F32, Index, IndicesLookupSource, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, OpaqueCall, Origin, OriginCaller, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, StorageData, StorageProof, TransactionPriority, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray, SiTypeDefComposite, SiTypeDefPrimitive, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '@polkadot/types/interfaces/scaleInfo';
 import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, ScheduledTo254, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys7, SessionKeys8, SessionKeys9, ValidatorCount } from '@polkadot/types/interfaces/session';
@@ -762,6 +762,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<StorageMetadataV11>': Option<StorageMetadataV11>;
     'Option<StorageMetadataV12>': Option<StorageMetadataV12>;
     'Option<StorageMetadataV9>': Option<StorageMetadataV9>;
+    'Option<StorageProof>': Option<StorageProof>;
     'Option<StoredPendingChange>': Option<StoredPendingChange>;
     'Option<StoredState>': Option<StoredState>;
     'Option<StrikeCount>': Option<StrikeCount>;
@@ -1482,6 +1483,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<StorageMetadataV11>': Vec<StorageMetadataV11>;
     'Vec<StorageMetadataV12>': Vec<StorageMetadataV12>;
     'Vec<StorageMetadataV9>': Vec<StorageMetadataV9>;
+    'Vec<StorageProof>': Vec<StorageProof>;
     'Vec<StoredPendingChange>': Vec<StoredPendingChange>;
     'Vec<StoredState>': Vec<StoredState>;
     'Vec<StrikeCount>': Vec<StrikeCount>;
@@ -2202,6 +2204,7 @@ declare module '@polkadot/types/types/registry' {
     StorageMetadataV11: StorageMetadataV11;
     StorageMetadataV12: StorageMetadataV12;
     StorageMetadataV9: StorageMetadataV9;
+    StorageProof: StorageProof;
     StoredPendingChange: StoredPendingChange;
     StoredState: StoredState;
     StrikeCount: StrikeCount;
