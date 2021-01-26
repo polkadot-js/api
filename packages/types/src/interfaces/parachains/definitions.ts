@@ -103,7 +103,8 @@ export default {
       persistedValidationDataHash: 'Hash',
       povHash: 'Hash',
       erasureRoot: 'Hash',
-      signature: 'CollatorSignature'
+      signature: 'CollatorSignature',
+      paraHead: 'Hash'
     },
     CandidateHash: 'Hash',
     CandidatePendingAvailability: {

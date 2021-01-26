@@ -176,6 +176,7 @@ export interface CandidateDescriptor extends Struct {
   readonly povHash: Hash;
   readonly erasureRoot: Hash;
   readonly signature: CollatorSignature;
+  readonly paraHead: Hash;
 }
 
 /** @name CandidateHash */
