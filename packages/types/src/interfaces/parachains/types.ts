@@ -4,7 +4,7 @@
 import type { BTreeMap, BitVec, Bytes, Compact, Enum, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
-import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** @name AbridgedCandidateReceipt */
@@ -176,6 +176,7 @@ export interface CandidateDescriptor extends Struct {
   readonly povHash: Hash;
   readonly erasureRoot: Hash;
   readonly signature: CollatorSignature;
+  readonly paraHead: Hash;
 }
 
 /** @name CandidateHash */
@@ -442,6 +443,15 @@ export interface MessageIngestionType extends Struct {
   readonly downwardMessages: Vec<InboundDownwardMessage>;
   readonly horizontalMessages: BTreeMap<ParaId, InboundHrmpMessages>;
 }
+
+/** @name MessagingStateSnapshot */
+export interface MessagingStateSnapshot extends Struct {
+  readonly relayDispatchQueueSize: ITuple<[u32, u32]>;
+  readonly egressChannels: Vec<MessagingStateSnapshotEgressEntry>;
+}
+
+/** @name MessagingStateSnapshotEgressEntry */
+export interface MessagingStateSnapshotEgressEntry extends ITuple<[ParaId, AbridgedHrmpChannel]> {}
 
 /** @name MultiAsset */
 export interface MultiAsset extends Enum {
@@ -717,6 +727,14 @@ export interface Statement extends Enum {
 /** @name SubId */
 export interface SubId extends u32 {}
 
+/** @name SystemInherentData */
+export interface SystemInherentData extends Struct {
+  readonly pvalidationData: PersistedValidationData;
+  readonly relayChainState: StorageProof;
+  readonly downwardMessages: Vec<InboundDownwardMessage>;
+  readonly horizontalMessages: BTreeMap<ParaId, VecInboundHrmpMessage>;
+}
+
 /** @name TeleportAsset */
 export interface TeleportAsset extends Struct {
   readonly assets: Vec<MultiAsset>;
@@ -774,6 +792,9 @@ export interface ValidityAttestation extends Enum {
   readonly isExplicit: boolean;
   readonly asExplicit: ValidatorSignature;
 }
+
+/** @name VecInboundHrmpMessage */
+export interface VecInboundHrmpMessage extends Vec<InboundHrmpMessage> {}
 
 /** @name VersionedMultiAsset */
 export interface VersionedMultiAsset extends Enum {

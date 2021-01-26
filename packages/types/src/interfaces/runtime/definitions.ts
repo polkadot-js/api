@@ -118,6 +118,9 @@ export default {
       justification: 'Justification'
     },
     StorageData: 'Bytes',
+    StorageProof: {
+      trieNodes: 'Vec<Bytes>'
+    },
     TransactionPriority: 'u64',
     ValidatorId: 'AccountId',
     ValidatorIdOf: 'ValidatorId',
