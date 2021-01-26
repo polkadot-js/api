@@ -520,6 +520,18 @@ export default {
         InitiateTeleport: 'InitiateTeleport',
         QueryHolding: 'QueryHolding'
       }
-    }
+    },
+    MessagingStateSnapshot: {
+      relayDispatchQueueSize: '(u32, u32)',
+      egressChannels: 'Vec<MessagingStateSnapshotEgressEntry>'
+    },
+    MessagingStateSnapshotEgressEntry: '(ParaId, AbridgedHrmpChannel)',
+    SystemInherentData: {
+      pvalidationData: 'PersistedValidationData',
+      relayChainState: 'StorageProof',
+      downwardMessages: 'Vec<InboundDownwardMessage>',
+      horizontalMessages: 'BTreeMap<ParaId, VecInboundHrmpMessage>'
+    },
+    VecInboundHrmpMessage: 'Vec<InboundHrmpMessage>'
   }
 } as Definitions;
