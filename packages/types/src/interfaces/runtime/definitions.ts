@@ -119,7 +119,7 @@ export default {
     },
     StorageData: 'Bytes',
     StorageProof: {
-      trieNodes: 'Vec<Bytes>',
+      trieNodes: 'Vec<Bytes>'
     },
     TransactionPriority: 'u64',
     ValidatorId: 'AccountId',
