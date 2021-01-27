@@ -10,9 +10,9 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
-  Address: 'AccountId',
+  Address: 'MultiAddress',
   FullIdentification: '()', // No staking, only session (as per config)
-  LookupSource: 'AccountId',
+  LookupSource: 'MultiAddress',
   Keys: 'SessionKeys6'
 };
 
@@ -21,7 +21,9 @@ const versioned: OverrideVersionedType[] = [
     minmax: [0, 9],
     types: {
       ...sharedTypes,
+      Address: 'AccountId',
       CompactAssignments: 'CompactAssignmentsTo257',
+      LookupSource: 'AccountId',
       RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257',
       Keys: 'SessionKeys5'
@@ -31,11 +33,21 @@ const versioned: OverrideVersionedType[] = [
     minmax: [10, 12],
     types: {
       ...sharedTypes,
-      Keys: 'SessionKeys5'
+      Address: 'AccountId',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   },
   {
-    minmax: [13, undefined],
+    minmax: [13, 201],
+    types: {
+      ...sharedTypes,
+      Address: 'AccountId',
+      LookupSource: 'AccountId'
+    }
+  },
+  {
+    minmax: [202, undefined],
     types: {
       ...sharedTypes
     }
