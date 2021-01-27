@@ -46,16 +46,23 @@ function delegateLocks (api: ApiInterfaceRx, { balance, conviction, target }: Vo
         referendumId,
         unlockAt: unlockAt.isZero()
           ? unlockAt
-          : referendumEnd.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[conviction.index])),
-        vote: api.registry.createType('Vote', { aye: vote.isAye, conviction })
+          : referendumEnd?.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[conviction.index])) || new BN(0),
+        vote: api.registry.createType('Vote', { aye: vote?.isAye, conviction })
       }))
     )
   );
 }
 
-function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<DeriveDemocracyLock[]> {
-  if (!votes.length) {
+function directLocks (api: ApiInterfaceRx, { prior, votes }: VotingDirect): Observable<DeriveDemocracyLock[]> {
+  if (!votes.length && !prior.length) {
     return of([]);
+  }
+
+  if (prior.length) {
+    return of([{
+      balance: prior[1],
+      unlockAt: prior[0]
+    }]);
   }
 
   return api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo | ReferendumInfoTo239>>(votes.map(([referendumId]) => referendumId)).pipe(

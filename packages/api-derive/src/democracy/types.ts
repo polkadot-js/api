@@ -7,12 +7,12 @@ import type { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal, Refere
 
 export interface DeriveDemocracyLock {
   balance: Balance;
-  isDelegated: boolean;
-  isFinished: boolean;
-  referendumEnd: BN;
-  referendumId: ReferendumIndex;
+  isDelegated?: boolean;
+  isFinished?: boolean;
+  referendumEnd?: BN;
+  referendumId?: ReferendumIndex;
   unlockAt: BN;
-  vote: Vote;
+  vote?: Vote;
 }
 
 export interface DeriveProposalImage {
