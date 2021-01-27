@@ -548,7 +548,6 @@ export interface ParachainDispatchOrigin extends Enum {
 /** @name ParachainProposal */
 export interface ParachainProposal extends Struct {
   readonly proposer: AccountId;
-  readonly validationCode: ValidationCode;
   readonly genesisHead: HeadData;
   readonly validators: Vec<ValidatorId>;
   readonly name: Bytes;
