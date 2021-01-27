@@ -13,7 +13,6 @@ import slotTypes from './slots';
 const proposeTypes = {
   ParachainProposal: {
     proposer: 'AccountId',
-    validationCode: 'ValidationCode',
     genesisHead: 'HeadData',
     validators: 'Vec<ValidatorId>',
     name: 'Bytes',
