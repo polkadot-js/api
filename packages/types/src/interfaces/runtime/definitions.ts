@@ -117,6 +117,7 @@ export default {
       block: 'Block',
       justification: 'Justification'
     },
+    Slot: 'u64',
     StorageData: 'Bytes',
     StorageProof: {
       trieNodes: 'Vec<Bytes>'
