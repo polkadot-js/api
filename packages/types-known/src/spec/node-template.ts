@@ -7,14 +7,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, 99],
-    types: {
-      Address: 'AccountId',
-      LookupSource: 'AccountId'
-    }
-  },
-  {
-    minmax: [100, undefined],
+    minmax: [0, undefined],
     types: {
       Address: 'MultiAddress',
       LookupSource: 'MultiAddress'

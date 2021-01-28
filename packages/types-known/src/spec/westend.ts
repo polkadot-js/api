@@ -6,21 +6,28 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
-  AccountInfo: 'AccountInfoWithRefCount',
-  Address: 'AccountId',
+  AccountInfo: 'AccountInfoWithProviders',
+  Address: 'MultiAddress',
   Keys: 'SessionKeys5',
-  LookupSource: 'AccountId',
+  LookupSource: 'MultiAddress',
   ProxyType: {
     // was: SudoBalances
     _enum: ['Any', 'NonTransfer', 'Staking', 'Unused', 'IdentityJudgement']
   }
 };
 
+const addrAccountIdTypes = {
+  AccountInfo: 'AccountInfoWithRefCount',
+  Address: 'AccountId',
+  LookupSource: 'AccountId'
+}
+
 const versioned: OverrideVersionedType[] = [
   {
     minmax: [1, 2],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
@@ -33,6 +40,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [3, 22],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
@@ -43,6 +51,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [23, 42],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
@@ -52,11 +61,19 @@ const versioned: OverrideVersionedType[] = [
     minmax: [43, 44],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       RefCount: 'RefCountTo259'
     }
   },
   {
-    minmax: [45, undefined],
+    minmax: [45, 47],
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes
+    }
+  },
+  {
+    minmax: [48, undefined],
     types: {
       ...sharedTypes
     }
