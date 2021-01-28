@@ -17,7 +17,7 @@ export interface AccountIdOf extends AccountId {}
 export interface AccountIndex extends GenericAccountIndex {}
 
 /** @name Address */
-export interface Address extends LookupSource {}
+export interface Address extends MultiAddress {}
 
 /** @name AssetId */
 export interface AssetId extends u32 {}
@@ -157,7 +157,7 @@ export interface KeyValue extends ITuple<[StorageKey, StorageData]> {}
 export interface LockIdentifier extends U8aFixed {}
 
 /** @name LookupSource */
-export interface LookupSource extends IndicesLookupSource {}
+export interface LookupSource extends MultiAddress {}
 
 /** @name LookupTarget */
 export interface LookupTarget extends AccountId {}
