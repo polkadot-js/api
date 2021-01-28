@@ -255,6 +255,9 @@ export interface SignedBlock extends Struct {
   readonly justification: Justification;
 }
 
+/** @name Slot */
+export interface Slot extends u64 {}
+
 /** @name StorageData */
 export interface StorageData extends Bytes {}
 
