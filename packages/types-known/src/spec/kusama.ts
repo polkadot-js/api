@@ -163,8 +163,8 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [2025, 2027],
     types: {
-      ...addrAccountIdTypes,
-      ...sharedTypes
+      ...sharedTypes,
+      ...addrAccountIdTypes
     }
   },
   {
