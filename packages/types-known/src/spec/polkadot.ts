@@ -20,7 +20,7 @@ const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
   LookupSource: 'AccountId'
-}
+};
 
 // these are override types for Polkadot
 const versioned: OverrideVersionedType[] = [

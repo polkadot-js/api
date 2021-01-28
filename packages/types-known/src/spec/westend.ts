@@ -20,7 +20,7 @@ const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
   LookupSource: 'AccountId'
-}
+};
 
 const versioned: OverrideVersionedType[] = [
   {
