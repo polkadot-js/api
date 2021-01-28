@@ -6,19 +6,25 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
-  AccountInfo: 'AccountInfoWithRefCount',
-  Address: 'AccountId',
+  AccountInfo: 'AccountInfoWithProviders',
+  Address: 'MultiAddress',
   Keys: 'SessionKeys5',
-  LookupSource: 'AccountId',
+  LookupSource: 'MultiAddress',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement']
   }
 };
 
-const indicesTypes = {
+const addrIndicesTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'LookupSource',
   LookupSource: 'IndicesLookupSource'
+};
+
+const addrAccountIdTypes = {
+  AccountInfo: 'AccountInfoWithRefCount',
+  Address: 'AccountId',
+  LookupSource: 'AccountId'
 };
 
 const versioned: OverrideVersionedType[] = [
@@ -26,7 +32,7 @@ const versioned: OverrideVersionedType[] = [
     // 1020 is first CC3
     minmax: [1019, 1031],
     types: {
-      ...indicesTypes,
+      ...addrIndicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchError: 'DispatchErrorTo198',
@@ -46,7 +52,7 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [1032, 1042],
     types: {
-      ...indicesTypes,
+      ...addrIndicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
@@ -66,7 +72,7 @@ const versioned: OverrideVersionedType[] = [
     // actual at 1045 (1043-1044 is dev)
     minmax: [1043, 1045],
     types: {
-      ...indicesTypes,
+      ...addrIndicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
@@ -86,6 +92,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
@@ -101,6 +108,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1055, 1056],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Multiplier: 'Fixed64',
@@ -115,6 +123,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1057, 1061],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       OpenTip: 'OpenTipTo225',
@@ -126,6 +135,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [1062, 2012],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
@@ -136,6 +146,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [2013, 2022],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       RefCount: 'RefCountTo259',
       RewardDestination: 'RewardDestinationTo257'
@@ -145,11 +156,19 @@ const versioned: OverrideVersionedType[] = [
     minmax: [2023, 2024],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       RefCount: 'RefCountTo259'
     }
   },
   {
-    minmax: [2025, undefined],
+    minmax: [2025, 2027],
+    types: {
+      ...addrAccountIdTypes,
+      ...sharedTypes
+    }
+  },
+  {
+    minmax: [2028, undefined],
     types: {
       ...sharedTypes
     }
