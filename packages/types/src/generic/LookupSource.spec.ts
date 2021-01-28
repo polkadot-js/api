@@ -30,7 +30,7 @@ describe('LookupSource', (): void => {
   describe('decoding', (): void => {
     testDecode(
       'Address',
-      registry.createType('LookupSource', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
+      registry.createType('IndicesLookupSource', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
@@ -40,7 +40,7 @@ describe('LookupSource', (): void => {
     );
     testDecode(
       'AccountIndex (mixed prefixes)',
-      registry.createType('LookupSource', '2jpAFn'),
+      registry.createType('IndicesLookupSource', '2jpAFn'),
       // NOTE Expected adress here is encoded with prefix 42, input above with 68
       '25GUyv'
     );
@@ -95,7 +95,7 @@ describe('LookupSource', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: string | Uint8Array): void =>
       it(`can encode ${to}`, (): void => {
-        const a = registry.createType('Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
+        const a = registry.createType('IndicesLookupSource', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
 
         expect(a[to]()).toEqual(expected);
       });
