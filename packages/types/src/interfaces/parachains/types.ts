@@ -602,7 +602,7 @@ export interface ParaValidatorIndex extends u32 {}
 /** @name PersistedValidationData */
 export interface PersistedValidationData extends Struct {
   readonly parentHead: HeadData;
-  readonly blockNumber: BlockNumber;
+  readonly blockNumber: RelayChainBlockNumber;
   readonly relayStorageRoot: Hash;
   readonly hrmpMqcHeads: Vec<ITuple<[u32, Hash]>>;
   readonly dmqMqcHead: Hash;
@@ -629,7 +629,7 @@ export interface RegisteredParachainInfo extends Struct {
 }
 
 /** @name RelayChainBlockNumber */
-export interface RelayChainBlockNumber extends BlockNumber {}
+export interface RelayChainBlockNumber extends u32 {}
 
 /** @name RelayedFrom */
 export interface RelayedFrom extends Struct {
@@ -728,7 +728,7 @@ export interface SubId extends u32 {}
 
 /** @name SystemInherentData */
 export interface SystemInherentData extends Struct {
-  readonly pvalidationData: PersistedValidationData;
+  readonly validationData: PersistedValidationData;
   readonly relayChainState: StorageProof;
   readonly downwardMessages: Vec<InboundDownwardMessage>;
   readonly horizontalMessages: BTreeMap<ParaId, VecInboundHrmpMessage>;
