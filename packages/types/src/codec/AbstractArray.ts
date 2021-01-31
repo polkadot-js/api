@@ -159,4 +159,11 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   public includes (check: unknown): boolean {
     return this.some((value: T) => value.eq(check));
   }
+
+  /**
+   * @description Returns a slice of an array
+   */
+  public slice (start?: number, end?: number): T[] {
+    return this.toArray().slice(start, end);
+  }
 }
