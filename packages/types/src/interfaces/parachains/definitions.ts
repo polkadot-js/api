@@ -244,13 +244,13 @@ export default {
     ParaValidatorIndex: 'u32',
     PersistedValidationData: {
       parentHead: 'HeadData',
-      blockNumber: 'BlockNumber',
+      blockNumber: 'RelayChainBlockNumber',
       relayStorageRoot: 'Hash',
       hrmpMqcHeads: 'Vec<(u32, Hash)>',
       dmqMqcHead: 'Hash',
       maxPovSize: 'u32'
     },
-    RelayChainBlockNumber: 'BlockNumber',
+    RelayChainBlockNumber: 'u32',
     QueuedParathread: {
       claim: 'ParathreadEntry',
       coreOffset: 'u32'
@@ -526,7 +526,7 @@ export default {
     },
     MessagingStateSnapshotEgressEntry: '(ParaId, AbridgedHrmpChannel)',
     SystemInherentData: {
-      pvalidationData: 'PersistedValidationData',
+      validationData: 'PersistedValidationData',
       relayChainState: 'StorageProof',
       downwardMessages: 'Vec<InboundDownwardMessage>',
       horizontalMessages: 'BTreeMap<ParaId, VecInboundHrmpMessage>'

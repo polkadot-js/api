@@ -37,10 +37,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
-    if (!this.hasSubscriptions) {
-      l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
-    }
-
     // all injected types added to the registry for overrides
     this.registry.setKnownTypes(options);
 
@@ -64,9 +60,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.signer = options.signer;
 
     this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));
-    this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
-    this._rpcCore.provider.on('error', this.#onProviderError);
-    this._rpcCore.provider.on('connected', this.#onProviderConnect);
+
+    if (this.hasSubscriptions) {
+      this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
+      this._rpcCore.provider.on('error', this.#onProviderError);
+      this._rpcCore.provider.on('connected', this.#onProviderConnect);
+    } else {
+      l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
+    }
 
     // If the provider was instantiated earlier, and has already emitted a
     // 'connected' event, then the `on('connected')` won't fire anymore. To
