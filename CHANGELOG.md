@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 3.7.x
+
+Upgrade priority: Low. However recoemmended for current Substrate master, Polkadot and Rococo users and those wishing to support the upcoming Polkadot 28 runtime with the new `MultiAddress`.
+
+- **Breaking change** As indicated in the 3.5.1 release notes, th Address/LookupSource default have now been adjusted for `MultiAddress` by default. This extensible format is mean to cater for all address types, removing a lot of discrepancies between chains.
+
+Changes:
+
+- Apply `MultiAddress` as a default
+- Adds support for the upcoming Polkadot 28 and Kusama 2028 runtimes
+
+
 ## 3.6.1 Jan 24, 2020
 
 Upgrade priority: Medium if not already on at least 3.3.1. The next upgrade of Kusama/Polkadot requires it.

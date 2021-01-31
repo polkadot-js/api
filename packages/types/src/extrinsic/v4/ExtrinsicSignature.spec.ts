@@ -32,7 +32,7 @@ describe('ExtrinsicSignatureV4', (): void => {
 
     const u8a = new Uint8Array([
       // signer as an AccountIndex
-      0x09,
+      0x01, 0x08, // 4 << 2
       // signature type
       0x01,
       // signature
@@ -65,7 +65,7 @@ describe('ExtrinsicSignatureV4', (): void => {
       ).toHex()
     ).toEqual(
       '0x' +
-      'ff' +
+      '00' + // MultiAddress
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       '01' +
       '4242424242424242424242424242424242424242424242424242424242424242' +
@@ -93,7 +93,7 @@ describe('ExtrinsicSignatureV4', (): void => {
     ).toEqual(
       '0x' +
       // Address = AccountId
-      // 'ff' +
+      // '00' +
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       // This is a prefix-less signature, anySignture as opposed to Multi above
       // '01' +
