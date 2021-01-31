@@ -152,7 +152,7 @@ describe('Vec', (): void => {
     testEncode('toU8a', Uint8Array.from([20, 4, 49, 8, 50, 51, 12, 51, 52, 53, 16, 52, 53, 54, 55, 20, 53, 54, 55, 56, 57]));
   });
 
-  describe.only('utils', (): void => {
+  describe('utils', (): void => {
     const vec = new Vec(registry, Text, ['123', '456']);
 
     it('compares against codec types', (): void => {
@@ -172,7 +172,7 @@ describe('Vec', (): void => {
       expect(vec.indexOf(myId)).toEqual(2);
     });
 
-    it.only('allows a slice operator', (): void => {
+    it('allows a slice operator', (): void => {
       const vec = registry.createType('Vec<AccountId>', [
         randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a()
       ]);
