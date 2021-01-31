@@ -15,8 +15,8 @@
     "@babel/runtime": "^7.12.5",
     "@polkadot/api": "3.6.5-9",
     "@polkadot/types": "3.6.5-9",
-    "@polkadot/util": "^5.4.4",
-    "@polkadot/x-rxjs": "^5.4.4",
+    "@polkadot/util": "^5.5.1",
+    "@polkadot/x-rxjs": "^5.5.1",
     "bn.js": "^4.11.9"
   }
 }
