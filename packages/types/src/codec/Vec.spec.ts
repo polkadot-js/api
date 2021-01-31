@@ -6,6 +6,7 @@ import type { Codec, CodecTo } from '../types';
 
 import { Metadata } from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/static';
+import { randomAsU8a } from '@polkadot/util-crypto';
 
 import { createTypeUnsafe, TypeRegistry } from '../create';
 import { GenericAccountId as AccountId } from '../generic';
@@ -151,7 +152,7 @@ describe('Vec', (): void => {
     testEncode('toU8a', Uint8Array.from([20, 4, 49, 8, 50, 51, 12, 51, 52, 53, 16, 52, 53, 54, 55, 20, 53, 54, 55, 56, 57]));
   });
 
-  describe('utils', (): void => {
+  describe.only('utils', (): void => {
     const vec = new Vec(registry, Text, ['123', '456']);
 
     it('compares against codec types', (): void => {
@@ -169,6 +170,15 @@ describe('Vec', (): void => {
       ]);
 
       expect(vec.indexOf(myId)).toEqual(2);
+    });
+
+    it.only('allows a slice operator', (): void => {
+      const vec = registry.createType('Vec<AccountId>', [
+        randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a(), randomAsU8a()
+      ]);
+
+      expect(vec).toHaveLength(10);
+      expect(vec.slice(2, 7)).toHaveLength(5);
     });
   });
 });
