@@ -9,7 +9,7 @@ describe('LookupSource', (): void => {
 
   const testDecode = (type: string, input: LookupSource | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
     it(`can decode from ${type}`, (): void => {
-      const a = registry.createType('Address', input);
+      const a = registry.createType('IndicesLookupSource', input);
 
       expect(a.toString()).toBe(expected);
     });
@@ -18,12 +18,12 @@ describe('LookupSource', (): void => {
     it('equals on AccountId', (): void => {
       const addr = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 
-      expect(registry.createType('LookupSource', addr).eq(addr)).toBe(true);
+      expect(registry.createType('IndicesLookupSource', addr).eq(addr)).toBe(true);
     });
 
     it('equals on AccountIndex', (): void => {
       // see the test below - these are equivalent (with different prefix encoding)
-      expect(registry.createType('LookupSource', '2jpAFn').eq('25GUyv')).toBe(true);
+      expect(registry.createType('IndicesLookupSource', '2jpAFn').eq('25GUyv')).toBe(true);
     });
   });
 

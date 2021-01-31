@@ -389,7 +389,7 @@ describe('Enum', (): void => {
       expect(test.toHex()).toEqual(
         '0x' +
         '00' + // index
-        'ff' + // Address indicating an embedded AccountId
+        '00' + // MultiAddress indicating an embedded AccountId
         '0001020304050607080910111213141516171819202122232425262728293031' // AccountId
       );
     });
