@@ -161,7 +161,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   }
 
   /**
-   * @description Concatenates two arrays
+   * @description Returns a slice of an array
    */
   public slice (start?: number, end?: number): T[] {
     return this.toArray().slice(start, end);
