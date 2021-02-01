@@ -4,7 +4,7 @@
 
 Upgrade priority: Low. However recommended for current Substrate master, Polkadot and Rococo users and those wishing to support the upcoming Polkadot 28 runtime with the new `MultiAddress`.
 
-- **Breaking change** As indicated in the 3.5.1 release notes, th Address/LookupSource default have now been adjusted for `MultiAddress` by default. If your chain does not use these, add the `Address`/`LookupSource` types explicitly. This extensible format is mean to cater for all address types into the future, removing a lot of discrepancies between chains.
+- **Breaking change** As indicated in the 3.5.1 release notes, the `Address`/`LookupSource` defaults have now been adjusted for `MultiAddress`. If your chain does not use these types, explicitly add the correct `Address`/`LookupSource` types. This new extensible format is mean to cater for all address types into the future, removing a lot of discrepancies between chains.
 
 Contributed:
 
