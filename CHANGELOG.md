@@ -1,15 +1,27 @@
 # CHANGELOG
 
-## 3.7.x
+## 3.7.1 Feb 1, 2021
 
-Upgrade priority: Low. However recoemmended for current Substrate master, Polkadot and Rococo users and those wishing to support the upcoming Polkadot 28 runtime with the new `MultiAddress`.
+Upgrade priority: Low. However recommended for current Substrate master, Polkadot and Rococo users and those wishing to support the upcoming Polkadot 28 runtime with the new `MultiAddress`.
 
-- **Breaking change** As indicated in the 3.5.1 release notes, th Address/LookupSource default have now been adjusted for `MultiAddress` by default. This extensible format is mean to cater for all address types, removing a lot of discrepancies between chains.
+- **Breaking change** As indicated in the 3.5.1 release notes, th Address/LookupSource default have now been adjusted for `MultiAddress` by default. If your chain does not use these, add the `Address`/`LookupSource` types explicitly. This extensible format is mean to cater for all address types into the future, removing a lot of discrepancies between chains.
+
+Contributed:
+
+- Extraction of the block author on Moonbeam (Thanks to https://github.com/joelamouche)
+- Cleanup logs with HTTP providers, no subs (Thanks to https://github.com/Tbaut)
 
 Changes:
 
+- Allow `.slice` operator on the `Vec` type
 - Apply `MultiAddress` as a default
 - Adds support for the upcoming Polkadot 28 and Kusama 2028 runtimes
+- Add checkpoint for Kusama 2027 upgrade
+- Update all parachain types (as per latest Rococo)
+- Correctly use relay blockNumber in parachain validation data
+- remove information log for capabilities detection (creates confusion)
+- Remove explicit references to `global`, use the `x-global` detection
+- Remove explicit `module` in `package.json` (exports map available)
 
 
 ## 3.6.1 Jan 24, 2020
