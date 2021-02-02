@@ -1786,7 +1786,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/networks@npm:5.5.1":
+"@polkadot/networks@npm:5.5.1, @polkadot/networks@npm:^5.5.1":
   version: 5.5.1
   resolution: "@polkadot/networks@npm:5.5.1"
   dependencies:
@@ -1869,6 +1869,7 @@ __metadata:
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
     "@babel/runtime": ^7.12.5
+    "@polkadot/networks": ^5.5.1
     "@polkadot/types": 3.7.3-0
     "@polkadot/util": ^5.5.1
     "@types/bn.js": ^4.11.6
