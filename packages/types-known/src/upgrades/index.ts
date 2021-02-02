@@ -21,7 +21,7 @@ const NET_EXTRA: Record<string, { genesisHash: string[] }> = {
 };
 
 /** @internal */
-function checkOrder (network: string, versions: [number, number][]): [number, number][] {
+function checkOrder (network: string, versions: ChainUpgradesRaw): [number, number][] {
   const ooo = versions.filter((curr, index): boolean => {
     const prev = versions[index - 1];
 
@@ -36,7 +36,7 @@ function checkOrder (network: string, versions: [number, number][]): [number, nu
 }
 
 /** @internal */
-function rawToFinal (network: string, versions: ChainUpgradesRaw): ChainUpgrades {
+function mapRaw ([network, versions]: [string, ChainUpgradesRaw]): ChainUpgrades {
   const chain = networks.find((n) => n.network === network) || NET_EXTRA[network];
 
   assert(chain, `Unable to find info for chain ${network}`);
@@ -52,10 +52,6 @@ function rawToFinal (network: string, versions: ChainUpgradesRaw): ChainUpgrades
 }
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
-const upgrades: ChainUpgrades[] = [
-  rawToFinal('kusama', kusama),
-  rawToFinal('polkadot', polkadot),
-  rawToFinal('westend', westend)
-];
+const upgrades = Object.entries({ kusama, polkadot, westend }).map(mapRaw);
 
 export default upgrades;
