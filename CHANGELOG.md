@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.7.3 Feb 2, 2021
+
+Changes:
+
+- Added Polkadot upgrade block for runtime 27 (known checkpoint optimization)
+
+
 ## 3.7.2 Feb 2, 2021
 
 Changes:
