@@ -289,7 +289,7 @@ export class WsProvider implements ProviderInterface {
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const rpc = new Rpc(provider);
    *
-   * rpc.state.subscribeStorage([[storage.system.account, <Address>]], (_, values) => {
+   * rpc.state.subscribeStorage([[storage.system.account, <Address>]], (values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)

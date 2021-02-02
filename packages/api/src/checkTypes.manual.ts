@@ -155,8 +155,8 @@ async function rpc (api: ApiPromise): Promise<void> {
   });
 
   // with generic params
-  await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
-    console.log('current balance:', balance.toString());
+  await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance], hash): void => {
+    console.log('current balance:', balance.toString(), hash.toHex());
   });
 
   // using json & raw

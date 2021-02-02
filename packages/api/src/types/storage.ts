@@ -20,9 +20,9 @@ interface StorageEntryPromiseMulti {
 export interface StorageEntryPromiseOverloads {
   (arg1?: CodecArg, arg2?: CodecArg): Promise<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Promise<T>;
-  <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
-  <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
-  <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec>(callback: Callback<T, Hash>): UnsubscribePromise;
+  <T extends Codec>(arg: CodecArg, callback: Callback<T, Hash>): UnsubscribePromise;
+  <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T, Hash>): UnsubscribePromise;
 }
 
 // This is the most generic typings we can have for a storage entry function
@@ -68,7 +68,7 @@ export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
 }
 
 export interface QueryableStorageMultiPromise<ApiType extends ApiTypes> {
-  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T, Hash>): UnsubscribePromise;
   <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Promise<T>;
 }
 
