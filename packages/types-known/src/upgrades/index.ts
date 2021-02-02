@@ -6,11 +6,19 @@ import type { ChainUpgradesRaw } from './types';
 
 import BN from 'bn.js';
 
+import networks from '@polkadot/networks';
 import { assert, hexToU8a } from '@polkadot/util';
 
 import kusama from './kusama';
 import polkadot from './polkadot';
 import westend from './westend';
+
+// testnets are not available in the networks map
+const NET_EXTRA: Record<string, { genesisHash: string[] }> = {
+  westend: {
+    genesisHash: ['0xe143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e']
+  }
+};
 
 /** @internal */
 function checkOrder (network: string, versions: [number, number][]): [number, number][] {
@@ -28,9 +36,13 @@ function checkOrder (network: string, versions: [number, number][]): [number, nu
 }
 
 /** @internal */
-function rawToFinal (network: string, { genesisHash, versions }: ChainUpgradesRaw): ChainUpgrades {
+function rawToFinal (network: string, versions: ChainUpgradesRaw): ChainUpgrades {
+  const chain = networks.find((n) => n.network === network) || NET_EXTRA[network];
+
+  assert(chain, `Unable to find info for chain ${network}`);
+
   return {
-    genesisHash: hexToU8a(genesisHash),
+    genesisHash: hexToU8a(chain.genesisHash[0]),
     network,
     versions: checkOrder(network, versions).map(([blockNumber, specVersion]) => ({
       blockNumber: new BN(blockNumber),
