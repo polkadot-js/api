@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.7.2 Feb 2, 2021
+
+Changes:
+
+- Adjusted the `Keys` type for the 28 runtime on Kusama, Polkadot & Westend
+
+
 ## 3.7.1 Feb 1, 2021
 
 Upgrade priority: Low. However recommended for current Substrate master, Polkadot and Rococo users and those wishing to support the upcoming Polkadot 28 runtime with the new `MultiAddress`.

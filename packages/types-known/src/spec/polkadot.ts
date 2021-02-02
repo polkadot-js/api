@@ -8,18 +8,21 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 const sharedTypes = {
   AccountInfo: 'AccountInfoWithProviders',
   Address: 'MultiAddress',
-  Keys: 'SessionKeys5',
+  Keys: 'SessionKeys6',
   LookupSource: 'MultiAddress',
   ProxyType: {
     // was: SudoBalances
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'Unused', 'IdentityJudgement']
-  }
+  },
+  ValidatorPrefs: 'ValidatorPrefsWithBlocked'
 };
 
 const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
-  LookupSource: 'AccountId'
+  Keys: 'SessionKeys5',
+  LookupSource: 'AccountId',
+  ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
 // these are override types for Polkadot
