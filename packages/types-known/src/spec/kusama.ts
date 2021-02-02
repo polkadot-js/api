@@ -8,23 +8,28 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 const sharedTypes = {
   AccountInfo: 'AccountInfoWithProviders',
   Address: 'MultiAddress',
-  Keys: 'SessionKeys5',
+  Keys: 'SessionKeys6',
   LookupSource: 'MultiAddress',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement']
-  }
+  },
+  ValidatorPrefs: 'ValidatorPrefsWithBlocked'
 };
 
 const addrIndicesTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'LookupSource',
-  LookupSource: 'IndicesLookupSource'
+  Keys: 'SessionKeys5',
+  LookupSource: 'IndicesLookupSource',
+  ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
 const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
-  LookupSource: 'AccountId'
+  Keys: 'SessionKeys5',
+  LookupSource: 'AccountId',
+  ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
 const versioned: OverrideVersionedType[] = [
