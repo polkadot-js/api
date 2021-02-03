@@ -60,7 +60,7 @@ export interface ApiOptions extends RegisteredTypes {
   /**
    * @description Any chain-specific signed extensions that are now well-known
    */
-  signedExtensions?: Record<string, ExtDef>;
+  signedExtensions?: ExtDef;
   /**
    * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
