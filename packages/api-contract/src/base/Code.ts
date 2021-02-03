@@ -57,6 +57,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
 
   /**
    * @description Deploy the code bundle, creating a Blueprint.
+   * @deprecated Use the `code.tx.<constructor>(...) format to put code and deploy
    */
   public createBlueprint (): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
     return this.api.tx.contracts
