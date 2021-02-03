@@ -17,7 +17,7 @@ import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Blueprint } from './Blueprint';
-import { Contract } from './contract';
+import { Contract } from './Contract';
 import { createBluePrintTx, EMPTY_SALT, encodeSalt } from './util';
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
