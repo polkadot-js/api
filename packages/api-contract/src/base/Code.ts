@@ -80,11 +80,8 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiateSingle = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    const encodedSalt = encodeSalt(salt);
-    const encoded = this.abi.findConstructor(constructorOrId).toU8a(params);
-
     return this.api.tx.contracts
-      .instantiateWithCode(value, gasLimit, compactAddLength(this.code), encoded, encodedSalt)
+      .instantiateWithCode(value, gasLimit, compactAddLength(this.code), this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
       .withResultTransform(this.#transformEvents);
   }
 
@@ -99,7 +96,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       withSalt
         ? this.api.tx.contracts.instantiate(value, gasLimit, codeHash, encoded, encodedSalt)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore old style with salt included
+        // @ts-ignore old style with salt included in the params itself
         : this.api.tx.contracts.instantiate(value, gasLimit, codeHash, encoded)
     ]).withResultTransform(this.#transformEvents);
   }
