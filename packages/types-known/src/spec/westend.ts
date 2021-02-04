@@ -11,8 +11,8 @@ const sharedTypes = {
   Keys: 'SessionKeys6',
   LookupSource: 'MultiAddress',
   ProxyType: {
-    // was: SudoBalances
-    _enum: ['Any', 'NonTransfer', 'Staking', 'Unused', 'IdentityJudgement']
+    _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances', 'IdentityJudgement', 'CancelProxy'
+    ]
   },
   ValidatorPrefs: 'ValidatorPrefsWithBlocked'
 };
