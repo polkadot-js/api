@@ -103,7 +103,7 @@ export class WsProvider implements ProviderInterface {
     });
 
     this.#eventemitter = new EventEmitter();
-    this.#autoConnectMs = autoConnectMs || RETRY_DELAY;
+    this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new RpcCoder();
     this.#endpointIndex = -1;
     this.#endpoints = endpoints;
