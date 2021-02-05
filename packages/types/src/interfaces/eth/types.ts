@@ -80,6 +80,15 @@ export interface EthFilterAddress extends Enum {
   readonly isNull: boolean;
 }
 
+/** @name EthFilterChanges */
+export interface EthFilterChanges extends Enum {
+  readonly isLogs: boolean;
+  readonly asLogs: Vec<EthLog>;
+  readonly isHashes: boolean;
+  readonly asHashes: Vec<H256>;
+  readonly isEmpty: boolean;
+}
+
 /** @name EthFilterTopic */
 export interface EthFilterTopic extends Enum {
   readonly isSingle: boolean;

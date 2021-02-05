@@ -20,7 +20,7 @@ import type { DeployData, FundIndex, FundInfo, LastContribution } from '@polkado
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import type { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import type { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
-import type { EthAccount, EthBlock, EthBloom, EthCallRequest, EthFilter, EthFilterAddress, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLog, EthReceipt, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionStatus, EthWork, EthereumAccountId, EthereumLookupSource, EthereumSignature } from '@polkadot/types/interfaces/eth';
+import type { EthAccount, EthBlock, EthBloom, EthCallRequest, EthFilter, EthFilterAddress, EthFilterChanges, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLog, EthReceipt, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionStatus, EthWork, EthereumAccountId, EthereumLookupSource, EthereumSignature } from '@polkadot/types/interfaces/eth';
 import type { EvmAccount, EvmLog, EvmVicinity, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed } from '@polkadot/types/interfaces/evm';
 import type { AnySignature, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
@@ -340,6 +340,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<EthereumSignature>': Option<EthereumSignature>;
     'Option<EthFilter>': Option<EthFilter>;
     'Option<EthFilterAddress>': Option<EthFilterAddress>;
+    'Option<EthFilterChanges>': Option<EthFilterChanges>;
     'Option<EthFilterTopic>': Option<EthFilterTopic>;
     'Option<EthFilterTopicEntry>': Option<EthFilterTopicEntry>;
     'Option<EthFilterTopicInner>': Option<EthFilterTopicInner>;
@@ -1062,6 +1063,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<EthereumSignature>': Vec<EthereumSignature>;
     'Vec<EthFilter>': Vec<EthFilter>;
     'Vec<EthFilterAddress>': Vec<EthFilterAddress>;
+    'Vec<EthFilterChanges>': Vec<EthFilterChanges>;
     'Vec<EthFilterTopic>': Vec<EthFilterTopic>;
     'Vec<EthFilterTopicEntry>': Vec<EthFilterTopicEntry>;
     'Vec<EthFilterTopicInner>': Vec<EthFilterTopicInner>;
@@ -1784,6 +1786,7 @@ declare module '@polkadot/types/types/registry' {
     EthereumSignature: EthereumSignature;
     EthFilter: EthFilter;
     EthFilterAddress: EthFilterAddress;
+    EthFilterChanges: EthFilterChanges;
     EthFilterTopic: EthFilterTopic;
     EthFilterTopicEntry: EthFilterTopicEntry;
     EthFilterTopicInner: EthFilterTopicInner;
