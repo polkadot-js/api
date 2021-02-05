@@ -116,6 +116,6 @@ export interface Registry {
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
   setHasher (hasher?: (data: Uint8Array) => Uint8Array): void;
-  setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: Record<string, ExtDef>): void;
-  setSignedExtensions (signedExtensions?: string[], userExtensions?: Record<string, ExtDef>): void;
+  setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
+  setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }
