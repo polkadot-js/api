@@ -73,6 +73,13 @@ const types: DefinitionsTypes = {
       Null: 'Null'
     }
   },
+  EthFilterChanges: {
+    _enum: {
+      Logs: 'Vec<EthLog>',
+      Hashes: 'Vec<H256>',
+      Empty: 'Null'
+    }
+  },
   EthFilterTopic: {
     _enum: {
       Single: 'EthFilterTopicInner',
