@@ -10,7 +10,7 @@ import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, compactAddLength, isUndefined, isWasm, stringCamelCase, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, isFunction, isUndefined, isWasm, stringCamelCase, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Abi } from '../Abi';
@@ -82,9 +82,9 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    return this.api.tx.contracts.instantiateWithCode
+    return isFunction(this.api.tx.contracts.instantiateWithCode)
       ? this.#instantiateSingle(constructorOrId, options, params)
-      : this.#instantiateDual(constructorOrId, options, params);
+      : this.#instantiateBatch(constructorOrId, options, params);
   }
 
   #instantiateSingle = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
@@ -93,7 +93,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       .withResultTransform(this.#transformEvents);
   }
 
-  #instantiateDual = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  #instantiateBatch = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     const encodedSalt = encodeSalt(salt);
     const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
     const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);

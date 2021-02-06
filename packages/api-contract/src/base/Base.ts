@@ -26,6 +26,6 @@ export abstract class Base<ApiType extends ApiTypes> {
     this.registry = this.abi.registry;
     this._decorateMethod = decorateMethod;
 
-    assert(api.tx.contracts?.call, 'You need to connect to a node with the contracts module, the metadata does not enable api.tx.contracts on this instance');
+    assert(api.tx.contracts?.instantiate, 'You need to connect to a node with the contracts module, the metadata does not enable api.tx.contracts on this instance');
   }
 }
