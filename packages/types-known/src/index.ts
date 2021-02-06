@@ -3,6 +3,7 @@
 
 import type BN from 'bn.js';
 import type { Text } from '@polkadot/types';
+import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 
@@ -34,6 +35,19 @@ export function getModuleTypes ({ knownTypes }: Registry, section: string): Over
   return {
     ...(typesModules[section] || {}),
     ...(knownTypes.typesAlias?.[section] || {})
+  };
+}
+
+/**
+ * @description Based on the chain and runtimeVersion, get the applicable signed extensions (ready for registration)
+ */
+export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): ExtDef {
+  const _chainName = chainName.toString();
+  const _specName = specName.toString();
+
+  return {
+    ...(knownTypes.typesBundle?.spec?.[_specName]?.signedExtensions || {}),
+    ...(knownTypes.typesBundle?.chain?.[_chainName]?.signedExtensions || {})
   };
 }
 
