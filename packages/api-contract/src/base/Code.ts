@@ -69,6 +69,14 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       );
   }
 
+  /**
+   * @description Deploy the code bundle and the contract, creating a Blueprint.
+   * @deprecated Use the `code.tx.<constructor>(...) format to put code and deploy
+   */
+  public createContract (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
+    return this.#instantiate(constructorOrId, options, params);
+  }
+
   public get tx (): MapConstructorExec<ApiType> {
     return this.#tx;
   }
