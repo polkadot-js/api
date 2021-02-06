@@ -160,45 +160,71 @@ declare module '@polkadot/api/types/events' {
     contracts: {
       [key: string]: AugmentedEvent<ApiType>;
       /**
-       * Code with the specified hash has been stored.
+       * A code with the specified hash was removed.
        * \[code_hash\]
+       * 
+       * This happens when the last contract that uses this code hash was removed or evicted.
+       **/
+      CodeRemoved: AugmentedEvent<ApiType, [Hash]>;
+      /**
+       * Code with the specified hash has been stored. \[code_hash\]
        **/
       CodeStored: AugmentedEvent<ApiType, [Hash]>;
       /**
-       * An event deposited upon execution of a contract from the account.
-       * \[account, data\]
-       **/
-      ContractExecution: AugmentedEvent<ApiType, [AccountId, Bytes]>;
-      /**
-       * Contract has been evicted and is now in tombstone state.
-       * \[contract, tombstone\]
+       * A custom event emitted by the contract.
+       * \[contract, data\]
        * 
        * # Params
        * 
-       * - `contract`: `AccountId`: The account ID of the evicted contract.
-       * - `tombstone`: `bool`: True if the evicted contract left behind a tombstone.
+       * - `contract`: The contract that emitted the event.
+       * - `data`: Data supplied by the contract. Metadata generated during contract
+       * compilation is needed to decode it.
        **/
-      Evicted: AugmentedEvent<ApiType, [AccountId, bool]>;
+      ContractEmitted: AugmentedEvent<ApiType, [AccountId, Bytes]>;
       /**
-       * Contract deployed by address at the specified address. \[owner, contract\]
+       * Contract has been evicted and is now in tombstone state. \[contract\]
+       **/
+      Evicted: AugmentedEvent<ApiType, [AccountId]>;
+      /**
+       * Contract deployed by address at the specified address. \[deployer, contract\]
        **/
       Instantiated: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
-       * Restoration for a contract has been successful.
-       * \[donor, dest, code_hash, rent_allowance\]
+       * Restoration of a contract has been successful.
+       * \[restorer, dest, code_hash, rent_allowance\]
        * 
        * # Params
        * 
-       * - `donor`: `AccountId`: Account ID of the restoring contract
-       * - `dest`: `AccountId`: Account ID of the restored contract
-       * - `code_hash`: `Hash`: Code hash of the restored contract
-       * - `rent_allowance: `Balance`: Rent allowance of the restored contract
+       * - `restorer`: Account ID of the restoring contract.
+       * - `dest`: Account ID of the restored contract.
+       * - `code_hash`: Code hash of the restored contract.
+       * - `rent_allowance`: Rent allowance of the restored contract.
        **/
       Restored: AugmentedEvent<ApiType, [AccountId, AccountId, Hash, Balance]>;
       /**
-       * Triggered when the current \[schedule\] is updated.
+       * Triggered when the current schedule is updated.
+       * \[version\]
+       * 
+       * # Params
+       * 
+       * - `version`: The version of the newly set schedule.
        **/
       ScheduleUpdated: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * Contract has been terminated without leaving a tombstone.
+       * \[contract, beneficiary\]
+       * 
+       * # Params
+       * 
+       * - `contract`: The contract that was terminated.
+       * - `beneficiary`: The account that received the contracts remaining balance.
+       * 
+       * # Note
+       * 
+       * The only way for a contract to be removed without a tombstone and emitting
+       * this event is by calling `seal_terminate`.
+       **/
+      Terminated: AugmentedEvent<ApiType, [AccountId, AccountId]>;
     };
     council: {
       [key: string]: AugmentedEvent<ApiType>;

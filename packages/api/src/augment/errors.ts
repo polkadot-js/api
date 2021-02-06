@@ -184,7 +184,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       CodeNotFound: AugmentedError<ApiType>;
       /**
-       * The code supplied to `put_code` exceeds the limit specified in the current schedule.
+       * The code supplied to `instantiate_with_code` exceeds the limit specified in the
+       * current schedule.
        **/
       CodeTooLarge: AugmentedError<ApiType>;
       /**
@@ -210,6 +211,10 @@ declare module '@polkadot/api/types/errors' {
        * Trying again during another block is the only way to resolve this issue.
        **/
       DeletionQueueFull: AugmentedError<ApiType>;
+      /**
+       * A contract with the same AccountId already exists.
+       **/
+      DuplicateContract: AugmentedError<ApiType>;
       /**
        * The topics passed to `seal_deposit_events` contains at least one duplicate.
        **/
