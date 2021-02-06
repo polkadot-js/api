@@ -49,6 +49,7 @@ export interface OverrideBundleDefinition {
   derives?: DeriveCustom;
   instances?: Record<string, string[]>;
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  signedExtensions?: ExtDef;
   types?: OverrideVersionedType[];
 }
 

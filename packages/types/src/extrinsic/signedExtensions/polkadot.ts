@@ -5,11 +5,11 @@ import type { ExtDef } from './types';
 
 import { emptyCheck } from './emptyCheck';
 
-export default {
+export const polkadot: ExtDef = {
   LimitParathreadCommits: emptyCheck,
   OnlyStakingAndClaims: emptyCheck,
   PrevalidateAttests: emptyCheck,
   RestrictFunctionality: emptyCheck,
   TransactionCallFilter: emptyCheck,
   ValidateDoubleVoteReports: emptyCheck
-} as ExtDef;
+};
