@@ -131,6 +131,20 @@ export const rpc: DefinitionsRpc = {
     ],
     type: 'Bytes'
   },
+  getFilterChanges: {
+    description: 'Returns filter changes since last poll.',
+    params: [
+      { name: 'index', type: 'U256' }
+    ],
+    type: 'EthFilterChanges'
+  },
+  getFilterLogs: {
+    description: 'Returns all logs matching given filter (in a range \'from\' - \'to\').',
+    params: [
+      { name: 'index', type: 'U256' }
+    ],
+    type: 'Vec<EthLog>'
+  },
   getLogs: {
     description: 'Returns logs matching given filter object.',
     params: [
@@ -239,6 +253,23 @@ export const rpc: DefinitionsRpc = {
     params: [],
     type: 'bool'
   },
+  newBlockFilter: {
+    description: 'Returns id of new block filter.',
+    params: [],
+    type: 'U256'
+  },
+  newFilter: {
+    description: 'Returns id of new filter.',
+    params: [
+      { name: 'filter', type: 'EthFilter' }
+    ],
+    type: 'U256'
+  },
+  newPendingTransactionFilter: {
+    description: 'Returns id of new block filter.',
+    params: [],
+    type: 'U256'
+  },
   protocolVersion: {
     description: 'Returns protocol version encoded as a string (quotes are necessary).',
     params: [],
@@ -292,5 +323,12 @@ export const rpc: DefinitionsRpc = {
     description: 'Returns an object with data about the sync status or false.',
     params: [],
     type: 'EthSyncStatus'
+  },
+  uninstallFilter: {
+    description: 'Uninstalls filter.',
+    params: [
+      { name: 'index', type: 'U256' }
+    ],
+    type: 'bool'
   }
 };

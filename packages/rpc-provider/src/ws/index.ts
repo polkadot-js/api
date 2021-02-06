@@ -189,14 +189,16 @@ export class WsProvider implements ProviderInterface {
    * @description Connect, never throwing an error, but rather forcing a retry
    */
   public async connectWithRetry (): Promise<void> {
-    try {
-      await this.connect();
-    } catch (error) {
-      setTimeout((): void => {
-        this.connectWithRetry().catch((): void => {
-          // does not throw
-        });
-      }, this.#autoConnectMs || RETRY_DELAY);
+    if (this.#autoConnectMs > 0) {
+      try {
+        await this.connect();
+      } catch (error) {
+        setTimeout((): void => {
+          this.connectWithRetry().catch((): void => {
+            // does not throw
+          });
+        }, this.#autoConnectMs);
+      }
     }
   }
 
