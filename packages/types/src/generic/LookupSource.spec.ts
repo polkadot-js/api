@@ -23,7 +23,7 @@ describe('LookupSource', (): void => {
 
     it('equals on AccountIndex', (): void => {
       // see the test below - these are equivalent (with different prefix encoding)
-      expect(registry.createType('IndicesLookupSource', '2jpAFn').eq('25GUyv')).toBe(true);
+      expect(registry.createType('IndicesLookupSource', '118r').eq('25GUyv')).toBe(true);
     });
   });
 
@@ -83,7 +83,7 @@ describe('LookupSource', (): void => {
       'Mwz15xP2'
     );
     // FIXME The specification allows for 8 byte addresses, however since AccountIndex is u32 internally
-    // (and defined that way in thd efault Substrate),this does not actually work since it is 8 bytes,
+    // (and defined that way in the default Substrate),this does not actually work since it is 8 bytes,
     // instead of 4 bytes max u32 length
     // testDecode(
     //   'Uint8Array (with prefix 8 bytes)',

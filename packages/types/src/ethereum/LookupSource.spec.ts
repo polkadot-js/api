@@ -98,7 +98,7 @@ describe('EthereumLookupSource', (): void => {
 
     it('equals on AccountIndex', (): void => {
       // see the test below - these are equivalent (with different prefix encoding)
-      expect(registry.createType('EthereumLookupSource', '2jpAFn').eq('25GUyv')).toBe(true);
+      expect(registry.createType('EthereumLookupSource', '118r').eq('25GUyv')).toBe(true);
     });
   });
 });
