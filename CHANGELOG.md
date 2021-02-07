@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 3.8.1 Feb 7, 2021
+
+Upgrade priority: Low. Recommended for users of the latest Substrate master, especially using contracts.
+
+- **Important** The `api-contract` `Code` now supports deploying the code and a contract in on operation. This aligns with the latest Substrate where code cannot be uploaded with a contract. The `createBlueprint` is therefore deprecated, use `code.tx.<constructor>(...)` to deploy code. (Compatible with both old and new versions of Substrate)
+
+Contributed:
+
+- Add support for latest Frontier RPCs (Thanks to https://github.com/jnaviask)
+- Fix user-supplied signed extensions type signature (Thanks to https://github.com/ntduan)
+
+Changes:
+
+- Expand `api-contract` to allow for `Code` to deploy contract alongside code. `createBlueprint` is now deprecated, replaced by `createContract` or the preferred `code.tx.<constructor>`, which uploads and deploys the code in one operation. This aligns with the current Substrate master contracts implementation.
+- Allow for signed extensions to be supplied inside type bundles
+- Ensure that the auto-connect state is checked on auto-connections (respecting disconnect)
+- Added `CancelProxy` to `ProxyTypes on Polkadot, Kusama & Westend
+- Updated to latest Substrate metadata
+
+
 ## 3.7.3 Feb 2, 2021
 
 Changes:
