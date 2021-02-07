@@ -28,8 +28,8 @@ describe('EthereumLookupSource', (): void => {
     );
     testDecode(
       'AccountIndex (mixed prefixes)',
-      registry.createType('EthereumLookupSource', '2jpAFn'),
-      // NOTE Expected address here is encoded with prefix 42, input above with 68
+      registry.createType('EthereumLookupSource', '118r'),
+      // NOTE Expected address here is encoded with prefix 42, input above with 1
       '25GUyv'
     );
     testDecode(

@@ -40,8 +40,8 @@ describe('LookupSource', (): void => {
     );
     testDecode(
       'AccountIndex (mixed prefixes)',
-      registry.createType('IndicesLookupSource', '2jpAFn'),
-      // NOTE Expected adress here is encoded with prefix 42, input above with 68
+      registry.createType('IndicesLookupSource', '118r'),
+      // NOTE Expected adress here is encoded with prefix 42, input above with 1
       '25GUyv'
     );
     testDecode(
