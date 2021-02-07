@@ -44,7 +44,7 @@ describe('AccountIndex', (): void => {
   });
 
   it('compares numbers', (): void => {
-    expect(registry.createType('AccountIndex', '2jpAFn').eq(256 * 1)).toBe(true);
+    expect(registry.createType('AccountIndex', '118r').eq(256 * 1)).toBe(true);
   });
 
   describe('calcLength', (): void => {
