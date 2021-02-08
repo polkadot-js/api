@@ -569,6 +569,17 @@ export interface ParaInfo extends Struct {
   readonly scheduling: Scheduling;
 }
 
+/** @name ParaLifecycle */
+export interface ParaLifecycle extends Enum {
+  readonly isOnboarding: boolean;
+  readonly isParathread: boolean;
+  readonly isParachain: boolean;
+  readonly isUpgradingToParachain: boolean;
+  readonly isDowngradingToParathread: boolean;
+  readonly isOutgoingParathread: boolean;
+  readonly isOutgoingParachain: boolean;
+}
+
 /** @name ParaPastCodeMeta */
 export interface ParaPastCodeMeta extends Struct {
   readonly upgradeTimes: Vec<BlockNumber>;
