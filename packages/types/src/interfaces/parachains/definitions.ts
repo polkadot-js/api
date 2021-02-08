@@ -225,6 +225,9 @@ export default {
     ParaInfo: {
       scheduling: 'Scheduling'
     },
+    ParaLifecycle: {
+      _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingToParachain', 'DowngradingToParathread', 'OutgoingParathread', 'OutgoingParachain']
+    },
     ParaPastCodeMeta: {
       upgradeTimes: 'Vec<BlockNumber>',
       lastPruned: 'Option<BlockNumber>'
