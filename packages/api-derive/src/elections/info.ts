@@ -12,11 +12,14 @@ import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-function isSeatHolder (value: ITuple<[AccountId, Balance]> | SeatHolder): value is SeatHolder {
+// SeatHolder is current tuple is 2.x-era Substrate
+type Member = SeatHolder | ITuple<[AccountId, Balance]>;
+
+function isSeatHolder (value: Member): value is SeatHolder {
   return !Array.isArray(value);
 }
 
-function getAccountTuple (value: ITuple<[AccountId, Balance]> | SeatHolder): [AccountId, Balance] {
+function getAccountTuple (value: Member): [AccountId, Balance] {
   return isSeatHolder(value)
     ? [value.who, value.stake]
     : value;
@@ -29,7 +32,7 @@ function sortAccounts ([, balanceA]: [AccountId, Balance], [, balanceB]: [Accoun
 function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
   const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
-  return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
+  return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<Member>, Vec<Member>]>([
     api.query.council.members,
     api.query[section].candidates,
     api.query[section].members,

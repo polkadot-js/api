@@ -13,22 +13,25 @@ import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-function isVoter (value: ITuple<[Balance, Vec<AccountId>]> | Voter): value is Voter {
+// Voter is current tuple is 2.x-era
+type VoteEntry = Voter | ITuple<[Balance, Vec<AccountId>]>;
+
+function isVoter (value: VoteEntry): value is Voter {
   return !Array.isArray(value);
 }
 
 function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
-  return (api.query.electionsPhragmen || api.query.elections).stakeOf.entries<Balance>().pipe(
+  return (api.query.electionsPhragmen || api.query.elections).stakeOf.entries<Balance, [AccountId]>().pipe(
     map((entries) =>
-      entries.map(([key, stake]) => [key.args[0] as AccountId, stake])
+      entries.map(([{ args: [accountId] }, stake]) => [accountId, stake])
     )
   );
 }
 
 function retrieveVoteOf (api: ApiInterfaceRx): Observable<[AccountId, AccountId[]][]> {
-  return (api.query.electionsPhragmen || api.query.elections).votesOf.entries<Vec<AccountId>>().pipe(
+  return (api.query.electionsPhragmen || api.query.elections).votesOf.entries<Vec<AccountId>, [AccountId]>().pipe(
     map((entries) =>
-      entries.map(([key, votes]) => [key.args[0] as AccountId, votes])
+      entries.map(([{ args: [accountId] }, votes]) => [accountId, votes])
     )
   );
 }
@@ -60,10 +63,10 @@ function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
 function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
   const elections = (api.query.electionsPhragmen || api.query.elections);
 
-  return elections.voting.entries<ITuple<[Balance, Vec<AccountId>]> | Voter>().pipe(
+  return elections.voting.entries<VoteEntry, [AccountId]>().pipe(
     map((entries): DeriveCouncilVotes =>
-      entries.map(([key, value]): [AccountId, DeriveCouncilVote] => [
-        key.args[0] as AccountId,
+      entries.map(([{ args: [accountId] }, value]): [AccountId, DeriveCouncilVote] => [
+        accountId,
         isVoter(value)
           ? { stake: value.stake, votes: value.votes }
           : { stake: value[0], votes: value[1] }
