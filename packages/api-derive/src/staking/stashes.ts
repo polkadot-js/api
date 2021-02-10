@@ -15,7 +15,7 @@ import { memo } from '../util';
 export function stashes (instanceId: string, api: ApiInterfaceRx): () => Observable<AccountId[]> {
   return memo(instanceId, (): Observable<AccountId[]> =>
     api.query.staking.validators.keys().pipe(
-      map((keys) => keys.map((key) => key.args[0]).filter((a) => a))
+      map((keys) => keys.map(({ args: [validatorId] }) => validatorId).filter((a) => a))
     )
   );
 }
