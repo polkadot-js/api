@@ -18,39 +18,15 @@ const sharedTypes = {
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, 9],
+    minmax: [0, 200],
     types: {
       ...sharedTypes,
-      AccountInfo: 'AccountInfoWithRefCount',
-      Address: 'AccountId',
-      CompactAssignments: 'CompactAssignmentsTo257',
-      LookupSource: 'AccountId',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257',
-      Keys: 'SessionKeys5'
-    }
-  },
-  {
-    minmax: [10, 12],
-    types: {
-      ...sharedTypes,
-      AccountInfo: 'AccountInfoWithRefCount',
-      Address: 'AccountId',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
-    }
-  },
-  {
-    minmax: [13, 201],
-    types: {
-      ...sharedTypes,
-      AccountInfo: 'AccountInfoWithRefCount',
       Address: 'AccountId',
       LookupSource: 'AccountId'
     }
   },
   {
-    minmax: [202, undefined],
+    minmax: [201, undefined],
     types: {
       ...sharedTypes
     }
