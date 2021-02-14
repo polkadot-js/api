@@ -474,7 +474,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000070100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000080100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "documentation": [
                 " Get the chain's current version."
               ]
@@ -1331,7 +1331,7 @@
                 "documentation": [
                   " The balance of an account.",
                   "",
-                  " NOTE: This is only used in the case that this module is used to store balances."
+                  " NOTE: This is only used in the case that this pallet is used to store balances."
                 ]
               },
               {
@@ -1489,7 +1489,7 @@
                 "",
                 " 99% of the time you want [`transfer`] instead.",
                 "",
-                " [`transfer`]: struct.Module.html#method.transfer",
+                " [`transfer`]: struct.Pallet.html#method.transfer",
                 " # <weight>",
                 " - Cheaper than transfer because account cannot be killed.",
                 " - Base Weight: 51.4 µs",
