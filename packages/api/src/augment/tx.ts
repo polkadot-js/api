@@ -396,7 +396,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * 99% of the time you want [`transfer`] instead.
        * 
-       * [`transfer`]: struct.Module.html#method.transfer
+       * [`transfer`]: struct.Pallet.html#method.transfer
        * # <weight>
        * - Cheaper than transfer because account cannot be killed.
        * - Base Weight: 51.4 µs
