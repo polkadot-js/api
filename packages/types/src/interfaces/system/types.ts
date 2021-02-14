@@ -26,7 +26,11 @@ export interface AccountInfoWithRefCount extends Struct {
 
 /** @name ApplyExtrinsicResult */
 export interface ApplyExtrinsicResult extends Result<DispatchOutcome, TransactionValidityError> {
+  readonly isErr: boolean;
+  readonly asErr: TransactionValidityError;
+  // @deprecated Use isErr
   readonly isError: boolean;
+  // @deprecated Use asErr
   readonly asError: TransactionValidityError;
   readonly isOk: boolean;
   readonly asOk: DispatchOutcome;
@@ -112,7 +116,11 @@ export interface DispatchInfoTo244 extends Struct {
 
 /** @name DispatchOutcome */
 export interface DispatchOutcome extends Result<ITuple<[]>, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  // @deprecated Use isErr
   readonly isError: boolean;
+  // @deprecated Use asErr
   readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;
@@ -120,7 +128,11 @@ export interface DispatchOutcome extends Result<ITuple<[]>, DispatchError> {
 
 /** @name DispatchResult */
 export interface DispatchResult extends Result<ITuple<[]>, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  // @deprecated Use isErr
   readonly isError: boolean;
+  // @deprecated Use asErr
   readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;
@@ -131,7 +143,11 @@ export interface DispatchResultOf extends DispatchResult {}
 
 /** @name DispatchResultTo198 */
 export interface DispatchResultTo198 extends Result<ITuple<[]>, Text> {
+  readonly isErr: boolean;
+  readonly asErr: Text;
+  // @deprecated Use isErr
   readonly isError: boolean;
+  // @deprecated Use asErr
   readonly asError: Text;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;

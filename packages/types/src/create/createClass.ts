@@ -117,10 +117,10 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     registry.getOrUnknown(value.type),
 
   [TypeDefInfo.Result]: (registry: Registry, value: TypeDef): Constructor => {
-    const [Ok, Error] = getTypeClassArray(value);
+    const [Ok, Err] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return Result.with({ Error, Ok });
+    return Result.with({ Err, Ok });
   },
 
   [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor => {
