@@ -66,7 +66,7 @@ describe('createType', (): void => {
   it('allows creation of a Result', (): void => {
     expect(
       createTypeUnsafe(registry, 'Result<u32,Text>', ['0x011064656667']).toJSON()
-    ).toEqual({ Error: 'defg' });
+    ).toEqual({ Err: 'defg' });
   });
 
   it('allows creation of a Set', (): void => {
