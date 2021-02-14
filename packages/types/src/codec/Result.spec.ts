@@ -9,7 +9,7 @@ import { Result } from '.';
 
 describe('Result', (): void => {
   const registry = new TypeRegistry();
-  const Type = Result.with({ Error: Text, Ok: u32 });
+  const Type = Result.with({ Err: Text, Ok: u32 });
 
   it('has a sane toRawType representation', (): void => {
     expect(new Type(registry).toRawType()).toEqual('Result<u32,Text>');
@@ -29,17 +29,21 @@ describe('Result', (): void => {
   it('decodes from a u8a (error)', (): void => {
     const result = new Type(registry, new Uint8Array([1, 4 << 2, 100, 101, 102, 103]));
 
-    expect(result.isError);
-    expect(result.asError.toU8a()).toEqual(new Uint8Array([4 << 2, 100, 101, 102, 103]));
+    expect(result.isErr);
+    expect(result.asErr.toU8a()).toEqual(new Uint8Array([4 << 2, 100, 101, 102, 103]));
     expect(result.toHex()).toEqual('0x011064656667');
     expect(result.toJSON()).toEqual({
-      Error: hexToString('0x64656667')
+      Err: hexToString('0x64656667')
     });
   });
 
   it('decodes from a JSON representation', (): void => {
-    const result = new Type(registry, { Error: 'error' });
+    const result = new Type(registry, { Err: 'error' });
 
+    expect(result.isErr).toBe(true);
+    expect(result.isError).toBe(true);
+    expect(result.asErr.toString()).toEqual('error');
+    expect(result.asError.toString()).toEqual('error');
     expect(result.toHex()).toEqual('0x01146572726f72');
   });
 
