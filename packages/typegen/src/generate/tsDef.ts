@@ -91,8 +91,8 @@ function tsResultGetter (definitions: Record<string, ModuleTypes>, resultName = 
   const { info, type } = def;
   const asGetter = type === 'Null'
     ? ''
-    : (getter === 'Error' ? '  // @deprecated Use asErr\n' : '') + createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports);
-  const isGetter = (getter === 'Error' ? '  // @deprecated Use isErr\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
+    : (getter === 'Error' ? '  /** @deprecated Use asErr */\n' : '') + createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports);
+  const isGetter = (getter === 'Error' ? '  /** @deprecated Use isErr */\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
     case TypeDefInfo.Plain:
