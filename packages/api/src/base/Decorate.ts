@@ -435,7 +435,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((...args: unknown[]): Observable<[Hash, Codec] | Codec> => {
       return this.hasSubscriptions
-        ? this._rpcCore.state.subscribeStorage<[Hash, Codec[]]>([extractStorageArgs(creator, args)]).pipe(
+        ? this._rpcCore.state.subscribeStorage([extractStorageArgs(creator, args)]).pipe(
           map(([hash, [data]]): [Hash, Codec] => [hash, data]) // extract first/only result from list
         )
         : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));

@@ -75,7 +75,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
           } else if (methodName === 'subscribeStorage') {
             generic = 'T = Codec[]';
             args = [`keys?: Vec<StorageKey> | (${StorageKeyType})[]`];
-            type = 'T';
+            type = '[Hash, T]';
           }
         }
 
