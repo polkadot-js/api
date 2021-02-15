@@ -1,15 +1,26 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Hash } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-import type { ApiOptions, DecorateFn } from '../types';
+import type { ApiOptions, DecorateFn, DecorateMethodOptions } from '../types';
 
 import { from, Observable } from '@polkadot/x-rxjs';
+import { map } from '@polkadot/x-rxjs/operators';
 
 import { ApiBase } from '../base';
 
-export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method): Method {
-  return method;
+function decorateStorageSub (method: DecorateFn<Codec>): DecorateFn<Codec> {
+  return (...args: any[]) =>
+    (method(...args) as unknown as Observable<[Codec, Hash]>).pipe(
+      map(([value]) => value)
+    );
+}
+
+export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method, options?: DecorateMethodOptions): Method {
+  return options && options.methodName && options.methodName === 'subscribeStorage'
+    ? decorateStorageSub(method) as Method
+    : method;
 }
 
 /**

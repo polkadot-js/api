@@ -381,26 +381,29 @@ export class RpcCore implements RpcInterface {
     );
   }
 
-  private _formatOutput (registry: Registry, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] | [Hash, Codec[]] {
+  private _formatOutput (registry: Registry, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] | [Codec[], Hash] | [Codec[], Hash][] {
     if (rpc.type === 'StorageData') {
+      // this is a normal single-result query
       const key = params[0] as StorageKey;
 
       return this._formatStorageData(registry, key, result);
     } else if (rpc.type === 'StorageChangeSet') {
+      // this is a subscription
       const keys = params[0] as Vec<StorageKey>;
 
       return keys
         ? this._formatStorageSet(registry, keys, result as StorageChangeSetJSON)
         : registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      const mapped = (result as StorageChangeSetJSON[]).map((changeSet): [Hash, Codec[]] =>
+      // this is a range query (deprecated)
+      const mapped = (result as StorageChangeSetJSON[]).map((changeSet): [Codec[], Hash] =>
         this._formatStorageSet(registry, params[0] as Vec<StorageKey>, changeSet)
       );
 
       // we only query at a specific block, not a range - flatten
       return method === 'queryStorageAt'
         ? mapped[0][1]
-        : mapped as unknown as Codec[];
+        : mapped;
     }
 
     return createTypeUnsafe(registry, rpc.type, [result]);
@@ -420,7 +423,7 @@ export class RpcCore implements RpcInterface {
     return this._newType(registry, key, input, isEmpty);
   }
 
-  private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, { block, changes }: StorageChangeSetJSON): [Hash, Codec[]] {
+  private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, { block, changes }: StorageChangeSetJSON): [Codec[], Hash] {
     // For StorageChangeSet, the changes has the [key, value] mappings
     const withCache = keys.length !== 1;
 
@@ -428,11 +431,14 @@ export class RpcCore implements RpcInterface {
     // one at a time, all based on the query types. Three values can be returned -
     //   - Codec - There is a valid value, non-empty
     //   - null - The storage key is empty
-    return [registry.createType('Hash', block), keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
-      results.push(this._formatStorageSetEntry(registry, key, changes, withCache, index));
+    return [
+      keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
+        results.push(this._formatStorageSetEntry(registry, key, changes, withCache, index));
 
-      return results;
-    }, [])];
+        return results;
+      }, []),
+      registry.createType('Hash', block)
+    ];
   }
 
   private _formatStorageSetEntry (registry: Registry, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {

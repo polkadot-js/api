@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Hash } from '@polkadot/types/interfaces';
 import type { Callback, Codec } from '@polkadot/types/types';
 import type { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
 
@@ -74,7 +75,7 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
 }
 
 // Decorate a subscription where we have a result callback specified
-function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
+function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], resultCb: Callback<Codec>, isStorageSub = false): UnsubscribePromise {
   return new Promise<VoidFn>((resolve, reject): void => {
     // either reject with error or resolve with unsubscribe callback
     const tracker = promiseTracker(resolve, reject);
@@ -85,7 +86,11 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
       tap(() => tracker.resolve(() => subscription.unsubscribe()))
     ).subscribe((result): void => {
       // queue result (back of queue to clear current)
-      setTimeout(() => resultCb(result) as void, 0);
+      setTimeout((): void => {
+        isStorageSub
+          ? (resultCb as Callback<Codec, Hash>)((result as [Codec, Hash])[0], (result as [Codec, Hash])[1]) as void
+          : resultCb(result) as void;
+      }, 0);
     });
   });
 }
@@ -95,12 +100,13 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
  */
 export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
+  const isStorageSub = options && options.methodName && options.methodName === 'subscribeStorage';
 
   return function (...args: unknown[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
 
     return resultCb
-      ? decorateSubscribe(method, actualArgs, resultCb)
+      ? decorateSubscribe(method, actualArgs, resultCb, !!isStorageSub)
       : decorateCall((options?.overrideNoSub as Method) || method, actualArgs);
   } as StorageEntryPromiseOverloads;
 }
