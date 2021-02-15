@@ -433,10 +433,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // we make a subscription, alternatively we push this through a single-shot query
   private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((...args: unknown[]): Observable<Codec> => {
+    return decorateMethod((...args: unknown[]): Observable<[Hash, Codec] | Codec> => {
       return this.hasSubscriptions
-        ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(creator, args)]).pipe(
-          map(([data]) => data) // extract first/only result from list
+        ? this._rpcCore.state.subscribeStorage<[Hash, Codec[]]>([extractStorageArgs(creator, args)]).pipe(
+          map(([hash, [data]]): [Hash, Codec] => [hash, data]) // extract first/only result from list
         )
         : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));
     }, {

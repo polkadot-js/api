@@ -75,7 +75,7 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
 }
 
 // Decorate a subscription where we have a result callback specified
-function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], resultCb: Callback<Codec> | Callback<Codec, Hash>, isStorageSub = false): UnsubscribePromise {
+function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], resultCb: Callback<Codec> | Callback<Codec[], Hash>, isStorageSub = false): UnsubscribePromise {
   return new Promise<VoidFn>((resolve, reject): void => {
     // either reject with error or resolve with unsubscribe callback
     const tracker = promiseTracker(resolve, reject);
@@ -88,9 +88,9 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
       // queue result (back of queue to clear current)
       setTimeout((): void => {
         if (isStorageSub) {
-          const [hash, value] = result as [Hash, Codec];
+          const [hash, values] = result as [Hash, Codec[]];
 
-          (resultCb as Callback<Codec, Hash>)(value, hash) as void;
+          (resultCb as Callback<Codec[], Hash>)(values, hash) as void;
         } else {
           (resultCb as Callback<Codec>)(result) as void;
         }
