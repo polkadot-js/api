@@ -11,7 +11,7 @@ const sharedTypes = {
   Keys: 'SessionKeys6',
   LookupSource: 'MultiAddress',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy']
   },
   ValidatorPrefs: 'ValidatorPrefsWithBlocked'
 };

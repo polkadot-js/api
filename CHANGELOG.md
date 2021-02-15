@@ -1,5 +1,62 @@
 # CHANGELOG
 
+## 3.9.2 Feb 15, 2021
+
+Upgrade priority: Low. Recommended for parachain builders since it contains the latest parachain types.
+
+Contributed:
+
+- Update README links (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Added missing Culmulus `ParachainInherentData` & `MessageQueueChain` types
+- Add alias for `system_unstable_networkState` RPC
+
+
+## 3.9.1 Feb 14, 2021
+
+Upgrade priority: Low.
+
+- **Important** The `Result<T, E>` has been updated in the generation and the base types to follow the Rust version 100%. This means `{as, is}Error` is now available as `{as, is}Err` on the `Result` type. The older versions can still be used, but the `*Error` interfaces are now marked as deprecated.
+
+Changes:
+
+- Adjust `Result<T, E>` interface to be 100% compatible with the Rust version
+- Add the `2028` upgrade to the known upgrades (optimizing certain `.at` queries)
+- Adjust council derives to cater for latest Substrate & Polkadot
+- Adjust Rococo know type definitions to cater for the latest update
+- Update types for latest Polkadot/Substrate
+- Add generic arguments for TypeScript users to `.entries/.keys` to deal with the key typings
+
+
+## 3.8.1 Feb 7, 2021
+
+Upgrade priority: Low. Recommended for users of the latest Substrate master, especially using contracts.
+
+- **Important** The `api-contract` `Code` now supports deploying the code and a contract in on operation. This aligns with the latest Substrate where code cannot be uploaded with a contract. The `createBlueprint` is therefore deprecated, use `code.tx.<constructor>(...)` to deploy code. (Compatible with both old and new versions of Substrate)
+
+Contributed:
+
+- Add support for latest Frontier RPCs (Thanks to https://github.com/jnaviask)
+- Fix user-supplied signed extensions type signature (Thanks to https://github.com/ntduan)
+
+Changes:
+
+- Expand `api-contract` to allow for `Code` to deploy contract alongside code. `createBlueprint` is now deprecated, replaced by `createContract` or the preferred `code.tx.<constructor>`, which uploads and deploys the code in one operation. This aligns with the current Substrate master contracts implementation.
+- Allow for signed extensions to be supplied inside type bundles
+- Ensure that the auto-connect state is checked on auto-connections (respecting disconnect)
+- Added `CancelProxy` to `ProxyTypes on Polkadot, Kusama & Westend
+- Updated to latest Substrate metadata
+
+
+## 3.7.3 Feb 2, 2021
+
+Changes:
+
+- Added Polkadot upgrade block for runtime 27 (known checkpoint optimization)
+
+
 ## 3.7.2 Feb 2, 2021
 
 Changes:

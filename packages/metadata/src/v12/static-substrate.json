@@ -474,7 +474,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000050100000000000030df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a801000000ab3c0572291feb8b0100000002000000",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000080100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "documentation": [
                 " Get the chain's current version."
               ]
@@ -671,7 +671,7 @@
                 "name": "GenesisSlot",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u64"
+                  "Plain": "Slot"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -683,7 +683,7 @@
                 "name": "CurrentSlot",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u64"
+                  "Plain": "Slot"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -1331,7 +1331,7 @@
                 "documentation": [
                   " The balance of an account.",
                   "",
-                  " NOTE: This is only used in the case that this module is used to store balances."
+                  " NOTE: This is only used in the case that this pallet is used to store balances."
                 ]
               },
               {
@@ -1489,7 +1489,7 @@
                 "",
                 " 99% of the time you want [`transfer`] instead.",
                 "",
-                " [`transfer`]: struct.Module.html#method.transfer",
+                " [`transfer`]: struct.Pallet.html#method.transfer",
                 " # <weight>",
                 " - Cheaper than transfer because account cannot be killed.",
                 " - Base Weight: 51.4 µs",
@@ -6842,7 +6842,7 @@
                 "type": {
                   "Plain": "Schedule"
                 },
-                "fallback": "0x000000000004000000000200000001000080000000100000000010000000010000200000000000080019060000016302005498030053100000941c0000a40d0000f11800005e2a00007000000044790100dcf102007907000080060000690700001a06000013190000f92800007f0700007d9ea70811080000a3070000770a00003308000023080000a5070000a3070000050a00003c0a000077090000b50900008f090000240a00007f09000041090000f9090000ec090000120a0000b70900003f0900003b200000cc1c000017200000471d0000e3090000c409000087090000080a00002e0a0000310a00003e0a0000380a00009c33260000000000a8fa2500000000005620250000000000848b4f00000000000e4a250000000000003f2500000000001066250000000000c0905400000000008c4e2500000000006c4b250000000000b49d490000000000466b12000000000090786500000000000f01000000000000b01b4300000000000003000000000000989e591f00000000c07d7c220000000040eca60900000000a4b55a0000000000701683000000000022b8c80700000000aa0900000000000076e85f0000000000bab5971100000000cf02000000000000f81bbb0800000000dedb070200000000dc050000000000007271d10900000000f49adb08000000007e070e08000000004a02000000000000260300000000000008f83e1b0000000051020000000000003103000000000000d70a000000000000d49522000000000068100000000000007c09250000000000240d000000000000b6e22000000000001f0600000000000006a22000000000001c06000000000000",
+                "fallback": "0x0000000000040000000002000000010000800000001000000000100000000100002000000000000800150600004c6b02004c8103009e1800000b1d0000160d0000651800006d2b00008a000000f5700100fdf602008e070000440600006e070000030600004f180000b528000091070000b60da70827080000590800006a0a0000ef070000560800004a0800008e080000f509000061090000dd090000a10a00009c090000e409000091090000650900001e0a0000120a0000ae09000099090000060a00006b2000000b1d000051200000221d000094090000ad090000b6090000160a0000660a0000fd090000260a0000440a0000d41a2a0000000000a0c729000000000092122900000000001ab5580000000000ba1c290000000000e000290000000000b0ef280000000000ee325c0000000000dec1280000000000ca07290000000000c07d4e00000000009c77140000000000303a7200000000000b01000000000000f0ab450000000000ff0200000000000060a21c270000000030078d31000000002635af09000000000ae164000000000038b18e0000000000b6b1cc0700000000890900000000000040036c00000000008ad6e21100000000de020000000000006e67cc080000000078f6110200000000e605000000000000acb1b50a00000000b24419090000000092579f08000000004702000000000000240300000000000016eaeb220000000055020000000000003503000000000000db0a000000000000f4802600000000006a100000000000006a9a280000000000220d0000000000004e9c2400000000001c0600000000000026832400000000001b06000000000000",
                 "documentation": [
                   " Current cost schedule for contracts."
                 ]
@@ -6940,19 +6940,6 @@
               ]
             },
             {
-              "name": "put_code",
-              "args": [
-                {
-                  "name": "code",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Stores the given binary Wasm code into the chain's storage and returns its `codehash`.",
-                " You can instantiate contracts only with stored code."
-              ]
-            },
-            {
               "name": "call",
               "args": [
                 {
@@ -6983,6 +6970,54 @@
               ]
             },
             {
+              "name": "instantiate_with_code",
+              "args": [
+                {
+                  "name": "endowment",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "gas_limit",
+                  "type": "Compact<Gas>"
+                },
+                {
+                  "name": "code",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "data",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "salt",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Instantiates a new contract from the supplied `code` optionally transferring",
+                " some balance.",
+                "",
+                " This is the only function that can deploy new code to the chain.",
+                "",
+                " # Parameters",
+                "",
+                " * `endowment`: The balance to transfer from the `origin` to the newly created contract.",
+                " * `gas_limit`: The gas limit enforced when executing the constructor.",
+                " * `code`: The contract code to deploy in raw bytes.",
+                " * `data`: The input data to pass to the contract constructor.",
+                " * `salt`: Used for the address derivation. See [`Self::contract_address`].",
+                "",
+                " Instantiation is executed as follows:",
+                "",
+                " - The supplied `code` is instrumented, deployed, and a `code_hash` is created for that code.",
+                " - If the `code_hash` already exists on the chain the underlying `code` will be shared.",
+                " - The destination address is computed based on the sender, code_hash and the salt.",
+                " - The smart-contract account is created at the computed address.",
+                " - The `endowment` is transferred to the new account.",
+                " - The `deploy` function is executed in the context of the newly-created account."
+              ]
+            },
+            {
               "name": "instantiate",
               "args": [
                 {
@@ -7007,19 +7042,11 @@
                 }
               ],
               "documentation": [
-                " Instantiates a new contract from the `code_hash` generated by `put_code`,",
-                " optionally transferring some balance.",
+                " Instantiates a contract from a previously deployed wasm binary.",
                 "",
-                " The supplied `salt` is used for contract address deriviation. See `fn contract_address`.",
-                "",
-                " Instantiation is executed as follows:",
-                "",
-                " - The destination address is computed based on the sender, code_hash and the salt.",
-                " - The smart-contract account is created at the computed address.",
-                " - The `ctor_code` is executed in the context of the newly-created account. Buffer returned",
-                "   after the execution is saved as the `code` of the account. That code will be invoked",
-                "   upon any call received by this account.",
-                " - The contract is initialized."
+                " This function is identical to [`Self::instantiate_with_code`] but without the",
+                " code deployment step. Instead, the `code_hash` of an on-chain deployed wasm binary",
+                " must be supplied."
               ]
             },
             {
@@ -7055,23 +7082,37 @@
                 "AccountId"
               ],
               "documentation": [
-                " Contract deployed by address at the specified address. \\[owner, contract\\]"
+                " Contract deployed by address at the specified address. \\[deployer, contract\\]"
               ]
             },
             {
               "name": "Evicted",
               "args": [
-                "AccountId",
-                "bool"
+                "AccountId"
               ],
               "documentation": [
-                " Contract has been evicted and is now in tombstone state.",
-                " \\[contract, tombstone\\]",
+                " Contract has been evicted and is now in tombstone state. \\[contract\\]"
+              ]
+            },
+            {
+              "name": "Terminated",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " Contract has been terminated without leaving a tombstone.",
+                " \\[contract, beneficiary\\]",
                 "",
                 " # Params",
                 "",
-                " - `contract`: `AccountId`: The account ID of the evicted contract.",
-                " - `tombstone`: `bool`: True if the evicted contract left behind a tombstone."
+                " - `contract`: The contract that was terminated.",
+                " - `beneficiary`: The account that received the contracts remaining balance.",
+                "",
+                " # Note",
+                "",
+                " The only way for a contract to be removed without a tombstone and emitting",
+                " this event is by calling `seal_terminate`."
               ]
             },
             {
@@ -7083,15 +7124,15 @@
                 "Balance"
               ],
               "documentation": [
-                " Restoration for a contract has been successful.",
-                " \\[donor, dest, code_hash, rent_allowance\\]",
+                " Restoration of a contract has been successful.",
+                " \\[restorer, dest, code_hash, rent_allowance\\]",
                 "",
                 " # Params",
                 "",
-                " - `donor`: `AccountId`: Account ID of the restoring contract",
-                " - `dest`: `AccountId`: Account ID of the restored contract",
-                " - `code_hash`: `Hash`: Code hash of the restored contract",
-                " - `rent_allowance: `Balance`: Rent allowance of the restored contract"
+                " - `restorer`: Account ID of the restoring contract.",
+                " - `dest`: Account ID of the restored contract.",
+                " - `code_hash`: Code hash of the restored contract.",
+                " - `rent_allowance`: Rent allowance of the restored contract."
               ]
             },
             {
@@ -7100,8 +7141,7 @@
                 "Hash"
               ],
               "documentation": [
-                " Code with the specified hash has been stored.",
-                " \\[code_hash\\]"
+                " Code with the specified hash has been stored. \\[code_hash\\]"
               ]
             },
             {
@@ -7110,18 +7150,41 @@
                 "u32"
               ],
               "documentation": [
-                " Triggered when the current \\[schedule\\] is updated."
+                " Triggered when the current schedule is updated.",
+                " \\[version\\]",
+                "",
+                " # Params",
+                "",
+                " - `version`: The version of the newly set schedule."
               ]
             },
             {
-              "name": "ContractExecution",
+              "name": "ContractEmitted",
               "args": [
                 "AccountId",
                 "Bytes"
               ],
               "documentation": [
-                " An event deposited upon execution of a contract from the account.",
-                " \\[account, data\\]"
+                " A custom event emitted by the contract.",
+                " \\[contract, data\\]",
+                "",
+                " # Params",
+                "",
+                " - `contract`: The contract that emitted the event.",
+                " - `data`: Data supplied by the contract. Metadata generated during contract",
+                "           compilation is needed to decode it."
+              ]
+            },
+            {
+              "name": "CodeRemoved",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A code with the specified hash was removed.",
+                " \\[code_hash\\]",
+                "",
+                " This happens when the last contract that uses this code hash was removed or evicted."
               ]
             }
           ],
@@ -7224,7 +7287,7 @@
             {
               "name": "DeletionQueueDepth",
               "type": "u32",
-              "value": "0x11010000",
+              "value": "0xf2000000",
               "documentation": [
                 " The maximum number of tries that can be queued for deletion."
               ]
@@ -7328,7 +7391,8 @@
             {
               "name": "CodeTooLarge",
               "documentation": [
-                " The code supplied to `put_code` exceeds the limit specified in the current schedule."
+                " The code supplied to `instantiate_with_code` exceeds the limit specified in the",
+                " current schedule."
               ]
             },
             {
@@ -7427,6 +7491,12 @@
                 "",
                 " This can either happen when the accumulated storage in bytes is too large or",
                 " when number of storage items is too large."
+              ]
+            },
+            {
+              "name": "DuplicateContract",
+              "documentation": [
+                " A contract with the same AccountId already exists."
               ]
             }
           ],
@@ -7648,7 +7718,7 @@
                 },
                 "fallback": "0x00000000",
                 "documentation": [
-                  " For each session index, we keep a mapping of `T::ValidatorId` to the",
+                  " For each session index, we keep a mapping of `ValidatorId<T>` to the",
                   " number of blocks authored by the given authority."
                 ]
               }

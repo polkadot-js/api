@@ -87,12 +87,12 @@ function tsInt (definitions: Record<string, ModuleTypes>, def: TypeDef, imports:
 }
 
 /** @internal */
-function tsResultGetter (definitions: Record<string, ModuleTypes>, resultName = '', getter: 'Ok' | 'Error', def: TypeDef, imports: TypeImports): string {
+function tsResultGetter (definitions: Record<string, ModuleTypes>, resultName = '', getter: 'Ok' | 'Err' | 'Error', def: TypeDef, imports: TypeImports): string {
   const { info, type } = def;
   const asGetter = type === 'Null'
     ? ''
-    : createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports);
-  const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
+    : (getter === 'Error' ? '  /** @deprecated Use asErr */\n' : '') + createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports);
+  const isGetter = (getter === 'Error' ? '  /** @deprecated Use isErr */\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
     case TypeDefInfo.Plain:
@@ -110,6 +110,8 @@ function tsResultGetter (definitions: Record<string, ModuleTypes>, resultName = 
 function tsResult (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   const [okDef, errorDef] = (def.sub as TypeDef[]);
   const inner = [
+    tsResultGetter(definitions, def.name, 'Err', errorDef, imports),
+    // @deprecated, use Err
     tsResultGetter(definitions, def.name, 'Error', errorDef, imports),
     tsResultGetter(definitions, def.name, 'Ok', okDef, imports)
   ].join('');

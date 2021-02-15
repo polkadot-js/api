@@ -11,7 +11,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
-import type { EthAccount, EthCallRequest, EthFilter, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
+import type { EthAccount, EthCallRequest, EthFilter, EthFilterChanges, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
@@ -189,6 +189,14 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       getCode: AugmentedRpc<(address: H160 | string | Uint8Array, number?: BlockNumber | AnyNumber | Uint8Array) => Observable<Bytes>>;
       /**
+       * Returns filter changes since last poll.
+       **/
+      getFilterChanges: AugmentedRpc<(index: U256 | AnyNumber | Uint8Array) => Observable<EthFilterChanges>>;
+      /**
+       * Returns all logs matching given filter (in a range 'from' - 'to').
+       **/
+      getFilterLogs: AugmentedRpc<(index: U256 | AnyNumber | Uint8Array) => Observable<Vec<EthLog>>>;
+      /**
        * Returns logs matching given filter object.
        **/
       getLogs: AugmentedRpc<(filter: EthFilter | { fromBlock?: any; toBlock?: any; blockHash?: any; address?: any; topics?: any } | string | Uint8Array) => Observable<Vec<EthLog>>>;
@@ -249,6 +257,18 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       mining: AugmentedRpc<() => Observable<bool>>;
       /**
+       * Returns id of new block filter.
+       **/
+      newBlockFilter: AugmentedRpc<() => Observable<U256>>;
+      /**
+       * Returns id of new filter.
+       **/
+      newFilter: AugmentedRpc<(filter: EthFilter | { fromBlock?: any; toBlock?: any; blockHash?: any; address?: any; topics?: any } | string | Uint8Array) => Observable<U256>>;
+      /**
+       * Returns id of new block filter.
+       **/
+      newPendingTransactionFilter: AugmentedRpc<() => Observable<U256>>;
+      /**
        * Returns protocol version encoded as a string (quotes are necessary).
        **/
       protocolVersion: AugmentedRpc<() => Observable<u64>>;
@@ -276,6 +296,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns an object with data about the sync status or false.
        **/
       syncing: AugmentedRpc<() => Observable<EthSyncStatus>>;
+      /**
+       * Uninstalls filter.
+       **/
+      uninstallFilter: AugmentedRpc<(index: U256 | AnyNumber | Uint8Array) => Observable<bool>>;
     };
     grandpa: {
       /**

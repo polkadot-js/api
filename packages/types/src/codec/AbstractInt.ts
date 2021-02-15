@@ -7,7 +7,7 @@ import type { UIntBitLength } from './types';
 
 import BN from 'bn.js';
 
-import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -17,10 +17,10 @@ const MAX_NUMBER_BITS = 52;
 const MUL_P = new BN(1_00_00);
 
 const FORMATTERS: [string, BN][] = [
-  ['Perquintill', new BN(1_000_000_000_000)],
-  ['Perbill', new BN(1_000_000_000)],
-  ['Permill', new BN(1_000_000)],
-  ['Percent', new BN(100)]
+  ['Perquintill', BN_QUINTILL],
+  ['Perbill', BN_BILLION],
+  ['Permill', BN_MILLION],
+  ['Percent', BN_HUNDRED]
 ];
 
 function toPercentage (value: BN, divisor: BN): string {

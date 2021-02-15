@@ -10,7 +10,7 @@ import type { DeriveStakingQuery } from './types';
 
 import BN from 'bn.js';
 
-import { isFunction } from '@polkadot/util';
+import { BN_BILLION, BN_ZERO, isFunction } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
@@ -18,29 +18,27 @@ import { memo } from '../util';
 
 type ErasResult = [{ unwrapOr: (value: BN) => BN }, DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
-const ZERO = new BN(0);
 const MIN_ONE = new BN(-1);
-const COMM_DIV = new BN(1_000_000_000);
 
 function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
-    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: ZERO, validators: {} };
+    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} };
     const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.registry.createType('Balance') };
     const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
     const validators: Record<string, DeriveStakerRewardValidator> = {};
     const stakerId = stashId.toString();
 
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
-      const valPoints = allValPoints[validatorId] || ZERO;
-      const valComm = allValPrefs[validatorId]?.commission.unwrap() || ZERO;
+      const valPoints = allValPoints[validatorId] || BN_ZERO;
+      const valComm = allValPrefs[validatorId]?.commission.unwrap() || BN_ZERO;
       const expTotal = exposure.total.unwrap();
-      let avail = ZERO;
+      let avail = BN_ZERO;
       let value: BN | undefined;
 
       if (!(expTotal.isZero() || valPoints.isZero() || eraPoints.isZero())) {
         avail = eraReward.mul(valPoints).div(eraPoints);
 
-        const valCut = valComm.mul(avail).div(COMM_DIV);
+        const valCut = valComm.mul(avail).div(BN_BILLION);
         let staked: BN;
 
         if (validatorId === stakerId) {
@@ -50,10 +48,10 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, e
 
           staked = stakerExp
             ? stakerExp.value.unwrap()
-            : ZERO;
+            : BN_ZERO;
         }
 
-        value = avail.sub(valCut).imul(staked).div(expTotal).iadd(validatorId === stakerId ? valCut : ZERO);
+        value = avail.sub(valCut).imul(staked).div(expTotal).iadd(validatorId === stakerId ? valCut : BN_ZERO);
       }
 
       validators[validatorId] = {
@@ -181,7 +179,7 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
 
         return withActive
           ? of(rewards)
-          : filterRewards(api, eras, { migrateEra: erasResult[0].unwrapOr(ZERO), rewards, stakingLedger });
+          : filterRewards(api, eras, { migrateEra: erasResult[0].unwrapOr(BN_ZERO), rewards, stakingLedger });
       })
     )
   );

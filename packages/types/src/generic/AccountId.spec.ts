@@ -90,7 +90,7 @@ describe('AccountId', (): void => {
     ]));
 
     it('decodes to a non-empty value', (): void => {
-      expect(registry.createType('AccountId', '7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJdMX').isEmpty).toBe(false);
+      expect(registry.createType('AccountId', 'FVU8T5yaAssHAUwo3PnKso7fqNthEqJZGCZgJZSR9cKjWAf').isEmpty).toBe(false);
     });
   });
 
@@ -98,7 +98,7 @@ describe('AccountId', (): void => {
     it('has the correct entries', (): void => {
       registry.setChainProperties(
         registry.createType('ChainProperties', {
-          ss58Format: 68
+          ss58Format: 2
         })
       );
 
@@ -106,14 +106,14 @@ describe('AccountId', (): void => {
       const list = registry.createType('Vec<AccountId>', data).map((accountId) => accountId.toString());
 
       expect(list).toEqual([
-        '7qVJujLF3EDbZt5WfQXWvueFedMS4Vfk2Hb4GyR8jwksTLup',
-        '7pHyqeYaJjJPgxQgCXoS2EZMhBhtpm6BLCqQ4jJZTQB2kMhw',
-        '7pYLWV6PTUmLTMQfHmmuBwBNLkhcKhRAnkM36CSJtjat9ACb',
-        '7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJdMX',
-        '7rADc9JW5EUGFPWLjPMipH4c3bJ2GyAUedmqQHiaGucWVrsT',
-        '7oK5KRH6jt4p8auipnru9ptqeuRwbLMHA2tgCViZzhmW4Lox',
-        '7ndAVsHvonnzTg4AvRhpraNCKj9g4CGQXKoLrgkTZ91Na6PE',
-        '7oL7VfXgLA8L3pJJwi11v3sBYc1b5R3tLrweHwzMNxgEpjxP'
+        'FXmrFbdg2VdG1NttGTx1S6Czbv2SQ7PaD2PfryGBWWgt52i',
+        'ELSnAoxwXaRP5i4RPjs6m1K3AGVCfXpt8GjTcrgtxvrAuZv',
+        'EaoT1Mn6H3N9Ui3WdiLGTdKgjGChbrpLfnNV5zSLJLhZvgj',
+        'FVU8T5yaAssHAUwo3PnKso7fqNthEqJZGCZgJZSR9cKjWAf',
+        'GCgYfZti2kHwWoixFJ9toWZPZrcesc8CZDAoBGhiUNKvTQM',
+        'DMYFwYVNgLqpiD73eoLEMLnzszXyEnvhxL1bPGhSGXKV8kS',
+        'CfdSPZKSb529oMZ9HeFw6p9fhiGS6i45FEgFaJazhmBzsxZ',
+        'DNaSBo4xxQMjwbhAZwSzaK8taaBTKVXtnNygqYUpXS4FMwN'
       ]);
     });
   });

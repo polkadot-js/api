@@ -444,6 +444,9 @@ export interface MessageIngestionType extends Struct {
   readonly horizontalMessages: BTreeMap<ParaId, InboundHrmpMessages>;
 }
 
+/** @name MessageQueueChain */
+export interface MessageQueueChain extends RelayChainHash {}
+
 /** @name MessagingStateSnapshot */
 export interface MessagingStateSnapshot extends Struct {
   readonly relayDispatchQueueSize: ITuple<[u32, u32]>;
@@ -545,6 +548,14 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isRoot: boolean;
 }
 
+/** @name ParachainInherentData */
+export interface ParachainInherentData extends Struct {
+  readonly validationData: PersistedValidationData;
+  readonly relayChainState: StorageProof;
+  readonly downwardMessages: Vec<InboundDownwardMessage>;
+  readonly horizontalMessages: BTreeMap<ParaId, VecInboundHrmpMessage>;
+}
+
 /** @name ParachainProposal */
 export interface ParachainProposal extends Struct {
   readonly proposer: AccountId;
@@ -567,6 +578,17 @@ export interface ParaId extends u32 {}
 /** @name ParaInfo */
 export interface ParaInfo extends Struct {
   readonly scheduling: Scheduling;
+}
+
+/** @name ParaLifecycle */
+export interface ParaLifecycle extends Enum {
+  readonly isOnboarding: boolean;
+  readonly isParathread: boolean;
+  readonly isParachain: boolean;
+  readonly isUpgradingToParachain: boolean;
+  readonly isDowngradingToParathread: boolean;
+  readonly isOutgoingParathread: boolean;
+  readonly isOutgoingParachain: boolean;
 }
 
 /** @name ParaPastCodeMeta */
@@ -630,6 +652,9 @@ export interface RegisteredParachainInfo extends Struct {
 
 /** @name RelayChainBlockNumber */
 export interface RelayChainBlockNumber extends u32 {}
+
+/** @name RelayChainHash */
+export interface RelayChainHash extends Hash {}
 
 /** @name RelayedFrom */
 export interface RelayedFrom extends Struct {
@@ -727,12 +752,7 @@ export interface Statement extends Enum {
 export interface SubId extends u32 {}
 
 /** @name SystemInherentData */
-export interface SystemInherentData extends Struct {
-  readonly validationData: PersistedValidationData;
-  readonly relayChainState: StorageProof;
-  readonly downwardMessages: Vec<InboundDownwardMessage>;
-  readonly horizontalMessages: BTreeMap<ParaId, VecInboundHrmpMessage>;
-}
+export interface SystemInherentData extends ParachainInherentData {}
 
 /** @name TeleportAsset */
 export interface TeleportAsset extends Struct {

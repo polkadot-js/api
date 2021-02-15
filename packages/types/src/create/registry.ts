@@ -134,7 +134,7 @@ export class TypeRegistry implements Registry {
 
   #signedExtensions: string[] = defaultExtensions;
 
-  #userExtensions?: Record<string, ExtDef>;
+  #userExtensions?: ExtDef;
 
   constructor () {
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
@@ -377,7 +377,7 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the metadata
-  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: Record<string, ExtDef>): void {
+  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     injectExtrinsics(this, metadata, this.#metadataCalls);
     injectErrors(this, metadata, this.#metadataErrors);
     injectEvents(this, metadata, this.#metadataEvents);
@@ -399,7 +399,7 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[] = defaultExtensions, userExtensions?: Record<string, ExtDef>): void {
+  setSignedExtensions (signedExtensions: string[] = defaultExtensions, userExtensions?: ExtDef): void {
     this.#signedExtensions = signedExtensions;
     this.#userExtensions = userExtensions;
 

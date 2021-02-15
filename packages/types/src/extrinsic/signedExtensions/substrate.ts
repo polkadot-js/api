@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ExtDef } from './types';
+import type { ExtDef, ExtInfo } from './types';
 
 import { emptyCheck } from './emptyCheck';
 
-const CheckMortality = {
+const CheckMortality: ExtInfo = {
   extrinsic: {
     era: 'ExtrinsicEra'
   },
@@ -14,7 +14,7 @@ const CheckMortality = {
   }
 };
 
-export default {
+export const substrate: ExtDef = {
   ChargeTransactionPayment: {
     extrinsic: {
       tip: 'Compact<Balance>'
@@ -57,4 +57,4 @@ export default {
   CheckWeight: emptyCheck,
   LockStakingStatus: emptyCheck,
   ValidateEquivocationReport: emptyCheck
-} as ExtDef;
+};

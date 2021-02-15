@@ -209,12 +209,19 @@ export default {
       downwardMessages: 'Vec<InboundDownwardMessage>',
       horizontalMessages: 'BTreeMap<ParaId, InboundHrmpMessages>'
     },
+    MessageQueueChain: 'RelayChainHash',
     OutboundHrmpMessage: {
       recipient: 'u32',
       data: 'Bytes'
     },
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain', 'Root']
+    },
+    ParachainInherentData: {
+      validationData: 'PersistedValidationData',
+      relayChainState: 'StorageProof',
+      downwardMessages: 'Vec<InboundDownwardMessage>',
+      horizontalMessages: 'BTreeMap<ParaId, VecInboundHrmpMessage>'
     },
     ParaGenesisArgs: {
       genesisHead: 'Bytes',
@@ -224,6 +231,9 @@ export default {
     ParaId: 'u32',
     ParaInfo: {
       scheduling: 'Scheduling'
+    },
+    ParaLifecycle: {
+      _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingToParachain', 'DowngradingToParathread', 'OutgoingParathread', 'OutgoingParachain']
     },
     ParaPastCodeMeta: {
       upgradeTimes: 'Vec<BlockNumber>',
@@ -251,6 +261,7 @@ export default {
       maxPovSize: 'u32'
     },
     RelayChainBlockNumber: 'u32',
+    RelayChainHash: 'Hash',
     QueuedParathread: {
       claim: 'ParathreadEntry',
       coreOffset: 'u32'
@@ -525,12 +536,7 @@ export default {
       egressChannels: 'Vec<MessagingStateSnapshotEgressEntry>'
     },
     MessagingStateSnapshotEgressEntry: '(ParaId, AbridgedHrmpChannel)',
-    SystemInherentData: {
-      validationData: 'PersistedValidationData',
-      relayChainState: 'StorageProof',
-      downwardMessages: 'Vec<InboundDownwardMessage>',
-      horizontalMessages: 'BTreeMap<ParaId, VecInboundHrmpMessage>'
-    },
+    SystemInherentData: 'ParachainInherentData',
     VecInboundHrmpMessage: 'Vec<InboundHrmpMessage>'
   }
 } as Definitions;
