@@ -82,6 +82,7 @@ export default {
       type: 'Vec<PeerInfo>'
     },
     networkState: {
+      alias: ['system_unstable_networkState'],
       description: 'Returns current state of the network',
       params: [],
       type: 'NetworkState'
