@@ -381,7 +381,7 @@ export class RpcCore implements RpcInterface {
     );
   }
 
-  private _formatOutput (registry: Registry, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] | [Codec[], Hash] | [Codec[], Hash][] {
+  private _formatOutput (registry: Registry, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] | [Hash, Codec[]] | [Hash, Codec[]][] {
     if (rpc.type === 'StorageData') {
       // this is a normal single-result query
       const key = params[0] as StorageKey;
@@ -396,7 +396,7 @@ export class RpcCore implements RpcInterface {
         : registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
       // this is a range query (deprecated)
-      const mapped = (result as StorageChangeSetJSON[]).map((changeSet): [Codec[], Hash] =>
+      const mapped = (result as StorageChangeSetJSON[]).map((changeSet): [Hash, Codec[]] =>
         this._formatStorageSet(registry, params[0] as Vec<StorageKey>, changeSet)
       );
 
@@ -423,7 +423,7 @@ export class RpcCore implements RpcInterface {
     return this._newType(registry, key, input, isEmpty);
   }
 
-  private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, { block, changes }: StorageChangeSetJSON): [Codec[], Hash] {
+  private _formatStorageSet (registry: Registry, keys: Vec<StorageKey>, { block, changes }: StorageChangeSetJSON): [Hash, Codec[]] {
     // For StorageChangeSet, the changes has the [key, value] mappings
     const withCache = keys.length !== 1;
 
@@ -432,12 +432,12 @@ export class RpcCore implements RpcInterface {
     //   - Codec - There is a valid value, non-empty
     //   - null - The storage key is empty
     return [
+      registry.createType('Hash', block),
       keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
         results.push(this._formatStorageSetEntry(registry, key, changes, withCache, index));
 
         return results;
-      }, []),
-      registry.createType('Hash', block)
+      }, [])
     ];
   }
 

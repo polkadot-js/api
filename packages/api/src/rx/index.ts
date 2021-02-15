@@ -12,8 +12,8 @@ import { ApiBase } from '../base';
 
 function decorateStorageSub (method: DecorateFn<Codec>): DecorateFn<Codec> {
   return (...args: any[]) =>
-    (method(...args) as unknown as Observable<[Codec, Hash]>).pipe(
-      map(([value]) => value)
+    (method(...args) as unknown as Observable<[Hash, Codec]>).pipe(
+      map(([, value]) => value)
     );
 }
 

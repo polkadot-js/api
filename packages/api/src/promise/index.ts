@@ -88,7 +88,7 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
       // queue result (back of queue to clear current)
       setTimeout((): void => {
         isStorageSub
-          ? (resultCb as Callback<Codec, Hash>)((result as [Codec, Hash])[0], (result as [Codec, Hash])[1]) as void
+          ? (resultCb as Callback<Codec, Hash>)((result as [Hash, Codec])[1], (result as [Hash, Codec])[0]) as void
           : resultCb(result) as void;
       }, 0);
     });
