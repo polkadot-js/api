@@ -4,6 +4,10 @@
 
 Upgrade priority: Low. Recommended for parachain builders since it contains the latest parachain types.
 
+Contributed:
+
+- Update README links (Thanks to https://github.com/wirednkod)
+
 Changes:
 
 - Added missing Culmulus `ParachainInherentData` & `MessageQueueChain` types
