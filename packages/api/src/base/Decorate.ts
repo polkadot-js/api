@@ -308,14 +308,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // only be called if supportMulti is true
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
-      (this.hasSubscriptions
-        ? this._rpcCore.state.subscribeStorage
-        : this._rpcCore.state.queryStorageAt)(
-        calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
-          Array.isArray(arg)
-            ? [arg[0].creator, ...arg.slice(1)]
-            : [arg.creator])));
+    return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> => {
+      const args = calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
+        Array.isArray(arg)
+          ? [arg[0].creator, ...arg.slice(1)]
+          : [arg.creator]
+      );
+
+      return this.hasSubscriptions
+        ? this._rpcCore.state.subscribeStorage(args)
+        : this._rpcCore.state.queryStorageAt(args);
+    });
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
@@ -466,10 +469,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     return combineLatest(
       arrayChunk(keys, PAGE_SIZE).map((keys) =>
-        (this.hasSubscriptions
-          ? this._rpcCore.state.subscribeStorage
-          : this._rpcCore.state.queryStorageAt
-        )(keys)
+        this.hasSubscriptions
+          ? this._rpcCore.state.subscribeStorage(keys).pipe(
+            map(([, values]) => values)
+          )
+          : this._rpcCore.state.queryStorageAt(keys)
       )
     ).pipe(
       map((valsArr): Codec[] => arrayFlatten(valsArr))
