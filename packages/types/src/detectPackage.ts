@@ -18,7 +18,7 @@
 
 import { detectPackage } from '@polkadot/util';
 
-import packageInfo from './package-info.json';
+import { packageInfo } from './packageInfo';
 
 detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname);
 
