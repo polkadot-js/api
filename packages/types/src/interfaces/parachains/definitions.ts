@@ -254,10 +254,8 @@ export default {
     ParaValidatorIndex: 'u32',
     PersistedValidationData: {
       parentHead: 'HeadData',
-      blockNumber: 'RelayChainBlockNumber',
-      relayStorageRoot: 'Hash',
-      hrmpMqcHeads: 'Vec<(u32, Hash)>',
-      dmqMqcHead: 'Hash',
+      relayParentNumber: 'RelayChainBlockNumber',
+      relayParentStorageRoot: 'Hash',
       maxPovSize: 'u32'
     },
     RelayChainBlockNumber: 'u32',

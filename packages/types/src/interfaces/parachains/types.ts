@@ -624,10 +624,8 @@ export interface ParaValidatorIndex extends u32 {}
 /** @name PersistedValidationData */
 export interface PersistedValidationData extends Struct {
   readonly parentHead: HeadData;
-  readonly blockNumber: RelayChainBlockNumber;
-  readonly relayStorageRoot: Hash;
-  readonly hrmpMqcHeads: Vec<ITuple<[u32, Hash]>>;
-  readonly dmqMqcHead: Hash;
+  readonly relayParentNumber: RelayChainBlockNumber;
+  readonly relayParentStorageRoot: Hash;
   readonly maxPovSize: u32;
 }
 
