@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 3.9.3 Feb 16, 2021
+
+Upgrade priority: Low. Recommended for parachain builders since it contains the updated parachain types.
+
+Changes:
+
+- Adjusted parachain `PersistedValidationData` structure
+
+
 ## 3.9.2 Feb 15, 2021
 
 Upgrade priority: Low. Recommended for parachain builders since it contains the latest parachain types.
