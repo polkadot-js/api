@@ -1,5 +1,44 @@
 # CHANGELOG
 
+## 3.9.3 Feb 16, 2021
+
+Upgrade priority: Low. Recommended for parachain builders since it contains the updated parachain types.
+
+Changes:
+
+- Adjusted parachain `PersistedValidationData` structure
+
+
+## 3.9.2 Feb 15, 2021
+
+Upgrade priority: Low. Recommended for parachain builders since it contains the latest parachain types.
+
+Contributed:
+
+- Update README links (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Added missing Culmulus `ParachainInherentData` & `MessageQueueChain` types
+- Add alias for `system_unstable_networkState` RPC
+
+
+## 3.9.1 Feb 14, 2021
+
+Upgrade priority: Low.
+
+- **Important** The `Result<T, E>` has been updated in the generation and the base types to follow the Rust version 100%. This means `{as, is}Error` is now available as `{as, is}Err` on the `Result` type. The older versions can still be used, but the `*Error` interfaces are now marked as deprecated.
+
+Changes:
+
+- Adjust `Result<T, E>` interface to be 100% compatible with the Rust version
+- Add the `2028` upgrade to the known upgrades (optimizing certain `.at` queries)
+- Adjust council derives to cater for latest Substrate & Polkadot
+- Adjust Rococo know type definitions to cater for the latest update
+- Update types for latest Polkadot/Substrate
+- Add generic arguments for TypeScript users to `.entries/.keys` to deal with the key typings
+
+
 ## 3.8.1 Feb 7, 2021
 
 Upgrade priority: Low. Recommended for users of the latest Substrate master, especially using contracts.
