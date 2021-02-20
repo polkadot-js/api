@@ -298,10 +298,8 @@ export class WsProvider implements ProviderInterface {
    * })
    * ```
    */
-  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number | string> {
-    const id = await this.send<number | string>(method, params, { callback, type });
-
-    return id;
+  public subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    return this.send<number | string>(method, params, { callback, type });
   }
 
   /**
