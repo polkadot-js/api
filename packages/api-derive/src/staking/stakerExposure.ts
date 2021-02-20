@@ -10,36 +10,46 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-export function _stakerExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerExposure[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerExposure[]> => {
-    const stakerId = api.registry.createType('AccountId', accountId).toString();
+export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerExposure[][]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean): Observable<DeriveStakerExposure[][]> => {
+    const stakerIds = accountIds.map((a) => api.registry.createType('AccountId', a).toString());
 
     return api.derive.staking._erasExposure(eras, withActive).pipe(
-      map((exposures): DeriveStakerExposure[] =>
-        exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
-          const isValidator = !!allValidators[stakerId];
-          const validators: DeriveEraValidatorExposure = {};
-          const nominating = allNominators[stakerId] || [];
+      map((exposures): DeriveStakerExposure[][] =>
+        stakerIds.map((stakerId) =>
+          exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
+            const isValidator = !!allValidators[stakerId];
+            const validators: DeriveEraValidatorExposure = {};
+            const nominating = allNominators[stakerId] || [];
 
-          if (isValidator) {
-            validators[stakerId] = allValidators[stakerId];
-          } else if (nominating) {
-            nominating.forEach(({ validatorId }): void => {
-              validators[validatorId] = allValidators[validatorId];
-            });
-          }
+            if (isValidator) {
+              validators[stakerId] = allValidators[stakerId];
+            } else if (nominating) {
+              nominating.forEach(({ validatorId }): void => {
+                validators[validatorId] = allValidators[validatorId];
+              });
+            }
 
-          return { era, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
-        })
+            return { era, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
+          })
+        )
       )
     );
   });
 }
 
+export function stakerExposures (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], withActive = false): Observable<DeriveStakerExposure[][]> =>
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((eras) => api.derive.staking._stakerExposures(accountIds, eras, withActive))
+    )
+  );
+}
+
 export function stakerExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerExposure[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerExposure(accountId, eras, withActive))
+    api.derive.staking.stakerExposures([accountId, withActive]).pipe(
+      map(([first]) => first)
     )
   );
 }

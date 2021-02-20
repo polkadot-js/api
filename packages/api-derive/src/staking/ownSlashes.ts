@@ -1,62 +1,44 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveStakerSlashes } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
+import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-import { deriveCache, memo } from '../util';
+import { memo } from '../util';
 
-const CACHE_KEY = 'ownSlash';
-
-export function _ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex, withActive: boolean) => Observable<DeriveStakerSlashes> {
-  return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex, withActive: boolean): Observable<DeriveStakerSlashes> => {
-    const cacheKey = `${CACHE_KEY}-${era.toString()}-${accountId.toString()}`;
-    const cached = withActive
-      ? undefined
-      : deriveCache.get<DeriveStakerSlashes>(cacheKey);
-
-    return cached
-      ? of(cached)
-      : api.queryMulti<[Option<BalanceOf>, Option<ITuple<[Perbill, BalanceOf]>>]>([
-        [api.query.staking.nominatorSlashInEra, [era, accountId]],
-        [api.query.staking.validatorSlashInEra, [era, accountId]]
+export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerSlashes[]> =>
+    eras.length
+      ? api.queryMulti<(Option<ITuple<[Perbill, BalanceOf]>> | Option<BalanceOf>)[]>([
+        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.validatorSlashInEra, [era, accountId]]),
+        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.nominatorSlashInEra, [era, accountId]])
       ]).pipe(
-        map(([optNom, optVal]): DeriveStakerSlashes => {
-          const value = {
+        map((values): DeriveStakerSlashes[] =>
+          eras.map((era, index) => ({
             era,
-            total: optVal.isSome
-              ? optVal.unwrap()[1]
-              : optNom.unwrapOrDefault()
-          };
-
-          !withActive && deriveCache.set(cacheKey, value);
-
-          return value;
-        })
-      );
-  });
+            total: values[index].isSome
+              ? (values[index].unwrap() as ITuple<[Perbill, BalanceOf]>)[1]
+              : (values[index + eras.length].unwrapOrDefault() as BalanceOf)
+          }))
+        )
+      )
+      : of([])
+  );
 }
 
 export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveStakerSlashes> {
   return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex): Observable<DeriveStakerSlashes> =>
-    api.derive.staking._ownSlash(accountId, era, true)
-  );
-}
-
-export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerSlashes[]> =>
-    eras.length
-      ? combineLatest(
-        eras.map((era) => api.derive.staking._ownSlash(accountId, era, withActive))
-      )
-      : of([])
+    api.derive.staking._ownSlashes(accountId, [era], true).pipe(
+      map(([first]) => first)
+    )
   );
 }
 
