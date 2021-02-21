@@ -27,7 +27,7 @@ interface Decoded {
   value: Codec;
 }
 
-function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor | number>): def is Record<string, keyof InterfaceTypes | Constructor> {
+function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number>): def is Record<string, keyof InterfaceTypes | Constructor> {
   const defValues = Object.values(def);
 
   if (defValues.some((v) => isNumber(v))) {
@@ -39,7 +39,7 @@ function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor | nu
   return true;
 }
 
-function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor | number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
+function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
   if (Array.isArray(_def)) {
     return {
       def: _def.reduce((def: TypesDef, key, index): TypesDef => {
@@ -68,7 +68,7 @@ function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTyp
     isIndexed = false;
   } else {
     def = Object
-      .entries(_def as Record<string, number>)
+      .entries(_def)
       .reduce((def: TypesDef, [key, index]): TypesDef => {
         def[key] = { Type: Null, index };
 
@@ -176,7 +176,7 @@ export class Enum implements Codec {
 
   readonly #raw: Codec;
 
-  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor | number> | string[], value?: unknown, index?: number) {
+  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
     const defInfo = extractDef(registry, def);
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
