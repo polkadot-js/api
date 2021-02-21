@@ -46,7 +46,7 @@ import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, Vouching
 import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RewardDestination, RewardDestinationTo257, RewardPoint, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, Voter } from '@polkadot/types/interfaces/staking';
 import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
-import type { AccountInfo, AccountInfoWithProviders, AccountInfoWithRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClass, PerDispatchClassU32, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
+import type { AccountInfo, AccountInfoWithProviders, AccountInfoWithRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
@@ -597,8 +597,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<PendingResume>': Option<PendingResume>;
     'Option<Perbill>': Option<Perbill>;
     'Option<Percent>': Option<Percent>;
-    'Option<PerDispatchClass>': Option<PerDispatchClass>;
     'Option<PerDispatchClassU32>': Option<PerDispatchClassU32>;
+    'Option<PerDispatchClassWeight>': Option<PerDispatchClassWeight>;
+    'Option<PerDispatchClassWeightsPerClass>': Option<PerDispatchClassWeightsPerClass>;
     'Option<Period>': Option<Period>;
     'Option<Permill>': Option<Permill>;
     'Option<PermissionLatest>': Option<PermissionLatest>;
@@ -1324,8 +1325,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<PendingResume>': Vec<PendingResume>;
     'Vec<Perbill>': Vec<Perbill>;
     'Vec<Percent>': Vec<Percent>;
-    'Vec<PerDispatchClass>': Vec<PerDispatchClass>;
     'Vec<PerDispatchClassU32>': Vec<PerDispatchClassU32>;
+    'Vec<PerDispatchClassWeight>': Vec<PerDispatchClassWeight>;
+    'Vec<PerDispatchClassWeightsPerClass>': Vec<PerDispatchClassWeightsPerClass>;
     'Vec<Period>': Vec<Period>;
     'Vec<Permill>': Vec<Permill>;
     'Vec<PermissionLatest>': Vec<PermissionLatest>;
@@ -2051,8 +2053,9 @@ declare module '@polkadot/types/types/registry' {
     PendingResume: PendingResume;
     Perbill: Perbill;
     Percent: Percent;
-    PerDispatchClass: PerDispatchClass;
     PerDispatchClassU32: PerDispatchClassU32;
+    PerDispatchClassWeight: PerDispatchClassWeight;
+    PerDispatchClassWeightsPerClass: PerDispatchClassWeightsPerClass;
     Period: Period;
     Permill: Permill;
     PermissionLatest: PermissionLatest;
