@@ -45,7 +45,7 @@ export interface BlockLength extends Struct {
 export interface BlockWeights extends Struct {
   readonly baseBlock: Weight;
   readonly maxBlock: Weight;
-  readonly perClass: PerDispatchClass;
+  readonly perClass: PerDispatchClassWeightsPerClass;
 }
 
 /** @name ChainProperties */
@@ -61,7 +61,7 @@ export interface ChainType extends Enum {
 }
 
 /** @name ConsumedWeight */
-export interface ConsumedWeight extends PerDispatchClass {}
+export interface ConsumedWeight extends PerDispatchClassWeight {}
 
 /** @name DigestOf */
 export interface DigestOf extends Digest {}
@@ -276,18 +276,25 @@ export interface PeerPing extends Struct {
   readonly secs: u64;
 }
 
-/** @name PerDispatchClass */
-export interface PerDispatchClass extends Struct {
-  readonly normal: WeightPerClass;
-  readonly operational: WeightPerClass;
-  readonly mandatory: WeightPerClass;
-}
-
 /** @name PerDispatchClassU32 */
 export interface PerDispatchClassU32 extends Struct {
   readonly normal: u32;
   readonly operational: u32;
   readonly mandatory: u32;
+}
+
+/** @name PerDispatchClassWeight */
+export interface PerDispatchClassWeight extends Struct {
+  readonly normal: Weight;
+  readonly operational: Weight;
+  readonly mandatory: Weight;
+}
+
+/** @name PerDispatchClassWeightsPerClass */
+export interface PerDispatchClassWeightsPerClass extends Struct {
+  readonly normal: WeightPerClass;
+  readonly operational: WeightPerClass;
+  readonly mandatory: WeightPerClass;
 }
 
 /** @name Phase */
