@@ -359,6 +359,51 @@ describe('Enum', (): void => {
     });
   });
 
+  describe('indexed enum', (): void => {
+    it('handles an indexed C-like enum', (): void => {
+      const Test = Enum.with({
+        A: 0,
+        B: 1,
+        C: 10,
+        D: 255
+      });
+
+      const testA = new Test(registry, 'A');
+
+      expect(testA.toNumber()).toEqual(0);
+
+      const testB = new Test(registry, 'B');
+
+      expect(testB.toNumber()).toEqual(1);
+
+      const testC = new Test(registry, 'C');
+
+      expect(testC.toNumber()).toEqual(10);
+
+      const testD = new Test(registry, 'D');
+
+      expect(testD.toNumber()).toEqual(255);
+    });
+
+    it('creates proper raw structure', (): void => {
+      const Test = Enum.with({
+        A: 5,
+        B: 42,
+        C: 69,
+        D: 255
+      });
+
+      expect(new Test(registry).toRawType()).toEqual(JSON.stringify({
+        _enum: {
+          A: 5,
+          B: 42,
+          C: 69,
+          D: 255
+        }
+      }));
+    });
+  });
+
   describe('toHex', (): void => {
     it('has a proper hex representation & length', (): void => {
       const Test = Enum.with({
