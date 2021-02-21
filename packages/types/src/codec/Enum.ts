@@ -31,7 +31,7 @@ function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor> | R
   const defValues = Object.values(def);
 
   if (defValues.some((v) => isNumber(v))) {
-    assert(defValues.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Cannot mix C-like enum (with indexes) with a typed enums');
+    assert(defValues.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Invalid number-indexed enum definition');
 
     return false;
   }
@@ -148,7 +148,6 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
     return createFromValue(registry, def, value.index, value.value);
   }
 
-  // Or else, we just look at `value`
   return decodeFromValue(registry, def, value);
 }
 
@@ -189,7 +188,7 @@ export class Enum implements Codec {
     this.#raw = decoded.value;
   }
 
-  public static with (Types: Record<string, keyof InterfaceTypes | Constructor | number> | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
