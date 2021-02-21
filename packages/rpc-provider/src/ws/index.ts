@@ -42,6 +42,13 @@ const RETRY_DELAY = 1000;
 
 const l = logger('api-ws');
 
+function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
+  for (const key of Object.keys(record)) {
+    if (cb) cb(record[key]);
+    delete record[key];
+  }
+}
+
 /**
  * # @polkadot/rpc-provider/ws
  *
@@ -334,12 +341,18 @@ export class WsProvider implements ProviderInterface {
   }
 
   #onSocketClose = (event: CloseEvent): void => {
+    const error = new Error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+
     if (this.#autoConnectMs > 0) {
-      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+      l.error(error.message);
     }
 
     this.#isConnected = false;
     this.#emit('disconnected');
+    // reject all hanging requests
+    eraseRecord(this.#handlers, (handler) => handler.callback(error, undefined));
+    eraseRecord(this.#waitingForId);
+    eraseRecord(this.#subscriptions);
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
