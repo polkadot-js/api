@@ -22,24 +22,51 @@ interface Decoded {
   value: Codec;
 }
 
-function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
-  if (!Array.isArray(_def)) {
-    const def = mapToTypeMap(registry, _def);
-    const isBasic = !Object.values(def).some((type): boolean => type !== Null);
+function isCLikeEnumDef (_def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number>): _def is Record<string, number> {
+  return Object.values(_def).every((x) => typeof x === 'number');
+}
 
+function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | string[] | Record<string, number>): { def: TypesDef; isBasic: boolean } {
+  if (Array.isArray(_def)) {
     return {
-      def,
-      isBasic
+      def: _def.reduce((def, key): TypesDef => {
+        def[key] = Null;
+
+        return def;
+      }, {} as TypesDef),
+      isBasic: true
     };
   }
 
-  return {
-    def: _def.reduce((def, key): TypesDef => {
-      def[key] = Null;
+  if (isCLikeEnumDef(_def)) {
+    const arrayDef = [];
 
-      return def;
-    }, {} as TypesDef),
-    isBasic: true
+    for (const [key, val] of Object.entries(_def)) {
+      assert(val < 256, `Invalid value for C-like enum: ${val}`);
+      arrayDef[val] = key;
+    }
+
+    const def = {} as TypesDef;
+
+    // use for loop so we don't skip empty items
+    for (let i = 0; i < arrayDef.length; ++i) {
+      const key = arrayDef[i] || `$Dummy${i}`;
+
+      def[key] = Null;
+    }
+
+    return {
+      def,
+      isBasic: true
+    };
+  }
+
+  const def = mapToTypeMap(registry, _def);
+  const isBasic = !Object.values(def).some((type): boolean => type !== Null);
+
+  return {
+    def,
+    isBasic
   };
 }
 
@@ -130,7 +157,7 @@ export class Enum implements Codec {
 
   readonly #raw: Codec;
 
-  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | string[], value?: unknown, index?: number) {
+  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | string[] | Record<string, number>, value?: unknown, index?: number) {
     const defInfo = extractDef(registry, def);
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
@@ -142,7 +169,7 @@ export class Enum implements Codec {
     this.#raw = decoded.value;
   }
 
-  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | string[] | Record<string, number>): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
