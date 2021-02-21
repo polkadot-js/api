@@ -360,39 +360,22 @@ describe('Enum', (): void => {
   });
 
   describe('indexed enum', (): void => {
+    const Test = Enum.with({
+      A: 5,
+      B: 42,
+      C: 69,
+      D: 255
+    });
+
     it('handles an indexed C-like enum', (): void => {
-      const Test = Enum.with({
-        A: 0,
-        B: 1,
-        C: 10,
-        D: 255
-      });
-
-      const testA = new Test(registry, 'A');
-
-      expect(testA.toNumber()).toEqual(0);
-
-      const testB = new Test(registry, 'B');
-
-      expect(testB.toNumber()).toEqual(1);
-
-      const testC = new Test(registry, 'C');
-
-      expect(testC.toNumber()).toEqual(10);
-
-      const testD = new Test(registry, 'D');
-
-      expect(testD.toNumber()).toEqual(255);
+      expect(new Test(registry, 'A').toNumber()).toEqual(5);
+      expect(new Test(registry, 'B').toNumber()).toEqual(42);
+      expect(new Test(registry, 'C').toNumber()).toEqual(69);
+      expect(new Test(registry, 69).toNumber()).toEqual(69);
+      expect(new Test(registry, 'D').toNumber()).toEqual(255);
     });
 
     it('creates proper raw structure', (): void => {
-      const Test = Enum.with({
-        A: 5,
-        B: 42,
-        C: 69,
-        D: 255
-      });
-
       expect(new Test(registry).toRawType()).toEqual(JSON.stringify({
         _enum: {
           A: 5,
@@ -401,6 +384,18 @@ describe('Enum', (): void => {
           D: 255
         }
       }));
+    });
+
+    it('has the indexes for the enum', (): void => {
+      expect(new Test(registry).defIndexes).toEqual([5, 42, 69, 255]);
+    });
+
+    it('has the correct outputs', (): void => {
+      const test = new Test(registry, 5);
+
+      expect(test.toU8a()).toEqual(new Uint8Array([5]));
+      expect(test.toHex()).toEqual('0x05');
+      expect(test.toJSON()).toEqual('A');
     });
   });
 

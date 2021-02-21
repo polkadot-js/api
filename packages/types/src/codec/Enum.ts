@@ -273,8 +273,8 @@ export class Enum implements Codec {
   /**
    * @description The available keys for this enum
    */
-  public get defEntries (): string[] {
-    return Object.keys(this.#def);
+  public get defIndexes (): number[] {
+    return this.#indexes;
   }
 
   /**
