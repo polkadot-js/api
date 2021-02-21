@@ -168,7 +168,7 @@ export class Enum implements Codec {
 
   readonly #def: TypesDef;
 
-  readonly #index: number;
+  readonly #entryIndex: number;
 
   readonly #indexes: number[];
 
@@ -187,7 +187,7 @@ export class Enum implements Codec {
     this.#isBasic = defInfo.isBasic;
     this.#isIndexed = defInfo.isIndexed;
     this.#indexes = Object.values(defInfo.def).map(({ index }) => index);
-    this.#index = this.#indexes.indexOf(decoded.index) || 0;
+    this.#entryIndex = this.#indexes.indexOf(decoded.index) || 0;
     this.#raw = decoded.value;
   }
 
@@ -236,10 +236,10 @@ export class Enum implements Codec {
   }
 
   /**
-   * @description The index of the metadata value
+   * @description The index of the enum value
    */
   public get index (): number {
-    return Object.values(this.#def)[this.#index].index;
+    return this.#indexes[this.#entryIndex];
   }
 
   /**
@@ -288,7 +288,7 @@ export class Enum implements Codec {
    * @description The name of the type this enum value represents
    */
   public get type (): string {
-    return this.defKeys[this.#index];
+    return this.defKeys[this.#entryIndex];
   }
 
   /**
@@ -400,7 +400,7 @@ export class Enum implements Codec {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      new Uint8Array(isBare ? [] : [this.#indexes[this.#index]]),
+      new Uint8Array(isBare ? [] : [this.index]),
       this.#raw.toU8a(isBare)
     );
   }
