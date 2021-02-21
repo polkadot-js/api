@@ -123,7 +123,10 @@ function decodeFromString (registry: Registry, def: TypesDef, value: string): De
 
 function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decoded {
   if (isU8a(value)) {
-    return createFromValue(registry, def, value[0], value.subarray(1));
+    // nested, we don't want to match isObject below
+    if (value.length) {
+      return createFromValue(registry, def, value[0], value.subarray(1));
+    }
   } else if (isNumber(value)) {
     return createFromValue(registry, def, value);
   } else if (isString(value)) {
