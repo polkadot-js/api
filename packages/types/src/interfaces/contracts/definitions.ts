@@ -293,7 +293,7 @@ export default {
       i64rotl: 'u32',
       i64rotr: 'u32'
     },
-    Limits: {
+    LimitsTo264: {
       eventTopics: 'u32',
       stackHeight: 'u32',
       globals: 'u32',
@@ -303,6 +303,16 @@ export default {
       brTableSize: 'u32',
       subjectLen: 'u32',
       codeSize: 'u32'
+    },
+    Limits: {
+      eventTopics: 'u32',
+      stackHeight: 'u32',
+      globals: 'u32',
+      parameters: 'u32',
+      memoryPages: 'u32',
+      tableSize: 'u32',
+      brTableSize: 'u32',
+      subjectLen: 'u32'
     },
     PrefabWasmModule: {
       scheduleVersion: 'Compact<u32>',
@@ -350,7 +360,7 @@ export default {
     ScheduleTo264: {
       version: 'u32',
       enablePrintln: 'bool',
-      limits: 'Limits',
+      limits: 'LimitsTo264',
       instructionWeights: 'InstructionWeights',
       hostFnWeights: 'HostFnWeightsTo264'
     },

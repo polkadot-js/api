@@ -281,6 +281,18 @@ export interface Limits extends Struct {
   readonly tableSize: u32;
   readonly brTableSize: u32;
   readonly subjectLen: u32;
+}
+
+/** @name LimitsTo264 */
+export interface LimitsTo264 extends Struct {
+  readonly eventTopics: u32;
+  readonly stackHeight: u32;
+  readonly globals: u32;
+  readonly parameters: u32;
+  readonly memoryPages: u32;
+  readonly tableSize: u32;
+  readonly brTableSize: u32;
+  readonly subjectLen: u32;
   readonly codeSize: u32;
 }
 
@@ -348,7 +360,7 @@ export interface ScheduleTo258 extends Struct {
 export interface ScheduleTo264 extends Struct {
   readonly version: u32;
   readonly enablePrintln: bool;
-  readonly limits: Limits;
+  readonly limits: LimitsTo264;
   readonly instructionWeights: InstructionWeights;
   readonly hostFnWeights: HostFnWeightsTo264;
 }

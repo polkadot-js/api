@@ -14,7 +14,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, HostFnWeightsTo264, InstructionWeights, Limits, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
+import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, HostFnWeightsTo264, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { DeployData, FundIndex, FundInfo, LastContribution } from '@polkadot/types/interfaces/crowdloan';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
@@ -494,6 +494,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<LeasePeriod>': Option<LeasePeriod>;
     'Option<LeasePeriodOf>': Option<LeasePeriodOf>;
     'Option<Limits>': Option<Limits>;
+    'Option<LimitsTo264>': Option<LimitsTo264>;
     'Option<LocalValidationData>': Option<LocalValidationData>;
     'Option<LockIdentifier>': Option<LockIdentifier>;
     'Option<LookupSource>': Option<LookupSource>;
@@ -1224,6 +1225,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<LeasePeriod>': Vec<LeasePeriod>;
     'Vec<LeasePeriodOf>': Vec<LeasePeriodOf>;
     'Vec<Limits>': Vec<Limits>;
+    'Vec<LimitsTo264>': Vec<LimitsTo264>;
     'Vec<LocalValidationData>': Vec<LocalValidationData>;
     'Vec<LockIdentifier>': Vec<LockIdentifier>;
     'Vec<LookupSource>': Vec<LookupSource>;
@@ -1954,6 +1956,7 @@ declare module '@polkadot/types/types/registry' {
     LeasePeriod: LeasePeriod;
     LeasePeriodOf: LeasePeriodOf;
     Limits: Limits;
+    LimitsTo264: LimitsTo264;
     LocalValidationData: LocalValidationData;
     LockIdentifier: LockIdentifier;
     LookupSource: LookupSource;
