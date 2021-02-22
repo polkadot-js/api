@@ -43,10 +43,13 @@ const RETRY_DELAY = 1000;
 const l = logger('api-ws');
 
 function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
-  for (const key of Object.keys(record)) {
-    if (cb) cb(record[key]);
+  Object.keys(record).forEach((key): void => {
+    if (cb) {
+      cb(record[key]);
+    }
+
     delete record[key];
-  }
+  });
 }
 
 /**
@@ -352,7 +355,6 @@ export class WsProvider implements ProviderInterface {
     // reject all hanging requests
     eraseRecord(this.#handlers, (handler) => handler.callback(error, undefined));
     eraseRecord(this.#waitingForId);
-    eraseRecord(this.#subscriptions);
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
