@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 3.10.1 Feb 22, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Adjust ConsumedWeight types to align with Rust module code
+- Check for connection status in subscription unsubscribe
+- Adjust staking reward derives ordering for better performance
+- Adapt detection imports to remove `.json` dependencies (Better behavior using Node.js with ESM)
+
+
 ## 3.9.3 Feb 16, 2021
 
 Upgrade priority: Low. Recommended for parachain builders since it contains the updated parachain types.
