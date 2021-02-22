@@ -14,7 +14,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, InstructionWeights, Limits, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
+import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, HostFnWeightsTo264, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { DeployData, FundIndex, FundInfo, LastContribution } from '@polkadot/types/interfaces/crowdloan';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
@@ -438,6 +438,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<HeartbeatTo244>': Option<HeartbeatTo244>;
     'Option<HostConfiguration>': Option<HostConfiguration>;
     'Option<HostFnWeights>': Option<HostFnWeights>;
+    'Option<HostFnWeightsTo264>': Option<HostFnWeightsTo264>;
     'Option<HrmpChannel>': Option<HrmpChannel>;
     'Option<HrmpChannelId>': Option<HrmpChannelId>;
     'Option<HrmpOpenChannelRequest>': Option<HrmpOpenChannelRequest>;
@@ -493,6 +494,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<LeasePeriod>': Option<LeasePeriod>;
     'Option<LeasePeriodOf>': Option<LeasePeriodOf>;
     'Option<Limits>': Option<Limits>;
+    'Option<LimitsTo264>': Option<LimitsTo264>;
     'Option<LocalValidationData>': Option<LocalValidationData>;
     'Option<LockIdentifier>': Option<LockIdentifier>;
     'Option<LookupSource>': Option<LookupSource>;
@@ -688,6 +690,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<SchedulePriority>': Option<SchedulePriority>;
     'Option<ScheduleTo212>': Option<ScheduleTo212>;
     'Option<ScheduleTo258>': Option<ScheduleTo258>;
+    'Option<ScheduleTo264>': Option<ScheduleTo264>;
     'Option<Scheduling>': Option<Scheduling>;
     'Option<Seal>': Option<Seal>;
     'Option<SealV0>': Option<SealV0>;
@@ -1166,6 +1169,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<HeartbeatTo244>': Vec<HeartbeatTo244>;
     'Vec<HostConfiguration>': Vec<HostConfiguration>;
     'Vec<HostFnWeights>': Vec<HostFnWeights>;
+    'Vec<HostFnWeightsTo264>': Vec<HostFnWeightsTo264>;
     'Vec<HrmpChannel>': Vec<HrmpChannel>;
     'Vec<HrmpChannelId>': Vec<HrmpChannelId>;
     'Vec<HrmpOpenChannelRequest>': Vec<HrmpOpenChannelRequest>;
@@ -1221,6 +1225,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<LeasePeriod>': Vec<LeasePeriod>;
     'Vec<LeasePeriodOf>': Vec<LeasePeriodOf>;
     'Vec<Limits>': Vec<Limits>;
+    'Vec<LimitsTo264>': Vec<LimitsTo264>;
     'Vec<LocalValidationData>': Vec<LocalValidationData>;
     'Vec<LockIdentifier>': Vec<LockIdentifier>;
     'Vec<LookupSource>': Vec<LookupSource>;
@@ -1416,6 +1421,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<SchedulePriority>': Vec<SchedulePriority>;
     'Vec<ScheduleTo212>': Vec<ScheduleTo212>;
     'Vec<ScheduleTo258>': Vec<ScheduleTo258>;
+    'Vec<ScheduleTo264>': Vec<ScheduleTo264>;
     'Vec<Scheduling>': Vec<Scheduling>;
     'Vec<Seal>': Vec<Seal>;
     'Vec<SealV0>': Vec<SealV0>;
@@ -1894,6 +1900,7 @@ declare module '@polkadot/types/types/registry' {
     HeartbeatTo244: HeartbeatTo244;
     HostConfiguration: HostConfiguration;
     HostFnWeights: HostFnWeights;
+    HostFnWeightsTo264: HostFnWeightsTo264;
     HrmpChannel: HrmpChannel;
     HrmpChannelId: HrmpChannelId;
     HrmpOpenChannelRequest: HrmpOpenChannelRequest;
@@ -1949,6 +1956,7 @@ declare module '@polkadot/types/types/registry' {
     LeasePeriod: LeasePeriod;
     LeasePeriodOf: LeasePeriodOf;
     Limits: Limits;
+    LimitsTo264: LimitsTo264;
     LocalValidationData: LocalValidationData;
     LockIdentifier: LockIdentifier;
     LookupSource: LookupSource;
@@ -2144,6 +2152,7 @@ declare module '@polkadot/types/types/registry' {
     SchedulePriority: SchedulePriority;
     ScheduleTo212: ScheduleTo212;
     ScheduleTo258: ScheduleTo258;
+    ScheduleTo264: ScheduleTo264;
     Scheduling: Scheduling;
     Seal: Seal;
     SealV0: SealV0;
