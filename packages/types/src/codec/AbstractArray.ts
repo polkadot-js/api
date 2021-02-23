@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Registry } from '../types';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -36,7 +36,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 

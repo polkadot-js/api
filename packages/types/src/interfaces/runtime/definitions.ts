@@ -43,6 +43,7 @@ export default {
       digestLevels: 'u32'
     },
     ConsensusEngineId: 'GenericConsensusEngineId',
+    CodecHash: 'H256',
     Digest: {
       logs: 'Vec<DigestItem>'
     },

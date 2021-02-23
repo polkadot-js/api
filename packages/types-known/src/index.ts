@@ -5,7 +5,7 @@ import type BN from 'bn.js';
 import type { Text } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 
 import { bnToBn, isUndefined } from '@polkadot/util';
 
@@ -72,6 +72,13 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
     ...(knownTypes.typesChain?.[_chainName] || {}),
     ...(knownTypes.types || {})
   };
+}
+
+export function getSpecHasher ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): CodecHasher | null {
+  const _chainName = chainName.toString();
+  const _specName = specName.toString();
+
+  return knownTypes.hasher || knownTypes.typesBundle?.chain?.[_chainName]?.hasher || knownTypes.typesBundle?.spec?.[_specName]?.hasher || null;
 }
 
 /**

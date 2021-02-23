@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces';
+import type { CodecHash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -182,7 +182,7 @@ export class Enum implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 

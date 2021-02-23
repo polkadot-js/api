@@ -3,7 +3,7 @@
 
 import type { Vec } from '../codec/Vec';
 import type { GenericExtrinsic } from '../extrinsic/Extrinsic';
-import type { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
+import type { CodecHash, Digest, DigestItem, Header } from '../interfaces/runtime';
 import type { AnyNumber, AnyU8a, Registry } from '../types';
 
 import { Struct } from '../codec/Struct';
@@ -38,7 +38,7 @@ export class GenericBlock extends Struct {
   /**
    * @description Encodes a content [[Hash]] for the block
    */
-  public get contentHash (): H256 {
+  public get contentHash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 
@@ -52,7 +52,7 @@ export class GenericBlock extends Struct {
   /**
    * @description Block/header [[Hash]]
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.header.hash;
   }
 
