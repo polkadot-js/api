@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.10.2 Feb 22, 2021
+## 3.10.2 Feb 23, 2021
 
 Upgrade priority: Medium. Recommended for users of chains where `MultiAddress` is in-use and blocks are decoded.
 
