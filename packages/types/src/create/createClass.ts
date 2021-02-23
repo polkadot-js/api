@@ -87,7 +87,19 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName),
 
-  [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
+  [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => {
+    const subs = getSubDefArray(value);
+
+    return Enum.with(
+      subs.every(({ type }) => type === 'Null')
+        ? subs.reduce((out: Record<string, number>, { index, name }, count): Record<string, number> => {
+          out[name as string] = index || count;
+
+          return out;
+        }, {})
+        : getTypeClassMap(value)
+    );
+  },
 
   [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, HashMap),
 

@@ -43,7 +43,10 @@ export default {
   },
   types: {
     StorageKind: {
-      _enum: ['__UNUSED', 'PERSISTENT', 'LOCAL']
+      _enum: {
+        PERSISTENT: 1,
+        LOCAL: 2
+      }
     }
   }
 } as Definitions;

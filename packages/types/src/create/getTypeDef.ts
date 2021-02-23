@@ -3,7 +3,7 @@
 
 import type { TypeDef } from './types';
 
-import { assert } from '@polkadot/util';
+import { assert, isNumber } from '@polkadot/util';
 
 import { sanitize } from './sanitize';
 import { TypeDefInfo } from './types';
@@ -16,23 +16,47 @@ interface TypeDefOptions {
 
 const MAX_NESTED = 64;
 
+function isRustEnum (details: Record<string, string> | Record<string, number>): details is Record<string, string> {
+  const values = Object.values(details);
+
+  if (values.some((v) => isNumber(v))) {
+    assert(values.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Invalid number-indexed enum definition');
+
+    return false;
+  }
+
+  return true;
+}
+
 // decode an enum of either of the following forms
 //  { _enum: ['A', 'B', 'C'] }
 //  { _enum: { A: AccountId, B: Balance, C: u32 } }
-function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>, count: number): TypeDef {
+//  { _enum: { A: 1, B: 2 } }
+function _decodeEnum (value: TypeDef, details: string[] | Record<string, string> | Record<string, number>, count: number): TypeDef {
   value.info = TypeDefInfo.Enum;
 
   // not as pretty, but remain compatible with oo7 for both struct and Array types
-  value.sub = Array.isArray(details)
-    ? details.map((name): TypeDef => ({
+  if (Array.isArray(details)) {
+    value.sub = details.map((name, index): TypeDef => ({
+      index,
       info: TypeDefInfo.Plain,
       name,
       type: 'Null'
-    }))
-    : Object.entries(details).map(([name, type]): TypeDef =>
+    }));
+  } else if (isRustEnum(details)) {
+    value.sub = Object.entries(details).map(([name, type], index): TypeDef => ({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      getTypeDef(type || 'Null', { name }, count)
-    );
+      ...getTypeDef(type || 'Null', { name }, count),
+      index
+    }));
+  } else {
+    value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
+      index,
+      info: TypeDefInfo.Plain,
+      name,
+      type: 'Null'
+    }));
+  }
 
   return value;
 }

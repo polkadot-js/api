@@ -25,7 +25,10 @@ export interface ChainUpgrades {
   versions: ChainUpgradeVersion[];
 }
 
-export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
+export type RegistryTypes =
+  Record<string, Constructor | string | Record<string, string> |
+  { _enum: string[] | Record<string, number> | Record<string, string | null> } |
+  { _set: Record<string, number> }>;
 
 export interface RegistryError {
   documentation: string[];
