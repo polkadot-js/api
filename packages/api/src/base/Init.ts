@@ -85,13 +85,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
-
-    const hasher = getSpecHasher(registry, chain, version.specName);
-
-    // add the hasher if configured - only available on the typesBundle
-    if (hasher) {
-      registry.setHasher(hasher);
-    }
+    registry.setHasher(getSpecHasher(registry, chain, version.specName));
 
     // for bundled types, pull through the aliases defined
     if (registry.knownTypes.typesBundle) {
