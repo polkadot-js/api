@@ -14,7 +14,7 @@ function decodeString (registry: Registry, value: string): unknown {
   const u8a = decodeAddress(value.toString());
 
   if (u8a.length === 32) {
-    return { id: u8a };
+    return { Id: u8a };
   } else if (u8a.length === 20) {
     return { Address20: u8a };
   } else if (u8a.length <= 8) {
