@@ -28,7 +28,7 @@ describe('Call', (): void => {
     expect(
       new Call(registry, '0x0601').toU8a()
     ).toEqual(
-      new Uint8Array([6, 1, 1, 110, 7, 17, 0, 0, 0])
+      new Uint8Array([6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     ); // balances.setBalance
   });
 });
