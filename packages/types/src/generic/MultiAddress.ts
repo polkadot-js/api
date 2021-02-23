@@ -3,23 +3,25 @@
 
 import type { Registry } from '../types';
 
-import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
+import { isBn, isNumber, isString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { Enum } from '../codec/Enum';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
-function decodeMultiU8a (value?: unknown): unknown {
-  if (isU8a(value) && value.length <= 32) {
-    if (value.length === 32) {
-      return { id: value };
-    } else if (value.length === 20) {
-      return { Address20: value };
-    }
+function decodeString (registry: Registry, value: string): unknown {
+  const u8a = decodeAddress(value.toString());
+
+  if (u8a.length === 32) {
+    return { Id: u8a };
+  } else if (u8a.length === 20) {
+    return { Address20: u8a };
+  } else if (u8a.length <= 8) {
+    return { Index: registry.createType('AccountIndex', u8a).toNumber() };
   }
 
-  return value;
+  return u8a;
 }
 
 function decodeMultiAny (registry: Registry, value?: unknown): unknown {
@@ -27,13 +29,13 @@ function decodeMultiAny (registry: Registry, value?: unknown): unknown {
     return value;
   } else if (value instanceof GenericAccountId) {
     return { Id: value };
-  } else if (value instanceof GenericAccountIndex || isNumber(value) || isBn(value)) {
-    return { Index: registry.createType('Compact<AccountIndex>', value) };
+  } else if (value instanceof GenericAccountIndex || isBn(value) || isNumber(value)) {
+    return { Index: isNumber(value) ? value : value.toNumber() };
   } else if (isString(value)) {
-    return decodeMultiU8a(decodeAddress(value.toString()));
+    return decodeString(registry, value.toString());
   }
 
-  return decodeMultiU8a(value);
+  return value;
 }
 
 export class GenericMultiAddress extends Enum {

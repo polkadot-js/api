@@ -20,6 +20,20 @@ describe('MultiAddress', (): void => {
     expect(a.toString()).toEqual('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
   });
 
+  it('correctly decodes an AccountIndex', (): void => {
+    const a = registry.createType('MultiAddress', '25GUyv');
+
+    expect(a.index).toEqual(1);
+    expect(a.toString()).toEqual('25GUyv');
+  });
+
+  it('correctly decodes an AccountIndex (AccountIndex input)', (): void => {
+    const a = registry.createType('MultiAddress', registry.createType('AccountIndex', '25GUyv'));
+
+    expect(a.index).toEqual(1);
+    expect(a.toString()).toEqual('25GUyv');
+  });
+
   it('correctly decodes an Address20', (): void => {
     const a = registry.createType('MultiAddress', '0x67f89207abe6e1b093befd84a48f033137659292');
 
