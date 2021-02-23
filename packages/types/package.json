@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types",
-  "version": "3.10.3-0",
+  "version": "3.10.3-1",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "sideEffects": [
@@ -16,7 +16,7 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.18",
-    "@polkadot/metadata": "3.10.3-0",
+    "@polkadot/metadata": "3.10.3-1",
     "@polkadot/util": "^5.7.1",
     "@polkadot/util-crypto": "^5.7.1",
     "@polkadot/x-rxjs": "^5.7.1",
