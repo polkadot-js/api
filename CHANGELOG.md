@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 3.10.2 Feb 23, 2021
+
+Upgrade priority: Medium. Recommended for users of chains where `MultiAddress` is in-use and blocks are decoded.
+
+Changes:
+
+- Fix decoding for `MultiAddress` enum where non-`AccountId` variable-lengths are provided as part of a stream
+- Added known Polkadot 28 upgrade block
+- Update for latest Substrate contracts `Schedule` types
+
+
 ## 3.10.1 Feb 22, 2021
 
 Upgrade priority: Low.

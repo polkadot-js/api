@@ -10,14 +10,12 @@ import { Enum } from '../codec/Enum';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
-function decodeMultiU8a (registry: Registry, value?: unknown): unknown {
+function decodeMultiU8a (value?: unknown): unknown {
   if (isU8a(value) && value.length <= 32) {
     if (value.length === 32) {
       return { id: value };
     } else if (value.length === 20) {
       return { Address20: value };
-    } else {
-      return decodeMultiAny(registry, registry.createType('AccountIndex', value));
     }
   }
 
@@ -32,10 +30,10 @@ function decodeMultiAny (registry: Registry, value?: unknown): unknown {
   } else if (value instanceof GenericAccountIndex || isNumber(value) || isBn(value)) {
     return { Index: registry.createType('Compact<AccountIndex>', value) };
   } else if (isString(value)) {
-    return decodeMultiU8a(registry, decodeAddress(value.toString()));
+    return decodeMultiU8a(decodeAddress(value.toString()));
   }
 
-  return decodeMultiU8a(registry, value);
+  return decodeMultiU8a(value);
 }
 
 export class GenericMultiAddress extends Enum {
