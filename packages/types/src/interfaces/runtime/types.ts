@@ -50,7 +50,7 @@ export interface ChangesTrieConfiguration extends Struct {
 }
 
 /** @name CodecHash */
-export interface CodecHash extends H256 {}
+export interface CodecHash extends Hash {}
 
 /** @name Consensus */
 export interface Consensus extends ITuple<[ConsensusEngineId, Bytes]> {}
