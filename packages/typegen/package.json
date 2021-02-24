@@ -19,14 +19,14 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.12.17",
-    "@babel/register": "^7.12.13",
-    "@babel/runtime": "^7.12.18",
+    "@babel/core": "^7.13.1",
+    "@babel/register": "^7.13.0",
+    "@babel/runtime": "^7.13.7",
     "@polkadot/api": "3.10.3-3",
     "@polkadot/metadata": "3.10.3-3",
     "@polkadot/rpc-provider": "3.10.3-3",
     "@polkadot/types": "3.10.3-3",
-    "@polkadot/util": "^5.7.1",
+    "@polkadot/util": "^5.7.2-3",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.33",
     "yargs": "^16.2.0"
