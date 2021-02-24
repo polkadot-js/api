@@ -118,7 +118,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
 };
 
-function encodeType (typeDef:TypeDef): string {
+function encodeType (typeDef: TypeDef): string {
   const encoder = encoders[typeDef.info];
 
   assert(encoder, `Cannot encode type: ${JSON.stringify(typeDef)}`);
