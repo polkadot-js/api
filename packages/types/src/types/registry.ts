@@ -5,7 +5,7 @@ import type BN from 'bn.js';
 import type { Metadata } from '@polkadot/metadata';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { ChainProperties } from '../interfaces/system';
 import type { CallFunction } from './calls';
 import type { Codec, Constructor } from './codec';
@@ -13,6 +13,8 @@ import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }
+
+export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
 export interface ChainUpgradeVersion {
   blockNumber: BN;
@@ -50,6 +52,7 @@ export type DeriveCustom = Record<string, Record<string, (instanceId: string, ap
 export interface OverrideBundleDefinition {
   alias?: Record<string, OverrideModuleType>;
   derives?: DeriveCustom;
+  hasher?: (data: Uint8Array) => Uint8Array;
   instances?: Record<string, string[]>;
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   signedExtensions?: ExtDef;
@@ -62,6 +65,11 @@ export interface OverrideBundleType {
 }
 
 export interface RegisteredTypes {
+  /**
+   * @description Specify the actual hasher override to use in the API. This generally should be done via the typesBundle
+   */
+  hasher?: (data: Uint8Array) => Uint8Array;
+
   /**
    * @description Additional types used by runtime modules. This is necessary if the runtime modules
    * uses types not available in the base Substrate runtime.
@@ -113,13 +121,13 @@ export interface Registry {
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
-  hash (data: Uint8Array): H256;
+  hash (data: Uint8Array): CodecHash;
   init (): Registry;
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
-  setHasher (hasher?: (data: Uint8Array) => Uint8Array): void;
+  setHasher (hasher?: CodecHasher | null): void;
   setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
   setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }

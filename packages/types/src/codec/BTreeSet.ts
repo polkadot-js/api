@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -112,7 +112,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   /**
    * @description Returns a hash of the value
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 

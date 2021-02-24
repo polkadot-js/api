@@ -13,7 +13,7 @@ import BN from 'bn.js';
 import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getSpecAlias, getSpecExtensions, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { of } from '@polkadot/x-rxjs';
@@ -85,6 +85,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
+    registry.setHasher(getSpecHasher(registry, chain, version.specName));
 
     // for bundled types, pull through the aliases defined
     if (registry.knownTypes.typesBundle) {
