@@ -16,10 +16,10 @@
     "@polkadot/metadata": "3.10.3-7",
     "@polkadot/rpc-provider": "3.10.3-7",
     "@polkadot/types": "3.10.3-7",
-    "@polkadot/util": "^5.7.2-4",
-    "@polkadot/x-rxjs": "^5.7.2-4"
+    "@polkadot/util": "^5.7.2-6",
+    "@polkadot/x-rxjs": "^5.7.2-6"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^5.7.2-4"
+    "@polkadot/keyring": "^5.7.2-6"
   }
 }
