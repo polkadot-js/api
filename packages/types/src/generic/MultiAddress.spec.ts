@@ -6,6 +6,13 @@ import { TypeRegistry } from '../create';
 describe('MultiAddress', (): void => {
   const registry = new TypeRegistry();
 
+  it('decodes from an empty value', (): void => {
+    const a = registry.createType('MultiAddress');
+
+    expect(a.index).toEqual(0);
+    expect(a.toHex()).toEqual('0x000000000000000000000000000000000000000000000000000000000000000000');
+  });
+
   it('correctly decodes a stream with Address20', (): void => {
     const a = registry.createType('MultiAddress', '0x0467f89207abe6e1b093befd84a48f03313765929207009e292608');
 
