@@ -3,16 +3,14 @@
 
 import type { Registry } from '../types';
 
-import { isBn, isNumber, isString } from '@polkadot/util';
+import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { Enum } from '../codec/Enum';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
-function decodeString (registry: Registry, value: string): unknown {
-  const u8a = decodeAddress(value.toString());
-
+function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
   if (u8a.length === 32) {
     return { Id: u8a };
   } else if (u8a.length === 20) {
@@ -32,7 +30,9 @@ function decodeMultiAny (registry: Registry, value?: unknown): unknown {
   } else if (value instanceof GenericAccountIndex || isBn(value) || isNumber(value)) {
     return { Index: isNumber(value) ? value : value.toNumber() };
   } else if (isString(value)) {
-    return decodeString(registry, value.toString());
+    return decodeU8a(registry, decodeAddress(value.toString()));
+  } else if (isU8a(value)) {
+    return decodeU8a(registry, value);
   }
 
   return value;
