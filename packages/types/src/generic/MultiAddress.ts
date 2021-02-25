@@ -11,7 +11,7 @@ import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
 function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
-  if (u8a.length === 32) {
+  if ([0, 32].includes(u8a.length)) {
     return { Id: u8a };
   } else if (u8a.length === 20) {
     return { Address20: u8a };
