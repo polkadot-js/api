@@ -286,9 +286,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _initFromMeta (metadata: Metadata): boolean {
-    const metaExtrinsic = metadata.asLatest.extrinsic;
-
-    this._extrinsicType = metaExtrinsic.version.toNumber();
+    this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
