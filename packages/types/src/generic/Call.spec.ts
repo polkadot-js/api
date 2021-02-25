@@ -26,7 +26,7 @@ describe('Call', (): void => {
 
   it('handles creation from a hex value properly', (): void => {
     expect(
-      new Call(registry, '0x0601').toU8a()
+      new Call(registry, '0x06010000000000000000000000000000000000000000000000000000000000000000').toU8a()
     ).toEqual(
       new Uint8Array([6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     ); // balances.setBalance
