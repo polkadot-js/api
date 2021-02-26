@@ -191,7 +191,7 @@ declare module '@polkadot/api/types/errors' {
       /**
        * A contract could not be evicted because it has enough balance to pay rent.
        * 
-       * This can be returned from [`Module::claim_surcharge`] because the target
+       * This can be returned from [`Pallet::claim_surcharge`] because the target
        * contract has enough balance to pay for its rent.
        **/
       ContractNotEvictable: AugmentedError<ApiType>;
@@ -206,7 +206,7 @@ declare module '@polkadot/api/types/errors' {
       /**
        * Removal of a contract failed because the deletion queue is full.
        * 
-       * This can happen when either calling [`Module::claim_surcharge`] or `seal_terminate`.
+       * This can happen when either calling [`Pallet::claim_surcharge`] or `seal_terminate`.
        * The queue is filled by deleting contracts and emptied by a fixed amount each block.
        * Trying again during another block is the only way to resolve this issue.
        **/
@@ -499,6 +499,21 @@ declare module '@polkadot/api/types/errors' {
        **/
       WrongUpperBound: AugmentedError<ApiType>;
     };
+    electionProviderMultiPhase: {
+      [key: string]: AugmentedError<ApiType>;
+      /**
+       * Submission was too early.
+       **/
+      PreDispatchEarlySubmission: AugmentedError<ApiType>;
+      /**
+       * Submission was too weak, score-wise.
+       **/
+      PreDispatchWeakSubmission: AugmentedError<ApiType>;
+      /**
+       * Wrong number of winners presented.
+       **/
+      PreDispatchWrongWinnerCount: AugmentedError<ApiType>;
+    };
     elections: {
       [key: string]: AugmentedError<ApiType>;
       /**
@@ -692,6 +707,10 @@ declare module '@polkadot/api/types/errors' {
        **/
       AlreadyStored: AugmentedError<ApiType>;
       /**
+       * The maximum weight information provided was too low.
+       **/
+      MaxWeightTooLow: AugmentedError<ApiType>;
+      /**
        * Threshold must be 2 or greater.
        **/
       MinimumThreshold: AugmentedError<ApiType>;
@@ -731,10 +750,6 @@ declare module '@polkadot/api/types/errors' {
        * A timepoint was given, yet no multisig operation is underway.
        **/
       UnexpectedTimepoint: AugmentedError<ApiType>;
-      /**
-       * The maximum weight information provided was too low.
-       **/
-      WeightTooLow: AugmentedError<ApiType>;
       /**
        * A different timepoint was given to the multisig operation that is underway.
        **/

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, Compact, Enum, Option, Struct, Vec, bool, u128, u16, u32 } from '@polkadot/types';
+import type { BTreeMap, Compact, Enum, Option, Struct, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { AccountId, Balance, BlockNumber, Moment, PerU16, Perbill } from '@polkadot/types/interfaces/runtime';
 
@@ -116,6 +116,9 @@ export interface Exposure extends Struct {
   readonly others: Vec<IndividualExposure>;
 }
 
+/** @name ExtendedBalance */
+export interface ExtendedBalance extends u128 {}
+
 /** @name Forcing */
 export interface Forcing extends Enum {
   readonly isNotForcing: boolean;
@@ -161,6 +164,20 @@ export interface PhragmenScore extends Vec<u128> {}
 /** @name Points */
 export interface Points extends u32 {}
 
+/** @name RawSolution */
+export interface RawSolution extends Struct {
+  readonly compact: CompactAssignments;
+  readonly score: ElectionScore;
+  readonly round: u32;
+}
+
+/** @name ReadySolution */
+export interface ReadySolution extends Struct {
+  readonly supports: SolutionSupports;
+  readonly score: ElectionScore;
+  readonly compute: ElectionCompute;
+}
+
 /** @name RewardDestination */
 export interface RewardDestination extends Enum {
   readonly isStaked: boolean;
@@ -179,6 +196,12 @@ export interface RewardDestinationTo257 extends Enum {
 
 /** @name RewardPoint */
 export interface RewardPoint extends u32 {}
+
+/** @name RoundSnapshot */
+export interface RoundSnapshot extends Struct {
+  readonly voters: Vec<ITuple<[AccountId, VoteWeight, Vec<AccountId>]>>;
+  readonly targets: Vec<AccountId>;
+}
 
 /** @name SeatHolder */
 export interface SeatHolder extends Struct {
@@ -208,6 +231,21 @@ export interface SlashJournalEntry extends Struct {
   readonly amount: Balance;
   readonly ownSlash: Balance;
 }
+
+/** @name SolutionOrSnapshotSize */
+export interface SolutionOrSnapshotSize extends Struct {
+  readonly voters: Compact<u32>;
+  readonly targets: Compact<u32>;
+}
+
+/** @name SolutionSupport */
+export interface SolutionSupport extends Struct {
+  readonly total: ExtendedBalance;
+  readonly voters: Vec<ITuple<[AccountId, ExtendedBalance]>>;
+}
+
+/** @name SolutionSupports */
+export interface SolutionSupports extends Vec<ITuple<[AccountId, SolutionSupport]>> {}
 
 /** @name SpanIndex */
 export interface SpanIndex extends u32 {}
@@ -299,5 +337,8 @@ export interface Voter extends Struct {
   readonly stake: Balance;
   readonly deposit: Balance;
 }
+
+/** @name VoteWeight */
+export interface VoteWeight extends u64 {}
 
 export type PHANTOM_STAKING = 'staking';

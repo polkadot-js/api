@@ -73,6 +73,7 @@ const phragmen = {
       Open: 'BlockNumber'
     }
   },
+  ExtendedBalance: 'u128',
   RawSolution: {
     compact: 'CompactAssignments',
     score: 'ElectionScore',

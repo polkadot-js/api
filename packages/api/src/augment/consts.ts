@@ -107,12 +107,17 @@ declare module '@polkadot/api/types/consts' {
        **/
       depositPerStorageItem: BalanceOf & AugmentedConst<ApiType>;
       /**
-       * The maximum nesting level of a call/instantiate stack. A reasonable default
-       * value is 100.
+       * The maximum length of a contract code in bytes. This limit applies to the instrumented
+       * version of the code. Therefore `instantiate_with_code` can fail even when supplying
+       * a wasm binary below this maximum size.
+       **/
+      maxCodeSize: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum nesting level of a call/instantiate stack.
        **/
       maxDepth: u32 & AugmentedConst<ApiType>;
       /**
-       * The maximum size of a storage value in bytes. A reasonable default is 16 KiB.
+       * The maximum size of a storage value and event payload in bytes.
        **/
       maxValueSize: u32 & AugmentedConst<ApiType>;
       /**
@@ -178,6 +183,22 @@ declare module '@polkadot/api/types/consts' {
        * How often (in blocks) to check for new votes.
        **/
       votingPeriod: BlockNumber & AugmentedConst<ApiType>;
+    };
+    electionProviderMultiPhase: {
+      [key: string]: Codec;
+      /**
+       * Duration of the signed phase.
+       **/
+      signedPhase: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * The minimum amount of improvement to the solution score that defines a solution as
+       * "better" (in any phase).
+       **/
+      solutionImprovementThreshold: Perbill & AugmentedConst<ApiType>;
+      /**
+       * Duration of the unsigned phase.
+       **/
+      unsignedPhase: BlockNumber & AugmentedConst<ApiType>;
     };
     elections: {
       [key: string]: Codec;

@@ -345,6 +345,37 @@ declare module '@polkadot/api/types/events' {
        **/
       Vetoed: AugmentedEvent<ApiType, [AccountId, Hash, BlockNumber]>;
     };
+    electionProviderMultiPhase: {
+      [key: string]: AugmentedEvent<ApiType>;
+      /**
+       * The election has been finalized, with `Some` of the given computation, or else if the
+       * election failed, `None`.
+       **/
+      ElectionFinalized: AugmentedEvent<ApiType, [Option<ElectionCompute>]>;
+      /**
+       * An account has been rewarded for their signed submission being finalized.
+       **/
+      Rewarded: AugmentedEvent<ApiType, [AccountId]>;
+      /**
+       * The signed phase of the given round has started.
+       **/
+      SignedPhaseStarted: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * An account has been slashed for submitting an invalid signed submission.
+       **/
+      Slashed: AugmentedEvent<ApiType, [AccountId]>;
+      /**
+       * A solution was stored with the given compute.
+       * 
+       * If the solution is signed, this means that it hasn't yet been processed. If the
+       * solution is unsigned, this means that it has also been processed.
+       **/
+      SolutionStored: AugmentedEvent<ApiType, [ElectionCompute]>;
+      /**
+       * The unsigned phase of the given round has started.
+       **/
+      UnsignedPhaseStarted: AugmentedEvent<ApiType, [u32]>;
+    };
     elections: {
       [key: string]: AugmentedEvent<ApiType>;
       /**

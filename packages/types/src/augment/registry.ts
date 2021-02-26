@@ -43,7 +43,7 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray
 import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, ScheduledTo254, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys7, SessionKeys8, SessionKeys9, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RewardDestination, RewardDestinationTo257, RewardPoint, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, Voter } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, ReadySolution, RewardDestination, RewardDestinationTo257, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
 import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { AccountInfo, AccountInfoWithProviders, AccountInfoWithRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
@@ -73,6 +73,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<CoreIndex>': Compact<CoreIndex>;
     'Compact<EraIndex>': Compact<EraIndex>;
     'Compact<EventIndex>': Compact<EventIndex>;
+    'Compact<ExtendedBalance>': Compact<ExtendedBalance>;
     'Compact<FixedU128>': Compact<FixedU128>;
     'Compact<FixedU64>': Compact<FixedU64>;
     'Compact<FundIndex>': Compact<FundIndex>;
@@ -135,6 +136,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<ValidatorCount>': Compact<ValidatorCount>;
     'Compact<ValidatorIndex>': Compact<ValidatorIndex>;
     'Compact<VoteIndex>': Compact<VoteIndex>;
+    'Compact<VoteWeight>': Compact<VoteWeight>;
     'Compact<Weight>': Compact<Weight>;
     'Option<AbridgedCandidateReceipt>': Option<AbridgedCandidateReceipt>;
     'Option<AbridgedHostConfiguration>': Option<AbridgedHostConfiguration>;
@@ -381,6 +383,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ExitRevert>': Option<ExitRevert>;
     'Option<ExitSucceed>': Option<ExitSucceed>;
     'Option<Exposure>': Option<Exposure>;
+    'Option<ExtendedBalance>': Option<ExtendedBalance>;
     'Option<Extrinsic>': Option<Extrinsic>;
     'Option<ExtrinsicEra>': Option<ExtrinsicEra>;
     'Option<ExtrinsicMetadataLatest>': Option<ExtrinsicMetadataLatest>;
@@ -647,8 +650,10 @@ declare module '@polkadot/types/types/registry' {
     'Option<RawBabePreDigestSecondaryVRF>': Option<RawBabePreDigestSecondaryVRF>;
     'Option<RawBabePreDigestTo159>': Option<RawBabePreDigestTo159>;
     'Option<RawOrigin>': Option<RawOrigin>;
+    'Option<RawSolution>': Option<RawSolution>;
     'Option<RawVRFOutput>': Option<RawVRFOutput>;
     'Option<ReadProof>': Option<ReadProof>;
+    'Option<ReadySolution>': Option<ReadySolution>;
     'Option<Reasons>': Option<Reasons>;
     'Option<RecoveryConfig>': Option<RecoveryConfig>;
     'Option<RefCount>': Option<RefCount>;
@@ -678,6 +683,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<RewardDestination>': Option<RewardDestination>;
     'Option<RewardDestinationTo257>': Option<RewardDestinationTo257>;
     'Option<RewardPoint>': Option<RewardPoint>;
+    'Option<RoundSnapshot>': Option<RoundSnapshot>;
     'Option<RoundState>': Option<RoundState>;
     'Option<RpcMethods>': Option<RpcMethods>;
     'Option<RuntimeDbWeight>': Option<RuntimeDbWeight>;
@@ -737,6 +743,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<SlotRange>': Option<SlotRange>;
     'Option<SocietyJudgement>': Option<SocietyJudgement>;
     'Option<SocietyVote>': Option<SocietyVote>;
+    'Option<SolutionOrSnapshotSize>': Option<SolutionOrSnapshotSize>;
+    'Option<SolutionSupport>': Option<SolutionSupport>;
+    'Option<SolutionSupports>': Option<SolutionSupports>;
     'Option<SpanIndex>': Option<SpanIndex>;
     'Option<SpanRecord>': Option<SpanRecord>;
     'Option<Sr25519Signature>': Option<Sr25519Signature>;
@@ -847,6 +856,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Votes>': Option<Votes>;
     'Option<VotesTo230>': Option<VotesTo230>;
     'Option<VoteThreshold>': Option<VoteThreshold>;
+    'Option<VoteWeight>': Option<VoteWeight>;
     'Option<Voting>': Option<Voting>;
     'Option<VotingDelegating>': Option<VotingDelegating>;
     'Option<VotingDirect>': Option<VotingDirect>;
@@ -1113,6 +1123,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ExitRevert>': Vec<ExitRevert>;
     'Vec<ExitSucceed>': Vec<ExitSucceed>;
     'Vec<Exposure>': Vec<Exposure>;
+    'Vec<ExtendedBalance>': Vec<ExtendedBalance>;
     'Vec<Extrinsic>': Vec<Extrinsic>;
     'Vec<ExtrinsicEra>': Vec<ExtrinsicEra>;
     'Vec<ExtrinsicMetadataLatest>': Vec<ExtrinsicMetadataLatest>;
@@ -1379,8 +1390,10 @@ declare module '@polkadot/types/types/registry' {
     'Vec<RawBabePreDigestSecondaryVRF>': Vec<RawBabePreDigestSecondaryVRF>;
     'Vec<RawBabePreDigestTo159>': Vec<RawBabePreDigestTo159>;
     'Vec<RawOrigin>': Vec<RawOrigin>;
+    'Vec<RawSolution>': Vec<RawSolution>;
     'Vec<RawVRFOutput>': Vec<RawVRFOutput>;
     'Vec<ReadProof>': Vec<ReadProof>;
+    'Vec<ReadySolution>': Vec<ReadySolution>;
     'Vec<Reasons>': Vec<Reasons>;
     'Vec<RecoveryConfig>': Vec<RecoveryConfig>;
     'Vec<RefCount>': Vec<RefCount>;
@@ -1410,6 +1423,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<RewardDestination>': Vec<RewardDestination>;
     'Vec<RewardDestinationTo257>': Vec<RewardDestinationTo257>;
     'Vec<RewardPoint>': Vec<RewardPoint>;
+    'Vec<RoundSnapshot>': Vec<RoundSnapshot>;
     'Vec<RoundState>': Vec<RoundState>;
     'Vec<RpcMethods>': Vec<RpcMethods>;
     'Vec<RuntimeDbWeight>': Vec<RuntimeDbWeight>;
@@ -1469,6 +1483,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<SlotRange>': Vec<SlotRange>;
     'Vec<SocietyJudgement>': Vec<SocietyJudgement>;
     'Vec<SocietyVote>': Vec<SocietyVote>;
+    'Vec<SolutionOrSnapshotSize>': Vec<SolutionOrSnapshotSize>;
+    'Vec<SolutionSupport>': Vec<SolutionSupport>;
+    'Vec<SolutionSupports>': Vec<SolutionSupports>;
     'Vec<SpanIndex>': Vec<SpanIndex>;
     'Vec<SpanRecord>': Vec<SpanRecord>;
     'Vec<Sr25519Signature>': Vec<Sr25519Signature>;
@@ -1579,6 +1596,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Votes>': Vec<Votes>;
     'Vec<VotesTo230>': Vec<VotesTo230>;
     'Vec<VoteThreshold>': Vec<VoteThreshold>;
+    'Vec<VoteWeight>': Vec<VoteWeight>;
     'Vec<Voting>': Vec<Voting>;
     'Vec<VotingDelegating>': Vec<VotingDelegating>;
     'Vec<VotingDirect>': Vec<VotingDirect>;
@@ -1845,6 +1863,7 @@ declare module '@polkadot/types/types/registry' {
     ExitRevert: ExitRevert;
     ExitSucceed: ExitSucceed;
     Exposure: Exposure;
+    ExtendedBalance: ExtendedBalance;
     Extrinsic: Extrinsic;
     ExtrinsicEra: ExtrinsicEra;
     ExtrinsicMetadataLatest: ExtrinsicMetadataLatest;
@@ -2111,8 +2130,10 @@ declare module '@polkadot/types/types/registry' {
     RawBabePreDigestSecondaryVRF: RawBabePreDigestSecondaryVRF;
     RawBabePreDigestTo159: RawBabePreDigestTo159;
     RawOrigin: RawOrigin;
+    RawSolution: RawSolution;
     RawVRFOutput: RawVRFOutput;
     ReadProof: ReadProof;
+    ReadySolution: ReadySolution;
     Reasons: Reasons;
     RecoveryConfig: RecoveryConfig;
     RefCount: RefCount;
@@ -2142,6 +2163,7 @@ declare module '@polkadot/types/types/registry' {
     RewardDestination: RewardDestination;
     RewardDestinationTo257: RewardDestinationTo257;
     RewardPoint: RewardPoint;
+    RoundSnapshot: RoundSnapshot;
     RoundState: RoundState;
     RpcMethods: RpcMethods;
     RuntimeDbWeight: RuntimeDbWeight;
@@ -2201,6 +2223,9 @@ declare module '@polkadot/types/types/registry' {
     SlotRange: SlotRange;
     SocietyJudgement: SocietyJudgement;
     SocietyVote: SocietyVote;
+    SolutionOrSnapshotSize: SolutionOrSnapshotSize;
+    SolutionSupport: SolutionSupport;
+    SolutionSupports: SolutionSupports;
     SpanIndex: SpanIndex;
     SpanRecord: SpanRecord;
     Sr25519Signature: Sr25519Signature;
@@ -2311,6 +2336,7 @@ declare module '@polkadot/types/types/registry' {
     Votes: Votes;
     VotesTo230: VotesTo230;
     VoteThreshold: VoteThreshold;
+    VoteWeight: VoteWeight;
     Voting: Voting;
     VotingDelegating: VotingDelegating;
     VotingDirect: VotingDirect;
