@@ -114,9 +114,13 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
 
 // current (balances, vesting)
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
-  const lockCalls = balanceInstances.map((m) => api.query[m].locks);
+  const lockCalls = balanceInstances.map(
+    (m): ApiInterfaceRx['query']['balances']['locks'] | undefined =>
+      (api.derive[m as 'balances'] as unknown as ApiInterfaceRx['query']['balances'])?.locks ?? api.query[m as 'balances']?.locks
+  );
+
   const lockEmpty = lockCalls.map((c) => !c);
-  const lockQueries = lockCalls.filter((c) => c).map((c): QueryableStorageMultiArg<'rxjs'> => [c, accountId]);
+  const lockQueries = lockCalls.filter((c) => c).map((c): QueryableStorageMultiArg<'rxjs'> => [c!, accountId]);
 
   return (
     api.query.vesting?.vesting
