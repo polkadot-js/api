@@ -168,7 +168,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
  * - left as is, to create an inherent
  */
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
-  constructor (registry: Registry, value: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
+  constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
     super(registry, GenericExtrinsic._decodeExtrinsic(registry, value, version));
   }
 
@@ -187,7 +187,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   }
 
   /** @internal */
-  private static _decodeExtrinsic (registry: Registry, value: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+  private static _decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (isU8a(value) || Array.isArray(value) || isHex(value)) {
       return GenericExtrinsic._decodeU8a(registry, u8aToU8a(value), version);
     } else if (value instanceof registry.createClass('Call')) {
