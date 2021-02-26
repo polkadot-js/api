@@ -26,6 +26,6 @@
     "@polkadot/keyring": "^5.8.1",
     "@polkadot/metadata": "3.10.3-10",
     "mock-socket": "^9.0.3",
-    "nock": "^13.0.7"
+    "nock": "^13.0.8"
   }
 }
