@@ -73,16 +73,41 @@ const phragmen = {
       Open: 'BlockNumber'
     }
   },
+  ExtendedBalance: 'u128',
+  RawSolution: {
+    compact: 'CompactAssignments',
+    score: 'ElectionScore',
+    round: 'u32'
+  },
+  ReadySolution: {
+    supports: 'SolutionSupports',
+    score: 'ElectionScore',
+    compute: 'ElectionCompute'
+  },
+  RoundSnapshot: {
+    voters: 'Vec<(AccountId, VoteWeight, Vec<AccountId>)>',
+    targets: 'Vec<AccountId>'
+  },
   SeatHolder: {
     who: 'AccountId',
     stake: 'Balance',
     deposit: 'Balance'
   },
+  SolutionOrSnapshotSize: {
+    voters: 'Compact<u32>',
+    targets: 'Compact<u32>'
+  },
+  SolutionSupport: {
+    total: 'ExtendedBalance',
+    voters: 'Vec<(AccountId, ExtendedBalance)>'
+  },
+  SolutionSupports: 'Vec<(AccountId, SolutionSupport)>',
   Voter: {
     votes: 'Vec<AccountId>',
     stake: 'Balance',
     deposit: 'Balance'
-  }
+  },
+  VoteWeight: 'u64'
 };
 
 export default {

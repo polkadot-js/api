@@ -474,7 +474,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000080100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000090100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "documentation": [
                 " Get the chain's current version."
               ]
@@ -1698,6 +1698,230 @@
           "index": 7
         },
         {
+          "name": "ElectionProviderMultiPhase",
+          "storage": {
+            "prefix": "ElectionProviderMultiPhase",
+            "items": [
+              {
+                "name": "Round",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x01000000",
+                "documentation": [
+                  " Internal counter for the number of rounds.",
+                  "",
+                  " This is useful for de-duplication of transactions submitted to the pool, and general",
+                  " diagnostics of the pallet.",
+                  "",
+                  " This is merely incremented once per every time that an upstream `elect` is called."
+                ]
+              },
+              {
+                "name": "CurrentPhase",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Phase"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Current phase."
+                ]
+              },
+              {
+                "name": "QueuedSolution",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "ReadySolution"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Current best solution, signed or unsigned, queued to be returned upon `elect`."
+                ]
+              },
+              {
+                "name": "Snapshot",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "RoundSnapshot"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Snapshot data of the round.",
+                  "",
+                  " This is created at the beginning of the signed phase and cleared upon calling `elect`."
+                ]
+              },
+              {
+                "name": "DesiredTargets",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Desired number of targets to elect for this round.",
+                  "",
+                  " Only exists when [`Snapshot`] is present."
+                ]
+              },
+              {
+                "name": "SnapshotMetadata",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "SolutionOrSnapshotSize"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The metadata of the [`RoundSnapshot`]",
+                  "",
+                  " Only exists when [`Snapshot`] is present."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "submit_unsigned",
+              "args": [
+                {
+                  "name": "solution",
+                  "type": "RawSolution"
+                },
+                {
+                  "name": "witness",
+                  "type": "SolutionOrSnapshotSize"
+                }
+              ],
+              "documentation": [
+                " Submit a solution for the unsigned phase.",
+                "",
+                " The dispatch origin fo this call must be __none__.",
+                "",
+                " This submission is checked on the fly. Moreover, this unsigned solution is only",
+                " validated when submitted to the pool from the **local** node. Effectively, this means",
+                " that only active validators can submit this transaction when authoring a block (similar",
+                " to an inherent).",
+                "",
+                " To prevent any incorrect solution (and thus wasted time/weight), this transaction will",
+                " panic if the solution submitted by the validator is invalid in any way, effectively",
+                " putting their authoring reward at risk.",
+                "",
+                " No deposit or reward is associated with this submission."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "SolutionStored",
+              "args": [
+                "ElectionCompute"
+              ],
+              "documentation": [
+                " A solution was stored with the given compute.",
+                "",
+                " If the solution is signed, this means that it hasn't yet been processed. If the",
+                " solution is unsigned, this means that it has also been processed."
+              ]
+            },
+            {
+              "name": "ElectionFinalized",
+              "args": [
+                "Option<ElectionCompute>"
+              ],
+              "documentation": [
+                " The election has been finalized, with `Some` of the given computation, or else if the",
+                " election failed, `None`."
+              ]
+            },
+            {
+              "name": "Rewarded",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " An account has been rewarded for their signed submission being finalized."
+              ]
+            },
+            {
+              "name": "Slashed",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " An account has been slashed for submitting an invalid signed submission."
+              ]
+            },
+            {
+              "name": "SignedPhaseStarted",
+              "args": [
+                "u32"
+              ],
+              "documentation": [
+                " The signed phase of the given round has started."
+              ]
+            },
+            {
+              "name": "UnsignedPhaseStarted",
+              "args": [
+                "u32"
+              ],
+              "documentation": [
+                " The unsigned phase of the given round has started."
+              ]
+            }
+          ],
+          "constants": [
+            {
+              "name": "UnsignedPhase",
+              "type": "BlockNumber",
+              "value": "0x32000000",
+              "documentation": [
+                " Duration of the unsigned phase."
+              ]
+            },
+            {
+              "name": "SignedPhase",
+              "type": "BlockNumber",
+              "value": "0x32000000",
+              "documentation": [
+                " Duration of the signed phase."
+              ]
+            },
+            {
+              "name": "SolutionImprovementThreshold",
+              "type": "Perbill",
+              "value": "0x20a10700",
+              "documentation": [
+                " The minimum amount of improvement to the solution score that defines a solution as",
+                " \"better\" (in any phase)."
+              ]
+            }
+          ],
+          "errors": [
+            {
+              "name": "PreDispatchEarlySubmission",
+              "documentation": [
+                " Submission was too early."
+              ]
+            },
+            {
+              "name": "PreDispatchWrongWinnerCount",
+              "documentation": [
+                " Wrong number of winners presented."
+              ]
+            },
+            {
+              "name": "PreDispatchWeakSubmission",
+              "documentation": [
+                " Submission was too weak, score-wise."
+              ]
+            }
+          ],
+          "index": 8
+        },
+        {
           "name": "Staking",
           "storage": {
             "prefix": "Staking",
@@ -2149,6 +2373,19 @@
                 ]
               },
               {
+                "name": "CurrentPlannedSession",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "SessionIndex"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The last planned session scheduled by the session pallet.",
+                  "",
+                  " This is basically in sync with the call to [`SessionManager::new_session`]."
+                ]
+              },
+              {
                 "name": "SnapshotValidators",
                 "modifier": "Optional",
                 "type": {
@@ -2157,7 +2394,9 @@
                 "fallback": "0x00",
                 "documentation": [
                   " Snapshot of validators at the beginning of the current election window. This should only",
-                  " have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`."
+                  " have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`.",
+                  "",
+                  " TWO_PHASE_NOTE: should be removed once we switch to multi-phase."
                 ]
               },
               {
@@ -2169,7 +2408,9 @@
                 "fallback": "0x00",
                 "documentation": [
                   " Snapshot of nominators at the beginning of the current election window. This should only",
-                  " have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`."
+                  " have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`.",
+                  "",
+                  " TWO_PHASE_NOTE: should be removed once we switch to multi-phase."
                 ]
               },
               {
@@ -2182,7 +2423,9 @@
                 "documentation": [
                   " The next validator set. At the end of an era, if this is available (potentially from the",
                   " result of an offchain worker), it is immediately used. Otherwise, the on-chain election",
-                  " is executed."
+                  " is executed.",
+                  "",
+                  " TWO_PHASE_NOTE: should be removed once we switch to multi-phase."
                 ]
               },
               {
@@ -2193,7 +2436,9 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The score of the current [`QueuedElected`]."
+                  " The score of the current [`QueuedElected`].",
+                  "",
+                  " TWO_PHASE_NOTE: should be removed once we switch to multi-phase."
                 ]
               },
               {
@@ -2205,7 +2450,9 @@
                 "fallback": "0x00",
                 "documentation": [
                   " Flag to control the execution of the offchain election. When `Open(_)`, we accept",
-                  " solutions to be submitted."
+                  " solutions to be submitted.",
+                  "",
+                  " TWO_PHASE_NOTE: should be removed once we switch to multi-phase."
                 ]
               },
               {
@@ -2217,7 +2464,9 @@
                 "fallback": "0x00",
                 "documentation": [
                   " True if the current **planned** session is final. Note that this does not take era",
-                  " forcing into account."
+                  " forcing into account.",
+                  "",
+                  " TWO_PHASE_NOTE: should be removed once we switch to multi-phase."
                 ]
               },
               {
@@ -3363,7 +3612,7 @@
               ]
             }
           ],
-          "index": 8
+          "index": 9
         },
         {
           "name": "Session",
@@ -3557,7 +3806,7 @@
               ]
             }
           ],
-          "index": 9
+          "index": 10
         },
         {
           "name": "Democracy",
@@ -4806,7 +5055,7 @@
               ]
             }
           ],
-          "index": 10
+          "index": 11
         },
         {
           "name": "Council",
@@ -5265,7 +5514,7 @@
               ]
             }
           ],
-          "index": 11
+          "index": 12
         },
         {
           "name": "TechnicalCommittee",
@@ -5724,7 +5973,7 @@
               ]
             }
           ],
-          "index": 12
+          "index": 13
         },
         {
           "name": "Elections",
@@ -6183,7 +6432,7 @@
               ]
             }
           ],
-          "index": 13
+          "index": 14
         },
         {
           "name": "TechnicalMembership",
@@ -6366,7 +6615,7 @@
           ],
           "constants": [],
           "errors": [],
-          "index": 14
+          "index": 15
         },
         {
           "name": "Grandpa",
@@ -6589,7 +6838,7 @@
               ]
             }
           ],
-          "index": 15
+          "index": 16
         },
         {
           "name": "Treasury",
@@ -6829,7 +7078,7 @@
               ]
             }
           ],
-          "index": 16
+          "index": 17
         },
         {
           "name": "Contracts",
@@ -6842,7 +7091,7 @@
                 "type": {
                   "Plain": "Schedule"
                 },
-                "fallback": "0x0000000000040000000002000000010000800000001000000000100000000100002000000000000800150600004c6b02004c8103009e1800000b1d0000160d0000651800006d2b00008a000000f5700100fdf602008e070000440600006e070000030600004f180000b528000091070000b60da70827080000590800006a0a0000ef070000560800004a0800008e080000f509000061090000dd090000a10a00009c090000e409000091090000650900001e0a0000120a0000ae09000099090000060a00006b2000000b1d000051200000221d000094090000ad090000b6090000160a0000660a0000fd090000260a0000440a0000d41a2a0000000000a0c729000000000092122900000000001ab5580000000000ba1c290000000000e000290000000000b0ef280000000000ee325c0000000000dec1280000000000ca07290000000000c07d4e00000000009c77140000000000303a7200000000000b01000000000000f0ab450000000000ff0200000000000060a21c270000000030078d31000000002635af09000000000ae164000000000038b18e0000000000b6b1cc0700000000890900000000000040036c00000000008ad6e21100000000de020000000000006e67cc080000000078f6110200000000e605000000000000acb1b50a00000000b24419090000000092579f08000000004702000000000000240300000000000016eaeb220000000055020000000000003503000000000000db0a000000000000f4802600000000006a100000000000006a9a280000000000220d0000000000004e9c2400000000001c0600000000000026832400000000001b06000000000000",
+                "fallback": "0x0000000000040000000002000000010000800000001000000000100000000100002000000078060000a5600200a1740300271600000d1c0000e20c00006e160000ff280000a00000008b780100e4f80200b70600002c06000027070000a705000074170000ca2700002807000002ea8f08ef070000fd0700003c0a0000630800007f070000c7070000fe0700008909000022090000ea080000c30900002709000059070000d508000082080000b60900007a090000c90800009b080000bb080000a51f0000b51c00009a1f0000c21c00008c0800006b080000ea0800004009000092090000fc080000ae090000c2090000ae37290000000000e636290000000000be5a280000000000d479570000000000bc25280000000000a285280000000000008c28000000000052385c00000000003a07280000000000942a280000000000541d4d00000000002603130000000000b08a6f00000000000b01000000000000a053480000000000fd020000000000009862332700000000a32000000000000000e3bd3100000000902200000000000056120000000000006872ad0900000000de326200000000007cfe8e00000000008211ce07000000009309000000000000ac096d0000000000e43f161100000000da020000000000005e74cf0800000000e07b0b0200000000f005000000000000deb1c40a00000000f24a370900000000ff0e000000000000228bf9080000000049020000000000002a030000000000004c971c2300000000892100000000000067020000000000005703000000000000e60b000000000000aac22400000000006210000000000000f434270000000000200d00000000000094672200000000001806000000000000f86c2200000000001806000000000000",
                 "documentation": [
                   " Current cost schedule for contracts."
                 ]
@@ -6952,7 +7201,7 @@
                 },
                 {
                   "name": "gas_limit",
-                  "type": "Compact<Gas>"
+                  "type": "Compact<Weight>"
                 },
                 {
                   "name": "data",
@@ -6978,7 +7227,7 @@
                 },
                 {
                   "name": "gas_limit",
-                  "type": "Compact<Gas>"
+                  "type": "Compact<Weight>"
                 },
                 {
                   "name": "code",
@@ -7026,7 +7275,7 @@
                 },
                 {
                   "name": "gas_limit",
-                  "type": "Compact<Gas>"
+                  "type": "Compact<Weight>"
                 },
                 {
                   "name": "code_hash",
@@ -7272,8 +7521,7 @@
               "type": "u32",
               "value": "0x20000000",
               "documentation": [
-                " The maximum nesting level of a call/instantiate stack. A reasonable default",
-                " value is 100."
+                " The maximum nesting level of a call/instantiate stack."
               ]
             },
             {
@@ -7281,13 +7529,13 @@
               "type": "u32",
               "value": "0x00400000",
               "documentation": [
-                " The maximum size of a storage value in bytes. A reasonable default is 16 KiB."
+                " The maximum size of a storage value and event payload in bytes."
               ]
             },
             {
               "name": "DeletionQueueDepth",
               "type": "u32",
-              "value": "0xf2000000",
+              "value": "0x1b010000",
               "documentation": [
                 " The maximum number of tries that can be queued for deletion."
               ]
@@ -7298,6 +7546,16 @@
               "value": "0x00d0ed902e000000",
               "documentation": [
                 " The maximum amount of weight that can be consumed per block for lazy trie removal."
+              ]
+            },
+            {
+              "name": "MaxCodeSize",
+              "type": "u32",
+              "value": "0x00000200",
+              "documentation": [
+                " The maximum length of a contract code in bytes. This limit applies to the instrumented",
+                " version of the code. Therefore `instantiate_with_code` can fail even when supplying",
+                " a wasm binary below this maximum size."
               ]
             }
           ],
@@ -7470,7 +7728,7 @@
               "documentation": [
                 " Removal of a contract failed because the deletion queue is full.",
                 "",
-                " This can happen when either calling [`Module::claim_surcharge`] or `seal_terminate`.",
+                " This can happen when either calling [`Pallet::claim_surcharge`] or `seal_terminate`.",
                 " The queue is filled by deleting contracts and emptied by a fixed amount each block.",
                 " Trying again during another block is the only way to resolve this issue."
               ]
@@ -7480,7 +7738,7 @@
               "documentation": [
                 " A contract could not be evicted because it has enough balance to pay rent.",
                 "",
-                " This can be returned from [`Module::claim_surcharge`] because the target",
+                " This can be returned from [`Pallet::claim_surcharge`] because the target",
                 " contract has enough balance to pay for its rent."
               ]
             },
@@ -7500,7 +7758,7 @@
               ]
             }
           ],
-          "index": 17
+          "index": 18
         },
         {
           "name": "Sudo",
@@ -7652,7 +7910,7 @@
               ]
             }
           ],
-          "index": 18
+          "index": 19
         },
         {
           "name": "ImOnline",
@@ -7792,7 +8050,7 @@
               ]
             }
           ],
-          "index": 19
+          "index": 20
         },
         {
           "name": "AuthorityDiscovery",
@@ -7801,7 +8059,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 20
+          "index": 21
         },
         {
           "name": "Offences",
@@ -7895,7 +8153,7 @@
           ],
           "constants": [],
           "errors": [],
-          "index": 21
+          "index": 22
         },
         {
           "name": "Historical",
@@ -7904,7 +8162,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 22
+          "index": 23
         },
         {
           "name": "RandomnessCollectiveFlip",
@@ -7930,7 +8188,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 23
+          "index": 24
         },
         {
           "name": "Identity",
@@ -8670,7 +8928,7 @@
               ]
             }
           ],
-          "index": 24
+          "index": 25
         },
         {
           "name": "Society",
@@ -9652,7 +9910,7 @@
               ]
             }
           ],
-          "index": 25
+          "index": 26
         },
         {
           "name": "Recovery",
@@ -10206,7 +10464,7 @@
               ]
             }
           ],
-          "index": 26
+          "index": 27
         },
         {
           "name": "Vesting",
@@ -10398,7 +10656,7 @@
               ]
             }
           ],
-          "index": 27
+          "index": 28
         },
         {
           "name": "Scheduler",
@@ -10690,7 +10948,7 @@
               ]
             }
           ],
-          "index": 28
+          "index": 29
         },
         {
           "name": "Proxy",
@@ -11208,7 +11466,7 @@
               ]
             }
           ],
-          "index": 29
+          "index": 30
         },
         {
           "name": "Multisig",
@@ -11622,7 +11880,7 @@
               ]
             },
             {
-              "name": "WeightTooLow",
+              "name": "MaxWeightTooLow",
               "documentation": [
                 " The maximum weight information provided was too low."
               ]
@@ -11634,7 +11892,7 @@
               ]
             }
           ],
-          "index": 30
+          "index": 31
         },
         {
           "name": "Bounties",
@@ -12094,7 +12352,7 @@
               ]
             }
           ],
-          "index": 31
+          "index": 32
         },
         {
           "name": "Tips",
@@ -12467,7 +12725,7 @@
               ]
             }
           ],
-          "index": 32
+          "index": 33
         },
         {
           "name": "Assets",
@@ -13280,7 +13538,7 @@
               ]
             }
           ],
-          "index": 33
+          "index": 34
         },
         {
           "name": "Mmr",
@@ -13334,7 +13592,7 @@
           "events": null,
           "constants": [],
           "errors": [],
-          "index": 34
+          "index": 35
         },
         {
           "name": "Lottery",
@@ -13556,7 +13814,7 @@
             }
           ],
           "errors": [],
-          "index": 35
+          "index": 36
         }
       ],
       "extrinsic": {
