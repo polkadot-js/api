@@ -24,6 +24,7 @@ import type { EthAccount, EthBlock, EthBloom, EthCallRequest, EthFilter, EthFilt
 import type { EvmAccount, EvmLog, EvmVicinity, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed } from '@polkadot/types/interfaces/evm';
 import type { AnySignature, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
+import type { ActiveGilt, ActiveGiltsTotal, ActiveIndex, GiltBid } from '@polkadot/types/interfaces/gilt';
 import type { AuthorityIndex, AuthorityList, AuthorityWeight, EncodedFinalityProofs, GrandpaEquivocation, GrandpaEquivocationProof, GrandpaEquivocationValue, GrandpaPrevote, JustificationNotification, KeyOwnerProof, NextAuthority, PendingPause, PendingResume, Precommits, Prevotes, ReportedRoundStates, RoundState, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import type { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
@@ -55,6 +56,7 @@ import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
     'Compact<AccountIndex>': Compact<AccountIndex>;
+    'Compact<ActiveIndex>': Compact<ActiveIndex>;
     'Compact<ApprovalFlag>': Compact<ApprovalFlag>;
     'Compact<AssetId>': Compact<AssetId>;
     'Compact<AuctionIndex>': Compact<AuctionIndex>;
@@ -159,6 +161,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<AccountVoteSplit>': Option<AccountVoteSplit>;
     'Option<AccountVoteStandard>': Option<AccountVoteStandard>;
     'Option<ActiveEraInfo>': Option<ActiveEraInfo>;
+    'Option<ActiveGilt>': Option<ActiveGilt>;
+    'Option<ActiveGiltsTotal>': Option<ActiveGiltsTotal>;
+    'Option<ActiveIndex>': Option<ActiveIndex>;
     'Option<ActiveRecovery>': Option<ActiveRecovery>;
     'Option<Address>': Option<Address>;
     'Option<AliveContractInfo>': Option<AliveContractInfo>;
@@ -421,6 +426,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<FundIndex>': Option<FundIndex>;
     'Option<FundInfo>': Option<FundInfo>;
     'Option<Gas>': Option<Gas>;
+    'Option<GiltBid>': Option<GiltBid>;
     'Option<GlobalValidationSchedule>': Option<GlobalValidationSchedule>;
     'Option<GrandpaEquivocation>': Option<GrandpaEquivocation>;
     'Option<GrandpaEquivocationProof>': Option<GrandpaEquivocationProof>;
@@ -899,6 +905,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<AccountVoteSplit>': Vec<AccountVoteSplit>;
     'Vec<AccountVoteStandard>': Vec<AccountVoteStandard>;
     'Vec<ActiveEraInfo>': Vec<ActiveEraInfo>;
+    'Vec<ActiveGilt>': Vec<ActiveGilt>;
+    'Vec<ActiveGiltsTotal>': Vec<ActiveGiltsTotal>;
+    'Vec<ActiveIndex>': Vec<ActiveIndex>;
     'Vec<ActiveRecovery>': Vec<ActiveRecovery>;
     'Vec<Address>': Vec<Address>;
     'Vec<AliveContractInfo>': Vec<AliveContractInfo>;
@@ -1161,6 +1170,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<FundIndex>': Vec<FundIndex>;
     'Vec<FundInfo>': Vec<FundInfo>;
     'Vec<Gas>': Vec<Gas>;
+    'Vec<GiltBid>': Vec<GiltBid>;
     'Vec<GlobalValidationSchedule>': Vec<GlobalValidationSchedule>;
     'Vec<GrandpaEquivocation>': Vec<GrandpaEquivocation>;
     'Vec<GrandpaEquivocationProof>': Vec<GrandpaEquivocationProof>;
@@ -1639,6 +1649,9 @@ declare module '@polkadot/types/types/registry' {
     AccountVoteSplit: AccountVoteSplit;
     AccountVoteStandard: AccountVoteStandard;
     ActiveEraInfo: ActiveEraInfo;
+    ActiveGilt: ActiveGilt;
+    ActiveGiltsTotal: ActiveGiltsTotal;
+    ActiveIndex: ActiveIndex;
     ActiveRecovery: ActiveRecovery;
     Address: Address;
     AliveContractInfo: AliveContractInfo;
@@ -1901,6 +1914,7 @@ declare module '@polkadot/types/types/registry' {
     FundIndex: FundIndex;
     FundInfo: FundInfo;
     Gas: Gas;
+    GiltBid: GiltBid;
     GlobalValidationSchedule: GlobalValidationSchedule;
     GrandpaEquivocation: GrandpaEquivocation;
     GrandpaEquivocationProof: GrandpaEquivocationProof;
