@@ -16,9 +16,9 @@
 //
 // With the above we additionally need a .d.ts to just export the packageInfo
 
-import { packageInfo as apiInfo } from '@polkadot/api';
-import { packageInfo as coreInfo } from '@polkadot/rpc-core';
-import { packageInfo as typesInfo } from '@polkadot/types';
+import { packageInfo as apiInfo } from '@polkadot/api/packageInfo';
+import { packageInfo as coreInfo } from '@polkadot/rpc-core/packageInfo';
+import { packageInfo as typesInfo } from '@polkadot/types/packageInfo';
 import { detectPackage } from '@polkadot/util';
 
 import { packageInfo } from './packageInfo';

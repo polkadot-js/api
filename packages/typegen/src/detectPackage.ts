@@ -16,10 +16,10 @@
 //
 // With the above we additionally need a .d.ts to just export the packageInfo
 
-import { packageInfo as apiInfo } from '@polkadot/api';
-import { packageInfo as metaInfo } from '@polkadot/metadata';
-import { packageInfo as providerInfo } from '@polkadot/rpc-provider';
-import { packageInfo as typesInfo } from '@polkadot/types';
+import { packageInfo as apiInfo } from '@polkadot/api/packageInfo';
+import { packageInfo as metaInfo } from '@polkadot/metadata/packageInfo';
+import { packageInfo as providerInfo } from '@polkadot/rpc-provider/packageInfo';
+import { packageInfo as typesInfo } from '@polkadot/types/packageInfo';
 import { detectPackage } from '@polkadot/util';
 
 import { packageInfo } from './packageInfo';

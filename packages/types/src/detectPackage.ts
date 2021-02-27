@@ -16,7 +16,7 @@
 //
 // With the above we additionally need a .d.ts to just export the packageInfo
 
-import { packageInfo as metaInfo } from '@polkadot/metadata';
+import { packageInfo as metaInfo } from '@polkadot/metadata/packageInfo';
 import { detectPackage } from '@polkadot/util';
 
 import { packageInfo } from './packageInfo';

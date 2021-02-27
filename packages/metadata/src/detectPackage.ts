@@ -16,8 +16,8 @@
 //
 // With the above we additionally need a .d.ts to just export the packageInfo
 
-import { packageInfo as typeInfo } from '@polkadot/types';
-import { packageInfo as knownInfo } from '@polkadot/types-known';
+import { packageInfo as typeInfo } from '@polkadot/types/packageInfo';
+import { packageInfo as knownInfo } from '@polkadot/types-known/packageInfo';
 import { detectPackage } from '@polkadot/util';
 
 import { packageInfo } from './packageInfo';
