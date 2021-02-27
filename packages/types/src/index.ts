@@ -6,3 +6,4 @@ import './detectPackage';
 export * from './codec';
 export * from './create';
 export * from './index.types';
+export { packageInfo } from './packageInfo';

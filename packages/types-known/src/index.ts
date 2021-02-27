@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import './detectPackage';
+
 import type BN from 'bn.js';
 import type { Text } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
@@ -13,6 +15,8 @@ import typesChain from './chain';
 import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
+
+export { packageInfo } from './packageInfo';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */

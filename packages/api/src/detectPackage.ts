@@ -5,7 +5,7 @@
 //
 //   new URL(import.meta.url).pathname)
 //
-// The issue is the WP4 has "some" issues with import.meta.url. So because of bundlers, we can't have
+// The issue is the WP4 has 'some' issues with import.meta.url. So because of bundlers, we can't have
 // nice things... In this case it is even worse since import.meta.url won't even make it compile, so
 // there is a complete dead end with usage thereof
 //
@@ -16,6 +16,12 @@
 //
 // With the above we additionally need a .d.ts to just export the packageInfo
 
+import { packageInfo as deriveInfo } from '@polkadot/api-derive';
+import { packageInfo as metaInfo } from '@polkadot/metadata';
+import { packageInfo as coreInfo } from '@polkadot/rpc-core';
+import { packageInfo as providerInfo } from '@polkadot/rpc-provider';
+import { packageInfo as typesInfo } from '@polkadot/types';
+import { packageInfo as knownInfo } from '@polkadot/types-known';
 import { detectPackage } from '@polkadot/util';
 
 import { packageInfo } from './packageInfo';

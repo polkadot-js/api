@@ -3,7 +3,10 @@
   "version": "3.10.3-11",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.mjs"
+  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],

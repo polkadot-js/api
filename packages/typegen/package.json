@@ -3,7 +3,10 @@
   "version": "3.10.3-11",
   "description": "Type generation scripts",
   "main": "index.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.mjs"
+  ],
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
     "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
