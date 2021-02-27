@@ -163,7 +163,8 @@ export default {
         Staked: 'Null',
         Stash: 'Null',
         Controller: 'Null',
-        Account: 'AccountId'
+        Account: 'AccountId',
+        None: 'Null'
       }
     },
     RewardDestinationTo257: {
