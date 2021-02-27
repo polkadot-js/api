@@ -22,4 +22,4 @@ import { detectPackage } from '@polkadot/util';
 
 import { packageInfo } from './packageInfo';
 
-detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname);
+detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname, [apiInfo, typesInfo]);
