@@ -30,4 +30,4 @@ export function expandMetadata (registry: Registry, metadata: Metadata): Decorat
   };
 }
 
-export { decorateConstants, decorateExtrinsics, decorateStorage };
+export { decorateConstants, decorateErrors, decorateEvents, decorateExtrinsics, decorateStorage };
