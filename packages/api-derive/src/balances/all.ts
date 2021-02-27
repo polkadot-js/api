@@ -112,6 +112,8 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
   );
 }
 
+const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
+
 // current (balances, vesting)
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
   const lockCalls = balanceInstances.map(
@@ -120,7 +122,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
   );
 
   const lockEmpty = lockCalls.map((c) => !c);
-  const lockQueries = lockCalls.filter((c) => c).map((c): QueryableStorageMultiArg<'rxjs'> => [c!, accountId]);
+  const lockQueries = lockCalls.filter(isNonNullable).map((c): QueryableStorageMultiArg<'rxjs'> => [c, accountId]);
 
   return (
     api.query.vesting?.vesting
