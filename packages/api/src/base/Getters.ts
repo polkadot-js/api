@@ -9,7 +9,7 @@ import type { ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, Decora
 
 import { assertReturn } from '@polkadot/util';
 
-import { packageInfo } from '../detectPackage';
+import { packageInfo } from '../packageInfo';
 import { Init } from './Init';
 
 interface PkgJson {
