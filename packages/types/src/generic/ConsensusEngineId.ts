@@ -12,12 +12,10 @@ import { u32 } from '../primitive/U32';
 
 // there are all reversed since it is actually encoded as u32, LE,
 // this means that FRNK has the bytes as KNRF
-const CID_AURA = 0x61727561; // 'aura'
-const CID_BABE = 0x45424142; // 'BABE'
-const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
-const CID_POW = 0x5f776f70; // 'pow_'
-
-export { CID_AURA, CID_BABE, CID_GRPA, CID_POW };
+export const CID_AURA = 0x61727561; // 'aura'
+export const CID_BABE = 0x45424142; // 'BABE'
+export const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
+export const CID_POW = 0x5f776f70; // 'pow_'
 
 /**
  * @name GenericConsensusEngineId

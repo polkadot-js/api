@@ -6,7 +6,7 @@
 
 import type { Definitions } from '../../types';
 
-const AllHashers = {
+export const AllHashers = {
   Blake2_128: null, // eslint-disable-line camelcase
   Blake2_256: null, // eslint-disable-line camelcase
   Blake2_128Concat: null, // eslint-disable-line camelcase
@@ -16,8 +16,6 @@ const AllHashers = {
   // new in v11
   Identity: null
 };
-
-export { AllHashers };
 
 export default {
   rpc: {},
