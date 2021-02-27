@@ -12,9 +12,28 @@ export default {
     AssetBalance: {
       balance: 'TAssetBalance',
       isFrozen: 'bool',
+      sufficient: 'bool'
+    },
+    AssetBalanceTo265: {
+      balance: 'TAssetBalance',
+      isFrozen: 'bool',
       isZombie: 'bool'
     },
     AssetDetails: {
+      owner: 'AccountId',
+      issuer: 'AccountId',
+      admin: 'AccountId',
+      freezer: 'AccountId',
+      supply: 'TAssetBalance',
+      deposit: 'TAssetDepositBalance',
+      minBalance: 'TAssetBalance',
+      isSufficient: 'bool',
+      accounts: 'u32',
+      sufficients: 'u32',
+      approvals: 'u32',
+      isFrozen: 'bool'
+    },
+    AssetDetailsTo265: {
       owner: 'AccountId',
       issuer: 'AccountId',
       admin: 'AccountId',
@@ -28,9 +47,14 @@ export default {
     },
     AssetMetadata: {
       deposit: 'TAssetDepositBalance',
-      name: 'Vec<u8>',
-      symbol: 'Vec<u8>',
+      name: 'Bytes',
+      symbol: 'Bytes',
       decimals: 'u8'
+    },
+    DestroyWitness: {
+      accounts: 'Compact<u32>',
+      sufficients: 'Compact<u32>',
+      approvals: 'Compact<u32>'
     },
     TAssetBalance: 'u64',
     TAssetDepositBalance: 'BalanceOf'

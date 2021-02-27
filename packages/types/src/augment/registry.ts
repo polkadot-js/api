@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { BitVec, Bool, Bytes, Compact, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, Json, Null, Option, Raw, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, Vec, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types';
-import type { AssetBalance, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
+import type { AssetBalance, AssetBalanceTo265, AssetDetails, AssetDetailsTo265, AssetMetadata, DestroyWitness, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -169,7 +169,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<ApprovalFlag>': Option<ApprovalFlag>;
     'Option<Approvals>': Option<Approvals>;
     'Option<AssetBalance>': Option<AssetBalance>;
+    'Option<AssetBalanceTo265>': Option<AssetBalanceTo265>;
     'Option<AssetDetails>': Option<AssetDetails>;
+    'Option<AssetDetailsTo265>': Option<AssetDetailsTo265>;
     'Option<AssetId>': Option<AssetId>;
     'Option<AssetInstance>': Option<AssetInstance>;
     'Option<AssetMetadata>': Option<AssetMetadata>;
@@ -293,6 +295,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<DeployData>': Option<DeployData>;
     'Option<DepositAsset>': Option<DepositAsset>;
     'Option<DepositReserveAsset>': Option<DepositReserveAsset>;
+    'Option<DestroyWitness>': Option<DestroyWitness>;
     'Option<Digest>': Option<Digest>;
     'Option<DigestItem>': Option<DigestItem>;
     'Option<DigestOf>': Option<DigestOf>;
@@ -909,7 +912,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ApprovalFlag>': Vec<ApprovalFlag>;
     'Vec<Approvals>': Vec<Approvals>;
     'Vec<AssetBalance>': Vec<AssetBalance>;
+    'Vec<AssetBalanceTo265>': Vec<AssetBalanceTo265>;
     'Vec<AssetDetails>': Vec<AssetDetails>;
+    'Vec<AssetDetailsTo265>': Vec<AssetDetailsTo265>;
     'Vec<AssetId>': Vec<AssetId>;
     'Vec<AssetInstance>': Vec<AssetInstance>;
     'Vec<AssetMetadata>': Vec<AssetMetadata>;
@@ -1033,6 +1038,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<DeployData>': Vec<DeployData>;
     'Vec<DepositAsset>': Vec<DepositAsset>;
     'Vec<DepositReserveAsset>': Vec<DepositReserveAsset>;
+    'Vec<DestroyWitness>': Vec<DestroyWitness>;
     'Vec<Digest>': Vec<Digest>;
     'Vec<DigestItem>': Vec<DigestItem>;
     'Vec<DigestOf>': Vec<DigestOf>;
@@ -1649,7 +1655,9 @@ declare module '@polkadot/types/types/registry' {
     ApprovalFlag: ApprovalFlag;
     Approvals: Approvals;
     AssetBalance: AssetBalance;
+    AssetBalanceTo265: AssetBalanceTo265;
     AssetDetails: AssetDetails;
+    AssetDetailsTo265: AssetDetailsTo265;
     AssetId: AssetId;
     AssetInstance: AssetInstance;
     AssetMetadata: AssetMetadata;
@@ -1773,6 +1781,7 @@ declare module '@polkadot/types/types/registry' {
     DeployData: DeployData;
     DepositAsset: DepositAsset;
     DepositReserveAsset: DepositReserveAsset;
+    DestroyWitness: DestroyWitness;
     Digest: Digest;
     DigestItem: DigestItem;
     DigestOf: DigestOf;
