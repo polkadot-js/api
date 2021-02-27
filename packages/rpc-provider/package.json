@@ -3,7 +3,10 @@
   "version": "3.10.3-12",
   "description": "Transport providers for the API",
   "main": "index.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.mjs"
+  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
@@ -12,20 +15,20 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
-    "@babel/runtime": "^7.13.7",
+    "@babel/runtime": "^7.13.8",
     "@polkadot/types": "3.10.3-12",
-    "@polkadot/util": "^5.8.1",
-    "@polkadot/util-crypto": "^5.8.1",
-    "@polkadot/x-fetch": "^5.8.1",
-    "@polkadot/x-global": "^5.8.1",
-    "@polkadot/x-ws": "^5.8.1",
+    "@polkadot/util": "^5.8.2-5",
+    "@polkadot/util-crypto": "^5.8.2-5",
+    "@polkadot/x-fetch": "^5.8.2-5",
+    "@polkadot/x-global": "^5.8.2-5",
+    "@polkadot/x-ws": "^5.8.2-5",
     "bn.js": "^4.11.9",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^5.8.1",
+    "@polkadot/keyring": "^5.8.2-5",
     "@polkadot/metadata": "3.10.3-12",
     "mock-socket": "^9.0.3",
-    "nock": "^13.0.8"
+    "nock": "^13.0.9"
   }
 }
