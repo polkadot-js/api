@@ -140,10 +140,17 @@ export default {
       refcount: 'RefCount',
       data: 'AccountData'
     },
-    AccountInfoWithProviders: {
+    AccountInfoWithDualRefCount: {
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',
+      data: 'AccountData'
+    },
+    AccountInfoWithTripleRefCount: {
+      nonce: 'Index',
+      consumers: 'RefCount',
+      providers: 'RefCount',
+      sufficients: 'RefCount',
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
