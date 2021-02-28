@@ -16,6 +16,7 @@ export * from './engine/types';
 export * from './evm/types';
 export * from './extrinsics/types';
 export * from './genericAsset/types';
+export * from './gilt/types';
 export * from './grandpa/types';
 export * from './identity/types';
 export * from './imOnline/types';
