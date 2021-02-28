@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 3.11.1 Feb 28, 2021
+
+Upgrade priority: Low. Recommended for users wanting to keep updated with chain changes.
+
+Contributed:
+
+- Clean Websocket states on disconnects (Thanks to https://github.com/ianhe8x)
+- Support for C-like indexed enums (Thanks to https://github.com/xlc)
+
+Changes:
+
+- Adjust council derives to cater for current-generation candidate mapping
+- Allow for override of codec hasher (& output type)
+- Adjust submittables to submit hex-encoded addresses to queries
+- Adjust initialization to always retrieve tx version from Metadata only
+- Update election types as per latest Substrate
+- Add types for the new gilt module
+- Upgrade to the latest Substrate metadata
+- Adjust package detection to check for local monorepo dependencies
+
+
 ## 3.10.2 Feb 23, 2021
 
 Upgrade priority: Medium. Recommended for users of chains where `MultiAddress` is in-use and blocks are decoded.
