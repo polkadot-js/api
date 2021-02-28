@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12 } from '@polkadot/types/interfaces/metadata';
-import type { Registry } from '@polkadot/types/types';
+import type { AnyJson, Registry } from '@polkadot/types/types';
 
 import { Struct } from '@polkadot/types/codec';
 import { assert } from '@polkadot/util';
@@ -125,5 +125,17 @@ export class MetadataVersioned extends Struct {
 
   public getUniqTypes (throwError: boolean): string[] {
     return getUniqTypes(this.registry, this.asLatest, throwError);
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  public toJSON (): Record<string, AnyJson> {
+    // HACK(y): ensure that we apply the aliasses if we have not done so already, this is
+    // needed to ensure we have the overrides as intended (only applied in toLatest)
+    // eslint-disable-next-line no-unused-expressions
+    this.asLatest;
+
+    return super.toJSON();
   }
 }
