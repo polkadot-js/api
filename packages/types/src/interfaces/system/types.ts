@@ -17,6 +17,9 @@ export interface AccountInfoWithDualRefCount extends Struct {
   readonly data: AccountData;
 }
 
+/** @name AccountInfoWithProviders */
+export interface AccountInfoWithProviders extends AccountInfoWithDualRefCount {}
+
 /** @name AccountInfoWithRefCount */
 export interface AccountInfoWithRefCount extends Struct {
   readonly nonce: Index;
