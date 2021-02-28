@@ -146,6 +146,8 @@ export default {
       providers: 'RefCount',
       data: 'AccountData'
     },
+    // original naming
+    AccountInfoWithProviders: 'AccountInfoWithDualRefCount',
     AccountInfoWithTripleRefCount: {
       nonce: 'Index',
       consumers: 'RefCount',
