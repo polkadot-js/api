@@ -19,6 +19,7 @@ export { default as engine } from './engine/definitions';
 export { default as evm } from './evm/definitions';
 export { default as extrinsics } from './extrinsics/definitions';
 export { default as genericAsset } from './genericAsset/definitions';
+export { default as gilt } from './gilt/definitions';
 export { default as grandpa } from './grandpa/definitions';
 export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
