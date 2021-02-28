@@ -166,13 +166,6 @@ export default {
         Account: 'AccountId'
       }
     },
-    RewardDestinationTo257: {
-      _enum: [
-        'Staked',
-        'Stash',
-        'Controller'
-      ]
-    },
     RewardPoint: 'u32',
     SlashJournalEntry: {
       who: 'AccountId',

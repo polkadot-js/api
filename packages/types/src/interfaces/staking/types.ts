@@ -187,13 +187,6 @@ export interface RewardDestination extends Enum {
   readonly asAccount: AccountId;
 }
 
-/** @name RewardDestinationTo257 */
-export interface RewardDestinationTo257 extends Enum {
-  readonly isStaked: boolean;
-  readonly isStash: boolean;
-  readonly isController: boolean;
-}
-
 /** @name RewardPoint */
 export interface RewardPoint extends u32 {}
 

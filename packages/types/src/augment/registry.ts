@@ -44,7 +44,7 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray
 import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, ScheduledTo254, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys7, SessionKeys8, SessionKeys9, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, ReadySolution, RewardDestination, RewardDestinationTo257, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
 import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { AccountInfo, AccountInfoWithProviders, AccountInfoWithRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
@@ -687,7 +687,6 @@ declare module '@polkadot/types/types/registry' {
     'Option<ReserveAssetDeposit>': Option<ReserveAssetDeposit>;
     'Option<Retriable>': Option<Retriable>;
     'Option<RewardDestination>': Option<RewardDestination>;
-    'Option<RewardDestinationTo257>': Option<RewardDestinationTo257>;
     'Option<RewardPoint>': Option<RewardPoint>;
     'Option<RoundSnapshot>': Option<RoundSnapshot>;
     'Option<RoundState>': Option<RoundState>;
@@ -1431,7 +1430,6 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ReserveAssetDeposit>': Vec<ReserveAssetDeposit>;
     'Vec<Retriable>': Vec<Retriable>;
     'Vec<RewardDestination>': Vec<RewardDestination>;
-    'Vec<RewardDestinationTo257>': Vec<RewardDestinationTo257>;
     'Vec<RewardPoint>': Vec<RewardPoint>;
     'Vec<RoundSnapshot>': Vec<RoundSnapshot>;
     'Vec<RoundState>': Vec<RoundState>;
@@ -2175,7 +2173,6 @@ declare module '@polkadot/types/types/registry' {
     ReserveAssetDeposit: ReserveAssetDeposit;
     Retriable: Retriable;
     RewardDestination: RewardDestination;
-    RewardDestinationTo257: RewardDestinationTo257;
     RewardPoint: RewardPoint;
     RoundSnapshot: RoundSnapshot;
     RoundState: RoundState;
