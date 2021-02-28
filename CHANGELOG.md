@@ -19,6 +19,7 @@ Changes:
 - Add types for the new gilt module
 - Upgrade to the latest Substrate metadata
 - Adjust package detection to check for local monorepo dependencies
+- Ensure that metadata `.toJSON()` does apply type aliasses
 
 
 ## 3.10.2 Feb 23, 2021
