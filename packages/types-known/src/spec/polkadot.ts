@@ -41,8 +41,7 @@ const versioned: OverrideVersionedType[] = [
       ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RefCount: 'RefCountTo259'
     }
   },
   {
@@ -51,8 +50,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RefCount: 'RefCountTo259'
     }
   },
   {

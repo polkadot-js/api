@@ -17,6 +17,12 @@ type BalanceResult = [Balance, Balance, Balance, Balance];
 
 type Result = [Index, BalanceResult[]];
 
+type DeriveCustomAccount = ApiInterfaceRx['derive'] & {
+  [custom: string]: {
+    customAccount?: ApiInterfaceRx['query']['balances']['account']
+  }
+}
+
 function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
   return {
     freeBalance,
@@ -54,14 +60,10 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
   );
 }
 
-type DeriveCustomAccount = ApiInterfaceRx['derive'] & { [custom: string]: {
-  customAccount?: ApiInterfaceRx['query']['balances']['account']
-} }
-
 function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
   const balances = modules.map(
     (m): QueryableStorageMultiArg<'rxjs'> => [
-      (api.derive as DeriveCustomAccount)[m]?.customAccount ?? api.query[m].account,
+      (api.derive as DeriveCustomAccount)[m]?.customAccount || api.query[m].account,
       accountId
     ]
   );
@@ -85,9 +87,11 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
       const { feeFrozen, free, miscFrozen, reserved } = (infoOrTuple as AccountInfo).nonce
         ? (infoOrTuple as AccountInfo).data
         : (infoOrTuple as [Index, AccountData])[1];
-      const accountNonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
 
-      return [accountNonce, [[free, reserved, feeFrozen, miscFrozen]]];
+      return [
+        (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0],
+        [[free, reserved, feeFrozen, miscFrozen]]
+      ];
     })
   );
 }
