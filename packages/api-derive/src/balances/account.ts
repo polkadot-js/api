@@ -54,8 +54,18 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
   );
 }
 
+type DeriveCustomAccount = ApiInterfaceRx['derive'] & { [custom: string]: {
+  customAccount?: ApiInterfaceRx['query']['balances']['account']
+} }
+
 function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
-  const balances = modules.map((m): QueryableStorageMultiArg<'rxjs'> => [api.query[m].account, accountId]);
+  const balances = modules.map(
+    (m): QueryableStorageMultiArg<'rxjs'> => [
+      (api.derive as DeriveCustomAccount)[m]?.customAccount ?? api.query[m].account,
+      accountId
+    ]
+  );
+
   const extract = (data: AccountData[]) =>
     data.map(({ feeFrozen, free, miscFrozen, reserved }): BalanceResult => [free, reserved, feeFrozen, miscFrozen]);
 
