@@ -61,7 +61,7 @@ type DeriveCustomAccount = ApiInterfaceRx['derive'] & { [custom: string]: {
 function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
   const balances = modules.map(
     (m): QueryableStorageMultiArg<'rxjs'> => [
-      (api.derive as DeriveCustomAccount)[m]?.customAccount ?? api.query[m].account,
+      (api.derive as DeriveCustomAccount)[m]?.customAccount || api.query[m].account,
       accountId
     ]
   );
