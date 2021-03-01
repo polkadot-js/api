@@ -229,7 +229,7 @@ export default {
     },
     ValidatorIndex: 'u16',
     ValidatorIndexCompact: 'Compact<ValidatorIndex>',
-    ValidatorPrefs: 'ValidatorPrefsWithCommission',
+    ValidatorPrefs: 'ValidatorPrefsWithBlocked',
     ValidatorPrefsWithCommission: {
       commission: 'Compact<Perbill>'
     },
