@@ -307,7 +307,7 @@ export interface ValidatorIndex extends u16 {}
 export interface ValidatorIndexCompact extends Compact<ValidatorIndex> {}
 
 /** @name ValidatorPrefs */
-export interface ValidatorPrefs extends ValidatorPrefsWithCommission {}
+export interface ValidatorPrefs extends ValidatorPrefsWithBlocked {}
 
 /** @name ValidatorPrefsTo145 */
 export interface ValidatorPrefsTo145 extends Struct {

@@ -3080,7 +3080,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Write: Nominators, Validators
        * # </weight>
        **/
-      validate: AugmentedSubmittable<(prefs: ValidatorPrefs | { commission?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ValidatorPrefs]>;
+      validate: AugmentedSubmittable<(prefs: ValidatorPrefs | { commission?: any; blocked?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ValidatorPrefs]>;
       /**
        * Remove any unlocked chunks from the `unlocking` queue from our management.
        * 
