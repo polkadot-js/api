@@ -17,6 +17,12 @@ type BalanceResult = [Balance, Balance, Balance, Balance];
 
 type Result = [Index, BalanceResult[]];
 
+type DeriveCustomAccount = ApiInterfaceRx['derive'] & {
+  [custom: string]: {
+    customAccount?: ApiInterfaceRx['query']['balances']['account']
+  }
+}
+
 function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
   return {
     freeBalance,
@@ -53,10 +59,6 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
     ])
   );
 }
-
-type DeriveCustomAccount = ApiInterfaceRx['derive'] & { [custom: string]: {
-  customAccount?: ApiInterfaceRx['query']['balances']['account']
-} }
 
 function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
   const balances = modules.map(

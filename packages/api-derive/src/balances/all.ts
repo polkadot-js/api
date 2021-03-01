@@ -27,6 +27,12 @@ interface AllLocked {
   vestingLocked: Balance
 }
 
+type DeriveCustomLocks = ApiInterfaceRx['derive'] & {
+  [custom: string]: {
+    customLocks?: ApiInterfaceRx['query']['balances']['locks']
+  }
+}
+
 const VESTING_ID = '0x76657374696e6720';
 
 function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (BalanceLock | BalanceLockTo212)[]): AllLocked {
@@ -113,10 +119,6 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
 }
 
 const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
-
-type DeriveCustomLocks = ApiInterfaceRx['derive'] & { [custom: string]: {
-  customLocks?: ApiInterfaceRx['query']['balances']['locks']
-} }
 
 // current (balances, vesting)
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
