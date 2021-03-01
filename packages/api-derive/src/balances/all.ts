@@ -60,11 +60,10 @@ function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (Balan
 
 function calcShared (api: ApiInterfaceRx, bestNumber: BlockNumber, data: DeriveBalancesAccountData, locks: (BalanceLock | BalanceLockTo212)[]): DeriveBalancesAllAccountData {
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
-  const availableBalance = api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data.freeBalance.sub(lockedBalance)));
 
   return {
     ...data,
-    availableBalance,
+    availableBalance: api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data.freeBalance.sub(lockedBalance))),
     lockedBalance,
     lockedBreakdown,
     vestingLocked
@@ -81,8 +80,6 @@ function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLock
   const vestedNow = isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : new BN(0);
   const vestedBalance = vestedNow.gt(vestingTotal) ? vestingTotal : api.registry.createType('Balance', vestedNow);
   const isVesting = isStarted && !shared.vestingLocked.isZero();
-  const vestedClaimable = api.registry.createType('Balance', isVesting ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance)) : 0);
-  const vestingEndBlock = api.registry.createType('BlockNumber', isVesting ? vestingTotal.div(perBlock).add(startingBlock) : 0);
 
   return {
     ...shared,
@@ -91,8 +88,8 @@ function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLock
     additional: allLocks.filter((_, index) => index !== 0).map((l, index) => calcShared(api, bestNumber, data.additional[index], l)),
     isVesting,
     vestedBalance,
-    vestedClaimable,
-    vestingEndBlock,
+    vestedClaimable: api.registry.createType('Balance', isVesting ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance)) : 0),
+    vestingEndBlock: api.registry.createType('BlockNumber', isVesting ? vestingTotal.div(perBlock).add(startingBlock) : 0),
     vestingPerBlock: perBlock,
     vestingTotal
   };

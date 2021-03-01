@@ -87,9 +87,11 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
       const { feeFrozen, free, miscFrozen, reserved } = (infoOrTuple as AccountInfo).nonce
         ? (infoOrTuple as AccountInfo).data
         : (infoOrTuple as [Index, AccountData])[1];
-      const accountNonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
 
-      return [accountNonce, [[free, reserved, feeFrozen, miscFrozen]]];
+      return [
+        (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0],
+        [[free, reserved, feeFrozen, miscFrozen]]
+      ];
     })
   );
 }
