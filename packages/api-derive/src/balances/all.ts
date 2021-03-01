@@ -114,11 +114,15 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
 
 const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
 
+type DeriveCustomLocks = ApiInterfaceRx['derive'] & { [custom: string]: {
+  customLocks?: ApiInterfaceRx['query']['balances']['locks']
+} }
+
 // current (balances, vesting)
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
   const lockCalls = balanceInstances.map(
     (m): ApiInterfaceRx['query']['balances']['locks'] | undefined =>
-      (api.derive[m as 'balances'] as unknown as ApiInterfaceRx['query']['balances'])?.locks ?? api.query[m as 'balances']?.locks
+      (api.derive as DeriveCustomLocks)[m]?.customLocks ?? api.query[m as 'balances']?.locks
   );
 
   const lockEmpty = lockCalls.map((c) => !c);
