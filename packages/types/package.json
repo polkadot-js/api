@@ -1,11 +1,12 @@
 {
   "name": "@polkadot/types",
   "version": "3.11.2-4",
+  "type": "module",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],

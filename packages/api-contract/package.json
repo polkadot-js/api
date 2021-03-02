@@ -1,11 +1,12 @@
 {
   "name": "@polkadot/api-contract",
   "version": "3.11.2-4",
+  "type": "module",
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],

@@ -1,11 +1,12 @@
 {
   "name": "@polkadot/api-derive",
   "version": "3.11.2-4",
+  "type": "module",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],

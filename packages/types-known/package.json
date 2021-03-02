@@ -1,11 +1,12 @@
 {
   "name": "@polkadot/types-known",
   "version": "3.11.2-4",
+  "type": "module",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],

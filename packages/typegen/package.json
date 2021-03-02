@@ -1,18 +1,19 @@
 {
   "name": "@polkadot/typegen",
   "version": "3.11.2-4",
+  "type": "module",
   "description": "Type generation scripts",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "bin": {
-    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
-    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
-    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.js",
-    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.js",
-    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.js"
+    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
+    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
+    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.cjs",
+    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
+    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
   "repository": "github:polkadot-js/api",
   "author": "Jaco Greeff <jacogr@gmail.com>",

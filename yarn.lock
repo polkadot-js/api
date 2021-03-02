@@ -2011,11 +2011,11 @@ __metadata:
     websocket: ^1.0.33
     yargs: ^16.2.0
   bin:
-    polkadot-types-chain-info: ./scripts/polkadot-types-chain-info.js
-    polkadot-types-from-chain: ./scripts/polkadot-types-from-chain.js
-    polkadot-types-from-defs: ./scripts/polkadot-types-from-defs.js
-    polkadot-types-internal-interfaces: ./scripts/polkadot-types-internal-interfaces.js
-    polkadot-types-internal-metadata: ./scripts/polkadot-types-internal-metadata.js
+    polkadot-types-chain-info: ./scripts/polkadot-types-chain-info.cjs
+    polkadot-types-from-chain: ./scripts/polkadot-types-from-chain.cjs
+    polkadot-types-from-defs: ./scripts/polkadot-types-from-defs.cjs
+    polkadot-types-internal-interfaces: ./scripts/polkadot-types-internal-interfaces.cjs
+    polkadot-types-internal-metadata: ./scripts/polkadot-types-internal-metadata.cjs
   languageName: unknown
   linkType: soft
 

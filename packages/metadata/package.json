@@ -1,11 +1,12 @@
 {
   "name": "@polkadot/metadata",
   "version": "3.11.2-4",
+  "type": "module",
   "description": "Helpers to extract information from runtime metadata",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "repository": "github:polkadot-js/api",
   "author": "Jaco Greeff <jacogr@gmail.com>",
