@@ -7,8 +7,10 @@
 let main;
 
 try {
-  main = require('../interfacesTs').main;
+  main = require('../fromChain.cjs').main;
 } catch (error) {
+  process.env.JEST_WORKER_ID = '123';
+
   require('@babel/register')({
     extensions: ['.js', '.ts'],
     plugins: [
@@ -22,7 +24,7 @@ try {
     ]
   });
 
-  main = require('../src/interfacesTs.ts').main;
+  main = require('../src/fromChain').main;
 }
 
 main();

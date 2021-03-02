@@ -1,18 +1,19 @@
 {
   "name": "@polkadot/typegen",
-  "version": "3.11.2-4",
+  "version": "4.0.1-2",
+  "type": "module",
   "description": "Type generation scripts",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "bin": {
-    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
-    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
-    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.js",
-    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.js",
-    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.js"
+    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
+    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
+    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.cjs",
+    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
+    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
   "repository": "github:polkadot-js/api",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -25,11 +26,11 @@
     "@babel/core": "^7.13.8",
     "@babel/register": "^7.13.8",
     "@babel/runtime": "^7.13.8",
-    "@polkadot/api": "3.11.2-4",
-    "@polkadot/metadata": "3.11.2-4",
-    "@polkadot/rpc-provider": "3.11.2-4",
-    "@polkadot/types": "3.11.2-4",
-    "@polkadot/util": "^5.9.2",
+    "@polkadot/api": "4.0.1-2",
+    "@polkadot/metadata": "4.0.1-2",
+    "@polkadot/rpc-provider": "4.0.1-2",
+    "@polkadot/types": "4.0.1-2",
+    "@polkadot/util": "^6.0.1-4",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.33",
     "yargs": "^16.2.0"

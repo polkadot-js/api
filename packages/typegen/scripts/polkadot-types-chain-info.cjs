@@ -7,8 +7,10 @@
 let main;
 
 try {
-  main = require('../extractChain').main;
+  main = require('../extractChain.cjs').main;
 } catch (error) {
+  process.env.JEST_WORKER_ID = '123';
+
   require('@babel/register')({
     extensions: ['.js', '.ts'],
     plugins: [
