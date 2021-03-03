@@ -99,7 +99,7 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
 }
 
 function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: any): Decoded {
-  // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
+  // JSON comes in the form of { "<type (camelCase)>": "<value for type>" }, here we
   // additionally force to lower to ensure forward compat
   const keys = Object.keys(def).map((k) => k.toLowerCase());
   const keyLower = key.toLowerCase();
@@ -343,7 +343,7 @@ export class Enum implements Codec {
   public toJSON (): AnyJson {
     return this.#isBasic
       ? this.type
-      : { [this.type]: this.#raw.toJSON() };
+      : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
   }
 
   /**

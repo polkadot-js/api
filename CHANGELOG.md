@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.0.1-x
+
+Changes:
+
+- Enum `.toSON()` now encodes all keys as `camelCase` (aligning with the output from Substrate)
+
+
 ## 3.11.1 Feb 28, 2021
 
 Upgrade priority: Low. Recommended for users wanting to keep updated with chain changes.

@@ -1,7 +1,7 @@
 {
   "magicNumber": 1635018093,
   "metadata": {
-    "V11": {
+    "v11": {
       "modules": [
         {
           "name": "System",
@@ -12,7 +12,7 @@
                 "name": "Account",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountInfo",
@@ -28,7 +28,7 @@
                 "name": "ExtrinsicCount",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -39,7 +39,7 @@
                 "name": "BlockWeight",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ExtrinsicsWeight"
+                  "plain": "ExtrinsicsWeight"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
@@ -50,7 +50,7 @@
                 "name": "AllExtrinsicsLen",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -61,7 +61,7 @@
                 "name": "BlockHash",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "BlockNumber",
                     "value": "Hash",
@@ -77,7 +77,7 @@
                 "name": "ExtrinsicData",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "u32",
                     "value": "Bytes",
@@ -93,7 +93,7 @@
                 "name": "Number",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "BlockNumber"
+                  "plain": "BlockNumber"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -104,7 +104,7 @@
                 "name": "ParentHash",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Hash"
+                  "plain": "Hash"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -115,7 +115,7 @@
                 "name": "ExtrinsicsRoot",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Hash"
+                  "plain": "Hash"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -126,7 +126,7 @@
                 "name": "Digest",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "DigestOf"
+                  "plain": "DigestOf"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -137,7 +137,7 @@
                 "name": "Events",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<EventRecord>"
+                  "plain": "Vec<EventRecord>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -148,7 +148,7 @@
                 "name": "EventCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "EventIndex"
+                  "plain": "EventIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -159,7 +159,7 @@
                 "name": "EventTopics",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "Vec<(BlockNumber,EventIndex)>",
@@ -184,7 +184,7 @@
                 "name": "LastRuntimeUpgrade",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "LastRuntimeUpgradeInfo"
+                  "plain": "LastRuntimeUpgradeInfo"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -195,7 +195,7 @@
                 "name": "ExecutionPhase",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "Phase"
+                  "plain": "Phase"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -625,7 +625,7 @@
                 "name": "EpochIndex",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u64"
+                  "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -636,7 +636,7 @@
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<(AuthorityId,BabeAuthorityWeight)>"
+                  "plain": "Vec<(AuthorityId,BabeAuthorityWeight)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -647,7 +647,7 @@
                 "name": "GenesisSlot",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u64"
+                  "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -659,7 +659,7 @@
                 "name": "CurrentSlot",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u64"
+                  "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -670,7 +670,7 @@
                 "name": "Randomness",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Randomness"
+                  "plain": "Randomness"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -690,7 +690,7 @@
                 "name": "NextEpochConfig",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "NextConfigDescriptor"
+                  "plain": "NextConfigDescriptor"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -701,7 +701,7 @@
                 "name": "NextRandomness",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Randomness"
+                  "plain": "Randomness"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -712,7 +712,7 @@
                 "name": "SegmentIndex",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -731,7 +731,7 @@
                 "name": "UnderConstruction",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "u32",
                     "value": "Vec<Randomness>",
@@ -747,7 +747,7 @@
                 "name": "Initialized",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "MaybeRandomness"
+                  "plain": "MaybeRandomness"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -759,7 +759,7 @@
                 "name": "Lateness",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "BlockNumber"
+                  "plain": "BlockNumber"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -851,7 +851,7 @@
                 "name": "Now",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Moment"
+                  "plain": "Moment"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -862,7 +862,7 @@
                 "name": "DidUpdate",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "bool"
+                  "plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -924,7 +924,7 @@
                 "name": "Uncles",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<UncleEntryItem>"
+                  "plain": "Vec<UncleEntryItem>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -935,7 +935,7 @@
                 "name": "Author",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -946,7 +946,7 @@
                 "name": "DidSetUncles",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "bool"
+                  "plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1025,7 +1025,7 @@
                 "name": "Accounts",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountIndex",
                     "value": "(AccountId,BalanceOf,bool)",
@@ -1259,7 +1259,7 @@
                 "name": "TotalIssuance",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Balance"
+                  "plain": "Balance"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
@@ -1270,7 +1270,7 @@
                 "name": "Account",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountData",
@@ -1288,7 +1288,7 @@
                 "name": "Locks",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Vec<BalanceLock>",
@@ -1305,7 +1305,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Releases"
+                  "plain": "Releases"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1607,7 +1607,7 @@
                 "name": "NextFeeMultiplier",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Multiplier"
+                  "plain": "Multiplier"
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
                 "documentation": []
@@ -1616,7 +1616,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Releases"
+                  "plain": "Releases"
                 },
                 "fallback": "0x00",
                 "documentation": []
@@ -1654,7 +1654,7 @@
                 "name": "HistoryDepth",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x54000000",
                 "documentation": [
@@ -1671,7 +1671,7 @@
                 "name": "ValidatorCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1682,7 +1682,7 @@
                 "name": "MinimumValidatorCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1693,7 +1693,7 @@
                 "name": "Invulnerables",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1706,7 +1706,7 @@
                 "name": "Bonded",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "AccountId",
@@ -1722,7 +1722,7 @@
                 "name": "Ledger",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "StakingLedger",
@@ -1738,7 +1738,7 @@
                 "name": "Payee",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "RewardDestination",
@@ -1754,7 +1754,7 @@
                 "name": "Validators",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "ValidatorPrefs",
@@ -1770,7 +1770,7 @@
                 "name": "Nominators",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Nominations",
@@ -1786,7 +1786,7 @@
                 "name": "CurrentEra",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "EraIndex"
+                  "plain": "EraIndex"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1800,7 +1800,7 @@
                 "name": "ActiveEra",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "ActiveEraInfo"
+                  "plain": "ActiveEraInfo"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1814,7 +1814,7 @@
                 "name": "ErasStartSessionIndex",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "SessionIndex",
@@ -1830,7 +1830,7 @@
                 "name": "ErasStakers",
                 "modifier": "Default",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "EraIndex",
                     "key2": "AccountId",
@@ -1852,7 +1852,7 @@
                 "name": "ErasStakersClipped",
                 "modifier": "Default",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "EraIndex",
                     "key2": "AccountId",
@@ -1879,7 +1879,7 @@
                 "name": "ErasValidatorPrefs",
                 "modifier": "Default",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "EraIndex",
                     "key2": "AccountId",
@@ -1900,7 +1900,7 @@
                 "name": "ErasValidatorReward",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "BalanceOf",
@@ -1918,7 +1918,7 @@
                 "name": "ErasRewardPoints",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "EraRewardPoints",
@@ -1935,7 +1935,7 @@
                 "name": "ErasTotalStake",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "BalanceOf",
@@ -1952,7 +1952,7 @@
                 "name": "ForceEra",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Forcing"
+                  "plain": "Forcing"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1963,7 +1963,7 @@
                 "name": "SlashRewardFraction",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Perbill"
+                  "plain": "Perbill"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1976,7 +1976,7 @@
                 "name": "CanceledSlashPayout",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "BalanceOf"
+                  "plain": "BalanceOf"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
@@ -1988,7 +1988,7 @@
                 "name": "UnappliedSlashes",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "EraIndex",
                     "value": "Vec<UnappliedSlash>",
@@ -2004,7 +2004,7 @@
                 "name": "BondedEras",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<(EraIndex,SessionIndex)>"
+                  "plain": "Vec<(EraIndex,SessionIndex)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2018,7 +2018,7 @@
                 "name": "ValidatorSlashInEra",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "EraIndex",
                     "key2": "AccountId",
@@ -2036,7 +2036,7 @@
                 "name": "NominatorSlashInEra",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "EraIndex",
                     "key2": "AccountId",
@@ -2053,7 +2053,7 @@
                 "name": "SlashingSpans",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "SlashingSpans",
@@ -2069,7 +2069,7 @@
                 "name": "SpanSlash",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "(AccountId,SpanIndex)",
                     "value": "SpanRecord",
@@ -2086,7 +2086,7 @@
                 "name": "EarliestUnappliedSlash",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "EraIndex"
+                  "plain": "EraIndex"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2097,7 +2097,7 @@
                 "name": "SnapshotValidators",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2109,7 +2109,7 @@
                 "name": "SnapshotNominators",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2121,7 +2121,7 @@
                 "name": "QueuedElected",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "ElectionResult"
+                  "plain": "ElectionResult"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2134,7 +2134,7 @@
                 "name": "QueuedScore",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "ElectionScore"
+                  "plain": "ElectionScore"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2145,7 +2145,7 @@
                 "name": "EraElectionStatus",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ElectionStatus"
+                  "plain": "ElectionStatus"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2157,7 +2157,7 @@
                 "name": "IsCurrentSessionFinal",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "bool"
+                  "plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2169,7 +2169,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Releases"
+                  "plain": "Releases"
                 },
                 "fallback": "0x03",
                 "documentation": [
@@ -3268,7 +3268,7 @@
                 "name": "Validators",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<ValidatorId>"
+                  "plain": "Vec<ValidatorId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3279,7 +3279,7 @@
                 "name": "CurrentIndex",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "SessionIndex"
+                  "plain": "SessionIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -3290,7 +3290,7 @@
                 "name": "QueuedChanged",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "bool"
+                  "plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3302,7 +3302,7 @@
                 "name": "QueuedKeys",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<(ValidatorId,Keys)>"
+                  "plain": "Vec<(ValidatorId,Keys)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3314,7 +3314,7 @@
                 "name": "DisabledValidators",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<u32>"
+                  "plain": "Vec<u32>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3327,7 +3327,7 @@
                 "name": "NextKeys",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "ValidatorId",
                     "value": "Keys",
@@ -3343,7 +3343,7 @@
                 "name": "KeyOwner",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "(KeyTypeId,Bytes)",
                     "value": "ValidatorId",
@@ -3455,7 +3455,7 @@
                 "name": "PublicPropCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "PropIndex"
+                  "plain": "PropIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -3466,7 +3466,7 @@
                 "name": "PublicProps",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<(PropIndex,Hash,AccountId)>"
+                  "plain": "Vec<(PropIndex,Hash,AccountId)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3477,7 +3477,7 @@
                 "name": "DepositOf",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "PropIndex",
                     "value": "(Vec<AccountId>,BalanceOf)",
@@ -3495,7 +3495,7 @@
                 "name": "Preimages",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "PreimageStatus",
@@ -3512,7 +3512,7 @@
                 "name": "ReferendumCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ReferendumIndex"
+                  "plain": "ReferendumIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -3523,7 +3523,7 @@
                 "name": "LowestUnbaked",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ReferendumIndex"
+                  "plain": "ReferendumIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -3535,7 +3535,7 @@
                 "name": "ReferendumInfoOf",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "ReferendumIndex",
                     "value": "ReferendumInfo",
@@ -3553,7 +3553,7 @@
                 "name": "VotingOf",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Voting",
@@ -3572,7 +3572,7 @@
                 "name": "Locks",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "BlockNumber",
@@ -3591,7 +3591,7 @@
                 "name": "LastTabledWasExternal",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "bool"
+                  "plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3603,7 +3603,7 @@
                 "name": "NextExternal",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "(Hash,VoteThreshold)"
+                  "plain": "(Hash,VoteThreshold)"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3617,7 +3617,7 @@
                 "name": "Blacklist",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "(BlockNumber,Vec<AccountId>)",
@@ -3634,7 +3634,7 @@
                 "name": "Cancellations",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "bool",
@@ -3650,7 +3650,7 @@
                 "name": "StorageVersion",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "Releases"
+                  "plain": "Releases"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -4715,7 +4715,7 @@
                 "name": "Proposals",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<Hash>"
+                  "plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -4726,7 +4726,7 @@
                 "name": "ProposalOf",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "Proposal",
@@ -4742,7 +4742,7 @@
                 "name": "Voting",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "Votes",
@@ -4758,7 +4758,7 @@
                 "name": "ProposalCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -4769,7 +4769,7 @@
                 "name": "Members",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -4780,7 +4780,7 @@
                 "name": "Prime",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -5169,7 +5169,7 @@
                 "name": "Proposals",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<Hash>"
+                  "plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -5180,7 +5180,7 @@
                 "name": "ProposalOf",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "Proposal",
@@ -5196,7 +5196,7 @@
                 "name": "Voting",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "Votes",
@@ -5212,7 +5212,7 @@
                 "name": "ProposalCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -5223,7 +5223,7 @@
                 "name": "Members",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -5234,7 +5234,7 @@
                 "name": "Prime",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -5623,7 +5623,7 @@
                 "name": "Members",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<(AccountId,BalanceOf)>"
+                  "plain": "Vec<(AccountId,BalanceOf)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -5634,7 +5634,7 @@
                 "name": "RunnersUp",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<(AccountId,BalanceOf)>"
+                  "plain": "Vec<(AccountId,BalanceOf)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -5645,7 +5645,7 @@
                 "name": "ElectionRounds",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -5656,7 +5656,7 @@
                 "name": "Voting",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(BalanceOf,Vec<AccountId>)",
@@ -5674,7 +5674,7 @@
                 "name": "Candidates",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6102,7 +6102,7 @@
                 "name": "Members",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6113,7 +6113,7 @@
                 "name": "Prime",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6336,7 +6336,7 @@
                 "name": "State",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "StoredState"
+                  "plain": "StoredState"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6347,7 +6347,7 @@
                 "name": "PendingChange",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "StoredPendingChange"
+                  "plain": "StoredPendingChange"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6358,7 +6358,7 @@
                 "name": "NextForced",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "BlockNumber"
+                  "plain": "BlockNumber"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6369,7 +6369,7 @@
                 "name": "Stalled",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "(BlockNumber,BlockNumber)"
+                  "plain": "(BlockNumber,BlockNumber)"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6380,7 +6380,7 @@
                 "name": "CurrentSetId",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "SetId"
+                  "plain": "SetId"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -6392,7 +6392,7 @@
                 "name": "SetIdSession",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "SetId",
                     "value": "SessionIndex",
@@ -6558,7 +6558,7 @@
                 "name": "ProposalCount",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "ProposalIndex"
+                  "plain": "ProposalIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -6569,7 +6569,7 @@
                 "name": "Proposals",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "ProposalIndex",
                     "value": "TreasuryProposal",
@@ -6585,7 +6585,7 @@
                 "name": "Approvals",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<ProposalIndex>"
+                  "plain": "Vec<ProposalIndex>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -6596,7 +6596,7 @@
                 "name": "Tips",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "Hash",
                     "value": "OpenTip",
@@ -6614,7 +6614,7 @@
                 "name": "Reasons",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "Hash",
                     "value": "Bytes",
@@ -7110,7 +7110,7 @@
                 "name": "CurrentSchedule",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Schedule"
+                  "plain": "Schedule"
                 },
                 "fallback": "0x0000000020a107000000000020a107000000000020a107000000000020a107000000000020a107000000000020a107000000000020a1070000000000e0f7050400000000e024370500000000e0f705040000000020a107000000000020a107000000000080f0fa020000000000e1f5050000000004000000000001001000000000400000002000000000000800",
                 "documentation": [
@@ -7121,7 +7121,7 @@
                 "name": "PristineCode",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "CodeHash",
                     "value": "Bytes",
@@ -7137,7 +7137,7 @@
                 "name": "CodeStorage",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "CodeHash",
                     "value": "PrefabWasmModule",
@@ -7153,7 +7153,7 @@
                 "name": "AccountCounter",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u64"
+                  "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -7164,7 +7164,7 @@
                 "name": "ContractInfoOf",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "ContractInfo",
@@ -7580,7 +7580,7 @@
                 "name": "Key",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -7731,7 +7731,7 @@
                 "name": "HeartbeatAfter",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "BlockNumber"
+                  "plain": "BlockNumber"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -7747,7 +7747,7 @@
                 "name": "Keys",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<AuthorityId>"
+                  "plain": "Vec<AuthorityId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -7758,7 +7758,7 @@
                 "name": "ReceivedHeartbeats",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "SessionIndex",
                     "key2": "AuthIndex",
@@ -7776,7 +7776,7 @@
                 "name": "AuthoredBlocks",
                 "modifier": "Default",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "SessionIndex",
                     "key2": "ValidatorId",
@@ -7879,7 +7879,7 @@
                 "name": "Reports",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "ReportIdOf",
                     "value": "OffenceDetails",
@@ -7895,7 +7895,7 @@
                 "name": "DeferredOffences",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<DeferredOffenceOf>"
+                  "plain": "Vec<DeferredOffenceOf>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -7907,7 +7907,7 @@
                 "name": "ConcurrentReportsIndex",
                 "modifier": "Default",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "Kind",
                     "key2": "OpaqueTimeSlot",
@@ -7924,7 +7924,7 @@
                 "name": "ReportsByKindIndex",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "Kind",
                     "value": "Bytes",
@@ -7980,7 +7980,7 @@
                 "name": "RandomMaterial",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<Hash>"
+                  "plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8005,7 +8005,7 @@
                 "name": "IdentityOf",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Registration",
@@ -8023,7 +8023,7 @@
                 "name": "SuperOf",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "(AccountId,Data)",
@@ -8040,7 +8040,7 @@
                 "name": "SubsOf",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(BalanceOf,Vec<AccountId>)",
@@ -8060,7 +8060,7 @@
                 "name": "Registrars",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<Option<RegistrarInfo>>"
+                  "plain": "Vec<Option<RegistrarInfo>>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8744,7 +8744,7 @@
                 "name": "Founder",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8755,7 +8755,7 @@
                 "name": "Rules",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "Hash"
+                  "plain": "Hash"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8767,7 +8767,7 @@
                 "name": "Candidates",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<Bid>"
+                  "plain": "Vec<Bid>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8778,7 +8778,7 @@
                 "name": "SuspendedCandidates",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(BalanceOf,BidKind)",
@@ -8794,7 +8794,7 @@
                 "name": "Pot",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "BalanceOf"
+                  "plain": "BalanceOf"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
@@ -8805,7 +8805,7 @@
                 "name": "Head",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8816,7 +8816,7 @@
                 "name": "Members",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<AccountId>"
+                  "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8827,7 +8827,7 @@
                 "name": "SuspendedMembers",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "bool",
@@ -8843,7 +8843,7 @@
                 "name": "Bids",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Vec<Bid>"
+                  "plain": "Vec<Bid>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8854,7 +8854,7 @@
                 "name": "Vouching",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "VouchingStatus",
@@ -8870,7 +8870,7 @@
                 "name": "Payouts",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "Vec<(BlockNumber,BalanceOf)>",
@@ -8886,7 +8886,7 @@
                 "name": "Strikes",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "StrikeCount",
@@ -8902,7 +8902,7 @@
                 "name": "Votes",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "AccountId",
                     "key2": "AccountId",
@@ -8919,7 +8919,7 @@
                 "name": "Defender",
                 "modifier": "Optional",
                 "type": {
-                  "Plain": "AccountId"
+                  "plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -8930,7 +8930,7 @@
                 "name": "DefenderVotes",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "SocietyVote",
@@ -8946,7 +8946,7 @@
                 "name": "MaxMembers",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "u32"
+                  "plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -9725,7 +9725,7 @@
                 "name": "Recoverable",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "RecoveryConfig",
@@ -9741,7 +9741,7 @@
                 "name": "ActiveRecoveries",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "AccountId",
                     "key2": "AccountId",
@@ -9761,7 +9761,7 @@
                 "name": "Proxy",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountId",
@@ -10272,7 +10272,7 @@
                 "name": "Vesting",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "VestingInfo",
@@ -10475,7 +10475,7 @@
                 "name": "Agenda",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "BlockNumber",
                     "value": "Vec<Option<Scheduled>>",
@@ -10491,7 +10491,7 @@
                 "name": "Lookup",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "Bytes",
                     "value": "TaskAddress",
@@ -10507,7 +10507,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "Plain": "Releases"
+                  "plain": "Releases"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -10760,7 +10760,7 @@
                 "name": "Proxies",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(Vec<ProxyDefinition>,BalanceOf)",
@@ -10777,7 +10777,7 @@
                 "name": "Announcements",
                 "modifier": "Default",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Twox64Concat",
                     "key": "AccountId",
                     "value": "(Vec<ProxyAnnouncement>,BalanceOf)",
@@ -11269,7 +11269,7 @@
                 "name": "Multisigs",
                 "modifier": "Optional",
                 "type": {
-                  "DoubleMap": {
+                  "doubleMap": {
                     "hasher": "Twox64Concat",
                     "key1": "AccountId",
                     "key2": "[u8;32]",
@@ -11286,7 +11286,7 @@
                 "name": "Calls",
                 "modifier": "Optional",
                 "type": {
-                  "Map": {
+                  "map": {
                     "hasher": "Identity",
                     "key": "[u8;32]",
                     "value": "(OpaqueCall,AccountId,BalanceOf)",
