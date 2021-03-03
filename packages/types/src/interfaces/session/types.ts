@@ -41,16 +41,16 @@ export interface SessionKeys4 extends ITuple<[AccountId, AccountId, AccountId, A
 export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> {}
 
 /** @name SessionKeys6 */
-export interface SessionKeys6 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+export interface SessionKeys6 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
 
 /** @name SessionKeys7 */
-export interface SessionKeys7 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+export interface SessionKeys7 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
 
 /** @name SessionKeys8 */
-export interface SessionKeys8 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+export interface SessionKeys8 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
 
 /** @name SessionKeys9 */
-export interface SessionKeys9 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+export interface SessionKeys9 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}
 
 /** @name ValidatorCount */
 export interface ValidatorCount extends u32 {}

@@ -66,14 +66,14 @@ export class SubmittableResult implements ISubmittableResult {
   /**
    * @description Filters EventRecords for the specified method & section (there could be multiple)
    */
-  public filterRecords (section: string, method: string): EventRecord[] {
-    return filterAndApply(this.events, section, [method], recordIdentity);
+  public filterRecords (section: string, method: string | string[]): EventRecord[] {
+    return filterAndApply(this.events, section, Array.isArray(method) ? method : [method], recordIdentity);
   }
 
   /**
    * @description Finds an EventRecord for the specified method & section
    */
-  public findRecord (section: string, method: string): EventRecord | undefined {
+  public findRecord (section: string, method: string | string[]): EventRecord | undefined {
     return this.filterRecords(section, method)[0];
   }
 

@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, hexToU8a, isHex, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isHex, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
@@ -67,9 +67,7 @@ function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constr
 
   const ValClass = typeToConstructor(registry, valType);
 
-  if (isHex(value)) {
-    return decodeSet(registry, ValClass, hexToU8a(value));
-  } else if (isU8a(value)) {
+  if (isHex(value) || isU8a(value)) {
     return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
   } else if (Array.isArray(value) || value instanceof Set) {
     return decodeSetFromSet<V>(registry, ValClass, value);
@@ -114,7 +112,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   /**
    * @description Returns a hash of the value
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 

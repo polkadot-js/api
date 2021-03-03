@@ -32,6 +32,7 @@ function mapExtrinsics (extrinsics: Extrinsic[], records: EventRecord[]): TxWith
             dispatchInfo = event.data[0] as DispatchInfo;
           } else if (event.method === 'ExtrinsicFailed') {
             dispatchError = event.data[0] as DispatchError;
+            dispatchInfo = event.data[1] as DispatchInfo;
           }
         }
 

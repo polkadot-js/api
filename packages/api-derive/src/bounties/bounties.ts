@@ -32,21 +32,21 @@ function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: 
 }
 
 export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveBounties> {
-  const bountyBase = api.query.bounties ? api.query.bounties : api.query.treasury;
+  const bountyBase = api.query.bounties || api.query.treasury;
 
   return memo(instanceId, (): Observable<DeriveBounties> =>
     combineLatest([
       bountyBase.bountyCount<BountyIndex>(),
-      api.query.council.proposalCount<ProposalIndex>()
+      api.query.council ? api.query.council.proposalCount<ProposalIndex>() : of(0)
     ]).pipe(
       switchMap(() =>
         combineLatest([
-          bountyBase.bounties.keys(),
-          api.derive.council.proposals()
+          bountyBase.bounties.keys<[BountyIndex]>(),
+          api.derive.council ? api.derive.council.proposals() : of([])
         ])
       ),
       switchMap(([keys, proposals]): Observable<Result> => {
-        const ids = keys.map(({ args: [id] }) => id as BountyIndex);
+        const ids = keys.map(({ args: [id] }) => id);
 
         return combineLatest([
           bountyBase.bounties.multi<Option<Bounty>>(ids),

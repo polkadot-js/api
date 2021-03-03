@@ -1,7 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export const emptyCheck = {
-  extra: {},
-  types: {}
+import type { ExtInfo } from './types';
+
+export const emptyCheck: ExtInfo = {
+  extrinsic: {},
+  payload: {}
 };

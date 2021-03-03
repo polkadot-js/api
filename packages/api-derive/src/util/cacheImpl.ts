@@ -5,7 +5,7 @@ import type { DeriveCache } from './types';
 
 const mapCache = new Map<string, any>();
 
-const deriveMapCache: DeriveCache = {
+export const deriveMapCache: DeriveCache = {
   del: (key: string): void => {
     mapCache.delete(key);
   },
@@ -24,11 +24,9 @@ const deriveMapCache: DeriveCache = {
   }
 };
 
-const deriveNoopCache: DeriveCache = {
+export const deriveNoopCache: DeriveCache = {
   del: (): void => undefined,
   forEach: () => undefined,
   get: (): undefined => undefined,
   set: (_: string, value: unknown): unknown => value
 };
-
-export { deriveMapCache, deriveNoopCache };

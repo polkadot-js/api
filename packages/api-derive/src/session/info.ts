@@ -35,6 +35,7 @@ function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
         [
           false,
           api.registry.createType('u64', 1),
+          // we may have aura without staking (permissioned)
           api.consts.staking?.sessionsPerEra || api.registry.createType('SessionIndex', 1)
         ],
         indexes
@@ -50,7 +51,8 @@ function queryBabe (api: ApiInterfaceRx): Observable<DeriveSessionInfo> {
         [
           true,
           api.consts.babe.epochDuration,
-          api.consts.staking.sessionsPerEra
+          // we may have babe without staking (permissioned)
+          api.consts.staking?.sessionsPerEra || api.registry.createType('SessionIndex', 1)
         ],
         indexes
       ])

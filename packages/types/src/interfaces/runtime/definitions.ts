@@ -29,7 +29,7 @@ export default {
     AccountId: 'GenericAccountId',
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
-    Address: 'LookupSource',
+    Address: 'MultiAddress',
     AssetId: 'u32',
     Balance: 'UInt<128, Balance>',
     BalanceOf: 'Balance',
@@ -43,6 +43,7 @@ export default {
       digestLevels: 'u32'
     },
     ConsensusEngineId: 'GenericConsensusEngineId',
+    CodecHash: 'Hash',
     Digest: {
       logs: 'Vec<DigestItem>'
     },
@@ -82,11 +83,11 @@ export default {
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
-    LookupSource: 'IndicesLookupSource',
+    LookupSource: 'MultiAddress',
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
     MultiAddress: 'GenericMultiAddress',
-    Moment: 'u64',
+    Moment: 'UInt<64, Moment>',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',
     OriginCaller: {
@@ -117,9 +118,14 @@ export default {
       block: 'Block',
       justification: 'Justification'
     },
+    Slot: 'u64',
     StorageData: 'Bytes',
+    StorageProof: {
+      trieNodes: 'Vec<Bytes>'
+    },
     TransactionPriority: 'u64',
     ValidatorId: 'AccountId',
+    ValidatorIdOf: 'ValidatorId',
     Weight: 'u64',
     WeightMultiplier: 'Fixed64',
 

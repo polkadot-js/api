@@ -12,7 +12,7 @@ import { hexToU8a } from '@polkadot/util';
 import { SingleAccountSigner } from '../../test/util';
 import { ApiPromise } from '.';
 
-const TRANSFER_SIG = '0x7a10e5ed9a14284eca7bea53f81631981dddda5a3d2dee973b136475947264801465726e4829ae3994d9058df638d959d4e043c7f1924299546790dda1dea20a';
+const TRANSFER_SIG = '0x54f39e43f32376a5ab6cdfd4d0ce57802aa9ff85514a7ffa9f2a949078f02beca16af87427c45fe60d54aa847fd241d127ed39e21b101806f6b1f50f7a82500b';
 
 describe('ApiPromise', (): void => {
   const registry = new TypeRegistry();

@@ -492,9 +492,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         )
       ),
       tap((keys): void => {
-        keys.length === PAGE_SIZE
-          ? startSubject.next(keys[PAGE_SIZE - 1].toHex())
-          : startSubject.complete();
+        setTimeout((): void => {
+          keys.length === PAGE_SIZE
+            ? startSubject.next(keys[PAGE_SIZE - 1].toHex())
+            : startSubject.complete();
+        }, 0);
       }),
       toArray(), // toArray since we want to startSubject to be completed
       map((keysArr: StorageKey[][]) => arrayFlatten(keysArr))
@@ -518,13 +520,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     return this._retrieveMapKeys(entry, at, arg).pipe(
       switchMap((keys) =>
-        combineLatest(
-          arrayChunk(keys, PAGE_SIZE).map((keys) => query(keys))
-        ).pipe(
-          map((valsArr) =>
-            arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
+        keys.length
+          ? combineLatest(arrayChunk(keys, PAGE_SIZE).map(query)).pipe(
+            map((valsArr) =>
+              arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
+            )
           )
-        )
+          : of([])
       )
     );
   }
@@ -532,11 +534,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
     return this._retrieveMapKeysPaged(entry, opts).pipe(
       switchMap((keys) =>
-        this._rpcCore.state.queryStorageAt(keys).pipe(
-          map((valsArr) =>
-            valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
+        keys.length
+          ? this._rpcCore.state.queryStorageAt(keys).pipe(
+            map((valsArr) =>
+              valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
+            )
           )
-        )
+          : of([])
       )
     );
   }

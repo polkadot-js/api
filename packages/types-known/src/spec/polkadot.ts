@@ -6,14 +6,30 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
+  AccountInfo: 'AccountInfoWithProviders',
+  Address: 'MultiAddress',
+  Keys: 'SessionKeys6',
+  LookupSource: 'MultiAddress',
+  ProxyType: {
+    _enum: {
+      Any: 0,
+      NonTransfer: 1,
+      Governance: 2,
+      Staking: 3,
+      // SudoBalances: 4,
+      IdentityJudgement: 5,
+      CancelProxy: 6
+    }
+  },
+  ValidatorPrefs: 'ValidatorPrefsWithBlocked'
+};
+
+const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
-  ProxyType: {
-    // was: SudoBalances
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'Unused', 'IdentityJudgement']
-  }
+  ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
 // these are override types for Polkadot
@@ -22,30 +38,38 @@ const versioned: OverrideVersionedType[] = [
     minmax: [0, 12],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RefCount: 'RefCountTo259'
     }
   },
   {
     minmax: [13, 22],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RefCount: 'RefCountTo259'
     }
   },
   {
     minmax: [23, 24],
     types: {
       ...sharedTypes,
+      ...addrAccountIdTypes,
       RefCount: 'RefCountTo259'
     }
   },
   {
-    minmax: [25, undefined],
+    minmax: [25, 27],
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes
+    }
+  },
+  {
+    minmax: [28, undefined],
     types: {
       ...sharedTypes
     }

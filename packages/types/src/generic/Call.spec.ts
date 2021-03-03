@@ -19,12 +19,16 @@ describe('Call', (): void => {
         args: [],
         callIndex: [6, 1] // balances.setBalance
       }).toU8a()
-    ).toEqual(new Uint8Array([6, 1, 0, 0, 0]));
+    ).toEqual(
+      new Uint8Array([6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    );
   });
 
   it('handles creation from a hex value properly', (): void => {
     expect(
-      new Call(registry, '0x0601').toU8a()
-    ).toEqual(new Uint8Array([6, 1, 0, 0, 0])); // balances.setBalance
+      new Call(registry, '0x06010000000000000000000000000000000000000000000000000000000000000000').toU8a()
+    ).toEqual(
+      new Uint8Array([6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    ); // balances.setBalance
   });
 });

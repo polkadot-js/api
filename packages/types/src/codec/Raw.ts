@@ -1,19 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
-import { assert, isAscii, isU8a, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
-
-/** @internal */
-function decodeU8a (value?: any): Uint8Array {
-  if (isU8a(value)) {
-    return value;
-  }
-
-  return u8aToU8a(value);
-}
+import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
 /**
  * @name Raw
@@ -28,7 +19,7 @@ export class Raw extends Uint8Array implements IU8a {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyU8a) {
-    super(decodeU8a(value));
+    super(u8aToU8a(value));
 
     this.registry = registry;
   }
@@ -43,7 +34,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 
@@ -92,7 +83,7 @@ export class Raw extends Uint8Array implements IU8a {
         !this.some((value, index) => value !== other[index]);
     }
 
-    return this.eq(decodeU8a(other));
+    return this.eq(u8aToU8a(other as any));
   }
 
   /**

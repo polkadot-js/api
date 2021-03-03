@@ -1,13 +1,222 @@
 # CHANGELOG
 
-## 3.4.0-x
+## 4.0.1-x
 
-- **Breaking change** The `derive.chain.{getBlock, subscribeNewBlocks}` now return `SignedBlockExtended`, all with the actual extrinsics and events mapped. Users of the latter interface may need some updates since the result structure may be different.
+Changes:
+
+- Enum `.toSON()` now encodes all keys as `camelCase` (aligning with the output from Substrate)
+
+
+## 3.11.1 Feb 28, 2021
+
+Upgrade priority: Low. Recommended for users wanting to keep updated with chain changes.
+
+Contributed:
+
+- Clean Websocket states on disconnects (Thanks to https://github.com/ianhe8x)
+- Support for C-like indexed enums (Thanks to https://github.com/xlc)
+
+Changes:
+
+- Adjust council derives to cater for current-generation candidate mapping
+- Allow for override of codec hasher (& output type)
+- Adjust submittables to submit hex-encoded addresses to queries
+- Adjust initialization to always retrieve tx version from Metadata only
+- Update election types as per latest Substrate
+- Add types for the new gilt module
+- Upgrade to the latest Substrate metadata
+- Adjust package detection to check for local monorepo dependencies
+- Ensure that metadata `.toJSON()` does apply type aliasses
+
+
+## 3.10.2 Feb 23, 2021
+
+Upgrade priority: Medium. Recommended for users of chains where `MultiAddress` is in-use and blocks are decoded.
+
+Changes:
+
+- Fix decoding for `MultiAddress` enum where non-`AccountId` variable-lengths are provided as part of a stream
+- Added known Polkadot 28 upgrade block
+- Update for latest Substrate contracts `Schedule` types
+
+
+## 3.10.1 Feb 22, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Adjust ConsumedWeight types to align with Rust module code
+- Check for connection status in subscription unsubscribe
+- Adjust staking reward derives ordering for better performance
+- Adapt detection imports to remove `.json` dependencies (Better behavior using Node.js with ESM)
+
+
+## 3.9.3 Feb 16, 2021
+
+Upgrade priority: Low. Recommended for parachain builders since it contains the updated parachain types.
+
+Changes:
+
+- Adjusted parachain `PersistedValidationData` structure
+
+
+## 3.9.2 Feb 15, 2021
+
+Upgrade priority: Low. Recommended for parachain builders since it contains the latest parachain types.
+
+Contributed:
+
+- Update README links (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Added missing Culmulus `ParachainInherentData` & `MessageQueueChain` types
+- Add alias for `system_unstable_networkState` RPC
+
+
+## 3.9.1 Feb 14, 2021
+
+Upgrade priority: Low.
+
+- **Important** The `Result<T, E>` has been updated in the generation and the base types to follow the Rust version 100%. This means `{as, is}Error` is now available as `{as, is}Err` on the `Result` type. The older versions can still be used, but the `*Error` interfaces are now marked as deprecated.
+
+Changes:
+
+- Adjust `Result<T, E>` interface to be 100% compatible with the Rust version
+- Add the `2028` upgrade to the known upgrades (optimizing certain `.at` queries)
+- Adjust council derives to cater for latest Substrate & Polkadot
+- Adjust Rococo know type definitions to cater for the latest update
+- Update types for latest Polkadot/Substrate
+- Add generic arguments for TypeScript users to `.entries/.keys` to deal with the key typings
+
+
+## 3.8.1 Feb 7, 2021
+
+Upgrade priority: Low. Recommended for users of the latest Substrate master, especially using contracts.
+
+- **Important** The `api-contract` `Code` now supports deploying the code and a contract in on operation. This aligns with the latest Substrate where code cannot be uploaded with a contract. The `createBlueprint` is therefore deprecated, use `code.tx.<constructor>(...)` to deploy code. (Compatible with both old and new versions of Substrate)
+
+Contributed:
+
+- Add support for latest Frontier RPCs (Thanks to https://github.com/jnaviask)
+- Fix user-supplied signed extensions type signature (Thanks to https://github.com/ntduan)
+
+Changes:
+
+- Expand `api-contract` to allow for `Code` to deploy contract alongside code. `createBlueprint` is now deprecated, replaced by `createContract` or the preferred `code.tx.<constructor>`, which uploads and deploys the code in one operation. This aligns with the current Substrate master contracts implementation.
+- Allow for signed extensions to be supplied inside type bundles
+- Ensure that the auto-connect state is checked on auto-connections (respecting disconnect)
+- Added `CancelProxy` to `ProxyTypes on Polkadot, Kusama & Westend
+- Updated to latest Substrate metadata
+
+
+## 3.7.3 Feb 2, 2021
+
+Changes:
+
+- Added Polkadot upgrade block for runtime 27 (known checkpoint optimization)
+
+
+## 3.7.2 Feb 2, 2021
+
+Changes:
+
+- Adjusted the `Keys` type for the 28 runtime on Kusama, Polkadot & Westend
+
+
+## 3.7.1 Feb 1, 2021
+
+Upgrade priority: Low. However recommended for current Substrate master, Polkadot and Rococo users and those wishing to support the upcoming Polkadot 28 runtime with the new `MultiAddress`.
+
+- **Breaking change** As indicated in the 3.5.1 release notes, the `Address`/`LookupSource` defaults have now been adjusted for `MultiAddress`. If your chain does not use these types, explicitly add the correct `Address`/`LookupSource` types. This new extensible format is mean to cater for all address types into the future, removing a lot of discrepancies between chains.
+
+Contributed:
+
+- Extraction of the block author on Moonbeam (Thanks to https://github.com/joelamouche)
+- Cleanup logs with HTTP providers, no subs (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Allow `.slice` operator on the `Vec` type
+- Apply `MultiAddress` as a default
+- Adds support for the upcoming Polkadot 28 and Kusama 2028 runtimes
+- Add checkpoint for Kusama 2027 upgrade
+- Update all parachain types (as per latest Rococo)
+- Correctly use relay blockNumber in parachain validation data
+- remove information log for capabilities detection (creates confusion)
+- Remove explicit references to `global`, use the `x-global` detection
+- Remove explicit `module` in `package.json` (exports map available)
+
+
+## 3.6.1 Jan 24, 2020
+
+Upgrade priority: Medium if not already on at least 3.3.1. The next upgrade of Kusama/Polkadot requires it.
+
+- **Breaking change** To support chains with multiple tokens, such as bridges, the `ChainProperties` type now returns an array of tokens and decimals (instead of singular values) in the `token{Decimals, Symbol}` getters. Additionally, this means that the `registry` interfaces has been changes, to `registry.chainDecimals: number[]` and `registry.chainTokens: string[]`. Where used the `[0]` index will return the first value if only interested in a single, for a straight conversion.
+
+Changes:
+
+- Allow for the detection of on-chain capabilities as available (e.g. `AccountData`, `ValidatorPrefs`)
+- Cater for multiple tokens and decimals in the chain the chain `system.properties` (as per the chain specification)
+- Add a `instances: { [key]: [module1, module2] }` definition in teh bundle types, allowing for multiple instances (e.g. Balances)
+- Adjust the `api-derive` for balances to retrieve values via `instances` as well as across multiple modules
+- Ensure all types are registered for all metadata typegen steps
+- Add `rpc.payment.queryFeeDetails` RPC endpoint
+- Update types & metadata to latest Substrate
+- Move the `@polkadot/x-rxjs` package into the common repo
+- Allow doc generation for errors/events (markdown outputs)
+
+
+## 3.5.1 Jan 18, 2020
+
+Upgrade priority: Low. Recommended for parachain developers.
+
+- **Important** The default for Substrate on the Address types are `MultiAddress`. It is recommended that chains add explicit definitions for `Address` and `LookupSource` in their types, instead of relying on the API-defaults. A future update will swap the API defaults to align with Substrate.
+- **Important** Like the above changes in Substrate, the `AccountInfo` structure has also changed. It is recommended that chain developers explicitly add `AccountInfo: 'AccountInfoWithRefCount'` for the version with `refCount` on and `AccountInfoWithProviders` for the latest Substrate version. As per the above, the API defaults will be changed to align with Substrate.
+
+Contributed:
+
+- Apply correct TypeScript type for `toBigInt()` (Thanks to https://github.com/ianhe8x)
+- Expand type definitions for storage key tuples (Thanks to https://github.com/monitz87)
+- Adjust bounty derive to cater for non-council chains (Thanks to https://github.com/ekowalsk)
+
+Changes:
+
+- Remove recursion in vector/struct U8a stream decoding
+- Availability of staking made optional in session length calcs (era does require it)
+- Updates to parachain types, ensuring it has coverage for all the latest
+- Update all Rococo types to the latest (session keys, session reports, parachain indexes)
+- Update known upgrade checkpoints fo WestEnd
+- Add types of the lottery module in Substrate
+- Add and extend types for the crowdloan module in Polkadot
+- Adjust node-template to default to `MultiAddress` on specVersion >= 100
+
+
+## 3.4.1 Jan 11, 2020
+
+Upgrade priority: Low. Fixes for parachain types, `.entries()` (with no values) and `event.is(...)` checks, users of these interfaces will have benefit.
+
+- **Breaking change** The `derive.chain.{getBlock, subscribeNewBlocks}` now return `SignedBlockExtended`, all with the actual extrinsics and events mapped. Users of the latter interface should take note.
+
+Contributed:
+
+- Fix `SessionKeys{6-9}` definitions (Thanks to https://github.com/icodezjb)
+- Support `Vec<(a, b)>` in enums (Thanks to https://github.com/monitz87)
+- Add motions to bounty derive (Thanks to https://github.com/ekowalsk)
 
 Changes:
 
 - `derive.chain.getBlock()` now maps events to extrinsics via `.extrinsics` getter
-- Enum `.toSON()` now encodes all keys as `camelCase` (aligning with the output from Substrate)
+- Ensure dispatchInfo is extracted on failed extrinsics (`getBlock` derive)
+- Allow specification of additional signed extrinsic via API options
+- Add missing parachain types, `ParaGenesisArgs`
+- Correct `EthTransaction` type (as per the correct cargo crate)
+- Update with latest contract types for Substrate master
+- Update alias mapping for asset palette (including Substrate starting defaults)
+- Allow `.entries()` call where 0 keys are present
+- Fix `.is` on events not checking the correct index
+- Construction of `i*` types ow correctly checks for max positive/negative
 
 
 ## 3.3.1 Jan 4, 2021

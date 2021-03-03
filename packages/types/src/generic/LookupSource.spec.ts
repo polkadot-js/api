@@ -9,7 +9,7 @@ describe('LookupSource', (): void => {
 
   const testDecode = (type: string, input: LookupSource | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
     it(`can decode from ${type}`, (): void => {
-      const a = registry.createType('Address', input);
+      const a = registry.createType('IndicesLookupSource', input);
 
       expect(a.toString()).toBe(expected);
     });
@@ -18,19 +18,19 @@ describe('LookupSource', (): void => {
     it('equals on AccountId', (): void => {
       const addr = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 
-      expect(registry.createType('LookupSource', addr).eq(addr)).toBe(true);
+      expect(registry.createType('IndicesLookupSource', addr).eq(addr)).toBe(true);
     });
 
     it('equals on AccountIndex', (): void => {
       // see the test below - these are equivalent (with different prefix encoding)
-      expect(registry.createType('LookupSource', '2jpAFn').eq('25GUyv')).toBe(true);
+      expect(registry.createType('IndicesLookupSource', '118r').eq('25GUyv')).toBe(true);
     });
   });
 
   describe('decoding', (): void => {
     testDecode(
       'Address',
-      registry.createType('LookupSource', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
+      registry.createType('IndicesLookupSource', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
@@ -40,8 +40,8 @@ describe('LookupSource', (): void => {
     );
     testDecode(
       'AccountIndex (mixed prefixes)',
-      registry.createType('LookupSource', '2jpAFn'),
-      // NOTE Expected adress here is encoded with prefix 42, input above with 68
+      registry.createType('IndicesLookupSource', '118r'),
+      // NOTE Expected adress here is encoded with prefix 42, input above with 1
       '25GUyv'
     );
     testDecode(
@@ -83,7 +83,7 @@ describe('LookupSource', (): void => {
       'Mwz15xP2'
     );
     // FIXME The specification allows for 8 byte addresses, however since AccountIndex is u32 internally
-    // (and defined that way in thd efault Substrate),this does not actually work since it is 8 bytes,
+    // (and defined that way in the default Substrate),this does not actually work since it is 8 bytes,
     // instead of 4 bytes max u32 length
     // testDecode(
     //   'Uint8Array (with prefix 8 bytes)',
@@ -95,7 +95,7 @@ describe('LookupSource', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: string | Uint8Array): void =>
       it(`can encode ${to}`, (): void => {
-        const a = registry.createType('Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
+        const a = registry.createType('IndicesLookupSource', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
 
         expect(a[to]()).toEqual(expected);
       });

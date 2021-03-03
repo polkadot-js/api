@@ -2,45 +2,40 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option } from '@polkadot/types';
-import type { AccountId, EraIndex, StakingLedger, StakingLedgerTo240 } from '@polkadot/types/interfaces';
+import type { AccountId, EraIndex, StakingLedger } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 import type { DeriveStakingQuery } from './types';
 
 import BN from 'bn.js';
 
-import { isFunction } from '@polkadot/util';
+import { BN_BILLION, BN_ZERO } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-type ErasResult = [{ unwrapOr: (value: BN) => BN }, DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
+type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
-const ZERO = new BN(0);
-const MIN_ONE = new BN(-1);
-const COMM_DIV = new BN(1_000_000_000);
-
-function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
+function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
-    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: ZERO, validators: {} };
+    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} };
     const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.registry.createType('Balance') };
     const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
     const validators: Record<string, DeriveStakerRewardValidator> = {};
     const stakerId = stashId.toString();
 
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
-      const valPoints = allValPoints[validatorId] || ZERO;
-      const valComm = allValPrefs[validatorId]?.commission.unwrap() || ZERO;
+      const valPoints = allValPoints[validatorId] || BN_ZERO;
+      const valComm = allValPrefs[validatorId]?.commission.unwrap() || BN_ZERO;
       const expTotal = exposure.total.unwrap();
-      let avail = ZERO;
+      let avail = BN_ZERO;
       let value: BN | undefined;
 
       if (!(expTotal.isZero() || valPoints.isZero() || eraPoints.isZero())) {
         avail = eraReward.mul(valPoints).div(eraPoints);
 
-        const valCut = valComm.mul(avail).div(COMM_DIV);
+        const valCut = valComm.mul(avail).div(BN_BILLION);
         let staked: BN;
 
         if (validatorId === stakerId) {
@@ -50,10 +45,10 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, e
 
           staked = stakerExp
             ? stakerExp.value.unwrap()
-            : ZERO;
+            : BN_ZERO;
         }
 
-        value = avail.sub(valCut).imul(staked).div(expTotal).iadd(validatorId === stakerId ? valCut : ZERO);
+        value = avail.sub(valCut).imul(staked).div(expTotal).iadd(validatorId === stakerId ? valCut : BN_ZERO);
       }
 
       validators[validatorId] = {
@@ -73,32 +68,25 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [, erasPoints, e
   });
 }
 
-function uniqValidators (rewards: DeriveStakerReward[]): string[] {
-  const uniq: string[] = [];
+function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[][]] {
+  return rewards.reduce(([all, perStash]: [string[], string[][]], rewards) => {
+    const uniq: string[] = [];
 
-  rewards.forEach(({ validators }): void => {
-    Object.keys(validators).forEach((validatorId): void => {
-      if (!uniq.includes(validatorId)) {
-        uniq.push(validatorId);
-      }
-    });
-  });
+    perStash.push(uniq);
+    rewards.forEach(({ validators }) =>
+      Object.keys(validators).forEach((validatorId): void => {
+        if (!uniq.includes(validatorId)) {
+          uniq.push(validatorId);
 
-  return uniq;
-}
+          if (!all.includes(validatorId)) {
+            all.push(validatorId);
+          }
+        }
+      })
+    );
 
-function isOldLedger (ledger?: StakingLedger | StakingLedgerTo240): ledger is StakingLedgerTo240 {
-  return !!(ledger as StakingLedgerTo240)?.lastReward;
-}
-
-function filterEra (era: EraIndex, stakingLedger: StakingLedger): boolean {
-  return isOldLedger(stakingLedger)
-    ? era.gt(stakingLedger.lastReward.unwrapOr(MIN_ONE))
-    : !stakingLedger.claimedRewards.some((e) => e.eq(era));
-}
-
-function filterEras (eras: EraIndex[], stakingLedger: StakingLedger): EraIndex[] {
-  return eras.filter((era) => filterEra(era, stakingLedger));
+    return [all, perStash];
+  }, [[], []]);
 }
 
 function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward): void {
@@ -121,43 +109,34 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
   });
 }
 
-function filterRewards (api: ApiInterfaceRx, eras: EraIndex[], { migrateEra, rewards, stakingLedger }: { migrateEra: BN, rewards: DeriveStakerReward[]; stakingLedger: StakingLedger }): Observable<DeriveStakerReward[]> {
-  const validators = uniqValidators(rewards);
-  const filter = filterEras(eras, stakingLedger);
+function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: StakingLedger }): DeriveStakerReward[] {
+  const filter = eras.filter((era) => !stakingLedger.claimedRewards.some((e) => e.eq(era)));
+  const validators = valInfo.map(([v]) => v);
+  const queryValidators = valInfo.map(([, q]) => q);
 
-  return api.derive.staking.queryMulti(validators, { withLedger: true }).pipe(
-    map((queryValidators): DeriveStakerReward[] =>
-      rewards
-        .filter(({ isEmpty }) => !isEmpty)
-        .filter((reward): boolean => {
-          if (!filter.some((filter) => reward.era.eq(filter))) {
-            return false;
-          } else if (reward.era.lt(migrateEra)) {
-            // we filter again here, the actual ledger may have changed, e.g. something has been claimed
-            return filterEra(reward.era, stakingLedger);
-          }
+  return rewards
+    .filter(({ isEmpty }) => !isEmpty)
+    .filter((reward): boolean => {
+      if (!filter.some((filter) => reward.era.eq(filter))) {
+        return false;
+      }
 
-          reward.isStakerPayout = true;
+      reward.isStakerPayout = true;
 
-          removeClaimed(validators, queryValidators, reward);
+      removeClaimed(validators, queryValidators, reward);
 
-          return true;
-        })
-        .filter(({ validators }) => Object.keys(validators).length !== 0)
-        .map((reward) => ({
-          ...reward,
-          nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
-        }))
-    )
-  );
+      return true;
+    })
+    .filter(({ validators }) => Object.keys(validators).length !== 0)
+    .map((reward) => ({
+      ...reward,
+      nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
+    }));
 }
 
 export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<ErasResult> {
   return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<ErasResult> =>
     combineLatest([
-      isFunction(api.query.staking.migrateEra)
-        ? api.query.staking.migrateEra<Option<EraIndex>>()
-        : of(api.registry.createType('Option<EraIndex>')),
       api.derive.staking._erasPoints(eras, withActive),
       api.derive.staking._erasPrefs(eras, withActive),
       api.derive.staking._erasRewards(eras, withActive)
@@ -165,23 +144,39 @@ export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (e
   );
 }
 
-export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerReward[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerReward[]> =>
+export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerReward[][]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean): Observable<DeriveStakerReward[][]> =>
     combineLatest([
-      api.derive.staking.query(accountId, { withLedger: true }),
-      api.derive.staking._stakerExposure(accountId, eras, withActive),
+      api.derive.staking.queryMulti(accountIds, { withLedger: true }),
+      api.derive.staking._stakerExposures(accountIds, eras, withActive),
       api.derive.staking._stakerRewardsEras(eras, withActive)
     ]).pipe(
-      switchMap(([{ stakingLedger, stashId }, exposures, erasResult]): Observable<DeriveStakerReward[]> => {
-        if (!stashId || !stakingLedger) {
-          return of([]);
+      switchMap(([queries, exposures, erasResult]): Observable<DeriveStakerReward[][]> => {
+        const allRewards = queries.map(({ stakingLedger, stashId }, index): DeriveStakerReward[] =>
+          (!stashId || !stakingLedger)
+            ? []
+            : parseRewards(api, stashId, erasResult, exposures[index])
+        );
+
+        if (withActive) {
+          return of(allRewards);
         }
 
-        const rewards = parseRewards(api, stashId, erasResult, exposures);
+        const [allValidators, stashValidators] = allUniqValidators(allRewards);
 
-        return withActive
-          ? of(rewards)
-          : filterRewards(api, eras, { migrateEra: erasResult[0].unwrapOr(ZERO), rewards, stakingLedger });
+        return api.derive.staking.queryMulti(allValidators, { withLedger: true }).pipe(
+          map((queriedVals): DeriveStakerReward[][] => {
+            return queries.map(({ stakingLedger }, index): DeriveStakerReward[] => {
+              const rewards = allRewards[index];
+              const ownValidators = stashValidators[index].map((validatorId): [string, DeriveStakingQuery] => [
+                validatorId,
+                queriedVals.find((q) => q.accountId.eq(validatorId)) as DeriveStakingQuery
+              ]);
+
+              return filterRewards(eras, ownValidators, { rewards, stakingLedger });
+            });
+          })
+        );
       })
     )
   );
@@ -190,7 +185,8 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
 export function stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerReward[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerRewards(accountId, eras, withActive))
+      switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive)),
+      map(([first]) => first)
     )
   );
 }
@@ -198,7 +194,7 @@ export function stakerRewards (instanceId: string, api: ApiInterfaceRx): (accoun
 export function stakerRewardsMultiEras (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[]) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[]): Observable<DeriveStakerReward[][]> =>
     accountIds.length && eras.length
-      ? combineLatest(accountIds.map((acc) => api.derive.staking._stakerRewards(acc, eras, false)))
+      ? api.derive.staking._stakerRewards(accountIds, eras, false)
       : of([])
   );
 }

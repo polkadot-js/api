@@ -3,8 +3,6 @@
 
 import type { Codec, Constructor, Registry } from '../../types';
 
-import { arrayFlatten } from '@polkadot/util';
-
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the
  * types, and return an array of decoded values.
@@ -16,13 +14,15 @@ export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Construc
   const types = Array.isArray(_types)
     ? _types
     : Object.values(_types);
+  const result: Codec[] = [];
+  let offset = 0;
 
-  if (!types.length) {
-    return [];
+  for (let i = 0; i < types.length; i++) {
+    const value = new types[i](registry, u8a.subarray(offset));
+
+    result.push(value);
+    offset += value.encodedLength;
   }
 
-  const Type = types[0];
-  const value = new Type(registry, u8a);
-
-  return arrayFlatten([[value], decodeU8a(registry, u8a.subarray(value.encodedLength), types.slice(1))]);
+  return result;
 }

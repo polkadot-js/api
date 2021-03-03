@@ -13,8 +13,7 @@ module.exports = Object.assign({}, config, {
     '@polkadot/typegen(.*)$': '<rootDir>/packages/typegen/src/$1',
     '@polkadot/types-known(.*)$': '<rootDir>/packages/types-known/src/$1',
     // eslint-disable-next-line sort-keys
-    '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1',
-    '@polkadot/x-rxjs(.*)$': '<rootDir>/packages/x-rxjs/src/$1'
+    '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
   modulePathIgnorePatterns: [
     '<rootDir>/packages/api/build',
@@ -25,8 +24,7 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/rpc-provider/build',
     '<rootDir>/packages/typegen/build',
     '<rootDir>/packages/types/build',
-    '<rootDir>/packages/types-known/build',
-    '<rootDir>/packages/x-rxjs/build'
+    '<rootDir>/packages/types-known/build'
   ],
-  resolver: '@polkadot/dev/config/jest-resolver.cjs'
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|rxjs/_esm5)']
 });

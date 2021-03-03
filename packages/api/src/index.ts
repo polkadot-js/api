@@ -6,7 +6,7 @@ import './detectPackage';
 export { Keyring } from '@polkadot/keyring';
 export { WsProvider } from '@polkadot/rpc-provider/ws';
 
+export { packageInfo } from './packageInfo';
 export { ApiPromise } from './promise';
-export { ApiRx } from './rx';
-
 export { SubmittableResult } from './submittable';
+export { ApiRx } from './rx';

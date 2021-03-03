@@ -15,6 +15,7 @@ const registry = new TypeRegistry();
 const metadata = new Metadata(registry, metadataStatic);
 
 registry.setMetadata(metadata);
+registry.register({ Address: 'IndicesLookupSource', LookupSource: 'IndicesLookupSource' });
 
 const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 

@@ -4,9 +4,8 @@
 import type { BTreeMap, BitVec, Bytes, Compact, Enum, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
-import type { AccountId, Balance, BlockNumber, Hash, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
-import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 
 /** @name AbridgedCandidateReceipt */
 export interface AbridgedCandidateReceipt extends Struct {
@@ -17,6 +16,29 @@ export interface AbridgedCandidateReceipt extends Struct {
   readonly signature: CollatorSignature;
   readonly povBlockHash: Hash;
   readonly commitments: CandidateCommitments;
+}
+
+/** @name AbridgedHostConfiguration */
+export interface AbridgedHostConfiguration extends Struct {
+  readonly maxCodeSize: u32;
+  readonly maxHeadDataSize: u32;
+  readonly maxUpwardQueueCount: u32;
+  readonly maxUpwardQueueSize: u32;
+  readonly maxUpwardMessageSize: u32;
+  readonly maxUpwardMessageNumPerCandidate: u32;
+  readonly hrmpMaxMessageNumPerCandidate: u32;
+  readonly validationUpgradeFrequency: BlockNumber;
+  readonly validationUpgradeDelay: BlockNumber;
+}
+
+/** @name AbridgedHrmpChannel */
+export interface AbridgedHrmpChannel extends Struct {
+  readonly maxCapacity: u32;
+  readonly maxTotalSize: u32;
+  readonly maxMessageSize: u32;
+  readonly msgCount: u32;
+  readonly totalSize: u32;
+  readonly mqcHead: Option<Hash>;
 }
 
 /** @name AbstractFungible */
@@ -149,11 +171,12 @@ export interface CandidateCommitments extends Struct {
 export interface CandidateDescriptor extends Struct {
   readonly paraId: ParaId;
   readonly relayParent: Hash;
-  readonly collatorId: Hash;
+  readonly collatorId: CollatorId;
   readonly persistedValidationDataHash: Hash;
   readonly povHash: Hash;
   readonly erasureRoot: Hash;
-  readonly signature: Signature;
+  readonly signature: CollatorSignature;
+  readonly paraHead: Hash;
 }
 
 /** @name CandidateHash */
@@ -177,7 +200,7 @@ export interface CandidateReceipt extends Struct {
 }
 
 /** @name CollatorId */
-export interface CollatorId extends U8aFixed {}
+export interface CollatorId extends H256 {}
 
 /** @name CollatorSignature */
 export interface CollatorSignature extends Signature {}
@@ -264,12 +287,29 @@ export interface HeadData extends Bytes {}
 
 /** @name HostConfiguration */
 export interface HostConfiguration extends Struct {
-  readonly validationUpgradeFrequency: BlockNumber;
-  readonly validationUpgradeDelay: BlockNumber;
-  readonly acceptancePeriod: BlockNumber;
   readonly maxCodeSize: u32;
   readonly maxHeadDataSize: u32;
+  readonly maxUpwardQueueCount: u32;
+  readonly maxUpwardQueueSize: u32;
+  readonly maxUpwardMessageSize: u32;
+  readonly maxUpwardMessageNumPerCandidate: u32;
+  readonly hrmpMaxMessageNumPerCandidate: u32;
+  readonly validationUpgradeFrequency: BlockNumber;
+  readonly validationUpgradeDelay: BlockNumber;
   readonly maxPovSize: u32;
+  readonly maxDownwardMessageSize: u32;
+  readonly preferredDispatchableUpwardMessagesStepWeight: Weight;
+  readonly hrmpMaxParachainOutboundChannels: u32;
+  readonly hrmpMaxParathreadOutboundChannels: u32;
+  readonly hrmpOpenRequestTtl: u32;
+  readonly hrmpSenderDeposit: Balance;
+  readonly hrmpRecipientDeposit: Balance;
+  readonly hrmpChannelMaxCapacity: u32;
+  readonly hrmpChannelMaxTotalSize: u32;
+  readonly hrmpMaxParachainInboundChannels: u32;
+  readonly hrmpMaxParathreadInboundChannels: u32;
+  readonly hrmpChannelMaxMessageSize: u32;
+  readonly acceptancePeriod: BlockNumber;
   readonly parathreadCores: u32;
   readonly parathreadRetries: u32;
   readonly groupRotationFrequency: BlockNumber;
@@ -283,35 +323,18 @@ export interface HostConfiguration extends Struct {
   readonly zerothDelayTrancheWidth: u32;
   readonly neededApprovals: u32;
   readonly relayVrfModuloSamples: u32;
-  readonly maxUpwardQueueCount: u32;
-  readonly maxUpwardQueueSize: u32;
-  readonly maxDownwardMessageSize: u32;
-  readonly preferredDispatchableUpwardMessagesStepWeight: Weight;
-  readonly maxUpwardMessageSize: u32;
-  readonly maxUpwardMessageNumPerCandidate: u32;
-  readonly hrmpOpenRequestTtl: u32;
-  readonly hrmpSenderDeposit: Balance;
-  readonly hrmpRecipientDeposit: Balance;
-  readonly hrmpChannelMaxCapacity: u32;
-  readonly hrmpChannelMaxTotalSize: u32;
-  readonly hrmpMaxParachainInboundChannels: u32;
-  readonly hrmpMaxParathreadInboundChannels: u32;
-  readonly hrmpChannelMaxMessageSize: u32;
-  readonly hrmpMaxParachainOutboundChannels: u32;
-  readonly hrmpMaxParathreadOutboundChannels: u32;
-  readonly hrmpMaxMessageNumPerCandidate: u32;
 }
 
 /** @name HrmpChannel */
 export interface HrmpChannel extends Struct {
-  readonly senderDeposit: Balance;
-  readonly recipientDeposit: Balance;
   readonly maxCapacity: u32;
   readonly maxTotalSize: u32;
   readonly maxMessageSize: u32;
   readonly msgCount: u32;
   readonly totalSize: u32;
   readonly mqcHead: Option<Hash>;
+  readonly senderDeposit: Balance;
+  readonly recipientDeposit: Balance;
 }
 
 /** @name HrmpChannelId */
@@ -406,7 +429,7 @@ export interface Junction extends Enum {
 export interface LeasePeriod extends BlockNumber {}
 
 /** @name LeasePeriodOf */
-export interface LeasePeriodOf extends LeasePeriod {}
+export interface LeasePeriodOf extends BlockNumber {}
 
 /** @name LocalValidationData */
 export interface LocalValidationData extends Struct {
@@ -420,6 +443,18 @@ export interface MessageIngestionType extends Struct {
   readonly downwardMessages: Vec<InboundDownwardMessage>;
   readonly horizontalMessages: BTreeMap<ParaId, InboundHrmpMessages>;
 }
+
+/** @name MessageQueueChain */
+export interface MessageQueueChain extends RelayChainHash {}
+
+/** @name MessagingStateSnapshot */
+export interface MessagingStateSnapshot extends Struct {
+  readonly relayDispatchQueueSize: ITuple<[u32, u32]>;
+  readonly egressChannels: Vec<MessagingStateSnapshotEgressEntry>;
+}
+
+/** @name MessagingStateSnapshotEgressEntry */
+export interface MessagingStateSnapshotEgressEntry extends ITuple<[ParaId, AbridgedHrmpChannel]> {}
 
 /** @name MultiAsset */
 export interface MultiAsset extends Enum {
@@ -473,6 +508,9 @@ export interface NewBidder extends Struct {
   readonly sub: SubId;
 }
 
+/** @name NewBidderOption */
+export interface NewBidderOption extends Option<NewBidder> {}
+
 /** @name Order */
 export interface Order extends Enum {
   readonly isNull: boolean;
@@ -510,11 +548,18 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isRoot: boolean;
 }
 
+/** @name ParachainInherentData */
+export interface ParachainInherentData extends Struct {
+  readonly validationData: PersistedValidationData;
+  readonly relayChainState: StorageProof;
+  readonly downwardMessages: Vec<InboundDownwardMessage>;
+  readonly horizontalMessages: BTreeMap<ParaId, VecInboundHrmpMessage>;
+}
+
 /** @name ParachainProposal */
 export interface ParachainProposal extends Struct {
   readonly proposer: AccountId;
-  readonly validationFunction: ValidationCode;
-  readonly initialHeadState: HeadData;
+  readonly genesisHead: HeadData;
   readonly validators: Vec<ValidatorId>;
   readonly name: Bytes;
   readonly balance: Balance;
@@ -533,6 +578,17 @@ export interface ParaId extends u32 {}
 /** @name ParaInfo */
 export interface ParaInfo extends Struct {
   readonly scheduling: Scheduling;
+}
+
+/** @name ParaLifecycle */
+export interface ParaLifecycle extends Enum {
+  readonly isOnboarding: boolean;
+  readonly isParathread: boolean;
+  readonly isParachain: boolean;
+  readonly isUpgradingToParachain: boolean;
+  readonly isDowngradingToParathread: boolean;
+  readonly isOutgoingParathread: boolean;
+  readonly isOutgoingParachain: boolean;
 }
 
 /** @name ParaPastCodeMeta */
@@ -562,12 +618,14 @@ export interface ParathreadEntry extends Struct {
   readonly retries: u32;
 }
 
+/** @name ParaValidatorIndex */
+export interface ParaValidatorIndex extends u32 {}
+
 /** @name PersistedValidationData */
 export interface PersistedValidationData extends Struct {
   readonly parentHead: HeadData;
-  readonly blockNumber: BlockNumber;
-  readonly hrmpMqcHeads: Vec<ITuple<[u32, Hash]>>;
-  readonly dmqMqcHead: Hash;
+  readonly relayParentNumber: RelayChainBlockNumber;
+  readonly relayParentStorageRoot: Hash;
   readonly maxPovSize: u32;
 }
 
@@ -591,7 +649,10 @@ export interface RegisteredParachainInfo extends Struct {
 }
 
 /** @name RelayChainBlockNumber */
-export interface RelayChainBlockNumber extends BlockNumber {}
+export interface RelayChainBlockNumber extends u32 {}
+
+/** @name RelayChainHash */
+export interface RelayChainHash extends Hash {}
 
 /** @name RelayedFrom */
 export interface RelayedFrom extends Struct {
@@ -632,7 +693,7 @@ export interface SessionInfo extends Struct {
   readonly validators: Vec<ValidatorId>;
   readonly discoveryKeys: Vec<AuthorityDiscoveryId>;
   readonly assignmentKeys: Vec<AssignmentId>;
-  readonly validatorGroups: Vec<ValidatorGroup>;
+  readonly validatorGroups: Vec<SessionInfoValidatorGroup>;
   readonly nCores: u32;
   readonly zerothDelayTrancheWidth: u32;
   readonly relayVrfModuloSamples: u32;
@@ -641,11 +702,14 @@ export interface SessionInfo extends Struct {
   readonly neededApprovals: u32;
 }
 
+/** @name SessionInfoValidatorGroup */
+export interface SessionInfoValidatorGroup extends Vec<ParaValidatorIndex> {}
+
 /** @name SignedAvailabilityBitfield */
 export interface SignedAvailabilityBitfield extends Struct {
   readonly payload: BitVec;
-  readonly validatorIndex: u32;
-  readonly signature: Signature;
+  readonly validatorIndex: ParaValidatorIndex;
+  readonly signature: ValidatorSignature;
 }
 
 /** @name SignedAvailabilityBitfields */
@@ -685,6 +749,9 @@ export interface Statement extends Enum {
 /** @name SubId */
 export interface SubId extends u32 {}
 
+/** @name SystemInherentData */
+export interface SystemInherentData extends ParachainInherentData {}
+
 /** @name TeleportAsset */
 export interface TeleportAsset extends Struct {
   readonly assets: Vec<MultiAsset>;
@@ -718,15 +785,18 @@ export interface ValidationData extends Struct {
   readonly transient: TransientValidationData;
 }
 
+/** @name ValidationDataType */
+export interface ValidationDataType extends Struct {
+  readonly validationData: ValidationData;
+  readonly relayChainState: Vec<Bytes>;
+}
+
 /** @name ValidationFunctionParams */
 export interface ValidationFunctionParams extends Struct {
   readonly maxCodeSize: u32;
   readonly relayChainHeight: RelayChainBlockNumber;
   readonly codeUpgradeAllowed: Option<RelayChainBlockNumber>;
 }
-
-/** @name ValidatorGroup */
-export interface ValidatorGroup extends Vec<ValidatorIndex> {}
 
 /** @name ValidatorSignature */
 export interface ValidatorSignature extends Signature {}
@@ -739,6 +809,9 @@ export interface ValidityAttestation extends Enum {
   readonly isExplicit: boolean;
   readonly asExplicit: ValidatorSignature;
 }
+
+/** @name VecInboundHrmpMessage */
+export interface VecInboundHrmpMessage extends Vec<InboundHrmpMessage> {}
 
 /** @name VersionedMultiAsset */
 export interface VersionedMultiAsset extends Enum {
@@ -757,6 +830,12 @@ export interface VersionedXcm extends Enum {
   readonly isV0: boolean;
   readonly asV0: Xcm;
 }
+
+/** @name WinnersData */
+export interface WinnersData extends Vec<WinnersDataTuple> {}
+
+/** @name WinnersDataTuple */
+export interface WinnersDataTuple extends ITuple<[NewBidderOption, ParaId, BalanceOf, SlotRange]> {}
 
 /** @name WinningData */
 export interface WinningData extends Vec<WinningDataEntry> {}

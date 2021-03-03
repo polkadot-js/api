@@ -104,11 +104,71 @@ export interface ContractInfo extends Enum {
 /** @name ContractStorageKey */
 export interface ContractStorageKey extends U8aFixed {}
 
+/** @name DeletedContract */
+export interface DeletedContract extends Struct {
+  readonly pairCount: u32;
+  readonly trieId: TrieId;
+}
+
 /** @name Gas */
 export interface Gas extends u64 {}
 
 /** @name HostFnWeights */
 export interface HostFnWeights extends Struct {
+  readonly caller: Weight;
+  readonly address: Weight;
+  readonly gasLeft: Weight;
+  readonly balance: Weight;
+  readonly valueTransferred: Weight;
+  readonly minimumBalance: Weight;
+  readonly tombstoneDeposit: Weight;
+  readonly rentAllowance: Weight;
+  readonly blockNumber: Weight;
+  readonly now: Weight;
+  readonly weightToFee: Weight;
+  readonly gas: Weight;
+  readonly input: Weight;
+  readonly inputPerByte: Weight;
+  readonly return: Weight;
+  readonly returnPerByte: Weight;
+  readonly terminate: Weight;
+  readonly terminatePerCodeByte: Weight;
+  readonly restoreTo: Weight;
+  readonly restoreToPerCallerCodeByte: Weight;
+  readonly restoreToPerTombstoneCodeByte: Weight;
+  readonly restoreToPerDelta: Weight;
+  readonly random: Weight;
+  readonly depositEvent: Weight;
+  readonly depositEventPerTopic: Weight;
+  readonly depositEventPerByte: Weight;
+  readonly setRentAllowance: Weight;
+  readonly setStorage: Weight;
+  readonly setStoragePerByte: Weight;
+  readonly clearStorage: Weight;
+  readonly getStorage: Weight;
+  readonly getStoragePerByte: Weight;
+  readonly transfer: Weight;
+  readonly call: Weight;
+  readonly callPerCodeByte: Weight;
+  readonly callTransferSurcharge: Weight;
+  readonly callPerInputByte: Weight;
+  readonly callPerOutputByte: Weight;
+  readonly instantiate: Weight;
+  readonly instantiatePerCodeByte: Weight;
+  readonly instantiatePerInputByte: Weight;
+  readonly instantiatePerOutputByte: Weight;
+  readonly hashSha2256: Weight;
+  readonly hashSha2256PerByte: Weight;
+  readonly hashKeccak256: Weight;
+  readonly hashKeccak256PerByte: Weight;
+  readonly hashBlake2256: Weight;
+  readonly hashBlake2256PerByte: Weight;
+  readonly hashBlake2128: Weight;
+  readonly hashBlake2128PerByte: Weight;
+}
+
+/** @name HostFnWeightsTo264 */
+export interface HostFnWeightsTo264 extends Struct {
   readonly caller: Weight;
   readonly address: Weight;
   readonly gasLeft: Weight;
@@ -221,6 +281,18 @@ export interface Limits extends Struct {
   readonly tableSize: u32;
   readonly brTableSize: u32;
   readonly subjectLen: u32;
+}
+
+/** @name LimitsTo264 */
+export interface LimitsTo264 extends Struct {
+  readonly eventTopics: u32;
+  readonly stackHeight: u32;
+  readonly globals: u32;
+  readonly parameters: u32;
+  readonly memoryPages: u32;
+  readonly tableSize: u32;
+  readonly brTableSize: u32;
+  readonly subjectLen: u32;
   readonly codeSize: u32;
 }
 
@@ -282,6 +354,15 @@ export interface ScheduleTo258 extends Struct {
   readonly maxMemoryPages: u32;
   readonly enablePrintln: bool;
   readonly maxSubjectLen: u32;
+}
+
+/** @name ScheduleTo264 */
+export interface ScheduleTo264 extends Struct {
+  readonly version: u32;
+  readonly enablePrintln: bool;
+  readonly limits: LimitsTo264;
+  readonly instructionWeights: InstructionWeights;
+  readonly hostFnWeights: HostFnWeightsTo264;
 }
 
 /** @name SeedOf */

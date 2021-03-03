@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, hexToU8a, isHex, isObject, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareMap, decodeU8a, typeToConstructor } from './utils';
 
@@ -74,9 +74,7 @@ function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: 
 
   if (!value) {
     return new Map<K, V>();
-  } else if (isHex(value)) {
-    return decodeMap(registry, KeyClass, ValClass, hexToU8a(value));
-  } else if (isU8a(value)) {
+  } else if (isU8a(value) || isHex(value)) {
     return decodeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
   } else if (value instanceof Map) {
     return decodeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
@@ -121,7 +119,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Returns a hash of the value
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 

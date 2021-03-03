@@ -32,7 +32,7 @@ describe('ExtrinsicSignatureV4', (): void => {
 
     const u8a = new Uint8Array([
       // signer as an AccountIndex
-      0x09,
+      0x01, 0x08, // 4 << 2
       // signature type
       0x01,
       // signature
@@ -58,14 +58,14 @@ describe('ExtrinsicSignatureV4', (): void => {
     registry.setMetadata(metadata);
 
     expect(
-      new ExtrinsicSignature(registry, undefined).signFake(
+      new ExtrinsicSignature(registry).signFake(
         registry.createType('Call'),
-        pairs.alice.address,
+        pairs.alice.publicKey,
         signOptions
       ).toHex()
     ).toEqual(
       '0x' +
-      'ff' +
+      '00' + // MultiAddress
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       '01' +
       '4242424242424242424242424242424242424242424242424242424242424242' +
@@ -74,7 +74,7 @@ describe('ExtrinsicSignatureV4', (): void => {
     );
   });
 
-  it('fake signs default', (): void => {
+  it('fake signs default (AccountId address)', (): void => {
     const registry = new TypeRegistry();
     const metadata = new Metadata(registry, metadataStatic);
 
@@ -85,7 +85,7 @@ describe('ExtrinsicSignatureV4', (): void => {
     });
 
     expect(
-      new ExtrinsicSignature(registry, undefined).signFake(
+      new ExtrinsicSignature(registry).signFake(
         registry.createType('Call'),
         pairs.alice.address,
         signOptions
@@ -93,13 +93,36 @@ describe('ExtrinsicSignatureV4', (): void => {
     ).toEqual(
       '0x' +
       // Address = AccountId
-      // 'ff' +
+      // '00' +
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       // This is a prefix-less signature, anySignture as opposed to Multi above
       // '01' +
       '4242424242424242424242424242424242424242424242424242424242424242' +
       '4242424242424242424242424242424242424242424242424242424242424242' +
       '00a50100'
+    );
+  });
+
+  it('injects a signature', (): void => {
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, metadataStatic);
+
+    registry.setMetadata(metadata);
+
+    expect(
+      new ExtrinsicSignature(registry).addSignature(
+        pairs.alice.publicKey,
+        new Uint8Array(65).fill(1),
+        new Uint8Array(0)
+      ).toHex()
+    ).toEqual(
+      '0x' +
+      '00' + // MultiAddress
+      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
+      '01' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '000000'
     );
   });
 });

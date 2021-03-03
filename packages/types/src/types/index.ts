@@ -13,4 +13,5 @@ export * from './extrinsic';
 export * from './interfaces';
 export * from './registry';
 
+// used inside augmented definitions
 export type { Observable } from '@polkadot/x-rxjs';

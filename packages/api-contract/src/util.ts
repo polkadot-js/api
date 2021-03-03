@@ -20,9 +20,9 @@ export function formatData (registry: Registry, data: Raw, { type }: TypeDef): C
   return createTypeUnsafe(registry, type, [data], { isPedantic: true });
 }
 
-export function applyOnEvent <T> (result: SubmittableResult, type: ContractEvents, fn: (records: EventRecord[]) => T): T | undefined {
+export function applyOnEvent <T> (result: SubmittableResult, types: ContractEvents[], fn: (records: EventRecord[]) => T): T | undefined {
   if (result.isInBlock || result.isFinalized) {
-    const records = result.filterRecords('contracts', type);
+    const records = result.filterRecords('contracts', types);
 
     if (records.length) {
       return fn(records);

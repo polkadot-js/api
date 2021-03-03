@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Registry } from '../types';
 
 /**
@@ -28,7 +28,7 @@ export abstract class Base<T extends Codec> implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 

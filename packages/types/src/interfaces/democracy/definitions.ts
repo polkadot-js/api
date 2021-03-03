@@ -6,7 +6,7 @@
 
 import type { Definitions } from '../../types';
 
-const AllConvictions = [
+export const AllConvictions = [
   // 0.1x votes, unlocked.
   'None',
   // 1x votes, locked for an enactment period following a successful vote.
@@ -22,8 +22,6 @@ const AllConvictions = [
   /// 6x votes, locked for 32x...
   'Locked6x'
 ];
-
-export { AllConvictions };
 
 export default {
   rpc: {},

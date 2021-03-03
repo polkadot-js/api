@@ -9,24 +9,24 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 /* eslint-disable sort-keys */
 
 const sharedTypes = {
-  AccountInfo: 'AccountInfoWithRefCount',
-  Address: 'AccountId',
-  Keys: 'SessionKeys5',
-  LookupSource: 'AccountId'
+  AccountInfo: 'AccountInfoWithProviders',
+  Address: 'MultiAddress',
+  FullIdentification: '()', // No staking, only session (as per config)
+  LookupSource: 'MultiAddress',
+  Keys: 'SessionKeys6'
 };
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, 9],
+    minmax: [0, 200],
     types: {
       ...sharedTypes,
-      CompactAssignments: 'CompactAssignmentsTo257',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      Address: 'AccountId',
+      LookupSource: 'AccountId'
     }
   },
   {
-    minmax: [10, undefined],
+    minmax: [201, undefined],
     types: {
       ...sharedTypes
     }

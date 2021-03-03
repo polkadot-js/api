@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
-import type { ChainProperties, Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
 import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -12,14 +12,14 @@ import BN from 'bn.js';
 
 import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
-import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getSpecAlias, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, logger, u8aEq, u8aToU8a } from '@polkadot/util';
+import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { assert, BN_ZERO, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { Decorate } from './Decorate';
+import { detectedCapabilities } from './util';
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
@@ -35,10 +35,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
-
-    if (!this.hasSubscriptions) {
-      l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
-    }
 
     // all injected types added to the registry for overrides
     this.registry.setKnownTypes(options);
@@ -63,9 +59,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.signer = options.signer;
 
     this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));
-    this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
-    this._rpcCore.provider.on('error', this.#onProviderError);
-    this._rpcCore.provider.on('connected', this.#onProviderConnect);
+
+    if (this.hasSubscriptions) {
+      this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
+      this._rpcCore.provider.on('error', this.#onProviderError);
+      this._rpcCore.provider.on('connected', this.#onProviderConnect);
+    } else {
+      l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
+    }
 
     // If the provider was instantiated earlier, and has already emitted a
     // 'connected' event, then the `on('connected')` won't fire anymore. To
@@ -83,13 +84,17 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
+    registry.setHasher(getSpecHasher(registry, chain, version.specName));
 
     // for bundled types, pull through the aliases defined
     if (registry.knownTypes.typesBundle) {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
 
-    registry.setMetadata(metadata);
+    registry.setMetadata(metadata, undefined, {
+      ...getSpecExtensions(registry, chain, version.specName),
+      ...(this._options.signedExtensions || {})
+    });
 
     return registry;
   }
@@ -135,6 +140,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // nothing has been found, construct new
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
     const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version, metadata);
+
+    // For now, since this is new we ignore the capability lookups (this could be useful once proven)
+    // this._detectCapabilities(registry, blockHash);
+
+    // add our new registry
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
@@ -180,6 +190,19 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
+  private _detectCapabilities (registry?: Registry, blockHash?: string | Uint8Array): void {
+    detectedCapabilities(this._rx, blockHash)
+      .toPromise()
+      .then((types): void => {
+        if (Object.keys(types).length) {
+          (registry || this.registry).register(types as Record<string, string>);
+
+          l.debug(`Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${JSON.stringify(types)}`);
+        }
+      })
+      .catch(l.error);
+  }
+
   // subscribe to metadata updates, inject the types on changes
   private _subscribeUpdates (): void {
     if (this.#updateSub || !this.hasSubscriptions) {
@@ -212,6 +235,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
+              this._detectCapabilities(thisRegistry.registry);
 
               return true;
             })
@@ -261,25 +285,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [genesisHash, metadata];
   }
 
-  private async _initFromMeta (metadata: Metadata): Promise<boolean> {
-    const metaExtrinsic = metadata.asLatest.extrinsic;
-
-    // only inject if we are not a clone (global init)
-    if (metaExtrinsic.version.gt(BN_ZERO)) {
-      this._extrinsicType = metaExtrinsic.version.toNumber();
-    } else if (!this._options.source) {
-      // detect the extrinsic version in-use based on the last block
-      const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
-
-      // If we haven't sync-ed to 1 yes, this won't have any values
-      this._extrinsicType = firstTx ? firstTx.type : LATEST_EXTRINSIC_VERSION;
-    }
-
+  private _initFromMeta (metadata: Metadata): boolean {
+    this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
-    this._rx.runtimeVersion = this._runtimeVersion;
+    this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
 
+    // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
+    this._detectCapabilities();
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);

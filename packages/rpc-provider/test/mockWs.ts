@@ -3,8 +3,6 @@
 
 import { Server, WebSocket } from 'mock-socket';
 
-const TEST_WS_URL = 'ws://localhost:9955';
-
 interface Scope {
   body: { [index: string]: Record<string, any> };
   requests: number;
@@ -29,6 +27,8 @@ interface ReplyDef {
 
 global.WebSocket = WebSocket;
 
+export const TEST_WS_URL = 'ws://localhost:9955';
+
 // should be JSONRPC def return
 function createError ({ error: { code, message }, id }: ErrorDef): any {
   return {
@@ -51,7 +51,7 @@ function createReply ({ id, reply: { result } }: ReplyDef): any {
 }
 
 // scope definition returned
-function mockWs (requests: ({ method: string } & ErrorDef)[], wsUrl: string = TEST_WS_URL): Scope {
+export function mockWs (requests: ({ method: string } & ErrorDef)[], wsUrl: string = TEST_WS_URL): Scope {
   const server = new Server(wsUrl);
 
   let requestCount = 0;
@@ -85,8 +85,3 @@ function mockWs (requests: ({ method: string } & ErrorDef)[], wsUrl: string = TE
 
   return scope;
 }
-
-export {
-  TEST_WS_URL,
-  mockWs
-};

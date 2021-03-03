@@ -7,7 +7,7 @@
 
 # @polkadot/api
 
-This library provides a clean wrapper around all the methods exposed by a Polkadot/Substrate network client and defines all the types exposed by a node. For complete documentation around the classes, interfaces and their use, visit the [documentation portal](https://polkadot.js.org/api/).
+This library provides a clean wrapper around all the methods exposed by a Polkadot/Substrate network client and defines all the types exposed by a node. For complete documentation around the classes, interfaces and their use, visit the [documentation portal](https://polkadot.js.org/docs/api/).
 
 If you are an existing user, please be sure to track the [CHANGELOG](CHANGELOG.md) and [UPGRADING](UPGRADING.md) guides when changing versions.
 
@@ -22,7 +22,7 @@ The API is split up into a number of internal packages -
 - [@polkadot/api](packages/api/) The API library, providing both Promise and RxJS Observable-based interfaces. This is the main user-facing entry point.
 - [@polkadot/api-derive](packages/api-derive/) Derived results that are injected into the API, allowing for combinations of various query results (only used internally and exposed on the Api instances via `api.derive.*`)
 - [@polkadot/api-metadata](packages/api-metadata/) Base extrinsic, storage and constant injectors for injection
-- [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all [JSON-RPC methods](https://polkadot.js.org/api/substrate/rpc.html) exposed by a Polkadot network client
+- [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all [JSON-RPC methods](https://polkadot.js.org/docs/substrate/rpc) exposed by a Polkadot network client
 - [@polkadot/rpc-provider](packages/rpc-provider/) Providers for connecting to nodes, including WebSockets and Http
 
 Type definitions for interfaces as exposed by Polkadot & Substrate clients -

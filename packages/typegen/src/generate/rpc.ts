@@ -1,14 +1,15 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TypeRegistry } from '@polkadot/types/create';
 import type { Definitions } from '@polkadot/types/types';
+import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 
-import { createImports, formatType, getSimilarTypes, readTemplate, registerDefinitions, setImports, writeFile } from '../util';
+import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
 
 interface ItemDef {
   args: string;
@@ -29,9 +30,9 @@ const template = readTemplate('rpc');
 const generateRpcTypesTemplate = Handlebars.compile(template);
 
 /** @internal */
-export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
+export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: ExtraTypes = {}): void {
   writeFile(dest, (): string => {
-    const allTypes: Record<string, Record<string, { types: Record<string, any> }>> = { '@polkadot/types/interfaces': importDefinitions, ...extraTypes };
+    const allTypes: ExtraTypes = { '@polkadot/types/interfaces': importDefinitions, ...extraTypes };
     const imports = createImports(allTypes);
     const definitions = imports.definitions as Record<string, Definitions>;
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
@@ -141,10 +142,8 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
   });
 }
 
-export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}): void {
-  const registry = new TypeRegistry();
-
-  registerDefinitions(registry, extraTypes);
+export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', extraTypes: ExtraTypes = {}): void {
+  const { registry } = initMeta(undefined, extraTypes);
 
   generateRpcTypes(
     registry,

@@ -1,10 +1,13 @@
 {
   "name": "@polkadot/rpc-core",
-  "version": "3.3.2-2",
+  "version": "4.0.1-4",
+  "type": "module",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
-  "module": "index.mjs",
-  "sideEffects": false,
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
@@ -13,14 +16,14 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/metadata": "3.3.2-2",
-    "@polkadot/rpc-provider": "3.3.2-2",
-    "@polkadot/types": "3.3.2-2",
-    "@polkadot/util": "^5.2.3",
-    "@polkadot/x-rxjs": "3.3.2-2"
+    "@babel/runtime": "^7.13.9",
+    "@polkadot/metadata": "4.0.1-4",
+    "@polkadot/rpc-provider": "4.0.1-4",
+    "@polkadot/types": "4.0.1-4",
+    "@polkadot/util": "^6.0.1-5",
+    "@polkadot/x-rxjs": "^6.0.1-5"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^5.2.3"
+    "@polkadot/keyring": "^6.0.1-5"
   }
 }

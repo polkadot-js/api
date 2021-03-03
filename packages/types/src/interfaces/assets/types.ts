@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Struct, bool, u32 } from '@polkadot/types';
-import type { AccountId, Balance, BalanceOf } from '@polkadot/types/interfaces/runtime';
+import type { Bytes, Struct, bool, u32, u64, u8 } from '@polkadot/types';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces/runtime';
 
 /** @name AssetBalance */
 export interface AssetBalance extends Struct {
@@ -25,8 +25,16 @@ export interface AssetDetails extends Struct {
   readonly accounts: u32;
 }
 
+/** @name AssetMetadata */
+export interface AssetMetadata extends Struct {
+  readonly deposit: TAssetDepositBalance;
+  readonly name: Bytes;
+  readonly symbol: Bytes;
+  readonly decimals: u8;
+}
+
 /** @name TAssetBalance */
-export interface TAssetBalance extends Balance {}
+export interface TAssetBalance extends u64 {}
 
 /** @name TAssetDepositBalance */
 export interface TAssetDepositBalance extends BalanceOf {}

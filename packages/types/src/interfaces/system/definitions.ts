@@ -82,6 +82,7 @@ export default {
       type: 'Vec<PeerInfo>'
     },
     networkState: {
+      alias: ['system_unstable_networkState'],
       description: 'Returns current state of the network',
       params: [],
       type: 'NetworkState'
@@ -146,16 +147,15 @@ export default {
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
+    BlockLength: {
+      max: 'PerDispatchClassU32'
+    },
     BlockWeights: {
       baseBlock: 'Weight',
       maxBlock: 'Weight',
-      perClass: 'PerDispatchClass'
+      perClass: 'PerDispatchClassWeightsPerClass'
     },
-    ChainProperties: {
-      ss58Format: 'Option<u8>',
-      tokenDecimals: 'Option<u32>',
-      tokenSymbol: 'Option<Text>'
-    },
+    ChainProperties: 'GenericChainProperties',
     ChainType: {
       _enum: {
         Development: 'Null',
@@ -164,7 +164,7 @@ export default {
         Custom: 'Text'
       }
     },
-    ConsumedWeight: 'PerDispatchClass',
+    ConsumedWeight: 'PerDispatchClassWeight',
     DigestOf: 'Digest',
     DispatchClass: {
       _enum: ['Normal', 'Operational', 'Mandatory']
@@ -296,7 +296,17 @@ export default {
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
     },
-    PerDispatchClass: {
+    PerDispatchClassU32: {
+      normal: 'u32',
+      operational: 'u32',
+      mandatory: 'u32'
+    },
+    PerDispatchClassWeight: {
+      normal: 'Weight',
+      operational: 'Weight',
+      mandatory: 'Weight'
+    },
+    PerDispatchClassWeightsPerClass: {
       normal: 'WeightPerClass',
       operational: 'WeightPerClass',
       mandatory: 'WeightPerClass'

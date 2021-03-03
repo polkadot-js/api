@@ -1,13 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces/runtime';
+import type { CodecHash } from '../interfaces/runtime';
 import type { AnyNumber, Codec, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
 import BN from 'bn.js';
 
-import { assert, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -17,10 +17,10 @@ const MAX_NUMBER_BITS = 52;
 const MUL_P = new BN(1_00_00);
 
 const FORMATTERS: [string, BN][] = [
-  ['Perquintill', new BN(1_000_000_000_000)],
-  ['Perbill', new BN(1_000_000_000)],
-  ['Permill', new BN(1_000_000)],
-  ['Percent', new BN(100)]
+  ['Perquintill', BN_QUINTILL],
+  ['Perbill', BN_BILLION],
+  ['Permill', BN_MILLION],
+  ['Percent', BN_HUNDRED]
 ];
 
 function toPercentage (value: BN, divisor: BN): string {
@@ -78,8 +78,11 @@ export abstract class AbstractInt extends BN implements Codec {
     this.#bitLength = bitLength;
     this.#isSigned = isSigned;
 
-    assert(isSigned || this.gte(BN_ZERO), `${this.toRawType()}: Negative number passed to unsigned type`);
-    assert(super.bitLength() <= bitLength, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${bitLength}`);
+    const isPositive = this.gte(BN_ZERO);
+    const maxBits = bitLength - (isSigned && isPositive ? 1 : 0);
+
+    assert(isSigned || isPositive, `${this.toRawType()}: Negative number passed to unsigned type`);
+    assert(super.bitLength() <= maxBits, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
   }
 
   /**
@@ -92,7 +95,7 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 
@@ -143,7 +146,7 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns a BigInt representation of the number
    */
-  public toBigInt (): BigInt {
+  public toBigInt (): bigint {
     return BigInt(this.toString());
   }
 
@@ -176,7 +179,9 @@ export abstract class AbstractInt extends BN implements Codec {
     if (rawType === 'Balance') {
       return this.isMax()
         ? 'everything'
-        : formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken });
+        // FIXME In the case of multiples we need some way of detecting which instance this belongs
+        // to. as it stands we will always format (incorrectly) against the first token defined
+        : formatBalance(this, { decimals: this.registry.chainDecimals[0], withSi: true, withUnit: this.registry.chainTokens[0] });
     }
 
     const [, divisor] = FORMATTERS.find(([type]) => type === rawType) || [];

@@ -3,8 +3,9 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { ExtDef } from '../extrinsic/signedExtensions/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule } from '../interfaces/types';
+import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 // we are attempting to avoid circular refs, hence the Metadata path import
 import { decorateConstants, decorateExtrinsics } from '@polkadot/metadata/decorate';
@@ -38,8 +39,9 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
       const eventIndex = new Uint8Array([sectionIndex, index]);
 
       metadataErrors[u8aToHex(eventIndex)] = {
-        documentation: documentation.map((d): string => d.toString()),
+        documentation: documentation.map((d) => d.toString()),
         index,
+        method: name.toString(),
         name: name.toString(),
         section: sectionName
       };
@@ -102,10 +104,9 @@ function extractProperties (registry: Registry, metadata: Metadata): ChainProper
     return original;
   }
 
-  return registry.createType('ChainProperties', {
-    ...(original || {}),
-    ss58Format
-  });
+  const { tokenDecimals, tokenSymbol } = original || {};
+
+  return registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
 }
 
 export class TypeRegistry implements Registry {
@@ -133,6 +134,8 @@ export class TypeRegistry implements Registry {
 
   #signedExtensions: string[] = defaultExtensions;
 
+  #userExtensions?: ExtDef;
+
   constructor () {
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
@@ -156,10 +159,16 @@ export class TypeRegistry implements Registry {
     return this;
   }
 
-  public get chainDecimals (): number {
-    return this.#chainProperties?.tokenDecimals.isSome
-      ? this.#chainProperties.tokenDecimals.unwrap().toNumber()
-      : 12;
+  public get chainDecimals (): number[] {
+    if (this.#chainProperties?.tokenDecimals.isSome) {
+      const allDecimals = this.#chainProperties.tokenDecimals.unwrap();
+
+      if (allDecimals.length) {
+        return allDecimals.map((b) => b.toNumber());
+      }
+    }
+
+    return [12];
   }
 
   public get chainSS58 (): number | undefined {
@@ -168,10 +177,16 @@ export class TypeRegistry implements Registry {
       : undefined;
   }
 
-  public get chainToken (): string {
-    return this.#chainProperties?.tokenSymbol.isSome
-      ? this.#chainProperties.tokenSymbol.unwrap().toString()
-      : formatBalance.getDefaults().unit;
+  public get chainTokens (): string[] {
+    if (this.#chainProperties?.tokenSymbol.isSome) {
+      const allTokens = this.#chainProperties.tokenSymbol.unwrap();
+
+      if (allTokens.length) {
+        return allTokens.map((s) => s.toString());
+      }
+    }
+
+    return [formatBalance.getDefaults().unit];
   }
 
   public get knownTypes (): RegisteredTypes {
@@ -264,8 +279,12 @@ export class TypeRegistry implements Registry {
       : undefined;
   }
 
-  public getDefinition (name: string): string | undefined {
-    return this.#definitions.get(name);
+  public getDefinition (typeName: string): string | undefined {
+    return this.#definitions.get(typeName);
+  }
+
+  public getModuleInstances (specName: string, moduleName: string): string[] | undefined {
+    return this.#knownTypes?.typesBundle?.spec?.[specName]?.instances?.[moduleName];
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
@@ -277,11 +296,11 @@ export class TypeRegistry implements Registry {
   }
 
   public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
-    return expandExtensionTypes(this.#signedExtensions, 'extra');
+    return expandExtensionTypes(this.#signedExtensions, 'payload', this.#userExtensions);
   }
 
   public getSignedExtensionTypes (): Record<string, keyof InterfaceTypes> {
-    return expandExtensionTypes(this.#signedExtensions, 'types');
+    return expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
   }
 
   public hasClass (name: string): boolean {
@@ -296,8 +315,8 @@ export class TypeRegistry implements Registry {
     return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
-  public hash (data: Uint8Array): H256 {
-    return this.createType('H256', this.#hasher(data));
+  public hash (data: Uint8Array): CodecHash {
+    return this.createType('CodecHash', this.#hasher(data));
   }
 
   public register (type: Constructor | RegistryTypes): void;
@@ -312,6 +331,7 @@ export class TypeRegistry implements Registry {
       this.#classes.set(arg1.name, arg1);
     } else if (isString(arg1)) {
       assert(isFunction(arg2), `Expected class definition passed to '${arg1}' registration`);
+      assert(arg1 !== arg2.toString(), `Unable to register circular ${arg1} === ${arg1}`);
 
       this.#classes.set(arg1, arg2);
     } else {
@@ -328,6 +348,8 @@ export class TypeRegistry implements Registry {
         const def = isString(type)
           ? type
           : JSON.stringify(type);
+
+        assert(name !== def, `Unable to register circular ${name} === ${def}`);
 
         // we already have this type, remove the classes registered for it
         if (this.#classes.has(name)) {
@@ -346,8 +368,8 @@ export class TypeRegistry implements Registry {
     }
   }
 
-  setHasher (hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a): void {
-    this.#hasher = hasher;
+  setHasher (hasher?: CodecHasher | null): void {
+    this.#hasher = hasher || blake2AsU8a;
   }
 
   setKnownTypes (knownTypes: RegisteredTypes): void {
@@ -355,7 +377,7 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the metadata
-  public setMetadata (metadata: Metadata, signedExtensions?: string[]): void {
+  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     injectExtrinsics(this, metadata, this.#metadataCalls);
     injectErrors(this, metadata, this.#metadataErrors);
     injectEvents(this, metadata, this.#metadataEvents);
@@ -366,7 +388,8 @@ export class TypeRegistry implements Registry {
         metadata.asLatest.extrinsic.version.gt(BN_ZERO)
           ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
           : defaultExtensions
-      )
+      ),
+      userExtensions
     );
 
     // setup the chain properties with format overrides
@@ -376,10 +399,11 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[] = defaultExtensions): void {
+  setSignedExtensions (signedExtensions: string[] = defaultExtensions, userExtensions?: ExtDef): void {
     this.#signedExtensions = signedExtensions;
+    this.#userExtensions = userExtensions;
 
-    const unknown = findUnknownExtensions(this.#signedExtensions);
+    const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
 
     if (unknown.length) {
       l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);

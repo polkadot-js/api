@@ -35,19 +35,19 @@ export type QueryableStorageEntry<ApiType extends ApiTypes, A extends AnyTuple =
     // eslint-disable-next-line no-use-before-define
     : AugmentedQuery<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloads;
 
-export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple> {
+export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> {
   at: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
   creator: StorageEntry;
-  entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey, T][]>;
-  entriesAt: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(hash: Hash | Uint8Array | string, arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey, T][]>;
-  entriesPaged: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey, T][]>;
+  entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entriesAt: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(hash: Hash | Uint8Array | string, arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entriesPaged: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
   key: (...args: Parameters<F>) => string;
   keyPrefix: () => string;
-  keys: (arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
-  keysAt: (hash: Hash | Uint8Array | string, arg?: any) => PromiseOrObs<ApiType, StorageKey[]>;
-  keysPaged: (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey[]>;
+  keys: <K extends AnyTuple = A> (arg?: any) => PromiseOrObs<ApiType, StorageKey<K>[]>;
+  keysAt: <K extends AnyTuple = A> (hash: Hash | Uint8Array | string, arg?: any) => PromiseOrObs<ApiType, StorageKey<K>[]>;
+  keysPaged: <K extends AnyTuple = A> (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
   // @deprecated The underlying RPC this been marked unsafe and is generally not exposed
   range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;

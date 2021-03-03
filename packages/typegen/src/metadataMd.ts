@@ -275,6 +275,7 @@ function addEvents (metadata: MetadataLatest): string {
             const args = func.args.map((type): string => '`' + type.toString() + '`').join(', ');
 
             return {
+              interface: '`' + `api.events.${stringCamelCase(meta.name)}.${methodName}.is` + '`',
               name: `${methodName}(${args})`,
               ...(func.documentation.length && { summary: func.documentation })
             };
@@ -296,6 +297,7 @@ function addErrors (metadata: MetadataLatest): string {
         items: moduleMetadata.errors
           .sort(sortByName)
           .map((error) => ({
+            interface: '`' + `api.errors.${stringCamelCase(moduleMetadata.name)}.${error.name.toString()}.is` + '`',
             name: error.name.toString(),
             ...(error.documentation.length && { summary: error.documentation })
           })),

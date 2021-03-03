@@ -1,10 +1,13 @@
 // Copyright 2017-2021 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import './detectPackage';
+
 import type BN from 'bn.js';
 import type { Text } from '@polkadot/types';
+import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { ChainUpgradeVersion, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 
 import { bnToBn, isUndefined } from '@polkadot/util';
 
@@ -12,6 +15,8 @@ import typesChain from './chain';
 import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
+
+export { packageInfo } from './packageInfo';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
@@ -38,6 +43,19 @@ export function getModuleTypes ({ knownTypes }: Registry, section: string): Over
 }
 
 /**
+ * @description Based on the chain and runtimeVersion, get the applicable signed extensions (ready for registration)
+ */
+export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): ExtDef {
+  const _chainName = chainName.toString();
+  const _specName = specName.toString();
+
+  return {
+    ...(knownTypes.typesBundle?.spec?.[_specName]?.signedExtensions || {}),
+    ...(knownTypes.typesBundle?.chain?.[_chainName]?.signedExtensions || {})
+  };
+}
+
+/**
  * @description Based on the chain and runtimeVersion, get the applicable types (ready for registration)
  */
 export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: BigInt | BN | number): RegistryTypes {
@@ -58,6 +76,13 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
     ...(knownTypes.typesChain?.[_chainName] || {}),
     ...(knownTypes.types || {})
   };
+}
+
+export function getSpecHasher ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): CodecHasher | null {
+  const _chainName = chainName.toString();
+  const _specName = specName.toString();
+
+  return knownTypes.hasher || knownTypes.typesBundle?.chain?.[_chainName]?.hasher || knownTypes.typesBundle?.spec?.[_specName]?.hasher || null;
 }
 
 /**

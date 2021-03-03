@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { H256 } from '../interfaces';
+import type { CodecHash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -15,44 +15,86 @@ export interface EnumConstructor<T = Codec> {
   new(registry: Registry, value?: any, index?: number): T;
 }
 
-type TypesDef = Record<string, Constructor>;
+interface EntryDef {
+  Type: Constructor;
+  index: number;
+}
+
+type TypesDef = Record<string, EntryDef>;
 
 interface Decoded {
   index: number;
   value: Codec;
 }
 
-function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
-  if (!Array.isArray(_def)) {
-    const def = mapToTypeMap(registry, _def);
-    const isBasic = !Object.values(def).some((type) => type !== Null);
+function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number>): def is Record<string, keyof InterfaceTypes | Constructor> {
+  const defValues = Object.values(def);
 
+  if (defValues.some((v) => isNumber(v))) {
+    assert(defValues.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Invalid number-indexed enum definition');
+
+    return false;
+  }
+
+  return true;
+}
+
+function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
+  if (Array.isArray(_def)) {
     return {
-      def,
-      isBasic
+      def: _def.reduce((def: TypesDef, key, index): TypesDef => {
+        def[key] = { Type: Null, index };
+
+        return def;
+      }, {}),
+      isBasic: true,
+      isIndexed: false
     };
   }
 
-  return {
-    def: _def.reduce((def, key): TypesDef => {
-      def[key] = Null;
+  let isBasic: boolean;
+  let isIndexed: boolean;
+  let def: TypesDef;
 
-      return def;
-    }, {} as TypesDef),
-    isBasic: true
+  if (isRustEnum(_def)) {
+    def = Object
+      .entries(mapToTypeMap(registry, _def))
+      .reduce((def: TypesDef, [key, Type], index): TypesDef => {
+        def[key] = { Type, index };
+
+        return def;
+      }, {});
+    isBasic = !Object.values(def).some(({ Type }) => Type !== Null);
+    isIndexed = false;
+  } else {
+    def = Object
+      .entries(_def)
+      .reduce((def: TypesDef, [key, index]): TypesDef => {
+        def[key] = { Type: Null, index };
+
+        return def;
+      }, {});
+    isBasic = true;
+    isIndexed = true;
+  }
+
+  return {
+    def,
+    isBasic,
+    isIndexed
   };
 }
 
 function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: any): Decoded {
-  const Clazz = Object.values(def)[index];
+  const entry = Object.values(def).find((e) => e.index === index);
 
-  assert(!isUndefined(Clazz), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
+  assert(!isUndefined(entry), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
 
   return {
     index,
-    value: value instanceof Clazz
+    value: value instanceof entry.Type
       ? value
-      : new Clazz(registry, value)
+      : new entry.Type(registry, value)
   };
 }
 
@@ -66,7 +108,7 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
   assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
   try {
-    return createFromValue(registry, def, index, value);
+    return createFromValue(registry, def, Object.values(def)[index].index, value);
   } catch (error) {
     throw new Error(`Enum(${key}):: ${(error as Error).message}`);
   }
@@ -81,7 +123,10 @@ function decodeFromString (registry: Registry, def: TypesDef, value: string): De
 
 function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decoded {
   if (isU8a(value)) {
-    return createFromValue(registry, def, value[0], value.subarray(1));
+    // nested, we don't want to match isObject below
+    if (value.length) {
+      return createFromValue(registry, def, value[0], value.subarray(1));
+    }
   } else if (isNumber(value)) {
     return createFromValue(registry, def, value);
   } else if (isString(value)) {
@@ -93,7 +138,7 @@ function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decod
   }
 
   // Worst-case scenario, return the first with default
-  return createFromValue(registry, def, 0);
+  return createFromValue(registry, def, Object.values(def)[0].index);
 }
 
 function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
@@ -106,7 +151,6 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
     return createFromValue(registry, def, value.index, value.value);
   }
 
-  // Or else, we just look at `value`
   return decodeFromValue(registry, def, value);
 }
 
@@ -124,27 +168,30 @@ export class Enum implements Codec {
 
   readonly #def: TypesDef;
 
-  readonly #index: number;
+  readonly #entryIndex: number;
 
   readonly #indexes: number[];
 
   readonly #isBasic: boolean;
 
+  readonly #isIndexed: boolean;
+
   readonly #raw: Codec;
 
-  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | string[], value?: unknown, index?: number) {
+  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
     const defInfo = extractDef(registry, def);
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
     this.registry = registry;
     this.#def = defInfo.def;
     this.#isBasic = defInfo.isBasic;
-    this.#indexes = Object.keys(defInfo.def).map((_, index) => index);
-    this.#index = this.#indexes.indexOf(decoded.index) || 0;
+    this.#isIndexed = defInfo.isIndexed;
+    this.#indexes = Object.values(defInfo.def).map(({ index }) => index);
+    this.#entryIndex = this.#indexes.indexOf(decoded.index) || 0;
     this.#raw = decoded.value;
   }
 
-  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
@@ -184,15 +231,15 @@ export class Enum implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): H256 {
+  public get hash (): CodecHash {
     return this.registry.hash(this.toU8a());
   }
 
   /**
-   * @description The index of the metadata value
+   * @description The index of the enum value
    */
   public get index (): number {
-    return this.#index;
+    return this.#indexes[this.#entryIndex];
   }
 
   /**
@@ -226,8 +273,8 @@ export class Enum implements Codec {
   /**
    * @description The available keys for this enum
    */
-  public get defEntries (): string[] {
-    return Object.keys(this.#def);
+  public get defIndexes (): number[] {
+    return this.#indexes;
   }
 
   /**
@@ -241,7 +288,7 @@ export class Enum implements Codec {
    * @description The name of the type this enum value represents
    */
   public get type (): string {
-    return this.defKeys[this.#index];
+    return this.defKeys[this.#entryIndex];
   }
 
   /**
@@ -303,16 +350,32 @@ export class Enum implements Codec {
    * @description Returns the number representation for the value
    */
   public toNumber (): number {
-    return this.#index;
+    return this.index;
   }
 
   /**
    * @description Returns a raw struct representation of the enum types
    */
-  protected _toRawStruct (): string[] | Record<string, string> {
-    return this.#isBasic
-      ? this.defKeys
-      : Struct.typesToMap(this.registry, this.#def);
+  protected _toRawStruct (): string[] | Record<string, string | number> {
+    if (this.#isBasic) {
+      return this.#isIndexed
+        ? this.defKeys.reduce((out: Record<string, number>, key, index): Record<string, number> => {
+          out[key] = this.#indexes[index];
+
+          return out;
+        }, {})
+        : this.defKeys;
+    }
+
+    const typeMap = Object
+      .entries(this.#def)
+      .reduce((out: Record<string, Constructor>, [key, { Type }]) => {
+        out[key] = Type;
+
+        return out;
+      }, {});
+
+    return Struct.typesToMap(this.registry, typeMap);
   }
 
   /**
@@ -337,7 +400,7 @@ export class Enum implements Codec {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      new Uint8Array(isBare ? [] : [this.#indexes[this.#index]]),
+      new Uint8Array(isBare ? [] : [this.index]),
       this.#raw.toU8a(isBare)
     );
   }

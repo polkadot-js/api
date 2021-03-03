@@ -13,9 +13,7 @@ export * from './parachains/types';
 export * from './session/types';
 export * from './staking/types';
 
-export interface DeriveBalancesAccount {
-  accountId: AccountId;
-  accountNonce: Index;
+export interface DeriveBalancesAccountData {
   freeBalance: Balance;
   frozenFee: Balance;
   frozenMisc: Balance;
@@ -23,16 +21,25 @@ export interface DeriveBalancesAccount {
   votingBalance: Balance;
 }
 
-export interface DeriveBalancesAll extends DeriveBalancesAccount {
-  isVesting: boolean;
+export interface DeriveBalancesAccount extends DeriveBalancesAccountData {
+  accountId: AccountId;
+  accountNonce: Index;
+  additional: DeriveBalancesAccountData[];
+}
+
+export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData {
+  availableBalance: Balance;
   lockedBalance: Balance;
   lockedBreakdown: (BalanceLock | BalanceLockTo212)[];
-  availableBalance: Balance;
-  votingBalance: Balance;
+  vestingLocked: Balance;
+}
+
+export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData {
+  additional: DeriveBalancesAllAccountData[];
+  isVesting: boolean;
   vestedBalance: Balance;
   vestedClaimable: Balance;
   vestingEndBlock: BlockNumber;
-  vestingLocked: Balance;
   vestingPerBlock: Balance;
   vestingTotal: Balance;
 }

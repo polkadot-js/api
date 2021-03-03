@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
+import type { Bytes, Compact, Enum, GenericChainProperties, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { AccountData } from '@polkadot/types/interfaces/balances';
 import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
@@ -26,25 +26,30 @@ export interface AccountInfoWithRefCount extends Struct {
 
 /** @name ApplyExtrinsicResult */
 export interface ApplyExtrinsicResult extends Result<DispatchOutcome, TransactionValidityError> {
+  readonly isErr: boolean;
+  readonly asErr: TransactionValidityError;
+  /** @deprecated Use isErr */
   readonly isError: boolean;
+  /** @deprecated Use asErr */
   readonly asError: TransactionValidityError;
   readonly isOk: boolean;
   readonly asOk: DispatchOutcome;
+}
+
+/** @name BlockLength */
+export interface BlockLength extends Struct {
+  readonly max: PerDispatchClassU32;
 }
 
 /** @name BlockWeights */
 export interface BlockWeights extends Struct {
   readonly baseBlock: Weight;
   readonly maxBlock: Weight;
-  readonly perClass: PerDispatchClass;
+  readonly perClass: PerDispatchClassWeightsPerClass;
 }
 
 /** @name ChainProperties */
-export interface ChainProperties extends Struct {
-  readonly ss58Format: Option<u8>;
-  readonly tokenDecimals: Option<u32>;
-  readonly tokenSymbol: Option<Text>;
-}
+export interface ChainProperties extends GenericChainProperties {}
 
 /** @name ChainType */
 export interface ChainType extends Enum {
@@ -56,7 +61,7 @@ export interface ChainType extends Enum {
 }
 
 /** @name ConsumedWeight */
-export interface ConsumedWeight extends PerDispatchClass {}
+export interface ConsumedWeight extends PerDispatchClassWeight {}
 
 /** @name DigestOf */
 export interface DigestOf extends Digest {}
@@ -111,7 +116,11 @@ export interface DispatchInfoTo244 extends Struct {
 
 /** @name DispatchOutcome */
 export interface DispatchOutcome extends Result<ITuple<[]>, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  /** @deprecated Use isErr */
   readonly isError: boolean;
+  /** @deprecated Use asErr */
   readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;
@@ -119,7 +128,11 @@ export interface DispatchOutcome extends Result<ITuple<[]>, DispatchError> {
 
 /** @name DispatchResult */
 export interface DispatchResult extends Result<ITuple<[]>, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  /** @deprecated Use isErr */
   readonly isError: boolean;
+  /** @deprecated Use asErr */
   readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;
@@ -130,7 +143,11 @@ export interface DispatchResultOf extends DispatchResult {}
 
 /** @name DispatchResultTo198 */
 export interface DispatchResultTo198 extends Result<ITuple<[]>, Text> {
+  readonly isErr: boolean;
+  readonly asErr: Text;
+  /** @deprecated Use isErr */
   readonly isError: boolean;
+  /** @deprecated Use asErr */
   readonly asError: Text;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;
@@ -259,8 +276,22 @@ export interface PeerPing extends Struct {
   readonly secs: u64;
 }
 
-/** @name PerDispatchClass */
-export interface PerDispatchClass extends Struct {
+/** @name PerDispatchClassU32 */
+export interface PerDispatchClassU32 extends Struct {
+  readonly normal: u32;
+  readonly operational: u32;
+  readonly mandatory: u32;
+}
+
+/** @name PerDispatchClassWeight */
+export interface PerDispatchClassWeight extends Struct {
+  readonly normal: Weight;
+  readonly operational: Weight;
+  readonly mandatory: Weight;
+}
+
+/** @name PerDispatchClassWeightsPerClass */
+export interface PerDispatchClassWeightsPerClass extends Struct {
   readonly normal: WeightPerClass;
   readonly operational: WeightPerClass;
   readonly mandatory: WeightPerClass;
