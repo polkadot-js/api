@@ -51,7 +51,7 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
 
 export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
   return memo(instanceId, (): Observable<DeriveProposal[]> =>
-    api.query.democracy?.publicProps && api.query.democracy?.preimages
+    isFunction(api.query.democracy?.publicProps) && isFunction(api.query.democracy?.preimages)
       ? api.query.democracy.publicProps<Proposals>().pipe(
         switchMap((proposals) =>
           combineLatest([

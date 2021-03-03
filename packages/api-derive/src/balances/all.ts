@@ -9,7 +9,7 @@ import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAl
 
 import BN from 'bn.js';
 
-import { bnMax } from '@polkadot/util';
+import { bnMax, isFunction } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
@@ -175,7 +175,7 @@ export function all (instanceId: string, api: ApiInterfaceRx): (address: Account
           ? combineLatest([
             of(account),
             api.derive.chain.bestNumber(),
-            api.query.system?.account || api.query.balances?.account
+            isFunction(api.query.system?.account) || isFunction(api.query.balances?.account)
               ? queryCurrent(api, account.accountId, balanceInstances)
               : queryOld(api, account.accountId)
           ])
