@@ -16,20 +16,20 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
-    "@babel/runtime": "^7.13.8",
+    "@babel/runtime": "^7.13.9",
     "@polkadot/types": "4.0.1-3",
-    "@polkadot/util": "^6.0.1-4",
-    "@polkadot/util-crypto": "^6.0.1-4",
-    "@polkadot/x-fetch": "^6.0.1-4",
-    "@polkadot/x-global": "^6.0.1-4",
-    "@polkadot/x-ws": "^6.0.1-4",
+    "@polkadot/util": "^6.0.1-5",
+    "@polkadot/util-crypto": "^6.0.1-5",
+    "@polkadot/x-fetch": "^6.0.1-5",
+    "@polkadot/x-global": "^6.0.1-5",
+    "@polkadot/x-ws": "^6.0.1-5",
     "bn.js": "^4.11.9",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.0.1-4",
+    "@polkadot/keyring": "^6.0.1-5",
     "@polkadot/metadata": "4.0.1-3",
     "mock-socket": "^9.0.3",
-    "nock": "^13.0.9"
+    "nock": "^13.0.10"
   }
 }
