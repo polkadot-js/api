@@ -10,25 +10,32 @@ import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, take } from '@polkadot/x-rxjs/operators';
 
 // the order and types needs to map with the all array setup below
-type Extracted = [bool | null, bool | null, Releases | null];
+type Extracted = [bool | null, bool | null, bool | null, Releases | null];
 
 type DetectedKeys = keyof Pick<InterfaceTypes, 'AccountInfo' | 'ValidatorPrefs'>;
 
 type DetectedValues = keyof InterfaceTypes;
 
 interface DetectedTypes extends Record<DetectedKeys, DetectedValues> {
-  AccountInfo: 'AccountInfoWithRefCount' | 'AccountInfoWithProviders',
+  AccountInfo: 'AccountInfoWithRefCount' | 'AccountInfoWithDualRefCount' | 'AccountInfoWithTripleRefCount',
+  RefCount: 'u8' | 'u32',
   ValidatorPrefs: 'ValidatorPrefsWithBlocked' | 'ValidatorPrefsWithCommission';
 }
 
-function mapCapabilities ([systemRefcount32, systemRefcountDual, stakingVersion]: Extracted): Partial<DetectedTypes> {
+function mapCapabilities ([systemRefcount32, systemRefcountDual, systemRefcountTriple, stakingVersion]: Extracted): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
-  if (systemRefcountDual && systemRefcountDual.isTrue) {
-    types.AccountInfo = 'AccountInfoWithProviders';
-  } else if (systemRefcount32 && systemRefcount32.isTrue) {
+  if (systemRefcountTriple && systemRefcountTriple.isTrue) {
+    types.AccountInfo = 'AccountInfoWithTripleRefCount';
+  } else if (systemRefcountDual && systemRefcountDual.isTrue) {
+    types.AccountInfo = 'AccountInfoWithDualRefCount';
+  } else {
     types.AccountInfo = 'AccountInfoWithRefCount';
+
+    if (!systemRefcount32 || systemRefcount32.isFalse) {
+      types.RefCount = 'u8';
+    }
   }
 
   // ValidatorPrefs
@@ -50,6 +57,7 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
   const all = [
     api.query.system?.upgradedToU32RefCount,
     api.query.system?.upgradedToDualRefCount,
+    api.query.system?.upgradedToTripleRefCount,
     api.query.staking?.storageVersion
   ];
   const included = all.map((c) => !!c);

@@ -9,18 +9,30 @@ import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '
 /** @name AccountInfo */
 export interface AccountInfo extends AccountInfoWithRefCount {}
 
-/** @name AccountInfoWithProviders */
-export interface AccountInfoWithProviders extends Struct {
+/** @name AccountInfoWithDualRefCount */
+export interface AccountInfoWithDualRefCount extends Struct {
   readonly nonce: Index;
   readonly consumers: RefCount;
   readonly providers: RefCount;
   readonly data: AccountData;
 }
 
+/** @name AccountInfoWithProviders */
+export interface AccountInfoWithProviders extends AccountInfoWithDualRefCount {}
+
 /** @name AccountInfoWithRefCount */
 export interface AccountInfoWithRefCount extends Struct {
   readonly nonce: Index;
   readonly refcount: RefCount;
+  readonly data: AccountData;
+}
+
+/** @name AccountInfoWithTripleRefCount */
+export interface AccountInfoWithTripleRefCount extends Struct {
+  readonly nonce: Index;
+  readonly consumers: RefCount;
+  readonly providers: RefCount;
+  readonly sufficients: RefCount;
   readonly data: AccountData;
 }
 

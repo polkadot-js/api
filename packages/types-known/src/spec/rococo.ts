@@ -9,7 +9,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 /* eslint-disable sort-keys */
 
 const sharedTypes = {
-  AccountInfo: 'AccountInfoWithProviders',
+  AccountInfo: 'AccountInfoWithDualRefCount',
   Address: 'MultiAddress',
   FullIdentification: '()', // No staking, only session (as per config)
   LookupSource: 'MultiAddress',
