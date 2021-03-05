@@ -98,7 +98,7 @@ export interface Registry {
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
   readonly knownTypes: RegisteredTypes;
-  readonly unknownTypes: Map<string, boolean>;
+  readonly unknownTypes: string[];
   readonly signedExtensions: string[];
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
