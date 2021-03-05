@@ -126,7 +126,10 @@ export default {
       license: 'Option<Text>'
     },
     ContractProjectSource: {
-      hash: '[u8; 32]',
+      _alias: {
+        wasmHash: 'hash'
+      },
+      wasmHash: '[u8; 32]',
       language: 'Text',
       compiler: 'Text',
       wasm: 'Raw'
