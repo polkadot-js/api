@@ -53,11 +53,12 @@ const phragmen = {
   },
   CompactScore: '(ValidatorIndex, OffchainAccuracy)',
   CompactScoreCompact: '(ValidatorIndexCompact, OffchainAccuracyCompact)',
-  ElectionCompute: {
+  StakingElectionCompute: { // will be deprecated soon.
     _enum: ['OnChain', 'Signed', 'Authority']
   },
+
   ElectionResult: {
-    compute: 'ElectionCompute',
+    compute: 'StakingElectionCompute',
     slotStake: 'Balance',
     electedStashes: 'Vec<AccountId>',
     exposures: 'Vec<(AccountId, Exposure)>'
@@ -74,6 +75,9 @@ const phragmen = {
     }
   },
   ExtendedBalance: 'u128',
+  ElectionCompute: {
+    _enum: ['OnChain', 'Signed', 'Unsigned']
+  },
   RawSolution: {
     compact: 'CompactAssignments',
     score: 'ElectionScore',
@@ -107,7 +111,14 @@ const phragmen = {
     stake: 'Balance',
     deposit: 'Balance'
   },
-  VoteWeight: 'u64'
+  VoteWeight: 'u64',
+  Phase: {
+    _enum: {
+      Off: null,
+      Signed: null,
+      Unsigned: '(bool, BlockNumber)'
+    }
+  }
 };
 
 export default {
