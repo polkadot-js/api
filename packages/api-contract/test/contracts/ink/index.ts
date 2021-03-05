@@ -6,5 +6,6 @@ export { default as dns } from './dns.json';
 export { default as erc20 } from './erc20.json';
 export { default as erc721 } from './erc721.json';
 export { default as flipper } from './flipper.json';
+export { default as flipperBundle } from './flipper.contract.json';
 export { default as incrementer } from './incrementer.json';
 export { default as multisigPlain } from './multisig_plain.json';
