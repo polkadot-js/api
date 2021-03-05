@@ -193,6 +193,10 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes;
   }
 
+  public get unknownTypes (): string[] {
+    return [...this.#unknownTypes.keys()];
+  }
+
   public get signedExtensions (): string[] {
     return this.#signedExtensions;
   }
