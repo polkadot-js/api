@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
-import type { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Codec, Constructor, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -26,35 +26,40 @@ export interface SignerPayloadType extends Codec {
   version: u8;
 }
 
-// We explicitly cast the type here to get the actual TypeScript exports right
-// We can ignore the properties, added via Struct.with
-const _Payload = Struct.with({
-  address: 'Address',
-  blockHash: 'Hash',
-  blockNumber: 'BlockNumber',
-  era: 'ExtrinsicEra',
-  genesisHash: 'Hash',
-  method: 'Call',
-  nonce: 'Compact<Index>',
-  runtimeVersion: 'RuntimeVersion',
-  signedExtensions: 'Vec<Text>',
-  tip: 'Compact<Balance>',
-  version: 'u8'
-}) as unknown as Constructor<SignerPayloadType>;
-
 /**
  * @name GenericSignerPayload
  * @description
  * A generic signer payload that can be used for serialization between API and signer
  */
-export class GenericSignerPayload extends _Payload implements ISignerPayload {
+class _GenericSignerPayload extends Struct implements ISignerPayload {
+  constructor (registry: Registry, value?: string | { [x: string]: any; } | Map<unknown, unknown> | unknown[]) {
+    super(registry, {
+      ...registry.getSignedExtensionTypes(),
+      ...registry.getSignedExtensionExtra(),
+      address: 'Address',
+      blockHash: 'Hash',
+      blockNumber: 'BlockNumber',
+      era: 'ExtrinsicEra',
+      genesisHash: 'Hash',
+      method: 'Call',
+      nonce: 'Compact<Index>',
+      runtimeVersion: 'RuntimeVersion',
+      signedExtensions: 'Vec<Text>',
+      tip: 'Compact<Balance>',
+      version: 'u8'
+    }, value);
+  }
+
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion, transactionVersion }, signedExtensions, tip, version } = this;
+    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion, transactionVersion }, signedExtensions, tip, version } = this as unknown as SignerPayloadType;
 
     return {
+      // add any explicit overrides we may have
+      ...this.toJSON(),
+      // the know defaults as managed explicitly
       address: address.toString(),
       blockHash: blockHash.toHex(),
       blockNumber: blockNumber.toHex(),
@@ -75,8 +80,12 @@ export class GenericSignerPayload extends _Payload implements ISignerPayload {
    */
   public toRaw (): SignerPayloadRaw {
     const payload = this.toPayload();
-    // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
-    const data = u8aToHex(this.registry.createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a({ method: true }));
+    const data = u8aToHex(
+      this.registry
+        .createType('ExtrinsicPayload', payload, { version: payload.version })
+        // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
+        .toU8a({ method: true })
+    );
 
     return {
       address: payload.address,
@@ -85,3 +94,5 @@ export class GenericSignerPayload extends _Payload implements ISignerPayload {
     };
   }
 }
+
+export const GenericSignerPayload = _GenericSignerPayload as unknown as Constructor<SignerPayloadType>;
