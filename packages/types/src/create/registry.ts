@@ -192,6 +192,10 @@ export class TypeRegistry implements Registry {
   public get knownTypes (): RegisteredTypes {
     return this.#knownTypes;
   }
+  
+  public get unknownTypes (): Map<string, boolean> {
+    return this.#unknownTypes;
+  }
 
   public get signedExtensions (): string[] {
     return this.#signedExtensions;
