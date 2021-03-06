@@ -115,7 +115,7 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
         // @ts-ignore
         const [accountId, value]: [AccountId, Balance] = event.data;
 
-        console.log(hash.toHex(),`${accountId.toString()} has ${value.toHuman()}`);
+        console.log(hash.toHex(), `${accountId.toString()} has ${value.toHuman()}`);
       }
     });
   });
