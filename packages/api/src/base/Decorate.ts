@@ -318,7 +318,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       return this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage(args)
         : this._rpcCore.state.queryStorageAt(args);
-    });
+    }, { isStorageSub: true });
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
@@ -423,8 +423,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     if (this.supportMulti) {
       // When using double map storage function, user need to pass double map key as an array
-      decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
-        this._retrieveMulti(args.map((arg) => [creator, arg])));
+      decorated.multi = decorateMethod(
+        (args: (Arg | Arg[])[]): Observable<[Hash, Codec[]]> =>
+          this._retrieveMulti(args.map((arg) => [creator, arg])),
+        { isStorageSub: true }
+      );
     }
 
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -443,6 +446,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         )
         : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));
     }, {
+      isStorageSub: true,
       methodName: creator.method,
       overrideNoSub: (...args: unknown[]) => this._rpcCore.state.getStorage(extractStorageArgs(creator, args))
     });
@@ -462,21 +466,34 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE sizes
-  private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<Codec[]> {
+  private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<[Hash, Codec[]]> {
+    const emptyHash = this.createType('Hash');
+
     if (!keys.length) {
-      return of([]);
+      return of([emptyHash, []]);
     }
 
     return combineLatest(
       arrayChunk(keys, PAGE_SIZE).map((keys) =>
         this.hasSubscriptions
-          ? this._rpcCore.state.subscribeStorage(keys).pipe(
-            map(([, values]) => values)
-          )
-          : this._rpcCore.state.queryStorageAt(keys)
+          ? this._rpcCore.state.subscribeStorage(keys)
+          : combineLatest([
+            of(emptyHash),
+            this._rpcCore.state.queryStorageAt(keys)
+          ])
       )
     ).pipe(
-      map((valsArr): Codec[] => arrayFlatten(valsArr))
+      map((results): [Hash, Codec[]] => {
+        const values: Codec[][] = [];
+        let hash = emptyHash;
+
+        for (let i = 0; i < results.length; i++) {
+          hash = results[i][0];
+          values.push(results[i][1]);
+        }
+
+        return [hash, arrayFlatten(values)];
+      })
     );
   }
 

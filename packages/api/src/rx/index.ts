@@ -6,19 +6,20 @@ import type { Codec } from '@polkadot/types/types';
 import type { ApiOptions, DecorateFn, DecorateMethodOptions } from '../types';
 
 import { from, Observable } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, tap } from '@polkadot/x-rxjs/operators';
 
 import { ApiBase } from '../base';
 
 function decorateStorageSub (method: DecorateFn<Codec>): DecorateFn<Codec> {
   return (...args: any[]) =>
     (method(...args) as unknown as Observable<[Hash, Codec]>).pipe(
+      tap((result) => console.error(JSON.stringify(result))),
       map(([, value]) => value)
     );
 }
 
-export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method, options?: DecorateMethodOptions): Method {
-  return options && options.methodName && options.methodName === 'subscribeStorage'
+export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method, options: DecorateMethodOptions = {}): Method {
+  return options.isStorageSub
     ? decorateStorageSub(method) as Method
     : method;
 }

@@ -69,6 +69,7 @@ export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction, E = un
 // In the abstract `decorateMethod` in Base.ts, we can also pass in some meta-
 // information. This describes it.
 export interface DecorateMethodOptions {
+  isStorageSub?: boolean;
   methodName?: string;
   overrideNoSub?: (...args: unknown[]) => Observable<Codec>;
 }

@@ -102,16 +102,15 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
-  const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
-  const isStorageSub = options && options.methodName && options.methodName === 'subscribeStorage';
+export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, options: DecorateMethodOptions = {}): StorageEntryPromiseOverloads {
+  const needsCallback = !!(options.methodName && options.methodName.includes('subscribe'));
 
   return function (...args: unknown[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
-    const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
+    const [actualArgs, resultCb] = extractArgs(args, needsCallback);
 
     return resultCb
-      ? decorateSubscribe(method, actualArgs, resultCb, !!isStorageSub)
-      : decorateCall((options?.overrideNoSub as Method) || method, actualArgs);
+      ? decorateSubscribe(method, actualArgs, resultCb, options.isStorageSub)
+      : decorateCall((options.overrideNoSub as Method) || method, actualArgs);
   } as StorageEntryPromiseOverloads;
 }
 
