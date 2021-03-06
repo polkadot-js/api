@@ -19,6 +19,7 @@ import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { Decorate } from './Decorate';
+import { rxDecorateMethod } from './decorateMethod';
 import { detectedCapabilities } from './util';
 
 const KEEPALIVE_INTERVAL = 15000;
@@ -49,11 +50,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
-    this._rx.rpc = this._decorateRpc(this._rpcCore, this._rxDecorateMethod);
+    this._rx.rpc = this._decorateRpc(this._rpcCore, rxDecorateMethod);
 
     if (this.supportMulti) {
       this._queryMulti = this._decorateMulti(this._decorateMethod);
-      this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
+      this._rx.queryMulti = this._decorateMulti(rxDecorateMethod);
     }
 
     this._rx.signer = options.signer;
@@ -296,7 +297,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._detectCapabilities();
 
     // derive is last, since it uses the decorated rx
-    this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
+    this._rx.derive = this._decorateDeriveRx(rxDecorateMethod);
     this._derive = this._decorateDerive(this._decorateMethod);
 
     return true;

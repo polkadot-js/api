@@ -6,7 +6,7 @@ import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RpcMethods, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, IMethod, InterfaceTypes, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { AnyTuple, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, IMethod, InterfaceTypes, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
@@ -28,6 +28,7 @@ import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
+import { rxDecorateMethod } from './decorateMethod';
 import { Events } from './Events';
 
 interface MetaDecoration {
@@ -190,10 +191,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     if (fromEmpty || !this._extrinsics) {
       this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
-      this._rx.tx = this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod);
+      this._rx.tx = this._decorateExtrinsics(decoratedMeta, rxDecorateMethod);
     } else {
       augmentObject('tx', this._decorateExtrinsics(decoratedMeta, this._decorateMethod), this._extrinsics, false);
-      augmentObject(null, this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod), this._rx.tx, false);
+      augmentObject(null, this._decorateExtrinsics(decoratedMeta, rxDecorateMethod), this._rx.tx, false);
     }
 
     // this API
@@ -203,7 +204,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     augmentObject('events', decoratedMeta.events, this._events, fromEmpty);
 
     // rx
-    augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);
+    augmentObject(null, this._decorateStorage(decoratedMeta, rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
 
@@ -233,7 +234,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
       // re-decorate, only adding any new additional interfaces
       this._decorateRpc(this._rpcCore, this._decorateMethod, this._rpc);
-      this._decorateRpc(this._rpcCore, this._rxDecorateMethod, this._rx.rpc);
+      this._decorateRpc(this._rpcCore, rxDecorateMethod, this._rx.rpc);
     }
 
     this._filterRpcMethods(methods);
@@ -581,13 +582,5 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
     return decorateSections<ApiType, ExactDerive>(this._rx.derive, decorateMethod);
-  }
-
-  /**
-   * Put the `this.onCall` function of ApiRx here, because it is needed by
-   * `api._rx`.
-   */
-  protected _rxDecorateMethod = <Method extends AnyFunction>(method: Method): Method => {
-    return method;
   }
 }

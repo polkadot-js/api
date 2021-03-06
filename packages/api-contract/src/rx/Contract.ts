@@ -5,13 +5,13 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { AnyJson } from '@polkadot/types/types';
 
 import { ApiRx } from '@polkadot/api';
-import { decorateMethod } from '@polkadot/api/rx';
+import { rxDecorateMethod } from '@polkadot/api/base/decorateMethod';
 
 import { Abi } from '../Abi';
 import { Contract as BaseContract } from '../base';
 
 export class Contract extends BaseContract<'rxjs'> {
   constructor (api: ApiRx, abi: AnyJson | Abi, address: string | AccountId) {
-    super(api, abi, address, decorateMethod);
+    super(api, abi, address, rxDecorateMethod);
   }
 }
