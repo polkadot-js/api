@@ -14,7 +14,7 @@ interface StorageEntryObservableMulti {
 
 interface StorageEntryPromiseMulti {
   <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[], Hash>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -84,6 +84,6 @@ export interface StorageEntryDoubleMap<ApiType extends ApiTypes, F extends AnyFu
   keyPrefix: (key1?: Parameters<F>[0]) => string;
 }
 
-export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F, A>;
+export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F, Hash> & StorageEntryBase<ApiType, F, A>;
 
-export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F> & StorageEntryDoubleMap<ApiType, F, A>;
+export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F, Hash> & StorageEntryDoubleMap<ApiType, F, A>;

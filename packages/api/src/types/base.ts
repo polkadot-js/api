@@ -53,18 +53,18 @@ export interface RxResult<F extends AnyFunction> {
   <T>(...args: Parameters<F>): Observable<T>;
 }
 
-export interface PromiseResult<F extends AnyFunction> {
+export interface PromiseResult<F extends AnyFunction, E = undefined> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
-  (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
+  (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>, E>>): UnsubscribePromise;
   <T extends Codec | Codec[]>(...args: Parameters<F>): Promise<T>;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  <T extends Codec | Codec[]>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
+  <T extends Codec | Codec[]>(...args: Push<Parameters<F>, Callback<T, E>>): UnsubscribePromise;
 }
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
-export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction> = ApiType extends 'rxjs'
+export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction, E = undefined> = ApiType extends 'rxjs'
   ? RxResult<F>
-  : PromiseResult<F>;
+  : PromiseResult<F, E>;
 
 // In the abstract `decorateMethod` in Base.ts, we can also pass in some meta-
 // information. This describes it.

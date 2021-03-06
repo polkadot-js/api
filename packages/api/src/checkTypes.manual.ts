@@ -89,8 +89,8 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const multiUnsub = await api.queryMulti([
     [api.query.staking.validators],
     [api.query.system.events]
-  ], (values): void => {
-    console.log('values', values);
+  ], (values, hash): void => {
+    console.log('values', hash.toHex(), values);
 
     multiUnsub();
   });
@@ -106,8 +106,8 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
 }
 
 async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
-  // events destructing
-  await api.query.system.events((records): void => {
+  // events destructing & blockhash
+  await api.query.system.events((records, hash): void => {
     records.forEach(({ event, phase }): void => {
       if (phase.isApplyExtrinsic) {
         // Dunno... this should work
@@ -115,9 +115,19 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
         // @ts-ignore
         const [accountId, value]: [AccountId, Balance] = event.data;
 
-        console.log(`${accountId.toString()} has ${value.toHuman()}`);
+        console.log(hash.toHex(),`${accountId.toString()} has ${value.toHuman()}`);
       }
     });
+  });
+
+  // single with blockhash
+  await api.query.system.account('123', (balance, hash) => {
+    console.log(hash.toHex(), balance.toHuman());
+  });
+
+  // multi with blockhash
+  await api.query.system.account.multi(['123', '456'], (balances, hash) => {
+    console.log(hash.toHex(), balances.map((b) => b.toHuman()));
   });
 
   // at queries
@@ -155,8 +165,8 @@ async function rpc (api: ApiPromise): Promise<void> {
   });
 
   // with generic params
-  await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance], hash): void => {
-    console.log('current balance:', balance.toString(), hash.toHex());
+  await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
+    console.log('current balance:', balance.toString());
   });
 
   // using json & raw
