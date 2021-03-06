@@ -30,7 +30,7 @@ describe('Enum', (): void => {
           { Text, U32 },
           new Uint8Array([1, 2 << 2, 49, 50])
         ).toString()
-      ).toEqual('{"U32":3289352}');
+      ).toEqual('{"u32":3289352}');
     });
 
     it('decodes from a JSON input (lowercase)', (): void => {
@@ -43,7 +43,7 @@ describe('Enum', (): void => {
       ).toEqual('some text value');
     });
 
-    it('decodes reusing instanciated inputs', (): void => {
+    it('decodes reusing instantiated inputs', (): void => {
       const foo = new Text(registry, 'bar');
 
       expect(
@@ -144,8 +144,8 @@ describe('Enum', (): void => {
       class C extends Null { }
       const Test = Enum.with({ A, B, C });
 
-      expect(new Test(registry).toJSON()).toEqual({ A: null });
-      expect(new Test(registry, 1234, 1).toJSON()).toEqual({ B: 1234 });
+      expect(new Test(registry).toJSON()).toEqual({ a: null });
+      expect(new Test(registry, 1234, 1).toJSON()).toEqual({ b: 1234 });
       expect(new Test(registry, 0x1234, 1).toU8a()).toEqual(new Uint8Array([1, 0x34, 0x12, 0x00, 0x00]));
       expect(new Test(registry, 0x1234, 1).toU8a(true)).toEqual(new Uint8Array([0x34, 0x12, 0x00, 0x00]));
     });
@@ -356,6 +356,46 @@ describe('Enum', (): void => {
 
       expect(value.isB).toEqual(true);
       expect(value.asB.toNumber()).toEqual(123);
+    });
+  });
+
+  describe('indexed enum', (): void => {
+    const Test = Enum.with({
+      A: 5,
+      B: 42,
+      C: 69,
+      D: 255
+    });
+
+    it('handles an indexed C-like enum', (): void => {
+      expect(new Test(registry, 'A').toNumber()).toEqual(5);
+      expect(new Test(registry, 'B').toNumber()).toEqual(42);
+      expect(new Test(registry, 'C').toNumber()).toEqual(69);
+      expect(new Test(registry, 69).toNumber()).toEqual(69);
+      expect(new Test(registry, 'D').toNumber()).toEqual(255);
+    });
+
+    it('creates proper raw structure', (): void => {
+      expect(new Test(registry).toRawType()).toEqual(JSON.stringify({
+        _enum: {
+          A: 5,
+          B: 42,
+          C: 69,
+          D: 255
+        }
+      }));
+    });
+
+    it('has the indexes for the enum', (): void => {
+      expect(new Test(registry).defIndexes).toEqual([5, 42, 69, 255]);
+    });
+
+    it('has the correct outputs', (): void => {
+      const test = new Test(registry, 5);
+
+      expect(test.toU8a()).toEqual(new Uint8Array([5]));
+      expect(test.toHex()).toEqual('0x05');
+      expect(test.toJSON()).toEqual('A');
     });
   });
 

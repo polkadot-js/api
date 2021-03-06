@@ -23,7 +23,7 @@ import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber,
 import type { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, ElectionResult, ElectionScore, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, RewardDestination, SeatHolder, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs, Voter } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, ElectionResult, ElectionScore, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReadySolution, RewardDestination, RoundSnapshot, SeatHolder, SlashingSpans, SolutionOrSnapshotSize, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs, Voter } from '@polkadot/types/interfaces/staking';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -322,6 +322,44 @@ declare module '@polkadot/api/types/storage' {
        * TWOX-NOTE: SAFE as `AccountId`s are crypto hashes anyway.
        **/
       votingOf: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Voting>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
+    };
+    electionProviderMultiPhase: {
+      [key: string]: QueryableStorageEntry<ApiType>;
+      /**
+       * Current phase.
+       **/
+      currentPhase: AugmentedQuery<ApiType, () => Observable<Phase>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Desired number of targets to elect for this round.
+       * 
+       * Only exists when [`Snapshot`] is present.
+       **/
+      desiredTargets: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Current best solution, signed or unsigned, queued to be returned upon `elect`.
+       **/
+      queuedSolution: AugmentedQuery<ApiType, () => Observable<Option<ReadySolution>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Internal counter for the number of rounds.
+       * 
+       * This is useful for de-duplication of transactions submitted to the pool, and general
+       * diagnostics of the pallet.
+       * 
+       * This is merely incremented once per every time that an upstream `elect` is called.
+       **/
+      round: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Snapshot data of the round.
+       * 
+       * This is created at the beginning of the signed phase and cleared upon calling `elect`.
+       **/
+      snapshot: AugmentedQuery<ApiType, () => Observable<Option<RoundSnapshot>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The metadata of the [`RoundSnapshot`]
+       * 
+       * Only exists when [`Snapshot`] is present.
+       **/
+      snapshotMetadata: AugmentedQuery<ApiType, () => Observable<Option<SolutionOrSnapshotSize>>, []> & QueryableStorageEntry<ApiType, []>;
     };
     elections: {
       [key: string]: QueryableStorageEntry<ApiType>;
@@ -724,12 +762,20 @@ declare module '@polkadot/api/types/storage' {
        **/
       currentEra: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * The last planned session scheduled by the session pallet.
+       * 
+       * This is basically in sync with the call to [`SessionManager::new_session`].
+       **/
+      currentPlannedSession: AugmentedQuery<ApiType, () => Observable<SessionIndex>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * The earliest era for which we have a pending, unapplied slash.
        **/
       earliestUnappliedSlash: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Flag to control the execution of the offchain election. When `Open(_)`, we accept
        * solutions to be submitted.
+       * 
+       * TWO_PHASE_NOTE: should be removed once we switch to multi-phase.
        **/
       eraElectionStatus: AugmentedQuery<ApiType, () => Observable<ElectionStatus>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -809,6 +855,8 @@ declare module '@polkadot/api/types/storage' {
       /**
        * True if the current **planned** session is final. Note that this does not take era
        * forcing into account.
+       * 
+       * TWO_PHASE_NOTE: should be removed once we switch to multi-phase.
        **/
       isCurrentSessionFinal: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -835,10 +883,14 @@ declare module '@polkadot/api/types/storage' {
        * The next validator set. At the end of an era, if this is available (potentially from the
        * result of an offchain worker), it is immediately used. Otherwise, the on-chain election
        * is executed.
+       * 
+       * TWO_PHASE_NOTE: should be removed once we switch to multi-phase.
        **/
       queuedElected: AugmentedQuery<ApiType, () => Observable<Option<ElectionResult>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The score of the current [`QueuedElected`].
+       * 
+       * TWO_PHASE_NOTE: should be removed once we switch to multi-phase.
        **/
       queuedScore: AugmentedQuery<ApiType, () => Observable<Option<ElectionScore>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -854,11 +906,15 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Snapshot of nominators at the beginning of the current election window. This should only
        * have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`.
+       * 
+       * TWO_PHASE_NOTE: should be removed once we switch to multi-phase.
        **/
       snapshotNominators: AugmentedQuery<ApiType, () => Observable<Option<Vec<AccountId>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Snapshot of validators at the beginning of the current election window. This should only
        * have a value when [`EraElectionStatus`] == `ElectionStatus::Open(_)`.
+       * 
+       * TWO_PHASE_NOTE: should be removed once we switch to multi-phase.
        **/
       snapshotValidators: AugmentedQuery<ApiType, () => Observable<Option<Vec<AccountId>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**

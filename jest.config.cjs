@@ -26,5 +26,5 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/types/build',
     '<rootDir>/packages/types-known/build'
   ],
-  resolver: '@polkadot/dev/config/jest-resolver.cjs'
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|rxjs/_esm5)']
 });

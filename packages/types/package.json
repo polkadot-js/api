@@ -1,11 +1,12 @@
 {
   "name": "@polkadot/types",
-  "version": "3.9.2",
+  "version": "4.0.1-12",
+  "type": "module",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
-    "./detectPackage.mjs"
+    "./detectPackage.cjs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
@@ -15,15 +16,15 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
-    "@babel/runtime": "^7.12.13",
-    "@polkadot/metadata": "3.9.2",
-    "@polkadot/util": "^5.6.2",
-    "@polkadot/util-crypto": "^5.6.2",
-    "@polkadot/x-rxjs": "^5.6.2",
+    "@babel/runtime": "^7.13.9",
+    "@polkadot/metadata": "4.0.1-12",
+    "@polkadot/util": "^6.0.3",
+    "@polkadot/util-crypto": "^6.0.3",
+    "@polkadot/x-rxjs": "^6.0.3",
     "@types/bn.js": "^4.11.6",
     "bn.js": "^4.11.9"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^5.6.2"
+    "@polkadot/keyring": "^6.0.3"
   }
 }

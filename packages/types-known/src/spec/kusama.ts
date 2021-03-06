@@ -6,7 +6,7 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
-  AccountInfo: 'AccountInfoWithProviders',
+  AccountInfo: 'AccountInfoWithDualRefCount',
   Address: 'MultiAddress',
   Keys: 'SessionKeys6',
   LookupSource: 'MultiAddress',
@@ -47,7 +47,6 @@ const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
-      RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
@@ -66,7 +65,6 @@ const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
-      RewardDestination: 'RewardDestinationTo257',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
@@ -86,7 +84,6 @@ const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
-      RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
       Weight: 'u32'
@@ -104,7 +101,6 @@ const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
-      RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }
@@ -119,7 +115,6 @@ const versioned: OverrideVersionedType[] = [
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }
@@ -132,8 +127,7 @@ const versioned: OverrideVersionedType[] = [
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       OpenTip: 'OpenTipTo225',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RefCount: 'RefCountTo259'
     }
   },
   {
@@ -143,8 +137,7 @@ const versioned: OverrideVersionedType[] = [
       ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RefCount: 'RefCountTo259'
     }
   },
   {
@@ -153,8 +146,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
-      RefCount: 'RefCountTo259',
-      RewardDestination: 'RewardDestinationTo257'
+      RefCount: 'RefCountTo259'
     }
   },
   {

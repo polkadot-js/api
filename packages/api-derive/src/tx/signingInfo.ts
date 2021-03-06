@@ -33,10 +33,19 @@ function nextNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
 function signingHeader (api: ApiInterfaceRx): Observable<Header> {
   return combineLatest([
     api.rpc.chain.getHeader(),
-    api.rpc.chain.getFinalizedHead().pipe(
-      switchMap((hash) => api.rpc.chain.getHeader(hash))
-    )
+    api.rpc.chain.getFinalizedHead()
   ]).pipe(
+    switchMap(([bestHeader, finHash]) =>
+      // retrieve the headers - in the case of the current block, we use the parent
+      // to minimize (not completely remove) the impact that forks do have on the system
+      // (when at genesis, just return the current header as the last known)
+      bestHeader.parentHash.isEmpty
+        ? of([bestHeader, bestHeader])
+        : combineLatest([
+          api.rpc.chain.getHeader(bestHeader.parentHash),
+          api.rpc.chain.getHeader(finHash)
+        ])
+    ),
     map(([current, finalized]) =>
       // determine the hash to use, current when lag > max, else finalized
       current.number.unwrap().sub(finalized.number.unwrap()).gt(MAX_FINALITY_LAG)

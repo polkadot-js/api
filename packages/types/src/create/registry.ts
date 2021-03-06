@@ -4,8 +4,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, H256 } from '../interfaces/types';
-import type { CallFunction, Codec, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { ChainProperties, CodecHash, DispatchErrorModule } from '../interfaces/types';
+import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 // we are attempting to avoid circular refs, hence the Metadata path import
 import { decorateConstants, decorateExtrinsics } from '@polkadot/metadata/decorate';
@@ -193,6 +193,10 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes;
   }
 
+  public get unknownTypes (): string[] {
+    return [...this.#unknownTypes.keys()];
+  }
+
   public get signedExtensions (): string[] {
     return this.#signedExtensions;
   }
@@ -315,8 +319,8 @@ export class TypeRegistry implements Registry {
     return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
-  public hash (data: Uint8Array): H256 {
-    return this.createType('H256', this.#hasher(data));
+  public hash (data: Uint8Array): CodecHash {
+    return this.createType('CodecHash', this.#hasher(data));
   }
 
   public register (type: Constructor | RegistryTypes): void;
@@ -368,8 +372,8 @@ export class TypeRegistry implements Registry {
     }
   }
 
-  setHasher (hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a): void {
-    this.#hasher = hasher;
+  setHasher (hasher?: CodecHasher | null): void {
+    this.#hasher = hasher || blake2AsU8a;
   }
 
   setKnownTypes (knownTypes: RegisteredTypes): void {

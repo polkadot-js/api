@@ -1,55 +1,37 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { EraIndex, Exposure } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveOwnExposure } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
+import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-import { deriveCache, memo } from '../util';
+import { memo } from '../util';
 
-const CACHE_KEY = 'ownExposure';
-
-export function _ownExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex, withActive: boolean) => Observable<DeriveOwnExposure> {
-  return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex, withActive: boolean): Observable<DeriveOwnExposure> => {
-    const cacheKey = `${CACHE_KEY}-${era.toString()}-${accountId.toString()}`;
-    const cached = withActive
-      ? undefined
-      : deriveCache.get<DeriveOwnExposure>(cacheKey);
-
-    return cached
-      ? of(cached)
-      : api.queryMulti<[Exposure, Exposure]>([
-        [api.query.staking.erasStakersClipped, [era, accountId]],
-        [api.query.staking.erasStakers, [era, accountId]]
+export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveOwnExposure[]> =>
+    eras.length
+      ? api.queryMulti<Exposure[]>([
+        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakersClipped, [era, accountId]]),
+        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakers, [era, accountId]])
       ]).pipe(
-        map(([clipped, exposure]): DeriveOwnExposure => {
-          const value = { clipped, era, exposure };
-
-          !withActive && deriveCache.set(cacheKey, value);
-
-          return value;
-        })
-      );
-  });
+        map((all): DeriveOwnExposure[] =>
+          eras.map((era, index) => ({ clipped: all[index], era, exposure: all[eras.length + index] }))
+        )
+      )
+      : of([])
+  );
 }
 
 export function ownExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveOwnExposure> {
   return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex): Observable<DeriveOwnExposure> =>
-    api.derive.staking._ownExposure(accountId, era, true)
-  );
-}
-
-export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveOwnExposure[]> =>
-    eras.length
-      ? combineLatest(
-        eras.map((era) => api.derive.staking._ownExposure(accountId, era, withActive))
-      )
-      : of([])
+    api.derive.staking._ownExposures(accountId, [era], true).pipe(
+      map(([first]) => first)
+    )
   );
 }
 

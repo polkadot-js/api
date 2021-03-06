@@ -10,18 +10,16 @@ import { Enum } from '../codec/Enum';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
-function decodeMultiU8a (registry: Registry, value?: unknown): unknown {
-  if (isU8a(value) && value.length <= 32) {
-    if (value.length === 32) {
-      return { id: value };
-    } else if (value.length === 20) {
-      return { Address20: value };
-    } else {
-      return decodeMultiAny(registry, registry.createType('AccountIndex', value));
-    }
+function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
+  if ([0, 32].includes(u8a.length)) {
+    return { Id: u8a };
+  } else if (u8a.length === 20) {
+    return { Address20: u8a };
+  } else if (u8a.length <= 8) {
+    return { Index: registry.createType('AccountIndex', u8a).toNumber() };
   }
 
-  return value;
+  return u8a;
 }
 
 function decodeMultiAny (registry: Registry, value?: unknown): unknown {
@@ -29,13 +27,15 @@ function decodeMultiAny (registry: Registry, value?: unknown): unknown {
     return value;
   } else if (value instanceof GenericAccountId) {
     return { Id: value };
-  } else if (value instanceof GenericAccountIndex || isNumber(value) || isBn(value)) {
-    return { Index: registry.createType('Compact<AccountIndex>', value) };
+  } else if (value instanceof GenericAccountIndex || isBn(value) || isNumber(value)) {
+    return { Index: isNumber(value) ? value : value.toNumber() };
   } else if (isString(value)) {
-    return decodeMultiU8a(registry, decodeAddress(value.toString()));
+    return decodeU8a(registry, decodeAddress(value.toString()));
+  } else if (isU8a(value)) {
+    return decodeU8a(registry, value);
   }
 
-  return decodeMultiU8a(registry, value);
+  return value;
 }
 
 export class GenericMultiAddress extends Enum {

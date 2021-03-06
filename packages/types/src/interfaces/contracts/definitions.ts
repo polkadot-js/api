@@ -141,7 +141,7 @@ export default {
       trieId: 'TrieId'
     },
     Gas: 'u64',
-    HostFnWeights: {
+    HostFnWeightsTo264: {
       caller: 'Weight',
       address: 'Weight',
       gasLeft: 'Weight',
@@ -177,6 +177,58 @@ export default {
       callPerInputByte: 'Weight',
       callPerOutputByte: 'Weight',
       instantiate: 'Weight',
+      instantiatePerInputByte: 'Weight',
+      instantiatePerOutputByte: 'Weight',
+      hashSha2256: 'Weight',
+      hashSha2256PerByte: 'Weight',
+      hashKeccak256: 'Weight',
+      hashKeccak256PerByte: 'Weight',
+      hashBlake2256: 'Weight',
+      hashBlake2256PerByte: 'Weight',
+      hashBlake2128: 'Weight',
+      hashBlake2128PerByte: 'Weight'
+    },
+    HostFnWeights: {
+      caller: 'Weight',
+      address: 'Weight',
+      gasLeft: 'Weight',
+      balance: 'Weight',
+      valueTransferred: 'Weight',
+      minimumBalance: 'Weight',
+      tombstoneDeposit: 'Weight',
+      rentAllowance: 'Weight',
+      blockNumber: 'Weight',
+      now: 'Weight',
+      weightToFee: 'Weight',
+      gas: 'Weight',
+      input: 'Weight',
+      inputPerByte: 'Weight',
+      return: 'Weight',
+      returnPerByte: 'Weight',
+      terminate: 'Weight',
+      terminatePerCodeByte: 'Weight',
+      restoreTo: 'Weight',
+      restoreToPerCallerCodeByte: 'Weight',
+      restoreToPerTombstoneCodeByte: 'Weight',
+      restoreToPerDelta: 'Weight',
+      random: 'Weight',
+      depositEvent: 'Weight',
+      depositEventPerTopic: 'Weight',
+      depositEventPerByte: 'Weight',
+      setRentAllowance: 'Weight',
+      setStorage: 'Weight',
+      setStoragePerByte: 'Weight',
+      clearStorage: 'Weight',
+      getStorage: 'Weight',
+      getStoragePerByte: 'Weight',
+      transfer: 'Weight',
+      call: 'Weight',
+      callPerCodeByte: 'Weight',
+      callTransferSurcharge: 'Weight',
+      callPerInputByte: 'Weight',
+      callPerOutputByte: 'Weight',
+      instantiate: 'Weight',
+      instantiatePerCodeByte: 'Weight',
       instantiatePerInputByte: 'Weight',
       instantiatePerOutputByte: 'Weight',
       hashSha2256: 'Weight',
@@ -241,7 +293,7 @@ export default {
       i64rotl: 'u32',
       i64rotr: 'u32'
     },
-    Limits: {
+    LimitsTo264: {
       eventTopics: 'u32',
       stackHeight: 'u32',
       globals: 'u32',
@@ -251,6 +303,16 @@ export default {
       brTableSize: 'u32',
       subjectLen: 'u32',
       codeSize: 'u32'
+    },
+    Limits: {
+      eventTopics: 'u32',
+      stackHeight: 'u32',
+      globals: 'u32',
+      parameters: 'u32',
+      memoryPages: 'u32',
+      tableSize: 'u32',
+      brTableSize: 'u32',
+      subjectLen: 'u32'
     },
     PrefabWasmModule: {
       scheduleVersion: 'Compact<u32>',
@@ -294,6 +356,13 @@ export default {
       maxMemoryPages: 'u32',
       enablePrintln: 'bool',
       maxSubjectLen: 'u32'
+    },
+    ScheduleTo264: {
+      version: 'u32',
+      enablePrintln: 'bool',
+      limits: 'LimitsTo264',
+      instructionWeights: 'InstructionWeights',
+      hostFnWeights: 'HostFnWeightsTo264'
     },
     Schedule: {
       version: 'u32',

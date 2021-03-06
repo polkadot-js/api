@@ -6,7 +6,7 @@ import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { u8aConcat } from '@polkadot/util';
+import { isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
@@ -17,6 +17,10 @@ import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 const FAKE_NONE = new Uint8Array();
 const FAKE_SOME = new Uint8Array([1]);
 
+function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
+  return registry.createType('Address', isU8a(address) ? u8aToHex(address) : address);
+}
+
 /**
  * @name GenericExtrinsicSignatureV4
  * @description
@@ -25,7 +29,7 @@ const FAKE_SOME = new Uint8Array([1]);
 export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
   #fakePrefix: Uint8Array;
 
-  constructor (registry: Registry, value: GenericExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+  constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super(registry, {
       signer: 'Address',
       // eslint-disable-next-line sort-keys
@@ -39,7 +43,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   }
 
   /** @internal */
-  public static decodeExtrinsicSignature (value: GenericExtrinsicSignatureV4 | Uint8Array | undefined, isSigned = false): GenericExtrinsicSignatureV4 | Uint8Array {
+  public static decodeExtrinsicSignature (value?: GenericExtrinsicSignatureV4 | Uint8Array, isSigned = false): GenericExtrinsicSignatureV4 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
     } else if (value instanceof GenericExtrinsicSignatureV4) {
@@ -125,7 +129,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this._injectSignature(
-      this.registry.createType('Address', signer),
+      toAddress(this.registry, signer),
       this.registry.createType('ExtrinsicSignature', signature),
       new GenericExtrinsicPayloadV4(this.registry, payload)
     );
@@ -151,7 +155,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    const signer = this.registry.createType('Address', account.addressRaw);
+    const signer = toAddress(this.registry, account.addressRaw);
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('ExtrinsicSignature', payload.sign(account));
 
@@ -162,7 +166,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    const signer = this.registry.createType('Address', address);
+    const signer = toAddress(this.registry, address);
     const payload = this.createPayload(method, options);
     const signature = this.registry.createType('ExtrinsicSignature', u8aConcat(this.#fakePrefix, new Uint8Array(64).fill(0x42)));
 

@@ -20,14 +20,14 @@ describe('Registration', (): void => {
       deposit: 10000000000000, // '0x0000000000000000000009184e72a000',
       info: {
         additional: [],
-        display: { Raw: '0x9911' },
-        email: { Raw: '0x9933' },
-        image: { None: null },
-        legal: { Raw: '0x9922' },
+        display: { raw: '0x9911' },
+        email: { raw: '0x9933' },
+        image: { none: null },
+        legal: { raw: '0x9922' },
         pgpFingerprint: null,
-        riot: { Raw: '0x9955' },
-        twitter: { Raw: '0x9966' },
-        web: { Raw: '0x9944' }
+        riot: { raw: '0x9955' },
+        twitter: { raw: '0x9966' },
+        web: { raw: '0x9944' }
       },
       judgements: []
     });

@@ -42,6 +42,16 @@ const RETRY_DELAY = 1000;
 
 const l = logger('api-ws');
 
+function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
+  Object.keys(record).forEach((key): void => {
+    if (cb) {
+      cb(record[key]);
+    }
+
+    delete record[key];
+  });
+}
+
 /**
  * # @polkadot/rpc-provider/ws
  *
@@ -245,8 +255,8 @@ export class WsProvider implements ProviderInterface {
    * @param params Encoded parameters as applicable for the method
    * @param subscription Subscription details (internally used)
    */
-  public send (method: string, params: any[], subscription?: SubscriptionHandler): Promise<any> {
-    return new Promise((resolve, reject): void => {
+  public send <T = any> (method: string, params: any[], subscription?: SubscriptionHandler): Promise<T> {
+    return new Promise<T>((resolve, reject): void => {
       try {
         assert(this.isConnected && !isNull(this.#websocket), 'WebSocket is not connected');
 
@@ -298,10 +308,8 @@ export class WsProvider implements ProviderInterface {
    * })
    * ```
    */
-  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number | string> {
-    const id = await this.send(method, params, { callback, type }) as Promise<number | string>;
-
-    return id;
+  public subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    return this.send<number | string>(method, params, { callback, type });
   }
 
   /**
@@ -322,9 +330,13 @@ export class WsProvider implements ProviderInterface {
 
     delete this.#subscriptions[subscription];
 
-    const result = await this.send(method, [id]) as Promise<boolean>;
-
-    return result;
+    try {
+      return this.isConnected && !isNull(this.#websocket)
+        ? this.send<boolean>(method, [id])
+        : true;
+    } catch (error) {
+      return false;
+    }
   }
 
   #emit = (type: ProviderInterfaceEmitted, ...args: any[]): void => {
@@ -332,12 +344,17 @@ export class WsProvider implements ProviderInterface {
   }
 
   #onSocketClose = (event: CloseEvent): void => {
+    const error = new Error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+
     if (this.#autoConnectMs > 0) {
-      l.error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+      l.error(error.message);
     }
 
     this.#isConnected = false;
     this.#emit('disconnected');
+    // reject all hanging requests
+    eraseRecord(this.#handlers, (handler) => handler.callback(error, undefined));
+    eraseRecord(this.#waitingForId);
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {

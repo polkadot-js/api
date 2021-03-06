@@ -58,9 +58,9 @@ describe('ExtrinsicSignatureV4', (): void => {
     registry.setMetadata(metadata);
 
     expect(
-      new ExtrinsicSignature(registry, undefined).signFake(
+      new ExtrinsicSignature(registry).signFake(
         registry.createType('Call'),
-        pairs.alice.address,
+        pairs.alice.publicKey,
         signOptions
       ).toHex()
     ).toEqual(
@@ -74,7 +74,7 @@ describe('ExtrinsicSignatureV4', (): void => {
     );
   });
 
-  it('fake signs default', (): void => {
+  it('fake signs default (AccountId address)', (): void => {
     const registry = new TypeRegistry();
     const metadata = new Metadata(registry, metadataStatic);
 
@@ -85,7 +85,7 @@ describe('ExtrinsicSignatureV4', (): void => {
     });
 
     expect(
-      new ExtrinsicSignature(registry, undefined).signFake(
+      new ExtrinsicSignature(registry).signFake(
         registry.createType('Call'),
         pairs.alice.address,
         signOptions
@@ -100,6 +100,29 @@ describe('ExtrinsicSignatureV4', (): void => {
       '4242424242424242424242424242424242424242424242424242424242424242' +
       '4242424242424242424242424242424242424242424242424242424242424242' +
       '00a50100'
+    );
+  });
+
+  it('injects a signature', (): void => {
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, metadataStatic);
+
+    registry.setMetadata(metadata);
+
+    expect(
+      new ExtrinsicSignature(registry).addSignature(
+        pairs.alice.publicKey,
+        new Uint8Array(65).fill(1),
+        new Uint8Array(0)
+      ).toHex()
+    ).toEqual(
+      '0x' +
+      '00' + // MultiAddress
+      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
+      '01' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '000000'
     );
   });
 });

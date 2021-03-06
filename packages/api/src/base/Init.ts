@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
-import type { ChainProperties, Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
 import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -12,8 +12,7 @@ import BN from 'bn.js';
 
 import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
-import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
-import { getSpecAlias, getSpecExtensions, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { of } from '@polkadot/x-rxjs';
@@ -85,6 +84,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
+    registry.setHasher(getSpecHasher(registry, chain, version.specName));
 
     // for bundled types, pull through the aliases defined
     if (registry.knownTypes.typesBundle) {
@@ -285,20 +285,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [genesisHash, metadata];
   }
 
-  private async _initFromMeta (metadata: Metadata): Promise<boolean> {
-    const metaExtrinsic = metadata.asLatest.extrinsic;
-
-    // only inject if we are not a clone (global init)
-    if (metaExtrinsic.version.gt(BN_ZERO)) {
-      this._extrinsicType = metaExtrinsic.version.toNumber();
-    } else if (!this._options.source) {
-      // detect the extrinsic version in-use based on the last block
-      const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
-
-      // If we haven't sync-ed to 1 yes, this won't have any values
-      this._extrinsicType = firstTx ? firstTx.type : LATEST_EXTRINSIC_VERSION;
-    }
-
+  private _initFromMeta (metadata: Metadata): boolean {
+    this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here

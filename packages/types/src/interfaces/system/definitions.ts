@@ -140,10 +140,19 @@ export default {
       refcount: 'RefCount',
       data: 'AccountData'
     },
-    AccountInfoWithProviders: {
+    AccountInfoWithDualRefCount: {
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',
+      data: 'AccountData'
+    },
+    // original naming
+    AccountInfoWithProviders: 'AccountInfoWithDualRefCount',
+    AccountInfoWithTripleRefCount: {
+      nonce: 'Index',
+      consumers: 'RefCount',
+      providers: 'RefCount',
+      sufficients: 'RefCount',
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
@@ -153,7 +162,7 @@ export default {
     BlockWeights: {
       baseBlock: 'Weight',
       maxBlock: 'Weight',
-      perClass: 'PerDispatchClass'
+      perClass: 'PerDispatchClassWeightsPerClass'
     },
     ChainProperties: 'GenericChainProperties',
     ChainType: {
@@ -164,7 +173,7 @@ export default {
         Custom: 'Text'
       }
     },
-    ConsumedWeight: 'PerDispatchClass',
+    ConsumedWeight: 'PerDispatchClassWeight',
     DigestOf: 'Digest',
     DispatchClass: {
       _enum: ['Normal', 'Operational', 'Mandatory']
@@ -296,15 +305,20 @@ export default {
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
     },
-    PerDispatchClass: {
-      normal: 'WeightPerClass',
-      operational: 'WeightPerClass',
-      mandatory: 'WeightPerClass'
-    },
     PerDispatchClassU32: {
       normal: 'u32',
       operational: 'u32',
       mandatory: 'u32'
+    },
+    PerDispatchClassWeight: {
+      normal: 'Weight',
+      operational: 'Weight',
+      mandatory: 'Weight'
+    },
+    PerDispatchClassWeightsPerClass: {
+      normal: 'WeightPerClass',
+      operational: 'WeightPerClass',
+      mandatory: 'WeightPerClass'
     },
     Phase: {
       _enum: {

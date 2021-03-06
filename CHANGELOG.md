@@ -1,5 +1,66 @@
 # CHANGELOG
 
+## 4.0.1-x
+
+Changes:
+
+- Enum `.toSON()` now encodes all keys as `camelCase` (aligning with the output from Substrate)
+
+
+## 3.11.1 Feb 28, 2021
+
+Upgrade priority: Low. Recommended for users wanting to keep updated with chain changes.
+
+Contributed:
+
+- Clean Websocket states on disconnects (Thanks to https://github.com/ianhe8x)
+- Support for C-like indexed enums (Thanks to https://github.com/xlc)
+
+Changes:
+
+- Adjust council derives to cater for current-generation candidate mapping
+- Allow for override of codec hasher (& output type)
+- Adjust submittables to submit hex-encoded addresses to queries
+- Adjust initialization to always retrieve tx version from Metadata only
+- Update election types as per latest Substrate
+- Add types for the new gilt module
+- Upgrade to the latest Substrate metadata
+- Adjust package detection to check for local monorepo dependencies
+- Ensure that metadata `.toJSON()` does apply type aliasses
+
+
+## 3.10.2 Feb 23, 2021
+
+Upgrade priority: Medium. Recommended for users of chains where `MultiAddress` is in-use and blocks are decoded.
+
+Changes:
+
+- Fix decoding for `MultiAddress` enum where non-`AccountId` variable-lengths are provided as part of a stream
+- Added known Polkadot 28 upgrade block
+- Update for latest Substrate contracts `Schedule` types
+
+
+## 3.10.1 Feb 22, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Adjust ConsumedWeight types to align with Rust module code
+- Check for connection status in subscription unsubscribe
+- Adjust staking reward derives ordering for better performance
+- Adapt detection imports to remove `.json` dependencies (Better behavior using Node.js with ESM)
+
+
+## 3.9.3 Feb 16, 2021
+
+Upgrade priority: Low. Recommended for parachain builders since it contains the updated parachain types.
+
+Changes:
+
+- Adjusted parachain `PersistedValidationData` structure
+
+
 ## 3.9.2 Feb 15, 2021
 
 Upgrade priority: Low. Recommended for parachain builders since it contains the latest parachain types.

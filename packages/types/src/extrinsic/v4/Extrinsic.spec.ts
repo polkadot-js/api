@@ -19,7 +19,7 @@ registry.setMetadata(metadata);
 const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
 describe('ExtrinsicV4', (): void => {
-  it.only('constructs a sane Uint8Array (default)', (): void => {
+  it('constructs a sane Uint8Array (default)', (): void => {
     expect(
       new Extrinsic(registry).toU8a()
     ).toEqual(new Uint8Array([
@@ -37,7 +37,7 @@ describe('ExtrinsicV4', (): void => {
     ).toEqual(
       '0x' +
       '0600' + // balance.transfer
-      'ff' +
+      '00' +
       'd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' +
       'e56c'
     );
@@ -65,14 +65,14 @@ describe('ExtrinsicV4', (): void => {
       }).toHex()
     ).toEqual(
       '0x' +
-      'ff' +
+      '00' +
       'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
       '00' + // ed25519
-      'b8065808da3d11ddb4167afb156eafb51e8104ba792589bb443653a7fab82b90' +
-      'c6530e838df06bfc8befcbbcfca7e219350cff865439b815b10b8e64ae1e9b01' +
+      'ab31e8dbdbf37398f9a42cfe473e17f6e2e05d8d7a1612513fa73f5f6ad3bfdb' +
+      'adbabd920d033ad48999d9dc6a07e3e7ffb9a503128c94bf4fd97aeb4523f90e' +
       '000408' + // era. nonce, tip
       '0600' +
-      'ff' +
+      '00' +
       'd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' +
       'e56c'
     );

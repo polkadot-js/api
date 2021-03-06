@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import './detectPackage';
+
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AnyFunction } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
@@ -22,6 +24,7 @@ import * as technicalCommittee from './technicalCommittee';
 import * as treasury from './treasury';
 import * as tx from './tx';
 
+export { packageInfo } from './packageInfo';
 export * from './type';
 
 export const derive = { accounts, balances, bounties, chain, contracts, council, democracy, elections, imOnline, parachains, session, society, staking, technicalCommittee, treasury, tx };

@@ -9,7 +9,7 @@ import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAl
 
 import BN from 'bn.js';
 
-import { bnMax } from '@polkadot/util';
+import { bnMax, isFunction } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
@@ -25,6 +25,12 @@ interface AllLocked {
   lockedBalance: Balance,
   lockedBreakdown: (BalanceLock | BalanceLockTo212)[],
   vestingLocked: Balance
+}
+
+type DeriveCustomLocks = ApiInterfaceRx['derive'] & {
+  [custom: string]: {
+    customLocks?: ApiInterfaceRx['query']['balances']['locks']
+  }
 }
 
 const VESTING_ID = '0x76657374696e6720';
@@ -54,11 +60,10 @@ function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (Balan
 
 function calcShared (api: ApiInterfaceRx, bestNumber: BlockNumber, data: DeriveBalancesAccountData, locks: (BalanceLock | BalanceLockTo212)[]): DeriveBalancesAllAccountData {
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
-  const availableBalance = api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data.freeBalance.sub(lockedBalance)));
 
   return {
     ...data,
-    availableBalance,
+    availableBalance: api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data.freeBalance.sub(lockedBalance))),
     lockedBalance,
     lockedBreakdown,
     vestingLocked
@@ -75,8 +80,6 @@ function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLock
   const vestedNow = isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : new BN(0);
   const vestedBalance = vestedNow.gt(vestingTotal) ? vestingTotal : api.registry.createType('Balance', vestedNow);
   const isVesting = isStarted && !shared.vestingLocked.isZero();
-  const vestedClaimable = api.registry.createType('Balance', isVesting ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance)) : 0);
-  const vestingEndBlock = api.registry.createType('BlockNumber', isVesting ? vestingTotal.div(perBlock).add(startingBlock) : 0);
 
   return {
     ...shared,
@@ -85,8 +88,8 @@ function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLock
     additional: allLocks.filter((_, index) => index !== 0).map((l, index) => calcShared(api, bestNumber, data.additional[index], l)),
     isVesting,
     vestedBalance,
-    vestedClaimable,
-    vestingEndBlock,
+    vestedClaimable: api.registry.createType('Balance', isVesting ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance)) : 0),
+    vestingEndBlock: api.registry.createType('BlockNumber', isVesting ? vestingTotal.div(perBlock).add(startingBlock) : 0),
     vestingPerBlock: perBlock,
     vestingTotal
   };
@@ -112,11 +115,17 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
   );
 }
 
+const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
+
 // current (balances, vesting)
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
-  const lockCalls = balanceInstances.map((m) => api.query[m].locks);
+  const lockCalls = balanceInstances.map(
+    (m): ApiInterfaceRx['query']['balances']['locks'] | undefined =>
+      (api.derive as DeriveCustomLocks)[m]?.customLocks || api.query[m as 'balances']?.locks
+  );
+
   const lockEmpty = lockCalls.map((c) => !c);
-  const lockQueries = lockCalls.filter((c) => c).map((c): QueryableStorageMultiArg<'rxjs'> => [c, accountId]);
+  const lockQueries = lockCalls.filter(isNonNullable).map((c): QueryableStorageMultiArg<'rxjs'> => [c, accountId]);
 
   return (
     api.query.vesting?.vesting
@@ -166,7 +175,7 @@ export function all (instanceId: string, api: ApiInterfaceRx): (address: Account
           ? combineLatest([
             of(account),
             api.derive.chain.bestNumber(),
-            api.query.system?.account || api.query.balances?.account
+            isFunction(api.query.system?.account) || isFunction(api.query.balances?.account)
               ? queryCurrent(api, account.accountId, balanceInstances)
               : queryOld(api, account.accountId)
           ])

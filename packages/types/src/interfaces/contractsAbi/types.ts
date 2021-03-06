@@ -136,7 +136,7 @@ export interface ContractProjectContract extends Struct {
 
 /** @name ContractProjectSource */
 export interface ContractProjectSource extends Struct {
-  readonly hash: U8aFixed;
+  readonly wasmHash: U8aFixed;
   readonly language: Text;
   readonly compiler: Text;
   readonly wasm: Raw;

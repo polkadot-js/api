@@ -496,9 +496,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         )
       ),
       tap((keys): void => {
-        keys.length === PAGE_SIZE
-          ? startSubject.next(keys[PAGE_SIZE - 1].toHex())
-          : startSubject.complete();
+        setTimeout((): void => {
+          keys.length === PAGE_SIZE
+            ? startSubject.next(keys[PAGE_SIZE - 1].toHex())
+            : startSubject.complete();
+        }, 0);
       }),
       toArray(), // toArray since we want to startSubject to be completed
       map((keysArr: StorageKey[][]) => arrayFlatten(keysArr))

@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import './detectPackage';
+
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
@@ -17,6 +19,8 @@ import { Observable } from '@polkadot/x-rxjs';
 import { publishReplay, refCount } from '@polkadot/x-rxjs/operators';
 
 import { drr, refCountDelay } from './util';
+
+export { packageInfo } from './packageInfo';
 
 interface StorageChangeSetJSON {
   block: string;
