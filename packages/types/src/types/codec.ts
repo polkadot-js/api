@@ -61,7 +61,7 @@ export interface Codec {
   /**
    * @description The block at which this value was retrieved/created (set to non-empty when retrieved from storage)
    */
-  createdAtHash: Hash;
+  linkedHash: Hash;
 
   /**
    * @description Compares the value of the input to see if there is a match

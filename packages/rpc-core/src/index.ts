@@ -245,16 +245,16 @@ export class RpcCore implements RpcInterface {
     // execute the RPC call, doing a registry swap for historic as applicable
     const callWithRegistry = async (outputAs: OutputType, values: any[]): Promise<Codec | Codec[]> => {
       const blockHash = hashIndex === -1
-        ? undefined
+        ? null
         : values[hashIndex] as Uint8Array;
       const { registry } = blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(blockHash)
         : { registry: this.#registryDefault };
-      const params = this._formatInputs(registry, blockHash || registry.createdAtHash, def, values);
+      const params = this._formatInputs(registry, blockHash || registry.linkedHash, def, values);
       const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
 
       return outputAs === 'scale'
-        ? this._formatOutput(registry, method, def, params, data)
+        ? this._formatOutput(registry, blockHash, method, def, params, data)
         : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', data);
     };
 
@@ -324,7 +324,7 @@ export class RpcCore implements RpcInterface {
         };
 
         try {
-          const params = this._formatInputs(registry, registry.createdAtHash, def, values);
+          const params = this._formatInputs(registry, registry.linkedHash, def, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
 
           const update = (error?: Error | null, result?: any): void => {
@@ -337,7 +337,7 @@ export class RpcCore implements RpcInterface {
             try {
               observer.next(
                 outputAs === 'scale'
-                  ? this._formatOutput(registry, method, def, params, result)
+                  ? this._formatOutput(registry, null, method, def, params, result)
                   : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', result)
               );
             } catch (error) {
@@ -385,11 +385,11 @@ export class RpcCore implements RpcInterface {
     );
   }
 
-  private _formatOutput (registry: Registry, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
+  private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
-      return this._formatStorageData(registry, key.createdAtHash, key, result);
+      return this._formatStorageData(registry, key.linkedHash, key, result);
     } else if (rpc.type === 'StorageChangeSet') {
       const keys = params[0] as Vec<StorageKey>;
 
@@ -408,7 +408,7 @@ export class RpcCore implements RpcInterface {
         : mapped as unknown as Codec[];
     }
 
-    return createTypeUnsafe(registry, rpc.type, [result]);
+    return createTypeUnsafe(registry, rpc.type, [result], { blockHash });
   }
 
   private _formatStorageData (registry: Registry, blockHash: Uint8Array | string | null, key: StorageKey, value: string | null): Codec {
@@ -486,7 +486,7 @@ export class RpcCore implements RpcInterface {
 
       const option = new Option(registry, createClass(registry, type), inner);
 
-      option.createdAtHash = registry.createType('Hash', blockHash);
+      option.linkedHash = registry.createType('Hash', blockHash);
 
       return option;
     }

@@ -16,10 +16,7 @@ interface CreateOptions {
 
 const l = logger('registry');
 
-// function u8aHasValue (value: Uint8Array): boolean {
-//   return value.some((v): boolean => !!v);
-// }
-
+// TODO: Fix and re-enable
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
 // function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
@@ -53,11 +50,8 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
   const created = new Type(registry, ...params);
 
   if (blockHash) {
-    created.createdAtHash = createType(registry, 'Hash', blockHash);
+    created.linkedHash = createType(registry, 'Hash', blockHash);
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  //  const [value] = params;
 
   // if (isPedantic && isU8a(value)) {
   //   checkInstance(value, created);

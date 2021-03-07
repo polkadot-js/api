@@ -26,14 +26,14 @@ function decodeBool (value: any): boolean {
 export class bool extends Boolean implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor (registry: Registry, value: bool | Boolean | Uint8Array | boolean | number = false) {
     super(decodeBool(value));
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
   }
 
   /**

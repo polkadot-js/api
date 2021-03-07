@@ -11,13 +11,13 @@ import type { AnyJson, BareOpts, Codec, Registry } from '../types';
 export abstract class Base<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   protected readonly _raw: T;
 
   protected constructor (registry: Registry, value: T) {
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
     this._raw = value;
   }
 

@@ -24,13 +24,13 @@ const BITLENGTH: UIntBitLength = 64;
 export class CodecDate extends Date implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(CodecDate.decodeDate(value));
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
   }
 
   /** @internal */

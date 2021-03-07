@@ -18,13 +18,13 @@ import { compareArray } from './utils';
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   protected constructor (registry: Registry, ...values: T[]) {
     super(...values);
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
   }
 
   /**

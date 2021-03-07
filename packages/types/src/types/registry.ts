@@ -101,7 +101,7 @@ export interface Registry {
   readonly unknownTypes: string[];
   readonly signedExtensions: string[];
 
-  createdAtHash: Hash;
+  linkedHash: Hash;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
   findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;

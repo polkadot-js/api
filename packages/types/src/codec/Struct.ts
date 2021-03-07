@@ -135,7 +135,7 @@ export class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   readonly #jsonMap: Map<keyof S, string>;
 
@@ -148,7 +148,7 @@ export class Struct<
     ) as [keyof S, Codec][]);
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
     this.#jsonMap = jsonMap;
     this.#Types = mapToTypeMap(registry, Types);
   }

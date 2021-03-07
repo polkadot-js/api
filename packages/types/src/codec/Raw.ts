@@ -18,13 +18,13 @@ import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a }
 export class Raw extends Uint8Array implements IU8a {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   constructor (registry: Registry, value?: AnyU8a) {
     super(u8aToU8a(value));
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
   }
 
   /**

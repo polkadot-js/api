@@ -80,7 +80,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
 export class CodecSet extends Set<string> implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   readonly #allowed: SetValues;
 
@@ -90,7 +90,7 @@ export class CodecSet extends Set<string> implements Codec {
     super(decodeSet(setValues, value, bitLength));
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
     this.#allowed = setValues;
     this.#byteLength = bitLength / 8;
   }

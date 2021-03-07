@@ -67,7 +67,7 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
 export abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   readonly #bitLength: UIntBitLength;
 
@@ -77,7 +77,7 @@ export abstract class AbstractInt extends BN implements Codec {
     super(decodeAbstractInt(value, bitLength, isSigned));
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
     this.#bitLength = bitLength;
     this.#isSigned = isSigned;
 

@@ -166,7 +166,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
 export class Enum implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash: Hash;
+  public linkedHash: Hash;
 
   readonly #def: TypesDef;
 
@@ -185,7 +185,7 @@ export class Enum implements Codec {
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
     this.registry = registry;
-    this.createdAtHash = registry.createdAtHash;
+    this.linkedHash = registry.linkedHash;
     this.#def = defInfo.def;
     this.#isBasic = defInfo.isBasic;
     this.#isIndexed = defInfo.isIndexed;
