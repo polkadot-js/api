@@ -22,7 +22,7 @@ import { typeToConstructor } from './utils';
 export class Compact<T extends CompactEncodable> implements ICompact<T> {
   public readonly registry: Registry;
 
-  public linkedHash: Hash;
+  public createdAtHash?: Hash;
 
   readonly #Type: Constructor<T>;
 
@@ -30,7 +30,6 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
 
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
     this.registry = registry;
-    this.linkedHash = registry.linkedHash;
     this.#Type = typeToConstructor(registry, Type);
     this.#raw = Compact.decodeCompact<T>(registry, this.#Type, value) as T;
   }

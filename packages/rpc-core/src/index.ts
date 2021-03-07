@@ -250,7 +250,7 @@ export class RpcCore implements RpcInterface {
       const { registry } = blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(blockHash)
         : { registry: this.#registryDefault };
-      const params = this._formatInputs(registry, blockHash || registry.linkedHash, def, values);
+      const params = this._formatInputs(registry, null, def, values);
       const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
 
       return outputAs === 'scale'
@@ -324,7 +324,7 @@ export class RpcCore implements RpcInterface {
         };
 
         try {
-          const params = this._formatInputs(registry, registry.linkedHash, def, values);
+          const params = this._formatInputs(registry, null, def, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
 
           const update = (error?: Error | null, result?: any): void => {
@@ -372,8 +372,8 @@ export class RpcCore implements RpcInterface {
     return memoized;
   }
 
-  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null, def: DefinitionRpc, inputs: any[]): Codec[] {
-    const reqArgCount = def.params.filter(({ isOptional }): boolean => !isOptional).length;
+  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: any[]): Codec[] {
+    const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === def.params.length
       ? ''
       : ` (${def.params.length - reqArgCount} optional)`;
@@ -385,11 +385,11 @@ export class RpcCore implements RpcInterface {
     );
   }
 
-  private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
+  private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
-      return this._formatStorageData(registry, key.linkedHash, key, result);
+      return this._formatStorageData(registry, blockHash, key, result);
     } else if (rpc.type === 'StorageChangeSet') {
       const keys = params[0] as Vec<StorageKey>;
 
@@ -411,7 +411,7 @@ export class RpcCore implements RpcInterface {
     return createTypeUnsafe(registry, rpc.type, [result], { blockHash });
   }
 
-  private _formatStorageData (registry: Registry, blockHash: Uint8Array | string | null, key: StorageKey, value: string | null): Codec {
+  private _formatStorageData (registry: Registry, blockHash: Uint8Array | string | null | undefined, key: StorageKey, value: string | null): Codec {
     const isEmpty = isNull(value);
 
     // we convert to Uint8Array since it maps to the raw encoding, all
@@ -464,7 +464,7 @@ export class RpcCore implements RpcInterface {
     return this._newType(registry, blockHash, key, input, isEmpty, entryIndex);
   }
 
-  private _newType (registry: Registry, blockHash: Uint8Array | string | null, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean, entryIndex = -1): Codec {
+  private _newType (registry: Registry, blockHash: Uint8Array | string | null | undefined, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean, entryIndex = -1): Codec {
     // single return value (via state.getStorage), decode the value based on the
     // outputType that we have specified. Fallback to Raw on nothing
     const type = key.outputType || 'Raw';
@@ -486,7 +486,9 @@ export class RpcCore implements RpcInterface {
 
       const option = new Option(registry, createClass(registry, type), inner);
 
-      option.linkedHash = registry.createType('Hash', blockHash);
+      if (blockHash) {
+        option.createdAtHash = registry.createType('Hash', blockHash);
+      }
 
       return option;
     }

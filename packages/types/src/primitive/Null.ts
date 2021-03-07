@@ -14,11 +14,10 @@ import { isNull } from '@polkadot/util';
 export class Null implements Codec {
   public readonly registry: Registry;
 
-  public linkedHash: Hash;
+  public createdAtHash?: Hash;
 
   constructor (registry: Registry) {
     this.registry = registry;
-    this.linkedHash = registry.linkedHash;
   }
 
   /**

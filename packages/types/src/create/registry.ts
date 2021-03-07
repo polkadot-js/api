@@ -136,15 +136,17 @@ export class TypeRegistry implements Registry {
 
   #userExtensions?: ExtDef;
 
-  public linkedHash: Hash;
+  public createdAtHash?: Hash;
 
-  constructor (linkedHash?: Hash | Uint8Array | string) {
+  constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();
 
-    this.linkedHash = this.createType('Hash', linkedHash);
+    if (createdAtHash) {
+      this.createdAtHash = this.createType('Hash', createdAtHash);
+    }
   }
 
   public init (): this {

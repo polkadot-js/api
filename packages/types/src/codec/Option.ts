@@ -50,7 +50,7 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
 export class Option<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
-  public linkedHash: Hash;
+  public createdAtHash?: Hash;
 
   readonly #Type: Constructor<T>;
 
@@ -58,7 +58,6 @@ export class Option<T extends Codec> implements Codec {
 
   constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: unknown) {
     this.registry = registry;
-    this.linkedHash = registry.linkedHash;
     this.#Type = typeToConstructor(registry, typeName);
     this.#raw = decodeOption(registry, typeName, value) as T;
   }

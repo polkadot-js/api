@@ -50,7 +50,7 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
 export class Text extends String implements Codec {
   public readonly registry: Registry;
 
-  public linkedHash: Hash;
+  public createdAtHash?: Hash;
 
   #override: string | null = null;
 
@@ -58,7 +58,6 @@ export class Text extends String implements Codec {
     super(decodeText(value));
 
     this.registry = registry;
-    this.linkedHash = registry.linkedHash;
   }
 
   /**

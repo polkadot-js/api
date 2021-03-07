@@ -59,7 +59,7 @@ export class SignedBlockExtended extends _SignedBlock {
     this.#author = extractAuthor(this.block.header.digest, validators);
     this.#events = events || ([] as EventRecord[]);
     this.#extrinsics = mapExtrinsics(this.block.extrinsics, this.#events);
-    this.linkedHash = (block || registry).linkedHash;
+    this.createdAtHash = block?.createdAtHash;
   }
 
   /**

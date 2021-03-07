@@ -79,7 +79,7 @@ function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constr
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public readonly registry: Registry;
 
-  public linkedHash: Hash;
+  public createdAtHash?: Hash;
 
   readonly #ValClass: Constructor<V>;
 
@@ -87,7 +87,6 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
     super(decodeSet(registry, valType, rawValue));
 
     this.registry = registry;
-    this.linkedHash = registry.linkedHash;
     this.#ValClass = typeToConstructor(registry, valType);
   }
 

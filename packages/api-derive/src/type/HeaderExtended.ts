@@ -26,7 +26,7 @@ export class HeaderExtended extends _Header {
 
     this.#author = extractAuthor(this.digest, validators);
     this.#validators = validators;
-    this.linkedHash = (header || registry).linkedHash;
+    this.createdAtHash = header?.createdAtHash;
   }
 
   /**

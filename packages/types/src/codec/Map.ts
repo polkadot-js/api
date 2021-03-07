@@ -88,7 +88,7 @@ function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: 
 export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
   public readonly registry: Registry;
 
-  public linkedHash: Hash;
+  public createdAtHash?: Hash;
 
   readonly #KeyClass: Constructor<K>;
 
@@ -100,7 +100,6 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     super(decodeMap(registry, keyType, valType, rawValue));
 
     this.registry = registry;
-    this.linkedHash = registry.linkedHash;
     this.#KeyClass = typeToConstructor(registry, keyType);
     this.#ValClass = typeToConstructor(registry, valType);
     this.#type = type;

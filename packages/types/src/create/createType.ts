@@ -50,7 +50,7 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
   const created = new Type(registry, ...params);
 
   if (blockHash) {
-    created.linkedHash = createType(registry, 'Hash', blockHash);
+    created.createdAtHash = createType(registry, 'Hash', blockHash);
   }
 
   // if (isPedantic && isU8a(value)) {

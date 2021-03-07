@@ -20,13 +20,15 @@ import { memo } from '../util';
 export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): () => Observable<SignedBlockExtended> {
   return memo(instanceId, (): Observable<SignedBlockExtended> =>
     api.derive.chain.subscribeNewHeads().pipe(
-      switchMap((header): Observable<[SignedBlock, Vec<EventRecord>, HeaderExtended]> =>
-        combineLatest(
-          api.rpc.chain.getBlock(header.linkedHash),
-          api.query.system.events.at(header.linkedHash),
+      switchMap((header): Observable<[SignedBlock, Vec<EventRecord>, HeaderExtended]> => {
+        const blockHash = header.createdAtHash || header.hash;
+
+        return combineLatest(
+          api.rpc.chain.getBlock(blockHash),
+          api.query.system.events.at(blockHash),
           of(header)
-        )
-      ),
+        );
+      }),
       map(([block, events, header]) =>
         new SignedBlockExtended(api.registry, block, events, header.validators)
       )
