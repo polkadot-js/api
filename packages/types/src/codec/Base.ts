@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Registry } from '../types';
 
 /**
@@ -11,10 +11,13 @@ import type { AnyJson, BareOpts, Codec, Registry } from '../types';
 export abstract class Base<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
+  public createdAtHash: Hash;
+
   protected readonly _raw: T;
 
   protected constructor (registry: Registry, value: T) {
     this.registry = registry;
+    this.createdAtHash = registry.createdAtHash;
     this._raw = value;
   }
 

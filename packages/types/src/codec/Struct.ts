@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
 import { hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -135,6 +135,8 @@ export class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
   public readonly registry: Registry;
 
+  public createdAtHash: Hash;
+
   readonly #jsonMap: Map<keyof S, string>;
 
   readonly #Types: ConstructorDef;
@@ -146,6 +148,7 @@ export class Struct<
     ) as [keyof S, Codec][]);
 
     this.registry = registry;
+    this.createdAtHash = registry.createdAtHash;
     this.#jsonMap = jsonMap;
     this.#Types = mapToTypeMap(registry, Types);
   }

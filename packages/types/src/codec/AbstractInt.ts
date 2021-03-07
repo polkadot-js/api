@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyNumber, Codec, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
@@ -67,6 +67,8 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
 export abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
 
+  public createdAtHash: Hash;
+
   readonly #bitLength: UIntBitLength;
 
   readonly #isSigned: boolean;
@@ -75,6 +77,7 @@ export abstract class AbstractInt extends BN implements Codec {
     super(decodeAbstractInt(value, bitLength, isSigned));
 
     this.registry = registry;
+    this.createdAtHash = registry.createdAtHash;
     this.#bitLength = bitLength;
     this.#isSigned = isSigned;
 

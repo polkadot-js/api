@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { Codec, Constructor, Registry } from '../types';
 
 import BN from 'bn.js';
@@ -80,6 +80,8 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
 export class CodecSet extends Set<string> implements Codec {
   public readonly registry: Registry;
 
+  public createdAtHash: Hash;
+
   readonly #allowed: SetValues;
 
   readonly #byteLength: number;
@@ -88,6 +90,7 @@ export class CodecSet extends Set<string> implements Codec {
     super(decodeSet(setValues, value, bitLength));
 
     this.registry = registry;
+    this.createdAtHash = registry.createdAtHash;
     this.#allowed = setValues;
     this.#byteLength = bitLength / 8;
   }

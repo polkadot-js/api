@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 // we are attempting to avoid circular refs, hence the Metadata path import
@@ -136,11 +136,15 @@ export class TypeRegistry implements Registry {
 
   #userExtensions?: ExtDef;
 
-  constructor () {
+  public createdAtHash: Hash;
+
+  constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();
+
+    this.createdAtHash = this.createType('Hash', createdAtHash);
   }
 
   public init (): this {
