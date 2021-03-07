@@ -427,7 +427,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       decorated.multi = decorateMethod(
         (args: (Arg | Arg[])[]): Observable<[Hash, Codec[]]> =>
           this._retrieveMulti(args.map((arg) => [creator, arg])),
-        { isStorageSub: true }
+        { isStorageMulti: true, isStorageSub: true }
       );
     }
 
@@ -443,7 +443,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return decorateMethod((...args: unknown[]): Observable<[Hash, Codec] | Codec> => {
       return this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage([extractStorageArgs(creator, args)]).pipe(
-          map(([hash, [data]]): [Hash, Codec] => [hash, data]) // extract first/only result from list
+          map(([hash, [value]]): [Hash, Codec] => [hash, value]) // extract first/only result from list
         )
         : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));
     }, {

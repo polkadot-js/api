@@ -130,6 +130,11 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
     console.log(hash.toHex(), balances.map((b) => b.toHuman()));
   });
 
+  // multi without blockhash
+  const [a, b] = await api.query.system.account.multi(['123', '456']);
+
+  console.log(a.toHuman(), b.toHuman());
+
   // at queries
   const events = await api.query.system.events.at('0x12345');
 

@@ -59,7 +59,7 @@ function promiseTracker<T> (resolve: (value: T) => void, reject: (value: Error) 
 }
 
 // Decorate a call for a single-shot result - retrieve and then immediate unsubscribe
-function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[]): Promise<ObsInnerType<ReturnType<Method>>> {
+function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], isStorageMulti = false): Promise<ObsInnerType<ReturnType<Method>>> {
   return new Promise((resolve, reject): void => {
     // single result tracker - either reject with Error or resolve with Codec result
     const tracker = promiseTracker(resolve, reject);
@@ -68,8 +68,17 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
     const subscription: Subscription = method(...actualArgs).pipe(
       catchError((error) => tracker.reject(error))
     ).subscribe((result): void => {
-      tracker.resolve(result);
-      setTimeout(() => subscription.unsubscribe(), 0);
+      setTimeout((): void => {
+        if (isStorageMulti) {
+          const [, value] = result as [Hash, ObsInnerType<ReturnType<Method>>];
+
+          tracker.resolve(value);
+        } else {
+          tracker.resolve(result);
+        }
+
+        subscription.unsubscribe();
+      }, 0);
     });
   });
 }
@@ -109,8 +118,8 @@ export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType
     const [actualArgs, resultCb] = extractArgs(args, needsCallback);
 
     return resultCb
-      ? decorateSubscribe(method, actualArgs, resultCb, options.isStorageSub)
-      : decorateCall((options.overrideNoSub as Method) || method, actualArgs);
+      ? decorateSubscribe(method, actualArgs, resultCb, options.isStorageMulti || options.isStorageSub)
+      : decorateCall((options.overrideNoSub as Method) || method, actualArgs, options.isStorageMulti);
   } as StorageEntryPromiseOverloads;
 }
 
