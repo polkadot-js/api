@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
-import type { AccountId, EraIndex, Exposure, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { AccountId, EraIndex, Exposure, Hash, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveStakingQuery, StakingQueryFlags } from '../types';
 
@@ -12,10 +12,10 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<Nominations>, rewardDestination: RewardDestination, validatorPrefs: ValidatorPrefs, exposure: Exposure, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
+function parseDetails (stashId: AccountId, optControllerId: Option<AccountId> | null, nominatorsOpt: Option<Nominations>, rewardDestination: RewardDestination, validatorPrefs: ValidatorPrefs, exposure: Exposure, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
   return {
     accountId: stashId,
-    controllerId: controllerIdOpt && controllerIdOpt.unwrapOr(null),
+    controllerId: optControllerId && optControllerId.unwrapOr(null),
     exposure,
     nominators: nominatorsOpt.isSome
       ? nominatorsOpt.unwrap().targets
@@ -36,9 +36,9 @@ function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], 
   return (
     ids.length
       ? api.query.staking.ledger.multi<Option<StakingLedger>>(ids)
-      : of([])
+      : of([undefined, []] as [undefined, Option<StakingLedger>[]])
   ).pipe(
-    map((optLedgers): Option<StakingLedger>[] => {
+    map(([, optLedgers]): Option<StakingLedger>[] => {
       let offset = -1;
 
       return optIds.map((opt): Option<StakingLedger> =>
@@ -50,7 +50,7 @@ function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], 
   );
 }
 
-function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<Nominations>[], RewardDestination[], ValidatorPrefs[], Exposure[]]> {
+function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[[Hash | null, (Option<AccountId> | null)[]], [Hash | null, Option<Nominations>[]], [Hash | null, RewardDestination[]], [Hash | null, ValidatorPrefs[]], [Hash | null, Exposure[]]]> {
   const emptyNoms = api.registry.createType('Option<Nominations>');
   const emptyRewa = api.registry.createType('RewardDestination');
   const emptyExpo = api.registry.createType('Exposure');
@@ -59,25 +59,25 @@ function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: Er
   return combineLatest([
     withController || withLedger
       ? api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
-      : of(stashIds.map(() => null)),
+      : of(stashIds.map(() => [null, null])),
     withNominations
       ? api.query.staking.nominators.multi<Option<Nominations>>(stashIds)
-      : of(stashIds.map(() => emptyNoms)),
+      : of(stashIds.map(() => [null, emptyNoms])),
     withDestination
       ? api.query.staking.payee.multi<RewardDestination>(stashIds)
-      : of(stashIds.map(() => emptyRewa)),
+      : of(stashIds.map(() => [null, emptyRewa])),
     withPrefs
       ? api.query.staking.validators.multi<ValidatorPrefs>(stashIds)
-      : of(stashIds.map(() => emptyPrefs)),
+      : of(stashIds.map(() => [null, emptyPrefs])),
     withExposure
       ? api.query.staking.erasStakers.multi<Exposure>(stashIds.map((stashId) => [activeEra, stashId]))
-      : of(stashIds.map(() => emptyExpo))
+      : of(stashIds.map(() => [null, emptyExpo]))
   ]);
 }
 
 function getBatch (api: ApiInterfaceRx, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> {
   return getStashInfo(api, stashIds, activeEra, flags).pipe(
-    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): Observable<DeriveStakingQuery[]> =>
+    switchMap(([[, controllerIdOpt], [, nominatorsOpt], [, rewardDestination], [, validatorPrefs], [, exposure]]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>

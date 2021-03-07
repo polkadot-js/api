@@ -27,11 +27,11 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
               [referendumId, accountId]
             )
           )
-          : of([]),
+          : of([undefined, []] as [undefined, Vote[]]),
         api.derive.balances.votingBalances(votersFor)
       ])
     ),
-    map(([votersFor, votes, balances]): DeriveReferendumVote[] =>
+    map(([votersFor, [, votes], balances]): DeriveReferendumVote[] =>
       votersFor.map((accountId, index): DeriveReferendumVote => ({
         accountId,
         balance: balances[index].votingBalance || api.registry.createType('Balance'),
@@ -145,7 +145,7 @@ export function referendumsInfo (instanceId: string, api: ApiInterfaceRx): (ids:
   return memo(instanceId, (ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length
       ? api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo>>(ids).pipe(
-        switchMap((infos): Observable<(DeriveReferendum | null)[]> =>
+        switchMap(([, infos]): Observable<(DeriveReferendum | null)[]> =>
           combineLatest(
             ids.map((id, index): Observable<DeriveReferendum | null> =>
               api.derive.democracy._referendumInfo(id, infos[index])

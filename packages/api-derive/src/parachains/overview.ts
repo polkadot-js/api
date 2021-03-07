@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { ParaId } from '@polkadot/types/interfaces';
+import type { Hash, ParaId } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveParachain, DeriveParachainInfo } from '../types';
 import type { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
@@ -16,12 +16,12 @@ import { didUpdateToBool } from './util';
 type Result = [
   ParaId[],
   DidUpdate,
-  ParaInfoResult[],
-  PendingSwap[],
-  RelayDispatchQueueSize[]
+  [Hash, ParaInfoResult[]],
+  [Hash, PendingSwap[]],
+  [Hash, RelayDispatchQueueSize[]]
 ];
 
-function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: Result): DeriveParachain[] {
+function parse ([ids, didUpdate, [, infos], [, pendingSwaps], [, relayDispatchQueueSizes]]: Result): DeriveParachain[] {
   return ids.map((id, index): DeriveParachain => ({
     didUpdate: didUpdateToBool(didUpdate, id),
     id,

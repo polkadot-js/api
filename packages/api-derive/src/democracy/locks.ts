@@ -59,7 +59,7 @@ function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<
   }
 
   return api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo | ReferendumInfoTo239>>(votes.map(([referendumId]) => referendumId)).pipe(
-    map((referendums) =>
+    map(([, referendums]) =>
       votes
         .map((vote, index): [VotingDirectVote, ReferendumInfo | ReferendumInfoTo239 | null] =>
           [vote, referendums[index].unwrapOr(null)]

@@ -31,7 +31,7 @@ function query (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
     api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
-    map(([activeOpt, currentEra, currentIndex, validatorCount]): DeriveSessionIndexes => {
+    map(([, [activeOpt, currentEra, currentIndex, validatorCount]]): DeriveSessionIndexes => {
       const { index, start } = activeOpt.unwrapOrDefault();
 
       return parse([

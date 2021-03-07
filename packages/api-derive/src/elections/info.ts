@@ -50,7 +50,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
     api.query[section].members,
     api.query[section].runnersUp
   ]).pipe(
-    map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
+    map(([, [councilMembers, candidates, members, runnersUp]]): DeriveElectionsInfo => ({
       candidacyBond: api.consts[section].candidacyBond as Balance,
       candidateCount: api.registry.createType('u32', candidates.length),
       candidates: candidates.map(getCandidate),

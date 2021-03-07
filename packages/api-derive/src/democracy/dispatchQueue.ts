@@ -42,7 +42,7 @@ function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], Option<Scheduled>[][]]> {
+function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], [Hash, Option<Scheduled>[][]]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -63,7 +63,7 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], Opti
 
 function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   return schedulerEntries(api).pipe(
-    switchMap(([blockNumbers, agendas]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
+    switchMap(([blockNumbers, [, agendas]]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
       const result: SchedulerInfo[] = [];
 
       blockNumbers.forEach((at, index): void => {

@@ -18,7 +18,7 @@ export function erasHistoric (instanceId: string, api: ApiInterfaceRx): (withAct
       api.query.staking.activeEra,
       api.query.staking.historyDepth
     ]).pipe(
-      map(([activeEraOpt, historyDepth]): EraIndex[] => {
+      map(([, [activeEraOpt, historyDepth]]): EraIndex[] => {
         const result: EraIndex[] = [];
         const max = historyDepth.toNumber();
         const activeEra: BN = activeEraOpt.unwrapOrDefault().index;

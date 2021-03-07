@@ -101,7 +101,7 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
     [api.query.balances.locks, accountId],
     [api.query.balances.vesting, accountId]
   ]).pipe(
-    map(([locks, optVesting]): ResultBalance => {
+    map(([, [locks, optVesting]]): ResultBalance => {
       let vestingNew = null;
 
       if (optVesting.isSome) {
@@ -136,13 +136,13 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
       // TODO We need to check module instances here as well, not only the balances module
       : lockQueries.length
         ? api.queryMulti<[...(Vec<BalanceLock>)[]]>(lockQueries).pipe(
-          map((locks): [Option<VestingInfo>, ...BalanceLocks] =>
-            [api.registry.createType('Option<VestingInfo>'), ...locks]
+          map(([, locks]): [undefined, [Option<VestingInfo>, ...BalanceLocks]] =>
+            [undefined, [api.registry.createType('Option<VestingInfo>'), ...locks]]
           )
         )
-        : of([api.registry.createType('Option<VestingInfo>')] as [Option<VestingInfo>])
+        : of([undefined, [api.registry.createType('Option<VestingInfo>')]] as [undefined, [Option<VestingInfo>]])
   ).pipe(
-    map(([optVesting, ...locks]): ResultBalance => {
+    map(([, [optVesting, ...locks]]): ResultBalance => {
       let offset = -1;
 
       return [optVesting.unwrapOr(null), lockEmpty.map((e) => e ? api.registry.createType('Vec<BalanceLock>') : locks[++offset])];

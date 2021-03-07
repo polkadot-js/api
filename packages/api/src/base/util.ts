@@ -67,7 +67,9 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
     filtered.length
       ? blockHash
         ? combineLatest(filtered.map((c) => c.at(blockHash)))
-        : api.queryMulti(filtered)
+        : api.queryMulti(filtered).pipe(
+          map(([, values]) => values)
+        )
       : of([])
   ).pipe(
     map((results): Partial<DetectedTypes> => {

@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, Bid } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, Bid, Hash } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSociety } from '../types';
 
@@ -26,7 +26,7 @@ export function info (instanceId: string, api: ApiInterfaceRx): () => Observable
       api.query.society.maxMembers,
       api.query.society.pot
     ]).pipe(
-      map(([bids, defender, founder, head, maxMembers, pot]: Result): DeriveSociety => ({
+      map(([, [bids, defender, founder, head, maxMembers, pot]]: [Hash, Result]): DeriveSociety => ({
         bids,
         defender: defender.unwrapOr(undefined),
         founder: founder.unwrapOr(undefined),

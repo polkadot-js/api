@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { bool, Option, Vec } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, Hash, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSocietyMember } from '../types';
@@ -26,7 +26,7 @@ export function member (instanceId: string, api: ApiInterfaceRx): (accountId: Ac
       [api.query.society.suspendedMembers, accountId],
       [api.query.society.vouching, accountId]
     ]).pipe(
-      map(([payouts, strikes, defenderVotes, suspended, vouching]: Result): DeriveSocietyMember => ({
+      map(([, [payouts, strikes, defenderVotes, suspended, vouching]]: [Hash, Result]): DeriveSocietyMember => ({
         accountId,
         isSuspended: suspended.isTrue,
         payouts,

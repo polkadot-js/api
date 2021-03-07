@@ -14,7 +14,7 @@ export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (account
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerPrefs[]> =>
     api.query.staking.erasValidatorPrefs.multi<ValidatorPrefs>(eras.map((era) => [era, accountId])).pipe(
-      map((all): DeriveStakerPrefs[] =>
+      map(([, all]): DeriveStakerPrefs[] =>
         all.map((validatorPrefs, index): DeriveStakerPrefs => ({
           era: eras[index],
           validatorPrefs

@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Data, Option } from '@polkadot/types';
-import type { AccountId, IdentityInfoAdditional, Registration } from '@polkadot/types/interfaces';
+import type { AccountId, Hash, IdentityInfoAdditional, Registration } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
@@ -79,13 +79,13 @@ function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | u
   return of([undefined, undefined]);
 }
 
-function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | string): Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
+function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | string): Observable<[Hash | undefined, [Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]]> {
   return accountId && api.query.identity?.identityOf
     ? api.queryMulti<[Option<Registration>, Option<ITuple<[AccountId, Data]>>]>([
       [api.query.identity.identityOf, accountId],
       [api.query.identity.superOf, accountId]
     ])
-    : of([undefined, undefined]);
+    : of([undefined, [undefined, undefined]]);
 }
 
 /**
@@ -95,7 +95,7 @@ function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | stri
 export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
   return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> =>
     getBase(api, accountId).pipe(
-      switchMap(([identityOfOpt, superOfOpt]) => getParent(api, identityOfOpt, superOfOpt)),
+      switchMap(([, [identityOfOpt, superOfOpt]]) => getParent(api, identityOfOpt, superOfOpt)),
       map(([identityOfOpt, superOf]) => extractIdentity(identityOfOpt, superOf))
     )
   );
@@ -116,7 +116,7 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
         api.query.identity.identityOf.multi<Option<Registration>>(accountIds),
         api.query.identity.superOf.multi<Option<ITuple<[AccountId, Data]>>>(accountIds)
       ]).pipe(
-        map(([identities, supers]) =>
+        map(([[, identities], [, supers]]) =>
           identities.map((identityOfOpt, index): DeriveHasIdentity => {
             const superOfOpt = supers[index];
             const parentId = superOfOpt && superOfOpt.isSome

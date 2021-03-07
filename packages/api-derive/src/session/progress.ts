@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u64 } from '@polkadot/types';
-import type { SessionIndex } from '@polkadot/types/interfaces';
+import type { Hash, SessionIndex } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSessionInfo, DeriveSessionProgress } from '../types';
 
@@ -40,7 +40,7 @@ function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
 
 function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return api.derive.session.info().pipe(
-    switchMap((info): Observable<[DeriveSessionInfo, ResultSlots | ResultSlotsNoSession]> =>
+    switchMap((info): Observable<[DeriveSessionInfo, [Hash, ResultSlots | ResultSlotsNoSession]]> =>
       combineLatest([
         of(info),
         // we may have no staking, but have babe (permissioned)
@@ -58,7 +58,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
           ])
       ])
     ),
-    map(([info, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionInfo, ResultSlotsFlat] => [
+    map(([info, [, [currentSlot, epochIndex, genesisSlot, optStartIndex]]]): [DeriveSessionInfo, ResultSlotsFlat] => [
       info, [currentSlot, epochIndex, genesisSlot, optStartIndex && optStartIndex.isSome ? optStartIndex.unwrap() : api.registry.createType('SessionIndex', 1)]
     ])
   );

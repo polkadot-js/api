@@ -19,7 +19,7 @@ export function referendumIds (instanceId: string, api: ApiInterfaceRx): () => O
         api.query.democracy.lowestUnbaked,
         api.query.democracy.referendumCount
       ]).pipe(
-        map(([first, total]): BN[] =>
+        map(([, [first, total]]): BN[] =>
           total.gt(first)
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             ? [...Array(total.sub(first).toNumber())].map((_, i): BN => first.addn(i))

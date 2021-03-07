@@ -21,7 +21,7 @@ export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountI
         ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.validatorSlashInEra, [era, accountId]]),
         ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.nominatorSlashInEra, [era, accountId]])
       ]).pipe(
-        map((values): DeriveStakerSlashes[] =>
+        map(([, values]): DeriveStakerSlashes[] =>
           eras.map((era, index) => ({
             era,
             total: values[index].isSome

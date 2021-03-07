@@ -18,7 +18,7 @@ type DepositorsNew = Option<ITuple<[Vec<AccountId>, Balance]>>;
 type DepositorsOld = Option<ITuple<[Balance, Vec<AccountId>]>>;
 type Depositors = DepositorsNew | DepositorsOld;
 type Proposals = Vec<ITuple<[PropIndex, Hash, AccountId]>>;
-type Result = [Proposals, (DeriveProposalImage | undefined)[], Depositors[]];
+type Result = [Proposals, (DeriveProposalImage | undefined)[], [Hash, Depositors[]]];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple<[Balance, Vec<AccountId>]>): depositors is ITuple<[Vec<AccountId>, Balance]> {
@@ -27,7 +27,7 @@ function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple
   return isFunction((depositors[1] as Balance).mul);
 }
 
-function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
+function parse ([proposals, images, [, optDepositors]]: Result): DeriveProposal[] {
   return proposals
     .filter(([, , proposer], index): boolean =>
       !!(optDepositors[index]?.isSome) && !proposer.isEmpty
@@ -57,9 +57,11 @@ export function proposals (instanceId: string, api: ApiInterfaceRx): () => Obser
           combineLatest([
             of(proposals),
             api.derive.democracy.preimages(
-              proposals.map(([, hash]): Hash => hash)),
+              proposals.map(([, hash]): Hash => hash)
+            ),
             api.query.democracy.depositOf.multi<Depositors>(
-              proposals.map(([index]): PropIndex => index))
+              proposals.map(([index]): PropIndex => index)
+            )
           ])
         ),
         map(parse)

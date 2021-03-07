@@ -9,7 +9,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { ApiTypes, MethodResult, ObsInnerCodec, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
 interface StorageEntryObservableMulti<F extends AnyFunction, R extends Codec = ObsInnerCodec<ReturnType<F>>> {
-  <T extends Codec = R>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
+  <T extends Codec = R>(args: (CodecArg[] | CodecArg)[]): Observable<[Hash, T[]]>;
 }
 
 interface StorageEntryPromiseMulti<F extends AnyFunction, R extends Codec = ObsInnerCodec<ReturnType<F>>> {
@@ -66,7 +66,7 @@ export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
   [QueryableStorageEntry<ApiType>, ...CodecArg[]];
 
 export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
-  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<T>;
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<[Hash, T]>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType extends ApiTypes> {

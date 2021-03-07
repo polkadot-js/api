@@ -19,7 +19,7 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
         ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakersClipped, [era, accountId]]),
         ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakers, [era, accountId]])
       ]).pipe(
-        map((all): DeriveOwnExposure[] =>
+        map(([, all]): DeriveOwnExposure[] =>
           eras.map((era, index) => ({ clipped: all[index], era, exposure: all[eras.length + index] }))
         )
       )

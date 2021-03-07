@@ -53,7 +53,7 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
     [api.query.balances.reservedBalance, accountId],
     [api.query.system.accountNonce, accountId]
   ]).pipe(
-    map(([freeBalance, reservedBalance, accountNonce]): Result => [
+    map(([, [freeBalance, reservedBalance, accountNonce]]): Result => [
       accountNonce,
       [[freeBalance, reservedBalance, api.registry.createType('Balance'), api.registry.createType('Balance')]]
     ])
@@ -73,10 +73,10 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, module
 
   return isFunction(api.query.system.account)
     ? api.queryMulti<[AccountInfo, ...(AccountData[])]>([[api.query.system.account, accountId], ...balances]).pipe(
-      map(([{ nonce }, ...balances]): Result => [nonce, extract(balances)])
+      map(([, [{ nonce }, ...balances]]): Result => [nonce, extract(balances)])
     )
     : api.queryMulti<[Index, ...(AccountData[])]>([[api.query.system.accountNonce, accountId], ...balances]).pipe(
-      map(([nonce, ...balances]): Result => [nonce, extract(balances)])
+      map(([, [nonce, ...balances]]): Result => [nonce, extract(balances)])
     );
 }
 

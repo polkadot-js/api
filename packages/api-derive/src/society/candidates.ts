@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, Bid, BidKind, Hash } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSocietyCandidate } from '../types';
@@ -14,7 +14,7 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 import { memo } from '../util';
 
 type ResultSuspend = Option<ITuple<[BalanceOf, BidKind]>>;
-type Result = [Bid[], ResultSuspend[]]
+type Result = [Bid[], [Hash, ResultSuspend[]]]
 
 /**
  * @description Get the candidate info for a society
@@ -29,7 +29,7 @@ export function candidates (instanceId: string, api: ApiInterfaceRx): () => Obse
             candidates.map(({ who }): AccountId => who))
         ])
       ),
-      map(([candidates, suspended]: Result): DeriveSocietyCandidate[] =>
+      map(([candidates, [, suspended]]: Result): DeriveSocietyCandidate[] =>
         candidates.map(({ kind, value, who }, index) => ({
           accountId: who,
           isSuspended: suspended[index].isSome,

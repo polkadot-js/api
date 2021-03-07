@@ -4,7 +4,7 @@
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Bytes, Option } from '@polkadot/types';
-import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
+import type { Bounty, BountyIndex, Hash, ProposalIndex } from '@polkadot/types/interfaces';
 
 import { memo } from '@polkadot/api-derive/util';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
@@ -12,16 +12,16 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { filterBountiesProposals } from './helpers/filterBountyProposals';
 
-type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
+type Result = [[Hash, Option<Bounty>[]], [Hash, Option<Bytes>[]], BountyIndex[], DeriveCollectiveProposal[]];
 
-function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: Result): DeriveBounties {
+function parseResult ([[, optBounties], [, optDescriptions], ids, bountyProposals]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
 
-  maybeBounties.forEach((bounty, index) => {
+  optBounties.forEach((bounty, index) => {
     if (bounty.isSome) {
       bounties.push({
         bounty: bounty.unwrap(),
-        description: maybeDescriptions[index].unwrapOrDefault().toUtf8(),
+        description: optDescriptions[index].unwrapOrDefault().toUtf8(),
         index: ids[index],
         proposals: bountyProposals.filter((bountyProposal) => ids[index].eq(bountyProposal.proposal.args[0]))
       });
@@ -37,7 +37,9 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
   return memo(instanceId, (): Observable<DeriveBounties> =>
     combineLatest([
       bountyBase.bountyCount<BountyIndex>(),
-      api.query.council ? api.query.council.proposalCount<ProposalIndex>() : of(0)
+      api.query.council
+        ? api.query.council.proposalCount<ProposalIndex>()
+        : of(0)
     ]).pipe(
       switchMap(() =>
         combineLatest([

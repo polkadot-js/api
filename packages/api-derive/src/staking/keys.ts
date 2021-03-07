@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, Keys } from '@polkadot/types/interfaces';
+import type { AccountId, Hash, Keys } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveStakingKeys } from './types';
@@ -35,7 +35,7 @@ export function keysMulti (instanceId: string, api: ApiInterfaceRx): (stashIds: 
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>
     stashIds.length
       ? api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>().pipe(
-        switchMap((queuedKeys): Observable<[Vec<ITuple<[AccountId, Keys]>>, Option<Keys>[]]> =>
+        switchMap((queuedKeys): Observable<[Vec<ITuple<[AccountId, Keys]>>, [Hash, Option<Keys>[]]]> =>
           combineLatest([
             of(queuedKeys),
             api.consts.session?.dedupKeyPrefix
@@ -43,7 +43,7 @@ export function keysMulti (instanceId: string, api: ApiInterfaceRx): (stashIds: 
               : api.query.session.nextKeys.multi<Option<Keys>>(stashIds)
           ])
         ),
-        map(([queuedKeys, nextKeys]) =>
+        map(([queuedKeys, [, nextKeys]]) =>
           stashIds.map((stashId, index) => extractsIds(stashId, queuedKeys, nextKeys[index]))
         )
       )

@@ -14,7 +14,7 @@ export function referendumsFinished (instanceId: string, api: ApiInterfaceRx): (
   return memo(instanceId, (): Observable<ReferendumInfoFinished[]> =>
     api.derive.democracy.referendumIds().pipe(
       switchMap((ids) => api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo>>(ids)),
-      map((infos): ReferendumInfoFinished[] =>
+      map(([, infos]): ReferendumInfoFinished[] =>
         infos
           .filter((optInfo) => optInfo.isSome)
           .map((optInfo) => optInfo.unwrap())

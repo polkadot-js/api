@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Bytes, Option, u32 } from '@polkadot/types';
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, Hash } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveHeartbeats } from '../types';
 
@@ -13,7 +13,9 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbeats, AccountId[], Option<Bytes>[], u32[]]): DeriveHeartbeats {
+type Result = [DeriveHeartbeats, AccountId[], [Hash, Option<Bytes>[]], [Hash, u32[]]];
+
+function mapResult ([result, validators, [, heartbeats], [, numBlocks]]: Result): DeriveHeartbeats {
   validators.forEach((validator, index): void => {
     const validatorId = validator.toString();
     const blockCount = numBlocks[index];
@@ -39,7 +41,7 @@ export function receivedHeartbeats (instanceId: string, api: ApiInterfaceRx): ()
   return memo(instanceId, (): Observable<DeriveHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(
-        switchMap(({ currentIndex, validators }): Observable<[DeriveHeartbeats, AccountId[], Option<Bytes>[], u32[]]> =>
+        switchMap(({ currentIndex, validators }): Observable<Result> =>
           combineLatest([
             of({}),
             of(validators),
