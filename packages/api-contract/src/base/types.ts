@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import type { ApiTypes, ObsInnerType } from '@polkadot/api/types';
+import type { ApiTypes, ObsInnerCodec } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { CodecArg } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
@@ -29,9 +29,10 @@ export interface ContractGeneric<O, T> {
   (messageOrId: AbiMessage | string | number, value: BigInt | BN | string | number, gasLimit: BigInt | BN | string | number, ...params: CodecArg[]): T;
 }
 
-export type ContractCallResult<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'
-  ? Observable<Observable<T>>
-  : Promise<ObsInnerType<Observable<T>>>;
+export type ContractCallResult<ApiType extends ApiTypes, T> =
+  ApiType extends 'rxjs'
+    ? Observable<Observable<T>>
+    : Promise<ObsInnerCodec<Observable<T>>>;
 
 export interface ContractCallSend<ApiType extends ApiTypes> {
   send (account: string | AccountId | Uint8Array): ContractCallResult<ApiType, ContractCallOutcome>;

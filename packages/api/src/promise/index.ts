@@ -3,7 +3,7 @@
 
 import type { Hash } from '@polkadot/types/interfaces';
 import type { Callback, Codec } from '@polkadot/types/types';
-import type { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
+import type { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerCodec, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
 
 import { assert, isFunction } from '@polkadot/util';
 import { EMPTY, Observable, Subscription } from '@polkadot/x-rxjs';
@@ -59,7 +59,7 @@ function promiseTracker<T> (resolve: (value: T) => void, reject: (value: Error) 
 }
 
 // Decorate a call for a single-shot result - retrieve and then immediate unsubscribe
-function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], isStorageMulti = false): Promise<ObsInnerType<ReturnType<Method>>> {
+function decorateCall<Method extends DecorateFn<ObsInnerCodec<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], isStorageMulti = false): Promise<ObsInnerCodec<ReturnType<Method>>> {
   return new Promise((resolve, reject): void => {
     // single result tracker - either reject with Error or resolve with Codec result
     const tracker = promiseTracker(resolve, reject);
@@ -70,7 +70,7 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
     ).subscribe((result): void => {
       setTimeout((): void => {
         if (isStorageMulti) {
-          const [, value] = result as [Hash, ObsInnerType<ReturnType<Method>>];
+          const [, value] = result as [Hash, ObsInnerCodec<ReturnType<Method>>];
 
           tracker.resolve(value);
         } else {
@@ -84,7 +84,7 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
 }
 
 // Decorate a subscription where we have a result callback specified
-function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], resultCb: Callback<Codec> | Callback<Codec[], Hash>, isStorageSub = false): UnsubscribePromise {
+function decorateSubscribe<Method extends DecorateFn<ObsInnerCodec<ReturnType<Method>>>> (method: Method, actualArgs: unknown[], resultCb: Callback<Codec> | Callback<Codec[], Hash>, isStorageSub = false): UnsubscribePromise {
   return new Promise<VoidFn>((resolve, reject): void => {
     // either reject with error or resolve with unsubscribe callback
     const tracker = promiseTracker(resolve, reject);
@@ -111,10 +111,10 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-export function decorateMethod<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>>> (method: Method, options: DecorateMethodOptions = {}): StorageEntryPromiseOverloads {
+export function decorateMethod<Method extends DecorateFn<ObsInnerCodec<ReturnType<Method>>>> (method: Method, options: DecorateMethodOptions = {}): StorageEntryPromiseOverloads {
   const needsCallback = !!(options.methodName && options.methodName.includes('subscribe'));
 
-  return function (...args: unknown[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
+  return function (...args: unknown[]): Promise<ObsInnerCodec<ReturnType<Method>>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, needsCallback);
 
     return resultCb

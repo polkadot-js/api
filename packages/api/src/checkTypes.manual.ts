@@ -4,7 +4,7 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import type { StorageKey } from '@polkadot/types';
-import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
+import type { Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -109,11 +109,8 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
   // events destructing & blockhash
   await api.query.system.events((records, hash): void => {
     records.forEach(({ event, phase }): void => {
-      if (phase.isApplyExtrinsic) {
-        // Dunno... this should work
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const [accountId, value]: [AccountId, Balance] = event.data;
+      if (phase.isApplyExtrinsic && api.events.balances.Transfer.is(event)) {
+        const [accountId, value] = event.data;
 
         console.log(hash.toHex(), `${accountId.toString()} has ${value.toHuman()}`);
       }

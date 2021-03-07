@@ -319,7 +319,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       return this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage(args)
         : this._rpcCore.state.queryStorageAt(args);
-    }, { isStorageSub: true });
+    }, { isStorageMulti: true, isStorageSub: true });
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {

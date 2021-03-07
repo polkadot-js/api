@@ -6,13 +6,13 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, Callback, Codec, CodecArg, IStorageKey } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
-import type { ApiTypes, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
+import type { ApiTypes, MethodResult, ObsInnerCodec, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
-interface StorageEntryObservableMulti<F extends AnyFunction, R extends Codec = ObsInnerType<ReturnType<F>> & Codec> {
+interface StorageEntryObservableMulti<F extends AnyFunction, R extends Codec = ObsInnerCodec<ReturnType<F>>> {
   <T extends Codec = R>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
 }
 
-interface StorageEntryPromiseMulti<F extends AnyFunction, R extends Codec = ObsInnerType<ReturnType<F>> & Codec> {
+interface StorageEntryPromiseMulti<F extends AnyFunction, R extends Codec = ObsInnerCodec<ReturnType<F>>> {
   <T extends Codec = R>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
   <T extends Codec = R>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[], Hash>): UnsubscribePromise;
 }
@@ -35,7 +35,7 @@ export type QueryableStorageEntry<ApiType extends ApiTypes, A extends AnyTuple =
     // eslint-disable-next-line no-use-before-define
     : AugmentedQuery<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloads;
 
-export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple, R extends Codec = ObsInnerType<ReturnType<F>> & Codec> {
+export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple, R extends Codec = ObsInnerCodec<ReturnType<F>>> {
   at: <T extends Codec = R>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
   creator: StorageEntry;
   entries: <T extends Codec = R, K extends AnyTuple = A>(arg?: Parameters<F>[0]) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
@@ -70,8 +70,8 @@ export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
 }
 
 export interface QueryableStorageMultiPromise<ApiType extends ApiTypes> {
-  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T, Hash>): UnsubscribePromise;
-  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Promise<T>;
+  <T extends Codec[] = Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T, Hash>): UnsubscribePromise;
+  <T extends Codec[] = Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Promise<T>;
 }
 
 export type QueryableStorageMulti<ApiType extends ApiTypes> =
