@@ -57,10 +57,10 @@ export function proposals (instanceId: string, api: ApiInterfaceRx): () => Obser
           combineLatest([
             of(proposals),
             api.derive.democracy.preimages(
-              proposals.map(([, hash]): Hash => hash)
+              proposals.map(([, hash]) => hash)
             ),
             api.query.democracy.depositOf.multi<Depositors>(
-              proposals.map(([index]): PropIndex => index)
+              proposals.map(([index]) => index)
             )
           ])
         ),
