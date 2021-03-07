@@ -75,7 +75,7 @@ const typesBundle = {
                             ])
                             .pipe(
                               map(
-                                (raw): Result => {
+                                ([, raw]): Result => {
                                   if (raw.length < 4) {
                                     throw new Error('4 members expected');
                                   }

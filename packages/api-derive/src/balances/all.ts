@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, AccountIndex, Address, Balance, BalanceLock, BalanceLockTo212, BlockNumber, VestingInfo, VestingSchedule } from '@polkadot/types/interfaces';
+import type { AccountId, AccountIndex, Address, Balance, BalanceLock, BalanceLockTo212, BlockNumber, Hash, VestingInfo, VestingSchedule } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData } from '../types';
 
@@ -136,16 +136,19 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
       // TODO We need to check module instances here as well, not only the balances module
       : lockQueries.length
         ? api.queryMulti<[...(Vec<BalanceLock>)[]]>(lockQueries).pipe(
-          map(([, locks]): [undefined, [Option<VestingInfo>, ...BalanceLocks]] =>
-            [undefined, [api.registry.createType('Option<VestingInfo>'), ...locks]]
+          map(([hash, locks]): [Hash, [Option<VestingInfo>, ...BalanceLocks]] =>
+            [hash, [api.registry.createType('Option<VestingInfo>'), ...locks]]
           )
         )
-        : of([undefined, [api.registry.createType('Option<VestingInfo>')]] as [undefined, [Option<VestingInfo>]])
+        : of([api.registry.createType('Hash'), [api.registry.createType('Option<VestingInfo>')]] as [Hash, [Option<VestingInfo>, ...BalanceLocks]])
   ).pipe(
     map(([, [optVesting, ...locks]]): ResultBalance => {
       let offset = -1;
 
-      return [optVesting.unwrapOr(null), lockEmpty.map((e) => e ? api.registry.createType('Vec<BalanceLock>') : locks[++offset])];
+      return [
+        optVesting.unwrapOr(null),
+        lockEmpty.map((e) => e ? api.registry.createType('Vec<BalanceLock>') : locks[++offset])
+      ];
     })
   );
 }

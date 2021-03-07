@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, ReferendumInfo, ReferendumInfoTo239, Vote, Voting, VotingDelegating, VotingDirectVote } from '@polkadot/types/interfaces';
+import type { AccountId, Hash, ReferendumInfo, ReferendumInfoTo239, Vote, Voting, VotingDelegating, VotingDirectVote } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
 
@@ -18,7 +18,7 @@ import { calcVotes, getStatus, parseImage } from './util';
 
 function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
-    switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DeriveBalancesAccount[]]> =>
+    switchMap((votersFor): Observable<[Vec<AccountId>, [null | Hash, Vote[]], DeriveBalancesAccount[]]> =>
       combineLatest([
         of(votersFor),
         votersFor.length
@@ -27,7 +27,7 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
               [referendumId, accountId]
             )
           )
-          : of([undefined, []] as [undefined, Vote[]]),
+          : of([null, []] as [null, Vote[]]),
         api.derive.balances.votingBalances(votersFor)
       ])
     ),

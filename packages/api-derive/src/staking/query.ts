@@ -36,7 +36,7 @@ function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], 
   return (
     ids.length
       ? api.query.staking.ledger.multi<Option<StakingLedger>>(ids)
-      : of([undefined, []] as [undefined, Option<StakingLedger>[]])
+      : of([api.registry.createType('Hash'), []] as [Hash | null, Option<StakingLedger>[]])
   ).pipe(
     map(([, optLedgers]): Option<StakingLedger>[] => {
       let offset = -1;
@@ -59,19 +59,19 @@ function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: Er
   return combineLatest([
     withController || withLedger
       ? api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
-      : of(stashIds.map(() => [null, null])),
+      : of([null, stashIds.map(() => null)] as [null, null[]]),
     withNominations
       ? api.query.staking.nominators.multi<Option<Nominations>>(stashIds)
-      : of(stashIds.map(() => [null, emptyNoms])),
+      : of([null, stashIds.map(() => emptyNoms)] as [null, Option<Nominations>[]]),
     withDestination
       ? api.query.staking.payee.multi<RewardDestination>(stashIds)
-      : of(stashIds.map(() => [null, emptyRewa])),
+      : of([null, stashIds.map(() => emptyRewa)] as [null, RewardDestination[]]),
     withPrefs
       ? api.query.staking.validators.multi<ValidatorPrefs>(stashIds)
-      : of(stashIds.map(() => [null, emptyPrefs])),
+      : of([null, stashIds.map(() => emptyPrefs)] as [null, ValidatorPrefs[]]),
     withExposure
       ? api.query.staking.erasStakers.multi<Exposure>(stashIds.map((stashId) => [activeEra, stashId]))
-      : of(stashIds.map(() => [null, emptyExpo]))
+      : of([null, stashIds.map(() => emptyExpo)] as [null, Exposure[]])
   ]);
 }
 
