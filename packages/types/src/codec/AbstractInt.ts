@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyNumber, Codec, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
@@ -66,6 +66,8 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
 export abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   readonly #bitLength: UIntBitLength;
 

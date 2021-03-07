@@ -29,10 +29,13 @@ export function subscribeNewHeads (instanceId: string, api: ApiInterfaceRx): () 
       api.rpc.chain.subscribeNewHeads(),
       api.query.session
         ? api.query.session.validators()
-        : of([])
+        : of(undefined)
     ]).pipe(
-      map(([header, validators]): HeaderExtended =>
-        new HeaderExtended(api.registry, header, validators)
-      )
-    ));
+      map(([header, validators]): HeaderExtended => {
+        header.createdAtHash = header.hash;
+
+        return new HeaderExtended(api.registry, header, validators);
+      })
+    )
+  );
 }

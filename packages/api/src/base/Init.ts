@@ -139,7 +139,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // nothing has been found, construct new
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
-    const registry = this._initRegistry(new TypeRegistry(), this._runtimeChain as Text, version, metadata);
+    const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
     // For now, since this is new we ignore the capability lookups (this could be useful once proven)
     // this._detectCapabilities(registry, blockHash);

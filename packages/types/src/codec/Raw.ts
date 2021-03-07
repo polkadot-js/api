@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
 import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
@@ -17,6 +17,8 @@ import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a }
  */
 export class Raw extends Uint8Array implements IU8a {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   constructor (registry: Registry, value?: AnyU8a) {
     super(u8aToU8a(value));

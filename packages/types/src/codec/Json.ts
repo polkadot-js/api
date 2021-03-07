@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Registry } from '../types';
 
 import { isFunction, isUndefined } from '@polkadot/util';
@@ -23,6 +23,8 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  */
 export class Json extends Map<string, any> implements Codec {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {
     const decoded = decodeJson(value);

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -78,6 +78,8 @@ function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constr
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   readonly #ValClass: Constructor<V>;
 

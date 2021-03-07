@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces';
+import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
 import type { CompactEncodable, UIntBitLength } from './types';
 
@@ -21,6 +21,8 @@ import { typeToConstructor } from './utils';
  */
 export class Compact<T extends CompactEncodable> implements ICompact<T> {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   readonly #Type: Constructor<T>;
 

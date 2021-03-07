@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces';
+import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -165,6 +165,8 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
 //   - It should rather probably extend Enum instead of copying code
 export class Enum implements Codec {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   readonly #def: TypesDef;
 

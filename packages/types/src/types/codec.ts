@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { H256 } from '../interfaces/runtime';
+import type { Hash } from '../interfaces/runtime';
 import type { Registry } from './registry';
 
 export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
@@ -46,7 +46,7 @@ export interface Codec {
   /**
    * @description Returns a hash of the value
    */
-  readonly hash: H256;
+  readonly hash: Hash;
 
   /**
    * @description Checks if the value is an empty value
@@ -57,6 +57,11 @@ export interface Codec {
    * @description The registry associated with this object
    */
   readonly registry: Registry;
+
+  /**
+   * @description The block at which this value was retrieved/created (set to non-empty when retrieved from storage)
+   */
+  createdAtHash?: Hash;
 
   /**
    * @description Compares the value of the input to see if there is a match
