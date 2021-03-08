@@ -1722,7 +1722,7 @@
                 "name": "CurrentPhase",
                 "modifier": "Default",
                 "type": {
-                  "plain": "Phase"
+                  "plain": "ElectionPhase"
                 },
                 "fallback": "0x00",
                 "documentation": [

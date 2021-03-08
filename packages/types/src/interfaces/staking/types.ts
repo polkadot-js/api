@@ -61,7 +61,15 @@ export interface CompactScoreCompact extends ITuple<[ValidatorIndexCompact, Offc
 export interface ElectionCompute extends Enum {
   readonly isOnChain: boolean;
   readonly isSigned: boolean;
-  readonly isAuthority: boolean;
+  readonly isUnsigned: boolean;
+}
+
+/** @name ElectionPhase */
+export interface ElectionPhase extends Enum {
+  readonly isOff: boolean;
+  readonly isSigned: boolean;
+  readonly isUnsigned: boolean;
+  readonly asUnsigned: ITuple<[bool, BlockNumber]>;
 }
 
 /** @name ElectionResult */
