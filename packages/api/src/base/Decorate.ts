@@ -79,7 +79,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
-  protected _rpcCore: RpcCore;
+  protected _rpcCore: RpcCore & RpcInterface;
 
   protected _runtimeChain?: Text;
 
@@ -136,6 +136,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     this.#instanceId = `${++instanceCounter}`;
     this.#registry = options.source?.registry || options.registry || new TypeRegistry();
+    this._rx.registry = this.#registry;
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
@@ -144,10 +145,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._decorateMethod = decorateMethod;
     this._options = options;
     this._type = type;
-    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc);
+
+    // The RPC interface decorates the known interfaces on init
+    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc) as unknown as (RpcCore & RpcInterface);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
-    this._rx.registry = this.#registry;
   }
 
   /**
@@ -232,8 +234,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       this._rpcCore.addUserInterfaces(additional);
 
       // re-decorate, only adding any new additional interfaces
-      this._decorateRpc(this._rpcCore, this._decorateMethod, this._rpc);
-      this._decorateRpc(this._rpcCore, this._rxDecorateMethod, this._rx.rpc);
+      this._decorateRpc(this._decorateMethod, this._rpc);
+      this._decorateRpc(this._rxDecorateMethod, this._rx.rpc);
     }
 
     this._filterRpcMethods(methods);
@@ -281,24 +283,26 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       });
   }
 
-  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
-    return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
+  protected _decorateRpc<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
+    return this._rpcCore.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
       if (!(out as Record<string, unknown>)[sectionName]) {
         // out and section here are horrors to get right from a typing perspective :(
-        (out as Record<string, unknown>)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-          //  skip subscriptions where we have a non-subscribe interface
-          if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
-            (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            (section as Record<string, { json: unknown }>)[methodName].json = decorateMethod(method.json, { methodName }) as unknown;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
-          }
+        (out as Record<string, unknown>)[sectionName] = Object
+          .entries(this._rpcCore[sectionName])
+          .reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+            //  skip subscriptions where we have a non-subscribe interface
+            if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
+              (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              (section as Record<string, { json: unknown }>)[methodName].json = decorateMethod(method.json, { methodName }) as unknown;
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
+            }
 
-          return section;
-        }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+            return section;
+          }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
       }
 
       return out;

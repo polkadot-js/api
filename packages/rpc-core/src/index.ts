@@ -79,7 +79,7 @@ function isTreatAsHex (key: StorageKey): boolean {
  * const rpc = new Rpc(provider);
  * ```
  */
-export class RpcCore implements RpcInterface {
+export class RpcCore {
   #instanceId: string;
 
   #registryDefault: Registry;
@@ -93,42 +93,6 @@ export class RpcCore implements RpcInterface {
   public readonly provider: ProviderInterface;
 
   public readonly sections: string[] = [];
-
-  // Ok, this is quite horrible - we really should not be using the ! here, but we are actually assigning
-  // these via the createInterfaces inside the constructor. However... this is not quite visible. The reason
-  // why we don't do for individual assignments is to allow user-defined RPCs to also be defined
-
-  public readonly author!: RpcInterface['author'];
-
-  public readonly babe!: RpcInterface['babe'];
-
-  public readonly chain!: RpcInterface['chain'];
-
-  public readonly childstate!: RpcInterface['childstate'];
-
-  public readonly contracts!: RpcInterface['contracts'];
-
-  public readonly engine!: RpcInterface['engine'];
-
-  public readonly eth!: RpcInterface['eth'];
-
-  public readonly grandpa!: RpcInterface['grandpa'];
-
-  public readonly net!: RpcInterface['net'];
-
-  public readonly offchain!: RpcInterface['offchain'];
-
-  public readonly payment!: RpcInterface['payment'];
-
-  public readonly rpc!: RpcInterface['rpc'];
-
-  public readonly state!: RpcInterface['state'];
-
-  public readonly syncstate!: RpcInterface['syncstate'];
-
-  public readonly system!: RpcInterface['system'];
-
-  public readonly web3!: RpcInterface['web3'];
 
   /**
    * @constructor
@@ -148,6 +112,7 @@ export class RpcCore implements RpcInterface {
     // these are the base keys (i.e. part of jsonrpc)
     this.sections.push(...sectionNames);
 
+    // decorate all interfaces, defined and user on this instance
     this.addUserInterfaces(userRpc);
   }
 
@@ -187,7 +152,7 @@ export class RpcCore implements RpcInterface {
     this.sections.forEach((sectionName): void => {
       (this as Record<string, unknown>)[sectionName as Section] ||= {};
 
-      const section = this[sectionName as Section] as Record<string, unknown>;
+      const section = (this as Record<string, unknown>)[sectionName as Section] as Record<string, unknown>;
 
       Object
         .entries({
