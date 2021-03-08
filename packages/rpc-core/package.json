@@ -20,10 +20,10 @@
     "@polkadot/metadata": "4.0.2",
     "@polkadot/rpc-provider": "4.0.2",
     "@polkadot/types": "4.0.2",
-    "@polkadot/util": "^6.0.4",
-    "@polkadot/x-rxjs": "^6.0.4"
+    "@polkadot/util": "^6.0.5",
+    "@polkadot/x-rxjs": "^6.0.5"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.0.4"
+    "@polkadot/keyring": "^6.0.5"
   }
 }
