@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 4.0.3 Mar 8, 2021
+
+Upgrade priority: Low. Recommended if you use the API to sync the full chain, most notably Polkadot.
+
+Contributed:
+
+- Re-add unused historical `SudoBalances` to `ProxyType` (Thanks to https://github.com/emostov)
+
+
 ## 4.0.2 Mar 8, 2021
 
 Upgrade priority: High. Required if you are using 4.0.1 in a Node.js environment.
