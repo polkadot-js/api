@@ -6,7 +6,7 @@ Upgrade priority: High. Required if you are using 4.0.1 in a Node.js environment
 
 Changes:
 
-- Fix import rom `@polkadot/x-rxjs` in Node environments (From common)
+- Fix import from `@polkadot/x-rxjs` in Node environments (From common)
 - Add correct types for `Phase` is new validator elections module
 
 
