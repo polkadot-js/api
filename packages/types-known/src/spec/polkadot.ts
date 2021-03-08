@@ -16,7 +16,7 @@ const sharedTypes = {
       NonTransfer: 1,
       Governance: 2,
       Staking: 3,
-      // SudoBalances: 4,
+      SudoBalances: 4,
       IdentityJudgement: 5,
       CancelProxy: 6
     }
