@@ -23,7 +23,7 @@ import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber,
 import type { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, ElectionResult, ElectionScore, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReadySolution, RewardDestination, RoundSnapshot, SeatHolder, SlashingSpans, SolutionOrSnapshotSize, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs, Voter } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, ElectionPhase, ElectionResult, ElectionScore, ElectionStatus, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReadySolution, RewardDestination, RoundSnapshot, SeatHolder, SlashingSpans, SolutionOrSnapshotSize, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs, Voter } from '@polkadot/types/interfaces/staking';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -328,7 +328,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Current phase.
        **/
-      currentPhase: AugmentedQuery<ApiType, () => Observable<Phase>, []> & QueryableStorageEntry<ApiType, []>;
+      currentPhase: AugmentedQuery<ApiType, () => Observable<ElectionPhase>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Desired number of targets to elect for this round.
        * 
