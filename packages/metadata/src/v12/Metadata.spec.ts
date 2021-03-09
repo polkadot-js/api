@@ -14,5 +14,5 @@ describe('MetadataV12 (substrate)', (): void => {
 
   toLatest(registry, 12, substrateData);
 
-  defaultValues(registry, substrateData);
+  defaultValues(registry, substrateData, true, true);
 });
