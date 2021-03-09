@@ -426,8 +426,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         this._retrieveMulti(args.map((arg) => [creator, arg])));
     }
 
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
-
     return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
