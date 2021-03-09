@@ -48,7 +48,7 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
 }
 
 /** @internal */
-export function defaultValues (registry: Registry, rpcData: string, withThrow = true): void {
+export function defaultValues (registry: Registry, rpcData: string, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
@@ -61,9 +61,12 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
           expect((): void => {
             try {
               const type = registry.createType(inner, hexToU8a(fallback.toHex()));
-              const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
 
-              assert(hexType === hexOrig, `Fallback does not match: ${hexType} !== ${hexOrig}`);
+              if (withFallbackCheck) {
+                const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
+
+                assert(hexType === hexOrig, `Fallback does not match: ${hexType} !== ${hexOrig}`);
+              }
             } catch (error) {
               const message = `${location}:: ${(error as Error).message}`;
 
