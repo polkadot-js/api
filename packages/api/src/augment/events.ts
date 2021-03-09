@@ -9,12 +9,13 @@ import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/coll
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { PropIndex, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
+import type { ActiveIndex } from '@polkadot/types/interfaces/gilt';
 import type { AuthorityList } from '@polkadot/types/interfaces/grandpa';
 import type { RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import type { CallIndex } from '@polkadot/types/interfaces/lottery';
 import type { Kind, OpaqueTimeSlot } from '@polkadot/types/interfaces/offences';
 import type { ProxyType } from '@polkadot/types/interfaces/proxy';
-import type { AccountId, AccountIndex, AssetId, Balance, BlockNumber, CallHash, Hash, PhantomData } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, CallHash, Hash, PhantomData } from '@polkadot/types/interfaces/runtime';
 import type { TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { IdentificationTuple, SessionIndex } from '@polkadot/types/interfaces/session';
 import type { ElectionCompute, EraIndex } from '@polkadot/types/interfaces/staking';
@@ -415,6 +416,29 @@ declare module '@polkadot/api/types/events' {
        **/
       SeatHolderSlashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
     };
+    gilt: {
+      [key: string]: AugmentedEvent<ApiType>;
+      /**
+       * A bid was successfully placed.
+       * \[ who, amount, duration \]
+       **/
+      BidPlaced: AugmentedEvent<ApiType, [AccountId, BalanceOf, u32]>;
+      /**
+       * A bid was successfully removed (before being accepted as a gilt).
+       * \[ who, amount, duration \]
+       **/
+      BidRetracted: AugmentedEvent<ApiType, [AccountId, BalanceOf, u32]>;
+      /**
+       * A bid was accepted as a gilt. The balance may not be released until expiry.
+       * \[ index, expiry, who, amount \]
+       **/
+      GiltIssued: AugmentedEvent<ApiType, [ActiveIndex, BlockNumber, AccountId, BalanceOf]>;
+      /**
+       * An expired gilt has been thawed.
+       * \[ index, who, original_amount, additional_amount \]
+       **/
+      GiltThawed: AugmentedEvent<ApiType, [ActiveIndex, AccountId, BalanceOf, BalanceOf]>;
+    };
     grandpa: {
       [key: string]: AugmentedEvent<ApiType>;
       /**
@@ -782,6 +806,10 @@ declare module '@polkadot/api/types/events' {
        * A new \[account\] was created.
        **/
       NewAccount: AugmentedEvent<ApiType, [AccountId]>;
+      /**
+       * On on-chain remark happened. \[origin, remark_hash\]
+       **/
+      Remarked: AugmentedEvent<ApiType, [AccountId, Hash]>;
     };
     technicalCommittee: {
       [key: string]: AugmentedEvent<ApiType>;

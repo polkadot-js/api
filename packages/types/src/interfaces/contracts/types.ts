@@ -157,6 +157,7 @@ export interface HostFnWeights extends Struct {
   readonly instantiatePerCodeByte: Weight;
   readonly instantiatePerInputByte: Weight;
   readonly instantiatePerOutputByte: Weight;
+  readonly instantiatePerSaltByte: Weight;
   readonly hashSha2256: Weight;
   readonly hashSha2256PerByte: Weight;
   readonly hashKeccak256: Weight;

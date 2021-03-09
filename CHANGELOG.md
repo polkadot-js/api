@@ -1,10 +1,43 @@
 # CHANGELOG
 
-## 4.0.1-x
+## 4.0.3 Mar 8, 2021
+
+Upgrade priority: Low. Recommended if you use the API to sync the full chain, most notably Polkadot.
+
+Contributed:
+
+- Re-add unused historical `SudoBalances` to `ProxyType` (Thanks to https://github.com/emostov)
+
+
+## 4.0.2 Mar 8, 2021
+
+Upgrade priority: High. Required if you are using 4.0.1 in a Node.js environment.
 
 Changes:
 
+- Fix import from `@polkadot/x-rxjs` in Node environments (From common)
+- Add correct types for `Phase` is new validator elections module
+
+
+## 4.0.1 Mar 7, 2021
+
+Upgrade priority: Low. Recommended for users wanting to keep updated with chain changes.
+
+**Important** In the 4.0 version the default package type has been changed to ESM modules by default. This should not affect usage, however since the output formats changed, a new major version is required.
+
+Contributed:
+
+- Expose `unknownTypes` on the registry interface (Thanks to https://github.com/ii-ii-ii)
+
+Changes:
+
+- Build to ESM by default (with cjs versions via export map)
 - Enum `.toSON()` now encodes all keys as `camelCase` (aligning with the output from Substrate)
+- Add `createdAtHash?: Hash` to `Codec` interface (filled-in by storage retrievals)
+- Expose the source hash as `wamHash` on Abi parsed instances
+- Use `parentHash` when creating mortal era (handles frequent forks better)
+- Add `AccountInfoWithTripleRefCount` to cater for latest Substrate
+- Add upgrade block for Westend 49
 
 
 ## 3.11.1 Feb 28, 2021

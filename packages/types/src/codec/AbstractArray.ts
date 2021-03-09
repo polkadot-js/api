@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces/runtime';
+import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Registry } from '../types';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -17,6 +17,8 @@ import { compareArray } from './utils';
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   protected constructor (registry: Registry, ...values: T[]) {
     super(...values);

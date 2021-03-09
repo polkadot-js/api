@@ -585,6 +585,42 @@ declare module '@polkadot/api/types/errors' {
        **/
       UnableToVote: AugmentedError<ApiType>;
     };
+    gilt: {
+      [key: string]: AugmentedError<ApiType>;
+      /**
+       * The amount of the bid is less than the minimum allowed.
+       **/
+      AmountTooSmall: AugmentedError<ApiType>;
+      /**
+       * The queue for the bid's duration is full and the amount bid is too low to get in through
+       * replacing an existing bid.
+       **/
+      BidTooLow: AugmentedError<ApiType>;
+      /**
+       * The duration is the bid is greater than the number of queues.
+       **/
+      DurationTooBig: AugmentedError<ApiType>;
+      /**
+       * The duration of the bid is less than one.
+       **/
+      DurationTooSmall: AugmentedError<ApiType>;
+      /**
+       * Gilt not yet at expiry date.
+       **/
+      NotExpired: AugmentedError<ApiType>;
+      /**
+       * The given bid for retraction is not found.
+       **/
+      NotFound: AugmentedError<ApiType>;
+      /**
+       * Not the owner of the gilt.
+       **/
+      NotOwner: AugmentedError<ApiType>;
+      /**
+       * Gilt index is unknown.
+       **/
+      Unknown: AugmentedError<ApiType>;
+    };
     grandpa: {
       [key: string]: AugmentedError<ApiType>;
       /**

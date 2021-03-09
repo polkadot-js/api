@@ -53,12 +53,13 @@ export class SignedBlockExtended extends _SignedBlock {
   readonly #events: EventRecord[];
   readonly #extrinsics: TxWithEvent[];
 
-  constructor (registry: Registry, block?: SignedBlock, events?: EventRecord[], sessionValidators?: AccountId[]) {
+  constructor (registry: Registry, block?: SignedBlock, events?: EventRecord[], validators?: AccountId[]) {
     super(registry, block);
 
-    this.#author = extractAuthor(this.block.header.digest, sessionValidators);
+    this.#author = extractAuthor(this.block.header.digest, validators);
     this.#events = events || ([] as EventRecord[]);
     this.#extrinsics = mapExtrinsics(this.block.extrinsics, this.#events);
+    this.createdAtHash = block?.createdAtHash;
   }
 
   /**

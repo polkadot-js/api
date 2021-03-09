@@ -134,7 +134,7 @@ export default {
     }
   },
   types: {
-    AccountInfo: 'AccountInfoWithRefCount',
+    AccountInfo: 'AccountInfoWithTripleRefCount',
     AccountInfoWithRefCount: {
       nonce: 'Index',
       refcount: 'RefCount',

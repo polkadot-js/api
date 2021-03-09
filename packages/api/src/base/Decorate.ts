@@ -79,7 +79,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
-  protected _rpcCore: RpcCore;
+  protected _rpcCore: RpcCore & RpcInterface;
 
   protected _runtimeChain?: Text;
 
@@ -136,6 +136,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     this.#instanceId = `${++instanceCounter}`;
     this.#registry = options.source?.registry || options.registry || new TypeRegistry();
+    this._rx.registry = this.#registry;
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
@@ -144,10 +145,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._decorateMethod = decorateMethod;
     this._options = options;
     this._type = type;
-    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc);
+
+    // The RPC interface decorates the known interfaces on init
+    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc) as (RpcCore & RpcInterface);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
-    this._rx.registry = this.#registry;
   }
 
   /**
@@ -281,7 +283,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       });
   }
 
-  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
+  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
     return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecHash } from '../interfaces';
+import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
@@ -49,6 +49,8 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
  */
 export class Option<T extends Codec> implements Codec {
   public readonly registry: Registry;
+
+  public createdAtHash?: Hash;
 
   readonly #Type: Constructor<T>;
 
