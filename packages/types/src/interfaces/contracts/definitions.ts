@@ -231,6 +231,7 @@ export default {
       instantiatePerCodeByte: 'Weight',
       instantiatePerInputByte: 'Weight',
       instantiatePerOutputByte: 'Weight',
+      instantiatePerSaltByte: 'Weight',
       hashSha2256: 'Weight',
       hashSha2256PerByte: 'Weight',
       hashKeccak256: 'Weight',
