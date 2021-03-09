@@ -147,7 +147,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._type = type;
 
     // The RPC interface decorates the known interfaces on init
-    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc) as unknown as (RpcCore & RpcInterface);
+    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc) as (RpcCore & RpcInterface);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
