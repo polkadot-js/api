@@ -60,7 +60,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     }, value);
 
     // add all extras that are not in the base types
-    this._extraTypes = Object.entries(extensionTypes).reduce((map: Record<string, keyof InterfaceTypes>, [key, type]): Record<string, keyof InterfaceTypes> => {
+    this._extraTypes = Object.entries(extensionTypes).reduce<Record<string, keyof InterfaceTypes>>((map, [key, type]) => {
       if (!knownTypes[key]) {
         map[key] = type;
       }
@@ -119,7 +119,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
   public toPayload (): SignerPayloadJSON {
     return {
       // add any explicit overrides we may have
-      ...(Object.keys(this._extraTypes).reduce((map: Record<string, string>, key): Record<string, string> => {
+      ...(Object.keys(this._extraTypes).reduce<Record<string, string>>((map, key) => {
         map[key] = (this.get(key) as Codec).toHex();
 
         return map;
@@ -138,7 +138,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       tip: this.tip.toHex(),
       transactionVersion: this.runtimeVersion.transactionVersion.toHex(),
       version: this.version.toNumber()
-    } as SignerPayloadJSON;
+    };
   }
 
   /**
