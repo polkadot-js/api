@@ -7,7 +7,7 @@ import type { AccountData } from '@polkadot/types/interfaces/balances';
 import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountInfo */
-export interface AccountInfo extends AccountInfoWithRefCount {}
+export interface AccountInfo extends AccountInfoWithTripleRefCount {}
 
 /** @name AccountInfoWithDualRefCount */
 export interface AccountInfoWithDualRefCount extends Struct {

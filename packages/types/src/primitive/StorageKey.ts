@@ -85,6 +85,7 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
   throw new Error(`Unable to convert input ${value as string} to StorageKey`);
 }
 
+/** @internal */
 function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
@@ -124,6 +125,39 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
   ]);
 }
 
+/** @internal */
+function getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
+  if (value instanceof StorageKey) {
+    return value.meta;
+  } else if (isFunction(value)) {
+    return value.meta;
+  } else if (Array.isArray(value)) {
+    const [fn] = value;
+
+    return fn.meta;
+  }
+
+  return undefined;
+}
+
+/** @internal */
+function getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string {
+  if (value instanceof StorageKey) {
+    return value.outputType;
+  } else if (isFunction(value)) {
+    return unwrapStorageType(value.meta.type);
+  } else if (Array.isArray(value)) {
+    const [fn] = value;
+
+    if (fn.meta) {
+      return unwrapStorageType(fn.meta.type);
+    }
+  }
+
+  // If we have no type set, default to Raw
+  return 'Raw';
+}
+
 /**
  * @name StorageKey
  * @description
@@ -148,41 +182,10 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
     super(registry, key);
 
-    this._outputType = StorageKey.getType(value as StorageKey);
+    this._outputType = getType(value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
-    this.setMeta(StorageKey.getMeta(value as StorageKey), override.section || section, override.method || method);
-  }
-
-  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
-    if (value instanceof StorageKey) {
-      return value.meta;
-    } else if (isFunction(value)) {
-      return value.meta;
-    } else if (Array.isArray(value)) {
-      const [fn] = value;
-
-      return fn.meta;
-    }
-
-    return undefined;
-  }
-
-  public static getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string {
-    if (value instanceof StorageKey) {
-      return value.outputType;
-    } else if (isFunction(value)) {
-      return unwrapStorageType(value.meta.type);
-    } else if (Array.isArray(value)) {
-      const [fn] = value;
-
-      if (fn.meta) {
-        return unwrapStorageType(fn.meta.type);
-      }
-    }
-
-    // If we have no type set, default to Raw
-    return 'Raw';
+    this.setMeta(getMeta(value as StorageKey), override.section || section, override.method || method);
   }
 
   /**
