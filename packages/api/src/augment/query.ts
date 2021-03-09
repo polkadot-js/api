@@ -12,6 +12,7 @@ import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { CodeHash, ContractInfo, DeletedContract, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
 import type { PreimageStatus, PropIndex, Proposal, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
 import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
+import type { ActiveGilt, ActiveGiltsTotal, ActiveIndex, GiltBid } from '@polkadot/types/interfaces/gilt';
 import type { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import type { RegistrarInfo, Registration } from '@polkadot/types/interfaces/identity';
 import type { AuthIndex } from '@polkadot/types/interfaces/imOnline';
@@ -395,6 +396,29 @@ declare module '@polkadot/api/types/storage' {
        * TWOX-NOTE: SAFE as `AccountId` is a crypto hash.
        **/
       voting: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Voter>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
+    };
+    gilt: {
+      [key: string]: QueryableStorageEntry<ApiType>;
+      /**
+       * The currently active gilts, indexed according to the order of creation.
+       **/
+      active: AugmentedQuery<ApiType, (arg: ActiveIndex | AnyNumber | Uint8Array) => Observable<Option<ActiveGilt>>, [ActiveIndex]> & QueryableStorageEntry<ApiType, [ActiveIndex]>;
+      /**
+       * Information relating to the gilts currently active.
+       **/
+      activeTotal: AugmentedQuery<ApiType, () => Observable<ActiveGiltsTotal>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The queues of bids ready to become gilts. Indexed by duration (in `Period`s).
+       **/
+      queues: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<GiltBid>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * The totals of items and balances within each queue. Saves a lot of storage reads in the
+       * case of sparsely packed queues.
+       * 
+       * The vector is indexed by duration in `Period`s, offset by one, so information on the queue
+       * whose duration is one `Period` would be storage `0`.
+       **/
+      queueTotals: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, BalanceOf]>>>, []> & QueryableStorageEntry<ApiType, []>;
     };
     grandpa: {
       [key: string]: QueryableStorageEntry<ApiType>;
@@ -1022,10 +1046,10 @@ declare module '@polkadot/api/types/storage' {
        **/
       parentHash: AugmentedQuery<ApiType, () => Observable<Hash>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * True if we have upgraded so that AccountInfo contains two types of `RefCount`. False
+       * True if we have upgraded so that AccountInfo contains three types of `RefCount`. False
        * (default) if not.
        **/
-      upgradedToDualRefCount: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
+      upgradedToTripleRefCount: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * True if we have upgraded so that `type RefCount` is `u32`. False (default) if not.
        **/

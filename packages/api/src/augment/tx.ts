@@ -4,17 +4,18 @@
 import type { Bytes, Compact, Data, Option, U8aFixed, Vec, bool, u16, u32, u64, u8 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
-import type { BabeEquivocationProof } from '@polkadot/types/interfaces/babe';
+import type { BabeEquivocationProof, NextConfigDescriptor } from '@polkadot/types/interfaces/babe';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { CodeHash, Schedule } from '@polkadot/types/interfaces/contracts';
 import type { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import type { Renouncing } from '@polkadot/types/interfaces/elections';
 import type { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { ActiveIndex } from '@polkadot/types/interfaces/gilt';
 import type { GrandpaEquivocationProof, KeyOwnerProof } from '@polkadot/types/interfaces/grandpa';
 import type { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import type { Heartbeat } from '@polkadot/types/interfaces/imOnline';
 import type { ProxyType } from '@polkadot/types/interfaces/proxy';
-import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Call, CallHashOf, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, OpaqueCall, Perbill, Percent, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Call, CallHashOf, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, OpaqueCall, Perbill, Percent, Perquintill, Weight } from '@polkadot/types/interfaces/runtime';
 import type { Period, Priority } from '@polkadot/types/interfaces/scheduler';
 import type { Keys } from '@polkadot/types/interfaces/session';
 import type { SocietyJudgement } from '@polkadot/types/interfaces/society';
@@ -309,6 +310,13 @@ declare module '@polkadot/api/types/submittable' {
     };
     babe: {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Plan an epoch config change. The epoch config change is recorded and will be enacted on
+       * the next call to `enact_epoch_change`. The config will be activated one epoch after.
+       * Multiple calls to this method will replace any existing planned config change that had
+       * not been enacted yet.
+       **/
+      planConfigChange: AugmentedSubmittable<(config: NextConfigDescriptor | { V0: any } | { V1: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [NextConfigDescriptor]>;
       /**
        * Report authority equivocation/misbehavior. This method will verify
        * the equivocation proof and validate the given key ownership proof
@@ -1186,6 +1194,54 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vote: AugmentedSubmittable<(votes: Vec<AccountId> | (AccountId | string | Uint8Array)[], value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Vec<AccountId>, Compact<BalanceOf>]>;
+    };
+    gilt: {
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Place a bid for a gilt to be issued.
+       * 
+       * Origin must be Signed, and account must have at least `amount` in free balance.
+       * 
+       * - `amount`: The amount of the bid; these funds will be reserved. If the bid is
+       * successfully elevated into an issued gilt, then these funds will continue to be
+       * reserved until the gilt expires. Must be at least `MinFreeze`.
+       * - `duration`: The number of periods for which the funds will be locked if the gilt is
+       * issued. It will expire only after this period has elapsed after the point of issuance.
+       * Must be greater than 1 and no more than `QueueCount`.
+       * 
+       * Complexities:
+       * - `Queues[duration].len()` (just take max).
+       **/
+      placeBid: AugmentedSubmittable<(amount: Compact<BalanceOf> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>, u32]>;
+      /**
+       * Retract a previously placed bid.
+       * 
+       * Origin must be Signed, and the account should have previously issued a still-active bid
+       * of `amount` for `duration`.
+       * 
+       * - `amount`: The amount of the previous bid.
+       * - `duration`: The duration of the previous bid.
+       **/
+      retractBid: AugmentedSubmittable<(amount: Compact<BalanceOf> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>, u32]>;
+      /**
+       * Set target proportion of gilt-funds.
+       * 
+       * Origin must be `AdminOrigin`.
+       * 
+       * - `target`: The target proportion of effective issued funds that should be under gilts
+       * at any one time.
+       **/
+      setTarget: AugmentedSubmittable<(target: Compact<Perquintill> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<Perquintill>]>;
+      /**
+       * Remove an active but expired gilt. Reserved funds under gilt are freed and balance is
+       * adjusted to ensure that the funds grow or shrink to maintain the equivalent proportion
+       * of effective total issued funds.
+       * 
+       * Origin must be Signed and the account must be the owner of the gilt of the given index.
+       * 
+       * - `index`: The index of the gilt to be thawed.
+       **/
+      thaw: AugmentedSubmittable<(index: Compact<ActiveIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ActiveIndex>]>;
     };
     grandpa: {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -3207,11 +3263,18 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * # <weight>
        * - `O(1)`
-       * - Base Weight: 0.665 µs, independent of remark length.
-       * - No DB operations.
        * # </weight>
        **/
       remark: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
+      /**
+       * Make some on-chain remark and emit event.
+       * 
+       * # <weight>
+       * - `O(b)` where b is the length of the remark.
+       * - 1 event.
+       * # </weight>
+       **/
+      remarkWithEvent: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Set the new changes trie configuration.
        * 
