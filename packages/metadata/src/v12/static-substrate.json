@@ -19,7 +19,7 @@
                     "linked": false
                   }
                 },
-                "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
                   " The full account information for a particular account ID."
                 ]
@@ -192,14 +192,14 @@
                 ]
               },
               {
-                "name": "UpgradedToDualRefCount",
+                "name": "UpgradedToTripleRefCount",
                 "modifier": "Default",
                 "type": {
                   "plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " True if we have upgraded so that AccountInfo contains two types of `RefCount`. False",
+                  " True if we have upgraded so that AccountInfo contains three types of `RefCount`. False",
                   " (default) if not."
                 ]
               },
@@ -242,8 +242,6 @@
                 "",
                 " # <weight>",
                 " - `O(1)`",
-                " - Base Weight: 0.665 µs, independent of remark length.",
-                " - No DB operations.",
                 " # </weight>"
               ]
             },
@@ -390,6 +388,23 @@
                 " - Writes: Number of subkeys + 1",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "remark_with_event",
+              "args": [
+                {
+                  "name": "remark",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Make some on-chain remark and emit event.",
+                "",
+                " # <weight>",
+                " - `O(b)` where b is the length of the remark.",
+                " - 1 event.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -435,6 +450,16 @@
               ],
               "documentation": [
                 " An \\[account\\] was reaped."
+              ]
+            },
+            {
+              "name": "Remarked",
+              "args": [
+                "AccountId",
+                "Hash"
+              ],
+              "documentation": [
+                " On on-chain remark happened. \\[origin, remark_hash\\]"
               ]
             }
           ],
@@ -862,6 +887,21 @@
                 " if the block author is defined it will be defined as the equivocation",
                 " reporter."
               ]
+            },
+            {
+              "name": "plan_config_change",
+              "args": [
+                {
+                  "name": "config",
+                  "type": "NextConfigDescriptor"
+                }
+              ],
+              "documentation": [
+                " Plan an epoch config change. The epoch config change is recorded and will be enacted on",
+                " the next call to `enact_epoch_change`. The config will be activated one epoch after.",
+                " Multiple calls to this method will replace any existing planned config change that had",
+                " not been enacted yet."
+              ]
             }
           ],
           "events": null,
@@ -869,7 +909,7 @@
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0xc800000000000000",
+              "value": "0x1400000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins.",
@@ -1876,7 +1916,7 @@
             {
               "name": "UnsignedPhase",
               "type": "BlockNumber",
-              "value": "0x32000000",
+              "value": "0x05000000",
               "documentation": [
                 " Duration of the unsigned phase."
               ]
@@ -1884,7 +1924,7 @@
             {
               "name": "SignedPhase",
               "type": "BlockNumber",
-              "value": "0x32000000",
+              "value": "0x05000000",
               "documentation": [
                 " Duration of the signed phase."
               ]
@@ -3362,7 +3402,7 @@
             {
               "name": "ElectionLookahead",
               "type": "BlockNumber",
-              "value": "0x32000000",
+              "value": "0x05000000",
               "documentation": [
                 " The number of blocks before the end of the era from which election submissions are allowed.",
                 "",
@@ -13815,6 +13855,336 @@
           ],
           "errors": [],
           "index": 36
+        },
+        {
+          "name": "Gilt",
+          "storage": {
+            "prefix": "Gilt",
+            "items": [
+              {
+                "name": "QueueTotals",
+                "modifier": "Default",
+                "type": {
+                  "plain": "Vec<(u32,BalanceOf)>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The totals of items and balances within each queue. Saves a lot of storage reads in the",
+                  " case of sparsely packed queues.",
+                  "",
+                  " The vector is indexed by duration in `Period`s, offset by one, so information on the queue",
+                  " whose duration is one `Period` would be storage `0`."
+                ]
+              },
+              {
+                "name": "Queues",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hasher": "Blake2_128Concat",
+                    "key": "u32",
+                    "value": "Vec<GiltBid>",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The queues of bids ready to become gilts. Indexed by duration (in `Period`s)."
+                ]
+              },
+              {
+                "name": "ActiveTotal",
+                "modifier": "Default",
+                "type": {
+                  "plain": "ActiveGiltsTotal"
+                },
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " Information relating to the gilts currently active."
+                ]
+              },
+              {
+                "name": "Active",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hasher": "Blake2_128Concat",
+                    "key": "ActiveIndex",
+                    "value": "ActiveGilt",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The currently active gilts, indexed according to the order of creation."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "place_bid",
+              "args": [
+                {
+                  "name": "amount",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "duration",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " Place a bid for a gilt to be issued.",
+                "",
+                " Origin must be Signed, and account must have at least `amount` in free balance.",
+                "",
+                " - `amount`: The amount of the bid; these funds will be reserved. If the bid is",
+                " successfully elevated into an issued gilt, then these funds will continue to be",
+                " reserved until the gilt expires. Must be at least `MinFreeze`.",
+                " - `duration`: The number of periods for which the funds will be locked if the gilt is",
+                " issued. It will expire only after this period has elapsed after the point of issuance.",
+                " Must be greater than 1 and no more than `QueueCount`.",
+                "",
+                " Complexities:",
+                " - `Queues[duration].len()` (just take max)."
+              ]
+            },
+            {
+              "name": "retract_bid",
+              "args": [
+                {
+                  "name": "amount",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "duration",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " Retract a previously placed bid.",
+                "",
+                " Origin must be Signed, and the account should have previously issued a still-active bid",
+                " of `amount` for `duration`.",
+                "",
+                " - `amount`: The amount of the previous bid.",
+                " - `duration`: The duration of the previous bid."
+              ]
+            },
+            {
+              "name": "set_target",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "Compact<Perquintill>"
+                }
+              ],
+              "documentation": [
+                " Set target proportion of gilt-funds.",
+                "",
+                " Origin must be `AdminOrigin`.",
+                "",
+                " - `target`: The target proportion of effective issued funds that should be under gilts",
+                " at any one time."
+              ]
+            },
+            {
+              "name": "thaw",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<ActiveIndex>"
+                }
+              ],
+              "documentation": [
+                " Remove an active but expired gilt. Reserved funds under gilt are freed and balance is",
+                " adjusted to ensure that the funds grow or shrink to maintain the equivalent proportion",
+                " of effective total issued funds.",
+                "",
+                " Origin must be Signed and the account must be the owner of the gilt of the given index.",
+                "",
+                " - `index`: The index of the gilt to be thawed."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "BidPlaced",
+              "args": [
+                "AccountId",
+                "BalanceOf",
+                "u32"
+              ],
+              "documentation": [
+                " A bid was successfully placed.",
+                " \\[ who, amount, duration \\]"
+              ]
+            },
+            {
+              "name": "BidRetracted",
+              "args": [
+                "AccountId",
+                "BalanceOf",
+                "u32"
+              ],
+              "documentation": [
+                " A bid was successfully removed (before being accepted as a gilt).",
+                " \\[ who, amount, duration \\]"
+              ]
+            },
+            {
+              "name": "GiltIssued",
+              "args": [
+                "ActiveIndex",
+                "BlockNumber",
+                "AccountId",
+                "BalanceOf"
+              ],
+              "documentation": [
+                " A bid was accepted as a gilt. The balance may not be released until expiry.",
+                " \\[ index, expiry, who, amount \\]"
+              ]
+            },
+            {
+              "name": "GiltThawed",
+              "args": [
+                "ActiveIndex",
+                "AccountId",
+                "BalanceOf",
+                "BalanceOf"
+              ],
+              "documentation": [
+                " An expired gilt has been thawed.",
+                " \\[ index, who, original_amount, additional_amount \\]"
+              ]
+            }
+          ],
+          "constants": [
+            {
+              "name": "QueueCount",
+              "type": "u32",
+              "value": "0x2c010000",
+              "documentation": [
+                " Number of duration queues in total. This sets the maximum duration supported, which is",
+                " this value multiplied by `Period`."
+              ]
+            },
+            {
+              "name": "MaxQueueLen",
+              "type": "u32",
+              "value": "0xe8030000",
+              "documentation": [
+                " Maximum number of items that may be in each duration queue."
+              ]
+            },
+            {
+              "name": "FifoQueueLen",
+              "type": "u32",
+              "value": "0xf4010000",
+              "documentation": [
+                " Portion of the queue which is free from ordering and just a FIFO.",
+                "",
+                " Must be no greater than `MaxQueueLen`."
+              ]
+            },
+            {
+              "name": "Period",
+              "type": "BlockNumber",
+              "value": "0x002f0d00",
+              "documentation": [
+                " The base period for the duration queues. This is the common multiple across all",
+                " supported freezing durations that can be bid upon."
+              ]
+            },
+            {
+              "name": "MinFreeze",
+              "type": "BalanceOf",
+              "value": "0x0000c16ff28623000000000000000000",
+              "documentation": [
+                " The minimum amount of funds that may be offered to freeze for a gilt. Note that this",
+                " does not actually limit the amount which may be frozen in a gilt since gilts may be",
+                " split up in order to satisfy the desired amount of funds under gilts.",
+                "",
+                " It should be at least big enough to ensure that there is no possible storage spam attack",
+                " or queue-filling attack."
+              ]
+            },
+            {
+              "name": "IntakePeriod",
+              "type": "BlockNumber",
+              "value": "0x0a000000",
+              "documentation": [
+                " The number of blocks between consecutive attempts to issue more gilts in an effort to",
+                " get to the target amount to be frozen.",
+                "",
+                " A larger value results in fewer storage hits each block, but a slower period to get to",
+                " the target."
+              ]
+            },
+            {
+              "name": "MaxIntakeBids",
+              "type": "u32",
+              "value": "0x0a000000",
+              "documentation": [
+                " The maximum amount of bids that can be turned into issued gilts each block. A larger",
+                " value here means less of the block available for transactions should there be a glut of",
+                " bids to make into gilts to reach the target."
+              ]
+            }
+          ],
+          "errors": [
+            {
+              "name": "DurationTooSmall",
+              "documentation": [
+                " The duration of the bid is less than one."
+              ]
+            },
+            {
+              "name": "DurationTooBig",
+              "documentation": [
+                " The duration is the bid is greater than the number of queues."
+              ]
+            },
+            {
+              "name": "AmountTooSmall",
+              "documentation": [
+                " The amount of the bid is less than the minimum allowed."
+              ]
+            },
+            {
+              "name": "BidTooLow",
+              "documentation": [
+                " The queue for the bid's duration is full and the amount bid is too low to get in through",
+                " replacing an existing bid."
+              ]
+            },
+            {
+              "name": "Unknown",
+              "documentation": [
+                " Gilt index is unknown."
+              ]
+            },
+            {
+              "name": "NotOwner",
+              "documentation": [
+                " Not the owner of the gilt."
+              ]
+            },
+            {
+              "name": "NotExpired",
+              "documentation": [
+                " Gilt not yet at expiry date."
+              ]
+            },
+            {
+              "name": "NotFound",
+              "documentation": [
+                " The given bid for retraction is not found."
+              ]
+            }
+          ],
+          "index": 37
         }
       ],
       "extrinsic": {
