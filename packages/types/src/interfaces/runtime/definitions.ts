@@ -87,6 +87,13 @@ export default {
     LookupTarget: 'AccountId',
     ModuleId: 'LockIdentifier',
     MultiAddress: 'GenericMultiAddress',
+    MultiSigner: {
+      _enum: {
+        Ed25519: '[u8; 32]',
+        Sr25519: '[u8; 32]',
+        Ecdsa: '[u8; 33]'
+      }
+    },
     Moment: 'UInt<64, Moment>',
     OpaqueCall: 'Bytes',
     Origin: 'DoNotConstruct<Origin>',

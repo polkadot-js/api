@@ -13,26 +13,23 @@ export default {
     LastContribution: {
       _enum: {
         Never: 'Null',
-        PreEnding: 'AuctionIndex',
+        PreEnding: 'u32',
         Ending: 'BlockNumber'
       }
     },
-    DeployData: {
-      codeHash: 'Hash',
-      codeSize: 'u32',
-      initialHeadData: 'HeadData'
-    },
     FundInfo: {
-      parachain: 'Option<ParaId>',
-      owner: 'AccountId',
+      retiring: 'bool',
+      depositor: 'AccountId',
+      verifier: 'Option<MultiSigner>',
       deposit: 'Balance',
       raised: 'Balance',
       end: 'BlockNumber',
       cap: 'Balance',
       lastContribution: 'LastContribution',
-      firstSlot: 'BlockNumber',
-      lastSlot: 'BlockNumber',
-      deployData: 'Option<DeployData>'
-    }
+      firstSlot: 'LeasePeriod',
+      lastSlot: 'LeasePeriod',
+      trieIndex: 'TrieIndex'
+    },
+    TrieIndex: 'u32'
   }
 } as Definitions;
