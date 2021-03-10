@@ -57,6 +57,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   scheduler: {
     ValidatorIndex: 'ParaValidatorIndex'
   },
+  shared: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
   society: {
     Judgement: 'SocietyJudgement',
     Vote: 'SocietyVote'
