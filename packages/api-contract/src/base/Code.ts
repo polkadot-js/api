@@ -3,7 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { EventRecord, Hash } from '@polkadot/types/interfaces';
+import type { EventRecord } from '@polkadot/types/interfaces';
 import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
 import type { MapConstructorExec } from './types';
@@ -55,18 +55,8 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     });
   }
 
-  /**
-   * @description Deploy the code bundle, creating a Blueprint.
-   * @deprecated Use the `code.tx.<constructor>(...) format to put code and deploy
-   */
-  public createBlueprint (): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
-    return this.api.tx.contracts
-      .putCode(compactAddLength(this.code))
-      .withResultTransform((result: ISubmittableResult) =>
-        new CodeSubmittableResult(result, applyOnEvent(result, ['CodeStored'], ([record]: EventRecord[]) =>
-          new Blueprint<ApiType>(this.api, this.abi, record.event.data[0] as Hash, this._decorateMethod)
-        ))
-      );
+  public get tx (): MapConstructorExec<ApiType> {
+    return this.#tx;
   }
 
   /**
@@ -75,10 +65,6 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
    */
   public createContract (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
     return this.#instantiate(constructorOrId, options, params);
-  }
-
-  public get tx (): MapConstructorExec<ApiType> {
-    return this.#tx;
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
