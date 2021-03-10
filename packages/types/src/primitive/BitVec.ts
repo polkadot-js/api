@@ -49,6 +49,10 @@ export class BitVec extends Raw {
     return this.length + compactToU8a(this.bitLength()).length;
   }
 
+  public toHuman (): string {
+    return `0b${[...this.toU8a(true)].map((d) => `00000000${d.toString(2)}`.slice(-8)).join('_')}`;
+  }
+
   /**
    * @description Returns the base runtime type name for this instance
    */

@@ -7,7 +7,7 @@ import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polka
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
+import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
@@ -196,6 +196,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<AvailabilityBitfieldRecord>': Option<AvailabilityBitfieldRecord>;
     'Option<BabeAuthorityWeight>': Option<BabeAuthorityWeight>;
     'Option<BabeBlockWeight>': Option<BabeBlockWeight>;
+    'Option<BabeEpochConfiguration>': Option<BabeEpochConfiguration>;
     'Option<BabeEquivocationProof>': Option<BabeEquivocationProof>;
     'Option<BabeWeight>': Option<BabeWeight>;
     'Option<BackedCandidate>': Option<BackedCandidate>;
@@ -936,6 +937,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<AvailabilityBitfieldRecord>': Vec<AvailabilityBitfieldRecord>;
     'Vec<BabeAuthorityWeight>': Vec<BabeAuthorityWeight>;
     'Vec<BabeBlockWeight>': Vec<BabeBlockWeight>;
+    'Vec<BabeEpochConfiguration>': Vec<BabeEpochConfiguration>;
     'Vec<BabeEquivocationProof>': Vec<BabeEquivocationProof>;
     'Vec<BabeWeight>': Vec<BabeWeight>;
     'Vec<BackedCandidate>': Vec<BackedCandidate>;
@@ -1676,6 +1678,7 @@ declare module '@polkadot/types/types/registry' {
     AvailabilityBitfieldRecord: AvailabilityBitfieldRecord;
     BabeAuthorityWeight: BabeAuthorityWeight;
     BabeBlockWeight: BabeBlockWeight;
+    BabeEpochConfiguration: BabeEpochConfiguration;
     BabeEquivocationProof: BabeEquivocationProof;
     BabeWeight: BabeWeight;
     BackedCandidate: BackedCandidate;
