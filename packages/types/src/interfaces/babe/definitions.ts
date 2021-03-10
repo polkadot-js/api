@@ -19,6 +19,10 @@ export default {
       _enum: ['PrimarySlots', 'PrimaryAndSecondaryPlainSlots', 'PrimaryAndSecondaryVRFSlots']
     },
     BabeAuthorityWeight: 'u64',
+    BabeEpochConfiguration: {
+      c: '(u64, u64)',
+      allowedSlots: 'AllowedSlots'
+    },
     BabeBlockWeight: 'u32',
     BabeEquivocationProof: {
       offender: 'AuthorityId',

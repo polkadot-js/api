@@ -174,6 +174,16 @@ export interface Moment extends UInt {}
 /** @name MultiAddress */
 export interface MultiAddress extends GenericMultiAddress {}
 
+/** @name MultiSigner */
+export interface MultiSigner extends Enum {
+  readonly isEd25519: boolean;
+  readonly asEd25519: U8aFixed;
+  readonly isSr25519: boolean;
+  readonly asSr25519: U8aFixed;
+  readonly isEcdsa: boolean;
+  readonly asEcdsa: U8aFixed;
+}
+
 /** @name OpaqueCall */
 export interface OpaqueCall extends Bytes {}
 

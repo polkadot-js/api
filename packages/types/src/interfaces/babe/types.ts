@@ -19,6 +19,12 @@ export interface BabeAuthorityWeight extends u64 {}
 /** @name BabeBlockWeight */
 export interface BabeBlockWeight extends u32 {}
 
+/** @name BabeEpochConfiguration */
+export interface BabeEpochConfiguration extends Struct {
+  readonly c: ITuple<[u64, u64]>;
+  readonly allowedSlots: AllowedSlots;
+}
+
 /** @name BabeEquivocationProof */
 export interface BabeEquivocationProof extends Struct {
   readonly offender: AuthorityId;

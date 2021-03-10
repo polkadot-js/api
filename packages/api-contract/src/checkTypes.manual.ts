@@ -37,7 +37,9 @@ async function checkContract (api: ApiPromise, pairs: TestKeyringMap): Promise<v
 }
 
 async function main (): Promise<void> {
-  const api = await ApiPromise.create();
+  const api = await ApiPromise.create({
+    hasher: (data: Uint8Array): Uint8Array => data
+  });
   const pairs = createTestPairs();
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
