@@ -184,6 +184,7 @@ export default {
       threadAvailabilityPeriod: 'BlockNumber',
       schedulingLookahead: 'u32',
       maxValidatorsPerCore: 'Option<u32>',
+      maxValidators: 'Option<u32>',
       disputePeriod: 'SessionIndex',
       noShowSlots: 'u32',
       nDelayTranches: 'u32',
