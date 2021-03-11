@@ -309,6 +309,7 @@ export interface HostConfiguration extends Struct {
   readonly threadAvailabilityPeriod: BlockNumber;
   readonly schedulingLookahead: u32;
   readonly maxValidatorsPerCore: Option<u32>;
+  readonly maxValidators: Option<u32>;
   readonly disputePeriod: SessionIndex;
   readonly noShowSlots: u32;
   readonly nDelayTranches: u32;
