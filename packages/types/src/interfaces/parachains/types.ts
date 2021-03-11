@@ -141,6 +141,14 @@ export interface Balances extends Struct {
   readonly assets: Vec<MultiAsset>;
 }
 
+/** @name Bidder */
+export interface Bidder extends Enum {
+  readonly isNew: boolean;
+  readonly asNew: NewBidder;
+  readonly isExisting: boolean;
+  readonly asExisting: ParaId;
+}
+
 /** @name BufferedSessionChange */
 export interface BufferedSessionChange extends Struct {
   readonly applyAt: BlockNumber;
@@ -361,6 +369,29 @@ export interface InboundHrmpMessage extends Struct {
 /** @name InboundHrmpMessages */
 export interface InboundHrmpMessages extends Vec<InboundHrmpMessage> {}
 
+/** @name IncomingParachain */
+export interface IncomingParachain extends Enum {
+  readonly isUnset: boolean;
+  readonly asUnset: NewBidder;
+  readonly isFixed: boolean;
+  readonly asFixed: IncomingParachainFixed;
+  readonly isDeploy: boolean;
+  readonly asDeploy: IncomingParachainDeploy;
+}
+
+/** @name IncomingParachainDeploy */
+export interface IncomingParachainDeploy extends Struct {
+  readonly code: ValidationCode;
+  readonly initialHeadData: HeadData;
+}
+
+/** @name IncomingParachainFixed */
+export interface IncomingParachainFixed extends Struct {
+  readonly codeHash: Hash;
+  readonly codeSize: u32;
+  readonly initialHeadData: HeadData;
+}
+
 /** @name InitiateReserveWithdraw */
 export interface InitiateReserveWithdraw extends Struct {
   readonly assets: Vec<MultiAsset>;
@@ -470,6 +501,12 @@ export interface NetworkId extends Enum {
   readonly asNamed: Bytes;
   readonly isPolkadot: boolean;
   readonly isKusama: boolean;
+}
+
+/** @name NewBidder */
+export interface NewBidder extends Struct {
+  readonly who: AccountId;
+  readonly sub: SubId;
 }
 
 /** @name Order */
@@ -706,6 +743,9 @@ export interface Statement extends Enum {
   readonly isInvalid: boolean;
   readonly asInvalid: Hash;
 }
+
+/** @name SubId */
+export interface SubId extends u32 {}
 
 /** @name SystemInherentData */
 export interface SystemInherentData extends ParachainInherentData {}

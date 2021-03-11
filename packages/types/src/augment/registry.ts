@@ -32,7 +32,7 @@ import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lotter
 import type { DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMapTypeV12, DoubleMapTypeV9, ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV9, MapTypeLatest, MapTypeV10, MapTypeV11, MapTypeV12, MapTypeV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV9, ModuleConstantMetadataLatest, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV9, ModuleMetadataLatest, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV9, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV9, StorageMetadataLatest, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
-import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiAsset, MultiLocation, NetworkId, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SystemInherentData, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
+import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiAsset, MultiLocation, NetworkId, NewBidder, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, InclusionFee, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { Approvals } from '@polkadot/types/interfaces/poll';
 import type { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
@@ -116,6 +116,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<SlotNumber>': Compact<SlotNumber>;
     'Compact<SpanIndex>': Compact<SpanIndex>;
     'Compact<StrikeCount>': Compact<StrikeCount>;
+    'Compact<SubId>': Compact<SubId>;
     'Compact<TAssetBalance>': Compact<TAssetBalance>;
     'Compact<TAssetDepositBalance>': Compact<TAssetDepositBalance>;
     'Compact<TransactionPriority>': Compact<TransactionPriority>;
@@ -207,6 +208,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Balances>': Option<Balances>;
     'Option<BalanceStatus>': Option<BalanceStatus>;
     'Option<Bid>': Option<Bid>;
+    'Option<Bidder>': Option<Bidder>;
     'Option<BidKind>': Option<BidKind>;
     'Option<BitVec>': Option<BitVec>;
     'Option<Block>': Option<Block>;
@@ -479,6 +481,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<InboundHrmpMessages>': Option<InboundHrmpMessages>;
     'Option<IncludedBlocks>': Option<IncludedBlocks>;
     'Option<InclusionFee>': Option<InclusionFee>;
+    'Option<IncomingParachain>': Option<IncomingParachain>;
+    'Option<IncomingParachainDeploy>': Option<IncomingParachainDeploy>;
+    'Option<IncomingParachainFixed>': Option<IncomingParachainFixed>;
     'Option<Index>': Option<Index>;
     'Option<IndicesLookupSource>': Option<IndicesLookupSource>;
     'Option<IndividualExposure>': Option<IndividualExposure>;
@@ -554,6 +559,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<NetworkState>': Option<NetworkState>;
     'Option<NetworkStatePeerset>': Option<NetworkStatePeerset>;
     'Option<NetworkStatePeersetInfo>': Option<NetworkStatePeersetInfo>;
+    'Option<NewBidder>': Option<NewBidder>;
     'Option<NextAuthority>': Option<NextAuthority>;
     'Option<NextConfigDescriptor>': Option<NextConfigDescriptor>;
     'Option<NextConfigDescriptorV1>': Option<NextConfigDescriptorV1>;
@@ -790,6 +796,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<StoredPendingChange>': Option<StoredPendingChange>;
     'Option<StoredState>': Option<StoredState>;
     'Option<StrikeCount>': Option<StrikeCount>;
+    'Option<SubId>': Option<SubId>;
     'Option<SyncState>': Option<SyncState>;
     'Option<SystemInherentData>': Option<SystemInherentData>;
     'Option<SystemOrigin>': Option<SystemOrigin>;
@@ -948,6 +955,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Balances>': Vec<Balances>;
     'Vec<BalanceStatus>': Vec<BalanceStatus>;
     'Vec<Bid>': Vec<Bid>;
+    'Vec<Bidder>': Vec<Bidder>;
     'Vec<BidKind>': Vec<BidKind>;
     'Vec<BitVec>': Vec<BitVec>;
     'Vec<Block>': Vec<Block>;
@@ -1220,6 +1228,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<InboundHrmpMessages>': Vec<InboundHrmpMessages>;
     'Vec<IncludedBlocks>': Vec<IncludedBlocks>;
     'Vec<InclusionFee>': Vec<InclusionFee>;
+    'Vec<IncomingParachain>': Vec<IncomingParachain>;
+    'Vec<IncomingParachainDeploy>': Vec<IncomingParachainDeploy>;
+    'Vec<IncomingParachainFixed>': Vec<IncomingParachainFixed>;
     'Vec<Index>': Vec<Index>;
     'Vec<IndicesLookupSource>': Vec<IndicesLookupSource>;
     'Vec<IndividualExposure>': Vec<IndividualExposure>;
@@ -1295,6 +1306,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<NetworkState>': Vec<NetworkState>;
     'Vec<NetworkStatePeerset>': Vec<NetworkStatePeerset>;
     'Vec<NetworkStatePeersetInfo>': Vec<NetworkStatePeersetInfo>;
+    'Vec<NewBidder>': Vec<NewBidder>;
     'Vec<NextAuthority>': Vec<NextAuthority>;
     'Vec<NextConfigDescriptor>': Vec<NextConfigDescriptor>;
     'Vec<NextConfigDescriptorV1>': Vec<NextConfigDescriptorV1>;
@@ -1531,6 +1543,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<StoredPendingChange>': Vec<StoredPendingChange>;
     'Vec<StoredState>': Vec<StoredState>;
     'Vec<StrikeCount>': Vec<StrikeCount>;
+    'Vec<SubId>': Vec<SubId>;
     'Vec<SyncState>': Vec<SyncState>;
     'Vec<SystemInherentData>': Vec<SystemInherentData>;
     'Vec<SystemOrigin>': Vec<SystemOrigin>;
@@ -1689,6 +1702,7 @@ declare module '@polkadot/types/types/registry' {
     Balances: Balances;
     BalanceStatus: BalanceStatus;
     Bid: Bid;
+    Bidder: Bidder;
     BidKind: BidKind;
     BitVec: BitVec;
     Block: Block;
@@ -1961,6 +1975,9 @@ declare module '@polkadot/types/types/registry' {
     InboundHrmpMessages: InboundHrmpMessages;
     IncludedBlocks: IncludedBlocks;
     InclusionFee: InclusionFee;
+    IncomingParachain: IncomingParachain;
+    IncomingParachainDeploy: IncomingParachainDeploy;
+    IncomingParachainFixed: IncomingParachainFixed;
     Index: Index;
     IndicesLookupSource: IndicesLookupSource;
     IndividualExposure: IndividualExposure;
@@ -2036,6 +2053,7 @@ declare module '@polkadot/types/types/registry' {
     NetworkState: NetworkState;
     NetworkStatePeerset: NetworkStatePeerset;
     NetworkStatePeersetInfo: NetworkStatePeersetInfo;
+    NewBidder: NewBidder;
     NextAuthority: NextAuthority;
     NextConfigDescriptor: NextConfigDescriptor;
     NextConfigDescriptorV1: NextConfigDescriptorV1;
@@ -2272,6 +2290,7 @@ declare module '@polkadot/types/types/registry' {
     StoredPendingChange: StoredPendingChange;
     StoredState: StoredState;
     StrikeCount: StrikeCount;
+    SubId: SubId;
     SyncState: SyncState;
     SystemInherentData: SystemInherentData;
     SystemOrigin: SystemOrigin;
