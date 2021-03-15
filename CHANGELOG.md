@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 4.1.1 Mar 15, 2021
+
+Upgrade priority: Low. Recommended when tracking the latest updates from Aubstrate.
+
+Changes:
+
+- `ConsensusEngineId` formats non-Ascii engines correctly
+- Ensure that type alias overrides also apply to map keys
+
+
 ## 4.0.3 Mar 8, 2021
 
 Upgrade priority: Low. Recommended if you use the API to sync the full chain, most notably Polkadot.

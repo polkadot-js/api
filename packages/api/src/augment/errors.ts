@@ -8,17 +8,9 @@ declare module '@polkadot/api/types/errors' {
     assets: {
       [key: string]: AugmentedError<ApiType>;
       /**
-       * Transfer amount should be non-zero.
-       **/
-      AmountZero: AugmentedError<ApiType>;
-      /**
        * Invalid metadata given.
        **/
       BadMetadata: AugmentedError<ApiType>;
-      /**
-       * Some internal state is broken.
-       **/
-      BadState: AugmentedError<ApiType>;
       /**
        * Invalid witness data given.
        **/
@@ -48,21 +40,25 @@ declare module '@polkadot/api/types/errors' {
        **/
       NoPermission: AugmentedError<ApiType>;
       /**
+       * No provider reference exists to allow a non-zero balance of a non-self-sufficient asset.
+       **/
+      NoProvider: AugmentedError<ApiType>;
+      /**
        * A mint operation lead to an overflow.
        **/
       Overflow: AugmentedError<ApiType>;
       /**
-       * Attempt to destroy an asset class when non-zombie, reference-bearing accounts exist.
+       * No approval exists that would allow the transfer.
        **/
-      RefsLeft: AugmentedError<ApiType>;
-      /**
-       * Too many zombie accounts in use.
-       **/
-      TooManyZombies: AugmentedError<ApiType>;
+      Unapproved: AugmentedError<ApiType>;
       /**
        * The given asset ID is unknown.
        **/
       Unknown: AugmentedError<ApiType>;
+      /**
+       * The source account would not survive the transfer and it needs to stay alive.
+       **/
+      WouldDie: AugmentedError<ApiType>;
     };
     authorship: {
       [key: string]: AugmentedError<ApiType>;

@@ -20,22 +20,24 @@ const KNOWN_ORIGINS: Record<string, string> = {
  * Find and apply the correct type override
  * @internal
  **/
-function setTypeOverride (sectionTypes: OverrideModuleType, type: Type): void {
-  const override = Object.keys(sectionTypes).find((aliased) => type.eq(aliased));
+function setTypeOverride (sectionTypes: OverrideModuleType, ...types: Type[]): void {
+  types.forEach((type): void => {
+    const override = Object.keys(sectionTypes).find((aliased) => type.eq(aliased));
 
-  if (override) {
-    type.setOverride(sectionTypes[override]);
-  } else {
-    // FIXME: NOT happy with this approach, but gets over the initial hump cased by (Vec<Announcement>,BalanceOf)
-    const orig = type.toString();
-    const alias = Object.entries(sectionTypes).reduce((result: string, [from, to]): string =>
-      [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']].reduce((result, [one, two]): string =>
-        result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
+    if (override) {
+      type.setOverride(sectionTypes[override]);
+    } else {
+      // FIXME: NOT happy with this approach, but gets over the initial hump cased by (Vec<Announcement>,BalanceOf)
+      const orig = type.toString();
+      const alias = Object.entries(sectionTypes).reduce((result: string, [from, to]): string =>
+        [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']].reduce((result, [one, two]): string =>
+          result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
 
-    if (orig !== alias) {
-      type.setOverride(alias);
+      if (orig !== alias) {
+        type.setOverride(alias);
+      }
     }
-  }
+  });
 }
 
 /**
@@ -81,17 +83,13 @@ function convertEvents (registry: Registry, events: EventMetadataV12[], sectionT
 function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV12, sectionTypes: OverrideModuleType): StorageMetadataLatest {
   return registry.createType('StorageMetadataLatest', {
     items: items.map((s): StorageEntryMetadataLatest => {
-      let resultType: Type;
-
-      if (s.type.isMap) {
-        resultType = s.type.asMap.value;
-      } else if (s.type.isDoubleMap) {
-        resultType = s.type.asDoubleMap.value;
+      if (s.type.isDoubleMap) {
+        setTypeOverride(sectionTypes, s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2);
+      } else if (s.type.isMap) {
+        setTypeOverride(sectionTypes, s.type.asMap.value, s.type.asMap.key);
       } else {
-        resultType = s.type.asPlain;
+        setTypeOverride(sectionTypes, s.type.asPlain);
       }
-
-      setTypeOverride(sectionTypes, resultType);
 
       return registry.createType('StorageEntryMetadataLatest', s);
     }),

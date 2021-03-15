@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { BitVec, Bool, Bytes, Compact, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, Json, Null, Option, Raw, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, Vec, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types';
-import type { AssetBalance, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
+import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -176,7 +176,10 @@ declare module '@polkadot/types/types/registry' {
     'Option<ApplyExtrinsicResult>': Option<ApplyExtrinsicResult>;
     'Option<ApprovalFlag>': Option<ApprovalFlag>;
     'Option<Approvals>': Option<Approvals>;
+    'Option<AssetApproval>': Option<AssetApproval>;
+    'Option<AssetApprovalKey>': Option<AssetApprovalKey>;
     'Option<AssetBalance>': Option<AssetBalance>;
+    'Option<AssetDestroyWitness>': Option<AssetDestroyWitness>;
     'Option<AssetDetails>': Option<AssetDetails>;
     'Option<AssetId>': Option<AssetId>;
     'Option<AssetInstance>': Option<AssetInstance>;
@@ -923,7 +926,10 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ApplyExtrinsicResult>': Vec<ApplyExtrinsicResult>;
     'Vec<ApprovalFlag>': Vec<ApprovalFlag>;
     'Vec<Approvals>': Vec<Approvals>;
+    'Vec<AssetApproval>': Vec<AssetApproval>;
+    'Vec<AssetApprovalKey>': Vec<AssetApprovalKey>;
     'Vec<AssetBalance>': Vec<AssetBalance>;
+    'Vec<AssetDestroyWitness>': Vec<AssetDestroyWitness>;
     'Vec<AssetDetails>': Vec<AssetDetails>;
     'Vec<AssetId>': Vec<AssetId>;
     'Vec<AssetInstance>': Vec<AssetInstance>;
@@ -1670,7 +1676,10 @@ declare module '@polkadot/types/types/registry' {
     ApplyExtrinsicResult: ApplyExtrinsicResult;
     ApprovalFlag: ApprovalFlag;
     Approvals: Approvals;
+    AssetApproval: AssetApproval;
+    AssetApprovalKey: AssetApprovalKey;
     AssetBalance: AssetBalance;
+    AssetDestroyWitness: AssetDestroyWitness;
     AssetDetails: AssetDetails;
     AssetId: AssetId;
     AssetInstance: AssetInstance;
