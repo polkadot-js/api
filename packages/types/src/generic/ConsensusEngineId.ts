@@ -5,7 +5,7 @@ import type { AccountId } from '../interfaces/runtime';
 
 import BN from 'bn.js';
 
-import { bnToBn } from '@polkadot/util';
+import { bnToU8a, isAscii, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Bytes } from '../primitive/Bytes';
 import { u32 } from '../primitive/U32';
@@ -24,10 +24,11 @@ export const CID_POW = 0x5f776f70; // 'pow_'
  */
 export class GenericConsensusEngineId extends u32 {
   public static idToString (input: number | BN): string {
-    return bnToBn(input)
-      .toArray('le')
-      .map((code): string => String.fromCharCode(code))
-      .join('');
+    const u8a = bnToU8a(input);
+
+    return isAscii(u8a)
+      ? u8aToString(u8a)
+      : u8aToHex(u8a);
   }
 
   public static stringToId (input: string): number {
