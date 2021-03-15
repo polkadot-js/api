@@ -3,7 +3,7 @@
 
 import type { Bytes, Compact, Data, Option, U8aFixed, Vec, bool, u16, u32, u64, u8 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
-import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
+import type { AssetDestroyWitness, TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, NextConfigDescriptor } from '@polkadot/types/interfaces/babe';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { CodeHash, Schedule } from '@polkadot/types/interfaces/contracts';
@@ -31,6 +31,29 @@ declare module '@polkadot/api/types/submittable' {
     assets: {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
+       * Approve an amount of asset for transfer by a delegated third-party account.
+       * 
+       * Origin must be Signed.
+       * 
+       * Ensures that `ApprovalDeposit` worth of `Currency` is reserved from signing account
+       * for the purpose of holding the approval. If some non-zero amount of assets is already
+       * approved from signing account to `delegate`, then it is topped up or unreserved to
+       * meet the right value.
+       * 
+       * NOTE: The signing account does not need to own `amount` of assets at the point of
+       * making this call.
+       * 
+       * - `id`: The identifier of the asset.
+       * - `delegate`: The account to delegate permission to transfer asset.
+       * - `amount`: The amount of asset that may be transferred by `delegate`. If there is
+       * already an approval in place, then this acts additively.
+       * 
+       * Emits `ApprovedTransfer` on success.
+       * 
+       * Weight: `O(1)`
+       **/
+      approveTransfer: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, delegate: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, Compact<TAssetBalance>]>;
+      /**
        * Reduce the balance of `who` by as much as possible up to `amount` assets of `id`.
        * 
        * Origin must be Signed and the sender should be the Manager of the asset `id`.
@@ -49,9 +72,39 @@ declare module '@polkadot/api/types/submittable' {
        **/
       burn: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, who: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, Compact<TAssetBalance>]>;
       /**
+       * Cancel all of some asset approved for delegated transfer by a third-party account.
+       * 
+       * Origin must be Signed and there must be an approval in place between signer and
+       * `delegate`.
+       * 
+       * Unreserves any deposit previously reserved by `approve_transfer` for the approval.
+       * 
+       * - `id`: The identifier of the asset.
+       * - `delegate`: The account delegated permission to transfer asset.
+       * 
+       * Emits `ApprovalCancelled` on success.
+       * 
+       * Weight: `O(1)`
+       **/
+      cancelApproval: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, delegate: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource]>;
+      /**
+       * Clear the metadata for an asset.
+       * 
+       * Origin must be Signed and the sender should be the Owner of the asset `id`.
+       * 
+       * Any deposit is freed for the asset owner.
+       * 
+       * - `id`: The identifier of the asset to clear.
+       * 
+       * Emits `MetadataCleared`.
+       * 
+       * Weight: `O(1)`
+       **/
+      clearMetadata: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>]>;
+      /**
        * Issue a new class of fungible assets from a public origin.
        * 
-       * This new asset class has no assets initially.
+       * This new asset class has no assets initially and its owner is the origin.
        * 
        * The origin must be Signed and the sender must have sufficient funds free.
        * 
@@ -61,11 +114,8 @@ declare module '@polkadot/api/types/submittable' {
        * Parameters:
        * - `id`: The identifier of the new asset. This must not be currently in use to identify
        * an existing asset.
-       * - `owner`: The owner of this class of assets. The owner has full superuser permissions
-       * over this asset, but may later change and configure the permissions using `transfer_ownership`
-       * and `set_team`.
-       * - `max_zombies`: The total number of accounts which may hold assets in this class yet
-       * have no existential deposit.
+       * - `admin`: The admin of this class of assets. The admin is the initial address of each
+       * member of the asset class's admin team.
        * - `min_balance`: The minimum balance of this new asset that any single account must
        * have. If an account's balance is reduced below this, then it collapses to zero.
        * 
@@ -73,20 +123,79 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * Weight: `O(1)`
        **/
-      create: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, admin: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, maxZombies: u32 | AnyNumber | Uint8Array, minBalance: TAssetBalance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, u32, TAssetBalance]>;
+      create: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, admin: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, minBalance: TAssetBalance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, TAssetBalance]>;
       /**
-       * Destroy a class of fungible assets owned by the sender.
+       * Destroy a class of fungible assets.
        * 
-       * The origin must be Signed and the sender must be the owner of the asset `id`.
+       * The origin must conform to `ForceOrigin` or must be Signed and the sender must be the
+       * owner of the asset `id`.
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
        * 
        * Emits `Destroyed` event when successful.
        * 
-       * Weight: `O(z)` where `z` is the number of zombie accounts.
+       * Weight: `O(c + p + a)` where:
+       * - `c = (witness.accounts - witness.sufficients)`
+       * - `s = witness.sufficients`
+       * - `a = witness.approvals`
        **/
-      destroy: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, zombiesWitness: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, Compact<u32>]>;
+      destroy: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, witness: AssetDestroyWitness | { accounts?: any; sufficients?: any; approvals?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, AssetDestroyWitness]>;
+      /**
+       * Alter the attributes of a given asset.
+       * 
+       * Origin must be `ForceOrigin`.
+       * 
+       * - `id`: The identifier of the asset.
+       * - `owner`: The new Owner of this asset.
+       * - `issuer`: The new Issuer of this asset.
+       * - `admin`: The new Admin of this asset.
+       * - `freezer`: The new Freezer of this asset.
+       * - `min_balance`: The minimum balance of this new asset that any single account must
+       * have. If an account's balance is reduced below this, then it collapses to zero.
+       * - `is_sufficient`: Whether a non-zero balance of this asset is deposit of sufficient
+       * value to account for the state bloat associated with its balance storage. If set to
+       * `true`, then non-zero balances may be stored without a `consumer` reference (and thus
+       * an ED in the Balances pallet or whatever else is used to control user-account state
+       * growth).
+       * - `is_frozen`: Whether this asset class is frozen except for permissioned/admin
+       * instructions.
+       * 
+       * Emits `AssetStatusChanged` with the identity of the asset.
+       * 
+       * Weight: `O(1)`
+       **/
+      forceAssetStatus: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, issuer: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, admin: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freezer: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, minBalance: Compact<TAssetBalance> | AnyNumber | Uint8Array, isSufficient: bool | boolean | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, LookupSource, LookupSource, LookupSource, Compact<TAssetBalance>, bool, bool]>;
+      /**
+       * Cancel all of some asset approved for delegated transfer by a third-party account.
+       * 
+       * Origin must be either ForceOrigin or Signed origin with the signer being the Admin
+       * account of the asset `id`.
+       * 
+       * Unreserves any deposit previously reserved by `approve_transfer` for the approval.
+       * 
+       * - `id`: The identifier of the asset.
+       * - `delegate`: The account delegated permission to transfer asset.
+       * 
+       * Emits `ApprovalCancelled` on success.
+       * 
+       * Weight: `O(1)`
+       **/
+      forceCancelApproval: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, delegate: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, LookupSource]>;
+      /**
+       * Clear the metadata for an asset.
+       * 
+       * Origin must be ForceOrigin.
+       * 
+       * Any deposit is returned.
+       * 
+       * - `id`: The identifier of the asset to clear.
+       * 
+       * Emits `MetadataCleared`.
+       * 
+       * Weight: `O(1)`
+       **/
+      forceClearMetadata: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>]>;
       /**
        * Issue a new class of fungible assets from a privileged origin.
        * 
@@ -110,20 +219,24 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * Weight: `O(1)`
        **/
-      forceCreate: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, maxZombies: Compact<u32> | AnyNumber | Uint8Array, minBalance: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, Compact<u32>, Compact<TAssetBalance>]>;
+      forceCreate: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, isSufficient: bool | boolean | Uint8Array, minBalance: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, bool, Compact<TAssetBalance>]>;
       /**
-       * Destroy a class of fungible assets.
+       * Force the metadata for an asset to some value.
        * 
-       * The origin must conform to `ForceOrigin`.
+       * Origin must be ForceOrigin.
        * 
-       * - `id`: The identifier of the asset to be destroyed. This must identify an existing
-       * asset.
+       * Any deposit is left alone.
        * 
-       * Emits `Destroyed` event when successful.
+       * - `id`: The identifier of the asset to update.
+       * - `name`: The user friendly name of this asset. Limited in length by `StringLimit`.
+       * - `symbol`: The exchange symbol for this asset. Limited in length by `StringLimit`.
+       * - `decimals`: The number of decimals this asset uses to represent one unit.
        * 
-       * Weight: `O(1)`
+       * Emits `MetadataSet`.
+       * 
+       * Weight: `O(N + S)` where N and S are the length of the name and symbol respectively.
        **/
-      forceDestroy: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, zombiesWitness: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, Compact<u32>]>;
+      forceSetMetadata: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, name: Bytes | string | Uint8Array, symbol: Bytes | string | Uint8Array, decimals: u8 | AnyNumber | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, Bytes, Bytes, u8, bool]>;
       /**
        * Move some assets from one account to another.
        * 
@@ -187,28 +300,7 @@ declare module '@polkadot/api/types/submittable' {
        **/
       mint: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, beneficiary: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, Compact<TAssetBalance>]>;
       /**
-       * Set the maximum number of zombie accounts for an asset.
-       * 
-       * Origin must be Signed and the sender should be the Owner of the asset `id`.
-       * 
-       * Funds of sender are reserved according to the formula:
-       * `AssetDepositBase + AssetDepositPerZombie * max_zombies` taking into account
-       * any already reserved funds.
-       * 
-       * - `id`: The identifier of the asset to update zombie count.
-       * - `max_zombies`: The new number of zombies allowed for this asset.
-       * 
-       * Emits `MaxZombiesChanged`.
-       * 
-       * Weight: `O(1)`
-       **/
-      setMaxZombies: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, maxZombies: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, Compact<u32>]>;
-      /**
        * Set the metadata for an asset.
-       * 
-       * NOTE: There is no `unset_metadata` call. Simply pass an empty name, symbol,
-       * and 0 decimals to this function to remove the metadata of an asset and
-       * return your deposit.
        * 
        * Origin must be Signed and the sender should be the Owner of the asset `id`.
        * 
@@ -221,7 +313,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `symbol`: The exchange symbol for this asset. Limited in length by `StringLimit`.
        * - `decimals`: The number of decimals this asset uses to represent one unit.
        * 
-       * Emits `MaxZombiesChanged`.
+       * Emits `MetadataSet`.
        * 
        * Weight: `O(1)`
        **/
@@ -288,11 +380,53 @@ declare module '@polkadot/api/types/submittable' {
        **/
       transfer: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, target: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, Compact<TAssetBalance>]>;
       /**
+       * Transfer some asset balance from a previously delegated account to some third-party
+       * account.
+       * 
+       * Origin must be Signed and there must be an approval in place by the `owner` to the
+       * signer.
+       * 
+       * If the entire amount approved for transfer is transferred, then any deposit previously
+       * reserved by `approve_transfer` is unreserved.
+       * 
+       * - `id`: The identifier of the asset.
+       * - `owner`: The account which previously approved for a transfer of at least `amount` and
+       * from which the asset balance will be withdrawn.
+       * - `destination`: The account to which the asset balance of `amount` will be transferred.
+       * - `amount`: The amount of assets to transfer.
+       * 
+       * Emits `TransferredApproved` on success.
+       * 
+       * Weight: `O(1)`
+       **/
+      transferApproved: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, destination: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, LookupSource, Compact<TAssetBalance>]>;
+      /**
+       * Move some assets from the sender account to another, keeping the sender account alive.
+       * 
+       * Origin must be Signed.
+       * 
+       * - `id`: The identifier of the asset to have some amount transferred.
+       * - `target`: The account to be credited.
+       * - `amount`: The amount by which the sender's balance of assets should be reduced and
+       * `target`'s balance increased. The amount actually transferred may be slightly greater in
+       * the case that the transfer would otherwise take the sender balance above zero but below
+       * the minimum balance. Must be greater than zero.
+       * 
+       * Emits `Transferred` with the actual amount transferred. If this takes the source balance
+       * to below the minimum for the asset, then the amount transferred is increased to take it
+       * to zero.
+       * 
+       * Weight: `O(1)`
+       * Modes: Pre-existence of `target`; Post-existence of sender; Prior & post zombie-status
+       * of sender; Account pre-existence of `target`.
+       **/
+      transferKeepAlive: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, target: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<TAssetBalance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource, Compact<TAssetBalance>]>;
+      /**
        * Change the Owner of an asset.
        * 
        * Origin must be Signed and the sender should be the Owner of the asset `id`.
        * 
-       * - `id`: The identifier of the asset to be frozen.
+       * - `id`: The identifier of the asset.
        * - `owner`: The new Owner of this asset.
        * 
        * Emits `OwnerChanged`.
@@ -594,7 +728,10 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Updates the schedule for metering contracts.
        * 
-       * The schedule must have a greater version than the stored schedule.
+       * The schedule's version cannot be less than the version of the stored schedule.
+       * If a schedule does not change the instruction weights the version does not
+       * need to be increased. Therefore we allow storing a schedule that has the same
+       * version as the stored one.
        **/
       updateSchedule: AugmentedSubmittable<(schedule: Schedule | { version?: any; enablePrintln?: any; limits?: any; instructionWeights?: any; hostFnWeights?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Schedule]>;
     };

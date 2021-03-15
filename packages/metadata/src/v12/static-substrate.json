@@ -736,14 +736,14 @@
                 ]
               },
               {
-                "name": "NextEpochConfig",
+                "name": "PendingEpochConfigChange",
                 "modifier": "Optional",
                 "type": {
                   "plain": "NextConfigDescriptor"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Next epoch configuration, if changed."
+                  " Pending epoch configuration change that will be applied when the next epoch is enacted."
                 ]
               },
               {
@@ -829,6 +829,21 @@
                 ]
               },
               {
+                "name": "EpochStart",
+                "modifier": "Default",
+                "type": {
+                  "plain": "(BlockNumber,BlockNumber)"
+                },
+                "fallback": "0x0000000000000000",
+                "documentation": [
+                  " The block numbers when the last and current epoch have started, respectively `N-1` and",
+                  " `N`.",
+                  " NOTE: We track this is in order to annotate the block number when a given pool of",
+                  " entropy was fixed (i.e. it was known to chain observers). Since epochs are defined in",
+                  " slots, which may be skipped, the block numbers may not line up with the slot numbers."
+                ]
+              },
+              {
                 "name": "Lateness",
                 "modifier": "Default",
                 "type": {
@@ -841,6 +856,29 @@
                   " This entry is populated as part of block execution and is cleaned up",
                   " on block finalization. Querying this storage entry outside of block",
                   " execution context should always yield zero."
+                ]
+              },
+              {
+                "name": "EpochConfig",
+                "modifier": "Optional",
+                "type": {
+                  "plain": "BabeEpochConfiguration"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The configuration for the current epoch. Should never be `None` as it is initialized in genesis."
+                ]
+              },
+              {
+                "name": "NextEpochConfig",
+                "modifier": "Optional",
+                "type": {
+                  "plain": "BabeEpochConfiguration"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The configuration for the next epoch, `None` if the config will not change",
+                  " (you can fallback to `EpochConfig` instead in that case)."
                 ]
               }
             ]
@@ -7131,7 +7169,7 @@
                 "type": {
                   "plain": "Schedule"
                 },
-                "fallback": "0x0000000000040000000002000000010000800000001000000000100000000100002000000078060000a5600200a1740300271600000d1c0000e20c00006e160000ff280000a00000008b780100e4f80200b70600002c06000027070000a705000074170000ca2700002807000002ea8f08ef070000fd0700003c0a0000630800007f070000c7070000fe0700008909000022090000ea080000c30900002709000059070000d508000082080000b60900007a090000c90800009b080000bb080000a51f0000b51c00009a1f0000c21c00008c0800006b080000ea0800004009000092090000fc080000ae090000c2090000ae37290000000000e636290000000000be5a280000000000d479570000000000bc25280000000000a285280000000000008c28000000000052385c00000000003a07280000000000942a280000000000541d4d00000000002603130000000000b08a6f00000000000b01000000000000a053480000000000fd020000000000009862332700000000a32000000000000000e3bd3100000000902200000000000056120000000000006872ad0900000000de326200000000007cfe8e00000000008211ce07000000009309000000000000ac096d0000000000e43f161100000000da020000000000005e74cf0800000000e07b0b0200000000f005000000000000deb1c40a00000000f24a370900000000ff0e000000000000228bf9080000000049020000000000002a030000000000004c971c2300000000892100000000000067020000000000005703000000000000e60b000000000000aac22400000000006210000000000000f434270000000000200d00000000000094672200000000001806000000000000f86c2200000000001806000000000000",
+                "fallback": "0x000000000004000000000200000001000080000000100000000010000000010000200000001f060000d66a0200dd84030026180000bd1c0000430b000003170000ae2800009c000000dd69010063e00200300700000706000065070000b10500006e180000002800006905000072deae08f0070000dc070000710a00006a080000a507000096070000d1070000770900003e09000075090000d809000082090000bc090000120900003c09000072090000dc090000f7080000e108000062090000162000006b1d00002e2000002c1b0000fe080000000900000f090000a7090000f1090000ba090000bb09000065090000d8b82800000000009e9828000000000016902700000000004c705700000000004cc8270000000000e4bc270000000000e8d1270000000000a0685b0000000000484f2700000000009e7627000000000000f45100000000004cab120000000000184a700000000000140100000000000000cd460000000000fc02000000000000d0b570270000000013200000000000007821da3100000000e0200000000000009a120000000000000482b10900000000e03463000000000038d7900000000000de67d00700000000840900000000000006186e000000000016935d1200000000da02000000000000eaced408000000003a240e0200000000e705000000000000fc41d50a00000000d48e9309000000002d0f0000000000003a4225090000000047020000000000002303000000000000ba7c962300000000a5210000000000006d020000000000005403000000000000e50b00000000000026922400000000006110000000000000a4122600000000001d0d000000000000520e2200000000001a0600000000000020222200000000001a0600000000000044b13c0000000000",
                 "documentation": [
                   " Current cost schedule for contracts."
                 ]
@@ -7225,7 +7263,10 @@
               "documentation": [
                 " Updates the schedule for metering contracts.",
                 "",
-                " The schedule must have a greater version than the stored schedule."
+                " The schedule's version cannot be less than the version of the stored schedule.",
+                " If a schedule does not change the instruction weights the version does not",
+                " need to be increased. Therefore we allow storing a schedule that has the same",
+                " version as the stored one."
               ]
             },
             {
@@ -7575,7 +7616,7 @@
             {
               "name": "DeletionQueueDepth",
               "type": "u32",
-              "value": "0x1b010000",
+              "value": "0xf0000000",
               "documentation": [
                 " The maximum number of tries that can be queued for deletion."
               ]
@@ -7965,12 +8006,17 @@
                 },
                 "fallback": "0x00000000",
                 "documentation": [
-                  " The block number after which it's ok to send heartbeats in current session.",
+                  " The block number after which it's ok to send heartbeats in the current",
+                  " session.",
                   "",
-                  " At the beginning of each session we set this to a value that should",
-                  " fall roughly in the middle of the session duration.",
-                  " The idea is to first wait for the validators to produce a block",
-                  " in the current session, so that the heartbeat later on will not be necessary."
+                  " At the beginning of each session we set this to a value that should fall",
+                  " roughly in the middle of the session duration. The idea is to first wait for",
+                  " the validators to produce a block in the current session, so that the",
+                  " heartbeat later on will not be necessary.",
+                  "",
+                  " This value will only be used as a fallback if we fail to get a proper session",
+                  " progress estimate from `NextSessionRotation`, as those estimates should be",
+                  " more accurate then the value we calculate for `HeartbeatAfter`."
                 ]
               },
               {
@@ -12806,6 +12852,24 @@
                 ]
               },
               {
+                "name": "Approvals",
+                "modifier": "Optional",
+                "type": {
+                  "doubleMap": {
+                    "hasher": "Blake2_128Concat",
+                    "key1": "AssetId",
+                    "key2": "AssetApprovalKey",
+                    "value": "AssetApproval",
+                    "key2Hasher": "Blake2_128Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Approved balance transfers. First balance is the amount approved for transfer. Second",
+                  " is the amount of `T::Currency` reserved for storing this."
+                ]
+              },
+              {
                 "name": "Metadata",
                 "modifier": "Default",
                 "type": {
@@ -12816,7 +12880,7 @@
                     "linked": false
                   }
                 },
-                "fallback": "0x00000000000000000000000000000000000000",
+                "fallback": "0x0000000000000000000000000000000000000000",
                 "documentation": [
                   " Metadata of an asset."
                 ]
@@ -12836,10 +12900,6 @@
                   "type": "LookupSource"
                 },
                 {
-                  "name": "max_zombies",
-                  "type": "u32"
-                },
-                {
                   "name": "min_balance",
                   "type": "TAssetBalance"
                 }
@@ -12847,7 +12907,7 @@
               "documentation": [
                 " Issue a new class of fungible assets from a public origin.",
                 "",
-                " This new asset class has no assets initially.",
+                " This new asset class has no assets initially and its owner is the origin.",
                 "",
                 " The origin must be Signed and the sender must have sufficient funds free.",
                 "",
@@ -12857,11 +12917,8 @@
                 " Parameters:",
                 " - `id`: The identifier of the new asset. This must not be currently in use to identify",
                 " an existing asset.",
-                " - `owner`: The owner of this class of assets. The owner has full superuser permissions",
-                " over this asset, but may later change and configure the permissions using `transfer_ownership`",
-                " and `set_team`.",
-                " - `max_zombies`: The total number of accounts which may hold assets in this class yet",
-                " have no existential deposit.",
+                " - `admin`: The admin of this class of assets. The admin is the initial address of each",
+                " member of the asset class's admin team.",
                 " - `min_balance`: The minimum balance of this new asset that any single account must",
                 " have. If an account's balance is reduced below this, then it collapses to zero.",
                 "",
@@ -12882,8 +12939,8 @@
                   "type": "LookupSource"
                 },
                 {
-                  "name": "max_zombies",
-                  "type": "Compact<u32>"
+                  "name": "is_sufficient",
+                  "type": "bool"
                 },
                 {
                   "name": "min_balance",
@@ -12922,46 +12979,25 @@
                   "type": "Compact<AssetId>"
                 },
                 {
-                  "name": "zombies_witness",
-                  "type": "Compact<u32>"
-                }
-              ],
-              "documentation": [
-                " Destroy a class of fungible assets owned by the sender.",
-                "",
-                " The origin must be Signed and the sender must be the owner of the asset `id`.",
-                "",
-                " - `id`: The identifier of the asset to be destroyed. This must identify an existing",
-                " asset.",
-                "",
-                " Emits `Destroyed` event when successful.",
-                "",
-                " Weight: `O(z)` where `z` is the number of zombie accounts."
-              ]
-            },
-            {
-              "name": "force_destroy",
-              "args": [
-                {
-                  "name": "id",
-                  "type": "Compact<AssetId>"
-                },
-                {
-                  "name": "zombies_witness",
-                  "type": "Compact<u32>"
+                  "name": "witness",
+                  "type": "AssetDestroyWitness"
                 }
               ],
               "documentation": [
                 " Destroy a class of fungible assets.",
                 "",
-                " The origin must conform to `ForceOrigin`.",
+                " The origin must conform to `ForceOrigin` or must be Signed and the sender must be the",
+                " owner of the asset `id`.",
                 "",
                 " - `id`: The identifier of the asset to be destroyed. This must identify an existing",
                 " asset.",
                 "",
                 " Emits `Destroyed` event when successful.",
                 "",
-                " Weight: `O(1)`"
+                " Weight: `O(c + p + a)` where:",
+                " - `c = (witness.accounts - witness.sufficients)`",
+                " - `s = witness.sufficients`",
+                " - `a = witness.approvals`"
               ]
             },
             {
@@ -13047,6 +13083,43 @@
               ],
               "documentation": [
                 " Move some assets from the sender account to another.",
+                "",
+                " Origin must be Signed.",
+                "",
+                " - `id`: The identifier of the asset to have some amount transferred.",
+                " - `target`: The account to be credited.",
+                " - `amount`: The amount by which the sender's balance of assets should be reduced and",
+                " `target`'s balance increased. The amount actually transferred may be slightly greater in",
+                " the case that the transfer would otherwise take the sender balance above zero but below",
+                " the minimum balance. Must be greater than zero.",
+                "",
+                " Emits `Transferred` with the actual amount transferred. If this takes the source balance",
+                " to below the minimum for the asset, then the amount transferred is increased to take it",
+                " to zero.",
+                "",
+                " Weight: `O(1)`",
+                " Modes: Pre-existence of `target`; Post-existence of sender; Prior & post zombie-status",
+                " of sender; Account pre-existence of `target`."
+              ]
+            },
+            {
+              "name": "transfer_keep_alive",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "amount",
+                  "type": "Compact<TAssetBalance>"
+                }
+              ],
+              "documentation": [
+                " Move some assets from the sender account to another, keeping the sender account alive.",
                 "",
                 " Origin must be Signed.",
                 "",
@@ -13215,7 +13288,7 @@
                 "",
                 " Origin must be Signed and the sender should be the Owner of the asset `id`.",
                 "",
-                " - `id`: The identifier of the asset to be frozen.",
+                " - `id`: The identifier of the asset.",
                 " - `owner`: The new Owner of this asset.",
                 "",
                 " Emits `OwnerChanged`.",
@@ -13259,35 +13332,6 @@
               ]
             },
             {
-              "name": "set_max_zombies",
-              "args": [
-                {
-                  "name": "id",
-                  "type": "Compact<AssetId>"
-                },
-                {
-                  "name": "max_zombies",
-                  "type": "Compact<u32>"
-                }
-              ],
-              "documentation": [
-                " Set the maximum number of zombie accounts for an asset.",
-                "",
-                " Origin must be Signed and the sender should be the Owner of the asset `id`.",
-                "",
-                " Funds of sender are reserved according to the formula:",
-                " `AssetDepositBase + AssetDepositPerZombie * max_zombies` taking into account",
-                " any already reserved funds.",
-                "",
-                " - `id`: The identifier of the asset to update zombie count.",
-                " - `max_zombies`: The new number of zombies allowed for this asset.",
-                "",
-                " Emits `MaxZombiesChanged`.",
-                "",
-                " Weight: `O(1)`"
-              ]
-            },
-            {
               "name": "set_metadata",
               "args": [
                 {
@@ -13310,10 +13354,6 @@
               "documentation": [
                 " Set the metadata for an asset.",
                 "",
-                " NOTE: There is no `unset_metadata` call. Simply pass an empty name, symbol,",
-                " and 0 decimals to this function to remove the metadata of an asset and",
-                " return your deposit.",
-                "",
                 " Origin must be Signed and the sender should be the Owner of the asset `id`.",
                 "",
                 " Funds of sender are reserved according to the formula:",
@@ -13325,7 +13365,293 @@
                 " - `symbol`: The exchange symbol for this asset. Limited in length by `StringLimit`.",
                 " - `decimals`: The number of decimals this asset uses to represent one unit.",
                 "",
-                " Emits `MaxZombiesChanged`.",
+                " Emits `MetadataSet`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "clear_metadata",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                }
+              ],
+              "documentation": [
+                " Clear the metadata for an asset.",
+                "",
+                " Origin must be Signed and the sender should be the Owner of the asset `id`.",
+                "",
+                " Any deposit is freed for the asset owner.",
+                "",
+                " - `id`: The identifier of the asset to clear.",
+                "",
+                " Emits `MetadataCleared`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "force_set_metadata",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "name",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "symbol",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "decimals",
+                  "type": "u8"
+                },
+                {
+                  "name": "is_frozen",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Force the metadata for an asset to some value.",
+                "",
+                " Origin must be ForceOrigin.",
+                "",
+                " Any deposit is left alone.",
+                "",
+                " - `id`: The identifier of the asset to update.",
+                " - `name`: The user friendly name of this asset. Limited in length by `StringLimit`.",
+                " - `symbol`: The exchange symbol for this asset. Limited in length by `StringLimit`.",
+                " - `decimals`: The number of decimals this asset uses to represent one unit.",
+                "",
+                " Emits `MetadataSet`.",
+                "",
+                " Weight: `O(N + S)` where N and S are the length of the name and symbol respectively."
+              ]
+            },
+            {
+              "name": "force_clear_metadata",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                }
+              ],
+              "documentation": [
+                " Clear the metadata for an asset.",
+                "",
+                " Origin must be ForceOrigin.",
+                "",
+                " Any deposit is returned.",
+                "",
+                " - `id`: The identifier of the asset to clear.",
+                "",
+                " Emits `MetadataCleared`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "force_asset_status",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "owner",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "issuer",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "admin",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "freezer",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "min_balance",
+                  "type": "Compact<TAssetBalance>"
+                },
+                {
+                  "name": "is_sufficient",
+                  "type": "bool"
+                },
+                {
+                  "name": "is_frozen",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Alter the attributes of a given asset.",
+                "",
+                " Origin must be `ForceOrigin`.",
+                "",
+                " - `id`: The identifier of the asset.",
+                " - `owner`: The new Owner of this asset.",
+                " - `issuer`: The new Issuer of this asset.",
+                " - `admin`: The new Admin of this asset.",
+                " - `freezer`: The new Freezer of this asset.",
+                " - `min_balance`: The minimum balance of this new asset that any single account must",
+                " have. If an account's balance is reduced below this, then it collapses to zero.",
+                " - `is_sufficient`: Whether a non-zero balance of this asset is deposit of sufficient",
+                " value to account for the state bloat associated with its balance storage. If set to",
+                " `true`, then non-zero balances may be stored without a `consumer` reference (and thus",
+                " an ED in the Balances pallet or whatever else is used to control user-account state",
+                " growth).",
+                " - `is_frozen`: Whether this asset class is frozen except for permissioned/admin",
+                " instructions.",
+                "",
+                " Emits `AssetStatusChanged` with the identity of the asset.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "approve_transfer",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "delegate",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "amount",
+                  "type": "Compact<TAssetBalance>"
+                }
+              ],
+              "documentation": [
+                " Approve an amount of asset for transfer by a delegated third-party account.",
+                "",
+                " Origin must be Signed.",
+                "",
+                " Ensures that `ApprovalDeposit` worth of `Currency` is reserved from signing account",
+                " for the purpose of holding the approval. If some non-zero amount of assets is already",
+                " approved from signing account to `delegate`, then it is topped up or unreserved to",
+                " meet the right value.",
+                "",
+                " NOTE: The signing account does not need to own `amount` of assets at the point of",
+                " making this call.",
+                "",
+                " - `id`: The identifier of the asset.",
+                " - `delegate`: The account to delegate permission to transfer asset.",
+                " - `amount`: The amount of asset that may be transferred by `delegate`. If there is",
+                " already an approval in place, then this acts additively.",
+                "",
+                " Emits `ApprovedTransfer` on success.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "cancel_approval",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "delegate",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Cancel all of some asset approved for delegated transfer by a third-party account.",
+                "",
+                " Origin must be Signed and there must be an approval in place between signer and",
+                " `delegate`.",
+                "",
+                " Unreserves any deposit previously reserved by `approve_transfer` for the approval.",
+                "",
+                " - `id`: The identifier of the asset.",
+                " - `delegate`: The account delegated permission to transfer asset.",
+                "",
+                " Emits `ApprovalCancelled` on success.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "force_cancel_approval",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "owner",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "delegate",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Cancel all of some asset approved for delegated transfer by a third-party account.",
+                "",
+                " Origin must be either ForceOrigin or Signed origin with the signer being the Admin",
+                " account of the asset `id`.",
+                "",
+                " Unreserves any deposit previously reserved by `approve_transfer` for the approval.",
+                "",
+                " - `id`: The identifier of the asset.",
+                " - `delegate`: The account delegated permission to transfer asset.",
+                "",
+                " Emits `ApprovalCancelled` on success.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "transfer_approved",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "Compact<AssetId>"
+                },
+                {
+                  "name": "owner",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "destination",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "amount",
+                  "type": "Compact<TAssetBalance>"
+                }
+              ],
+              "documentation": [
+                " Transfer some asset balance from a previously delegated account to some third-party",
+                " account.",
+                "",
+                " Origin must be Signed and there must be an approval in place by the `owner` to the",
+                " signer.",
+                "",
+                " If the entire amount approved for transfer is transferred, then any deposit previously",
+                " reserved by `approve_transfer` is unreserved.",
+                "",
+                " - `id`: The identifier of the asset.",
+                " - `owner`: The account which previously approved for a transfer of at least `amount` and",
+                " from which the asset balance will be withdrawn.",
+                " - `destination`: The account to which the asset balance of `amount` will be transferred.",
+                " - `amount`: The amount of assets to transfer.",
+                "",
+                " Emits `TransferredApproved` on success.",
                 "",
                 " Weight: `O(1)`"
               ]
@@ -13400,18 +13726,6 @@
               ]
             },
             {
-              "name": "ForceTransferred",
-              "args": [
-                "AssetId",
-                "AccountId",
-                "AccountId",
-                "TAssetBalance"
-              ],
-              "documentation": [
-                " Some assets was transferred by an admin. \\[asset_id, from, to, amount\\]"
-              ]
-            },
-            {
               "name": "Frozen",
               "args": [
                 "AssetId",
@@ -13469,36 +13783,80 @@
               ]
             },
             {
-              "name": "MaxZombiesChanged",
-              "args": [
-                "AssetId",
-                "u32"
-              ],
-              "documentation": [
-                " The maximum amount of zombies allowed has changed. \\[asset_id, max_zombies\\]"
-              ]
-            },
-            {
               "name": "MetadataSet",
               "args": [
                 "AssetId",
                 "Bytes",
                 "Bytes",
-                "u8"
+                "u8",
+                "bool"
               ],
               "documentation": [
-                " New metadata has been set for an asset. \\[asset_id, name, symbol, decimals\\]"
+                " New metadata has been set for an asset. \\[asset_id, name, symbol, decimals, is_frozen\\]"
+              ]
+            },
+            {
+              "name": "MetadataCleared",
+              "args": [
+                "AssetId"
+              ],
+              "documentation": [
+                " Metadata has been cleared for an asset. \\[asset_id\\]"
+              ]
+            },
+            {
+              "name": "ApprovedTransfer",
+              "args": [
+                "AssetId",
+                "AccountId",
+                "AccountId",
+                "TAssetBalance"
+              ],
+              "documentation": [
+                " (Additional) funds have been approved for transfer to a destination account.",
+                " \\[asset_id, source, delegate, amount\\]"
+              ]
+            },
+            {
+              "name": "ApprovalCancelled",
+              "args": [
+                "AssetId",
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An approval for account `delegate` was cancelled by `owner`.",
+                " \\[id, owner, delegate\\]"
+              ]
+            },
+            {
+              "name": "TransferredApproved",
+              "args": [
+                "AssetId",
+                "AccountId",
+                "AccountId",
+                "AccountId",
+                "TAssetBalance"
+              ],
+              "documentation": [
+                " An `amount` was transferred in its entirety from `owner` to `destination` by",
+                " the approved `delegate`.",
+                " \\[id, owner, delegate, destination\\]"
+              ]
+            },
+            {
+              "name": "AssetStatusChanged",
+              "args": [
+                "AssetId"
+              ],
+              "documentation": [
+                " An asset has had its attributes changed by the `Force` origin.",
+                " \\[id\\]"
               ]
             }
           ],
           "constants": [],
           "errors": [
-            {
-              "name": "AmountZero",
-              "documentation": [
-                " Transfer amount should be non-zero."
-              ]
-            },
             {
               "name": "BalanceLow",
               "documentation": [
@@ -13536,18 +13894,6 @@
               ]
             },
             {
-              "name": "TooManyZombies",
-              "documentation": [
-                " Too many zombie accounts in use."
-              ]
-            },
-            {
-              "name": "RefsLeft",
-              "documentation": [
-                " Attempt to destroy an asset class when non-zombie, reference-bearing accounts exist."
-              ]
-            },
-            {
               "name": "BadWitness",
               "documentation": [
                 " Invalid witness data given."
@@ -13566,15 +13912,27 @@
               ]
             },
             {
-              "name": "BadState",
+              "name": "NoProvider",
               "documentation": [
-                " Some internal state is broken."
+                " No provider reference exists to allow a non-zero balance of a non-self-sufficient asset."
               ]
             },
             {
               "name": "BadMetadata",
               "documentation": [
                 " Invalid metadata given."
+              ]
+            },
+            {
+              "name": "Unapproved",
+              "documentation": [
+                " No approval exists that would allow the transfer."
+              ]
+            },
+            {
+              "name": "WouldDie",
+              "documentation": [
+                " The source account would not survive the transfer and it needs to stay alive."
               ]
             }
           ],

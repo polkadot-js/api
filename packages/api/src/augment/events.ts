@@ -29,9 +29,24 @@ declare module '@polkadot/api/types/events' {
     assets: {
       [key: string]: AugmentedEvent<ApiType>;
       /**
+       * An approval for account `delegate` was cancelled by `owner`.
+       * \[id, owner, delegate\]
+       **/
+      ApprovalCancelled: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId]>;
+      /**
+       * (Additional) funds have been approved for transfer to a destination account.
+       * \[asset_id, source, delegate, amount\]
+       **/
+      ApprovedTransfer: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, TAssetBalance]>;
+      /**
        * Some asset `asset_id` was frozen. \[asset_id\]
        **/
       AssetFrozen: AugmentedEvent<ApiType, [AssetId]>;
+      /**
+       * An asset has had its attributes changed by the `Force` origin.
+       * \[id\]
+       **/
+      AssetStatusChanged: AugmentedEvent<ApiType, [AssetId]>;
       /**
        * Some asset `asset_id` was thawed. \[asset_id\]
        **/
@@ -53,10 +68,6 @@ declare module '@polkadot/api/types/events' {
        **/
       ForceCreated: AugmentedEvent<ApiType, [AssetId, AccountId]>;
       /**
-       * Some assets was transferred by an admin. \[asset_id, from, to, amount\]
-       **/
-      ForceTransferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, TAssetBalance]>;
-      /**
        * Some account `who` was frozen. \[asset_id, who\]
        **/
       Frozen: AugmentedEvent<ApiType, [AssetId, AccountId]>;
@@ -65,13 +76,13 @@ declare module '@polkadot/api/types/events' {
        **/
       Issued: AugmentedEvent<ApiType, [AssetId, AccountId, TAssetBalance]>;
       /**
-       * The maximum amount of zombies allowed has changed. \[asset_id, max_zombies\]
+       * Metadata has been cleared for an asset. \[asset_id\]
        **/
-      MaxZombiesChanged: AugmentedEvent<ApiType, [AssetId, u32]>;
+      MetadataCleared: AugmentedEvent<ApiType, [AssetId]>;
       /**
-       * New metadata has been set for an asset. \[asset_id, name, symbol, decimals\]
+       * New metadata has been set for an asset. \[asset_id, name, symbol, decimals, is_frozen\]
        **/
-      MetadataSet: AugmentedEvent<ApiType, [AssetId, Bytes, Bytes, u8]>;
+      MetadataSet: AugmentedEvent<ApiType, [AssetId, Bytes, Bytes, u8, bool]>;
       /**
        * The owner changed \[asset_id, owner\]
        **/
@@ -88,6 +99,12 @@ declare module '@polkadot/api/types/events' {
        * Some assets were transferred. \[asset_id, from, to, amount\]
        **/
       Transferred: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, TAssetBalance]>;
+      /**
+       * An `amount` was transferred in its entirety from `owner` to `destination` by
+       * the approved `delegate`.
+       * \[id, owner, delegate, destination\]
+       **/
+      TransferredApproved: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, AccountId, TAssetBalance]>;
     };
     balances: {
       [key: string]: AugmentedEvent<ApiType>;

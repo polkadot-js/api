@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { BitVec, Bool, Bytes, Compact, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, Json, Null, Option, Raw, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, Vec, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types';
-import type { AssetBalance, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
+import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
@@ -14,7 +14,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, HostFnWeightsTo264, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
+import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, HostFnWeightsTo264, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { FundIndex, FundInfo, LastContribution, TrieIndex } from '@polkadot/types/interfaces/crowdloan';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
@@ -176,7 +176,10 @@ declare module '@polkadot/types/types/registry' {
     'Option<ApplyExtrinsicResult>': Option<ApplyExtrinsicResult>;
     'Option<ApprovalFlag>': Option<ApprovalFlag>;
     'Option<Approvals>': Option<Approvals>;
+    'Option<AssetApproval>': Option<AssetApproval>;
+    'Option<AssetApprovalKey>': Option<AssetApprovalKey>;
     'Option<AssetBalance>': Option<AssetBalance>;
+    'Option<AssetDestroyWitness>': Option<AssetDestroyWitness>;
     'Option<AssetDetails>': Option<AssetDetails>;
     'Option<AssetId>': Option<AssetId>;
     'Option<AssetInstance>': Option<AssetInstance>;
@@ -631,7 +634,6 @@ declare module '@polkadot/types/types/registry' {
     'Option<Points>': Option<Points>;
     'Option<Precommits>': Option<Precommits>;
     'Option<PrefabWasmModule>': Option<PrefabWasmModule>;
-    'Option<PrefabWasmModuleReserved>': Option<PrefabWasmModuleReserved>;
     'Option<PrefixedStorageKey>': Option<PrefixedStorageKey>;
     'Option<PreimageStatus>': Option<PreimageStatus>;
     'Option<PreimageStatusAvailable>': Option<PreimageStatusAvailable>;
@@ -923,7 +925,10 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ApplyExtrinsicResult>': Vec<ApplyExtrinsicResult>;
     'Vec<ApprovalFlag>': Vec<ApprovalFlag>;
     'Vec<Approvals>': Vec<Approvals>;
+    'Vec<AssetApproval>': Vec<AssetApproval>;
+    'Vec<AssetApprovalKey>': Vec<AssetApprovalKey>;
     'Vec<AssetBalance>': Vec<AssetBalance>;
+    'Vec<AssetDestroyWitness>': Vec<AssetDestroyWitness>;
     'Vec<AssetDetails>': Vec<AssetDetails>;
     'Vec<AssetId>': Vec<AssetId>;
     'Vec<AssetInstance>': Vec<AssetInstance>;
@@ -1378,7 +1383,6 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Points>': Vec<Points>;
     'Vec<Precommits>': Vec<Precommits>;
     'Vec<PrefabWasmModule>': Vec<PrefabWasmModule>;
-    'Vec<PrefabWasmModuleReserved>': Vec<PrefabWasmModuleReserved>;
     'Vec<PrefixedStorageKey>': Vec<PrefixedStorageKey>;
     'Vec<PreimageStatus>': Vec<PreimageStatus>;
     'Vec<PreimageStatusAvailable>': Vec<PreimageStatusAvailable>;
@@ -1670,7 +1674,10 @@ declare module '@polkadot/types/types/registry' {
     ApplyExtrinsicResult: ApplyExtrinsicResult;
     ApprovalFlag: ApprovalFlag;
     Approvals: Approvals;
+    AssetApproval: AssetApproval;
+    AssetApprovalKey: AssetApprovalKey;
     AssetBalance: AssetBalance;
+    AssetDestroyWitness: AssetDestroyWitness;
     AssetDetails: AssetDetails;
     AssetId: AssetId;
     AssetInstance: AssetInstance;
@@ -2125,7 +2132,6 @@ declare module '@polkadot/types/types/registry' {
     Points: Points;
     Precommits: Precommits;
     PrefabWasmModule: PrefabWasmModule;
-    PrefabWasmModuleReserved: PrefabWasmModuleReserved;
     PrefixedStorageKey: PrefixedStorageKey;
     PreimageStatus: PreimageStatus;
     PreimageStatusAvailable: PreimageStatusAvailable;

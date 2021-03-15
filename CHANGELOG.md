@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 4.1.1 Mar 15, 2021
+
+Upgrade priority: Low. Recommended when tracking the latest updates from Substrate.
+
+Changes:
+
+- Fix author extraction for last block in a session
+- Expand `SignerPayload` to inject/expose custom signed extensions
+- `ConsensusEngineId` formats non-Ascii engines correctly
+- Cleanup `RpcCore` augmentation (removing TS warnings on typegen chains)
+- Add upgrade block for Kusama 2029
+- Ensure that type alias overrides also apply to map keys
+- check type generation against fallbacks (build-time only sanity check)
+- Align types with latest substrate master
+- Apply latest Polkadot auctions/crowdloan/parachains/slots types
+
+
 ## 4.0.3 Mar 8, 2021
 
 Upgrade priority: Low. Recommended if you use the API to sync the full chain, most notably Polkadot.

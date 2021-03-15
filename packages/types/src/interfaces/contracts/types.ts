@@ -14,6 +14,7 @@ export interface AliveContractInfo extends Struct {
   readonly rentAllowance: Balance;
   readonly deductBlock: BlockNumber;
   readonly lastWrite: Option<BlockNumber>;
+  readonly _reserved: Option<Null>;
 }
 
 /** @name CodeHash */
@@ -166,6 +167,7 @@ export interface HostFnWeights extends Struct {
   readonly hashBlake2256PerByte: Weight;
   readonly hashBlake2128: Weight;
   readonly hashBlake2128PerByte: Weight;
+  readonly rentParams: Weight;
 }
 
 /** @name HostFnWeightsTo264 */
@@ -302,12 +304,11 @@ export interface PrefabWasmModule extends Struct {
   readonly scheduleVersion: Compact<u32>;
   readonly initial: Compact<u32>;
   readonly maximum: Compact<u32>;
-  readonly _reserved: PrefabWasmModuleReserved;
+  readonly refcount: Compact<u64>;
+  readonly _reserved: Option<Null>;
   readonly code: Bytes;
+  readonly originalCodeLen: u32;
 }
-
-/** @name PrefabWasmModuleReserved */
-export interface PrefabWasmModuleReserved extends Option<Null> {}
 
 /** @name Schedule */
 export interface Schedule extends Struct {

@@ -9,10 +9,23 @@ import type { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
+    AssetApprovalKey: {
+      owner: 'AccountId',
+      delegate: 'AccountId'
+    },
+    AssetApproval: {
+      amount: 'TAssetBalance',
+      deposit: 'TAssetDepositBalance'
+    },
     AssetBalance: {
       balance: 'TAssetBalance',
       isFrozen: 'bool',
-      isZombie: 'bool'
+      isSufficient: 'bool'
+    },
+    AssetDestroyWitness: {
+      accounts: 'Compact<u32>',
+      sufficients: 'Compact<u32>',
+      approvals: 'Compact<u32>'
     },
     AssetDetails: {
       owner: 'AccountId',
@@ -21,16 +34,19 @@ export default {
       freezer: 'AccountId',
       supply: 'TAssetBalance',
       deposit: 'TAssetDepositBalance',
-      maxZombies: 'u32',
       minBalance: 'TAssetBalance',
-      zombies: 'u32',
-      accounts: 'u32'
+      isSufficient: 'bool',
+      accounts: 'u32',
+      sufficients: 'u32',
+      approvals: 'u32',
+      isFrozen: 'bool'
     },
     AssetMetadata: {
       deposit: 'TAssetDepositBalance',
       name: 'Vec<u8>',
       symbol: 'Vec<u8>',
-      decimals: 'u8'
+      decimals: 'u8',
+      isFrozen: 'bool'
     },
     TAssetBalance: 'u64',
     TAssetDepositBalance: 'BalanceOf'
