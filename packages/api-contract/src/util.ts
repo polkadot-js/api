@@ -12,7 +12,7 @@ import BN from 'bn.js';
 import { createTypeUnsafe } from '@polkadot/types/create';
 import { isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
-type ContractEvents = 'CodeStored' | 'ContractExecution' | 'Instantiated';
+type ContractEvents = 'CodeStored' | 'ContractEmitted' | 'Instantiated';
 
 type TOptions = BlueprintOptions | ContractOptions;
 
