@@ -70,7 +70,8 @@ export default {
       codeHash: 'CodeHash',
       rentAllowance: 'Balance',
       deductBlock: 'BlockNumber',
-      lastWrite: 'Option<BlockNumber>'
+      lastWrite: 'Option<BlockNumber>',
+      _reserved: 'Option<Null>'
     },
     CodeHash: 'Hash',
     ContractCallRequest: {
@@ -320,10 +321,11 @@ export default {
       scheduleVersion: 'Compact<u32>',
       initial: 'Compact<u32>',
       maximum: 'Compact<u32>',
-      _reserved: 'PrefabWasmModuleReserved',
-      code: 'Bytes'
+      refcount: 'Compact<u64>',
+      _reserved: 'Option<Null>',
+      code: 'Bytes',
+      originalCodeLen: 'u32'
     },
-    PrefabWasmModuleReserved: 'Option<Null>',
     ScheduleTo212: {
       version: 'u32',
       putCodePerByteCost: 'Gas',
