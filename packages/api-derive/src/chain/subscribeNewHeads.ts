@@ -34,7 +34,7 @@ export function subscribeNewHeads (instanceId: string, api: ApiInterfaceRx): () 
       map(([header, validators]): HeaderExtended => {
         header.createdAtHash = header.hash;
 
-        return new HeaderExtended(api.registry, header, validators);
+        return new HeaderExtended(header.registry, header, validators);
       })
     )
   );

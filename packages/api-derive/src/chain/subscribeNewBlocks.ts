@@ -30,7 +30,7 @@ export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): ()
         );
       }),
       map(([block, events, header]) =>
-        new SignedBlockExtended(api.registry, block, events, header.validators)
+        new SignedBlockExtended(block.registry, block, events, header.validators)
       )
     )
   );
