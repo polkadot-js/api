@@ -12,7 +12,8 @@ Changes:
 - Cleanup `RpcCore` augmentation (removing TS warnings on typegen chains)
 - Add upgrade block for Kusama 2029
 - Ensure that type alias overrides also apply to map keys
-- check type generation against fallbacks (build-time only sanity check)
+- Check type generation against fallbacks (build-time only sanity check)
+- Add `mmr_generateProof` RPC
 - Align types with latest substrate master
 - Apply latest Polkadot auctions/crowdloan/parachains/slots types
 
