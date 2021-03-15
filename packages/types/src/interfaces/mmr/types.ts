@@ -6,7 +6,7 @@ import type { BlockHash } from '@polkadot/types/interfaces/chain';
 
 /** @name MmrLeafProof */
 export interface MmrLeafProof extends Struct {
-  readonly lockHash: BlockHash;
+  readonly blockHash: BlockHash;
   readonly leaf: Bytes;
   readonly proof: Bytes;
 }
