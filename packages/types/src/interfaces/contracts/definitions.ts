@@ -239,7 +239,8 @@ export default {
       hashBlake2256: 'Weight',
       hashBlake2256PerByte: 'Weight',
       hashBlake2128: 'Weight',
-      hashBlake2128PerByte: 'Weight'
+      hashBlake2128PerByte: 'Weight',
+      rentParams: 'Weight'
     },
     InstructionWeights: {
       i64const: 'u32',

@@ -166,6 +166,7 @@ export interface HostFnWeights extends Struct {
   readonly hashBlake2256PerByte: Weight;
   readonly hashBlake2128: Weight;
   readonly hashBlake2128PerByte: Weight;
+  readonly rentParams: Weight;
 }
 
 /** @name HostFnWeightsTo264 */
