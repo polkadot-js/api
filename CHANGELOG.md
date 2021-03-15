@@ -2,7 +2,7 @@
 
 ## 4.1.1 Mar 15, 2021
 
-Upgrade priority: Low. Recommended when tracking the latest updates from Aubstrate.
+Upgrade priority: Low. Recommended when tracking the latest updates from Substrate.
 
 Changes:
 
