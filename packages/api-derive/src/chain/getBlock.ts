@@ -33,7 +33,7 @@ export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8
         : of([])
     ]).pipe(
       map(([signedBlock, events, validators]): SignedBlockExtended =>
-        new SignedBlockExtended(api.registry, signedBlock, events, validators)
+        new SignedBlockExtended(signedBlock.registry, signedBlock, events, validators)
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that

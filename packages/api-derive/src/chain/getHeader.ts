@@ -33,7 +33,7 @@ export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint
         : of([])
     ]).pipe(
       map(([header, validators]): HeaderExtended =>
-        new HeaderExtended(api.registry, header, validators)
+        new HeaderExtended(header.registry, header, validators)
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
