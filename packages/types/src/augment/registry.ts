@@ -30,6 +30,7 @@ import type { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudg
 import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lottery';
 import type { DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMapTypeV12, DoubleMapTypeV9, ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV9, MapTypeLatest, MapTypeV10, MapTypeV11, MapTypeV12, MapTypeV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV9, ModuleConstantMetadataLatest, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV9, ModuleMetadataLatest, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV9, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV9, StorageMetadataLatest, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
+import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiAsset, MultiLocation, NetworkId, NewBidder, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
@@ -536,6 +537,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<MetadataV11>': Option<MetadataV11>;
     'Option<MetadataV12>': Option<MetadataV12>;
     'Option<MetadataV9>': Option<MetadataV9>;
+    'Option<MmrLeafProof>': Option<MmrLeafProof>;
     'Option<ModuleConstantMetadataLatest>': Option<ModuleConstantMetadataLatest>;
     'Option<ModuleConstantMetadataV10>': Option<ModuleConstantMetadataV10>;
     'Option<ModuleConstantMetadataV11>': Option<ModuleConstantMetadataV11>;
@@ -1285,6 +1287,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<MetadataV11>': Vec<MetadataV11>;
     'Vec<MetadataV12>': Vec<MetadataV12>;
     'Vec<MetadataV9>': Vec<MetadataV9>;
+    'Vec<MmrLeafProof>': Vec<MmrLeafProof>;
     'Vec<ModuleConstantMetadataLatest>': Vec<ModuleConstantMetadataLatest>;
     'Vec<ModuleConstantMetadataV10>': Vec<ModuleConstantMetadataV10>;
     'Vec<ModuleConstantMetadataV11>': Vec<ModuleConstantMetadataV11>;
@@ -2034,6 +2037,7 @@ declare module '@polkadot/types/types/registry' {
     MetadataV11: MetadataV11;
     MetadataV12: MetadataV12;
     MetadataV9: MetadataV9;
+    MmrLeafProof: MmrLeafProof;
     ModuleConstantMetadataLatest: ModuleConstantMetadataLatest;
     ModuleConstantMetadataV10: ModuleConstantMetadataV10;
     ModuleConstantMetadataV11: ModuleConstantMetadataV11;
