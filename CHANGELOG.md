@@ -9,6 +9,7 @@ Changes:
 - Fix author extraction for last block in a session
 - Expand `SignerPayload` to inject/expose custom signed extensions
 - `ConsensusEngineId` formats non-Ascii engines correctly
+- Allow `getBlock/Header` derives to use as-at registry (instead of latest)
 - Cleanup `RpcCore` augmentation (removing TS warnings on typegen chains)
 - Add upgrade block for Kusama 2029
 - Ensure that type alias overrides also apply to map keys
