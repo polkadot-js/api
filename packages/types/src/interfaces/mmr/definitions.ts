@@ -27,7 +27,7 @@ export default {
   },
   types: {
     MmrLeafProof: {
-      lockHash: 'BlockHash',
+      blockHash: 'BlockHash',
       leaf: 'Bytes',
       proof: 'Bytes'
     }
