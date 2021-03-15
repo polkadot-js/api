@@ -17,5 +17,6 @@ describe('ConsensusEngineId', (): void => {
 
   it('reverses a non-ASCII id to a hex string', (): void => {
     expect(ConsensusEngineId.idToString(hexToBn('0x01020304', { isLe: true }))).toEqual('0x01020304');
+    expect(ConsensusEngineId.idToString(0x04030201)).toEqual('0x01020304');
   });
 });
