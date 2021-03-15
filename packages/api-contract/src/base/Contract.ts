@@ -156,7 +156,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.api.tx.contracts
       .call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
       .withResultTransform((result: ISubmittableResult) =>
-        new ContractSubmittableResult(result, applyOnEvent(result, ['ContractExecution'], (records: EventRecord[]) =>
+        // ContractEmitted is the current generation, ContractExecution is the previous generation
+        new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
           records
             .map(({ event: { data: [, data] } }): DecodedEvent | null => {
               try {
