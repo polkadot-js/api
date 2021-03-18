@@ -3,11 +3,12 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Observable } from '@polkadot/x-rxjs';
+import type { HeaderExtended } from '../type/types';
 
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map } from '@polkadot/x-rxjs/operators';
 
-import { HeaderExtended } from '../type';
+import { createHeaderExtended } from '../type';
 import { memo } from '../util';
 
 /**
@@ -34,7 +35,7 @@ export function subscribeNewHeads (instanceId: string, api: ApiInterfaceRx): () 
       map(([header, validators]): HeaderExtended => {
         header.createdAtHash = header.hash;
 
-        return new HeaderExtended(header.registry, header, validators);
+        return createHeaderExtended(header.registry, header, validators);
       })
     )
   );

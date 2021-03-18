@@ -3,11 +3,12 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Observable } from '@polkadot/x-rxjs';
+import type { SignedBlockExtended } from '../type/types';
 
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { catchError, map } from '@polkadot/x-rxjs/operators';
 
-import { SignedBlockExtended } from '../type';
+import { createSignedBlockExtended } from '../type';
 import { memo } from '../util';
 
 /**
@@ -33,7 +34,7 @@ export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8
         : of([])
     ]).pipe(
       map(([signedBlock, events, validators]): SignedBlockExtended =>
-        new SignedBlockExtended(signedBlock.registry, signedBlock, events, validators)
+        createSignedBlockExtended(api.registry, signedBlock, events, validators)
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
