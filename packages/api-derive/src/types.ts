@@ -12,6 +12,7 @@ export * from './elections/types';
 export * from './parachains/types';
 export * from './session/types';
 export * from './staking/types';
+export * from './type/types';
 
 export interface DeriveBalancesAccountData {
   freeBalance: Balance;
