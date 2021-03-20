@@ -134,7 +134,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Instructs the manual-seal authorship task to finalize a block
        **/
-      finalizeBlock: AugmentedRpc<(hash: BlockHash | string | Uint8Array, justification?: Justification | string | Uint8Array) => Observable<bool>>;
+      finalizeBlock: AugmentedRpc<(hash: BlockHash | string | Uint8Array, justification?: Justification) => Observable<bool>>;
     };
     eth: {
       /**
