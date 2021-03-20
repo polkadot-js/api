@@ -2349,13 +2349,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.20":
-  version: 26.0.20
-  resolution: "@types/jest@npm:26.0.20"
+"@types/jest@npm:^26.0.21":
+  version: 26.0.21
+  resolution: "@types/jest@npm:26.0.21"
   dependencies:
     jest-diff: ^26.0.0
     pretty-format: ^26.0.0
-  checksum: 221e39c7c9ce8d71ae4b2ba6abeef1a5b04f1cd96419b9fbbb65534bef4c4215b650561183073dcf47584ff1888d1f4fa7d2af2a38492b7feb9a3bfdcd24c44f
+  checksum: c219599d663527302a261aaa7cc038b79c428d7af39b0a20c2167cb698ae280f3a238b2ca3594bcabbe7ee441a6370d4b3afd19c4a616aaa5556d5b9e875c081
   languageName: node
   linkType: hard
 
@@ -9385,7 +9385,7 @@ fsevents@~2.1.2:
     "@polkadot/dev": ^0.62.6
     "@polkadot/ts": ^0.3.62
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/jest": ^26.0.20
+    "@types/jest": ^26.0.21
     copyfiles: ^2.4.1
   languageName: unknown
   linkType: soft

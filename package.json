@@ -31,7 +31,7 @@
     "@polkadot/dev": "^0.62.6",
     "@polkadot/ts": "^0.3.62",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^26.0.21",
     "copyfiles": "^2.4.1"
   },
   "version": "4.1.2-3"
