@@ -79,7 +79,9 @@ export default {
     },
     IndicesLookupSource: 'GenericLookupSource',
     Index: 'u32',
-    Justification: 'Bytes',
+    Justification: '(ConsensusEngineId, EncodedJustification)',
+    EncodedJustification: 'Bytes',
+    Justifications: 'Vec<Justification>',
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
@@ -121,9 +123,14 @@ export default {
       read: 'Weight',
       write: 'Weight'
     },
-    SignedBlock: {
+    SignedBlock: 'SignedBlockWithJustifications',
+    SignedBlockWithJustification: {
       block: 'Block',
-      justification: 'Justification'
+      justification: 'Option<EncodedJustification>'
+    },
+    SignedBlockWithJustifications: {
+      block: 'Block',
+      justifications: 'Option<Justifications>'
     },
     Slot: 'u64',
     StorageData: 'Bytes',
