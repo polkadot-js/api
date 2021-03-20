@@ -29,6 +29,7 @@ export function _members (instanceId: string, api: ApiInterfaceRx): (accountIds:
         accountIds.map((accountId, index) => ({
           accountId,
           isSuspended: suspended[index].isTrue,
+          isVoting: defenderVotes[index].isSome,
           payouts: payouts[index],
           strikes: strikes[index],
           vote: defenderVotes[index].unwrapOr(undefined),

@@ -109,6 +109,7 @@ export interface DeriveSocietyCandidate {
 export interface DeriveSocietyMember {
   accountId: AccountId;
   isSuspended: boolean;
+  isVoting: boolean,
   payouts: [BlockNumber, Balance][];
   strikes: StrikeCount;
   vote?: SocietyVote;
