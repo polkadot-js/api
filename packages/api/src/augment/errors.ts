@@ -91,6 +91,21 @@ declare module '@polkadot/api/types/errors' {
        **/
       UnclesAlreadySet: AugmentedError<ApiType>;
     };
+    babe: {
+      [key: string]: AugmentedError<ApiType>;
+      /**
+       * A given equivocation report is valid but already previously reported.
+       **/
+      DuplicateOffenceReport: AugmentedError<ApiType>;
+      /**
+       * An equivocation proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidEquivocationProof: AugmentedError<ApiType>;
+      /**
+       * A key ownership proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidKeyOwnershipProof: AugmentedError<ApiType>;
+    };
     balances: {
       [key: string]: AugmentedError<ApiType>;
       /**
@@ -1033,10 +1048,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       BadTarget: AugmentedError<ApiType>;
       /**
-       * The call is not allowed at the given time due to restrictions of election period.
-       **/
-      CallNotAllowed: AugmentedError<ApiType>;
-      /**
        * Duplicate index.
        **/
       DuplicateIndex: AugmentedError<ApiType>;
@@ -1092,61 +1103,6 @@ declare module '@polkadot/api/types/errors' {
        * Can not rebond without unlocking chunks.
        **/
       NoUnlockChunk: AugmentedError<ApiType>;
-      /**
-       * Error while building the assignment type from the compact. This can happen if an index
-       * is invalid, or if the weights _overflow_.
-       **/
-      OffchainElectionBogusCompact: AugmentedError<ApiType>;
-      /**
-       * The submitted result has unknown edges that are not among the presented winners.
-       **/
-      OffchainElectionBogusEdge: AugmentedError<ApiType>;
-      /**
-       * The election size is invalid.
-       **/
-      OffchainElectionBogusElectionSize: AugmentedError<ApiType>;
-      /**
-       * One of the submitted nominators has an edge to which they have not voted on chain.
-       **/
-      OffchainElectionBogusNomination: AugmentedError<ApiType>;
-      /**
-       * One of the submitted nominators is not an active nominator on chain.
-       **/
-      OffchainElectionBogusNominator: AugmentedError<ApiType>;
-      /**
-       * The claimed score does not match with the one computed from the data.
-       **/
-      OffchainElectionBogusScore: AugmentedError<ApiType>;
-      /**
-       * A self vote must only be originated from a validator to ONLY themselves.
-       **/
-      OffchainElectionBogusSelfVote: AugmentedError<ApiType>;
-      /**
-       * One of the submitted winners is not an active candidate on chain (index is out of range
-       * in snapshot).
-       **/
-      OffchainElectionBogusWinner: AugmentedError<ApiType>;
-      /**
-       * Incorrect number of winners were presented.
-       **/
-      OffchainElectionBogusWinnerCount: AugmentedError<ApiType>;
-      /**
-       * The submitted result is received out of the open window.
-       **/
-      OffchainElectionEarlySubmission: AugmentedError<ApiType>;
-      /**
-       * One of the submitted nominators has an edge which is submitted before the last non-zero
-       * slash of the target.
-       **/
-      OffchainElectionSlashedNomination: AugmentedError<ApiType>;
-      /**
-       * The submitted result is not as good as the one stored on chain.
-       **/
-      OffchainElectionWeakSubmission: AugmentedError<ApiType>;
-      /**
-       * The snapshot data of the current window is missing.
-       **/
-      SnapshotUnavailable: AugmentedError<ApiType>;
       /**
        * Too many nomination targets supplied.
        **/

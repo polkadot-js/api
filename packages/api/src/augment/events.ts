@@ -769,13 +769,9 @@ declare module '@polkadot/api/types/events' {
        **/
       Slash: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
-       * A new solution for the upcoming election has been stored. \[compute\]
+       * A new set of stakers was elected.
        **/
-      SolutionStored: AugmentedEvent<ApiType, [ElectionCompute]>;
-      /**
-       * A new set of stakers was elected with the given \[compute\].
-       **/
-      StakingElection: AugmentedEvent<ApiType, [ElectionCompute]>;
+      StakingElection: AugmentedEvent<ApiType, []>;
       /**
        * An account has unbonded this amount. \[stash, amount\]
        **/

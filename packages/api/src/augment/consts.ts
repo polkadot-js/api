@@ -16,11 +16,9 @@ declare module '@polkadot/api/types/consts' {
     babe: {
       [key: string]: Codec;
       /**
-       * The number of **slots** that an epoch takes. We couple sessions to
-       * epochs, i.e. we start a new session once the new epoch begins.
-       * NOTE: Currently it is not possible to change the epoch duration
-       * after the chain has started. Attempting to do so will brick block
-       * production.
+       * The amount of time, in slots, that each epoch should last.
+       * NOTE: Currently it is not possible to change the epoch duration after
+       * the chain has started. Attempting to do so will brick block production.
        **/
       epochDuration: u64 & AugmentedConst<ApiType>;
       /**
@@ -318,15 +316,20 @@ declare module '@polkadot/api/types/consts' {
     proxy: {
       [key: string]: Codec;
       /**
-       * `AnnouncementDepositBase` metadata shadow.
+       * The base amount of currency needed to reserve for creating an announcement.
+       * 
+       * This is held when a new storage item holding a `Balance` is created (typically 16 bytes).
        **/
       announcementDepositBase: BalanceOf & AugmentedConst<ApiType>;
       /**
-       * `AnnouncementDepositFactor` metadata shadow.
+       * The amount of currency needed per announcement made.
+       * 
+       * This is held for adding an `AccountId`, `Hash` and `BlockNumber` (typically 68 bytes)
+       * into a pre-existing storage value.
        **/
       announcementDepositFactor: BalanceOf & AugmentedConst<ApiType>;
       /**
-       * `MaxPending` metadata shadow.
+       * The maximum amount of time-delayed announcements that are allowed to be pending.
        **/
       maxPending: u32 & AugmentedConst<ApiType>;
       /**
@@ -335,10 +338,17 @@ declare module '@polkadot/api/types/consts' {
       maxProxies: u16 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for creating a proxy.
+       * 
+       * This is held for an additional storage item whose value size is
+       * `sizeof(Balance)` bytes and whose key size is `sizeof(AccountId)` bytes.
        **/
       proxyDepositBase: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per proxy added.
+       * 
+       * This is held for adding 32 bytes plus an instance of `ProxyType` more into a pre-existing
+       * storage value. Thus, when configuring `ProxyDepositFactor` one should take into account
+       * `32 + proxy_type.encode().len()` bytes of data.
        **/
       proxyDepositFactor: BalanceOf & AugmentedConst<ApiType>;
     };
@@ -401,32 +411,12 @@ declare module '@polkadot/api/types/consts' {
        **/
       bondingDuration: EraIndex & AugmentedConst<ApiType>;
       /**
-       * The number of blocks before the end of the era from which election submissions are allowed.
-       * 
-       * Setting this to zero will disable the offchain compute and only on-chain seq-phragmen will
-       * be used.
-       * 
-       * This is bounded by being within the last session. Hence, setting it to a value more than the
-       * length of a session will be pointless.
-       **/
-      electionLookahead: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * Maximum number of balancing iterations to run in the offchain submission.
-       * 
-       * If set to 0, balance_solution will not be executed at all.
-       **/
-      maxIterations: u32 & AugmentedConst<ApiType>;
-      /**
        * The maximum number of nominators rewarded for each validator.
        * 
        * For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can claim
        * their reward. This used to limit the i/o cost for the nominator payout.
        **/
       maxNominatorRewardedPerValidator: u32 & AugmentedConst<ApiType>;
-      /**
-       * The threshold of improvement that should be provided for a new solution to be accepted.
-       **/
-      minSolutionScoreBump: Perbill & AugmentedConst<ApiType>;
       /**
        * Number of sessions per era.
        **/
