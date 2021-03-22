@@ -23,7 +23,8 @@ import { Base } from './Base';
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
-const l = logger('Contract');
+
+const l = logger('api-contract/contract');
 
 function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: CodecArg[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
   return (origin: string | AccountId | Uint8Array, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): ContractCallResult<ApiType, ContractCallOutcome> =>
@@ -39,11 +40,14 @@ function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, par
       : fn(...extractOptions(options, params));
 }
 
-function createWithId <T> (fn: (messageOrId: AbiMessage | string | number, options: ContractOptions, params: CodecArg[]) => T): ContractGeneric<ContractOptions, T> {
-  return (messageOrId: AbiMessage | string | number, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): T =>
-    isOptions(options)
+function createWithId <T> (fn: (messageOrId: AbiMessage | string | number, options: ContractOptions, params: CodecArg[]) => T, warn?: string): ContractGeneric<ContractOptions, T> {
+  return (messageOrId: AbiMessage | string | number, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): T => {
+    warn && l.warn(warn);
+
+    return isOptions(options)
       ? fn(messageOrId, options, params)
       : fn(messageOrId, ...extractOptions(options, params));
+  };
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
@@ -109,8 +113,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     super(api, abi, decorateMethod);
 
     this.address = this.registry.createType('AccountId', address);
-    this.exec = createWithId(this.#exec);
-    this.read = createWithId(this.#read);
+    this.exec = createWithId(this.#exec, '.exec is deprecated, use contract.tx.<messageName>(...) instead (where contract refers to this instance)');
+    this.read = createWithId(this.#read, '.read is deprecated, use contract.query.<messageName>(...) instead (where contract refers to this instance)');
 
     this.abi.messages.forEach((m): void => {
       const messageName = stringCamelCase(m.identifier);
