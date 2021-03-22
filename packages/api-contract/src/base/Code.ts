@@ -10,7 +10,7 @@ import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, compactAddLength, isFunction, isUndefined, isWasm, stringCamelCase, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, isFunction, isUndefined, isWasm, logger, stringCamelCase, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Abi } from '../Abi';
@@ -19,6 +19,8 @@ import { Base } from './Base';
 import { Blueprint } from './Blueprint';
 import { Contract } from './Contract';
 import { createBluePrintTx, EMPTY_SALT, encodeSalt } from './util';
+
+const l = logger('api-contract/code');
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;
@@ -64,22 +66,26 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
    * @deprecated Use the `code.tx.<constructor>(...) format to put code and deploy
    */
   public createContract (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
+    l.warn('.createContract is deprecated, use code.tx.<constructorName>(...) instead (where code refers to this instance)');
+
     return this.#instantiate(constructorOrId, options, params);
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     return isFunction(this.api.tx.contracts.instantiateWithCode)
-      ? this.#instantiateSingle(constructorOrId, options, params)
-      : this.#instantiateBatch(constructorOrId, options, params);
+      ? this.#instantiateCurrent(constructorOrId, options, params)
+      : this.#instantiatePrev(constructorOrId, options, params);
   }
 
-  #instantiateSingle = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  #instantiateCurrent = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     return this.api.tx.contracts
       .instantiateWithCode(value, gasLimit, compactAddLength(this.code), this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
       .withResultTransform(this.#transformEvents);
   }
 
-  #instantiateBatch = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  #instantiatePrev = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+    assert(isFunction(this.api.tx.utility?.batch), 'Your chain does not include the utility pallet, for contracts v2 deployment, this is required');
+
     const encodedSalt = encodeSalt(salt);
     const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
     const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);
