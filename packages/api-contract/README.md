@@ -8,7 +8,7 @@ import { Abi } from '@polkadot/api-contract';
 
 const wsProvider = new WsProvider(<...Node Url...>);
 const api = await ApiPromise.create({ provider: wsProvider });
-const abi = new Abi(api.registry, <...JSON ABI...>);
+const abi = new Abi(<...JSON ABI...>, api.registry.getChainProperties());
 
 api.tx.contracts
   .call(<contract addr>, <value>, <max gas>, abi.messages.<method name>(<...params...>))
