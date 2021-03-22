@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 4.2.1 Mar 22, 2021
+
+Upgrade priority: Low. Recommended when tracking the latest updates from Substrate.
+
+Contributed:
+
+- Fix contract even decoding on Substrate 3 (Thanks to https://github.com/vminkov)
+
+Changes:
+
+- Adjust `Extender{Header, SignedBlock}` types to ensure at-block `Header` types are used
+- Explicit definition for new Rococo triple refcount `AccountData` types
+- Convert metadata private class fields to ES-private
+- Adjust `SignedBlock` type for new `justifications` field
+- Optimize society derive for multi accounts
+- Bump metadata to latest substrate version
+
+
 ## 4.1.1 Mar 15, 2021
 
 Upgrade priority: Low. Recommended when tracking the latest updates from Substrate.
