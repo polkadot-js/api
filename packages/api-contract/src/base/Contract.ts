@@ -24,7 +24,7 @@ import { Base } from './Base';
 const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
-const l = logger('api-contract/contract');
+const l = logger('Contract');
 
 function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: CodecArg[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
   return (origin: string | AccountId | Uint8Array, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): ContractCallResult<ApiType, ContractCallOutcome> =>
