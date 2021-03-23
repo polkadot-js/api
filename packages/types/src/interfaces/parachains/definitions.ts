@@ -231,7 +231,8 @@ export default {
     },
     ParaId: 'u32',
     ParaInfo: {
-      scheduling: 'Scheduling'
+      manager: 'AccountId',
+      deposit: 'Balance'
     },
     ParaLifecycle: {
       _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingToParachain', 'DowngradingToParathread', 'OutgoingParathread', 'OutgoingParachain']

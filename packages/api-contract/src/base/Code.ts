@@ -20,7 +20,7 @@ import { Blueprint } from './Blueprint';
 import { Contract } from './Contract';
 import { createBluePrintTx, EMPTY_SALT, encodeSalt } from './util';
 
-const l = logger('api-contract/code');
+const l = logger('Code');
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;

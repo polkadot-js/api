@@ -575,7 +575,8 @@ export interface ParaId extends u32 {}
 
 /** @name ParaInfo */
 export interface ParaInfo extends Struct {
-  readonly scheduling: Scheduling;
+  readonly manager: AccountId;
+  readonly deposit: Balance;
 }
 
 /** @name ParaLifecycle */
