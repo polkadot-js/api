@@ -13,7 +13,7 @@ import { map } from '@polkadot/x-rxjs/operators';
 import { memo } from '../util';
 
 // parse into Indexes
-function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]: [EraIndex, Option<Moment>, EraIndex, SessionIndex, u32]): DeriveSessionIndexes {
+function parse ([currentIndex, activeEra, activeEraStart, currentEra, validatorCount]: [SessionIndex, EraIndex, Option<Moment>, EraIndex, u32]): DeriveSessionIndexes {
   return {
     activeEra,
     activeEraStart,
@@ -24,42 +24,57 @@ function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorC
 }
 
 // query based on latest
-function query (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
-  return api.queryMulti<[Option<ActiveEraInfo>, Option<EraIndex>, SessionIndex, u32]>([
+function queryStaking (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
+  return api.queryMulti<[u32, Option<ActiveEraInfo>, Option<EraIndex>, SessionIndex]>([
+    api.query.session.currentIndex,
     api.query.staking.activeEra,
     api.query.staking.currentEra,
-    api.query.session.currentIndex,
     api.query.staking.validatorCount
   ]).pipe(
-    map(([activeOpt, currentEra, currentIndex, validatorCount]): DeriveSessionIndexes => {
+    map(([currentIndex, activeOpt, currentEra, validatorCount]): DeriveSessionIndexes => {
       const { index, start } = activeOpt.unwrapOrDefault();
 
       return parse([
+        currentIndex,
         index,
         start,
         currentEra.unwrapOrDefault(),
-        currentIndex,
         validatorCount
       ]);
     })
   );
 }
 
+// query based on latest
+function querySession (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
+  return api.query.session.currentIndex().pipe(
+    map((currentIndex): DeriveSessionIndexes => parse([
+      currentIndex,
+      api.registry.createType('EraIndex'),
+      api.registry.createType('Option<Moment>'),
+      api.registry.createType('EraIndex'),
+      api.registry.createType('u32')
+    ]))
+  );
+}
+
 // empty set when none is available
 function empty (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
   return of(parse([
+    api.registry.createType('SessionIndex', 1),
     api.registry.createType('EraIndex'),
     api.registry.createType('Option<Moment>'),
     api.registry.createType('EraIndex'),
-    api.registry.createType('SessionIndex', 1),
     api.registry.createType('u32')
   ]));
 }
 
 export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
   return memo(instanceId, (): Observable<DeriveSessionIndexes> =>
-    api.query.session && api.query.staking
-      ? query(api)
+    api.query.session
+      ? api.query.staking
+        ? queryStaking(api)
+        : querySession(api)
       : empty(api)
   );
 }
