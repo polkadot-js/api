@@ -61,7 +61,9 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
 
   return combineLatest([
     api.query.treasury.proposals.multi<Option<TreasuryProposal>>(allIds),
-    api.derive.council.proposals()
+    api.derive.council
+      ? api.derive.council.proposals()
+      : of([] as DeriveCollectiveProposal[])
   ]).pipe(
     map(([allProposals, councilProposals]: [Option<TreasuryProposal>[], DeriveCollectiveProposal[]]): DeriveTreasuryProposals =>
       parseResult(api, { allIds, allProposals, approvalIds, councilProposals, proposalCount })
