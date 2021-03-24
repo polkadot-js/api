@@ -25,7 +25,7 @@ function parse ([currentIndex, activeEra, activeEraStart, currentEra, validatorC
 
 // query based on latest
 function queryStaking (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
-  return api.queryMulti<[u32, Option<ActiveEraInfo>, Option<EraIndex>, SessionIndex]>([
+  return api.queryMulti<[SessionIndex, Option<ActiveEraInfo>, Option<EraIndex>, u32]>([
     api.query.session.currentIndex,
     api.query.staking.activeEra,
     api.query.staking.currentEra,
