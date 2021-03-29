@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 4.3.1 Mar 29, 2021
+
+Upgrade priority: Low.
+
+Contributed:
+
+- Fix documentation on ABI parameters (Thanks to https://github.com/vminkov)
+
+Changes:
+
+- Warn on usage of deprecated contract interfaces
+- Update `ParaInfo` type
+- Council should be optional in treasury derives
+- Allow extraction of session derives indexes with no staking
+
+
 ## 4.2.1 Mar 22, 2021
 
 Upgrade priority: Low. Recommended when tracking the latest updates from Substrate.
