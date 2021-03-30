@@ -407,7 +407,11 @@ export default {
         X1: 'Junction',
         X2: '(Junction, Junction)',
         X3: '(Junction, Junction, Junction)',
-        X4: '(Junction, Junction, Junction, Junction)'
+        X4: '(Junction, Junction, Junction, Junction)',
+        X5: '(Junction, Junction, Junction, Junction, Junction)',
+        X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
+        X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
+        X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
       }
     },
     AccountId32Junction: {
