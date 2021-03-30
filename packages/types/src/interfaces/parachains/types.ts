@@ -492,6 +492,14 @@ export interface MultiLocation extends Enum {
   readonly asX3: ITuple<[Junction, Junction, Junction]>;
   readonly isX4: boolean;
   readonly asX4: ITuple<[Junction, Junction, Junction, Junction]>;
+  readonly isX5: boolean;
+  readonly asX5: ITuple<[Junction, Junction, Junction, Junction, Junction]>;
+  readonly isX6: boolean;
+  readonly asX6: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction]>;
+  readonly isX7: boolean;
+  readonly asX7: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction, Junction]>;
+  readonly isX8: boolean;
+  readonly asX8: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction]>;
 }
 
 /** @name NetworkId */
