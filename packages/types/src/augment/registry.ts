@@ -33,7 +33,7 @@ import type { DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMap
 import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
-import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiAsset, MultiLocation, NetworkId, NewBidder, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
+import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiAsset, MultiLocation, NetworkId, NewBidder, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, ServiceQuality, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, InclusionFee, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { Approvals } from '@polkadot/types/interfaces/poll';
 import type { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
@@ -718,6 +718,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<SealV0>': Option<SealV0>;
     'Option<SeatHolder>': Option<SeatHolder>;
     'Option<SeedOf>': Option<SeedOf>;
+    'Option<ServiceQuality>': Option<ServiceQuality>;
     'Option<SessionIndex>': Option<SessionIndex>;
     'Option<SessionInfo>': Option<SessionInfo>;
     'Option<SessionInfoValidatorGroup>': Option<SessionInfoValidatorGroup>;
@@ -1472,6 +1473,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<SealV0>': Vec<SealV0>;
     'Vec<SeatHolder>': Vec<SeatHolder>;
     'Vec<SeedOf>': Vec<SeedOf>;
+    'Vec<ServiceQuality>': Vec<ServiceQuality>;
     'Vec<SessionIndex>': Vec<SessionIndex>;
     'Vec<SessionInfo>': Vec<SessionInfo>;
     'Vec<SessionInfoValidatorGroup>': Vec<SessionInfoValidatorGroup>;
@@ -2226,6 +2228,7 @@ declare module '@polkadot/types/types/registry' {
     SealV0: SealV0;
     SeatHolder: SeatHolder;
     SeedOf: SeedOf;
+    ServiceQuality: ServiceQuality;
     SessionIndex: SessionIndex;
     SessionInfo: SessionInfo;
     SessionInfoValidatorGroup: SessionInfoValidatorGroup;

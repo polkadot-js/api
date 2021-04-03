@@ -695,6 +695,12 @@ export interface Scheduling extends Enum {
   readonly isDynamic: boolean;
 }
 
+/** @name ServiceQuality */
+export interface ServiceQuality extends Enum {
+  readonly isOrdered: boolean;
+  readonly isFast: boolean;
+}
+
 /** @name SessionInfo */
 export interface SessionInfo extends Struct {
   readonly validators: Vec<ValidatorId>;
