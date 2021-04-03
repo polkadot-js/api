@@ -24,11 +24,18 @@ const proposeTypes = {
   }
 };
 
+const cumulusTypes = {
+  ServiceQuality: {
+    _enum: ['Ordered', 'Fast']
+  }
+};
+
 export default {
   rpc: {},
   types: {
-    ...proposeTypes,
+    ...cumulusTypes,
     ...hrmpTypes,
+    ...proposeTypes,
     ...slotTypes,
     AbridgedCandidateReceipt: {
       parachainIndex: 'ParaId',
