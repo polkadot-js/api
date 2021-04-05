@@ -2,7 +2,7 @@
 
 ## 4.4.1 Apr 5, 2021
 
-Upgrade priority: Low.
+Upgrade priority: Low. Recommended with usage with the Rococo testnet.
 
 Changes:
 
