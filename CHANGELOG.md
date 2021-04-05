@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 4.4.1 Apr 5, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Add `ServiceQuality` type for Cumulus
+- Adjust XCM MultiLocation type (X5 to X8 junctions)
+- Add Polkadot 29 upgrade block
+
+
 ## 4.3.1 Mar 29, 2021
 
 Upgrade priority: Low.
