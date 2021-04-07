@@ -239,7 +239,8 @@ export default {
     ParaId: 'u32',
     ParaInfo: {
       manager: 'AccountId',
-      deposit: 'Balance'
+      deposit: 'Balance',
+      locked: 'bool'
     },
     ParaLifecycle: {
       _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingToParachain', 'DowngradingToParathread', 'OutgoingParathread', 'OutgoingParachain']
