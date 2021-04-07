@@ -4,8 +4,9 @@
 import type { BTreeMap, BitVec, Bytes, Compact, Enum, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
-import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Header, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
+import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 
 /** @name AbridgedCandidateReceipt */
 export interface AbridgedCandidateReceipt extends Struct {
@@ -170,13 +171,14 @@ export interface CandidateCommitments extends Struct {
 /** @name CandidateDescriptor */
 export interface CandidateDescriptor extends Struct {
   readonly paraId: ParaId;
-  readonly relayParent: Hash;
+  readonly relayParent: RelayChainHash;
   readonly collatorId: CollatorId;
   readonly persistedValidationDataHash: Hash;
   readonly povHash: Hash;
   readonly erasureRoot: Hash;
   readonly signature: CollatorSignature;
   readonly paraHead: Hash;
+  readonly validationCodeHash: Hash;
 }
 
 /** @name CandidateHash */
@@ -254,6 +256,21 @@ export interface DepositReserveAsset extends Struct {
   readonly effects: Vec<Order>;
 }
 
+/** @name DisputeStatement */
+export interface DisputeStatement extends Enum {
+  readonly isValid: boolean;
+  readonly asValid: ValidDisputeStatementKind;
+  readonly isInvalid: boolean;
+  readonly asInvalid: InvalidDisputeStatementKind;
+}
+
+/** @name DisputeStatementSet */
+export interface DisputeStatementSet extends Struct {
+  readonly candidate_hash: CandidateHash;
+  readonly session: SessionIndex;
+  readonly statements: Vec<ITuple<[DisputeStatement, ValidatorIndex, ValidatorSignature]>>;
+}
+
 /** @name DoubleVoteReport */
 export interface DoubleVoteReport extends Struct {
   readonly identity: ValidatorId;
@@ -270,6 +287,20 @@ export interface DownwardMessage extends Bytes {}
 export interface ExchangeAsset extends Struct {
   readonly give: Vec<MultiAsset>;
   readonly receive: Vec<MultiAsset>;
+}
+
+/** @name ExplicitDisputeStatement */
+export interface ExplicitDisputeStatement extends Struct {
+  readonly valid: bool;
+  readonly candidate_hash: CandidateHash;
+  readonly session: SessionIndex;
+}
+
+/** @name GlobalValidationData */
+export interface GlobalValidationData extends Struct {
+  readonly maxCodeSize: u32;
+  readonly maxHeadDataSize: u32;
+  readonly blockNumber: BlockNumber;
 }
 
 /** @name GlobalValidationSchedule */
@@ -406,6 +437,11 @@ export interface InitiateTeleport extends Struct {
   readonly effects: Vec<Order>;
 }
 
+/** @name InvalidDisputeStatementKind */
+export interface InvalidDisputeStatementKind extends Enum {
+  readonly isExplicit: boolean;
+}
+
 /** @name Junction */
 export interface Junction extends Enum {
   readonly isParent: boolean;
@@ -480,6 +516,9 @@ export interface MultiAsset extends Enum {
   readonly isConcreteNonFungible: boolean;
   readonly asConcreteNonFungible: ConcreteNonFungible;
 }
+
+/** @name MultiDisputeStatementSet */
+export interface MultiDisputeStatementSet extends Vec<DisputeStatementSet> {}
 
 /** @name MultiLocation */
 export interface MultiLocation extends Enum {
@@ -569,6 +608,14 @@ export interface ParachainProposal extends Struct {
   readonly validators: Vec<ValidatorId>;
   readonly name: Bytes;
   readonly balance: Balance;
+}
+
+/** @name ParachainsInherentData */
+export interface ParachainsInherentData extends Struct {
+  readonly bitfields: SignedAvailabilityBitfields;
+  readonly backed_candidates: Vec<BackedCandidate>;
+  readonly disputes: MultiDisputeStatementSet;
+  readonly parentHeader: Header;
 }
 
 /** @name ParaGenesisArgs */
@@ -813,6 +860,14 @@ export interface ValidationFunctionParams extends Struct {
 
 /** @name ValidatorSignature */
 export interface ValidatorSignature extends Signature {}
+
+/** @name ValidDisputeStatementKind */
+export interface ValidDisputeStatementKind extends Enum {
+  readonly isExplicit: boolean;
+  readonly isBackingSeconded: boolean;
+  readonly isBackingValid: boolean;
+  readonly isApprovalChecking: boolean;
+}
 
 /** @name ValidityAttestation */
 export interface ValidityAttestation extends Enum {
