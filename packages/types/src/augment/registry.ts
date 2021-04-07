@@ -9,6 +9,7 @@ import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interface
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
+import type { BeefyNextAuthoritySet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
@@ -33,7 +34,7 @@ import type { DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMap
 import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
-import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DoubleVoteReport, DownwardMessage, ExchangeAsset, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiAsset, MultiLocation, NetworkId, NewBidder, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, ServiceQuality, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
+import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AbstractFungible, AbstractNonFungible, AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Balances, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, ConcreteFungible, ConcreteNonFungible, CoreAssignment, CoreIndex, CoreOccupied, DepositAsset, DepositReserveAsset, DisputeStatement, DisputeStatementSet, DoubleVoteReport, DownwardMessage, ExchangeAsset, ExplicitDisputeStatement, GlobalValidationData, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InitiateReserveWithdraw, InitiateTeleport, InvalidDisputeStatementKind, Junction, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiAsset, MultiDisputeStatementSet, MultiLocation, NetworkId, NewBidder, Order, OriginKind, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParachainsInherentData, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueryHolding, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, RelayTo, RelayedFrom, Remark, ReserveAssetDeposit, Retriable, Scheduling, ServiceQuality, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TeleportAsset, Transact, TransientValidationData, UpwardMessage, ValidDisputeStatementKind, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry, WithdrawAsset, Xcm, XcmError, XcmResult } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, InclusionFee, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { Approvals } from '@polkadot/types/interfaces/poll';
 import type { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
@@ -139,6 +140,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<USize>': Compact<USize>;
     'Compact<ValidatorCount>': Compact<ValidatorCount>;
     'Compact<ValidatorIndex>': Compact<ValidatorIndex>;
+    'Compact<ValidatorSetId>': Compact<ValidatorSetId>;
     'Compact<VoteIndex>': Compact<VoteIndex>;
     'Compact<VoteWeight>': Compact<VoteWeight>;
     'Compact<Weight>': Compact<Weight>;
@@ -211,6 +213,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<BalanceOf>': Option<BalanceOf>;
     'Option<Balances>': Option<Balances>;
     'Option<BalanceStatus>': Option<BalanceStatus>;
+    'Option<BeefyNextAuthoritySet>': Option<BeefyNextAuthoritySet>;
     'Option<Bid>': Option<Bid>;
     'Option<Bidder>': Option<Bidder>;
     'Option<BidKind>': Option<BidKind>;
@@ -319,6 +322,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<DispatchResult>': Option<DispatchResult>;
     'Option<DispatchResultOf>': Option<DispatchResultOf>;
     'Option<DispatchResultTo198>': Option<DispatchResultTo198>;
+    'Option<DisputeStatement>': Option<DisputeStatement>;
+    'Option<DisputeStatementSet>': Option<DisputeStatementSet>;
     'Option<DoNotConstruct>': Option<DoNotConstruct>;
     'Option<DoubleMapTypeLatest>': Option<DoubleMapTypeLatest>;
     'Option<DoubleMapTypeV10>': Option<DoubleMapTypeV10>;
@@ -396,6 +401,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ExitReason>': Option<ExitReason>;
     'Option<ExitRevert>': Option<ExitRevert>;
     'Option<ExitSucceed>': Option<ExitSucceed>;
+    'Option<ExplicitDisputeStatement>': Option<ExplicitDisputeStatement>;
     'Option<Exposure>': Option<Exposure>;
     'Option<ExtendedBalance>': Option<ExtendedBalance>;
     'Option<Extrinsic>': Option<Extrinsic>;
@@ -436,6 +442,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<FundInfo>': Option<FundInfo>;
     'Option<Gas>': Option<Gas>;
     'Option<GiltBid>': Option<GiltBid>;
+    'Option<GlobalValidationData>': Option<GlobalValidationData>;
     'Option<GlobalValidationSchedule>': Option<GlobalValidationSchedule>;
     'Option<GrandpaEquivocation>': Option<GrandpaEquivocation>;
     'Option<GrandpaEquivocationProof>': Option<GrandpaEquivocationProof>;
@@ -495,6 +502,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<InitiateReserveWithdraw>': Option<InitiateReserveWithdraw>;
     'Option<InitiateTeleport>': Option<InitiateTeleport>;
     'Option<InstructionWeights>': Option<InstructionWeights>;
+    'Option<InvalidDisputeStatementKind>': Option<InvalidDisputeStatementKind>;
     'Option<InvalidTransaction>': Option<InvalidTransaction>;
     'Option<Json>': Option<Json>;
     'Option<Junction>': Option<Junction>;
@@ -557,6 +565,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<MortalEra>': Option<MortalEra>;
     'Option<MultiAddress>': Option<MultiAddress>;
     'Option<MultiAsset>': Option<MultiAsset>;
+    'Option<MultiDisputeStatementSet>': Option<MultiDisputeStatementSet>;
     'Option<MultiLocation>': Option<MultiLocation>;
     'Option<Multiplier>': Option<Multiplier>;
     'Option<Multisig>': Option<Multisig>;
@@ -600,6 +609,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ParachainDispatchOrigin>': Option<ParachainDispatchOrigin>;
     'Option<ParachainInherentData>': Option<ParachainInherentData>;
     'Option<ParachainProposal>': Option<ParachainProposal>;
+    'Option<ParachainsInherentData>': Option<ParachainsInherentData>;
     'Option<ParaGenesisArgs>': Option<ParaGenesisArgs>;
     'Option<ParaId>': Option<ParaId>;
     'Option<ParaInfo>': Option<ParaInfo>;
@@ -860,7 +870,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<ValidatorPrefsTo196>': Option<ValidatorPrefsTo196>;
     'Option<ValidatorPrefsWithBlocked>': Option<ValidatorPrefsWithBlocked>;
     'Option<ValidatorPrefsWithCommission>': Option<ValidatorPrefsWithCommission>;
+    'Option<ValidatorSetId>': Option<ValidatorSetId>;
     'Option<ValidatorSignature>': Option<ValidatorSignature>;
+    'Option<ValidDisputeStatementKind>': Option<ValidDisputeStatementKind>;
     'Option<ValidityAttestation>': Option<ValidityAttestation>;
     'Option<VecInboundHrmpMessage>': Option<VecInboundHrmpMessage>;
     'Option<VersionedMultiAsset>': Option<VersionedMultiAsset>;
@@ -966,6 +978,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<BalanceOf>': Vec<BalanceOf>;
     'Vec<Balances>': Vec<Balances>;
     'Vec<BalanceStatus>': Vec<BalanceStatus>;
+    'Vec<BeefyNextAuthoritySet>': Vec<BeefyNextAuthoritySet>;
     'Vec<Bid>': Vec<Bid>;
     'Vec<Bidder>': Vec<Bidder>;
     'Vec<BidKind>': Vec<BidKind>;
@@ -1074,6 +1087,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<DispatchResult>': Vec<DispatchResult>;
     'Vec<DispatchResultOf>': Vec<DispatchResultOf>;
     'Vec<DispatchResultTo198>': Vec<DispatchResultTo198>;
+    'Vec<DisputeStatement>': Vec<DisputeStatement>;
+    'Vec<DisputeStatementSet>': Vec<DisputeStatementSet>;
     'Vec<DoNotConstruct>': Vec<DoNotConstruct>;
     'Vec<DoubleMapTypeLatest>': Vec<DoubleMapTypeLatest>;
     'Vec<DoubleMapTypeV10>': Vec<DoubleMapTypeV10>;
@@ -1151,6 +1166,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ExitReason>': Vec<ExitReason>;
     'Vec<ExitRevert>': Vec<ExitRevert>;
     'Vec<ExitSucceed>': Vec<ExitSucceed>;
+    'Vec<ExplicitDisputeStatement>': Vec<ExplicitDisputeStatement>;
     'Vec<Exposure>': Vec<Exposure>;
     'Vec<ExtendedBalance>': Vec<ExtendedBalance>;
     'Vec<Extrinsic>': Vec<Extrinsic>;
@@ -1191,6 +1207,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<FundInfo>': Vec<FundInfo>;
     'Vec<Gas>': Vec<Gas>;
     'Vec<GiltBid>': Vec<GiltBid>;
+    'Vec<GlobalValidationData>': Vec<GlobalValidationData>;
     'Vec<GlobalValidationSchedule>': Vec<GlobalValidationSchedule>;
     'Vec<GrandpaEquivocation>': Vec<GrandpaEquivocation>;
     'Vec<GrandpaEquivocationProof>': Vec<GrandpaEquivocationProof>;
@@ -1250,6 +1267,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<InitiateReserveWithdraw>': Vec<InitiateReserveWithdraw>;
     'Vec<InitiateTeleport>': Vec<InitiateTeleport>;
     'Vec<InstructionWeights>': Vec<InstructionWeights>;
+    'Vec<InvalidDisputeStatementKind>': Vec<InvalidDisputeStatementKind>;
     'Vec<InvalidTransaction>': Vec<InvalidTransaction>;
     'Vec<Json>': Vec<Json>;
     'Vec<Junction>': Vec<Junction>;
@@ -1312,6 +1330,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<MortalEra>': Vec<MortalEra>;
     'Vec<MultiAddress>': Vec<MultiAddress>;
     'Vec<MultiAsset>': Vec<MultiAsset>;
+    'Vec<MultiDisputeStatementSet>': Vec<MultiDisputeStatementSet>;
     'Vec<MultiLocation>': Vec<MultiLocation>;
     'Vec<Multiplier>': Vec<Multiplier>;
     'Vec<Multisig>': Vec<Multisig>;
@@ -1355,6 +1374,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ParachainDispatchOrigin>': Vec<ParachainDispatchOrigin>;
     'Vec<ParachainInherentData>': Vec<ParachainInherentData>;
     'Vec<ParachainProposal>': Vec<ParachainProposal>;
+    'Vec<ParachainsInherentData>': Vec<ParachainsInherentData>;
     'Vec<ParaGenesisArgs>': Vec<ParaGenesisArgs>;
     'Vec<ParaId>': Vec<ParaId>;
     'Vec<ParaInfo>': Vec<ParaInfo>;
@@ -1615,7 +1635,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ValidatorPrefsTo196>': Vec<ValidatorPrefsTo196>;
     'Vec<ValidatorPrefsWithBlocked>': Vec<ValidatorPrefsWithBlocked>;
     'Vec<ValidatorPrefsWithCommission>': Vec<ValidatorPrefsWithCommission>;
+    'Vec<ValidatorSetId>': Vec<ValidatorSetId>;
     'Vec<ValidatorSignature>': Vec<ValidatorSignature>;
+    'Vec<ValidDisputeStatementKind>': Vec<ValidDisputeStatementKind>;
     'Vec<ValidityAttestation>': Vec<ValidityAttestation>;
     'Vec<VecInboundHrmpMessage>': Vec<VecInboundHrmpMessage>;
     'Vec<VersionedMultiAsset>': Vec<VersionedMultiAsset>;
@@ -1721,6 +1743,7 @@ declare module '@polkadot/types/types/registry' {
     BalanceOf: BalanceOf;
     Balances: Balances;
     BalanceStatus: BalanceStatus;
+    BeefyNextAuthoritySet: BeefyNextAuthoritySet;
     Bid: Bid;
     Bidder: Bidder;
     BidKind: BidKind;
@@ -1829,6 +1852,8 @@ declare module '@polkadot/types/types/registry' {
     DispatchResult: DispatchResult;
     DispatchResultOf: DispatchResultOf;
     DispatchResultTo198: DispatchResultTo198;
+    DisputeStatement: DisputeStatement;
+    DisputeStatementSet: DisputeStatementSet;
     DoNotConstruct: DoNotConstruct;
     DoubleMapTypeLatest: DoubleMapTypeLatest;
     DoubleMapTypeV10: DoubleMapTypeV10;
@@ -1906,6 +1931,7 @@ declare module '@polkadot/types/types/registry' {
     ExitReason: ExitReason;
     ExitRevert: ExitRevert;
     ExitSucceed: ExitSucceed;
+    ExplicitDisputeStatement: ExplicitDisputeStatement;
     Exposure: Exposure;
     ExtendedBalance: ExtendedBalance;
     Extrinsic: Extrinsic;
@@ -1946,6 +1972,7 @@ declare module '@polkadot/types/types/registry' {
     FundInfo: FundInfo;
     Gas: Gas;
     GiltBid: GiltBid;
+    GlobalValidationData: GlobalValidationData;
     GlobalValidationSchedule: GlobalValidationSchedule;
     GrandpaEquivocation: GrandpaEquivocation;
     GrandpaEquivocationProof: GrandpaEquivocationProof;
@@ -2005,6 +2032,7 @@ declare module '@polkadot/types/types/registry' {
     InitiateReserveWithdraw: InitiateReserveWithdraw;
     InitiateTeleport: InitiateTeleport;
     InstructionWeights: InstructionWeights;
+    InvalidDisputeStatementKind: InvalidDisputeStatementKind;
     InvalidTransaction: InvalidTransaction;
     Json: Json;
     Junction: Junction;
@@ -2067,6 +2095,7 @@ declare module '@polkadot/types/types/registry' {
     MortalEra: MortalEra;
     MultiAddress: MultiAddress;
     MultiAsset: MultiAsset;
+    MultiDisputeStatementSet: MultiDisputeStatementSet;
     MultiLocation: MultiLocation;
     Multiplier: Multiplier;
     Multisig: Multisig;
@@ -2110,6 +2139,7 @@ declare module '@polkadot/types/types/registry' {
     ParachainDispatchOrigin: ParachainDispatchOrigin;
     ParachainInherentData: ParachainInherentData;
     ParachainProposal: ParachainProposal;
+    ParachainsInherentData: ParachainsInherentData;
     ParaGenesisArgs: ParaGenesisArgs;
     ParaId: ParaId;
     ParaInfo: ParaInfo;
@@ -2370,7 +2400,9 @@ declare module '@polkadot/types/types/registry' {
     ValidatorPrefsTo196: ValidatorPrefsTo196;
     ValidatorPrefsWithBlocked: ValidatorPrefsWithBlocked;
     ValidatorPrefsWithCommission: ValidatorPrefsWithCommission;
+    ValidatorSetId: ValidatorSetId;
     ValidatorSignature: ValidatorSignature;
+    ValidDisputeStatementKind: ValidDisputeStatementKind;
     ValidityAttestation: ValidityAttestation;
     VecInboundHrmpMessage: VecInboundHrmpMessage;
     VersionedMultiAsset: VersionedMultiAsset;

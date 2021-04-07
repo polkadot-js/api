@@ -104,13 +104,14 @@ export default {
     },
     CandidateDescriptor: {
       paraId: 'ParaId',
-      relayParent: 'Hash',
+      relayParent: 'RelayChainHash',
       collatorId: 'CollatorId',
       persistedValidationDataHash: 'Hash',
       povHash: 'Hash',
       erasureRoot: 'Hash',
       signature: 'CollatorSignature',
-      paraHead: 'Hash'
+      paraHead: 'Hash',
+      validationCodeHash: 'Hash'
     },
     CandidateHash: 'Hash',
     CandidatePendingAvailability: {
@@ -125,6 +126,11 @@ export default {
     CandidateReceipt: {
       descriptor: 'CandidateDescriptor',
       commitmentsHash: 'Hash'
+    },
+    GlobalValidationData: {
+      maxCodeSize: 'u32',
+      maxHeadDataSize: 'u32',
+      blockNumber: 'BlockNumber'
     },
     CollatorId: 'H256',
     CollatorSignature: 'Signature',
@@ -144,6 +150,36 @@ export default {
         Parathread: 'ParathreadEntry',
         Parachain: 'Null'
       }
+    },
+    DisputeStatementSet: {
+      candidate_hash: 'CandidateHash',
+      session: 'SessionIndex',
+      statements: 'Vec<(DisputeStatement, ValidatorIndex, ValidatorSignature)>'
+    },
+    MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
+    DisputeStatement: {
+      _enum: {
+        Valid: 'ValidDisputeStatementKind',
+        Invalid: 'InvalidDisputeStatementKind'
+      }
+    },
+    ValidDisputeStatementKind: {
+      _enum: [
+        'Explicit',
+        'BackingSeconded',
+        'BackingValid',
+        'ApprovalChecking'
+      ]
+    },
+    InvalidDisputeStatementKind: {
+      _enum: [
+        'Explicit'
+      ]
+    },
+    ExplicitDisputeStatement: {
+      valid: 'bool',
+      candidate_hash: 'CandidateHash',
+      session: 'SessionIndex'
     },
     DoubleVoteReport: {
       identity: 'ValidatorId',
@@ -230,6 +266,12 @@ export default {
       relayChainState: 'StorageProof',
       downwardMessages: 'Vec<InboundDownwardMessage>',
       horizontalMessages: 'BTreeMap<ParaId, VecInboundHrmpMessage>'
+    },
+    ParachainsInherentData: {
+      bitfields: 'SignedAvailabilityBitfields',
+      backed_candidates: 'Vec<BackedCandidate>',
+      disputes: 'MultiDisputeStatementSet',
+      parentHeader: 'Header'
     },
     ParaGenesisArgs: {
       genesisHead: 'Bytes',

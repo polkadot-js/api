@@ -18,7 +18,6 @@ export default {
       }
     },
     FundInfo: {
-      retiring: 'bool',
       depositor: 'AccountId',
       verifier: 'Option<MultiSigner>',
       deposit: 'Balance',
