@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Option, Struct, bool, u32 } from '@polkadot/types';
+import type { Enum, Option, Struct, u32 } from '@polkadot/types';
 import type { LeasePeriod } from '@polkadot/types/interfaces/parachains';
 import type { AccountId, Balance, BlockNumber, MultiSigner } from '@polkadot/types/interfaces/runtime';
 
@@ -10,7 +10,6 @@ export interface FundIndex extends u32 {}
 
 /** @name FundInfo */
 export interface FundInfo extends Struct {
-  readonly retiring: bool;
   readonly depositor: AccountId;
   readonly verifier: Option<MultiSigner>;
   readonly deposit: Balance;
