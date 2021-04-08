@@ -266,7 +266,7 @@ export interface DisputeStatement extends Enum {
 
 /** @name DisputeStatementSet */
 export interface DisputeStatementSet extends Struct {
-  readonly candidate_hash: CandidateHash;
+  readonly candidateHash: CandidateHash;
   readonly session: SessionIndex;
   readonly statements: Vec<ITuple<[DisputeStatement, ValidatorIndex, ValidatorSignature]>>;
 }
@@ -292,7 +292,7 @@ export interface ExchangeAsset extends Struct {
 /** @name ExplicitDisputeStatement */
 export interface ExplicitDisputeStatement extends Struct {
   readonly valid: bool;
-  readonly candidate_hash: CandidateHash;
+  readonly candidateHash: CandidateHash;
   readonly session: SessionIndex;
 }
 
@@ -613,7 +613,7 @@ export interface ParachainProposal extends Struct {
 /** @name ParachainsInherentData */
 export interface ParachainsInherentData extends Struct {
   readonly bitfields: SignedAvailabilityBitfields;
-  readonly backed_candidates: Vec<BackedCandidate>;
+  readonly backedCandidates: Vec<BackedCandidate>;
   readonly disputes: MultiDisputeStatementSet;
   readonly parentHeader: Header;
 }

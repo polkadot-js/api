@@ -10,7 +10,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
   FullIdentification: '()', // No staking, only session (as per config)
-  Keys: 'SessionKeys6'
+  Keys: 'SessionKeys7'
 };
 
 const versioned: OverrideVersionedType[] = [
@@ -31,7 +31,14 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [215, undefined],
+    minmax: [215, 228],
+    types: {
+      ...sharedTypes,
+      Keys: 'SessionKeys6'
+    }
+  },
+  {
+    minmax: [229, undefined],
     types: {
       ...sharedTypes
     }

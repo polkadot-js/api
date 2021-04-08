@@ -152,7 +152,7 @@ export default {
       }
     },
     DisputeStatementSet: {
-      candidate_hash: 'CandidateHash',
+      candidateHash: 'CandidateHash',
       session: 'SessionIndex',
       statements: 'Vec<(DisputeStatement, ValidatorIndex, ValidatorSignature)>'
     },
@@ -178,7 +178,7 @@ export default {
     },
     ExplicitDisputeStatement: {
       valid: 'bool',
-      candidate_hash: 'CandidateHash',
+      candidateHash: 'CandidateHash',
       session: 'SessionIndex'
     },
     DoubleVoteReport: {
@@ -269,7 +269,7 @@ export default {
     },
     ParachainsInherentData: {
       bitfields: 'SignedAvailabilityBitfields',
-      backed_candidates: 'Vec<BackedCandidate>',
+      backedCandidates: 'Vec<BackedCandidate>',
       disputes: 'MultiDisputeStatementSet',
       parentHeader: 'Header'
     },
