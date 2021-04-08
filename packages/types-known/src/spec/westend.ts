@@ -8,7 +8,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 const sharedTypes = {
   AccountInfo: 'AccountInfoWithDualRefCount',
   Address: 'MultiAddress',
-  Keys: 'SessionKeys7B',
+  Keys: 'SessionKeys6', // Keys: 'SessionKeys7B',
   LookupSource: 'MultiAddress',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances', 'IdentityJudgement', 'CancelProxy'
