@@ -12,22 +12,27 @@ import type { Definitions } from '../../types';
 //     pub struct SessionKeys {
 // Here we revert to tuples to keep the interfaces "opaque", as per the use
 const keyTypes = {
+  // key for beefy
+  BeefyKey: '[u8; 33]',
+
   // default to Substrate master defaults, 4 keys (polkadot master, 5 keys)
   Keys: 'SessionKeys4',
 
-  // shortcuts for 1-9 key tuples
   SessionKeys1: '(AccountId)',
   SessionKeys2: '(AccountId, AccountId)',
-  // older substrate master
   SessionKeys3: '(AccountId, AccountId, AccountId)',
-  // CC2, Substrate master
   SessionKeys4: '(AccountId, AccountId, AccountId, AccountId)',
-  // CC3
   SessionKeys5: '(AccountId, AccountId, AccountId, AccountId, AccountId)',
   SessionKeys6: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
+  SessionKeys6B: '(AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)',
   SessionKeys7: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
+  SessionKeys7B: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)',
   SessionKeys8: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
-  SessionKeys9: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)'
+  SessionKeys8B: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)',
+  SessionKeys9: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
+  SessionKeys9B: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)',
+  SessionKeys10: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)',
+  SessionKeys10B: '(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)'
 };
 
 export default {

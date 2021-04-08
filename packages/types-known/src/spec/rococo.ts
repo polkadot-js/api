@@ -10,7 +10,7 @@ import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
   FullIdentification: '()', // No staking, only session (as per config)
-  Keys: 'SessionKeys7'
+  Keys: 'SessionKeys7B'
 };
 
 const versioned: OverrideVersionedType[] = [
