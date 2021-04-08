@@ -34,5 +34,5 @@
     "@types/jest": "^26.0.22",
     "copyfiles": "^2.4.1"
   },
-  "version": "4.4.2-1"
+  "version": "4.4.2-2"
 }
