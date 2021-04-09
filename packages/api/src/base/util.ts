@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { bool, Raw } from '@polkadot/types';
+import type { bool, Raw, u32 } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
 import type { InterfaceTypes } from '@polkadot/types/types';
 
@@ -15,6 +15,8 @@ type ExtractedQ = [bool | null, bool | null, bool | null, Releases | null];
 
 type ExtractedR = [Raw | null];
 
+type ExtractedC = [u32 | null, u32 | null];
+
 type DetectedKeys = keyof Pick<InterfaceTypes, 'AccountInfo' | 'ValidatorPrefs'>;
 
 type DetectedValues = keyof InterfaceTypes;
@@ -23,19 +25,24 @@ interface DetectedTypes extends Record<DetectedKeys, DetectedValues> {
   AccountInfo: 'AccountInfoWithRefCount' | 'AccountInfoWithDualRefCount' | 'AccountInfoWithTripleRefCount',
   Keys: 'SessionKeys1' | 'SessionKeys2' | 'SessionKeys3' | 'SessionKeys4' | 'SessionKeys5' | 'SessionKeys6' | 'SessionKeys7' | 'SessionKeys8' | 'SessionKeys9' | 'SessionKeys10';
   RefCount: 'u8' | 'u32',
+  SlotRange: Record<string, unknown>;
   ValidatorPrefs: 'ValidatorPrefsWithBlocked' | 'ValidatorPrefsWithCommission';
+  WinningData: string;
 }
 
 interface AvailableMap<T> {
   filtered: T[];
   included: boolean[];
+  original: T[];
 }
 
 interface Constants {
   accountIdLength: number;
 }
 
-function mapCapabilities ({ accountIdLength }: Constants, [systemRefcount32, systemRefcountDual, systemRefcountTriple, stakingVersion]: ExtractedQ, [keys]: ExtractedR): Partial<DetectedTypes> {
+const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+
+function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [systemRefcount32, systemRefcountDual, systemRefcountTriple, stakingVersion]: ExtractedQ, [keys]: ExtractedR): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
@@ -89,14 +96,28 @@ function mapCapabilities ({ accountIdLength }: Constants, [systemRefcount32, sys
     }
   }
 
+  // auctions
+  if (leasePeriodsPerSlot && slotRangeCount) {
+    const _enum: string[] = [];
+
+    for (let i = 0; leasePeriodsPerSlot.gtn(i); i++) {
+      for (let j = i; leasePeriodsPerSlot.gtn(j); j++) {
+        _enum.push(`${NumberMap[i]}${NumberMap[j]}`);
+      }
+    }
+
+    types.SlotRange = { _enum };
+    types.WinningData = `[WinningDataEntry; ${slotRangeCount.toNumber()}]`;
+  }
+
   return types;
 }
 
-function filterEntries <T> (entries: T[]): AvailableMap<T> {
-  const included = entries.map((c) => !!c);
-  const filtered = entries.filter((_, index) => included[index]);
+function filterEntries <T> (original: T[]): AvailableMap<T> {
+  const included = original.map((c) => !!c);
+  const filtered = original.filter((_, index) => included[index]);
 
-  return { filtered, included };
+  return { filtered, included, original };
 }
 
 function extractResults <R, T = unknown> (results: unknown[], map: AvailableMap<T>): R {
@@ -113,6 +134,10 @@ function extractResults <R, T = unknown> (results: unknown[], map: AvailableMap<
  * @description Query the chain for the specific capabilities
  */
 export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Array | string | undefined): Observable<Partial<DetectedTypes>> {
+  const consts = filterEntries([
+    api.consts.auctions?.leasePeriodsPerSlot,
+    api.consts.auctions?.slotRangeCount
+  ]);
   const queries = filterEntries([
     api.query.system?.upgradedToU32RefCount,
     api.query.system?.upgradedToDualRefCount,
@@ -124,6 +149,8 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
   ]);
 
   return combineLatest([
+    // FIXME consts don't have .at as of yet...
+    of(extractResults<ExtractedC>(consts.original, consts)),
     queries.filtered.length
       ? blockHash
         ? combineLatest(queries.filtered.map((c) => c.at(blockHash)))
@@ -135,11 +162,12 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
         : combineLatest(keyed.filtered.map((k) => api.rpc.state.getStorage.raw(k.key())))
       : of([])
   ]).pipe(
-    map(([qResults, rResults]): Partial<DetectedTypes> =>
+    map(([cResults, qResults, rResults]): Partial<DetectedTypes> =>
       mapCapabilities(
         {
           accountIdLength: api.registry.createType('AccountId').encodedLength
         },
+        cResults,
         extractResults<ExtractedQ>(qResults, queries),
         extractResults<ExtractedR>(rResults, keyed)
       )
