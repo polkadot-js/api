@@ -202,6 +202,9 @@ export interface OriginCaller extends Enum {
   readonly asSystem: SystemOrigin;
 }
 
+/** @name PalletId */
+export interface PalletId extends LockIdentifier {}
+
 /** @name PalletsOrigin */
 export interface PalletsOrigin extends OriginCaller {}
 
