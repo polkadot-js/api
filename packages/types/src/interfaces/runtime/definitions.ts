@@ -105,6 +105,7 @@ export default {
         System: 'SystemOrigin'
       }
     },
+    PalletId: 'LockIdentifier',
     PalletsOrigin: 'OriginCaller',
     PalletVersion: {
       major: 'u16',
