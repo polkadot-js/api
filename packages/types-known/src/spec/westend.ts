@@ -6,15 +6,10 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
-  AccountInfo: 'AccountInfoWithDualRefCount',
-  Address: 'MultiAddress',
   Keys: 'SessionKeys7B',
-  LookupSource: 'MultiAddress',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances', 'IdentityJudgement', 'CancelProxy'
-    ]
-  },
-  ValidatorPrefs: 'ValidatorPrefsWithBlocked'
+    _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances', 'IdentityJudgement', 'CancelProxy']
+  }
 };
 
 const addrAccountIdTypes = {
@@ -73,8 +68,16 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
+    minmax: [48, 49],
+    types: {
+      ...sharedTypes,
+      AccountInfo: 'AccountInfoWithDualRefCount',
+      Keys: 'SessionKeys6'
+    }
+  },
+  {
     // 50 was supposed to have Beefy, didn't
-    minmax: [48, 50],
+    minmax: [50, 50],
     types: {
       ...sharedTypes,
       Keys: 'SessionKeys6'
