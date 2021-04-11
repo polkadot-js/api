@@ -18,8 +18,8 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
+import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
-import { detectedCapabilities } from './util';
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };

@@ -144,22 +144,26 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
     api.query.system?.upgradedToTripleRefCount,
     api.query.staking?.storageVersion
   ]);
-  const keyed = filterEntries([
+  const raws = filterEntries([
     api.query.session?.queuedKeys
   ]);
 
   return combineLatest([
-    // FIXME consts don't have .at as of yet...
-    of(extractResults<ExtractedC>(consts.original, consts)),
+    consts.filtered.length
+      ? blockHash
+        // FIXME consts don't have .at as of yet...
+        ? of([])
+        : of(consts.filtered)
+      : of([]),
     queries.filtered.length
       ? blockHash
         ? combineLatest(queries.filtered.map((c) => c.at(blockHash)))
         : api.queryMulti(queries.filtered)
       : of([]),
-    keyed.filtered.length
+    raws.filtered.length
       ? blockHash
-        ? combineLatest(keyed.filtered.map((k) => api.rpc.state.getStorage.raw(k.key(), blockHash)))
-        : combineLatest(keyed.filtered.map((k) => api.rpc.state.getStorage.raw(k.key())))
+        ? combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k.key(), blockHash)))
+        : combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k.key())))
       : of([])
   ]).pipe(
     map(([cResults, qResults, rResults]): Partial<DetectedTypes> =>
@@ -167,9 +171,9 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
         {
           accountIdLength: api.registry.createType('AccountId').encodedLength
         },
-        cResults,
+        extractResults<ExtractedC>(cResults, consts),
         extractResults<ExtractedQ>(qResults, queries),
-        extractResults<ExtractedR>(rResults, keyed)
+        extractResults<ExtractedR>(rResults, raws)
       )
     ),
     take(1)
