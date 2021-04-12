@@ -105,7 +105,7 @@ export default {
     ...multiAsset,
     ...xcm,
     ...xmcOrder,
-    DoubleEncodedCall: 'Bytes',
+    DoubleEncodedCall: { encoded: 'Vec<u8>' },
     NetworkId: {
       _enum: {
         Any: 'Null',

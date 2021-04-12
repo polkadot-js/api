@@ -49,7 +49,9 @@ export interface AssetInstance extends Enum {
 }
 
 /** @name DoubleEncodedCall */
-export interface DoubleEncodedCall extends Bytes {}
+export interface DoubleEncodedCall extends Struct {
+  readonly encoded: Bytes;
+}
 
 /** @name Junction */
 export interface Junction extends Enum {
