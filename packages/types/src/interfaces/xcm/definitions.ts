@@ -23,17 +23,24 @@ const xcm = {
   XcmHrmpChannelClosing: { initiator: 'Compact<u32>', sender: 'Compact<u32>', recipient: 'Compact<u32>' },
   XcmRelayedFrom: { who: 'MultiLocation', message: 'Xcm' },
   Xcm: {
-    WithdrawAsset: 'XcmWithdrawAsset',
-    ReserveAssetDeposit: 'XcmReserveAssetDeposit',
-    TeleportAsset: 'XcmTeleportAsset',
-    QueryResponse: 'XcmQueryResponse',
-    TransferAsset: 'XcmTransferAsset',
-    TransferReserveAsset: 'XcmTransferReserveAsset',
-    Transact: 'XcmTransact',
-    HrmpNewChannelOpenRequest: 'XcmHrmpNewChannelOpenRequest',
-    HrmpChannelAccepted: 'XcmHrmpChannelAccepted',
-    HrmpChannelClosing: 'XcmHrmpChannelClosing',
-    RelayedFrom: 'XcmRelayedFrom'
+    _enum: {
+      WithdrawAsset: 'XcmWithdrawAsset',
+      ReserveAssetDeposit: 'XcmReserveAssetDeposit',
+      TeleportAsset: 'XcmTeleportAsset',
+      QueryResponse: 'XcmQueryResponse',
+      TransferAsset: 'XcmTransferAsset',
+      TransferReserveAsset: 'XcmTransferReserveAsset',
+      Transact: 'XcmTransact',
+      HrmpNewChannelOpenRequest: 'XcmHrmpNewChannelOpenRequest',
+      HrmpChannelAccepted: 'XcmHrmpChannelAccepted',
+      HrmpChannelClosing: 'XcmHrmpChannelClosing',
+      RelayedFrom: 'XcmRelayedFrom'
+    }
+  },
+  VersionedXcm: {
+    _enum: {
+      V0: 'Xcm'
+    }
   }
 };
 
@@ -156,11 +163,6 @@ export default {
         Complete: 'Weight',
         Incomplete: '(Weight, XcmError)',
         Error: 'XcmError'
-      }
-    },
-    VersionedXcm: {
-      _enum: {
-        V0: 'Xcm'
       }
     },
     MultiLocation: {

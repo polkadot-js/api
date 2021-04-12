@@ -170,18 +170,29 @@ export interface VersionedXcm extends Enum {
 }
 
 /** @name Xcm */
-export interface Xcm extends Struct {
-  readonly WithdrawAsset: XcmWithdrawAsset;
-  readonly ReserveAssetDeposit: XcmReserveAssetDeposit;
-  readonly TeleportAsset: XcmTeleportAsset;
-  readonly QueryResponse: XcmQueryResponse;
-  readonly TransferAsset: XcmTransferAsset;
-  readonly TransferReserveAsset: XcmTransferReserveAsset;
-  readonly Transact: XcmTransact;
-  readonly HrmpNewChannelOpenRequest: XcmHrmpNewChannelOpenRequest;
-  readonly HrmpChannelAccepted: XcmHrmpChannelAccepted;
-  readonly HrmpChannelClosing: XcmHrmpChannelClosing;
-  readonly RelayedFrom: XcmRelayedFrom;
+export interface Xcm extends Enum {
+  readonly isWithdrawAsset: boolean;
+  readonly asWithdrawAsset: XcmWithdrawAsset;
+  readonly isReserveAssetDeposit: boolean;
+  readonly asReserveAssetDeposit: XcmReserveAssetDeposit;
+  readonly isTeleportAsset: boolean;
+  readonly asTeleportAsset: XcmTeleportAsset;
+  readonly isQueryResponse: boolean;
+  readonly asQueryResponse: XcmQueryResponse;
+  readonly isTransferAsset: boolean;
+  readonly asTransferAsset: XcmTransferAsset;
+  readonly isTransferReserveAsset: boolean;
+  readonly asTransferReserveAsset: XcmTransferReserveAsset;
+  readonly isTransact: boolean;
+  readonly asTransact: XcmTransact;
+  readonly isHrmpNewChannelOpenRequest: boolean;
+  readonly asHrmpNewChannelOpenRequest: XcmHrmpNewChannelOpenRequest;
+  readonly isHrmpChannelAccepted: boolean;
+  readonly asHrmpChannelAccepted: XcmHrmpChannelAccepted;
+  readonly isHrmpChannelClosing: boolean;
+  readonly asHrmpChannelClosing: XcmHrmpChannelClosing;
+  readonly isRelayedFrom: boolean;
+  readonly asRelayedFrom: XcmRelayedFrom;
 }
 
 /** @name XcmAssetEffects */
