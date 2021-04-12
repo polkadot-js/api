@@ -48,6 +48,7 @@ export { default as crowdloan } from './crowdloan/definitions';
 export { default as parachains } from './parachains/definitions';
 export { default as poll } from './poll/definitions';
 export { default as purchase } from './purchase/definitions';
+export { default as xcm } from './xcm/definitions';
 
 // scale-info & contracts
 export { default as contractsAbi } from './contractsAbi/definitions';
