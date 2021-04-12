@@ -387,14 +387,6 @@ export default {
         Explicit: 'ValidatorSignature'
       }
     },
-    NetworkId: {
-      _enum: {
-        Any: 'Null',
-        Named: 'Vec<u8>',
-        Polkadot: 'Null',
-        Kusama: 'Null'
-      }
-    },
     MessagingStateSnapshot: {
       relayDispatchQueueSize: '(u32, u32)',
       egressChannels: 'Vec<MessagingStateSnapshotEgressEntry>'

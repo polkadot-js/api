@@ -106,6 +106,14 @@ export default {
     ...xcm,
     ...xmcOrder,
     DoubleEncodedCall: 'Bytes',
+    NetworkId: {
+      _enum: {
+        Any: 'Null',
+        Named: 'Vec<u8>',
+        Polkadot: 'Null',
+        Kusama: 'Null'
+      }
+    },
     XcmOriginKind: {
       _enum: ['Native', 'SovereignAccount', 'Superuser']
     },

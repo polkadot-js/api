@@ -370,15 +370,6 @@ export interface MessagingStateSnapshotEgressEntry extends ITuple<[ParaId, Abrid
 /** @name MultiDisputeStatementSet */
 export interface MultiDisputeStatementSet extends Vec<DisputeStatementSet> {}
 
-/** @name NetworkId */
-export interface NetworkId extends Enum {
-  readonly isAny: boolean;
-  readonly isNamed: boolean;
-  readonly asNamed: Bytes;
-  readonly isPolkadot: boolean;
-  readonly isKusama: boolean;
-}
-
 /** @name NewBidder */
 export interface NewBidder extends Struct {
   readonly who: AccountId;

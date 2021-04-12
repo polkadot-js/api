@@ -3,7 +3,6 @@
 
 import type { Bytes, Compact, Enum, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
-import type { NetworkId } from '@polkadot/types/interfaces/parachains';
 import type { AccountId, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountId32Junction */
@@ -139,6 +138,15 @@ export interface MultiLocation extends Enum {
   readonly asX7: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction, Junction]>;
   readonly isX8: boolean;
   readonly asX8: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction]>;
+}
+
+/** @name NetworkId */
+export interface NetworkId extends Enum {
+  readonly isAny: boolean;
+  readonly isNamed: boolean;
+  readonly asNamed: Bytes;
+  readonly isPolkadot: boolean;
+  readonly isKusama: boolean;
 }
 
 /** @name VersionedMultiAsset */
