@@ -43,6 +43,7 @@ export * from './crowdloan/types';
 export * from './parachains/types';
 export * from './poll/types';
 export * from './purchase/types';
+export * from './xcm/types';
 export * from './contractsAbi/types';
 export * from './scaleInfo/types';
 export * from './eth/types';
