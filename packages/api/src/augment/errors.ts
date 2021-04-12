@@ -743,6 +743,64 @@ declare module '@polkadot/api/types/errors' {
        **/
       InvalidKey: AugmentedError<ApiType>;
     };
+    indices: {
+      [key: string]: AugmentedError<ApiType>;
+      /**
+       * The index was not available.
+       **/
+      InUse: AugmentedError<ApiType>;
+      /**
+       * The index was not already assigned.
+       **/
+      NotAssigned: AugmentedError<ApiType>;
+      /**
+       * The index is assigned to another account.
+       **/
+      NotOwner: AugmentedError<ApiType>;
+      /**
+       * The source and destination accounts are identical.
+       **/
+      NotTransfer: AugmentedError<ApiType>;
+      /**
+       * The index is permanent and may not be freed/changed.
+       **/
+      Permanent: AugmentedError<ApiType>;
+    };
+    lottery: {
+      [key: string]: AugmentedError<ApiType>;
+      /**
+       * A lottery has already ended.
+       **/
+      AlreadyEnded: AugmentedError<ApiType>;
+      /**
+       * You are already participating in the lottery with this call.
+       **/
+      AlreadyParticipating: AugmentedError<ApiType>;
+      /**
+       * Failed to encode calls
+       **/
+      EncodingFailed: AugmentedError<ApiType>;
+      /**
+       * A lottery is already in progress.
+       **/
+      InProgress: AugmentedError<ApiType>;
+      /**
+       * The call is not valid for an open lottery.
+       **/
+      InvalidCall: AugmentedError<ApiType>;
+      /**
+       * A lottery has not been configured.
+       **/
+      NotConfigured: AugmentedError<ApiType>;
+      /**
+       * An overflow has occurred.
+       **/
+      Overflow: AugmentedError<ApiType>;
+      /**
+       * Too many calls for a single lottery.
+       **/
+      TooManyCalls: AugmentedError<ApiType>;
+    };
     multisig: {
       [key: string]: AugmentedError<ApiType>;
       /**
@@ -1184,6 +1242,17 @@ declare module '@polkadot/api/types/errors' {
        * The given weight bound for the proposal was too low.
        **/
       WrongProposalWeight: AugmentedError<ApiType>;
+    };
+    technicalMembership: {
+      [key: string]: AugmentedError<ApiType>;
+      /**
+       * Already a member.
+       **/
+      AlreadyMember: AugmentedError<ApiType>;
+      /**
+       * Not a member.
+       **/
+      NotMember: AugmentedError<ApiType>;
     };
     tips: {
       [key: string]: AugmentedError<ApiType>;

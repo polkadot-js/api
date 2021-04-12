@@ -108,8 +108,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * The origin must be Signed and the sender must have sufficient funds free.
        * 
-       * Funds of sender are reserved according to the formula:
-       * `AssetDepositBase + AssetDepositPerZombie * max_zombies`.
+       * Funds of sender are reserved by `AssetDeposit`.
        * 
        * Parameters:
        * - `id`: The identifier of the new asset. This must not be currently in use to identify
@@ -713,7 +712,7 @@ declare module '@polkadot/api/types/submittable' {
        * * `gas_limit`: The gas limit enforced when executing the constructor.
        * * `code`: The contract code to deploy in raw bytes.
        * * `data`: The input data to pass to the contract constructor.
-       * * `salt`: Used for the address derivation. See [`Self::contract_address`].
+       * * `salt`: Used for the address derivation. See [`Pallet::contract_address`].
        * 
        * Instantiation is executed as follows:
        * 
@@ -3875,7 +3874,7 @@ declare module '@polkadot/api/types/submittable' {
        * Unlock any vested funds of the sender account.
        * 
        * The dispatch origin for this call must be _Signed_ and the sender must have funds still
-       * locked under this module.
+       * locked under this pallet.
        * 
        * Emits either `VestingCompleted` or `VestingUpdated`.
        * 
@@ -3893,7 +3892,7 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin for this call must be _Signed_.
        * 
        * - `target`: The account whose vested funds should be unlocked. Must have funds still
-       * locked under this module.
+       * locked under this pallet.
        * 
        * Emits either `VestingCompleted` or `VestingUpdated`.
        * 

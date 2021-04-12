@@ -3,7 +3,7 @@
 
 import type { Vec, u16, u32, u64, u8 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { Balance, BalanceOf, BlockNumber, LockIdentifier, ModuleId, Moment, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
+import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
 import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
@@ -203,7 +203,7 @@ declare module '@polkadot/api/types/consts' {
       candidacyBond: BalanceOf & AugmentedConst<ApiType>;
       desiredMembers: u32 & AugmentedConst<ApiType>;
       desiredRunnersUp: u32 & AugmentedConst<ApiType>;
-      moduleId: LockIdentifier & AugmentedConst<ApiType>;
+      palletId: LockIdentifier & AugmentedConst<ApiType>;
       termDuration: BlockNumber & AugmentedConst<ApiType>;
       votingBondBase: BalanceOf & AugmentedConst<ApiType>;
       votingBondFactor: BalanceOf & AugmentedConst<ApiType>;
@@ -295,7 +295,7 @@ declare module '@polkadot/api/types/consts' {
     lottery: {
       [key: string]: Codec;
       maxCalls: u32 & AugmentedConst<ApiType>;
-      moduleId: ModuleId & AugmentedConst<ApiType>;
+      palletId: PalletId & AugmentedConst<ApiType>;
     };
     multisig: {
       [key: string]: Codec;
@@ -382,6 +382,10 @@ declare module '@polkadot/api/types/consts' {
        **/
       challengePeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
+       * Maximum candidate intake per round.
+       **/
+      maxCandidateIntake: u32 & AugmentedConst<ApiType>;
+      /**
        * The number of times a member may vote the wrong way (or not at all, when they are a skeptic)
        * before they become suspended.
        **/
@@ -389,7 +393,7 @@ declare module '@polkadot/api/types/consts' {
       /**
        * The societies's module id
        **/
-      moduleId: ModuleId & AugmentedConst<ApiType>;
+      palletId: PalletId & AugmentedConst<ApiType>;
       /**
        * The amount of incentive paid within each period. Doesn't include VoterTip.
        **/
@@ -410,6 +414,10 @@ declare module '@polkadot/api/types/consts' {
        * Number of eras that staked funds must remain bonded for.
        **/
       bondingDuration: EraIndex & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of nominations per nominator.
+       **/
+      maxNominations: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of nominators rewarded for each validator.
        * 
@@ -514,7 +522,7 @@ declare module '@polkadot/api/types/consts' {
       /**
        * The treasury's module id, used for deriving its sovereign account ID.
        **/
-      moduleId: ModuleId & AugmentedConst<ApiType>;
+      palletId: PalletId & AugmentedConst<ApiType>;
       /**
        * Fraction of a proposal's value that should be bonded in order to place the proposal.
        * An accepted proposal gets these back. A rejected proposal does not.
@@ -532,7 +540,7 @@ declare module '@polkadot/api/types/consts' {
     vesting: {
       [key: string]: Codec;
       /**
-       * The minimum amount to be transferred to create a new vesting schedule.
+       * The minimum amount transferred to call `vested_transfer`.
        **/
       minVestedTransfer: BalanceOf & AugmentedConst<ApiType>;
     };
