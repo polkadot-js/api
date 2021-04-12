@@ -21,7 +21,7 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
 
-const KEEPALIVE_INTERVAL = 15000;
+const KEEPALIVE_INTERVAL = 10000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
 const l = logger('api/init');
@@ -321,7 +321,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
 
       this.#healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch(() => null);
+        this._rpcCore.system.health().toPromise().catch((error) => l.warn(`Health keepalive check failed: ${(error as Error).message}`));
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
