@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 4.5.1 Apr 12, 2021
+
+Upgrade priority: Low. Recommended with usage with the Rococo testnet.
+
+Changes:
+
+- Update parachain types as per latest Polkadot
+- Cater for `Keys` with `BEEFY` session keys
+- Update `Keys` injection to allow for on-chain type detection
+- Update `Westend` known upgrade points for runtime 50
+- Align types with latest Substrate master
+- Adjust keepalive `system_health` timer
+
+
 ## 4.4.1 Apr 5, 2021
 
 Upgrade priority: Low. Recommended with usage with the Rococo testnet.

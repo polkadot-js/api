@@ -499,7 +499,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000090100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000090100000100000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "documentation": [
                 " Get the chain's current version."
               ]
@@ -947,7 +947,7 @@
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0x1400000000000000",
+              "value": "0xc800000000000000",
               "documentation": [
                 " The amount of time, in slots, that each epoch should last.",
                 " NOTE: Currently it is not possible to change the epoch duration after",
@@ -1392,7 +1392,38 @@
               ]
             }
           ],
-          "errors": [],
+          "errors": [
+            {
+              "name": "NotAssigned",
+              "documentation": [
+                " The index was not already assigned."
+              ]
+            },
+            {
+              "name": "NotOwner",
+              "documentation": [
+                " The index is assigned to another account."
+              ]
+            },
+            {
+              "name": "InUse",
+              "documentation": [
+                " The index was not available."
+              ]
+            },
+            {
+              "name": "NotTransfer",
+              "documentation": [
+                " The source and destination accounts are identical."
+              ]
+            },
+            {
+              "name": "Permanent",
+              "documentation": [
+                " The index is permanent and may not be freed/changed."
+              ]
+            }
+          ],
           "index": 5
         },
         {
@@ -1971,7 +2002,7 @@
             {
               "name": "UnsignedPhase",
               "type": "BlockNumber",
-              "value": "0x05000000",
+              "value": "0x32000000",
               "documentation": [
                 " Duration of the unsigned phase."
               ]
@@ -1979,7 +2010,7 @@
             {
               "name": "SignedPhase",
               "type": "BlockNumber",
-              "value": "0x05000000",
+              "value": "0x32000000",
               "documentation": [
                 " Duration of the signed phase."
               ]
@@ -3256,6 +3287,14 @@
                 "",
                 " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can claim",
                 " their reward. This used to limit the i/o cost for the nominator payout."
+              ]
+            },
+            {
+              "name": "MaxNominations",
+              "type": "u32",
+              "value": "0x10000000",
+              "documentation": [
+                " Maximum number of nominations per nominator."
               ]
             }
           ],
@@ -6091,7 +6130,7 @@
               "documentation": []
             },
             {
-              "name": "ModuleId",
+              "name": "PalletId",
               "type": "LockIdentifier",
               "value": "0x706872656c656374",
               "documentation": []
@@ -6383,7 +6422,20 @@
             }
           ],
           "constants": [],
-          "errors": [],
+          "errors": [
+            {
+              "name": "AlreadyMember",
+              "documentation": [
+                " Already a member."
+              ]
+            },
+            {
+              "name": "NotMember",
+              "documentation": [
+                " Not a member."
+              ]
+            }
+          ],
           "index": 15
         },
         {
@@ -6825,8 +6877,8 @@
               ]
             },
             {
-              "name": "ModuleId",
-              "type": "ModuleId",
+              "name": "PalletId",
+              "type": "PalletId",
               "value": "0x70792f7472737279",
               "documentation": [
                 " The treasury's module id, used for deriving its sovereign account ID."
@@ -7026,7 +7078,7 @@
                 " * `gas_limit`: The gas limit enforced when executing the constructor.",
                 " * `code`: The contract code to deploy in raw bytes.",
                 " * `data`: The input data to pass to the contract constructor.",
-                " * `salt`: Used for the address derivation. See [`Self::contract_address`].",
+                " * `salt`: Used for the address derivation. See [`Pallet::contract_address`].",
                 "",
                 " Instantiation is executed as follows:",
                 "",
@@ -9569,11 +9621,19 @@
               ]
             },
             {
-              "name": "ModuleId",
-              "type": "ModuleId",
+              "name": "PalletId",
+              "type": "PalletId",
               "value": "0x70792f736f636965",
               "documentation": [
                 " The societies's module id"
+              ]
+            },
+            {
+              "name": "MaxCandidateIntake",
+              "type": "u32",
+              "value": "0x0a000000",
+              "documentation": [
+                " Maximum candidate intake per round."
               ]
             }
           ],
@@ -10274,7 +10334,7 @@
                 " Unlock any vested funds of the sender account.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the sender must have funds still",
-                " locked under this module.",
+                " locked under this pallet.",
                 "",
                 " Emits either `VestingCompleted` or `VestingUpdated`.",
                 "",
@@ -10300,7 +10360,7 @@
                 " The dispatch origin for this call must be _Signed_.",
                 "",
                 " - `target`: The account whose vested funds should be unlocked. Must have funds still",
-                " locked under this module.",
+                " locked under this pallet.",
                 "",
                 " Emits either `VestingCompleted` or `VestingUpdated`.",
                 "",
@@ -10409,7 +10469,7 @@
               "type": "BalanceOf",
               "value": "0x0000c16ff28623000000000000000000",
               "documentation": [
-                " The minimum amount to be transferred to create a new vesting schedule."
+                " The minimum amount transferred to call `vested_transfer`."
               ]
             }
           ],
@@ -12614,8 +12674,7 @@
                 "",
                 " The origin must be Signed and the sender must have sufficient funds free.",
                 "",
-                " Funds of sender are reserved according to the formula:",
-                " `AssetDepositBase + AssetDepositPerZombie * max_zombies`.",
+                " Funds of sender are reserved by `AssetDeposit`.",
                 "",
                 " Parameters:",
                 " - `id`: The identifier of the new asset. This must not be currently in use to identify",
@@ -13902,8 +13961,8 @@
           ],
           "constants": [
             {
-              "name": "ModuleId",
-              "type": "ModuleId",
+              "name": "PalletId",
+              "type": "PalletId",
               "value": "0x70792f6c6f74746f",
               "documentation": []
             },
@@ -13914,7 +13973,56 @@
               "documentation": []
             }
           ],
-          "errors": [],
+          "errors": [
+            {
+              "name": "Overflow",
+              "documentation": [
+                " An overflow has occurred."
+              ]
+            },
+            {
+              "name": "NotConfigured",
+              "documentation": [
+                " A lottery has not been configured."
+              ]
+            },
+            {
+              "name": "InProgress",
+              "documentation": [
+                " A lottery is already in progress."
+              ]
+            },
+            {
+              "name": "AlreadyEnded",
+              "documentation": [
+                " A lottery has already ended."
+              ]
+            },
+            {
+              "name": "InvalidCall",
+              "documentation": [
+                " The call is not valid for an open lottery."
+              ]
+            },
+            {
+              "name": "AlreadyParticipating",
+              "documentation": [
+                " You are already participating in the lottery with this call."
+              ]
+            },
+            {
+              "name": "TooManyCalls",
+              "documentation": [
+                " Too many calls for a single lottery."
+              ]
+            },
+            {
+              "name": "EncodingFailed",
+              "documentation": [
+                " Failed to encode calls"
+              ]
+            }
+          ],
           "index": 36
         },
         {
