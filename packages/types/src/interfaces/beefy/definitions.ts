@@ -9,7 +9,7 @@ import type { Definitions } from '../../types';
 export default {
   rpc: {
     subscribeJustifications: {
-      description: 'Retrieves the best header via subscription',
+      description: 'Returns the block most recently finalized by BEEFY, alongside side its justification.',
       params: [],
       pubsub: [
         'justifications',
