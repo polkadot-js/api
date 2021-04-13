@@ -34,6 +34,8 @@ export default {
       len: 'u32',
       root: 'H256'
     },
+    BeefyPayload: 'MmrRootHash',
+    MmrRootHash: 'H256',
     ValidatorSetId: 'u64'
   }
 } as Definitions;
