@@ -32,14 +32,17 @@ export class SubmittableResult implements ISubmittableResult {
 
   public readonly dispatchInfo?: DispatchInfo;
 
+  public readonly internalError?: Error;
+
   public readonly events: EventRecord[];
 
   public readonly status: ExtrinsicStatus;
 
-  constructor ({ dispatchError, dispatchInfo, events, status }: SubmittableResultValue) {
+  constructor ({ dispatchError, dispatchInfo, events, internalError, status }: SubmittableResultValue) {
     this.dispatchError = dispatchError || extractError(events);
     this.dispatchInfo = dispatchInfo || extractInfo(events);
     this.events = events || [];
+    this.internalError = internalError;
     this.status = status;
   }
 
@@ -85,6 +88,7 @@ export class SubmittableResult implements ISubmittableResult {
       dispatchError: this.dispatchError?.toHuman(),
       dispatchInfo: this.dispatchInfo?.toHuman(),
       events: this.events.map((event) => event.toHuman(isExtended)),
+      internalError: this.internalError?.message.toString(),
       status: this.status.toHuman(isExtended)
     };
   }
