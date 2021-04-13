@@ -11,7 +11,7 @@ import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, Submittable
 
 import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
 import { of } from '@polkadot/x-rxjs';
-import { first, map, mapTo, mergeMap, switchMap, tap } from '@polkadot/x-rxjs/operators';
+import { catchError, first, map, mapTo, mergeMap, switchMap, tap } from '@polkadot/x-rxjs/operators';
 
 import { ApiBase } from '../base';
 import { filterEvents, isKeyringPair } from '../util';
@@ -242,6 +242,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             events: filterEvents(hash, block, events, status),
             status
           }))
+        ),
+        catchError((internalError: Error) =>
+          of(this.#transformResult(new SubmittableResult({ internalError, status })))
         )
       );
     }

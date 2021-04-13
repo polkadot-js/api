@@ -12,6 +12,7 @@ export interface ISubmittableResult {
   readonly dispatchError?: DispatchError;
   readonly dispatchInfo?: DispatchInfo;
   readonly events: EventRecord[];
+  readonly internalError?: Error;
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
   readonly isError: boolean;

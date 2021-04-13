@@ -10,6 +10,7 @@ export interface SubmittableResultValue {
   dispatchError?: DispatchError;
   dispatchInfo?: DispatchInfo;
   events?: EventRecord[];
+  internalError?: Error;
   status: ExtrinsicStatus;
 }
 
