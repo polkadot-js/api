@@ -7,8 +7,28 @@
 import type { Definitions } from '../../types';
 
 export default {
-  rpc: {},
+  rpc: {
+    subscribeJustifications: {
+      description: 'Retrieves the best header via subscription',
+      params: [],
+      pubsub: [
+        'justifications',
+        'subscribeJustifications',
+        'unsubscribeJustifications'
+      ],
+      type: 'BeefySignedCommitment'
+    }
+  },
   types: {
+    BeefyCommitment: {
+      payload: 'BeefyPayload',
+      blockNumber: 'BlockNumber',
+      validatorSetId: 'ValidatorSetId'
+    },
+    BeefySignedCommitment: {
+      commitment: 'BeefyCommitment',
+      signatures: 'Vec<Option<Signature>>'
+    },
     BeefyNextAuthoritySet: {
       id: 'u64',
       len: 'u32',
