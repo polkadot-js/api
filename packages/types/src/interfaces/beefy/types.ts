@@ -1,8 +1,16 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Struct, u32, u64 } from '@polkadot/types';
-import type { H256 } from '@polkadot/types/interfaces/runtime';
+import type { Option, Struct, Vec, u32, u64 } from '@polkadot/types';
+import type { Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
+
+/** @name BeefyCommitment */
+export interface BeefyCommitment extends Struct {
+  readonly payload: BeefyPayload;
+  readonly blockNumber: BlockNumber;
+  readonly validatorSetId: ValidatorSetId;
+}
 
 /** @name BeefyNextAuthoritySet */
 export interface BeefyNextAuthoritySet extends Struct {
@@ -10,6 +18,18 @@ export interface BeefyNextAuthoritySet extends Struct {
   readonly len: u32;
   readonly root: H256;
 }
+
+/** @name BeefyPayload */
+export interface BeefyPayload extends MmrRootHash {}
+
+/** @name BeefySignedCommitment */
+export interface BeefySignedCommitment extends Struct {
+  readonly commitment: BeefyCommitment;
+  readonly signatures: Vec<Option<Signature>>;
+}
+
+/** @name MmrRootHash */
+export interface MmrRootHash extends H256 {}
 
 /** @name ValidatorSetId */
 export interface ValidatorSetId extends u64 {}

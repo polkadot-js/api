@@ -9,7 +9,7 @@ import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interface
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
-import type { BeefyNextAuthoritySet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BeefyCommitment, BeefyNextAuthoritySet, BeefyPayload, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
@@ -211,8 +211,11 @@ declare module '@polkadot/types/types/registry' {
     'Option<BalanceLockTo212>': Option<BalanceLockTo212>;
     'Option<BalanceOf>': Option<BalanceOf>;
     'Option<BalanceStatus>': Option<BalanceStatus>;
+    'Option<BeefyCommitment>': Option<BeefyCommitment>;
     'Option<BeefyKey>': Option<BeefyKey>;
     'Option<BeefyNextAuthoritySet>': Option<BeefyNextAuthoritySet>;
+    'Option<BeefyPayload>': Option<BeefyPayload>;
+    'Option<BeefySignedCommitment>': Option<BeefySignedCommitment>;
     'Option<Bid>': Option<Bid>;
     'Option<Bidder>': Option<Bidder>;
     'Option<BidKind>': Option<BidKind>;
@@ -541,6 +544,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<MetadataV12>': Option<MetadataV12>;
     'Option<MetadataV9>': Option<MetadataV9>;
     'Option<MmrLeafProof>': Option<MmrLeafProof>;
+    'Option<MmrRootHash>': Option<MmrRootHash>;
     'Option<ModuleConstantMetadataLatest>': Option<ModuleConstantMetadataLatest>;
     'Option<ModuleConstantMetadataV10>': Option<ModuleConstantMetadataV10>;
     'Option<ModuleConstantMetadataV11>': Option<ModuleConstantMetadataV11>;
@@ -992,8 +996,11 @@ declare module '@polkadot/types/types/registry' {
     'Vec<BalanceLockTo212>': Vec<BalanceLockTo212>;
     'Vec<BalanceOf>': Vec<BalanceOf>;
     'Vec<BalanceStatus>': Vec<BalanceStatus>;
+    'Vec<BeefyCommitment>': Vec<BeefyCommitment>;
     'Vec<BeefyKey>': Vec<BeefyKey>;
     'Vec<BeefyNextAuthoritySet>': Vec<BeefyNextAuthoritySet>;
+    'Vec<BeefyPayload>': Vec<BeefyPayload>;
+    'Vec<BeefySignedCommitment>': Vec<BeefySignedCommitment>;
     'Vec<Bid>': Vec<Bid>;
     'Vec<Bidder>': Vec<Bidder>;
     'Vec<BidKind>': Vec<BidKind>;
@@ -1322,6 +1329,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<MetadataV12>': Vec<MetadataV12>;
     'Vec<MetadataV9>': Vec<MetadataV9>;
     'Vec<MmrLeafProof>': Vec<MmrLeafProof>;
+    'Vec<MmrRootHash>': Vec<MmrRootHash>;
     'Vec<ModuleConstantMetadataLatest>': Vec<ModuleConstantMetadataLatest>;
     'Vec<ModuleConstantMetadataV10>': Vec<ModuleConstantMetadataV10>;
     'Vec<ModuleConstantMetadataV11>': Vec<ModuleConstantMetadataV11>;
@@ -1773,8 +1781,11 @@ declare module '@polkadot/types/types/registry' {
     BalanceLockTo212: BalanceLockTo212;
     BalanceOf: BalanceOf;
     BalanceStatus: BalanceStatus;
+    BeefyCommitment: BeefyCommitment;
     BeefyKey: BeefyKey;
     BeefyNextAuthoritySet: BeefyNextAuthoritySet;
+    BeefyPayload: BeefyPayload;
+    BeefySignedCommitment: BeefySignedCommitment;
     Bid: Bid;
     Bidder: Bidder;
     BidKind: BidKind;
@@ -2103,6 +2114,7 @@ declare module '@polkadot/types/types/registry' {
     MetadataV12: MetadataV12;
     MetadataV9: MetadataV9;
     MmrLeafProof: MmrLeafProof;
+    MmrRootHash: MmrRootHash;
     ModuleConstantMetadataLatest: ModuleConstantMetadataLatest;
     ModuleConstantMetadataV10: ModuleConstantMetadataV10;
     ModuleConstantMetadataV11: ModuleConstantMetadataV11;
