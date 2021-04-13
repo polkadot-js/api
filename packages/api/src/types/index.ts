@@ -69,6 +69,10 @@ export interface ApiOptions extends RegisteredTypes {
    * @description The source object to use for runtime information (only used when cloning)
    */
   source?: ApiBase<any>;
+  /**
+   * @description Throws an error when the initial connection fails (same as isReadyOrError)
+   */
+  throwOnConnect?: boolean;
 }
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic

@@ -211,7 +211,19 @@ export class ApiPromise extends ApiBase<'promise'> {
    * ```
    */
   public static create (options?: ApiOptions): Promise<ApiPromise> {
-    return new ApiPromise(options).isReady;
+    const instance = new ApiPromise(options);
+
+    if (options && options.throwOnConnect) {
+      return instance.isReadyOrError;
+    }
+
+    // Swallow any rejections on isReadyOrError
+    // (in Node 15.x this creates issues, when not being looked at)
+    instance.isReadyOrError.catch(() => {
+      // ignore
+    });
+
+    return instance.isReady;
   }
 
   /**
@@ -235,18 +247,14 @@ export class ApiPromise extends ApiBase<'promise'> {
     super(options, 'promise', decorateMethod);
 
     this.#isReadyPromise = new Promise((resolve): void => {
-      super.once('ready', (): void => {
-        resolve(this);
-      });
+      super.once('ready', () => resolve(this));
     });
 
     this.#isReadyOrErrorPromise = new Promise((resolve, reject): void => {
-      super.once('ready', (): void => {
-        resolve(this);
-      });
-      super.once('error', (e): void => {
-        reject(e);
-      });
+      const tracker = promiseTracker(resolve, reject);
+
+      super.once('ready', () => tracker.resolve(this));
+      super.once('error', (e) => tracker.reject(e));
     });
   }
 
