@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 4.x
+
+Changes:
+
+- Assert keypair validity in signing operations
+- Expose `internalError` on submittable results (e.g. event decoding errors)
+
+
 ## 4.5.1 Apr 12, 2021
 
 Upgrade priority: Low. Recommended with usage with the Rococo testnet.
