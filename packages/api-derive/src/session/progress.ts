@@ -44,7 +44,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
       combineLatest([
         of(info),
         // we may have no staking, but have babe (permissioned)
-        api.query.staking
+        api.query.staking?.erasStartSessionIndex
           ? api.queryMulti<ResultSlots>([
             api.query.babe.currentSlot,
             api.query.babe.epochIndex,
@@ -69,7 +69,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
  */
 export function progress (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
   return memo(instanceId, (): Observable<DeriveSessionProgress> =>
-    api.consts.babe
+    api.query.babe
       ? queryBabe(api).pipe(
         map(([info, slots]: [DeriveSessionInfo, ResultSlotsFlat]): DeriveSessionProgress =>
           createDerive(api, info, slots)
