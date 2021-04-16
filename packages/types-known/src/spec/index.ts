@@ -9,6 +9,7 @@ import node from './node';
 import nodeTemplate from './node-template';
 import polkadot from './polkadot';
 import rococo from './rococo';
+import statemint from './statemint';
 import westend from './westend';
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
@@ -19,6 +20,7 @@ const typesSpec: Record<string, OverrideVersionedType[]> = {
   'node-template': nodeTemplate,
   polkadot,
   rococo,
+  statemint,
   westend
 };
 
