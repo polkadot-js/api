@@ -2016,7 +2016,7 @@ __metadata:
     "@types/websocket": ^1.0.2
     "@types/yargs": ^16.0.1
     handlebars: ^4.7.7
-    websocket: ^1.0.33
+    websocket: ^1.0.34
     yargs: ^16.2.0
   bin:
     polkadot-types-chain-info: ./scripts/polkadot-types-chain-info.cjs
@@ -10933,7 +10933,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"websocket@npm:^1.0.33, websocket@npm:^1.0.34":
+"websocket@npm:^1.0.34":
   version: 1.0.34
   resolution: "websocket@npm:1.0.34"
   dependencies:
