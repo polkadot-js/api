@@ -6,6 +6,9 @@ Changes:
 
 - Assert keypair validity in signing operations
 - Expose `internalError` on submittable results (e.g. event decoding errors)
+- Simplify session derives for old/new
+- Add statemint to known types
+- Add support for `rpc.beefy.subscribeJustifications`
 
 
 ## 4.5.1 Apr 12, 2021
