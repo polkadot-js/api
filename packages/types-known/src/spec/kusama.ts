@@ -6,14 +6,10 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
-  AccountInfo: 'AccountInfoWithDualRefCount',
-  Address: 'MultiAddress',
-  Keys: 'SessionKeys7B',
-  LookupSource: 'MultiAddress',
+  Keys: 'SessionKeys6',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy']
-  },
-  ValidatorPrefs: 'ValidatorPrefsWithBlocked'
+  }
 };
 
 const addrIndicesTypes = {
@@ -168,7 +164,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [2028, 2029],
     types: {
       ...sharedTypes,
-      Keys: 'SessionKeys6'
+      AccountInfo: 'AccountInfoWithDualRefCount'
     }
   },
   {
