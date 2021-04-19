@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 4.x
+## 4.6.1 Apr 19, 2021
+
+Upgrade priority: Low. Recommended if used in a Node.js 15.x environment.
 
 Changes:
 
@@ -9,6 +11,9 @@ Changes:
 - Simplify session derives for old/new
 - Add statemint to known types
 - Add support for `rpc.beefy.subscribeJustifications`
+- Update Xcm types
+- Explicitly handle `isReadyOrError` with `Api.create`
+- Add Kusama upgrade block for 2030
 
 
 ## 4.5.1 Apr 12, 2021
@@ -20,7 +25,7 @@ Changes:
 - Update parachain types as per latest Polkadot
 - Cater for `Keys` with `BEEFY` session keys
 - Update `Keys` injection to allow for on-chain type detection
-- Update `Westend` known upgrade points for runtime 50
+- Add `Westend` known upgrade block for runtime 50
 - Align types with latest Substrate master
 - Adjust keepalive `system_health` timer
 
