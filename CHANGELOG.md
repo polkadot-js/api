@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 4.6.2 Apr 19, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Correct Kusama/Polkadot runtime 30 session key definitions
+
+
 ## 4.6.1 Apr 19, 2021
 
 Upgrade priority: Low. Recommended if used in a Node.js 15.x environment.
