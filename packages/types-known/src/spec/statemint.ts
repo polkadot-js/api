@@ -12,14 +12,15 @@ const versioned: OverrideVersionedType[] = [
     types: {
       TAssetBalance: 'u128',
       ProxyType: {
-        _enum: {
-          Any: 0,
-          NonTransfer: 1,
-          CancelProxy: 2,
-          Assets: 3,
-          AssetOwner: 4,
-          AssetManager: 5
-        }
+        _enum: [
+          'Any',
+          'NonTransfer',
+          'CancelProxy',
+          'Assets',
+          'AssetOwner',
+          'AssetManager',
+          'Staking'
+        ]
       }
     }
   }
