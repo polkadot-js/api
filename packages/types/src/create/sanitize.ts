@@ -95,7 +95,7 @@ export function cleanupCompact (): Mapper {
 }
 
 export function flattenSingleTuple (): Mapper {
-  return (value: string): string =>
+  return (value: string) =>
     value.replace(/\(([^,]+)\)/, '$1');
 }
 
@@ -115,8 +115,10 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
 
 // remove the BoundedVec wrappers
 export function removeBoundedVec (): Mapper {
-  return (value: string): string =>
-    replaceTagWith(value, 'BoundedVec<', (inner: string) => `Vec<${inner.split(',')[0]}>`);
+  const replacer = (inner: string) => `Vec<${inner.split(',')[0]}>`;
+
+  return (value: string) =>
+    replaceTagWith(value, 'BoundedVec<', replacer);
 }
 
 export function removeColons (): Mapper {
@@ -176,8 +178,10 @@ export function removeGenerics (): Mapper {
 
 // remove the PairOf wrappers
 export function removePairOf (): Mapper {
-  return (value: string): string =>
-    replaceTagWith(value, 'PairOf<', (inner: string) => `(${inner},${inner})`);
+  const replacer = (inner: string) => `(${inner},${inner})`;
+
+  return (value: string) =>
+    replaceTagWith(value, 'PairOf<', replacer);
 }
 
 // remove the type traits
@@ -201,23 +205,10 @@ export function removeTraits (): Mapper {
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
 export function removeWrap (_check: string): Mapper {
   const check = `${_check}<`;
+  const replacer = (inner: string) => inner;
 
-  return (value: string): string => {
-    let index = 0;
-
-    while (index !== -1) {
-      index = value.indexOf(check);
-
-      if (index !== -1) {
-        const start = index + check.length;
-        const end = findClosing(value, start);
-
-        value = `${value.substr(0, index)}${value.substr(start, end - start)}${value.substr(end + 1)}`;
-      }
-    }
-
-    return value;
-  };
+  return (value: string) =>
+    replaceTagWith(value, check, replacer);
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
