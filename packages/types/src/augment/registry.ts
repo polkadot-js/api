@@ -54,7 +54,7 @@ import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatu
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, DoubleEncodedCall, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOriginKind, XcmOutcome, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset } from '@polkadot/types/interfaces/xcm';
+import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, PluralityJunction, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOriginKind, XcmOutcome, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset } from '@polkadot/types/interfaces/xcm';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
@@ -226,6 +226,11 @@ declare module '@polkadot/types/types/registry' {
     'Option<BlockLength>': Option<BlockLength>;
     'Option<BlockNumber>': Option<BlockNumber>;
     'Option<BlockWeights>': Option<BlockWeights>;
+    'Option<BodyId>': Option<BodyId>;
+    'Option<BodyPart>': Option<BodyPart>;
+    'Option<BodyPartAtLeastProportion>': Option<BodyPartAtLeastProportion>;
+    'Option<BodyPartFraction>': Option<BodyPartFraction>;
+    'Option<BodyPartMoreThanProportion>': Option<BodyPartMoreThanProportion>;
     'Option<bool>': Option<bool>;
     'Option<Bool>': Option<Bool>;
     'Option<Bounty>': Option<Bounty>;
@@ -645,6 +650,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<PhantomData>': Option<PhantomData>;
     'Option<Phase>': Option<Phase>;
     'Option<PhragmenScore>': Option<PhragmenScore>;
+    'Option<PluralityJunction>': Option<PluralityJunction>;
     'Option<Points>': Option<Points>;
     'Option<Precommits>': Option<Precommits>;
     'Option<PrefabWasmModule>': Option<PrefabWasmModule>;
@@ -1011,6 +1017,11 @@ declare module '@polkadot/types/types/registry' {
     'Vec<BlockLength>': Vec<BlockLength>;
     'Vec<BlockNumber>': Vec<BlockNumber>;
     'Vec<BlockWeights>': Vec<BlockWeights>;
+    'Vec<BodyId>': Vec<BodyId>;
+    'Vec<BodyPart>': Vec<BodyPart>;
+    'Vec<BodyPartAtLeastProportion>': Vec<BodyPartAtLeastProportion>;
+    'Vec<BodyPartFraction>': Vec<BodyPartFraction>;
+    'Vec<BodyPartMoreThanProportion>': Vec<BodyPartMoreThanProportion>;
     'Vec<bool>': Vec<bool>;
     'Vec<Bool>': Vec<Bool>;
     'Vec<Bounty>': Vec<Bounty>;
@@ -1430,6 +1441,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<PhantomData>': Vec<PhantomData>;
     'Vec<Phase>': Vec<Phase>;
     'Vec<PhragmenScore>': Vec<PhragmenScore>;
+    'Vec<PluralityJunction>': Vec<PluralityJunction>;
     'Vec<Points>': Vec<Points>;
     'Vec<Precommits>': Vec<Precommits>;
     'Vec<PrefabWasmModule>': Vec<PrefabWasmModule>;
@@ -1796,6 +1808,11 @@ declare module '@polkadot/types/types/registry' {
     BlockLength: BlockLength;
     BlockNumber: BlockNumber;
     BlockWeights: BlockWeights;
+    BodyId: BodyId;
+    BodyPart: BodyPart;
+    BodyPartAtLeastProportion: BodyPartAtLeastProportion;
+    BodyPartFraction: BodyPartFraction;
+    BodyPartMoreThanProportion: BodyPartMoreThanProportion;
     bool: bool;
     Bool: Bool;
     Bounty: Bounty;
@@ -2215,6 +2232,7 @@ declare module '@polkadot/types/types/registry' {
     PhantomData: PhantomData;
     Phase: Phase;
     PhragmenScore: PhragmenScore;
+    PluralityJunction: PluralityJunction;
     Points: Points;
     Precommits: Precommits;
     PrefabWasmModule: PrefabWasmModule;
