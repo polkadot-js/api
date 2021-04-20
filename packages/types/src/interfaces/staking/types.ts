@@ -193,6 +193,7 @@ export interface RewardDestination extends Enum {
   readonly isController: boolean;
   readonly isAccount: boolean;
   readonly asAccount: AccountId;
+  readonly isNone: boolean;
 }
 
 /** @name RewardPoint */

@@ -172,7 +172,8 @@ export default {
         Staked: 'Null',
         Stash: 'Null',
         Controller: 'Null',
-        Account: 'AccountId'
+        Account: 'AccountId',
+        None: 'Null'
       }
     },
     RewardPoint: 'u32',
