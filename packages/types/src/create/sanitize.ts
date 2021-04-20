@@ -14,6 +14,8 @@ const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
   alias(['VecDeque<'], 'Vec<', false),
+  // Change BoundedVec<Type, Size> to Vec
+  cleanupVec(),
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Remove all the trait prefixes
@@ -86,6 +88,23 @@ export function cleanupCompact (): Mapper {
 
       if (value.substr(end, 14) === ' as HasCompact') {
         value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
+      }
+    }
+
+    return value;
+  };
+}
+
+// remove the BoundedVec wrappers
+export function cleanupVec (): Mapper {
+  return (value: string): string => {
+    for (let index = 0; index < value.length; index++) {
+      if (value.substr(index, 11) === 'BoundedVec<') {
+        const start = index + 11;
+        const end = findClosing(value, start);
+        const type = value.substr(start, end - start).split(',')[0];
+
+        value = `${value.substr(0, index)}Vec<${type}>${value.substr(end + 1)}`;
       }
     }
 
