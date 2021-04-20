@@ -14,7 +14,7 @@ const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
   alias(['VecDeque<'], 'Vec<', false),
-  // Change BoundedVec<Type, Size> to Vec
+  // Change BoundedVec<Type, Size> to Vec<Type>
   cleanupVec(),
   // <T::Balance as HasCompact>
   cleanupCompact(),
