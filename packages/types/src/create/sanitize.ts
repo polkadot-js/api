@@ -104,9 +104,8 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
     if (value.substr(index, matcher.length) === matcher) {
       const start = index + matcher.length;
       const end = findClosing(value, start);
-      const inner = value.substr(start, end - start);
 
-      value = `${value.substr(0, index)}${replacer(inner)}${value.substr(end + 1)}`;
+      value = `${value.substr(0, index)}${replacer(value.substr(start, end - start))}${value.substr(end + 1)}`;
     }
   }
 
