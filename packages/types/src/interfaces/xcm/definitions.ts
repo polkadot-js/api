@@ -106,21 +106,78 @@ const multiAsset = {
   }
 };
 
+const junction = {
+  BodyId: {
+    _enum: {
+      Unit: 'Null',
+      Named: 'Vec<u8>',
+      Index: 'Compact<u32>',
+      Executive: 'Null',
+      Technical: 'Null',
+      Legislative: 'Null',
+      Judicial: 'Null'
+    }
+  },
+  BodyPart: {
+    _enum: {
+      Voice: 'Null',
+      Members: 'Compact<u32>',
+      Fraction: 'BodyPartFraction',
+      AtLeastProportion: 'BodyPartAtLeastProportion',
+      MoreThanProportion: 'BodyPartMoreThanProportion'
+    }
+  },
+  BodyPartFraction: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
+  BodyPartAtLeastProportion: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
+  BodyPartMoreThanProportion: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
+  AccountId32Junction: {
+    network: 'NetworkId',
+    id: 'AccountId'
+  },
+  AccountIndex64Junction: {
+    network: 'NetworkId',
+    index: 'Compact<u64>'
+  },
+  AccountKey20Junction: {
+    network: 'NetworkId',
+    index: '[u8; 20]'
+  },
+  PluralityJunction: {
+    id: 'BodyId',
+    part: 'BodyPart'
+  },
+  Junction: {
+    _enum: {
+      Parent: 'Null',
+      Parachain: 'Compact<u32>',
+      AccountId32: 'AccountId32Junction',
+      AccountIndex64: 'AccountIndex64Junction',
+      AccountKey20: 'AccountKey20Junction',
+      PalletInstance: 'u8',
+      GeneralIndex: 'Compact<u128>',
+      GeneralKey: 'Vec<u8>',
+      OnlyChild: 'Null',
+      Plurality: 'PluralityJunction'
+    }
+  },
+  NetworkId: {
+    _enum: {
+      Any: 'Null',
+      Named: 'Vec<u8>',
+      Polkadot: 'Null',
+      Kusama: 'Null'
+    }
+  }
+};
+
 export default {
   rpc: {},
   types: {
+    ...junction,
     ...multiAsset,
     ...xcm,
     ...xmcOrder,
     DoubleEncodedCall: { encoded: 'Vec<u8>' },
-    NetworkId: {
-      _enum: {
-        Any: 'Null',
-        Named: 'Vec<u8>',
-        Polkadot: 'Null',
-        Kusama: 'Null'
-      }
-    },
     XcmOriginKind: {
       _enum: ['Native', 'SovereignAccount', 'Superuser']
     },
@@ -176,31 +233,6 @@ export default {
         X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
         X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
         X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
-      }
-    },
-    AccountId32Junction: {
-      network: 'NetworkId',
-      id: 'AccountId'
-    },
-    AccountIndex64Junction: {
-      network: 'NetworkId',
-      index: 'Compact<u64>'
-    },
-    AccountKey20Junction: {
-      network: 'NetworkId',
-      index: '[u8; 20]'
-    },
-    Junction: {
-      _enum: {
-        Parent: 'Null',
-        Parachain: 'Compact<u32>',
-        AccountId32: 'AccountId32Junction',
-        AccountIndex64: 'AccountIndex64Junction',
-        AccountKey20: 'AccountKey20Junction',
-        PalletInstance: 'u8',
-        GeneralIndex: 'Compact<u128>',
-        GeneralKey: 'Vec<u8>',
-        OnlyChild: 'Null'
       }
     },
     VersionedMultiLocation: {

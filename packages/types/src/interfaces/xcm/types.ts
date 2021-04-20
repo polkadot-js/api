@@ -48,6 +48,50 @@ export interface AssetInstance extends Enum {
   readonly asBlob: Bytes;
 }
 
+/** @name BodyId */
+export interface BodyId extends Enum {
+  readonly isUnit: boolean;
+  readonly isNamed: boolean;
+  readonly asNamed: Bytes;
+  readonly isIndex: boolean;
+  readonly asIndex: Compact<u32>;
+  readonly isExecutive: boolean;
+  readonly isTechnical: boolean;
+  readonly isLegislative: boolean;
+  readonly isJudicial: boolean;
+}
+
+/** @name BodyPart */
+export interface BodyPart extends Enum {
+  readonly isVoice: boolean;
+  readonly isMembers: boolean;
+  readonly asMembers: Compact<u32>;
+  readonly isFraction: boolean;
+  readonly asFraction: BodyPartFraction;
+  readonly isAtLeastProportion: boolean;
+  readonly asAtLeastProportion: BodyPartAtLeastProportion;
+  readonly isMoreThanProportion: boolean;
+  readonly asMoreThanProportion: BodyPartMoreThanProportion;
+}
+
+/** @name BodyPartAtLeastProportion */
+export interface BodyPartAtLeastProportion extends Struct {
+  readonly nom: Compact<u32>;
+  readonly denom: Compact<u32>;
+}
+
+/** @name BodyPartFraction */
+export interface BodyPartFraction extends Struct {
+  readonly nom: Compact<u32>;
+  readonly denom: Compact<u32>;
+}
+
+/** @name BodyPartMoreThanProportion */
+export interface BodyPartMoreThanProportion extends Struct {
+  readonly nom: Compact<u32>;
+  readonly denom: Compact<u32>;
+}
+
 /** @name DoubleEncodedCall */
 export interface DoubleEncodedCall extends Struct {
   readonly encoded: Bytes;
@@ -71,6 +115,8 @@ export interface Junction extends Enum {
   readonly isGeneralKey: boolean;
   readonly asGeneralKey: Bytes;
   readonly isOnlyChild: boolean;
+  readonly isPlurality: boolean;
+  readonly asPlurality: PluralityJunction;
 }
 
 /** @name MultiAsset */
@@ -149,6 +195,12 @@ export interface NetworkId extends Enum {
   readonly asNamed: Bytes;
   readonly isPolkadot: boolean;
   readonly isKusama: boolean;
+}
+
+/** @name PluralityJunction */
+export interface PluralityJunction extends Struct {
+  readonly id: BodyId;
+  readonly part: BodyPart;
 }
 
 /** @name VersionedMultiAsset */
