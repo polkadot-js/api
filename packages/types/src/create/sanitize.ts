@@ -14,10 +14,10 @@ const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
   alias(['VecDeque<'], 'Vec<', false),
-  // Change BoundedVec<Type, Size> to Vec<Type>
-  cleanupVec(),
   // <T::Balance as HasCompact>
   cleanupCompact(),
+  // Change BoundedVec<Type, Size> to Vec<Type>
+  removeBoundedVec(),
   // Remove all the trait prefixes
   removeTraits(),
   // remove PairOf<T> -> (T, T)
@@ -63,18 +63,17 @@ export function findClosing (value: string, start: number): number {
 }
 
 export function alias (src: string[], dest: string, withChecks = true): Mapper {
-  return (value: string): string => {
-    return src.reduce((value, src): string => {
-      return value
+  return (value: string): string =>
+    src.reduce((value, src): string =>
+      value
         .replace(
           new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g'),
           (src): string =>
             withChecks && BOX_PRECEDING.includes(src[0])
               ? `${src[0]}${dest}`
               : dest
-        );
-    }, value);
-  };
+        ), value
+    );
 }
 
 export function cleanupCompact (): Mapper {
@@ -95,27 +94,29 @@ export function cleanupCompact (): Mapper {
   };
 }
 
-// remove the BoundedVec wrappers
-export function cleanupVec (): Mapper {
-  return (value: string): string => {
-    for (let index = 0; index < value.length; index++) {
-      if (value.substr(index, 11) === 'BoundedVec<') {
-        const start = index + 11;
-        const end = findClosing(value, start);
-        const type = value.substr(start, end - start).split(',')[0];
-
-        value = `${value.substr(0, index)}Vec<${type}>${value.substr(end + 1)}`;
-      }
-    }
-
-    return value;
-  };
+export function flattenSingleTuple (): Mapper {
+  return (value: string): string =>
+    value.replace(/\(([^,]+)\)/, '$1');
 }
 
-export function flattenSingleTuple (): Mapper {
-  return (value: string): string => {
-    return value.replace(/\(([^,]+)\)/, '$1');
-  };
+function replaceTagWith (value: string, matcher: string, replacer: (inner: string) => string): string {
+  for (let index = 0; index < value.length; index++) {
+    if (value.substr(index, matcher.length) === matcher) {
+      const start = index + matcher.length;
+      const end = findClosing(value, start);
+      const inner = value.substr(start, end - start);
+
+      value = `${value.substr(0, index)}${replacer(inner)}${value.substr(end + 1)}`;
+    }
+  }
+
+  return value;
+}
+
+// remove the BoundedVec wrappers
+export function removeBoundedVec (): Mapper {
+  return (value: string): string =>
+    replaceTagWith(value, 'BoundedVec<', (inner: string) => `Vec<${inner.split(',')[0]}>`);
 }
 
 export function removeColons (): Mapper {
@@ -175,25 +176,14 @@ export function removeGenerics (): Mapper {
 
 // remove the PairOf wrappers
 export function removePairOf (): Mapper {
-  return (value: string): string => {
-    for (let index = 0; index < value.length; index++) {
-      if (value.substr(index, 7) === 'PairOf<') {
-        const start = index + 7;
-        const end = findClosing(value, start);
-        const type = value.substr(start, end - start);
-
-        value = `${value.substr(0, index)}(${type},${type})${value.substr(end + 1)}`;
-      }
-    }
-
-    return value;
-  };
+  return (value: string): string =>
+    replaceTagWith(value, 'PairOf<', (inner: string) => `(${inner},${inner})`);
 }
 
 // remove the type traits
 export function removeTraits (): Mapper {
-  return (value: string): string => {
-    return value
+  return (value: string): string =>
+    value
       // remove all whitespaces
       .replace(/\s/g, '')
       // anything `T::<type>` to end up as `<type>`
@@ -206,7 +196,6 @@ export function removeTraits (): Mapper {
       .replace(/<LookupasStaticLookup>/g, 'Lookup')
       // replace `<...>::Type`
       .replace(/::Type/g, '');
-  };
 }
 
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
@@ -233,7 +222,7 @@ export function removeWrap (_check: string): Mapper {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function sanitize (value: String | string, options?: SanitizeOptions): string {
-  return mappings.reduce((result, fn): string => {
-    return fn(result, options);
-  }, value.toString()).trim();
+  return mappings.reduce((result, fn): string =>
+    fn(result, options), value.toString()
+  ).trim();
 }
