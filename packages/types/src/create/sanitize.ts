@@ -23,7 +23,7 @@ const mappings: Mapper[] = [
   // remove PairOf<T> -> (T, T)
   removePairOf(),
   // remove boxing, `Box<Proposal>` -> `Proposal`
-  removeWrap('Box'),
+  removeWrap('Box<'),
   // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
   removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
@@ -203,8 +203,7 @@ export function removeTraits (): Mapper {
 }
 
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
-export function removeWrap (_check: string): Mapper {
-  const check = `${_check}<`;
+export function removeWrap (check: string): Mapper {
   const replacer = (inner: string) => inner;
 
   return (value: string) =>
