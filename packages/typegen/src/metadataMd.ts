@@ -240,7 +240,7 @@ function addStorage (metadata: MetadataLatest): string {
         return {
           interface: '`' + `api.query.substrate.${methodName}` + '`',
           name: `${methodName}(${arg}): ` + '`' + outputType + '`',
-          ...(meta.documentation.length && { summary: meta.documentation })
+          summary: meta.documentation
         };
       }),
       name: 'substrate'
