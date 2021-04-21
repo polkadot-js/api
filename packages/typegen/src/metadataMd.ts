@@ -244,7 +244,7 @@ function addStorage (metadata: MetadataLatest): string {
         };
       }),
       name: 'substrate'
-    }]),
+    }].sort(sortByName)),
     title: 'Storage'
   });
 }
