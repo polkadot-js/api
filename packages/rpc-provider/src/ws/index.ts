@@ -38,7 +38,7 @@ const ALIASSES: { [index: string]: string } = {
   chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
 };
 
-const RETRY_DELAY = 1000;
+const RETRY_DELAY = 2500;
 
 const l = logger('api-ws');
 
