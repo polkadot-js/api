@@ -5,7 +5,7 @@ import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { Registry } from '@polkadot/types/types';
 import type { Storage } from '../types';
 
-import * as substrate from './substrate';
+import { substrate } from './substrate';
 
 /** @internal */
 export function getStorage (registry: Registry, metaVersion: number): Storage {

@@ -7,6 +7,7 @@ import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 import fs from 'fs';
 
 import { Metadata } from '@polkadot/metadata';
+import { getStorage as getSubstrateStorage } from '@polkadot/metadata/decorate/storage/getStorage';
 import rpcdata from '@polkadot/metadata/static';
 import { Vec } from '@polkadot/types/codec';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -16,15 +17,17 @@ import { Text } from '@polkadot/types/primitive';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
+interface SectionItem {
+  link?: string;
+  name: string;
+  [bullet: string]: undefined | string | Vec<Text>;
+}
+
 interface Section {
   link?: string;
   name: string;
   description?: string;
-  items: {
-    link?: string;
-    name: string;
-    [bullet: string]: undefined | string | Vec<Text>;
-  }[];
+  items: SectionItem[];
 }
 
 interface Page {
@@ -192,10 +195,11 @@ function addConstants (metadata: MetadataLatest): string {
 
 /** @internal */
 function addStorage (metadata: MetadataLatest): string {
+  const { substrate } = getSubstrateStorage(metadata.registry, 12);
   const moduleSections = metadata.modules
     .sort(sortByName)
     .filter((moduleMetadata) => !moduleMetadata.storage.isNone)
-    .map((moduleMetadata) => {
+    .map((moduleMetadata): Section => {
       const sectionName = stringLowerFirst(moduleMetadata.name);
 
       return {
@@ -220,12 +224,27 @@ function addStorage (metadata: MetadataLatest): string {
       };
     });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const knownSection: any = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', 'utf8'));
-
   return renderPage({
     description: DESC_STORAGE,
-    sections: moduleSections.concat([knownSection]),
+    sections: moduleSections.concat([{
+      description: 'These are well-known keys that are always available to the runtime implementation of any Substrate-based network.',
+      items: Object.entries(substrate).map(([name, { meta }]) => {
+        const arg = meta.type.isMap
+          ? ('`' + meta.type.asMap.key.toString() + '`')
+          : meta.type.isDoubleMap
+            ? ('`' + meta.type.asDoubleMap.key1.toString() + ', ' + meta.type.asDoubleMap.key2.toString() + '`')
+            : '';
+        const methodName = stringLowerFirst(name);
+        const outputType = unwrapStorageType(meta.type, meta.modifier.isOptional);
+
+        return {
+          interface: '`' + `api.query.substrate.${methodName}` + '`',
+          name: `${methodName}(${arg}): ` + '`' + outputType + '`',
+          ...(meta.documentation.length && { summary: meta.documentation })
+        };
+      }),
+      name: 'substrate'
+    }]),
     title: 'Storage'
   });
 }
