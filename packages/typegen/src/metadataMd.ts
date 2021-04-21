@@ -159,7 +159,7 @@ function addRpc (): string {
           });
 
         return all;
-      }, []).sort((a, b) => a.name.localeCompare(b.name)),
+      }, []).sort(sortByName),
     title: 'JSON-RPC'
   });
 }
@@ -244,7 +244,7 @@ function addStorage (metadata: MetadataLatest): string {
         };
       }),
       name: 'substrate'
-    }].sort(sortByName)),
+    }]).sort(sortByName),
     title: 'Storage'
   });
 }
