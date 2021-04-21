@@ -16,7 +16,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
+    "@babel/runtime": "^7.13.17",
     "@polkadot/api-derive": "4.6.3-3",
     "@polkadot/keyring": "^6.2.1",
     "@polkadot/metadata": "4.6.3-3",
