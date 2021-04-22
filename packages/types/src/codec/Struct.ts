@@ -60,7 +60,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
           ? assign
           : new Types[key](registry, assign);
       } else {
-        throw new Error(`Cannot decode value ${JSON.stringify(value)}`);
+        throw new Error(`Cannot decode value ${JSON.stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
       }
     } catch (error) {
       let type = Types[key].name;

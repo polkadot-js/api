@@ -119,6 +119,14 @@ describe('Struct', (): void => {
     ).toThrowError(/Cannot decode value/);
   });
 
+  it('throws a sensical error on incorrect structs', (): void => {
+    expect(
+      () => new Struct(registry, {
+        _: 'Vec<u32>'
+      }, [123, 456])
+    ).toThrow(/Cannot decode value/);
+  });
+
   it('provides a clean toString()', (): void => {
     expect(
       new (
