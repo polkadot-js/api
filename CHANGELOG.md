@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust Struct decoding with better error messages on invalid input objects
+- Add support for new `BoundedVec` type
+- Adjusted Statemint `Proxy` type
+- Updated Xcm types (with Plularity)
+- Remove metadata generation dependency on well-known.json (dedupe)
+- Adjust WebSocket reconnection delay from 1s to 2.5s
+- Revert Beefy keys addition for Westend
+
+
 ## 4.6.2 Apr 19, 2021
 
 Upgrade priority: Low.
