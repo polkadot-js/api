@@ -197,7 +197,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         if (Object.keys(types).length) {
           (registry || this.registry).register(types as Record<string, string>);
 
-          l.debug(`Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
+          l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
         }
       })
       .catch(l.error);

@@ -30,7 +30,7 @@ function checkOrder (network: string, versions: ChainUpgradesRaw): [number, numb
       : curr[0] <= prev[0] || curr[1] <= prev[1];
   });
 
-  assert(!ooo.length, `${network}: Mismatched upgrade ordering: ${stringify(ooo)}`);
+  assert(!ooo.length, () => `${network}: Mismatched upgrade ordering: ${stringify(ooo)}`);
 
   return versions;
 }

@@ -15,7 +15,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
   let jsonObj: Record<string, any> | undefined;
   const inputKeys = Object.keys(Types);
 
-  assert(!Array.isArray(value) || value.length === inputKeys.length, `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
+  assert(!Array.isArray(value) || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
   return inputKeys.reduce((raw, key, index): T => {
     // The key in the JSON can be snake_case (or other cases), but in our
