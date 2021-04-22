@@ -24,8 +24,6 @@ const FORMATTERS: [string, BN][] = [
 ];
 
 function toPercentage (value: BN, divisor: BN): string {
-  console.error('****', value.toString(), divisor.toString());
-
   return `${(value.mul(MUL_P).div(divisor).toNumber() / 100).toFixed(2)}%`;
 }
 

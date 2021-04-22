@@ -32,8 +32,6 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, Type);
     this.#raw = Compact.decodeCompact<T>(registry, this.#Type, value) as T;
-
-    console.error('raw', this.#raw.toString());
   }
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
@@ -52,11 +50,7 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
       return new Type(registry, value);
     }
 
-    const [, decoded] = compactFromU8a(value);
-
-    console.error('decode', value, decoded.toString());
-
-    return new Type(registry, decoded);
+    return new Type(registry, compactFromU8a(value)[1]);
   }
 
   /**
@@ -123,8 +117,6 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    console.error('toHuman', this.#raw.toHuman(isExtended), this.#raw.toString());
-
     return this.#raw.toHuman(isExtended);
   }
 
