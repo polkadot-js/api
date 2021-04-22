@@ -12,7 +12,7 @@ import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/ty
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import { Null } from '@polkadot/types/primitive';
 import * as primitiveClasses from '@polkadot/types/primitive';
-import { isChildClass } from '@polkadot/util';
+import { isChildClass, stringify } from '@polkadot/util';
 
 import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
@@ -98,7 +98,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
 
         possibleTypes.push(`([${subs.join(', ')}])[]`);
       } else {
-        throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+        throw new Error(`Unhandled subtype in Vec, ${stringify(subDef)}`);
       }
     }
   } else if (isChildClass(Enum, Clazz)) {

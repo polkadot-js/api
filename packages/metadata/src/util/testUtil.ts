@@ -5,7 +5,7 @@ import type { Codec, Registry } from '@polkadot/types/types';
 import type { MetadataInterface } from '../types';
 
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, hexToU8a, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
 
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
@@ -22,7 +22,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
       expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
       expect(metadata.toJSON()).toEqual(staticSubstrate);
     } catch (error) {
-      console.error(JSON.stringify(metadata.toJSON()));
+      console.error(stringify(metadata.toJSON()));
 
       throw error;
     }

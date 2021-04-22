@@ -10,7 +10,7 @@ import path from 'path';
 import { getTypeDef } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import { assert, isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
+import { assert, isString, stringCamelCase, stringUpperFirst, stringify } from '@polkadot/util';
 
 import { createImports, exportInterface, exportType, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';
 
@@ -192,7 +192,7 @@ function generateInterfaces (definitions: Record<string, ModuleTypes>, { types }
   };
 
   return Object.entries(types).map(([name, type]): [string, string] => {
-    const def = getTypeDef(isString(type) ? type : JSON.stringify(type), { name });
+    const def = getTypeDef(isString(type) ? type : stringify(type), { name });
 
     return [name, generators[def.info](definitions, def, imports)];
   });

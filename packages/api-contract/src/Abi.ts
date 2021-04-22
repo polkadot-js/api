@@ -6,7 +6,7 @@ import type { ChainProperties, ContractConstructorSpec, ContractEventSpec, Contr
 import type { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
-import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { MetaRegistry } from './MetaRegistry';
 
@@ -21,7 +21,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
       ? list.find(({ identifier }) => [identifier, stringCamelCase(identifier)].includes(messageOrId.toString()))
       : messageOrId;
 
-  return assertReturn(message, `Attempted to call an invalid contract interface, ${JSON.stringify(messageOrId)}`);
+  return assertReturn(message, `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
 export class Abi {
@@ -118,7 +118,7 @@ export class Abi {
           type: this.registry.getMetaTypeDef(arg.type)
         };
       } catch (error) {
-        l.error(`Error expanding argument ${index} in ${JSON.stringify(spec)}`);
+        l.error(`Error expanding argument ${index} in ${stringify(spec)}`);
 
         throw error;
       }

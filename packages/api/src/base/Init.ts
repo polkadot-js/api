@@ -13,7 +13,7 @@ import BN from 'bn.js';
 import { Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
@@ -197,7 +197,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         if (Object.keys(types).length) {
           (registry || this.registry).register(types as Record<string, string>);
 
-          l.debug(`Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${JSON.stringify(types)}`);
+          l.debug(`Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
         }
       })
       .catch(l.error);

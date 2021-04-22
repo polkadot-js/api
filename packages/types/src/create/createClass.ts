@@ -5,7 +5,7 @@ import type { U8aBitLength, UIntBitLength } from '../codec/types';
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import type { FromReg, TypeDef } from './types';
 
-import { assert, isNumber, isUndefined } from '@polkadot/util';
+import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
 import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
 import { DoNotConstruct } from '../primitive';
@@ -33,13 +33,13 @@ export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, nam
 }
 
 function getSubDefArray (value: TypeDef): TypeDef[] {
-  assert(value.sub && Array.isArray(value.sub), `Expected subtype as TypeDef[] in ${JSON.stringify(value)}`);
+  assert(value.sub && Array.isArray(value.sub), `Expected subtype as TypeDef[] in ${stringify(value)}`);
 
   return value.sub;
 }
 
 function getSubDef (value: TypeDef): TypeDef {
-  assert(value.sub && !Array.isArray(value.sub), `Expected subtype as TypeDef in ${JSON.stringify(value)}`);
+  assert(value.sub && !Array.isArray(value.sub), `Expected subtype as TypeDef in ${stringify(value)}`);
 
   return value.sub;
 }
@@ -185,7 +185,7 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   const getFn = infoMapping[value.info];
 
-  assert(getFn, `Unable to construct class from ${JSON.stringify(value)}`);
+  assert(getFn, `Unable to construct class from ${stringify(value)}`);
 
   return getFn(registry, value) as Constructor<T>;
 }

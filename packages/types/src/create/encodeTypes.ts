@@ -3,7 +3,7 @@
 
 import type { TypeDef } from './types';
 
-import { assert, isNumber, isUndefined } from '@polkadot/util';
+import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from './types';
 
@@ -34,7 +34,7 @@ function encodeWithParams (typeDef: TypeDef, outer: string): string {
       return paramsNotation(outer, sub, (param) => encodeTypeDef(param));
   }
 
-  throw new Error(`Unable to encode ${JSON.stringify(typeDef)} with params`);
+  throw new Error(`Unable to encode ${stringify(typeDef)} with params`);
 }
 
 function encodeDoNotConstruct ({ displayName }: TypeDef): string {
@@ -51,7 +51,7 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
     [type.name as string]: encodeTypeDef(type)
   }), {});
 
-  return JSON.stringify(
+  return stringify(
     asEnum
       ? { _enum: inner }
       : inner
@@ -66,7 +66,7 @@ function encodeEnum (typeDef: TypeDef): string {
   // c-like enums have all Null entries
   // TODO We need to take the disciminant into account and auto-add empty entries
   return sub.every(({ type }) => type === 'Null')
-    ? JSON.stringify({ _enum: sub.map(({ name }, index) => `${name || `Empty${index}`}`) })
+    ? stringify({ _enum: sub.map(({ name }, index) => `${name || `Empty${index}`}`) })
     : encodeSubTypes(sub, true);
 }
 
@@ -121,13 +121,13 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
 function encodeType (typeDef: TypeDef): string {
   const encoder = encoders[typeDef.info];
 
-  assert(encoder, `Cannot encode type: ${JSON.stringify(typeDef)}`);
+  assert(encoder, `Cannot encode type: ${stringify(typeDef)}`);
 
   return encoder(typeDef);
 }
 
 export function encodeTypeDef (typeDef: TypeDef): string {
-  assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${JSON.stringify(typeDef)}`);
+  assert(!isUndefined(typeDef.info), `Invalid type definition with no instance info, ${stringify(typeDef)}`);
 
   // In the case of contracts we do have the unfortunate situation where the displayName would
   // refer to "Option" when it is an option. For these, string it out, only using when actually

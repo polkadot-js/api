@@ -6,7 +6,7 @@ import type { Codec, Constructor, Registry } from '../types';
 
 import BN from 'bn.js';
 
-import { assert, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, stringify, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareArray } from './utils';
 
@@ -210,7 +210,7 @@ export class CodecSet extends Set<string> implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return JSON.stringify({ _set: this.#allowed });
+    return stringify({ _set: this.#allowed });
   }
 
   /**

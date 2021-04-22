@@ -6,7 +6,7 @@ import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
@@ -155,7 +155,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    assert(account && account.addressRaw, `Expected a valid keypair for signing, found ${JSON.stringify(account)}`);
+    assert(account && account.addressRaw, `Expected a valid keypair for signing, found ${stringify(account)}`);
 
     const signer = toAddress(this.registry, account.addressRaw);
     const payload = this.createPayload(method, options);
@@ -168,7 +168,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    assert(address, `Expected a valid address for signing, found ${JSON.stringify(address)}`);
+    assert(address, `Expected a valid address for signing, found ${stringify(address)}`);
 
     const signer = toAddress(this.registry, address);
     const payload = this.createPayload(method, options);

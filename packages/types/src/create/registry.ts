@@ -10,7 +10,7 @@ import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, Reg
 // we are attempting to avoid circular refs, hence the Metadata path import
 import { decorateConstants, decorateExtrinsics } from '@polkadot/metadata/decorate';
 import { Metadata } from '@polkadot/metadata/Metadata';
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Json } from '../codec/Json';
@@ -357,7 +357,7 @@ export class TypeRegistry implements Registry {
       } else {
         const def = isString(type)
           ? type
-          : JSON.stringify(type);
+          : stringify(type);
 
         assert(name !== def, `Unable to register circular ${name} === ${def}`);
 

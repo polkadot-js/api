@@ -4,7 +4,7 @@
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
-import { assert, hexToU8a, isBigInt, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
@@ -15,7 +15,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
   let jsonObj: Record<string, any> | undefined;
   const inputKeys = Object.keys(Types);
 
-  assert(!Array.isArray(value) || value.length === inputKeys.length, `Struct: Unable to map ${isBigInt(value) ? value.toString() : JSON.stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
+  assert(!Array.isArray(value) || value.length === inputKeys.length, `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
   return inputKeys.reduce((raw, key, index): T => {
     // The key in the JSON can be snake_case (or other cases), but in our
@@ -63,7 +63,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
           ? assign
           : new Types[key](registry, assign);
       } else {
-        throw new Error(`Cannot decode value ${JSON.stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
+        throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
       }
     } catch (error) {
       let type = Types[key].name;
@@ -300,7 +300,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return JSON.stringify(
+    return stringify(
       Struct.typesToMap(this.registry, this.#Types)
     );
   }
@@ -309,7 +309,7 @@ export class Struct<
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return JSON.stringify(this.toJSON());
+    return stringify(this.toJSON());
   }
 
   /**

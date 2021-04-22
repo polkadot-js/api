@@ -4,7 +4,7 @@
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';
@@ -384,7 +384,7 @@ export class Enum implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return JSON.stringify({ _enum: this._toRawStruct() });
+    return stringify({ _enum: this._toRawStruct() });
   }
 
   /**
@@ -393,7 +393,7 @@ export class Enum implements Codec {
   public toString (): string {
     return this.isNull
       ? this.type
-      : JSON.stringify(this.toJSON());
+      : stringify(this.toJSON());
   }
 
   /**
