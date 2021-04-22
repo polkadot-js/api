@@ -121,7 +121,7 @@ export class MockProvider implements ProviderInterface {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async send (method: string, params: any[]): Promise<unknown> {
-    assert(this.requests[method], `provider.send: Invalid method '${method}'`);
+    assert(this.requests[method], () => `provider.send: Invalid method '${method}'`);
 
     return this.requests[method](this.db, params);
   }
@@ -130,7 +130,7 @@ export class MockProvider implements ProviderInterface {
   public async subscribe (type: string, method: string, ...params: unknown[]): Promise<number> {
     l.debug((): any => ['subscribe', method, params]);
 
-    assert(this.subscriptions[method], `provider.subscribe: Invalid method '${method}'`);
+    assert(this.subscriptions[method], () => `provider.subscribe: Invalid method '${method}'`);
 
     const callback = params.pop() as MockStateSubscriptionCallback;
     const id = ++this.subscriptionId;
@@ -151,7 +151,7 @@ export class MockProvider implements ProviderInterface {
 
     l.debug((): any => ['unsubscribe', id, sub]);
 
-    assert(sub, `Unable to find subscription for ${id}`);
+    assert(sub, () => `Unable to find subscription for ${id}`);
 
     delete this.subscriptionMap[id];
     delete this.subscriptions[sub].callbacks[id];

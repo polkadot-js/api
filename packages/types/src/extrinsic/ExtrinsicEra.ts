@@ -246,7 +246,7 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Returns the item as a [[ImmortalEra]]
    */
   public get asImmortalEra (): ImmortalEra {
-    assert(this.isImmortalEra, `Cannot convert '${this.type}' via asImmortalEra`);
+    assert(this.isImmortalEra, () => `Cannot convert '${this.type}' via asImmortalEra`);
 
     return this.value as ImmortalEra;
   }
@@ -255,7 +255,7 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Returns the item as a [[MortalEra]]
    */
   public get asMortalEra (): MortalEra {
-    assert(this.isMortalEra, `Cannot convert '${this.type}' via asMortalEra`);
+    assert(this.isMortalEra, () => `Cannot convert '${this.type}' via asMortalEra`);
 
     return this.value as MortalEra;
   }

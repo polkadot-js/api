@@ -34,7 +34,7 @@ export class MetadataVersioned extends Struct {
   }
 
   #assertVersion = (version: number): boolean => {
-    assert(this.version <= version, `Cannot convert metadata from v${this.version} to v${version}`);
+    assert(this.version <= version, () => `Cannot convert metadata from v${this.version} to v${version}`);
 
     return this.version === version;
   };

@@ -65,7 +65,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
               if (withFallbackCheck) {
                 const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
 
-                assert(hexType === hexOrig, `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
+                assert(hexType === hexOrig, () => `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
               }
             } catch (error) {
               const message = `${location}:: ${(error as Error).message}`;

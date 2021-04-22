@@ -20,8 +20,8 @@ function decodeBytesU8a (value: Uint8Array): Uint8Array {
   const [offset, length] = compactFromU8a(value);
   const total = offset + length.toNumber();
 
-  assert(length.lten(MAX_LENGTH), `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
-  assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
+  assert(length.lten(MAX_LENGTH), () => `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
+  assert(total <= value.length, () => `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
   return value.subarray(offset, total);
 }

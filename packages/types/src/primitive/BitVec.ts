@@ -17,7 +17,7 @@ function decodeBitVecU8a (value?: Uint8Array): Uint8Array {
   const [offset, length] = compactFromU8a(value);
   const total = offset + Math.ceil(length.toNumber() / 8);
 
-  assert(total <= value.length, `BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
+  assert(total <= value.length, () => `BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
   return value.subarray(offset, total);
 }

@@ -67,7 +67,7 @@ function getTypeClassArray (value: TypeDef): (keyof InterfaceTypes)[] {
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
-  assert(isNumber(length), `Expected bitLength information for ${displayName || Clazz.constructor.name}<bitLength>`);
+  assert(isNumber(length), () => `Expected bitLength information for ${displayName || Clazz.constructor.name}<bitLength>`);
 
   return Clazz.with(length as UIntBitLength, displayName);
 }

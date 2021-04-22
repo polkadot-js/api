@@ -65,7 +65,7 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, args: [Cr
   const { meta: { name, type } } = itemFn;
 
   // since we are passing an almost-unknown through, trust, but verify
-  assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), `${(name || 'unknown').toString()} is a DoubleMap and requires two arguments`);
+  assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), () => `${(name || 'unknown').toString()} is a DoubleMap and requires two arguments`);
 
   // if this fails, we have bigger issues
   assert(!isUndefined(hasher2), '2 hashing functions should be defined for DoubleMaps');
@@ -92,7 +92,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType
   if (type.isMap) {
     const map = type.asMap;
 
-    assert(!isUndefined(arg) && !isNull(arg), `${name.toString()} is a Map and requires one argument`);
+    assert(!isUndefined(arg) && !isNull(arg), () => `${name.toString()} is a Map and requires one argument`);
 
     param = registry.createType(map.key.toString() as 'Raw', arg).toU8a();
   }

@@ -206,7 +206,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
     const [offset, length] = compactFromU8a(value);
     const total = offset + length.toNumber();
 
-    assert(total <= value.length, `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
+    assert(total <= value.length, () => `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
 
     const data = value.subarray(offset, total);
 

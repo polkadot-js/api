@@ -80,7 +80,7 @@ export class MetaRegistry extends TypeRegistry {
   #getMetaType = (id: SiLookupTypeId): SiType => {
     const type = this.#siTypes[getRegistryOffset(id)];
 
-    assert(!isUndefined(type), `getMetaType:: Unable to find ${id.toNumber()} in type values`);
+    assert(!isUndefined(type), () => `getMetaType:: Unable to find ${id.toNumber()} in type values`);
 
     return this.createType('SiType', type);
   }
@@ -184,7 +184,7 @@ export class MetaRegistry extends TypeRegistry {
   }
 
   #extractSequence = ({ type }: SiTypeDefSequence, id: SiLookupTypeId): Omit<TypeDef, 'type'> => {
-    assert(!!type, `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
+    assert(!!type, () => `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
 
     return {
       info: TypeDefInfo.Vec,

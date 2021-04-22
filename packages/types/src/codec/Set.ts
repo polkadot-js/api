@@ -21,7 +21,7 @@ function encodeSet (setValues: SetValues, value: string[]): BN {
 /** @internal */
 function decodeSetArray (setValues: SetValues, value: string[]): string[] {
   return value.reduce((result, key): string[] => {
-    assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
+    assert(!isUndefined(setValues[key]), () => `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
 
     result.push(key);
 
@@ -42,14 +42,14 @@ function decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
 
   const computed = encodeSet(setValues, result);
 
-  assert(bn.eq(computed), `Set: Mismatch decoding '${bn.toString()}', computed as '${computed.toString()}' with ${result.join(', ')}`);
+  assert(bn.eq(computed), () => `Set: Mismatch decoding '${bn.toString()}', computed as '${computed.toString()}' with ${result.join(', ')}`);
 
   return result;
 }
 
 /** @internal */
 function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | BN | number | string = 0, bitLength: number): string[] {
-  assert(bitLength % 8 === 0, `Expected valid bitLength, power of 8, found ${bitLength}`);
+  assert(bitLength % 8 === 0, () => `Expected valid bitLength, power of 8, found ${bitLength}`);
 
   const byteLength = bitLength / 8;
 
@@ -155,7 +155,7 @@ export class CodecSet extends Set<string> implements Codec {
     // ^^^ add = () property done to assign this instance's this, otherwise Set.add creates "some" chaos
     // we have the isUndefined(this._setValues) in here as well, add is used internally
     // in the Set constructor (so it is undefined at this point, and should allow)
-    assert(isUndefined(this.#allowed) || !isUndefined(this.#allowed[key]), `Set: Invalid key '${key}' on add`);
+    assert(isUndefined(this.#allowed) || !isUndefined(this.#allowed[key]), () => `Set: Invalid key '${key}' on add`);
 
     super.add(key);
 

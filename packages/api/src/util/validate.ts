@@ -13,7 +13,7 @@ function sig ({ method, section }: StorageEntry, ...args: Type[]): string {
 function doDoubleMap (creator: StorageEntry, args: unknown[]): [StorageEntry, [any, any]] {
   const { key1, key2 } = creator.meta.type.asDoubleMap;
 
-  assert(args.length === 2, `${sig(creator, key1, key2)} is a doublemap, requiring 2 arguments, ${args.length} found`);
+  assert(args.length === 2, () => `${sig(creator, key1, key2)} is a doublemap, requiring 2 arguments, ${args.length} found`);
 
   // pass as tuple
   return [creator, args as [any, any]];
@@ -22,7 +22,7 @@ function doDoubleMap (creator: StorageEntry, args: unknown[]): [StorageEntry, [a
 function doMap (creator: StorageEntry, args: unknown[]): [StorageEntry] | [StorageEntry, any] {
   const { key } = creator.meta.type.asMap;
 
-  assert(args.length === 1, `${sig(creator, key)} is a map, requiring 1 argument, ${args.length} found`);
+  assert(args.length === 1, () => `${sig(creator, key)} is a map, requiring 1 argument, ${args.length} found`);
 
   // expand
   return args.length
@@ -41,7 +41,7 @@ export function extractStorageArgs (creator: StorageEntry, _args: unknown[]): [S
     return doMap(creator, args);
   }
 
-  assert(args.length === 0, `${sig(creator)} does not take any arguments, ${args.length} found`);
+  assert(args.length === 0, () => `${sig(creator)} does not take any arguments, ${args.length} found`);
 
   // no args
   return [creator];

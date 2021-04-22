@@ -81,7 +81,7 @@ export class Abi {
     const index = data[0];
     const event = this.#events[index];
 
-    assert(event, `Unable to find event with index ${index}`);
+    assert(event, () => `Unable to find event with index ${index}`);
 
     return event.fromU8a(data.subarray(1));
   }
@@ -186,7 +186,7 @@ export class Abi {
   }
 
   #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: CodecArg[], additional = EMPTY_U8A): Uint8Array => {
-    assert(data.length === args.length, `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
+    assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
 
     return compactAddLength(
       u8aConcat(

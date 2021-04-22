@@ -44,7 +44,7 @@ function encodeDoNotConstruct ({ displayName }: TypeDef): string {
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
   const names = sub.map(({ name }) => name);
 
-  assert(names.every((n) => !!n), `Subtypes does not have consistent names, ${names.join(', ')}`);
+  assert(names.every((n) => !!n), () => `Subtypes does not have consistent names, ${names.join(', ')}`);
 
   const inner = sub.reduce((result: Record<string, string>, type): Record<string, string> => ({
     ...result,

@@ -340,8 +340,8 @@ export class TypeRegistry implements Registry {
     if (isFunction(arg1)) {
       this.#classes.set(arg1.name, arg1);
     } else if (isString(arg1)) {
-      assert(isFunction(arg2), `Expected class definition passed to '${arg1}' registration`);
-      assert(arg1 !== arg2.toString(), `Unable to register circular ${arg1} === ${arg1}`);
+      assert(isFunction(arg2), () => `Expected class definition passed to '${arg1}' registration`);
+      assert(arg1 !== arg2.toString(), () => `Unable to register circular ${arg1} === ${arg1}`);
 
       this.#classes.set(arg1, arg2);
     } else {
@@ -359,7 +359,7 @@ export class TypeRegistry implements Registry {
           ? type
           : stringify(type);
 
-        assert(name !== def, `Unable to register circular ${name} === ${def}`);
+        assert(name !== def, () => `Unable to register circular ${name} === ${def}`);
 
         // we already have this type, remove the classes registered for it
         if (this.#classes.has(name)) {

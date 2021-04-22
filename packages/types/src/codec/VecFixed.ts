@@ -39,7 +39,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
       values.push(new Type(registry));
     }
 
-    assert(values.length === allocLength, `Expected a length of exactly ${allocLength} entries`);
+    assert(values.length === allocLength, () => `Expected a length of exactly ${allocLength} entries`);
 
     return values;
   }

@@ -39,7 +39,7 @@ function checkOrder (network: string, versions: ChainUpgradesRaw): [number, numb
 function mapRaw ([network, versions]: [string, ChainUpgradesRaw]): ChainUpgrades {
   const chain = networks.find((n) => n.network === network) || NET_EXTRA[network];
 
-  assert(chain, `Unable to find info for chain ${network}`);
+  assert(chain, () => `Unable to find info for chain ${network}`);
 
   return {
     genesisHash: hexToU8a(chain.genesisHash[0]),

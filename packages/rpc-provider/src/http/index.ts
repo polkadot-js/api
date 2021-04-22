@@ -44,7 +44,7 @@ export class HttpProvider implements ProviderInterface {
    * @param {string} endpoint The endpoint url starting with http://
    */
   constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}) {
-    assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
+    assert(/^(https|http):\/\//.test(endpoint), () => `Endpoint should start with 'http://', received '${endpoint}'`);
 
     this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
@@ -116,7 +116,7 @@ export class HttpProvider implements ProviderInterface {
       method: 'POST'
     });
 
-    assert(response.ok, `[${response.status}]: ${response.statusText}`);
+    assert(response.ok, () => `[${response.status}]: ${response.statusText}`);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result = await response.json();

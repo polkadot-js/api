@@ -16,7 +16,7 @@ export function createUnchecked (registry: Registry, section: string, callIndex:
   const funcName = stringCamelCase(callMetadata.name);
 
   const extrinsicFn = (...args: any[]): Call => {
-    assert(expectedArgs.length === args.length, `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
+    assert(expectedArgs.length === args.length, () => `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
 
     return registry.createType('Call', {
       args,
