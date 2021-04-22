@@ -75,7 +75,7 @@ function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, 
       const numIds = tupleLength / accountIdLength;
       const numIdsRound = Math.floor(numIds);
 
-      assert(numIds >= 2 && numIds <= 11, `Detected ${numIds} in Keys, should be >= 2 and <= 11`);
+      assert(numIds >= 2 && numIds <= 11, () => `Detected ${numIds} in Keys, should be >= 2 and <= 11`);
 
       if (numIdsRound !== numIds) {
         // Beefy?
@@ -84,7 +84,7 @@ function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, 
           // @ts-ignore
           types.Keys = `SessionKeys${numIdsRound - 1}B`;
         } else {
-          assert(false, `Expected integer number of keys, found ${numIds.toFixed(2)}`);
+          assert(false, () => `Expected integer number of keys, found ${numIds.toFixed(2)}`);
         }
       } else {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

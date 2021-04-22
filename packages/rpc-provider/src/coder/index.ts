@@ -3,7 +3,7 @@
 
 import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
-import { assert, isNumber, isString, isUndefined } from '@polkadot/util';
+import { assert, isNumber, isString, isUndefined, stringify } from '@polkadot/util';
 
 function formatErrorData (data?: string | number): string {
   if (isUndefined(data)) {
@@ -12,7 +12,7 @@ function formatErrorData (data?: string | number): string {
 
   const formatted = `: ${isString(data)
     ? data.replace(/Error\("/g, '').replace(/\("/g, '(').replace(/"\)/g, ')').replace(/\(/g, ', ').replace(/\)/g, '')
-    : JSON.stringify(data)}`;
+    : stringify(data)}`;
 
   // We need some sort of cut-off here since these can be very large and
   // very nested, pick a number and trim the result display to it
@@ -47,7 +47,7 @@ export class RpcCoder {
   }
 
   public encodeJson (method: string, params: any | any[]): string {
-    return JSON.stringify(
+    return stringify(
       this.encodeObject(method, params)
     );
   }

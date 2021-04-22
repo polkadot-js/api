@@ -10,7 +10,7 @@ import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, Reg
 // we are attempting to avoid circular refs, hence the Metadata path import
 import { decorateConstants, decorateExtrinsics } from '@polkadot/metadata/decorate';
 import { Metadata } from '@polkadot/metadata/Metadata';
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Json } from '../codec/Json';
@@ -340,8 +340,8 @@ export class TypeRegistry implements Registry {
     if (isFunction(arg1)) {
       this.#classes.set(arg1.name, arg1);
     } else if (isString(arg1)) {
-      assert(isFunction(arg2), `Expected class definition passed to '${arg1}' registration`);
-      assert(arg1 !== arg2.toString(), `Unable to register circular ${arg1} === ${arg1}`);
+      assert(isFunction(arg2), () => `Expected class definition passed to '${arg1}' registration`);
+      assert(arg1 !== arg2.toString(), () => `Unable to register circular ${arg1} === ${arg1}`);
 
       this.#classes.set(arg1, arg2);
     } else {
@@ -357,9 +357,9 @@ export class TypeRegistry implements Registry {
       } else {
         const def = isString(type)
           ? type
-          : JSON.stringify(type);
+          : stringify(type);
 
-        assert(name !== def, `Unable to register circular ${name} === ${def}`);
+        assert(name !== def, () => `Unable to register circular ${name} === ${def}`);
 
         // we already have this type, remove the classes registered for it
         if (this.#classes.has(name)) {

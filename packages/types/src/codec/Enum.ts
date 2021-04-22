@@ -4,7 +4,7 @@
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';
@@ -88,7 +88,7 @@ function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTyp
 function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: any): Decoded {
   const entry = Object.values(def).find((e) => e.index === index);
 
-  assert(!isUndefined(entry), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
+  assert(!isUndefined(entry), () => `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
 
   return {
     index,
@@ -105,7 +105,7 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
   const keyLower = key.toLowerCase();
   const index = keys.indexOf(keyLower);
 
-  assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
+  assert(index !== -1, () => `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
   try {
     return createFromValue(registry, def, Object.values(def)[index].index, value);
@@ -213,7 +213,7 @@ export class Enum implements Codec {
             Object.defineProperty(this, askey, {
               enumerable: true,
               get: (): Codec => {
-                assert(this[iskey as keyof this], `Cannot convert '${this.type}' via ${askey}`);
+                assert(this[iskey as keyof this], () => `Cannot convert '${this.type}' via ${askey}`);
 
                 return this.value;
               }
@@ -384,7 +384,7 @@ export class Enum implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return JSON.stringify({ _enum: this._toRawStruct() });
+    return stringify({ _enum: this._toRawStruct() });
   }
 
   /**
@@ -393,7 +393,7 @@ export class Enum implements Codec {
   public toString (): string {
     return this.isNull
       ? this.type
-      : JSON.stringify(this.toJSON());
+      : stringify(this.toJSON());
   }
 
   /**

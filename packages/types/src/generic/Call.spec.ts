@@ -16,7 +16,7 @@ describe('Call', (): void => {
   it('handles decoding correctly (bare)', (): void => {
     expect(
       new Call(registry, {
-        args: [],
+        args: ['0x0000000000000000000000000000000000000000000000000000000000000000', 0, 0],
         callIndex: [6, 1] // balances.setBalance
       }).toU8a()
     ).toEqual(

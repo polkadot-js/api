@@ -3,6 +3,8 @@
 
 import { Server, WebSocket } from 'mock-socket';
 
+import { stringify } from '@polkadot/util';
+
 interface Scope {
   body: { [index: string]: Record<string, any> };
   requests: number;
@@ -79,7 +81,7 @@ export function mockWs (requests: ({ method: string } & ErrorDef)[], wsUrl: stri
       scope.body[request.method] = body;
       requestCount++;
 
-      socket.send(JSON.stringify(response));
+      socket.send(stringify(response));
     });
   });
 

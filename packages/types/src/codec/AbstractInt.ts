@@ -7,7 +7,7 @@ import type { UIntBitLength } from './types';
 
 import BN from 'bn.js';
 
-import { assert, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, stringify, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -37,7 +37,7 @@ function decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNeg
     // NOTE When passing u8a in (typically from decoded data), it is always Little Endian
     return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
   } catch (error) {
-    throw new Error(`AbstractInt: failed on ${JSON.stringify(value)}:: ${(error as Error).message}`);
+    throw new Error(`AbstractInt: failed on ${stringify(value)}:: ${(error as Error).message}`);
   }
 }
 
@@ -83,8 +83,8 @@ export abstract class AbstractInt extends BN implements Codec {
     const isPositive = this.gte(BN_ZERO);
     const maxBits = bitLength - (isSigned && isPositive ? 1 : 0);
 
-    assert(isSigned || isPositive, `${this.toRawType()}: Negative number passed to unsigned type`);
-    assert(super.bitLength() <= maxBits, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
+    assert(isSigned || isPositive, () => `${this.toRawType()}: Negative number passed to unsigned type`);
+    assert(super.bitLength() <= maxBits, () => `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
   }
 
   /**

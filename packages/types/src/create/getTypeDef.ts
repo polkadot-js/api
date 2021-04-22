@@ -110,7 +110,7 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
-  assert(length <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
+  assert(length <= 256, () => `${type}: Only support for [Type; <length>], where length <= 256`);
 
   value.displayName = displayName;
   value.length = length;
@@ -137,7 +137,7 @@ function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 
   const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
-  assert(length <= 8192 && (length % 8) === 0, `${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
+  assert(length <= 8192 && (length % 8) === 0, () => `${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
 
   value.displayName = displayName;
   value.length = length;

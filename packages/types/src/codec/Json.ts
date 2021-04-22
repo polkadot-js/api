@@ -4,7 +4,7 @@
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Registry } from '../types';
 
-import { isFunction, isUndefined } from '@polkadot/util';
+import { isFunction, isUndefined, stringify } from '@polkadot/util';
 
 import { compareMap } from './utils';
 
@@ -112,7 +112,7 @@ export class Json extends Map<string, any> implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return JSON.stringify(this.toJSON());
+    return stringify(this.toJSON());
   }
 
   /**

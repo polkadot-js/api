@@ -35,13 +35,9 @@ export class GenericAccountId extends U8aFixed {
     const decoded = decodeAccountId(value);
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)
-    assert(decoded.length >= 32 || !decoded.some((b) => b), `Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
+    assert(decoded.length >= 32 || !decoded.some((b) => b), () => `Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
 
     super(registry, decoded, 256);
-  }
-
-  public static encode (value: Uint8Array, ss58Format?: number): string {
-    return encodeAddress(value, ss58Format);
   }
 
   /**
@@ -69,7 +65,7 @@ export class GenericAccountId extends U8aFixed {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return GenericAccountId.encode(this, this.registry.chainSS58);
+    return encodeAddress(this, this.registry.chainSS58);
   }
 
   /**

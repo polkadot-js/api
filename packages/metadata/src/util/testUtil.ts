@@ -5,7 +5,7 @@ import type { Codec, Registry } from '@polkadot/types/types';
 import type { MetadataInterface } from '../types';
 
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, hexToU8a, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
 
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
@@ -22,7 +22,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
       expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
       expect(metadata.toJSON()).toEqual(staticSubstrate);
     } catch (error) {
-      console.error(JSON.stringify(metadata.toJSON()));
+      console.error(stringify(metadata.toJSON()));
 
       throw error;
     }
@@ -65,7 +65,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
               if (withFallbackCheck) {
                 const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
 
-                assert(hexType === hexOrig, `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
+                assert(hexType === hexOrig, () => `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
               }
             } catch (error) {
               const message = `${location}:: ${(error as Error).message}`;

@@ -343,7 +343,7 @@ export class RpcCore {
       ? ''
       : ` (${def.params.length - reqArgCount} optional)`;
 
-    assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, () => `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
       createTypeUnsafe(registry, def.params[index].type, [input], { blockHash })

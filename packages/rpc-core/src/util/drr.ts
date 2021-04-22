@@ -3,7 +3,7 @@
 
 import type { Observable } from '@polkadot/x-rxjs';
 
-import { logger } from '@polkadot/util';
+import { logger, stringify } from '@polkadot/util';
 import { catchError, distinctUntilChanged, publishReplay, refCount, tap } from '@polkadot/x-rxjs/operators';
 
 import { refCountDelay } from './refCountDelay';
@@ -19,7 +19,7 @@ interface Options {
 const l = logger('drr');
 
 const CMP = (a: unknown, b: unknown): boolean =>
-  JSON.stringify({ t: a }) === JSON.stringify({ t: b });
+  stringify({ t: a }) === stringify({ t: b });
 
 const ERR = (error: Error): Observable<never> => {
   l.error(error);

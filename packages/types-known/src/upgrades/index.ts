@@ -7,7 +7,7 @@ import type { ChainUpgradesRaw } from './types';
 import BN from 'bn.js';
 
 import networks from '@polkadot/networks';
-import { assert, hexToU8a } from '@polkadot/util';
+import { assert, hexToU8a, stringify } from '@polkadot/util';
 
 import kusama from './kusama';
 import polkadot from './polkadot';
@@ -30,7 +30,7 @@ function checkOrder (network: string, versions: ChainUpgradesRaw): [number, numb
       : curr[0] <= prev[0] || curr[1] <= prev[1];
   });
 
-  assert(!ooo.length, `${network}: Mismatched upgrade ordering: ${JSON.stringify(ooo)}`);
+  assert(!ooo.length, () => `${network}: Mismatched upgrade ordering: ${stringify(ooo)}`);
 
   return versions;
 }
@@ -39,7 +39,7 @@ function checkOrder (network: string, versions: ChainUpgradesRaw): [number, numb
 function mapRaw ([network, versions]: [string, ChainUpgradesRaw]): ChainUpgrades {
   const chain = networks.find((n) => n.network === network) || NET_EXTRA[network];
 
-  assert(chain, `Unable to find info for chain ${network}`);
+  assert(chain, () => `Unable to find info for chain ${network}`);
 
   return {
     genesisHash: hexToU8a(chain.genesisHash[0]),

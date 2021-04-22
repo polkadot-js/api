@@ -4,7 +4,7 @@
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareMap, decodeU8a, typeToConstructor } from './utils';
 
@@ -183,7 +183,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return JSON.stringify(this.toJSON());
+    return stringify(this.toJSON());
   }
 
   /**

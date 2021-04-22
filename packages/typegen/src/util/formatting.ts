@@ -7,7 +7,7 @@ import Handlebars from 'handlebars';
 
 import { getTypeDef, paramsNotation } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
-import { isString } from '@polkadot/util';
+import { isString, stringify } from '@polkadot/util';
 
 import { readTemplate } from './file';
 import { ModuleTypes, setImports, TypeImports } from './imports';
@@ -284,7 +284,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
     }
 
     default: {
-      throw new Error(`Cannot format ${JSON.stringify(type)}`);
+      throw new Error(`Cannot format ${stringify(type)}`);
     }
   }
 }

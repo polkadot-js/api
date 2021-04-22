@@ -109,7 +109,7 @@ export class WsProvider implements ProviderInterface {
     assert(endpoints.length !== 0, 'WsProvider requires at least one Endpoint');
 
     endpoints.forEach((endpoint) => {
-      assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+      assert(/^(wss|ws):\/\//.test(endpoint), () => `Endpoint should start with 'ws://', received '${endpoint}'`);
     });
 
     this.#eventemitter = new EventEmitter();

@@ -3,7 +3,7 @@
 
 import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { isHex, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { isHex, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
@@ -110,7 +110,7 @@ export class Tuple extends AbstractArray<Codec> {
    */
   public toString (): string {
     // Overwrite the default toString representation of Array.
-    return JSON.stringify(this.toJSON());
+    return stringify(this.toJSON());
   }
 
   /**
