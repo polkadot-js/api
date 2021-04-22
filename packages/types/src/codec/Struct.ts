@@ -13,8 +13,9 @@ type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
   let jsonObj: Record<string, any> | undefined;
+  const isArrayValue = Array.isArray(value);
 
-  return Object.keys(Types).reduce((raw, key, index): T => {
+  return Object.keys(Types).reduce((raw, key): T => {
     // The key in the JSON can be snake_case (or other cases), but in our
     // Types, result or any other maps, it's camelCase
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -23,13 +24,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
       : key;
 
     try {
-      if (Array.isArray(value)) {
-        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[index] instanceof Types[key]
-          ? value[index]
-          : new Types[key](registry, value[index]);
-      } else if (value instanceof Map) {
+      if (value instanceof Map) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const mapped = value.get(jsonKey);
 
@@ -37,7 +32,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         (raw as any)[key] = mapped instanceof Types[key]
           ? mapped
           : new Types[key](registry, mapped);
-      } else if (isObject(value)) {
+      } else if (isObject(value) && !isArrayValue) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         let assign = value[jsonKey as string];
 
@@ -60,7 +55,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
           ? assign
           : new Types[key](registry, assign);
       } else {
-        throw new Error(`Cannot decode value ${JSON.stringify(value)}`);
+        throw new Error(`Cannot decode value ${JSON.stringify(value)}, expected an input object with known keys`);
       }
     } catch (error) {
       let type = Types[key].name;
@@ -71,7 +66,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         // ignore
       }
 
-      throw new Error(`Struct: failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
+      throw new Error(`Struct: failed on key ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
     }
 
     return raw;

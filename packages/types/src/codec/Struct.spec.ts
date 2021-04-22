@@ -28,7 +28,6 @@ describe('Struct', (): void => {
         ).toEqual(['bazzing', '69']);
       });
 
-    testDecode('array', ['bazzing', 69]);
     testDecode('hex', '0x1c62617a7a696e6745000000');
     testDecode('object', { foo: 'bazzing', bar: 69 });
     testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
@@ -117,6 +116,14 @@ describe('Struct', (): void => {
         })
       )(registry, 'ABC')
     ).toThrowError(/Cannot decode value/);
+  });
+
+  it('throws a sensical error on incorrect structs', (): void => {
+    expect(
+      () => new Struct(registry, {
+        _: 'Vec<u32>'
+      }, [123, 456])
+    ).toThrow(/Cannot decode value/);
   });
 
   it('provides a clean toString()', (): void => {
