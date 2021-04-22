@@ -4,7 +4,7 @@
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';

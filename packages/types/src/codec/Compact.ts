@@ -3,7 +3,7 @@
 
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
-import type { CompactEncodable, UIntBitLength } from './types';
+import type { CompactEncodable } from './types';
 
 import BN from 'bn.js';
 
@@ -50,7 +50,7 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
       return new Type(registry, value);
     }
 
-    const [, _value] = compactFromU8a(value, new Type(registry, 0).bitLength() as UIntBitLength);
+    const [, _value] = compactFromU8a(value);
 
     return new Type(registry, _value);
   }

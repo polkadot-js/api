@@ -10,7 +10,7 @@ import path from 'path';
 import { getTypeDef } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import { assert, isString, stringCamelCase, stringUpperFirst, stringify } from '@polkadot/util';
+import { assert, isString, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
 
 import { createImports, exportInterface, exportType, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';
 

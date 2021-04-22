@@ -6,7 +6,7 @@ import type { Codec, Constructor, Registry } from '../types';
 
 import BN from 'bn.js';
 
-import { assert, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, stringify, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareArray } from './utils';
 
