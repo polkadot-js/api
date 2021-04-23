@@ -92,6 +92,10 @@ export interface DispatchError extends Enum {
   readonly isBadOrigin: boolean;
   readonly isModule: boolean;
   readonly asModule: DispatchErrorModule;
+  readonly isConsumerRemaining: boolean;
+  readonly isNoProviders: boolean;
+  readonly isToken: boolean;
+  readonly asToken: TokenError;
 }
 
 /** @name DispatchErrorModule */
@@ -340,6 +344,18 @@ export interface SyncState extends Struct {
 
 /** @name SystemOrigin */
 export interface SystemOrigin extends RawOrigin {}
+
+/** @name TokenError */
+export interface TokenError extends Enum {
+  readonly isNoFunds: boolean;
+  readonly isWouldDie: boolean;
+  readonly isBelowMinimum: boolean;
+  readonly isCannotCreate: boolean;
+  readonly isUnknownAsset: boolean;
+  readonly isFrozen: boolean;
+  readonly isUnderflow: boolean;
+  readonly isOverflow: boolean;
+}
 
 /** @name TransactionValidityError */
 export interface TransactionValidityError extends Enum {
