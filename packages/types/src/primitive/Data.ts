@@ -59,6 +59,14 @@ export class Data extends Enum {
     }, ...decodeData(registry, value));
   }
 
+  get asBlakeTwo256 (): H256 {
+    return this.value as H256;
+  }
+
+  get asKeccak256 (): H256 {
+    return this.value as H256;
+  }
+
   get asRaw (): Bytes {
     return this.value as Bytes;
   }
@@ -67,12 +75,32 @@ export class Data extends Enum {
     return this.value as H256;
   }
 
+  get asShaThree256 (): H256 {
+    return this.value as H256;
+  }
+
+  get isBlakeTwo256 (): boolean {
+    return this.index === 2;
+  }
+
+  get isKeccak256 (): boolean {
+    return this.index === 4;
+  }
+
+  get isNone (): boolean {
+    return this.index === 0;
+  }
+
   get isRaw (): boolean {
     return this.index === 1;
   }
 
   get isSha256 (): boolean {
     return this.index === 3;
+  }
+
+  get isShaThree256 (): boolean {
+    return this.index === 5;
   }
 
   /**
