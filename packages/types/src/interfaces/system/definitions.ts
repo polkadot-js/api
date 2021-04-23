@@ -183,7 +183,10 @@ export default {
         Other: 'Null',
         CannotLookup: 'Null',
         BadOrigin: 'Null',
-        Module: 'DispatchErrorModule'
+        Module: 'DispatchErrorModule',
+        ConsumerRemaining: 'Null',
+        NoProviders: 'Null',
+        Token: 'TokenError'
       }
     },
     DispatchErrorModule: {
@@ -342,6 +345,18 @@ export default {
       highestBlock: 'Option<BlockNumber>'
     },
     SystemOrigin: 'RawOrigin',
+    TokenError: {
+      _enum: [
+        'NoFunds',
+        'WouldDie',
+        'BelowMinimum',
+        'CannotCreate',
+        'UnknownAsset',
+        'Frozen',
+        'Underflow',
+        'Overflow'
+      ]
+    },
     TransactionValidityError: {
       _enum: {
         Invalid: 'InvalidTransaction',
