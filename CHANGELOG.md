@@ -2,21 +2,25 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for users following Substrate master.
+
 Changes:
 
 - Adjust Struct decoding with better error messages on invalid input objects
 - Add support for new `BoundedVec` type
-- Adjusted Statemint `Proxy` type
 - Expand `Data` type (as used in identity), with all is/as getters
 - Updated `Xcm` types (with Plularity)
+- Adjust `DispatchError` type as per current Substrate master
+- Adjusted Statemint `Proxy` type
 - Remove metadata generation dependency on well-known.json (dedupe)
 - Adjust WebSocket reconnection delay from 1s to 2.5s
 - Revert Beefy keys addition for Westend
+- Add explicit `engines` config to `package.json`
 
 
 ## 4.6.2 Apr 19, 2021
 
-Upgrade priority: Low.
+Upgrade priority: Low. Recommended for users of Kusama/Polkadot.
 
 Changes:
 
@@ -32,7 +36,7 @@ Changes:
 - Assert keypair validity in signing operations
 - Expose `internalError` on submittable results (e.g. event decoding errors)
 - Simplify session derives for old/new
-- Add statemint to known types
+- Add Statemint to known types
 - Add support for `rpc.beefy.subscribeJustifications`
 - Update Xcm types
 - Explicitly handle `isReadyOrError` with `Api.create`

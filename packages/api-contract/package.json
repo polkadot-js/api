@@ -8,6 +8,9 @@
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
@@ -19,8 +22,8 @@
     "@babel/runtime": "^7.13.17",
     "@polkadot/api": "4.6.3-10",
     "@polkadot/types": "4.6.3-10",
-    "@polkadot/util": "^6.2.2-7",
-    "@polkadot/x-rxjs": "^6.2.2-7",
+    "@polkadot/util": "^6.2.2-8",
+    "@polkadot/x-rxjs": "^6.2.2-8",
     "bn.js": "^4.11.9"
   }
 }
