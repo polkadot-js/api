@@ -8,6 +8,9 @@
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
     "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
@@ -30,7 +33,7 @@
     "@polkadot/metadata": "4.6.3-10",
     "@polkadot/rpc-provider": "4.6.3-10",
     "@polkadot/types": "4.6.3-10",
-    "@polkadot/util": "^6.2.2-7",
+    "@polkadot/util": "^6.2.2-8",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
     "yargs": "^16.2.0"
