@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, GenericEthereumAccountId, GenericEthereumLookupSource, Option, Struct, U256, U64, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { BlockNumber, H160, H2048, H256 } from '@polkadot/types/interfaces/runtime';
+import type { BlockNumber, H160, H2048, H256, H64 } from '@polkadot/types/interfaces/runtime';
 
 /** @name EthAccount */
 export interface EthAccount extends Struct {
@@ -17,26 +17,9 @@ export interface EthAccount extends Struct {
 
 /** @name EthBlock */
 export interface EthBlock extends Struct {
-  readonly blockHash: Option<H256>;
-  readonly parentHash: H256;
-  readonly sha3Uncles: H256;
-  readonly author: H160;
-  readonly miner: H160;
-  readonly stateRoot: H256;
-  readonly transactionsRoot: H256;
-  readonly receiptsRoot: H256;
-  readonly number: Option<U256>;
-  readonly gasUsed: U256;
-  readonly gasLimit: U256;
-  readonly extraData: Bytes;
-  readonly logsBloom: H2048;
-  readonly timestamp: U256;
-  readonly difficulty: U256;
-  readonly totalDifficulty: Option<U256>;
-  readonly sealFields: Vec<Bytes>;
-  readonly uncles: Vec<H256>;
+  readonly header: EthHeader;
   readonly transactions: Vec<EthTransaction>;
-  readonly blockSize: Option<U256>;
+  readonly ommers: Vec<EthHeader>;
 }
 
 /** @name EthBloom */
@@ -112,23 +95,21 @@ export interface EthFilterTopicInner extends Enum {
 
 /** @name EthHeader */
 export interface EthHeader extends Struct {
-  readonly blockHash: Option<H256>;
   readonly parentHash: H256;
-  readonly sha3Uncles: H256;
-  readonly author: H160;
-  readonly miner: H160;
+  readonly ommersHash: H256;
+  readonly beneficiary: H160;
   readonly stateRoot: H256;
   readonly transactionsRoot: H256;
   readonly receiptsRoot: H256;
-  readonly number: Option<U256>;
-  readonly gasUsed: U256;
-  readonly gasLimit: U256;
-  readonly extraData: Bytes;
-  readonly logsBloom: H2048;
-  readonly timestamp: U256;
+  readonly logsBloom: EthBloom;
   readonly difficulty: U256;
-  readonly sealFields: Vec<Bytes>;
-  readonly blockSize: Option<U256>;
+  readonly number: U256;
+  readonly gasLimit: U256;
+  readonly gasUsed: U256;
+  readonly timestamp: u64;
+  readonly extraData: Bytes;
+  readonly mixMash: H256;
+  readonly nonce: H64;
 }
 
 /** @name EthLog */
@@ -158,15 +139,54 @@ export interface EthReceipt extends Struct {
   readonly contractAddress: Option<H160>;
   readonly logs: Vec<EthLog>;
   readonly root: Option<H256>;
-  readonly logsBloom: H2048;
+  readonly logsBloom: EthBloom;
   readonly statusCode: Option<U64>;
 }
 
 /** @name EthRichBlock */
-export interface EthRichBlock extends EthBlock {}
+export interface EthRichBlock extends Struct {
+  readonly blockHash: Option<H256>;
+  readonly parentHash: H256;
+  readonly sha3Uncles: H256;
+  readonly author: H160;
+  readonly miner: H160;
+  readonly stateRoot: H256;
+  readonly transactionsRoot: H256;
+  readonly receiptsRoot: H256;
+  readonly number: Option<U256>;
+  readonly gasUsed: U256;
+  readonly gasLimit: U256;
+  readonly extraData: Bytes;
+  readonly logsBloom: EthBloom;
+  readonly timestamp: U256;
+  readonly difficulty: U256;
+  readonly totalDifficulty: Option<U256>;
+  readonly sealFields: Vec<Bytes>;
+  readonly uncles: Vec<H256>;
+  readonly transactions: Vec<EthTransaction>;
+  readonly blockSize: Option<U256>;
+}
 
 /** @name EthRichHeader */
-export interface EthRichHeader extends EthHeader {}
+export interface EthRichHeader extends Struct {
+  readonly blockHash: Option<H256>;
+  readonly parentHash: H256;
+  readonly sha3Uncles: H256;
+  readonly author: H160;
+  readonly miner: H160;
+  readonly stateRoot: H256;
+  readonly transactionsRoot: H256;
+  readonly receiptsRoot: H256;
+  readonly number: Option<U256>;
+  readonly gasUsed: U256;
+  readonly gasLimit: U256;
+  readonly extraData: Bytes;
+  readonly logsBloom: EthBloom;
+  readonly timestamp: U256;
+  readonly difficulty: U256;
+  readonly sealFields: Vec<Bytes>;
+  readonly blockSize: Option<U256>;
+}
 
 /** @name EthStorageProof */
 export interface EthStorageProof extends Struct {
@@ -226,9 +246,7 @@ export interface EthTransaction extends Struct {
   readonly action: EthTransactionAction;
   readonly value: U256;
   readonly input: Bytes;
-  readonly v: u64;
-  readonly r: H256;
-  readonly s: H256;
+  readonly signature: EthTransactionSignature;
 }
 
 /** @name EthTransactionAction */
@@ -255,6 +273,13 @@ export interface EthTransactionRequest extends Struct {
   readonly value: Option<U256>;
   readonly data: Option<Bytes>;
   readonly nonce: Option<U256>;
+}
+
+/** @name EthTransactionSignature */
+export interface EthTransactionSignature extends Struct {
+  readonly v: u64;
+  readonly r: H256;
+  readonly s: H256;
 }
 
 /** @name EthTransactionStatus */

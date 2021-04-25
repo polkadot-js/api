@@ -24,6 +24,28 @@ const types: DefinitionsTypes = {
     storageProof: 'Vec<EthStorageProof>'
   },
   EthBlock: {
+    header: 'EthHeader',
+    transactions: 'Vec<EthTransaction>',
+    ommers: 'Vec<EthHeader>'
+  },
+  EthHeader: {
+    parentHash: 'H256',
+    ommersHash: 'H256',
+    beneficiary: 'H160',
+    stateRoot: 'H256',
+    transactionsRoot: 'H256',
+    receiptsRoot: 'H256',
+    logsBloom: 'EthBloom',
+    difficulty: 'U256',
+    number: 'U256',
+    gasLimit: 'U256',
+    gasUsed: 'U256',
+    timestamp: 'u64',
+    extraData: 'Bytes',
+    mixMash: 'H256',
+    nonce: 'H64'
+  },
+  EthRichBlock: {
     _alias: {
       blockHash: 'hash',
       blockSize: 'size'
@@ -40,7 +62,7 @@ const types: DefinitionsTypes = {
     gasUsed: 'U256',
     gasLimit: 'U256',
     extraData: 'Bytes',
-    logsBloom: 'H2048',
+    logsBloom: 'EthBloom',
     timestamp: 'U256',
     difficulty: 'U256',
     totalDifficulty: 'Option<U256>',
@@ -95,7 +117,7 @@ const types: DefinitionsTypes = {
       Null: 'Null'
     }
   },
-  EthHeader: {
+  EthRichHeader: {
     _alias: {
       blockHash: 'hash',
       blockSize: 'size'
@@ -112,7 +134,7 @@ const types: DefinitionsTypes = {
     gasUsed: 'U256',
     gasLimit: 'U256',
     extraData: 'Bytes',
-    logsBloom: 'H2048',
+    logsBloom: 'EthBloom',
     timestamp: 'U256',
     difficulty: 'U256',
     sealFields: 'Vec<Bytes>',
@@ -142,11 +164,9 @@ const types: DefinitionsTypes = {
     contractAddress: 'Option<H160>',
     logs: 'Vec<EthLog>',
     root: 'Option<H256>',
-    logsBloom: 'H2048',
+    logsBloom: 'EthBloom',
     statusCode: 'Option<U64>'
   },
-  EthRichBlock: 'EthBlock',
-  EthRichHeader: 'EthHeader',
   EthStorageProof: {
     key: 'U256',
     value: 'U256',
@@ -189,35 +209,13 @@ const types: DefinitionsTypes = {
     action: 'EthTransactionAction',
     value: 'U256',
     input: 'Bytes',
-    // TransactionSignature (embedded)
+    signature: 'EthTransactionSignature'
+  },
+  EthTransactionSignature: {
     v: 'u64',
     r: 'H256',
     s: 'H256'
   },
-  // as per the RPC definition
-  // TODO: Check these, re-add
-  // EthTransaction: {
-  //   // hash in Rust
-  //   transactionHash: 'H256',
-  //   nonce: 'U256',
-  //   blockHash: 'Option<H256>',
-  //   blockNumber: 'Option<U256>',
-  //   transactionIndex: 'Option<U256>',
-  //   from: 'H160',
-  //   to: 'Option<H160>',
-  //   value: 'U256',
-  //   gasPrice: 'U256',
-  //   gas: 'U256',
-  //   input: 'Bytes',
-  //   creates: 'Option<H160>',
-  //   raw: 'Bytes',
-  //   publicKey: 'Option<H512>',
-  //   chainId: 'Option<U64>',
-  //   standardV: 'U256',
-  //   v: 'U256',
-  //   r: 'U256',
-  //   s: 'U256'
-  // },
   EthTransactionAction: {
     _enum: {
       Call: 'H160',
