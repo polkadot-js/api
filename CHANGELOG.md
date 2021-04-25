@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 4.7.1 Apr 25, 2021
 
 Upgrade priority: Low. Recommended for users following Substrate master.
 
