@@ -16,7 +16,7 @@ Changes:
 - Adjust WebSocket reconnection delay from 1s to 2.5s
 - Revert Beefy keys addition for Westend
 - Add explicit `engines` config to `package.json`
-- support for `None` in `RewardDestination`
+- Support for `None` in `RewardDestination`
 - Align with latest substrate metadata
 
 
