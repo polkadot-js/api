@@ -179,7 +179,7 @@ export default {
     ...xmcOrder,
     DoubleEncodedCall: { encoded: 'Vec<u8>' },
     XcmOriginKind: {
-      _enum: ['Native', 'SovereignAccount', 'Superuser']
+      _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
     },
     XcmResponse: {
       _enum: {
