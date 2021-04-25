@@ -418,10 +418,11 @@ declare module '@polkadot/api/types/events' {
        **/
       MemberKicked: AugmentedEvent<ApiType, [AccountId]>;
       /**
-       * A new term with \[new_members\]. This indicates that enough candidates existed to run the
-       * election, not that enough have has been elected. The inner value must be examined for
-       * this purpose. A `NewTerm(\[\])` indicates that some candidates got their bond slashed and
-       * none were elected, whilst `EmptyTerm` means that no candidates existed to begin with.
+       * A new term with \[new_members\]. This indicates that enough candidates existed to run
+       * the election, not that enough have has been elected. The inner value must be examined
+       * for this purpose. A `NewTerm(\[\])` indicates that some candidates got their bond
+       * slashed and none were elected, whilst `EmptyTerm` means that no candidates existed to
+       * begin with.
        **/
       NewTerm: AugmentedEvent<ApiType, [Vec<ITuple<[AccountId, Balance]>>]>;
       /**

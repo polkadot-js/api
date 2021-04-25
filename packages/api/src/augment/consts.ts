@@ -200,12 +200,38 @@ declare module '@polkadot/api/types/consts' {
     };
     elections: {
       [key: string]: Codec;
+      /**
+       * How much should be locked up in order to submit one's candidacy.
+       **/
       candidacyBond: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Number of members to elect.
+       **/
       desiredMembers: u32 & AugmentedConst<ApiType>;
+      /**
+       * Number of runners_up to keep.
+       **/
       desiredRunnersUp: u32 & AugmentedConst<ApiType>;
+      /**
+       * Identifier for the elections-phragmen pallet's lock
+       **/
       palletId: LockIdentifier & AugmentedConst<ApiType>;
+      /**
+       * How long each seat is kept. This defines the next block number at which an election
+       * round will happen. If set to zero, no elections are ever triggered and the module will
+       * be in passive mode.
+       **/
       termDuration: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Base deposit associated with voting.
+       * 
+       * This should be sensibly high to economically ensure the pallet cannot be attacked by
+       * creating a gigantic number of votes.
+       **/
       votingBondBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The amount of bond that need to be locked for each vote (32 bytes).
+       **/
       votingBondFactor: BalanceOf & AugmentedConst<ApiType>;
     };
     gilt: {
