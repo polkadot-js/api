@@ -5786,7 +5786,7 @@
         {
           "name": "Elections",
           "storage": {
-            "prefix": "PhragmenElection",
+            "prefix": "Elections",
             "items": [
               {
                 "name": "Members",
@@ -5956,8 +5956,8 @@
                 "   origin is removed as a runner-up.",
                 " - `origin` is a current member. In this case, the deposit is unreserved and origin is",
                 "   removed as a member, consequently not being a candidate for the next round anymore.",
-                "   Similar to [`remove_members`], if replacement runners exists, they are immediately used.",
-                "   If the prime is renouncing, then no prime will exist until the next round.",
+                "   Similar to [`remove_members`], if replacement runners exists, they are immediately",
+                "   used. If the prime is renouncing, then no prime will exist until the next round.",
                 "",
                 " The dispatch origin of this call must be signed, and have one of the above roles.",
                 "",
@@ -6028,10 +6028,11 @@
                 "Vec<(AccountId,Balance)>"
               ],
               "documentation": [
-                " A new term with \\[new_members\\]. This indicates that enough candidates existed to run the",
-                " election, not that enough have has been elected. The inner value must be examined for",
-                " this purpose. A `NewTerm(\\[\\])` indicates that some candidates got their bond slashed and",
-                " none were elected, whilst `EmptyTerm` means that no candidates existed to begin with."
+                " A new term with \\[new_members\\]. This indicates that enough candidates existed to run",
+                " the election, not that enough have has been elected. The inner value must be examined",
+                " for this purpose. A `NewTerm(\\[\\])` indicates that some candidates got their bond",
+                " slashed and none were elected, whilst `EmptyTerm` means that no candidates existed to",
+                " begin with."
               ]
             },
             {
@@ -6094,46 +6095,65 @@
           ],
           "constants": [
             {
+              "name": "PalletId",
+              "type": "LockIdentifier",
+              "value": "0x706872656c656374",
+              "documentation": [
+                " Identifier for the elections-phragmen pallet's lock"
+              ]
+            },
+            {
               "name": "CandidacyBond",
               "type": "BalanceOf",
               "value": "0x0080c6a47e8d03000000000000000000",
-              "documentation": []
+              "documentation": [
+                " How much should be locked up in order to submit one's candidacy."
+              ]
             },
             {
               "name": "VotingBondBase",
               "type": "BalanceOf",
               "value": "0x00f0436de36a01000000000000000000",
-              "documentation": []
+              "documentation": [
+                " Base deposit associated with voting.",
+                "",
+                " This should be sensibly high to economically ensure the pallet cannot be attacked by",
+                " creating a gigantic number of votes."
+              ]
             },
             {
               "name": "VotingBondFactor",
               "type": "BalanceOf",
               "value": "0x0000cc7b9fae00000000000000000000",
-              "documentation": []
+              "documentation": [
+                " The amount of bond that need to be locked for each vote (32 bytes)."
+              ]
             },
             {
               "name": "DesiredMembers",
               "type": "u32",
               "value": "0x0d000000",
-              "documentation": []
+              "documentation": [
+                " Number of members to elect."
+              ]
             },
             {
               "name": "DesiredRunnersUp",
               "type": "u32",
               "value": "0x07000000",
-              "documentation": []
+              "documentation": [
+                " Number of runners_up to keep."
+              ]
             },
             {
               "name": "TermDuration",
               "type": "BlockNumber",
               "value": "0x80130300",
-              "documentation": []
-            },
-            {
-              "name": "PalletId",
-              "type": "LockIdentifier",
-              "value": "0x706872656c656374",
-              "documentation": []
+              "documentation": [
+                " How long each seat is kept. This defines the next block number at which an election",
+                " round will happen. If set to zero, no elections are ever triggered and the module will",
+                " be in passive mode."
+              ]
             }
           ],
           "errors": [
