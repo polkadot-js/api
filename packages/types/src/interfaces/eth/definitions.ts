@@ -35,7 +35,7 @@ const types: DefinitionsTypes = {
     stateRoot: 'H256',
     transactionsRoot: 'H256',
     receiptsRoot: 'H256',
-    logsBloom: 'Bloom',
+    logsBloom: 'EthBloom',
     difficulty: 'U256',
     number: 'U256',
     gasLimit: 'U256',
@@ -62,7 +62,7 @@ const types: DefinitionsTypes = {
     gasUsed: 'U256',
     gasLimit: 'U256',
     extraData: 'Bytes',
-    logsBloom: 'H2048',
+    logsBloom: 'EthBloom',
     timestamp: 'U256',
     difficulty: 'U256',
     totalDifficulty: 'Option<U256>',
@@ -134,7 +134,7 @@ const types: DefinitionsTypes = {
     gasUsed: 'U256',
     gasLimit: 'U256',
     extraData: 'Bytes',
-    logsBloom: 'H2048',
+    logsBloom: 'EthBloom',
     timestamp: 'U256',
     difficulty: 'U256',
     sealFields: 'Vec<Bytes>',
@@ -164,7 +164,7 @@ const types: DefinitionsTypes = {
     contractAddress: 'Option<H160>',
     logs: 'Vec<EthLog>',
     root: 'Option<H256>',
-    logsBloom: 'H2048',
+    logsBloom: 'EthBloom',
     statusCode: 'Option<U64>'
   },
   EthStorageProof: {
@@ -216,7 +216,6 @@ const types: DefinitionsTypes = {
     r: 'H256',
     s: 'H256'
   },
-
   EthTransactionAction: {
     _enum: {
       Call: 'H160',

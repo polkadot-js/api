@@ -123,6 +123,9 @@ export interface H2048 extends U8aFixed {}
 /** @name H256 */
 export interface H256 extends U8aFixed {}
 
+/** @name H32 */
+export interface H32 extends U8aFixed {}
+
 /** @name H512 */
 export interface H512 extends U8aFixed {}
 
