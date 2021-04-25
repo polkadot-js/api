@@ -62,7 +62,7 @@ export default {
       normal: 'Weight',
       operational: 'Weight'
     },
-    H32: '[u8; 8; H32]',
+    H32: '[u8; 4; H32]',
     H64: '[u8; 8; H64]',
     H128: '[u8; 16; H128]',
     H160: '[u8; 20; H160]',

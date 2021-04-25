@@ -4,6 +4,7 @@
 
 Changes:
 
+- Update `EthBlock`/`EthHeader` types (as per Rust origin)
 - Updated Xcm `OriginKind` enum
 
 
