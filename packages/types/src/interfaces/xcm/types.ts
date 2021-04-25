@@ -375,6 +375,7 @@ export interface XcmOriginKind extends Enum {
   readonly isNative: boolean;
   readonly isSovereignAccount: boolean;
   readonly isSuperuser: boolean;
+  readonly isXcm: boolean;
 }
 
 /** @name XcmOutcome */
