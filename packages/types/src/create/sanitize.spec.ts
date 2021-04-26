@@ -5,7 +5,7 @@ import { alias, removeColons } from './sanitize';
 
 describe('sanitize', (): void => {
   describe('alias', (): void => {
-    const exec = alias(['String'], 'Text');
+    const exec = alias('String', 'Text');
 
     it('replaces all occurrences for types', (): void => {
       expect(exec('(String,Address,MasterString,String)')).toEqual(
@@ -27,7 +27,7 @@ describe('sanitize', (): void => {
     });
 
     it('handles emdedded Vec/Tuples', (): void => {
-      const ann = alias(['Announcement'], 'ProxyAnnouncement');
+      const ann = alias('Announcement', 'ProxyAnnouncement');
 
       expect(ann('(Vec<Announcement>,BalanceOf)')).toEqual(
         '(Vec<ProxyAnnouncement>,BalanceOf)'
