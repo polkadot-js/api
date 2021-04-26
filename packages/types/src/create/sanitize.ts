@@ -12,8 +12,8 @@ const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fi
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
-  alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
-  alias(['VecDeque<'], 'Vec<', false),
+  alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport', false),
+  alias('VecDeque<', 'Vec<', false),
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Change BoundedVec<Type, Size> to Vec<Type>
@@ -27,16 +27,17 @@ const mappings: Mapper[] = [
   // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
   removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
-  alias(['String'], 'Text'),
+  alias('String', 'Text'),
   // alias Vec<u8> -> Bytes
-  alias(['Vec<u8>', '&\\[u8\\]'], 'Bytes'),
+  alias('Vec<u8>', 'Bytes'),
+  alias('&\\[u8\\]', 'Bytes'),
   // alias RawAddress -> Address
-  alias(['RawAddress'], 'Address'),
+  alias('RawAddress', 'Address'),
   // lookups, mapped to Address/AccountId as appropriate in runtime
-  alias(['Lookup::Source'], 'LookupSource'),
-  alias(['Lookup::Target'], 'LookupTarget'),
+  alias('Lookup::Source', 'LookupSource'),
+  alias('Lookup::Target', 'LookupTarget'),
   // HACK duplication between contracts & primitives, however contracts prefixed with exec
-  alias(['exec::StorageKey'], 'ContractStorageKey'),
+  alias('exec::StorageKey', 'ContractStorageKey'),
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> Proposal
@@ -62,17 +63,14 @@ export function findClosing (value: string, start: number): number {
   throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
 }
 
-export function alias (src: string[], dest: string, withChecks = true): Mapper {
+export function alias (src: string, dest: string, withChecks = true): Mapper {
   return (value: string): string =>
-    src.reduce((value, src): string =>
-      value
-        .replace(
-          new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g'),
-          (src): string =>
-            withChecks && BOX_PRECEDING.includes(src[0])
-              ? `${src[0]}${dest}`
-              : dest
-        ), value
+    value.replace(
+      new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g'),
+      (src): string =>
+        withChecks && BOX_PRECEDING.includes(src[0])
+          ? `${src[0]}${dest}`
+          : dest
     );
 }
 
