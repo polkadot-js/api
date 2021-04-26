@@ -13,6 +13,8 @@ import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
+type Collective = 'council' | 'membership' | 'technicalCommittee';
+
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
 function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
@@ -29,7 +31,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee' = 'council'): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
+function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: Collective): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> =>
     (isFunction(api.query[section]?.proposals) && hashes.length
       ? combineLatest<Result>([
@@ -49,19 +51,19 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: 'coun
   );
 }
 
-export function proposals (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee' = 'council'): () => Observable<DeriveCollectiveProposal[]> {
+export function proposals (instanceId: string, api: ApiInterfaceRx, section: Collective): () => Observable<DeriveCollectiveProposal[]> {
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
     isFunction(api.query[section]?.proposals)
-      ? api.query[section].proposals().pipe(
+      ? api.query[section as 'council'].proposals().pipe(
         switchMap(proposalsFrom)
       )
       : of([] as DeriveCollectiveProposal[])
   );
 }
 
-export function proposal (instanceId: string, api: ApiInterfaceRx, section: 'council' | 'technicalCommittee' = 'council'): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+export function proposal (instanceId: string, api: ApiInterfaceRx, section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
