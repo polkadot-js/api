@@ -212,7 +212,8 @@ export default {
         WeightNotComputable: 'Null',
         Barrier: 'Null',
         NotWithdrawable: 'Null',
-        LocationCannotHold: 'Null'
+        LocationCannotHold: 'Null',
+        TooExpensive: 'Null'
       }
     },
     XcmOutcome: {
