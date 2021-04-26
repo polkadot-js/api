@@ -28,7 +28,7 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
     const [offset, length] = compactFromU8a(value);
     const total = offset + length.toNumber();
 
-    assert(length.lten(MAX_LENGTH), () => `Text length ${length.toString()} exceeds ${MAX_LENGTH}`);
+    assert(length.lten(MAX_LENGTH), () => `Text: length ${length.toString()} exceeds ${MAX_LENGTH}`);
     assert(total <= value.length, () => `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
     return u8aToString(value.subarray(offset, total));

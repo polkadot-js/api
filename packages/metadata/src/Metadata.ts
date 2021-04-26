@@ -3,7 +3,7 @@
 
 import type { Registry } from '@polkadot/types/types';
 
-import { isString, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { isString, u8aToU8a } from '@polkadot/util';
 
 import { MetadataVersioned } from './MetadataVersioned';
 
@@ -11,7 +11,7 @@ import { MetadataVersioned } from './MetadataVersioned';
 const VERSION_IDX = 4;
 
 // magic + lowest supported version
-const EMPTY_METADATA = u8aConcat(new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]));
+const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);
 const EMPTY_U8A = new Uint8Array();
 
 function sanitizeInput (_value: Uint8Array | string = EMPTY_U8A): Uint8Array {

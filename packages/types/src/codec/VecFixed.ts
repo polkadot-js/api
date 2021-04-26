@@ -63,7 +63,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.toU8a().length;
+    return this.reduce((total, entry) => total + entry.encodedLength, 0);
   }
 
   public toU8a (): Uint8Array {

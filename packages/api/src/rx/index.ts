@@ -165,9 +165,7 @@ export class ApiRx extends ApiBase<'rxjs'> {
     this.#isReadyRx = from<Promise<ApiRx>>(
       // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
-        super.on('ready', (): void => {
-          resolve(this);
-        });
+        super.on('ready', () => resolve(this));
       })
     );
   }
