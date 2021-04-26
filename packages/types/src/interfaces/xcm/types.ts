@@ -281,6 +281,7 @@ export interface XcmError extends Enum {
   readonly isBarrier: boolean;
   readonly isNotWithdrawable: boolean;
   readonly isLocationCannotHold: boolean;
+  readonly isTooExpensive: boolean;
 }
 
 /** @name XcmHrmpChannelAccepted */
