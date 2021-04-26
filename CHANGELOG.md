@@ -1,11 +1,16 @@
 # CHANGELOG
 
-## master
+## 4.7.2 Apr 26, 2021
+
+Upgrade priority: Low. Recommended for users of 4.7.1 using nvm
 
 Changes:
 
+- Update `.nvmrc` to reflect engines changes
 - Update `EthBlock`/`EthHeader` types (as per Rust origin)
 - Updated Xcm `OriginKind` enum
+- Add derives for `membership`
+- Cleanups on encodedLength calculations
 
 
 ## 4.7.1 Apr 25, 2021
