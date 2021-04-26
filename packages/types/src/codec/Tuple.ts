@@ -74,11 +74,7 @@ export class Tuple extends AbstractArray<Codec> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.reduce((length: number, entry: Codec): number => {
-      length += entry.encodedLength;
-
-      return length;
-    }, 0);
+    return this.reduce((total, entry) => total + entry.encodedLength, 0);
   }
 
   /**

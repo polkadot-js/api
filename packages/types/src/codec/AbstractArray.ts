@@ -30,9 +30,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.reduce((total, raw): number => {
-      return total + raw.encodedLength;
-    }, compactToU8a(this.length).length);
+    return this.reduce((total, entry) => total + entry.encodedLength, compactToU8a(this.length).length);
   }
 
   /**

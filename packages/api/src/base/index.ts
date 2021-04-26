@@ -50,6 +50,8 @@ export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType>
    * @description Disconnect from the underlying provider, halting all network traffic
    */
   public disconnect (): Promise<void> {
+    this._unsubscribe();
+
     return this._rpcCore.disconnect();
   }
 

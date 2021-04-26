@@ -31,7 +31,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   #registries: VersionedRegistry[] = [];
 
-  #updateSub?: Subscription;
+  #updateSub?: Subscription | null = null;
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
@@ -156,9 +156,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // on re-connection to the same chain, we don't want to re-do everything from chain again
     if (this._isReady) {
       return true;
-    } else if (this.#updateSub) {
-      this.#updateSub.unsubscribe();
     }
+
+    this._unsubscribeUpdates();
 
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
@@ -302,6 +302,25 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return true;
   }
 
+  private _unsubscribeHealth (): void {
+    if (this.#healthTimer) {
+      clearInterval(this.#healthTimer);
+      this.#healthTimer = null;
+    }
+  }
+
+  private _unsubscribeUpdates (): void {
+    if (this.#updateSub) {
+      this.#updateSub.unsubscribe();
+      this.#updateSub = null;
+    }
+  }
+
+  protected _unsubscribe (): void {
+    this._unsubscribeHealth();
+    this._unsubscribeUpdates();
+  }
+
   #onProviderConnect = async (): Promise<void> => {
     this.emit('connected');
     this._isConnected.next(true);
@@ -337,10 +356,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this.emit('disconnected');
     this._isConnected.next(false);
 
-    if (this.#healthTimer) {
-      clearInterval(this.#healthTimer);
-      this.#healthTimer = null;
-    }
+    this._unsubscribeHealth();
   };
 
   #onProviderError = (error: Error): void => {
