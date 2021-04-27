@@ -164,9 +164,9 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | CreateArgType[]): Uint8Array =>
     type.isDoubleMap
-      ? createKey(registry, itemFn, keys, hashers, args as CreateArgType[])
+      ? createKey(registry, itemFn, keys, hashers, arg as CreateArgType[])
       : type.isMap
-        ? createKey(registry, itemFn, keys, hashers, [args as CreateArgType])
+        ? createKey(registry, itemFn, keys, hashers, [arg as CreateArgType])
         : options.skipHashing
           ? compactAddLength(u8aToU8a(options.key))
           : createKey(registry, itemFn, keys, [], [])
