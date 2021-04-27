@@ -9,14 +9,14 @@ import BN from 'bn.js';
 
 import { Raw } from '@polkadot/types/codec';
 import { StorageKey } from '@polkadot/types/primitive';
-import { assert, compactAddLength, compactStripLength, isFunction, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isFunction, isNull, isUndefined, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { getHasher, HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;
-  metaVersion: number;
+  skipHashing?: boolean;
 }
 
 export interface CreateItemFn {
@@ -156,7 +156,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 }
 
 /** @internal */
-export function createFunction (registry: Registry, itemFn: CreateItemFn): StorageEntry {
+export function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
   const [hasher, key2Hasher] = getHashers(itemFn);
 
@@ -169,7 +169,9 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn): Stora
       ? createKeyDoubleMap(registry, itemFn, [hasher, key2Hasher], args)
       : itemFn.meta.type.isMap
         ? createNKeyMap(registry, itemFn, [itemFn.meta.type.asMap.key], [hasher], args)
-        : createNKeyMap(registry, itemFn, [], [], args)
+        : options.skipHashing
+          ? compactAddLength(u8aToU8a(options.key))
+          : createNKeyMap(registry, itemFn, [], [], args)
   );
 
   if (type.isMap || type.isDoubleMap) {

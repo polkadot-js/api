@@ -46,7 +46,7 @@ describe('Decorated', () => {
   });
 
   it('should return constants with the correct type and value', (): void => {
-    const consts = decorateConstants(registry, metadata.asLatest);
+    const consts = decorateConstants(registry, metadata.asLatest, metadata.version);
 
     expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
     expect(consts.democracy.cooloffPeriod.toHex()).toEqual('0x000c4e00');
