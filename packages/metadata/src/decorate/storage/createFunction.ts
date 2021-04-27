@@ -162,7 +162,7 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
-  const storageFn = expandWithMeta(itemFn, (args: (CreateArgType | undefined) | CreateArgType[]): Uint8Array =>
+  const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | CreateArgType[]): Uint8Array =>
     type.isDoubleMap
       ? createKey(registry, itemFn, keys, hashers, args as CreateArgType[])
       : type.isMap
