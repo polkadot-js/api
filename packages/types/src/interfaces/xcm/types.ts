@@ -197,6 +197,16 @@ export interface NetworkId extends Enum {
   readonly isKusama: boolean;
 }
 
+/** @name Outcome */
+export interface Outcome extends Enum {
+  readonly isComplete: boolean;
+  readonly asComplete: Weight;
+  readonly isIncomplete: boolean;
+  readonly asIncomplete: ITuple<[Weight, XcmError]>;
+  readonly isError: boolean;
+  readonly asError: XcmError;
+}
+
 /** @name PluralityJunction */
 export interface PluralityJunction extends Struct {
   readonly id: BodyId;
@@ -377,16 +387,6 @@ export interface XcmOriginKind extends Enum {
   readonly isSovereignAccount: boolean;
   readonly isSuperuser: boolean;
   readonly isXcm: boolean;
-}
-
-/** @name XcmOutcome */
-export interface XcmOutcome extends Enum {
-  readonly isComplete: boolean;
-  readonly asComplete: Weight;
-  readonly isIncomplete: boolean;
-  readonly asIncomplete: ITuple<[Weight, XcmError]>;
-  readonly isError: boolean;
-  readonly asError: XcmError;
 }
 
 /** @name XcmQueryResponse */

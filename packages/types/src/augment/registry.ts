@@ -54,7 +54,7 @@ import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatu
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, PluralityJunction, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOriginKind, XcmOutcome, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset } from '@polkadot/types/interfaces/xcm';
+import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, Outcome, PluralityJunction, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOriginKind, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset } from '@polkadot/types/interfaces/xcm';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
@@ -609,6 +609,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Origin>': Option<Origin>;
     'Option<OriginCaller>': Option<OriginCaller>;
     'Option<OutboundHrmpMessage>': Option<OutboundHrmpMessage>;
+    'Option<Outcome>': Option<Outcome>;
     'Option<Owner>': Option<Owner>;
     'Option<PalletId>': Option<PalletId>;
     'Option<PalletsOrigin>': Option<PalletsOrigin>;
@@ -929,7 +930,6 @@ declare module '@polkadot/types/types/registry' {
     'Option<XcmOrderInitiateTeleport>': Option<XcmOrderInitiateTeleport>;
     'Option<XcmOrderQueryHolding>': Option<XcmOrderQueryHolding>;
     'Option<XcmOriginKind>': Option<XcmOriginKind>;
-    'Option<XcmOutcome>': Option<XcmOutcome>;
     'Option<XcmQueryResponse>': Option<XcmQueryResponse>;
     'Option<XcmRelayedFrom>': Option<XcmRelayedFrom>;
     'Option<XcmReserveAssetDeposit>': Option<XcmReserveAssetDeposit>;
@@ -1403,6 +1403,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Origin>': Vec<Origin>;
     'Vec<OriginCaller>': Vec<OriginCaller>;
     'Vec<OutboundHrmpMessage>': Vec<OutboundHrmpMessage>;
+    'Vec<Outcome>': Vec<Outcome>;
     'Vec<Owner>': Vec<Owner>;
     'Vec<PalletId>': Vec<PalletId>;
     'Vec<PalletsOrigin>': Vec<PalletsOrigin>;
@@ -1723,7 +1724,6 @@ declare module '@polkadot/types/types/registry' {
     'Vec<XcmOrderInitiateTeleport>': Vec<XcmOrderInitiateTeleport>;
     'Vec<XcmOrderQueryHolding>': Vec<XcmOrderQueryHolding>;
     'Vec<XcmOriginKind>': Vec<XcmOriginKind>;
-    'Vec<XcmOutcome>': Vec<XcmOutcome>;
     'Vec<XcmQueryResponse>': Vec<XcmQueryResponse>;
     'Vec<XcmRelayedFrom>': Vec<XcmRelayedFrom>;
     'Vec<XcmReserveAssetDeposit>': Vec<XcmReserveAssetDeposit>;
@@ -2197,6 +2197,7 @@ declare module '@polkadot/types/types/registry' {
     Origin: Origin;
     OriginCaller: OriginCaller;
     OutboundHrmpMessage: OutboundHrmpMessage;
+    Outcome: Outcome;
     Owner: Owner;
     PalletId: PalletId;
     PalletsOrigin: PalletsOrigin;
@@ -2517,7 +2518,6 @@ declare module '@polkadot/types/types/registry' {
     XcmOrderInitiateTeleport: XcmOrderInitiateTeleport;
     XcmOrderQueryHolding: XcmOrderQueryHolding;
     XcmOriginKind: XcmOriginKind;
-    XcmOutcome: XcmOutcome;
     XcmQueryResponse: XcmQueryResponse;
     XcmRelayedFrom: XcmRelayedFrom;
     XcmReserveAssetDeposit: XcmReserveAssetDeposit;
