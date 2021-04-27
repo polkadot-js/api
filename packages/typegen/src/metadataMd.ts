@@ -195,7 +195,7 @@ function addConstants (metadata: MetadataLatest): string {
 
 /** @internal */
 function addStorage (metadata: MetadataLatest): string {
-  const { substrate } = getSubstrateStorage(metadata.registry, 12);
+  const { substrate } = getSubstrateStorage(metadata.registry);
   const moduleSections = metadata.modules
     .sort(sortByName)
     .filter((moduleMetadata) => !moduleMetadata.storage.isNone)

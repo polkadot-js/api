@@ -17,7 +17,7 @@ function init (meta: string): [Constants, TypeRegistry] {
 
   registry.setMetadata(metadata);
 
-  return [decorateConstants(registry, metadata.asLatest), registry];
+  return [decorateConstants(registry, metadata.asLatest, 12), registry];
 }
 
 describe('decorateConstants', (): void => {
