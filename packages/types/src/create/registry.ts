@@ -97,7 +97,7 @@ function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls
 // extract additional properties from the metadata
 function extractProperties (registry: Registry, metadata: Metadata): ChainProperties | undefined {
   const original = registry.getChainProperties();
-  const constants = decorateConstants(registry, metadata.asLatest);
+  const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system?.ss58Prefix;
 
   if (!ss58Format) {

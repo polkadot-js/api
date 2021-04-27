@@ -11,7 +11,8 @@ import { createFunction } from './createFunction';
 import { getStorage } from './getStorage';
 
 /** @internal */
-export function decorateStorage (registry: Registry, { modules }: MetadataLatest): Storage {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function decorateStorage (registry: Registry, { modules }: MetadataLatest, _metaVersion: number): Storage {
   return modules.reduce((result: Storage, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;
