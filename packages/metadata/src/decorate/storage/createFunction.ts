@@ -59,7 +59,7 @@ function createPrefixedKey (prefix: string, method: string): Uint8Array {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function createKey (registry: Registry, { meta: { name }, method, prefix }: CreateItemFn, keys: (string | String)[], hashers: U8aHasher[], args: (CreateArgType | undefined)[]): Uint8Array {
-  assert(args.length === keys.length, () => `${(name || 'unknown').toString()} requires ${keys.length} arguments`);
+  assert(Array.isArray(args) && args.length === keys.length, () => `${(name || 'unknown').toString()} requires ${keys.length} arguments`);
   assert(hashers.length === keys.length, () => `${keys.length} hashing functions should be supplied to ${(name || 'unknown').toString()}`);
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
@@ -70,7 +70,7 @@ function createKey (registry: Registry, { meta: { name }, method, prefix }: Crea
         const arg = args[index];
         const hasher = hashers[index];
 
-        assert(isUndefined(arg) || isNull(arg), () => `${(name || 'unknown').toString()} has a null/undefined value at position ${index}`);
+        assert(!isUndefined(arg) && !isNull(arg), () => `${(name || 'unknown').toString()} has a null or undefined value at position ${index}`);
         assert(isFunction(hasher), () => `${(name || 'unknown').toString()} has an non-function hasher at position ${index}`);
 
         return hasher(registry.createType(type.toString() as 'Raw', arg).toU8a());
@@ -162,14 +162,14 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
-  const storageFn = expandWithMeta(itemFn, (...args: (CreateArgType | undefined)[]): Uint8Array =>
+  const storageFn = expandWithMeta(itemFn, (args: (CreateArgType | undefined) | CreateArgType[]): Uint8Array =>
     type.isDoubleMap
-      ? createKey(registry, itemFn, keys, hashers, args)
+      ? createKey(registry, itemFn, keys, hashers, args as CreateArgType[])
       : type.isMap
-        ? createKey(registry, itemFn, keys, hashers, args)
+        ? createKey(registry, itemFn, keys, hashers, [args as CreateArgType])
         : options.skipHashing
           ? compactAddLength(u8aToU8a(options.key))
-          : createKey(registry, itemFn, keys, [], args)
+          : createKey(registry, itemFn, keys, [], [])
   );
 
   if (type.isMap || type.isDoubleMap) {
