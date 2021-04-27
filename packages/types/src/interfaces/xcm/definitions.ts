@@ -216,13 +216,6 @@ export default {
         TooExpensive: 'Null'
       }
     },
-    XcmOutcome: {
-      _enum: {
-        Complete: 'Weight',
-        Incomplete: '(Weight, XcmError)',
-        Error: 'XcmError'
-      }
-    },
     MultiLocation: {
       _enum: {
         Null: 'Null',
@@ -234,6 +227,13 @@ export default {
         X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
         X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
         X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
+      }
+    },
+    Outcome: {
+      _enum: {
+        Complete: 'Weight',
+        Incomplete: '(Weight, XcmError)',
+        Error: 'XcmError'
       }
     },
     VersionedMultiLocation: {
