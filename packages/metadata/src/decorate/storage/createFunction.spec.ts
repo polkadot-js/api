@@ -28,7 +28,7 @@ describe('createFunction', (): void => {
       method: 'NextKeys',
       prefix: 'Session',
       section: 'session'
-    }, { metaVersion: 9 });
+    }, {});
 
     expect(
       u8aToHex(

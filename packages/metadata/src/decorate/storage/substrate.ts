@@ -12,12 +12,12 @@ interface SubstrateMetadata {
   type: string;
 }
 
-type Creator = (registry: Registry, metaVersion: number) => StorageEntry;
+type Creator = (registry: Registry) => StorageEntry;
 
 // Small helper function to factorize code on this page.
 /** @internal */
-function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry, metaVersion: number) => StorageEntry {
-  return (registry: Registry, metaVersion: number): StorageEntry =>
+function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry) => StorageEntry {
+  return (registry: Registry): StorageEntry =>
     createFunction(registry, {
       meta: {
         documentation: registry.createType('Vec<Text>', [documentation]),
@@ -28,7 +28,7 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
       method,
       prefix: 'Substrate',
       section: 'substrate'
-    }, { key, metaVersion, skipHashing: true });
+    }, { key });
 }
 
 export const substrate: Record<string, Creator> = {

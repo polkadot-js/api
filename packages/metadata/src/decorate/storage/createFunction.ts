@@ -9,15 +9,13 @@ import BN from 'bn.js';
 
 import { Raw } from '@polkadot/types/codec';
 import { StorageKey } from '@polkadot/types/primitive';
-import { assert, compactAddLength, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isNull, isUndefined, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { getHasher, HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;
-  metaVersion: number;
-  skipHashing?: boolean; // We don't hash the keys defined in ./substrate.ts
 }
 
 export interface CreateItemFn {
@@ -35,7 +33,6 @@ interface IterFn {
 type CreateArgType = boolean | string | number | null | BN | BigInt | Uint8Array | Codec;
 
 const EMPTY_U8A = new Uint8Array([]);
-const NULL_HASHER = (value: Uint8Array): Uint8Array => value;
 
 // get the hashers, the base (and  in the case of DoubleMap), the second key
 /** @internal */
@@ -85,7 +82,7 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, args: [Cr
 
 // create a key for either a map or a plain value
 /** @internal */
-function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
+function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType, hasher?: (value: Uint8Array) => Uint8Array): Uint8Array {
   const { meta: { name, type } } = itemFn;
   let param: Uint8Array = EMPTY_U8A;
 
@@ -100,7 +97,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType
   // StorageKey is a Bytes, so is length-prefixed
   return compactAddLength(u8aConcat(
     createPrefixedKey(itemFn),
-    param.length
+    hasher
       ? hasher(param)
       : EMPTY_U8A
   ));
@@ -186,7 +183,9 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     type.isDoubleMap
       ? createKeyDoubleMap(registry, itemFn, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
-      : createKey(registry, itemFn, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher)
+      : options.key
+        ? compactAddLength(u8aToU8a(options.key))
+        : createKey(registry, itemFn, arg as CreateArgType)
   );
 
   if (type.isMap || type.isDoubleMap) {
