@@ -16,6 +16,7 @@ import { getHasher, HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;
+  skipHashing?: boolean;
 }
 
 export interface CreateItemFn {
@@ -82,7 +83,7 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, args: [Cr
 
 // create a key for either a map or a plain value
 /** @internal */
-function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType, hasher?: (value: Uint8Array) => Uint8Array): Uint8Array {
+function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
   const { meta: { name, type } } = itemFn;
   let param: Uint8Array = EMPTY_U8A;
 
@@ -97,7 +98,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, arg: CreateArgType
   // StorageKey is a Bytes, so is length-prefixed
   return compactAddLength(u8aConcat(
     createPrefixedKey(itemFn),
-    hasher
+    param.length
       ? hasher(param)
       : EMPTY_U8A
   ));
@@ -183,9 +184,9 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     type.isDoubleMap
       ? createKeyDoubleMap(registry, itemFn, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
-      : options.key
+      : options.skipHashing
         ? compactAddLength(u8aToU8a(options.key))
-        : createKey(registry, itemFn, arg as CreateArgType)
+        : createKey(registry, itemFn, arg as CreateArgType, hasher)
   );
 
   if (type.isMap || type.isDoubleMap) {

@@ -28,7 +28,7 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
       method,
       prefix: 'Substrate',
       section: 'substrate'
-    }, { key });
+    }, { key, skipHashing: true });
 }
 
 export const substrate: Record<string, Creator> = {
