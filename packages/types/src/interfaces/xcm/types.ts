@@ -284,6 +284,7 @@ export interface XcmError extends Enum {
   readonly isExceedsMaxMessageSize: boolean;
   readonly isFailedToTransactAsset: boolean;
   readonly isWeightLimitReached: boolean;
+  readonly asWeightLimitReached: Weight;
   readonly isWildcard: boolean;
   readonly isTooMuchWeightRequired: boolean;
   readonly isNotHoldingFees: boolean;
