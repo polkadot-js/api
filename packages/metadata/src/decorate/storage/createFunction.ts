@@ -35,8 +35,6 @@ type CreateArgType = boolean | string | number | null | BN | BigInt | Uint8Array
 
 type U8aHasher = (input: Uint8Array) => Uint8Array;
 
-type KeyCreator = ((arg: CreateArgType[]) => Uint8Array) | ((arg: CreateArgType) => Uint8Array) | (() => Uint8Array);
-
 function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
   return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
 }
@@ -63,7 +61,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hash
 
 // attach the metadata to expand to a StorageFunction
 /** @internal */
-function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: KeyCreator): StorageEntry {
+function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (arg?: CreateArgType | CreateArgType[]) => Uint8Array): StorageEntry {
   const storageFn = _storageFn as StorageEntry;
 
   storageFn.meta = meta;
@@ -137,14 +135,14 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
-  const storageFn = expandWithMeta(itemFn,
+  const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | CreateArgType[]) =>
     type.isDoubleMap
-      ? (arg: CreateArgType[]) => createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)], arg)
+      ? createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)], arg as CreateArgType[])
       : type.isMap
-        ? (arg: CreateArgType) => createKey(registry, itemFn, [type.asMap.key], [getHasher(type.asMap.hasher)], [arg])
+        ? createKey(registry, itemFn, [type.asMap.key], [getHasher(type.asMap.hasher)], [arg as CreateArgType])
         : options.skipHashing
-          ? () => compactAddLength(u8aToU8a(options.key))
-          : () => createKey(registry, itemFn, [], [], [])
+          ? compactAddLength(u8aToU8a(options.key))
+          : createKey(registry, itemFn, [], [], [])
   );
 
   if (type.isMap || type.isDoubleMap) {
