@@ -4,16 +4,16 @@
 type Types = string | Types[];
 
 /** @internal */
-export function flattenUniq (list: Types[]): string[] {
-  const flat = list.reduce((result: string[], entry): string[] => {
-    return result.concat(
-      Array.isArray(entry)
-        ? flattenUniq(entry)
-        : entry
-    );
-  }, []);
+export function flattenUniq (list: Types[], start: string[] = []): string[] {
+  return [...new Set(
+    list.reduce((result: string[], entry): string[] => {
+      if (Array.isArray(entry)) {
+        return flattenUniq(entry, result);
+      }
 
-  return [...new Set(flat)]
-    .filter((value: string) => value)
-    .sort();
+      result.push(entry);
+
+      return result;
+    }, start)
+  )];
 }

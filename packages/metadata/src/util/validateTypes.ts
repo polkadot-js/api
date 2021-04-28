@@ -11,8 +11,10 @@ import { flattenUniq } from './flattenUniq';
 const l = logger('metadata');
 
 /** @internal */
-export function validateTypes (registry: Registry, types: string[], throwError: boolean): void {
-  const missing = flattenUniq(extractTypes(types)).filter((type) => !registry.hasType(type));
+export function validateTypes (registry: Registry, throwError: boolean, types: string[]): string[] {
+  const missing = flattenUniq(extractTypes(types))
+    .filter((type) => !registry.hasType(type))
+    .sort();
 
   if (missing.length !== 0) {
     const message = `Unknown types found, no types for ${missing.join(', ')}`;
@@ -23,4 +25,6 @@ export function validateTypes (registry: Registry, types: string[], throwError: 
       l.warn(message);
     }
   }
+
+  return types;
 }
