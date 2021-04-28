@@ -8,11 +8,11 @@ import type { Codec, Registry } from '@polkadot/types/types';
 import BN from 'bn.js';
 
 import { Raw } from '@polkadot/types/codec';
-import { StorageKey } from '@polkadot/types/primitive';
+import { StorageKey, Type } from '@polkadot/types/primitive';
 import { assert, compactAddLength, compactStripLength, isFunction, isNull, isUndefined, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import { getHasher, HasherFunction } from './getHasher';
+import { getHasher } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;
@@ -35,22 +35,6 @@ type CreateArgType = boolean | string | number | null | BN | BigInt | Uint8Array
 
 type U8aHasher = (input: Uint8Array) => Uint8Array;
 
-// get the hashers, the base (and  in the case of DoubleMap), the second key
-/** @internal */
-function getHashers ({ meta: { type } }: CreateItemFn): HasherFunction[] {
-  if (type.isDoubleMap) {
-    return [
-      getHasher(type.asDoubleMap.hasher),
-      getHasher(type.asDoubleMap.key2Hasher)
-    ];
-  } else if (type.isMap) {
-    return [getHasher(type.asMap.hasher)];
-  }
-
-  // the default
-  return [getHasher()];
-}
-
 // create a base prefixed key
 /** @internal */
 function createPrefixedKey (prefix: string, method: string): Uint8Array {
@@ -58,7 +42,7 @@ function createPrefixedKey (prefix: string, method: string): Uint8Array {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-function createKey (registry: Registry, { meta: { name }, method, prefix }: CreateItemFn, keys: (string | String)[], hashers: U8aHasher[], args: (CreateArgType | undefined)[]): Uint8Array {
+function createKey (registry: Registry, { meta: { name }, method, prefix }: CreateItemFn, keys: Type[], hashers: U8aHasher[], args: CreateArgType[]): Uint8Array {
   assert(Array.isArray(args) && args.length === keys.length, () => `${(name || 'unknown').toString()} requires ${keys.length} arguments`);
   assert(hashers.length === keys.length, () => `${keys.length} hashing functions should be supplied to ${(name || 'unknown').toString()}`);
 
@@ -151,7 +135,11 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 /** @internal */
 export function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
-  const hashers = getHashers(itemFn);
+  const hashers = type.isDoubleMap
+    ? [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)]
+    : type.isMap
+      ? [getHasher(type.asMap.hasher)]
+      : [];
   const keys = type.isDoubleMap
     ? [type.asDoubleMap.key1, type.asDoubleMap.key2]
     : type.isMap
@@ -161,7 +149,7 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   // Can only have zero or one argument:
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
-  // For doublemap queries the params is passed in as an tuple, [key1, key2]
+  // For higher-map queries the params are passed in as an tuple, [key1, key2]
   const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | CreateArgType[]): Uint8Array =>
     type.isDoubleMap
       ? createKey(registry, itemFn, keys, hashers, arg as CreateArgType[])
@@ -169,7 +157,7 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
         ? createKey(registry, itemFn, keys, hashers, [arg as CreateArgType])
         : options.skipHashing
           ? compactAddLength(u8aToU8a(options.key))
-          : createKey(registry, itemFn, keys, [], [])
+          : createKey(registry, itemFn, keys, hashers, [])
   );
 
   if (type.isMap || type.isDoubleMap) {
@@ -177,7 +165,8 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   }
 
   storageFn.keyPrefix = (arg?: any): Uint8Array =>
-    (storageFn.iterKey && storageFn.iterKey(arg)) || compactStripLength(storageFn())[1];
+    (storageFn.iterKey && storageFn.iterKey(arg)) ||
+    compactStripLength(storageFn())[1];
 
   return storageFn;
 }
