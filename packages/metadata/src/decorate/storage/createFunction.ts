@@ -35,13 +35,21 @@ type CreateArgType = boolean | string | number | null | BN | BigInt | Uint8Array
 
 type U8aHasher = (input: Uint8Array) => Uint8Array;
 
-function createKey (registry: Registry, { method, section }: CreateItemFn, prefixedKey: Uint8Array, keys: Type[], hashers: U8aHasher[], args: CreateArgType[]): Uint8Array {
+type KeyCreator = ((arg: CreateArgType[]) => Uint8Array) | ((arg: CreateArgType) => Uint8Array) | (() => Uint8Array);
+
+function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
+  return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
+}
+
+function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: U8aHasher[], args: CreateArgType[]): Uint8Array {
+  const { method, section } = itemFn;
+
   assert(Array.isArray(args) && args.length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found ${stringify(args)}`);
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(
     u8aConcat(
-      prefixedKey,
+      createPrefixedKey(itemFn),
       ...keys.map((type, index): Uint8Array => {
         const arg = args[index];
 
@@ -55,7 +63,7 @@ function createKey (registry: Registry, { method, section }: CreateItemFn, prefi
 
 // attach the metadata to expand to a StorageFunction
 /** @internal */
-function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (arg?: CreateArgType | CreateArgType[]) => Uint8Array): StorageEntry {
+function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: KeyCreator): StorageEntry {
   const storageFn = _storageFn as StorageEntry;
 
   storageFn.meta = meta;
@@ -99,7 +107,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 
 // attach the full list hashing for prefixed maps
 /** @internal */
-function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, prefixedKey: Uint8Array, storageFn: StorageEntry): StorageEntry {
+function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   const { meta: { type } } = itemFn;
 
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw => {
@@ -109,12 +117,12 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, prefixedKe
       registry,
       type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
         ? u8aConcat(
-          prefixedKey,
+          createPrefixedKey(itemFn),
           getHasher(type.asDoubleMap.hasher)(
             registry.createType(type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
           )
         )
-        : prefixedKey
+        : createPrefixedKey(itemFn)
     );
   });
 
@@ -123,35 +131,24 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, prefixedKe
 
 /** @internal */
 export function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
-  const { meta: { type }, method, prefix } = itemFn;
-  const hashers = type.isDoubleMap
-    ? [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)]
-    : type.isMap
-      ? [getHasher(type.asMap.hasher)]
-      : [];
-  const keys = type.isDoubleMap
-    ? [type.asDoubleMap.key1, type.asDoubleMap.key2]
-    : type.isMap
-      ? [type.asMap.key]
-      : [];
-  const prefixedKey = u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
+  const { meta: { type } } = itemFn;
 
   // Can only have zero or one argument:
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
-  const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | CreateArgType[]): Uint8Array =>
+  const storageFn = expandWithMeta(itemFn,
     type.isDoubleMap
-      ? createKey(registry, itemFn, prefixedKey, keys, hashers, arg as CreateArgType[])
+      ? (arg: CreateArgType[]) => createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)], arg)
       : type.isMap
-        ? createKey(registry, itemFn, prefixedKey, keys, hashers, [arg as CreateArgType])
+        ? (arg: CreateArgType) => createKey(registry, itemFn, [type.asMap.key], [getHasher(type.asMap.hasher)], [arg])
         : options.skipHashing
-          ? compactAddLength(u8aToU8a(options.key))
-          : createKey(registry, itemFn, prefixedKey, keys, hashers, [])
+          ? () => compactAddLength(u8aToU8a(options.key))
+          : () => createKey(registry, itemFn, [], [], [])
   );
 
   if (type.isMap || type.isDoubleMap) {
-    extendPrefixedMap(registry, itemFn, prefixedKey, storageFn);
+    extendPrefixedMap(registry, itemFn, storageFn);
   }
 
   storageFn.keyPrefix = (arg?: any): Uint8Array =>
