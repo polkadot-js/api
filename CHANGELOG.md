@@ -5,6 +5,7 @@
 Changes:
 
 - De-alias xcm `Outcome` (used in multiple pallettes)
+- Adjust xcm types as per latest, e.g. `XcmError`
 - Fix generate of well-known storage keys (e.g. `:code`)
 - Optimize metadata unknown type validation
 
