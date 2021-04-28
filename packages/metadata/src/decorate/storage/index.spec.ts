@@ -21,7 +21,11 @@ describe('decorateStorage', (): void => {
     const query = decorateStorage(registry, metadata.asLatest, metadata.version);
 
     it('should throw if the storage function expects an argument', (): void => {
-      expect(() => query.balances.account()).toThrowError('Account has a null or undefined value at position 0');
+      expect(() => query.balances.account()).toThrowError('Call to balances.account has a null or undefined argument at position 0');
+    });
+
+    it('should throw if the storage function expects multiple arguments', (): void => {
+      expect(() => query.staking.erasStakers([1])).toThrowError('Call to staking.erasStakers needs 2 arguments, found [1]');
     });
 
     it('should return a value if the storage function does not expect an argument', (): void => {
