@@ -6,6 +6,7 @@ Changes:
 
 - De-alias xcm `Outcome` (used in multiple pallettes)
 - Fix generate of well-known storage keys (e.g. `:code`)
+- Optimize metadata unknown type validation
 
 
 ## 4.7.2 Apr 26, 2021

@@ -28,12 +28,7 @@ type Item = {
   };
 } & Codec;
 
-type Storage = Option<Vec<Item> | {
-  // v0
-  functions?: Vec<Item>;
-  // V7+
-  items?: Vec<Item>;
-} & Codec>;
+type Storage = Option<{ items: Vec<Item> } & Codec>;
 
 type Call = { args: Vec<Arg> } & Codec;
 
@@ -44,12 +39,6 @@ type Event = { args: Vec<Type> } & Codec;
 type Events = Option<Vec<Event>>;
 
 type Module = {
-  // V0
-  module?: {
-    call: {
-      functions: Vec<Call>;
-    };
-  };
   // V1+
   calls?: Calls;
   // V6+
@@ -60,30 +49,25 @@ type Module = {
 
 interface ExtractionMetadata {
   modules: Vec<Module>;
-
-  // V0
-  outerEvent?: {
-    events: Vec<[Text, Vec<Event>] & Codec>;
-  };
 }
 
 /** @internal */
 function unwrapCalls (mod: Module): Call[] {
   return mod.calls
     ? mod.calls.unwrapOr([])
-    // V0
-    : mod.module
-      ? mod.module.call.functions
-      : [];
+    : [];
+}
+
+/** @internal */
+function typeToString ({ type }: Arg): string {
+  return type.toString();
 }
 
 /** @internal */
 function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map((mod): string[][] =>
     unwrapCalls(mod).map(({ args }): string[] =>
-      args.map((arg): string =>
-        arg.type.toString()
-      )
+      args.map(typeToString)
     )
   );
 }
@@ -91,90 +75,61 @@ function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
 /** @internal */
 function getConstantNames ({ modules }: ExtractionMetadata): string[][] {
   return modules.map(({ constants }): string[] =>
-    constants
-      ? constants.map((constant): string =>
-        constant.type.toString()
-      )
-      : []
+    (constants || []).map(typeToString)
   );
 }
 
 /** @internal */
 function unwrapEvents (events?: Events): Event[] {
-  if (!events) {
-    return [];
-  }
-
-  return events.unwrapOr([]);
+  return events
+    ? events.unwrapOr([])
+    : [];
 }
 
 /** @internal */
-function getEventNames ({ modules, outerEvent }: ExtractionMetadata): string[][][] {
-  const mapArg = ({ args }: Event): string[] =>
-    args.map((arg): string =>
-      arg.toString()
-    );
-
-  // V0
-  if (outerEvent) {
-    return outerEvent.events.map(([, events]): string[][] =>
-      events.map(mapArg)
-    );
-  }
-
-  // V1+
+function getEventNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map(({ events }): string[][] =>
-    unwrapEvents(events).map(mapArg)
+    unwrapEvents(events).map(({ args }: Event): string[] =>
+      args.map((a) => a.toString())
+    )
   );
 }
 
 /** @internal */
 function unwrapStorage (storage?: Storage): Item[] {
-  if (!storage) {
-    return [];
-  }
-
-  const data = storage.unwrapOr([]);
-
-  return Array.isArray(data)
-    ? data
-    : (data.items || data.functions) as Item[];
+  return storage
+    ? storage.unwrapOr({ items: [] }).items
+    : [];
 }
 
 /** @internal */
 function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map(({ storage }): string[][] =>
-    unwrapStorage(storage).map(({ type }): string[] => {
-      if (type.isDoubleMap && type.asDoubleMap) {
-        return [
+    unwrapStorage(storage).map(({ type }) =>
+      type.isDoubleMap && type.asDoubleMap
+        ? [
           type.asDoubleMap.key1.toString(),
           type.asDoubleMap.key2.toString(),
           type.asDoubleMap.value.toString()
-        ];
-      } else if (type.isMap) {
-        return [
-          type.asMap.key.toString(),
-          type.asMap.value.toString()
-        ];
-      } else {
-        return [
-          type.asPlain.toString()
-        ];
-      }
-    })
+        ]
+        : type.isMap
+          ? [
+            type.asMap.key.toString(),
+            type.asMap.value.toString()
+          ]
+          : [
+            type.asPlain.toString()
+          ]
+    )
   );
 }
 
 /** @internal */
 export function getUniqTypes (registry: Registry, meta: ExtractionMetadata, throwError: boolean): string[] {
-  const types = flattenUniq([
+  return validateTypes(registry, throwError, flattenUniq([
     getCallNames(meta),
     getConstantNames(meta),
     getEventNames(meta),
     getStorageNames(meta)
-  ]);
-
-  validateTypes(registry, types, throwError);
-
-  return types;
+  ]));
 }
