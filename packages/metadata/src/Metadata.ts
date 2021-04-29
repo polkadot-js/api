@@ -14,16 +14,16 @@ const VERSION_IDX = 4;
 const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);
 const EMPTY_U8A = new Uint8Array();
 
-function sanitizeInput (_value: Uint8Array | string = EMPTY_U8A): Uint8Array {
-  if (isU8a(_value)) {
-    return _value.length === 0
+function sanitizeInput (value: Uint8Array | string = EMPTY_U8A): Uint8Array {
+  if (isU8a(value)) {
+    return value.length === 0
       ? EMPTY_METADATA
-      : _value;
+      : value;
   }
 
-  assert(isHex(_value), () => `Metadata only allows hex or Uint8Array inputs, found typeof ${typeof _value}`);
+  assert(isHex(value), () => `Metadata only allows hex or Uint8Array inputs, found typeof ${typeof value}`);
 
-  return sanitizeInput(u8aToU8a(_value));
+  return sanitizeInput(u8aToU8a(value));
 }
 
 function decodeMetadata (registry: Registry, _value?: Uint8Array | string): MetadataVersioned {
