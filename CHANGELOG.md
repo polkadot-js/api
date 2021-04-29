@@ -8,6 +8,7 @@ Changes:
 - Adjust xcm types as per latest, e.g. `XcmError`
 - Fix generate of well-known storage keys (e.g. `:code`)
 - Optimize metadata unknown type validation
+- Allow metadata creation for `Map` or `Record`
 
 
 ## 4.7.2 Apr 26, 2021
