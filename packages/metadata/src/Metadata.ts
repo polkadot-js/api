@@ -3,7 +3,7 @@
 
 import type { Registry } from '@polkadot/types/types';
 
-import { isString, u8aToU8a } from '@polkadot/util';
+import { assert, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { MetadataVersioned } from './MetadataVersioned';
 
@@ -15,13 +15,15 @@ const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);
 const EMPTY_U8A = new Uint8Array();
 
 function sanitizeInput (_value: Uint8Array | string = EMPTY_U8A): Uint8Array {
-  if (isString(_value)) {
-    return sanitizeInput(u8aToU8a(_value));
+  if (isU8a(_value)) {
+    return _value.length === 0
+      ? EMPTY_METADATA
+      : _value;
   }
 
-  return _value.length === 0
-    ? EMPTY_METADATA
-    : _value;
+  assert(isHex(_value), () => `Metadata only allows hex or Uint8Array inputs, found typeof ${typeof _value}`);
+
+  return sanitizeInput(u8aToU8a(_value));
 }
 
 function decodeMetadata (registry: Registry, _value?: Uint8Array | string): MetadataVersioned {
