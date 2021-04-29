@@ -3,7 +3,7 @@
 
 import type { Registry } from '@polkadot/types/types';
 
-import { assert, isHex, isU8a, u8aToU8a } from '@polkadot/util';
+import { isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { MetadataVersioned } from './MetadataVersioned';
 
@@ -14,36 +14,36 @@ const VERSION_IDX = 4;
 const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);
 const EMPTY_U8A = new Uint8Array();
 
-function sanitizeInput (value: Uint8Array | string = EMPTY_U8A): Uint8Array {
-  if (isU8a(value)) {
-    return value.length === 0
+function toU8a (value: Uint8Array | string = EMPTY_U8A): Uint8Array {
+  return isHex(value)
+    ? toU8a(u8aToU8a(value))
+    : isU8a(value) && value.length === 0
       ? EMPTY_METADATA
       : value;
-  }
-
-  assert(isHex(value), () => `Metadata only allows hex or Uint8Array inputs, found typeof ${typeof value}`);
-
-  return sanitizeInput(u8aToU8a(value));
 }
 
-function decodeMetadata (registry: Registry, _value?: Uint8Array | string): MetadataVersioned {
-  const value = sanitizeInput(_value);
-  const version = value[VERSION_IDX];
+function decodeMetadata (registry: Registry, _value?: Uint8Array | string | Map<string, unknown> | Record<string, unknown>): MetadataVersioned {
+  if (!_value || isU8a(_value) || isHex(_value)) {
+    const value = toU8a(_value);
+    const version = value[VERSION_IDX];
 
-  try {
-    return new MetadataVersioned(registry, value);
-  } catch (error) {
-    // This is an f-ing hack as a follow-up to another ugly hack
-    // https://github.com/polkadot-js/api/commit/a9211690be6b68ad6c6dad7852f1665cadcfa5b2
-    // when we fail on V9, try to re-parse it as v10... yes... HACK
-    if (version === 9) {
-      value[VERSION_IDX] = 10;
+    try {
+      return new MetadataVersioned(registry, value);
+    } catch (error) {
+      // This is an f-ing hack as a follow-up to another ugly hack
+      // https://github.com/polkadot-js/api/commit/a9211690be6b68ad6c6dad7852f1665cadcfa5b2
+      // when we fail on V9, try to re-parse it as v10... yes... HACK
+      if (version === 9) {
+        value[VERSION_IDX] = 10;
 
-      return decodeMetadata(registry, value);
+        return decodeMetadata(registry, value);
+      }
+
+      throw error;
     }
-
-    throw error;
   }
+
+  return new MetadataVersioned(registry, _value);
 }
 
 /**
@@ -52,7 +52,7 @@ function decodeMetadata (registry: Registry, _value?: Uint8Array | string): Meta
  * The versioned runtime metadata as a decoded structure
  */
 export class Metadata extends MetadataVersioned {
-  constructor (registry: Registry, value?: Uint8Array | string) {
+  constructor (registry: Registry, value?: Uint8Array | string | Map<string, unknown> | Record<string, unknown>) {
     super(registry, decodeMetadata(registry, value));
   }
 }
