@@ -107,7 +107,7 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description Returns the wrapped values as a V12 object
+   * @description Returns the wrapped values as a V13 object
    */
   public get asV13 (): MetadataV13 {
     return this.#getVersion(13, toV13);
@@ -122,7 +122,7 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description
+   * @description The magicNumber for the Metadata (known constant)
    */
   public get magicNumber (): MagicNumber {
     return this.get('magicNumber') as MagicNumber;
