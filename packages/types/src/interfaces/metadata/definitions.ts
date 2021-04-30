@@ -268,10 +268,31 @@ export default {
       errors: 'Vec<ErrorMetadataV13>',
       index: 'u8'
     },
+    NMapTypeV13: {
+      hashers: 'Vec<StorageHasherV13>',
+      keyVec: 'Vec<Type>',
+      value: 'Type'
+    },
     StorageEntryModifierV13: 'StorageEntryModifierV12',
-    StorageEntryMetadataV13: 'StorageEntryMetadataV12',
-    StorageEntryTypeV13: 'StorageEntryTypeV12',
-    StorageMetadataV13: 'StorageMetadataV12',
+    StorageEntryMetadataV13: {
+      name: 'Text',
+      modifier: 'StorageEntryModifierV13',
+      type: 'StorageEntryTypeV13',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
+    StorageEntryTypeV13: {
+      _enum: {
+        Plain: 'Type',
+        Map: 'MapTypeV13',
+        DoubleMap: 'DoubleMapTypeV13',
+        NMap: 'NMapTypeV13'
+      }
+    },
+    StorageMetadataV13: {
+      prefix: 'Text',
+      items: 'Vec<StorageEntryMetadataV13>'
+    },
     StorageHasherV13: 'StorageHasherV12',
 
     // This always maps to the latest

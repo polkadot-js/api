@@ -296,6 +296,13 @@ export interface ModuleMetadataV9 extends Struct {
   readonly errors: Vec<ErrorMetadataV9>;
 }
 
+/** @name NMapTypeV13 */
+export interface NMapTypeV13 extends Struct {
+  readonly hashers: Vec<StorageHasherV13>;
+  readonly keyVec: Vec<Type>;
+  readonly value: Type;
+}
+
 /** @name StorageEntryMetadataLatest */
 export interface StorageEntryMetadataLatest extends StorageEntryMetadataV13 {}
 
@@ -321,7 +328,13 @@ export interface StorageEntryMetadataV11 extends Struct {
 export interface StorageEntryMetadataV12 extends StorageEntryMetadataV11 {}
 
 /** @name StorageEntryMetadataV13 */
-export interface StorageEntryMetadataV13 extends StorageEntryMetadataV12 {}
+export interface StorageEntryMetadataV13 extends Struct {
+  readonly name: Text;
+  readonly modifier: StorageEntryModifierV13;
+  readonly type: StorageEntryTypeV13;
+  readonly fallback: Bytes;
+  readonly documentation: Vec<Text>;
+}
 
 /** @name StorageEntryMetadataV9 */
 export interface StorageEntryMetadataV9 extends Struct {
@@ -381,7 +394,16 @@ export interface StorageEntryTypeV11 extends Enum {
 export interface StorageEntryTypeV12 extends StorageEntryTypeV11 {}
 
 /** @name StorageEntryTypeV13 */
-export interface StorageEntryTypeV13 extends StorageEntryTypeV12 {}
+export interface StorageEntryTypeV13 extends Enum {
+  readonly isPlain: boolean;
+  readonly asPlain: Type;
+  readonly isMap: boolean;
+  readonly asMap: MapTypeV13;
+  readonly isDoubleMap: boolean;
+  readonly asDoubleMap: DoubleMapTypeV13;
+  readonly isNMap: boolean;
+  readonly asNMap: NMapTypeV13;
+}
 
 /** @name StorageEntryTypeV9 */
 export interface StorageEntryTypeV9 extends Enum {
@@ -451,7 +473,10 @@ export interface StorageMetadataV11 extends Struct {
 export interface StorageMetadataV12 extends StorageMetadataV11 {}
 
 /** @name StorageMetadataV13 */
-export interface StorageMetadataV13 extends StorageMetadataV12 {}
+export interface StorageMetadataV13 extends Struct {
+  readonly prefix: Text;
+  readonly items: Vec<StorageEntryMetadataV13>;
+}
 
 /** @name StorageMetadataV9 */
 export interface StorageMetadataV9 extends Struct {
