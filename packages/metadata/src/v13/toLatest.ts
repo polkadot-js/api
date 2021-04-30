@@ -16,6 +16,8 @@ const KNOWN_ORIGINS: Record<string, string> = {
   TechnicalCommittee: 'CollectiveOrigin'
 };
 
+const BOXES = [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']];
+
 /**
  * Find and apply the correct type override
  * @internal
@@ -29,9 +31,11 @@ function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void
     } else {
       // FIXME: NOT happy with this approach, but gets over the initial hump cased by (Vec<Announcement>,BalanceOf)
       const orig = type.toString();
-      const alias = Object.entries(sectionTypes).reduce((result: string, [from, to]): string =>
-        [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']].reduce((result, [one, two]): string =>
-          result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
+      const alias = Object
+        .entries(sectionTypes)
+        .reduce((result: string, [from, to]) =>
+          BOXES.reduce((result, [one, two]) =>
+            result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
 
       if (orig !== alias) {
         type.setOverride(alias);
@@ -83,13 +87,15 @@ function convertEvents (registry: Registry, events: EventMetadataV13[], sectionT
 function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): StorageMetadataLatest {
   return registry.createType('StorageMetadataLatest', {
     items: items.map((s): StorageEntryMetadataLatest => {
-      if (s.type.isDoubleMap) {
-        setTypeOverride(sectionTypes, [s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2]);
-      } else if (s.type.isMap) {
-        setTypeOverride(sectionTypes, [s.type.asMap.value, s.type.asMap.key]);
-      } else {
-        setTypeOverride(sectionTypes, [s.type.asPlain]);
-      }
+      setTypeOverride(sectionTypes,
+        s.type.isDoubleMap
+          ? [s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2]
+          : s.type.isMap
+            ? [s.type.asMap.value, s.type.asMap.key]
+            : s.type.isNMap
+              ? s.type.asNMap.keyVec
+              : [s.type.asPlain]
+      );
 
       return registry.createType('StorageEntryMetadataLatest', s);
     }),
