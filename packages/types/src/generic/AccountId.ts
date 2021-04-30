@@ -14,13 +14,13 @@ function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
     return new Uint8Array();
   } else if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
-  } else if (isHex(value)) {
-    return hexToU8a(value.toString());
   } else if (isString(value)) {
-    return decodeAddress((value as string).toString());
+    return isHex(value)
+      ? hexToU8a(value.toString())
+      : decodeAddress((value as string).toString());
   }
 
-  throw new Error('Unknown type passed to AccountId constructor');
+  throw new Error(`Unknown type passed to AccountId constructor, found typeof ${typeof value}`);
 }
 
 /**
