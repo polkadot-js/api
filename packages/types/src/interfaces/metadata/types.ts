@@ -296,6 +296,9 @@ export interface ModuleMetadataV9 extends Struct {
   readonly errors: Vec<ErrorMetadataV9>;
 }
 
+/** @name NMapTypeLatest */
+export interface NMapTypeLatest extends NMapTypeV13 {}
+
 /** @name NMapTypeV13 */
 export interface NMapTypeV13 extends Struct {
   readonly hashers: Vec<StorageHasherV13>;

@@ -306,6 +306,7 @@ export default {
     MetadataLatest: 'MetadataV13',
     ModuleConstantMetadataLatest: 'ModuleConstantMetadataV13',
     ModuleMetadataLatest: 'ModuleMetadataV13',
+    NMapTypeLatest: 'NMapTypeV13',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV13',
     StorageEntryModifierLatest: 'StorageEntryModifierV13',
     StorageEntryTypeLatest: 'StorageEntryTypeV13',
