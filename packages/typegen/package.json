@@ -26,9 +26,9 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.13.16",
+    "@babel/core": "^7.14.0",
     "@babel/register": "^7.13.16",
-    "@babel/runtime": "^7.13.17",
+    "@babel/runtime": "^7.14.0",
     "@polkadot/api": "4.7.3-5",
     "@polkadot/metadata": "4.7.3-5",
     "@polkadot/rpc-provider": "4.7.3-5",
