@@ -70,7 +70,7 @@ function convertConstants (registry: Registry, constants: ModuleConstantMetadata
  **/
 function convertEvents (registry: Registry, events: EventMetadataV13[], sectionTypes: OverrideModuleType): EventMetadataLatest[] {
   return events.map((e): EventMetadataLatest => {
-    setTypeOverride(sectionTypes, e.args.map(({ type }) => type));
+    setTypeOverride(sectionTypes, e.args.map((type) => type));
 
     return registry.createType('EventMetadataLatest', e);
   });
