@@ -6917,6 +6917,12 @@
               "documentation": [
                 " No proposal or bounty at that index."
               ]
+            },
+            {
+              "name": "TooManyApprovals",
+              "documentation": [
+                " Too many approvals in the queue."
+              ]
             }
           ],
           "index": 17
