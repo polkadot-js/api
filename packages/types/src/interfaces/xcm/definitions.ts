@@ -205,7 +205,7 @@ export default {
         BadOrigin: 'Null',
         ExceedsMaxMessageSize: 'Null',
         FailedToTransactAsset: 'Null', // (#[codec(skip)] &'static str),
-        WeightLimitReached: 'Null',
+        WeightLimitReached: 'Weight',
         Wildcard: 'Null',
         TooMuchWeightRequired: 'Null',
         NotHoldingFees: 'Null',

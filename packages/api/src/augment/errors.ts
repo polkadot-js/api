@@ -1291,6 +1291,10 @@ declare module '@polkadot/api/types/errors' {
        * No proposal or bounty at that index.
        **/
       InvalidIndex: AugmentedError<ApiType>;
+      /**
+       * Too many approvals in the queue.
+       **/
+      TooManyApprovals: AugmentedError<ApiType>;
     };
     vesting: {
       [key: string]: AugmentedError<ApiType>;

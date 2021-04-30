@@ -5,8 +5,12 @@
 Changes:
 
 - De-alias xcm `Outcome` (used in multiple pallettes)
+- Adjust xcm types as per latest, e.g. `XcmError`
 - Fix generate of well-known storage keys (e.g. `:code`)
 - Optimize metadata unknown type validation
+- Allow metadata creation for `Map` or `Record`
+- Added explicit double-byte ss58 `AccountId` encoding test
+- Update to latest Substrate metadata
 
 
 ## 4.7.2 Apr 26, 2021
