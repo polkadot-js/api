@@ -9,10 +9,20 @@ describe('MagicNumber', (): void => {
   const registry = new TypeRegistry();
 
   it('succeeds when the magic number matches', (): void => {
-    expect((): MagicNumber => new MagicNumber(registry, MAGIC_NUMBER)).not.toThrow();
+    expect(
+      () => new MagicNumber(registry, MAGIC_NUMBER)
+    ).not.toThrow();
+  });
+
+  it('succeeds when the magic number is empty', (): void => {
+    expect(
+      () => new MagicNumber(registry)
+    ).not.toThrow();
   });
 
   it('fails when the magic number mismatches', (): void => {
-    expect((): MagicNumber => new MagicNumber(registry, 0x12345)).toThrow(/MagicNumber/);
+    expect(
+      () => new MagicNumber(registry, 0x12345678)
+    ).toThrow(/MagicNumber mismatch/);
   });
 });
