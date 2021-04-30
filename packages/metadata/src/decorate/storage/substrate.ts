@@ -22,6 +22,7 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
       meta: {
         documentation: registry.createType('Vec<Text>', [documentation]),
         modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+        name: registry.createType('Text', method),
         toJSON: (): any => key,
         type: registry.createType('StorageEntryTypeLatest', type, 0)
       } as StorageEntryMetadataLatest,
