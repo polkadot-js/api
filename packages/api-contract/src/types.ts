@@ -39,6 +39,7 @@ export interface AbiMessage {
   isConstructor?: boolean;
   isMutating?: boolean;
   isPayable?: boolean;
+  method: string;
   returnType?: TypeDef | null;
   selector: ContractSelector;
   toU8a: (params: CodecArg[], additional?: Uint8Array) => Uint8Array;

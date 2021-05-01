@@ -10,7 +10,7 @@ import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, compactAddLength, isFunction, isUndefined, isWasm, logger, stringCamelCase, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, isFunction, isUndefined, isWasm, logger, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Abi } from '../Abi';
@@ -49,10 +49,8 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     assert(isWasm(this.code), 'No WASM code provided');
 
     this.abi.constructors.forEach((c): void => {
-      const messageName = stringCamelCase(c.identifier);
-
-      if (isUndefined(this.#tx[messageName])) {
-        this.#tx[messageName] = createBluePrintTx((o, p) => this.#instantiate(c, o, p));
+      if (isUndefined(this.#tx[c.method])) {
+        this.#tx[c.method] = createBluePrintTx((o, p) => this.#instantiate(c, o, p));
       }
     });
   }

@@ -143,6 +143,7 @@ export class Abi {
 
   #createMessage = (spec: ContractMessageSpec | ContractConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const args = this.#createArgs(spec.args, spec);
+    const identifier = spec.name.toString();
     const message = {
       ...add,
       args,
@@ -151,8 +152,9 @@ export class Abi {
         args: this.#decodeArgs(args, data),
         message
       }),
-      identifier: spec.name.toString(),
+      identifier,
       index,
+      method: stringCamelCase(identifier),
       selector: spec.selector,
       toU8a: (params: CodecArg[], additional?: Uint8Array) =>
         this.#encodeArgs(spec, args, params, additional)
