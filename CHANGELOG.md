@@ -9,6 +9,7 @@ Changes:
 - Fix generate of well-known storage keys (e.g. `:code`)
 - Optimize metadata unknown type validation
 - Allow metadata creation for `Map` or `Record`
+- Expose additional camelCase `method` on `AbiMessage` (maps to decorated name)
 - Added explicit double-byte ss58 `AccountId` encoding test
 - Update to latest Substrate metadata
 
