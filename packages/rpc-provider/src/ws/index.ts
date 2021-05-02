@@ -32,7 +32,7 @@ interface WsStateSubscription extends SubscriptionHandler {
   params: any[];
 }
 
-const ALIASSES: { [index: string]: string } = {
+const ALIASES: { [index: string]: string } = {
   chain_finalisedHead: 'chain_finalizedHead',
   chain_subscribeFinalisedHeads: 'chain_subscribeFinalizedHeads',
   chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
@@ -351,7 +351,9 @@ export class WsProvider implements ProviderInterface {
     }
 
     this.#isConnected = false;
+    this.#websocket = null;
     this.#emit('disconnected');
+
     // reject all hanging requests
     eraseRecord(this.#handlers, (handler) => handler.callback(error, undefined));
     eraseRecord(this.#waitingForId);
@@ -419,7 +421,7 @@ export class WsProvider implements ProviderInterface {
   }
 
   #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
-    const method = ALIASSES[response.method as string] || response.method || 'invalid';
+    const method = ALIASES[response.method as string] || response.method || 'invalid';
     const subId = `${method}::${response.params.subscription}`;
     const handler = this.#subscriptions[subId];
 

@@ -11,6 +11,7 @@ Changes:
 - Allow metadata creation for `Map` or `Record`
 - Expose additional camelCase `method` on `AbiMessage` (maps to decorated name)
 - Added explicit double-byte ss58 `AccountId` encoding test
+- Add known upgrade block for Polkadot v30
 - Update to latest Substrate metadata
 
 
