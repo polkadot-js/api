@@ -225,7 +225,6 @@ export class WsProvider implements ProviderInterface {
 
       // 1000 - Normal closure; the connection successfully completed
       this.#websocket.close(1000);
-      this.#websocket = null;
     } catch (error) {
       l.error(error);
 
@@ -351,11 +350,19 @@ export class WsProvider implements ProviderInterface {
     }
 
     this.#isConnected = false;
-    this.#websocket = null;
+
+    if (this.#websocket) {
+      this.#websocket.onclose = null;
+      this.#websocket.onerror = null;
+      this.#websocket.onmessage = null;
+      this.#websocket.onopen = null;
+      this.#websocket = null;
+    }
+
     this.#emit('disconnected');
 
     // reject all hanging requests
-    eraseRecord(this.#handlers, (handler) => handler.callback(error, undefined));
+    eraseRecord(this.#handlers, (h) => h.callback(error, undefined));
     eraseRecord(this.#waitingForId);
 
     if (this.#autoConnectMs > 0) {

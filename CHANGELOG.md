@@ -12,6 +12,7 @@ Changes:
 - Expose additional camelCase `method` on `AbiMessage` (maps to decorated name)
 - Added explicit double-byte ss58 `AccountId` encoding test
 - Add known upgrade block for Polkadot v30
+- Cleanup WebSocket handlers when close event has been received
 - Update to latest Substrate metadata
 
 
