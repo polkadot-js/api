@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 4.8.1 May 2, 2021
+
+Upgrade priority: Low. Recommended when using or developing for parachains.
 
 Changes:
 
