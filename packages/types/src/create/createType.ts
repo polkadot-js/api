@@ -4,7 +4,7 @@
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import type { FromReg } from './types';
 
-import { logger } from '@polkadot/util';
+import { assert, isHex, isU8a, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createClass } from './createClass';
 
@@ -16,46 +16,36 @@ interface CreateOptions {
 
 const l = logger('registry');
 
-// TODO: Fix and re-enable
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
-// function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
-//   // the underlying type created.toRawType()
-//   const rawType = created.toRawType();
+// eslint-disable-next-line @typescript-eslint/ban-types
+function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
+  const u8a = created.toU8a();
+  const rawType = created.toRawType();
+  const isEqual = u8aEq(value, u8a) ||
+    // :code entries and singular bytes don't have length-prefixes (when from storage)
+    (rawType === 'Bytes' && value.length === u8a.length);
 
-//   // ignore bytes completely - this is probably a FIXME, since these are somewhat
-//   // breaking for at least online queries - not quite sure wtf is going wrong here
-//   if (rawType === 'Bytes') {
-//     return;
-//   }
-
-//   // the hex values for what we have
-//   const inHex = u8aToHex(value);
-//   const crHex = created.toHex();
-
-//   // Check equality, based on some different approaches (as decoded)
-//   const isEqual = inHex === crHex || // raw hex values, quick path
-//     inHex === created.toHex(true) || // wrapped options
-//     u8aToHex(value.reverse()) === crHex; // reverse (for numbers, which are BE)
-
-//   // if the hex doesn't match and the value for both is non-empty, complain... bitterly
-//   if (!isEqual && (u8aHasValue(value) || u8aHasValue(created.toU8a(true)))) {
-//     l.warn(`${rawType}:: Input doesn't match output, received ${u8aToHex(value)}, created ${crHex}`);
-//   }
-// }
+  assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
+}
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor<FromReg<T, K>>, params: any[] = [], { blockHash }: CreateOptions = {}): FromReg<T, K> {
+function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isPedantic }: CreateOptions = {}): FromReg<T, K> {
   const created = new Type(registry, ...params);
+  const value = params[0];
+
+  if (isPedantic) {
+    if (isU8a(value)) {
+      checkInstance(value, created);
+    } else if (isHex(value)) {
+      checkInstance(u8aToU8a(value.toString()), created);
+    }
+  }
 
   if (blockHash) {
     created.createdAtHash = createType(registry, 'Hash', blockHash);
   }
-
-  // if (isPedantic && isU8a(value)) {
-  //   checkInstance(value, created);
-  // }
 
   return created;
 }

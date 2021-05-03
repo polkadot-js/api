@@ -4,6 +4,7 @@
 
 Changes:
 
+- Re-add isPedantic check on storage decoding
 - Additional Xcm types
 
 
