@@ -26,7 +26,7 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
     // :code entries and singular bytes don't have length-prefixes (when from storage)
     (rawType === 'Bytes' && value.length === u8a.length);
 
-  assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 384)}, created ${u8aToHex(u8a, 384)}`);
+  assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 384)} (${value.length} bytes), created ${u8aToHex(u8a, 384)} (${u8a.length} bytes)`);
 }
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
