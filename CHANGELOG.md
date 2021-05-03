@@ -5,6 +5,7 @@
 Changes:
 
 - Re-add isPedantic check on storage decoding
+- Additional Xcm types
 
 
 ## 4.8.1 May 2, 2021

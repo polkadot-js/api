@@ -310,8 +310,10 @@ export default {
       relayParentStorageRoot: 'Hash',
       maxPovSize: 'u32'
     },
-    RelayChainBlockNumber: 'u32',
-    RelayChainHash: 'Hash',
+    RelayBlockNumber: 'u32',
+    RelayChainBlockNumber: 'RelayBlockNumber',
+    RelayHash: 'Hash',
+    RelayChainHash: 'RelayHash',
     QueuedParathread: {
       claim: 'ParathreadEntry',
       coreOffset: 'u32'
