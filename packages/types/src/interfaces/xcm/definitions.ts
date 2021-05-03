@@ -37,6 +37,9 @@ const xcm = {
       RelayedFrom: 'XcmRelayedFrom'
     }
   },
+  XcmpMessageFormat: {
+    _enum: ['ConcatenatedVersionedXcm', 'ConcatenatedEncodedBlob', 'Signals']
+  },
   VersionedXcm: {
     _enum: {
       V0: 'Xcm'
@@ -67,6 +70,12 @@ const xmcOrder = {
 };
 
 const multiAsset = {
+  InboundStatus: {
+    _enum: ['Ok', 'Suspended']
+  },
+  OutboundStatus: {
+    _enum: ['Ok', 'Suspended']
+  },
   MultiAssetAbstractFungible: {
     id: 'Vec<u8>',
     instance: 'Compact<u128>'
@@ -235,6 +244,13 @@ export default {
         Incomplete: '(Weight, XcmError)',
         Error: 'XcmError'
       }
+    },
+    QueueConfigData: {
+      suspendThreshold: 'u32',
+      dropThreshold: 'u32',
+      resumeThreshold: 'u32',
+      thresholdWeight: 'Weight',
+      weightRestrictDecay: 'Weight'
     },
     VersionedMultiLocation: {
       _enum: {
