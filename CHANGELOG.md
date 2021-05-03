@@ -8,6 +8,7 @@ Changes:
 - Adjust capability detection (only on full-known historic `AccountInfo`)
 - Additional Xcm types
 - Adjust parachain types
+- Adjust re-encoding of `BitVec` based on decoded length
 
 
 ## 4.8.1 May 2, 2021
