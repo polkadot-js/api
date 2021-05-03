@@ -132,6 +132,7 @@ export interface CandidatePendingAvailability extends Struct {
   readonly backers: BitVec;
   readonly relayParentNumber: BlockNumber;
   readonly backedInNumber: BlockNumber;
+  readonly backingGroup: GroupIndex;
 }
 
 /** @name CandidateReceipt */
