@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { bool, Raw, u32 } from '@polkadot/types';
+import type { Raw, u32 } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
 import type { InterfaceTypes } from '@polkadot/types/types';
 
@@ -11,7 +11,7 @@ import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, take } from '@polkadot/x-rxjs/operators';
 
 // the order and types needs to map with the all array setup below
-type ExtractedQ = [bool | null, bool | null, bool | null, Releases | null];
+type ExtractedQ = [Releases | null];
 
 type ExtractedR = [Raw | null, Raw | null];
 
@@ -45,7 +45,7 @@ interface Constants {
 
 const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 
-function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [systemRefcount32, systemRefcountDual, systemRefcountTriple, stakingVersion]: ExtractedQ, [keys, accountInfo]: ExtractedR): Partial<DetectedTypes> {
+function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [stakingVersion]: ExtractedQ, [keys, accountInfo]: ExtractedR): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
@@ -57,12 +57,6 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length }:
       : length === refcount2Length
         ? 'AccountInfoWithDualRefCount'
         : 'AccountInfoWithTripleRefCount';
-  } else if (systemRefcountTriple && systemRefcountTriple.isTrue) {
-    types.AccountInfo = 'AccountInfoWithTripleRefCount';
-  } else if (systemRefcountDual && systemRefcountDual.isTrue) {
-    types.AccountInfo = 'AccountInfoWithDualRefCount';
-  } else if (systemRefcount32 && systemRefcount32.isTrue) {
-    types.AccountInfo = 'AccountInfoWithRefCount';
   }
 
   // ValidatorPrefs
@@ -151,9 +145,6 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
     api.consts.auctions?.slotRangeCount
   ]);
   const queries = filterEntries([
-    api.query.system?.upgradedToU32RefCount,
-    api.query.system?.upgradedToDualRefCount,
-    api.query.system?.upgradedToTripleRefCount,
     api.query.staking?.storageVersion
   ]);
   const raws = filterEntries([

@@ -199,8 +199,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
       l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
     }
-
-    l.log(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
   }
 
   // subscribe to metadata updates, inject the types on changes
