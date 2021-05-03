@@ -148,7 +148,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this.#registries.push(result);
 
-    // For now, since this is new we ignore the capability lookups (this could be useful once proven)
     await this._detectCapabilities(registry, blockHash);
 
     return result;
@@ -198,8 +197,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (Object.keys(types).length) {
       (registry || this.registry).register(types as Record<string, string>);
 
-      l.log(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
+      l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
     }
+
+    l.log(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
   }
 
   // subscribe to metadata updates, inject the types on changes

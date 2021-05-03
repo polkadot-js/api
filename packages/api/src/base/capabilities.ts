@@ -38,6 +38,9 @@ interface AvailableMap<T> {
 
 interface Constants {
   accountIdLength: number;
+  refcount1Length: number;
+  refcount2Length: number;
+  refcount3Length: number;
 }
 
 const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
@@ -110,7 +113,11 @@ function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, 
 }
 
 function filterEntries <T> (original: T[]): AvailableMap<T> {
-  const included = original.map((c) => !!c);
+  const included = original.map((c) =>
+    Array.isArray(c)
+      ? !!c[0]
+      : !!c
+  );
   const filtered = original.filter((_, index) => included[index]);
 
   return { filtered, included, original };
@@ -126,10 +133,17 @@ function extractResults <R, T = unknown> (results: unknown[], map: AvailableMap<
   ) as unknown as R;
 }
 
+function mapRaw <T extends { key: (...args: unknown[]) => string }> (query: T | [T, unknown[]]): string {
+  return Array.isArray(query)
+    ? query[0].key(...query[1])
+    : query.key();
+}
+
 /**
  * @description Query the chain for the specific capabilities
  */
 export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Array | string | undefined): Observable<Partial<DetectedTypes>> {
+  const emptyAccountId = api.registry.createType('AccountId');
   const consts = filterEntries([
     api.consts.auctions?.leasePeriodsPerSlot,
     api.consts.auctions?.slotRangeCount
@@ -141,7 +155,8 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
     api.query.staking?.storageVersion
   ]);
   const raws = filterEntries([
-    api.query.session?.queuedKeys
+    api.query.session?.queuedKeys,
+    // [api.query.system?.account, [emptyAccountId]]
   ]);
 
   return combineLatest([
@@ -158,14 +173,17 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
       : of([]),
     raws.filtered.length
       ? blockHash
-        ? combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k.key(), blockHash)))
-        : combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k.key())))
+        ? combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(mapRaw(k), blockHash)))
+        : combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(mapRaw(k)))
       : of([])
   ]).pipe(
     map(([cResults, qResults, rResults]): Partial<DetectedTypes> =>
       mapCapabilities(
         {
-          accountIdLength: api.registry.createType('AccountId').encodedLength
+          accountIdLength: emptyAccountId.encodedLength,
+          refcount1Length: api.registry.createType('AccountInfoWithTripleRefCount').encodedLength,
+          refcount2Length: api.registry.createType('AccountInfoWithDualRefCount').encodedLength,
+          refcount3Length: api.registry.createType('AccountInfoWithRefCount').encodedLength
         },
         extractResults<ExtractedC>(cResults, consts),
         extractResults<ExtractedQ>(qResults, queries),
