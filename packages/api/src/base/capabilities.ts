@@ -13,7 +13,7 @@ import { map, take } from '@polkadot/x-rxjs/operators';
 // the order and types needs to map with the all array setup below
 type ExtractedQ = [bool | null, bool | null, bool | null, Releases | null];
 
-type ExtractedR = [Raw | null];
+type ExtractedR = [Raw | null, Raw | null];
 
 type ExtractedC = [u32 | null, u32 | null];
 
@@ -45,11 +45,19 @@ interface Constants {
 
 const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 
-function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [systemRefcount32, systemRefcountDual, systemRefcountTriple, stakingVersion]: ExtractedQ, [keys]: ExtractedR): Partial<DetectedTypes> {
+function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [systemRefcount32, systemRefcountDual, systemRefcountTriple, stakingVersion]: ExtractedQ, [keys, accountInfo]: ExtractedR): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
-  if (systemRefcountTriple && systemRefcountTriple.isTrue) {
+  if (accountInfo) {
+    const length = accountInfo.length;
+
+    types.AccountInfo = length === refcount1Length
+      ? 'AccountInfoWithRefCount'
+      : length === refcount2Length
+        ? 'AccountInfoWithDualRefCount'
+        : 'AccountInfoWithTripleRefCount';
+  } else if (systemRefcountTriple && systemRefcountTriple.isTrue) {
     types.AccountInfo = 'AccountInfoWithTripleRefCount';
   } else if (systemRefcountDual && systemRefcountDual.isTrue) {
     types.AccountInfo = 'AccountInfoWithDualRefCount';
@@ -133,12 +141,6 @@ function extractResults <R, T = unknown> (results: unknown[], map: AvailableMap<
   ) as unknown as R;
 }
 
-function mapRaw <T extends { key: (...args: unknown[]) => string }> (query: T | [T, unknown[]]): string {
-  return Array.isArray(query)
-    ? query[0].key(...query[1])
-    : query.key();
-}
-
 /**
  * @description Query the chain for the specific capabilities
  */
@@ -155,8 +157,8 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
     api.query.staking?.storageVersion
   ]);
   const raws = filterEntries([
-    api.query.session?.queuedKeys,
-    // [api.query.system?.account, [emptyAccountId]]
+    api.query.session?.queuedKeys.key(),
+    api.query.system?.account.key(emptyAccountId)
   ]);
 
   return combineLatest([
@@ -173,17 +175,17 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
       : of([]),
     raws.filtered.length
       ? blockHash
-        ? combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(mapRaw(k), blockHash)))
-        : combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(mapRaw(k)))
+        ? combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k, blockHash)))
+        : combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k)))
       : of([])
   ]).pipe(
     map(([cResults, qResults, rResults]): Partial<DetectedTypes> =>
       mapCapabilities(
         {
           accountIdLength: emptyAccountId.encodedLength,
-          refcount1Length: api.registry.createType('AccountInfoWithTripleRefCount').encodedLength,
+          refcount1Length: api.registry.createType('AccountInfoWithRefCount').encodedLength,
           refcount2Length: api.registry.createType('AccountInfoWithDualRefCount').encodedLength,
-          refcount3Length: api.registry.createType('AccountInfoWithRefCount').encodedLength
+          refcount3Length: api.registry.createType('AccountInfoWithTripleRefCount').encodedLength
         },
         extractResults<ExtractedC>(cResults, consts),
         extractResults<ExtractedQ>(qResults, queries),
