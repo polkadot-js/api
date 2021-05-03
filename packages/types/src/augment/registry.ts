@@ -34,7 +34,7 @@ import type { DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11, DoubleMap
 import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
-import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, CoreAssignment, CoreIndex, CoreOccupied, DisputeStatement, DisputeStatementSet, DoubleVoteReport, DownwardMessage, ExplicitDisputeStatement, GlobalValidationData, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InvalidDisputeStatementKind, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiDisputeStatementSet, NewBidder, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParachainsInherentData, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueuedParathread, RegisteredParachainInfo, RelayChainBlockNumber, RelayChainHash, Remark, Retriable, Scheduling, ServiceQuality, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TransientValidationData, UpwardMessage, ValidDisputeStatementKind, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
+import type { AbridgedCandidateReceipt, AbridgedHostConfiguration, AbridgedHrmpChannel, AssignmentId, AssignmentKind, AttestedCandidate, AuctionIndex, AuthorityDiscoveryId, AvailabilityBitfield, AvailabilityBitfieldRecord, BackedCandidate, Bidder, BufferedSessionChange, CandidateCommitments, CandidateDescriptor, CandidateHash, CandidatePendingAvailability, CandidateReceipt, CollatorId, CollatorSignature, CommittedCandidateReceipt, CoreAssignment, CoreIndex, CoreOccupied, DisputeStatement, DisputeStatementSet, DoubleVoteReport, DownwardMessage, ExplicitDisputeStatement, GlobalValidationData, GlobalValidationSchedule, GroupIndex, HeadData, HostConfiguration, HrmpChannel, HrmpChannelId, HrmpOpenChannelRequest, InboundDownwardMessage, InboundHrmpMessage, InboundHrmpMessages, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, InvalidDisputeStatementKind, LeasePeriod, LeasePeriodOf, LocalValidationData, MessageIngestionType, MessageQueueChain, MessagingStateSnapshot, MessagingStateSnapshotEgressEntry, MultiDisputeStatementSet, NewBidder, OutboundHrmpMessage, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle, ParaPastCodeMeta, ParaScheduling, ParaValidatorIndex, ParachainDispatchOrigin, ParachainInherentData, ParachainProposal, ParachainsInherentData, ParathreadClaim, ParathreadClaimQueue, ParathreadEntry, PersistedValidationData, QueuedParathread, RegisteredParachainInfo, RelayBlockNumber, RelayChainBlockNumber, RelayChainHash, RelayHash, Remark, Retriable, Scheduling, ServiceQuality, SessionInfo, SessionInfoValidatorGroup, SignedAvailabilityBitfield, SignedAvailabilityBitfields, SigningContext, SlotRange, Statement, SubId, SystemInherentData, TransientValidationData, UpwardMessage, ValidDisputeStatementKind, ValidationCode, ValidationData, ValidationDataType, ValidationFunctionParams, ValidatorSignature, ValidityAttestation, VecInboundHrmpMessage, WinnersData, WinnersDataTuple, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, InclusionFee, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { Approvals } from '@polkadot/types/interfaces/poll';
 import type { ProxyAnnouncement, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces/proxy';
@@ -54,7 +54,7 @@ import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatu
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, Outcome, PluralityJunction, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOriginKind, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset } from '@polkadot/types/interfaces/xcm';
+import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, InboundStatus, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, OutboundStatus, Outcome, PluralityJunction, QueueConfigData, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOriginKind, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
@@ -108,6 +108,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<RefCountTo259>': Compact<RefCountTo259>;
     'Compact<ReferendumIndex>': Compact<ReferendumIndex>;
     'Compact<RegistrarIndex>': Compact<RegistrarIndex>;
+    'Compact<RelayBlockNumber>': Compact<RelayBlockNumber>;
     'Compact<RelayChainBlockNumber>': Compact<RelayChainBlockNumber>;
     'Compact<RewardPoint>': Compact<RewardPoint>;
     'Compact<SchedulePriority>': Compact<SchedulePriority>;
@@ -496,6 +497,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<InboundDownwardMessage>': Option<InboundDownwardMessage>;
     'Option<InboundHrmpMessage>': Option<InboundHrmpMessage>;
     'Option<InboundHrmpMessages>': Option<InboundHrmpMessages>;
+    'Option<InboundStatus>': Option<InboundStatus>;
     'Option<IncludedBlocks>': Option<IncludedBlocks>;
     'Option<InclusionFee>': Option<InclusionFee>;
     'Option<IncomingParachain>': Option<IncomingParachain>;
@@ -609,6 +611,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Origin>': Option<Origin>;
     'Option<OriginCaller>': Option<OriginCaller>;
     'Option<OutboundHrmpMessage>': Option<OutboundHrmpMessage>;
+    'Option<OutboundStatus>': Option<OutboundStatus>;
     'Option<Outcome>': Option<Outcome>;
     'Option<Owner>': Option<Owner>;
     'Option<PalletId>': Option<PalletId>;
@@ -671,6 +674,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ProxyDefinition>': Option<ProxyDefinition>;
     'Option<ProxyState>': Option<ProxyState>;
     'Option<ProxyType>': Option<ProxyType>;
+    'Option<QueueConfigData>': Option<QueueConfigData>;
     'Option<QueuedParathread>': Option<QueuedParathread>;
     'Option<Randomness>': Option<Randomness>;
     'Option<Raw>': Option<Raw>;
@@ -702,8 +706,10 @@ declare module '@polkadot/types/types/registry' {
     'Option<RegistrarInfo>': Option<RegistrarInfo>;
     'Option<Registration>': Option<Registration>;
     'Option<RegistrationJudgement>': Option<RegistrationJudgement>;
+    'Option<RelayBlockNumber>': Option<RelayBlockNumber>;
     'Option<RelayChainBlockNumber>': Option<RelayChainBlockNumber>;
     'Option<RelayChainHash>': Option<RelayChainHash>;
+    'Option<RelayHash>': Option<RelayHash>;
     'Option<Releases>': Option<Releases>;
     'Option<Remark>': Option<Remark>;
     'Option<Renouncing>': Option<Renouncing>;
@@ -930,6 +936,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<XcmOrderInitiateTeleport>': Option<XcmOrderInitiateTeleport>;
     'Option<XcmOrderQueryHolding>': Option<XcmOrderQueryHolding>;
     'Option<XcmOriginKind>': Option<XcmOriginKind>;
+    'Option<XcmpMessageFormat>': Option<XcmpMessageFormat>;
     'Option<XcmQueryResponse>': Option<XcmQueryResponse>;
     'Option<XcmRelayedFrom>': Option<XcmRelayedFrom>;
     'Option<XcmReserveAssetDeposit>': Option<XcmReserveAssetDeposit>;
@@ -1290,6 +1297,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<InboundDownwardMessage>': Vec<InboundDownwardMessage>;
     'Vec<InboundHrmpMessage>': Vec<InboundHrmpMessage>;
     'Vec<InboundHrmpMessages>': Vec<InboundHrmpMessages>;
+    'Vec<InboundStatus>': Vec<InboundStatus>;
     'Vec<IncludedBlocks>': Vec<IncludedBlocks>;
     'Vec<InclusionFee>': Vec<InclusionFee>;
     'Vec<IncomingParachain>': Vec<IncomingParachain>;
@@ -1403,6 +1411,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Origin>': Vec<Origin>;
     'Vec<OriginCaller>': Vec<OriginCaller>;
     'Vec<OutboundHrmpMessage>': Vec<OutboundHrmpMessage>;
+    'Vec<OutboundStatus>': Vec<OutboundStatus>;
     'Vec<Outcome>': Vec<Outcome>;
     'Vec<Owner>': Vec<Owner>;
     'Vec<PalletId>': Vec<PalletId>;
@@ -1465,6 +1474,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ProxyDefinition>': Vec<ProxyDefinition>;
     'Vec<ProxyState>': Vec<ProxyState>;
     'Vec<ProxyType>': Vec<ProxyType>;
+    'Vec<QueueConfigData>': Vec<QueueConfigData>;
     'Vec<QueuedParathread>': Vec<QueuedParathread>;
     'Vec<Randomness>': Vec<Randomness>;
     'Vec<Raw>': Vec<Raw>;
@@ -1496,8 +1506,10 @@ declare module '@polkadot/types/types/registry' {
     'Vec<RegistrarInfo>': Vec<RegistrarInfo>;
     'Vec<Registration>': Vec<Registration>;
     'Vec<RegistrationJudgement>': Vec<RegistrationJudgement>;
+    'Vec<RelayBlockNumber>': Vec<RelayBlockNumber>;
     'Vec<RelayChainBlockNumber>': Vec<RelayChainBlockNumber>;
     'Vec<RelayChainHash>': Vec<RelayChainHash>;
+    'Vec<RelayHash>': Vec<RelayHash>;
     'Vec<Releases>': Vec<Releases>;
     'Vec<Remark>': Vec<Remark>;
     'Vec<Renouncing>': Vec<Renouncing>;
@@ -1724,6 +1736,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<XcmOrderInitiateTeleport>': Vec<XcmOrderInitiateTeleport>;
     'Vec<XcmOrderQueryHolding>': Vec<XcmOrderQueryHolding>;
     'Vec<XcmOriginKind>': Vec<XcmOriginKind>;
+    'Vec<XcmpMessageFormat>': Vec<XcmpMessageFormat>;
     'Vec<XcmQueryResponse>': Vec<XcmQueryResponse>;
     'Vec<XcmRelayedFrom>': Vec<XcmRelayedFrom>;
     'Vec<XcmReserveAssetDeposit>': Vec<XcmReserveAssetDeposit>;
@@ -2084,6 +2097,7 @@ declare module '@polkadot/types/types/registry' {
     InboundDownwardMessage: InboundDownwardMessage;
     InboundHrmpMessage: InboundHrmpMessage;
     InboundHrmpMessages: InboundHrmpMessages;
+    InboundStatus: InboundStatus;
     IncludedBlocks: IncludedBlocks;
     InclusionFee: InclusionFee;
     IncomingParachain: IncomingParachain;
@@ -2197,6 +2211,7 @@ declare module '@polkadot/types/types/registry' {
     Origin: Origin;
     OriginCaller: OriginCaller;
     OutboundHrmpMessage: OutboundHrmpMessage;
+    OutboundStatus: OutboundStatus;
     Outcome: Outcome;
     Owner: Owner;
     PalletId: PalletId;
@@ -2259,6 +2274,7 @@ declare module '@polkadot/types/types/registry' {
     ProxyDefinition: ProxyDefinition;
     ProxyState: ProxyState;
     ProxyType: ProxyType;
+    QueueConfigData: QueueConfigData;
     QueuedParathread: QueuedParathread;
     Randomness: Randomness;
     Raw: Raw;
@@ -2290,8 +2306,10 @@ declare module '@polkadot/types/types/registry' {
     RegistrarInfo: RegistrarInfo;
     Registration: Registration;
     RegistrationJudgement: RegistrationJudgement;
+    RelayBlockNumber: RelayBlockNumber;
     RelayChainBlockNumber: RelayChainBlockNumber;
     RelayChainHash: RelayChainHash;
+    RelayHash: RelayHash;
     Releases: Releases;
     Remark: Remark;
     Renouncing: Renouncing;
@@ -2518,6 +2536,7 @@ declare module '@polkadot/types/types/registry' {
     XcmOrderInitiateTeleport: XcmOrderInitiateTeleport;
     XcmOrderQueryHolding: XcmOrderQueryHolding;
     XcmOriginKind: XcmOriginKind;
+    XcmpMessageFormat: XcmpMessageFormat;
     XcmQueryResponse: XcmQueryResponse;
     XcmRelayedFrom: XcmRelayedFrom;
     XcmReserveAssetDeposit: XcmReserveAssetDeposit;
