@@ -11,7 +11,7 @@ import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, take } from '@polkadot/x-rxjs/operators';
 
 // the order and types needs to map with the all array setup below
-type ExtractedQ = [bool | null, bool | null, Releases | null];
+type ExtractedQ = [bool | null, bool | null, bool | null, Releases | null];
 
 type ExtractedR = [Raw | null];
 
@@ -42,7 +42,7 @@ interface Constants {
 
 const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 
-function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [systemRefcountDual, systemRefcountTriple, stakingVersion]: ExtractedQ, [keys]: ExtractedR): Partial<DetectedTypes> {
+function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [systemRefcount32, systemRefcountDual, systemRefcountTriple, stakingVersion]: ExtractedQ, [keys]: ExtractedR): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
@@ -50,6 +50,8 @@ function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, 
     types.AccountInfo = 'AccountInfoWithTripleRefCount';
   } else if (systemRefcountDual && systemRefcountDual.isTrue) {
     types.AccountInfo = 'AccountInfoWithDualRefCount';
+  } else if (systemRefcount32 && systemRefcount32.isTrue) {
+    types.AccountInfo = 'AccountInfoWithRefCount';
   }
 
   // ValidatorPrefs
@@ -133,6 +135,7 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
     api.consts.auctions?.slotRangeCount
   ]);
   const queries = filterEntries([
+    api.query.system?.upgradedToU32RefCount,
     api.query.system?.upgradedToDualRefCount,
     api.query.system?.upgradedToTripleRefCount,
     api.query.staking?.storageVersion
