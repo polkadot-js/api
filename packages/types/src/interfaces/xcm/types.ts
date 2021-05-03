@@ -97,6 +97,12 @@ export interface DoubleEncodedCall extends Struct {
   readonly encoded: Bytes;
 }
 
+/** @name InboundStatus */
+export interface InboundStatus extends Enum {
+  readonly isOk: boolean;
+  readonly isSuspended: boolean;
+}
+
 /** @name Junction */
 export interface Junction extends Enum {
   readonly isParent: boolean;
@@ -197,6 +203,12 @@ export interface NetworkId extends Enum {
   readonly isKusama: boolean;
 }
 
+/** @name OutboundStatus */
+export interface OutboundStatus extends Enum {
+  readonly isOk: boolean;
+  readonly isSuspended: boolean;
+}
+
 /** @name Outcome */
 export interface Outcome extends Enum {
   readonly isComplete: boolean;
@@ -211,6 +223,15 @@ export interface Outcome extends Enum {
 export interface PluralityJunction extends Struct {
   readonly id: BodyId;
   readonly part: BodyPart;
+}
+
+/** @name QueueConfigData */
+export interface QueueConfigData extends Struct {
+  readonly suspendThreshold: u32;
+  readonly dropThreshold: u32;
+  readonly resumeThreshold: u32;
+  readonly thresholdWeight: Weight;
+  readonly weightRestrictDecay: Weight;
 }
 
 /** @name VersionedMultiAsset */
@@ -388,6 +409,13 @@ export interface XcmOriginKind extends Enum {
   readonly isSovereignAccount: boolean;
   readonly isSuperuser: boolean;
   readonly isXcm: boolean;
+}
+
+/** @name XcmpMessageFormat */
+export interface XcmpMessageFormat extends Enum {
+  readonly isConcatenatedVersionedXcm: boolean;
+  readonly isConcatenatedEncodedBlob: boolean;
+  readonly isSignals: boolean;
 }
 
 /** @name XcmQueryResponse */

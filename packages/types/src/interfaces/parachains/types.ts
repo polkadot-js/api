@@ -492,11 +492,17 @@ export interface RegisteredParachainInfo extends Struct {
   readonly proposer: AccountId;
 }
 
+/** @name RelayBlockNumber */
+export interface RelayBlockNumber extends u32 {}
+
 /** @name RelayChainBlockNumber */
-export interface RelayChainBlockNumber extends u32 {}
+export interface RelayChainBlockNumber extends RelayBlockNumber {}
 
 /** @name RelayChainHash */
-export interface RelayChainHash extends Hash {}
+export interface RelayChainHash extends RelayHash {}
+
+/** @name RelayHash */
+export interface RelayHash extends Hash {}
 
 /** @name Remark */
 export interface Remark extends U8aFixed {}
