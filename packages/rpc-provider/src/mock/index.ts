@@ -69,6 +69,7 @@ export class MockProvider implements ProviderInterface {
     system_chain: (): string => 'mockChain',
     system_name: (): string => 'mockClient',
     system_properties: (): Record<string, number | string> => ({ ss58Format: 42 }),
+    system_upgradedToTripleRefCount: () => this.registry.createType('bool', true),
     system_version: (): string => '9.8.7'
   };
 

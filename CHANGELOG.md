@@ -5,6 +5,7 @@
 Changes:
 
 - Re-add isPedantic check on storage decoding
+- Adjust capability detection (only on full-known historic `AccountInfo`)
 - Additional Xcm types
 
 

@@ -438,27 +438,23 @@ export class RpcCore {
       ? ''
       : ` entry ${entryIndex}:`;
 
-    if (meta.modifier.isOptional) {
-      let inner = null;
-
-      if (!isEmpty) {
-        try {
-          inner = createTypeUnsafe(registry, type, [input], { blockHash, isPedantic: true });
-        } catch (error) {
-          l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}`, (error as Error).message);
-        }
-      }
-
-      const option = new Option(registry, createClass(registry, type), inner);
-
-      if (blockHash) {
-        option.createdAtHash = registry.createType('Hash', blockHash);
-      }
-
-      return option;
-    }
-
     try {
+      if (meta.modifier.isOptional) {
+        let inner = null;
+
+        if (!isEmpty) {
+          inner = createTypeUnsafe(registry, type, [input], { blockHash, isPedantic: true });
+        }
+
+        const option = new Option(registry, createClass(registry, type), inner);
+
+        if (blockHash) {
+          option.createdAtHash = registry.createType('Hash', blockHash);
+        }
+
+        return option;
+      }
+
       return createTypeUnsafe(registry, type, [
         isEmpty
           ? meta.fallback
@@ -467,9 +463,7 @@ export class RpcCore {
           : input
       ], { blockHash, isPedantic: true });
     } catch (error) {
-      l.error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}`, (error as Error).message);
-
-      return createTypeUnsafe(registry, 'Raw', [input], { blockHash });
+      throw new Error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}: ${(error as Error).message}`);
     }
   }
 }
