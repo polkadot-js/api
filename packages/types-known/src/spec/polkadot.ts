@@ -70,13 +70,13 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount'
     }
-  },
-  {
-    minmax: [30, undefined],
-    types: {
-      ...sharedTypes
-    }
   }
+  // {
+  //   minmax: [30, undefined],
+  //   types: {
+  //     ...sharedTypes
+  //   }
+  // }
 ];
 
 export default versioned;

@@ -15,7 +15,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import { of } from '@polkadot/x-rxjs';
+import { from, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { detectedCapabilities } from './capabilities';
@@ -105,7 +105,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
     // shortcut in the case where we have an immediate-same request
     const lastBlockHash = u8aToU8a(blockHash);
-    const existingViaHash = this.#registries.find((r) => r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash));
+    const existingViaHash = this.#registries.find((r) =>
+      r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash)
+    );
 
     if (existingViaHash) {
       return existingViaHash;
@@ -141,13 +143,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
-    // For now, since this is new we ignore the capability lookups (this could be useful once proven)
-    // this._detectCapabilities(registry, blockHash);
-
     // add our new registry
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
+
+    // For now, since this is new we ignore the capability lookups (this could be useful once proven)
+    await this._detectCapabilities(registry, blockHash);
 
     return result;
   }
@@ -190,17 +192,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private _detectCapabilities (registry?: Registry, blockHash?: string | Uint8Array): void {
-    detectedCapabilities(this._rx, blockHash)
-      .toPromise()
-      .then((types): void => {
-        if (Object.keys(types).length) {
-          (registry || this.registry).register(types as Record<string, string>);
+  private async _detectCapabilities (registry?: Registry, blockHash?: string | Uint8Array): Promise<void> {
+    const types = await detectedCapabilities(this._rx, blockHash).toPromise();
 
-          l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
-        }
-      })
-      .catch(l.error);
+    if (Object.keys(types).length) {
+      (registry || this.registry).register(types as Record<string, string>);
+
+      l.log(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
+    }
   }
 
   // subscribe to metadata updates, inject the types on changes
@@ -215,7 +214,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         this._runtimeVersion?.specVersion.eq(version.specVersion)
           ? of(false)
           : this._rpcCore.state.getMetadata().pipe(
-            map((metadata: Metadata): boolean => {
+            switchMap((metadata: Metadata): Observable<void> => {
               l.log(`Runtime version updated to spec=${version.specVersion.toString()}, tx=${version.transactionVersion.toString()}`);
 
               this._runtimeMetadata = metadata;
@@ -235,10 +234,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
-              this._detectCapabilities(thisRegistry.registry);
 
-              return true;
-            })
+              return from(this._detectCapabilities(thisRegistry.registry));
+            }),
+            map(() => true)
           )
       )
     ).subscribe();
@@ -285,7 +284,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [genesisHash, metadata];
   }
 
-  private _initFromMeta (metadata: Metadata): boolean {
+  private async _initFromMeta (metadata: Metadata): Promise<boolean> {
     this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
@@ -293,7 +292,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
-    this._detectCapabilities();
+    await this._detectCapabilities();
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);

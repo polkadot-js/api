@@ -7,6 +7,7 @@ Changes:
 - Re-add isPedantic check on storage decoding
 - Adjust capability detection (only on full-known historic `AccountInfo`)
 - Additional Xcm types
+- Add auto-capability detection for historic queries
 
 
 ## 4.8.1 May 2, 2021
