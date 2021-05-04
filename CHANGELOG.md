@@ -9,6 +9,7 @@ Changes:
 - Adjust parachain types
 - Adjust re-encoding of `BitVec` based on decoded length
 - Add auto-capability detection to historic `.at` queries
+- Add known upgrade block for Westend 900
 
 
 ## 4.8.1 May 2, 2021
