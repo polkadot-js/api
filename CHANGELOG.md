@@ -8,6 +8,7 @@ Changes:
 - Adjust capability detection (only on full-known historic `AccountInfo`)
 - Additional Xcm types
 - Adjust parachain types
+- Remove error logging on createType (details passed in error)
 - Adjust re-encoding of `BitVec` based on decoded length
 
 
