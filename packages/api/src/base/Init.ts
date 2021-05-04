@@ -105,8 +105,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
     // shortcut in the case where we have an immediate-same request
     const lastBlockHash = u8aToU8a(blockHash);
-    const existingViaHash = this.#registries.find((r) =>
-      r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash)
+    const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
+      lastBlockHash && u8aEq(lastBlockHash, lastBlockHash)
     );
 
     if (existingViaHash) {
@@ -131,7 +131,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       : await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
 
     // check for pre-existing registries
-    const existingViaVersion = this.#registries.find((r) => r.specVersion.eq(version.specVersion));
+    const existingViaVersion = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
 
     if (existingViaVersion) {
       existingViaVersion.lastBlockHash = lastBlockHash;
@@ -191,11 +191,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private async _detectCapabilities (registry?: Registry, blockHash?: string | Uint8Array): Promise<void> {
+  private async _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): Promise<void> {
     const types = await detectedCapabilities(this._rx, blockHash).toPromise();
 
     if (Object.keys(types).length) {
-      (registry || this.registry).register(types as Record<string, string>);
+      registry.register(types as Record<string, string>);
 
       l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
     }
@@ -291,7 +291,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
-    await this._detectCapabilities();
+    await this._detectCapabilities(this.registry);
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
