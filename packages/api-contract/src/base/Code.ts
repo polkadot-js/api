@@ -10,7 +10,7 @@ import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, compactAddLength, isFunction, isUndefined, isWasm, logger, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, isFunction, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Abi } from '../Abi';
@@ -19,8 +19,6 @@ import { Base } from './Base';
 import { Blueprint } from './Blueprint';
 import { Contract } from './Contract';
 import { createBluePrintTx, EMPTY_SALT, encodeSalt } from './util';
-
-const l = logger('Code');
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;
@@ -57,16 +55,6 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
 
   public get tx (): MapConstructorExec<ApiType> {
     return this.#tx;
-  }
-
-  /**
-   * @description Deploy the code bundle and the contract, creating a Blueprint.
-   * @deprecated Use the `code.tx.<constructor>(...) format to put code and deploy
-   */
-  public createContract (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> {
-    l.warn('.createContract is deprecated, use code.tx.<constructorName>(...) instead (where code refers to this instance)');
-
-    return this.#instantiate(constructorOrId, options, params);
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
