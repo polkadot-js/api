@@ -49,6 +49,12 @@ export interface ChangesTrieConfiguration extends Struct {
   readonly digestLevels: u32;
 }
 
+/** @name ChangesTrieSignal */
+export interface ChangesTrieSignal extends Enum {
+  readonly isNewConfiguration: boolean;
+  readonly asNewConfiguration: Option<ChangesTrieConfiguration>;
+}
+
 /** @name CodecHash */
 export interface CodecHash extends Hash {}
 
@@ -79,6 +85,8 @@ export interface DigestItem extends Enum {
   readonly asSeal: Seal;
   readonly isPreRuntime: boolean;
   readonly asPreRuntime: PreRuntime;
+  readonly isChangesTrieSignal: boolean;
+  readonly asChangesTrieSignal: ChangesTrieSignal;
 }
 
 /** @name EncodedJustification */
