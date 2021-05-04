@@ -6,7 +6,7 @@ import type { AnyU8a, Registry } from '../types';
 
 import BN from 'bn.js';
 
-import { stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { U8aFixed } from '../codec/U8aFixed';
 import { Bytes } from '../primitive/Bytes';
@@ -24,7 +24,13 @@ export const CID_POW = stringToU8a('pow_');
  */
 export class GenericConsensusEngineId extends U8aFixed {
   constructor (registry: Registry, value?: AnyU8a) {
-    super(registry, value, 32);
+    super(
+      registry,
+      isNumber(value)
+        ? bnToU8a(value)
+        : value,
+      32
+    );
   }
 
   /**

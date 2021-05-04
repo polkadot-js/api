@@ -12,6 +12,6 @@ describe('ConsensusEngineId', (): void => {
   });
 
   it('reverses an id to string for babe', (): void => {
-    expect(new ConsensusEngineId(registry, 'BASE').toString()).toEqual('BABE');
+    expect(new ConsensusEngineId(registry, 'BABE').toString()).toEqual('BABE');
   });
 });
