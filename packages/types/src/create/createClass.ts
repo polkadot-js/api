@@ -52,7 +52,7 @@ function getSubType (value: TypeDef): keyof InterfaceTypes {
 function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceTypes> {
   const result: Record<string, keyof InterfaceTypes> = {};
 
-  return getSubDefArray(value).reduce((result, sub): Record<string, keyof InterfaceTypes> => {
+  return getSubDefArray(value).reduce<Record<string, keyof InterfaceTypes>>((result, sub) => {
     result[sub.name as string] = sub.type as keyof InterfaceTypes;
 
     return result;
@@ -61,9 +61,7 @@ function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceTypes> 
 
 // create an array of type string constructors from the input
 function getTypeClassArray (value: TypeDef): (keyof InterfaceTypes)[] {
-  return getSubDefArray(value).map(({ type }): keyof InterfaceTypes =>
-    type as keyof InterfaceTypes
-  );
+  return getSubDefArray(value).map(({ type }) => type as keyof InterfaceTypes);
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
@@ -92,7 +90,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return Enum.with(
       subs.every(({ type }) => type === 'Null')
-        ? subs.reduce((out: Record<string, number>, { index, name }, count): Record<string, number> => {
+        ? subs.reduce<Record<string, number>>((out, { index, name }, count) => {
           out[name as string] = index || count;
 
           return out;
@@ -139,7 +137,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     const result: Record<string, number> = {};
 
     return CodecSet.with(
-      getSubDefArray(value).reduce((result, { index, name }): Record<string, number> => {
+      getSubDefArray(value).reduce<Record<string, number>>((result, { index, name }) => {
         result[name as string] = index as number;
 
         return result;

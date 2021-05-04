@@ -22,7 +22,7 @@ const CMP = (a: unknown, b: unknown): boolean =>
   stringify({ t: a }) === stringify({ t: b });
 
 const ERR = (error: Error): Observable<never> => {
-  l.error(error);
+  l.error(error.message);
 
   throw error;
 };
