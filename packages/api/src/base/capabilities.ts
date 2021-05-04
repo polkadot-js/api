@@ -45,18 +45,20 @@ interface Constants {
 
 const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 
-function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [stakingVersion]: ExtractedQ, [keys, accountInfo]: ExtractedR): Partial<DetectedTypes> {
+function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, refcount3Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [stakingVersion]: ExtractedQ, [keys, accountInfo]: ExtractedR): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
   if (accountInfo) {
     const length = accountInfo.length;
 
-    types.AccountInfo = length === refcount1Length
-      ? 'AccountInfoWithRefCount'
-      : length === refcount2Length
-        ? 'AccountInfoWithDualRefCount'
-        : 'AccountInfoWithTripleRefCount';
+    if (length === refcount1Length) {
+      types.AccountInfo = 'AccountInfoWithRefCount';
+    } else if (length === refcount2Length) {
+      types.AccountInfo = 'AccountInfoWithDualRefCount';
+    } else if (length === refcount3Length) {
+      types.AccountInfo = 'AccountInfoWithTripleRefCount';
+    }
   }
 
   // ValidatorPrefs
@@ -115,14 +117,13 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length }:
 }
 
 function filterEntries <T> (original: T[]): AvailableMap<T> {
-  const included = original.map((c) =>
-    Array.isArray(c)
-      ? !!c[0]
-      : !!c
-  );
-  const filtered = original.filter((_, index) => included[index]);
+  const included = original.map((c) => !!c);
 
-  return { filtered, included, original };
+  return {
+    filtered: original.filter((_, index) => included[index]),
+    included,
+    original
+  };
 }
 
 function extractResults <R, T = unknown> (results: unknown[], map: AvailableMap<T>): R {
