@@ -121,7 +121,8 @@ export default {
       availabilityVotes: 'BitVec',
       backers: 'BitVec',
       relayParentNumber: 'BlockNumber',
-      backedInNumber: 'BlockNumber'
+      backedInNumber: 'BlockNumber',
+      backingGroup: 'GroupIndex'
     },
     CandidateReceipt: {
       descriptor: 'CandidateDescriptor',

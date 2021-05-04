@@ -1,10 +1,5 @@
 # CHANGELOG
 
-
-const a = await api.query.system.account.at('0x1de189f39eb25d9ab55ad9d0884b0dcef6faf2064c8367734721651104738a5a', '1jqkeJhuoRudNTVL5dV1qZf8RQtyzcf6ZT4yyvUQbKFktr8');
-
-console.log(a.data.free.toHuman())
-
 ## master
 
 Changes:
@@ -12,6 +7,8 @@ Changes:
 - Re-add isPedantic check on storage decoding
 - Adjust capability detection (only on full-known historic `AccountInfo`)
 - Additional Xcm types
+- Adjust parachain types
+- Adjust re-encoding of `BitVec` based on decoded length
 - Add auto-capability detection for historic queries
 
 
