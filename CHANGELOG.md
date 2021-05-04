@@ -10,6 +10,7 @@ Changes:
 - Adjust parachain types
 - Remove error logging on createType (details passed in error)
 - Adjust `ContractInfo` type as per latest Substrate
+- Adjust `DigestItem` type as per latest Substrate
 - Adjust re-encoding of `BitVec` based on decoded length
 
 
