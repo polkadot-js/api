@@ -2,40 +2,29 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '../interfaces/runtime';
+import type { AnyU8a, Registry } from '../types';
 
 import BN from 'bn.js';
 
-import { bnToU8a, isAscii, u8aToHex, u8aToString } from '@polkadot/util';
+import { stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
+import { U8aFixed } from '../codec/U8aFixed';
 import { Bytes } from '../primitive/Bytes';
 import { u32 } from '../primitive/U32';
 
-// there are all reversed since it is actually encoded as u32, LE,
-// this means that FRNK has the bytes as KNRF
-export const CID_AURA = 0x61727561; // 'aura'
-export const CID_BABE = 0x45424142; // 'BABE'
-export const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
-export const CID_POW = 0x5f776f70; // 'pow_'
+export const CID_AURA = stringToU8a('aura');
+export const CID_BABE = stringToU8a('BABE');
+export const CID_GRPA = stringToU8a('FRNK');
+export const CID_POW = stringToU8a('pow_');
 
 /**
  * @name GenericConsensusEngineId
  * @description
- * A 4-byte identifier (actually a [u8; 4]) identifying the engine, e.g. for Aura it would be [b'a', b'u', b'r', b'a']
+ * A 4-byte identifier identifying the engine
  */
-export class GenericConsensusEngineId extends u32 {
-  public static idToString (input: number | BN): string {
-    const u8a = bnToU8a(input);
-
-    return isAscii(u8a)
-      ? u8aToString(u8a)
-      : u8aToHex(u8a);
-  }
-
-  public static stringToId (input: string): number {
-    return input
-      .split('')
-      .reverse()
-      .reduce((result, char): number => (result * 256) + char.charCodeAt(0), 0);
+export class GenericConsensusEngineId extends U8aFixed {
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, value, 32);
   }
 
   /**
@@ -83,11 +72,7 @@ export class GenericConsensusEngineId extends u32 {
     ];
   }
 
-  private _getPowAuthor (bytes: Bytes): AccountId {
-    return this.registry.createType('AccountId', bytes);
-  }
-
-  private _getH160Author (bytes: Bytes): AccountId {
+  private _getBytesAsAuthor (bytes: Bytes): AccountId {
     return this.registry.createType('AccountId', bytes);
   }
 
@@ -103,22 +88,34 @@ export class GenericConsensusEngineId extends u32 {
       }
     }
 
-    if (this.isPow) {
-      return this._getPowAuthor(bytes);
-    }
-
-    // Moonbeam is neither Aura nor Babe nor Pow and uses h160 addresses
-    if (bytes.length === 20) {
-      return this._getH160Author(bytes);
+    // For pow & Moonbeam, the bytes are the actual author
+    if (this.isPow || bytes.length === 20) {
+      return this._getBytesAsAuthor(bytes);
     }
 
     return undefined;
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): string {
+    return this.toString();
+  }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  public toRawType (): string {
+    return 'ConsensusEngineId';
+  }
+
+  /**
    * @description Override the default toString to return a 4-byte string
    */
   public toString (): string {
-    return GenericConsensusEngineId.idToString(this as BN);
+    return this.isAscii
+      ? u8aToString(this)
+      : u8aToHex(this);
   }
 }

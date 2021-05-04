@@ -6,6 +6,7 @@ Changes:
 
 - Re-add isPedantic check on storage decoding
 - Adjust capability detection (only on full-known historic `AccountInfo`)
+- `ConsensusEngineId` now implements `[u8;4]` (mapping closer to Rust source)
 - Additional Xcm types
 - Adjust parachain types
 - Remove error logging on createType (details passed in error)
