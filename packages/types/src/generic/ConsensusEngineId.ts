@@ -27,7 +27,7 @@ export class GenericConsensusEngineId extends U8aFixed {
     super(
       registry,
       isNumber(value)
-        ? bnToU8a(value)
+        ? bnToU8a(value, { isLe: false })
         : value,
       32
     );
