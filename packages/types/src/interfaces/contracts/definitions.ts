@@ -65,10 +65,10 @@ export default {
     AliveContractInfo: {
       trieId: 'TrieId',
       storageSize: 'u32',
-      emptyPairCount: 'u32',
-      totalPairCount: 'u32',
+      pairCount: 'u32',
       codeHash: 'CodeHash',
       rentAllowance: 'Balance',
+      rentPaid: 'Balance',
       deductBlock: 'BlockNumber',
       lastWrite: 'Option<BlockNumber>',
       _reserved: 'Option<Null>'
