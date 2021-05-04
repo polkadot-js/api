@@ -5,11 +5,10 @@
 Changes:
 
 - Re-add isPedantic check on storage decoding
-- Adjust capability detection (only on full-known historic `AccountInfo`)
 - Additional Xcm types
 - Adjust parachain types
 - Adjust re-encoding of `BitVec` based on decoded length
-- Add auto-capability detection for historic queries
+- Add auto-capability detection to historic `.at` queries
 
 
 ## 4.8.1 May 2, 2021
