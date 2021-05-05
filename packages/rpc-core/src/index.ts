@@ -252,7 +252,7 @@ export class RpcCore {
       );
     };
 
-    memoized = this._memomize(creator,def);
+    memoized = this._memomize(creator, def);
 
     return memoized;
   }

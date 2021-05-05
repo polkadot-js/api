@@ -14,7 +14,7 @@ function createApi (): Promise<ApiPromise> {
   return new ApiPromise({ provider }).isReady;
 }
 
-describe.skip('misc quick tests', (): void => {
+describe.only('misc quick tests', (): void => {
   it.skip('retrieves balances correctly', async (): Promise<void> => {
     const api = await createApi();
 
@@ -77,10 +77,10 @@ describe.skip('misc quick tests', (): void => {
     ));
   });
 
-  it.skip('expose rpc and rx definition', async (): Promise<void> => {
+  it.only('expose rpc and rx definition', async (): Promise<void> => {
     const api = await createApi();
 
-    console.error(api.rpc.chain.getBlock.def);
+    console.error(api.rpc.payment.queryFeeDetails.def);
 
     console.error(api.rx.rpc.chain.getBlock.def);
   });

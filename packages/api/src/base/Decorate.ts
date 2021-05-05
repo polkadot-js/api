@@ -297,7 +297,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
             (section as Record<string, { json: unknown }>)[methodName].json = decorateMethod(method.json, { methodName }) as unknown;
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
-
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             (section as Record<string, { def: unknown }>)[methodName].def = method.def;
           }
 
