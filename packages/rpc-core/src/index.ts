@@ -190,13 +190,14 @@ export class RpcCore {
       }, {} as RpcInterface[Section]);
   }
 
-  private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>): Memoized<RpcInterfaceMethod> {
+  private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
     const memoized = memoize(creator('scale') as RpcInterfaceMethod, {
       getInstanceId: () => this.#instanceId
     });
 
     memoized.json = creator('json');
     memoized.raw = creator('raw');
+    memoized.def = def;
 
     return memoized;
   }
@@ -251,7 +252,7 @@ export class RpcCore {
       );
     };
 
-    memoized = this._memomize(creator);
+    memoized = this._memomize(creator,def);
 
     return memoized;
   }
@@ -332,7 +333,7 @@ export class RpcCore {
       }).pipe(drr());
     };
 
-    memoized = this._memomize(creator);
+    memoized = this._memomize(creator, def);
 
     return memoized;
   }

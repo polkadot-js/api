@@ -76,4 +76,12 @@ describe.skip('misc quick tests', (): void => {
         .map(([block, value]) => [block, value.toRawType(), value.toHuman()])
     ));
   });
+
+  it.skip('expose rpc and rx definition', async (): Promise<void> => {
+    const api = await createApi();
+
+    console.error(api.rpc.chain.getBlock.def);
+
+    console.error(api.rx.rpc.chain.getBlock.def);
+  });
 });
