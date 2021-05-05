@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Json, Text } from '@polkadot/types';
+import type { Json, Raw, Text } from '@polkadot/types';
 import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
@@ -22,8 +22,9 @@ import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
 
 // .json (alongside .raw) is decorated on the RPC, but the actual type definitions don't reflect it
-interface JsonRpcObservable {
+interface RawRpcObservable {
   json: (...args: unknown[]) => Observable<Json>;
+  raw: (...args: unknown[]) => Observable<Raw>;
 }
 
 const KEEPALIVE_INTERVAL = 10000;
@@ -123,7 +124,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const header = this.registry.createType('HeaderMinimal',
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
-        : await (this._rpcCore.chain.getHeader as unknown as JsonRpcObservable).json(blockHash).toPromise()
+        : await (this._rpcCore.chain.getHeader as unknown as RawRpcObservable).json(blockHash).toPromise()
     );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
@@ -133,7 +134,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const version = this.registry.createType('RuntimeVersionMinimal',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-        : await (this._rpcCore.state.getRuntimeVersion as unknown as JsonRpcObservable).json(header.parentHash).toPromise()
+        : await (this._rpcCore.state.getRuntimeVersion as unknown as RawRpcObservable).json(header.parentHash).toPromise()
     );
 
     // check for pre-existing registries
@@ -147,7 +148,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // nothing has been found, construct new
     const metadata = new Metadata(this.registry,
-      await (this._rpcCore.state.getMetadata as unknown as JsonRpcObservable).json(header.parentHash).toPromise()
+      await (this._rpcCore.state.getMetadata as unknown as RawRpcObservable).raw(header.parentHash).toPromise()
     );
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
