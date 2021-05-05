@@ -8,7 +8,7 @@ import type { InterfaceTypes } from '@polkadot/types/types';
 
 import { assert, compactFromU8a } from '@polkadot/util';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { map, take } from '@polkadot/x-rxjs/operators';
+import { catchError, map, take } from '@polkadot/x-rxjs/operators';
 
 // the order and types needs to map with the all array setup below
 type ExtractedQ = [Releases | null];
@@ -95,7 +95,7 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, r
         types.Keys = `SessionKeys${numIds - 1}`;
       }
     } catch (error) {
-      console.error(error);
+      console.error((error as Error).message);
     }
   }
 
@@ -184,6 +184,7 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
         extractResults<ExtractedR>(rResults, raws)
       )
     ),
-    take(1)
+    take(1),
+    catchError(() => of({}))
   );
 }

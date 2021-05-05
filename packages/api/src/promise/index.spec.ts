@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiOptions, SubmittableExtrinsic } from '../types';
+import type { SubmittableExtrinsic } from '../types';
 
 import { createPair } from '@polkadot/keyring/pair';
 import { createTestKeyring } from '@polkadot/keyring/testing';
@@ -44,7 +44,7 @@ describe('ApiPromise', (): void => {
   }
 
   beforeEach((): void => {
-    jest.setTimeout(3000000);
+    jest.setTimeout(10000);
     provider = new MockProvider(registry);
   });
 
@@ -53,14 +53,10 @@ describe('ApiPromise', (): void => {
       const rpcData = await provider.send('state_getMetadata', []);
       const genesisHash = registry.createType('Hash', await provider.send('chain_getBlockHash', [])).toHex();
       const specVersion = 0;
-      const metadata: any = {};
-      const key = `${genesisHash}-${specVersion}`;
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      metadata[key] = rpcData;
+      const metadata = { [`${genesisHash}-${specVersion}`]: rpcData as string };
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const api = await ApiPromise.create({ metadata, provider, registry } as ApiOptions);
+      const api = await ApiPromise.create({ metadata, provider, registry });
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();

@@ -15,7 +15,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import { from, of } from '@polkadot/x-rxjs';
+import { of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { detectedCapabilities } from './capabilities';
@@ -148,7 +148,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this.#registries.push(result);
 
-    await this._detectCapabilities(registry, blockHash);
+    this._detectCapabilities(registry, blockHash);
 
     return result;
   }
@@ -191,14 +191,17 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private async _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): Promise<void> {
-    const types = await detectedCapabilities(this._rx, blockHash).toPromise();
+  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): void {
+    detectedCapabilities(this._rx, blockHash)
+      .toPromise()
+      .then((types): void => {
+        if (Object.keys(types).length) {
+          registry.register(types as Record<string, string>);
 
-    if (Object.keys(types).length) {
-      registry.register(types as Record<string, string>);
-
-      l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
-    }
+          l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
+        }
+      })
+      .catch(undefined);
   }
 
   // subscribe to metadata updates, inject the types on changes
@@ -213,7 +216,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         this._runtimeVersion?.specVersion.eq(version.specVersion)
           ? of(false)
           : this._rpcCore.state.getMetadata().pipe(
-            switchMap((metadata: Metadata): Observable<void> => {
+            map((metadata: Metadata): boolean => {
               l.log(`Runtime version updated to spec=${version.specVersion.toString()}, tx=${version.transactionVersion.toString()}`);
 
               this._runtimeMetadata = metadata;
@@ -234,9 +237,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
 
-              return from(this._detectCapabilities(thisRegistry.registry));
-            }),
-            map(() => true)
+              this._detectCapabilities(thisRegistry.registry);
+
+              return true;
+            })
           )
       )
     ).subscribe();
@@ -283,7 +287,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [genesisHash, metadata];
   }
 
-  private async _initFromMeta (metadata: Metadata): Promise<boolean> {
+  private _initFromMeta (metadata: Metadata): boolean {
     this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
@@ -297,7 +301,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._derive = this._decorateDerive(this._decorateMethod);
 
     // detect the on-chain capabilities
-    await this._detectCapabilities(this.registry);
+    this._detectCapabilities(this.registry);
 
     return true;
   }
