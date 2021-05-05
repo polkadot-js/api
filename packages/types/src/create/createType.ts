@@ -4,17 +4,14 @@
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import type { FromReg } from './types';
 
-import { assert, isHex, isU8a, logger, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createClass } from './createClass';
 
 interface CreateOptions {
   blockHash?: Uint8Array | string | null;
   isPedantic?: boolean;
-  withoutLog?: boolean;
 }
-
-const l = logger('registry');
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
@@ -22,9 +19,9 @@ const l = logger('registry');
 function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
   const u8a = created.toU8a();
   const rawType = created.toRawType();
-  const isEqual = u8aEq(value, u8a) ||
-    // :code entries and singular bytes don't have length-prefixes (when from storage)
-    (rawType === 'Bytes' && value.length === u8a.length);
+  const isEqual = rawType === 'Bytes'
+    ? value.length === u8a.length
+    : u8aEq(value, u8a);
 
   assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
 }
@@ -59,8 +56,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
     // it provides false warning which is more hinderance than help
     return initType(registry, createClass<T, K>(registry, type), params, options);
   } catch (error) {
-    !options.withoutLog && l.error(error);
-
     throw new Error(`createType(${type}):: ${(error as Error).message}`);
   }
 }

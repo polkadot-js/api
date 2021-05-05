@@ -66,14 +66,14 @@ describe('extractStorageArgs', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.erasStakers, [])
-    ).toThrow('staking.erasStakers(EraIndex, AccountId) is a doublemap, requiring 2 arguments, 0 found');
+    ).toThrow('staking.erasStakers(EraIndex, AccountId) is a double map, requiring 2 arguments, 0 found');
   });
 
   it('validates doublemap, 2 args (failing with 1 arg)', (): void => {
     expect(
       (): any =>
         extractStorageArgs(storage.staking.erasStakers, [123])
-    ).toThrow('staking.erasStakers(EraIndex, AccountId) is a doublemap, requiring 2 arguments, 1 found');
+    ).toThrow('staking.erasStakers(EraIndex, AccountId) is a double map, requiring 2 arguments, 1 found');
   });
 
   // Linked maps have been removed

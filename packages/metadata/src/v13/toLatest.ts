@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EventMetadataLatest, EventMetadataV12, FunctionMetadataLatest, FunctionMetadataV12, MetadataLatest, MetadataV12, ModuleConstantMetadataLatest, ModuleConstantMetadataV12, ModuleMetadataLatest, ModuleMetadataV12, StorageEntryMetadataLatest, StorageMetadataLatest, StorageMetadataV12 } from '@polkadot/types/interfaces/metadata';
+import type { EventMetadataLatest, EventMetadataV13, FunctionMetadataLatest, FunctionMetadataV13, MetadataLatest, MetadataV13, ModuleConstantMetadataLatest, ModuleConstantMetadataV13, ModuleMetadataLatest, ModuleMetadataV13, StorageEntryMetadataLatest, StorageMetadataLatest, StorageMetadataV13 } from '@polkadot/types/interfaces/metadata';
 import type { OverrideModuleType, Registry } from '@polkadot/types/types';
 
 import { Type } from '@polkadot/types/primitive';
@@ -16,11 +16,13 @@ const KNOWN_ORIGINS: Record<string, string> = {
   TechnicalCommittee: 'CollectiveOrigin'
 };
 
+const BOXES = [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']];
+
 /**
  * Find and apply the correct type override
  * @internal
  **/
-function setTypeOverride (sectionTypes: OverrideModuleType, ...types: Type[]): void {
+function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void {
   types.forEach((type): void => {
     const override = Object.keys(sectionTypes).find((aliased) => type.eq(aliased));
 
@@ -29,9 +31,11 @@ function setTypeOverride (sectionTypes: OverrideModuleType, ...types: Type[]): v
     } else {
       // FIXME: NOT happy with this approach, but gets over the initial hump cased by (Vec<Announcement>,BalanceOf)
       const orig = type.toString();
-      const alias = Object.entries(sectionTypes).reduce((result: string, [from, to]): string =>
-        [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']].reduce((result, [one, two]): string =>
-          result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
+      const alias = Object
+        .entries(sectionTypes)
+        .reduce((result: string, [from, to]) =>
+          BOXES.reduce((result, [one, two]) =>
+            result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
 
       if (orig !== alias) {
         type.setOverride(alias);
@@ -44,9 +48,9 @@ function setTypeOverride (sectionTypes: OverrideModuleType, ...types: Type[]): v
  * Apply module-specific type overrides (always be done as part of toLatest)
  * @internal
  **/
-function convertCalls (registry: Registry, calls: FunctionMetadataV12[], sectionTypes: OverrideModuleType): FunctionMetadataLatest[] {
+function convertCalls (registry: Registry, calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): FunctionMetadataLatest[] {
   return calls.map((c): FunctionMetadataLatest => {
-    c.args.forEach(({ type }) => setTypeOverride(sectionTypes, type));
+    setTypeOverride(sectionTypes, c.args.map(({ type }) => type));
 
     return registry.createType('FunctionMetadataLatest', c);
   });
@@ -56,9 +60,9 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV12[], section
  * Apply module-specific type overrides (always be done as part of toLatest)
  * @internal
  */
-function convertConstants (registry: Registry, constants: ModuleConstantMetadataV12[], sectionTypes: OverrideModuleType): ModuleConstantMetadataLatest[] {
+function convertConstants (registry: Registry, constants: ModuleConstantMetadataV13[], sectionTypes: OverrideModuleType): ModuleConstantMetadataLatest[] {
   return constants.map((c): ModuleConstantMetadataLatest => {
-    setTypeOverride(sectionTypes, c.type);
+    setTypeOverride(sectionTypes, [c.type]);
 
     return registry.createType('ModuleConstantMetadataLatest', c);
   });
@@ -68,9 +72,9 @@ function convertConstants (registry: Registry, constants: ModuleConstantMetadata
  * Apply module-specific type overrides (always be done as part of toLatest)
  * @internal
  **/
-function convertEvents (registry: Registry, events: EventMetadataV12[], sectionTypes: OverrideModuleType): EventMetadataLatest[] {
+function convertEvents (registry: Registry, events: EventMetadataV13[], sectionTypes: OverrideModuleType): EventMetadataLatest[] {
   return events.map((e): EventMetadataLatest => {
-    e.args.forEach((type) => setTypeOverride(sectionTypes, type));
+    setTypeOverride(sectionTypes, e.args.map((type) => type));
 
     return registry.createType('EventMetadataLatest', e);
   });
@@ -80,16 +84,18 @@ function convertEvents (registry: Registry, events: EventMetadataV12[], sectionT
  * Apply module-specific storage type overrides (always part of toLatest)
  * @internal
  **/
-function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV12, sectionTypes: OverrideModuleType): StorageMetadataLatest {
+function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): StorageMetadataLatest {
   return registry.createType('StorageMetadataLatest', {
     items: items.map((s): StorageEntryMetadataLatest => {
-      if (s.type.isDoubleMap) {
-        setTypeOverride(sectionTypes, s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2);
-      } else if (s.type.isMap) {
-        setTypeOverride(sectionTypes, s.type.asMap.value, s.type.asMap.key);
-      } else {
-        setTypeOverride(sectionTypes, s.type.asPlain);
-      }
+      setTypeOverride(sectionTypes,
+        s.type.isPlain
+          ? [s.type.asPlain]
+          : s.type.isMap
+            ? [s.type.asMap.value, s.type.asMap.key]
+            : s.type.isDoubleMap
+              ? [s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2]
+              : [s.type.asNMap.value, ...s.type.asNMap.keyVec]
+      );
 
       return registry.createType('StorageEntryMetadataLatest', s);
     }),
@@ -98,13 +104,15 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
 }
 
 // generate & register the OriginCaller type
-function registerOriginCaller (registry: Registry, modules: ModuleMetadataV12[], metaVersion: number): void {
+function registerOriginCaller (registry: Registry, modules: ModuleMetadataV13[], metaVersion: number): void {
   registry.register({
     OriginCaller: {
       _enum: modules
         .map((mod, index): [string, number] => [
           mod.name.toString(),
-          metaVersion >= 12 ? mod.index.toNumber() : index
+          metaVersion >= 12
+            ? mod.index.toNumber()
+            : index
         ])
         .sort((a, b) => a[1] - b[1])
         .reduce((result: Record<string, string>, [name, index]): Record<string, string> => {
@@ -121,7 +129,7 @@ function registerOriginCaller (registry: Registry, modules: ModuleMetadataV12[],
 }
 
 /** @internal */
-function createModule (registry: Registry, mod: ModuleMetadataV12, { calls, constants, events, storage }: { calls: FunctionMetadataV12[] | null, constants: ModuleConstantMetadataV12[], events: EventMetadataV12[] | null, storage: StorageMetadataV12 | null }): ModuleMetadataLatest {
+function createModule (registry: Registry, mod: ModuleMetadataV13, { calls, constants, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): ModuleMetadataLatest {
   const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name));
 
   return registry.createType('ModuleMetadataLatest', {
@@ -138,7 +146,7 @@ function createModule (registry: Registry, mod: ModuleMetadataV12, { calls, cons
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
  * @internal
  **/
-export function toLatest (registry: Registry, { extrinsic, modules }: MetadataV12, metaVersion: number): MetadataLatest {
+export function toLatest (registry: Registry, { extrinsic, modules }: MetadataV13, metaVersion: number): MetadataLatest {
   registerOriginCaller(registry, modules, metaVersion);
 
   return registry.createType('MetadataLatest', {

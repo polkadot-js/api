@@ -7,7 +7,7 @@ import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
-import type { ContractCallResult, ContractCallSend, ContractGeneric, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import BN from 'bn.js';
 
@@ -38,16 +38,6 @@ function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, par
     isOptions(options)
       ? fn(options, params)
       : fn(...extractOptions(options, params));
-}
-
-function createWithId <T> (fn: (messageOrId: AbiMessage | string | number, options: ContractOptions, params: CodecArg[]) => T, warn?: string): ContractGeneric<ContractOptions, T> {
-  return (messageOrId: AbiMessage | string | number, options: BigInt | string | number | BN | ContractOptions, ...params: CodecArg[]): T => {
-    warn && l.warn(warn);
-
-    return isOptions(options)
-      ? fn(messageOrId, options, params)
-      : fn(messageOrId, ...extractOptions(options, params));
-  };
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
@@ -93,18 +83,6 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
    */
   public readonly address: AccountId;
 
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public readonly exec: ContractGeneric<ContractOptions, SubmittableExtrinsic<ApiType>>;
-
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<messageName>` to send a transaction.
-   */
-  public readonly read: ContractGeneric<ContractOptions, ContractCallSend<ApiType>>;
-
   readonly #query: MapMessageQuery<ApiType> = {};
 
   readonly #tx: MapMessageTx<ApiType> = {};
@@ -113,8 +91,6 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     super(api, abi, decorateMethod);
 
     this.address = this.registry.createType('AccountId', address);
-    this.exec = createWithId(this.#exec, '.exec is deprecated, use contract.tx.<messageName>(...) instead (where contract refers to this instance)');
-    this.read = createWithId(this.#read, '.read is deprecated, use contract.query.<messageName>(...) instead (where contract refers to this instance)');
 
     this.abi.messages.forEach((m): void => {
       if (isUndefined(this.#tx[m.method])) {

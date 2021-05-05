@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12 } from '@polkadot/types/interfaces/metadata';
+import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13 } from '@polkadot/types/interfaces/metadata';
 import type { AnyJson, Registry } from '@polkadot/types/types';
 
 import { Struct } from '@polkadot/types/codec';
@@ -10,13 +10,16 @@ import { assert } from '@polkadot/util';
 import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
 import { toV12 } from './v11/toV12';
-import { toLatest } from './v12/toLatest';
+import { toV13 } from './v12/toV13';
+import { toLatest } from './v13/toLatest';
 import { MagicNumber } from './MagicNumber';
 import { getUniqTypes, toCallsOnly } from './util';
 
-type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12;
-type MetaVersions = 9 | 10 | 11 | 12 | 13;
-type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12';
+type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12 | MetadataV13;
+type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12' | 'asV13';
+type MetaVersions = 'latest' | 9 | 10 | 11 | 12 | 13;
+
+const LATEST_VERSION = 13;
 
 /**
  * @name MetadataVersioned
@@ -24,7 +27,7 @@ type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12';
  * The versioned runtime metadata as a decoded structure
  */
 export class MetadataVersioned extends Struct {
-  readonly #converted = new Map<number, MetaMapped>();
+  readonly #converted = new Map<MetaVersions, MetaMapped>();
 
   constructor (registry: Registry, value?: unknown) {
     super(registry, {
@@ -34,16 +37,18 @@ export class MetadataVersioned extends Struct {
   }
 
   #assertVersion = (version: number): boolean => {
-    assert(this.version <= version, () => `Cannot convert metadata from v${this.version} to v${version}`);
+    assert(this.version <= version, () => `Cannot convert metadata from version ${this.version} to ${version}`);
 
     return this.version === version;
   };
 
   #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T => {
     const asCurr = `asV${version}` as MetaAsX;
-    const asPrev = `asV${version - 1}` as MetaAsX;
+    const asPrev = version === 'latest'
+      ? `asV${LATEST_VERSION}` as MetaAsX
+      : `asV${version - 1}` as MetaAsX;
 
-    if (this.#assertVersion(version)) {
+    if (version !== 'latest' && this.#assertVersion(version)) {
       return this.#metadata()[asCurr] as T;
     }
 
@@ -102,15 +107,22 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
+   * @description Returns the wrapped values as a V13 object
+   */
+  public get asV13 (): MetadataV13 {
+    return this.#getVersion(13, toV13);
+  }
+
+  /**
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
     // This is non-existent & latest - applied here to do the module-specific type conversions
-    return this.#getVersion(13, toLatest);
+    return this.#getVersion('latest', toLatest);
   }
 
   /**
-   * @description
+   * @description The magicNumber for the Metadata (known constant)
    */
   public get magicNumber (): MagicNumber {
     return this.get('magicNumber') as MagicNumber;
@@ -131,8 +143,8 @@ export class MetadataVersioned extends Struct {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): Record<string, AnyJson> {
-    // HACK(y): ensure that we apply the aliasses if we have not done so already, this is
-    // needed to ensure we have the overrides as intended (only applied in toLatest)
+    // HACK(y): ensure that we apply the aliases if we have not done so already, this is
+    // needed to ensure we have the correct overrides (which is only applied in toLatest)
     // eslint-disable-next-line no-unused-expressions
     this.asLatest;
 

@@ -2,14 +2,23 @@
 
 ## master
 
+Upgrade priority: Medium. Required for the next v0.9.0 Polkadot/Kusama chains
+
+- **Breaking change** The previously deprecated contracts interfaces (marked as deprecated, should have been dropped with the 4.0 release), has been removed. Update to `<myContract>.query.*`, `<myContract>.tx.*` and `<myCode>.tx.*` interfaces.
+
 Changes:
 
 - Re-add isPedantic check on storage decoding
+- `ConsensusEngineId` now implements `[u8;4]` (mapping closer to Rust source)
 - Additional Xcm types
 - Adjust parachain types
+- Remove error logging on createType (details passed in error)
+- Adjust `ContractInfo` type as per latest Substrate
+- Adjust `DigestItem` type as per latest Substrate
 - Adjust re-encoding of `BitVec` based on decoded length
 - Add auto-capability detection to historic `.at` queries
 - Add known upgrade block for Westend 900
+- Remove all deprecated interfaces inside `@polkadot/api-contracts`
 
 
 ## 4.8.1 May 2, 2021
