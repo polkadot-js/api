@@ -50,12 +50,8 @@ function mapCapabilities ({ accountIdLength }: Constants, [leasePeriodsPerSlot, 
     types.AccountInfo = 'AccountInfoWithTripleRefCount';
   } else if (systemRefcountDual && systemRefcountDual.isTrue) {
     types.AccountInfo = 'AccountInfoWithDualRefCount';
-  } else {
+  } else if (systemRefcount32 && systemRefcount32.isTrue) {
     types.AccountInfo = 'AccountInfoWithRefCount';
-
-    if (!systemRefcount32 || systemRefcount32.isFalse) {
-      types.RefCount = 'u8';
-    }
   }
 
   // ValidatorPrefs

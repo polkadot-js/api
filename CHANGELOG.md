@@ -4,12 +4,32 @@
 
 Changes:
 
+- Re-add isPedantic check on storage decoding
+- Adjust capability detection (only on full-known historic `AccountInfo`)
+- `ConsensusEngineId` now implements `[u8;4]` (mapping closer to Rust source)
+- Additional Xcm types
+- Adjust parachain types
+- Remove error logging on createType (details passed in error)
+- Adjust `ContractInfo` type as per latest Substrate
+- Adjust `DigestItem` type as per latest Substrate
+- Adjust re-encoding of `BitVec` based on decoded length
+
+
+## 4.8.1 May 2, 2021
+
+Upgrade priority: Low. Recommended when using or developing for parachains.
+
+Changes:
+
 - De-alias xcm `Outcome` (used in multiple pallettes)
 - Adjust xcm types as per latest, e.g. `XcmError`
 - Fix generate of well-known storage keys (e.g. `:code`)
 - Optimize metadata unknown type validation
 - Allow metadata creation for `Map` or `Record`
+- Expose additional camelCase `method` on `AbiMessage` (maps to decorated name)
 - Added explicit double-byte ss58 `AccountId` encoding test
+- Add known upgrade block for Polkadot v30
+- Cleanup WebSocket handlers when close event has been received
 - Update to latest Substrate metadata
 
 

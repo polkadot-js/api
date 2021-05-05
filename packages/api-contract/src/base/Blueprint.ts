@@ -10,7 +10,7 @@ import type { ContractGeneric, MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { isUndefined, stringCamelCase } from '@polkadot/util';
+import { isUndefined } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
@@ -49,10 +49,8 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     this.createContract = createBluePrintWithId(this.#deploy);
 
     this.abi.constructors.forEach((c): void => {
-      const messageName = stringCamelCase(c.identifier);
-
-      if (isUndefined(this.#tx[messageName])) {
-        this.#tx[messageName] = createBluePrintTx((o, p) => this.#deploy(c, o, p));
+      if (isUndefined(this.#tx[c.method])) {
+        this.#tx[c.method] = createBluePrintTx((o, p) => this.#deploy(c, o, p));
       }
     });
   }

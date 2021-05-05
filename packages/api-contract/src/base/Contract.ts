@@ -13,7 +13,7 @@ import BN from 'bn.js';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, bnToBn, isFunction, isUndefined, logger, stringCamelCase } from '@polkadot/util';
+import { assert, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 import { map } from '@polkadot/x-rxjs/operators';
 
 import { Abi } from '../Abi';
@@ -117,14 +117,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     this.read = createWithId(this.#read, '.read is deprecated, use contract.query.<messageName>(...) instead (where contract refers to this instance)');
 
     this.abi.messages.forEach((m): void => {
-      const messageName = stringCamelCase(m.identifier);
-
-      if (isUndefined(this.#tx[messageName])) {
-        this.#tx[messageName] = createTx((o, p) => this.#exec(m, o, p));
+      if (isUndefined(this.#tx[m.method])) {
+        this.#tx[m.method] = createTx((o, p) => this.#exec(m, o, p));
       }
 
-      if (isUndefined(this.#query[messageName])) {
-        this.#query[messageName] = createQuery((f, o, p) => this.#read(m, o, p).send(f));
+      if (isUndefined(this.#query[m.method])) {
+        this.#query[m.method] = createQuery((f, o, p) => this.#read(m, o, p).send(f));
       }
     });
   }

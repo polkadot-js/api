@@ -48,7 +48,13 @@ const typesModules: Record<string, OverrideModuleType> = {
   parachains: {
     Id: 'ParaId'
   },
+  parasInclusion: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
   parasScheduler: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
+  parasShared: {
     ValidatorIndex: 'ParaValidatorIndex'
   },
   proposeParachain: {

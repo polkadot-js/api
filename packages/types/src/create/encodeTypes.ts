@@ -46,7 +46,7 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
 
   assert(names.every((n) => !!n), () => `Subtypes does not have consistent names, ${names.join(', ')}`);
 
-  const inner = sub.reduce((result: Record<string, string>, type): Record<string, string> => ({
+  const inner = sub.reduce< Record<string, string>>((result, type) => ({
     ...result,
     [type.name as string]: encodeTypeDef(type)
   }), {});

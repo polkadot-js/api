@@ -42,6 +42,11 @@ export default {
       digestInterval: 'u32',
       digestLevels: 'u32'
     },
+    ChangesTrieSignal: {
+      _enum: {
+        NewConfiguration: 'Option<ChangesTrieConfiguration>'
+      }
+    },
     ConsensusEngineId: 'GenericConsensusEngineId',
     CodecHash: 'Hash',
     Digest: {
@@ -55,7 +60,8 @@ export default {
         SealV0: 'SealV0', // 3
         Consensus: 'Consensus', // 4
         Seal: 'Seal', // 5
-        PreRuntime: 'PreRuntime' // 6
+        PreRuntime: 'PreRuntime', // 6
+        ChangesTrieSignal: 'ChangesTrieSignal' // 7
       }
     },
     ExtrinsicsWeight: {

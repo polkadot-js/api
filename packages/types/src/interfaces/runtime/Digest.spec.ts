@@ -24,7 +24,7 @@ describe('Digest', (): void => {
 
     expect(log.type).toBe('Consensus');
     expect(log.value.toJSON()).toEqual([
-      1634891105,
+      '0x61757261',
       '0x69c97e0f00000000479c09f7ace12ed3e1af2dba6cca6831e257e80feef56c7474d6c69bae6f4e8a6e0045a87afe14296992c38b7d55abcbe617c441cd35e8667abbcb1678f31802'
     ]);
   });
