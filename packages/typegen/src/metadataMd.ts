@@ -210,7 +210,9 @@ function addStorage (metadata: MetadataLatest): string {
               ? ('`' + func.type.asMap.key.toString() + '`')
               : func.type.isDoubleMap
                 ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
-                : '';
+                : func.type.isNMap
+                  ? ('`' + func.type.asNMap.keyVec.map((k) => k.toString()).join(', ') + '`')
+                  : '';
             const methodName = stringLowerFirst(func.name);
             const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
 

@@ -33,13 +33,15 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
 };
 
 function getStorageType (type: StorageEntryTypeLatest): [boolean, string] {
-  if (type.isPlain) {
-    return [false, type.asPlain.toString()];
+  if (type.isMap) {
+    return [false, type.asMap.value.toString()];
   } else if (type.isDoubleMap) {
     return [false, type.asDoubleMap.value.toString()];
+  } else if (type.isNMap) {
+    return [false, type.asNMap.value.toString()];
   }
 
-  return [false, type.asMap.value.toString()];
+  return [false, type.asPlain.toString()];
 }
 
 // we unwrap the type here, turning into an output usable for createType
@@ -105,7 +107,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
 
 /** @internal */
 function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
-  if (!meta || !(meta.type.isDoubleMap || meta.type.isMap)) {
+  if (!meta || !(meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap)) {
     return [] as unknown as A;
   }
 
@@ -115,14 +117,20 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
     return decodeHashers(registry, value, [
       [mapInfo.hasher, mapInfo.key.toString()]
     ]);
+  } else if (meta.type.isDoubleMap) {
+    const mapInfo = meta.type.asDoubleMap;
+
+    return decodeHashers(registry, value, [
+      [mapInfo.hasher, mapInfo.key1.toString()],
+      [mapInfo.key2Hasher, mapInfo.key2.toString()]
+    ]);
   }
 
-  const mapInfo = meta.type.asDoubleMap;
+  const mapInfo = meta.type.asNMap;
 
-  return decodeHashers(registry, value, [
-    [mapInfo.hasher, mapInfo.key1.toString()],
-    [mapInfo.key2Hasher, mapInfo.key2.toString()]
-  ]);
+  return decodeHashers(registry, value, mapInfo.hashers.map((h, i) =>
+    [h, mapInfo.keyVec[i].toString()]
+  ));
 }
 
 /** @internal */

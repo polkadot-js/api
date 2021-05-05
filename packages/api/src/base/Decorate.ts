@@ -378,8 +378,16 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
       key.section === creator.section && key.method === creator.method;
 
-    decorated.key = (arg1?: Arg, arg2?: Arg): string =>
-      u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
+    decorated.key = (...args: Arg[]): string =>
+      u8aToHex(compactStripLength(creator(
+        creator.meta.type.isPlain
+          ? undefined
+          : creator.meta.type.isMap
+            ? args[0]
+            : creator.meta.type.isDoubleMap
+              ? [args[0], args[1]]
+              : args
+      ))[1]);
 
     decorated.keyPrefix = (key1?: Arg): string =>
       u8aToHex(creator.keyPrefix(key1));
@@ -393,6 +401,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, arg1?: Arg, arg2?: Arg): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2), hash));
 
+    // FIXME NMap support
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(

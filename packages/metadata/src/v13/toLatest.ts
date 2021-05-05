@@ -88,13 +88,13 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
   return registry.createType('StorageMetadataLatest', {
     items: items.map((s): StorageEntryMetadataLatest => {
       setTypeOverride(sectionTypes,
-        s.type.isDoubleMap
-          ? [s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2]
+        s.type.isPlain
+          ? [s.type.asPlain]
           : s.type.isMap
             ? [s.type.asMap.value, s.type.asMap.key]
-            : s.type.isNMap
-              ? s.type.asNMap.keyVec
-              : [s.type.asPlain]
+            : s.type.isDoubleMap
+              ? [s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2]
+              : [s.type.asNMap.value, ...s.type.asNMap.keyVec]
       );
 
       return registry.createType('StorageEntryMetadataLatest', s);
