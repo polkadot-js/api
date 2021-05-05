@@ -262,7 +262,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
       return allKeys;
     }, []);
-    const unknown = exposed.filter((key) => !allKeys.includes(key));
+    const unknown = exposed.filter((k) => !allKeys.includes(k));
+    const deletion = allKnown.filter(([k]) => hasResults && !exposed.includes(k) && k !== 'rpc_methods');
 
     if (unknown.length) {
       l.warn(`RPC methods not decorated: ${unknown.join(', ')}`);
@@ -270,17 +271,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // loop through all entries we have (populated in decorate) and filter as required
     // only remove when we have results and method missing, or with no results if optional
-    allKnown
-      .filter(([key]): boolean => hasResults
-        ? !exposed.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
-        : key === 'rpc_methods' // we didn't find this one, remove
-      )
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .forEach(([_, { method, section }]): void => {
-        delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
-        delete (this._rpcCore as unknown as Record<string, Record<string, unknown>>)[section][method];
-        delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
-      });
+    deletion.forEach(([, { method, section }]): void => {
+      delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
+      delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
+    });
   }
 
   protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
