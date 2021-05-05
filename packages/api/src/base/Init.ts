@@ -121,7 +121,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const header = this._genesisHash.eq(blockHash)
       ? { number: DEFAULT_BLOCKNUMBER, parentHash: this._genesisHash }
       : this.registry.createType('HeaderMinimal',
@@ -135,7 +134,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number.unwrap());
     const version = (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
       ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-      : await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
+      : this.registry.createType('RuntimeVersion',
+        await (this._rpcCore.state.getRuntimeVersion as unknown as JsonRpcObservable).json(header.parentHash).toPromise()
+      );
 
     // check for pre-existing registries
     const existingViaVersion = this.#registries.find((r) => r.specVersion.eq(version.specVersion));
