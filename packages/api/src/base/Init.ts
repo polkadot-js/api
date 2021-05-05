@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Text } from '@polkadot/types';
+import type { Json, Text } from '@polkadot/types';
 import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
@@ -118,9 +118,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
     const header = this._genesisHash.eq(blockHash)
       ? { number: DEFAULT_BLOCKNUMBER, parentHash: this._genesisHash }
-      : await this._rpcCore.chain.getHeader(blockHash).toPromise();
+      : this.registry.createType('HeaderMinimal',
+        await this._rpcCore.chain.getHeader.json(blockHash).toPromise()
+      );
 
-    assert(header?.parentHash && !header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
+    assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
     // get the runtime version, either on-chain or via an known upgrade history
     const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number.unwrap());

@@ -84,6 +84,12 @@ export default {
       extrinsicsRoot: 'Hash',
       digest: 'Digest'
     },
+    HeaderMinimal: {
+      parentHash: 'Hash',
+      number: 'Compact<BlockNumber>',
+      stateRoot: 'Hash',
+      extrinsicsRoot: 'Hash'
+    },
     IndicesLookupSource: 'GenericLookupSource',
     Index: 'u32',
     Justification: '(ConsensusEngineId, EncodedJustification)',
