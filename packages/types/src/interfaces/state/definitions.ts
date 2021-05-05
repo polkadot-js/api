@@ -372,6 +372,10 @@ export default {
       apis: 'Vec<RuntimeVersionApi>',
       transactionVersion: 'u32'
     },
+    RuntimeVersionMinimal: {
+      specName: 'Text',
+      specVersion: 'u32'
+    },
     StorageChangeSet: {
       block: 'Hash',
       changes: 'Vec<KeyValueOption>'

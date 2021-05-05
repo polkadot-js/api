@@ -156,8 +156,6 @@ export interface Header extends Struct {
 export interface HeaderMinimal extends Struct {
   readonly parentHash: Hash;
   readonly number: Compact<BlockNumber>;
-  readonly stateRoot: Hash;
-  readonly extrinsicsRoot: Hash;
 }
 
 /** @name I32F32 */

@@ -27,7 +27,6 @@ interface JsonRpcObservable {
 }
 
 const KEEPALIVE_INTERVAL = 10000;
-const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
 const l = logger('api/init');
 
@@ -121,22 +120,21 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
-    const header = this._genesisHash.eq(blockHash)
-      ? { number: DEFAULT_BLOCKNUMBER, parentHash: this._genesisHash }
-      : this.registry.createType('HeaderMinimal',
-        // As described above, we don't actually expose .raw or .json on the types, but it is decorated
-        await (this._rpcCore.chain.getHeader as unknown as JsonRpcObservable).json(blockHash).toPromise()
-      );
+    const header = this.registry.createType('HeaderMinimal',
+      this._genesisHash.eq(blockHash)
+        ? { number: BN_ZERO, parentHash: this._genesisHash }
+        : await (this._rpcCore.chain.getHeader as unknown as JsonRpcObservable).json(blockHash).toPromise()
+    );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
     // get the runtime version, either on-chain or via an known upgrade history
     const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number.unwrap());
-    const version = (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
-      ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-      : this.registry.createType('RuntimeVersion',
-        await (this._rpcCore.state.getRuntimeVersion as unknown as JsonRpcObservable).json(header.parentHash).toPromise()
-      );
+    const version = this.registry.createType('RuntimeVersionMinimal',
+      (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
+        ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
+        : await (this._rpcCore.state.getRuntimeVersion as unknown as JsonRpcObservable).json(header.parentHash).toPromise()
+    );
 
     // check for pre-existing registries
     const existingViaVersion = this.#registries.find((r) => r.specVersion.eq(version.specVersion));

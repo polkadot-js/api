@@ -86,9 +86,7 @@ export default {
     },
     HeaderMinimal: {
       parentHash: 'Hash',
-      number: 'Compact<BlockNumber>',
-      stateRoot: 'Hash',
-      extrinsicsRoot: 'Hash'
+      number: 'Compact<BlockNumber>'
     },
     IndicesLookupSource: 'GenericLookupSource',
     Index: 'u32',

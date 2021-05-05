@@ -47,7 +47,7 @@ import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, Sch
 import type { BeefyKey, FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys10, SessionKeys10B, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys6B, SessionKeys7, SessionKeys7B, SessionKeys8, SessionKeys8B, SessionKeys9, SessionKeys9B, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionPhase, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
-import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
+import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, RuntimeVersionMinimal, StorageChangeSet } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
@@ -739,6 +739,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<RuntimeDispatchInfo>': Option<RuntimeDispatchInfo>;
     'Option<RuntimeVersion>': Option<RuntimeVersion>;
     'Option<RuntimeVersionApi>': Option<RuntimeVersionApi>;
+    'Option<RuntimeVersionMinimal>': Option<RuntimeVersionMinimal>;
     'Option<Schedule>': Option<Schedule>;
     'Option<Scheduled>': Option<Scheduled>;
     'Option<ScheduledTo254>': Option<ScheduledTo254>;
@@ -1558,6 +1559,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<RuntimeDispatchInfo>': Vec<RuntimeDispatchInfo>;
     'Vec<RuntimeVersion>': Vec<RuntimeVersion>;
     'Vec<RuntimeVersionApi>': Vec<RuntimeVersionApi>;
+    'Vec<RuntimeVersionMinimal>': Vec<RuntimeVersionMinimal>;
     'Vec<Schedule>': Vec<Schedule>;
     'Vec<Scheduled>': Vec<Scheduled>;
     'Vec<ScheduledTo254>': Vec<ScheduledTo254>;
@@ -2377,6 +2379,7 @@ declare module '@polkadot/types/types/registry' {
     RuntimeDispatchInfo: RuntimeDispatchInfo;
     RuntimeVersion: RuntimeVersion;
     RuntimeVersionApi: RuntimeVersionApi;
+    RuntimeVersionMinimal: RuntimeVersionMinimal;
     Schedule: Schedule;
     Scheduled: Scheduled;
     ScheduledTo254: ScheduledTo254;
