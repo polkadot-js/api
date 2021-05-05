@@ -148,7 +148,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this.#registries.push(result);
 
-    this._detectCapabilities(registry, blockHash);
+    // TODO This could be useful for historic, disabled due to cross-looping, i.e. .at queries
+    // this._detectCapabilities(registry, blockHash);
 
     return result;
   }
