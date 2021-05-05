@@ -380,7 +380,7 @@ export default {
       tracingTargets: 'Text',
       storageKeys: 'Text',
       spans: 'Vec<BlockTraceSpan>',
-      events: 'Vec<lockTraceEvent>'
+      events: 'Vec<BlockTraceEvent>'
     },
     BlockTraceEvent: {
       target: 'Text',

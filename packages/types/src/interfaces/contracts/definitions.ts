@@ -157,6 +157,10 @@ export default {
       pairCount: 'u32',
       trieId: 'TrieId'
     },
+    ExecReturnValue: {
+      flags: 'u32',
+      data: 'Bytes'
+    },
     Gas: 'u64',
     HostFnWeightsTo264: {
       caller: 'Weight',
@@ -262,7 +266,7 @@ export default {
     InstantiateRequest: {
       origin: 'AccountId',
       endowment: 'Balance',
-      gasLimit: 'Weight',
+      gasLimit: 'Gas',
       code: 'Bytes',
       data: 'Bytes',
       salt: 'Bytes'
@@ -360,6 +364,12 @@ export default {
       _reserved: 'Option<Null>',
       code: 'Bytes',
       originalCodeLen: 'u32'
+    },
+    RentProjection: {
+      _enum: {
+        EvictionAt: 'BlockNumber',
+        NoEviction: 'Null'
+      }
     },
     ScheduleTo212: {
       version: 'u32',

@@ -15,7 +15,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractStorageKey, DeletedContract, Gas, HostFnWeights, HostFnWeightsTo264, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
+import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractInstantiateResult, ContractStorageKey, DeletedContract, ExecReturnValue, Gas, HostFnWeights, HostFnWeightsTo264, InstantiateRequest, InstantiateReturnValue, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, RentProjection, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { FundIndex, FundInfo, LastContribution, TrieIndex } from '@polkadot/types/interfaces/crowdloan';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
@@ -47,7 +47,7 @@ import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, Sch
 import type { BeefyKey, FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys10, SessionKeys10B, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys6B, SessionKeys7, SessionKeys7B, SessionKeys8, SessionKeys8B, SessionKeys9, SessionKeys9B, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionPhase, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
-import type { ApiId, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/state';
+import type { ApiId, BlockTrace, BlockTraceEvent, BlockTraceEventData, BlockTraceSpan, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet, TraceBlockResponse, TraceError } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
@@ -225,6 +225,10 @@ declare module '@polkadot/types/types/registry' {
     'Option<BlockHash>': Option<BlockHash>;
     'Option<BlockLength>': Option<BlockLength>;
     'Option<BlockNumber>': Option<BlockNumber>;
+    'Option<BlockTrace>': Option<BlockTrace>;
+    'Option<BlockTraceEvent>': Option<BlockTraceEvent>;
+    'Option<BlockTraceEventData>': Option<BlockTraceEventData>;
+    'Option<BlockTraceSpan>': Option<BlockTraceSpan>;
     'Option<BlockWeights>': Option<BlockWeights>;
     'Option<BodyId>': Option<BodyId>;
     'Option<BodyPart>': Option<BodyPart>;
@@ -285,6 +289,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ContractExecResultTo255>': Option<ContractExecResultTo255>;
     'Option<ContractExecResultTo260>': Option<ContractExecResultTo260>;
     'Option<ContractInfo>': Option<ContractInfo>;
+    'Option<ContractInstantiateResult>': Option<ContractInstantiateResult>;
     'Option<ContractLayoutArray>': Option<ContractLayoutArray>;
     'Option<ContractLayoutCell>': Option<ContractLayoutCell>;
     'Option<ContractLayoutEnum>': Option<ContractLayoutEnum>;
@@ -404,6 +409,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<EvmAccount>': Option<EvmAccount>;
     'Option<EvmLog>': Option<EvmLog>;
     'Option<EvmVicinity>': Option<EvmVicinity>;
+    'Option<ExecReturnValue>': Option<ExecReturnValue>;
     'Option<ExitError>': Option<ExitError>;
     'Option<ExitFatal>': Option<ExitFatal>;
     'Option<ExitReason>': Option<ExitReason>;
@@ -512,6 +518,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<Index>': Option<Index>;
     'Option<IndicesLookupSource>': Option<IndicesLookupSource>;
     'Option<IndividualExposure>': Option<IndividualExposure>;
+    'Option<InstantiateRequest>': Option<InstantiateRequest>;
+    'Option<InstantiateReturnValue>': Option<InstantiateReturnValue>;
     'Option<InstructionWeights>': Option<InstructionWeights>;
     'Option<InvalidDisputeStatementKind>': Option<InvalidDisputeStatementKind>;
     'Option<InvalidTransaction>': Option<InvalidTransaction>;
@@ -725,6 +733,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Releases>': Option<Releases>;
     'Option<Remark>': Option<Remark>;
     'Option<Renouncing>': Option<Renouncing>;
+    'Option<RentProjection>': Option<RentProjection>;
     'Option<ReportedRoundStates>': Option<ReportedRoundStates>;
     'Option<Reporter>': Option<Reporter>;
     'Option<ReportIdOf>': Option<ReportIdOf>;
@@ -861,6 +870,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<Timepoint>': Option<Timepoint>;
     'Option<TokenError>': Option<TokenError>;
     'Option<TombstoneContractInfo>': Option<TombstoneContractInfo>;
+    'Option<TraceBlockResponse>': Option<TraceBlockResponse>;
+    'Option<TraceError>': Option<TraceError>;
     'Option<TransactionPriority>': Option<TransactionPriority>;
     'Option<TransactionValidityError>': Option<TransactionValidityError>;
     'Option<TransientValidationData>': Option<TransientValidationData>;
@@ -1043,6 +1054,10 @@ declare module '@polkadot/types/types/registry' {
     'Vec<BlockHash>': Vec<BlockHash>;
     'Vec<BlockLength>': Vec<BlockLength>;
     'Vec<BlockNumber>': Vec<BlockNumber>;
+    'Vec<BlockTrace>': Vec<BlockTrace>;
+    'Vec<BlockTraceEvent>': Vec<BlockTraceEvent>;
+    'Vec<BlockTraceEventData>': Vec<BlockTraceEventData>;
+    'Vec<BlockTraceSpan>': Vec<BlockTraceSpan>;
     'Vec<BlockWeights>': Vec<BlockWeights>;
     'Vec<BodyId>': Vec<BodyId>;
     'Vec<BodyPart>': Vec<BodyPart>;
@@ -1103,6 +1118,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ContractExecResultTo255>': Vec<ContractExecResultTo255>;
     'Vec<ContractExecResultTo260>': Vec<ContractExecResultTo260>;
     'Vec<ContractInfo>': Vec<ContractInfo>;
+    'Vec<ContractInstantiateResult>': Vec<ContractInstantiateResult>;
     'Vec<ContractLayoutArray>': Vec<ContractLayoutArray>;
     'Vec<ContractLayoutCell>': Vec<ContractLayoutCell>;
     'Vec<ContractLayoutEnum>': Vec<ContractLayoutEnum>;
@@ -1222,6 +1238,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<EvmAccount>': Vec<EvmAccount>;
     'Vec<EvmLog>': Vec<EvmLog>;
     'Vec<EvmVicinity>': Vec<EvmVicinity>;
+    'Vec<ExecReturnValue>': Vec<ExecReturnValue>;
     'Vec<ExitError>': Vec<ExitError>;
     'Vec<ExitFatal>': Vec<ExitFatal>;
     'Vec<ExitReason>': Vec<ExitReason>;
@@ -1330,6 +1347,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Index>': Vec<Index>;
     'Vec<IndicesLookupSource>': Vec<IndicesLookupSource>;
     'Vec<IndividualExposure>': Vec<IndividualExposure>;
+    'Vec<InstantiateRequest>': Vec<InstantiateRequest>;
+    'Vec<InstantiateReturnValue>': Vec<InstantiateReturnValue>;
     'Vec<InstructionWeights>': Vec<InstructionWeights>;
     'Vec<InvalidDisputeStatementKind>': Vec<InvalidDisputeStatementKind>;
     'Vec<InvalidTransaction>': Vec<InvalidTransaction>;
@@ -1543,6 +1562,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Releases>': Vec<Releases>;
     'Vec<Remark>': Vec<Remark>;
     'Vec<Renouncing>': Vec<Renouncing>;
+    'Vec<RentProjection>': Vec<RentProjection>;
     'Vec<ReportedRoundStates>': Vec<ReportedRoundStates>;
     'Vec<Reporter>': Vec<Reporter>;
     'Vec<ReportIdOf>': Vec<ReportIdOf>;
@@ -1679,6 +1699,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Timepoint>': Vec<Timepoint>;
     'Vec<TokenError>': Vec<TokenError>;
     'Vec<TombstoneContractInfo>': Vec<TombstoneContractInfo>;
+    'Vec<TraceBlockResponse>': Vec<TraceBlockResponse>;
+    'Vec<TraceError>': Vec<TraceError>;
     'Vec<TransactionPriority>': Vec<TransactionPriority>;
     'Vec<TransactionValidityError>': Vec<TransactionValidityError>;
     'Vec<TransientValidationData>': Vec<TransientValidationData>;
@@ -1861,6 +1883,10 @@ declare module '@polkadot/types/types/registry' {
     BlockHash: BlockHash;
     BlockLength: BlockLength;
     BlockNumber: BlockNumber;
+    BlockTrace: BlockTrace;
+    BlockTraceEvent: BlockTraceEvent;
+    BlockTraceEventData: BlockTraceEventData;
+    BlockTraceSpan: BlockTraceSpan;
     BlockWeights: BlockWeights;
     BodyId: BodyId;
     BodyPart: BodyPart;
@@ -1921,6 +1947,7 @@ declare module '@polkadot/types/types/registry' {
     ContractExecResultTo255: ContractExecResultTo255;
     ContractExecResultTo260: ContractExecResultTo260;
     ContractInfo: ContractInfo;
+    ContractInstantiateResult: ContractInstantiateResult;
     ContractLayoutArray: ContractLayoutArray;
     ContractLayoutCell: ContractLayoutCell;
     ContractLayoutEnum: ContractLayoutEnum;
@@ -2040,6 +2067,7 @@ declare module '@polkadot/types/types/registry' {
     EvmAccount: EvmAccount;
     EvmLog: EvmLog;
     EvmVicinity: EvmVicinity;
+    ExecReturnValue: ExecReturnValue;
     ExitError: ExitError;
     ExitFatal: ExitFatal;
     ExitReason: ExitReason;
@@ -2148,6 +2176,8 @@ declare module '@polkadot/types/types/registry' {
     Index: Index;
     IndicesLookupSource: IndicesLookupSource;
     IndividualExposure: IndividualExposure;
+    InstantiateRequest: InstantiateRequest;
+    InstantiateReturnValue: InstantiateReturnValue;
     InstructionWeights: InstructionWeights;
     InvalidDisputeStatementKind: InvalidDisputeStatementKind;
     InvalidTransaction: InvalidTransaction;
@@ -2361,6 +2391,7 @@ declare module '@polkadot/types/types/registry' {
     Releases: Releases;
     Remark: Remark;
     Renouncing: Renouncing;
+    RentProjection: RentProjection;
     ReportedRoundStates: ReportedRoundStates;
     Reporter: Reporter;
     ReportIdOf: ReportIdOf;
@@ -2497,6 +2528,8 @@ declare module '@polkadot/types/types/registry' {
     Timepoint: Timepoint;
     TokenError: TokenError;
     TombstoneContractInfo: TombstoneContractInfo;
+    TraceBlockResponse: TraceBlockResponse;
+    TraceError: TraceError;
     TransactionPriority: TransactionPriority;
     TransactionValidityError: TransactionValidityError;
     TransientValidationData: TransientValidationData;
