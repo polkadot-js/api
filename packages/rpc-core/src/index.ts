@@ -209,7 +209,7 @@ export class RpcCore {
 
     // execute the RPC call, doing a registry swap for historic as applicable
     const callWithRegistry = async (outputAs: OutputType, values: any[]): Promise<Codec | Codec[]> => {
-      const blockHash = hashIndex === -1
+      const blockHash = outputAs !== 'scale' || hashIndex === -1
         ? null
         : values[hashIndex] as Uint8Array;
       const { registry } = blockHash && this.#getBlockRegistry
@@ -224,7 +224,10 @@ export class RpcCore {
     };
 
     const creator = (outputAs: OutputType) => (...values: any[]): Observable<any> => {
-      const isDelayed = (hashIndex !== -1 && !!values[hashIndex]) || (cacheIndex !== -1 && !!values[cacheIndex]);
+      const isDelayed = outputAs === 'scale' && (
+        (hashIndex !== -1 && !!values[hashIndex]) ||
+        (cacheIndex !== -1 && !!values[cacheIndex])
+      );
 
       return new Observable((observer: Observer<any>): VoidCallback => {
         callWithRegistry(outputAs, values)

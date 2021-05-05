@@ -21,6 +21,11 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
 
+// .json (alongside .raw) is decorated on the RPC, but the actual type definitions don't reflect it
+interface JsonRpcObservable {
+  json: (...args: unknown[]) => Observable<Json>;
+}
+
 const KEEPALIVE_INTERVAL = 10000;
 const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
@@ -116,10 +121,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const header = this._genesisHash.eq(blockHash)
       ? { number: DEFAULT_BLOCKNUMBER, parentHash: this._genesisHash }
       : this.registry.createType('HeaderMinimal',
-        await this._rpcCore.chain.getHeader.json(blockHash).toPromise()
+        // As described above, we don't actually expose .raw or .json on the types, but it is decorated
+        await (this._rpcCore.chain.getHeader as unknown as JsonRpcObservable).json(blockHash).toPromise()
       );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
