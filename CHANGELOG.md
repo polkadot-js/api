@@ -21,6 +21,8 @@ Changes:
 - Prepare for auto-capability detection with historic `.at` queries
 - Add known upgrade block for Westend 900 & 9000
 - Remove all deprecated interfaces inside `@polkadot/api-contracts`
+- Initial support for NMap storage keys
+- Support metadata v13 from Substrate (upcoming upgrade)
 
 
 ## 4.8.1 May 2, 2021
