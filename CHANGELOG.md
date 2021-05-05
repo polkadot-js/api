@@ -16,7 +16,7 @@ Changes:
 - Adjust `ContractInfo` type as per latest Substrate
 - Adjust `DigestItem` type as per latest Substrate
 - Adjust re-encoding of `BitVec` based on decoded length
-- Add auto-capability detection to historic `.at` queries
+- Prepare for auto-capability detection with historic `.at` queries
 - Add known upgrade block for Westend 900
 - Remove all deprecated interfaces inside `@polkadot/api-contracts`
 

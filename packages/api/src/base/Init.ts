@@ -291,11 +291,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
-    await this._detectCapabilities(this.registry);
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
     this._derive = this._decorateDerive(this._decorateMethod);
+
+    // detect the on-chain capabilities
+    await this._detectCapabilities(this.registry);
 
     return true;
   }

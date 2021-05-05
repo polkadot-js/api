@@ -270,15 +270,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // loop through all entries we have (populated in decorate) and filter as required
     // only remove when we have results and method missing, or with no results if optional
-    allKnown
-      .filter(([key]): boolean => hasResults
-        ? !exposed.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
-        : key === 'rpc_methods' // we didn't find this one, remove
-      )
+    hasResults && allKnown
+      .filter(([k]) => !exposed.includes(k) && k !== 'rpc_methods')
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .forEach(([_, { method, section }]): void => {
         delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
-        delete (this._rpcCore as unknown as Record<string, Record<string, unknown>>)[section][method];
         delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
       });
   }
