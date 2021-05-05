@@ -13,9 +13,7 @@ export class MagicNumber extends U32 {
     super(registry, value);
 
     if (!this.isEmpty) {
-      const magic = registry.createType('u32', MAGIC_NUMBER);
-
-      assert(this.eq(magic), () => `MagicNumber mismatch: expected ${magic.toHex()}, found ${this.toHex()}`);
+      assert(this.eq(MAGIC_NUMBER), () => `MagicNumber mismatch: expected ${registry.createType('u32', MAGIC_NUMBER).toHex()}, found ${this.toHex()}`);
     }
   }
 }

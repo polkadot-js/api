@@ -12,10 +12,11 @@ type Arg = { type: Type } & Codec;
 
 type Item = {
   type: {
-    isDoubleMap?: boolean;
+    isDoubleMap: boolean;
     isMap: boolean;
+    isNMap: boolean;
     isPlain: boolean;
-    asDoubleMap?: {
+    asDoubleMap: {
       key1: Text;
       key2: Text;
       value: Text;
@@ -24,6 +25,10 @@ type Item = {
       key: Text;
       value: Text;
     };
+    asNMap: {
+      keyVec: Text[];
+      value: Text;
+    },
     asPlain: Text;
   };
 } & Codec;
@@ -106,20 +111,25 @@ function unwrapStorage (storage?: Storage): Item[] {
 function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map(({ storage }): string[][] =>
     unwrapStorage(storage).map(({ type }) =>
-      type.isDoubleMap && type.asDoubleMap
+      type.isPlain
         ? [
-          type.asDoubleMap.key1.toString(),
-          type.asDoubleMap.key2.toString(),
-          type.asDoubleMap.value.toString()
+          type.asPlain.toString()
         ]
         : type.isMap
           ? [
-            type.asMap.key.toString(),
-            type.asMap.value.toString()
+            type.asMap.value.toString(),
+            type.asMap.key.toString()
           ]
-          : [
-            type.asPlain.toString()
-          ]
+          : type.isDoubleMap
+            ? [
+              type.asDoubleMap.value.toString(),
+              type.asDoubleMap.key1.toString(),
+              type.asDoubleMap.key2.toString()
+            ]
+            : [
+              type.asNMap.value.toString(),
+              ...type.asNMap.keyVec.map((k) => k.toString())
+            ]
     )
   );
 }

@@ -25,36 +25,58 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
 
     return ['', '', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
+    const map = storageEntry.type.asMap;
+
     // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(registry, allDefs, storageEntry.type.asMap.key.toString(), imports);
+    const similarTypes = getSimilarTypes(registry, allDefs, map.key.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes,
-      storageEntry.type.asMap.value.toString()
+      map.value.toString()
     ]);
 
     return [
-      formatType(allDefs, storageEntry.type.asMap.key.toString(), imports),
+      formatType(allDefs, map.key.toString(), imports),
       `arg: ${similarTypes.join(' | ')}`,
       formatType(allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
+    const dm = storageEntry.type.asDoubleMap;
+
     // Find similar types of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(registry, allDefs, storageEntry.type.asDoubleMap.key2.toString(), imports);
+    const similarTypes1 = getSimilarTypes(registry, allDefs, dm.key1.toString(), imports);
+    const similarTypes2 = getSimilarTypes(registry, allDefs, dm.key2.toString(), imports);
 
     setImports(allDefs, imports, [
       ...similarTypes1,
       ...similarTypes2,
-      storageEntry.type.asDoubleMap.value.toString()
+      dm.value.toString()
     ]);
 
     const key1Types = similarTypes1.join(' | ');
     const key2Types = similarTypes2.join(' | ');
 
     return [
-      [formatType(allDefs, storageEntry.type.asDoubleMap.key1.toString(), imports), formatType(allDefs, storageEntry.type.asDoubleMap.key2.toString(), imports)].join(', '),
+      [formatType(allDefs, dm.key1.toString(), imports), formatType(allDefs, dm.key2.toString(), imports)].join(', '),
       `key1: ${key1Types}, key2: ${key2Types}`,
+      formatType(allDefs, outputType, imports)
+    ];
+  } else if (storageEntry.type.isNMap) {
+    const nmap = storageEntry.type.asNMap;
+
+    // Find similar types for all keys
+    const similarTypes = nmap.keyVec.map((k) => getSimilarTypes(registry, allDefs, k.toString(), imports));
+
+    setImports(allDefs, imports, [
+      ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
+      nmap.value.toString()
+    ]);
+
+    const keyTypes = similarTypes.map((t) => t.join(' | '));
+
+    return [
+      nmap.keyVec.map((k) => formatType(allDefs, k.toString(), imports)).join(', '),
+      keyTypes.map((t, i) => `key${i + 1}: ${t}`).join(', '),
       formatType(allDefs, outputType, imports)
     ];
   }

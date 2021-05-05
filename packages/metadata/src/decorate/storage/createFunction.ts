@@ -108,6 +108,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   const { meta: { type } } = itemFn;
 
+  // FIXME NMap support
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw => {
     assert(type.isDoubleMap || isUndefined(arg), 'Filtering arguments for keys/entries are only valid on double maps');
 
@@ -136,15 +137,18 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
   const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | CreateArgType[]) =>
-    type.isDoubleMap
-      ? createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)], arg as CreateArgType[])
+    type.isPlain
+      ? options.skipHashing
+        ? compactAddLength(u8aToU8a(options.key))
+        : createKey(registry, itemFn, [], [], [])
       : type.isMap
         ? createKey(registry, itemFn, [type.asMap.key], [getHasher(type.asMap.hasher)], [arg as CreateArgType])
-        : options.skipHashing
-          ? compactAddLength(u8aToU8a(options.key))
-          : createKey(registry, itemFn, [], [], [])
+        : type.isDoubleMap
+          ? createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)], arg as CreateArgType[])
+          : createKey(registry, itemFn, type.asNMap.keyVec, type.asNMap.hashers.map((h) => getHasher(h)), arg as CreateArgType[])
   );
 
+  // FIXME NMap support
   if (type.isMap || type.isDoubleMap) {
     extendPrefixedMap(registry, itemFn, storageFn);
   }
