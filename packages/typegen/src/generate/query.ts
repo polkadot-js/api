@@ -65,7 +65,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     const nmap = storageEntry.type.asNMap;
 
     // Find similar types for all keys
-    const similarTypes = nmap.keyVec.map((k) => getSimilarTypes(registry, allDefs, k.toString(), imports)));
+    const similarTypes = nmap.keyVec.map((k) => getSimilarTypes(registry, allDefs, k.toString(), imports));
 
     setImports(allDefs, imports, [
       ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
