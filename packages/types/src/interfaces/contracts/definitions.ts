@@ -24,6 +24,22 @@ export default {
       ],
       type: 'ContractExecResult'
     },
+    instantiate: {
+      description: 'Instantiate a new contract',
+      params: [
+        {
+          name: 'request',
+          type: 'InstantiateRequest'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isHstoric: true,
+          isOptional: true
+        }
+      ],
+      type: 'ContractInstantiateResult'
+    },
     getStorage: {
       description: 'Returns the value under a specified storage key in a contract',
       params: [
@@ -141,6 +157,10 @@ export default {
       pairCount: 'u32',
       trieId: 'TrieId'
     },
+    ExecReturnValue: {
+      flags: 'u32',
+      data: 'Bytes'
+    },
     Gas: 'u64',
     HostFnWeightsTo264: {
       caller: 'Weight',
@@ -243,6 +263,25 @@ export default {
       hashBlake2128PerByte: 'Weight',
       rentParams: 'Weight'
     },
+    InstantiateRequest: {
+      origin: 'AccountId',
+      endowment: 'Balance',
+      gasLimit: 'Gas',
+      code: 'Bytes',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
+    ContractInstantiateResult: {
+      _enum: {
+        Ok: 'InstantiateReturnValue',
+        Err: 'Null'
+      }
+    },
+    InstantiateReturnValue: {
+      result: 'ExecReturnValue',
+      accountId: 'AccountId',
+      rentProjection: 'Option<RentProjection>'
+    },
     InstructionWeights: {
       i64const: 'u32',
       i64load: 'u32',
@@ -325,6 +364,12 @@ export default {
       _reserved: 'Option<Null>',
       code: 'Bytes',
       originalCodeLen: 'u32'
+    },
+    RentProjection: {
+      _enum: {
+        EvictionAt: 'BlockNumber',
+        NoEviction: 'Null'
+      }
     },
     ScheduleTo212: {
       version: 'u32',

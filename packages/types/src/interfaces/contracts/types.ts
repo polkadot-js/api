@@ -102,6 +102,13 @@ export interface ContractInfo extends Enum {
   readonly asTombstone: TombstoneContractInfo;
 }
 
+/** @name ContractInstantiateResult */
+export interface ContractInstantiateResult extends Enum {
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValue;
+  readonly isErr: boolean;
+}
+
 /** @name ContractStorageKey */
 export interface ContractStorageKey extends U8aFixed {}
 
@@ -109,6 +116,12 @@ export interface ContractStorageKey extends U8aFixed {}
 export interface DeletedContract extends Struct {
   readonly pairCount: u32;
   readonly trieId: TrieId;
+}
+
+/** @name ExecReturnValue */
+export interface ExecReturnValue extends Struct {
+  readonly flags: u32;
+  readonly data: Bytes;
 }
 
 /** @name Gas */
@@ -219,6 +232,23 @@ export interface HostFnWeightsTo264 extends Struct {
   readonly hashBlake2128PerByte: Weight;
 }
 
+/** @name InstantiateRequest */
+export interface InstantiateRequest extends Struct {
+  readonly origin: AccountId;
+  readonly endowment: Balance;
+  readonly gasLimit: Gas;
+  readonly code: Bytes;
+  readonly data: Bytes;
+  readonly salt: Bytes;
+}
+
+/** @name InstantiateReturnValue */
+export interface InstantiateReturnValue extends Struct {
+  readonly result: ExecReturnValue;
+  readonly accountId: AccountId;
+  readonly rentProjection: Option<RentProjection>;
+}
+
 /** @name InstructionWeights */
 export interface InstructionWeights extends Struct {
   readonly i64const: u32;
@@ -308,6 +338,13 @@ export interface PrefabWasmModule extends Struct {
   readonly _reserved: Option<Null>;
   readonly code: Bytes;
   readonly originalCodeLen: u32;
+}
+
+/** @name RentProjection */
+export interface RentProjection extends Enum {
+  readonly isEvictionAt: boolean;
+  readonly asEvictionAt: BlockNumber;
+  readonly isNoEviction: boolean;
 }
 
 /** @name Schedule */
