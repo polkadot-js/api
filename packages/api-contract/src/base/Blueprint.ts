@@ -6,7 +6,7 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
-import type { ContractGeneric, MapConstructorExec } from './types';
+import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
@@ -16,7 +16,7 @@ import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Contract } from './Contract';
-import { createBluePrintTx, createBluePrintWithId, EMPTY_SALT, encodeSalt } from './util';
+import { createBluePrintTx, EMPTY_SALT, encodeSalt } from './util';
 
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
@@ -34,19 +34,12 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
    */
   public readonly codeHash: Hash;
 
-  /**
-   * @deprecated
-   * @description Deprecated. Use `.tx.<constructorName>`. Creates a contract in a non-deterministic way.
-   */
-  public readonly createContract: ContractGeneric<BlueprintOptions, SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>>>;
-
   readonly #tx: MapConstructorExec<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.codeHash = this.registry.createType('Hash', codeHash);
-    this.createContract = createBluePrintWithId(this.#deploy);
 
     this.abi.constructors.forEach((c): void => {
       if (isUndefined(this.#tx[c.method])) {
