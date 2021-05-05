@@ -9,7 +9,6 @@ Upgrade priority: Medium. Required for the next v0.9.0 Polkadot/Kusama chains
 Changes:
 
 - Re-add isPedantic check on storage decoding
-- Adjust capability detection (only on full-known historic `AccountInfo`)
 - `ConsensusEngineId` now implements `[u8;4]` (mapping closer to Rust source)
 - Additional Xcm types
 - Adjust parachain types
@@ -17,6 +16,8 @@ Changes:
 - Adjust `ContractInfo` type as per latest Substrate
 - Adjust `DigestItem` type as per latest Substrate
 - Adjust re-encoding of `BitVec` based on decoded length
+- Prepare for auto-capability detection with historic `.at` queries
+- Add known upgrade block for Westend 900
 - Remove all deprecated interfaces inside `@polkadot/api-contracts`
 
 
