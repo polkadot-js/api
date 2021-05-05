@@ -352,10 +352,51 @@ export default {
         'unsubscribeStorage'
       ],
       type: 'StorageChangeSet'
+    },
+    traceBlock: {
+      description: 'Provides a way to trace the re-execution of a single block',
+      params: [
+        {
+          name: 'block',
+          type: 'Hash'
+        },
+        {
+          name: 'targets',
+          type: 'Option<Text>'
+        },
+        {
+          name: 'storageKeys',
+          type: 'Option<Text>'
+        }
+      ],
+      type: 'TraceBlockResponse'
     }
   },
   types: {
     ApiId: '[u8; 8]',
+    BlockTrace: {
+      blockHash: 'Text',
+      parentHash: 'Text',
+      tracingTargets: 'Text',
+      storageKeys: 'Text',
+      spans: 'Vec<BlockTraceSpan>',
+      events: 'Vec<lockTraceEvent>'
+    },
+    BlockTraceEvent: {
+      target: 'Text',
+      data: 'BlockTraceEventData',
+      parentId: 'Option<u64>'
+    },
+    BlockTraceEventData: {
+      stringValues: 'HashMap<Text, Text>'
+    },
+    BlockTraceSpan: {
+      id: 'u64',
+      parentId: 'Option<u64>',
+      name: 'Text',
+      target: 'Text',
+      wasm: 'bool'
+    },
     KeyValueOption: '(StorageKey, Option<StorageData>)',
     ReadProof: {
       at: 'Hash',
@@ -374,6 +415,15 @@ export default {
     StorageChangeSet: {
       block: 'Hash',
       changes: 'Vec<KeyValueOption>'
+    },
+    TraceBlockResponse: {
+      _enum: {
+        TraceError: 'TraceError',
+        BlockTrace: 'BlockTrace'
+      }
+    },
+    TraceError: {
+      error: 'Text'
     }
   }
 } as Definitions;

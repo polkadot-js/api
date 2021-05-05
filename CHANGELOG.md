@@ -4,7 +4,8 @@
 
 Upgrade priority: Medium. Required for the next v0.9.0 Polkadot/Kusama chains
 
-- **Breaking change** The previously deprecated contracts interfaces (marked as deprecated, should have been dropped with the 4.0 release), has been removed. Update to `<myContract>.query.*`, `<myContract>.tx.*` and `<myCode>.tx.*` interfaces.
+- **Breaking change** The previously deprecated contracts interfaces, has been removed. Update to `<myContract>.query.*`, `<myContract>.tx.*` and `<myCode>.tx.*` interfaces as per the previous code usage hints.
+- **Important** By default the `isPedantic` mode is now switched on for storage queries. This means that the API will fail on any types where the input/output decoding doesn't match 100%
 
 Changes:
 
@@ -17,6 +18,7 @@ Changes:
 - Adjust `ContractInfo` type as per latest Substrate
 - Adjust `DigestItem` type as per latest Substrate
 - Adjust re-encoding of `BitVec` based on decoded length
+- Added `contracts_instantiate`, `state_traceBlock` & `system_reservedPeers` RPCs
 - Remove all deprecated interfaces inside `@polkadot/api-contracts`
 
 

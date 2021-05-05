@@ -24,6 +24,22 @@ export default {
       ],
       type: 'ContractExecResult'
     },
+    instantiate: {
+      description: 'Instantiate a new contract',
+      params: [
+        {
+          name: 'request',
+          type: 'InstantiateRequest'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isHstoric: true,
+          isOptional: true
+        }
+      ],
+      type: 'ContractInstantiateResult'
+    },
     getStorage: {
       description: 'Returns the value under a specified storage key in a contract',
       params: [
@@ -242,6 +258,25 @@ export default {
       hashBlake2128: 'Weight',
       hashBlake2128PerByte: 'Weight',
       rentParams: 'Weight'
+    },
+    InstantiateRequest: {
+      origin: 'AccountId',
+      endowment: 'Balance',
+      gasLimit: 'Weight',
+      code: 'Bytes',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
+    ContractInstantiateResult: {
+      _enum: {
+        Ok: 'InstantiateReturnValue',
+        Err: 'Null'
+      }
+    },
+    InstantiateReturnValue: {
+      result: 'ExecReturnValue',
+      accountId: 'AccountId',
+      rentProjection: 'Option<RentProjection>'
     },
     InstructionWeights: {
       i64const: 'u32',
