@@ -147,8 +147,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     );
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
-    console.log('Created historic registry', u8aToHex(blockHash), header.number.toHuman(), version.specVersion.toHuman());
-
     // add our new registry
     const result = { isDefault: false, lastBlockHash: blockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
