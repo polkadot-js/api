@@ -590,11 +590,10 @@ declare module '@polkadot/api/types/events' {
       [key: string]: AugmentedEvent<ApiType>;
       /**
        * There is an offence reported of the given `kind` happened at the `session_index` and
-       * (kind-specific) time slot. This event is not deposited for duplicate slashes. last
-       * element indicates of the offence was applied (true) or queued (false)
-       * \[kind, timeslot, applied\].
+       * (kind-specific) time slot. This event is not deposited for duplicate slashes.
+       * \[kind, timeslot\].
        **/
-      Offence: AugmentedEvent<ApiType, [Kind, OpaqueTimeSlot, bool]>;
+      Offence: AugmentedEvent<ApiType, [Kind, OpaqueTimeSlot]>;
     };
     proxy: {
       [key: string]: AugmentedEvent<ApiType>;

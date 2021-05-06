@@ -213,7 +213,7 @@ export class RpcCore {
     const callWithRegistry = async (outputAs: OutputType, values: any[]): Promise<Codec | Codec[]> => {
       const blockHash = outputAs !== 'scale' || hashIndex === -1
         ? null
-        : values[hashIndex] as (Uint8Array | string | undefined | null);
+        : values[hashIndex] as (Uint8Array | string | null | undefined);
       const { registry } = blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };

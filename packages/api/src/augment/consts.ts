@@ -185,6 +185,13 @@ declare module '@polkadot/api/types/consts' {
     electionProviderMultiPhase: {
       [key: string]: Codec;
       /**
+       * The repeat threshold of the offchain worker.
+       * 
+       * For example, if it is 5, that means that at least 5 blocks will elapse between attempts
+       * to submit the worker's solution.
+       **/
+      offchainRepeat: BlockNumber & AugmentedConst<ApiType>;
+      /**
        * Duration of the signed phase.
        **/
       signedPhase: BlockNumber & AugmentedConst<ApiType>;
@@ -283,7 +290,7 @@ declare module '@polkadot/api/types/consts' {
     identity: {
       [key: string]: Codec;
       /**
-       * The amount held on deposit for a registered identity.
+       * The amount held on deposit for a registered identity
        **/
       basicDeposit: BalanceOf & AugmentedConst<ApiType>;
       /**

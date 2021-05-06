@@ -102,9 +102,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (lastBlockHash: Uint8Array): Promise<VersionedRegistry> {
+  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry> {
     const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
-      lastBlockHash && u8aEq(lastBlockHash, lastBlockHash)
+      lastBlockHash && u8aEq(lastBlockHash, blockHash)
     );
 
     if (existingViaHash) {
@@ -117,9 +117,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
     const header = this.registry.createType('HeaderPartial',
-      this._genesisHash.eq(lastBlockHash)
+      this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
-        : await (this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(lastBlockHash).toPromise()
+        : await (this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(blockHash).toPromise()
     );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
@@ -136,7 +136,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const existingViaVersion = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
 
     if (existingViaVersion) {
-      existingViaVersion.lastBlockHash = lastBlockHash;
+      existingViaVersion.lastBlockHash = blockHash;
 
       return existingViaVersion;
     }
@@ -145,12 +145,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadata = new Metadata(this.registry,
       await (this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash).toPromise()
     );
-    const registry = this._initRegistry(new TypeRegistry(lastBlockHash), this._runtimeChain as Text, version, metadata);
+    const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
-    console.log('Created historic registry', u8aToHex(lastBlockHash), header.number.toHuman(), version.specVersion.toHuman());
+    console.log('Created historic registry', u8aToHex(blockHash), header.number.toHuman(), version.specVersion.toHuman());
 
     // add our new registry
-    const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
+    const result = { isDefault: false, lastBlockHash: blockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -198,7 +198,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): void {
+  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): boolean {
     detectedCapabilities(this._rx, blockHash)
       .toPromise()
       .then((types): void => {
@@ -209,6 +209,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         }
       })
       .catch(undefined);
+
+    return true;
   }
 
   // subscribe to metadata updates, inject the types on changes
@@ -243,9 +245,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
-              this._detectCapabilities(thisRegistry.registry);
 
-              return true;
+              return this._detectCapabilities(thisRegistry.registry);
             })
           )
       )

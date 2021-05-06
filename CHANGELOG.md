@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## master
+## 4.9.1 May 6, 2021
 
-Upgrade priority: Medium. Required for the next v0.9.0 Polkadot/Kusama chains
+Upgrade priority: Medium. Required for the next v0.9.0 Polkadot/Kusama chain upgrades where parachains are used.
 
 - **Breaking change** The previously deprecated contracts interfaces, has been removed. Update to `<myContract>.query.*`, `<myContract>.tx.*` and `<myCode>.tx.*` interfaces as per the previous code usage hints.
 - **Important** By default the `isPedantic` mode is now switched on for storage queries. This means that the API will fail on any types where the input/output decoding doesn't match 100%
@@ -23,6 +23,7 @@ Changes:
 - Remove all deprecated interfaces inside `@polkadot/api-contracts`
 - Initial support for NMap storage keys
 - Support metadata v13 from Substrate (upcoming upgrade)
+- Optimize historic metadata retrieval from rpc core
 
 
 ## 4.8.1 May 2, 2021
