@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types-known",
-  "version": "4.8.2-17",
+  "version": "4.9.0",
   "type": "module",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
@@ -21,7 +21,7 @@
   "dependencies": {
     "@babel/runtime": "^7.14.0",
     "@polkadot/networks": "^6.3.1",
-    "@polkadot/types": "4.8.2-17",
+    "@polkadot/types": "4.9.0",
     "@polkadot/util": "^6.3.1",
     "bn.js": "^4.11.9"
   },
