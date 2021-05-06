@@ -23,6 +23,7 @@ Changes:
 - Remove all deprecated interfaces inside `@polkadot/api-contracts`
 - Initial support for NMap storage keys
 - Support metadata v13 from Substrate (upcoming upgrade)
+- Optimize historic metadata retrieval from rpc core
 
 
 ## 4.8.1 May 2, 2021

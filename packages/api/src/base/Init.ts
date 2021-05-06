@@ -58,7 +58,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._rx.signer = options.signer;
 
-    this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));
+    this._rpcCore.setRegistrySwap((blockHash: Uint8Array) => this.getBlockRegistry(blockHash));
 
     if (this.hasSubscriptions) {
       this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
@@ -102,11 +102,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
-    // shortcut in the case where we have an immediate-same request
-    const lastBlockHash = u8aToU8a(blockHash);
+  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry> {
     const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
-      lastBlockHash && u8aEq(lastBlockHash, lastBlockHash)
+      lastBlockHash && u8aEq(lastBlockHash, blockHash)
     );
 
     if (existingViaHash) {
@@ -134,7 +132,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const existingViaVersion = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
 
     if (existingViaVersion) {
-      existingViaVersion.lastBlockHash = lastBlockHash;
+      existingViaVersion.lastBlockHash = blockHash;
 
       return existingViaVersion;
     }
@@ -144,7 +142,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
+    const result = { isDefault: false, lastBlockHash: blockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -192,7 +190,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): void {
+  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): boolean {
     detectedCapabilities(this._rx, blockHash)
       .toPromise()
       .then((types): void => {
@@ -203,6 +201,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         }
       })
       .catch(undefined);
+
+    return true;
   }
 
   // subscribe to metadata updates, inject the types on changes
@@ -238,9 +238,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
 
-              this._detectCapabilities(thisRegistry.registry);
-
-              return true;
+              return this._detectCapabilities(thisRegistry.registry);
             })
           )
       )
