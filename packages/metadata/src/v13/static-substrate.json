@@ -499,7 +499,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000090100000100000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a04000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000090100000100000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "documentation": [
                 " Get the chain's current version."
               ]
@@ -2023,6 +2023,17 @@
                 " The minimum amount of improvement to the solution score that defines a solution as",
                 " \"better\" (in any phase)."
               ]
+            },
+            {
+              "name": "OffchainRepeat",
+              "type": "BlockNumber",
+              "value": "0x05000000",
+              "documentation": [
+                " The repeat threshold of the offchain worker.",
+                "",
+                " For example, if it is 5, that means that at least 5 blocks will elapse between attempts",
+                " to submit the worker's solution."
+              ]
             }
           ],
           "errors": [
@@ -2042,6 +2053,12 @@
               "name": "PreDispatchWeakSubmission",
               "documentation": [
                 " Submission was too weak, score-wise."
+              ]
+            },
+            {
+              "name": "OcwCallWrongEra",
+              "documentation": [
+                " OCW submitted solution for wrong round"
               ]
             }
           ],
@@ -7938,18 +7955,6 @@
                 ]
               },
               {
-                "name": "DeferredOffences",
-                "modifier": "Default",
-                "type": {
-                  "plain": "Vec<DeferredOffenceOf>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Deferred reports that have been rejected by the offence handler and need to be submitted",
-                  " at a later time."
-                ]
-              },
-              {
                 "name": "ConcurrentReportsIndex",
                 "modifier": "Default",
                 "type": {
@@ -7995,14 +8000,12 @@
               "name": "Offence",
               "args": [
                 "Kind",
-                "OpaqueTimeSlot",
-                "bool"
+                "OpaqueTimeSlot"
               ],
               "documentation": [
                 " There is an offence reported of the given `kind` happened at the `session_index` and",
-                " (kind-specific) time slot. This event is not deposited for duplicate slashes. last",
-                " element indicates of the offence was applied (true) or queued (false)",
-                " \\[kind, timeslot, applied\\]."
+                " (kind-specific) time slot. This event is not deposited for duplicate slashes.",
+                " \\[kind, timeslot\\]."
               ]
             }
           ],
@@ -8637,7 +8640,7 @@
               "type": "BalanceOf",
               "value": "0x0080c6a47e8d03000000000000000000",
               "documentation": [
-                " The amount held on deposit for a registered identity."
+                " The amount held on deposit for a registered identity"
               ]
             },
             {
