@@ -84,7 +84,7 @@ export class RpcCore {
 
   #registryDefault: Registry;
 
-  #getBlockRegistry?: (blockHash: string | Uint8Array) => Promise<{ registry: Registry }>;
+  #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
 
   readonly #storageCache = new Map<string, string | null>();
 
@@ -140,8 +140,10 @@ export class RpcCore {
   /**
    * @description Sets a registry swap (typically from Api)
    */
-  public setRegistrySwap (registrySwap: (blockHash: string | Uint8Array) => Promise<{ registry: Registry }>): void {
-    this.#getBlockRegistry = registrySwap;
+  public setRegistrySwap (registrySwap: (blockHash: Uint8Array) => Promise<{ registry: Registry }>): void {
+    this.#getBlockRegistry = memoize(registrySwap, {
+      getInstanceId: () => this.#instanceId
+    });
   }
 
   public addUserInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
@@ -211,9 +213,9 @@ export class RpcCore {
     const callWithRegistry = async (outputAs: OutputType, values: any[]): Promise<Codec | Codec[]> => {
       const blockHash = outputAs !== 'scale' || hashIndex === -1
         ? null
-        : values[hashIndex] as Uint8Array;
+        : values[hashIndex] as (Uint8Array | string | undefined | null);
       const { registry } = blockHash && this.#getBlockRegistry
-        ? await this.#getBlockRegistry(blockHash)
+        ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
       const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;

@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Json, Raw, Text } from '@polkadot/types';
+import type { RpcInterfaceMethod } from '@polkadot/rpc-core/types';
+import type { Text } from '@polkadot/types';
 import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
@@ -20,12 +21,6 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
-
-// .json (alongside .raw) is decorated on the RPC, but the actual type definitions don't reflect it
-interface RawRpcObservable {
-  json: (...args: unknown[]) => Observable<Json>;
-  raw: (...args: unknown[]) => Observable<Raw>;
-}
 
 const KEEPALIVE_INTERVAL = 10000;
 
@@ -63,7 +58,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._rx.signer = options.signer;
 
-    this._rpcCore.setRegistrySwap((hash: string | Uint8Array) => this.getBlockRegistry(hash));
+    this._rpcCore.setRegistrySwap((blockHash: Uint8Array) => this.getBlockRegistry(blockHash));
 
     if (this.hasSubscriptions) {
       this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
@@ -107,9 +102,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
-    // shortcut in the case where we have an immediate-same request
-    const lastBlockHash = u8aToU8a(blockHash);
+  public async getBlockRegistry (lastBlockHash: Uint8Array): Promise<VersionedRegistry> {
     const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
       lastBlockHash && u8aEq(lastBlockHash, lastBlockHash)
     );
@@ -124,9 +117,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
     const header = this.registry.createType('HeaderPartial',
-      this._genesisHash.eq(blockHash)
+      this._genesisHash.eq(lastBlockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
-        : await (this._rpcCore.chain.getHeader as unknown as RawRpcObservable).json(blockHash).toPromise()
+        : await (this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(lastBlockHash).toPromise()
     );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
@@ -136,7 +129,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const version = this.registry.createType('RuntimeVersionPartial',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-        : await (this._rpcCore.state.getRuntimeVersion as unknown as RawRpcObservable).json(header.parentHash).toPromise()
+        : await (this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash).toPromise()
     );
 
     // check for pre-existing registries
@@ -150,9 +143,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // nothing has been found, construct new
     const metadata = new Metadata(this.registry,
-      await (this._rpcCore.state.getMetadata as unknown as RawRpcObservable).raw(header.parentHash).toPromise()
+      await (this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash).toPromise()
     );
-    const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
+    const registry = this._initRegistry(new TypeRegistry(lastBlockHash), this._runtimeChain as Text, version, metadata);
+
+    console.log('Created historic registry', u8aToHex(lastBlockHash), header.number.toHuman(), version.specVersion.toHuman());
 
     // add our new registry
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
@@ -160,7 +155,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this.#registries.push(result);
 
     // TODO This could be useful for historic, disabled due to cross-looping, i.e. .at queries
-    // this._detectCapabilities(registry, blockHash);
+    // this._detectCapabilities(registry, lastBlockHash);
 
     return result;
   }
@@ -248,7 +243,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
-
               this._detectCapabilities(thisRegistry.registry);
 
               return true;
