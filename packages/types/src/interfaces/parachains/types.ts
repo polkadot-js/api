@@ -249,7 +249,7 @@ export interface HostConfiguration extends Struct {
   readonly hrmpMaxParachainInboundChannels: u32;
   readonly hrmpMaxParathreadInboundChannels: u32;
   readonly hrmpChannelMaxMessageSize: u32;
-  readonly acceptancePeriod: BlockNumber;
+  readonly codeRetentionPeriod: BlockNumber;
   readonly parathreadCores: u32;
   readonly parathreadRetries: u32;
   readonly groupRotationFrequency: BlockNumber;
@@ -259,6 +259,9 @@ export interface HostConfiguration extends Struct {
   readonly maxValidatorsPerCore: Option<u32>;
   readonly maxValidators: Option<u32>;
   readonly disputePeriod: SessionIndex;
+  readonly disputePostConclusionAcceptancePeriod: BlockNumber;
+  readonly disputeMaxSpamSlots: u32;
+  readonly disputeConclusionByTimeOutPeriod: BlockNumber;
   readonly noShowSlots: u32;
   readonly nDelayTranches: u32;
   readonly zerothDelayTrancheWidth: u32;

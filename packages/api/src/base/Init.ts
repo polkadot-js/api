@@ -110,7 +110,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   public async getBlockRegistry (blockHash: string | Uint8Array): Promise<VersionedRegistry> {
     // shortcut in the case where we have an immediate-same request
     const lastBlockHash = u8aToU8a(blockHash);
-    const existingViaHash = this.#registries.find((r) => r.lastBlockHash && u8aEq(lastBlockHash, r.lastBlockHash));
+    const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
+      lastBlockHash && u8aEq(lastBlockHash, lastBlockHash)
+    );
 
     if (existingViaHash) {
       return existingViaHash;
@@ -138,7 +140,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     );
 
     // check for pre-existing registries
-    const existingViaVersion = this.#registries.find((r) => r.specVersion.eq(version.specVersion));
+    const existingViaVersion = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
 
     if (existingViaVersion) {
       existingViaVersion.lastBlockHash = lastBlockHash;
@@ -152,13 +154,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     );
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
-    // For now, since this is new we ignore the capability lookups (this could be useful once proven)
-    // this._detectCapabilities(registry, blockHash);
-
     // add our new registry
     const result = { isDefault: false, lastBlockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
+
+    // TODO This could be useful for historic, disabled due to cross-looping, i.e. .at queries
+    // this._detectCapabilities(registry, blockHash);
 
     return result;
   }
@@ -201,17 +203,17 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private _detectCapabilities (registry?: Registry, blockHash?: string | Uint8Array): void {
+  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): void {
     detectedCapabilities(this._rx, blockHash)
       .toPromise()
       .then((types): void => {
         if (Object.keys(types).length) {
-          (registry || this.registry).register(types as Record<string, string>);
+          registry.register(types as Record<string, string>);
 
           l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
         }
       })
-      .catch(l.error);
+      .catch(undefined);
   }
 
   // subscribe to metadata updates, inject the types on changes
@@ -246,6 +248,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this.injectMetadata(metadata, false, thisRegistry.registry);
+
               this._detectCapabilities(thisRegistry.registry);
 
               return true;
@@ -304,11 +307,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // inject metadata and adjust the types as detected
     this.injectMetadata(metadata, true);
-    this._detectCapabilities();
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
     this._derive = this._decorateDerive(this._decorateMethod);
+
+    // detect the on-chain capabilities
+    this._detectCapabilities(this.registry);
 
     return true;
   }

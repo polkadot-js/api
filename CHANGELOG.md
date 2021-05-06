@@ -2,10 +2,14 @@
 
 ## master
 
+Upgrade priority: Medium. Required for the next v0.9.0 Polkadot/Kusama chains
+
+- **Breaking change** The previously deprecated contracts interfaces, has been removed. Update to `<myContract>.query.*`, `<myContract>.tx.*` and `<myCode>.tx.*` interfaces as per the previous code usage hints.
+- **Important** By default the `isPedantic` mode is now switched on for storage queries. This means that the API will fail on any types where the input/output decoding doesn't match 100%
+
 Changes:
 
 - Re-add isPedantic check on storage decoding
-- Adjust capability detection (only on full-known historic `AccountInfo`)
 - `ConsensusEngineId` now implements `[u8;4]` (mapping closer to Rust source)
 - Additional Xcm types
 - Adjust parachain types
@@ -13,6 +17,12 @@ Changes:
 - Adjust `ContractInfo` type as per latest Substrate
 - Adjust `DigestItem` type as per latest Substrate
 - Adjust re-encoding of `BitVec` based on decoded length
+- Added `contracts_instantiate`, `state_traceBlock` & `system_reservedPeers` RPCs
+- Prepare for auto-capability detection with historic `.at` queries
+- Add known upgrade block for Westend 900 & 9000
+- Remove all deprecated interfaces inside `@polkadot/api-contracts`
+- Initial support for NMap storage keys
+- Support metadata v13 from Substrate (upcoming upgrade)
 
 
 ## 4.8.1 May 2, 2021

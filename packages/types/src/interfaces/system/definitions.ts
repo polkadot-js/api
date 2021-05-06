@@ -107,6 +107,11 @@ export default {
       ],
       type: 'Text'
     },
+    reservedPeers: {
+      description: 'Returns the list of reserved peers',
+      params: [],
+      type: 'Vec<Text>'
+    },
     nodeRoles: {
       description: 'Returns the roles the node is running as',
       params: [],
