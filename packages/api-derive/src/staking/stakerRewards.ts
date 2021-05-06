@@ -28,7 +28,7 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, era
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
       const valPoints = allValPoints[validatorId] || BN_ZERO;
       const valComm = allValPrefs[validatorId]?.commission.unwrap() || BN_ZERO;
-      const expTotal = exposure.total.unwrap();
+      const expTotal = exposure.total?.unwrap() || BN_ZERO;
       let avail = BN_ZERO;
       let value: BN | undefined;
 
