@@ -513,6 +513,10 @@ declare module '@polkadot/api/types/errors' {
     electionProviderMultiPhase: {
       [key: string]: AugmentedError<ApiType>;
       /**
+       * OCW submitted solution for wrong round
+       **/
+      OcwCallWrongEra: AugmentedError<ApiType>;
+      /**
        * Submission was too early.
        **/
       PreDispatchEarlySubmission: AugmentedError<ApiType>;
