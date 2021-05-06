@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Json, Raw } from '@polkadot/types';
+import type { Codec } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 
 export * from './types.jsonrpc';
 
 export interface RpcInterfaceMethod {
-  <T = any> (...params: any[]): Observable<T>;
+  <T extends Codec> (...params: any[]): Observable<T>;
   json (...params: any[]): Observable<Json>;
   raw (...params: any[]): Observable<Raw>;
 }
