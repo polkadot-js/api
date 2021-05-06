@@ -197,7 +197,7 @@ export class RpcCore {
 
     memoized.json = creator('json');
     memoized.raw = creator('raw');
-    memoized.def = def;
+    memoized.meta = def;
 
     return memoized;
   }
