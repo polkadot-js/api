@@ -256,7 +256,6 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
-          isCached: true,
           isHistoric: true,
           isOptional: true
         }
@@ -270,7 +269,6 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
-          isCached: true,
           isHistoric: true,
           isOptional: true
         }
