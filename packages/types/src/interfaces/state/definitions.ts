@@ -414,7 +414,7 @@ export default {
       apis: 'Vec<RuntimeVersionApi>',
       transactionVersion: 'u32'
     },
-    RuntimeVersionMinimal: {
+    RuntimeVersionPartial: {
       specName: 'Text',
       specVersion: 'u32'
     },

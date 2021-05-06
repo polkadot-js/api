@@ -152,10 +152,10 @@ export interface Header extends Struct {
   readonly digest: Digest;
 }
 
-/** @name HeaderMinimal */
-export interface HeaderMinimal extends Struct {
+/** @name HeaderPartial */
+export interface HeaderPartial extends Struct {
   readonly parentHash: Hash;
-  readonly number: Compact<BlockNumber>;
+  readonly number: BlockNumber;
 }
 
 /** @name I32F32 */

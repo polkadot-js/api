@@ -84,9 +84,10 @@ export default {
       extrinsicsRoot: 'Hash',
       digest: 'Digest'
     },
-    HeaderMinimal: {
+    HeaderPartial: {
       parentHash: 'Hash',
-      number: 'Compact<BlockNumber>'
+      // since we only parse JSON with this, having non-compact works
+      number: 'BlockNumber'
     },
     IndicesLookupSource: 'GenericLookupSource',
     Index: 'u32',

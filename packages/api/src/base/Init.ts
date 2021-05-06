@@ -123,7 +123,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
-    const header = this.registry.createType('HeaderMinimal',
+    const header = this.registry.createType('HeaderPartial',
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
         : await (this._rpcCore.chain.getHeader as unknown as RawRpcObservable).json(blockHash).toPromise()
@@ -132,8 +132,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
     // get the runtime version, either on-chain or via an known upgrade history
-    const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number.unwrap());
-    const version = this.registry.createType('RuntimeVersionMinimal',
+    const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);
+    const version = this.registry.createType('RuntimeVersionPartial',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
         : await (this._rpcCore.state.getRuntimeVersion as unknown as RawRpcObservable).json(header.parentHash).toPromise()
