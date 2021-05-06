@@ -94,8 +94,8 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, r
         // @ts-ignore
         types.Keys = `SessionKeys${numIds - 1}`;
       }
-    } catch (error) {
-      console.error((error as Error).message);
+    } catch {
+      // ignore
     }
   }
 
