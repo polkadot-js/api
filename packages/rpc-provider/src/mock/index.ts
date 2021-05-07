@@ -53,24 +53,24 @@ export class MockProvider implements ProviderInterface {
 
   private requests: Record<string, (...params: any[]) => unknown> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-unsafe-member-access
-    chain_getBlock: (hash: string): any => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
+    chain_getBlock: () => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    chain_getBlockHash: (blockNumber: number): string => '0x1234',
+    chain_getBlockHash: () => '0x1234',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).hash,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getHeader: () => this.registry.createType('Header', rpcHeader.result).toJSON(),
     rpc_methods: () => this.registry.createType('RpcMethods').toJSON(),
-    state_getKeys: (): string[] => [],
-    state_getKeysPaged: (): string[] => [],
-    state_getMetadata: (): string => rpcMetadata,
-    state_getRuntimeVersion: (): string => this.registry.createType('RuntimeVersion').toHex(),
-    state_getStorage: (storage: MockStateDb, params: any[]): string => u8aToHex(storage[(params[0] as string)]),
-    system_chain: (): string => 'mockChain',
-    system_name: (): string => 'mockClient',
-    system_properties: (): Record<string, number | string> => ({ ss58Format: 42 }),
+    state_getKeys: () => [],
+    state_getKeysPaged: () => [],
+    state_getMetadata: () => rpcMetadata,
+    state_getRuntimeVersion: () => this.registry.createType('RuntimeVersion').toHex(),
+    state_getStorage: (storage: MockStateDb, [key]: string[]) => u8aToHex(storage[key]),
+    system_chain: () => 'mockChain',
+    system_name: () => 'mockClient',
+    system_properties: () => ({ ss58Format: 42 }),
     system_upgradedToTripleRefCount: () => this.registry.createType('bool', true),
-    system_version: (): string => '9.8.7'
+    system_version: () => '9.8.7'
   };
 
   public subscriptions: MockStateSubscriptions = SUBSCRIPTIONS.reduce((subs, name): MockStateSubscriptions => {
@@ -121,12 +121,12 @@ export class MockProvider implements ProviderInterface {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async send (method: string, params: any[]): Promise<unknown> {
+  public async send <T = any> (method: string, params: unknown[]): Promise<T> {
     l.debug(() => ['send', method, params]);
 
     assert(this.requests[method], () => `provider.send: Invalid method '${method}'`);
 
-    return this.requests[method](this.db, params);
+    return this.requests[method](this.db, params) as T;
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -152,7 +152,7 @@ export class MockProvider implements ProviderInterface {
   public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const sub = this.subscriptionMap[id];
 
-    l.debug((): any => ['unsubscribe', id, sub]);
+    l.debug(() => ['unsubscribe', id, sub]);
 
     assert(sub, () => `Unable to find subscription for ${id}`);
 

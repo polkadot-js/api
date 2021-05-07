@@ -178,12 +178,6 @@ export class RpcCore {
 
         this.mapping.set(jsonrpc, { ...def, isSubscription, jsonrpc, method, section });
 
-        // FIXME Remove any here
-        // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
-        // every method inside this class to take:
-        // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
-        // Not doing so, because it makes this class a little bit less readable,
-        // and leaving it as-is doesn't harm much
         (exposed as Record<string, unknown>)[method] = isSubscription
           ? this._createMethodSubscribe(section, method, def as DefinitionRpcSub)
           : this._createMethodSend(section, method, def);
@@ -192,7 +186,7 @@ export class RpcCore {
       }, {} as RpcInterface[Section]);
   }
 
-  private _memomize (creator: (outputAs: OutputType) => (...values: any[]) => Observable<any>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
+  private _memomize <T = unknown> (creator: (outputAs: OutputType) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
     const memoized = memoize(creator('scale') as RpcInterfaceMethod, {
       getInstanceId: () => this.#instanceId
     });
@@ -294,7 +288,7 @@ export class RpcCore {
           const params = this._formatInputs(registry, null, def, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
 
-          const update = (error?: Error | null, result?: any): void => {
+          const update = (error?: Error | null, result?: Codec | Codec[]): void => {
             if (error) {
               logErrorMessage(method, def, error);
 
@@ -339,7 +333,7 @@ export class RpcCore {
     return memoized;
   }
 
-  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: any[]): Codec[] {
+  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
     const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === def.params.length
       ? ''
@@ -352,11 +346,11 @@ export class RpcCore {
     );
   }
 
-  private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: any): Codec | Codec[] {
+  private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: unknown): Codec | Codec[] {
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
-      return this._formatStorageData(registry, blockHash, key, result);
+      return this._formatStorageData(registry, blockHash, key, result as string);
     } else if (rpc.type === 'StorageChangeSet') {
       const keys = params[0] as Vec<StorageKey>;
 
