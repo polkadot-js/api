@@ -50,13 +50,10 @@ describe('ApiPromise', (): void => {
 
   describe('initialization', (): void => {
     it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
-      const rpcData = await provider.send('state_getMetadata', []);
+      const rpcData = await provider.send<string>('state_getMetadata', []);
       const genesisHash = registry.createType('Hash', await provider.send('chain_getBlockHash', [])).toHex();
       const specVersion = 0;
-      const metadata = { [`${genesisHash}-${specVersion}`]: rpcData as string };
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const api = await ApiPromise.create({ metadata, provider, registry });
+      const api = await ApiPromise.create({ metadata: { [`${genesisHash}-${specVersion}`]: rpcData }, provider, registry });
 
       expect(api.genesisHash).toBeDefined();
       expect(api.runtimeMetadata).toBeDefined();
