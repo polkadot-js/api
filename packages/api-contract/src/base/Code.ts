@@ -10,7 +10,7 @@ import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, compactAddLength, isFunction, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, compactAddLength, isFunction, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Abi } from '../Abi';
@@ -63,13 +63,13 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       : this.#instantiatePrev(constructorOrId, options, params);
   }
 
-  #instantiateCurrent = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  #instantiateCurrent = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     return this.api.tx.contracts
       .instantiateWithCode(value, gasLimit, compactAddLength(this.code), this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
       .withResultTransform(this.#transformEvents);
   }
 
-  #instantiatePrev = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  #instantiatePrev = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     assert(isFunction(this.api.tx.utility?.batch), 'Your chain does not include the utility pallet, for contracts v2 deployment, this is required');
 
     const encodedSalt = encodeSalt(salt);
