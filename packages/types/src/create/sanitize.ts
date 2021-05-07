@@ -99,8 +99,10 @@ export function flattenSingleTuple (): Mapper {
 }
 
 function replaceTagWith (value: string, matcher: string, replacer: (inner: string) => string): string {
+  let index = 0;
+
   while (true) {
-    const index = value.indexOf(matcher);
+    index = value.indexOf(matcher, index);
 
     if (index === -1) {
       return value;
