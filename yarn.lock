@@ -1886,9 +1886,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.62.12":
-  version: 0.62.12
-  resolution: "@polkadot/dev@npm:0.62.12"
+"@polkadot/dev@npm:^0.62.13":
+  version: 0.62.13
+  resolution: "@polkadot/dev@npm:0.62.13"
   dependencies:
     "@babel/cli": ^7.13.16
     "@babel/core": ^7.14.0
@@ -1934,7 +1934,7 @@ __metadata:
     fs-extra: ^10.0.0
     gh-pages: ^3.1.0
     gh-release: ^5.0.0
-    glob: ^7.1.6
+    glob: ^7.1.7
     glob2base: ^0.0.12
     jest: ^26.6.3
     jest-cli: ^26.6.3
@@ -1968,7 +1968,7 @@ __metadata:
     polkadot-exec-prettier: scripts/polkadot-exec-prettier.cjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: a2cb11fadb41e2419a099886b211a28a986da7c239f50174f5211d71d44d07b7269ea334dddc8fd6066603a405955e2e2f0c438b32507764fea6f9d9d5d1688b
+  checksum: 615b0650e4254bebecbbff76f6c94c35f865b997c3b143a9ae4a4241ae287825d6c877c5bce0326f68b38c75e142787da9bedaaf2c14c37292edaca7111a6d55
   languageName: node
   linkType: hard
 
@@ -2043,12 +2043,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.64":
-  version: 0.3.64
-  resolution: "@polkadot/ts@npm:0.3.64"
+"@polkadot/ts@npm:^0.3.65":
+  version: 0.3.65
+  resolution: "@polkadot/ts@npm:0.3.65"
   dependencies:
-    "@types/chrome": ^0.0.136
-  checksum: 3e3b456f85a35cf57165713556c3e1725c74ba6d84950084b9e70480e5c6f8707d82cb4d59af54a4e6bbae7dc3a616dd0040b4eba5043bffebb4c5df3b689a09
+    "@types/chrome": ^0.0.137
+  checksum: 27e1bef72801ac2d2686d491b6f22cad40d0434c612aa2d95b616eb15175042bdfc2f4384e43081b9d5c11f40b8a5a9397889478bd9fde1e7790ccc079c72fa5
   languageName: node
   linkType: hard
 
@@ -2345,13 +2345,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:^0.0.136":
-  version: 0.0.136
-  resolution: "@types/chrome@npm:0.0.136"
+"@types/chrome@npm:^0.0.137":
+  version: 0.0.137
+  resolution: "@types/chrome@npm:0.0.137"
   dependencies:
     "@types/filesystem": "*"
     "@types/har-format": "*"
-  checksum: 1ac7be0b47988d0a322ce557982b670a3e9c0ce862be97216561756cdfc9f8f1cfee9660d17b7f868245672267cafc3b19dbaf714cf03d57a9b8fd03daa4cb27
+  checksum: 7f494ce6b32cfb8be80018de79dcc58fc1162d0af296045e5abc9997a10ca451e94ac19474a6c47baa9923e323f397dafa14aed51c28bb545ab84370aae36918
   languageName: node
   linkType: hard
 
@@ -5667,9 +5667,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.0, glob@npm:^7.0.3, glob@npm:^7.0.5, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
-  version: 7.1.6
-  resolution: "glob@npm:7.1.6"
+"glob@npm:^7.0.0, glob@npm:^7.0.3, glob@npm:^7.0.5, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6, glob@npm:^7.1.7":
+  version: 7.1.7
+  resolution: "glob@npm:7.1.7"
   dependencies:
     fs.realpath: ^1.0.0
     inflight: ^1.0.4
@@ -5677,7 +5677,7 @@ fsevents@~2.1.2:
     minimatch: ^3.0.4
     once: ^1.3.0
     path-is-absolute: ^1.0.0
-  checksum: 789977b52432865bd63846da5c75a6efc2c56abdc0cb5ffcdb8e91eeb67a58fa5594c1195d18b2b4aff99675b0739ed6bd61024b26562e0cca18c8f993efdc82
+  checksum: 352f74f08247db5420161a2f68f2bd84b53228b5fcfc9dcc37cd54d3f19ec0232495d84aeff1286d0727059e9fdc1031400e00b971bdc59e30f8f82b199c9d02
   languageName: node
   linkType: hard
 
@@ -9487,8 +9487,8 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.14.0
     "@babel/register": ^7.13.16
     "@babel/runtime": ^7.14.0
-    "@polkadot/dev": ^0.62.12
-    "@polkadot/ts": ^0.3.64
+    "@polkadot/dev": ^0.62.13
+    "@polkadot/ts": ^0.3.65
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.23
     copyfiles: ^2.4.1
