@@ -213,7 +213,7 @@ export class RpcCore {
       const blockHash = hashIndex === -1
         ? null
         : values[hashIndex] as (Uint8Array | string | null | undefined);
-      const { registry } = blockHash && this.#getBlockRegistry
+      const { registry } = outputAs === 'scale' && blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
@@ -225,7 +225,7 @@ export class RpcCore {
     };
 
     const creator = (outputAs: OutputType) => (...values: any[]): Observable<any> => {
-      const isDelayed = hashIndex !== -1 && !!values[hashIndex];
+      const isDelayed = outputAs === 'scale' && hashIndex !== -1 && !!values[hashIndex];
 
       return new Observable((observer: Observer<any>): VoidCallback => {
         callWithRegistry(outputAs, values)
