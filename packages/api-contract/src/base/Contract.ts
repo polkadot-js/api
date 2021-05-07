@@ -13,7 +13,7 @@ import BN from 'bn.js';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
+import { assert, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 import { map } from '@polkadot/x-rxjs/operators';
 
 import { Abi } from '../Abi';
@@ -21,7 +21,7 @@ import { applyOnEvent, extractOptions, formatData, isOptions } from '../util';
 import { Base } from './Base';
 
 // As per Rust, 5 * GAS_PER_SEC
-const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
+const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
 const l = logger('Contract');
@@ -120,17 +120,17 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   #getGas = (_gasLimit: BigInt | BN | string | number, isCall = false): BN => {
     const gasLimit = bnToBn(_gasLimit);
 
-    return gasLimit.lten(0)
+    return gasLimit.lte(BN_ZERO)
       ? isCall
         ? MAX_CALL_GAS
         : (this.api.consts.system.blockWeights
           ? this.api.consts.system.blockWeights.maxBlock
           : this.api.consts.system.maximumBlockWeight as Weight
-        ).muln(64).divn(100)
+        ).muln(64).div(BN_HUNDRED)
       : gasLimit;
   }
 
-  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = 0, value = 0 }: ContractOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
+  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
       .call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
       .withResultTransform((result: ISubmittableResult) =>
@@ -151,7 +151,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       );
   }
 
-  #read = (messageOrId: AbiMessage | string | number, { gasLimit = 0, value = 0 }: ContractOptions, params: CodecArg[]): ContractCallSend<ApiType> => {
+  #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: CodecArg[]): ContractCallSend<ApiType> => {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
 
     const message = this.abi.findMessage(messageOrId);
