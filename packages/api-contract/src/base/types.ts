@@ -30,7 +30,7 @@ export interface ContractGeneric<O, T> {
 }
 
 export type ContractCallResult<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'
-  ? Observable<Observable<T>>
+  ? Observable<T>
   : Promise<ObsInnerType<Observable<T>>>;
 
 export interface ContractCallSend<ApiType extends ApiTypes> {
