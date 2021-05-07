@@ -67,7 +67,7 @@ describe('sanitize', (): void => {
     });
 
     it('correctly cleans up nested bounded values', (): void => {
-      expect(fn('BoundedBTreeMap<BoundedVec<BoundedVec<u32, 1>, 2>, BoundedBTreeSet<u32, BoundedVec<u64, 1>, 1>, 1>')).toEqual('BTreeMap<Vec<Vec<u32>>, BTreeSet<u32, Vec<u64>>>');
+      expect(fn('BoundedBTreeMap<BoundedVec<BoundedVec<u32, 1>, 2>, BoundedBTreeSet<u32, BoundedVec<u64, 3>, 4>, 5>')).toEqual('BTreeMap<Vec<Vec<u32>>, BTreeSet<u32, Vec<u64>>>');
     });
   });
 });
