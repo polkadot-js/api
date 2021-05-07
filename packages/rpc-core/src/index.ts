@@ -217,7 +217,7 @@ export class RpcCore {
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
-      const data = await this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())) as AnyJson;
+      const data = await this.provider.send<AnyJson>(rpcName, params.map((param) => param.toJSON()));
 
       return outputAs === 'scale'
         ? this._formatOutput(registry, blockHash, method, def, params, data)

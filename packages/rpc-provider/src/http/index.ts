@@ -103,7 +103,7 @@ export class HttpProvider implements ProviderInterface {
   /**
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
-  public async send (method: string, params: any[]): Promise<any> {
+  public async send <T = any> (method: string, params: any[]): Promise<T> {
     const body = this.#coder.encodeJson(method, params);
     const response = await fetch(this.#endpoint, {
       body,
@@ -121,7 +121,7 @@ export class HttpProvider implements ProviderInterface {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result = await response.json();
 
-    return this.#coder.decodeResponse(result);
+    return this.#coder.decodeResponse(result) as T;
   }
 
   /**
