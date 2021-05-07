@@ -117,7 +117,11 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
 export function removeBounded (): Mapper {
   return (value: string) =>
     BOUNDED.reduce((value, tag) =>
-      replaceTagWith(value, `Bounded${tag}<`, (inner: string) => `${tag}<${inner.split(',')[0]}>`), value
+      replaceTagWith(value, `Bounded${tag}<`, (inner: string): string => {
+        const parts = inner.split(',');
+
+        return `${tag}<${parts.filter((_, i) => i !== parts.length - 1).join(',')}>`;
+      }), value
     );
 }
 
