@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Expose RPC definitions via `.meta` (Thanks to https://github.com/jiqiang90)
+- Adjust staking derives for chain-specific optional fields (https://github.com/WoeOm)
+
+Changes:
+
+- Adjust internal TS definitions for providers
+
+
 ## 4.9.1 May 6, 2021
 
 Upgrade priority: Medium. Required for the next v0.9.0 Polkadot/Kusama chain upgrades where parachains are used.

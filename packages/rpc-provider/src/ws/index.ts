@@ -23,13 +23,13 @@ interface SubscriptionHandler {
 interface WsStateAwaiting {
   callback: ProviderInterfaceCallback;
   method: string;
-  params: any[];
+  params: unknown[];
   subscription?: SubscriptionHandler;
 }
 
 interface WsStateSubscription extends SubscriptionHandler {
   method: string;
-  params: any[];
+  params: unknown[];
 }
 
 const ALIASES: { [index: string]: string } = {
@@ -254,7 +254,7 @@ export class WsProvider implements ProviderInterface {
    * @param params Encoded parameters as applicable for the method
    * @param subscription Subscription details (internally used)
    */
-  public send <T = any> (method: string, params: any[], subscription?: SubscriptionHandler): Promise<T> {
+  public send <T = any> (method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
     return new Promise<T>((resolve, reject): void => {
       try {
         assert(this.isConnected && !isNull(this.#websocket), 'WebSocket is not connected');
@@ -262,10 +262,10 @@ export class WsProvider implements ProviderInterface {
         const json = this.#coder.encodeJson(method, params);
         const id = this.#coder.getId();
 
-        const callback = (error?: Error | null, result?: any): void => {
+        const callback = (error?: Error | null, result?: T): void => {
           error
             ? reject(error)
-            : resolve(result);
+            : resolve(result as T);
         };
 
         l.debug(() => ['calling', method, json]);
@@ -287,11 +287,6 @@ export class WsProvider implements ProviderInterface {
   /**
    * @name subscribe
    * @summary Allows subscribing to a specific event.
-   * @param  {string}                     type     Subscription type
-   * @param  {string}                     method   Subscription method
-   * @param  {any[]}                 params   Parameters
-   * @param  {ProviderInterfaceCallback} callback Callback
-   * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
    *
    * @example
    * <BR>
@@ -307,7 +302,7 @@ export class WsProvider implements ProviderInterface {
    * })
    * ```
    */
-  public subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number | string> {
+  public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
     return this.send<number | string>(method, params, { callback, type });
   }
 
@@ -338,7 +333,7 @@ export class WsProvider implements ProviderInterface {
     }
   }
 
-  #emit = (type: ProviderInterfaceEmitted, ...args: any[]): void => {
+  #emit = (type: ProviderInterfaceEmitted, ...args: unknown[]): void => {
     this.#eventemitter.emit(type, ...args);
   }
 
