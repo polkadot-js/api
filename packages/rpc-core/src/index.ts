@@ -209,7 +209,7 @@ export class RpcCore {
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
-    const callWithRegistry = async (outputAs: OutputType, values: any[]): Promise<Codec | Codec[]> => {
+    const callWithRegistry = async (outputAs: OutputType, values: unknown[]): Promise<Codec | Codec[]> => {
       const blockHash = hashIndex === -1
         ? null
         : values[hashIndex] as (Uint8Array | string | null | undefined);
@@ -224,10 +224,10 @@ export class RpcCore {
         : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', data);
     };
 
-    const creator = (outputAs: OutputType) => (...values: any[]): Observable<any> => {
+    const creator = (outputAs: OutputType) => (...values: unknown[]): Observable<Codec | Codec[]> => {
       const isDelayed = outputAs === 'scale' && hashIndex !== -1 && !!values[hashIndex];
 
-      return new Observable((observer: Observer<any>): VoidCallback => {
+      return new Observable((observer: Observer<Codec | Codec[]>): VoidCallback => {
         callWithRegistry(outputAs, values)
           .then((value): void => {
             observer.next(value);
@@ -277,8 +277,8 @@ export class RpcCore {
     const subType = `${section}_${updateType}`;
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
-    const creator = (outputAs: OutputType) => (...values: unknown[]): Observable<any> => {
-      return new Observable((observer: Observer<any>): VoidCallback => {
+    const creator = (outputAs: OutputType) => (...values: unknown[]): Observable<Codec | Codec[]> => {
+      return new Observable((observer: Observer<Codec | Codec[]>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
         const registry = this.#registryDefault;
