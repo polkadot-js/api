@@ -9,6 +9,7 @@ Contributed:
 
 Changes:
 
+- Allow for `Bounded*` type usage (as per latest Substrate)
 - Adjust internal TS definitions for providers
 
 

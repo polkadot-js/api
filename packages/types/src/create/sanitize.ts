@@ -7,7 +7,8 @@ interface SanitizeOptions {
 
 type Mapper = (value: string, options?: SanitizeOptions) => string;
 
-const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'DoNotConstruct', 'HashMap', 'Int', 'Linkage', 'Result', 'Option', 'UInt', 'Vec'];
+const BOUNDED = ['BTreeMap', 'BTreeSet', 'HashMap', 'Vec'];
+const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Result', 'Option', 'UInt']);
 const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple
 
 const mappings: Mapper[] = [
@@ -17,7 +18,7 @@ const mappings: Mapper[] = [
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Change BoundedVec<Type, Size> to Vec<Type>
-  removeBoundedVec(),
+  removeBounded(),
   // Remove all the trait prefixes
   removeTraits(),
   // remove PairOf<T> -> (T, T)
@@ -98,24 +99,26 @@ export function flattenSingleTuple (): Mapper {
 }
 
 function replaceTagWith (value: string, matcher: string, replacer: (inner: string) => string): string {
-  for (let index = 0; index < value.length; index++) {
-    if (value.substr(index, matcher.length) === matcher) {
-      const start = index + matcher.length;
-      const end = findClosing(value, start);
+  while (true) {
+    const index = value.indexOf(matcher);
 
-      value = `${value.substr(0, index)}${replacer(value.substr(start, end - start))}${value.substr(end + 1)}`;
+    if (index === -1) {
+      return value;
     }
-  }
 
-  return value;
+    const start = index + matcher.length;
+    const end = findClosing(value, start);
+
+    value = `${value.substr(0, index)}${replacer(value.substr(start, end - start))}${value.substr(end + 1)}`;
+  }
 }
 
-// remove the BoundedVec wrappers
-export function removeBoundedVec (): Mapper {
-  const replacer = (inner: string) => `Vec<${inner.split(',')[0]}>`;
-
+// remove the Bounded* wrappers
+export function removeBounded (): Mapper {
   return (value: string) =>
-    replaceTagWith(value, 'BoundedVec<', replacer);
+    BOUNDED.reduce((value, tag) =>
+      replaceTagWith(value, `Bounded${tag}<`, (inner: string) => `${tag}<${inner.split(',')[0]}>`), value
+    );
 }
 
 export function removeColons (): Mapper {
