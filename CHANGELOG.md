@@ -11,6 +11,7 @@ Changes:
 
 - Allow for `Bounded*` type usage (as per latest Substrate)
 - Adjust internal TS definitions for providers
+- Fix `ContractRx` query result definitions (no extra Observable)
 
 
 ## 4.9.1 May 6, 2021
