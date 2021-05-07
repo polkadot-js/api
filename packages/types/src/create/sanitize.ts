@@ -78,14 +78,12 @@ export function alias (src: string, dest: string, withChecks = true): Mapper {
 export function cleanupCompact (): Mapper {
   return (value: string): string => {
     for (let index = 0; index < value.length; index++) {
-      if (value[index] !== '<') {
-        continue;
-      }
+      if (value[index] === '<') {
+        const end = findClosing(value, index + 1) - 14;
 
-      const end = findClosing(value, index + 1) - 14;
-
-      if (value.substr(end, 14) === ' as HasCompact') {
-        value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
+        if (value.substr(end, 14) === ' as HasCompact') {
+          value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
+        }
       }
     }
 
@@ -99,10 +97,10 @@ export function flattenSingleTuple (): Mapper {
 }
 
 function replaceTagWith (value: string, matcher: string, replacer: (inner: string) => string): string {
-  let index = 0;
+  let index = -1;
 
   while (true) {
-    index = value.indexOf(matcher, index);
+    index = value.indexOf(matcher, index + 1);
 
     if (index === -1) {
       return value;
