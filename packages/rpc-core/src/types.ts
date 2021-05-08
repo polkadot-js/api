@@ -8,8 +8,8 @@ import type { Observable } from '@polkadot/x-rxjs';
 export * from './types.jsonrpc';
 
 export interface RpcInterfaceMethod {
-  <T extends Codec> (...params: any[]): Observable<T>;
-  json (...params: any[]): Observable<Json>;
-  raw (...params: any[]): Observable<Raw>;
+  <T extends Codec> (...params: unknown[]): Observable<T>;
+  json (...params: unknown[]): Observable<Json>;
+  raw (...params: unknown[]): Observable<Raw>;
   meta: DefinitionRpc;
 }
