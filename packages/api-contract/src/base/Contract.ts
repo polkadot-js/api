@@ -146,7 +146,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
               debugMessage,
               gasConsumed,
               output: result.isOk && message.returnType
-                ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data.toU8a()], { isPedantic: true })
+                ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data], { isPedantic: true })
                 : null,
               result
             }))
