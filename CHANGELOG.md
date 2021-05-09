@@ -12,6 +12,9 @@ Changes:
 - Allow for `Bounded*` type usage (as per latest Substrate)
 - Adjust internal TS definitions for providers
 - Fix `ContractRx` query result definitions (no extra Observable)
+- Handle contract call RPC result directly as `Raw` (returned as hex)
+- Use `BN_*` constants as non-specified defaults in contract interfaces
+- Remove all type overrides for node/node-template (API tracks latest)
 
 
 ## 4.9.1 May 6, 2021
