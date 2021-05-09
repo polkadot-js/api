@@ -9,8 +9,7 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, undefined],
     types: {
-      Address: 'MultiAddress',
-      LookupSource: 'MultiAddress'
+      // nothing, API tracks master
     }
   }
 ];
