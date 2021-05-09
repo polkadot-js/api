@@ -142,18 +142,14 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
             value
           })
           .pipe(
-            map(({ debugMessage, gasConsumed, result }): ContractCallOutcome => {
-              result.isOk && console.log('raw data', message.returnType?.type, result.asOk.data.toRawType(), result.asOk.data.toU8a(), result.asOk.data.toU8a(false));
-
-              return {
-                debugMessage,
-                gasConsumed,
-                output: result.isOk && message.returnType
-                  ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data.toU8a(false)], { isPedantic: true })
-                  : null,
-                result
-              };
-            })
+            map(({ debugMessage, gasConsumed, result }): ContractCallOutcome => ({
+              debugMessage,
+              gasConsumed,
+              output: result.isOk && message.returnType
+                ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data.toU8a()], { isPedantic: true })
+                : null,
+              result
+            }))
           )
       )
     };
