@@ -4,8 +4,8 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { Bytes } from '@polkadot/types';
-import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
-import type { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
+import type { AccountId, EventRecord, Weight } from '@polkadot/types/interfaces';
+import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
 import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
@@ -13,11 +13,12 @@ import BN from 'bn.js';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
+import { createTypeUnsafe } from '@polkadot/types';
 import { assert, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 import { map } from '@polkadot/x-rxjs/operators';
 
 import { Abi } from '../Abi';
-import { applyOnEvent, extractOptions, formatData, isOptions } from '../util';
+import { applyOnEvent, extractOptions, isOptions } from '../util';
 import { Base } from './Base';
 
 // As per Rust, 5 * GAS_PER_SEC
@@ -48,33 +49,6 @@ export class ContractSubmittableResult extends SubmittableResult {
 
     this.contractEvents = contractEvents;
   }
-}
-
-// map from a JSON result to current-style ContractExecResult
-function mapExecResult (registry: Registry, json: Record<string, AnyJson>): ContractExecResult {
-  if (!Object.keys(json).some((key) => ['error', 'success'].includes(key))) {
-    return registry.createType('ContractExecResult', json);
-  }
-
-  const from = registry.createType('ContractExecResultTo260', json);
-
-  if (from.isSuccess) {
-    const s = from.asSuccess;
-
-    return registry.createType('ContractExecResult', {
-      gasConsumed: s.gasConsumed,
-      result: {
-        ok: {
-          data: s.data,
-          flags: s.flags
-        }
-      }
-    });
-  }
-
-  // in the old format error has no additional information,
-  // map it as-is with an "unknown" error
-  return registry.createType('ContractExecResult', { result: { err: { other: 'unknown' } } });
 }
 
 export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
@@ -159,24 +133,28 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
-        this.api.rx.rpc.contracts.call.json({
-          dest: this.address,
-          gasLimit: this.#getGas(gasLimit, true),
-          inputData: message.toU8a(params),
-          origin,
-          value
-        }).pipe(map((json): ContractCallOutcome => {
-          const { debugMessage, gasConsumed, result } = mapExecResult(this.registry, json.toJSON());
+        this.api.rx.rpc.contracts
+          .call({
+            dest: this.address,
+            gasLimit: this.#getGas(gasLimit, true),
+            inputData: message.toU8a(params),
+            origin,
+            value
+          })
+          .pipe(
+            map(({ debugMessage, gasConsumed, result }): ContractCallOutcome => {
+              result.isOk && console.log('raw data', message.returnType?.type, result.asOk.data.toRawType(), result.asOk.data.toU8a(), result.asOk.data.toU8a(false));
 
-          return {
-            debugMessage,
-            gasConsumed,
-            output: result.isOk && message.returnType
-              ? formatData(this.registry, result.asOk.data, message.returnType)
-              : null,
-            result
-          };
-        }))
+              return {
+                debugMessage,
+                gasConsumed,
+                output: result.isOk && message.returnType
+                  ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data.toU8a(false)], { isPedantic: true })
+                  : null,
+                result
+              };
+            })
+          )
       )
     };
   }
