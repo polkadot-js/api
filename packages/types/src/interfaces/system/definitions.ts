@@ -161,6 +161,13 @@ export default {
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
+    ArithmeticError: {
+      _enum: [
+        'Underflow',
+        'Overflow',
+        'DivisionByZero'
+      ]
+    },
     BlockLength: {
       max: 'PerDispatchClassU32'
     },
@@ -191,7 +198,8 @@ export default {
         Module: 'DispatchErrorModule',
         ConsumerRemaining: 'Null',
         NoProviders: 'Null',
-        Token: 'TokenError'
+        Token: 'TokenError',
+        Arithmetic: 'ArithmeticError'
       }
     },
     DispatchErrorModule: {
@@ -358,6 +366,8 @@ export default {
         'CannotCreate',
         'UnknownAsset',
         'Frozen',
+        // these are dropped, but still in older versions
+        // (if this adjusts, will need to take a re-look)
         'Underflow',
         'Overflow'
       ]
