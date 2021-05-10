@@ -14,8 +14,8 @@ interface PartialTypeSpec {
 }
 
 // convert the offset into project-specific, index-1
-export function getRegistryOffset (id: SiLookupTypeId): number {
-  return id.toNumber() - 1;
+export function getRegistryOffset (id: SiLookupTypeId, typeOffset: number): number {
+  return id.toNumber() - typeOffset;
 }
 
 const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
@@ -28,10 +28,17 @@ const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 export class MetaRegistry extends TypeRegistry {
   public readonly metaTypeDefs: TypeDef[] = [];
 
+  public readonly typeOffset;
+
   #siTypes: SiType[] = [];
 
-  constructor (chainProperties?: ChainProperties) {
+  constructor (metadataVersion: string, chainProperties?: ChainProperties) {
     super();
+
+    // type indexes are 1-based (pre-1.0)
+    const [major] = metadataVersion.split('.');
+
+    this.typeOffset = major === '0' ? 1 : 0;
 
     if (chainProperties) {
       this.setChainProperties(chainProperties);
@@ -43,7 +50,7 @@ export class MetaRegistry extends TypeRegistry {
   }
 
   public getMetaTypeDef (typeSpec: PartialTypeSpec): TypeDef {
-    const offset = getRegistryOffset(typeSpec.type);
+    const offset = getRegistryOffset(typeSpec.type, this.typeOffset);
     let typeDef = this.metaTypeDefs[offset];
 
     if (!typeDef) {
@@ -78,7 +85,7 @@ export class MetaRegistry extends TypeRegistry {
   }
 
   #getMetaType = (id: SiLookupTypeId): SiType => {
-    const type = this.#siTypes[getRegistryOffset(id)];
+    const type = this.#siTypes[getRegistryOffset(id, this.typeOffset)];
 
     assert(!isUndefined(type), () => `getMetaType:: Unable to find ${id.toNumber()} in type values`);
 
