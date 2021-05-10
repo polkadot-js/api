@@ -50,7 +50,7 @@ import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, Vouching
 import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionPhase, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
 import type { ApiId, BlockTrace, BlockTraceEvent, BlockTraceEventData, BlockTraceSpan, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, StorageChangeSet, TraceBlockResponse, TraceError } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
-import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
+import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, ArithmeticError, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
@@ -181,6 +181,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ApplyExtrinsicResult>': Option<ApplyExtrinsicResult>;
     'Option<ApprovalFlag>': Option<ApprovalFlag>;
     'Option<Approvals>': Option<Approvals>;
+    'Option<ArithmeticError>': Option<ArithmeticError>;
     'Option<AssetApproval>': Option<AssetApproval>;
     'Option<AssetApprovalKey>': Option<AssetApprovalKey>;
     'Option<AssetBalance>': Option<AssetBalance>;
@@ -1015,6 +1016,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ApplyExtrinsicResult>': Vec<ApplyExtrinsicResult>;
     'Vec<ApprovalFlag>': Vec<ApprovalFlag>;
     'Vec<Approvals>': Vec<Approvals>;
+    'Vec<ArithmeticError>': Vec<ArithmeticError>;
     'Vec<AssetApproval>': Vec<AssetApproval>;
     'Vec<AssetApprovalKey>': Vec<AssetApprovalKey>;
     'Vec<AssetBalance>': Vec<AssetBalance>;
@@ -1849,6 +1851,7 @@ declare module '@polkadot/types/types/registry' {
     ApplyExtrinsicResult: ApplyExtrinsicResult;
     ApprovalFlag: ApprovalFlag;
     Approvals: Approvals;
+    ArithmeticError: ArithmeticError;
     AssetApproval: AssetApproval;
     AssetApprovalKey: AssetApprovalKey;
     AssetBalance: AssetBalance;
