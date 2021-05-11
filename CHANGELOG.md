@@ -2,6 +2,8 @@
 
 ## master
 
+- **Breaking change** Support for the contracts V2 compatibility has been dropped in `@polkadot/api-contract`
+
 Contributed:
 
 - Expose RPC definitions via `.meta` (Thanks to https://github.com/jiqiang90)
