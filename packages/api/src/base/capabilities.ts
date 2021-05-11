@@ -3,13 +3,14 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
-import type { Raw, u32 } from '@polkadot/types';
+import type { Bytes, Raw, u32 } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
 import type { InterfaceTypes } from '@polkadot/types/types';
 
 import { assert, compactFromU8a } from '@polkadot/util';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { catchError, map, take } from '@polkadot/x-rxjs/operators';
+import { l } from '../util';
 
 // the order and types needs to map with the all array setup below
 type ExtractedQ = [Releases | null];
@@ -18,7 +19,7 @@ type ExtractedR = [Raw | null];
 
 type ExtractedC = [u32 | null, u32 | null];
 
-type ExtractedD = [number | null];
+type ExtractedD = [Bytes | null];
 
 type DetectedKeys = keyof Pick<InterfaceTypes, 'AccountInfo' | 'ValidatorPrefs'>;
 
@@ -48,16 +49,16 @@ interface Constants {
 
 const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 
-function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, refcount3Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [stakingVersion]: ExtractedQ, [keys]: ExtractedR, [accountInfoLength]: ExtractedD): Partial<DetectedTypes> {
+function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, refcount3Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [stakingVersion]: ExtractedQ, [keys]: ExtractedR, [accountInfo]: ExtractedD): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
-  if (accountInfoLength) {
-    if (accountInfoLength === refcount1Length) {
+  if (accountInfo) {
+    if (accountInfo.length === refcount1Length) {
       types.AccountInfo = 'AccountInfoWithRefCount';
-    } else if (accountInfoLength === refcount2Length) {
+    } else if (accountInfo.length === refcount2Length) {
       types.AccountInfo = 'AccountInfoWithDualRefCount';
-    } else if (accountInfoLength === refcount3Length) {
+    } else if (accountInfo.length === refcount3Length) {
       types.AccountInfo = 'AccountInfoWithTripleRefCount';
     }
   }
@@ -95,8 +96,8 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, r
         // @ts-ignore
         types.Keys = `SessionKeys${numIds - 1}`;
       }
-    } catch {
-      // ignore
+    } catch (error) {
+      l.debug(() => (error as Error).message);
     }
   }
 
@@ -147,7 +148,7 @@ export function detectedCapabilities (api: ApiInterfaceRx, decorated: DecoratedM
     decorated.consts.auctions?.slotRangeCount
   ]);
   const defaults = filterEntries([
-    decorated.query.system?.account?.meta.fallback.length
+    decorated.query.system?.account?.meta.fallback
   ]);
   const queries = filterEntries([
     api.query.staking?.storageVersion
