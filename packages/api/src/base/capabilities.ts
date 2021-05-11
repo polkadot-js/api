@@ -10,7 +10,6 @@ import type { InterfaceTypes } from '@polkadot/types/types';
 import { assert, compactFromU8a } from '@polkadot/util';
 import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { catchError, map, take } from '@polkadot/x-rxjs/operators';
-import { l } from '../util';
 
 // the order and types needs to map with the all array setup below
 type ExtractedQ = [Releases | null];
@@ -96,8 +95,8 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, r
         // @ts-ignore
         types.Keys = `SessionKeys${numIds - 1}`;
       }
-    } catch (error) {
-      l.debug(() => (error as Error).message);
+    } catch {
+      // ignore
     }
   }
 
