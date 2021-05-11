@@ -5,7 +5,7 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AnyJson, Registry } from '@polkadot/types/types';
 
 import { ApiBase } from '@polkadot/api/base';
-import { assert } from '@polkadot/util';
+import { assert, isFunction } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 
@@ -26,6 +26,6 @@ export abstract class Base<ApiType extends ApiTypes> {
     this.registry = this.abi.registry;
     this._decorateMethod = decorateMethod;
 
-    assert(api.rx.tx.contracts?.instantiate, 'You need to connect to a node with the contracts module, the metadata does not enable api.tx.contracts on this instance');
+    assert(isFunction(api.rx.tx.contracts?.instantiateWithCode), 'You need to connect to a node with a V3 contracts module. Your node does not expose api.tx.contracts.instantiateWithCode on this instance');
   }
 }

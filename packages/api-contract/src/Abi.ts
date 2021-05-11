@@ -10,8 +10,6 @@ import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, i
 
 import { MetaRegistry } from './MetaRegistry';
 
-const EMPTY_U8A = new Uint8Array();
-
 const l = logger('Abi');
 
 function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string | number): T {
@@ -156,8 +154,8 @@ export class Abi {
       index,
       method: stringCamelCase(identifier),
       selector: spec.selector,
-      toU8a: (params: CodecArg[], additional?: Uint8Array) =>
-        this.#encodeArgs(spec, args, params, additional)
+      toU8a: (params: CodecArg[]) =>
+        this.#encodeArgs(spec, args, params)
     };
 
     return message;
@@ -187,14 +185,13 @@ export class Abi {
     return message.fromU8a(trimmed.subarray(4));
   }
 
-  #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: CodecArg[], additional = EMPTY_U8A): Uint8Array => {
+  #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: CodecArg[]): Uint8Array => {
     assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
 
     return compactAddLength(
       u8aConcat(
         this.registry.createType('ContractSelector', selector).toU8a(),
-        ...args.map(({ type }, index) => this.registry.createType(type.type as 'Text', data[index]).toU8a()),
-        additional
+        ...args.map(({ type }, index) => this.registry.createType(type.type as 'Text', data[index]).toU8a())
       )
     );
   }

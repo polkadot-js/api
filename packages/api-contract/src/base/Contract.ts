@@ -106,7 +106,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
-      .call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
+      .call(
+        this.address,
+        value,
+        this.#getGas(gasLimit),
+        this.abi.findMessage(messageOrId).toU8a(params)
+      )
       .withResultTransform((result: ISubmittableResult) =>
         // ContractEmitted is the current generation, ContractExecution is the previous generation
         new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
