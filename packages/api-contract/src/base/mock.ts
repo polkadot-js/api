@@ -11,10 +11,7 @@ export const mockApi = {
   rx: {
     tx: {
       contracts: {
-        instantiate: (): never => {
-          throw new Error('mock');
-        },
-        putCode: (): never => {
+        instantiateWithCode: (): never => {
           throw new Error('mock');
         }
       }
