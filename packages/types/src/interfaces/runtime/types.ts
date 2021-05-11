@@ -152,6 +152,12 @@ export interface Header extends Struct {
   readonly digest: Digest;
 }
 
+/** @name HeaderPartial */
+export interface HeaderPartial extends Struct {
+  readonly parentHash: Hash;
+  readonly number: BlockNumber;
+}
+
 /** @name I32F32 */
 export interface I32F32 extends Int {}
 

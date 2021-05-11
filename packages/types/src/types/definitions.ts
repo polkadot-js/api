@@ -12,7 +12,6 @@ export type DefinitionTypeStruct = Record<string, DefinitionTypeType> | { _alias
 export type DefinitionType = string | DefinitionTypeEnum | DefinitionTypeSet | DefinitionTypeStruct;
 
 export interface DefinitionRpcParam {
-  isCached?: boolean;
   isHistoric?: boolean;
   isOptional?: boolean;
   name: string;

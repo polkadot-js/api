@@ -2,6 +2,8 @@
 
 ## master
 
+- **Breaking change** Support for the contracts V2 compatibility has been dropped in `@polkadot/api-contract`
+
 Contributed:
 
 - Expose RPC definitions via `.meta` (Thanks to https://github.com/jiqiang90)
@@ -17,6 +19,7 @@ Changes:
 - Remove all type overrides for node/node-template (API tracks latest)
 - Contracts ABI now supports metadata version where indexes are 0-based
 - Remove support for the old-style V2 contracts from `api-contract`
+- Adjust historic decoration, return as-at registry via `getHeader`, `getMetadata` & `getRuntimeVersion`
 
 
 ## 4.9.1 May 6, 2021

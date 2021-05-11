@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { RpcInterfaceMethod } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
@@ -22,7 +23,6 @@ import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
 
 const KEEPALIVE_INTERVAL = 10000;
-const DEFAULT_BLOCKNUMBER = { unwrap: () => BN_ZERO };
 
 const l = logger('api/init');
 
@@ -116,17 +116,21 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
-    const header = this._genesisHash.eq(blockHash)
-      ? { number: DEFAULT_BLOCKNUMBER, parentHash: this._genesisHash }
-      : await this._rpcCore.chain.getHeader(blockHash).toPromise();
+    const header = this.registry.createType('HeaderPartial',
+      this._genesisHash.eq(blockHash)
+        ? { number: BN_ZERO, parentHash: this._genesisHash }
+        : await (this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(blockHash).toPromise()
+    );
 
-    assert(header?.parentHash && !header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
+    assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
     // get the runtime version, either on-chain or via an known upgrade history
-    const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number.unwrap());
-    const version = (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
-      ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-      : await this._rpcCore.state.getRuntimeVersion(header.parentHash).toPromise();
+    const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);
+    const version = this.registry.createType('RuntimeVersionPartial',
+      (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
+        ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
+        : await (this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash).toPromise()
+    );
 
     // check for pre-existing registries
     const existingViaVersion = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
@@ -138,7 +142,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // nothing has been found, construct new
-    const metadata = await this._rpcCore.state.getMetadata(header.parentHash).toPromise();
+    const metadata = new Metadata(this.registry,
+      await (this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash).toPromise()
+    );
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
     // add our new registry

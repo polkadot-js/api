@@ -62,6 +62,12 @@ export interface RuntimeVersion extends Struct {
 /** @name RuntimeVersionApi */
 export interface RuntimeVersionApi extends ITuple<[ApiId, u32]> {}
 
+/** @name RuntimeVersionPartial */
+export interface RuntimeVersionPartial extends Struct {
+  readonly specName: Text;
+  readonly specVersion: u32;
+}
+
 /** @name StorageChangeSet */
 export interface StorageChangeSet extends Struct {
   readonly block: Hash;

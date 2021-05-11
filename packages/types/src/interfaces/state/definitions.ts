@@ -256,7 +256,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
-          isCached: true,
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -269,7 +269,7 @@ export default {
         {
           name: 'at',
           type: 'BlockHash',
-          isCached: true,
+          isHistoric: true,
           isOptional: true
         }
       ],
@@ -411,6 +411,10 @@ export default {
       implVersion: 'u32',
       apis: 'Vec<RuntimeVersionApi>',
       transactionVersion: 'u32'
+    },
+    RuntimeVersionPartial: {
+      specName: 'Text',
+      specVersion: 'u32'
     },
     StorageChangeSet: {
       block: 'Hash',
