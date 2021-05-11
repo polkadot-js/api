@@ -3,14 +3,14 @@
 
 import type BN from 'bn.js';
 import type { Metadata } from '@polkadot/metadata';
-import type { Constants } from '@polkadot/metadata/decorate/types';
+import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
 import type { Registry } from '@polkadot/types/types';
 
 export interface VersionedRegistry {
+  decorated: DecoratedMeta;
   isDefault: boolean;
   lastBlockHash: Uint8Array | null;
   metadata: Metadata;
-  metadataConsts: Constants | null;
   registry: Registry;
   specVersion: BN;
 }

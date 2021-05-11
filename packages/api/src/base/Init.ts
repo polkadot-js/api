@@ -11,7 +11,7 @@ import type { VersionedRegistry } from './types';
 
 import BN from 'bn.js';
 
-import { Metadata } from '@polkadot/metadata';
+import { expandMetadata, Metadata } from '@polkadot/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -148,7 +148,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { isDefault: false, lastBlockHash: blockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
+    const result = { decorated: expandMetadata(registry, metadata), isDefault: false, lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -196,8 +196,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): boolean {
-    detectedCapabilities(this._rx, blockHash)
+  private _detectCapabilities ({ decorated, registry }: VersionedRegistry, blockHash?: string | Uint8Array): boolean {
+    detectedCapabilities(this._rx, decorated, blockHash)
       .toPromise()
       .then((types): void => {
         if (Object.keys(types).length) {
@@ -235,16 +235,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
               assert(thisRegistry, 'Initialization error, cannot find the default registry');
 
-              // setup the data as per the current versions
-              thisRegistry.metadata = metadata;
-              thisRegistry.metadataConsts = null;
-              thisRegistry.specVersion = version.specVersion;
-
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
-              this.injectMetadata(metadata, false, thisRegistry.registry);
 
-              return this._detectCapabilities(thisRegistry.registry);
+              // correctly setup the registry object
+              thisRegistry.decorated = this.injectMetadata(metadata, false, thisRegistry.registry);
+              thisRegistry.metadata = metadata;
+              thisRegistry.specVersion = version.specVersion;
+
+              return this._detectCapabilities(thisRegistry);
             })
           )
       )
@@ -281,9 +280,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._filterRpc(rpcMethods, getSpecRpc(this.registry, chain, runtimeVersion.specName));
     this._subscribeUpdates();
 
+    const decorated = this.injectMetadata(metadata, true);
+
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, lastBlockHash: null, metadata, metadataConsts: null, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ decorated, isDefault: true, lastBlockHash: null, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
     }
 
     // get unique types & validate
@@ -298,15 +299,16 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
 
-    // inject metadata and adjust the types as detected
-    this.injectMetadata(metadata, true);
-
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
     this._derive = this._decorateDerive(this._decorateMethod);
 
+    const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
+
+    assert(thisRegistry, 'Injection error, cannot find the default registry');
+
     // detect the on-chain capabilities
-    this._detectCapabilities(this.registry);
+    this._detectCapabilities(thisRegistry);
 
     return true;
   }

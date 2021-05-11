@@ -187,7 +187,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
-  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
+  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): DecoratedMeta {
     const decoratedMeta = expandMetadata(registry || this.#registry, metadata);
 
     if (fromEmpty || !this._extrinsics) {
@@ -207,6 +207,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // rx
     augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
+
+    return decoratedMeta;
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
