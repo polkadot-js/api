@@ -42,7 +42,7 @@ export interface AbiMessage {
   method: string;
   returnType?: TypeDef | null;
   selector: ContractSelector;
-  toU8a: (params: CodecArg[], additional?: Uint8Array) => Uint8Array;
+  toU8a: (params: CodecArg[]) => Uint8Array;
 }
 
 export type AbiConstructor = AbiMessage;

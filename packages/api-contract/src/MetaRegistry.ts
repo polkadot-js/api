@@ -35,10 +35,8 @@ export class MetaRegistry extends TypeRegistry {
   constructor (metadataVersion: string, chainProperties?: ChainProperties) {
     super();
 
-    const [major] = metadataVersion.split('.');
-
     // type indexes are 1-based pre-1.0 and 0-based post-1.0
-    this.typeOffset = major === '0' ? 1 : 0;
+    this.typeOffset = metadataVersion.split('.')[0] === '0' ? 1 : 0;
 
     if (chainProperties) {
       this.setChainProperties(chainProperties);
@@ -94,10 +92,13 @@ export class MetaRegistry extends TypeRegistry {
 
   #extract = (type: SiType, id: SiLookupTypeId): TypeDef => {
     const path = [...type.path];
-    const pathFinal = path.length ? path[path.length - 1].toString() : '';
+    const isPrimitivePath = !!path.length && (
+      (path.length > 2 && path[0].eq('ink_env') && path[1].eq('types')) ||
+      PRIMITIVE_ALWAYS.includes(path[path.length - 1].toString())
+    );
     let typeDef: Omit<TypeDef, 'type'>;
 
-    if (type.path.join('::').startsWith('ink_env::types::') || PRIMITIVE_ALWAYS.includes(pathFinal)) {
+    if (isPrimitivePath) {
       typeDef = this.#extractPrimitivePath(type);
     } else if (type.def.isPrimitive) {
       typeDef = this.#extractPrimitive(type);
@@ -135,7 +136,7 @@ export class MetaRegistry extends TypeRegistry {
   }
 
   #extractArray = ({ len: length, type }: SiTypeDefArray): Omit<TypeDef, 'type'> => {
-    assert(!length || length.toNumber() <= 256, 'MetaRegistry: Only support for [Type; <length>], where length > 256');
+    assert(!length || length.toNumber() <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
 
     return {
       info: TypeDefInfo.VecFixed,
@@ -151,27 +152,27 @@ export class MetaRegistry extends TypeRegistry {
     ]),
     [true, true]);
 
-    let info;
-
-    // check for tuple first (no fields may be available)
-    if (isTuple) {
-      info = TypeDefInfo.Tuple;
-    } else if (isStruct) {
-      info = TypeDefInfo.Struct;
-    } else {
-      throw new Error('Invalid fields type detected, expected either Tuple or Struct');
-    }
+    assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple or Struct');
 
     const sub = fields.map(({ name, type }) => {
       return {
         ...this.getMetaTypeDef({ type }),
-        ...(name.isSome ? { name: name.unwrap().toString() } : {})
+        ...(name.isSome
+          ? { name: name.unwrap().toString() }
+          : {}
+        )
       };
     });
 
     return isTuple && sub.length === 1
       ? sub[0]
-      : { info, sub };
+      : {
+        // check for tuple first (no fields may be available)
+        info: isTuple
+          ? TypeDefInfo.Tuple
+          : TypeDefInfo.Struct,
+        sub
+      };
   }
 
   #extractPrimitive = (type: SiType): TypeDef => {
