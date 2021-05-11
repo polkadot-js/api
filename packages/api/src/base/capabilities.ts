@@ -114,8 +114,6 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, r
     types.WinningData = `[WinningDataEntry; ${slotRangeCount.toNumber()}]`;
   }
 
-  console.log('detected types', types);
-
   return types;
 }
 
