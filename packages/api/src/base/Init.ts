@@ -152,8 +152,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this.#registries.push(result);
 
-    // TODO This could be useful for historic, disabled due to cross-looping, i.e. .at queries
-    // this._detectCapabilities(registry, blockHash);
+    // Potentially for historic, we may want to do this - as of now, we only rely on the actual as-specified types
+    // this._detectCapabilities(result, blockHash);
 
     return result;
   }
@@ -203,7 +203,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         if (Object.keys(types).length) {
           registry.register(types as Record<string, string>);
 
-          l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
+          l.debug(() => `Detected/injected on-chain types${blockHash ? ` (at ${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
         }
       })
       .catch(undefined);
