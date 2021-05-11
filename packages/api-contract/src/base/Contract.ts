@@ -4,8 +4,8 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { Bytes } from '@polkadot/types';
-import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
-import type { AnyJson, CodecArg, ISubmittableResult, Registry } from '@polkadot/types/types';
+import type { AccountId, EventRecord, Weight } from '@polkadot/types/interfaces';
+import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
 import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
@@ -13,15 +13,16 @@ import BN from 'bn.js';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
+import { createTypeUnsafe } from '@polkadot/types';
+import { assert, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 import { map } from '@polkadot/x-rxjs/operators';
 
 import { Abi } from '../Abi';
-import { applyOnEvent, extractOptions, formatData, isOptions } from '../util';
+import { applyOnEvent, extractOptions, isOptions } from '../util';
 import { Base } from './Base';
 
 // As per Rust, 5 * GAS_PER_SEC
-const MAX_CALL_GAS = new BN(5_000_000_000_000).subn(1);
+const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
 const l = logger('Contract');
@@ -48,33 +49,6 @@ export class ContractSubmittableResult extends SubmittableResult {
 
     this.contractEvents = contractEvents;
   }
-}
-
-// map from a JSON result to current-style ContractExecResult
-function mapExecResult (registry: Registry, json: Record<string, AnyJson>): ContractExecResult {
-  if (!Object.keys(json).some((key) => ['error', 'success'].includes(key))) {
-    return registry.createType('ContractExecResult', json);
-  }
-
-  const from = registry.createType('ContractExecResultTo260', json);
-
-  if (from.isSuccess) {
-    const s = from.asSuccess;
-
-    return registry.createType('ContractExecResult', {
-      gasConsumed: s.gasConsumed,
-      result: {
-        ok: {
-          data: s.data,
-          flags: s.flags
-        }
-      }
-    });
-  }
-
-  // in the old format error has no additional information,
-  // map it as-is with an "unknown" error
-  return registry.createType('ContractExecResult', { result: { err: { other: 'unknown' } } });
 }
 
 export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
@@ -120,19 +94,24 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   #getGas = (_gasLimit: BigInt | BN | string | number, isCall = false): BN => {
     const gasLimit = bnToBn(_gasLimit);
 
-    return gasLimit.lten(0)
+    return gasLimit.lte(BN_ZERO)
       ? isCall
         ? MAX_CALL_GAS
         : (this.api.consts.system.blockWeights
           ? this.api.consts.system.blockWeights.maxBlock
           : this.api.consts.system.maximumBlockWeight as Weight
-        ).muln(64).divn(100)
+        ).muln(64).div(BN_HUNDRED)
       : gasLimit;
   }
 
-  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = 0, value = 0 }: ContractOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
+  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
-      .call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
+      .call(
+        this.address,
+        value,
+        this.#getGas(gasLimit),
+        this.abi.findMessage(messageOrId).toU8a(params)
+      )
       .withResultTransform((result: ISubmittableResult) =>
         // ContractEmitted is the current generation, ContractExecution is the previous generation
         new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
@@ -151,7 +130,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       );
   }
 
-  #read = (messageOrId: AbiMessage | string | number, { gasLimit = 0, value = 0 }: ContractOptions, params: CodecArg[]): ContractCallSend<ApiType> => {
+  #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: CodecArg[]): ContractCallSend<ApiType> => {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
 
     const message = this.abi.findMessage(messageOrId);
@@ -159,24 +138,24 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
-        this.api.rx.rpc.contracts.call.json({
-          dest: this.address,
-          gasLimit: this.#getGas(gasLimit, true),
-          inputData: message.toU8a(params),
-          origin,
-          value
-        }).pipe(map((json): ContractCallOutcome => {
-          const { debugMessage, gasConsumed, result } = mapExecResult(this.registry, json.toJSON());
-
-          return {
-            debugMessage,
-            gasConsumed,
-            output: result.isOk && message.returnType
-              ? formatData(this.registry, result.asOk.data, message.returnType)
-              : null,
-            result
-          };
-        }))
+        this.api.rx.rpc.contracts
+          .call({
+            dest: this.address,
+            gasLimit: this.#getGas(gasLimit, true),
+            inputData: message.toU8a(params),
+            origin,
+            value
+          })
+          .pipe(
+            map(({ debugMessage, gasConsumed, result }): ContractCallOutcome => ({
+              debugMessage,
+              gasConsumed,
+              output: result.isOk && message.returnType
+                ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data], { isPedantic: true })
+                : null,
+              result
+            }))
+          )
       )
     };
   }

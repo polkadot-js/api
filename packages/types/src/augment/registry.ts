@@ -18,6 +18,7 @@ import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/conse
 import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractInstantiateResult, ContractStorageKey, DeletedContract, ExecReturnValue, Gas, HostFnWeights, HostFnWeightsTo264, InstantiateRequest, InstantiateReturnValue, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, RentProjection, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { FundIndex, FundInfo, LastContribution, TrieIndex } from '@polkadot/types/interfaces/crowdloan';
+import type { ConfigData, MessageId, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import type { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import type { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
@@ -49,7 +50,7 @@ import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, Vouching
 import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactScore, CompactScoreCompact, ElectionCompute, ElectionPhase, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
 import type { ApiId, BlockTrace, BlockTraceEvent, BlockTraceEventData, BlockTraceSpan, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial, StorageChangeSet, TraceBlockResponse, TraceError } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
-import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
+import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, ArithmeticError, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
@@ -92,6 +93,8 @@ declare module '@polkadot/types/types/registry' {
     'Compact<MomentOf>': Compact<MomentOf>;
     'Compact<NominatorIndex>': Compact<NominatorIndex>;
     'Compact<OffchainAccuracy>': Compact<OffchainAccuracy>;
+    'Compact<OverweightIndex>': Compact<OverweightIndex>;
+    'Compact<PageCounter>': Compact<PageCounter>;
     'Compact<ParaId>': Compact<ParaId>;
     'Compact<ParaValidatorIndex>': Compact<ParaValidatorIndex>;
     'Compact<Perbill>': Compact<Perbill>;
@@ -178,6 +181,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ApplyExtrinsicResult>': Option<ApplyExtrinsicResult>;
     'Option<ApprovalFlag>': Option<ApprovalFlag>;
     'Option<Approvals>': Option<Approvals>;
+    'Option<ArithmeticError>': Option<ArithmeticError>;
     'Option<AssetApproval>': Option<AssetApproval>;
     'Option<AssetApprovalKey>': Option<AssetApprovalKey>;
     'Option<AssetBalance>': Option<AssetBalance>;
@@ -268,6 +272,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<CompactAssignmentsTo257>': Option<CompactAssignmentsTo257>;
     'Option<CompactScore>': Option<CompactScore>;
     'Option<CompactScoreCompact>': Option<CompactScoreCompact>;
+    'Option<ConfigData>': Option<ConfigData>;
     'Option<Consensus>': Option<Consensus>;
     'Option<ConsensusEngineId>': Option<ConsensusEngineId>;
     'Option<ConsumedWeight>': Option<ConsumedWeight>;
@@ -558,6 +563,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<MaybeVrf>': Option<MaybeVrf>;
     'Option<MemberCount>': Option<MemberCount>;
     'Option<MembershipProof>': Option<MembershipProof>;
+    'Option<MessageId>': Option<MessageId>;
     'Option<MessageIngestionType>': Option<MessageIngestionType>;
     'Option<MessageQueueChain>': Option<MessageQueueChain>;
     'Option<MessagingStateSnapshot>': Option<MessagingStateSnapshot>;
@@ -634,7 +640,10 @@ declare module '@polkadot/types/types/registry' {
     'Option<OutboundHrmpMessage>': Option<OutboundHrmpMessage>;
     'Option<OutboundStatus>': Option<OutboundStatus>;
     'Option<Outcome>': Option<Outcome>;
+    'Option<OverweightIndex>': Option<OverweightIndex>;
     'Option<Owner>': Option<Owner>;
+    'Option<PageCounter>': Option<PageCounter>;
+    'Option<PageIndexData>': Option<PageIndexData>;
     'Option<PalletId>': Option<PalletId>;
     'Option<PalletsOrigin>': Option<PalletsOrigin>;
     'Option<PalletVersion>': Option<PalletVersion>;
@@ -1009,6 +1018,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ApplyExtrinsicResult>': Vec<ApplyExtrinsicResult>;
     'Vec<ApprovalFlag>': Vec<ApprovalFlag>;
     'Vec<Approvals>': Vec<Approvals>;
+    'Vec<ArithmeticError>': Vec<ArithmeticError>;
     'Vec<AssetApproval>': Vec<AssetApproval>;
     'Vec<AssetApprovalKey>': Vec<AssetApprovalKey>;
     'Vec<AssetBalance>': Vec<AssetBalance>;
@@ -1099,6 +1109,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<CompactAssignmentsTo257>': Vec<CompactAssignmentsTo257>;
     'Vec<CompactScore>': Vec<CompactScore>;
     'Vec<CompactScoreCompact>': Vec<CompactScoreCompact>;
+    'Vec<ConfigData>': Vec<ConfigData>;
     'Vec<Consensus>': Vec<Consensus>;
     'Vec<ConsensusEngineId>': Vec<ConsensusEngineId>;
     'Vec<ConsumedWeight>': Vec<ConsumedWeight>;
@@ -1389,6 +1400,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<MaybeVrf>': Vec<MaybeVrf>;
     'Vec<MemberCount>': Vec<MemberCount>;
     'Vec<MembershipProof>': Vec<MembershipProof>;
+    'Vec<MessageId>': Vec<MessageId>;
     'Vec<MessageIngestionType>': Vec<MessageIngestionType>;
     'Vec<MessageQueueChain>': Vec<MessageQueueChain>;
     'Vec<MessagingStateSnapshot>': Vec<MessagingStateSnapshot>;
@@ -1465,7 +1477,10 @@ declare module '@polkadot/types/types/registry' {
     'Vec<OutboundHrmpMessage>': Vec<OutboundHrmpMessage>;
     'Vec<OutboundStatus>': Vec<OutboundStatus>;
     'Vec<Outcome>': Vec<Outcome>;
+    'Vec<OverweightIndex>': Vec<OverweightIndex>;
     'Vec<Owner>': Vec<Owner>;
+    'Vec<PageCounter>': Vec<PageCounter>;
+    'Vec<PageIndexData>': Vec<PageIndexData>;
     'Vec<PalletId>': Vec<PalletId>;
     'Vec<PalletsOrigin>': Vec<PalletsOrigin>;
     'Vec<PalletVersion>': Vec<PalletVersion>;
@@ -1840,6 +1855,7 @@ declare module '@polkadot/types/types/registry' {
     ApplyExtrinsicResult: ApplyExtrinsicResult;
     ApprovalFlag: ApprovalFlag;
     Approvals: Approvals;
+    ArithmeticError: ArithmeticError;
     AssetApproval: AssetApproval;
     AssetApprovalKey: AssetApprovalKey;
     AssetBalance: AssetBalance;
@@ -1930,6 +1946,7 @@ declare module '@polkadot/types/types/registry' {
     CompactAssignmentsTo257: CompactAssignmentsTo257;
     CompactScore: CompactScore;
     CompactScoreCompact: CompactScoreCompact;
+    ConfigData: ConfigData;
     Consensus: Consensus;
     ConsensusEngineId: ConsensusEngineId;
     ConsumedWeight: ConsumedWeight;
@@ -2220,6 +2237,7 @@ declare module '@polkadot/types/types/registry' {
     MaybeVrf: MaybeVrf;
     MemberCount: MemberCount;
     MembershipProof: MembershipProof;
+    MessageId: MessageId;
     MessageIngestionType: MessageIngestionType;
     MessageQueueChain: MessageQueueChain;
     MessagingStateSnapshot: MessagingStateSnapshot;
@@ -2296,7 +2314,10 @@ declare module '@polkadot/types/types/registry' {
     OutboundHrmpMessage: OutboundHrmpMessage;
     OutboundStatus: OutboundStatus;
     Outcome: Outcome;
+    OverweightIndex: OverweightIndex;
     Owner: Owner;
+    PageCounter: PageCounter;
+    PageIndexData: PageIndexData;
     PalletId: PalletId;
     PalletsOrigin: PalletsOrigin;
     PalletVersion: PalletVersion;

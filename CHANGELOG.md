@@ -9,7 +9,14 @@ Contributed:
 
 Changes:
 
+- Allow for `Bounded*` type usage (as per latest Substrate)
 - Adjust internal TS definitions for providers
+- Fix `ContractRx` query result definitions (no extra Observable)
+- Handle contract call RPC result directly as `Raw` (returned as hex)
+- Use `BN_*` constants as non-specified defaults in contract interfaces
+- Remove all type overrides for node/node-template (API tracks latest)
+- Contracts ABI now supports metadata version where indexes are 0-based
+- Remove support for the old-style V2 contracts from `api-contract`
 
 
 ## 4.9.1 May 6, 2021

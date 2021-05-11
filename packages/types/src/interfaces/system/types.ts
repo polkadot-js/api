@@ -48,6 +48,13 @@ export interface ApplyExtrinsicResult extends Result<DispatchOutcome, Transactio
   readonly asOk: DispatchOutcome;
 }
 
+/** @name ArithmeticError */
+export interface ArithmeticError extends Enum {
+  readonly isUnderflow: boolean;
+  readonly isOverflow: boolean;
+  readonly isDivisionByZero: boolean;
+}
+
 /** @name BlockLength */
 export interface BlockLength extends Struct {
   readonly max: PerDispatchClassU32;
@@ -96,6 +103,8 @@ export interface DispatchError extends Enum {
   readonly isNoProviders: boolean;
   readonly isToken: boolean;
   readonly asToken: TokenError;
+  readonly isArithmetic: boolean;
+  readonly asArithmetic: ArithmeticError;
 }
 
 /** @name DispatchErrorModule */

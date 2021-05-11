@@ -150,7 +150,7 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
   ]);
   const raws = filterEntries([
     api.query.session?.queuedKeys.key(),
-    api.query.system?.account.key(emptyAccountId)
+    api.query.system?.account?.key(emptyAccountId)
   ]);
 
   return combineLatest([

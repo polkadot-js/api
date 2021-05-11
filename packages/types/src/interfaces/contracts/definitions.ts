@@ -133,7 +133,8 @@ export default {
     },
     ContractExecResultOk: {
       flags: 'u32',
-      data: 'Bytes'
+      // only via RPC, decode hex exactly as received
+      data: 'Raw'
     },
     ContractExecResultResult: {
       _enum: {

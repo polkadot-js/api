@@ -10,13 +10,13 @@ import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { isUndefined } from '@polkadot/util';
+import { BN_ZERO, isUndefined } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Contract } from './Contract';
-import { createBluePrintTx, EMPTY_SALT, encodeSalt } from './util';
+import { createBluePrintTx, encodeSalt } from './util';
 
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
@@ -52,20 +52,19 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = 0, salt, value = 0 }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    const encodedSalt = encodeSalt(salt);
-    const withSalt = this.api.tx.contracts.instantiate.meta.args.length === 5;
-    const encoded = this.abi.findConstructor(constructorOrId).toU8a(params, withSalt ? EMPTY_SALT : encodedSalt);
-    const tx = withSalt
-      ? this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded, encodedSalt)
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore old style with salt included
-      : this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encoded);
-
-    return tx.withResultTransform((result: ISubmittableResult) =>
-      new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
-      ))
-    );
+  #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
+    return this.api.tx.contracts
+      .instantiate(
+        value,
+        gasLimit,
+        this.codeHash,
+        this.abi.findConstructor(constructorOrId).toU8a(params),
+        encodeSalt(salt)
+      )
+      .withResultTransform((result: ISubmittableResult) =>
+        new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
+          new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
+        ))
+      );
   }
 }
