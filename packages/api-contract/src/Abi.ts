@@ -45,13 +45,13 @@ export class Abi {
     assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
     this.json = json;
-    this.registry = new MetaRegistry(chainProperties);
+    this.registry = new MetaRegistry(json.metadataVersion as string, chainProperties);
     this.project = this.registry.createType('ContractProject', json);
 
     this.registry.setMetaTypes(this.project.types);
 
     this.project.types.forEach((_, index) =>
-      this.registry.getMetaTypeDef({ type: this.registry.createType('SiLookupTypeId', index + 1) })
+      this.registry.getMetaTypeDef({ type: this.registry.createType('SiLookupTypeId', index + this.registry.typeOffset) })
     );
     this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {
