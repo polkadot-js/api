@@ -114,6 +114,8 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, r
     types.WinningData = `[WinningDataEntry; ${slotRangeCount.toNumber()}]`;
   }
 
+  console.log('detected types', types);
+
   return types;
 }
 
@@ -143,26 +145,22 @@ function extractResults <R, T = unknown> (results: unknown[], map: AvailableMap<
 export function detectedCapabilities (api: ApiInterfaceRx, decorated: DecoratedMeta, blockHash?: Uint8Array | string | undefined): Observable<Partial<DetectedTypes>> {
   const emptyAccountId = api.registry.createType('AccountId');
   const consts = filterEntries([
-    api.consts.auctions?.leasePeriodsPerSlot,
-    api.consts.auctions?.slotRangeCount
-  ]);
-  const queries = filterEntries([
-    api.query.staking?.storageVersion
+    decorated.consts.auctions?.leasePeriodsPerSlot,
+    decorated.consts.auctions?.slotRangeCount
   ]);
   const defaults = filterEntries([
     decorated.query.system?.account?.meta.fallback.length
+  ]);
+  const queries = filterEntries([
+    api.query.staking?.storageVersion
   ]);
   const raws = filterEntries([
     api.query.session?.queuedKeys.key()
   ]);
 
   return combineLatest([
-    consts.filtered.length
-      ? blockHash
-        // FIXME consts don't have .at as of yet...
-        ? of([])
-        : of(consts.filtered)
-      : of([]),
+    of(consts.filtered),
+    of(defaults.filtered),
     queries.filtered.length
       ? blockHash
         ? combineLatest(queries.filtered.map((c) => c.at(blockHash)))
@@ -172,12 +170,9 @@ export function detectedCapabilities (api: ApiInterfaceRx, decorated: DecoratedM
       ? blockHash
         ? combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k, blockHash)))
         : combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k)))
-      : of([]),
-    defaults.filtered.length
-      ? of(defaults.filtered)
       : of([])
   ]).pipe(
-    map(([cResults, qResults, rResults, dResults]): Partial<DetectedTypes> =>
+    map(([cResults, dResults, qResults, rResults]): Partial<DetectedTypes> =>
       mapCapabilities(
         {
           accountIdLength: emptyAccountId.encodedLength,
