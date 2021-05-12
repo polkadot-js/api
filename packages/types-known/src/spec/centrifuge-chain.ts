@@ -6,12 +6,6 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
-  // substrate
-  AccountInfo: 'AccountInfoWithRefCount',
-  Address: 'LookupSource',
-  LookupSource: 'IndicesLookupSource',
-  Multiplier: 'Fixed64',
-
   // Anchor
   AnchorData: {
     anchoredBlock: 'u64',
@@ -77,10 +71,20 @@ const sharedTypes = {
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [240, undefined],
+    minmax: [240, 999],
     types: {
       ...sharedTypes,
+      AccountInfo: 'AccountInfoWithRefCount',
+      Address: 'LookupSource',
+      LookupSource: 'IndicesLookupSource',
+      Multiplier: 'Fixed64',
       RefCount: 'RefCountTo259'
+    }
+  },
+  {
+    minmax: [1000, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];
