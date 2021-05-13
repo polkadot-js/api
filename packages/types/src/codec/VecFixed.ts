@@ -3,11 +3,32 @@
 
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
-import { assert, compactToU8a, isU8a, u8aConcat } from '@polkadot/util';
+import { assert, compactToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
 import { typeToConstructor } from './utils';
 import { Vec } from './Vec';
+
+/** @internal */
+function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
+  const values = Vec.decodeVec(
+    registry,
+    Type,
+    isU8a(value)
+      ? u8aConcat(compactToU8a(allocLength), value)
+      : isHex(value)
+        ? u8aConcat(compactToU8a(allocLength), value)
+        : value
+  );
+
+  while (values.length < allocLength) {
+    values.push(new Type(registry));
+  }
+
+  assert(values.length === allocLength, () => `Expected a length of exactly ${allocLength} entries`);
+
+  return values;
+}
 
 /**
  * @name VecFixed
@@ -20,28 +41,9 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
-    super(registry, ...VecFixed.decodeVecFixed(registry, Clazz, length, value));
+    super(registry, ...decodeVecFixed(registry, Clazz, length, value));
 
     this._Type = Clazz;
-  }
-
-  /** @internal */
-  public static decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
-    const values = Vec.decodeVec(
-      registry,
-      Type,
-      isU8a(value)
-        ? u8aConcat(compactToU8a(allocLength), value)
-        : value
-    );
-
-    while (values.length < allocLength) {
-      values.push(new Type(registry));
-    }
-
-    assert(values.length === allocLength, () => `Expected a length of exactly ${allocLength} entries`);
-
-    return values;
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes, length: number): Constructor<VecFixed<O>> {

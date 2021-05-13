@@ -125,20 +125,32 @@ describe('createType', (): void => {
   describe('isPedantic', (): void => {
     it('correctly decodes Bytes', (): void => {
       expect(
-        createTypeUnsafe(registry, 'Bytes', ['0x12345678'], { isPedantic: true })
-      ).toBeDefined();
+        createTypeUnsafe(registry, 'Bytes', ['0x12345678'], { isPedantic: true }).toHex()
+      ).toEqual('0x12345678');
     });
 
     it('correctly decodes Bytes (prefixed)', (): void => {
       expect(
-        createTypeUnsafe(registry, 'Bytes', [new Uint8Array([4 << 2, 1, 2, 3, 4])], { isPedantic: true })
-      ).toBeDefined();
+        createTypeUnsafe(registry, 'Bytes', [new Uint8Array([4 << 2, 0x12, 0x34, 0x56, 0x78])], { isPedantic: true }).toHex()
+      ).toEqual('0x12345678');
     });
 
     it('correctly decodes Text', (): void => {
       expect(
-        createTypeUnsafe(registry, 'Text', ['0x2070726f7669646572'], { isPedantic: true })
-      ).toBeDefined();
+        createTypeUnsafe(registry, 'Text', ['0x70726f7669646572'], { isPedantic: true }).toString()
+      ).toEqual('provider');
+    });
+
+    it('correctly decodes Type', (): void => {
+      expect(
+        createTypeUnsafe(registry, 'Type', ['0x5665633c75383e'], { isPedantic: true }).toString()
+      ).toEqual('Bytes'); // Vec<u8> -> Bytes
+    });
+
+    it('correctly decodes [u16; 4]', (): void => {
+      expect(
+        createTypeUnsafe(registry, '[u16; 4]', ['0x0012002300450067'], { isPedantic: true }).toHex()
+      ).toEqual('0x0012002300450067');
     });
   });
 

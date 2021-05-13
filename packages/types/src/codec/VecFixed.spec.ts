@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import { Text } from '../primitive';
+import { Text, u16 } from '../primitive';
 import { VecFixed } from '.';
 
 describe('VecFixed', (): void => {
@@ -15,6 +15,10 @@ describe('VecFixed', (): void => {
 
     it('constructs via Uint8Array', (): void => {
       expect(new VecFixed(registry, Text, 2, new Uint8Array([0x00, 0x04, 0x31])).toHex()).toEqual('0x000431');
+    });
+
+    it('constructs via hex', (): void => {
+      expect(new VecFixed(registry, u16, 2, new Uint8Array([0x12, 0x34, 0x56, 0x78])).toHex()).toEqual('0x12345678');
     });
 
     it('decodes reusing instance inputs', (): void => {
