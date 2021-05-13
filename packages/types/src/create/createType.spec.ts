@@ -122,6 +122,20 @@ describe('createType', (): void => {
     ).toEqual(new Uint8Array([0x00, 0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67]));
   });
 
+  describe('isPedantic', (): void => {
+    it('correctly decodes Bytes', (): void => {
+      expect(
+        createTypeUnsafe(registry, 'Bytes', ['0x12345678'], { isPedantic: true })
+      ).toBeDefined();
+    });
+
+    it('correctly decodes Text', (): void => {
+      expect(
+        createTypeUnsafe(registry, 'Text', ['0x2070726f7669646572'], { isPedantic: true })
+      ).toBeDefined();
+    });
+  });
+
   describe('instanceof', (): void => {
     it('instanceof should work (primitive type)', (): void => {
       const value = registry.createType('Balance', 1234);
