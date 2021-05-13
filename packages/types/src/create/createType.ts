@@ -16,22 +16,18 @@ interface CreateOptions {
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
-// eslint-disable-next-line @typescript-eslint/ban-types
 function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
   const u8a = created.toU8a();
   const rawType = created.toRawType();
 
-  // for length-prefixed byte types, just check the length, else the full encoding
-  const isEqual = ['Bytes', 'Text'].includes(rawType)
-    ? [
-      // input was via hex, we don't have a prefix
-      (created as Bytes).length,
-      // input was raw bytes, we do have a prefix
-      u8a.length
-    ].includes(value.length)
-    : u8aEq(value, u8a);
-
-  assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
+  assert(
+    u8aEq(value, u8a) || (
+      // when length-prefixed from hex, just check the actual length
+      ['Bytes', 'Text', 'Type'].includes(rawType) &&
+      value.length === (created as Bytes).length
+    ),
+    () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`
+  );
 }
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases

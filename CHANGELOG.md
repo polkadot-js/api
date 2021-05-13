@@ -18,8 +18,10 @@ Changes:
 - Use `BN_*` constants as non-specified defaults in contract interfaces
 - Remove all type overrides for node/node-template (API tracks latest)
 - Contracts ABI now supports metadata version where indexes are 0-based
-- Remove support for the old-style V2 contracts from `api-contract`
+- Remove support for the old-style V2 contracts from `@polkadot/api-contract`
 - Adjust historic decoration, return as-at registry via `getHeader`, `getMetadata` & `getRuntimeVersion`
+- Adjust `VecFixed` to allow for the handling of hex inputs
+- Fix `isPedantic` decoding to correctly handle `Text`
 
 
 ## 4.9.1 May 6, 2021
