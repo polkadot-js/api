@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bytes } from '../primitive/Bytes';
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import type { FromReg } from './types';
 
@@ -19,8 +20,15 @@ interface CreateOptions {
 function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
   const u8a = created.toU8a();
   const rawType = created.toRawType();
-  const isEqual = rawType === 'Bytes'
-    ? value.length === u8a.length
+
+  // for length-prefixed byte types, just check the length, else the full encoding
+  const isEqual = ['Bytes', 'Text'].includes(rawType)
+    ? [
+      // input was via hex, we don't have a prefix
+      (created as Bytes).length,
+      // input was raw bytes, we do have a prefix
+      u8a.length
+    ].includes(value.length)
     : u8aEq(value, u8a);
 
   assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
