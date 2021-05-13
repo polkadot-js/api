@@ -14,11 +14,9 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
   const values = Vec.decodeVec(
     registry,
     Type,
-    isU8a(value)
+    isU8a(value) || isHex(value)
       ? u8aConcat(compactToU8a(allocLength), value)
-      : isHex(value)
-        ? u8aConcat(compactToU8a(allocLength), value)
-        : value
+      : value
   );
 
   while (values.length < allocLength) {
