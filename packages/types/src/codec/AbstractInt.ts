@@ -62,8 +62,6 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
  * @ignore
  * @noInheritDoc
  */
-// TODO:
-//   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
 export abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
 
@@ -140,7 +138,7 @@ export abstract class AbstractInt extends BN implements Codec {
    * @description True if this value is the max of the type
    */
   public isMax (): boolean {
-    const u8a = this.toU8a().filter((byte): boolean => byte === 0xff);
+    const u8a = this.toU8a().filter((b) => b === 0xff);
 
     return u8a.length === (this.#bitLength / 8);
   }

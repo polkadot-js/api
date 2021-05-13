@@ -21,6 +21,7 @@ Changes:
 - Remove support for the old-style V2 contracts from `@polkadot/api-contract`
 - Adjust historic decoration, return as-at registry via `getHeader`, `getMetadata` & `getRuntimeVersion`
 - Adjust `VecFixed` to allow for the handling of hex inputs
+- Adjust `Compact<*>` to allow for wrapped `toBigInt()` conversions
 - Fix `isPedantic` decoding to correctly handle `Text`
 
 
