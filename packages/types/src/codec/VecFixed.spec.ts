@@ -18,7 +18,7 @@ describe('VecFixed', (): void => {
     });
 
     it('constructs via hex', (): void => {
-      expect(new VecFixed(registry, u16, 2, new Uint8Array([0x12, 0x34, 0x56, 0x78])).toHex()).toEqual('0x12345678');
+      expect(new VecFixed(registry, u16, 2, '0x12345678').toHex()).toEqual('0x12345678');
     });
 
     it('decodes reusing instance inputs', (): void => {
