@@ -96,7 +96,7 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
    * @description Returns a BigInt representation of the number
    */
   public toBigInt (): bigint {
-    return BigInt(this.toString());
+    return this.#raw.toBigInt();
   }
 
   /**

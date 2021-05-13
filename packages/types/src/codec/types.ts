@@ -6,6 +6,7 @@ import type { Codec } from '../types';
 
 export interface CompactEncodable extends Codec {
   bitLength (): number;
+  toBigInt (): bigint;
   toBn (): BN;
   toNumber (): number;
 }

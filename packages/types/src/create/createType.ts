@@ -54,10 +54,8 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], options: CreateOptions = {}): T {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): T {
   try {
-    // Circle back to isPedantic when it handles all cases 100% - as of now,
-    // it provides false warning which is more hinderance than help
     return initType(registry, createClass<T, K>(registry, type), params, options);
   } catch (error) {
     throw new Error(`createType(${type}):: ${(error as Error).message}`);
@@ -70,6 +68,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<K extends keyof InterfaceTypes> (registry: Registry, type: K, ...params: any[]): InterfaceTypes[K] {
+export function createType<K extends keyof InterfaceTypes> (registry: Registry, type: K, ...params: unknown[]): InterfaceTypes[K] {
   return createTypeUnsafe<InterfaceTypes[K], K>(registry, type, params);
 }

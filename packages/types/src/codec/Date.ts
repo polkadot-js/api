@@ -11,6 +11,20 @@ import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/ut
 
 const BITLENGTH: UIntBitLength = 64;
 
+function decodeDate (value: CodecDate | Date | AnyNumber): Date {
+  if (value instanceof Date) {
+    return value;
+  } else if (isU8a(value)) {
+    value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
+  } else if (isString(value)) {
+    value = new BN(value.toString(), 10, 'le');
+  }
+
+  return new Date(
+    bnToBn(value as BN).toNumber() * 1000
+  );
+}
+
 /**
  * @name Date
  * @description
@@ -27,24 +41,9 @@ export class CodecDate extends Date implements Codec {
   public createdAtHash?: Hash;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
-    super(CodecDate.decodeDate(value));
+    super(decodeDate(value));
 
     this.registry = registry;
-  }
-
-  /** @internal */
-  public static decodeDate (value: CodecDate | Date | AnyNumber | unknown): Date {
-    if (value instanceof Date) {
-      return value;
-    } else if (isU8a(value)) {
-      value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
-    } else if (isString(value)) {
-      value = new BN(value.toString(), 10, 'le');
-    }
-
-    return new Date(
-      bnToBn(value as BN).toNumber() * 1000
-    );
   }
 
   /**
@@ -72,7 +71,7 @@ export class CodecDate extends Date implements Codec {
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: unknown): boolean {
-    return CodecDate.decodeDate(other).getTime() === this.getTime();
+    return decodeDate(other as AnyNumber).getTime() === this.getTime();
   }
 
   /**

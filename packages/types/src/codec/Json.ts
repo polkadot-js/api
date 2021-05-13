@@ -81,7 +81,7 @@ export class Json extends Map<string, any> implements Codec {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (): Record<string, AnyJson> {
-    return [...this.entries()].reduce((json: Record<string, AnyJson>, [key, value]): Record<string, AnyJson> => {
+    return [...this.entries()].reduce<Record<string, AnyJson>>((json, [key, value]): Record<string, AnyJson> => {
       json[key] = isFunction((value as Codec).toHuman)
         ? (value as Codec).toHuman()
         : value as AnyJson;
@@ -94,7 +94,7 @@ export class Json extends Map<string, any> implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): Record<string, AnyJson> {
-    return [...this.entries()].reduce((json: Record<string, AnyJson>, [key, value]): Record<string, AnyJson> => {
+    return [...this.entries()].reduce<Record<string, AnyJson>>((json, [key, value]): Record<string, AnyJson> => {
       json[key] = value as AnyJson;
 
       return json;
