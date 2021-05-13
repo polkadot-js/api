@@ -129,6 +129,12 @@ describe('createType', (): void => {
       ).toBeDefined();
     });
 
+    it('correctly decodes Bytes (prefixed)', (): void => {
+      expect(
+        createTypeUnsafe(registry, 'Bytes', [new Uint8Array([4 << 2, 1, 2, 3, 4])], { isPedantic: true })
+      ).toBeDefined();
+    });
+
     it('correctly decodes Text', (): void => {
       expect(
         createTypeUnsafe(registry, 'Text', ['0x2070726f7669646572'], { isPedantic: true })

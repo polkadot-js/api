@@ -23,7 +23,12 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 
   // for length-prefixed byte types, just check the length, else the full encoding
   const isEqual = ['Bytes', 'Text'].includes(rawType)
-    ? value.length === (created as Bytes).length
+    ? [
+      // input was via hex, we don't have a prefix
+      (created as Bytes).length,
+      // input was raw bytes, we do have a prefix
+      u8a.length
+    ].includes(value.length)
     : u8aEq(value, u8a);
 
   assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
