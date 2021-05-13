@@ -19,7 +19,9 @@ interface CreateOptions {
 function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
   const u8a = created.toU8a();
   const rawType = created.toRawType();
-  const isEqual = rawType === 'Bytes'
+
+  // for length-prefixed byte types, just check the length, else the full encoding
+  const isEqual = ['Bytes', 'Text'].includes(rawType)
     ? value.length === u8a.length
     : u8aEq(value, u8a);
 
