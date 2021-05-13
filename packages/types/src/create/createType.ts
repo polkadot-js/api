@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bytes } from '../primitive/Bytes';
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import type { FromReg } from './types';
 
@@ -22,7 +23,7 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 
   // for length-prefixed byte types, just check the length, else the full encoding
   const isEqual = ['Bytes', 'Text'].includes(rawType)
-    ? value.length === u8a.length
+    ? value.length === (created as Bytes).length
     : u8aEq(value, u8a);
 
   assert(isEqual, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
