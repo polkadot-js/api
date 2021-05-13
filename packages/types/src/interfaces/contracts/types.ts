@@ -56,7 +56,7 @@ export interface ContractExecResultErrModule extends Struct {
 /** @name ContractExecResultOk */
 export interface ContractExecResultOk extends Struct {
   readonly flags: u32;
-  readonly data: Raw;
+  readonly data: Bytes;
 }
 
 /** @name ContractExecResultResult */
