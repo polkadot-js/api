@@ -5,13 +5,13 @@ import type { CodecTo } from '../types';
 
 import { Raw } from '../codec/Raw';
 import { TypeRegistry } from '../create';
-import { Text } from '.';
+import { Bytes, Text } from '.';
 
 describe('Text', (): void => {
   const registry = new TypeRegistry();
 
   describe('decode', (): void => {
-    const testDecode = (type: string, input: null | string | Uint8Array | { toString: () => string }, expected: string, toFn: 'toString' | 'toHex' = 'toString'): void =>
+    const testDecode = (type: string, input: null | string | Uint8Array | { toString: () => string }, expected: string, toFn: 'toString' | 'toHex' | 'toHuman' = 'toString'): void =>
       it(`can decode from ${type}`, (): void => {
         expect(new Text(registry, input)[toFn]()).toBe(expected);
       });
@@ -20,6 +20,9 @@ describe('Text', (): void => {
     testDecode('Text', new Text(registry, 'foo'), 'foo');
     testDecode('Uint8Array', Uint8Array.from([12, 102, 111, 111]), 'foo');
     testDecode('Raw', new Raw(registry, Uint8Array.from([102, 111, 111])), 'foo'); // no length
+    testDecode('Raw', new Raw(registry, Uint8Array.from([102, 111, 111])), 'foo', 'toHuman'); // no length
+    testDecode('Bytes', new Bytes(registry, Uint8Array.from([12, 102, 111, 111])), 'foo'); // length-aware encoding
+    testDecode('Bytes', new Bytes(registry, Uint8Array.from([12, 102, 111, 111])), 'foo', 'toHuman'); // length-aware encoding
     testDecode('object with `toString()`', { toString (): string { return 'foo'; } }, 'foo');
     testDecode('hex input value', new Text(registry, '0x12345678'), '0x12345678', 'toHex');
     testDecode('null', null, '');
