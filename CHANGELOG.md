@@ -23,6 +23,8 @@ Changes:
 - Adjust `VecFixed` to allow for the handling of hex inputs
 - Adjust `Compact<*>` to allow for wrapped `toBigInt()` conversions
 - Fix `isPedantic` decoding to correctly handle `Text`
+- Cater for new `phragmenElection` module naming
+- Add Kusama & Westend 9010 upgrade blocks
 
 
 ## 4.9.1 May 6, 2021
